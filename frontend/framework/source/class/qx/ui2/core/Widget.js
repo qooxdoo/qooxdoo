@@ -927,7 +927,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingLeft();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetLeft() || 0;
+        value += this.getDecoration().getInsetLeft();
       }
 
       return value;
@@ -938,7 +938,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingTop();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetTop() || 0;
+        value += this.getDecoration().getInsetTop();
       }
 
       return value;
@@ -949,7 +949,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingRight();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetRight() || 0;
+        value += this.getDecoration().getInsetRight();
       }
 
       return value;
@@ -960,7 +960,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingBottom();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetBottom() || 0;
+        value += this.getDecoration().getInsetBottom();
       }
 
       return value;
