@@ -107,10 +107,10 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** Selected layout of instance {@link qx.ui2.layout.AbstractLayout} */
+    /** Selected layout of instance {@link qx.ui2.layout.Abstract} */
     layout :
     {
-      check : "qx.ui2.layout.AbstractLayout",
+      check : "qx.ui2.layout.Abstract",
       nullable : true,
       init : null,
       apply : "_applyLayout"

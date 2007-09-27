@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.layout.AbstractLayout",
+qx.Class.define("qx.ui2.layout.Abstract",
 {
   extend : qx.core.Object,
 
