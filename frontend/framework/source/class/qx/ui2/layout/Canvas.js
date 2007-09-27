@@ -163,8 +163,8 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
 
-          // Limit dimensions
-          // childWidth = Math.min(
+          // Limit dimensions TODO (min/max)
+
 
 
           // Layout child
