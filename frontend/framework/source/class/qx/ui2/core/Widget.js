@@ -1012,6 +1012,8 @@ qx.Class.define("qx.ui2.core.Widget",
       var contentSize = this._getContentHint();
 
 
+
+
       // X-AXIS
       // ----------------------------------------
 
@@ -1033,6 +1035,9 @@ qx.Class.define("qx.ui2.core.Widget",
         minWidth = contentSize.width + insetX;
       }
 
+      minWidth = Math.max(insetX, minWidth, this._getTechnicalMinWidth());
+
+
       // Compute max width
       maxWidth = this.getMaxWidth();
 
@@ -1043,10 +1048,9 @@ qx.Class.define("qx.ui2.core.Widget",
         maxWidth = contentSize.width + insetX;
       }
 
-
-      // Respect technical limitations
-      minWidth = Math.max(insetX, minWidth, this._getTechnicalMinWidth());
       maxWidth = Math.min(32000, maxWidth, this._getTechnicalMaxWidth());
+
+
 
 
       // Y-AXIS
@@ -1069,6 +1073,9 @@ qx.Class.define("qx.ui2.core.Widget",
         minHeight = contentSize.height + insetY;
       }
 
+      minHeight = Math.max(insetY, minHeight, this._getTechnicalMinHeight());
+
+
       // Compute max height
       maxHeight = this.getMaxHeight();
 
@@ -1078,9 +1085,9 @@ qx.Class.define("qx.ui2.core.Widget",
         maxHeight = contentSize.height + insetY;
       }
 
-      // Respect technical limitations
-      minHeight = Math.max(insetY, minHeight, this._getTechnicalMinHeight());
       maxHeight = Math.min(32000, maxHeight, this._getTechnicalMaxHeight());
+
+
 
 
       // LIMITING DIMENSIONS
@@ -1088,6 +1095,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
       width = Math.max(Math.min(width, maxWidth), minWidth);
       height = Math.max(Math.min(height, maxHeight), minHeight);
+
+
 
 
       // RESULT
