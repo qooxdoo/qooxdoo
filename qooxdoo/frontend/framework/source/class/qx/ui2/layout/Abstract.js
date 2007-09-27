@@ -36,7 +36,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
   construct : function()
   {
     this.base(arguments);
-
     this._children = [];
   },
 
@@ -109,8 +108,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param widget {qx.ui2.core.Widget} the widget to add
      * @return {void}
      */
-    add : function(widget) {
+    add : function(widget)
+    {
       this._children.push(widget);
+      this._addToParent(widget);
     },
 
 
@@ -121,8 +122,14 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param widget {qx.ui2.core.Widget} the widget to add
      * @return {void}
      */
-    remove : function(widget) {
+    remove : function(widget)
+    {
       qx.lang.Array.remove(this._children, widget);
+      this._removeFromParent(widget);
+
+      // invalidate the layouts of the widget and its old parent
+      widget.invalidateLayout();
+      this.invalidateLayout();
     },
 
 
@@ -168,6 +175,19 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     invalidate : function() {
       return;
+    },
+
+
+    /**
+     * Indicate that the layout has layout changes and propagate this information
+     * up the widget hierarchy.
+     */
+    invalidateLayout : function()
+    {
+      var widget = this.getWidget();
+      if (widget) {
+        qx.ui2.core.LayoutQueue.add(widget);
+      }
     },
 
 

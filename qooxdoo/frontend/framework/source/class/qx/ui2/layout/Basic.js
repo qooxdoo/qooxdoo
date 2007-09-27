@@ -37,7 +37,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     // overridden
     add : function(widget, left, top)
     {
-      this._children.push(widget);
+      this.base(arguments, widget);
 
       if (left != null) {
         widget.addLayoutProperty("left", left);
@@ -46,17 +46,17 @@ qx.Class.define("qx.ui2.layout.Basic",
       if (top != null) {
         widget.addLayoutProperty("top", top);
       }
-
-      this._addToParent(widget);
     },
 
 
     // overridden
     layout : function(width, height)
     {
-      for (var i=0, l=this._children.length; i<l; i++)
+      var children = this.getChildren();
+
+      for (var i=0, l=children.length; i<l; i++)
       {
-        var child = this._children[i];
+        var child = children[i];
 
         if (child.isLayoutValid()) {
           continue;
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui2.layout.Basic",
         return this._sizeHint;
       }
 
-      var children = this._children;
+      var children = this.getChildren();
       var child, childHint, childLeft, childTop;
       var width=0, height=0;
 

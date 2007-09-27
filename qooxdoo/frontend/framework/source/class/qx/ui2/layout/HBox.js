@@ -62,7 +62,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     add : function(widget, hFlex, vAlign)
     {
-      this._children.push(widget);
+      this.base(arguments, widget);
 
       if (hFlex != null) {
         widget.addLayoutProperty("hFlex", hFlex);
@@ -71,17 +71,17 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (vAlign != null) {
         widget.addLayoutProperty("vAlign", vAlign);
       }
-
-      this._addToParent(widget);
     },
 
 
     // overridden
     layout : function(availWidth, availHeight)
     {
+      this.printStackTrace();
+
       // Initialize
       var left = 0;
-      var children = this._children;
+      var children = this.getChildren();
       var child;
 
 
@@ -102,7 +102,12 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (left < availWidth)
         {
-          child.layout(left, 0, childWidths[i], child.getSizeHint().height);
+          var height = child.getSizeHint().height;
+          var widgetHeight = Math.min(height, availHeight);
+
+          var vAlign = child.getLayoutProperty("vAlign") || "top";
+          var top = qx.ui2.layout.Util.computeVerticalAlignOffset(vAlign, height, availHeight);
+          child.layout(left, top, childWidths[i], widgetHeight);
           child.include();
         }
         else
@@ -116,17 +121,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
     // overridden
-    invalidate : function()
-    {
-      if (this._sizeHint)
-      {
-        this.debug("Clear layout cache");
-        this._sizeHint = null;
-      }
-    },
-
-
-    // overridden
     getSizeHint : function()
     {
       if (this._sizeHint) {
@@ -134,8 +128,8 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       // Start with spacing
-      var spacing = this.getSpacing() * (this._children.length - 1);
-
+      var children = this.getChildren();
+      var spacing = this.getSpacing() * (children.length - 1);
 
       // Initialize
       var minWidth=spacing, width=spacing, maxWidth=spacing;
@@ -145,9 +139,9 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Iterate
       // - sum children width
       // - find max heights
-      for (var i=0, l=this._children.length; i<l; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
-        var child = this._children[i];
+        var child = children[i];
         var childHint = child.getSizeHint();
 
         minWidth += childHint.minWidth;
@@ -207,7 +201,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       // collect all flexible children
-      var children = this._children;
+      var children = this.getChildren();
       var flexibles = [];
 
       for (var i=0, l=children.length; i<l; i++)
