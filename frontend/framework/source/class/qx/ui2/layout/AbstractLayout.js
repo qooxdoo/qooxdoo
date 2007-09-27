@@ -119,7 +119,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      */
     getSizeHint : function() {},
 
-    /** Invalidate all leyout relevant caches */
+    /** Invalidate all layout relevant caches */
     invalidate : function() {},
 
 

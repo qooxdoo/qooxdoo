@@ -36,7 +36,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     {
       while(widget && widget.isLayoutValid())
       {
-        widget.markLayoutInvalid();
+        widget.invalidate();
 
         if (widget.isLayoutRoot())
         {
