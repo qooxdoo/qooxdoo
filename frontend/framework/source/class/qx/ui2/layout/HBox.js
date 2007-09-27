@@ -70,21 +70,14 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     layout : function(availWidth, availHeight)
     {
-      this.printStackTrace();
-
       // Initialize
-      var left = 0;
       var children = this.getChildren();
-      var child;
+      var child, childHint;
+      var childHeight, childAlign, childTop, childLeft=0;
 
 
-      // Preprocess children width data
-      var childWidths = [];
-      for (var i=0, l=children.length; i<l; i++) {
-        childWidths[i] = children[i].getSizeHint().width;
-      }
-
-      this._addFlexOffsets(availWidth, childWidths);
+      // Get flex offsets
+      var offsets = this._getFlexOffsets(availWidth);
 
 
       // Iterate
@@ -93,22 +86,27 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         child = children[i];
 
-        if (left < availWidth)
-        {
-          var height = child.getSizeHint().height;
-          var widgetHeight = Math.min(height, availHeight);
+        childHint = child.getSizeHint();
+        childWidth = childHint.width + (offsets[i] || 0);
 
-          var vAlign = child.getLayoutProperty("vAlign") || "top";
-          var top = qx.ui2.layout.Util.computeVerticalAlignOffset(vAlign, height, availHeight);
-          child.layout(left, top, childWidths[i], widgetHeight);
+        if (childLeft < availWidth)
+        {
+          // Get top position (through alignment)
+          childHeight = childHint.height;
+          childAlign = child.getLayoutProperty("vAlign") || "top";
+          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(childAlign, childHeight, availHeight);
+
+          // Layout child
+          child.layout(childLeft, childTop, childWidth, childHeight);
           child.include();
         }
         else
         {
+          // Exclude (completely) hidden children
           child.exclude();
         }
 
-        left += childWidths[i] + spacing;
+        childLeft += childWidth + spacing;
       }
     },
 
@@ -184,7 +182,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     ---------------------------------------------------------------------------
     */
 
-    _addFlexOffsets : function(availWidth, childWidths)
+    _getFlexOffsets : function(availWidth)
     {
       var hint = this.getSizeHint();
       var diff = availWidth - hint.width;
@@ -210,18 +208,15 @@ qx.Class.define("qx.ui2.layout.HBox",
             hint = child.getSizeHint();
 
             flexibles.push({
-              potential : diff > 0 ? hint.maxWidth - childWidths[i] : childWidths[i] - hint.minWidth,
+              id : i,
+              potential : diff > 0 ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
               flex : childFlex || 1
             });
           }
         }
       }
 
-      var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
-
-      for (var i=0, l=flexibles.length; i<l; i++) {
-        childWidths[i] += offsets[i];
-      }
+      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
     }
   },
 

@@ -18,6 +18,23 @@
 
 ************************************************************************ */
 
+/**
+ * Advanced canvas layout. Children will be positioned by coordinates
+ * which should be given by the user.
+ *
+ * Supports:
+ *
+ * * Integer dimensions (using widget properties)
+ * * Integer locations (using layout properties)
+ * * Percent dimensions and locations (using layout properties)
+ * * Stretching between left+right and top+bottom
+ * * Min and max dimensions (using widget properties)
+ *
+ * Notes:
+ *
+ * * Stretching has a higher priority than the preferred dimensions
+ * * Stretching has a lower priority than the min/max dimensions.
+ */
 qx.Class.define("qx.ui2.layout.Canvas",
 {
   extend : qx.ui2.layout.Basic,
@@ -143,6 +160,11 @@ qx.Class.define("qx.ui2.layout.Canvas",
               throw new Error("Could not lay out child (height missing): ", child);
             }
           }
+
+
+
+          // Limit dimensions
+          // childWidth = Math.min(
 
 
           // Layout child
@@ -444,20 +466,5 @@ qx.Class.define("qx.ui2.layout.Canvas",
     getBottom : function(widget) {
       return widget.getLayoutProperty("bottom");
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-
-
   }
 });
