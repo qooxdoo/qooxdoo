@@ -37,8 +37,10 @@ qx.Class.define("qx.ui2.layout.Util",
 
       // Initialialize return field
       var offsets = [];
-      for (var i=0, l=flexLength; i<l; i++) {
-        offsets[i] = 0;
+      for (var i=0, l=flexLength; i<l; i++)
+      {
+        child = flexibles[i];
+        offsets[child.id] = 0;
       }
 
 
@@ -95,7 +97,7 @@ qx.Class.define("qx.ui2.layout.Util",
 
             // Update child status
             child.potential -= childOffset;
-            offsets[i] += (fillUp ? childOffset : -childOffset);
+            offsets[child.id] += (fillUp ? childOffset : -childOffset);
 
             // Update parent status
             remaining -= childOffset;
@@ -131,6 +133,7 @@ qx.Class.define("qx.ui2.layout.Util",
             throw new Error("Invalid state!")
         }
       }
+
       return 0;
     },
 
@@ -156,6 +159,7 @@ qx.Class.define("qx.ui2.layout.Util",
             throw new Error("Invalid state!")
         }
       }
+
       return 0;
     }
   }
