@@ -83,21 +83,16 @@ qx.Class.define("qx.ui2.layout.Grid",
       widget.addLayoutProperty("row", row);
       widget.addLayoutProperty("column", column);
 
-      var grid = this._grid;
-
-      if (grid[row] === undefined) {
-         grid[row] = [];
-      }
-      if (grid[row][column] !== undefined) {
+      var cellData = this.getCellData(row, column);
+      if (cellData.widget !== undefined) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
       }
-      grid[row][column] = widget;
+      this._setCellData(row ,column, {widget: widget});
       this._children.push(widget);
+      this._addToParent(widget);
 
       this._maxRowIndex = Math.max(this._maxRowIndex, row);
       this._maxColIndex = Math.max(this._maxColIndex, column);
-
-      this._addToParent(widget);
     },
 
 
@@ -108,6 +103,24 @@ qx.Class.define("qx.ui2.layout.Grid",
           "Invalid argument '" + arg +"'! Valid arguments are: '" +
           validValues.join(", ") + "'"
         );
+      }
+    },
+
+
+    _setCellData : function(row, column, props)
+    {
+      var grid = this._grid;
+
+      if (grid[row] === undefined) {
+         grid[row] = [];
+      }
+      if (!grid[row][column]) {
+        grid[row][column] = props;
+        return;
+      }
+      var gridData = grid[row][column]
+      for (var key in props) {
+        gridData[key] = props[key];
       }
     },
 
@@ -130,7 +143,8 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       var data = this._rowData[row] || {};
       return {
-        hAlign : data.hAlign || "left"
+        hAlign : data.hAlign || "left",
+        flex : data.flex || 1
       }
     },
 
@@ -153,32 +167,90 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       var data = this._colData[column] || {};
       return {
-        vAlign : data.vAlign || "top"
+        vAlign : data.vAlign || "top",
+        hAlign : data.hAlign || "left",
+        flex : data.flex || 1
       }
     },
 
 
-    setRowAlign : function(row, hAlign)
+    /**
+     * Set the default cell alignment for a column. This alignmnet can be
+     * overridden on a per cell basis by using {@link #setCellAlign}.
+     *
+     * @param column {Integer} Column index
+     * @param hAlign {String} The horizontal alignment. Valid values are
+     *    "left", "center" and "right".
+     * @param vAlign {String} The vertical alignment. Valid values are
+     *    "top", "middle", "bottom"
+     */
+    setColumnAlign : function(column, hAlign, vAlign)
     {
       this._validateArgument(hAlign, ["left", "center", "right"]);
-      this._setRowData(row, {hAlign: hAlign});
-    },
-
-
-    setColumnAlign : function(column, vAlign)
-    {
       this._validateArgument(vAlign, ["top", "middle", "bottom"]);
-      this._setColumnData(column, {vAlign: vAlign});
+
+      this._setColumnData(column, {
+        hAlign: hAlign,
+        vAlign: vAlign
+      });
     },
 
 
+    /**
+     * Set the cell's alignment. This alignmnet overrides the default
+     * alignmnet set unsing {@link #setColumnAlign}.
+     *
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     * @param hAlign {String} The horizontal alignment. Valid values are
+     *    "left", "center" and "right".
+     * @param vAlign {String} The vertical alignment. Valid values are
+     *    "top", "middle", "bottom"
+     */
+    setCellAlign : function(row, column, hAlign, vAlign)
+    {
+      this._validateArgument(hAlign, ["left", "center", "right"]);
+      this._validateArgument(vAlign, ["top", "middle", "bottom"]);
+
+      this._setColumnData(column, {
+        hAlign: hAlign,
+        vAlign: vAlign
+      });
+    },
+
+
+    setColumnFlex : function(column, flex)
+    {
+      this._setColumnData(column, {
+        flex: flex
+      });
+    },
+
+
+    setRowFlex : function(row, flex)
+    {
+      this._setRowData(row, {
+        flex: flex
+      });
+    },
+
+
+    /**
+     * Get a map with all information about a cell
+     *
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     * @return {Map} Information about the cell
+     */
     getCellData : function(row, column)
     {
-      var rowData = this._getRowData(row);
-      var colData = this._getColumnData(column);
+      var rowData = this._rowData[row] || {};
+      var colData = this._colData[column] || {};
+      var gridData = this._grid[row] ? this._grid[row][column] || {} : {};
       return {
-        vAlign : colData.vAlign,
-        hAlign : rowData.hAlign
+        vAlign : gridData.vAlign || colData.vAlign || "top",
+        hAlign : gridData.hAlign || colData.hAlign || "left",
+        widget : gridData.widget
       }
     },
 
@@ -200,7 +272,6 @@ qx.Class.define("qx.ui2.layout.Grid",
         return this._rowHeights;
       }
 
-      var grid = this._grid;
       var rowHeights = [];
 
       for (var row=0; row<=this._maxRowIndex; row++)
@@ -211,10 +282,10 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         for (var col=0; col<=this._maxColIndex; col++)
         {
-          if (!grid[row] || !grid[row][col]) {
+          var cell = this.getCellData(row, col).widget;
+          if (!cell) {
             continue;
           }
-          var cell = grid[row][col];
           var cellSize = cell.getSizeHint();
           minHeight = Math.max(minHeight, cellSize.minHeight);
           height = Math.max(height, cellSize.height);
@@ -239,7 +310,6 @@ qx.Class.define("qx.ui2.layout.Grid",
         return this._colWidths;
       }
 
-      var grid = this._grid;
       var colWidths = [];
 
       for (var col=0; col<=this._maxColIndex; col++)
@@ -250,10 +320,10 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         for (var row=0; row<=this._maxRowIndex; row++)
         {
-          if (!grid[row] || !grid[row][col]) {
+          var cell = this.getCellData(row, col).widget;
+          if (!cell) {
             continue;
           }
-          var cell = grid[row][col];
           var cellSize = cell.getSizeHint();
 
           minWidth = Math.max(minWidth, cellSize.minWidth);
@@ -273,42 +343,113 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    _getColumnFlexOffsets : function(width)
+    {
+      var hint = this.getSizeHint();
+      var diff = width - hint.width;
+
+      if (diff == 0) {
+        return {};
+      }
+
+      // collect all flexible children
+      var colWidths = this._getColWidths();
+      var flexibles = [];
+
+      for (var i=0, l=colWidths.length; i<l; i++)
+      {
+        col = colWidths[i];
+
+        if (col.width == col.maxWidth && col.Width == col.minWidth) {
+          continue;
+        }
+
+        colFlex = this._getColumnData(i).flex;
+
+        if (colFlex > 0)
+        {
+          flexibles.push({
+            id : i,
+            potential : diff > 0 ? col.maxWidth - col.width : col.width - col.minWidth,
+            flex : colFlex
+          });
+        }
+      }
+
+      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
+    },
+
+
+    _getRowFlexOffsets : function(height)
+    {
+      var hint = this.getSizeHint();
+      var diff = height - hint.height;
+
+      if (diff == 0) {
+        return {};
+      }
+
+      // collect all flexible children
+      var rowHeights = this._getRowHeights();
+      var flexibles = [];
+
+      for (var i=0, l=rowHeights.length; i<l; i++)
+      {
+        row = rowHeights[i];
+
+        if (row.height == row.maxHeight && row.Height == row.minHeight) {
+          continue;
+        }
+
+        rowFlex = this._getRowData(i).flex;
+
+        if (rowFlex > 0)
+        {
+          flexibles.push({
+            id : i,
+            potential : diff > 0 ? row.maxHeight - row.height : row.height - row.minHeight,
+            flex : rowFlex
+          });
+        }
+      }
+
+      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
+    },
+
+
     // overridden
     layout : function(width, height)
     {
-      var grid = this._grid;
       var spacing = this.getSpacing();
 
-      // calculate col widths
       var colWidths = this._getColWidths();
+      var colStretchOffsets = this._getColumnFlexOffsets(width);
 
-      // calculate row heights
       var rowHeights = this._getRowHeights();
+      var rowStretchOffsets = this._getRowFlexOffsets(height);
 
       // do the layout
       var left = 0;
       for (var col=0; col<=this._maxColIndex; col++)
       {
         var top = 0;
-        var width = colWidths[col].width;
+        var width = colWidths[col].width + (colStretchOffsets[col] || 0);
 
         for (var row=0; row<=this._maxRowIndex; row++)
         {
-          if (!grid[row] || !grid[row][col]) {
+          var cellData = this.getCellData(row, col);
+          if (!cellData.widget) {
             continue;
           }
-          var height = rowHeights[row].height;
 
-          var cell = grid[row][col];
-          var cellHint = cell.getSizeHint();
-          var cellData = this.getCellData(row, col);
+          var height = rowHeights[row].height + (rowStretchOffsets[row] || 0);
+
+          var cellHint = cellData.widget.getSizeHint();
 
           var cellWidth = Math.min(width, cellHint.maxWidth);
           var cellHeight = Math.min(height, cellHint.maxHeight);
           var cellLeft = left;
           var cellTop = top;
-
-          console.log(cellData);
 
           if (cellWidth !== width)
           {
@@ -350,7 +491,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             }
           }
 
-          cell.layout(
+          cellData.widget.layout(
             cellLeft,
             cellTop,
             cellWidth,
@@ -370,19 +511,11 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       this.debug("Clear layout cache.");
 
-      this._preferredWidth = null;
-      this._preferredHeight = null;
+      this._sizeHint = null;
       this._rowHeights = null;
       this._colHeights = null;
     },
 
-
-    // overridden
-    invalidate : function()
-    {
-      this.debug("Clear layout cache.");
-      this._sizeHint = null;
-    },
 
     // overridden
     getSizeHint : function()

@@ -124,7 +124,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
             flexibles.push({
               potential : diff > 0 ? hint.maxWidth - childWidths[i] : childWidths[i] - hint.minWidth,
-              flex : child.getLayoutProperty("hFlex") || 1
+              flex : childFlex || 1
             });
           }
         }
