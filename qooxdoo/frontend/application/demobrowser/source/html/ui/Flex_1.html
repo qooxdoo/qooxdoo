@@ -127,7 +127,7 @@ qx.Class.define("BasicSample",
 
 
       // container width < layout min width
-      var box1 = (new qx.ui2.core.Widget).set({width: 300, decoration: border, backgroundColor: "yellow"});
+      var box1 = (new qx.ui2.core.Widget).set({width: 300, minWidth : 0, decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.HBox();
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), 1);
