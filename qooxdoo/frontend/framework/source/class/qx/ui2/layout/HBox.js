@@ -63,14 +63,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     add : function(widget, hFlex, vAlign)
     {
       this.base(arguments, widget);
-
-      if (hFlex != null) {
-        widget.addLayoutProperty("hFlex", hFlex);
-      }
-
-      if (vAlign != null) {
-        widget.addLayoutProperty("vAlign", vAlign);
-      }
+      this._importProperties(widget, arguments, "hFlex", "vAlign");
     },
 
 
