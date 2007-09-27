@@ -35,6 +35,12 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     add : function(widget, left, top, right, bottom)
     {
@@ -44,25 +50,107 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
     // overridden
-    layout : function(width, height)
+    layout : function(availWidth, availHeight)
     {
       var children = this.getChildren();
+      var child, childHint;
+      var childLeft, childTop, childRight, childBottom;
+      var childWidth, childHeight;
 
       for (var i=0, l=children.length; i<l; i++)
       {
-        var child = children[i];
+        child = children[i];
 
-        if (child.isLayoutValid()) {
-          continue;
+        if (!child.isLayoutValid())
+        {
+          childHint = child.getSizeHint();
+
+          childLeft = child.getLayoutProperty("left");
+          childTop = child.getLayoutProperty("top");
+          childRight = child.getLayoutProperty("right");
+          childBottom = child.getLayoutProperty("bottom");
+
+          if (typeof childLeft === "string") {
+            childLeft = Math.round(parseFloat(childLeft) * availWidth / 100);
+          }
+
+          if (typeof childTop === "string") {
+            childTop = Math.round(parseFloat(childTop) * availHeight / 100);
+          }
+
+          if (typeof childRight === "string") {
+            childRight = Math.round(parseFloat(childRight) * availWidth / 100);
+          }
+
+          if (typeof childBottom === "string") {
+            childBottom = Math.round(parseFloat(childBottom) * availHeight / 100);
+          }
+
+          childWidth = child.getLayoutProperty("width");
+          childHeight = child.getLayoutProperty("height");
+
+          if (typeof childWidth === "string") {
+            childWidth = Math.round(parseFloat(childWidth) * availWidth / 100);
+          } else {
+            childWidth = childHint.width;
+          }
+
+          if (typeof childHeight === "string") {
+            childHeight = Math.round(parseFloat(childHeight) * availHeight / 100);
+          } else {
+            childHeight = childHint.height;
+          }
+
+          if (childRight != null)
+          {
+            if (childLeft != null) {
+              childWidth = availWidth - childLeft - childRight;
+            } else if (childWidth != null) {
+              childLeft = availWidth - childWidth - childRight;
+            } else {
+              throw new Error("Could not lay out child (width missing): ", child);
+            }
+          }
+
+          if (childBottom != null)
+          {
+            if (childTop != null) {
+              childHeight = availHeight - childTop - childBottom;
+            } else if (childHeight != null) {
+              childTop = availHeight - childHeight - childBottom;
+            } else {
+              throw new Error("Could not lay out child (height missing): ", child);
+            }
+          }
+
+          child.layout(childLeft, childTop, childWidth, childHeight);
         }
-
-        var childHint = child.getSizeHint();
-
-        var childLeft = child.getLayoutProperty("left") || 0;
-        var childTop = child.getLayoutProperty("top") || 0;
-
-        child.layout(childLeft, childTop, childHint.width, childHint.height);
       }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    setWidth : function(widget, value) {
+      widget.addLayoutProperty("width", value);
+    },
+
+    resetWidth : function(widget) {
+      widget.removeLayoutProperty("width");
+    },
+
+    setHeight : function(widget, value) {
+      widget.addLayoutProperty("height", value);
+    },
+
+    resetHeight : function(widget) {
+      widget.removeLayoutProperty("height");
     }
   },
 
