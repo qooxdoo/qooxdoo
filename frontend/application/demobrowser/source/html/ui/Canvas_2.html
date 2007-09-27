@@ -79,12 +79,26 @@ qx.Class.define("BasicSample",
       layout = new qx.ui2.layout.Canvas();
       doc.setLayout(layout);
 
-      layout.add(w1, 10, 10, 10, 10);
-      layout.add(w2, 30, 30, 30);
-      layout.add(w3, 50, 50, null, 50);
-      layout.add(w4, 70, 70);
-      layout.add(w5, null, 50, 50);
-      layout.add(w6, null, null, 50, 50);
+      layout.add(w1, "3%", "3%", "3%", "3%");
+      layout.add(w2, "6%", "6%", "6%");
+      layout.add(w3, "9%", "9%", null, "9%");
+      layout.add(w4, "12%", "12%");
+      layout.add(w5, null, "9%", "9%");
+      layout.add(w6, null, null, "9%", "9%");
+
+      layout.setWidth(w1, "20%");
+      layout.setWidth(w2, "20%");
+      layout.setWidth(w3, "20%");
+      layout.setWidth(w4, "20%");
+      layout.setWidth(w5, "20%");
+      layout.setWidth(w6, "20%");
+
+      layout.setHeight(w1, "20%");
+      layout.setHeight(w2, "20%");
+      layout.setHeight(w3, "20%");
+      layout.setHeight(w4, "20%");
+      layout.setHeight(w5, "20%");
+      layout.setHeight(w6, "20%");
 
       qx.ui2.core.LayoutQueue.flush();
     }
