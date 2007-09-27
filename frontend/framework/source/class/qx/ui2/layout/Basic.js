@@ -26,36 +26,6 @@ qx.Class.define("qx.ui2.layout.Basic",
 
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this._children = [];
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-  },
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -78,18 +48,6 @@ qx.Class.define("qx.ui2.layout.Basic",
       }
 
       this._addToParent(widget);
-    },
-
-
-    // overridden
-    remove : function(widget) {
-      qx.lang.Array.remove(this._children, widget);
-    },
-
-
-    // overridden
-    getChildren : function() {
-      return this._children;
     },
 
 
