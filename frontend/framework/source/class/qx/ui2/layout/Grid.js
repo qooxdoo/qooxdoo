@@ -52,7 +52,6 @@ qx.Class.define("qx.ui2.layout.Grid",
     this._colData = [];
 
     this._children = [];
-    this._sizeHint = null;
 
     this._maxRowIndex = 0;
     this._maxColIndex = 0;
@@ -501,11 +500,14 @@ qx.Class.define("qx.ui2.layout.Grid",
     // overridden
     invalidate : function()
     {
-      this.debug("Clear layout cache.");
+      if (this._sizeHint || this._rowHeights || this._colHeights)
+      {
+        this.debug("Clear layout cache");
 
-      this._sizeHint = null;
-      this._rowHeights = null;
-      this._colHeights = null;
+        this._sizeHint = null;
+        this._rowHeights = null;
+        this._colHeights = null;
+      }
     },
 
 
