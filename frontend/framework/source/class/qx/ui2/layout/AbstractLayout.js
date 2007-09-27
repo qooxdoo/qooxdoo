@@ -180,23 +180,14 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * Computes the layout dimensions and possible ranges of these.
      *
      * @type member
-     * @return {Map} The map with the preferred width/height and the allowed
+     * @return {Map|null} The map with the preferred width/height and the allowed
      *   minimum and maximum values in cases where shrinking or growing
-     *   is required.
+     *   is required. Can also return <code>null</code> when this detection
+     *   is not supported by the layout.
      */
     getSizeHint : function() {
     },
 
-
-    /**
-     * Whether the layout supports preferred sizes using size hints.
-     *
-     * @type member
-     * @return {Boolean} <code>true</code> when size hints are supported.
-     */
-    supportsSizeHint : function() {
-      return true;
-    },
 
 
 
