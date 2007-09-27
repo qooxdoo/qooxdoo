@@ -18,6 +18,16 @@
 
 ************************************************************************ */
 
+/**
+ * This layout manager lays out its children in a two dimensional grid. The
+ * grid supports:
+ * <ul>
+ *   <li>autosizing</li>
+ *   <li>flex values for rows and columns</li>
+ *   <li>minimal and maximal column and row sizes</li>
+ *   <li>horizontal and vertical alignment</li>
+ * </ul>
+ */
 qx.Class.define("qx.ui2.layout.Grid",
 {
   extend : qx.ui2.layout.AbstractLayout,
@@ -87,7 +97,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       if (cellData.widget !== undefined) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
       }
-      this._setCellData(row ,column, {widget: widget});
+      this._setCellData(row ,column, "widget", widget);
       this._children.push(widget);
       this._addToParent(widget);
 
@@ -107,34 +117,37 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
-    _setCellData : function(row, column, props)
+    _setCellData : function(row, column, key, value)
     {
       var grid = this._grid;
 
-      if (grid[row] === undefined) {
+      if (grid[row] == undefined) {
          grid[row] = [];
       }
-      if (!grid[row][column]) {
-        grid[row][column] = props;
-        return;
+      var gridData = grid[row][column];
+      if (!gridData)
+      {
+        grid[row][column] = {}
+        grid[row][column][key] = value;
       }
-      var gridData = grid[row][column]
-      for (var key in props) {
-        gridData[key] = props[key];
+      else
+      {
+        gridData[key] = value;
       }
     },
 
 
-    _setRowData : function(row, props)
+    _setRowData : function(row, key, value)
     {
       var rowData = this._rowData[row];
       if (!rowData)
       {
-        this._rowData[row] = props;
-        return;
+        this._rowData[row] = {};
+        this._rowData[row][key] = value;
       }
-      for (var key in props) {
-        rowData[key] = props[key];
+      else
+      {
+        rowData[key] = value;
       }
     },
 
@@ -144,21 +157,24 @@ qx.Class.define("qx.ui2.layout.Grid",
       var data = this._rowData[row] || {};
       return {
         hAlign : data.hAlign || "left",
-        flex : data.flex || 1
+        flex : data.flex || 1,
+        minHeight : data.minHeight || 0,
+        maxHeight : data.maxHeight || 32000
       }
     },
 
 
-    _setColumnData : function(column, props)
+    _setColumnData : function(column, key, value)
     {
       var colData = this._colData[column];
       if (!colData)
       {
-        this._colData[column] = props;
-        return;
+        this._colData[column] = {};
+        this._colData[column][key] = value;
       }
-      for (var key in props) {
-        colData[key] = props[key];
+      else
+      {
+        colData[key] = value;
       }
     },
 
@@ -169,7 +185,9 @@ qx.Class.define("qx.ui2.layout.Grid",
       return {
         vAlign : data.vAlign || "top",
         hAlign : data.hAlign || "left",
-        flex : data.flex || 1
+        flex : data.flex || 1,
+        minWidth : data.minWidth || 0,
+        maxWidth : data.maxWidth || 32000
       }
     },
 
@@ -189,10 +207,8 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._validateArgument(hAlign, ["left", "center", "right"]);
       this._validateArgument(vAlign, ["top", "middle", "bottom"]);
 
-      this._setColumnData(column, {
-        hAlign: hAlign,
-        vAlign: vAlign
-      });
+      this._setColumnData(column, "hAlign", hAlign);
+      this._setColumnData(column, "vAlign", vAlign);
     },
 
 
@@ -212,27 +228,38 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._validateArgument(hAlign, ["left", "center", "right"]);
       this._validateArgument(vAlign, ["top", "middle", "bottom"]);
 
-      this._setColumnData(column, {
-        hAlign: hAlign,
-        vAlign: vAlign
-      });
+      this._setCellData(column, "hAlign", hAlign);
+      this._setCellData(column, "vAlign", vAlign);
     },
 
 
-    setColumnFlex : function(column, flex)
-    {
-      this._setColumnData(column, {
-        flex: flex
-      });
+    setColumnFlex : function(column, flex) {
+      this._setColumnData(column, "flex", flex);
+    },
+
+    setRowFlex : function(row, flex) {
+      this._setRowData(row, "flex", flex);
+    },
+
+    setColumnMaxWidth : function(maxWidth) {
+      this._setColumnData(column, "maxWidth", maxWidth);
+    },
+
+    setColumnMinWidth : function(minWidth) {
+      this._setColumnData(column, "minWidth", minWidth);
+    },
+
+    setRowMaxHeight : function(maxHeight) {
+      this._setRowData(column, "maxHeight", maxHeight);
+    },
+
+    setRowMinHeight : function(minHeight) {
+      this._setRowData(column, "minHeight", minHeight);
     },
 
 
-    setRowFlex : function(row, flex)
-    {
-      this._setRowData(row, {
-        flex: flex
-      });
-    },
+
+
 
 
     /**
@@ -292,10 +319,12 @@ qx.Class.define("qx.ui2.layout.Grid",
           maxHeight = Math.max(maxHeight, cellSize.maxHeight);
         }
 
+        var rowData = this._getRowData(row);
+
         rowHeights[row] = {
-          minHeight : minHeight,
+          minHeight : Math.max(minHeight, rowData.minHeight),
           height : height,
-          maxHeight : maxHeight
+          maxHeight : Math.min(maxHeight, rowData.maxHeight)
         };
 
       }
@@ -331,10 +360,12 @@ qx.Class.define("qx.ui2.layout.Grid",
           maxWidth = Math.max(maxWidth, cellSize.maxWidth);
         }
 
+        var colData = this._getColumnData(col);
+
         colWidths[col] = {
-          minWidth: minWidth,
+          minWidth: Math.max(minWidth, colData.minWidth),
           width : width,
-          maxWidth : maxWidth
+          maxWidth : Math.max(maxWidth, colData.maxWidth)
         };
       }
 
@@ -364,7 +395,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           continue;
         }
 
-        colFlex = this._getColumnData(i).flex;
+        var colFlex = this._getColumnData(i).flex;
 
         if (colFlex > 0)
         {
@@ -401,7 +432,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           continue;
         }
 
-        rowFlex = this._getRowData(i).flex;
+        var rowFlex = this._getRowData(i).flex;
 
         if (rowFlex > 0)
         {
@@ -420,6 +451,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     // overridden
     layout : function(width, height)
     {
+      var Util = qx.ui2.layout.Util;
       var spacing = this.getSpacing();
 
       var colWidths = this._getColWidths();
@@ -448,48 +480,8 @@ qx.Class.define("qx.ui2.layout.Grid",
 
           var cellWidth = Math.min(width, cellHint.maxWidth);
           var cellHeight = Math.min(height, cellHint.maxHeight);
-          var cellLeft = left;
-          var cellTop = top;
-
-          if (cellWidth !== width)
-          {
-            switch (cellData.hAlign)
-            {
-              case "left":
-                break;
-
-              case "center":
-                cellLeft += Math.floor((width - cellWidth) / 2);
-                break;
-
-              case "right":
-                cellLeft += (width - cellWidth)
-                break;
-
-              default:
-                throw new Error("Invalid state!")
-            }
-          }
-
-          if (cellHeight !== height)
-          {
-            switch (cellData.vAlign)
-            {
-              case "top":
-                break;
-
-              case "middle":
-                cellTop += Math.floor((height - cellHeight) / 2);
-                break;
-
-              case "bottom":
-                cellTop += (height - cellHeight)
-                break;
-
-              default:
-                throw new Error("Invalid state!")
-            }
-          }
+          var cellLeft = left + Util.computeHorizontalAlignOffset(cellData.hAlign, cellWidth, width);
+          var cellTop = top + Util.computeVerticalAlignOffset(cellData.vAlign, cellHeight, height);
 
           cellData.widget.layout(
             cellLeft,
@@ -528,6 +520,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       // calculate col widths
       var colWidths = this._getColWidths();
+
       var minWidth=0, width=0, maxWidth=0;
 
       for (var i=0, l=colWidths.length; i<l; i++)
