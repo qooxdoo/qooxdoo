@@ -119,10 +119,10 @@ def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=Fa
         # (only used from top-level functions, to avoid variable capture)
         if level==0:
             counter += update(node, found, 0, prefix, skipPrefix, verbose)
-
-        # this breaks the index in cases where variables are defined after
-        # the declaration of an inner function and used in this function.
-        # del found[foundLen:]
+            # this breaks the index in cases where variables are defined after
+            # the declaration of an inner function and used in this function.
+            # (really?)
+            del found[foundLen:]
 
     return counter
 
