@@ -82,6 +82,8 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (vAlign != null) {
         widget.addLayoutProperty("vAlign", vAlign);
       }
+
+      this._addToParent(widget);
     },
 
     // overridden

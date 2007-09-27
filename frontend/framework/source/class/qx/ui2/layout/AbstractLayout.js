@@ -123,6 +123,21 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     invalidate : function() {},
 
 
+    _addToParent : function(widget)
+    {
+      var parent = this.getWidget();
+      if (parent) {
+        parent._contentElement.add(widget.getElement());
+        widget.setParent(parent);
+      }
+    },
+
+    _removeFromParent : function(widget)
+    {
+      widget.free();
+      widget.setParent(null);
+    },
+
     // property apply
     _applyWidget : function(value, old)
     {
@@ -131,16 +146,14 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
       if (old)
       {
         for (var i=0, l=children.length; i<l; i++) {
-          children[i].free();
-          children[i].setParent(null);
+          this._removeFromParent(children[i]);
         }
       }
 
       if (value)
       {
         for (var i=0, l=children.length; i<l; i++) {
-          value._contentElement.add(children[i].getElement());
-          children[i].setParent(value);
+          this._addToParent(children[i]);
         }
       }
     }
