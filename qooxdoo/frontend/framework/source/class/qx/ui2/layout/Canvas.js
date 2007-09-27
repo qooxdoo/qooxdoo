@@ -75,25 +75,25 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
           if (typeof childLeft === "string" && percent.test(childLeft)) {
             childLeft = Math.round(parseFloat(childLeft) * availWidth / 100);
-          } else if (childLeft != null) {
+          } else if (childLeft != null && typeof childLeft !== "number") {
             throw new Error("Could not parse percent value for left position: " + childLeft);
           }
 
           if (typeof childTop === "string" && percent.test(childTop)) {
             childTop = Math.round(parseFloat(childTop) * availHeight / 100);
-          } else if (childTop != null) {
+          } else if (childTop != null && typeof childTop !== "number") {
             throw new Error("Could not parse percent value for top position: " + childTop);
           }
 
           if (typeof childRight === "string" && percent.test(childRight)) {
             childRight = Math.round(parseFloat(childRight) * availWidth / 100);
-          } else if (childRight != null) {
+          } else if (childRight != null && typeof childRight !== "number") {
             throw new Error("Could not parse percent value for right position: " + childRight);
           }
 
           if (typeof childBottom === "string" && percent.test(childBottom)) {
             childBottom = Math.round(parseFloat(childBottom) * availHeight / 100);
-          } else if (childBottom != null) {
+          } else if (childBottom != null && typeof childBottom !== "number") {
             throw new Error("Could not parse percent value for bottom position: " + childBottom);
           }
 
@@ -156,32 +156,293 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
     /*
     ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES
+      LAYOUT PROPERTIES: DIMENSION
     ---------------------------------------------------------------------------
     */
 
-    setWidth : function(widget, value) {
+    /**
+     * Sets the width of the given widget.
+     * Supports percent values (string). For integer values please
+     * use the <code>width</code> property of the widget itself.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The width to apply
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    setWidth : function(widget, value)
+    {
       widget.addLayoutProperty("width", value);
+      return this;
     },
 
-    resetWidth : function(widget) {
+
+    /**
+     * Resets the width of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    resetWidth : function(widget)
+    {
       widget.removeLayoutProperty("width");
+      return this;
     },
 
+
+    /**
+     * Returns the currently configured width of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String|null} The currently configured width
+     */
     getWidth : function(widget) {
       return widget.getLayoutProperty("width");
     },
 
-    setHeight : function(widget, value) {
+
+    /**
+     * Sets the height of the given widget.
+     * Supports percent values (string). For integer values please
+     * use the <code>height</code> property of the widget itself.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The height to apply
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    setHeight : function(widget, value)
+    {
       widget.addLayoutProperty("height", value);
+      return this;
     },
 
-    resetHeight : function(widget) {
+
+    /**
+     * Resets the height of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    resetHeight : function(widget)
+    {
       widget.removeLayoutProperty("height");
+      return this;
     },
 
+
+    /**
+     * Returns the currently configured height of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String|null} The currently configured height
+     */
     getHeight : function(widget) {
       return widget.getLayoutProperty("height");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: LOCATION: LEFT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the left position on the canvas.
+     * Supports pixel values (integer) and percent values (string).
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String|Integer} The left position to apply
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    setLeft : function(widget, value)
+    {
+      widget.addLayoutProperty("left", value);
+      return this;
+    },
+
+
+    /**
+     * Resets the left position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    resetLeft : function(widget)
+    {
+      widget.removeLayoutProperty("left");
+      return this;
+    },
+
+
+    /**
+     * Returns the currently configured left position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String|Integer|null} The currently configured left position
+     */
+    getLeft : function(widget) {
+      return widget.getLayoutProperty("left");
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: LOCATION: TOP
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the top position on the canvas.
+     * Supports pixel values (integer) and percent values (string).
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String|Integer} The top position to apply
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    setTop : function(widget, value)
+    {
+      widget.addLayoutProperty("top", value);
+      return this;
+    },
+
+
+    /**
+     * Resets the top position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    resetTop : function(widget)
+    {
+      widget.removeLayoutProperty("top");
+      return this;
+    },
+
+
+    /**
+     * Returns the currently configured top position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String|Integer|null} The currently configured top position
+     */
+    getTop : function(widget) {
+      return widget.getLayoutProperty("top");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: LOCATION: RIGHT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the right position on the canvas.
+     * Supports pixel values (integer) and percent values (string).
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String|Integer} The right position to apply
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    setRight : function(widget, value)
+    {
+      widget.addLayoutProperty("right", value);
+      return this;
+    },
+
+
+    /**
+     * Resets the right position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    resetRight : function(widget)
+    {
+      widget.removeLayoutProperty("right");
+      return this;
+    },
+
+
+    /**
+     * Returns the currently configured right position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String|Integer|null} The currently configured right position
+     */
+    getRight : function(widget) {
+      return widget.getLayoutProperty("right");
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: LOCATION: BOTTOM
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the bottom position on the canvas.
+     * Supports pixel values (integer) and percent values (string).
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String|Integer} The bottom position to apply
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    setBottom : function(widget, value)
+    {
+      widget.addLayoutProperty("bottom", value);
+      return this;
+    },
+
+
+    /**
+     * Resets the bottom position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.Abstract} This layout (for chaining support)
+     */
+    resetBottom : function(widget)
+    {
+      widget.removeLayoutProperty("bottom");
+      return this;
+    },
+
+
+    /**
+     * Returns the currently configured bottom position on the canvas.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String|Integer|null} The currently configured bottom position
+     */
+    getBottom : function(widget) {
+      return widget.getLayoutProperty("bottom");
     }
   },
 
