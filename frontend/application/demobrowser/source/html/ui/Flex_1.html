@@ -82,33 +82,9 @@ qx.Class.define("BasicSample",
       var box2 = (new qx.ui2.core.Widget).set({width: 500, decoration: border, backgroundColor: "yellow"});
       var layout2 = new qx.ui2.layout.HBox();
 
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
+      for (var i=0; i<25; i++) {
+        layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5, maxWidth:15}), 1);
+      }
 
       box2.setLayout(layout2);
       docLayout.add(box2, 15, 190);
@@ -161,6 +137,16 @@ qx.Class.define("BasicSample",
       docLayout.add(box1, 15, 430);
 
 
+
+      // container width < layout width, but minWidth = auto
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", minHeight: 60});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 1, "top");
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 2, "middle");
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 3 , "bottom");
+      box1.setLayout(layout1);
+      docLayout.add(box1, 15, 490);
 
       doc.setLayout(docLayout);
 

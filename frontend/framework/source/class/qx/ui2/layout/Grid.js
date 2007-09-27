@@ -87,16 +87,17 @@ qx.Class.define("qx.ui2.layout.Grid",
     // overridden
     add : function(widget, row, column)
     {
-      widget.addLayoutProperty("row", row);
-      widget.addLayoutProperty("column", column);
-
       var cellData = this.getCellData(row, column);
       if (cellData.widget !== undefined) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
       }
+
+      this.base(arguments, widget);
+
+      widget.addLayoutProperty("row", row);
+      widget.addLayoutProperty("column", column);
+
       this._setCellData(row ,column, "widget", widget);
-      this._children.push(widget);
-      this._addToParent(widget);
 
       this._maxRowIndex = Math.max(this._maxRowIndex, row);
       this._maxColIndex = Math.max(this._maxColIndex, column);

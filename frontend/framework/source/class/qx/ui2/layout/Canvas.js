@@ -38,9 +38,11 @@ qx.Class.define("qx.ui2.layout.Canvas",
     // overridden
     layout : function(width, height)
     {
-      for (var i=0, l=this._children.length; i<l; i++)
+      var children = this.getChildren();
+
+      for (var i=0, l=children.length; i<l; i++)
       {
-        var child = this._children[i];
+        var child = children[i];
 
         if (child.isLayoutValid()) {
           continue;
