@@ -77,7 +77,8 @@
  *   // caller, but are automatically calculated.  Some are used internally,
  *   // while others may be of use to event listeners.
  *
- *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners
+ *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners.  
+ *                          // This property is missing for nodes inside closed ones.
  *
  *   level          : 2,    // The indentation level of this tree node
  *
