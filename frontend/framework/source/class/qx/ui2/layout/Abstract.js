@@ -174,7 +174,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {void}
      */
     invalidate : function() {
-      return;
     },
 
 
@@ -244,6 +243,25 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       widget.getElement().free();
       widget.setParent(null);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _importProperties : function(widget, args)
+    {
+      for (var i=1, l=args.length; i<l; i++)
+      {
+        if (args[i] != null && arguments[i+1] != null) {
+          widget.addLayoutProperty(arguments[i+1], args[i]);
+        }
+      }
     },
 
 
