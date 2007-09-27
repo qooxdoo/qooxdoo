@@ -256,9 +256,11 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     _importProperties : function(widget, args)
     {
-      for (var i=1, l=args.length; i<l; i++)
+      var len = Math.min(args.length, arguments.length+1);
+
+      for (var i=1; i<len; i++)
       {
-        if (args[i] != null && arguments[i+1] != null) {
+        if (args[i] != null) {
           widget.addLayoutProperty(arguments[i+1], args[i]);
         }
       }
