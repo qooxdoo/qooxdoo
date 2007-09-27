@@ -20,7 +20,7 @@
 
 qx.Class.define("qx.ui2.layout.Basic",
 {
-  extend : qx.ui2.layout.AbstractLayout,
+  extend : qx.ui2.layout.Abstract,
 
 
 
