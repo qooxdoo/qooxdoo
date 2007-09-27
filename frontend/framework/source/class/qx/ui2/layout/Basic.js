@@ -43,23 +43,24 @@ qx.Class.define("qx.ui2.layout.Basic",
 
 
     // overridden
-    layout : function(width, height)
+    layout : function(availWidth, availHeight)
     {
       var children = this.getChildren();
+      var child, childHint, childLeft, childTop;
 
       for (var i=0, l=children.length; i<l; i++)
       {
-        var child = children[i];
+        child = children[i];
 
-        if (child.isLayoutValid()) {
-          continue;
+        if (!child.isLayoutValid())
+        {
+          childHint = child.getSizeHint();
+
+          childLeft = child.getLayoutProperty("left") || 0;
+          childTop = child.getLayoutProperty("top") || 0;
+
+          child.layout(childLeft, childTop, childHint.width, childHint.height);
         }
-
-        var childHint = child.getSizeHint();
-        var childLeft = child.getLayoutProperty("left") || 0;
-        var childTop = child.getLayoutProperty("top") || 0;
-
-        child.layout(childLeft, childTop, childHint.width, childHint.height);
       }
     },
 
