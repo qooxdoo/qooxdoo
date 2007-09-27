@@ -29,22 +29,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this._children = [];
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -84,17 +68,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       this._addToParent(widget);
     },
-
-    // overridden
-    remove : function(widget) {
-      qx.lang.Array.remove(this._children, widget);
-    },
-
-    // overridden
-    getChildren : function() {
-      return this._children;
-    },
-
 
     _addFlexOffsets : function(availWidth, childWidths)
     {

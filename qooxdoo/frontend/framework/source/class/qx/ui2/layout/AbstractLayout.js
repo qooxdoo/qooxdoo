@@ -36,6 +36,8 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
   construct : function()
   {
     this.base(arguments);
+
+    this._children = [];
   },
 
 
@@ -108,6 +110,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * @return {void}
      */
     add : function(widget) {
+      this._children.push(widget);
     },
 
 
@@ -119,6 +122,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * @return {void}
      */
     remove : function(widget) {
+      qx.lang.Array.remove(this._children, widget);
     },
 
 
@@ -130,6 +134,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * @return {void}
      */
     has : function(widget) {
+      qx.lang.Array.contains(this._children, widget);
     },
 
 
@@ -141,6 +146,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * @return {void}
      */
     getChildren : function() {
+      return this._children;
     },
 
 
@@ -161,6 +167,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * @return {void}
      */
     invalidate : function() {
+      return;
     },
 
 
@@ -173,6 +180,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      * @return {void}
      */
     layout : function(width, height) {
+      throw new Error("Missing layout implementation!");
     },
 
 
@@ -186,6 +194,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      *   is not supported by the layout.
      */
     getSizeHint : function() {
+      return null;
     },
 
 
@@ -257,6 +266,8 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
   destruct : function()
   {
+    this._disposeDeep("_children", 1);
+
 
   }
 });

@@ -51,8 +51,6 @@ qx.Class.define("qx.ui2.layout.Grid",
     this._rowData = [];
     this._colData = [];
 
-    this._children = [];
-
     this._maxRowIndex = 0;
     this._maxColIndex = 0;
   },
@@ -284,11 +282,6 @@ qx.Class.define("qx.ui2.layout.Grid",
     // overridden
     remove : function(widget) {
       throw new Error("Not yet implemented.");
-    },
-
-    // overridden
-    getChildren : function() {
-      return this._children;
     },
 
 
