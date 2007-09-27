@@ -94,8 +94,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       this.base(arguments, widget);
 
-      widget.addLayoutProperty("row", row);
-      widget.addLayoutProperty("column", column);
+      this._importProperties(widget, arguments, "row", "column");
 
       this._setCellData(row ,column, "widget", widget);
 
