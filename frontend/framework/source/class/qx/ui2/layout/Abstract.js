@@ -170,6 +170,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Invalidate all layout relevant caches
      *
+     * @internal
      * @type member
      * @return {void}
      */
@@ -180,6 +181,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Indicate that the layout has layout changes and propagate this information
      * up the widget hierarchy.
+     *
+     * @internal
      */
     invalidateLayout : function()
     {
@@ -193,6 +196,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Applies the children layout.
      *
+     * @internal
      * @type member
      * @param width {Integer} Final (content) width (in pixel) of the parent widget
      * @param width {Integer} Final (content) height (in pixel) of the parent widget
@@ -206,6 +210,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Computes the layout dimensions and possible ranges of these.
      *
+     * @internal
      * @type member
      * @return {Map|null} The map with the preferred width/height and the allowed
      *   minimum and maximum values in cases where shrinking or growing
