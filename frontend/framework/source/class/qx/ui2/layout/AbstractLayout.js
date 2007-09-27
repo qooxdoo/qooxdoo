@@ -100,17 +100,49 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     ---------------------------------------------------------------------------
     */
 
-    /** Add this widget to the layout */
-    add : function(widget, layoutHints) {},
+    /**
+     * Add this widget to the layout
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @return {void}
+     */
+    add : function(widget) {
+    },
 
-    /** Remove this from the layout */
-    remove : function(widget) {},
 
-    /** Whether the widget is a child of this layout */
-    has : function(widget) {},
+    /**
+     * Remove this from the layout
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @return {void}
+     */
+    remove : function(widget) {
+    },
 
-    /** Returns the children list */
-    getChildren : function() {},
+
+    /**
+     * Whether the widget is a child of this layout
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @return {void}
+     */
+    has : function(widget) {
+    },
+
+
+    /**
+     * Returns the children list
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @return {void}
+     */
+    getChildren : function() {
+    },
+
 
 
 
@@ -122,8 +154,27 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     ---------------------------------------------------------------------------
     */
 
-    /** Sets the geometry */
-    layout : function(width, height) {},
+    /**
+     * Invalidate all layout relevant caches
+     *
+     * @type member
+     * @return {void}
+     */
+    invalidate : function() {
+    },
+
+
+    /**
+     * Applies the children layout.
+     *
+     * @type member
+     * @param width {Integer} Final (content) width (in pixel) of the parent widget
+     * @param width {Integer} Final (content) height (in pixel) of the parent widget
+     * @return {void}
+     */
+    layout : function(width, height) {
+    },
+
 
     /**
      * Computes the layout dimensions and possible ranges of these.
@@ -133,10 +184,20 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
      *   minimum and maximum values in cases where shrinking or growing
      *   is required.
      */
-    getSizeHint : function() {},
+    getSizeHint : function() {
+    },
 
-    /** Invalidate all layout relevant caches */
-    invalidate : function() {},
+
+    /**
+     * Whether the layout supports preferred sizes using size hints.
+     *
+     * @type member
+     * @return {Boolean} <code>true</code> when size hints are supported.
+     */
+    supportsSizeHint : function() {
+      return true;
+    },
+
 
 
 
