@@ -933,9 +933,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             // It's still boolean.  Toggle the state
             node.bOpened = !node.bOpened;
 
-            // Get the selection model
-            var sm = tree.getSelectionModel();
-
             // Determine if this node was selected
             var rowIndex = this.getNodeRowMap()[node.nodeId];
 
