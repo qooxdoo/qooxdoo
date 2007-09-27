@@ -77,6 +77,8 @@ qx.Class.define("qx.ui2.layout.Basic",
       if (top != null) {
         widget.addLayoutProperty("top", top);
       }
+
+      this._addToParent(widget);
     },
 
 
