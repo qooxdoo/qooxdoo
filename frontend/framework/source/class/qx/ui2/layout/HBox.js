@@ -38,7 +38,6 @@ qx.Class.define("qx.ui2.layout.HBox",
     this.base(arguments);
 
     this._children = [];
-    this._sizeHint = null;
   },
 
 
@@ -179,18 +178,11 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     invalidate : function()
     {
-      this.debug("Clear layout cache.");
-
-      this._preferredWidth = null;
-      this._preferredHeight = null;
-    },
-
-
-    // overridden
-    invalidate : function()
-    {
-      this.debug("Clear layout cache.");
-      this._sizeHint = null;
+      if (this._sizeHint)
+      {
+        this.debug("Clear layout cache");
+        this._sizeHint = null;
+      }
     },
 
     // overridden
