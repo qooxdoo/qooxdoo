@@ -36,9 +36,9 @@ qx.Class.define("qx.ui2.layout.Util",
 
 
       // Initialialize return field
-      var offsets = {};
+      var offsets = [];
       for (var i=0, l=flexLength; i<l; i++) {
-        offsets[flexibles[i].id] = 0;
+        offsets[i] = 0;
       }
 
 
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui2.layout.Util",
 
             // Update child status
             child.potential -= childOffset;
-            offsets[child.id] += (fillUp ? childOffset : -childOffset);
+            offsets[i] += (fillUp ? childOffset : -childOffset);
 
             // Update parent status
             remaining -= childOffset;
