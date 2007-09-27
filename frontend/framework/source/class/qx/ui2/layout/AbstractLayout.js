@@ -94,6 +94,12 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN HANDLING
+    ---------------------------------------------------------------------------
+    */
+
     /** Add this widget to the layout */
     add : function(widget, layoutHints) {},
 
@@ -105,6 +111,16 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
     /** Returns the children list */
     getChildren : function() {},
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     /** Sets the geometry */
     layout : function(width, height) {},
@@ -123,10 +139,21 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     invalidate : function() {},
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PARENT UTILS
+    ---------------------------------------------------------------------------
+    */
+
     _addToParent : function(widget)
     {
       var parent = this.getWidget();
-      if (parent) {
+
+      if (parent)
+      {
         parent._contentElement.add(widget.getElement());
         widget.setParent(parent);
       }
@@ -134,11 +161,19 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
     _removeFromParent : function(widget)
     {
-      widget.free();
+      widget.getElement().free();
       widget.setParent(null);
     },
 
-    // property apply
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY HANDLER
+    ---------------------------------------------------------------------------
+    */
+
     _applyWidget : function(value, old)
     {
       var children = this.getChildren();
@@ -157,8 +192,6 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
         }
       }
     }
-
-
   },
 
 
@@ -172,7 +205,6 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
   destruct : function()
   {
-
 
   }
 });
