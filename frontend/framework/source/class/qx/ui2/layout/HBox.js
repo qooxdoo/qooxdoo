@@ -146,13 +146,14 @@ qx.Class.define("qx.ui2.layout.HBox",
           child.exclude();
         }
 
-        // last one
+        // last one => exit here
         if (i==(l-1)) {
           break;
         }
 
-        thisMargin = children[i].getLayoutProperty("hbox.marginright") || 0;
-        nextMargin = children[i+1].getLayoutProperty("hbox.marginleft") || 0;
+        // otherwise add width, spacing and margin
+        thisMargin = children[i].getLayoutProperty("hbox.marginRight") || 0;
+        nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft") || 0;
 
         childLeft += childWidths[i] + spacing + Math.max(thisMargin, nextMargin);
       }
@@ -166,20 +167,20 @@ qx.Class.define("qx.ui2.layout.HBox",
       var length = children.length;
       var spacing = this.getSpacing() * (length - 1);
 
-      spacing += children[0].getLayoutProperty("hbox.marginleft") || 0;
+      spacing += children[0].getLayoutProperty("hbox.marginLeft") || 0;
 
       if (length > 0)
       {
         for (var i=0; i<length-1; i++)
         {
-          marginThis = children[i].getLayoutProperty("hbox.marginright");
-          marginNext = children[i+1].getLayoutProperty("hbox.marginleft");
+          marginThis = children[i].getLayoutProperty("hbox.marginRight");
+          marginNext = children[i+1].getLayoutProperty("hbox.marginLeft");
 
           spacing += Math.max(0, marginThis, marginNext);
         }
       }
 
-      spacing += children[length-1].getLayoutProperty("hbox.marginright") || 0;
+      spacing += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
 
       return spacing;
     },
