@@ -218,20 +218,5 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-
-
   }
 });
