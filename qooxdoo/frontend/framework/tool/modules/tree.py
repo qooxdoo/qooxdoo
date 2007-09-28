@@ -531,6 +531,30 @@ class Node:
         options.prettypCommentsInlinePadding = "  "
         return compiler.compile(self, options)
 
+    def nodeIter(self):
+        "A generator/iterator method, to traverse a tree and 'yield' each node"
+        yield self
+
+        if self.hasChildren():
+            for child in self.children: 
+                for node in child.nodeIter():
+                    yield node
+
+    def nodeTreeMap(self, fn):
+        """As an alternative, a pure recursion walk that applies a function fn to each node.
+           This allows to control the recursion through fn's return value.
+           Signature of fn: fn(node,isLeaf)."""
+        if not self.hasChildren():
+            rc = fn(self,True)
+            return
+        else:
+            rc = fn(self,False)
+            if rc == 0:  # != 0 means prune this subtree
+                for child in self.children:
+                    child.nodeTreeMap(fn)
+            return
+
+
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
     hasText = False
@@ -591,6 +615,84 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
             asString = asString[:-2] + newLine + prefix + ']'
 
     asString += '}'
+
+    return asString
+
+
+
+def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
+    import simplejson
+    types = []
+    fullNames = []
+    indexs = {}
+    currClass = [0]
+
+    def processNode(node,isLeaf):
+        # filters
+        if not node.hasAttributes():
+            return 0  # continue traversal
+        if node.type in ['state', 'param', 'see']:  # skip those currently
+            return 0
+
+        # construct a name string
+        if 'fullName' in node.attributes:
+            longestName = node.attributes['fullName']
+        elif 'name' in node.attributes :
+            longestName = node.attributes['name']
+        else: # cannot handle unnamed entities
+            return 0
+
+        # construct type string
+        if node.type == "method":
+            sfx = ""
+            if 'access' in node.attributes:
+                acc = node.attributes['access']
+                if acc == "public":
+                    sfx = "_pub"
+                elif acc == 'protected':
+                    sfx = '_prot'
+                elif acc == 'private':
+                    sfx = '_priv'
+                else:
+                    sfx = '_pub'  # there seem to be methods with weird access attribs
+            else:
+                sfx = "_pub"  # force unqualified to public
+            n_type = node.type + sfx
+        elif node.type == "property":
+            sfx = "_pub"
+            n_type = node.type + sfx
+        else:
+            n_type = node.type
+
+        # add type?
+        if n_type not in types:
+            types.append(n_type)
+        tyx = types.index(n_type)
+        
+        if node.type in ['class','interface','package','mixin']:
+            # add to fullNames - assuming uniqueness
+            fullNames.append(longestName)
+            fnx = fullNames.index(longestName)
+            # commemorate current container
+            currClass[0] = fnx
+        else:  # must be a class feature
+            longestName = '#' + longestName
+            fnx = currClass[0]
+
+        # maintain index
+        if longestName in indexs:
+            indexs[longestName].append([tyx, fnx])
+        else:
+            indexs[longestName]=[[tyx, fnx]]
+
+        return 0
+
+    tree.nodeTreeMap(processNode)
+
+    index = { "__types__" : types,
+              "__fullNames__" : fullNames,
+              "__index__" : indexs }
+    asString = simplejson.dumps(index, separators=(',',':')) # compact encoding
 
     return asString
 
