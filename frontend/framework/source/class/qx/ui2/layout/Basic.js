@@ -39,7 +39,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     add : function(widget, left, top)
     {
       this.base(arguments, widget);
-      this._importProperties(widget, arguments, "left", "top");
+      this._importProperties(widget, arguments, "basic.left", "basic.top");
     },
 
 
@@ -57,8 +57,8 @@ qx.Class.define("qx.ui2.layout.Basic",
         {
           childHint = child.getSizeHint();
 
-          childLeft = child.getLayoutProperty("left") || 0;
-          childTop = child.getLayoutProperty("top") || 0;
+          childLeft = child.getLayoutProperty("basic.left") || 0;
+          childTop = child.getLayoutProperty("basic.top") || 0;
 
           child.layout(childLeft, childTop, childHint.width, childHint.height);
         }
@@ -97,8 +97,8 @@ qx.Class.define("qx.ui2.layout.Basic",
         child = children[i];
 
         childHint = child.getSizeHint();
-        childLeft = child.getLayoutProperty("left") || 0;
-        childTop = child.getLayoutProperty("top") || 0;
+        childLeft = child.getLayoutProperty("basic.left") || 0;
+        childTop = child.getLayoutProperty("basic.top") || 0;
 
         childWidth = Math.max(childWidth, childLeft + childHint.width);
         childHeight = Math.max(childHeight, childTop + childHint.height);
