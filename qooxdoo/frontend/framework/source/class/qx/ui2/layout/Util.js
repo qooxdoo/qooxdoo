@@ -113,54 +113,35 @@ qx.Class.define("qx.ui2.layout.Util",
 
     computeHorizontalAlignOffset : function(hAlign, widgetWidth, outerWidth)
     {
-      if (widgetWidth !== outerWidth)
+      var value = 0;
+
+      if (widgetWidth !== outerWidth && hAlign && hAlign !== "left")
       {
-        switch (hAlign)
-        {
-          case "left":
-            return 0;
-            break;
+        value = outerWidth - widgetWidth;
 
-          case "center":
-            return Math.floor((outerWidth - widgetWidth) / 2);
-            break;
-
-          case "right":
-            return outerWidth - widgetWidth;
-            break;
-
-          default:
-            throw new Error("Invalid state!")
+        if (hAlign === "center") {
+          value = Math.round(value / 2);
         }
       }
 
-      return 0;
+      return value;
     },
 
 
     computeVerticalAlignOffset : function(vAlign, widgetHeight, outerHeight)
     {
-      if (widgetHeight !== outerHeight)
+      var value = 0;
+
+      if (widgetHeight !== outerHeight && vAlign && vAlign !== "top")
       {
-        switch (vAlign)
-        {
-          case "top":
-            return 0;
+        value = outerHeight - widgetHeight;
 
-          case "middle":
-            return Math.floor((outerHeight - widgetHeight) / 2);
-            break;
-
-          case "bottom":
-            return outerHeight - widgetHeight;
-            break;
-
-          default:
-            throw new Error("Invalid state!")
+        if (vAlign === "middle") {
+          value = Math.round(value / 2);
         }
       }
 
-      return 0;
+      return value;
     }
   }
 });
