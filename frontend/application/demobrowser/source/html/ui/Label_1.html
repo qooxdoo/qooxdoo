@@ -10,15 +10,13 @@
   </script>
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <div id="description">
-  </div>
-
-  <div id="test"></div>
-
-  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
-
   <script type="text/javascript">
 qx.Class.define("BasicSample",
 {
@@ -31,31 +29,21 @@ qx.Class.define("BasicSample",
       this.base(arguments);
 
       var doc = new qx.ui2.root.Application(document);
-
-      var layout = new qx.ui2.layout.Basic();
+      var layout = new qx.ui2.layout.Basic;
 
       var label1 = new qx.ui2.core.Label("Hello World");
-      layout.add(label1, {
-        top: 300,
-        left: 300,
-        width : 50,
-        height : 50
-      });
+      layout.add(label1, 20, 100);
+      label1.setWidth(50);
+      label1.setHeight(50);
 
       var foo2 = new qx.ui2.core.Widget;
-      layout.add(foo2, {
-        top : 200,
-        left : 200,
-        width : 50,
-        height : 50
-      });
-
+      layout.add(foo2, 20, 200);
+      foo2.setWidth(50);
+      foo2.setWidth(50);
       foo2.setHtml("hello world");
 
       doc.setLayout(layout);
-      layout.setGeometry(0, 0, qx.bom.Document.getWidth(), qx.bom.Document.getHeight());
-
-      qx.html.Element.flush();
+      qx.ui2.core.LayoutQueue.flush();
     }
   }
 });
