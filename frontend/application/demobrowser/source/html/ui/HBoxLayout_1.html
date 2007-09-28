@@ -167,13 +167,109 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 0);
       layout1.add(w3, 0);
 
-      w1.addLayoutProperty("hbox.marginTop", 10);
-      w2.addLayoutProperty("hbox.marginBottom", 10);
-      w3.addLayoutProperty("hbox.marginTop", 10);
-      w3.addLayoutProperty("hbox.marginBottom", 10);
+      w1.addLayoutProperty("hbox.top", 10);
+      w2.addLayoutProperty("hbox.bottom", 10);
+      w3.addLayoutProperty("hbox.top", 10);
+      w3.addLayoutProperty("hbox.bottom", 10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 15, 440);
+      docLayout.add(box1, 600, 10);
+
+
+
+
+      // container higher + vertical margins + vertical alignment = bottom
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height:80});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+
+      layout1.add(w1, 0, "bottom");
+      layout1.add(w2, 0, "bottom");
+      layout1.add(w3, 0, "bottom");
+
+      w1.addLayoutProperty("hbox.top", 10);
+      w2.addLayoutProperty("hbox.bottom", 10);
+      w3.addLayoutProperty("hbox.top", 10);
+      w3.addLayoutProperty("hbox.bottom", 10);
+
+      box1.setLayout(layout1);
+      docLayout.add(box1, 600, 100);
+
+
+
+
+
+      // container higher + vertical margins + vertical alignment = middle
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height:80});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+
+      layout1.add(w1, 0, "middle");
+      layout1.add(w2, 0, "middle");
+      layout1.add(w3, 0, "middle");
+
+      w1.addLayoutProperty("hbox.top", 10);
+      w2.addLayoutProperty("hbox.bottom", 10);
+      w3.addLayoutProperty("hbox.top", 10);
+      w3.addLayoutProperty("hbox.bottom", 10);
+
+      box1.setLayout(layout1);
+      docLayout.add(box1, 600, 190);
+
+
+
+
+
+      // auto height + vertical margins
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+
+      layout1.add(w1, 0);
+      layout1.add(w2, 0);
+      layout1.add(w3, 0);
+
+      w1.addLayoutProperty("hbox.top", 3);
+      w1.addLayoutProperty("hbox.bottom", 6);
+      w2.addLayoutProperty("hbox.top", 3);
+      w2.addLayoutProperty("hbox.bottom", 6);
+      w3.addLayoutProperty("hbox.top", 3);
+      w3.addLayoutProperty("hbox.bottom", 6);
+
+      box1.setLayout(layout1);
+      docLayout.add(box1, 600, 280);
+
+
+
+
+      // auto height + vertical margins
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:40});
+
+      layout1.add(w1, 0);
+      layout1.add(w2, 0);
+      layout1.add(w3, 0);
+
+      w1.addLayoutProperty("hbox.top", 5);
+      w2.addLayoutProperty("hbox.bottom", 20);
+      w3.addLayoutProperty("hbox.top", 5);
+
+      box1.setLayout(layout1);
+      docLayout.add(box1, 600, 370);
+
 
 
 
