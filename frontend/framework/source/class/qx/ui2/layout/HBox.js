@@ -63,7 +63,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     add : function(widget, hFlex, vAlign)
     {
       this.base(arguments, widget);
-      this._importProperties(widget, arguments, "hFlex", "vAlign");
+      this._importProperties(widget, arguments, "hbox.flex", "hbox.align");
     },
 
 
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         {
           // Get top position (through alignment)
           childHeight = childHint.height;
-          childAlign = child.getLayoutProperty("vAlign") || "top";
+          childAlign = child.getLayoutProperty("hbox.align") || "top";
           childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(childAlign, childHeight, availHeight);
 
           // Layout child
@@ -139,20 +139,16 @@ qx.Class.define("qx.ui2.layout.HBox",
         width += childHint.width;
         maxWidth += childHint.maxWidth;
 
-        minHeight = Math.max(minHeight, childHint.minHeight);
-        height = Math.max(height, childHint.height);
-        maxHeight = Math.min(maxHeight, childHint.maxHeight);
+        minHeight = Math.max(0, minHeight, childHint.minHeight);
+        height = Math.max(0, height, childHint.height);
+        maxHeight = Math.min(32000, maxHeight, childHint.maxHeight);
       }
 
 
-      // Limit to integer range
+      // Limit width to integer range
       minWidth = Math.min(32000, Math.max(0, minWidth));
       width = Math.min(32000, Math.max(0, width));
       maxWidth = Math.min(32000, Math.max(0, maxWidth));
-
-      minHeight = Math.min(32000, Math.max(0, minHeight));
-      height = Math.min(32000, Math.max(0, height));
-      maxHeight = Math.min(32000, Math.max(0, maxHeight));
 
 
       // Build hint
@@ -201,7 +197,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (child.canStretchX())
         {
-          childFlex = child.getLayoutProperty("hFlex");
+          childFlex = child.getLayoutProperty("hbox.flex");
 
           if (childFlex == null || childFlex > 0)
           {
