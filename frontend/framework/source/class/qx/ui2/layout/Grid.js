@@ -577,8 +577,8 @@ qx.Class.define("qx.ui2.layout.Grid",
           maxHeight = Math.max(maxHeight, cellSize.maxHeight);
         }
 
-        var minHeight = Math.max(minHeight, this.getRowMinHeight());
-        var maxHeight = Math.min(maxHeight, this.getRowMaxHeight());
+        var minHeight = Math.max(minHeight, this.getRowMinHeight(row));
+        var maxHeight = Math.min(maxHeight, this.getRowMaxHeight(row));
         var height = Math.max(minHeight, Math.min(height, maxHeight));
 
         rowHeights[row] = {
@@ -636,8 +636,8 @@ qx.Class.define("qx.ui2.layout.Grid",
           maxWidth = Math.max(maxWidth, cellSize.maxWidth);
         }
 
-        var minWidth = Math.max(minWidth, this.getColumnMinWidth());
-        var maxWidth = Math.min(maxWidth, this.getColumnMaxWidth());
+        var minWidth = Math.max(minWidth, this.getColumnMinWidth(col));
+        var maxWidth = Math.min(maxWidth, this.getColumnMaxWidth(col));
         var width = Math.max(minWidth, Math.min(width, maxWidth));
 
         colWidths[col] = {
@@ -724,7 +724,12 @@ qx.Class.define("qx.ui2.layout.Grid",
       {
         var row = rowHeights[i];
 
-        if (row.height == row.maxHeight && row.Height == row.minHeight) {
+        console.log(diff, row.height, row.maxHeight);
+
+        if (
+          (row.height == row.maxHeight && diff > 0) ||
+          (row.height == row.minHeight && diff < 0)
+        ) {
           continue;
         }
 
