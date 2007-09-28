@@ -19,7 +19,12 @@
 ************************************************************************ */
 
 /**
+ * A basic layout, which supports positioning of child widgets by static
+ * left/top coordinates.
  *
+ * The default min size of a basic layout is the same as its
+ * preferred size and ensures that all child widgets are visible and have their
+ * preferred size.
  */
 qx.Class.define("qx.ui2.layout.Basic",
 {
