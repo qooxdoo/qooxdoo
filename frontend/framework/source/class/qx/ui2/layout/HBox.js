@@ -39,6 +39,18 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       check : "Integer",
       init : 5
+    },
+
+    align :
+    {
+      check : [ "left", "center", "right" ],
+      init : "left"
+    },
+
+    reversed :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -60,7 +72,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     */
 
     // overridden
-    add : function(widget, hFlex, vAlign)
+    add : function(widget, flex, align)
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "hbox.flex", "hbox.align");
