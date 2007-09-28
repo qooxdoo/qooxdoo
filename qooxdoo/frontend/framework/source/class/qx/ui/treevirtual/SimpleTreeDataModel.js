@@ -412,6 +412,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       var node =
       {
         type           : type,
+        nodeId         : nodeId,
         parentNodeId   : parentNodeId,
         label          : label,
         bSelected      : false,
@@ -631,10 +632,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             {
               continue;
             }
-
-            // Listeners will need to know a node's id when they receive an
-            // event.
-            child.nodeId = childNodeId;
 
             // (Re-)assign this node's level
             child.level = level;
