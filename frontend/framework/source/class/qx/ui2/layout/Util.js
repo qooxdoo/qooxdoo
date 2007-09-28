@@ -22,7 +22,7 @@ qx.Class.define("qx.ui2.layout.Util",
 {
   statics :
   {
-    partition : function(sum, weights)
+    computePartitions : function(sum, weights)
     {
       var partitions = [];
       var numParts = weights.length;

@@ -38,7 +38,7 @@ qx.Class.define("testrunner.test.ui2.Layout",
         }
         var sum = Math.round(Math.random() * 500);
 
-        var partitions = qx.ui2.layout.Util.partition(sum, weights);
+        var partitions = qx.ui2.layout.Util.computePartitions(sum, weights);
 
         var partSum = 0;
         for (var j=0; j<len; j++) {
