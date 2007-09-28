@@ -119,8 +119,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * @type static
      * @return {var} none
      */
-    __dummy : function() { }
-
+    __dummy : function() {}
   },
 
 
@@ -897,7 +896,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // Note that for IE the proper way to do this is to set it to a
       // dummy function, not null (Google on "onreadystatechange dummy IE unhook")
       // http://groups.google.com/group/Google-Web-Toolkit-Contributors/browse_thread/thread/7e7ee67c191a6324
-      vRequest.onreadystatechange = qx.io.remote.XmlHttpTransport.__dummy;
+      vRequest.onreadystatechange = qx.io.remote.transport.XmlHttp.__dummy;
       // Aborting
       switch(vRequest.readyState)
       {
