@@ -86,11 +86,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       var children = this.getChildren();
       var align = this.getAlign();
       var child, childHint;
-      var childHeight, childAlign, childTop, childLeft=0;
-      var childAlignOffset = 0;
-      var childWidths = [];
-      var childWidthSum = 0;
-      var spacingSum = this.getSpacing() * (children.length - 1);
+      var childHeight, childAlign, childTop, childLeft;
 
 
       // Get flex offsets
@@ -98,6 +94,8 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
       // Pre compute widths
+      var childWidths = [];
+      var childWidthSum = 0;
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -110,6 +108,8 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
       // Calculate horizontal alignment offset
+      var spacingSum = this._getHorizontalSpacing();
+      var childAlignOffset = 0;
       if (align != "left" && (childWidthSum + spacingSum) < availWidth)
       {
         childAlignOffset = availWidth - childWidthSum - spacingSum;
@@ -122,6 +122,8 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
+      var childLeft = children[0].getLayoutProperty("hbox.marginleft") || 0;
+
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -144,8 +146,42 @@ qx.Class.define("qx.ui2.layout.HBox",
           child.exclude();
         }
 
-        childLeft += childWidths[i] + spacing;
+        // last one
+        if (i==(l-1)) {
+          break;
+        }
+
+        thisMargin = children[i].getLayoutProperty("hbox.marginright") || 0;
+        nextMargin = children[i+1].getLayoutProperty("hbox.marginleft") || 0;
+
+        childLeft += childWidths[i] + spacing + Math.max(thisMargin, nextMargin);
       }
+    },
+
+
+    /** Computes the spacing sum plus margin. Supports margin collapsing. */
+    _getHorizontalSpacing : function()
+    {
+      var children = this.getChildren();
+      var length = children.length;
+      var spacing = this.getSpacing() * (length - 1);
+
+      spacing += children[0].getLayoutProperty("hbox.marginleft") || 0;
+
+      if (length > 0)
+      {
+        for (var i=0; i<length-1; i++)
+        {
+          marginThis = children[i].getLayoutProperty("hbox.marginright");
+          marginNext = children[i+1].getLayoutProperty("hbox.marginleft");
+
+          spacing += Math.max(0, marginThis, marginNext);
+        }
+      }
+
+      spacing += children[length-1].getLayoutProperty("hbox.marginright") || 0;
+
+      return spacing;
     },
 
 
@@ -158,7 +194,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Start with spacing
       var children = this.getChildren();
-      var spacing = this.getSpacing() * (children.length - 1);
+      var spacing = this._getHorizontalSpacing();
 
       // Initialize
       var minWidth=spacing, width=spacing, maxWidth=spacing;
