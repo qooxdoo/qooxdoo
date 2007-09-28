@@ -51,6 +51,9 @@ qx.Class.define("qx.ui2.layout.Grid",
     this._rowData = [];
     this._colData = [];
 
+    this._colSpans = [];
+    this._rowSpans = [];
+
     this._maxRowIndex = 0;
     this._maxColIndex = 0;
   },
@@ -120,6 +123,14 @@ qx.Class.define("qx.ui2.layout.Grid",
         for (var y=0; y<rowSpan; y++) {
           this._setCellData(row + y, column + x, "widget", widget);
         }
+      }
+
+      if (rowSpan > 1) {
+        this._rowSpans.push(widget);
+      }
+
+      if (colSpan > 1) {
+        this._colSpans.push(widget);
       }
 
       this._maxRowIndex = Math.max(this._maxRowIndex, row + rowSpan - 1);
@@ -315,6 +326,89 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    /**
+     * Check whether all row spans fit with their prefferred height into the
+     * preferred row heights. If there is not enough space, the preferred
+     * row sizes are increased. The distribution respects the flex and max
+     * values of the rows.
+     *
+     *  The same is true for the min sizes.
+     *
+     *  The height array is modified in place.
+     *
+     * @param rowHeights {Map[]} The current row height array as computed by
+     *     {@link #_getRowHeights}.
+     */
+    _fixHeightsRowSpan : function(rowHeights)
+    {
+      var vSpacing = this.getVerticalSpacing();
+
+      for (var i=0, l=this._rowSpans.length; i<l; i++)
+      {
+        var widget = this._rowSpans[i];
+        var hint = widget.getSizeHint();
+
+        var widgetRow = widget.getLayoutProperty("grid.row");
+        var widgetRowSpan = widget.getLayoutProperty("grid.rowSpan") || 1;
+
+        var prefSpanHeight = vSpacing * (widgetRowSpan - 1);
+        var minSpanHeight = prefSpanHeight;
+
+        var prefRowFlex = [];
+        var minRowFlex = [];
+
+        for (var j=0; j<widgetRowSpan; j++)
+        {
+          var row = widgetRow+j;
+          var rowHeight = rowHeights[row];
+          var rowFlex = this._getRowData(row).flex;
+
+          // compute flex array for the preferred height
+          prefRowFlex.push({
+            id: row,
+            potential: rowHeight.maxHeight - rowHeight.height,
+            flex: rowFlex
+          });
+          prefSpanHeight += rowHeight.height;
+
+          // compute flex array for the min height
+          minRowFlex.push({
+            id: row,
+            potential: rowHeight.maxHeight - rowHeight.minHeight,
+            flex: rowFlex
+          });
+          minSpanHeight += rowHeight.minHeight;
+        }
+
+        // If there is not enought space for the preferred size
+        // increment the preferred row sizes.
+        if (prefSpanHeight < hint.height)
+        {
+          var rowIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+            prefRowFlex, hint.height - prefSpanHeight
+          );
+
+          for (var j=0; j<widgetRowSpan; j++) {
+            rowHeights[row].height += rowIncrements[widgetRow+j];
+          }
+        }
+
+        // If there is not enought space for the min size
+        // increment the min row sizes.
+        if (minSpanHeight < hint.minHeight)
+        {
+          var rowIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+            minRowFlex, hint.minHeight - minSpanHeight
+          );
+
+          for (var j=0; j<widgetRowSpan; j++) {
+            rowHeights[row].minHeight += rowIncrements[widgetRow+j];
+          }
+        }
+      }
+    },
+
+
     _getRowHeights : function()
     {
       if (this._rowHeights != null) {
@@ -356,8 +450,94 @@ qx.Class.define("qx.ui2.layout.Grid",
         };
 
       }
+
+      this._fixHeightsRowSpan(rowHeights);
+
       this._rowHeights = rowHeights;
       return rowHeights;
+    },
+
+
+    /**
+     * Check whether all col spans fit with their prefferred width into the
+     * preferred column widths. If there is not enough space the preferred
+     * column sizes are increased. The distribution respects the flex and max
+     * values of the columns.
+     *
+     *  The same is true for the min sizes.
+     *
+     *  The width array is modified in place.
+     *
+     * @param colWidths {Map[]} The current column width array as computed by
+     *     {@link #_getColWidths}.
+     */
+    _fixWidthsColSpan : function(colWidths)
+    {
+      var hSpacing = this.getHorizontalSpacing();
+
+      for (var i=0, l=this._colSpans.length; i<l; i++)
+      {
+        var widget = this._colSpans[i];
+        var hint = widget.getSizeHint();
+
+        var widgetColumn = widget.getLayoutProperty("grid.column");
+        var widgetColSpan = widget.getLayoutProperty("grid.colSpan") || 1;
+
+        var prefSpanWidth = hSpacing * (widgetColSpan - 1);
+        var minSpanWidth = prefSpanWidth;
+
+        var prefColFlex = [];
+        var minColFlex = [];
+
+        for (var j=0; j<widgetColSpan; j++)
+        {
+          var col = widgetColumn+j;
+          var colWidth = colWidths[col];
+          var colFlex = this._getColumnData(col).flex;
+
+          // compute flex array for the preferred width
+          prefColFlex.push({
+            id: col,
+            potential: colWidth.maxWidth - colWidth.width,
+            flex: colFlex
+          });
+          prefSpanWidth += colWidth.width;
+
+          // compute flex array for the min width
+          minColFlex.push({
+            id: col,
+            potential: colWidth.maxWidth - colWidth.minWidth,
+            flex: colFlex
+          });
+          minSpanWidth += colWidth.minWidth;
+        }
+
+        // If there is not enought space for the preferred size
+        // increment the preferred column sizes.
+        if (prefSpanWidth < hint.width)
+        {
+          var colIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+            prefColFlex, hint.width - prefSpanWidth
+          );
+
+          for (var j=0; j<widgetColSpan; j++) {
+            colWidths[col].width += colIncrements[widgetColumn+j];
+          }
+        }
+
+        // If there is not enought space for the min size
+        // increment the min column sizes.
+        if (minSpanWidth < hint.minWidth)
+        {
+          var colIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+            minColFlex, hint.minWidth - minSpanWidth
+          );
+
+          for (var j=0; j<widgetColSpan; j++) {
+            colWidths[col].minWidth += colIncrements[widgetColumn+j];
+          }
+        }
+      }
     },
 
 
@@ -402,6 +582,8 @@ qx.Class.define("qx.ui2.layout.Grid",
           maxWidth : Math.max(maxWidth, colData.maxWidth)
         };
       }
+
+      this._fixWidthsColSpan(colWidths);
 
       this._colWidths = colWidths;
       return colWidths;
@@ -524,8 +706,6 @@ qx.Class.define("qx.ui2.layout.Grid",
 
           var widgetRow = cellData.widget.getLayoutProperty("grid.row");
           var widgetColumn = cellData.widget.getLayoutProperty("grid.column");
-          var widgetRowSpan = cellData.widget.getLayoutProperty("grid.rowSpan") || 1;
-          var widgetColSpan = cellData.widget.getLayoutProperty("grid.colSpan") || 1;
 
           // ignore cells, which have cell spanning but are not the origin
           // of the widget
@@ -536,11 +716,13 @@ qx.Class.define("qx.ui2.layout.Grid",
           }
 
           // compute sizes width including cell spanning
+          var widgetColSpan = cellData.widget.getLayoutProperty("grid.colSpan") || 1;
           var spanWidth = hSpacing * (widgetColSpan - 1);
           for (var i=0; i<widgetColSpan; i++) {
             spanWidth += colWidths[col+i];
           }
 
+          var widgetRowSpan = cellData.widget.getLayoutProperty("grid.rowSpan") || 1;
           var spanHeight = vSpacing * (widgetRowSpan - 1);
           for (var i=0; i<widgetRowSpan; i++) {
             spanHeight += rowHeights[row+i];
