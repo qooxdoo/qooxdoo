@@ -113,6 +113,12 @@ qx.Class.define("qx.ui2.layout.HBox",
       var offsets = this._getFlexOffsets(availWidth);
 
 
+      // Support for reversed children
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
+
+
       // Pre compute widths
       var childWidths = [];
       var childWidthSum = 0;
@@ -193,6 +199,8 @@ qx.Class.define("qx.ui2.layout.HBox",
           useMargin = nextMargin;
         } else if (thisMargin) {
           useMargin = thisMargin;
+        } else {
+          useMargin = 0;
         }
 
         childLeft += childWidths[i] + spacing + useMargin;
@@ -208,6 +216,12 @@ qx.Class.define("qx.ui2.layout.HBox",
       var spacing = this.getSpacing() * (length - 1);
       var thisMargin, nextMargin, useMargin;
 
+      // Support for reversed children
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
+
+      // Add margin left of first child (no collapsing here)
       spacing += children[0].getLayoutProperty("hbox.marginLeft") || 0;
 
       if (length > 0)
@@ -225,12 +239,15 @@ qx.Class.define("qx.ui2.layout.HBox",
             useMargin = nextMargin;
           } else if (thisMargin) {
             useMargin = thisMargin;
+          } else {
+            useMargin = 0;
           }
 
           spacing += useMargin;
         }
       }
 
+      // Add margin right of last child (no collapsing here)
       spacing += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
 
       return spacing;
@@ -253,6 +270,10 @@ qx.Class.define("qx.ui2.layout.HBox",
       var minHeight=0, height=0, maxHeight=32000;
       var offset, offsetTop, offsetBottom, align;
 
+      // Support for reversed children
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
 
       // Iterate
       // - sum children width
@@ -314,9 +335,14 @@ qx.Class.define("qx.ui2.layout.HBox",
         return {};
       }
 
-      // collect all flexible children
+      // Collect all flexible children
       var children = this.getChildren();
       var flexibles = [];
+
+      // Support for reversed children
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
 
       for (var i=0, l=children.length; i<l; i++)
       {
