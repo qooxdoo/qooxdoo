@@ -23,41 +23,6 @@ qx.Class.define("testrunner.test.ui2.Layout",
 
   members :
   {
-    testPartition : function()
-    {
-      var numRuns = 500;
-
-      for (var i=0; i<numRuns; i++)
-      {
-        var len = Math.round(Math.random() * 20) + 1;
-        var weights = [];
-        var sumWeights = 0;
-        for (var j=0; j<len; j++) {
-          weights[j] = Math.round(Math.random() * 5);
-          sumWeights += weights[j];
-        }
-        var sum = Math.round(Math.random() * 500);
-
-        var partitions = qx.ui2.layout.Util.computePartitions(sum, weights);
-
-        var partSum = 0;
-        for (var j=0; j<len; j++) {
-          partSum += partitions[j];
-        }
-
-        if (sumWeights > 0) {
-          this.assertEquals(sum, partSum, "The sum of the paritions must match the original value.");
-
-          var unit = sum / sumWeights;
-          for (var j=0; j<len; j++) {
-            var error = partitions[j] - (unit * weights[j]);
-            this.assertTrue(Math.abs(error) <= 1, "The error must be at most one pixel");
-          }
-        }
-      }
-    },
-
-
     testFlex : function()
     {
       var numRuns = 500;
