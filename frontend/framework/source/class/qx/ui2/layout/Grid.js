@@ -390,7 +390,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetRowSpan; j++) {
-            rowHeights[row].height += rowIncrements[widgetRow+j];
+            rowHeights[widgetRow+j].height += rowIncrements[widgetRow+j];
           }
         }
 
@@ -403,7 +403,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetRowSpan; j++) {
-            rowHeights[row].minHeight += rowIncrements[widgetRow+j];
+            rowHeights[widgetRow+j].minHeight += rowIncrements[widgetRow+j];
           }
         }
       }
@@ -473,8 +473,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetColSpan; j++) {
-            colWidths[col].width += colIncrements[widgetColumn+j];
-            console.log(colWidths[col].width, colWidths[col].maxWidth);
+            colWidths[widgetColumn+j].width += colIncrements[widgetColumn+j];
           }
         }
 
@@ -487,7 +486,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetColSpan; j++) {
-            colWidths[col].minWidth += colIncrements[widgetColumn+j];
+            colWidths[widgetColumn+j].minWidth += colIncrements[widgetColumn+j];
           }
         }
       }
