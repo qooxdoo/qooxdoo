@@ -66,11 +66,20 @@ qx.Class.define("qx.ui2.layout.Grid",
 
   properties :
   {
-    spacing :
+    horizontalSpacing :
     {
       check : "Integer",
-      init : 5
+      init : 5,
+      apply : "_applyLayoutChange"
+    },
+
+    verticalSpacing :
+    {
+      check : "Integer",
+      init : 5,
+      apply : "_applyLayoutChange"
     }
+
   },
 
 
@@ -444,7 +453,8 @@ qx.Class.define("qx.ui2.layout.Grid",
     layout : function(width, height)
     {
       var Util = qx.ui2.layout.Util;
-      var spacing = this.getSpacing();
+      var hSpacing = this.getHorizontalSpacing();
+      var vSpacing = this.getVerticalSpacing();
 
       var colWidths = this._getColWidths();
       var colStretchOffsets = this._getColumnFlexOffsets(width);
@@ -482,10 +492,10 @@ qx.Class.define("qx.ui2.layout.Grid",
             cellHeight
           );
 
-          top += height + spacing;
+          top += height + vSpacing;
         }
 
-        left += width + spacing;
+        left += width + hSpacing;
       }
 
     },
@@ -539,8 +549,8 @@ qx.Class.define("qx.ui2.layout.Grid",
         maxHeight += row.maxHeight;
       }
 
-      var spacingX = this.getSpacing() * (colWidths.length - 1);
-      var spacingY = this.getSpacing() * (rowHeights.length - 1);
+      var spacingX = this.getHorizontalSpacing() * (colWidths.length - 1);
+      var spacingY = this.getVerticalSpacing() * (rowHeights.length - 1);
 
       var hint = {
         minWidth : minWidth + spacingX,
