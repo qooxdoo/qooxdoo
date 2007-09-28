@@ -79,97 +79,94 @@ qx.Class.define("qx.ui2.layout.Canvas",
       {
         child = children[i];
 
-        if (!child.isLayoutValid())
-        {
-          childHint = child.getSizeHint();
+        childHint = child.getSizeHint();
 
 
-          // Processing location data
-          childLeft = child.getLayoutProperty("left");
-          childTop = child.getLayoutProperty("top");
-          childRight = child.getLayoutProperty("right");
-          childBottom = child.getLayoutProperty("bottom");
+        // Processing location data
+        childLeft = child.getLayoutProperty("left");
+        childTop = child.getLayoutProperty("top");
+        childRight = child.getLayoutProperty("right");
+        childBottom = child.getLayoutProperty("bottom");
 
-          if (typeof childLeft === "string" && percent.test(childLeft)) {
-            childLeft = Math.round(parseFloat(childLeft) * availWidth / 100);
-          } else if (childLeft != null && typeof childLeft !== "number") {
-            throw new Error("Could not parse percent value for left position: " + childLeft);
-          }
-
-          if (typeof childTop === "string" && percent.test(childTop)) {
-            childTop = Math.round(parseFloat(childTop) * availHeight / 100);
-          } else if (childTop != null && typeof childTop !== "number") {
-            throw new Error("Could not parse percent value for top position: " + childTop);
-          }
-
-          if (typeof childRight === "string" && percent.test(childRight)) {
-            childRight = Math.round(parseFloat(childRight) * availWidth / 100);
-          } else if (childRight != null && typeof childRight !== "number") {
-            throw new Error("Could not parse percent value for right position: " + childRight);
-          }
-
-          if (typeof childBottom === "string" && percent.test(childBottom)) {
-            childBottom = Math.round(parseFloat(childBottom) * availHeight / 100);
-          } else if (childBottom != null && typeof childBottom !== "number") {
-            throw new Error("Could not parse percent value for bottom position: " + childBottom);
-          }
-
-
-          // Processing dimension data
-          childWidth = child.getLayoutProperty("width");
-          childHeight = child.getLayoutProperty("height");
-
-          if (typeof childWidth === "string" && percent.test(childWidth)) {
-            childWidth = Math.round(parseFloat(childWidth) * availWidth / 100);
-          } else if (childWidth != null) {
-            throw new Error("Could not parse percent value for width: " + childWidth);
-          } else {
-            childWidth = childHint.width;
-          }
-
-          if (typeof childHeight === "string" && percent.test(childHeight)) {
-            childHeight = Math.round(parseFloat(childHeight) * availHeight / 100);
-          } else if (childHeight != null) {
-            throw new Error("Could not parse percent value for width: " + childHeight);
-          } else {
-            childHeight = childHint.height;
-          }
-
-
-          // Normalize right
-          if (childRight != null)
-          {
-            if (childLeft != null) {
-              childWidth = availWidth - childLeft - childRight;
-            } else if (childWidth != null) {
-              childLeft = availWidth - childWidth - childRight;
-            } else {
-              throw new Error("Could not lay out child (width missing): ", child);
-            }
-          }
-
-
-          // Normalize bottom
-          if (childBottom != null)
-          {
-            if (childTop != null) {
-              childHeight = availHeight - childTop - childBottom;
-            } else if (childHeight != null) {
-              childTop = availHeight - childHeight - childBottom;
-            } else {
-              throw new Error("Could not lay out child (height missing): ", child);
-            }
-          }
-
-
-
-          // Limit dimensions TODO (min/max)
-
-
-
-          // Layout child
-          child.layout(childLeft, childTop, childWidth, childHeight);
+        if (typeof childLeft === "string" && percent.test(childLeft)) {
+          childLeft = Math.round(parseFloat(childLeft) * availWidth / 100);
+        } else if (childLeft != null && typeof childLeft !== "number") {
+          throw new Error("Could not parse percent value for left position: " + childLeft);
         }
+
+        if (typeof childTop === "string" && percent.test(childTop)) {
+          childTop = Math.round(parseFloat(childTop) * availHeight / 100);
+        } else if (childTop != null && typeof childTop !== "number") {
+          throw new Error("Could not parse percent value for top position: " + childTop);
+        }
+
+        if (typeof childRight === "string" && percent.test(childRight)) {
+          childRight = Math.round(parseFloat(childRight) * availWidth / 100);
+        } else if (childRight != null && typeof childRight !== "number") {
+          throw new Error("Could not parse percent value for right position: " + childRight);
+        }
+
+        if (typeof childBottom === "string" && percent.test(childBottom)) {
+          childBottom = Math.round(parseFloat(childBottom) * availHeight / 100);
+        } else if (childBottom != null && typeof childBottom !== "number") {
+          throw new Error("Could not parse percent value for bottom position: " + childBottom);
+        }
+
+
+        // Processing dimension data
+        childWidth = child.getLayoutProperty("width");
+        childHeight = child.getLayoutProperty("height");
+
+        if (typeof childWidth === "string" && percent.test(childWidth)) {
+          childWidth = Math.round(parseFloat(childWidth) * availWidth / 100);
+        } else if (childWidth != null) {
+          throw new Error("Could not parse percent value for width: " + childWidth);
+        } else {
+          childWidth = childHint.width;
+        }
+
+        if (typeof childHeight === "string" && percent.test(childHeight)) {
+          childHeight = Math.round(parseFloat(childHeight) * availHeight / 100);
+        } else if (childHeight != null) {
+          throw new Error("Could not parse percent value for width: " + childHeight);
+        } else {
+          childHeight = childHint.height;
+        }
+
+
+        // Normalize right
+        if (childRight != null)
+        {
+          if (childLeft != null) {
+            childWidth = availWidth - childLeft - childRight;
+          } else if (childWidth != null) {
+            childLeft = availWidth - childWidth - childRight;
+          } else {
+            throw new Error("Could not lay out child (width missing): ", child);
+          }
+        }
+
+
+        // Normalize bottom
+        if (childBottom != null)
+        {
+          if (childTop != null) {
+            childHeight = availHeight - childTop - childBottom;
+          } else if (childHeight != null) {
+            childTop = availHeight - childHeight - childBottom;
+          } else {
+            throw new Error("Could not lay out child (height missing): ", child);
+          }
+        }
+
+
+
+        // Limit dimensions TODO (min/max)
+
+
+
+        // Layout child
+        child.layout(childLeft, childTop, childWidth, childHeight);
       }
     },
 
