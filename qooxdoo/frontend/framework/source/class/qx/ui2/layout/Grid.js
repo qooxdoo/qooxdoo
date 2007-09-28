@@ -26,6 +26,7 @@
  *   <li>flex values for rows and columns</li>
  *   <li>minimal and maximal column and row sizes</li>
  *   <li>horizontal and vertical alignment</li>
+ *   <li>col/row spans</li>
  * </ul>
  */
 qx.Class.define("qx.ui2.layout.Grid",
@@ -279,20 +280,20 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._setRowData(row, "flex", flex);
     },
 
-    setColumnMaxWidth : function(maxWidth) {
+    setColumnMaxWidth : function(column, maxWidth) {
       this._setColumnData(column, "maxWidth", maxWidth);
     },
 
-    setColumnMinWidth : function(minWidth) {
+    setColumnMinWidth : function(column, minWidth) {
       this._setColumnData(column, "minWidth", minWidth);
     },
 
-    setRowMaxHeight : function(maxHeight) {
-      this._setRowData(column, "maxHeight", maxHeight);
+    setRowMaxHeight : function(row, maxHeight) {
+      this._setRowData(row, "maxHeight", maxHeight);
     },
 
-    setRowMinHeight : function(minHeight) {
-      this._setRowData(column, "minHeight", minHeight);
+    setRowMinHeight : function(row, minHeight) {
+      this._setRowData(row, "minHeight", minHeight);
     },
 
 
@@ -409,55 +410,6 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
-    _getRowHeights : function()
-    {
-      if (this._rowHeights != null) {
-        return this._rowHeights;
-      }
-
-      var rowHeights = [];
-
-      for (var row=0; row<=this._maxRowIndex; row++)
-      {
-        var minHeight = 0;
-        var height = 0;
-        var maxHeight = 0;
-
-        for (var col=0; col<=this._maxColIndex; col++)
-        {
-          var cellData = this.getCellData(row, col);
-          if (!cellData.widget) {
-            continue;
-          }
-
-          var widgetRowSpan = cellData.widget.getLayoutProperty("grid.rowSpan") || 1;
-          if (widgetRowSpan > 1) {
-            continue;
-          }
-
-          var cellSize = cellData.widget.getSizeHint();
-          minHeight = Math.max(minHeight, cellSize.minHeight);
-          height = Math.max(height, cellSize.height);
-          maxHeight = Math.max(maxHeight, cellSize.maxHeight);
-        }
-
-        var rowData = this._getRowData(row);
-
-        rowHeights[row] = {
-          minHeight : Math.max(minHeight, rowData.minHeight),
-          height : height,
-          maxHeight : Math.min(maxHeight, rowData.maxHeight)
-        };
-
-      }
-
-      this._fixHeightsRowSpan(rowHeights);
-
-      this._rowHeights = rowHeights;
-      return rowHeights;
-    },
-
-
     /**
      * Check whether all col spans fit with their prefferred width into the
      * preferred column widths. If there is not enough space the preferred
@@ -522,6 +474,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
           for (var j=0; j<widgetColSpan; j++) {
             colWidths[col].width += colIncrements[widgetColumn+j];
+            console.log(colWidths[col].width, colWidths[col].maxWidth);
           }
         }
 
@@ -538,6 +491,59 @@ qx.Class.define("qx.ui2.layout.Grid",
           }
         }
       }
+    },
+
+
+    _getRowHeights : function()
+    {
+      if (this._rowHeights != null) {
+        return this._rowHeights;
+      }
+
+      var rowHeights = [];
+
+      for (var row=0; row<=this._maxRowIndex; row++)
+      {
+        var minHeight = 0;
+        var height = 0;
+        var maxHeight = 0;
+
+        for (var col=0; col<=this._maxColIndex; col++)
+        {
+          var cellData = this.getCellData(row, col);
+          if (!cellData.widget) {
+            continue;
+          }
+
+          var widgetRowSpan = cellData.widget.getLayoutProperty("grid.rowSpan") || 1;
+          if (widgetRowSpan > 1) {
+            continue;
+          }
+
+          var cellSize = cellData.widget.getSizeHint();
+          minHeight = Math.max(minHeight, cellSize.minHeight);
+          height = Math.max(height, cellSize.height);
+          maxHeight = Math.max(maxHeight, cellSize.maxHeight);
+        }
+
+        var rowData = this._getRowData(row);
+
+        var minHeight = Math.max(minHeight, rowData.minHeight);
+        var maxHeight = Math.min(maxHeight, rowData.maxHeight);
+        var height = Math.max(minHeight, Math.min(height, maxHeight));
+
+        rowHeights[row] = {
+          minHeight : minHeight,
+          height : height,
+          maxHeight : maxHeight
+        };
+
+      }
+
+      this._fixHeightsRowSpan(rowHeights);
+
+      this._rowHeights = rowHeights;
+      return rowHeights;
     },
 
 
@@ -576,10 +582,14 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         var colData = this._getColumnData(col);
 
+        var minWidth = Math.max(minWidth, colData.minWidth);
+        var maxWidth = Math.min(maxWidth, colData.maxWidth);
+        var width = Math.max(minWidth, Math.min(width, maxWidth));
+
         colWidths[col] = {
-          minWidth: Math.max(minWidth, colData.minWidth),
+          minWidth: minWidth,
           width : width,
-          maxWidth : Math.max(maxWidth, colData.maxWidth)
+          maxWidth : maxWidth
         };
       }
 
@@ -605,7 +615,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       for (var i=0, l=colWidths.length; i<l; i++)
       {
-        col = colWidths[i];
+        var col = colWidths[i];
 
         if (col.width == col.maxWidth && col.Width == col.minWidth) {
           continue;
@@ -642,7 +652,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
-        row = rowHeights[i];
+        var row = rowHeights[i];
 
         if (row.height == row.maxHeight && row.Height == row.minHeight) {
           continue;
@@ -682,7 +692,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       // calculate row heights
       var prefHeights = this._getRowHeights();
       var rowStretchOffsets = this._getRowFlexOffsets(height);
-      rowHeights = [];
+      var rowHeights = [];
       for (var row=0; row<=this._maxRowIndex; row++) {
         rowHeights[row] = prefHeights[row].height + (rowStretchOffsets[row] || 0);
       }
