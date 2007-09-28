@@ -18,6 +18,18 @@
 
 ************************************************************************ */
 
+/**
+ * A full feature horizontal box layout.
+ *
+ * Supports:
+ *
+ * * Integer dimensions (using widget properties)
+ * * Min and max dimensions (using widget properties)
+ * * Priorized stretching (flex) (using layout properties)
+ * * Margins for left and right with margin collapsing support (using layout properties)
+ * * Offset for top and bottom which behaves like relative positioned elements in CSS. (moving from the calculated baseline)
+ * * Auto size, including support for margin & spacing, but excluding offsets.
+ */
 qx.Class.define("qx.ui2.layout.HBox",
 {
   extend : qx.ui2.layout.Abstract,
@@ -87,6 +99,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       var align = this.getAlign();
       var child, childHint;
       var childHeight, childAlign, childTop, childLeft;
+      var childTop, childBottom;
 
 
       // Get flex offsets
@@ -101,9 +114,8 @@ qx.Class.define("qx.ui2.layout.HBox",
         child = children[i];
 
         childHint = child.getSizeHint();
-        childWidth = childHint.width + (offsets[i] || 0);
-        childWidths[i] = childWidth;
-        childWidthSum += childWidth;
+        childWidths[i] = childHint.width + (offsets[i] || 0);
+        childWidthSum += childWidths[i];
       }
 
 
@@ -127,14 +139,24 @@ qx.Class.define("qx.ui2.layout.HBox",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childWidth = childWidths[i];
 
         if (childLeft < availWidth)
         {
-          // Get top position (through alignment)
+          // Read child data
           childHeight = child.getSizeHint().height;
-          childAlign = child.getLayoutProperty("hbox.align") || "top";
+          childAlign = child.getLayoutProperty("hbox.align");
+          childRelTop = child.getLayoutProperty("hbox.top");
+          childRelBottom = child.getLayoutProperty("hbox.bottom");
+
+          // Respect vertical alignment
           childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(childAlign, childHeight, availHeight);
+
+          // Apply offset
+          if (childRelTop) {
+            childTop += childRelTop;
+          } else if (childRelBottom) {
+            childTop -= childRelBottom;
+          }
 
           // Layout child
           child.layout(childLeft + childAlignOffset, childTop, childWidths[i], childHeight);
@@ -200,6 +222,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Initialize
       var minWidth=spacing, width=spacing, maxWidth=spacing;
       var minHeight=0, height=0, maxHeight=32000;
+      var offset, offsetTop, offsetBottom, align;
 
 
       // Iterate
