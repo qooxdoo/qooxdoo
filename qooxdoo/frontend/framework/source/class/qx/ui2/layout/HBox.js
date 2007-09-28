@@ -26,9 +26,16 @@
  * * Integer dimensions (using widget properties)
  * * Min and max dimensions (using widget properties)
  * * Priorized stretching (flex) (using layout properties)
- * * Margins for left and right with margin collapsing support (using layout properties)
- * * Offset for top and bottom which behaves like relative positioned elements in CSS. (moving from the calculated baseline)
- * * Auto size, including support for margin & spacing, but excluding offsets.
+ * * Respect for min and max dimensions is included
+ * * Intelligent fallbacks make it possible to have nearly unconfigured (but already working) horizontal boxes.
+ * * Margins (even negative ones) for left and right with margin collapsing support. (using layout properties)
+ * * Offset for top and bottom which behaves like relative positioned elements in CSS. (using layout properties)
+ * * Auto sizing, including support for margin & spacing.
+ *
+ * Notes:
+ *
+ * * Offsets are not respected by auto-sizing
+ * * The top offset wins when both, top and bottom are defined (like in CSS)
  */
 qx.Class.define("qx.ui2.layout.HBox",
 {
