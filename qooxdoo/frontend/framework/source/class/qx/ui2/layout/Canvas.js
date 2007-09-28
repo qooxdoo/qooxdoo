@@ -62,7 +62,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
     add : function(widget, left, top, right, bottom)
     {
       this.base(arguments, widget);
-      this._importProperties(widget, arguments, "left", "top", "right", "bottom");
+      this._importProperties(widget, arguments, "canvas.left", "canvas.top", "canvas.right", "canvas.bottom");
     },
 
 
@@ -83,10 +83,10 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
         // Processing location data
-        childLeft = child.getLayoutProperty("left");
-        childTop = child.getLayoutProperty("top");
-        childRight = child.getLayoutProperty("right");
-        childBottom = child.getLayoutProperty("bottom");
+        childLeft = child.getLayoutProperty("canvas.left");
+        childTop = child.getLayoutProperty("canvas.top");
+        childRight = child.getLayoutProperty("canvas.right");
+        childBottom = child.getLayoutProperty("canvas.bottom");
 
         if (typeof childLeft === "string" && percent.test(childLeft)) {
           childLeft = Math.round(parseFloat(childLeft) * availWidth / 100);
@@ -114,8 +114,8 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
         // Processing dimension data
-        childWidth = child.getLayoutProperty("width");
-        childHeight = child.getLayoutProperty("height");
+        childWidth = child.getLayoutProperty("canvas.width");
+        childHeight = child.getLayoutProperty("canvas.height");
 
         if (typeof childWidth === "string" && percent.test(childWidth)) {
           childWidth = Math.round(parseFloat(childWidth) * availWidth / 100);
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     setWidth : function(widget, value)
     {
-      widget.addLayoutProperty("width", value);
+      widget.addLayoutProperty("canvas.width", value);
       return this;
     },
 
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     resetWidth : function(widget)
     {
-      widget.removeLayoutProperty("width");
+      widget.removeLayoutProperty("canvas.width");
       return this;
     },
 
@@ -226,7 +226,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * @return {String|null} The currently configured width
      */
     getWidth : function(widget) {
-      return widget.getLayoutProperty("width");
+      return widget.getLayoutProperty("canvas.width");
     },
 
 
@@ -242,7 +242,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     setHeight : function(widget, value)
     {
-      widget.addLayoutProperty("height", value);
+      widget.addLayoutProperty("canvas.height", value);
       return this;
     },
 
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     resetHeight : function(widget)
     {
-      widget.removeLayoutProperty("height");
+      widget.removeLayoutProperty("canvas.height");
       return this;
     },
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * @return {String|null} The currently configured height
      */
     getHeight : function(widget) {
-      return widget.getLayoutProperty("height");
+      return widget.getLayoutProperty("canvas.height");
     },
 
 
@@ -292,7 +292,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     setLeft : function(widget, value)
     {
-      widget.addLayoutProperty("left", value);
+      widget.addLayoutProperty("canvas.left", value);
       return this;
     },
 
@@ -306,7 +306,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     resetLeft : function(widget)
     {
-      widget.removeLayoutProperty("left");
+      widget.removeLayoutProperty("canvas.left");
       return this;
     },
 
@@ -319,7 +319,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * @return {String|Integer|null} The currently configured left position
      */
     getLeft : function(widget) {
-      return widget.getLayoutProperty("left");
+      return widget.getLayoutProperty("canvas.left");
     },
 
 
@@ -343,7 +343,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     setTop : function(widget, value)
     {
-      widget.addLayoutProperty("top", value);
+      widget.addLayoutProperty("canvas.top", value);
       return this;
     },
 
@@ -357,7 +357,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     resetTop : function(widget)
     {
-      widget.removeLayoutProperty("top");
+      widget.removeLayoutProperty("canvas.top");
       return this;
     },
 
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * @return {String|Integer|null} The currently configured top position
      */
     getTop : function(widget) {
-      return widget.getLayoutProperty("top");
+      return widget.getLayoutProperty("canvas.top");
     },
 
 
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     setRight : function(widget, value)
     {
-      widget.addLayoutProperty("right", value);
+      widget.addLayoutProperty("canvas.right", value);
       return this;
     },
 
@@ -407,7 +407,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     resetRight : function(widget)
     {
-      widget.removeLayoutProperty("right");
+      widget.removeLayoutProperty("canvas.right");
       return this;
     },
 
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * @return {String|Integer|null} The currently configured right position
      */
     getRight : function(widget) {
-      return widget.getLayoutProperty("right");
+      return widget.getLayoutProperty("canvas.right");
     },
 
 
@@ -442,7 +442,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     setBottom : function(widget, value)
     {
-      widget.addLayoutProperty("bottom", value);
+      widget.addLayoutProperty("canvas.bottom", value);
       return this;
     },
 
@@ -456,7 +456,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      */
     resetBottom : function(widget)
     {
-      widget.removeLayoutProperty("bottom");
+      widget.removeLayoutProperty("canvas.bottom");
       return this;
     },
 
@@ -469,7 +469,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * @return {String|Integer|null} The currently configured bottom position
      */
     getBottom : function(widget) {
-      return widget.getLayoutProperty("bottom");
+      return widget.getLayoutProperty("canvas.bottom");
     }
   }
 });
