@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ *
+ */
 qx.Class.define("qx.ui2.layout.Basic",
 {
   extend : qx.ui2.layout.Abstract,
@@ -105,23 +108,18 @@ qx.Class.define("qx.ui2.layout.Basic",
 
 
       // Limit to integer range
-      minWidth = Math.min(32000, Math.max(0, minWidth));
       width = Math.min(32000, Math.max(0, width));
-      maxWidth = Math.min(32000, Math.max(0, maxWidth));
-
-      minHeight = Math.min(32000, Math.max(0, minHeight));
       height = Math.min(32000, Math.max(0, height));
-      maxHeight = Math.min(32000, Math.max(0, maxHeight));
 
 
       // Build hint
       var hint = {
-        minWidth : minWidth,
+        minWidth : width,
         width : width,
-        maxWidth : maxWidth,
-        minHeight : minHeight,
+        maxWidth : 32000,
+        minHeight : height,
         height : height,
-        maxHeight : maxHeight
+        maxHeight : 32000
       };
 
       this.debug("Computed size hint: ", hint);

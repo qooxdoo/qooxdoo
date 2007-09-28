@@ -82,6 +82,7 @@ qx.Class.define("qx.ui2.root.Application",
       if (mgr) {
         mgr.layout(width, height);
       }
+      this.markLayoutValid();
     },
 
 

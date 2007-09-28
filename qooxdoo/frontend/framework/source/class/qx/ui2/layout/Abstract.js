@@ -297,7 +297,16 @@ qx.Class.define("qx.ui2.layout.Abstract",
           this._addToParent(children[i]);
         }
       }
-    }
+    },
+
+
+    /**
+     * Generic property apply method for all layout relevant properties.
+     */
+    _applyLayoutChange : function()
+    {
+      this.invalidateLayout();
+    },
   },
 
 
