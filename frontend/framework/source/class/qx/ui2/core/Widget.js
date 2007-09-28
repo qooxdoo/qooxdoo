@@ -1059,13 +1059,13 @@ qx.Class.define("qx.ui2.core.Widget",
           if (minWidth === "auto") {
             minWidth = contentHint.minWidth + insetX;
           } else if (minWidth === "pref") {
-            minWidth = contentHint.width + insetX;
+            minWidth = width;
           }
 
           if (maxWidth === "auto") {
             maxWidth = contentHint.maxWidth + insetX;
           } else if (maxWidth === "pref") {
-            maxWidth = contentHint.width + insetX;
+            maxWidth = width;
           }
         }
         else
@@ -1106,13 +1106,13 @@ qx.Class.define("qx.ui2.core.Widget",
           if (minHeight === "auto") {
             minHeight = contentHint.minHeight + insetY;
           } else if (minHeight === "pref") {
-            minHeight = contentHint.height + insetY;
+            minHeight = height;
           }
 
           if (maxHeight === "auto") {
             maxHeight = contentHint.maxHeight + insetY;
           } else if (maxHeight === "pref") {
-            maxHeight = contentHint.height + insetY;
+            maxHeight = height;
           }
         }
         else
