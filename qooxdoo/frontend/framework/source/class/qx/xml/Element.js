@@ -159,7 +159,7 @@ qx.Class.define("qx.xml.Element",
         var doc = element.ownerDocument || element;
         doc.setProperty("SelectionLanguage", "XPath");
         doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
-        return qx.xml.Element.selectNodes(element, '//ns:' + tagname);
+        return qx.xml.Element.selectNodes(element, 'descendant-or-self::ns:' + tagname);
       }
     }),
 
