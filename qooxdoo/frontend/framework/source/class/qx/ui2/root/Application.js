@@ -56,7 +56,7 @@ qx.Class.define("qx.ui2.root.Application",
 
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
-    this._onResize();
+    qx.ui2.core.LayoutQueue.add(this);
   },
 
 
@@ -109,14 +109,20 @@ qx.Class.define("qx.ui2.root.Application",
     {
       this.invalidate();
       qx.ui2.core.LayoutQueue.add(this);
+
+      // TODO: Temporary flush
+      qx.ui2.core.LayoutQueue.flush();
     },
 
 
     // overridden
     invalidate : function()
     {
-      this.debug("Clear layout cache.");
-      this._sizeHint = null;
+      if (this._sizeHint)
+      {
+        this.debug("Clear layout cache.");
+        this._sizeHint = null;
+      }
     },
 
 
