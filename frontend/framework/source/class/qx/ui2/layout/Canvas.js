@@ -134,15 +134,24 @@ qx.Class.define("qx.ui2.layout.Canvas",
         }
 
 
+        // Limit dimensions to min/max dimensions
+        childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
+        childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
+
+
         // Normalize right
         if (childRight != null)
         {
-          if (childLeft != null) {
+          if (childLeft != null)
+          {
             childWidth = availWidth - childLeft - childRight;
-          } else if (childWidth != null) {
+
+            // Re-apply limit
+            childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
+          }
+          else if (childWidth != null)
+          {
             childLeft = availWidth - childWidth - childRight;
-          } else {
-            throw new Error("Could not lay out child (width missing): ", child);
           }
         }
 
@@ -150,19 +159,18 @@ qx.Class.define("qx.ui2.layout.Canvas",
         // Normalize bottom
         if (childBottom != null)
         {
-          if (childTop != null) {
+          if (childTop != null)
+          {
             childHeight = availHeight - childTop - childBottom;
-          } else if (childHeight != null) {
+
+            // Re-apply limit
+            childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
+          }
+          else if (childHeight != null)
+          {
             childTop = availHeight - childHeight - childBottom;
-          } else {
-            throw new Error("Could not lay out child (height missing): ", child);
           }
         }
-
-
-
-        // Limit dimensions TODO (min/max)
-
 
 
         // Layout child
