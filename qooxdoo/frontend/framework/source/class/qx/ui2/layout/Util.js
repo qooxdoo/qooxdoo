@@ -22,6 +22,53 @@ qx.Class.define("qx.ui2.layout.Util",
 {
   statics :
   {
+
+    partition : function(sum, weights)
+    {
+      var partitions = [];
+      var numParts = weights.length;
+
+      var weightSum = 0;
+      for (var i=0; i<numParts; i++) {
+        weightSum += weights[i];
+      }
+
+      // nothing to partition
+      if (weightSum == 0 || sum == 0)
+      {
+        for (var i=0; i<numParts; i++) {
+          partitions[i] = 0;
+        }
+        return partitions;
+      }
+
+      var unit = sum / weightSum;
+      var roundingError = 0;
+
+
+      for (var i=0; i<numParts; i++)
+      {
+        var partition = weights[i] * unit;
+        var roundedPartition = Math.ceil(partition);
+
+        roundingError += roundedPartition - partition;
+        while (roundingError >= 1)
+        {
+          roundingError -= 1;
+          roundedPartition -= 1;
+        }
+
+        partitions[i] = roundedPartition;
+      }
+
+      if (Math.round(roundingError) >= 1) {
+        partitions[numParts-1] -= 1;
+      }
+
+      return partitions;
+    },
+
+
     computeFlexOffsets : function(flexibles, spaceDifference)
     {
       var child;
