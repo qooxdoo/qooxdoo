@@ -27,8 +27,6 @@ qx.Class.define("qx.ui2.layout.Basic",
 
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -90,55 +88,43 @@ qx.Class.define("qx.ui2.layout.Basic",
 
       var children = this.getChildren();
       var child, childHint, childLeft, childTop;
-      var width=0, height=0;
+      var childWidth=0, childHeight=0;
 
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childHint = child.getSizeHint();
 
+        childHint = child.getSizeHint();
         childLeft = child.getLayoutProperty("left") || 0;
         childTop = child.getLayoutProperty("top") || 0;
 
-        width = Math.max(width, childLeft + childHint.width);
-        height = Math.max(height, childTop + childHint.height);
+        childWidth = Math.max(childWidth, childLeft + childHint.width);
+        childHeight = Math.max(childHeight, childTop + childHint.height);
       }
 
 
-      // Limit to integer range
-      width = Math.min(32000, Math.max(0, width));
-      height = Math.min(32000, Math.max(0, height));
+      // Limit dimensions to min/max dimensions
+      childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
+      childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
+
 
 
       // Build hint
       var hint = {
-        minWidth : width,
-        width : width,
+        minWidth : childWidth,
+        width : childWidth,
         maxWidth : 32000,
-        minHeight : height,
-        height : height,
+        minHeight : childHeight,
+        height : childHeight,
         maxHeight : 32000
       };
 
+
+      // Return hint
       this.debug("Computed size hint: ", hint);
       return this._sizeHint = hint;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-
-
   }
 });

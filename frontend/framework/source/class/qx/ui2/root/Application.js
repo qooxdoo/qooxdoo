@@ -75,6 +75,7 @@ qx.Class.define("qx.ui2.root.Application",
       return true;
     },
 
+
     // overridden
     layout : function(left, top, width, height)
     {
@@ -126,6 +127,7 @@ qx.Class.define("qx.ui2.root.Application",
     },
 
 
+    // overridden
     getSizeHint : function()
     {
       if (this._sizeHint) {

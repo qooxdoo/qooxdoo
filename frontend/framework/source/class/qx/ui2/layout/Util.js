@@ -22,7 +22,6 @@ qx.Class.define("qx.ui2.layout.Util",
 {
   statics :
   {
-
     partition : function(sum, weights)
     {
       var partitions = [];
