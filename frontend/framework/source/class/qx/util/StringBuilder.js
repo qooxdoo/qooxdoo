@@ -45,8 +45,8 @@ qx.List.define("qx.util.StringBuilder",
     MEMBERS
   *****************************************************************************
   */
-    
-  members : 
+
+  members :
   {
     /**
      * Removes all content
@@ -57,7 +57,7 @@ qx.List.define("qx.util.StringBuilder",
     clear : function() {
       this.length = 0;
     },
-    
+
 
     /**
      * Returns the concatted strings.
@@ -68,7 +68,7 @@ qx.List.define("qx.util.StringBuilder",
     get : function() {
       return this.join("");
     },
-    
+
 
     /**
      * Adds new strings.
@@ -79,7 +79,7 @@ qx.List.define("qx.util.StringBuilder",
      * @return {void}
      */
     add : null,
-    
+
 
     /**
      * Whether the string builder is empty
@@ -89,19 +89,21 @@ qx.List.define("qx.util.StringBuilder",
      */
     isEmpty : function() {
       return this.length === 0;
-    }    
+    }
   },
-  
-  
-  
+
+
+
 
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
-  */  
-  
-  defer : function(statics, members) {
+  */
+
+  defer : function(statics, members)
+  {
     members.add = members.push;
-  } 
+    members.toString = members.get;
+  }
 });
