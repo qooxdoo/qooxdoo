@@ -93,22 +93,43 @@ qx.Class.define("qx.ui2.layout.Grid",
 
   members :
   {
-    // overridden
-    add : function(widget, row, column)
+    /**
+     * Add a widget to the grid at the given cell coordinates
+     *
+     * @param widget {qx.ui2.core.Widget} The widget to add
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     * @param rowSpan {Integer?1} How many rows the widget should span
+     * @param colSpan {Integer?1} How many columns the widget should span
+     */
+    add : function(widget, row, column, rowSpan, colSpan)
     {
+      // validate arguments
       var cellData = this.getCellData(row, column);
       if (cellData.widget !== undefined) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
       }
+      if (row === undefined || column === undefined) {
+        throw new Error("The arguments 'row' and 'column' must be defined!");
+      }
+
+      var rowSpan = rowSpan || 1;
+      var colSpan = colSpan || 1;
+
+      for (var x=0; x<colSpan; x++) {
+        for (var y=0; y<rowSpan; y++) {
+          this._setCellData(row + y, column + x, "widget", widget);
+        }
+      }
+
+      this._maxRowIndex = Math.max(this._maxRowIndex, row + rowSpan - 1);
+      this._maxColIndex = Math.max(this._maxColIndex, column + colSpan - 1);
 
       this.base(arguments, widget);
-
-      this._importProperties(widget, arguments, "row", "column");
-
-      this._setCellData(row ,column, "widget", widget);
-
-      this._maxRowIndex = Math.max(this._maxRowIndex, row);
-      this._maxColIndex = Math.max(this._maxColIndex, column);
+      this._importProperties(
+        widget, arguments,
+        "grid.row", "grid.column", "grid.rowSpan", "grid.colSpan"
+      );
     },
 
 
@@ -310,11 +331,17 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         for (var col=0; col<=this._maxColIndex; col++)
         {
-          var cell = this.getCellData(row, col).widget;
-          if (!cell) {
+          var cellData = this.getCellData(row, col);
+          if (!cellData.widget) {
             continue;
           }
-          var cellSize = cell.getSizeHint();
+
+          var widgetRowSpan = cellData.widget.getLayoutProperty("grid.rowSpan") || 1;
+          if (widgetRowSpan > 1) {
+            continue;
+          }
+
+          var cellSize = cellData.widget.getSizeHint();
           minHeight = Math.max(minHeight, cellSize.minHeight);
           height = Math.max(height, cellSize.height);
           maxHeight = Math.max(maxHeight, cellSize.maxHeight);
@@ -350,11 +377,17 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         for (var row=0; row<=this._maxRowIndex; row++)
         {
-          var cell = this.getCellData(row, col).widget;
-          if (!cell) {
+          var cellData = this.getCellData(row, col);
+          if (!cellData.widget) {
             continue;
           }
-          var cellSize = cell.getSizeHint();
+
+          var widgetColSpan = cellData.widget.getLayoutProperty("grid.colSpan") || 1;
+          if (widgetColSpan > 1) {
+            continue;
+          }
+
+          var cellSize = cellData.widget.getSizeHint();
 
           minWidth = Math.max(minWidth, cellSize.minWidth);
           width = Math.max(width, cellSize.width);
@@ -456,34 +489,70 @@ qx.Class.define("qx.ui2.layout.Grid",
       var hSpacing = this.getHorizontalSpacing();
       var vSpacing = this.getVerticalSpacing();
 
-      var colWidths = this._getColWidths();
+      // calculate column widths
+      var prefWidths = this._getColWidths();
       var colStretchOffsets = this._getColumnFlexOffsets(width);
+      var colWidths = [];
+      for (var col=0; col<=this._maxColIndex; col++) {
+        colWidths[col] = prefWidths[col].width + (colStretchOffsets[col] || 0);
+      }
 
-      var rowHeights = this._getRowHeights();
+      // calculate row heights
+      var prefHeights = this._getRowHeights();
       var rowStretchOffsets = this._getRowFlexOffsets(height);
+      rowHeights = [];
+      for (var row=0; row<=this._maxRowIndex; row++) {
+        rowHeights[row] = prefHeights[row].height + (rowStretchOffsets[row] || 0);
+      }
 
       // do the layout
       var left = 0;
       for (var col=0; col<=this._maxColIndex; col++)
       {
         var top = 0;
-        var width = colWidths[col].width + (colStretchOffsets[col] || 0);
 
         for (var row=0; row<=this._maxRowIndex; row++)
         {
           var cellData = this.getCellData(row, col);
-          if (!cellData.widget) {
+
+          // ignore empty cells
+          if (!cellData.widget)
+          {
+            top += rowHeights[row] + vSpacing;
             continue;
           }
 
-          var height = rowHeights[row].height + (rowStretchOffsets[row] || 0);
+          var widgetRow = cellData.widget.getLayoutProperty("grid.row");
+          var widgetColumn = cellData.widget.getLayoutProperty("grid.column");
+          var widgetRowSpan = cellData.widget.getLayoutProperty("grid.rowSpan") || 1;
+          var widgetColSpan = cellData.widget.getLayoutProperty("grid.colSpan") || 1;
+
+          // ignore cells, which have cell spanning but are not the origin
+          // of the widget
+          if(widgetRow !== row || widgetColumn !== col)
+          {
+            top += rowHeights[row] + vSpacing;
+            continue;
+          }
+
+          // compute sizes width including cell spanning
+          var spanWidth = hSpacing * (widgetColSpan - 1);
+          for (var i=0; i<widgetColSpan; i++) {
+            spanWidth += colWidths[col+i];
+          }
+
+          var spanHeight = vSpacing * (widgetRowSpan - 1);
+          for (var i=0; i<widgetRowSpan; i++) {
+            spanHeight += rowHeights[row+i];
+          }
 
           var cellHint = cellData.widget.getSizeHint();
 
-          var cellWidth = Math.min(width, cellHint.maxWidth);
-          var cellHeight = Math.min(height, cellHint.maxHeight);
-          var cellLeft = left + Util.computeHorizontalAlignOffset(cellData.hAlign, cellWidth, width);
-          var cellTop = top + Util.computeVerticalAlignOffset(cellData.vAlign, cellHeight, height);
+          var cellWidth = Math.min(spanWidth, cellHint.maxWidth);
+          var cellHeight = Math.min(spanHeight, cellHint.maxHeight);
+
+          var cellLeft = left + Util.computeHorizontalAlignOffset(cellData.hAlign, cellWidth, spanWidth);
+          var cellTop = top + Util.computeVerticalAlignOffset(cellData.vAlign, cellHeight, spanHeight);
 
           cellData.widget.layout(
             cellLeft,
@@ -492,10 +561,10 @@ qx.Class.define("qx.ui2.layout.Grid",
             cellHeight
           );
 
-          top += height + vSpacing;
+          top += rowHeights[row] + vSpacing;
         }
 
-        left += width + hSpacing;
+        left += colWidths[col] + hSpacing;
       }
 
     },
