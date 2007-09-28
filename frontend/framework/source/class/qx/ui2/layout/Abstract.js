@@ -306,7 +306,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     _applyLayoutChange : function()
     {
       this.invalidateLayout();
-    },
+    }
   },
 
 
