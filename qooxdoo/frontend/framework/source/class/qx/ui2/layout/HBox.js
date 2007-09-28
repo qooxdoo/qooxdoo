@@ -84,32 +84,58 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       // Initialize
       var children = this.getChildren();
+      var align = this.getAlign();
       var child, childHint;
       var childHeight, childAlign, childTop, childLeft=0;
+      var childAlignOffset = 0;
+      var childWidths = [];
+      var childWidthSum = 0;
+      var spacingSum = this.getSpacing() * (children.length - 1);
 
 
       // Get flex offsets
       var offsets = this._getFlexOffsets(availWidth);
 
 
-      // Iterate
-      var spacing = this.getSpacing();
+      // Pre compute widths
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
         childHint = child.getSizeHint();
         childWidth = childHint.width + (offsets[i] || 0);
+        childWidths[i] = childWidth;
+        childWidthSum += childWidth;
+      }
+
+
+      // Calculate horizontal alignment offset
+      if (align != "left" && (childWidthSum + spacingSum) < availWidth)
+      {
+        childAlignOffset = availWidth - childWidthSum - spacingSum;
+
+        if (align === "center") {
+          childAlignOffset = Math.round(childAlignOffset / 2);
+        }
+      }
+
+
+      // Iterate over children
+      var spacing = this.getSpacing();
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+        childWidth = childWidths[i];
 
         if (childLeft < availWidth)
         {
           // Get top position (through alignment)
-          childHeight = childHint.height;
+          childHeight = child.getSizeHint().height;
           childAlign = child.getLayoutProperty("hbox.align") || "top";
           childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(childAlign, childHeight, availHeight);
 
           // Layout child
-          child.layout(childLeft, childTop, childWidth, childHeight);
+          child.layout(childLeft + childAlignOffset, childTop, childWidths[i], childHeight);
           child.include();
         }
         else
@@ -118,7 +144,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           child.exclude();
         }
 
-        childLeft += childWidth + spacing;
+        childLeft += childWidths[i] + spacing;
       }
     },
 
