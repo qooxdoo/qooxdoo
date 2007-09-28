@@ -26,6 +26,7 @@
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/testrunner.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/buildtool.mk
 
 
 
@@ -557,6 +558,28 @@ endif
 ifndef APPLICATION_TEST_PATH
   APPLICATION_TEST_PATH = ./test
 endif
+ 
+#
+# The folder that will contain assorted tools (e.g. buildtool) that can be
+# generated for the current application, defined from the directory which
+# contains the Makefile (if defined relatively). This is the destination folder
+# for targets like "make buildtool", which will create its own subfolder.  The
+# default is ./tool.
+#
+ifndef APPLICATION_TOOL_PATH
+  APPLICATION_TOOL_PATH = ./tool
+endif
+ 
+#
+# The folder that will contain the buildtool application, defined from the
+# directory which contains the Makefile (if defined relatively). This is the
+# destination folder for the "make buildtool" target.  The default is
+# $(APPLICATION_TOOL_PATH)/tool.
+#
+ifndef APPLICATION_BUILDTOOL_PATH
+  APPLICATION_BUILDTOOL_PATH = $(APPLICATION_TOOL_PATH)/buildtool
+endif
+ 
 
 
 
