@@ -60,6 +60,29 @@ qx.Class.define("BasicSample",
       docLayout.add(box1, 15, 70);
 
 
+      // container wider, horizontal alignment = right
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width: 500, align:"right"});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 0);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 0);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 0);
+      box1.setLayout(layout1);
+      docLayout.add(box1, 15, 160);
+
+
+      // container wider, horizontal alignment = center
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width: 500, align:"right"});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 0);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 0);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), 0);
+      box1.setLayout(layout1);
+      docLayout.add(box1, 15, 220);
+
+
+
       doc.setLayout(docLayout);
       qx.ui2.core.LayoutQueue.flush();
     }
