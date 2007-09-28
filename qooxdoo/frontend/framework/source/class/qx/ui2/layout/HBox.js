@@ -135,6 +135,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Iterate over children
       var spacing = this.getSpacing();
       var childLeft = children[0].getLayoutProperty("hbox.marginleft") || 0;
+      var useMargin;
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -174,10 +175,20 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
 
         // otherwise add width, spacing and margin
-        thisMargin = children[i].getLayoutProperty("hbox.marginRight") || 0;
-        nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft") || 0;
+        thisMargin = children[i].getLayoutProperty("hbox.marginRight");
+        nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
 
-        childLeft += childWidths[i] + spacing + Math.max(thisMargin, nextMargin);
+        // Math.max detects 'null' as more ('0') than '-1'
+        // we need to work around this
+        if (thisMargin && nextMargin) {
+          useMargin = Math.max(thisMargin, nextMargin);
+        } else if (nextMargin) {
+          useMargin = nextMargin;
+        } else if (thisMargin) {
+          useMargin = thisMargin;
+        }
+
+        childLeft += childWidths[i] + spacing + useMargin;
       }
     },
 
@@ -188,6 +199,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       var children = this.getChildren();
       var length = children.length;
       var spacing = this.getSpacing() * (length - 1);
+      var thisMargin, nextMargin, useMargin;
 
       spacing += children[0].getLayoutProperty("hbox.marginLeft") || 0;
 
@@ -195,10 +207,20 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         for (var i=0; i<length-1; i++)
         {
-          marginThis = children[i].getLayoutProperty("hbox.marginRight");
-          marginNext = children[i+1].getLayoutProperty("hbox.marginLeft");
+          thisMargin = children[i].getLayoutProperty("hbox.marginRight");
+          nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
 
-          spacing += Math.max(0, marginThis, marginNext);
+          // Math.max detects 'null' as more ('0') than '-1'
+          // we need to work around this
+          if (thisMargin && nextMargin) {
+            useMargin = Math.max(thisMargin, nextMargin);
+          } else if (nextMargin) {
+            useMargin = nextMargin;
+          } else if (thisMargin) {
+            useMargin = thisMargin;
+          }
+
+          spacing += useMargin;
         }
       }
 
