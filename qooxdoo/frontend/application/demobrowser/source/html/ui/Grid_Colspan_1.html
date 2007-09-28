@@ -63,9 +63,9 @@ qx.Class.define("BasicSample",
       layout2.setColumnAlign(0, "right", "bottom");
 
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150}), 0, 0);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: "pref", height: 70, maxHeight: "pref"}), 0, 1, 2, 1);
+      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: "pref", height: 70, maxHeight: "pref"}), 0, 1);//, 2, 1);
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:290}), 2, 0, 1, 2);
+      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:290}), 2, 0);//, 1, 2);
 
       //box1.setLayout(layout2);
       //docLayout.add(box1, 250, 10);
