@@ -126,6 +126,22 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Sets the user provided minimal width of the widget. The property supports
+     * the following values:
+     *
+     *  <ul>
+     *    <li>Integer pixel value</li>
+     *    <li>The string value <code>auto</code>. This will derive the minimum
+     *      width from the minimum width of its content
+     *    </li>
+     *    <li>The string value <code>pref</code>. This will set the minimum
+     *      width to the preferred width and thus disables shrinking of the widget.
+     *    </li>
+     *  </ul>
+     *
+     *  Also take a look at the related properties {@link #width} and {@link #maxWidth}.
+     */
     minWidth :
     {
       apply : "_applyLayoutChange",
@@ -133,6 +149,22 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true
     },
 
+
+    /**
+     * Sets the preferred width of the widget. The property supports
+     * the following values:
+     *
+     *  <ul>
+     *    <li>Integer pixel value</li>
+     *    <li>The string value <code>auto</code>. This will derive the preferred
+     *      width from the preferred width of its content
+     *    </li>
+     *  </ul>
+     *
+     * The widget's computed width may differ from the given width due to
+     * widget stretching. Also take a look at the related properties
+     * {@link #minWidth} and {@link #maxWidth}.
+     */
     width :
     {
       init : "auto",
@@ -140,6 +172,23 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true
     },
 
+
+    /**
+     * Sets the user provided maximal width of the widget. The property supports
+     * the following values:
+     *
+     *  <ul>
+     *    <li>Integer pixel value</li>
+     *    <li>The string value <code>auto</code>. This will derive the maximal
+     *      width from the maximal width of its content
+     *    </li>
+     *    <li>The string value <code>pref</code>. This will set the maximal
+     *      width to the preferred width and thus disables growing of the widget.
+     *    </li>
+     *  </ul>
+     *
+     *  Also take a look at the related properties {@link #width} and {@link #minWidth}.
+     */
     maxWidth :
     {
       apply : "_applyLayoutChange",
@@ -147,6 +196,23 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true
     },
 
+
+    /**
+     * Sets the user provided minimal height of the widget. The property supports
+     * the following values:
+     *
+     *  <ul>
+     *    <li>Integer pixel value</li>
+     *    <li>The string value <code>auto</code>. This will derive the minimum
+     *      height from the minimum height of its content
+     *    </li>
+     *    <li>The string value <code>pref</code>. This will set the minimum
+     *      height to the preferred height and thus disables shrinking of the widget.
+     *    </li>
+     *  </ul>
+     *
+     *  Also take a look at the related properties {@link #height} and {@link #maxHeight}.
+     */
     minHeight :
     {
       apply : "_applyLayoutChange",
@@ -154,6 +220,22 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true
     },
 
+
+    /**
+     * Sets the preferred height of the widget. The property supports
+     * the following values:
+     *
+     *  <ul>
+     *    <li>Integer pixel value</li>
+     *    <li>The string value <code>auto</code>. This will derive the preferred
+     *      height from the preferred height of its content
+     *    </li>
+     *  </ul>
+     *
+     * The widget's computed height may differ from the given height due to
+     * widget stretching. Also take a look at the related properties
+     * {@link #minHeight} and {@link #maxHeight}.
+     */
     height :
     {
       apply : "_applyLayoutChange",
@@ -161,6 +243,23 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true
     },
 
+
+    /**
+     * Sets the user provided maximal height of the widget. The property supports
+     * the following values:
+     *
+     *  <ul>
+     *    <li>Integer pixel value</li>
+     *    <li>The string value <code>auto</code>. This will derive the maximal
+     *      height from the maximal height of its content
+     *    </li>
+     *    <li>The string value <code>pref</code>. This will set the maximal
+     *      height to the preferred height and thus disables growing of the widget.
+     *    </li>
+     *  </ul>
+     *
+     *  Also take a look at the related properties {@link #height} and {@link #minHeight}.
+     */
     maxHeight :
     {
       apply : "_applyLayoutChange",
