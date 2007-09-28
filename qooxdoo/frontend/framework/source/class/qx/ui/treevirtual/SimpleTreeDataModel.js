@@ -78,7 +78,6 @@
  *   // while others may be of use to event listeners.
  *
  *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners.  
- *                          // This property is missing for nodes inside closed ones.
  *
  *   level          : 2,    // The indentation level of this tree node
  *
@@ -417,6 +416,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       var node =
       {
         type           : type,
+        nodeId         : nodeId,
         parentNodeId   : parentNodeId,
         label          : label,
         bSelected      : false,
@@ -636,10 +636,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             {
               continue;
             }
-
-            // Listeners will need to know a node's id when they receive an
-            // event.
-            child.nodeId = childNodeId;
 
             // (Re-)assign this node's level
             child.level = level;
