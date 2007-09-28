@@ -334,7 +334,7 @@ qx.Class.define("qx.html.Element",
      */
     _makeDirty : function()
     {
-      pa = this;
+      var pa = this;
       while (pa && !pa._dirty)
       {
         pa._dirty = true;
