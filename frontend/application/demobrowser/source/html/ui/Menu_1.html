@@ -1,0 +1,142 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="description">
+    Proof of concept that the grid can be used for menus.
+  </div>
+
+  <p><a href="javascript: qx.ui2.core.LayoutQueue.flush();">Flush queue</a></p>
+
+  <script type="text/javascript">
+
+
+qx.Class.define("MenuItem",
+{
+  extend : qx.core.Object,
+
+  construct : function(text, shortcut)
+  {
+    this.base(arguments);
+
+    this._text = new qx.ui2.core.Label(text);
+    this._text.setPadding(4);
+
+    if (shortcut) {
+      this._shortcut = new qx.ui2.core.Label(shortcut);
+      this._shortcut.setPadding(4, 4, 4, 20);
+    }
+
+  },
+
+  members :
+  {
+    getTextWidget : function() {
+      return this._text;
+    },
+
+    getShortCutWidget : function() {
+      return this._shortcut || null;
+    }
+  }
+
+})
+
+qx.Class.define("Menu",
+{
+  extend : qx.ui2.core.Widget,
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    this._layout = new qx.ui2.layout.Grid();
+    this._layout.setColumnFlex(1, 0);
+    this._layout.setVerticalSpacing(2);
+    this._layout.setHorizontalSpacing(0);
+    this.setLayout(this._layout);
+
+    var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+    this.setDecoration(border);
+
+    this._menuItems = [];
+  },
+
+  members :
+  {
+    add : function(menuItem)
+    {
+      this._menuItems.push(menuItem);
+      var row = this._menuItems.length - 1;
+
+      var shortcut = menuItem.getShortCutWidget();
+      var text = menuItem.getTextWidget();
+
+      if (shortcut)
+      {
+        this._layout.add(text, row, 0);
+        this._layout.add(shortcut, row, 1);
+      }
+      else
+      {
+        this._layout.add(text, row, 0, 0, 2);
+      }
+    }
+  }
+
+});
+
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var docLayout = new qx.ui2.layout.Basic();
+      doc.setLayout(docLayout);
+
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+
+      var menu = new Menu();
+      menu.add(new MenuItem("New", "Ctrl-N"));
+      menu.add(new MenuItem("Close", "Ctrl-W"));
+      menu.add(new MenuItem("Save", "Ctrl-S"));
+      menu.add(new MenuItem("Save as"));
+      menu.add(new MenuItem("Abracadabra"));
+
+      docLayout.add(menu, 20, 50);
+
+      qx.ui2.core.LayoutQueue.flush();
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
