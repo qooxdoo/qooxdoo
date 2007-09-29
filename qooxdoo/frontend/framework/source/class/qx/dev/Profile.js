@@ -35,7 +35,7 @@
  * applications. Further more the variant <code>qx.aspect</code> must be set to
  * <code>on</code>.
  */
-qx.Bootstrap.define("qx.dev.Profile", 
+qx.Bootstrap.define("qx.dev.Profile",
 {
   statics :
   {

@@ -1526,9 +1526,9 @@ qx.Bootstrap.define("qx.Class",
   defer : function(statics)
   {
     // profiling
-    if (qx.core.Variant.isSet("qx.aspects", "on")) 
+    if (qx.core.Variant.isSet("qx.aspects", "on"))
     {
-      for (var key in statics) 
+      for (var key in statics)
       {
         // only functions, no regexps
         if (statics[key] instanceof Function) {

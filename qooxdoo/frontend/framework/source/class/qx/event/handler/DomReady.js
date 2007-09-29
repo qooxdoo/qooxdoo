@@ -38,11 +38,11 @@
    This class contains code based on the following work:
 
    * IEContentLoaded
-       http://javascript.nwbox.com/IEContentLoaded/     
+       http://javascript.nwbox.com/IEContentLoaded/
 
      Copyright:
        (c) 2007, Diego Perini
-       
+
      Authors:
        * Diego Perini
 
@@ -168,25 +168,25 @@ qx.Class.define("qx.event.handler.DomReady",
       // http://bugs.webkit.org/show_bug.cgi?id=5122
       else if (qx.core.Variant.isSet("qx.client", "webkit|mshtml"))
       {
-    		// Continually check to see if the document is ready
-    		var timer = function() 
-    		{
-    			try 
-    			{
-    				// If IE is used, use the trick by Diego Perini
-    				// http://javascript.nwbox.com/IEContentLoaded/
-    				if (qx.bom.client.Engine.MSHTML || document.readyState != "loaded" && document.readyState != "complete") {
-    					document.documentElement.doScroll("left");
-    				}
-	
-    				nativeWrapper();
-    			} 
-    			catch(error) {
-    				setTimeout(timer, 100);
-    			}
-    		};
-    		
-    		timer();
+        // Continually check to see if the document is ready
+        var timer = function()
+        {
+          try
+          {
+            // If IE is used, use the trick by Diego Perini
+            // http://javascript.nwbox.com/IEContentLoaded/
+            if (qx.bom.client.Engine.MSHTML || document.readyState != "loaded" && document.readyState != "complete") {
+              document.documentElement.doScroll("left");
+            }
+
+            nativeWrapper();
+          }
+          catch(error) {
+            setTimeout(timer, 100);
+          }
+        };
+
+        timer();
       }
 
       // Additional load listener as fallback
