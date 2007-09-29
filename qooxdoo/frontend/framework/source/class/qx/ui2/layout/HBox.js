@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A full feature horizontal box layout.
+ * A full featured horizontal box layout.
  *
  * Supports:
  *
