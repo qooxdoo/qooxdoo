@@ -122,18 +122,34 @@ qx.Class.define("qx.ui2.layout.HBox",
       var childWidths = [];
       var childHeights = [];
       var childHints = [];
-      var usedWidth = this._getHorizontalSpacing();
+      var usedSpacing = this._getHorizontalSpacing();
+      var usedWidth = usedSpacing;
+      var childWidthPercentCount = 0;
       
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         childHint = child.getSizeHint();
         
+        childWidthPercent = child.getLayoutProperty("hbox.width");
+        childHeightPercent = child.getLayoutProperty("hbox.height");
+        
+        if (childWidthPercent)
+        {
+          childWidths[i] = Math.floor((availWidth - usedSpacing) * parseFloat(childWidthPercent) / 100);
+          
+          this.debug("Percent transformation: width=" + childWidthPercent + " => " + childWidths[i] + "px");
+        }
+        else
+        {
+          childWidths[i] = childHint.width;
+        }
+        
+        
         childHints[i] = childHint;
-        childWidths[i] = childHint.width;
         childHeights[i] = childHint.height;
         
-        usedWidth += childHint.width;
+        usedWidth += childWidths[i];
       }      
 
       this.debug("Initial widths: avail=" + availWidth + ", used=" + usedWidth);
@@ -144,11 +160,12 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (usedWidth != availWidth)
       {
         var flexibleChildren = [];
+        var childGrow = usedWidth < availWidth;
         
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
-          childGrow = usedWidth < availWidth;
+          childWidthPercent = child.getLayoutProperty("hbox.width");
         
           if (child.canStretchX())
           {
@@ -186,7 +203,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
       // Calculate horizontal alignment offset
-      var spacingSum = this._getHorizontalSpacing();
       var childAlignOffset = 0;
       if (usedWidth < availWidth && align != "left")
       {
