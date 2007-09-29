@@ -140,7 +140,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       
       
 
-      // Process widths for flex stretching
+      // Process widths for flex stretching/shrinking
       if (usedWidth != availWidth)
       {
         var flexibleChildren = [];
@@ -173,6 +173,8 @@ qx.Class.define("qx.ui2.layout.HBox",
           
           for (var key in flexibleOffsets) 
           {
+            this.debug("  - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
+            
             childWidths[key] += flexibleOffsets[key];
             usedWidth += flexibleOffsets[key];
           }          
@@ -195,7 +197,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
       }
       
-      console.debug("Alignment offset: value=" + childAlignOffset);
+      this.debug("Alignment offset: value=" + childAlignOffset);
 
 
 
