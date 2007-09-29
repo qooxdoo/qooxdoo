@@ -80,6 +80,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       apply : "_applyLayoutChange"
     },
 
+
     /**
      * The vertical spacing between grid cells.
      */
@@ -89,7 +90,6 @@ qx.Class.define("qx.ui2.layout.Grid",
       init : 5,
       apply : "_applyLayoutChange"
     }
-
   },
 
 
@@ -116,9 +116,11 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       // validate arguments
       var cell = this.getCellWidget(row, column);
+      
       if (cell !== undefined) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
       }
+      
       if (row === undefined || column === undefined) {
         throw new Error("The arguments 'row' and 'column' must be defined!");
       }
@@ -126,7 +128,8 @@ qx.Class.define("qx.ui2.layout.Grid",
       var rowSpan = rowSpan || 1;
       var colSpan = colSpan || 1;
 
-      for (var x=0; x<colSpan; x++) {
+      for (var x=0; x<colSpan; x++) 
+      {
         for (var y=0; y<rowSpan; y++) {
           this._setCellData(row + y, column + x, "widget", widget);
         }
@@ -144,8 +147,8 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._maxColIndex = Math.max(this._maxColIndex, column + colSpan - 1);
 
       this.base(arguments, widget);
-      this._importProperties(
-        widget, arguments,
+      
+      this._importProperties(widget, arguments,
         "grid.row", "grid.column", "grid.rowSpan", "grid.colSpan"
       );
     },
@@ -153,7 +156,8 @@ qx.Class.define("qx.ui2.layout.Grid",
 
     _validateArgument : function(arg, validValues)
     {
-      if (validValues.indexOf(arg) == -1) {
+      if (validValues.indexOf(arg) == -1) 
+      {
         throw new Error(
           "Invalid argument '" + arg +"'! Valid arguments are: '" +
           validValues.join(", ") + "'"
@@ -169,7 +173,9 @@ qx.Class.define("qx.ui2.layout.Grid",
       if (grid[row] == undefined) {
          grid[row] = [];
       }
+      
       var gridData = grid[row][column];
+      
       if (!gridData)
       {
         grid[row][column] = {}
@@ -185,6 +191,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     _setRowData : function(row, key, value)
     {
       var rowData = this._rowData[row];
+      
       if (!rowData)
       {
         this._rowData[row] = {};
@@ -200,6 +207,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     _setColumnData : function(column, key, value)
     {
       var colData = this._colData[column];
+      
       if (!colData)
       {
         this._colData[column] = {};
@@ -242,10 +250,11 @@ qx.Class.define("qx.ui2.layout.Grid",
     getColumnAlign : function(column)
     {
       var colData = this._colData[column] || {};
+      
       return {
         vAlign : colData.vAlign || "top",
         hAlign : colData.hAlign || "left"
-      }
+      };
     },
 
 
@@ -297,6 +306,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       var rowData = this._rowData[row] || {};
       var colData = this._colData[column] || {};
       var gridData = this._grid[row] ? this._grid[row][column] || {} : {};
+      
       return {
         vAlign : gridData.vAlign || colData.vAlign || "top",
         hAlign : gridData.hAlign || colData.hAlign || "left"
@@ -373,7 +383,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
-     * Check whether all row spans fit with their prefferred height into the
+     * Check whether all row spans fit with their preferred height into the
      * preferred row heights. If there is not enough space, the preferred
      * row sizes are increased. The distribution respects the flex and max
      * values of the rows.
@@ -415,6 +425,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             potential: rowHeight.maxHeight - rowHeight.height,
             flex: rowFlex
           });
+          
           prefSpanHeight += rowHeight.height;
 
           // compute flex array for the min height
@@ -423,6 +434,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             potential: rowHeight.maxHeight - rowHeight.minHeight,
             flex: rowFlex
           });
+          
           minSpanHeight += rowHeight.minHeight;
         }
 
@@ -498,6 +510,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             potential: colWidth.maxWidth - colWidth.width,
             flex: colFlex
           });
+          
           prefSpanWidth += colWidth.width;
 
           // compute flex array for the min width
@@ -506,6 +519,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             potential: colWidth.maxWidth - colWidth.minWidth,
             flex: colFlex
           });
+          
           minSpanWidth += colWidth.minWidth;
         }
 
@@ -572,6 +586,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           }
 
           var cellSize = widget.getSizeHint();
+          
           minHeight = Math.max(minHeight, cellSize.minHeight);
           height = Math.max(height, cellSize.height);
           maxHeight = Math.max(maxHeight, cellSize.maxHeight);
@@ -586,7 +601,6 @@ qx.Class.define("qx.ui2.layout.Grid",
           height : height,
           maxHeight : maxHeight
         };
-
       }
 
       this._fixHeightsRowSpan(rowHeights);
@@ -834,7 +848,6 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         left += colWidths[col] + hSpacing;
       }
-
     },
 
     // overridden
@@ -903,7 +916,6 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       return hint;
     }
-
   },
 
 
