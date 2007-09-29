@@ -27,9 +27,9 @@
  * Event handler, which tries to detect, whether the mouse cursor enters or
  * leaves the document viewport.
  *
- * It supports the events <code>viewportenter</code> and <code>viewportleavey/code>.
+ * It supports the events <code>viewportenter</code> and <code>viewportleave</code>.
  */
-qx.Class.define("qx.event.handler.MouseViewportLeave",
+qx.Class.define("qx.event.handler.ViewportLeave",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
@@ -160,7 +160,7 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
         var target = domEvent.srcElement;
         var relatedTarget = domEvent.fromElement;
 
-        if (domEvent.clientX === -1 && domEvent.clientY == -1) {
+        if (domEvent.clientX === -1 && domEvent.clientY === -1) {
           this._fireEvent(domEvent, "viewportleave");
         }
       },
