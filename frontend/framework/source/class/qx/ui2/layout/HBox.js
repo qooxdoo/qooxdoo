@@ -24,18 +24,12 @@
  * Supports:
  *
  * * Integer dimensions (using widget properties)
+ * * Percent width (using layout property)
  * * Min and max dimensions (using widget properties)
  * * Priorized stretching (flex) (using layout properties)
- * * Respect for min and max dimensions is included
- * * Intelligent fallbacks make it possible to have nearly unconfigured (but already working) horizontal boxes.
- * * Margins (even negative ones) for left and right with margin collapsing support. (using layout properties)
- * * Offset for top and bottom which behaves like relative positioned elements in CSS. (using layout properties)
+ * * Respect for min and max dimensions
+ * * Left and right margins (even negative ones) with margin collapsing support (using layout properties)
  * * Auto sizing, including support for margin & spacing.
- *
- * Notes:
- *
- * * Offsets are not respected by auto-sizing
- * * The top offset wins when both, top and bottom are defined (like in CSS)
  */
 qx.Class.define("qx.ui2.layout.HBox",
 {
@@ -122,9 +116,8 @@ qx.Class.define("qx.ui2.layout.HBox",
       var childWidths = [];
       var childHeights = [];
       var childHints = [];
-      var usedSpacing = this._getHorizontalSpacing();
-      var usedWidth = usedSpacing;
-      var childWidthPercentCount = 0;
+      var usedGaps = this._getGaps();
+      var usedWidth = usedGaps;
       
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -136,15 +129,13 @@ qx.Class.define("qx.ui2.layout.HBox",
         
         if (childWidthPercent)
         {
-          childWidths[i] = Math.floor((availWidth - usedSpacing) * parseFloat(childWidthPercent) / 100);
-          
+          childWidths[i] = Math.floor((availWidth - usedGaps) * parseFloat(childWidthPercent) / 100);
           this.debug("Percent transformation: width=" + childWidthPercent + " => " + childWidths[i] + "px");
         }
         else
         {
           childWidths[i] = childHint.width;
         }
-        
         
         childHints[i] = childHint;
         childHeights[i] = childHint.height;
@@ -220,7 +211,6 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Iterate over children
       var spacing = this.getSpacing();
       var childLeft = children[0].getLayoutProperty("hbox.marginLeft") || 0;
-      var useMargin;
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -228,24 +218,13 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (childLeft < availWidth)
         {
-          // Read child data
-          childHeight = childHeights[i];
-          childAlign = child.getLayoutProperty("hbox.align");
-          childRelTop = child.getLayoutProperty("hbox.top");
-          childRelBottom = child.getLayoutProperty("hbox.bottom");
-
           // Respect vertical alignment
-          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(childAlign, childHeight, availHeight);
-
-          // Apply offset
-          if (childRelTop) {
-            childTop += childRelTop;
-          } else if (childRelBottom) {
-            childTop -= childRelBottom;
-          }
+          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(child.getLayoutProperty("hbox.align"), childHeights[i], availHeight);
 
           // Layout child
-          child.layout(childLeft + childAlignOffset, childTop, childWidths[i], childHeight);
+          child.layout(childLeft + childAlignOffset, childTop, childWidths[i], childHeights[i]);
+          
+          // Include again (if excluded before)
           child.include();
         }
         else
@@ -254,28 +233,15 @@ qx.Class.define("qx.ui2.layout.HBox",
           child.exclude();
         }
 
-        // last one => exit here
+        // If this is the last one => exit here
         if (i==(l-1)) {
           break;
         }
 
-        // otherwise add width, spacing and margin
-        thisMargin = children[i].getLayoutProperty("hbox.marginRight");
+        // Compute left position of next child
+        thisMargin = child.getLayoutProperty("hbox.marginRight");
         nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
-
-        // Math.max detects 'null' as more ('0') than '-1'
-        // we need to work around this
-        if (thisMargin && nextMargin) {
-          useMargin = Math.max(thisMargin, nextMargin);
-        } else if (nextMargin) {
-          useMargin = nextMargin;
-        } else if (thisMargin) {
-          useMargin = thisMargin;
-        } else {
-          useMargin = 0;
-        }
-
-        childLeft += childWidths[i] + spacing + useMargin;
+        childLeft += childWidths[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
 
@@ -286,44 +252,54 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (this._sizeHint) {
         return this._sizeHint;
       }
-
-      // Start with spacing
-      var children = this.getChildren();
-      var spacing = this._getHorizontalSpacing();
-
+      
       // Initialize
-      var minWidth=spacing, width=spacing, maxWidth=spacing;
+      var children = this.getChildren();
+      var gaps = this._getGaps();
+      var minWidth=gaps, width=gaps, maxWidth=gaps;
       var minHeight=0, height=0, maxHeight=32000;
-      var offset, offsetTop, offsetBottom, align;
 
       // Support for reversed children
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
 
-      // Iterate
-      // - sum children width
-      // - find max heights
+      // Iterate over children
+      var maxPercentWidth = 0;
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
         var childHint = child.getSizeHint();
-
+        
+        // Respect percent width (up calculate width by using preferred width)
+        var childPercentWidth = child.getLayoutProperty("hbox.width");
+        if (childPercentWidth) {
+          maxPercentWidth = Math.max(maxPercentWidth, childHint.width / parseFloat(childPercentWidth) * 100);
+        } else {
+          width += childHint.width;
+        }
+        
+        // Sum up min/max width
         minWidth += childHint.minWidth;
-        width += childHint.width;
         maxWidth += childHint.maxWidth;
 
+        // Find maximium minHeight and height
         minHeight = Math.max(0, minHeight, childHint.minHeight);
         height = Math.max(0, height, childHint.height);
+                
+        // Find minimum maxHeight
         maxHeight = Math.min(32000, maxHeight, childHint.maxHeight);
       }
-
-
+      
+      // Apply max percent width
+      maxPercentWidth = Math.round(maxPercentWidth);
+      this.debug("Adding max percent width: " + maxPercentWidth + " to: " + width);
+      width += maxPercentWidth;
+      
       // Limit width to integer range
       minWidth = Math.min(32000, Math.max(0, minWidth));
       width = Math.min(32000, Math.max(0, width));
       maxWidth = Math.min(32000, Math.max(0, maxWidth));
-
 
       // Build hint
       var hint = {
@@ -343,12 +319,11 @@ qx.Class.define("qx.ui2.layout.HBox",
     
 
     /** Computes the spacing sum plus margin. Supports margin collapsing. */
-    _getHorizontalSpacing : function()
+    _getGaps : function()
     {
       var children = this.getChildren();
       var length = children.length;
-      var spacing = this.getSpacing() * (length - 1);
-      var thisMargin, nextMargin, useMargin;
+      var gaps = this.getSpacing() * (length - 1);
 
       // Support for reversed children
       if (this.getReversed()) {
@@ -356,35 +331,41 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       // Add margin left of first child (no collapsing here)
-      spacing += children[0].getLayoutProperty("hbox.marginLeft") || 0;
+      gaps += children[0].getLayoutProperty("hbox.marginLeft") || 0;
 
+      // Add inner margins (with collapsing support)
       if (length > 0)
       {
+        var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
           thisMargin = children[i].getLayoutProperty("hbox.marginRight");
           nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
-
-          // Math.max detects 'null' as more ('0') than '-1'
-          // we need to work around this
-          if (thisMargin && nextMargin) {
-            useMargin = Math.max(thisMargin, nextMargin);
-          } else if (nextMargin) {
-            useMargin = nextMargin;
-          } else if (thisMargin) {
-            useMargin = thisMargin;
-          } else {
-            useMargin = 0;
-          }
-
-          spacing += useMargin;
+          
+          gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin right of last child (no collapsing here)
-      spacing += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
+      gaps += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
 
-      return spacing;
-    }    
+      return gaps;
+    },
+    
+    
+    _collapseMargin : function(right, left)
+    {
+      // Math.max detects 'null' as more ('0') than '-1'
+      // we need to work around this
+      if (right && left) {
+        return Math.max(right, left);
+      } else if (left) {
+        return left;
+      } else if (right) {
+        return right;
+      }
+      
+      return 0;     
+    }
   }
 });
