@@ -37,11 +37,30 @@ qx.Class.define("MenuItem",
     this._text = new qx.ui2.core.Label(text);
     this._text.setPadding(4);
 
+    if (!MenuItem.menuDecoration) {
+      MenuItem.menuDecoration = new qx.ui2.decoration.Basic();
+    }
+
+    this._text.setDecoration(MenuItem.menuDecoration);
+
+    this._text.addListener("mouseover", this._onMouseOver, this);
+    this._text.addListener("mouseout", this._onMouseOut, this);
+
     if (shortcut) {
       this._shortcut = new qx.ui2.core.Label(shortcut);
       this._shortcut.setPadding(4, 4, 4, 20);
+
+      this._shortcut.setDecoration(MenuItem.menuDecoration);
+
+      this._shortcut.addListener("mouseover", this._onMouseOver, this);
+      this._shortcut.addListener("mouseout", this._onMouseOut, this);
     }
 
+  },
+
+  statics :
+  {
+    menuDecoration : null
   },
 
   members :
@@ -52,6 +71,24 @@ qx.Class.define("MenuItem",
 
     getShortCutWidget : function() {
       return this._shortcut || null;
+    },
+
+    _onMouseOver : function(e)
+    {
+      this._text.setBackgroundColor("blue");
+      if (this._shortcut) {
+        this._shortcut.setBackgroundColor("blue");
+      }
+      qx.ui2.core.LayoutQueue.flush();
+    },
+
+    _onMouseOut : function(e)
+    {
+      this._text.setBackgroundColor(null);
+      if (this._shortcut) {
+        this._shortcut.setBackgroundColor(null);
+      }
+      qx.ui2.core.LayoutQueue.flush();
     }
   }
 
