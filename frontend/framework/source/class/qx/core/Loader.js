@@ -27,9 +27,9 @@ qx.Bootstrap.define("qx.core.Loader",
 {
   statics :
   {
-    
-    
-    
-    
-  } 
+
+
+
+
+  }
 });

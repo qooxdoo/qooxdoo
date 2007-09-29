@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * This class can be used to declare classes to list like data structures 
+ * This class can be used to declare classes to list like data structures
  * which. This is useful for exampleto build queues, string builders,
  * etc.
  */
@@ -50,46 +50,46 @@ qx.Bootstrap.define("qx.List",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__validateConfig(name, config);
       }
-      
-      // Create class      
+
+      // Create class
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-      	var html = new ActiveXObject("htmlfile");
-      	html.open();
-      	html.write("<html><script><" + "/script></html>");
-      	html.close();
+        var html = new ActiveXObject("htmlfile");
+        html.open();
+        html.write("<html><script><" + "/script></html>");
+        html.close();
 
-        var clazz = html.parentWindow.Array	
-        
-        // We need to keep the document referenced somewhere 
+        var clazz = html.parentWindow.Array
+
+        // We need to keep the document referenced somewhere
         // otherwise IE will garbage collect it and throws
         // an "unexpected access" error.
         clazz.__html = html;
       }
       else
       {
-      	var clazz = function() 
-      	{
-      		Array.call(this);
-      		this.push.apply(this, arguments);
-      	};
-	
-      	clazz.prototype = new Array;
-      }    
-      
+        var clazz = function()
+        {
+          Array.call(this);
+          this.push.apply(this, arguments);
+        };
+
+        clazz.prototype = new Array;
+      }
+
       // Create namespace
-      var basename = qx.Bootstrap.createNamespace(name, clazz, false);        
-      
+      var basename = qx.Bootstrap.createNamespace(name, clazz, false);
+
       // Extract prototype
       var proto = clazz.prototype;
 
       // Attach data
       clazz.classname = name;
       proto.basename = clazz.basename = basename;
-      
+
       // Modify toString on clazz
       clazz.toString = this.genericToString;
-      
+
       // Attach statics
       var statics = config.statics;
       if (statics)
@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.List",
           clazz[key] = statics[key];
         }
       }
-      
+
       // Attach members
       var members = config.members;
       if (members)
@@ -107,19 +107,19 @@ qx.Bootstrap.define("qx.List",
           proto[key] = members[key];
         }
       }
-      
+
       // Process defer
       if (config.defer)
       {
         config.defer.self = clazz;
         config.defer(clazz, proto);
       }
-      
+
       // Store class reference in global class registry
       this.$$registry[name] = clazz;
     },
-    
-    
+
+
     /**
      * This method will be attached to all lists to return
      * a nice identifier for them.
@@ -130,8 +130,8 @@ qx.Bootstrap.define("qx.List",
     genericToString : function() {
       return "[List " + this.classname + "]";
     },
-    
-    
+
+
     /** Stores all defined classes */
     $$registry : qx.Bootstrap.$$registry,
 
@@ -148,18 +148,18 @@ qx.Bootstrap.define("qx.List",
 
       "default" : null
     }),
-    
-    
+
+
     /**
      * Validates incoming configuration and checks keys and values
      *
      * @type static
-     * @signature function(name, config)     
+     * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      * @return {void}
      * @throws TODOC
-     */    
+     */
     __validateConfig : qx.core.Variant.select("qx.debug",
     {
       "on": function(name, config)
@@ -180,8 +180,8 @@ qx.Bootstrap.define("qx.List",
           }
         }
       },
-      
+
       "default" : null
     })
-  } 
+  }
 });

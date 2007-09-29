@@ -74,7 +74,7 @@ qx =
 
       // Store class reference in global class registry
       qx.Bootstrap.$$registry[name] = config.statics;
-    }    
+    }
   }
 };
 
@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.Bootstrap",
   {
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : new Date,
-    
+
 
     /**
      * Creates a namespace and assigns the given object to it.
