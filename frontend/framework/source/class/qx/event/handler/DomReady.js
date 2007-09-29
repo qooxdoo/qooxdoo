@@ -16,6 +16,36 @@
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
 
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * jQuery
+     http://www.jquery.com
+     Version 1.2
+
+     Copyright:
+       (c) 2006-2007, John Resig
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * John Resig
+
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * IEContentLoaded
+       http://javascript.nwbox.com/IEContentLoaded/     
+
+     Copyright:
+       (c) 2007, Diego Perini
+       
+     Authors:
+       * Diego Perini
+
 ************************************************************************ */
 
 /* ************************************************************************
@@ -72,7 +102,6 @@ qx.Class.define("qx.event.handler.DomReady",
 
   statics :
   {
-
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
@@ -135,33 +164,29 @@ qx.Class.define("qx.event.handler.DomReady",
         qx.event.Registration.addNativeListener(win, "DOMContentLoaded", nativeWrapper);
       }
 
-      // Using IE-only "defer" attribute by Matthias Miller
-      else if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var script = this._script = win.document.createElement("<script id='__ie_onload' defer src='javascript:void(0)'>");
-
-        script.onreadystatechange = function()
-        {
-          if (this.readyState == "complete") {
-            nativeWrapper();
-          }
-        };
-      }
-
-      // Using webkit workaround by John Resig
-      // Native implementation still missing by webkit. See also:
+      // Native implementation for webkit still missing by webkit. See also:
       // http://bugs.webkit.org/show_bug.cgi?id=5122
-      else if (qx.core.Variant.isSet("qx.client", "webkit"))
+      else if (qx.core.Variant.isSet("qx.client", "webkit|mshtml"))
       {
-        var timer = this._timer = win.setInterval(function()
-        {
-          if (/loaded|complete/.test(win.document.readyState))
-          {
-            win.clearInterval(timer);
-            nativeWrapper();
-          }
-        },
-        10);
+    		// Continually check to see if the document is ready
+    		var timer = function() 
+    		{
+    			try 
+    			{
+    				// If IE is used, use the trick by Diego Perini
+    				// http://javascript.nwbox.com/IEContentLoaded/
+    				if (qx.bom.client.Engine.MSHTML || document.readyState != "loaded" && document.readyState != "complete") {
+    					document.documentElement.doScroll("left");
+    				}
+	
+    				nativeWrapper();
+    			} 
+    			catch(error) {
+    				setTimeout(timer, 100);
+    			}
+    		};
+    		
+    		timer();
       }
 
       // Additional load listener as fallback
@@ -181,16 +206,6 @@ qx.Class.define("qx.event.handler.DomReady",
 
       if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {
         qx.event.Registration.removeNativeListener(win, "DOMContentLoaded", this._onNativeWrapper);
-      }
-      else if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        this._script.onreadystatechange = null;
-        delete this._script;
-      }
-      else if (qx.core.Variant.isSet("qx.client", "webkit"))
-      {
-        win.clearInterval(this._timer);
-        delete this._timer;
       }
 
       qx.event.Registration.removeNativeListener(this._window, "load", this._onNativeWrapper);
