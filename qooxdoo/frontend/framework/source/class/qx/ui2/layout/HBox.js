@@ -24,12 +24,14 @@
  * Supports:
  *
  * * Integer dimensions (using widget properties)
- * * Percent width (using layout property)
+ * * Additional percent width (using layout property)
  * * Min and max dimensions (using widget properties)
- * * Priorized stretching (flex) (using layout properties)
- * * Respect for min and max dimensions
+ * * Priorized stretching/shrinking (flex) (using layout properties)
  * * Left and right margins (even negative ones) with margin collapsing support (using layout properties)
- * * Auto sizing, including support for margin & spacing.
+ * * Auto sizing 
+ * * Horizontal align
+ * * Horizontal spacing
+ * * Reversed children ordering
  */
 qx.Class.define("qx.ui2.layout.HBox",
 {
@@ -104,13 +106,11 @@ qx.Class.define("qx.ui2.layout.HBox",
       var childGrow;
 
 
-
       // Support for reversed children
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
       
-
 
       // Creating dimension working data
       var childWidths = [];
@@ -118,6 +118,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       var childHints = [];
       var usedGaps = this._getGaps();
       var usedWidth = usedGaps;
+      var childWidthPercent;
       
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -125,26 +126,15 @@ qx.Class.define("qx.ui2.layout.HBox",
         childHint = child.getSizeHint();
         
         childWidthPercent = child.getLayoutProperty("hbox.width");
-        childHeightPercent = child.getLayoutProperty("hbox.height");
-        
-        if (childWidthPercent)
-        {
-          childWidths[i] = Math.floor((availWidth - usedGaps) * parseFloat(childWidthPercent) / 100);
-          this.debug("Percent transformation: width=" + childWidthPercent + " => " + childWidths[i] + "px");
-        }
-        else
-        {
-          childWidths[i] = childHint.width;
-        }
         
         childHints[i] = childHint;
+        childWidths[i] = childWidthPercent ? Math.floor((availWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
         childHeights[i] = childHint.height;
         
         usedWidth += childWidths[i];
       }      
 
-      this.debug("Initial widths: avail=" + availWidth + ", used=" + usedWidth);
-      
+      // this.debug("Initial widths: avail=" + availWidth + ", used=" + usedWidth);
       
 
       // Process widths for flex stretching/shrinking
@@ -181,7 +171,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           
           for (var key in flexibleOffsets) 
           {
-            this.debug("  - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
+            // this.debug("  - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
             
             childWidths[key] += flexibleOffsets[key];
             usedWidth += flexibleOffsets[key];
@@ -189,8 +179,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         }       
       }
 
-      this.debug("Corrected widths: avail=" + availWidth + ", used=" + usedWidth);
-
+      // this.debug("Corrected widths: avail=" + availWidth + ", used=" + usedWidth);
 
 
       // Calculate horizontal alignment offset
@@ -204,13 +193,12 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
       }
       
-      this.debug("Alignment offset: value=" + childAlignOffset);
-
+      // this.debug("Alignment offset: value=" + childAlignOffset);
 
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childLeft = children[0].getLayoutProperty("hbox.marginLeft") || 0;
+      var childLeft = childAlignOffset + (children[0].getLayoutProperty("hbox.marginLeft") || 0);
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -222,7 +210,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(child.getLayoutProperty("hbox.align"), childHeights[i], availHeight);
 
           // Layout child
-          child.layout(childLeft + childAlignOffset, childTop, childWidths[i], childHeights[i]);
+          child.layout(childLeft, childTop, childWidths[i], childHeights[i]);
           
           // Include again (if excluded before)
           child.include();
@@ -292,9 +280,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
       
       // Apply max percent width
-      maxPercentWidth = Math.round(maxPercentWidth);
-      this.debug("Adding max percent width: " + maxPercentWidth + " to: " + width);
-      width += maxPercentWidth;
+      width += Math.round(maxPercentWidth);
       
       // Limit width to integer range
       minWidth = Math.min(32000, Math.max(0, minWidth));
