@@ -147,7 +147,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childLeft = children[0].getLayoutProperty("hbox.marginleft") || 0;
+      var childLeft = children[0].getLayoutProperty("hbox.marginLeft") || 0;
       var useMargin;
 
       for (var i=0, l=children.length; i<l; i++)
