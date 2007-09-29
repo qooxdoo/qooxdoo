@@ -107,42 +107,96 @@ qx.Class.define("qx.ui2.layout.HBox",
       var child, childHint;
       var childHeight, childAlign, childTop, childLeft;
       var childTop, childBottom;
+      var childGrow;
 
-
-      // Get flex offsets
-      var offsets = this._getFlexOffsets(availWidth);
 
 
       // Support for reversed children
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
+      
 
 
-      // Pre compute widths
+      // Creating dimension working data
       var childWidths = [];
-      var childWidthSum = 0;
+      var childHeights = [];
+      var childHints = [];
+      var usedWidth = this._getHorizontalSpacing();
+      
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-
         childHint = child.getSizeHint();
-        childWidths[i] = childHint.width + (offsets[i] || 0);
-        childWidthSum += childWidths[i];
+        
+        childHints[i] = childHint;
+        childWidths[i] = childHint.width;
+        childHeights[i] = childHint.height;
+        
+        usedWidth += childHint.width;
+      }      
+
+      this.debug("Initial widths: avail=" + availWidth + ", used=" + usedWidth);
+      
+      
+
+      // Process widths for flex stretching
+      if (usedWidth != availWidth)
+      {
+        var flexibleChildren = [];
+        
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          child = children[i];
+          childGrow = usedWidth < availWidth;
+        
+          if (child.canStretchX())
+          {
+            childFlex = child.getLayoutProperty("hbox.flex");
+
+            if (childFlex == null || childFlex > 0)
+            {
+              childHint = childHints[i];
+
+              flexibleChildren.push({
+                id : i,
+                potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
+                flex : childFlex || 1
+              });
+            }
+          }
+        }
+        
+        if (flexibleChildren.length > 0) 
+        {
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibleChildren, availWidth - usedWidth);
+          
+          for (var key in flexibleOffsets) 
+          {
+            childWidths[key] += flexibleOffsets[key];
+            usedWidth += flexibleOffsets[key];
+          }          
+        }       
       }
+
+      this.debug("Corrected widths: avail=" + availWidth + ", used=" + usedWidth);
+
 
 
       // Calculate horizontal alignment offset
       var spacingSum = this._getHorizontalSpacing();
       var childAlignOffset = 0;
-      if (align != "left" && (childWidthSum + spacingSum) < availWidth)
+      if (usedWidth < availWidth && align != "left")
       {
-        childAlignOffset = availWidth - childWidthSum - spacingSum;
+        childAlignOffset = availWidth - usedWidth;
 
         if (align === "center") {
           childAlignOffset = Math.round(childAlignOffset / 2);
         }
       }
+      
+      console.debug("Alignment offset: value=" + childAlignOffset);
+
 
 
       // Iterate over children
@@ -157,7 +211,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         if (childLeft < availWidth)
         {
           // Read child data
-          childHeight = child.getSizeHint().height;
+          childHeight = childHeights[i];
           childAlign = child.getLayoutProperty("hbox.align");
           childRelTop = child.getLayoutProperty("hbox.top");
           childRelBottom = child.getLayoutProperty("hbox.bottom");
@@ -205,52 +259,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         childLeft += childWidths[i] + spacing + useMargin;
       }
-    },
-
-
-    /** Computes the spacing sum plus margin. Supports margin collapsing. */
-    _getHorizontalSpacing : function()
-    {
-      var children = this.getChildren();
-      var length = children.length;
-      var spacing = this.getSpacing() * (length - 1);
-      var thisMargin, nextMargin, useMargin;
-
-      // Support for reversed children
-      if (this.getReversed()) {
-        children = children.concat().reverse();
-      }
-
-      // Add margin left of first child (no collapsing here)
-      spacing += children[0].getLayoutProperty("hbox.marginLeft") || 0;
-
-      if (length > 0)
-      {
-        for (var i=0; i<length-1; i++)
-        {
-          thisMargin = children[i].getLayoutProperty("hbox.marginRight");
-          nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
-
-          // Math.max detects 'null' as more ('0') than '-1'
-          // we need to work around this
-          if (thisMargin && nextMargin) {
-            useMargin = Math.max(thisMargin, nextMargin);
-          } else if (nextMargin) {
-            useMargin = nextMargin;
-          } else if (thisMargin) {
-            useMargin = thisMargin;
-          } else {
-            useMargin = 0;
-          }
-
-          spacing += useMargin;
-        }
-      }
-
-      // Add margin right of last child (no collapsing here)
-      spacing += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
-
-      return spacing;
     },
 
 
@@ -314,58 +322,51 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       return hint;
     },
+    
 
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    _getFlexOffsets : function(availWidth)
+    /** Computes the spacing sum plus margin. Supports margin collapsing. */
+    _getHorizontalSpacing : function()
     {
-      var hint = this.getSizeHint();
-      var diff = availWidth - hint.width;
-
-      if (diff == 0) {
-        return {};
-      }
-
-      // Collect all flexible children
       var children = this.getChildren();
-      var flexibles = [];
+      var length = children.length;
+      var spacing = this.getSpacing() * (length - 1);
+      var thisMargin, nextMargin, useMargin;
 
       // Support for reversed children
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
 
-      for (var i=0, l=children.length; i<l; i++)
+      // Add margin left of first child (no collapsing here)
+      spacing += children[0].getLayoutProperty("hbox.marginLeft") || 0;
+
+      if (length > 0)
       {
-        child = children[i];
-
-        if (child.canStretchX())
+        for (var i=0; i<length-1; i++)
         {
-          childFlex = child.getLayoutProperty("hbox.flex");
+          thisMargin = children[i].getLayoutProperty("hbox.marginRight");
+          nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
 
-          if (childFlex == null || childFlex > 0)
-          {
-            hint = child.getSizeHint();
-
-            flexibles.push({
-              id : i,
-              potential : diff > 0 ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
-              flex : childFlex || 1
-            });
+          // Math.max detects 'null' as more ('0') than '-1'
+          // we need to work around this
+          if (thisMargin && nextMargin) {
+            useMargin = Math.max(thisMargin, nextMargin);
+          } else if (nextMargin) {
+            useMargin = nextMargin;
+          } else if (thisMargin) {
+            useMargin = thisMargin;
+          } else {
+            useMargin = 0;
           }
+
+          spacing += useMargin;
         }
       }
 
-      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
-    }
+      // Add margin right of last child (no collapsing here)
+      spacing += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
+
+      return spacing;
+    }    
   }
 });
