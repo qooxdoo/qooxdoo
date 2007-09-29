@@ -537,7 +537,7 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param type {String} name of the event type
      */
-    fireEvent : function(type) 
+    fireEvent : function(type)
     {
       if (!this.__disposed) {
         qx.event.Registration.fireCustomEvent(this, qx.event.type.Event, [type, false]);
@@ -552,7 +552,7 @@ qx.Class.define("qx.core.Object",
      * @param type {String} name of the event type
      * @param data {var} user defined data attached to the event object
      */
-    fireDataEvent : function(type, data) 
+    fireDataEvent : function(type, data)
     {
       if (!this.__disposed) {
         qx.event.Registration.fireCustomEvent(this, qx.event.type.Data, [type, data]);

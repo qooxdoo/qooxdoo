@@ -22,23 +22,23 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
 {
   members :
   {
-    getHtml : function(widget, height, width) { 
-      return true; 
-    },
-
-    getInsetLeft : function() { 
-      return true 
-    },
-      
-    getInsetTop : function() { 
-      return true 
-    },
-      
-    getInsetRight : function() { 
+    getHtml : function(widget, height, width) {
       return true;
     },
-    
-    getInsetBottom : function() { 
+
+    getInsetLeft : function() {
+      return true
+    },
+
+    getInsetTop : function() {
+      return true
+    },
+
+    getInsetRight : function() {
+      return true;
+    },
+
+    getInsetBottom : function() {
       return true;
     }
   }
