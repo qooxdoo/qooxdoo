@@ -24,7 +24,7 @@
 #require(qx.event.handler.Focus)
 #require(qx.event.handler.Window)
 #require(qx.event.handler.Capture)
-#require(qx.event.handler.MouseViewportLeave)
+#require(qx.event.handler.ViewportLeave)
 
 ************************************************************************ */
 
