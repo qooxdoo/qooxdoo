@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A full featured horizontal box layout.
+ * A full featured horizontal box layout. It lays out widgets in a horizontal row, from left to right.
  *
  * Supports:
  *
