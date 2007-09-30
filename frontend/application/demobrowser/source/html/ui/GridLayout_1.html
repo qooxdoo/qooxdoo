@@ -66,7 +66,10 @@ qx.Class.define("BasicSample",
       layout1.setColumnAlign(0, "right", "middle");
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150}), 0, 0);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 50}), 0, 1);
+
+      var resizeWidget = new qx.ui2.core.Widget()
+      resizeWidget.set({decoration: border, backgroundColor: "green", maxWidth: "pref", width:50});
+      layout1.add(resizeWidget, 0, 1);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", height: 80}), 1, 1);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2, 0);
@@ -74,6 +77,12 @@ qx.Class.define("BasicSample",
 
       box1.setLayout(layout1);
       docLayout.add(box1, 250, 10);
+
+      resizeWidget.addListener("click", function(e)
+      {
+        resizeWidget.setWidth(60);
+        qx.ui2.core.LayoutQueue.flush();
+      });
 
       // flex columns
       var box1 = (new qx.ui2.core.Widget).set({
