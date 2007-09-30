@@ -1032,10 +1032,14 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      INSET
+      INSET CALCULATION SUPPORT
     ---------------------------------------------------------------------------
     */
 
+    /**
+     *
+     *
+     */
     getInsetLeft : function()
     {
       var value = this.getPaddingLeft();
@@ -1087,7 +1091,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      LAYOUT
+      LAYOUT PROPERTY APPLY ROUTINE
     ---------------------------------------------------------------------------
     */
 
@@ -1110,7 +1114,10 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * Computes the widgets dimensions and possible ranges of these.
+     * Returns the recommended dimensions of the widget.
+     *
+     * Developer note: This method normally does not need to be refined. If you 
+     * develop a custom widget please customize {@link #_getContentHint} instead.
      *
      * @type member
      * @return {Map} The map with the preferred width/height and the allowed
@@ -1274,7 +1281,14 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Computes the technical size limitations and preferences of the content.
+     * Returns the recommended/natural dimensions of the widget's content. 
+     *
+     * For labels and images this may be their natural size when defined without
+     * any dimensions. For containers this may be the recommended size of the
+     * underlaying layout manager.
+     *
+     * Developer note: This can be overwritten by the derived classes to allow 
+     * a custom handling here.
      *
      * @type member
      * @return {Map}
@@ -1296,15 +1310,6 @@ qx.Class.define("qx.ui2.core.Widget",
       };
     },
 
-    _supportsContentHint : function()
-    {
-      var layout = this.getLayout();
-      if (layout) {
-        return layout.supportsSizeHint();
-      }
-
-      return true;
-    },
 
 
 
@@ -1316,18 +1321,73 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Returns the technical minimum width of this widget.
+     *
+     * Developer note: This method should be overwritten by derived classes
+     * to define the minimum width which keeps the widget usable.
+     * This may be for example, that at least the icon and 2 characters of a 
+     * tab view button are viewable etc. The dimension given here is not
+     * refinable by the widget users and give the widget author a good
+     * way to integrate a hard-coded technical minimum width.
+     *
+     * @type member
+     * @return {Integer} Minimum width
+     */
     _getTechnicalMinWidth : function() {
       return 0;
     },
 
+
+    /**
+     * Returns the technical maximum width of this widget.
+     *
+     * Developer note: This method should be overwritten by derived classes
+     * to define the maximum width which keeps the widget usable. This
+     * is often not as needed as the technical minimum width, but may be useful,
+     * as well in some cases. The dimension given here is not
+     * refinable by the widget users and give the widget author a good
+     * way to integrate some hard-coded technical maximum width.
+     *
+     * @type member
+     * @return {Integer} Minimum width
+     */
     _getTechnicalMaxWidth : function() {
       return 32000;
     },
 
+
+    /**
+     * Returns the technical minimum height of this widget.
+     *
+     * Developer note: This method should be overwritten by derived classes
+     * to define the minimum height which keeps the widget usable.
+     * This may be for example, that at least the height of the text or icon 
+     * used by the widget. The dimension given here is not
+     * refinable by the widget users and give the widget author a good
+     * way to integrate some hard-coded technical minimum height.
+     *
+     * @type member
+     * @return {Integer} Minimum width
+     */
     _getTechnicalMinHeight : function() {
       return 0;
     },
 
+
+    /**
+     * Returns the technical maximum height of this widget.
+     *
+     * Developer note: This method should be overwritten by derived classes
+     * to define the maximum height which keeps the widget usable. This
+     * is often not as needed as the technical minimum height, but may be useful,
+     * as well in some cases. The dimension given here is not
+     * refinable by the widget users and give the widget author a good
+     * way to integrate some hard-coded technical maximum width.
+     *
+     * @type member
+     * @return {Integer} Minimum width
+     */
     _getTechnicalMaxHeight : function() {
       return 32000;
     },
@@ -1342,10 +1402,43 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Whether a widget is able to stretch on the x-axis. Some specific y-axis
+     * oriented widgets may overwrite this e.g. ToolBarSeparator, ...
+     *
+     * Please note: This property is not overwritable by the widget user. It
+     * may only be refined in a derived class. This way it gives the original
+     * widget author the full control regarding flex grow/shrinking used by some
+     * layout managers.
+     *
+     * The user can limit the stretching through the definition of a min- or 
+     * max-width. If these limits are reached the result of this function is
+     * ignored.
+     *
+     * @type member
+     * @return {Boolean} Whether the widget is able to stretch on the x-axis.
+     */
     canStretchX : function() {
       return true;
     },
 
+
+    /**
+     * Whether a widget is able to stretch on the y-axis. Some specific x-axis
+     * oriented widgets may overwrite this e.g. TextField, Spinner, ComboBox, ...
+     *
+     * Please note: This property is not overwritable by the widget user. It
+     * may only be refined in a derived class. This way it gives the original
+     * widget author the full control regarding flex grow/shrinking used by some
+     * layout managers.
+     *
+     * The user can limit the stretching through the definition of a min- or 
+     * max-height. If these limits are reached the result of this function is
+     * ignored.
+     *
+     * @type member
+     * @return {Boolean} Whether the widget is able to stretch on the y-axis.
+     */
     canStretchY : function() {
       return true;
     }
