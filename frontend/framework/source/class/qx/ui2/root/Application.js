@@ -117,17 +117,6 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    invalidate : function()
-    {
-      if (this._sizeHint)
-      {
-        this.debug("Clear layout cache.");
-        this._sizeHint = null;
-      }
-    },
-
-
-    // overridden
     getSizeHint : function()
     {
       if (this._sizeHint) {
