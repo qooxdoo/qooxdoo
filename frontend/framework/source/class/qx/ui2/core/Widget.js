@@ -712,6 +712,11 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       this.debug("Mark widget layout invalid: " + this);
       this._layoutInvalid = true;
+
+      // invalidate cached size hint
+      this._sizeHint = null;
+
+      // invalidate layout manager
       var mgr = this.getLayout();
       if (mgr) {
         mgr.invalidate();
@@ -1114,6 +1119,10 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getSizeHint : function()
     {
+      if (this._sizeHint) {
+        return this._sizeHint;
+      }
+
       var width, minWidth, maxWidth;
       var height, minHeight, maxHeight;
 
@@ -1260,7 +1269,7 @@ qx.Class.define("qx.ui2.core.Widget",
       };
 
       // this.debug("Compute size hint: ", hint);
-      return hint;
+      return this._sizeHint = hint;
     },
 
 
