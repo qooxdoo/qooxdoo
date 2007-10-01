@@ -19,7 +19,8 @@
 ************************************************************************ */
 
 /**
- * A full featured horizontal box layout. It lays out widgets in a horizontal row, from left to right.
+ * A full featured horizontal box layout. It lays out widgets in a
+ * horizontal row, from left to right.
  *
  * Supports:
  *
@@ -28,7 +29,7 @@
  * * Min and max dimensions (using widget properties)
  * * Priorized stretching/shrinking (flex) (using layout properties)
  * * Left and right margins (even negative ones) with margin collapsing support (using layout properties)
- * * Auto sizing 
+ * * Auto sizing
  * * Horizontal align
  * * Horizontal spacing
  * * Reversed children ordering
@@ -110,7 +111,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
-      
+
 
       // Creating dimension working data
       var childWidths = [];
@@ -119,35 +120,35 @@ qx.Class.define("qx.ui2.layout.HBox",
       var usedGaps = this._getGaps();
       var usedWidth = usedGaps;
       var childWidthPercent;
-      
+
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         childHint = child.getSizeHint();
-        
+
         childWidthPercent = child.getLayoutProperty("hbox.width");
-        
+
         childHints[i] = childHint;
         childWidths[i] = childWidthPercent ? Math.floor((availWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
         childHeights[i] = childHint.height;
-        
+
         usedWidth += childWidths[i];
-      }      
+      }
 
       // this.debug("Initial widths: avail=" + availWidth + ", used=" + usedWidth);
-      
+
 
       // Process widths for flex stretching/shrinking
       if (usedWidth != availWidth)
       {
         var flexibleChildren = [];
         var childGrow = usedWidth < availWidth;
-        
+
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
           childWidthPercent = child.getLayoutProperty("hbox.width");
-        
+
           if (child.canStretchX())
           {
             childFlex = child.getLayoutProperty("hbox.flex");
@@ -164,19 +165,19 @@ qx.Class.define("qx.ui2.layout.HBox",
             }
           }
         }
-        
-        if (flexibleChildren.length > 0) 
+
+        if (flexibleChildren.length > 0)
         {
           var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibleChildren, availWidth - usedWidth);
-          
-          for (var key in flexibleOffsets) 
+
+          for (var key in flexibleOffsets)
           {
             // this.debug("  - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
-            
+
             childWidths[key] += flexibleOffsets[key];
             usedWidth += flexibleOffsets[key];
-          }          
-        }       
+          }
+        }
       }
 
       // this.debug("Corrected widths: avail=" + availWidth + ", used=" + usedWidth);
@@ -192,7 +193,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           childAlignOffset = Math.round(childAlignOffset / 2);
         }
       }
-      
+
       // this.debug("Alignment offset: value=" + childAlignOffset);
 
 
@@ -211,7 +212,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           // Layout child
           child.layout(childLeft, childTop, childWidths[i], childHeights[i]);
-          
+
           // Include again (if excluded before)
           child.include();
         }
@@ -240,7 +241,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (this._sizeHint) {
         return this._sizeHint;
       }
-      
+
       // Initialize
       var children = this.getChildren();
       var gaps = this._getGaps();
@@ -258,7 +259,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         var child = children[i];
         var childHint = child.getSizeHint();
-        
+
         // Respect percent width (up calculate width by using preferred width)
         var childPercentWidth = child.getLayoutProperty("hbox.width");
         if (childPercentWidth) {
@@ -266,7 +267,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         } else {
           width += childHint.width;
         }
-        
+
         // Sum up min/max width
         minWidth += childHint.minWidth;
         maxWidth += childHint.maxWidth;
@@ -274,14 +275,14 @@ qx.Class.define("qx.ui2.layout.HBox",
         // Find maximium minHeight and height
         minHeight = Math.max(0, minHeight, childHint.minHeight);
         height = Math.max(0, height, childHint.height);
-                
+
         // Find minimum maxHeight
         maxHeight = Math.min(32000, maxHeight, childHint.maxHeight);
       }
-      
+
       // Apply max percent width
       width += Math.round(maxPercentWidth);
-      
+
       // Limit width to integer range
       minWidth = Math.min(32000, Math.max(0, minWidth));
       width = Math.min(32000, Math.max(0, width));
@@ -302,7 +303,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       return hint;
     },
-    
+
 
     /** Computes the spacing sum plus margin. Supports margin collapsing. */
     _getGaps : function()
@@ -327,7 +328,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         {
           thisMargin = children[i].getLayoutProperty("hbox.marginRight");
           nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
-          
+
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
@@ -337,8 +338,8 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       return gaps;
     },
-    
-    
+
+
     _collapseMargin : function(right, left)
     {
       // Math.max detects 'null' as more ('0') than '-1'
@@ -350,8 +351,8 @@ qx.Class.define("qx.ui2.layout.HBox",
       } else if (right) {
         return right;
       }
-      
-      return 0;     
+
+      return 0;
     }
   }
 });
