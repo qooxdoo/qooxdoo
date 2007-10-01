@@ -56,11 +56,29 @@ qx.Class.define("qx.ui2.layout.Dock",
 
   members :
   {
-    // overridden
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Adds a new widget to this layout.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to add
+     * @param edge {String?null} Edge to attach. Could be anyone of
+     *   <code>north</code>, <code>west</code>, <code>south</code>,
+     *   <code>east</code> or <code>center</code>.
+     * @param flexX {Integer?null} Flex value for the x-axis.
+     * @param flexY {Integer?null} Flex value for the y-axis.
+     * @return {qx.ui2.layout.HBox} This object (for chaining support)
+     */
     add : function(widget, edge, flexX, flexY)
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "dock.edge", "dock.flexX", "dock.flexY");
+      return this;
     },
 
 
