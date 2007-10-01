@@ -1,0 +1,114 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var docLayout = new qx.ui2.layout.Basic();
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+
+      // default layout
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:250, height:250});
+      var layout1 = new qx.ui2.layout.Dock();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+
+      layout1.add(w1, "north");
+      layout1.add(w2, "west");
+      layout1.add(w3, "south");
+      layout1.add(w4, "east");
+
+      widget1.setLayout(layout1);
+      docLayout.add(widget1, 10, 10);
+
+
+
+
+      // y-axis first
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:250, height:250});
+      var layout1 = new qx.ui2.layout.Dock();
+      layout1.setSort("yfirst");
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+
+      layout1.add(w1, "north");
+      layout1.add(w2, "west");
+      layout1.add(w3, "south");
+      layout1.add(w4, "east");
+
+      widget1.setLayout(layout1);
+      docLayout.add(widget1, 330, 10);
+
+
+
+
+
+      // x-axis first
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:250, height:250});
+      var layout1 = new qx.ui2.layout.Dock();
+      layout1.setSort("xfirst");
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+
+      layout1.add(w1, "north");
+      layout1.add(w2, "west");
+      layout1.add(w3, "south");
+      layout1.add(w4, "east");
+
+      widget1.setLayout(layout1);
+      docLayout.add(widget1, 650, 10);
+
+
+
+
+
+      doc.setLayout(docLayout);
+      qx.ui2.core.LayoutQueue.flush();
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
