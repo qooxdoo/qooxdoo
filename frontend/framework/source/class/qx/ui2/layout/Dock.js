@@ -36,6 +36,10 @@ qx.Class.define("qx.ui2.layout.Dock",
 
   properties :
   {
+    /** 
+     * The way the widgets should be displayed (in conjunction with their 
+     * position in the childrens array).
+     */
     sort :
     {
       check : [ "auto", "yfirst", "xfirst" ],

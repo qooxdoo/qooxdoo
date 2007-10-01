@@ -100,6 +100,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "hbox.flex", "hbox.align");
+      
       return this;
     },
 
