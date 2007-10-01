@@ -45,10 +45,56 @@ qx.Class.define("qx.ui2.layout.Dock",
     },
 
 
+    _getSortedChildren : function()
+    {
+      var children = this._children;
+
+      var high = [];
+      var low = [];
+      var center;
+      var yfirst = this.getSort() === "yfirst";
+      var xfirst = this.getSort() === "xfirst";
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+        childEdge = child.getLayoutProperty("dock.edge");
+
+        if (childEdge === "center")
+        {
+          center = child;
+        }
+        else if (xfirst || yfirst)
+        {
+          if (childEdge === "north" || childEdge === "south")
+          {
+            yfirst ? high.push(child) : low.push(child);
+          }
+          else if (childEdge === "west" || childEdge === "east")
+          {
+            yfirst ? low.push(child) : high.push(child);
+          }
+        }
+        else
+        {
+          high.push(child);
+        }
+      }
+
+      children = high.concat(low);
+
+      if (center) {
+        children.push(center);
+      }
+
+      return children;
+    },
+
+
     // overridden
     layout : function(availWidth, availHeight)
     {
-      var children = this._children;
+      var children = this._getSortedChildren();
       var child;
       var childEdge;
       var childWidths = [];
@@ -61,32 +107,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       var usedHeight = 0;
 
 
-      // Dynamically reorder children
-      if (this.getSort() !== "auto")
-      {
-        var first = [];
-        var last = [];
-        var yfirst = this.getSort() === "yfirst";
-
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          child = children[i];
-          childEdge = child.getLayoutProperty("dock.edge");
-
-          if (childEdge === "north" || childEdge === "south")
-          {
-            yfirst ? first.push(child) : last.push(child);
-          }
-          else if (childEdge === "west" || childEdge === "east")
-          {
-            yfirst ? last.push(child) : first.push(child);
-          }
-        }
-
-        children = first.concat(last);
-      }
-
-
+      //
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -147,6 +168,13 @@ qx.Class.define("qx.ui2.layout.Dock",
           childWidth = availWidth - nextLeft - nextRight;
           childHeight = childHeights[i];
         }
+        else if (childEdge === "center")
+        {
+          childLeft = nextLeft;
+          childTop = nextTop;
+          childWidth = availWidth - nextLeft - nextRight;
+          childHeight = availHeight - nextTop - nextBottom;
+        }
 
         child.layout(childLeft, childTop, childWidth, childHeight);
 
@@ -180,8 +208,6 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         console.debug("STATUS: " + nextLeft + "x" + nextTop + " | " + nextRight + "x" + nextBottom);
       }
-
-
 
 
     },
