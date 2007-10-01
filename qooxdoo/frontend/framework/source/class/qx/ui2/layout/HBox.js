@@ -160,7 +160,7 @@ qx.Class.define("qx.ui2.layout.HBox",
               flexCandidates.push({
                 id : i,
                 potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
-                flex : childFlex || 1
+                flex : childGrow ? (childFlex || 1) : 1 / (childFlex || 1)
               });
             }
           }
