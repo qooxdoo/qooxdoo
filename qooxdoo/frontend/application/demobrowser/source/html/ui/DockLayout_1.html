@@ -38,8 +38,8 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
-      // default layout
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:250, height:250});
+      // default layout, auto-sized
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.Dock();
 
       var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
@@ -60,8 +60,8 @@ qx.Class.define("BasicSample",
 
 
 
-      // y-axis first
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:250, height:250});
+      // y-axis first, auto-sized
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.Dock();
       layout1.setSort("yfirst");
 
@@ -84,8 +84,8 @@ qx.Class.define("BasicSample",
 
 
 
-      // x-axis first
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:250, height:250});
+      // x-axis first, auto-sized
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.Dock();
       layout1.setSort("xfirst");
 
