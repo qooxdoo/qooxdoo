@@ -83,17 +83,36 @@ qx.Class.define("qx.ui2.layout.HBox",
   {
     /*
     ---------------------------------------------------------------------------
-      LAYOUT INTERFACE
+      CHILDREN MANAGMENT
     ---------------------------------------------------------------------------
     */
 
-    // overridden
+    /**
+     * Adds a new widget to this layout.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to add
+     * @param flex {Integer?null} Flex value to use
+     * @param align {String?null} Vertical alignment of widget
+     * @return {qx.ui2.layout.HBox} This object (for chaining support)
+     */
     add : function(widget, flex, align)
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "hbox.flex", "hbox.align");
+      return this;
     },
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     layout : function(availWidth, availHeight)
