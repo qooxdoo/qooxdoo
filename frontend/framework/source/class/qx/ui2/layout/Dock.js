@@ -107,7 +107,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       var usedHeight = 0;
 
 
-      //
+      // Analyse children
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -121,9 +121,14 @@ qx.Class.define("qx.ui2.layout.Dock",
         {
           usedHeight += childHint.height;
         }
+        else if (childEdge === "west" || childEdge === "east")
+        {
+          usedWidth += childHint.width;
+        }
         else
         {
           usedWidth += childHint.width;
+          usedHeight += childHint.height;
         }
       }
 
