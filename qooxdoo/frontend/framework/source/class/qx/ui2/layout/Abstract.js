@@ -42,17 +42,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
 
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-  },
-
-
 
 
   /*
@@ -63,6 +52,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
   properties :
   {
+    /** 
+     * Stores the connected widget instance. Each layout instance can only 
+     * be used by one widget and this is the place this relation is stored.
+     */
     widget :
     {
       check : "qx.ui2.core.Widget",
@@ -72,17 +65,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
     }
   },
 
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
 
 
@@ -106,12 +88,15 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
-     * @return {void}
+     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
     add : function(widget)
     {
       this._children.push(widget);
       this._addToParent(widget);
+      
+      // Chaining support      
+      return this;
     },
 
 
@@ -120,7 +105,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
-     * @return {void}
+     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
     remove : function(widget)
     {
@@ -130,6 +115,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
       // invalidate the layouts of the widget and its old parent
       widget.invalidateLayout();
       this.invalidateLayout();
+      
+      // Chaining support
+      return this;
     },
 
 
@@ -138,10 +126,11 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
-     * @return {void}
+     * @return {Boolean} <code>true</code> when the given widget is a child
+     *    of this layout.
      */
     has : function(widget) {
-      qx.lang.Array.contains(this._children, widget);
+      return qx.lang.Array.contains(this._children, widget);
     },
 
 
@@ -150,7 +139,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
-     * @return {void}
+     * @return {Array} The children array
      */
     getChildren : function() {
       return this._children;
@@ -171,10 +160,12 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Invalidate all layout relevant caches
      *
      * @internal
+     * @abstract
      * @type member
      * @return {void}
      */
     invalidate : function() {
+      throw new Error("Missing invalidate() implementation!");
     },
 
 
@@ -183,6 +174,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * up the widget hierarchy.
      *
      * @internal
+     * @type member
+     * @return {void}
      */
     invalidateLayout : function()
     {
@@ -197,13 +190,14 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Applies the children layout.
      *
      * @internal
+     * @abstract
      * @type member
      * @param width {Integer} Final (content) width (in pixel) of the parent widget
      * @param width {Integer} Final (content) height (in pixel) of the parent widget
      * @return {void}
      */
     layout : function(width, height) {
-      throw new Error("Missing layout implementation!");
+      throw new Error("Missing layout() implementation!");
     },
 
 
@@ -233,6 +227,13 @@ qx.Class.define("qx.ui2.layout.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Helper to manage child insertion.
+     *
+     * @type member
+     
+     *
+     */
     _addToParent : function(widget)
     {
       var parent = this.getWidget();
