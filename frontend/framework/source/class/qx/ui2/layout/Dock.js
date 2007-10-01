@@ -220,8 +220,10 @@ qx.Class.define("qx.ui2.layout.Dock",
         return this._sizeHint;
       }
 
+
       // Initialize
       var children = this._getSortedChildren();
+      var child, childHint, childEdge;
 
       var widthX=0, minWidthX=0, maxWidthX=32000;
       var heightX=0, minHeightX=0, maxHeightX=32000;
@@ -230,6 +232,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       var heightY=0, minHeightY=0, maxHeightY=32000;
 
 
+      // Detect children sizes
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -268,18 +271,14 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
+
+      // Sum up and limit to integer region
       var width = Math.max(widthX, widthY, 0);
       var minWidth = Math.max(minWidthX, minWidthY, 0);
       var maxWidth = Math.min(maxWidthX, maxWidthY, 32000);
-
       var height = Math.max(heightX, heightY, 0);
       var minHeight = Math.max(minHeightX, minHeightY, 0);
       var maxHeight = Math.min(maxHeightX, maxHeightY, 32000);
-
-      console.log("SIZE HINT WIDTH: " + minWidth + "<" + width + ">" + maxWidth);
-      console.log("SIZE HINT HEIGHT: " + minHeight + "<" + height + ">" + maxHeight);
-
-
 
 
       // Limit dimensions to integer range
