@@ -221,10 +221,63 @@ qx.Class.define("qx.ui2.layout.Dock",
       }
 
       // Initialize
-      var children = this.getChildren();
-      var width=0, minWidth=0, maxWidth=32000;
-      var height=0, minHeight=0, maxHeight=32000;
+      var children = this._getSortedChildren();
 
+      var widthX=0, minWidthX=0, maxWidthX=32000;
+      var heightX=0, minHeightX=0, maxHeightX=32000;
+
+      var widthY=0, minWidthY=0, maxWidthY=32000;
+      var heightY=0, minHeightY=0, maxHeightY=32000;
+
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+        childEdge = child.getLayoutProperty("dock.edge");
+        childHint = child.getSizeHint();
+
+        if (childEdge === "north" || childEdge === "south")
+        {
+          widthY = Math.max(widthY, childHint.width);
+          minWidthY = Math.max(minWidthY, childHint.minWidth);
+          maxWidthY = Math.min(maxWidthY, childHint.maxWidth);
+
+          heightY += childHint.height;
+          minHeightY += childHint.minHeight;
+          maxHeightY += childHint.maxHeight;
+        }
+        else if (childEdge === "west" || childEdge === "east")
+        {
+          heightX = Math.max(heightX, childHint.height);
+          minHeightX = Math.max(minHeightX, childHint.minHeight);
+          maxHeightX = Math.min(maxHeightX, childHint.maxHeight);
+
+          widthX += childHint.width;
+          minWidthX += childHint.minWidth;
+          maxWidthX += childHint.maxWidth;
+        }
+        else if (childEdge === "center")
+        {
+          widthX += childHint.width;
+          minWidthX += childHint.minWidth;
+          maxWidthX += childHint.maxWidth;
+
+          heightY += childHint.height;
+          minHeightY += childHint.minHeight;
+          maxHeightY += childHint.maxHeight;
+        }
+      }
+
+      var width = Math.max(widthX, widthY, 0);
+      var minWidth = Math.max(minWidthX, minWidthY, 0);
+      var maxWidth = Math.min(maxWidthX, maxWidthY, 32000);
+
+      var height = Math.max(heightX, heightY, 0);
+      var minHeight = Math.max(minHeightX, minHeightY, 0);
+      var maxHeight = Math.min(maxHeightX, maxHeightY, 32000);
+
+      console.log("SIZE HINT WIDTH: " + minWidth + "<" + width + ">" + maxWidth);
+      console.log("SIZE HINT HEIGHT: " + minHeight + "<" + height + ">" + maxHeight);
 
 
 
