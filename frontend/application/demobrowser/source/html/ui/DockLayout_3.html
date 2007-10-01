@@ -39,7 +39,7 @@ qx.Class.define("BasicSample",
 
 
       // default layout
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width: 200});
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:150, height:100});
       var layout1 = new qx.ui2.layout.Dock();
 
       var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
@@ -48,20 +48,20 @@ qx.Class.define("BasicSample",
       var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north");
-      layout1.add(w2, "west");
-      layout1.add(w3, "south");
-      layout1.add(w4, "east");
-      layout1.add(w5, "center");
+      layout1.add(w1, "north", 5, 5);
+      layout1.add(w2, "west", 4, 4);
+      layout1.add(w3, "south", 3, 3);
+      layout1.add(w4, "east", 2, 2);
+      layout1.add(w5, "center", 1, 1);
 
       widget1.setLayout(layout1);
       docLayout.add(widget1, 10, 10);
 
 
 
-/*
+
       // y-axis first
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:150, height:100});
       var layout1 = new qx.ui2.layout.Dock();
       layout1.setSort("yfirst");
 
@@ -71,11 +71,11 @@ qx.Class.define("BasicSample",
       var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north");
-      layout1.add(w2, "west");
-      layout1.add(w3, "south");
-      layout1.add(w4, "east");
-      layout1.add(w5, "center");
+      layout1.add(w1, "north", 5, 5);
+      layout1.add(w2, "west", 4, 4);
+      layout1.add(w3, "south", 3, 3);
+      layout1.add(w4, "east", 2, 2);
+      layout1.add(w5, "center", 1, 1);
 
       widget1.setLayout(layout1);
       docLayout.add(widget1, 330, 10);
@@ -85,7 +85,7 @@ qx.Class.define("BasicSample",
 
 
       // x-axis first
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:150, height:100});
       var layout1 = new qx.ui2.layout.Dock();
       layout1.setSort("xfirst");
 
@@ -95,16 +95,16 @@ qx.Class.define("BasicSample",
       var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north");
-      layout1.add(w2, "west");
-      layout1.add(w3, "south");
-      layout1.add(w4, "east");
-      layout1.add(w5, "center");
+      layout1.add(w1, "north", 5, 5);
+      layout1.add(w2, "west", 4, 4);
+      layout1.add(w3, "south", 3, 3);
+      layout1.add(w4, "east", 2, 2);
+      layout1.add(w5, "center", 1, 1);
 
       widget1.setLayout(layout1);
       docLayout.add(widget1, 650, 10);
 
-*/
+
 
 
 

@@ -25,6 +25,15 @@ qx.Class.define("qx.ui2.layout.Dock",
 {
   extend : qx.ui2.layout.Abstract,
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     sort :
@@ -35,68 +44,41 @@ qx.Class.define("qx.ui2.layout.Dock",
   },
 
 
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     // overridden
-    add : function(widget, edge)
+    add : function(widget, edge, flexX, flexY)
     {
       this.base(arguments, widget);
-      this._importProperties(widget, arguments, "dock.edge");
+      this._importProperties(widget, arguments, "dock.edge", "dock.flexX", "dock.flexY");
     },
 
 
-    _getSortedChildren : function()
-    {
-      var children = this._children;
 
-      var high = [];
-      var low = [];
-      var center;
-      var yfirst = this.getSort() === "yfirst";
-      var xfirst = this.getSort() === "xfirst";
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        child = children[i];
-        childEdge = child.getLayoutProperty("dock.edge");
 
-        if (childEdge === "center")
-        {
-          center = child;
-        }
-        else if (xfirst || yfirst)
-        {
-          if (childEdge === "north" || childEdge === "south")
-          {
-            yfirst ? high.push(child) : low.push(child);
-          }
-          else if (childEdge === "west" || childEdge === "east")
-          {
-            yfirst ? low.push(child) : high.push(child);
-          }
-        }
-        else
-        {
-          high.push(child);
-        }
-      }
-
-      children = high.concat(low);
-
-      if (center) {
-        children.push(center);
-      }
-
-      return children;
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     layout : function(availWidth, availHeight)
     {
       var children = this._getSortedChildren();
-      var child;
-      var childEdge;
+      var child, childEdge, childHint, childFlex;
+      var childHints = [];
       var childWidths = [];
       var childHeights = [];
 
@@ -114,6 +96,7 @@ qx.Class.define("qx.ui2.layout.Dock",
         childEdge = child.getLayoutProperty("dock.edge");
         childHint = child.getSizeHint();
 
+        childHints[i] = childHint;
         childWidths[i] = childHint.width;
         childHeights[i] = childHint.height;
 
@@ -136,85 +119,184 @@ qx.Class.define("qx.ui2.layout.Dock",
       console.debug("Used height: " + usedHeight + "/" + availHeight);
 
 
-      var nextTop=0, nextLeft=0, nextBottom=0, nextRight=0;
+      // Process widths for flex stretching/shrinking
+      if (usedWidth != availWidth)
+      {
+        var flexCandidates = [];
+        var childGrow = usedWidth < availWidth;
 
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          child = children[i];
+          childEdge = child.getLayoutProperty("dock.edge");
+
+          if (childEdge === "west" || childEdge === "east" || childEdge === "center")
+          {
+            if (child.canStretchX())
+            {
+              childFlex = child.getLayoutProperty("dock.flexX");
+
+              if (childFlex == null || childFlex > 0)
+              {
+                childHint = childHints[i];
+
+                flexCandidates.push({
+                  id : i,
+                  potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
+                  flex : childFlex || 1
+                });
+              }
+            }
+          }
+        }
+
+        if (flexCandidates.length > 0)
+        {
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availWidth - usedWidth);
+
+          for (var key in flexibleOffsets)
+          {
+            this.debug(" - Correcting child[" + key + "] width by: " + flexibleOffsets[key]);
+
+            childWidths[key] += flexibleOffsets[key];
+            usedWidth += flexibleOffsets[key];
+          }
+        }
+      }
+
+
+      // Process height for flex stretching/shrinking
+      if (usedHeight != availHeight)
+      {
+        var flexCandidates = [];
+        var childGrow = usedHeight < availHeight;
+
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          child = children[i];
+          childEdge = child.getLayoutProperty("dock.edge");
+
+          if (childEdge === "north" || childEdge === "south" || childEdge === "center")
+          {
+            if (child.canStretchY())
+            {
+              childFlex = child.getLayoutProperty("dock.flexY");
+
+              if (childFlex == null || childFlex > 0)
+              {
+                childHint = childHints[i];
+
+                flexCandidates.push({
+                  id : i,
+                  potential : childGrow ? childHint.maxHeight - childHint.height : childHint.height - childHint.minHeight,
+                  flex : childFlex || 1
+                });
+              }
+            }
+          }
+        }
+
+        if (flexCandidates.length > 0)
+        {
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availHeight - usedHeight);
+
+          for (var key in flexibleOffsets)
+          {
+            this.debug(" - Correcting child[" + key + "] height by: " + flexibleOffsets[key]);
+
+            childHeights[key] += flexibleOffsets[key];
+            usedHeight += flexibleOffsets[key];
+          }
+        }
+      }
+
+      console.debug("Used width: " + usedWidth + "/" + availWidth);
+      console.debug("Used height: " + usedHeight + "/" + availHeight);
+
+
+      // Apply children layout
+      var nextTop=0, nextLeft=0, nextBottom=0, nextRight=0;
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         childEdge = child.getLayoutProperty("dock.edge");
 
 
-        // Layout child
+        // Calculate child layout
         if (childEdge === "west")
         {
+          // Simple top/left coordinates
           childLeft = nextLeft;
           childTop = nextTop;
+
+          // Child preferred width
           childWidth = childWidths[i];
+
+          // Full available height
           childHeight = availHeight - nextTop - nextBottom;
+
+          // Update coordinates, for next children
+          nextLeft += childWidth;
         }
         else if (childEdge === "north")
         {
+          // Simple top/left coordinates
           childLeft = nextLeft;
           childTop = nextTop;
+
+          // Full available width
           childWidth = availWidth - nextLeft - nextRight;
+
+          // Child preferred height
           childHeight = childHeights[i];
+
+          // Update coordinates, for next children
+          nextTop += childHeight;
         }
         else if (childEdge === "east")
         {
+          // Simple top coordinate + calculated left position
           childLeft = availWidth - nextRight - childWidths[i];
           childTop = nextTop;
+
+          // Child preferred width
           childWidth = childWidths[i];
+
+          // Full available height
           childHeight = availHeight - nextTop - nextBottom;
+
+          // Update coordinates, for next children
+          nextRight += childWidth;
         }
         else if (childEdge === "south")
         {
+          // Simple left coordinate + calculated top position
           childLeft = nextLeft;
           childTop = availHeight - nextBottom - childHeights[i];
+
+          // Full available width
           childWidth = availWidth - nextLeft - nextRight;
+
+          // Child preferred height
           childHeight = childHeights[i];
+
+          // Update coordinates, for next children
+          nextBottom += childHeight;
         }
         else if (childEdge === "center")
         {
+          // Simple top/left coordinates
           childLeft = nextLeft;
           childTop = nextTop;
+
+          // Calculated width/height
           childWidth = availWidth - nextLeft - nextRight;
           childHeight = availHeight - nextTop - nextBottom;
         }
 
+        // Apply layout
         child.layout(childLeft, childTop, childWidth, childHeight);
-
-
-
-
-
-        // If this is the last one => exit here
-        if (i==(l-1)) {
-          break;
-        }
-
-
-
-        if (childEdge === "west")
-        {
-          nextLeft += childWidths[i];
-        }
-        else if (childEdge === "north")
-        {
-          nextTop += childHeights[i];
-        }
-        else if (childEdge === "east")
-        {
-          nextRight += childWidths[i];
-        }
-        else if (childEdge === "south")
-        {
-          nextBottom += childHeights[i];
-        }
-
-        console.debug("STATUS: " + nextLeft + "x" + nextTop + " | " + nextRight + "x" + nextBottom);
       }
-
-
     },
 
 
@@ -224,7 +306,6 @@ qx.Class.define("qx.ui2.layout.Dock",
       if (this._sizeHint) {
         return this._sizeHint;
       }
-
 
       // Initialize
       var children = this._getSortedChildren();
@@ -320,6 +401,62 @@ qx.Class.define("qx.ui2.layout.Dock",
       this._sizeHint = hint;
 
       return hint;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _getSortedChildren : function()
+    {
+      var children = this._children;
+
+      var high = [];
+      var low = [];
+      var center;
+      var yfirst = this.getSort() === "yfirst";
+      var xfirst = this.getSort() === "xfirst";
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+        childEdge = child.getLayoutProperty("dock.edge");
+
+        if (childEdge === "center")
+        {
+          if (center) {
+            throw new Error("It is not allowed to have more than one child aligned to 'center'!");
+          }
+
+          center = child;
+        }
+        else if (xfirst || yfirst)
+        {
+          if (childEdge === "north" || childEdge === "south") {
+            yfirst ? high.push(child) : low.push(child);
+          } else if (childEdge === "west" || childEdge === "east") {
+            yfirst ? low.push(child) : high.push(child);
+          }
+        }
+        else
+        {
+          high.push(child);
+        }
+      }
+
+      children = high.concat(low);
+
+      if (center) {
+        children.push(center);
+      }
+
+      return children;
     }
   }
 });
