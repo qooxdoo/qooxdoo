@@ -143,7 +143,7 @@ qx.Class.define("qx.ui2.layout.Dock",
                 flexCandidates.push({
                   id : i,
                   potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
-                  flex : childFlex || 1
+                  flex : childGrow ? (childFlex || 1) : 1 / (childFlex || 1)
                 });
               }
             }
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui2.layout.Dock",
                 flexCandidates.push({
                   id : i,
                   potential : childGrow ? childHint.maxHeight - childHint.height : childHint.height - childHint.minHeight,
-                  flex : childFlex || 1
+                  flex : childGrow ? (childFlex || 1) : 1 / (childFlex || 1)
                 });
               }
             }
