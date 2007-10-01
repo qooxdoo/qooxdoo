@@ -239,28 +239,39 @@ qx.Class.define("qx.ui2.layout.Dock",
         childEdge = child.getLayoutProperty("dock.edge");
         childHint = child.getSizeHint();
 
+        // Ok, this part is a bit complicated :)
         if (childEdge === "north" || childEdge === "south")
         {
-          widthY = Math.max(widthY, childHint.width);
-          minWidthY = Math.max(minWidthY, childHint.minWidth);
-          maxWidthY = Math.min(maxWidthY, childHint.maxWidth);
+          // Find the maximum width used by these fully stretched items
+          // The recommended width used by these must add the currently
+          // occupied width by the ortogonal ordered children.
+          widthY = Math.max(widthY, childHint.width + widthX);
+          minWidthY = Math.max(minWidthY, childHint.minWidth + minWidthX);
+          maxWidthY = Math.min(maxWidthY, childHint.maxWidth + maxWidthX);
 
+          // Add the needed heights of this widget
           heightY += childHint.height;
           minHeightY += childHint.minHeight;
           maxHeightY += childHint.maxHeight;
         }
         else if (childEdge === "west" || childEdge === "east")
         {
-          heightX = Math.max(heightX, childHint.height);
-          minHeightX = Math.max(minHeightX, childHint.minHeight);
-          maxHeightX = Math.min(maxHeightX, childHint.maxHeight);
+          // Find the maximum height used by these fully stretched items
+          // The recommended height used by these must add the currently
+          // occupied height by the ortogonal ordered children.
+          heightX = Math.max(heightX, childHint.height + heightY);
+          minHeightX = Math.max(minHeightX, childHint.minHeight + minHeightY);
+          maxHeightX = Math.min(maxHeightX, childHint.maxHeight + maxHeightY);
 
+          // Add the needed widths of this widget
           widthX += childHint.width;
           minWidthX += childHint.minWidth;
           maxWidthX += childHint.maxWidth;
         }
         else if (childEdge === "center")
         {
+          // A centered widget must be added to both sums as
+          // it stretches into the remaining available space.
           widthX += childHint.width;
           minWidthX += childHint.minWidth;
           maxWidthX += childHint.maxWidth;
