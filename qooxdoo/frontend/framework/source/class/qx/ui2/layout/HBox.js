@@ -141,7 +141,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Process widths for flex stretching/shrinking
       if (usedWidth != availWidth)
       {
-        var flexibleChildren = [];
+        var flexCandidates = [];
         var childGrow = usedWidth < availWidth;
 
         for (var i=0, l=children.length; i<l; i++)
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui2.layout.HBox",
             {
               childHint = childHints[i];
 
-              flexibleChildren.push({
+              flexCandidates.push({
                 id : i,
                 potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
                 flex : childFlex || 1
@@ -166,13 +166,13 @@ qx.Class.define("qx.ui2.layout.HBox",
           }
         }
 
-        if (flexibleChildren.length > 0)
+        if (flexCandidates.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibleChildren, availWidth - usedWidth);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availWidth - usedWidth);
 
           for (var key in flexibleOffsets)
           {
-            // this.debug("  - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
+            // this.debug(" - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
 
             childWidths[key] += flexibleOffsets[key];
             usedWidth += flexibleOffsets[key];
