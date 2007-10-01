@@ -231,7 +231,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Helper to manage child insertion.
      *
      * @type member
-     
+     * @param widget {qx.ui2.core.Widget} Widget to insert
      *
      */
     _addToParent : function(widget)
