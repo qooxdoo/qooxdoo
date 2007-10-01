@@ -216,6 +216,8 @@ qx.Class.define("qx.ui2.layout.Dock",
 
       // Apply children layout
       var nextTop=0, nextLeft=0, nextBottom=0, nextRight=0;
+      var childLeft, childTop, childWidth, childHeight;
+
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
