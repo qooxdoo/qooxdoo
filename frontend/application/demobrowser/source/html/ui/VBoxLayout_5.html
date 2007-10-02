@@ -39,8 +39,8 @@ qx.Class.define("BasicSample",
 
 
       // one percent child which is not flexible
-      var box1 = (new qx.ui2.core.Widget).set({width: 500, decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -50,7 +50,7 @@ qx.Class.define("BasicSample",
       layout1.add(w2);
       layout1.add(w3);
 
-			w1.addLayoutProperty("hbox.width", "50%");
+			w1.addLayoutProperty("hbox.height", "50%");
 
       box1.setLayout(layout1);
       docLayout.add(box1, 10, 10);
@@ -59,8 +59,8 @@ qx.Class.define("BasicSample",
 
 
       // all percent child, using 90% in sum, rest filled via flex
-      var box1 = (new qx.ui2.core.Widget).set({width: 500, decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -70,19 +70,19 @@ qx.Class.define("BasicSample",
       layout1.add(w2);
       layout1.add(w3);
 
-			w1.addLayoutProperty("hbox.width", "30%");
-			w2.addLayoutProperty("hbox.width", "30%");
-			w3.addLayoutProperty("hbox.width", "30%");
+			w1.addLayoutProperty("hbox.height", "30%");
+			w2.addLayoutProperty("hbox.height", "30%");
+			w3.addLayoutProperty("hbox.height", "30%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 70);
+      docLayout.add(box1, 130, 10);
 
 
 
 
       // all percent child, using 99.9% in sum, flex disabled (=> to small result)
-      var box1 = (new qx.ui2.core.Widget).set({width: 500, decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -92,19 +92,19 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 0);
       layout1.add(w3, 0);
 
-			w1.addLayoutProperty("hbox.width", "33.3%");
-			w2.addLayoutProperty("hbox.width", "33.3%");
-			w3.addLayoutProperty("hbox.width", "33.3%");
+			w1.addLayoutProperty("hbox.height", "33.3%");
+			w2.addLayoutProperty("hbox.height", "33.3%");
+			w3.addLayoutProperty("hbox.height", "33.3%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 130);
+      docLayout.add(box1, 250, 10);
 
 
 
 
       // all percent child, using 99.9% in sum, flex enabled for last child (=> perfect result, last one a bit bigger)
-      var box1 = (new qx.ui2.core.Widget).set({width: 500, decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -114,12 +114,12 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 0);
       layout1.add(w3);
 
-			w1.addLayoutProperty("hbox.width", "33.3%");
-			w2.addLayoutProperty("hbox.width", "33.3%");
-			w3.addLayoutProperty("hbox.width", "33.3%");
+			w1.addLayoutProperty("hbox.height", "33.3%");
+			w2.addLayoutProperty("hbox.height", "33.3%");
+			w3.addLayoutProperty("hbox.height", "33.3%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 190);
+      docLayout.add(box1, 370, 10);
 
 
 
@@ -128,7 +128,7 @@ qx.Class.define("BasicSample",
 
       // one percent child which is not flexible + auto sizing
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -138,16 +138,16 @@ qx.Class.define("BasicSample",
       layout1.add(w2);
       layout1.add(w3);
 
-			w1.addLayoutProperty("hbox.width", "50%");
+			w1.addLayoutProperty("hbox.height", "50%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 250);
+      docLayout.add(box1, 490, 10);
 
 
 
       // all child in percents + auto sizing + no flex
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -157,17 +157,17 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 0);
       layout1.add(w3, 0);
 
-			w1.addLayoutProperty("hbox.width", "33%");
-			w2.addLayoutProperty("hbox.width", "33%");
-			w3.addLayoutProperty("hbox.width", "33%");
+			w1.addLayoutProperty("hbox.height", "33%");
+			w2.addLayoutProperty("hbox.height", "33%");
+			w3.addLayoutProperty("hbox.height", "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 310);
+      docLayout.add(box1, 610, 10);
 
 
       // all child in percents + auto sizing + flex enabled
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -177,19 +177,19 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 1);
       layout1.add(w3, 1);
 
-			w1.addLayoutProperty("hbox.width", "33%");
-			w2.addLayoutProperty("hbox.width", "33%");
-			w3.addLayoutProperty("hbox.width", "33%");
+			w1.addLayoutProperty("hbox.height", "33%");
+			w2.addLayoutProperty("hbox.height", "33%");
+			w3.addLayoutProperty("hbox.height", "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 370);
+      docLayout.add(box1, 730, 10);
 
 
 
 
       // all child in percents + flex enabled (shrinking)
-      var box1 = (new qx.ui2.core.Widget).set({width : 200, decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui2.core.Widget).set({height : 100, decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -199,20 +199,20 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 1);
       layout1.add(w3, 1);
 
-			w1.addLayoutProperty("hbox.width", "33%");
-			w2.addLayoutProperty("hbox.width", "33%");
-			w3.addLayoutProperty("hbox.width", "33%");
+			w1.addLayoutProperty("hbox.height", "33%");
+			w2.addLayoutProperty("hbox.height", "33%");
+			w3.addLayoutProperty("hbox.height", "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 430);
+      docLayout.add(box1, 850, 10);
 
 
 
 
 
       // all child in percents + flex enabled (growing)
-      var box1 = (new qx.ui2.core.Widget).set({width : 500, decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui2.core.Widget).set({height : 300, decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.VBox();
 
 			var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
@@ -222,12 +222,12 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 1);
       layout1.add(w3, 1);
 
-			w1.addLayoutProperty("hbox.width", "33%");
-			w2.addLayoutProperty("hbox.width", "33%");
-			w3.addLayoutProperty("hbox.width", "33%");
+			w1.addLayoutProperty("hbox.height", "33%");
+			w2.addLayoutProperty("hbox.height", "33%");
+			w3.addLayoutProperty("hbox.height", "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 490);
+      docLayout.add(box1, 970, 10);
 
 
 
