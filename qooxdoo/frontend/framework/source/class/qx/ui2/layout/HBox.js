@@ -24,6 +24,7 @@
  *
  * Other names (for comparable layouts in other systems):
  *
+ * * QHBoxLayout (Qt)
  * * StackPanel (XAML)
  *
  * Supports:
@@ -31,7 +32,7 @@
  * * Integer dimensions (using widget properties)
  * * Additional percent width (using layout property)
  * * Min and max dimensions (using widget properties)
- * * Priorized stretching/shrinking (flex) (using layout properties)
+ * * Priorized growing/shrinking (flex) (using layout properties)
  * * Left and right margins (even negative ones) with margin collapsing support (using layout properties)
  * * Auto sizing
  * * Horizontal align
