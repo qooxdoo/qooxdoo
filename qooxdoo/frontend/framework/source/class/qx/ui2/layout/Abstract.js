@@ -52,8 +52,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
   properties :
   {
-    /** 
-     * Stores the connected widget instance. Each layout instance can only 
+    /**
+     * Stores the connected widget instance. Each layout instance can only
      * be used by one widget and this is the place this relation is stored.
      */
     widget :
@@ -94,8 +94,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       this._children.push(widget);
       this._addToParent(widget);
-      
-      // Chaining support      
+
+      // Chaining support
       return this;
     },
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
       // invalidate the layouts of the widget and its old parent
       widget.invalidateLayout();
       this.invalidateLayout();
-      
+
       // Chaining support
       return this;
     },
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} Widget to insert
-     *
+     * @return {void}
      */
     _addToParent : function(widget)
     {
@@ -245,9 +245,17 @@ qx.Class.define("qx.ui2.layout.Abstract",
       }
     },
 
+
+    /**
+     * Helper to manage child removal.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to remove
+     * @return {void}
+     */
     _removeFromParent : function(widget)
     {
-      widget.getElement().free();
+      parent._contentElement.remove(widget.getElement());
       widget.setParent(null);
     },
 
@@ -260,6 +268,14 @@ qx.Class.define("qx.ui2.layout.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Imports a list of arguments into the widget layout properties.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param args {arguments} Arguments of original function
+     * @return {void}
+     */
     _importProperties : function(widget, args)
     {
       var len = Math.min(args.length, arguments.length+1);
@@ -277,24 +293,25 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     /*
     ---------------------------------------------------------------------------
-      PROPERTY HANDLER
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
     _applyWidget : function(value, old)
     {
       var children = this.getChildren();
+      var length = children.length;
 
       if (old)
       {
-        for (var i=0, l=children.length; i<l; i++) {
+        for (var i=0; i<length; i++) {
           this._removeFromParent(children[i]);
         }
       }
 
       if (value)
       {
-        for (var i=0, l=children.length; i<l; i++) {
+        for (var i=0; i<length; i++) {
           this._addToParent(children[i]);
         }
       }
@@ -304,11 +321,11 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Generic property apply method for all layout relevant properties.
      */
-    _applyLayoutChange : function()
-    {
+    _applyLayoutChange : function() {
       this.invalidateLayout();
     }
   },
+
 
 
 
