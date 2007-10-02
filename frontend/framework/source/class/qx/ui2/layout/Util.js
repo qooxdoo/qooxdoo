@@ -22,6 +22,24 @@ qx.Class.define("qx.ui2.layout.Util",
 {
   statics :
   {
+    /**
+     * Computes the flex offsets needed to reduce the space
+     * difference as much as possible by respecting the
+     * potential of the given elements (being in the range of
+     * their min/max values)
+     *
+     * @type static
+     * @param flexibles {Map[]) Each entry must have these keys:
+     *   <code>id</code>, <code>potential</code> and <code>flex</code>.
+     *   The ID is used in the result map as the key for the user to work
+     *   with later (e.g. upgrade sizes etc. to respect the given offset)
+     *   The potential is an integer value which is the difference of the
+     *   currently interesting direction (e.g. shrinking=width-minWidth, growing=
+     *   maxWidth-width). The flex key holds the flex value of the item.
+     * @param spaceDifference {Integer} The difference which should be reduced.
+     * @return {Map} A map which contains the calculated offsets under the key
+     *   which is identical to the ID given in the incoming map.
+     */
     computeFlexOffsets : function(flexibles, spaceDifference)
     {
       var child;
@@ -111,13 +129,23 @@ qx.Class.define("qx.ui2.layout.Util",
     },
 
 
-    computeHorizontalAlignOffset : function(hAlign, widgetWidth, outerWidth)
+    /**
+     * Computes the offset which needs to be added to the left position
+     * to result in the stated horizontal alignment.
+     *
+     * @type static
+     * @param hAlign {String} One of <code>left</code>, <code>center</code> or <code>right</code>.
+     * @param widgetWidth {Integer} The absolute (outer) width of the widget
+     * @param parentWidth {Integer} The absolute (inner) width of the parent
+     * @return {Integer} Computed offset left
+     */
+    computeHorizontalAlignOffset : function(hAlign, widgetWidth, parentWidth)
     {
       var value = 0;
 
       if (widgetWidth !== outerWidth && hAlign && hAlign !== "left")
       {
-        value = outerWidth - widgetWidth;
+        value = parentWidth - widgetWidth;
 
         if (hAlign === "center") {
           value = Math.round(value / 2);
@@ -128,13 +156,23 @@ qx.Class.define("qx.ui2.layout.Util",
     },
 
 
-    computeVerticalAlignOffset : function(vAlign, widgetHeight, outerHeight)
+    /**
+     * Computes the offset which needs to be added to the top position
+     * to result in the stated vertical alignment.
+     *
+     * @type static
+     * @param hAlign {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
+     * @param widgetWidth {Integer} The absolute (outer) height of the widget
+     * @param parentWidth {Integer} The absolute (inner) height of the parent
+     * @return {Integer} Computed offset top
+     */
+    computeVerticalAlignOffset : function(vAlign, widgetHeight, parentHeight)
     {
       var value = 0;
 
       if (widgetHeight !== outerHeight && vAlign && vAlign !== "top")
       {
-        value = outerHeight - widgetHeight;
+        value = parentHeight - widgetHeight;
 
         if (vAlign === "middle") {
           value = Math.round(value / 2);
