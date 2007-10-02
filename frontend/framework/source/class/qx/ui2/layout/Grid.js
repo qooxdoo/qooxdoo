@@ -23,6 +23,7 @@
  *
  * Other names (for comparable layouts in other systems):
  *
+ * * QGridLayout (Qt)
  * * Grid (XAML)
  *
  * Supports:

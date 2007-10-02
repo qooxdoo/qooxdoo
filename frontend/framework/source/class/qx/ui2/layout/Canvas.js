@@ -34,6 +34,7 @@
  *
  * * Stretching has a higher priority than the preferred dimensions
  * * Stretching has a lower priority than the min/max dimensions.
+ * * Does not support flex factors (recommended width/height is used)
  */
 qx.Class.define("qx.ui2.layout.Canvas",
 {

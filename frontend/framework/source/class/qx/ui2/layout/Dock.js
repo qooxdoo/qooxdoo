@@ -19,10 +19,11 @@
 ************************************************************************ */
 
 /**
- * A dock layout. Docks children to one of the sides.
+ * A feature rich dock layout. Docks children to one of the sides.
  *
  * Other names (for comparable layouts in other systems):
  *
+ * * BorderLayout (Qt)
  * * DockPanel (XAML)
  * * BorderLayout (Java)
  *
@@ -30,7 +31,7 @@
  *
  * * Integer dimensions (using widget properties)
  * * Min and max dimensions (using widget properties)
- * * Priorized stretching/shrinking (flex) (using layout properties)
+ * * Priorized growing/shrinking (flex) (using layout properties)
  * * Auto sizing
  * * Different sort options (to priorize x- or y-axis in layout)
  *

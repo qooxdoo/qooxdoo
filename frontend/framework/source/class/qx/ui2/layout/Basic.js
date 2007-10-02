@@ -27,9 +27,10 @@
  * * Integer dimensions (using widget properties)
  * * Integer locations (using layout properties)
  *
- * The default min size of a basic layout is the same as its
- * preferred size and ensures that all child widgets are visible and have their
- * preferred size.
+ * Notes:
+ *
+ * * Does not support flex factors (recommended width/height is used)
+ * * The default min size of a basic layout is the same as its preferred size and ensures that all child widgets are visible and have their preferred size.
  */
 qx.Class.define("qx.ui2.layout.Basic",
 {
