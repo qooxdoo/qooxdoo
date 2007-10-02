@@ -20,12 +20,20 @@
 
 /**
  * A basic layout, which supports positioning of child widgets by static
- * left/top coordinates.
+ * left/top coordinates. This layout is extremely basic but should also
+ * perform best and is the ideal candidate for all animations and things
+ * like this.
  *
  * Supports:
  *
  * * Integer dimensions (using widget properties)
  * * Integer locations (using layout properties)
+ * * Min and max dimensions (using widget properties)
+ *
+ * Does not:
+ *
+ * * Shrink or grow children automatically depending on the available space
+ * * Support other than integer units
  *
  * Notes:
  *

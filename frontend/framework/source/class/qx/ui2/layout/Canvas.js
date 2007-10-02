@@ -200,6 +200,9 @@ qx.Class.define("qx.ui2.layout.Canvas",
         }
 
 
+        // Respecting available space TODO
+
+
         // Layout child
         child.layout(childLeft, childTop, childWidth, childHeight);
       }
