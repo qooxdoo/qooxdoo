@@ -269,6 +269,6 @@ qx.Class.define("qx.ui2.layout.Basic",
      */
     getTop : function(widget) {
       return widget.getLayoutProperty("basic.top");
-    },
+    }
   }
 });
