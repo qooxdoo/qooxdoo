@@ -55,21 +55,26 @@ qx.Class.define("qx.ui2.layout.HBox",
     spacing :
     {
       check : "Integer",
-      init : 5
+      init : 5,
+      apply : "_applyLayoutProperty"
     },
+
 
     /** Horizontal alignment of the whole children block */
     align :
     {
       check : [ "left", "center", "right" ],
-      init : "left"
+      init : "left",
+      apply : "_applyLayoutProperty"
     },
+
 
     /** Whether the actual children data should be reversed for layout (right-to-left) */
     reversed :
     {
       check : "Boolean",
-      init : false
+      init : false,
+      apply : "_applyLayoutProperty"
     }
   },
 
@@ -412,6 +417,23 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       return 0;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    _applyLayoutProperty : function(value, old)
+    {
+      this.invalidate();
+
+      // Anything else TODO here?
     },
 
 
