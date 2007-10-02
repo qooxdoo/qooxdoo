@@ -161,9 +161,9 @@ qx.Class.define("qx.ui2.layout.Util",
      * to result in the stated vertical alignment.
      *
      * @type static
-     * @param hAlign {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
-     * @param widgetWidth {Integer} The absolute (outer) height of the widget
-     * @param parentWidth {Integer} The absolute (inner) height of the parent
+     * @param vAlign {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
+     * @param widgetHeight {Integer} The absolute (outer) height of the widget
+     * @param parentHeight {Integer} The absolute (inner) height of the parent
      * @return {Integer} Computed offset top
      */
     computeVerticalAlignOffset : function(vAlign, widgetHeight, parentHeight)
