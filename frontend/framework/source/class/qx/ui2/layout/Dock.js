@@ -43,7 +43,8 @@ qx.Class.define("qx.ui2.layout.Dock",
     sort :
     {
       check : [ "auto", "yfirst", "xfirst" ],
-      init : "auto"
+      init : "auto",
+      apply : "_applyLayoutProperty"
     }
   },
 
@@ -439,6 +440,24 @@ qx.Class.define("qx.ui2.layout.Dock",
 
       return hint;
     },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    _applyLayoutProperty : function(value, old)
+    {
+      this.invalidate();
+
+      // Anything else TODO here?
+    },
+
 
 
 
