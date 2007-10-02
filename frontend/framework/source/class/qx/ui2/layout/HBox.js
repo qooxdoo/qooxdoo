@@ -414,51 +414,6 @@ qx.Class.define("qx.ui2.layout.HBox",
     */
 
     /**
-     * Sets the top margin of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {Integer} The top margin to apply
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    setMarginTop : function(widget, value)
-    {
-      widget.addLayoutProperty("hbox.marginTop", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the top margin of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    resetMarginTop : function(widget)
-    {
-      widget.removeLayoutProperty("hbox.marginTop");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the top margin of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {Integer} The margin top value
-     */
-    getMarginTop : function(widget) {
-      return widget.getLayoutProperty("hbox.marginTop") || 0;
-    },
-
-
-    /**
      * Sets the right margin of the given widget.
      *
      * @type member
@@ -500,51 +455,6 @@ qx.Class.define("qx.ui2.layout.HBox",
      */
     getMarginRight : function(widget) {
       return widget.getLayoutProperty("hbox.marginRight") || 0;
-    },
-
-
-    /**
-     * Sets the bottom margin of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {Integer} The bottom margin to apply
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    setMarginBottom : function(widget, value)
-    {
-      widget.addLayoutProperty("hbox.marginBottom", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the bottom margin of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    resetMarginBottom : function(widget)
-    {
-      widget.removeLayoutProperty("hbox.marginBottom");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the bottom margin of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {Integer} The margin bottom value
-     */
-    getMarginBottom : function(widget) {
-      return widget.getLayoutProperty("hbox.marginBottom") || 0;
     },
 
 

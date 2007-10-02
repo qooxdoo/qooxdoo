@@ -48,12 +48,12 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey"});
 
-      w2.addLayoutProperty("hbox.marginLeft", -10);
-      w3.addLayoutProperty("hbox.marginLeft", -10);
-
       layout1.add(w1, null, "top");
       layout1.add(w2, null, "middle");
       layout1.add(w3, null, "bottom");
+
+      layout1.setMarginLeft(w2, -10);
+      layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 10, 10);
@@ -71,13 +71,13 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey"});
 
-      w2.addLayoutProperty("hbox.marginLeft", -10);
-      w2.addLayoutProperty("hbox.marginRight", 20);
-      w3.addLayoutProperty("hbox.marginLeft", -10);
-
       layout1.add(w1, null, "top");
       layout1.add(w2, null, "middle");
       layout1.add(w3, null, "bottom");
+
+      layout1.setMarginLeft(w2, -10);
+      layout1.setMarginRight(w2, 20);
+      layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 10, 100);
@@ -95,12 +95,12 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey"});
 
-      w2.addLayoutProperty("hbox.marginLeft", -10);
-      w3.addLayoutProperty("hbox.marginLeft", -10);
-
       layout1.add(w1, 1, "top");
       layout1.add(w2, 1, "middle");
       layout1.add(w3, 1, "bottom");
+
+      layout1.setMarginLeft(w2, -10);
+      layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 10, 190);
@@ -119,12 +119,12 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey"});
 
-      w2.addLayoutProperty("hbox.marginLeft", -10);
-      w3.addLayoutProperty("hbox.marginLeft", -10);
-
       layout1.add(w1, 1, "top");
       layout1.add(w2, 2, "middle");
       layout1.add(w3, 3, "bottom");
+
+      layout1.setMarginLeft(w2, -10);
+      layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 10, 280);

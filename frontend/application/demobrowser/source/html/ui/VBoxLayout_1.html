@@ -92,14 +92,14 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"})
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"})
 
-      w1.addLayoutProperty("vbox.marginBottom", 10);
-      w2.addLayoutProperty("vbox.marginTop", 20);
-      w2.addLayoutProperty("vbox.marginBottom", 10);
-      w3.addLayoutProperty("vbox.marginBottom", 10);
-
       layout1.add(w1, 0);
       layout1.add(w2, 0);
       layout1.add(w3, 0);
+
+      layout1.setMarginBottom(w1, 10);
+      layout1.setMarginTop(w2, 20);
+      layout1.setMarginBottom(w2, 10);
+      layout1.setMarginBottom(w3, 10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 450, 10);
@@ -117,14 +117,14 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"})
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"})
 
-      w1.addLayoutProperty("vbox.marginBottom", 10);
-      w2.addLayoutProperty("vbox.marginTop", 20);
-      w2.addLayoutProperty("vbox.marginBottom", 10);
-      w3.addLayoutProperty("vbox.marginBottom", 10);
-
       layout1.add(w1, 0);
       layout1.add(w2, 0);
       layout1.add(w3, 0);
+
+      layout1.setMarginBottom(w1, 10);
+      layout1.setMarginTop(w2, 20);
+      layout1.setMarginBottom(w2, 10);
+      layout1.setMarginBottom(w3, 10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 570, 10);
@@ -141,14 +141,14 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"})
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"})
 
-      w1.addLayoutProperty("vbox.marginBottom", 10);
-      w2.addLayoutProperty("vbox.marginTop", 20);
-      w2.addLayoutProperty("vbox.marginBottom", 10);
-      w3.addLayoutProperty("vbox.marginBottom", 10);
-
       layout1.add(w1, 0);
       layout1.add(w2, 0);
       layout1.add(w3, 0);
+
+      layout1.setMarginBottom(w1, 10);
+      layout1.setMarginTop(w2, 20);
+      layout1.setMarginBottom(w2, 10);
+      layout1.setMarginBottom(w3, 10);
 
       box1.setLayout(layout1);
       docLayout.add(box1, 690, 10);

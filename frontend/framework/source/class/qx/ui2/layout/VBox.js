@@ -401,6 +401,216 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
       return 0;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: MARGIN
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the bottom margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The bottom margin to apply
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    setMarginBottom : function(widget, value)
+    {
+      widget.addLayoutProperty("vbox.marginBottom", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the bottom margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    resetMarginBottom : function(widget)
+    {
+      widget.removeLayoutProperty("vbox.marginBottom");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the bottom margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The margin bottom value
+     */
+    getMarginBottom : function(widget) {
+      return widget.getLayoutProperty("vbox.marginBottom") || 0;
+    },
+
+
+    /**
+     * Sets the top margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The top margin to apply
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    setMarginTop : function(widget, value)
+    {
+      widget.addLayoutProperty("vbox.marginTop", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the top margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    resetMarginTop : function(widget)
+    {
+      widget.removeLayoutProperty("vbox.marginTop");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the top margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The margin top value
+     */
+    getMarginTop : function(widget) {
+      return widget.getLayoutProperty("vbox.marginTop") || 0;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: FLEX
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the flex value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The flex value to apply
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    setFlex : function(widget, value)
+    {
+      widget.addLayoutProperty("vbox.flex", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the flex value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    resetFlex : function(widget)
+    {
+      widget.removeLayoutProperty("vbox.flex");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the flex value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The flex value
+     */
+    getFlex : function(widget) {
+      return widget.getLayoutProperty("vbox.flex") || 1;
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: ALIGN
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the horizontal alignment of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The top margin to apply
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    setHorizontalAlign : function(widget, value)
+    {
+      widget.addLayoutProperty("vbox.align", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the horizontal alignment of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    resetHorizontalAlign : function(widget)
+    {
+      widget.removeLayoutProperty("vbox.align");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the horizontal alignment of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The horizontal alignment
+     */
+    getHorizontalAlign : function(widget) {
+      return widget.getLayoutProperty("vbox.align") || "left";
     }
   }
 });
