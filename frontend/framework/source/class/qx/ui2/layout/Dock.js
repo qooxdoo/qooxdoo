@@ -19,7 +19,26 @@
 ************************************************************************ */
 
 /**
- * A dock layout.
+ * A dock layout. Docks children to one of the sides.
+ *
+ * Other names (for comparable layouts in other systems):
+ *
+ * * DockPanel (XAML)
+ * * BorderLayout (Java)
+ *
+ * Supports:
+ *
+ * * Integer dimensions (using widget properties)
+ * * Min and max dimensions (using widget properties)
+ * * Priorized stretching/shrinking (flex) (using layout properties)
+ * * Auto sizing
+ * * Different sort options (to priorize x- or y-axis in layout)
+ *
+ * Notes:
+ *
+ * * For left/right attached childs the height is ignored.
+ * * For top/bottom attached childs the width is ignored.
+ * * However: In both cases the min/max dimensions are respected.
  */
 qx.Class.define("qx.ui2.layout.Dock",
 {

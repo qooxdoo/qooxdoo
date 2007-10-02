@@ -22,6 +22,10 @@
  * A full featured horizontal box layout. It lays out widgets in a
  * horizontal row, from left to right.
  *
+ * Other names (for comparable layouts in other systems):
+ *
+ * * StackPanel (XAML)
+ *
  * Supports:
  *
  * * Integer dimensions (using widget properties)

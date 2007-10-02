@@ -19,15 +19,19 @@
 ************************************************************************ */
 
 /**
- * This layout manager lays out its children in a two dimensional grid. The
- * grid supports:
- * <ul>
- *   <li>autosizing</li>
- *   <li>flex values for rows and columns</li>
- *   <li>minimal and maximal column and row sizes</li>
- *   <li>horizontal and vertical alignment</li>
- *   <li>col/row spans</li>
- * </ul>
+ * This layout manager lays out its children in a two dimensional grid.
+ *
+ * Other names (for comparable layouts in other systems):
+ *
+ * * Grid (XAML)
+ *
+ * Supports:
+ *
+ * * flex values for rows and columns
+ * * minimal and maximal column and row sizes
+ * * horizontal and vertical alignment
+ * * col/row spans
+ * * auto-sizing
  */
 qx.Class.define("qx.ui2.layout.Grid",
 {
