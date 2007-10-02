@@ -25,8 +25,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -36,6 +34,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
   construct : function()
   {
     this.base(arguments);
+
+    // This array contains the children (instances of Widget)
     this._children = [];
   },
 
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     */
 
     /**
-     * Add this widget to the layout
+     * Adds a new widget to this layout.
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
@@ -138,8 +138,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Returns the children list
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
-     * @return {Array} The children array
+     * @return {qx.ui2.core.Widget[]} The children array (Arrays are
+     *   reference types, please to not modify them in-place)
      */
     getChildren : function() {
       return this._children;
@@ -165,7 +165,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {void}
      */
     invalidate : function() {
-      throw new Error("Missing invalidate() implementation!");
+      this.warn("Missing invalidate() implementation!");
     },
 
 
@@ -193,11 +193,11 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @abstract
      * @type member
      * @param width {Integer} Final (content) width (in pixel) of the parent widget
-     * @param width {Integer} Final (content) height (in pixel) of the parent widget
+     * @param height {Integer} Final (content) height (in pixel) of the parent widget
      * @return {void}
      */
     layout : function(width, height) {
-      throw new Error("Missing layout() implementation!");
+      this.warn("Missing layout() implementation!");
     },
 
 
@@ -336,10 +336,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     this._disposeDeep("_children", 1);
-
-
   }
 });

@@ -104,24 +104,26 @@ qx.Class.define("qx.ui2.layout.Grid",
   members :
   {
     /**
-     * Add a widget to the grid at the given cell coordinates
+     * Adds a new widget to this layout.
      *
+     * @type member
      * @param widget {qx.ui2.core.Widget} The widget to add
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
      * @param rowSpan {Integer?1} How many rows the widget should span
      * @param colSpan {Integer?1} How many columns the widget should span
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
     add : function(widget, row, column, rowSpan, colSpan)
     {
       // validate arguments
       var cell = this.getCellWidget(row, column);
 
-      if (cell !== undefined) {
+      if (cell != null) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
       }
 
-      if (row === undefined || column === undefined) {
+      if (row == null || column == null) {
         throw new Error("The arguments 'row' and 'column' must be defined!");
       }
 
@@ -151,6 +153,9 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._importProperties(widget, arguments,
         "grid.row", "grid.column", "grid.rowSpan", "grid.colSpan"
       );
+
+      // Chaining support
+      return this;
     },
 
 

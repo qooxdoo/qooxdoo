@@ -51,18 +51,21 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   properties :
   {
+    /** Spacing between two children */
     spacing :
     {
       check : "Integer",
       init : 5
     },
 
+    /** Horizontal alignment of the whole children block */
     align :
     {
       check : [ "left", "center", "right" ],
       init : "left"
     },
 
+    /** Whether the actual children data should be reversed for layout (right-to-left) */
     reversed :
     {
       check : "Boolean",
@@ -100,7 +103,8 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "hbox.flex", "hbox.align");
-      
+
+      // Chaining support
       return this;
     },
 
@@ -116,7 +120,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     */
 
     // overridden
-    layout : function(availWidth, availHeight)
+    layout : function(width, height)
     {
       // Initialize
       var children = this.getChildren();
@@ -149,20 +153,20 @@ qx.Class.define("qx.ui2.layout.HBox",
         childWidthPercent = child.getLayoutProperty("hbox.width");
 
         childHints[i] = childHint;
-        childWidths[i] = childWidthPercent ? Math.floor((availWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
+        childWidths[i] = childWidthPercent ? Math.floor((width - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
         childHeights[i] = childHint.height;
 
         usedWidth += childWidths[i];
       }
 
-      // this.debug("Initial widths: avail=" + availWidth + ", used=" + usedWidth);
+      // this.debug("Initial widths: avail=" + width + ", used=" + usedWidth);
 
 
       // Process widths for flex stretching/shrinking
-      if (usedWidth != availWidth)
+      if (usedWidth != width)
       {
         var flexCandidates = [];
-        var childGrow = usedWidth < availWidth;
+        var childGrow = usedWidth < width;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -188,7 +192,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (flexCandidates.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availWidth - usedWidth);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, width - usedWidth);
 
           for (var key in flexibleOffsets)
           {
@@ -200,14 +204,14 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
       }
 
-      // this.debug("Corrected widths: avail=" + availWidth + ", used=" + usedWidth);
+      // this.debug("Corrected widths: avail=" + width + ", used=" + usedWidth);
 
 
       // Calculate horizontal alignment offset
       var childAlignOffset = 0;
-      if (usedWidth < availWidth && align != "left")
+      if (usedWidth < width && align != "left")
       {
-        childAlignOffset = availWidth - usedWidth;
+        childAlignOffset = width - usedWidth;
 
         if (align === "center") {
           childAlignOffset = Math.round(childAlignOffset / 2);
@@ -225,10 +229,10 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         child = children[i];
 
-        if (childLeft < availWidth)
+        if (childLeft < width)
         {
           // Respect vertical alignment
-          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(child.getLayoutProperty("hbox.align"), childHeights[i], availHeight);
+          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(child.getLayoutProperty("hbox.align"), childHeights[i], height);
 
           // Layout child
           child.layout(childLeft, childTop, childWidths[i], childHeights[i]);
@@ -325,7 +329,23 @@ qx.Class.define("qx.ui2.layout.HBox",
     },
 
 
-    /** Computes the spacing sum plus margin. Supports margin collapsing. */
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Computes the spacing sum plus margin. Supports margin collapsing.
+     *
+     * @type member
+     * @return {void}
+     */
     _getGaps : function()
     {
       var children = this.getChildren();
@@ -360,6 +380,14 @@ qx.Class.define("qx.ui2.layout.HBox",
     },
 
 
+    /**
+     * Collapses a right and left margin of two widgets.
+     *
+     * @type member
+     * @param right {Integer} Right margin
+     * @param left {Integer} Left margin
+     * @return {Integer} The collapsed margin
+     */
     _collapseMargin : function(right, left)
     {
       // Math.max detects 'null' as more ('0') than '-1'

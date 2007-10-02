@@ -40,16 +40,27 @@ qx.Class.define("qx.ui2.layout.Basic",
 
   members :
   {
-    // overridden
+    /**
+     * Adds a new widget to this layout.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param left {Integer?null} Left position of the widget
+     * @param top {Integer?null} Top position of the widget
+     * @return {qx.ui2.layout.Basic} This object (for chaining support)
+     */
     add : function(widget, left, top)
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "basic.left", "basic.top");
+
+      // Chaining support
+      return this;
     },
 
 
     // overridden
-    layout : function(availWidth, availHeight)
+    layout : function(width, height)
     {
       var children = this.getChildren();
       var child, childHint, childLeft, childTop;
@@ -62,8 +73,8 @@ qx.Class.define("qx.ui2.layout.Basic",
         {
           childHint = child.getSizeHint();
 
-          childLeft = child.getLayoutProperty("basic.left") || 0;
-          childTop = child.getLayoutProperty("basic.top") || 0;
+          childLeft = Math.max(0, child.getLayoutProperty("basic.left") || 0);
+          childTop = Math.max(0, child.getLayoutProperty("basic.top") || 0);
 
           child.layout(childLeft, childTop, childHint.width, childHint.height);
         }
@@ -113,7 +124,6 @@ qx.Class.define("qx.ui2.layout.Basic",
       // Limit dimensions to min/max dimensions
       childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
       childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
-
 
 
       // Build hint
