@@ -332,78 +332,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      MARGIN
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * The minimum space between the widget's outer border and sibling widgets (top).
-     * Not all layout manager respect this property.
-     */
-    marginTop :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyLayoutChange",
-      themeable : true
-    },
-
-
-    /**
-     * The minimum space between the widget's outer border and sibling widgets (right).
-     * Not all layout manager respect this property.
-     */
-    marginRight :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyLayoutChange",
-      themeable : true
-    },
-
-
-    /**
-     * The minimum space between the widget's outer border and sibling widgets (bottom).
-     * Not all layout manager respect this property.
-     */
-    marginBottom :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyLayoutChange",
-      themeable : true
-    },
-
-
-    /**
-     * The minimum space between the widget's outer border and sibling widgets (left).
-     * Not all layout manager respect this property.
-     */
-    marginLeft :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyLayoutChange",
-      themeable : true
-    },
-
-
-    /**
-     * The 'margin' property is a shorthand property for setting 'marginTop',
-     * 'marginRight', 'marginBottom' and 'marginLeft' at the same time.
-     *
-     * If four values are specified they apply to top, right, bottom and left respectively.
-     * If there is only one value, it applies to all sides, if there are two or three,
-     * the missing values are taken from the opposite side.
-     */
-    margin :
-    {
-      group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
-      mode  : "shorthand",
-      themeable : true
-    },
 
 
 
@@ -1116,7 +1044,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Returns the recommended dimensions of the widget.
      *
-     * Developer note: This method normally does not need to be refined. If you 
+     * Developer note: This method normally does not need to be refined. If you
      * develop a custom widget please customize {@link #_getContentHint} instead.
      *
      * @type member
@@ -1281,13 +1209,13 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Returns the recommended/natural dimensions of the widget's content. 
+     * Returns the recommended/natural dimensions of the widget's content.
      *
      * For labels and images this may be their natural size when defined without
      * any dimensions. For containers this may be the recommended size of the
      * underlaying layout manager.
      *
-     * Developer note: This can be overwritten by the derived classes to allow 
+     * Developer note: This can be overwritten by the derived classes to allow
      * a custom handling here.
      *
      * @type member
@@ -1326,7 +1254,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * Developer note: This method should be overwritten by derived classes
      * to define the minimum width which keeps the widget usable.
-     * This may be for example, that at least the icon and 2 characters of a 
+     * This may be for example, that at least the icon and 2 characters of a
      * tab view button are viewable etc. The dimension given here is not
      * refinable by the widget users and give the widget author a good
      * way to integrate a hard-coded technical minimum width.
@@ -1362,7 +1290,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * Developer note: This method should be overwritten by derived classes
      * to define the minimum height which keeps the widget usable.
-     * This may be for example, that at least the height of the text or icon 
+     * This may be for example, that at least the height of the text or icon
      * used by the widget. The dimension given here is not
      * refinable by the widget users and give the widget author a good
      * way to integrate some hard-coded technical minimum height.
@@ -1411,7 +1339,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * widget author the full control regarding flex grow/shrinking used by some
      * layout managers.
      *
-     * The user can limit the stretching through the definition of a min- or 
+     * The user can limit the stretching through the definition of a min- or
      * max-width. If these limits are reached the result of this function is
      * ignored.
      *
@@ -1432,7 +1360,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * widget author the full control regarding flex grow/shrinking used by some
      * layout managers.
      *
-     * The user can limit the stretching through the definition of a min- or 
+     * The user can limit the stretching through the definition of a min- or
      * max-height. If these limits are reached the result of this function is
      * ignored.
      *

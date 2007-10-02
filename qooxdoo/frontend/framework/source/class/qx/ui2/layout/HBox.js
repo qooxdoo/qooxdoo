@@ -401,6 +401,306 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       return 0;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: MARGIN
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the top margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The top margin to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setMarginTop : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.marginTop", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the top margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetMarginTop : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.marginTop");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the top margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The margin top value
+     */
+    getMarginTop : function(widget) {
+      return widget.getLayoutProperty("hbox.marginTop") || 0;
+    },
+
+
+    /**
+     * Sets the right margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The right margin to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setMarginRight : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.marginRight", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the right margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetMarginRight : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.marginRight");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the right margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The margin right value
+     */
+    getMarginRight : function(widget) {
+      return widget.getLayoutProperty("hbox.marginRight") || 0;
+    },
+
+
+    /**
+     * Sets the bottom margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The bottom margin to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setMarginBottom : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.marginBottom", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the bottom margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetMarginBottom : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.marginBottom");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the bottom margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The margin bottom value
+     */
+    getMarginBottom : function(widget) {
+      return widget.getLayoutProperty("hbox.marginBottom") || 0;
+    },
+
+
+    /**
+     * Sets the left margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The left margin to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setMarginLeft : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.marginLeft", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the left margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetMarginLeft : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.marginLeft");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the left margin of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The margin left value
+     */
+    getMarginLeft : function(widget) {
+      return widget.getLayoutProperty("hbox.marginLeft") || 0;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: FLEX
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the flex value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The flex value to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setFlex : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.flex", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the flex value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetFlex : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.flex");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the flex value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The flex value
+     */
+    getFlex : function(widget) {
+      return widget.getLayoutProperty("hbox.flex") || 1;
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: ALIGN
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the vertical alignment of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The left margin to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setVerticalAlign : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.align", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the vertical alignment of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetVerticalAlign : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.align");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the vertical alignment of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The vertical alignment
+     */
+    getVerticalAlign : function(widget) {
+      return widget.getLayoutProperty("hbox.align") || "top";
     }
   }
 });

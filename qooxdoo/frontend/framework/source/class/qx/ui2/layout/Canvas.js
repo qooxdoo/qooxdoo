@@ -54,7 +54,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
   {
     /*
     ---------------------------------------------------------------------------
-      LAYOUT INTERFACE
+      CHILDREN MANAGMENT
     ---------------------------------------------------------------------------
     */
 
@@ -82,6 +82,15 @@ qx.Class.define("qx.ui2.layout.Canvas",
       return this;
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     layout : function(width, height)
@@ -194,6 +203,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
         child.layout(childLeft, childTop, childWidth, childHeight);
       }
     },
+
 
 
 
