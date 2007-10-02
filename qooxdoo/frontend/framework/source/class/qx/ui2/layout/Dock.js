@@ -98,6 +98,17 @@ qx.Class.define("qx.ui2.layout.Dock",
     */
 
     // overridden
+    invalidate : function()
+    {
+      if (this._sizeHint)
+      {
+        this.debug("Clear layout cache");
+        this._sizeHint = null;
+      }
+    },
+
+
+    // overridden
     layout : function(width, height)
     {
       var children = this._getSortedChildren();
