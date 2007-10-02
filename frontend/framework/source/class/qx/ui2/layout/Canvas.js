@@ -29,12 +29,12 @@
  * * Percent dimensions and locations (using layout properties)
  * * Stretching between left+right and top+bottom
  * * Min and max dimensions (using widget properties)
+ * * Children are automatically shrinked to their minimum dimensions if not enough space is available
  *
  * Notes:
  *
  * * Stretching has a higher priority than the preferred dimensions
  * * Stretching has a lower priority than the min/max dimensions.
- * * Does not support flex factors (recommended width/height is used)
  */
 qx.Class.define("qx.ui2.layout.Canvas",
 {
@@ -161,24 +161,23 @@ qx.Class.define("qx.ui2.layout.Canvas",
         }
 
 
-        // Limit dimensions to min/max dimensions
-        childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
-        childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
-
-
         // Normalize right
         if (childRight != null)
         {
           if (childLeft != null)
           {
             childWidth = width - childLeft - childRight;
-
-            // Re-apply limit
-            childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
           }
           else if (childWidth != null)
           {
             childLeft = width - childWidth - childRight;
+
+            // Reduce the width to keep left edge visible
+            if (childLeft < 0)
+            {
+              childWidth += childLeft;
+              childLeft = 0;
+            }
           }
         }
 
@@ -189,18 +188,24 @@ qx.Class.define("qx.ui2.layout.Canvas",
           if (childTop != null)
           {
             childHeight = height - childTop - childBottom;
-
-            // Re-apply limit
-            childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
           }
           else if (childHeight != null)
           {
             childTop = height - childHeight - childBottom;
+
+            // Reduce the height to keep left edge visible
+            if (childTop < 0)
+            {
+              childHeight += childTop;
+              childTop = 0;
+            }
           }
         }
 
 
-        // Respecting available space TODO
+        // Limit dimensions to min/max dimensions and parent size
+        childWidth = Math.max(Math.min(childWidth, childHint.maxWidth, width - childLeft), childHint.minWidth);
+        childHeight = Math.max(Math.min(childHeight, childHint.maxHeight, height - childTop), childHint.minHeight);
 
 
         // Layout child
