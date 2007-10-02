@@ -22,12 +22,17 @@
  * A full featured vertical box layout. It lays out widgets in a
  * vertical column, from top to bottom.
  *
+ * Other names (for comparable layouts in other systems):
+ *
+ * * QVBoxLayout (Qt)
+ * * StackPanel (XAML)
+ *
  * Supports:
  *
  * * Integer dimensions (using widget properties)
  * * Additional percent height (using layout property)
  * * Min and max dimensions (using widget properties)
- * * Priorized stretching/shrinking (flex) (using layout properties)
+ * * Priorized growing/shrinking (flex) (using layout properties)
  * * Top and bottom margins (even negative ones) with margin collapsing support (using layout properties)
  * * Auto sizing
  * * Vertical align
