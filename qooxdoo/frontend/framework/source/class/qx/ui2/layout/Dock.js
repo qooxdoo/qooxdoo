@@ -36,8 +36,8 @@ qx.Class.define("qx.ui2.layout.Dock",
 
   properties :
   {
-    /** 
-     * The way the widgets should be displayed (in conjunction with their 
+    /**
+     * The way the widgets should be displayed (in conjunction with their
      * position in the childrens array).
      */
     sort :
@@ -82,6 +82,8 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       this.base(arguments, widget);
       this._importProperties(widget, arguments, "dock.edge", "dock.flexX", "dock.flexY");
+
+      // Chaining support
       return this;
     },
 
@@ -96,7 +98,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     */
 
     // overridden
-    layout : function(availWidth, availHeight)
+    layout : function(width, height)
     {
       var children = this._getSortedChildren();
       var child, childEdge, childHint, childFlex;
@@ -137,15 +139,15 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
-      console.debug("Used width: " + usedWidth + "/" + availWidth);
-      console.debug("Used height: " + usedHeight + "/" + availHeight);
+      console.debug("Used width: " + usedWidth + "/" + width);
+      console.debug("Used height: " + usedHeight + "/" + height);
 
 
       // Process widths for flex stretching/shrinking
-      if (usedWidth != availWidth)
+      if (usedWidth != width)
       {
         var flexCandidates = [];
-        var childGrow = usedWidth < availWidth;
+        var childGrow = usedWidth < width;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -174,7 +176,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         if (flexCandidates.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availWidth - usedWidth);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, width - usedWidth);
 
           for (var key in flexibleOffsets)
           {
@@ -188,10 +190,10 @@ qx.Class.define("qx.ui2.layout.Dock",
 
 
       // Process height for flex stretching/shrinking
-      if (usedHeight != availHeight)
+      if (usedHeight != height)
       {
         var flexCandidates = [];
-        var childGrow = usedHeight < availHeight;
+        var childGrow = usedHeight < height;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -220,7 +222,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         if (flexCandidates.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availHeight - usedHeight);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, height - usedHeight);
 
           for (var key in flexibleOffsets)
           {
@@ -232,8 +234,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
-      console.debug("Used width: " + usedWidth + "/" + availWidth);
-      console.debug("Used height: " + usedHeight + "/" + availHeight);
+      console.debug("Used width: " + usedWidth + "/" + width);
+      console.debug("Used height: " + usedHeight + "/" + height);
 
 
       // Apply children layout
@@ -257,7 +259,7 @@ qx.Class.define("qx.ui2.layout.Dock",
           childWidth = childWidths[i];
 
           // Full available height
-          childHeight = availHeight - nextTop - nextBottom;
+          childHeight = height - nextTop - nextBottom;
 
           // Update coordinates, for next children
           nextLeft += childWidth;
@@ -269,7 +271,7 @@ qx.Class.define("qx.ui2.layout.Dock",
           childTop = nextTop;
 
           // Full available width
-          childWidth = availWidth - nextLeft - nextRight;
+          childWidth = width - nextLeft - nextRight;
 
           // Child preferred height
           childHeight = childHeights[i];
@@ -280,14 +282,14 @@ qx.Class.define("qx.ui2.layout.Dock",
         else if (childEdge === "east")
         {
           // Simple top coordinate + calculated left position
-          childLeft = availWidth - nextRight - childWidths[i];
+          childLeft = width - nextRight - childWidths[i];
           childTop = nextTop;
 
           // Child preferred width
           childWidth = childWidths[i];
 
           // Full available height
-          childHeight = availHeight - nextTop - nextBottom;
+          childHeight = height - nextTop - nextBottom;
 
           // Update coordinates, for next children
           nextRight += childWidth;
@@ -296,10 +298,10 @@ qx.Class.define("qx.ui2.layout.Dock",
         {
           // Simple left coordinate + calculated top position
           childLeft = nextLeft;
-          childTop = availHeight - nextBottom - childHeights[i];
+          childTop = height - nextBottom - childHeights[i];
 
           // Full available width
-          childWidth = availWidth - nextLeft - nextRight;
+          childWidth = width - nextLeft - nextRight;
 
           // Child preferred height
           childHeight = childHeights[i];
@@ -314,8 +316,8 @@ qx.Class.define("qx.ui2.layout.Dock",
           childTop = nextTop;
 
           // Calculated width/height
-          childWidth = availWidth - nextLeft - nextRight;
-          childHeight = availHeight - nextTop - nextBottom;
+          childWidth = width - nextLeft - nextRight;
+          childHeight = height - nextTop - nextBottom;
         }
 
         // Apply layout
@@ -437,6 +439,13 @@ qx.Class.define("qx.ui2.layout.Dock",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Returns the list of children, preprocessed by the value of the
+     * {@link #sort} property.
+     *
+     * @type member
+     * @return {qx.ui2.core.Widget[]} Presorted array of widgets
+     */
     _getSortedChildren : function()
     {
       var children = this._children;
