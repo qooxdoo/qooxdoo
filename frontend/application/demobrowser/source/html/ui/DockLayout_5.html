@@ -1,0 +1,103 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var docLayout = new qx.ui2.layout.Basic();
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+
+      // default layout, manual width/height + percent child
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:400, height:300});
+      var layout1 = new qx.ui2.layout.Dock();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
+
+      layout1.add(w1, "north");
+      layout1.add(w2, "west", 0);
+      layout1.add(w3, "south", null, 0);
+      layout1.add(w4, "east");
+      layout1.add(w5, "center");
+
+      w2.addLayoutProperty("dock.width", "50%");
+      w3.addLayoutProperty("dock.height", "50%");
+
+      widget1.setLayout(layout1);
+      docLayout.add(widget1, 10, 10);
+
+
+
+
+
+      // default layout, auto-size + percent child
+      // This currently not correctly supported, Percents are not
+      // supported by getSizeHint()
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui2.layout.Dock();
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
+
+      layout1.add(w1, "north");
+      layout1.add(w2, "west", 0);
+      layout1.add(w3, "south", null, 0);
+      layout1.add(w4, "east");
+      layout1.add(w5, "center");
+
+      w2.addLayoutProperty("dock.width", "50%");
+      w3.addLayoutProperty("dock.height", "50%");
+
+      widget1.setLayout(layout1);
+      docLayout.add(widget1, 10, 330);
+
+
+
+
+
+      doc.setLayout(docLayout);
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>

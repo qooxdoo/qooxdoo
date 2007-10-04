@@ -192,7 +192,6 @@ qx.Class.define("qx.ui2.layout.HBox",
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
-          childWidthPercent = child.getLayoutProperty("hbox.width");
 
           if (child.canStretchX())
           {
