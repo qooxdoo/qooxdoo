@@ -268,6 +268,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *    "left", "center" and "right".
      * @param vAlign {String} The vertical alignment. Valid values are
      *    "top", "middle", "bottom"
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
     setColumnAlign : function(column, hAlign, vAlign)
     {
@@ -276,6 +277,10 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       this._setColumnData(column, "hAlign", hAlign);
       this._setColumnData(column, "vAlign", vAlign);
+
+      this.invalidateLayout();
+
+      return this;
     },
 
 
@@ -331,6 +336,8 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._setCellData(column, "hAlign", hAlign);
       this._setCellData(column, "vAlign", vAlign);
 
+      this.invalidateLayout();
+
       return this;
     },
 
@@ -367,6 +374,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnFlex : function(column, flex)
     {
       this._setColumnData(column, "flex", flex);
+      this.invalidateLayout();
       return this;
     },
 
@@ -395,6 +403,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowFlex : function(row, flex)
     {
       this._setRowData(row, "flex", flex);
+      this.invalidateLayout();
       return this;
     },
 
@@ -423,6 +432,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnMaxWidth : function(column, maxWidth)
     {
       this._setColumnData(column, "maxWidth", maxWidth);
+      this.invalidateLayout();
       return this;
     },
 
@@ -451,6 +461,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnMinWidth : function(column, minWidth)
     {
       this._setColumnData(column, "minWidth", minWidth);
+      this.invalidateLayout();
       return this;
     },
 
@@ -479,6 +490,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowMaxHeight : function(row, maxHeight)
     {
       this._setRowData(row, "maxHeight", maxHeight);
+      this.invalidateLayout();
       return this;
     },
 
@@ -507,6 +519,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowMinHeight : function(row, minHeight)
     {
       this._setRowData(row, "minHeight", minHeight);
+      this.invalidateLayout();
       return this;
     },
 
@@ -1008,7 +1021,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       if (this._sizeHint || this._rowHeights || this._colHeights)
       {
-        this.debug("Clear layout cache");
+        // this.debug("Clear layout cache");
 
         this._sizeHint = null;
         this._rowHeights = null;
@@ -1022,7 +1035,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       if (this._sizeHint != null)
       {
-        this.debug("Cached size hint: ", this._sizeHint);
+        // this.debug("Cached size hint: ", this._sizeHint);
         return this._sizeHint;
       }
 
@@ -1064,7 +1077,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         maxHeight : maxHeight + spacingY
       };
 
-      this.debug("Computed size hint: ", hint);
+      // this.debug("Computed size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;
