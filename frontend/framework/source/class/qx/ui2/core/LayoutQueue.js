@@ -200,10 +200,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           // This is an inner root of layout changes. Do a relayout of its
           // children without changing its position and size.
           root.layout(
-            root.getComputedLeft(),
-            root.getComputedTop(),
-            root.getComputedWidth(),
-            root.getComputedHeight()
+            root._left,
+            root._top,
+            root._width,
+            root._height
           );
         }
       }

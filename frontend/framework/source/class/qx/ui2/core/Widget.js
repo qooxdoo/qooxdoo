@@ -607,7 +607,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedLeft : function() {
-      this._layoutInvalid ? null : this._left;
+      return this._layoutInvalid ? null : this._left;
     },
 
     /**
@@ -622,7 +622,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedWidth : function() {
-      this._layoutInvalid ? null : this._width;
+      return this._layoutInvalid ? null : this._width;
     },
 
 
@@ -638,7 +638,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedHeight : function() {
-      this._layoutInvalid ? null : this._height;
+      return this._layoutInvalid ? null : this._height;
     },
 
 
@@ -993,6 +993,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _styleDecoration : function(decoration)
     {
+      qx.ui2.core.LayoutQueue.add(this);
       qx.ui2.core.DecorationQueue.add(this);
     },
 
