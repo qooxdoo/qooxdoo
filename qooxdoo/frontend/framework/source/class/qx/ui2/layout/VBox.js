@@ -192,7 +192,6 @@ qx.Class.define("qx.ui2.layout.VBox",
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
-          childHeightPercent = child.getLayoutProperty("vbox.height");
 
           if (child.canStretchX())
           {
@@ -649,6 +648,61 @@ qx.Class.define("qx.ui2.layout.VBox",
      */
     getHorizontalAlign : function(widget) {
       return widget.getLayoutProperty("vbox.align") || "left";
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: DIMENSION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the height value of the given widget. This property is used
+     * to apply percent dimensions. For simple pixel dimensions
+     * use the widget property <code>height</code> instead.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The (percent) height value to apply
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    setHeight : function(widget, value)
+    {
+      widget.addLayoutProperty("vbox.height", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the (percent) height value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    resetHeight : function(widget)
+    {
+      widget.removeLayoutProperty("vbox.height");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the (percent) height value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String} The height value
+     */
+    getHeight : function(widget) {
+      return widget.getLayoutProperty("vbox.height") || 1;
     }
   }
 });

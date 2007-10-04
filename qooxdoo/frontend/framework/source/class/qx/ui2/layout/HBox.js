@@ -648,6 +648,61 @@ qx.Class.define("qx.ui2.layout.HBox",
      */
     getVerticalAlign : function(widget) {
       return widget.getLayoutProperty("hbox.align") || "top";
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: DIMENSION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the width value of the given widget. This property is used
+     * to apply percent dimensions. For simple pixel dimensions
+     * use the widget property <code>width</code> instead.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The (percent) width value to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setWidth : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.width", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the (percent) width value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetWidth : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.width");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the (percent) width value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String} The width value
+     */
+    getWidth : function(widget) {
+      return widget.getLayoutProperty("hbox.width") || 1;
     }
   }
 });
