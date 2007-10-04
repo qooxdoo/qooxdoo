@@ -25,15 +25,15 @@ qx.Class.define("qx.ui2.core.QueueManager",
 {
   statics :
   {
-
     /**
      * Schedule a deferred flush of all queues.
      */
     scheduleFlush : function()
     {
       if (!this._deferredCall) {
-        this._deferredCall = new qx.util.DeferredCall(this._flush, this);
+        this._deferredCall = new qx.util.DeferredCall(this.flush, this);
       }
+
       this._deferredCall.schedule();
     },
 
@@ -48,6 +48,5 @@ qx.Class.define("qx.ui2.core.QueueManager",
       qx.ui2.core.DecorationQueue.flush();
       qx.html.Element.flush();
     }
-
   }
 });
