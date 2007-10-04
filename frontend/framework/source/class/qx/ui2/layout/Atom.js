@@ -19,19 +19,25 @@
 ************************************************************************ */
 
 /**
- * A stack layout. Arranges children on top of each other where only
- * one is visible.
+ * A atom layout. Used to place an Image/Flash and label in relation
+ * to each other. Useful to create buttons etc.
  */
-qx.Class.define("qx.ui2.layout.Stack",
+qx.Class.define("qx.ui2.layout.Atom",
 {
   extend : qx.ui2.layout.Abstract,
 
   properties :
   {
-    selected :
+    gap :
     {
-      check : "qx.ui2.core.Widget",
-      nullable : true
+      check : "Integer",
+      init : 4
+    },
+
+    iconPosition :
+    {
+      check : [ "left", "top", "right", "bottom" ],
+      init : "left"
     }
   },
 
