@@ -116,6 +116,16 @@ qx.Class.define("Menu",
 
   members :
   {
+    canStretchX : function()
+    {
+      return false;
+    },
+
+    canStretchY : function()
+    {
+      return false;
+    },
+
     add : function(menuItem)
     {
       this._menuItems.push(menuItem);
@@ -152,8 +162,10 @@ qx.Class.define("BasicSample",
       doc = new qx.ui2.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
+      doc.setPadding(20);
 
-      var docLayout = new qx.ui2.layout.Basic();
+      var docLayout = new qx.ui2.layout.Grid();
+      docLayout.setColumnFlex(0, 0);
       doc.setLayout(docLayout);
 
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
@@ -165,8 +177,22 @@ qx.Class.define("BasicSample",
       menu.add(new MenuItem("Save", "Ctrl-S"));
       menu.add(new MenuItem("Save as"));
       menu.add(new MenuItem("Abracadabra"));
+      docLayout.add(menu, 0, 0);
 
-      docLayout.add(menu, 20, 50);
+      var menu = new Menu();
+      menu.add(new MenuItem("New", "Ctrl-N"));
+      menu.add(new MenuItem("Abracadabra ... very long text"));
+      menu.add(new MenuItem("Close", "Ctrl-W"));
+      menu.add(new MenuItem("Save", "Ctrl-S"));
+      menu.add(new MenuItem("Save as"));
+      docLayout.add(menu, 0, 1);
+
+      var menu = new Menu();
+      menu.add(new MenuItem("New", "Ctrl-N"));
+      menu.add(new MenuItem("Save", "Ctrl-S"));
+      menu.add(new MenuItem("Save as"));
+      menu.add(new MenuItem("Close ...", "Ctrl-W"));
+      docLayout.add(menu, 1, 0);
 
       qx.ui2.core.LayoutQueue.flush();
     }
