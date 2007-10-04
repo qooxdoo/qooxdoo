@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.basic.Label",
     setHtml : function(html)
     {
       this.warn("Deprecated: please use setText() instead.");
-      this.printStackTrace();
+      this.trace();
       this.setText(html);
     },
 
