@@ -485,6 +485,45 @@ qx.Class.define("qx.ui2.layout.Dock",
 
     /*
     ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: DOCK
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Configures the docking position for the given widget
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The docking position to apply
+     * @return {qx.ui2.layout.Dock} This layout (for chaining support)
+     */
+    setDock : function(widget, value)
+    {
+      widget.addLayoutProperty("dock.edge", value)
+
+      // chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the docking position of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String} The docking position
+     */
+    getDock : function(widget) {
+      return widget.getLayoutProperty("dock.edge");
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       LAYOUT HELPERS
     ---------------------------------------------------------------------------
     */

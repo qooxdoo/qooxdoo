@@ -492,7 +492,7 @@ qx.Class.define("qx.ui2.layout.VBox",
      * @return {Integer} The margin bottom value
      */
     getMarginBottom : function(widget) {
-      return widget.getLayoutProperty("vbox.marginBottom") || 0;
+      return widget.getLayoutProperty("vbox.marginBottom");
     },
 
 
@@ -537,7 +537,7 @@ qx.Class.define("qx.ui2.layout.VBox",
      * @return {Integer} The margin top value
      */
     getMarginTop : function(widget) {
-      return widget.getLayoutProperty("vbox.marginTop") || 0;
+      return widget.getLayoutProperty("vbox.marginTop");
     },
 
 

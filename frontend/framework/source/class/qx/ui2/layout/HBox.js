@@ -492,7 +492,7 @@ qx.Class.define("qx.ui2.layout.HBox",
      * @return {Integer} The margin right value
      */
     getMarginRight : function(widget) {
-      return widget.getLayoutProperty("hbox.marginRight") || 0;
+      return widget.getLayoutProperty("hbox.marginRight");
     },
 
 
@@ -537,7 +537,7 @@ qx.Class.define("qx.ui2.layout.HBox",
      * @return {Integer} The margin left value
      */
     getMarginLeft : function(widget) {
-      return widget.getLayoutProperty("hbox.marginLeft") || 0;
+      return widget.getLayoutProperty("hbox.marginLeft");
     },
 
 
