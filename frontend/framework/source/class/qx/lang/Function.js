@@ -148,7 +148,12 @@ qx.Bootstrap.define("qx.lang.Function",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (typeof func !== "function") {
+        if (typeof func !== "function")
+        {
+          if (qx.core.Object) {
+            qx.core.Object.printStackTrace();
+          }
+
           throw new Error("Could not bind non-function: " + func);
         }
       }
