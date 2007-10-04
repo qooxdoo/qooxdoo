@@ -78,9 +78,12 @@ qx.Class.define("BasicSample",
       box1.setLayout(layout1);
       docLayout.add(box1, 250, 10);
 
+      var increment = 10;
+
       resizeWidget.addListener("click", function(e)
       {
-        resizeWidget.setWidth(60);
+        resizeWidget.setWidth(50 + increment);
+        increment = -increment;
         qx.ui2.core.LayoutQueue.flush();
       });
 
