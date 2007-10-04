@@ -32,16 +32,25 @@ qx.Class.define("BasicSample",
 
       var doc = new qx.ui2.root.Page(document);
 
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
       doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
       doc.setTextColor("black");
-      doc.setBackgroundColor("white");
+      //doc.setDecoration(border);
+      //doc.setBackgroundColor("white");
 
-      var layout = new qx.ui2.layout.HorizontalBoxLayout();
+
+      var layout = new qx.ui2.layout.HBox();
 
       var w1 = new qx.ui2.core.Widget;
       var w2 = new qx.ui2.core.Widget;
       var w3 = new qx.ui2.core.Widget;
       var w4 = new qx.ui2.core.Widget;
+
+      w1.setDecoration(border);
+      w2.setDecoration(border);
+      w3.setDecoration(border);
+      w4.setDecoration(border);
 
       w1.setHtml("<b>W1</b>");
       w2.setHtml("<b>W2</b>");
@@ -61,9 +70,6 @@ qx.Class.define("BasicSample",
       layout.add(w4);
 
       doc.setLayout(layout)
-
-      layout.setGeometry(0, 0, 250, 400);
-
     }
   }
 });

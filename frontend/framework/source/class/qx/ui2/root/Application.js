@@ -24,7 +24,7 @@
  */
 qx.Class.define("qx.ui2.root.Application",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui2.root.Page,
 
 
 
@@ -39,12 +39,8 @@ qx.Class.define("qx.ui2.root.Application",
    */
   construct : function(doc)
   {
-    // Symbolic links
-    this._window = qx.dom.Node.getWindow(doc);
-    this._elem = doc.body;
-
     // Base call
-    this.base(arguments);
+    this.base(arguments, doc);
 
     // Apply application layout
     var hstyle = doc.documentElement.style;
@@ -53,83 +49,7 @@ qx.Class.define("qx.ui2.root.Application",
     hstyle.overflow = bstyle.overflow = "hidden";
     hstyle.padding = hstyle.margin = bstyle.padding = bstyle.margin = "0px";
     hstyle.width = hstyle.height = bstyle.width = bstyle.height = "100%";
-
-    // Resize handling
-    qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
-    qx.ui2.core.LayoutQueue.add(this);
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    // overridden
-    isLayoutRoot : function() {
-      return true;
-    },
-
-
-    // overridden
-    _createOuterElement : function()
-    {
-      var root = new qx.html.Root(this._elem);
-      delete this._elem;
-
-      return root;
-    },
-
-
-    /**
-     * Listener for window's resize event
-     *
-     * @type member
-     * @param e {qx.type.Event} Event object
-     * @return {void}
-     */
-    _onResize : function(e)
-    {
-      this.invalidate();
-      qx.ui2.core.LayoutQueue.add(this);
-
-      // TODO: Temporary flush
-      qx.ui2.core.LayoutQueue.flush();
-    },
-
-
-    // overridden
-    getSizeHint : function()
-    {
-      if (this._sizeHint) {
-        return this._sizeHint;
-      }
-
-      var width = qx.bom.Viewport.getWidth(this._window);
-      var height = qx.bom.Viewport.getHeight(this._window);
-
-      var hint = {
-        minWidth : 0,
-        width : width,
-        maxWidth : width,
-        minHeight : 0,
-        height : height,
-        maxHeight : height
-      };
-
-      this._sizeHint = hint;
-      this.debug("Compute size hint: ", hint);
-
-      return hint;
-    }
-  },
-
-
 
 
   /*
