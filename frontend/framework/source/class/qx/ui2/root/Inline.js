@@ -63,22 +63,8 @@ qx.Class.define("qx.ui2.root.Inline",
     },
 
     // overridden
-    setGeometry : function(left, top, width, height)
-    {
-      this._contentElement.setStyle("width", width + "px");
-      this._contentElement.setStyle("height", height + "px");
-    },
-
-
-    // overridden
     _createOuterElement : function() {
       return new qx.html.Root(this._elem);
-    },
-
-
-    // overridden
-    _createContentElement : function() {
-      return this._outerElement;
     }
   },
 
