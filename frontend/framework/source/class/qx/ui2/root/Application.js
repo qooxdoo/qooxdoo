@@ -49,16 +49,5 @@ qx.Class.define("qx.ui2.root.Application",
     hstyle.overflow = bstyle.overflow = "hidden";
     hstyle.padding = hstyle.margin = bstyle.padding = bstyle.margin = "0px";
     hstyle.width = hstyle.height = bstyle.width = bstyle.height = "100%";
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_window", "_elem");
   }
 });

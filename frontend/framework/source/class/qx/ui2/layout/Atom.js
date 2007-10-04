@@ -26,14 +26,26 @@ qx.Class.define("qx.ui2.layout.Atom",
 {
   extend : qx.ui2.layout.Abstract,
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
+    /** The gap between the icon and the text */
     gap :
     {
       check : "Integer",
       init : 4
     },
 
+
+    /** The position of the icon in relation to the text */
     iconPosition :
     {
       check : [ "left", "top", "right", "bottom" ],
@@ -41,8 +53,83 @@ qx.Class.define("qx.ui2.layout.Atom",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
+    setIcon : function(icon) {
+      this._icon = icon;
+    },
+
+    setText : function(text) {
+      this._text = text;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    invalidate : function()
+    {
+      if (this._sizeHint)
+      {
+        this.debug("Clear layout cache");
+        this._sizeHint = null;
+      }
+    },
+
+    // overridden
+    layout : function(width, height)
+    {
+
+
+    },
+
+    getSizeHint : function()
+    {
+      if (this._sizeHint) {
+        return this._sizeHint;
+      }
+
+      var minWidth=0, width=0, maxWidth=0;
+      var minHeight=0, height=0, maxHeight=32000;
+
+      // Add icon
+
+
+      // Add text
+
+
+      // Build hint
+      var hint = {
+        minWidth : minWidth,
+        width : width,
+        maxWidth : maxWidth,
+        minHeight : minHeight,
+        height : height,
+        maxHeight : maxHeight
+      };
+
+      this.debug("Compute size hint: ", hint);
+      this._sizeHint = hint;
+
+      return hint;
+    }
+
 
 
 
