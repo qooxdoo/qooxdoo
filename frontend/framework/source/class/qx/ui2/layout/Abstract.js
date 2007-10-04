@@ -344,6 +344,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
   */
 
   destruct : function() {
-    this._disposeDeep("_children", 1);
+    this._disposeObjectDeep("_children", 1);
   }
 });

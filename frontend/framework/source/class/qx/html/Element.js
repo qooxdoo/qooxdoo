@@ -1784,13 +1784,14 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    if (this._element) {
-      delete this._element.QxElement;
-    }
-
     this._disposeObjectDeep("_children", 1);
     this._disposeFields("__attribValues", "__styleValues", "__eventValues");
     this._disposeFields("__attribJobs", "__styleJobs", "__eventJobs");
+
+    if (this._element) {
+      this._element.QxElement = null;
+    }
+
     this._disposeFields("_element");
   }
 });

@@ -291,8 +291,9 @@ qx.Class.define("qx.event.Manager",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        this.printStackTrace();
-        throw new Error("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        // this.printStackTrace();
+        // throw new Error("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
@@ -401,8 +402,9 @@ qx.Class.define("qx.event.Manager",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        this.printStackTrace();
-        throw new Error("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        // this.printStackTrace();
+        // throw new Error("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
