@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     {
       if (this._containerObject) {
         this.__saveSelectionBeforeRemove();
-        this._containerObject.remove.apply(this._containerObject, varargs);
+        this._containerObject.remove.apply(this._containerObject, arguments);
         this.__restoreSelectionAfterRemove();
       }
     },
