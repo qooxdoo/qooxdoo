@@ -331,7 +331,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getColumnFlex : function(column)
     {
       var colData = this._colData[column] || {};
-      return colData.flex || 1;
+      return colData.flex !== undefined ? colData.flex : 1;
     },
 
     setRowFlex : function(row, flex) {
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getRowFlex : function(row)
     {
       var rowData = this._rowData[row] || {};
-      return rowData.flex || 1;
+      return rowData.flex !== undefined ? rowData.flex : 1;
     },
 
     setColumnMaxWidth : function(column, maxWidth) {
@@ -351,7 +351,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getColumnMaxWidth : function(column)
     {
       var colData = this._colData[column] || {};
-      return colData.maxWidth || 32000;
+      return colData.maxWidth !== undefined ? colData.maxWidth : 32000;
     },
 
     setColumnMinWidth : function(column, minWidth) {
@@ -429,22 +429,24 @@ qx.Class.define("qx.ui2.layout.Grid",
           var rowHeight = rowHeights[row];
           var rowFlex = this.getRowFlex(row);
 
-          // compute flex array for the preferred height
-          prefRowFlex.push({
-            id: row,
-            potential: rowHeight.maxHeight - rowHeight.height,
-            flex: rowFlex
-          });
+          if (rowFlex > 0)
+          {
+            // compute flex array for the preferred height
+            prefRowFlex.push({
+              id: row,
+              potential: rowHeight.maxHeight - rowHeight.height,
+              flex: rowFlex
+            });
+
+            // compute flex array for the min height
+            minRowFlex.push({
+              id: row,
+              potential: rowHeight.maxHeight - rowHeight.minHeight,
+              flex: rowFlex
+            });
+          }
 
           prefSpanHeight += rowHeight.height;
-
-          // compute flex array for the min height
-          minRowFlex.push({
-            id: row,
-            potential: rowHeight.maxHeight - rowHeight.minHeight,
-            flex: rowFlex
-          });
-
           minSpanHeight += rowHeight.minHeight;
         }
 
@@ -470,7 +472,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetRowSpan; j++) {
-            rowHeights[widgetRow+j].minHeight += rowIncrements[widgetRow+j];
+            rowHeights[widgetRow+j].minHeight += rowIncrements[widgetRow+j] || 0;
           }
         }
       }
@@ -515,21 +517,23 @@ qx.Class.define("qx.ui2.layout.Grid",
           var colFlex = this.getColumnFlex(col);
 
           // compute flex array for the preferred width
-          prefColFlex.push({
-            id: col,
-            potential: colWidth.maxWidth - colWidth.width,
-            flex: colFlex
-          });
+          if (colFlex > 0)
+          {
+            prefColFlex.push({
+              id: col,
+              potential: colWidth.maxWidth - colWidth.width,
+              flex: colFlex
+            });
+
+            // compute flex array for the min width
+            minColFlex.push({
+              id: col,
+              potential: colWidth.maxWidth - colWidth.minWidth,
+              flex: colFlex
+            });
+          }
 
           prefSpanWidth += colWidth.width;
-
-          // compute flex array for the min width
-          minColFlex.push({
-            id: col,
-            potential: colWidth.maxWidth - colWidth.minWidth,
-            flex: colFlex
-          });
-
           minSpanWidth += colWidth.minWidth;
         }
 
@@ -542,7 +546,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetColSpan; j++) {
-            colWidths[widgetColumn+j].width += colIncrements[widgetColumn+j];
+            colWidths[widgetColumn+j].width += colIncrements[widgetColumn+j] || 0;
           }
         }
 
@@ -555,7 +559,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetColSpan; j++) {
-            colWidths[widgetColumn+j].minWidth += colIncrements[widgetColumn+j];
+            colWidths[widgetColumn+j].minWidth += colIncrements[widgetColumn+j] || 0;
           }
         }
       }
