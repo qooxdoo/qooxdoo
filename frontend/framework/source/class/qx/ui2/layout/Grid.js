@@ -321,6 +321,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *    "left", "center" and "right".
      * @param vAlign {String} The vertical alignment. Valid values are
      *    "top", "middle", "bottom"
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
     setCellAlign : function(row, column, hAlign, vAlign)
     {
@@ -329,6 +330,8 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       this._setCellData(column, "hAlign", hAlign);
       this._setCellData(column, "vAlign", vAlign);
+
+      return this;
     },
 
 
@@ -359,9 +362,12 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param flex {Integer} The column's flex value
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    setColumnFlex : function(column, flex) {
+    setColumnFlex : function(column, flex)
+    {
       this._setColumnData(column, "flex", flex);
+      return this;
     },
 
 
@@ -384,11 +390,13 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param flex {Integer} The row's flex value
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    setRowFlex : function(row, flex) {
+    setRowFlex : function(row, flex)
+    {
       this._setRowData(row, "flex", flex);
+      return this;
     },
-
 
 
     /**
@@ -410,9 +418,12 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param maxWidth {Integer} The column's maximum width
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    setColumnMaxWidth : function(column, maxWidth) {
+    setColumnMaxWidth : function(column, maxWidth)
+    {
       this._setColumnData(column, "maxWidth", maxWidth);
+      return this;
     },
 
 
@@ -435,9 +446,12 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param maxWidth {Integer} The column's minimum width
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    setColumnMinWidth : function(column, minWidth) {
+    setColumnMinWidth : function(column, minWidth)
+    {
       this._setColumnData(column, "minWidth", minWidth);
+      return this;
     },
 
 
@@ -460,9 +474,12 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param maxHeight {Integer} The row's maximum width
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    setRowMaxHeight : function(row, maxHeight) {
+    setRowMaxHeight : function(row, maxHeight)
+    {
       this._setRowData(row, "maxHeight", maxHeight);
+      return this;
     },
 
 
@@ -485,9 +502,12 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param minHeight {Integer} The row's minimum width
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    setRowMinHeight : function(row, minHeight) {
+    setRowMinHeight : function(row, minHeight)
+    {
       this._setRowData(row, "minHeight", minHeight);
+      return this;
     },
 
 
