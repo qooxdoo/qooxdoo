@@ -233,30 +233,6 @@ qx.Class.define("qx.core.Object",
      */
     inGlobalDispose : function() {
       return this.__disposed;
-    },
-
-
-    /**
-     * Logs the current stack trace as a debug message.
-     *
-     * @type member
-     * @return {void}
-     */
-    printStackTrace : function()
-    {
-      if (qx.dev && qx.dev.StackTrace)
-      {
-        var trace = qx.dev.StackTrace.getStackTrace();
-
-        qx.core.Log.debug("Current stack trace: ");
-        for (var i=1, l=trace.length; i<l; i++) {
-          qx.core.Log.debug("  - " + trace[i]);
-        }
-      }
-      else
-      {
-        qx.core.Log.warn("Stacktraces are not support by your build!");
-      }
     }
   },
 
@@ -643,8 +619,8 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @return {void}
      */
-    printStackTrace : function() {
-      qx.core.Object.printStackTrace();
+    trace : function() {
+      qx.core.Log.trace();
     },
 
 
