@@ -594,6 +594,7 @@ qx.Class.define("qx.ui2.core.Widget",
       this._layoutInvalid ? null : this._top;
     },
 
+
     /**
      * Get the widget's left position inside its parent element as computed by
      * the layout manager. This function will return <code>null</code> if the
@@ -609,6 +610,7 @@ qx.Class.define("qx.ui2.core.Widget",
     getComputedLeft : function() {
       return this._layoutInvalid ? null : this._left;
     },
+
 
     /**
      * Get the widget's width as computed by the layout manager. This function
