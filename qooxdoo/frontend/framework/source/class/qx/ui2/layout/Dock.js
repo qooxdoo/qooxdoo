@@ -178,8 +178,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
-      console.debug("Used width: " + usedWidth + "/" + width);
-      console.debug("Used height: " + usedHeight + "/" + height);
+      // console.debug("Used width: " + usedWidth + "/" + width);
+      // console.debug("Used height: " + usedHeight + "/" + height);
 
 
       // Process widths for flex stretching/shrinking
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
           for (var key in flexibleOffsets)
           {
-            this.debug(" - Correcting child[" + key + "] width by: " + flexibleOffsets[key]);
+            // this.debug(" - Correcting child[" + key + "] width by: " + flexibleOffsets[key]);
 
             childWidths[key] += flexibleOffsets[key];
             usedWidth += flexibleOffsets[key];
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
           for (var key in flexibleOffsets)
           {
-            this.debug(" - Correcting child[" + key + "] height by: " + flexibleOffsets[key]);
+            // this.debug(" - Correcting child[" + key + "] height by: " + flexibleOffsets[key]);
 
             childHeights[key] += flexibleOffsets[key];
             usedHeight += flexibleOffsets[key];
@@ -273,8 +273,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
-      console.debug("Used width: " + usedWidth + "/" + width);
-      console.debug("Used height: " + usedHeight + "/" + height);
+      // console.debug("Used width: " + usedWidth + "/" + width);
+      // console.debug("Used height: " + usedHeight + "/" + height);
 
 
       // Apply children layout
