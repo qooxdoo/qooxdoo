@@ -30,7 +30,8 @@
  * Supports:
  *
  * * Integer dimensions (using widget properties)
- * * Additional percent width and height (using layout properties)
+ * * Additional percent width for left/right/center attached widgets (using layout properties)
+ * * Additional percent height for top/bottom/center attached widgets (using layout properties)
  * * Min and max dimensions (using widget properties)
  * * Priorized growing/shrinking (flex) (using layout properties)
  * * Auto sizing (not together with percent dimensions for the children)
@@ -488,47 +489,6 @@ qx.Class.define("qx.ui2.layout.Dock",
 
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES: DOCK
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Configures the docking position for the given widget
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {String} The docking position to apply
-     * @return {qx.ui2.layout.Dock} This layout (for chaining support)
-     */
-    setDock : function(widget, value)
-    {
-      widget.addLayoutProperty("dock.edge", value)
-
-      // chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the docking position of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {String} The docking position
-     */
-    getDock : function(widget) {
-      return widget.getLayoutProperty("dock.edge");
-    },
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT HELPERS
@@ -586,6 +546,160 @@ qx.Class.define("qx.ui2.layout.Dock",
       }
 
       return children;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: DOCK
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Configures the docking position for the given widget
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The docking position to apply
+     * @return {qx.ui2.layout.Dock} This layout (for chaining support)
+     */
+    setDock : function(widget, value)
+    {
+      widget.addLayoutProperty("dock.edge", value)
+
+      // chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the docking position of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String} The docking position
+     */
+    getDock : function(widget) {
+      return widget.getLayoutProperty("dock.edge");
+    },
+
+
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: DIMENSION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the width value of the given widget. This property is used
+     * to apply percent dimensions. For simple pixel dimensions
+     * use the widget property <code>width</code> instead.
+     *
+     * The size given here is only relevant for widgets attached to
+     * the left, right or center. Please do not use it for top or bottom
+     * attached widgets.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The (percent) width value to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setWidth : function(widget, value)
+    {
+      widget.addLayoutProperty("dock.width", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the (percent) width value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetWidth : function(widget)
+    {
+      widget.removeLayoutProperty("dock.width");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the (percent) width value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String} The width value
+     */
+    getWidth : function(widget) {
+      return widget.getLayoutProperty("dock.width") || 1;
+    },
+
+
+    /**
+     * Sets the height value of the given widget. This property is used
+     * to apply percent dimensions. For simple pixel dimensions
+     * use the widget property <code>height</code> instead.
+     *
+     * The size given here is only relevant for widgets attached to
+     * the top, bottom or center. Please do not use it for left or right
+     * attached widgets.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {String} The (percent) height value to apply
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    setHeight : function(widget, value)
+    {
+      widget.addLayoutProperty("dock.height", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the (percent) height value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
+     */
+    resetHeight : function(widget)
+    {
+      widget.removeLayoutProperty("dock.height");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the (percent) height value of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {String} The height value
+     */
+    getHeight : function(widget) {
+      return widget.getLayoutProperty("dock.height") || 1;
     }
   }
 });
