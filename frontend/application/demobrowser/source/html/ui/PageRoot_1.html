@@ -39,8 +39,9 @@ qx.Class.define("BasicSample",
       //doc.setDecoration(border);
       //doc.setBackgroundColor("white");
 
-
+      var box = new qx.ui2.core.Widget();
       var layout = new qx.ui2.layout.HBox();
+      box.setLayout(layout);
 
       var w1 = new qx.ui2.core.Widget;
       var w2 = new qx.ui2.core.Widget;
@@ -69,7 +70,7 @@ qx.Class.define("BasicSample",
       layout.add(w3);
       layout.add(w4);
 
-      doc.setLayout(layout)
+      doc.getLayout().add(box, 30, 120);
     }
   }
 });

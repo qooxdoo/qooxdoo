@@ -18,6 +18,15 @@
 
 ************************************************************************ */
 
+/**
+ * This widget provides a root widget for popups and tooltips if qooxdoo is used
+ * inside a traditional HTML page.
+ *
+ * For this reason the widget's layout is initialized with an instance of
+ * {@link qx.ui2.layout.Basic}. The widget's layout cannot be changed.
+ *
+ * If you want to place widgets inside the page flow use {@link qx.ui2.root.Inline}.
+ */
 qx.Class.define("qx.ui2.root.Page",
 {
   extend : qx.ui2.core.Widget,
@@ -38,17 +47,15 @@ qx.Class.define("qx.ui2.root.Page",
    */
   construct : function(doc)
   {
-    this.base(arguments);
-
     // Symbolic links
-    this._window = qx.dom.Node.getWindow(doc);
-    this._elem = doc.body;
+    this._doc = doc;
 
-    // Base call
     this.base(arguments);
 
-    // Resize handling
-    qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
+    this._layout = new qx.ui2.layout.Basic();
+    this.setLayout(this._layout);
+
+    this.invalidateLayout();
   },
 
 
@@ -68,51 +75,54 @@ qx.Class.define("qx.ui2.root.Page",
       return true;
     },
 
+
     // overridden
     _createOuterElement : function()
     {
-      var root = new qx.html.Root(this._elem);
-      delete this._elem;
+      var elem = this._doc.createElement("div");
+      this._doc.body.appendChild(elem);
+
+      var root = new qx.html.Root(elem);
+      root.setStyle("position", "absolute");
 
       return root;
     },
 
 
-    /**
-     * Listener for window's resize event
-     *
-     * @type member
-     * @param e {qx.type.Event} Event object
-     * @return {void}
-     */
-    _onResize : function(e) {
-      this.invalidateLayout();
+    // overridden
+    _createContentElement : function()
+    {
+      var elem = new qx.html.Element();
+      elem.setStyle("position", "absolute");
+
+      this.getElement().add(elem);
+
+      return elem;
     },
 
 
     // overridden
-    getSizeHint : function()
+    _applyLayout : function(value, old)
     {
-      if (this._sizeHint) {
-        return this._sizeHint;
+      if (old) {
+        throw new Error("You cannot change the layout of qx.ui2.root.Page!");
       }
+      this.base(arguments, value, old);
+    },
 
-      var width = qx.bom.Viewport.getWidth(this._window);
-      var height = qx.bom.Viewport.getHeight(this._window);
 
-      var hint = {
+    // overridden
+    getSizeHint : function() {
+      // the size hint is 0 so make the content element invisible
+      // this works because the content element has overflow "show"
+      return {
         minWidth : 0,
-        width : width,
-        maxWidth : width,
+        width : 0,
+        maxWidth : 0,
         minHeight : 0,
-        height : height,
-        maxHeight : height
+        height : 0,
+        maxHeight : 0
       };
-
-      this._sizeHint = hint;
-      this.debug("Compute size hint: ", hint);
-
-      return hint;
     }
   },
 
@@ -126,6 +136,6 @@ qx.Class.define("qx.ui2.root.Page",
   */
 
   destruct : function() {
-    this._disposeFields("_window");
+    this._disposeFields("_layout", "_doc");
   }
 });
