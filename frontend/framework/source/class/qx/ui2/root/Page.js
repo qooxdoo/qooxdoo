@@ -38,9 +38,11 @@ qx.Class.define("qx.ui2.root.Page",
    */
   construct : function(doc)
   {
+    this.base(arguments);
+
     // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
-    this._body = doc.body;
+    this._elem = doc.body;
 
     // Base call
     this.base(arguments);
@@ -68,20 +70,12 @@ qx.Class.define("qx.ui2.root.Page",
     },
 
     // overridden
-    setGeometry : function() {
-      // nothing todo here
-    },
+    _createOuterElement : function()
+    {
+      var root = new qx.html.Root(this._elem);
+      delete this._elem;
 
-
-    // overridden
-    _createOuterElement : function() {
-      return new qx.html.Root(this._body);
-    },
-
-
-    // overridden
-    _createContentElement : function() {
-      return this._outerElement;
+      return root;
     },
 
 
@@ -92,17 +86,34 @@ qx.Class.define("qx.ui2.root.Page",
      * @param e {qx.type.Event} Event object
      * @return {void}
      */
-    _onResize : function(e)
+    _onResize : function(e) {
+      this.invalidateLayout();
+    },
+
+
+    // overridden
+    getSizeHint : function()
     {
-      var width = qx.bom.Document.getWidth(this._window);
-      var height = qx.bom.Document.getHeight(this._window);
+      if (this._sizeHint) {
+        return this._sizeHint;
+      }
 
-      // Sync to layouter
-      this.addHint("width", width);
-      this.addHint("height", height);
+      var width = qx.bom.Viewport.getWidth(this._window);
+      var height = qx.bom.Viewport.getHeight(this._window);
 
-      // Debug
-      qx.core.Log.debug("Resize page: " + width + "x" + height);
+      var hint = {
+        minWidth : 0,
+        width : width,
+        maxWidth : width,
+        minHeight : 0,
+        height : height,
+        maxHeight : height
+      };
+
+      this._sizeHint = hint;
+      this.debug("Compute size hint: ", hint);
+
+      return hint;
     }
   },
 
