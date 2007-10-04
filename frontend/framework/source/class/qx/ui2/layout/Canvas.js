@@ -100,12 +100,12 @@ qx.Class.define("qx.ui2.layout.Canvas",
       var child, childHint;
       var childLeft, childTop, childRight, childBottom;
       var childWidth, childHeight;
+      var childLimitWidth, childLimitHeight;
       var percent = /[0-9.]+%/;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-
         childHint = child.getSizeHint();
 
 
@@ -175,8 +175,11 @@ qx.Class.define("qx.ui2.layout.Canvas",
             // Reduce the width to keep left edge visible
             if (childLeft < 0)
             {
-              childWidth += childLeft;
-              childLeft = 0;
+              // Detect minimum width vs. calculated width
+              childLimitWidth = Math.max(childWidth + childLeft, childHint.minWidth);
+
+              childLeft += (childWidth - childLimitWidth);
+              childWidth = childLimitWidth
             }
           }
         }
@@ -193,11 +196,14 @@ qx.Class.define("qx.ui2.layout.Canvas",
           {
             childTop = height - childHeight - childBottom;
 
-            // Reduce the height to keep left edge visible
+            // Reduce the height to keep top edge visible
             if (childTop < 0)
             {
-              childHeight += childTop;
-              childTop = 0;
+              // Detect minimum height vs. calculated height
+              childLimitHeight = Math.max(childHeight + childTop, childHint.minHeight);
+
+              childTop += (childHeight - childLimitHeight);
+              childHeight = childLimitHeight
             }
           }
         }
