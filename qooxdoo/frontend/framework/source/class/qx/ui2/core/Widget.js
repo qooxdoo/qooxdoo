@@ -527,11 +527,9 @@ qx.Class.define("qx.ui2.core.Widget",
         this._contentElement.setStyle("top", innerTop + "px");
         this._contentElement.setStyle("width", innerWidth + "px");
         this._contentElement.setStyle("height", innerHeight + "px");
-      }
 
-      // Sync style
-      // TODO: do style updates in a different queue
-      this._syncDecoration(width, height);
+        this.updateDecoration(width, height);
+      }
 
       // TODO: after doing the layout fire change events
       if (locationChange) {
@@ -559,16 +557,88 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Update the decoration (background, border, ...)
      *
+     * @internal Mainly for decoration queue
      * @param width {Integer} The widget's current width
      * @param height {Integer} The widget's current height
      */
-    _syncDecoration : function(width, height)
+    updateDecoration : function(width, height)
     {
       var decoration = this.getDecoration();
       if (decoration) {
         var decorationHtml = decoration.getHtml(this, width, height);
         this._decorationElement.setAttribute("html", decorationHtml);
       }
+      qx.ui2.core.DecorationQueue.remove(this);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PRELIMINARY ELEMENT INTERFACES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Get the widget's top position inside its parent element as computed by
+     * the layout manager. This function will return <code>null</code> if the
+     * layout is invalid.
+     *
+     * This function is guaranteed to return a non <code>null</code> value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's top position in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedTop : function() {
+      this._layoutInvalid ? null : this._top;
+    },
+
+    /**
+     * Get the widget's left position inside its parent element as computed by
+     * the layout manager. This function will return <code>null</code> if the
+     * layout is invalid.
+     *
+     * This function is guaranteed to return a non <code>null</code> value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's left position in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedLeft : function() {
+      this._layoutInvalid ? null : this._left;
+    },
+
+    /**
+     * Get the widget's width as computed by the layout manager. This function
+     * will return <code>null</code> if the layout is invalid.
+     *
+     * This function is guaranteed to return a non <code>null</code> value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's width in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedWidth : function() {
+      this._layoutInvalid ? null : this._width;
+    },
+
+
+    /**
+     * Get the widget's height as computed by the layout manager. This function
+     * will return <code>null</code> if the layout is invalid.
+     *
+     *  This function is guaranteed to return a non <code>null</code> value
+     *  during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's height in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedHeight : function() {
+      this._layoutInvalid ? null : this._height;
     },
 
 
@@ -724,7 +794,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      HINTS
+      LAYOUT PROPERTIES
     ---------------------------------------------------------------------------
     */
 
@@ -923,11 +993,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _styleDecoration : function(decoration)
     {
-      if (this._oldWidth && this._oldHeight) {
-        this._syncDecoration(this._oldWidth, this._oldHeight);
-      }
-
-      qx.ui2.core.LayoutQueue.add(this);
+      qx.ui2.core.DecorationQueue.add(this);
     },
 
 
