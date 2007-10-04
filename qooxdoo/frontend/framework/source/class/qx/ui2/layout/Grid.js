@@ -164,6 +164,13 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    /**
+     * Checks whether a string arguments matches one of the provided strings.
+     * Throws an exception if the argument is invalid.
+     *
+     * @param arg {String} string argument to check
+     * @param validValues {String[]} Array of valid argument values
+     */
     _validateArgument : function(arg, validValues)
     {
       if (validValues.indexOf(arg) == -1)
@@ -176,6 +183,14 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    /**
+     * Stores data for a grid cell
+     *
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     * @param key {String} The key under which the data should be stored
+     * @param value {var} data to store
+     */
     _setCellData : function(row, column, key, value)
     {
       var grid = this._grid;
@@ -198,6 +213,13 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    /**
+     * Stores data for a grid row
+     *
+     * @param row {Integer} The row index
+     * @param key {String} The key under which the data should be stored
+     * @param value {var} data to store
+     */
     _setRowData : function(row, key, value)
     {
       var rowData = this._rowData[row];
@@ -214,6 +236,13 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    /**
+     * Stores data for a grid column
+     *
+    * @param column {Integer} The column index
+     * @param key {String} The key under which the data should be stored
+     * @param value {var} data to store
+     */
     _setColumnData : function(column, key, value)
     {
       var colData = this._colData[column];
@@ -269,7 +298,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
-     * Get the widget located in the cell.
+     * Get the widget located in the cell. If a the cell
      *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
@@ -324,66 +353,155 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
+    /**
+     * Set the flex value for a grid column.
+     * By default the column flex value is <code>1</code>.
+     *
+     * @param column {Integer} The column index
+     * @param flex {Integer} The column's flex value
+     */
     setColumnFlex : function(column, flex) {
       this._setColumnData(column, "flex", flex);
     },
 
+
+    /**
+     * Get the flex value of a grid column.
+     *
+     * @param column {Integer} The column index
+     * @return {Integer} The column's flex value
+     */
     getColumnFlex : function(column)
     {
       var colData = this._colData[column] || {};
       return colData.flex !== undefined ? colData.flex : 1;
     },
 
+
+    /**
+     * Set the flex value for a grid row.
+     * By default the row flex value is <code>1</code>.
+     *
+     * @param row {Integer} The row index
+     * @param flex {Integer} The row's flex value
+     */
     setRowFlex : function(row, flex) {
       this._setRowData(row, "flex", flex);
     },
 
+
+
+    /**
+     * Get the flex value of a grid row.
+     *
+     * @param row {Integer} The row index
+     * @return {Integer} The row's flex value
+     */
     getRowFlex : function(row)
     {
       var rowData = this._rowData[row] || {};
       return rowData.flex !== undefined ? rowData.flex : 1;
     },
 
+
+    /**
+     * Set the maximum width of a grid column.
+     * The default value is <code>32000</code>.
+     *
+     * @param column {Integer} The column index
+     * @param maxWidth {Integer} The column's maximum width
+     */
     setColumnMaxWidth : function(column, maxWidth) {
       this._setColumnData(column, "maxWidth", maxWidth);
     },
 
+
+    /**
+     * Get the maximum width of a grid column.
+     *
+     * @param column {Integer} The column index
+     * @return {Integer} The column's maximum width
+     */
     getColumnMaxWidth : function(column)
     {
       var colData = this._colData[column] || {};
       return colData.maxWidth !== undefined ? colData.maxWidth : 32000;
     },
 
+
+    /**
+     * Set the minimum width of a grid column.
+     * The default value is <code>0</code>.
+     *
+     * @param column {Integer} The column index
+     * @param maxWidth {Integer} The column's minimum width
+     */
     setColumnMinWidth : function(column, minWidth) {
       this._setColumnData(column, "minWidth", minWidth);
     },
 
+
+    /**
+     * Get the minimum width of a grid column.
+     *
+     * @param column {Integer} The column index
+     * @return {Integer} The column's minimum width
+     */
     getColumnMinWidth : function(column)
     {
       var colData = this._colData[column] || {};
       return colData.minWidth || 0;
     },
 
+
+    /**
+     * Set the maximum height of a grid row.
+     * The default value is <code>32000</code>.
+     *
+     * @param row {Integer} The row index
+     * @param maxHeight {Integer} The row's maximum width
+     */
     setRowMaxHeight : function(row, maxHeight) {
       this._setRowData(row, "maxHeight", maxHeight);
     },
 
+
+    /**
+     * Get the maximum height of a grid row.
+     *
+     * @param row {Integer} The row index
+     * @return {Integer} The row's maximum width
+     */
     getRowMaxHeight : function(row)
     {
       var rowData = this._rowData[row] || {};
       return rowData.maxHeight || 32000;
     },
 
+
+    /**
+     * Set the minimum height of a grid row.
+     * The default value is <code>0</code>.
+     *
+     * @param row {Integer} The row index
+     * @param minHeight {Integer} The row's minimum width
+     */
     setRowMinHeight : function(row, minHeight) {
       this._setRowData(row, "minHeight", minHeight);
     },
 
+
+    /**
+     * Get the minimum height of a grid row.
+     *
+     * @param row {Integer} The row index
+     * @return {Integer} The row's minimum width
+     */
     getRowMinHeight : function(row)
     {
       var rowData = this._rowData[row] || {};
       return rowData.minHeight || 0;
     },
-
 
 
     // overridden
@@ -864,6 +982,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       }
     },
 
+
     // overridden
     invalidate : function()
     {
@@ -943,7 +1062,8 @@ qx.Class.define("qx.ui2.layout.Grid",
 
   destruct : function()
   {
-
-
+    this._disposeFields(
+      "_grid", "_rowData", "_colData", "_colSpans", "_rowSpans"
+    );
   }
 });
