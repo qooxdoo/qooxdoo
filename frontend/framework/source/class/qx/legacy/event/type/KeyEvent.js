@@ -222,7 +222,7 @@ qx.Class.define("qx.legacy.event.type.KeyEvent",
      */
     getKeyCode : function() {
       this.warn("Deprecated: please use getKeyIdentifier() instead.");
-      this.printStackTrace();
+      this.trace();
       return this._keyCode;
     }
   },

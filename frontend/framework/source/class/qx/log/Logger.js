@@ -85,7 +85,7 @@ qx.Class.define("qx.log.Logger",
           "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
           msg || "Please consult the API documentation of this method for alternatives."
         );
-        logger.printStackTrace();
+        logger.trace();
       }
     },
 
@@ -109,7 +109,7 @@ qx.Class.define("qx.log.Logger",
           "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
           msg || "Please consult the API documentation of this method for alternatives."
         );
-        logger.printStackTrace();
+        logger.trace();
       }
     },
 

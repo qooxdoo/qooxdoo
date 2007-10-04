@@ -150,10 +150,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         if (typeof func !== "function")
         {
-          if (qx.core.Object) {
-            qx.core.Object.printStackTrace();
-          }
-
+          qx.core.Log.trace();
           throw new Error("Could not bind non-function: " + func);
         }
       }

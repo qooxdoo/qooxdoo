@@ -38,6 +38,7 @@
 /* ************************************************************************
 
 #module(core)
+#optional(qx.dev.StackTrace)
 
 ************************************************************************ */
 
@@ -237,6 +238,30 @@ qx.Bootstrap.define("qx.core.Log",
     clear : function() {
       this._consoleLog.innerHTML = "";
     },
+    
+    
+    /**
+     * Logs the current stack trace as a debug message.
+     *
+     * @type member
+     * @return {void}
+     */
+    trace : function()
+    {
+      if (qx.dev && qx.dev.StackTrace)
+      {
+        var trace = qx.dev.StackTrace.getStackTrace();
+
+        this.debug("Current stack trace: ");
+        for (var i=1, l=trace.length; i<l; i++) {
+          this.debug("  - " + trace[i]);
+        }
+      }
+      else
+      {
+        this.warn("Stacktraces are not support by your build!");
+      }
+    },  
 
 
 
