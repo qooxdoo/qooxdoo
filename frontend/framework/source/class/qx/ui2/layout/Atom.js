@@ -105,33 +105,77 @@ qx.Class.define("qx.ui2.layout.Atom",
         return this._sizeHint;
       }
 
-      var minWidth=0, width=0, maxWidth=0;
-      var minHeight=0, height=0, maxHeight=32000;
+      var hint;
 
-      // Add icon
+      if (this._icon && this._text)
+      {
+        var minWidth=0, width=0, maxWidth=0;
+        var minHeight=0, height=0, maxHeight=0;
+
+        var iconHint = this._icon.getSizeHint();
+        var textHint = this._text.getSizeHint();
+
+        var iconPosition = this.getIconPosition();
+        var gap = this.getGap();
+
+        if (iconPosition === "top" || iconPosition === "bottom")
+        {
+          // Max of text and icon
+          width = Math.max(iconHint.width, textHint.width);
+          minWidth = Math.max(iconHint.minWidth, textHint.minWidth);
+          maxWidth = Math.min(iconHint.maxWidth, textHint.maxWidth);
+
+          // Sum of text, icon and gap
+          height = iconHint.height + textHint.height + gap;
+          minHeight = iconHint.minHeight + textHint.minHeight + gap;
+          maxHeight = iconHint.maxHeight + textHint.maxHeight + gap;
+        }
+        else
+        {
+          // Max of text and icon
+          height = Math.max(iconHint.height, textHint.height);
+          minHeight = Math.max(iconHint.minHeight, textHint.minHeight);
+          maxHeight = Math.min(iconHint.maxHeight, textHint.maxHeight);
+
+          // Sum of text, icon and gap
+          width = iconHint.width + textHint.width + gap;
+          minWidth = iconHint.minWidth + textHint.minWidth + gap;
+          maxWidth = iconHint.maxWidth + textHint.maxWidth + gap;
+        }
 
 
-      // Add text
+        // Limit to integer and min/max range
+        minWidth = Math.min(32000, Math.max(0, minWidth));
+        maxWidth = Math.min(32000, Math.max(0, maxWidth));
+        width = Math.min(32000, minWidth, Math.max(0, width, maxWidth));
+        minHeight = Math.min(32000, Math.max(0, minHeight));
+        maxHeight = Math.min(32000, Math.max(0, maxHeight));
+        height = Math.min(32000, minHeight, Math.max(0, height, maxHeight));
 
 
-      // Build hint
-      var hint = {
-        minWidth : minWidth,
-        width : width,
-        maxWidth : maxWidth,
-        minHeight : minHeight,
-        height : height,
-        maxHeight : maxHeight
-      };
+        // Build hint
+        hint = {
+          minWidth : minWidth,
+          width : width,
+          maxWidth : maxWidth,
+          minHeight : minHeight,
+          height : height,
+          maxHeight : maxHeight
+        };
+      }
+      else if (this._icon)
+      {
+        hint = this._text.getIconHint();
+      }
+      else if (this._text)
+      {
+        hint = this._text.getSizeHint();
+      }
 
       this.debug("Compute size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;
     }
-
-
-
-
   }
 });
