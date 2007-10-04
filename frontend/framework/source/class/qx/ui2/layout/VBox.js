@@ -175,7 +175,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
         childHints[i] = childHint;
         childHeights[i] = childHeightPercent ? Math.floor((height - usedGaps) * parseFloat(childHeightPercent) / 100) : childHint.height;
-        childWidths[i] = childHint.width;
+        childWidths[i] = Math.max(childHint.minWidth, Math.min(childHint.width, width));
 
         usedHeight += childHeights[i];
       }
