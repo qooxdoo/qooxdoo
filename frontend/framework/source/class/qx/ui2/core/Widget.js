@@ -995,8 +995,34 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _styleDecoration : function(decoration)
     {
-      qx.ui2.core.LayoutQueue.add(this);
-      qx.ui2.core.DecorationQueue.add(this);
+      var insetTop=0, insetRight=0, insetBottom=0, insetLeft=0;
+
+      // Read out decoration inset
+      if (decoration)
+      {
+        insetTop = decoration.getInsetTop();
+        insetRight = decoration.getInsetRight();
+        insetBottom = decoration.getInsetBottom();
+        insetLeft = decoration.getInsetLeft();
+      }
+
+      // Detect inset changes
+      if (insetTop != this._insetTop || insetRight != this._insetRight || insetBottom != this._insetBottom || insetLeft != this._insetLeft)
+      {
+        // Store new insets
+        this._insetTop = insetTop;
+        this._insetRight = insetRight;
+        this._insetBottom = insetBottom;
+        this._insetLeft = insetLeft;
+
+        // Inset changes requires a layout update
+        qx.ui2.core.LayoutQueue.add(this);
+      }
+      else
+      {
+        // Style changes are happy with a simple decoration update
+        qx.ui2.core.DecorationQueue.add(this);
+      }
     },
 
 
