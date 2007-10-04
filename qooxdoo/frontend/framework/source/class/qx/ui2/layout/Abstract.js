@@ -95,6 +95,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
       this._children.push(widget);
       this._addToParent(widget);
 
+      // mark layout as invalid
+      this.invalidateLayout();
+
       // Chaining support
       return this;
     },
@@ -304,15 +307,19 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
       if (old)
       {
-        for (var i=0; i<length; i++) {
+        for (var i=0; i<length; i++)
+        {
           this._removeFromParent(children[i]);
+          children[i].invalidateLayout();
         }
       }
 
       if (value)
       {
-        for (var i=0; i<length; i++) {
+        for (var i=0; i<length; i++)
+        {
           this._addToParent(children[i]);
+          children[i].invalidateLayout();
         }
       }
     },
