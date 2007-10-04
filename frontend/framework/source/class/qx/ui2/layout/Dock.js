@@ -30,9 +30,10 @@
  * Supports:
  *
  * * Integer dimensions (using widget properties)
+ * * Additional percent width and height (using layout properties)
  * * Min and max dimensions (using widget properties)
  * * Priorized growing/shrinking (flex) (using layout properties)
- * * Auto sizing
+ * * Auto sizing (not together with percent dimensions for the children)
  * * Different sort options (to priorize x- or y-axis in layout)
  *
  * Notes:
@@ -134,6 +135,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       var children = this._getSortedChildren();
       var child, childEdge, childHint, childFlex;
+      var childWidth, childHeight, childWidthPercent, childHeightPercent;
       var childHints = [];
       var childWidths = [];
       var childHeights = [];
@@ -151,23 +153,28 @@ qx.Class.define("qx.ui2.layout.Dock",
         child = children[i];
         childEdge = child.getLayoutProperty("dock.edge");
         childHint = child.getSizeHint();
+        childWidthPercent = child.getLayoutProperty("dock.width");
+        childHeightPercent = child.getLayoutProperty("dock.height");
+
+        childWidth = childWidthPercent ? Math.floor(width * parseFloat(childWidthPercent) / 100) : childHint.width;
+        childHeight = childHeightPercent ? Math.floor(height * parseFloat(childHeightPercent) / 100) : childHint.height;
 
         childHints[i] = childHint;
-        childWidths[i] = childHint.width;
-        childHeights[i] = childHint.height;
+        childWidths[i] = childWidth
+        childHeights[i] = childHeight;
 
         if (childEdge === "north" || childEdge === "south")
         {
-          usedHeight += childHint.height;
+          usedHeight += childHeight;
         }
         else if (childEdge === "west" || childEdge === "east")
         {
-          usedWidth += childHint.width;
+          usedWidth += childWidth;
         }
         else
         {
-          usedWidth += childHint.width;
-          usedHeight += childHint.height;
+          usedWidth += childWidth;
+          usedHeight += childHeight;
         }
       }
 
