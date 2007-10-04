@@ -48,9 +48,9 @@ exec-distclean:
 
 	@echo "  * Deleting debug..."
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
-	
+
 	@echo "  * Deleting AIR application..."
-	@$(CMD_REMOVE) $(APPLICATION_ID).air 
+	@$(CMD_REMOVE) $(APPLICATION_ID).air
 
 	@echo "  * Deleting buildtool..."
 	@$(CMD_REMOVE) $(APPLICATION_BUILDTOOL_PATH)
@@ -90,7 +90,7 @@ exec-script-source:
 	  $(COMPUTED_TEMPLATE) \
 	  --generate-source-script \
 	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)
-	
+
 
 exec-script-build:
 	$(SILENCE) $(CMD_GENERATOR) \
@@ -103,8 +103,8 @@ exec-script-build:
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
-		
-		
+
+
 exec-script-air:
 	$(SILENCE) $(CMD_GENERATOR) \
     $(COMPUTED_CLASS_PATH) \
@@ -117,8 +117,8 @@ exec-script-air:
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
-    	  
-    	  		
+
+
 exec-script-build-split:
 	# generate base profile
 	$(SILENCE) $(CMD_GENERATOR) \
@@ -369,8 +369,8 @@ exec-application-translation:
 	  -kself.trc -kself.tr -kself.marktr -kself.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
-	  -o `printf "%q" $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)`/messages.pot \
-	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js" -exec bash -c "printf '%q ' \"{}\"" \;` 2>&1 | grep -v warning; \
+	  -o `printf "%s" $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)`/messages.pot \
+	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js" -exec bash -c "printf '%s ' \"{}\"" \;` 2>&1 | grep -v warning; \
 	  break; done
 
 	@echo "  * Processing translations..."
@@ -432,7 +432,7 @@ exec-files-buildtool:
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
 	@mkdir -p $(APPLICATION_BUILDTOOL_PATH)
-	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH); 
+	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH);
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.sh ./buildtool_start.sh
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
 
@@ -571,29 +571,29 @@ exec-air-prep:
 	@echo
 	@echo "  GENERATING AIR PACKAGE"
 	@$(CMD_LINE)
-	
+
 	@echo "  * Copying application icons..."
-	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/16 
-	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/32 
-	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/48 
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/16
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/32
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/48
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/128
-	
+
 	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/16/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/16
 	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/32/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/32
 	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/48/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/48
 	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/128/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/128
-	
+
 	@echo "  * Preparing description file for AIR compiler..."
 	@echo '<?xml version="1.0" encoding="UTF-8"?>' > $(APPLICATION_BUILD_PATH)/.air
 	@echo '<application xmlns="http://ns.adobe.com/air/application/1.0.M4" appId="$(APPLICATION_NAMESPACE)" version="$(APPLICATION_VERSION)">' >> $(APPLICATION_BUILD_PATH)/.air
-	
+
 	@echo '  <name>$(APPLICATION_TITLE)</name>' >> $(APPLICATION_BUILD_PATH)/.air
 	@echo '  <title>$(APPLICATION_TITLE) Installer</title>' >> $(APPLICATION_BUILD_PATH)/.air
 	@echo '  <description>$(APPLICATION_DESCRIPTION)</description>' >> $(APPLICATION_BUILD_PATH)/.air
 	@echo '  <copyright>$(APPLICATION_COPYRIGHT)</copyright>' >> $(APPLICATION_BUILD_PATH)/.air
-	
+
 	@echo '  <rootContent systemChrome="standard" visible="true" width="$(APPLICATION_WIDTH)" height="$(APPLICATION_HEIGHT)">index.html</rootContent>' >> $(APPLICATION_BUILD_PATH)/.air
-	
+
 	@echo '  <icon>' >> $(APPLICATION_BUILD_PATH)/.air
 	@echo "    <image16x16>appicon/16/`basename $(APPLICATION_ICON)`</image16x16>" >> $(APPLICATION_BUILD_PATH)/.air
 	@echo "    <image32x32>appicon/32/`basename $(APPLICATION_ICON)`</image32x32>" >> $(APPLICATION_BUILD_PATH)/.air
@@ -604,10 +604,10 @@ exec-air-prep:
 
 IS_WINDOWS = $(shell python -c "import sys; print (sys.platform[:3]=='win' or sys.platform[:6]=='cygwin')")
 
-ifeq ($(IS_WINDOWS), True)	
+ifeq ($(IS_WINDOWS), True)
 exec-air: exec-air-prep
 	@echo "  * Building AIR application..."
-	@ADT=`echo $(COMPUTED_CMD_AIR_ADT) | sed s:'/cygdrive/c':'C\:':g | sed s:'^/':'C\:/cygwin/':g`; cd $(APPLICATION_BUILD_PATH); java -jar "$$ADT" -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air	
+	@ADT=`echo $(COMPUTED_CMD_AIR_ADT) | sed s:'/cygdrive/c':'C\:':g | sed s:'^/':'C\:/cygwin/':g`; cd $(APPLICATION_BUILD_PATH); java -jar "$$ADT" -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air
 else
 exec-air: exec-air-prep
 	@echo "  * Building AIR application..."
