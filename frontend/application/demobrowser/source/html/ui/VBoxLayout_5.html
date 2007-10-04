@@ -33,7 +33,6 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var docLayout = new qx.ui2.layout.Basic();
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
@@ -53,7 +52,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w1, "50%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 10);
+      doc.add(box1, 10, 10);
 
 
 
@@ -75,7 +74,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "30%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 130, 10);
+      doc.add(box1, 130, 10);
 
 
 
@@ -97,7 +96,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "33.3%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 250, 10);
+      doc.add(box1, 250, 10);
 
 
 
@@ -119,7 +118,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "33.3%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 370, 10);
+      doc.add(box1, 370, 10);
 
 
 
@@ -141,7 +140,7 @@ qx.Class.define("BasicSample",
 			layout1.setHeight(w1, "50%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 490, 10);
+      doc.add(box1, 490, 10);
 
 
 
@@ -162,7 +161,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 610, 10);
+      doc.add(box1, 610, 10);
 
 
       // all child in percents + auto sizing + flex enabled
@@ -182,7 +181,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 730, 10);
+      doc.add(box1, 730, 10);
 
 
 
@@ -204,7 +203,7 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 850, 10);
+      doc.add(box1, 850, 10);
 
 
 
@@ -227,12 +226,8 @@ qx.Class.define("BasicSample",
       layout1.setHeight(w3, "33%");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 970, 10);
+      doc.add(box1, 970, 10);
 
-
-
-
-      doc.setLayout(docLayout);
 
     }
   }
