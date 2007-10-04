@@ -34,7 +34,6 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var docLayout = new qx.ui2.layout.Basic();
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
@@ -53,13 +52,8 @@ qx.Class.define("BasicSample",
       layout1.add(w3, null, "right");
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 10);
+      doc.add(box1, 10, 10);
 
-
-
-
-
-      doc.setLayout(docLayout);
     }
   }
 });

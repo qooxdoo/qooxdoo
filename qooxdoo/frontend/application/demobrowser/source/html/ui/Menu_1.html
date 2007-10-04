@@ -190,6 +190,11 @@ qx.Class.define("BasicSample",
       menu.add(new MenuItem("Close ...", "Ctrl-W"));
       docLayout.add(menu, 1, 0);
 
+      var container = new qx.ui2.core.Widget();
+      container.setLayout(docLlayout);
+
+      doc.add(container, 0, 0, 0, 0);
+
     }
   }
 });
