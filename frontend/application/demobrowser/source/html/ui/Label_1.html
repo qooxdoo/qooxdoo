@@ -29,20 +29,17 @@ qx.Class.define("BasicSample",
       this.base(arguments);
 
       var doc = new qx.ui2.root.Application(document);
-      var layout = new qx.ui2.layout.Basic;
 
       var label1 = new qx.ui2.core.Label("Hello World");
-      layout.add(label1, 20, 100);
+      doc.add(label1, 20, 100);
       label1.setWidth(50);
       label1.setHeight(50);
 
       var foo2 = new qx.ui2.core.Widget;
-      layout.add(foo2, 20, 200);
+      doc.add(foo2, 20, 200);
       foo2.setWidth(50);
       foo2.setWidth(50);
       foo2.setHtml("hello world");
-
-      doc.setLayout(layout);
     }
   }
 });

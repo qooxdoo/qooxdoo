@@ -80,7 +80,6 @@ qx.Class.define("BasicSample",
       w6.setDecoration(border);
 
       layout = new qx.ui2.layout.Canvas();
-      doc.setLayout(layout);
 
       layout.add(w1, "3%", "3%", "3%", "3%");
       layout.add(w2, "6%", "6%", "6%");
@@ -103,6 +102,10 @@ qx.Class.define("BasicSample",
       layout.setHeight(w5, "20%");
       layout.setHeight(w6, "20%");
 
+      var container = new qx.ui2.core.Widget();
+      container.setLayout(layout);
+
+      doc.add(container, 0, 0, 0, 0);
     }
   }
 });
