@@ -34,7 +34,6 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var docLayout = new qx.ui2.layout.Basic();
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
@@ -56,7 +55,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 10);
+      doc.add(box1, 10, 10);
 
 
 
@@ -80,7 +79,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 100);
+      doc.add(box1, 10, 100);
 
 
 
@@ -103,7 +102,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 190);
+      doc.add(box1, 10, 190);
 
 
 
@@ -127,17 +126,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginLeft(w3, -10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 280);
-
-
-
-
-
-
-      var container = new qx.ui2.core.Widget();
-      container.setLayout(layout);
-
-      doc.add(container, 0, 0, 0, 0);
+      doc.add(box1, 10, 280);
 
     }
   }

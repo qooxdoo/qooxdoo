@@ -38,7 +38,6 @@ qx.Class.define("BasicSample",
 
       var docLayout = new qx.ui2.layout.VBox();
       docLayout.setSpacing(10);
-      doc.setLayout(docLayout);
 
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
@@ -109,7 +108,7 @@ qx.Class.define("BasicSample",
       docLayout.add(box1);
 
       var container = new qx.ui2.core.Widget();
-      container.setLayout(layout);
+      container.setLayout(docLayout);
 
       doc.add(container, 0, 0, 0, 0);
     }
