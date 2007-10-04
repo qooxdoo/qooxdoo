@@ -77,25 +77,8 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    layout : function(left, top, width, height)
-    {
-      var mgr = this.getLayout();
-      if (mgr) {
-        mgr.layout(width, height);
-      }
-      this.markLayoutValid();
-    },
-
-
-    // overridden
     _createOuterElement : function() {
       return new qx.html.Root(this._body);
-    },
-
-
-    // overridden
-    _createContentElement : function() {
-      return this._outerElement;
     },
 
 
