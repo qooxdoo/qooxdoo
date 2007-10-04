@@ -718,7 +718,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           flexibles.push({
             id : i,
             potential : diff > 0 ? col.maxWidth - col.width : col.width - col.minWidth,
-            flex : colFlex
+            flex : diff > 0 ? colFlex : (1 / colFlex)
           });
         }
       }
@@ -768,7 +768,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           flexibles.push({
             id : i,
             potential : diff > 0 ? row.maxHeight - row.height : row.height - row.minHeight,
-            flex : rowFlex
+            flex : diff > 0 ? rowFlex : (1 / rowFlex)
           });
         }
       }
