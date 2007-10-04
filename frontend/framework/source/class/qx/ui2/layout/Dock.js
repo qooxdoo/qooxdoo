@@ -700,6 +700,107 @@ qx.Class.define("qx.ui2.layout.Dock",
      */
     getHeight : function(widget) {
       return widget.getLayoutProperty("dock.height") || 1;
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES: FLEX
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the flex value for the x-axis of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The flex value to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setFlexX : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.flexX", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the flex value for the x-axis of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetFlexX : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.flexX");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the flex value for the x-axis of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The flex value
+     */
+    getFlexX : function(widget) {
+      return widget.getLayoutProperty("hbox.flexX") || 1;
+    },
+
+
+    /**
+     * Sets the flex value for the y-axis of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @param value {Integer} The flex value to apply
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    setFlexY : function(widget, value)
+    {
+      widget.addLayoutProperty("hbox.flexY", value);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Resets the flex value for the y-axis of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to modify
+     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
+     */
+    resetFlexY : function(widget)
+    {
+      widget.removeLayoutProperty("hbox.flexY");
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Gets the flex value for the y-axis of the given widget.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to query
+     * @return {Integer} The flex value
+     */
+    getFlexY : function(widget) {
+      return widget.getLayoutProperty("hbox.flexY") || 1;
     }
   }
 });
