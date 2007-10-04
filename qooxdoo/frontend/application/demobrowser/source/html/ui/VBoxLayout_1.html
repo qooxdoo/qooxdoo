@@ -34,7 +34,6 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var docLayout = new qx.ui2.layout.Basic();
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
@@ -46,7 +45,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}));
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}));
       box1.setLayout(layout1);
-      docLayout.add(box1, 10, 10);
+      doc.add(box1, 10, 10);
 
 
       // container wider, horizontal alignment
@@ -57,7 +56,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 40}), null, "center");
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 40}), null, "right");
       box1.setLayout(layout1);
-      docLayout.add(box1, 130, 10);
+      doc.add(box1, 130, 10);
 
 
       // container higher, vertical alignment = bottom
@@ -69,7 +68,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0);
       box1.setLayout(layout1);
-      docLayout.add(box1, 210, 10);
+      doc.add(box1, 210, 10);
 
 
       // container higher, horizontal alignment = center
@@ -81,7 +80,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0);
       box1.setLayout(layout1);
-      docLayout.add(box1, 330, 10);
+      doc.add(box1, 330, 10);
 
 
       // auto size + vertical margins
@@ -102,7 +101,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginBottom(w3, 10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 450, 10);
+      doc.add(box1, 450, 10);
 
 
 
@@ -127,7 +126,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginBottom(w3, 10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 570, 10);
+      doc.add(box1, 570, 10);
 
 
 
@@ -151,16 +150,7 @@ qx.Class.define("BasicSample",
       layout1.setMarginBottom(w3, 10);
 
       box1.setLayout(layout1);
-      docLayout.add(box1, 690, 10);
-
-
-
-
-
-      var container = new qx.ui2.core.Widget();
-      container.setLayout(docLayout);
-
-      doc.add(container, 0, 0, 0, 0);
+      doc.add(box1, 690, 10);
 
     }
   }
