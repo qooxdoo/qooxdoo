@@ -77,7 +77,7 @@ exec-distclean:
 #
 
 exec-script-source:
-	
+
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
@@ -88,7 +88,7 @@ exec-script-source:
 	  $(COMPUTED_TEMPLATE) \
 	  --generate-source-script \
 	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)
-	
+
 
 exec-script-build:
 	$(SILENCE) $(CMD_GENERATOR) \
@@ -101,7 +101,7 @@ exec-script-build:
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
-		
+
 
 exec-script-build-split:
 	# generate base profile
@@ -353,8 +353,8 @@ exec-application-translation:
 	  -kself.trc -kself.tr -kself.marktr -kself.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
-	  -o `printf "%q" $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)`/messages.pot \
-	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js" -exec bash -c "printf '%q ' \"{}\"" \;` 2>&1 | grep -v warning; \
+	  -o `printf "%s" $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)`/messages.pot \
+	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js" -exec bash -c "printf '%s ' \"{}\"" \;` 2>&1 | grep -v warning; \
 	  break; done
 
 	@echo "  * Processing translations..."
@@ -416,7 +416,7 @@ exec-files-buildtool:
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
 	@mkdir -p $(APPLICATION_BUILDTOOL_PATH)
-	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH); 
+	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH);
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.sh ./buildtool_start.sh
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
 
@@ -462,7 +462,7 @@ exec-api-build:
 #
 # TestRunner/UnitTest targets
 #
- 
+
 exec-testrunner-build:
 	@# save old testrunner build contents
 	@( if [ -d $(TESTRUNNER_PATH)/build ]; then \
