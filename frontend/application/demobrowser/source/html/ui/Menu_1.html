@@ -21,8 +21,6 @@
     Proof of concept that the grid can be used for menus.
   </div>
 
-  <p><a href="javascript: qx.ui2.core.LayoutQueue.flush();">Flush queue</a></p>
-
   <script type="text/javascript">
 
 
@@ -79,7 +77,6 @@ qx.Class.define("MenuItem",
       if (this._shortcut) {
         this._shortcut.setBackgroundColor("blue");
       }
-      qx.ui2.core.LayoutQueue.flush();
     },
 
     _onMouseOut : function(e)
@@ -88,7 +85,6 @@ qx.Class.define("MenuItem",
       if (this._shortcut) {
         this._shortcut.setBackgroundColor(null);
       }
-      qx.ui2.core.LayoutQueue.flush();
     }
   }
 
@@ -194,7 +190,6 @@ qx.Class.define("BasicSample",
       menu.add(new MenuItem("Close ...", "Ctrl-W"));
       docLayout.add(menu, 1, 0);
 
-      qx.ui2.core.LayoutQueue.flush();
     }
   }
 });
