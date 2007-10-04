@@ -26,6 +26,7 @@
  *
  * * QHBoxLayout (Qt)
  * * StackPanel (XAML)
+ * * RowLayout (SWT) (with wrapping support like a FlowLayout)
  *
  * Supports:
  *
