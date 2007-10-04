@@ -41,7 +41,7 @@ qx.Class.define("qx.ui2.root.Application",
   {
     // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
-    this._body = doc.body;
+    this._elem = doc.body;
 
     // Base call
     this.base(arguments);
@@ -77,8 +77,12 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    _createOuterElement : function() {
-      return new qx.html.Root(this._body);
+    _createOuterElement : function()
+    {
+      var root = new qx.html.Root(this._elem);
+      delete this._elem;
+
+      return root;
     },
 
 
@@ -135,6 +139,6 @@ qx.Class.define("qx.ui2.root.Application",
   */
 
   destruct : function() {
-    this._disposeFields("_window");
+    this._disposeFields("_window", "_elem");
   }
 });
