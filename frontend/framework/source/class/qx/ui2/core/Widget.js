@@ -532,6 +532,7 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       // TODO: after doing the layout fire change events
+      /*
       if (locationChange) {
         this.debug("Location change: " + left +", " + top + " " + this);
       }
@@ -539,6 +540,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (sizeChange) {
         this.debug("Size change: " + width + ", " + height + " " + this);
       }
+      */
 
       // if the current layout is invalid force a relayout even if the size
       // has not changed

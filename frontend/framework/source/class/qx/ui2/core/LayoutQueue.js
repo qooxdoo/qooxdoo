@@ -89,7 +89,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       {
         var widget = widgets[widgetHash];
         var level = this.__getLevel(widget);
-        console.log(widget, level);
 
         if (!levels[level]) {
           levels[level] = {};
