@@ -95,8 +95,32 @@ qx.Class.define("qx.ui2.layout.Atom",
     // overridden
     layout : function(width, height)
     {
+      var child, childHint;
+      var childWidth, childHeight, childLeft, childTop;
+
+      if (this._icon && this._text)
+      {
+        child = this._icon;
+        child.layout(childLeft, childTop, childWidth, childHeight);
 
 
+        child = this._text;
+        child.layout(childLeft, childTop, childWidth, childHeight);
+      }
+      else if (this._text || this._icon)
+      {
+        child = this._text || this._icon;
+
+        childHint = child.getSizeHint();
+
+        childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth, 32000));
+        childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight, 32000));
+
+        childLeft = Math.round((width - childWidth) / 2);
+        childTop = Math.round((height - childHeight) / 2);
+
+        child.layout(childLeft, childTop, childWidth, childHeight);
+      }
     },
 
     getSizeHint : function()
@@ -165,7 +189,7 @@ qx.Class.define("qx.ui2.layout.Atom",
       }
       else if (this._icon)
       {
-        hint = this._text.getIconHint();
+        hint = this._icon.getSizeHint();
       }
       else if (this._text)
       {
