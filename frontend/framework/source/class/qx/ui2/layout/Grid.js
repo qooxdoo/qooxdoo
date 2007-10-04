@@ -455,7 +455,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      * The default value is <code>0</code>.
      *
      * @param column {Integer} The column index
-     * @param maxWidth {Integer} The column's minimum width
+     * @param minWidth {Integer} The column's minimum width
      * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
     setColumnMinWidth : function(column, minWidth)
