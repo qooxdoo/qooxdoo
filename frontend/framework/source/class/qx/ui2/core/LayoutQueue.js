@@ -33,8 +33,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * @param widget {qx.ui2.core.Widget} Widget to add.
      * @return {void}
      */
-    add : function(widget) {
+    add : function(widget)
+    {
       this._layoutQueue[widget.toHashCode()] = widget;
+      qx.ui2.core.QueueManager.scheduleFlush();
     },
 
 
@@ -211,9 +213,9 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       this._layoutQueue = {};
 
       // TODO: move this code to the QueueManager
-      qx.ui2.core.DecorationQueue.flush();
+      //qx.ui2.core.DecorationQueue.flush();
 
-      qx.html.Element.flush();
+      //qx.html.Element.flush();
     }
 
   }
