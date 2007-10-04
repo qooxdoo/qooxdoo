@@ -77,7 +77,6 @@ qx.Class.define("BasicSample",
       {
         borderColor = borderColor == "black" ? "orange" : "black";
         border.setColor(borderColor);
-        qx.ui2.core.LayoutQueue.flush();
       });
 
       layout = new qx.ui2.layout.Basic();
@@ -87,8 +86,6 @@ qx.Class.define("BasicSample",
       layout.add(w2, 200, 20);
       layout.add(w3, 350, 50);
       layout.add(w4, 50, 200);
-
-      qx.ui2.core.LayoutQueue.flush();
     }
   }
 });
