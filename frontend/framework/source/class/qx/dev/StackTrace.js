@@ -150,7 +150,12 @@ qx.Class.define("qx.dev.StackTrace",
           var fcnName = this.getFunctionName(fcn);
           trace.push(fcnName);
 
-          fcn = fcn.caller;
+          try {
+            fcn = fcn.caller;
+          } catch(e) {
+            break;
+          }
+
           if (!fcn) {
             break;
           }
