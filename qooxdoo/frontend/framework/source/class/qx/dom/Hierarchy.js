@@ -122,11 +122,7 @@ qx.Class.define("qx.dom.Hierarchy",
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(element, target) {
-        return element.contains(target);
-      },
-
-      "webkit" : function(element, target)
+      "webkit|mshtml|opera" : function(element, target)
       {
         if (qx.dom.Node.isDocument(element))
         {
