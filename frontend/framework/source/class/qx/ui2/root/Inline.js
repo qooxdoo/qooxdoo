@@ -43,6 +43,8 @@ qx.Class.define("qx.ui2.root.Inline",
 
     // Make relative
     el.style.position = "relative";
+
+    this.invalidateLayout();
   },
 
 
