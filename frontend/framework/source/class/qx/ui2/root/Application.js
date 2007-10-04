@@ -19,8 +19,16 @@
 ************************************************************************ */
 
 /**
- * Useful for application like layouts where top-level scrollbars
- * are not available (internal panes scroll however).
+ * This class is the root widget for qooxdoo applications with an
+ * "application" like behaviour. The widget will span the whole viewport
+ * and the document body will have no scrollbars.
+ *
+ * If you want to enhance HTML pages with qooxdoo widgets please use
+ * {@link qx.ui2.root.Page} in combination with {@link qx.ui2.root.Embed}
+ * widgets.
+ *
+ * This class uses a {@link qx.ui.layout.Canvas} as fixed layout. The layout
+ * cannot be changed.
  */
 qx.Class.define("qx.ui2.root.Application",
 {
@@ -49,6 +57,7 @@ qx.Class.define("qx.ui2.root.Application",
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
+    this.setLayout(new qx.ui2.layout.Canvas());
     this.invalidateLayout();
   },
 
@@ -63,6 +72,29 @@ qx.Class.define("qx.ui2.root.Application",
 
   members :
   {
+
+    /**
+     * Adds a widget to the application using the application's canvas layout.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param left {Integer|String?null} Left position of the widget (accepts
+     *   both, integer(pixel) and string(percent) values.
+     * @param top {Integer|String?null} Top position of the widget (accepts
+     *   both, integer(pixel) and string(percent) values.
+     * @param right {Integer|String?null} Right position of the widget (accepts
+     *   both, integer(pixel) and string(percent) values.
+     * @param bottom {Integer|String?null} Bottom position of the widget (accepts
+     *   both, integer(pixel) and string(percent) values.
+     * @return {qx.ui2.root.Application} This object (for chaining support)
+     */
+    add : function(widget, row, column, rowSpan, colSpan)
+    {
+      this.getLayout().add(widget, row, column, rowSpan, colSpan);
+      return this;
+    },
+
+
     // overridden
     isLayoutRoot : function() {
       return true;
@@ -101,6 +133,16 @@ qx.Class.define("qx.ui2.root.Application",
      */
     _onResize : function(e) {
       this.invalidateLayout();
+    },
+
+
+    // overridden
+    _applyLayout : function(value, old)
+    {
+      if (old) {
+        throw new Error("You cannot change the layout of qx.ui2.root.Page!");
+      }
+      this.base(arguments, value, old);
     },
 
 

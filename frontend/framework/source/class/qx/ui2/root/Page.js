@@ -52,9 +52,7 @@ qx.Class.define("qx.ui2.root.Page",
 
     this.base(arguments);
 
-    this._layout = new qx.ui2.layout.Basic();
-    this.setLayout(this._layout);
-
+    this.setLayout(new qx.ui2.layout.Basic());
     this.invalidateLayout();
   },
 
@@ -70,6 +68,23 @@ qx.Class.define("qx.ui2.root.Page",
 
   members :
   {
+    /**
+     * Adds a widget to the page using the page's basic layout.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param left {Integer?null} Left position of the widget
+     * @param top {Integer?null} Top position of the widget
+     * @return {qx.ui2.root.Page} This object (for chaining support)
+     */
+    add : function(widget, left, top)
+    {
+      this.getLayout().add(widget, left, top);
+      // Chaining support
+      return this;
+    },
+
+
     // overridden
     isLayoutRoot : function() {
       return true;
@@ -136,6 +151,6 @@ qx.Class.define("qx.ui2.root.Page",
   */
 
   destruct : function() {
-    this._disposeFields("_layout", "_doc");
+    this._disposeFields("_doc");
   }
 });
