@@ -63,8 +63,11 @@ qx.Class.define("qx.ui2.root.Inline",
     },
 
     // overridden
-    _createOuterElement : function() {
-      return new qx.html.Root(this._elem);
+    _createOuterElement : function()
+    {
+      var root = new qx.html.Root(this._elem);
+      delete this._elem;
+      return root;
     }
   },
 
