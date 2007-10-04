@@ -54,8 +54,8 @@ qx.Class.define("BasicSample",
       layout1.add(w4, "east");
       layout1.add(w5, "center");
 
-      w2.addLayoutProperty("dock.width", "50%");
-      w3.addLayoutProperty("dock.height", "50%");
+      layout1.setWidth(w2, "50%");
+      layout1.setHeight(w3, "50%");
 
       widget1.setLayout(layout1);
       docLayout.add(widget1, 10, 10);
@@ -82,8 +82,8 @@ qx.Class.define("BasicSample",
       layout1.add(w4, "east");
       layout1.add(w5, "center");
 
-      w2.addLayoutProperty("dock.width", "50%");
-      w3.addLayoutProperty("dock.height", "50%");
+      layout1.setWidth(w2, "50%");
+      layout1.setHeight(w3, "50%");
 
       widget1.setLayout(layout1);
       docLayout.add(widget1, 10, 330);
