@@ -36,8 +36,10 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
      * @param widget {qx.ui2.core.Widget} Widget to add.
      * @return {void}
      */
-    add : function(widget) {
+    add : function(widget)
+    {
       this._decorationQueue[widget.toHashCode()] = widget;
+      qx.ui2.core.QueueManager.scheduleFlush();
     },
 
 
