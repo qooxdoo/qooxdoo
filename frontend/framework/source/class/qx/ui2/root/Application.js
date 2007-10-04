@@ -48,7 +48,8 @@ qx.Class.define("qx.ui2.root.Application",
 
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
-    qx.ui2.core.LayoutQueue.add(this);
+
+    this.invalidateLayout();
   },
 
 
