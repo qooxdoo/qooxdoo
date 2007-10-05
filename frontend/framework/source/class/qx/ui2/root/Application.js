@@ -72,7 +72,6 @@ qx.Class.define("qx.ui2.root.Application",
 
   members :
   {
-
     /**
      * Adds a widget to the application using the application's canvas layout.
      *
@@ -86,11 +85,11 @@ qx.Class.define("qx.ui2.root.Application",
      *   both, integer(pixel) and string(percent) values.
      * @param bottom {Integer|String?null} Bottom position of the widget (accepts
      *   both, integer(pixel) and string(percent) values.
-     * @return {qx.ui2.root.Application} This object (for chaining support)
+     * @return {qx.ui2.layout.Canvas} This object (for chaining support)
      */
-    add : function(widget, row, column, rowSpan, colSpan)
+    add : function(widget, left, top, right, bottom)
     {
-      this.getLayout().add(widget, row, column, rowSpan, colSpan);
+      this.getLayout().add(widget, left, top, right, bottom);
       return this;
     },
 
