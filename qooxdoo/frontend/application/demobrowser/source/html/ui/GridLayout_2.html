@@ -20,8 +20,6 @@
   <div id="description">
   </div>
 
-  <p><a href="javascript: qx.ui2.core.LayoutQueue.flush();">Flush queue</a></p>
-
   <script type="text/javascript">
 
 qx.Class.define("BasicSample",
@@ -52,21 +50,6 @@ qx.Class.define("BasicSample",
       box1.setLayout(layout1);
       doc.add(box1, 20, 10);
 
-      // auto size
-      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
-      var layout2 = new qx.ui2.layout.Grid();
-
-      layout2.setColumnAlign(1, "center", "middle");
-      layout2.setColumnAlign(0, "right", "bottom");
-
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150}), 0, 0);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: "pref", height: 70, maxHeight: "pref"}), 0, 1);//, 2, 1);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
-      layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:290}), 2, 0);//, 1, 2);
-
-      //box1.setLayout(layout2);
-      //doc.add(box1, 250, 10);
-
       // flex columns
       var box1 = (new qx.ui2.core.Widget).set({
         decoration: border,
@@ -91,14 +74,30 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 1, 0);
 
       var container = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange", width:400, padding: 5});
-      container.setLayout(layout2);
       layout1.add(container, 1, 1, 2, 2);
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2, 0);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 0, 1, 2);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 2);
 
-      doc.add(box1, 550, 10);
+      box1.setLayout(layout1);
+
+
+      // set inner layout
+      var innerLayout = new qx.ui2.layout.Grid();
+      container.setLayout(innerLayout);
+
+      innerLayout.setColumnAlign(1, "center", "middle");
+      innerLayout.setColumnAlign(0, "right", "bottom");
+      innerLayout.setColumnMinWidth(1, 40);
+
+      innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150}), 0, 0);
+      innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: "pref", height: 70, maxHeight: "pref"}), 0, 1);//, 2, 1);
+      innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
+      innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:170}), 2, 0);//, 1, 2);
+
+
+      doc.add(box1, 260, 10);
     }
   }
 });
