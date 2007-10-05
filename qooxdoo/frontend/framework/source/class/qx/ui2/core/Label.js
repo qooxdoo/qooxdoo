@@ -113,7 +113,7 @@ qx.Class.define("qx.ui2.core.Label",
     _applyContent : function(value, old)
     {
       this._contentElement.setContent(value);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
     }
   },
 

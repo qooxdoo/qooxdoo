@@ -90,7 +90,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     */
 
     // overridden
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       if (this._sizeHint)
       {
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui2.layout.Basic",
 
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       var children = this.getChildren();
       var child, childHint, childLeft, childTop;
@@ -110,14 +110,15 @@ qx.Class.define("qx.ui2.layout.Basic",
       {
         child = children[i];
 
-        if (!child.isLayoutValid())
+        // Only (re-)render modified children
+        if (!child.hasValidLayout())
         {
           childHint = child.getSizeHint();
 
           childLeft = Math.max(0, child.getLayoutProperty("basic.left") || 0);
           childTop = Math.max(0, child.getLayoutProperty("basic.top") || 0);
 
-          child.layout(childLeft, childTop, childHint.width, childHint.height);
+          child.renderLayout(childLeft, childTop, childHint.width, childHint.height);
         }
       }
     },

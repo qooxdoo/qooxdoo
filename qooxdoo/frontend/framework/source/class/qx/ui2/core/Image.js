@@ -120,7 +120,7 @@ qx.Class.define("qx.ui2.core.Image",
     _applySource : function(value, old)
     {
       this._contentElement.setSource(value);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
     }
   },
 

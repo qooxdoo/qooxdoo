@@ -478,9 +478,9 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @type member
      * @internal Only for layout managers
-     * @param left {Integer} Any positive integer value for the left position,
+     * @param left {Integer} Any integer value for the left position,
      *   always in pixels
-     * @param top {Integer} Any positive integer value for the top position,
+     * @param top {Integer} Any integer value for the top position,
      *   always in pixels
      * @param width {Integer} Any positive integer value for the width,
      *   always in pixels
@@ -488,11 +488,12 @@ qx.Class.define("qx.ui2.core.Widget",
      *   always in pixels
      * @return {void}
      */
-    layout : function(left, top, width, height)
+    renderLayout : function(left, top, width, height)
     {
-      var locationChange = (left !== this._left || top !== this._top);
-      var sizeChange = (width !== this._width || height !== this._height);
+      var innerWidth = width - this.getInsetLeft() - this.getInsetRight();
+      var innerHeight = height - this.getInsetTop() - this.getInsetBottom();
 
+      var locationChange = (left !== this._left || top !== this._top);
       if (locationChange)
       {
         this._left = left;
@@ -502,16 +503,7 @@ qx.Class.define("qx.ui2.core.Widget",
         this._outerElement.setStyle("top", top + "px");
       }
 
-      // Scrollbars are applied to the content element and does not influence
-      // its outer size.
-      var insetTop = this.getInsetTop();
-      var insetLeft = this.getInsetLeft();
-      var insetRight = this.getInsetRight();
-      var insetBottom = this.getInsetBottom();
-
-      var innerWidth = width - insetLeft - insetRight;
-      var innerHeight = height - insetTop - insetBottom;
-
+      var sizeChange = (width !== this._width || height !== this._height);
       if (sizeChange)
       {
         this._width = width;
@@ -520,18 +512,14 @@ qx.Class.define("qx.ui2.core.Widget",
         this._outerElement.setStyle("width", width + "px");
         this._outerElement.setStyle("height", height + "px");
 
-        var innerLeft = insetLeft;
-        var innerTop = insetTop;
-
-        this._contentElement.setStyle("left", innerLeft + "px");
-        this._contentElement.setStyle("top", innerTop + "px");
+        this._contentElement.setStyle("left", this.getInsetLeft() + "px");
+        this._contentElement.setStyle("top", this.getInsetTop() + "px");
         this._contentElement.setStyle("width", innerWidth + "px");
         this._contentElement.setStyle("height", innerHeight + "px");
 
         this.updateDecoration(width, height);
       }
 
-      // TODO: after doing the layout fire change events
       /*
       if (locationChange) {
         this.debug("Location change: " + left +", " + top + " " + this);
@@ -542,17 +530,19 @@ qx.Class.define("qx.ui2.core.Widget",
       }
       */
 
-      // if the current layout is invalid force a relayout even if the size
-      // has not changed
-      if (!this.isLayoutValid() || sizeChange)
+      // if the current layout is invalid force a relayout even if
+      // the size has not changed
+      if (sizeChange || !this._hasValidLayout)
       {
         var mgr = this.getLayout();
         if (mgr) {
-          mgr.layout(innerWidth, innerHeight);
+          mgr.renderLayout(innerWidth, innerHeight);
         }
+
+        this._hasValidLayout = true;
       }
 
-      this.markLayoutValid();
+      // TODO: after doing the layout fire change events
     },
 
 
@@ -593,7 +583,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedTop : function() {
-      this._layoutInvalid ? null : this._top;
+      return this._hasValidLayout ? this._top : null;
     },
 
 
@@ -610,7 +600,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedLeft : function() {
-      return this._layoutInvalid ? null : this._left;
+      return this._hasValidLayout ? this._left : null;
     },
 
 
@@ -626,7 +616,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedWidth : function() {
-      return this._layoutInvalid ? null : this._width;
+      return this._hasValidLayout ? this._width : null;
     },
 
 
@@ -642,7 +632,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *      <code>null</code> if the layout is invalid.
      */
     getComputedHeight : function() {
-      return this._layoutInvalid ? null : this._height;
+      return this._hasValidLayout ? this._height : null;
     },
 
 
@@ -677,33 +667,39 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /**
      * Get the widget's nesting level. Top level widgets have a nesting level
-     * of <code>0</code>. If the widget is not in the applications widget tree
-     * this function will return <code>-1</code>.
+     * of <code>0</code>.
      *
-     * Developer note: Derived root widgets must set the protected member variable
-     *   <code>_isRootWidget</code> to <code>true</code>.
-     *
-     * @return {Integer} The widgets nesting level or <code>-1</code> if the
-     *     widget is not part of the widget hierarchy.
+     * @return {Integer} The widgets nesting level.
      */
     getNestingLevel : function()
     {
-      var level = -1;
+      var level = 0;
       var parent = this;
 
-      do
+      while (parent)
       {
         level += 1;
-        var isRoot = parent._isRootWidget;
         parent = parent._parent;
-
-      } while (parent && !isRoot);
-
-      if (isRoot) {
-        return level;
-      } else {
-        return -1;
       }
+
+      return level;
+    },
+
+
+    getRoot : function()
+    {
+      var parent = this;
+
+      while (parent)
+      {
+        if (parent._isRootWidget) {
+          return parent;
+        }
+
+        parent = parent._parent;
+      }
+
+      return null;
     },
 
 
@@ -734,12 +730,12 @@ qx.Class.define("qx.ui2.core.Widget",
      * Indicate that the widget has layout changes and propagate this information
      * up the widget hierarchy.
      */
-    invalidateLayout : function() {
+    scheduleLayoutUpdate : function() {
       qx.ui2.core.LayoutQueue.add(this);
     },
 
-    isLayoutValid : function() {
-      return this._layoutInvalid !== true;
+    hasValidLayout : function() {
+      return this._hasValidLayout == true;
     },
 
 
@@ -749,41 +745,30 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @internal
      */
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       this.debug("Mark widget layout invalid: " + this);
-      this._layoutInvalid = true;
+      this._hasValidLayout = false;
 
-      // invalidate cached size hint
+      // invalidateLayoutCache cached size hint
       this._sizeHint = null;
 
-      // invalidate layout manager
+      // invalidateLayoutCache layout manager
       var mgr = this.getLayout();
       if (mgr) {
-        mgr.invalidate();
+        mgr.invalidateLayoutCache();
       }
-    },
-
-
-    /**
-     * After doing the layout, mark the layout as valid.
-     *
-     * @internal
-     */
-    markLayoutValid : function()
-    {
-      this._layoutInvalid = false;
     },
 
 
     // generic property apply method for all layout relevant properties
     _applyLayoutChange : function()
     {
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
     },
 
 
-    // TODO: dbugging code
+    // TODO: debugging code
     toString : function()
     {
       var str = this.base(arguments);
@@ -853,7 +838,7 @@ qx.Class.define("qx.ui2.core.Widget",
     addLayoutProperty : function(name, value)
     {
       this._layoutProperties[name] = value;
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
 
       return this;
     },
@@ -870,7 +855,7 @@ qx.Class.define("qx.ui2.core.Widget",
     removeLayoutProperty : function(name)
     {
       delete this._layoutProperties[name];
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
 
       return this;
     },
