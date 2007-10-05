@@ -143,7 +143,7 @@ qx.Class.define("qx.ui2.layout.Util",
     {
       var value = 0;
 
-      if (widgetWidth !== outerWidth && hAlign && hAlign !== "left")
+      if (widgetWidth !== parentWidth && hAlign && hAlign !== "left")
       {
         value = parentWidth - widgetWidth;
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui2.layout.Util",
     {
       var value = 0;
 
-      if (widgetHeight !== outerHeight && vAlign && vAlign !== "top")
+      if (widgetHeight !== parentHeight && vAlign && vAlign !== "top")
       {
         value = parentHeight - widgetHeight;
 
