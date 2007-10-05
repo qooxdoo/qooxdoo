@@ -278,7 +278,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._setColumnData(column, "hAlign", hAlign);
       this._setColumnData(column, "vAlign", vAlign);
 
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
 
       return this;
     },
@@ -336,7 +336,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._setCellData(column, "hAlign", hAlign);
       this._setCellData(column, "vAlign", vAlign);
 
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
 
       return this;
     },
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnFlex : function(column, flex)
     {
       this._setColumnData(column, "flex", flex);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
       return this;
     },
 
@@ -403,7 +403,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowFlex : function(row, flex)
     {
       this._setRowData(row, "flex", flex);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
       return this;
     },
 
@@ -432,7 +432,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnMaxWidth : function(column, maxWidth)
     {
       this._setColumnData(column, "maxWidth", maxWidth);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
       return this;
     },
 
@@ -461,7 +461,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnMinWidth : function(column, minWidth)
     {
       this._setColumnData(column, "minWidth", minWidth);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
       return this;
     },
 
@@ -490,7 +490,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowMaxHeight : function(row, maxHeight)
     {
       this._setRowData(row, "maxHeight", maxHeight);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
       return this;
     },
 
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowMinHeight : function(row, minHeight)
     {
       this._setRowData(row, "minHeight", minHeight);
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
       return this;
     },
 
@@ -927,7 +927,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       var Util = qx.ui2.layout.Util;
       var hSpacing = this.getHorizontalSpacing();
@@ -999,7 +999,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           var cellLeft = left + Util.computeHorizontalAlignOffset(cellAlign.hAlign, cellWidth, spanWidth);
           var cellTop = top + Util.computeVerticalAlignOffset(cellAlign.vAlign, cellHeight, spanHeight);
 
-          widget.layout(
+          widget.renderLayout(
             cellLeft,
             cellTop,
             cellWidth,
@@ -1015,7 +1015,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       if (this._sizeHint || this._rowHeights || this._colHeights)
       {

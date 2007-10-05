@@ -131,7 +131,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     */
 
     // overridden
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       if (this._sizeHint)
       {
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       // Initialize
       var children = this.getChildren();
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui2.layout.VBox",
           childLeft = qx.ui2.layout.Util.computeHorizontalAlignOffset(child.getLayoutProperty("vbox.align"), childWidths[i], width);
 
           // Layout child
-          child.layout(childLeft, childTop, childWidths[i], childHeights[i]);
+          child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
 
           // Include again (if excluded before)
           child.include();
@@ -441,7 +441,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
     _applyLayoutProperty : function(value, old)
     {
-      this.invalidate();
+      this.invalidateLayoutCache();
 
       // Anything else TODO here?
     },

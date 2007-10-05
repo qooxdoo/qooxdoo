@@ -121,7 +121,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     */
 
     // overridden
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       if (this._sizeHint)
       {
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       var children = this._getSortedChildren();
       var child, childEdge, childHint, childFlex;
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
 
         // Apply layout
-        child.layout(childLeft, childTop, childWidth, childHeight);
+        child.renderLayout(childLeft, childTop, childWidth, childHeight);
       }
     },
 
@@ -481,7 +481,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
     _applyLayoutProperty : function(value, old)
     {
-      this.invalidate();
+      this.invalidateLayoutCache();
 
       // Anything else TODO here?
     },

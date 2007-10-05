@@ -96,7 +96,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
       this._addToParent(widget);
 
       // mark layout as invalid
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
 
       // Chaining support
       return this;
@@ -115,9 +115,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
       qx.lang.Array.remove(this._children, widget);
       this._removeFromParent(widget);
 
-      // invalidate the layouts of the widget and its old parent
-      widget.invalidateLayout();
-      this.invalidateLayout();
+      // invalidateLayoutCache the layouts of the widget and its old parent
+      widget.scheduleLayoutUpdate();
+      this.scheduleLayoutUpdate();
 
       // Chaining support
       return this;
@@ -167,8 +167,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @type member
      * @return {void}
      */
-    invalidate : function() {
-      this.warn("Missing invalidate() implementation!");
+    invalidateLayoutCache : function() {
+      this.warn("Missing invalidateLayoutCache() implementation!");
     },
 
 
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @type member
      * @return {void}
      */
-    invalidateLayout : function()
+    scheduleLayoutUpdate : function()
     {
       var widget = this.getWidget();
       if (widget) {
@@ -199,8 +199,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param height {Integer} Final (content) height (in pixel) of the parent widget
      * @return {void}
      */
-    layout : function(width, height) {
-      this.warn("Missing layout() implementation!");
+    renderLayout : function(width, height) {
+      this.warn("Missing renderLayout() implementation!");
     },
 
 
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           this._removeFromParent(children[i]);
-          children[i].invalidateLayout();
+          children[i].scheduleLayoutUpdate();
         }
       }
 
@@ -319,7 +319,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           this._addToParent(children[i]);
-          children[i].invalidateLayout();
+          children[i].scheduleLayoutUpdate();
         }
       }
     },
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Generic property apply method for all layout relevant properties.
      */
     _applyLayoutChange : function() {
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
     }
   },
 

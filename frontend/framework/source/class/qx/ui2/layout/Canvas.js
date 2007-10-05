@@ -94,7 +94,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
     */
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       var children = this.getChildren();
       var child, childHint;
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
         // Layout child
-        child.layout(childLeft, childTop, childWidth, childHeight);
+        child.renderLayout(childLeft, childTop, childWidth, childHeight);
       }
     },
 
