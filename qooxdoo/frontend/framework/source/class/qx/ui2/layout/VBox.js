@@ -467,6 +467,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     setMarginBottom : function(widget, value)
     {
       widget.addLayoutProperty("vbox.marginBottom", value);
+      this.scheduleLayoutUpdate();
 
       // Chaining support
       return this;
@@ -483,6 +484,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     resetMarginBottom : function(widget)
     {
       widget.removeLayoutProperty("vbox.marginBottom");
+      this.scheduleLayoutUpdate();
 
       // Chaining support
       return this;
