@@ -59,6 +59,10 @@ qx.Class.define("qx.ui2.root.Inline",
 
   members :
   {
+
+    // overridden
+    _isRootWidget : true,
+
     // overridden
     isLayoutRoot : function() {
       return true;
