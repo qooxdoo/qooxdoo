@@ -669,6 +669,45 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
+     * {Boolean} whether the widget is a root widget and directly connected to
+     * the DOM.
+     */
+    _isRootWidget : false,
+
+
+    /**
+     * Get the widget's nesting level. Top level widgets have a nesting level
+     * of <code>0</code>. If the widget is not in the applications widget tree
+     * this function will return <code>-1</code>.
+     *
+     * Developer note: Derived root widgets must set the protected member variable
+     *   <code>_isRootWidget</code> to <code>true</code>.
+     *
+     * @return {Integer} The widgets nesting level or <code>-1</code> if the
+     *     widget is not part of the widget hierarchy.
+     */
+    getNestingLevel : function()
+    {
+      var level = -1;
+      var parent = this;
+
+      do
+      {
+        level += 1;
+        var isRoot = parent._isRootWidget;
+        parent = parent._parent;
+
+      } while (parent && !isRoot);
+
+      if (isRoot) {
+        return level;
+      } else {
+        return -1;
+      }
+    },
+
+
+    /**
      * Get the widget's parent widget. Even if the widget has been added to a
      * layout, the parent is always a child of the containing widget. The parent
      * widget may be <code>null</code>.

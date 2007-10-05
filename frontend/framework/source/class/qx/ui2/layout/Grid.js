@@ -1035,7 +1035,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       if (this._sizeHint != null)
       {
-        // this.debug("Cached size hint: ", this._sizeHint);
+        this.debug("Cached size hint: ", this._sizeHint);
         return this._sizeHint;
       }
 
@@ -1077,7 +1077,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         maxHeight : maxHeight + spacingY
       };
 
-      // this.debug("Computed size hint: ", hint);
+      this.debug("Computed size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;
