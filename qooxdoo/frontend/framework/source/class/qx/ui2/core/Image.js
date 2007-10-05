@@ -103,7 +103,6 @@ qx.Class.define("qx.ui2.core.Image",
 
       this._outerElement.add(el);
 
-      el.setStyle("position", "relative");
       el.setStyle("zIndex", 10);
 
       return el;
