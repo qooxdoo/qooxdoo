@@ -473,6 +473,12 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Used by the layouters to apply coordinates and dimensions.
      *
@@ -547,106 +553,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Update the decoration (background, border, ...)
-     *
-     * @internal Mainly for decoration queue
-     * @param width {Integer} The widget's current width
-     * @param height {Integer} The widget's current height
-     */
-    updateDecoration : function(width, height)
-    {
-      var decoration = this.getDecoration();
-      if (decoration) {
-        var decorationHtml = decoration.getHtml(this, width, height);
-        this._decorationElement.setAttribute("html", decorationHtml);
-      }
-      qx.ui2.core.DecorationQueue.remove(this);
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PRELIMINARY ELEMENT INTERFACES
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Get the widget's top position inside its parent element as computed by
-     * the layout manager. This function will return <code>null</code> if the
-     * layout is invalid.
-     *
-     * This function is guaranteed to return a non <code>null</code> value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's top position in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedTop : function() {
-      return this._hasValidLayout ? this._top : null;
-    },
-
-
-    /**
-     * Get the widget's left position inside its parent element as computed by
-     * the layout manager. This function will return <code>null</code> if the
-     * layout is invalid.
-     *
-     * This function is guaranteed to return a non <code>null</code> value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's left position in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedLeft : function() {
-      return this._hasValidLayout ? this._left : null;
-    },
-
-
-    /**
-     * Get the widget's width as computed by the layout manager. This function
-     * will return <code>null</code> if the layout is invalid.
-     *
-     * This function is guaranteed to return a non <code>null</code> value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's width in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedWidth : function() {
-      return this._hasValidLayout ? this._width : null;
-    },
-
-
-    /**
-     * Get the widget's height as computed by the layout manager. This function
-     * will return <code>null</code> if the layout is invalid.
-     *
-     *  This function is guaranteed to return a non <code>null</code> value
-     *  during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's height in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedHeight : function() {
-      return this._hasValidLayout ? this._height : null;
-    },
-
-
-    /**
-     * Returns the (outer) HTML element.
-     *
-     * @return {qx.html.Element} The outer HTML element
-     */
-    getElement : function() {
-      return this._outerElement;
-    },
-
-
-    /**
      * Whether the widget is a layout root. If the widget is a layout root,
      * layout changes inside the widget will not be propagated up to the
      * layout root's parent.
@@ -656,13 +562,6 @@ qx.Class.define("qx.ui2.core.Widget",
     isLayoutRoot : function() {
       return false;
     },
-
-
-    /**
-     * {Boolean} whether the widget is a root widget and directly connected to
-     * the DOM.
-     */
-    _isRootWidget : false,
 
 
     /**
@@ -686,6 +585,13 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+    /**
+     * {Boolean} whether the widget is a root widget and directly connected to
+     * the DOM.
+     */
+    _isRootWidget : false,
+
+
     getRoot : function()
     {
       var parent = this;
@@ -700,29 +606,6 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       return null;
-    },
-
-
-    /**
-     * Get the widget's parent widget. Even if the widget has been added to a
-     * layout, the parent is always a child of the containing widget. The parent
-     * widget may be <code>null</code>.
-     *
-     * @return {qx.ui2.core.Widget|null} The widget's parent.
-     */
-    getParent : function() {
-      return this._parent;
-    },
-
-
-    /**
-     * Set the widget's parent
-     *
-     * @internal: Should only be used by the layout managers
-     * @param parent {qx.ui2.core.Widget|null} The widget's new parent.
-     */
-    setParent : function(parent) {
-      this._parent = parent;
     },
 
 
@@ -758,61 +641,6 @@ qx.Class.define("qx.ui2.core.Widget",
       if (mgr) {
         mgr.invalidateLayoutCache();
       }
-    },
-
-
-    // generic property apply method for all layout relevant properties
-    _applyLayoutChange : function()
-    {
-      this.scheduleLayoutUpdate();
-    },
-
-
-    // TODO: debugging code
-    toString : function()
-    {
-      var str = this.base(arguments);
-      var color = this.getBackgroundColor();
-      if(color) {
-        str += " (" + color + ")";
-      }
-      return str;
-    },
-
-
-    // Maybe rename to show/hide?
-    exclude : function() {
-      this._outerElement.exclude();
-    },
-
-    include : function() {
-      this._outerElement.include();
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PRELIMINARY ELEMENT INTERFACES
-    ---------------------------------------------------------------------------
-    */
-
-    setHtml : function(value) {
-      this._contentElement.setAttribute("html", value);
-    },
-
-    getHtml : function(value) {
-      return this._contentElement.getAttribute("html");
-    },
-
-    setId : function(value) {
-      this._outerElement.setAttribute("id", value);
-    },
-
-    getId : function(value) {
-      this._outerElement.getAttribute("id");
     },
 
 
@@ -899,258 +727,6 @@ qx.Class.define("qx.ui2.core.Widget",
     hasLayoutProperty : function(name) {
       this._layoutProperties = {};
     },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HTML ELEMENT MANAGEMENT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Create the widget's outer HTML element.
-     *
-     * @return {qx.html.Element} The outer HTML element
-     */
-    _createOuterElement : function()
-    {
-      var el = new qx.html.Element("div");
-
-      el.setStyle("position", "absolute");
-
-      return el;
-    },
-
-
-    /**
-     * Create the widget's outer HTML element.
-     *
-     * @return {qx.html.Element} The outer HTML element
-     */
-    _createContentElement : function()
-    {
-      var el = new qx.html.Element("div");
-
-      el.setStyle("position", "absolute");
-      el.setStyle("zIndex", 10);
-      el.setStyle("overflow", "hidden");
-
-      this._outerElement.add(el);
-
-      return el;
-    },
-
-
-    /**
-     * Create the widget's decoration HTML element.
-     *
-     * @return {qx.html.Element} The decoration HTML element
-     */
-    _createDecorationElement : function()
-    {
-      var el = new qx.html.Element("div");
-      el.setStyle("zIndex", 5);
-      this._outerElement.add(el);
-
-      return el;
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    addListener : function(type, func, obj)
-    {
-      var hints = this.self(arguments)._eventHints;
-
-      if (hints.content[type]) {
-        this._contentElement.addListener(type, func, obj);
-      } else if (hints.outer[type]) {
-        this._outerElement.addListener(type, func, obj);
-      } else {
-        this.base(arguments, type, func, obj);
-      }
-    },
-
-
-    // overridden
-    removeListener : function(type, func, obj)
-    {
-      var hints = this.self(arguments)._eventHints;
-
-      if (hints.content[type]) {
-        this._contentElement.removeListener(type, func, obj);
-      } else if (hints.outer[type]) {
-        this._outerElement.removeListener(type, func, obj);
-      } else {
-        this.base(arguments, type, func, obj);
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      THEMEABLE PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyDecoration : function(value, old) {
-      qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
-    },
-
-
-    /**
-     * Callback for decoration manager connection
-     *
-     * @param decoration {qx.ui2.decoration.IDecoration} the decoration object
-     */
-    _styleDecoration : function(decoration)
-    {
-      var insetTop=0, insetRight=0, insetBottom=0, insetLeft=0;
-
-      // Read out decoration inset
-      if (decoration)
-      {
-        insetTop = decoration.getInsetTop();
-        insetRight = decoration.getInsetRight();
-        insetBottom = decoration.getInsetBottom();
-        insetLeft = decoration.getInsetLeft();
-      }
-
-      // Detect inset changes
-      if (insetTop != this._insetTop || insetRight != this._insetRight || insetBottom != this._insetBottom || insetLeft != this._insetLeft)
-      {
-        // Store new insets
-        this._insetTop = insetTop;
-        this._insetRight = insetRight;
-        this._insetBottom = insetBottom;
-        this._insetLeft = insetLeft;
-
-        // Inset changes requires a layout update
-        qx.ui2.core.LayoutQueue.add(this);
-      }
-      else
-      {
-        // Style changes are happy with a simple decoration update
-        qx.ui2.core.DecorationQueue.add(this);
-      }
-    },
-
-
-    _applyBackgroundColor : function(value, old)
-    {
-      var decoration = this.getDecoration();
-      if(decoration !== null) {
-        this._styleDecoration();
-      }
-    },
-
-
-    _applyTextColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
-    },
-
-    _styleTextColor : function(value)
-    {
-      if (value) {
-        this._outerElement.setStyle("color", value);
-      } else {
-        this._outerElement.resetStyle("color");
-      }
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INSET CALCULATION SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     *
-     *
-     */
-    getInsetLeft : function()
-    {
-      var value = this.getPaddingLeft();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetLeft();
-      }
-
-      return value;
-    },
-
-    getInsetTop : function()
-    {
-      var value = this.getPaddingTop();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetTop();
-      }
-
-      return value;
-    },
-
-    getInsetRight : function()
-    {
-      var value = this.getPaddingRight();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetRight();
-      }
-
-      return value;
-    },
-
-    getInsetBottom : function()
-    {
-      var value = this.getPaddingBottom();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetBottom();
-      }
-
-      return value;
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTY APPLY ROUTINE
-    ---------------------------------------------------------------------------
-    */
-
-    _applyLayout : function(value, old)
-    {
-      if (value) {
-        value.setWidget(this);
-      }
-    },
-
 
 
 
@@ -1490,6 +1066,464 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     canStretchY : function() {
       return true;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INSET CALCULATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     *
+     *
+     */
+    getInsetLeft : function()
+    {
+      var value = this.getPaddingLeft();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetLeft();
+      }
+
+      return value;
+    },
+
+    getInsetTop : function()
+    {
+      var value = this.getPaddingTop();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetTop();
+      }
+
+      return value;
+    },
+
+    getInsetRight : function()
+    {
+      var value = this.getPaddingRight();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetRight();
+      }
+
+      return value;
+    },
+
+    getInsetBottom : function()
+    {
+      var value = this.getPaddingBottom();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetBottom();
+      }
+
+      return value;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMPUTED LAYOUT DIMENSIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Get the widget's top position inside its parent element as computed by
+     * the layout manager. This function will return <code>null</code> if the
+     * layout is invalid.
+     *
+     * This function is guaranteed to return a non <code>null</code> value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's top position in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedTop : function() {
+      return this._hasValidLayout ? this._top : null;
+    },
+
+
+    /**
+     * Get the widget's left position inside its parent element as computed by
+     * the layout manager. This function will return <code>null</code> if the
+     * layout is invalid.
+     *
+     * This function is guaranteed to return a non <code>null</code> value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's left position in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedLeft : function() {
+      return this._hasValidLayout ? this._left : null;
+    },
+
+
+    /**
+     * Get the widget's width as computed by the layout manager. This function
+     * will return <code>null</code> if the layout is invalid.
+     *
+     * This function is guaranteed to return a non <code>null</code> value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's width in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedWidth : function() {
+      return this._hasValidLayout ? this._width : null;
+    },
+
+
+    /**
+     * Get the widget's height as computed by the layout manager. This function
+     * will return <code>null</code> if the layout is invalid.
+     *
+     *  This function is guaranteed to return a non <code>null</code> value
+     *  during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     *  @type member
+     *  @return {Integer|null} The widget's height in pixel or
+     *      <code>null</code> if the layout is invalid.
+     */
+    getComputedHeight : function() {
+      return this._hasValidLayout ? this._height : null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DECORATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Update the decoration (background, border, ...)
+     *
+     * @internal Mainly for decoration queue
+     * @param width {Integer} The widget's current width
+     * @param height {Integer} The widget's current height
+     */
+    updateDecoration : function(width, height)
+    {
+      var decoration = this.getDecoration();
+      if (decoration) {
+        var decorationHtml = decoration.getHtml(this, width, height);
+        this._decorationElement.setAttribute("html", decorationHtml);
+      }
+      qx.ui2.core.DecorationQueue.remove(this);
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HTML ELEMENT ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the (outer) HTML element.
+     *
+     * @return {qx.html.Element} The outer HTML element
+     */
+    getElement : function() {
+      return this._outerElement;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HIERARCHY SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Get the widget's parent widget. Even if the widget has been added to a
+     * layout, the parent is always a child of the containing widget. The parent
+     * widget may be <code>null</code>.
+     *
+     * @return {qx.ui2.core.Widget|null} The widget's parent.
+     */
+    getParent : function() {
+      return this._parent;
+    },
+
+
+    /**
+     * Set the widget's parent
+     *
+     * @internal: Should only be used by the layout managers
+     * @param parent {qx.ui2.core.Widget|null} The widget's new parent.
+     */
+    setParent : function(parent) {
+      this._parent = parent;
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PRELIMINARY ELEMENT INTERFACES
+    ---------------------------------------------------------------------------
+    */
+
+    setHtml : function(value) {
+      this._contentElement.setAttribute("html", value);
+    },
+
+    getHtml : function(value) {
+      return this._contentElement.getAttribute("html");
+    },
+
+    setId : function(value) {
+      this._outerElement.setAttribute("id", value);
+    },
+
+    getId : function(value) {
+      this._outerElement.getAttribute("id");
+    },
+
+    exclude : function() {
+      this._outerElement.exclude();
+    },
+
+    include : function() {
+      this._outerElement.include();
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HTML ELEMENT MANAGEMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Create the widget's outer HTML element.
+     *
+     * @return {qx.html.Element} The outer HTML element
+     */
+    _createOuterElement : function()
+    {
+      var el = new qx.html.Element("div");
+
+      el.setStyle("position", "absolute");
+
+      return el;
+    },
+
+
+    /**
+     * Create the widget's outer HTML element.
+     *
+     * @return {qx.html.Element} The outer HTML element
+     */
+    _createContentElement : function()
+    {
+      var el = new qx.html.Element("div");
+
+      el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 10);
+      el.setStyle("overflow", "hidden");
+
+      this._outerElement.add(el);
+
+      return el;
+    },
+
+
+    /**
+     * Create the widget's decoration HTML element.
+     *
+     * @return {qx.html.Element} The decoration HTML element
+     */
+    _createDecorationElement : function()
+    {
+      var el = new qx.html.Element("div");
+      el.setStyle("zIndex", 5);
+      this._outerElement.add(el);
+
+      return el;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    addListener : function(type, func, obj)
+    {
+      var hints = this.self(arguments)._eventHints;
+
+      if (hints.content[type]) {
+        this._contentElement.addListener(type, func, obj);
+      } else if (hints.outer[type]) {
+        this._outerElement.addListener(type, func, obj);
+      } else {
+        this.base(arguments, type, func, obj);
+      }
+    },
+
+
+    // overridden
+    removeListener : function(type, func, obj)
+    {
+      var hints = this.self(arguments)._eventHints;
+
+      if (hints.content[type]) {
+        this._contentElement.removeListener(type, func, obj);
+      } else if (hints.outer[type]) {
+        this._outerElement.removeListener(type, func, obj);
+      } else {
+        this.base(arguments, type, func, obj);
+      }
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    // generic property apply method for all layout relevant properties
+    _applyLayoutChange : function()
+    {
+      this.scheduleLayoutUpdate();
+    },
+
+
+    _applyDecoration : function(value, old) {
+      qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
+    },
+
+
+    /**
+     * Callback for decoration manager connection
+     *
+     * @param decoration {qx.ui2.decoration.IDecoration} the decoration object
+     */
+    _styleDecoration : function(decoration)
+    {
+      var insetTop=0, insetRight=0, insetBottom=0, insetLeft=0;
+
+      // Read out decoration inset
+      if (decoration)
+      {
+        insetTop = decoration.getInsetTop();
+        insetRight = decoration.getInsetRight();
+        insetBottom = decoration.getInsetBottom();
+        insetLeft = decoration.getInsetLeft();
+      }
+
+      // Detect inset changes
+      if (insetTop != this._insetTop || insetRight != this._insetRight || insetBottom != this._insetBottom || insetLeft != this._insetLeft)
+      {
+        // Store new insets
+        this._insetTop = insetTop;
+        this._insetRight = insetRight;
+        this._insetBottom = insetBottom;
+        this._insetLeft = insetLeft;
+
+        // Inset changes requires a layout update
+        qx.ui2.core.LayoutQueue.add(this);
+      }
+      else
+      {
+        // Style changes are happy with a simple decoration update
+        qx.ui2.core.DecorationQueue.add(this);
+      }
+    },
+
+
+    _applyBackgroundColor : function(value, old)
+    {
+      var decoration = this.getDecoration();
+      if(decoration !== null) {
+        this._styleDecoration();
+      }
+    },
+
+
+    _applyTextColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
+    },
+
+    _styleTextColor : function(value)
+    {
+      if (value) {
+        this._outerElement.setStyle("color", value);
+      } else {
+        this._outerElement.resetStyle("color");
+      }
+    },
+
+
+    _applyLayout : function(value, old)
+    {
+      if (value) {
+        value.setWidget(this);
+      }
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      STUFF
+    ---------------------------------------------------------------------------
+    */
+
+    // TODO: debugging code
+    toString : function()
+    {
+      var str = this.base(arguments);
+      var color = this.getBackgroundColor();
+      if(color) {
+        str += " (" + color + ")";
+      }
+      return str;
     }
   },
 
