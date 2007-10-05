@@ -24,10 +24,10 @@
  * and the document body will have no scrollbars.
  *
  * If you want to enhance HTML pages with qooxdoo widgets please use
- * {@link qx.ui2.root.Page} in combination with {@link qx.ui2.root.Embed}
+ * {@link qx.ui2.root.Page} in combination with {@link qx.ui2.root.Inline}
  * widgets.
  *
- * This class uses a {@link qx.ui.layout.Canvas} as fixed layout. The layout
+ * This class uses a {@link qx.ui2.layout.Canvas} as fixed layout. The layout
  * cannot be changed.
  */
 qx.Class.define("qx.ui2.root.Application",
