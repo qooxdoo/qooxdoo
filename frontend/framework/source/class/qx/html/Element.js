@@ -145,7 +145,7 @@ qx.Class.define("qx.html.Element",
 
       if (qx.lang.Object.isEmpty(modified))
       {
-        console.warn("Flush with no modificiations!");
+        qx.core.Log.warn("Flush with no modificiations!");
         return;
       }
 
@@ -699,7 +699,7 @@ qx.Class.define("qx.html.Element",
               // All elements which are not dirty are ignored (including their children)
               if (!child._dirty)
               {
-                // console.info("OPTIMIZE: " + child.getAttribute("id"));
+                // qx.core.Log.info("OPTIMIZE: " + child.getAttribute("id"));
                 continue;
               }
               else if (child._modifiedChildren || !Map.isEmpty(child.__styleJobs) || !Map.isEmpty(this.__attribJobs) || !Map.isEmpty(child.__eventJobs))
