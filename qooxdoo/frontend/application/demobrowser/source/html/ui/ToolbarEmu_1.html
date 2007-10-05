@@ -37,23 +37,25 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
-      // auto height + reversed
-      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width: 120});
-      var layout1 = new qx.ui2.layout.VBox();
+      // toolbar like with one "button" which does not stretch
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width: 600, height : 50});
+      var layout1 = new qx.ui2.layout.HBox();
 
-      layout1.setReversed(true);
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", height : 20});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", height : 40});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", height : 20});
+      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", height : 20});
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxWidth:100});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth:100});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxWidth:100});
+      w3.setMaxHeight("pref");
+      layout1.setVerticalAlign(w3, "middle");
 
-      layout1.add(w1, null, "left");
-      layout1.add(w2, null, "center");
-      layout1.add(w3, null, "right");
+      layout1.add(w1, 0);
+      layout1.add(w2, 0);
+      layout1.add(w3, 0);
+      layout1.add(w4, 0);
 
       box1.setLayout(layout1);
       doc.add(box1, 10, 10);
-
     }
   }
 });
