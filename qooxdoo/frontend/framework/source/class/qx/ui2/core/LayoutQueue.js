@@ -161,8 +161,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           continue;
         }
 
-        root.debug("Update layout.");
-
         if (root.isLayoutRoot())
         {
           // This is a real root widget. Set its size to its preferred size.
@@ -182,6 +180,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         }
       }
 
+      // clear layout queue
       this._layoutQueue = {};
     }
 
