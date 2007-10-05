@@ -83,7 +83,7 @@ qx.Class.define("qx.ui2.layout.Atom",
     */
 
     // overridden
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       if (this._sizeHint)
       {
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui2.layout.Atom",
     },
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       var child, childHint;
       var childWidth, childHeight, childLeft, childTop;
@@ -101,11 +101,11 @@ qx.Class.define("qx.ui2.layout.Atom",
       if (this._icon && this._text)
       {
         child = this._icon;
-        child.layout(childLeft, childTop, childWidth, childHeight);
+        child.renderLayout(childLeft, childTop, childWidth, childHeight);
 
 
         child = this._text;
-        child.layout(childLeft, childTop, childWidth, childHeight);
+        child.renderLayout(childLeft, childTop, childWidth, childHeight);
       }
       else if (this._text || this._icon)
       {
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui2.layout.Atom",
         childLeft = Math.round((width - childWidth) / 2);
         childTop = Math.round((height - childHeight) / 2);
 
-        child.layout(childLeft, childTop, childWidth, childHeight);
+        child.renderLayout(childLeft, childTop, childWidth, childHeight);
       }
     },
 

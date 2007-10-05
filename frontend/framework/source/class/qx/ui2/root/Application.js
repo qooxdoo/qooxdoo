@@ -58,7 +58,7 @@ qx.Class.define("qx.ui2.root.Application",
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
     this.setLayout(new qx.ui2.layout.Canvas());
-    this.invalidateLayout();
+    this.scheduleLayoutUpdate();
   },
 
 
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui2.root.Application",
      * @return {void}
      */
     _onResize : function(e) {
-      this.invalidateLayout();
+      this.scheduleLayoutUpdate();
     },
 
 

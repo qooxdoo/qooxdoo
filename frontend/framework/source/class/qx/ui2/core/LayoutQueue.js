@@ -41,25 +41,73 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
 
     /**
+     * Update the layout of all widgets, which layout is marked as invalid.
+     *
+     * @type static
+     * @return {void}
+     */
+    flush : function()
+    {
+      // get sorted widgets to (re-)layout
+      var queue = this.__getSortedQueue();
+
+      // iterate in reversed order to process widgets with the smalles nesting
+      // level first because these may affect the inner lying children
+      for (var i=queue.length-1; i>=0; i--)
+      {
+        var item = queue[i];
+
+        // continue if a relayout of one of the root's parents has made the
+        // layout valid
+        if (item.hasValidLayout() || item.getRoot() == null) {
+          continue;
+        }
+
+        // overflow areas or qx.ui2.item.*
+        if (item.isLayoutRoot())
+        {
+          // This is a real item widget. Set its size to its preferred size.
+          var rootHint = item.getSizeHint();
+          item.renderLayout(0, 0, rootHint.width, rootHint.height);
+        }
+        else
+        {
+          // This is an inner item of layout changes. Do a relayout of its
+          // children without changing its position and size.
+          // TODO: rerenderLayout() method missing
+          item.renderLayout(
+            item._left,
+            item._top,
+            item._width,
+            item._height
+          );
+        }
+      }
+    },
+
+
+
+
+
+
+
+
+    /**
      * Group widget by their nesting level.
      *
-     * @param widgets {Map} A map, which maps widget hash codes to widgets
      * @return {Map[]} A sparse array. Each entry of the array contains a widget
      *     map with all widgets of the same level as the array index.
      */
-    __topologicalSort : function(widgets)
+    __getLevelGroupedWidgets : function()
     {
        // sparse level array
       var levels = [];
+      var widgets = this._layoutQueue;
+
       for (var widgetHash in widgets)
       {
         var widget = widgets[widgetHash];
         var level = widget.getNestingLevel();
-
-        // don't update layouts of widgets outside the widget tree
-        if (level == -1) {
-          continue;
-        }
 
         if (!levels[level]) {
           levels[level] = {};
@@ -80,17 +128,20 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * This function returns the roots ordered by their nesting factors. The
      * layout with the largest nesting level comes first.
      *
-     * @param widgets {Map} A map, which maps widget hash codes to widgets. This
-     *     map contains all widget with pending layout changes.
      * @return {qx.ui2.core.Widget[]} Ordered list or layout roots.
      */
-    __getLayoutRoots : function(widgets)
+    __getSortedQueue : function()
     {
-      var layoutRoots = [];
-      var levels = this.__topologicalSort(widgets);
+      var sortedQueue = [];
+      var levels = this.__getLevelGroupedWidgets();
 
       for (var level=levels.length-1; level>=0; level--)
       {
+        // Ignore empty levels (levels is an sparse array)
+        if (!levels[level]) {
+          continue;
+        }
+
         for (var widgetHash in levels[level])
         {
           var widget = levels[level][widgetHash];
@@ -98,13 +149,13 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           // This is a real layout root. Add it directly to the list
           if (level == 0 || widget.isLayoutRoot())
           {
-            layoutRoots.push(widget);
-            widget.invalidate();
+            sortedQueue.push(widget);
+            widget.invalidateLayoutCache();
             continue;
           }
 
           var oldSizeHint = widget.getSizeHint();
-          widget.invalidate();
+          widget.invalidateLayoutCache();
           var newSizeHint = widget.getSizeHint();
 
           var hintChanged = (
@@ -118,71 +169,25 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
           if (hintChanged)
           {
-            // invalidate parent. Since the level is > 0, the widget must
+            // invalidateLayoutCache parent. Since the level is > 0, the widget must
             // have a parent != null.
             var parent = widget.getParent();
             if (!levels[level-1]) {
               levels[level-1] = {};
             }
+
             levels[level-1][parent.toHashCode()] = parent;
           }
           else
           {
             // this is an internal layout root since its own preferred size
             // has not changed.
-            layoutRoots.push(widget);
+            sortedQueue.push(widget);
           }
         }
       }
-      return layoutRoots;
-    },
 
-
-    /**
-     * Update the layout of all widgets, which layout is marked as invalid.
-     *
-     * @type static
-     * @return {void}
-     */
-    flush : function()
-    {
-      // get all layout roots
-      var layoutRoots = this.__getLayoutRoots(this._layoutQueue);
-
-      // iterate in reversed order to process widgets with the smalles nesting
-      // level first
-      for (var i=layoutRoots.length-1; i>= 0; i--)
-      {
-        var root = layoutRoots[i];
-
-        // continue if a relayout of one of the root's parents has made the
-        // layout valid
-        if (root.isLayoutValid()) {
-          continue;
-        }
-
-        if (root.isLayoutRoot())
-        {
-          // This is a real root widget. Set its size to its preferred size.
-          var rootHint = root.getSizeHint();
-          root.layout(0, 0, rootHint.width, rootHint.height);
-        }
-        else
-        {
-          // This is an inner root of layout changes. Do a relayout of its
-          // children without changing its position and size.
-          root.layout(
-            root._left,
-            root._top,
-            root._width,
-            root._height
-          );
-        }
-      }
-
-      // clear layout queue
-      this._layoutQueue = {};
+      return sortedQueue;
     }
-
   }
 });

@@ -131,7 +131,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     */
 
     // overridden
-    invalidate : function()
+    invalidateLayoutCache : function()
     {
       if (this._sizeHint)
       {
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
     // overridden
-    layout : function(width, height)
+    renderLayout : function(width, height)
     {
       // Initialize
       var children = this.getChildren();
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(child.getLayoutProperty("hbox.align"), childHeights[i], height);
 
           // Layout child
-          child.layout(childLeft, childTop, childWidths[i], childHeights[i]);
+          child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
 
           // Include again (if excluded before)
           child.include();
@@ -441,7 +441,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
     _applyLayoutProperty : function(value, old)
     {
-      this.invalidate();
+      this.invalidateLayoutCache();
 
       // Anything else TODO here?
     },
@@ -467,6 +467,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     setMarginRight : function(widget, value)
     {
       widget.addLayoutProperty("hbox.marginRight", value);
+      this.scheduleLayoutUpdate();
 
       // Chaining support
       return this;
@@ -483,6 +484,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     resetMarginRight : function(widget)
     {
       widget.removeLayoutProperty("hbox.marginRight");
+      this.scheduleLayoutUpdate();
 
       // Chaining support
       return this;
