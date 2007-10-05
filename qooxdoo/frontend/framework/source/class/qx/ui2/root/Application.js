@@ -96,6 +96,9 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
+    _isRootWidget : true,
+
+    // overridden
     isLayoutRoot : function() {
       return true;
     },
@@ -140,7 +143,7 @@ qx.Class.define("qx.ui2.root.Application",
     _applyLayout : function(value, old)
     {
       if (old) {
-        throw new Error("You cannot change the layout of qx.ui2.root.Page!");
+        throw new Error("You cannot change the layout of qx.ui2.root.Application!");
       }
       this.base(arguments, value, old);
     },

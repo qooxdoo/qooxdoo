@@ -20,10 +20,13 @@
 
 /**
  * This widget provides a root widget for popups and tooltips if qooxdoo is used
- * inside a traditional HTML page.
+ * inside a traditional HTML page. Widgets placed into a page will overlay the
+ * HTML content.
  *
  * For this reason the widget's layout is initialized with an instance of
  * {@link qx.ui2.layout.Basic}. The widget's layout cannot be changed.
+ *
+ * Note: This widget does not support decorations!
  *
  * If you want to place widgets inside the page flow use {@link qx.ui2.root.Inline}.
  */
@@ -83,6 +86,10 @@ qx.Class.define("qx.ui2.root.Page",
       // Chaining support
       return this;
     },
+
+
+    // overridden
+    _isRootWidget : true,
 
 
     // overridden

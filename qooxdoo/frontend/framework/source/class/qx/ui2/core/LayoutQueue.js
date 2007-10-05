@@ -41,37 +41,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
 
     /**
-     * Cache which maps widget hash codes to the widget's nesting level
-     */
-    _widgetLevels : {},
-
-
-    /**
-     * Get the widget's nesting level.
-     *
-     * @param widget {qx.ui2.core.Widget} The widget to get the nesting level of
-     * @return {Integer} The widget's nesting level.
-     */
-    __getLevel : function(widget)
-    {
-      var hash = widget.toHashCode();
-      if (this._widgetLevels[hash] !== undefined) {
-        return this._widgetLevels[hash];
-      }
-
-      var parent = widget.getParent();
-      if (!parent) {
-        var level = 0;
-      } else {
-        level = this.__getLevel(parent) + 1;
-      }
-
-      this._widgetLevels[hash] = level;
-      return level;
-    },
-
-
-    /**
      * Group widget by their nesting level.
      *
      * @param widgets {Map} A map, which maps widget hash codes to widgets
@@ -80,15 +49,17 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     __topologicalSort : function(widgets)
     {
-      // clear nesting level cache
-      this._widgetLevels = {};
-
-      // sparse level array
+       // sparse level array
       var levels = [];
       for (var widgetHash in widgets)
       {
         var widget = widgets[widgetHash];
-        var level = this.__getLevel(widget);
+        var level = widget.getNestingLevel();
+
+        // don't update layouts of widgets outside the widget tree
+        if (level == -1) {
+          continue;
+        }
 
         if (!levels[level]) {
           levels[level] = {};
@@ -190,6 +161,8 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           continue;
         }
 
+        root.debug("Update layout.");
+
         if (root.isLayoutRoot())
         {
           // This is a real root widget. Set its size to its preferred size.
@@ -210,11 +183,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       }
 
       this._layoutQueue = {};
-
-      // TODO: move this code to the QueueManager
-      //qx.ui2.core.DecorationQueue.flush();
-
-      //qx.html.Element.flush();
     }
 
   }
