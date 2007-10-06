@@ -94,7 +94,26 @@ if (! defined("defaultAccessibility"))
     define("defaultAccessibility",             Accessibility_Domain);
 }
 
+/**
+ * Prefixes for RPC classes and methods
+ * 
+ * Since you do not want to expose all classes or all methods that are 
+ * present in the files accessible to the server, a prefix is needed
+ * for classes and methods. By default, this is "class_" for classes
+ * and "method_" for methods. You might want to keep those prefixes if
+ * you want to share backend class code with others (otherwise, a simple
+ * search & replace takes care of quickly, too) - otherwise define the 
+ * following constants in global_settings.php
+ */
+if (! defined("JsonRpcClassPrefix"))
+{
+    define("JsonRpcClassPrefix",                "class_");
+}
 
+if (! defined("JsonRpcMethodPrefix"))
+{
+    define("JsonRpcMethodPrefix",                "method_");
+}
 
 /**
  * JSON-RPC error origins
@@ -586,10 +605,21 @@ if ( ! file_exists( servicePathPrefix . $servicePath . ".php") )
 require servicePathPrefix . $servicePath . ".php";
 
 /* The service class is the last component of the service name */
-$className = "class_" . $serviceComponents[count($serviceComponents) - 1];
+$className = JsonRpcClassPrefix . $serviceComponents[count($serviceComponents) - 1];
 
-/* Ensure that the class exists */
-if (! class_exists($className))
+/* or the fully qualified service name */
+$longClassName = JsonRpcClassPrefix . implode("_", $serviceComponents );
+
+/* Ensure that the class exists.  First try the short class name. */
+$classExists = class_exists($className);
+if (! $classExists)
+{
+    /* Short class name doesn't exist.  Try the long class name. */
+    $className = $longClassName;
+    $classExists = class_exists($className);
+}
+
+if (! $classExists)
 {
     $error->SetError(JsonRpcError_ClassNotFound,
                      "Service class `" .
@@ -732,7 +762,7 @@ default:
 }
 
 /* Now that we've instantiated service, we should find the requested method */
-$method = "method_" . $jsonInput->method;
+$method = JsonRpcMethodPrefix . $jsonInput->method;
 if (! method_exists($service, $method))
 {
     $error->SetError(JsonRpcError_MethodNotFound,
