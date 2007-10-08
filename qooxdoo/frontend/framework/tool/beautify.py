@@ -88,13 +88,17 @@ def beautify(fileName):
 
 
     if not classMap.has_key("members"):
-        members = tree.Node("keyvalue")
+        keyvalue = tree.Node("keyvalue")
+        keyvalue.set("key", "members")
+        value = tree.Node("value")
+        members = tree.Node("map")
+
     else:
         members = classMap["members"]
 
     moveFunctions(constructorBody, members)
 
-    #print restree.toJavascript()
+    print restree.toJavascript()
 
 def main(argv=None):
     if argv is None:
