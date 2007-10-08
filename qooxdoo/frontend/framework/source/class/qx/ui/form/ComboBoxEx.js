@@ -931,6 +931,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     _getTextWidth : function(text)
     {
       var lab = new qx.ui.basic.Label(text);
+      lab.setFont('default');
       var res = lab.getPreferredBoxWidth();
       lab.dispose();
       return res;
