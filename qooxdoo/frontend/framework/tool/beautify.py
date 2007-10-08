@@ -34,7 +34,7 @@ def renameDefinitions(node, variables):
         return
 
     if node.type == "definitionList":
-        defStr = ""
+        defNodes = []
         for definition in node.children:
             if definition.type == "definition":
 
@@ -44,14 +44,23 @@ def renameDefinitions(node, variables):
 
                 varName = definition.get("identifier")
                 if varName in variables:
-                    defStr += "this.%s = 0;" % (varName)
+                    defStr = "this.%s = null;" % (varName)
                     defNode = treeutil.compileString(defStr);
-                    if assignment is not None:
+                    print defNode.toXml()
+                    if assignment is not None and assignment.hasChildren():
                         defNode.getChild("right").replaceChild(defNode.getChild("right").getFirstChild(), assignment.getFirstChild());
-                        print defNode.toXml()
+                    defNodes.append(defNode)
 
-                        defList = tree.Node("definitionList")
+        parent = node.parent
+        defIndex = parent.getChildPosition(node)
+        for defNode in defNodes:
+            parent.addChild(defNode, defIndex)
+            defIndex += 1
 
+        if len(defNodes) > 0 and node.hasChild("commentsBefore"):
+            defNodes[0].addChild(node.getChild("commentsBefore"), 0)
+
+        parent.removeChild(node)
         return
 
     if node.hasChildren():
@@ -86,7 +95,6 @@ def beautify(fileName):
 
     renameDefinitions(constructorBody, variables)
 
-
     if not classMap.has_key("members"):
         keyvalue = tree.Node("keyvalue")
         keyvalue.set("key", "members")
@@ -96,7 +104,7 @@ def beautify(fileName):
     else:
         members = classMap["members"]
 
-    moveFunctions(constructorBody, members)
+    #moveFunctions(constructorBody, members)
 
     print restree.toJavascript()
 
