@@ -530,6 +530,10 @@ class Node:
         options.prettypIndentString = "  "
         options.prettypCommentsInlinePadding = "  "
         options.prettypCommentsTrailingCommentCols = ""
+        options.prettypOpenCurlyNewlineBefore = "m"
+        options.prettypOpenCurlyIndentBefore = False
+        options.prettypAlignBlockWithCurlies = False
+
         return compiler.compile(self, options)
 
     def nodeIter(self):
