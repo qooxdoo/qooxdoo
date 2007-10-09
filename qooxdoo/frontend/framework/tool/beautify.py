@@ -13,7 +13,7 @@ from modules import tree
 from modules import api
 
 
-def declaredVariables(node):
+def declaredVariablesIterator(node):
     if node.type == "function":
         return
 
@@ -25,8 +25,15 @@ def declaredVariables(node):
                     if definition.type == "definition":
                         yield definition.get("identifier")
 
-            for var in declaredVariables(child):
+            for var in declaredVariablesIterator(child):
                 yield var
+
+
+def getDeclaredVariables(node):
+    variables = []
+    for var in declaredVariablesIterator(node):
+        variables.append(var)
+    return variables
 
 
 def renameDefinitions(node, variables):
@@ -67,6 +74,7 @@ def renameDefinitions(node, variables):
         for child in node.children:
             renameDefinitions(child, variables)
 
+
 def moveFunctions(node, target):
     if node.type == "function":
         return
@@ -97,28 +105,69 @@ def moveFunctions(node, target):
             moveFunctions(child, target)
 
 
+def getParentFunction(fcnNode):
+    node = fcnNode
+    while node.hasParent():
+        node = node.parent
+        if node.type == "function":
+            return node
+    return None
 
+
+def functionIterator(node):
+    if node.type == "function":
+        yield node
+
+    if node.hasChildren():
+        for child in node.children:
+            for fcn in functionIterator(child):
+                yield fcn
+
+
+def getArguments(fcnNode):
+    # TODO
+    paramsNode = fcnNode.getChild("params", False)
+    print paramsNode.toXml()
+
+    arguments = []
+
+    if paramsNode.hasChildren():
+        for child in paramsNode.children:
+            if child.type == "variable":
+                arguments.append(child.getChild("identifier").get("name"))
+
+
+    return arguments
+
+
+def buildScope(root):
+    scopes = {}
+    for fcn in functionIterator(root):
+        parentFcn = getParentFunction(fcn)
+        scopes[fcn] = {
+            "variables" : getDeclaredVariables(fcn.getChild("body")),
+            "parentFcn" : parentFcn,
+            "arguments" : getArguments(fcn)
+        }
+    return scopes
 
 
 def beautify(fileName):
     restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName))
 
-    #print restree.toXml()
     define = api.findQxDefine(restree)
-    #print define.toXml()
-
     classData = treeutil.selectNode(define, "params/2")
     classMap = treeutil.mapNodeToMap(classData)
-    constructorBody = treeutil.selectNode(classMap["construct"], "function/body")
-    constructorParams = treeutil.selectNode(classMap["construct"], "function/params")
 
-    print constructorBody.toXml()
-    #getDeclaredVariables(constructorBody)
-    variables = []
-    for var in declaredVariables(constructorBody):
-        variables.append(var)
+    constructor = classMap["construct"].getChild("function")
+    constructorBody = constructor.getChild("body")
+    scope =  buildScope(constructor)
 
-    renameDefinitions(constructorBody, variables)
+    constructorDefs = scope[constructor]["variables"] + scope[constructor]["arguments"]
+    print constructorDefs
+    print scope
+
+    renameDefinitions(constructorBody, constructorDefs)
 
     print "-------------------------------------"
     print constructorBody.toXml()
