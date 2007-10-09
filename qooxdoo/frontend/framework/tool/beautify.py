@@ -239,6 +239,45 @@ def translatePrivateName(name):
     return name
 
 
+def fixSuperCalls(node):
+    if node.type == "assignment" and node.hasChild("left") and node.hasChild("right"):
+        # contains identifiers: this + superName
+        left = node.getChild("left").getFirstChild(False, True)
+
+        # contains identifiers: this + name
+        right = node.getChild("right").getFirstChild(False, True)
+
+        leftOrig = ""
+        leftName = ""
+        rightMatch = False
+
+        if left.type == "variable" and left.getChildrenLength(True) == 2:
+            first = left.getFirstChild(True, True)
+            last = left.getLastChild(True, True)
+
+            if first.get("name") == "this" and last.get("name").startswith("__super"):
+                leftOrig = last.get("name")
+                leftName = last.get("name")[7].lower() + last.get("name")[8:]
+
+
+        if right.type == "variable" and left.getChildrenLength(True) == 2:
+            first = right.getFirstChild(True, True)
+            last = right.getLastChild(True, True)
+
+            if first.get("name") == "this" and last.get("name") == leftName:
+               rightMatch = True
+
+
+        if rightMatch:
+            replNode = treeutil.compileString("this." + leftOrig + " = this.self(arguments).superclass.prototype." + leftName)
+            node.parent.replaceChild(node, replNode)
+
+
+    elif node.hasChildren():
+        for child in node.children:
+            fixSuperCalls(child)
+
+
 def beautify(fileName):
     restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName))
 
@@ -279,6 +318,9 @@ def beautify(fileName):
     moveFunctions(constructorBody, members, removeList)
     for entry in removeList:
         entry.parent.removeChild(entry)
+
+
+    fixSuperCalls(constructorBody)
 
     #print "-------------------------------------"
     #print members.toXml()
