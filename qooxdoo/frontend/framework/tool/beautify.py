@@ -83,16 +83,16 @@ def renameIdentifier(node, renameVariables, scopes, constructor):
         decl = getVariableDeclaration(parentFcn, scopes, idenName)
 
         if decl != None and (decl == constructor):
-            replName = translatePrivateName(idenName)
+            if idenName == "self":
+                node.set("name", "this")
+            else:
+                replName = translatePrivateName(idenName)
 
-            parent = node.parent
-            thisNode = tree.Node("identifier")
-            thisNode.set("name", "this")
-            parent.addChild(thisNode, 0)
-            node.set("name", replName)
-
-            print parent.type
-            print "rename '%s' to 'this.%s'" % (idenName, idenName)
+                parent = node.parent
+                thisNode = tree.Node("identifier")
+                thisNode.set("name", "this")
+                parent.addChild(thisNode, 0)
+                node.set("name", replName)
 
 
 def updateFunction(node, renameVariables, scopes, constructor):
