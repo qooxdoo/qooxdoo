@@ -225,6 +225,10 @@ def getVariableDeclaration(fcn, scopes, variable):
 
 
 def translatePrivateName(name):
+    # class alias
+    if name[0].isupper():
+        return name
+
     # member variable
     if name.startswith("m") and name[1].isupper():
         name = name[1].lower() + name[2:]
