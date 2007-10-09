@@ -51,9 +51,8 @@ def renameDefinitions(node, variables):
 
                 varName = definition.get("identifier")
                 if varName in variables:
-                    defStr = "this.%s = null;" % (varName)
+                    defStr = "this.%s = null;" % (translatePrivateName(varName))
                     defNode = treeutil.compileString(defStr);
-                    print defNode.toXml()
                     if assignment is not None and assignment.hasChildren():
                         defNode.getChild("right").replaceChild(defNode.getChild("right").getFirstChild(), assignment.getFirstChild());
                     defNodes.append(defNode)
@@ -75,6 +74,71 @@ def renameDefinitions(node, variables):
             renameDefinitions(child, variables)
 
 
+def renameIdentifier(node, renameVariables, scopes, constructor):
+    idenName = node.get("name", False)
+
+    if idenName != None and idenName in renameVariables:
+
+        parentFcn = getParentFunction(node)
+        decl = getVariableDeclaration(parentFcn, scopes, idenName)
+
+        if decl != None and (decl == constructor):
+            replName = translatePrivateName(idenName)
+
+            parent = node.parent
+            thisNode = tree.Node("identifier")
+            thisNode.set("name", "this")
+            parent.addChild(thisNode, 0)
+            node.set("name", replName)
+
+            print parent.type
+            print "rename '%s' to 'this.%s'" % (idenName, idenName)
+
+
+def updateFunction(node, renameVariables, scopes, constructor):
+
+    # Handle all identifiers
+    if node.type == "identifier":
+        isFirstChild = False
+        isVariableMember = False
+
+        if node.parent.type == "variable":
+            isVariableMember = True
+            varParent = node.parent.parent
+
+            # catch corner case: a().b(); var b;
+            if (
+                varParent.type == "operand" and
+                varParent.parent.type == "call" and
+                varParent.parent.parent.type == "right" and
+                varParent.parent.parent.parent.type == "accessor"
+            ):
+                varParent = varParent.parent.parent
+
+            if not (varParent.type == "right" and varParent.parent.type == "accessor"):
+                isFirstChild = node.parent.getFirstChild(True, True) == node
+
+        elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
+            isVariableMember = True
+            accessor = node.parent.parent
+            isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
+
+        # inside a variable parent only respect the first member
+        if not isVariableMember or isFirstChild:
+            renameIdentifier(node, renameVariables, scopes, constructor)
+
+
+    # Iterate over children
+    if node.hasChildren():
+        for child in node.children:
+            updateFunction(child, renameVariables, scopes, constructor)
+
+
+def renameUses(constructorNode, renameVariables, scopes):
+    updateFunction(constructorNode, renameVariables, scopes, constructorNode)
+
+
+
 def moveFunctions(node, target):
     if node.type == "function":
         return
@@ -87,7 +151,7 @@ def moveFunctions(node, target):
             name = None
 
             if keyChild and keyChild.type == "variable":
-                nameChild = keyChild.getChild("identifier").getFollowingSibling(False, True)
+                nameChild = keyChild.getLastChild(False)
 
                 if nameChild and nameChild.type == "identifier":
                     name = nameChild.get("name")
@@ -125,9 +189,7 @@ def functionIterator(node):
 
 
 def getArguments(fcnNode):
-    # TODO
     paramsNode = fcnNode.getChild("params", False)
-    print paramsNode.toXml()
 
     arguments = []
 
@@ -152,6 +214,16 @@ def buildScope(root):
     return scopes
 
 
+def getVariableDeclaration(fcn, scopes, variable):
+    while True:
+        scope = scopes[fcn]
+        if variable in scope["arguments"] or variable in scope["variables"]:
+            return fcn
+        fcn = scope["parentFcn"]
+        if fcn is None:
+            return None
+
+
 def translatePrivateName(name):
     # member variable
     if name.startswith("m") and name[1].isupper():
@@ -174,14 +246,17 @@ def beautify(fileName):
     constructorBody = constructor.getChild("body")
     scope =  buildScope(constructor)
 
-    constructorDefs = scope[constructor]["variables"] + scope[constructor]["arguments"]
+    constructorDefs = scope[constructor]["variables"]
     print constructorDefs
     print scope
 
+    # only in constructor
     renameDefinitions(constructorBody, constructorDefs)
+    renameUses(constructor, constructorDefs, scope)
+    #return
 
     print "-------------------------------------"
-    print constructorBody.toXml()
+    #print constructorBody.toXml()
     print "-------------------------------------"
 
     if not classMap.has_key("members"):
