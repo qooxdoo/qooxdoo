@@ -273,15 +273,12 @@ def beautify(fileName):
 
     moveFunctions(constructorBody, members)
 
-    print "-------------------------------------"
-    print members.toXml()
-    print "-------------------------------------"
+    #print "-------------------------------------"
+    #print members.toXml()
+    #print "-------------------------------------"
 
     print restree.toJavascript()
 
-    print translatePrivateName("mFunc")
-    print translatePrivateName("children")
-    print translatePrivateName("MailUtil")
 
 def main(argv=None):
     if argv is None:

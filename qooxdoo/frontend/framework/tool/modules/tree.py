@@ -533,6 +533,7 @@ class Node:
         options.prettypOpenCurlyNewlineBefore = "m"
         options.prettypOpenCurlyIndentBefore = False
         options.prettypAlignBlockWithCurlies = False
+        options.prettypCommentsTrailingKeepColumn = False
 
         return compiler.compile(self, options)
 
