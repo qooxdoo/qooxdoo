@@ -139,7 +139,7 @@ def renameUses(constructorNode, renameVariables, scopes):
 
 
 
-def moveFunctions(node, target):
+def moveFunctions(node, target, removeList):
     if node.type == "function":
         return
 
@@ -160,13 +160,13 @@ def moveFunctions(node, target):
                         pairChild = treeutil.createPair(name, assignChild, node)
                         target.addChild(pairChild)
 
-                        node.parent.removeChild(node)
+                        removeList.append(node)
                         return
 
 
     if node.hasChildren():
         for child in node.children:
-            moveFunctions(child, target)
+            moveFunctions(child, target, removeList)
 
 
 def getParentFunction(fcnNode):
@@ -271,7 +271,10 @@ def beautify(fileName):
     else:
         members = classMap["members"].getChild("map")
 
-    moveFunctions(constructorBody, members)
+    removeList = []
+    moveFunctions(constructorBody, members, removeList)
+    for entry in removeList:
+        entry.parent.removeChild(entry)
 
     #print "-------------------------------------"
     #print members.toXml()
