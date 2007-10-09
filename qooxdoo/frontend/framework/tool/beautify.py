@@ -291,17 +291,17 @@ def beautify(fileName):
     scope =  buildScope(constructor)
 
     constructorDefs = scope[constructor]["variables"]
-    print constructorDefs
-    print scope
+    #print constructorDefs
+    #print scope
 
     # only in constructor
     renameDefinitions(constructorBody, constructorDefs)
     renameUses(constructor, constructorDefs, scope)
     #return
 
-    print "-------------------------------------"
+    #print "-------------------------------------"
     #print constructorBody.toXml()
-    print "-------------------------------------"
+    #print "-------------------------------------"
 
     if not classMap.has_key("members"):
         keyvalue = tree.Node("keyvalue")
