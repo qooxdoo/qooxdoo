@@ -71,10 +71,34 @@ def moveFunctions(node, target):
     if node.type == "function":
         return
 
-    if node.type == "definitionList":
-        if node.hasChildren():
-            for child in node.children:
-                pass
+    if node.type == "assignment":
+        if node.hasChild("left") and node.hasChild("right"):
+            keyChild = node.getChild("left").getFirstChild(False, True)
+            assignChild = node.getChild("right").getFirstChild(False, True)
+
+            name = None
+
+            if keyChild and keyChild.type == "variable":
+                nameChild = keyChild.getChild("identifier").getFollowingSibling(False, True)
+
+                if nameChild and nameChild.type == "identifier":
+                    name = nameChild.get("name")
+
+                    if assignChild and assignChild.type == "function":
+                        pairChild = treeutil.createPair(name, assignChild, node)
+                        target.addChild(pairChild)
+
+                        node.parent.removeChild(node)
+                        return
+
+
+    if node.hasChildren():
+        for child in node.children:
+            moveFunctions(child, target)
+
+
+
+
 
 def beautify(fileName):
     restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName))
@@ -95,16 +119,26 @@ def beautify(fileName):
 
     renameDefinitions(constructorBody, variables)
 
+    print "-------------------------------------"
+    print constructorBody.toXml()
+    print "-------------------------------------"
+
     if not classMap.has_key("members"):
         keyvalue = tree.Node("keyvalue")
         keyvalue.set("key", "members")
         value = tree.Node("value")
+        keyvalue.addChild(value)
         members = tree.Node("map")
+        value.addChild(members)
 
     else:
-        members = classMap["members"]
+        members = classMap["members"].getChild("map")
 
-    #moveFunctions(constructorBody, members)
+    moveFunctions(constructorBody, members)
+
+    print "-------------------------------------"
+    print members.toXml()
+    print "-------------------------------------"
 
     print restree.toJavascript()
 
