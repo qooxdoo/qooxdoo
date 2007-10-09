@@ -152,6 +152,17 @@ def buildScope(root):
     return scopes
 
 
+def translatePrivateName(name):
+    # member variable
+    if name.startswith("m") and name[1].isupper():
+        name = name[1].lower() + name[2:]
+
+    # add double underscore (private)
+    name = "__" + name
+
+    return name
+
+
 def beautify(fileName):
     restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName))
 
@@ -192,6 +203,10 @@ def beautify(fileName):
     print "-------------------------------------"
 
     print restree.toJavascript()
+
+    print translatePrivateName("mFunc")
+    print translatePrivateName("children")
+    print translatePrivateName("MailUtil")
 
 def main(argv=None):
     if argv is None:
