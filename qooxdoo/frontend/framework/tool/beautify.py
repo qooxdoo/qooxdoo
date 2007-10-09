@@ -51,11 +51,12 @@ def renameDefinitions(node, variables):
 
                 varName = definition.get("identifier")
                 if varName in variables:
-                    defStr = "this.%s = null;" % (translatePrivateName(varName))
-                    defNode = treeutil.compileString(defStr);
-                    if assignment is not None and assignment.hasChildren():
-                        defNode.getChild("right").replaceChild(defNode.getChild("right").getFirstChild(), assignment.getFirstChild());
-                    defNodes.append(defNode)
+                    if varName != "self":
+                        defStr = "this.%s = null;" % (translatePrivateName(varName))
+                        defNode = treeutil.compileString(defStr);
+                        if assignment is not None and assignment.hasChildren():
+                            defNode.getChild("right").replaceChild(defNode.getChild("right").getFirstChild(), assignment.getFirstChild());
+                        defNodes.append(defNode)
 
         parent = node.parent
         defIndex = parent.getChildPosition(node)
