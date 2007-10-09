@@ -107,7 +107,8 @@ def beautify(fileName):
     define = api.findQxDefine(restree)
     #print define.toXml()
 
-    classMap = treeutil.mapNodeToMap(treeutil.selectNode(define, "params/2"))
+    classData = treeutil.selectNode(define, "params/2")
+    classMap = treeutil.mapNodeToMap(classData)
     constructorBody = treeutil.selectNode(classMap["construct"], "function/body")
     constructorParams = treeutil.selectNode(classMap["construct"], "function/params")
 
@@ -130,6 +131,7 @@ def beautify(fileName):
         keyvalue.addChild(value)
         members = tree.Node("map")
         value.addChild(members)
+        classData.addChild(keyvalue)
 
     else:
         members = classMap["members"].getChild("map")
