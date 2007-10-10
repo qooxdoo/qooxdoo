@@ -228,7 +228,14 @@ def renameUses(constructorNode, renameVariables, scopes):
         #parent.addChild(thisNode, 0)
 
 
-def moveFunctions(node, target, removeList):
+def moveFunctions(node, target):
+    removeList = []
+    addMoveFunctions(node, target, removeList)
+    for entry in removeList:
+        entry.parent.removeChild(entry)
+
+
+def addMoveFunctions(node, target, removeList):
     if node.type == "function":
         return
 
@@ -255,7 +262,7 @@ def moveFunctions(node, target, removeList):
 
     if node.hasChildren():
         for child in node.children:
-            moveFunctions(child, target, removeList)
+            addMoveFunctions(child, target, removeList)
 
 
 def getParentFunction(fcnNode):
@@ -425,12 +432,8 @@ def beautify(fileName):
     else:
         members = classMap["members"].getChild("map")
 
-    removeList = []
-    moveFunctions(constructorBody, members, removeList)
-    for entry in removeList:
-        entry.parent.removeChild(entry)
 
-
+    moveFunctions(constructorBody, members)
     fixSuperCalls(constructorBody)
 
     #print "-------------------------------------"
