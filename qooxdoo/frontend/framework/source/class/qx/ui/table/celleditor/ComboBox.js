@@ -147,6 +147,8 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
     /**
      * retrieves value from TextField (editable combobox) or
      * selected ListItem (non-editable combobox) and validates value
+     * @param cellEditor {qx.ui.core.Widget}
+     * @return {Object}
      */
     getCellEditorValue : function(cellEditor)
     {

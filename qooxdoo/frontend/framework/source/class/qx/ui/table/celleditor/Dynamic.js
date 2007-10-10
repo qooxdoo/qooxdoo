@@ -96,6 +96,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
      * Creates the cell editor based on the cellEditorFactory instance
      * returned by the function stored in the cellEditorFactoryFunction
      * property. Passes the cellInfo map to the function.
+     * @return {qx.ui.core.Widget}
      */
     createCellEditor : function(cellInfo)
     {
@@ -113,6 +114,8 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
     /**
      * Retrieves the value  the cell editor based on the current cellEditorFactory
      * instance.
+     * @param cellEditor {qx.ui.core.Widget}
+     * @return {Object}
      */
     getCellEditorValue : function(cellEditor)
     {
