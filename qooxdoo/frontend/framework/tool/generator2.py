@@ -34,10 +34,10 @@ Overview
 
 * The system supports simple include/exclude lists
 * The smart mode (default) includes the defined classes and their dependencies
-and excludes the defined classes and dependencies but does not break remaining 
+and excludes the defined classes and dependencies but does not break remaining
 included features.
 * Each generated script (named package here) contains the compiled JavaScript data
-* It is possible to generate multiple variant combinations 
+* It is possible to generate multiple variant combinations
 * This means that a single job execution can create multiple files at once
 * Variants are combineable and all possible combinations are automatically created.
 For example: gecko+debug, mshtml+debug, gecko+nodebug, mshtml+nodebug
@@ -54,27 +54,27 @@ the splashscreen. Collapsing reduces the number of packages for the
 defined views. However collapsing badly influences the fine-grained nature
 of the package system and should be ommitted for non-initial views normally.
 * Further optimization includes support for auto-merging small packages.
-The relevant size to decide if a package is too small is the token size which 
+The relevant size to decide if a package is too small is the token size which
 is defined by the author of the job. The system calculates the token size of
 each package and tries to merge packages automatically.
 
 Internals
 ======================
 * All merges happen from right to left when the package list is sorted by priority.
-The main theory is that a package which is used by multiple views must have the dependencies 
+The main theory is that a package which is used by multiple views must have the dependencies
 solved by both of them. So the merge will always happen into the next common package of
 both views from the current position to the left side.
 
-* There are some utility method which 
+* There are some utility method which
 
 * The following global variables exist:
   * classes{Dict}: All classes of the present class path configuration. Each entry
       contains information regarding the path, the encoding, the class path and stuff
-  * modules{Dict}: All known modules from all available classes. Each entry contains 
+  * modules{Dict}: All known modules from all available classes. Each entry contains
       the classes of the current module
   * verbose{Boolean}: If verbose mode is enabled
   * quiet{Boolean}: If quiet mode is enabled
-  
+
 * All cache data is automatically stored into framework/tool/.cache. The path is automatically
   detected through the location of the generator script.
 """
@@ -102,14 +102,14 @@ def main():
     print "============================================================================"
     print "    INITIALIZATION"
     print "============================================================================"
-        
+
     parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
-    
+
     parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
     parser.add_option("-j", "--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
-    
+
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
         print "usage: %s [options]" % basename
@@ -117,17 +117,17 @@ def main():
         sys.exit(1)
 
     (options, args) = parser.parse_args(sys.argv[1:])
-    
+
     process(options)
-    
-    
+
+
 def process(options):
     global verbose
     global quiet
-    
+
     verbose = options.verbose
     quiet = options.quiet
-    
+
     if verbose:
         quiet = False
 
@@ -135,47 +135,47 @@ def process(options):
     if not quiet:
         print "  - Configuration: %s" % options.config
         print "  - Jobs: %s" % ", ".join(options.jobs)
-    
-    
+
+
     # TODO: File parser
     # - Translate dashed to camelcase
     # - Translate "true" to Python "True"
-    
+
     # Include/Exclude hints
     #
     # class/module =>
     #   include items with their dependencies
     #   exclude items, also remove items not needed by other modules than the removed ones
     #
-    # =class/module => 
+    # =class/module =>
     #   explicit include/exclude of given module or class
     #
 
     config = {
-        "common" : 
+        "common" :
         {
-            "classPath" : 
-            [ 
-                "framework/source/class", 
-                "application/apiviewer/source/class", 
+            "classPath" :
+            [
+                "framework/source/class",
+                "application/apiviewer/source/class",
                 "application/feedreader/source/class",
                 "application/webmail/source/class",
                 "application/showcase/source/class"
             ],
-            
+
             "require" :
             {
                 "qx.log.Logger" : ["qx.log.appender.Native"]
             }
         },
-      
-        "source" : 
+
+        "source" :
         {
             "extend" : ["common"],
             "sourceScript" : "source.js"
         },
-      
-      
+
+
         "api-feedreader" :
         {
             "extend" : ["common"],
@@ -189,14 +189,14 @@ def process(options):
         {
             "extend" : ["common"]
         },
-        
-        "build-all" : 
+
+        "build-all" :
         {
             "extend" : ["build-common"],
             "buildScript" : "build-all"
         },
-      
-        "build-core" : 
+
+        "build-core" :
         {
             "extend" : ["build-common"],
             "buildScript" : "build-core",
@@ -204,26 +204,26 @@ def process(options):
             "exclude" : ["ui_tree","=qx.ui.core.Widget"]
         },
 
-        "build-apiviewer" : 
+        "build-apiviewer" :
         {
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer",
             "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
-            "buildProcess" : 
+            "buildProcess" :
             [
                 "optimize-variables",
                 "optimize-basecalls",
                 "optimize-strings",
                 "optimize-privates"
             ]
-        },    
-        
-        "build-apiviewer-variants" : 
+        },
+
+        "build-apiviewer-variants" :
         {
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer-variants",
             "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
-            "variants" : 
+            "variants" :
             {
                 #"qx.debug" : ["on","off"],
                 "qx.debug" : ["off"],
@@ -231,33 +231,33 @@ def process(options):
                 #"qx.client" : ["gecko","mshtml","webkit","opera"],
                 "qx.client" : ["gecko","mshtml"]
             },
-            "buildProcess" : 
+            "buildProcess" :
             [
                 "optimize-variables",
                 "optimize-basecalls",
                 "optimize-strings"
             ]
-        },             
-        
-        "build-feedreader" : 
+        },
+
+        "build-feedreader" :
         {
             "extend" : ["build-common"],
             "buildScript" : "build-feedreader",
             "include" : ["feedreader.Application"]
-        },    
-        
+        },
+
         "build-parts-common" :
         {
             "extend" : ["build-common"],
             "optimizeLatency" : 5000
-        },            
-        
-        "build-app-views" : 
+        },
+
+        "build-app-views" :
         {
             "extend" : ["build-parts-common"],
             "buildScript" : "build-app-views",
             #"collapseParts" : ["webmail","feedreader","showcase"],
-            "views" : 
+            "views" :
             {
                 "apiviewer" : ["apiviewer.Application"],
                 "feedreader" : ["feedreader.Application"],
@@ -265,12 +265,12 @@ def process(options):
                 "showcase" : ["showcase.Application"]
             }
         },
-        
+
         "build-comp-views" :
         {
             "extend" : ["build-parts-common"],
             "buildScript" : "build-comp-parts",
-            "parts" : 
+            "parts" :
             {
                 "tree" : ["ui_tree"],
                 "colorselector" : ["qx.ui.component.ColorSelector"],
@@ -280,44 +280,44 @@ def process(options):
                 "form" : ["ui_form"]
             }
         },
-        
-        "build-feedreader-parts" : 
+
+        "build-feedreader-parts" :
         {
             "extend" : ["build-parts-common"],
             "buildScript" : "build-feedreader-parts",
             "collapseParts" : ["core"],
-            "parts" : 
+            "parts" :
             {
                 "core" : ["feedreader.Application","qx.theme.ClassicRoyale"],
                 "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
                 "article" : ["feedreader.ArticleView"],
                 "preferences" : ["ui_window"]
-            }  
+            }
         },
-        
+
         "build-apiviewer-parts" :
         {
             "extend" : ["build-parts-common"],
             "buildScript" : "build-apiviewer-parts",
-            "variants" : 
+            "variants" :
             {
                 "qx.debug" : ["off"],
                 "qx.client" : ["gecko","mshtml"]
             },
             "collapseParts" : ["core"],
-            "parts" : 
+            "parts" :
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
                 "viewer" : ["apiviewer.Viewer"],
                 "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
             }
         },
-        
+
         "build-apiviewer-parts-noqx" :
         {
             "extend" : ["build-parts-common"],
             "buildScript" : "build-apiviewer-parts-noqx",
-            "variants" : 
+            "variants" :
             {
                 "qx.debug" : ["off"],
                 "qx.client" : ["gecko","mshtml"]
@@ -325,61 +325,61 @@ def process(options):
             "collapseParts" : ["core"],
             "include" : ["apiviewer.Application"],
             "exclude" : ["=qx.*"],
-            "parts" : 
+            "parts" :
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
                 "viewer" : ["apiviewer.Viewer"],
                 "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
             }
-        }            
+        }
     }
-    
+
     resolve(config, options.jobs)
-    
+
     for job in options.jobs:
         execute(job, config[job])
-        
+
 
 def resolve(config, jobs):
     print ">>> Resolving jobs..."
     for job in jobs:
         resolveEntry(config, job)
-    
+
 
 def resolveEntry(config, job):
     global quiet
-    
+
     if not config.has_key(job):
         print "  - No such job: %s" % job
         sys.exit(1)
 
     data = config[job]
-    
+
     if data.has_key("resolved"):
         return
-    
+
     #print "  - Processing: %s" % job
 
     if data.has_key("extend"):
         includes = data["extend"]
-        
+
         for entry in includes:
             resolveEntry(config, entry)
             mergeEntry(config[job], config[entry])
-    
+
     data["resolved"] = True
-    
+
 
 def mergeEntry(target, source):
     for key in source:
         if not target.has_key(key):
-            target[key] = source[key] 
-    
-    
+            target[key] = source[key]
+
+
 def execute(job, config):
     global jobconfig
     jobconfig = config
-    
+
     print
     print "============================================================================"
     print "    EXECUTING: %s" % job
@@ -398,24 +398,24 @@ def execute(job, config):
 
 def getJobConfig(key, default=None):
     global jobconfig
-    
+
     if jobconfig.has_key(key):
         return jobconfig[key]
     else:
         return default
-        
+
 
 def generateScript():
     global classes
     global modules
     global verbose
     global quiet
-    
-    
+
+
     #
     # INITIALIZATION PHASE
     #
-    
+
     # Class paths
     classPaths = getJobConfig("classPath")
 
@@ -427,47 +427,47 @@ def generateScript():
     # Dynamic dependencies
     dynLoadDeps = getJobConfig("require", {})
     dynRunDeps = getJobConfig("use", {})
-    
+
     # Variants data
     # TODO: Variants for source -> Not possible
     userVariants = getJobConfig("variants", {})
 
     # Part support (has priority)
     userParts = getJobConfig("parts", {})
-    
+
     # Build relevant post processing
     buildProcess = getJobConfig("buildProcess", [])
-        
+
     userInclude = getJobConfig("include", [])
     userExclude = getJobConfig("exclude", [])
-    
+
     collapseParts = getJobConfig("collapseParts", [])
     optimizeLatency = getJobConfig("optimizeLatency")
-    
-    
-    
+
+
+
     if len(userParts) > 0:
         execMode = "parts"
     else:
         execMode = "normal"
-    
-    
-    
+
+
+
     #
     # SCAN PHASE
     #
-    
+
     # Scan for classes and modules
     scanClassPaths(classPaths)
     scanModules()
-    
-    
-    
-    
+
+
+
+
     #
     # PREPROCESS PHASE: INCLUDE/EXCLUDE
     #
-    
+
     # Auto include all when nothing defined
     if execMode == "normal" and len(userInclude) == 0:
         print "  - Automatically including all available classes"
@@ -475,10 +475,10 @@ def generateScript():
 
 
 
-    print ">>> Preparing include/exclude configuration..."    
+    print ">>> Preparing include/exclude configuration..."
     smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
     smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
-    
+
 
     # Configuration feedback
     if not quiet:
@@ -487,22 +487,22 @@ def generateScript():
 
         if len(userExclude) > 0:
             print "    - Warning: Excludes may break code!"
-    
+
         if len(explicitInclude) > 0:
             print "    - Warning: Explicit included classes may not work"
 
 
 
-        
-        
-        
+
+
+
     # Resolve modules/regexps
     print "  - Resolving modules/regexps..."
     smartInclude = resolveComplexDefs(smartInclude)
     explicitInclude = resolveComplexDefs(explicitInclude)
     smartExclude = resolveComplexDefs(smartExclude)
     explicitExclude = resolveComplexDefs(explicitExclude)
-        
+
 
 
 
@@ -510,15 +510,15 @@ def generateScript():
     #
     # PREPROCESS PHASE: VIEWS
     #
-           
+
     if execMode == "parts":
         print
-        print ">>> Preparing part configuration..."    
-                
+        print ">>> Preparing part configuration..."
+
         # Build bitmask ids for parts
         if verbose:
-            print    
-            
+            print
+
         print "  - Assigning bits to parts..."
 
         # References partId -> bitId of that part
@@ -527,10 +527,10 @@ def generateScript():
         partPos = 0
         for partId in userParts:
             partBit = 1<<partPos
-            
+
             if verbose:
                 print "    - Part #%s => %s" % (partId, partBit)
-                
+
             partBits[partId] = partBit
             partPos += 1
 
@@ -540,13 +540,13 @@ def generateScript():
         for partId in userParts:
             partClasses[partId] = resolveComplexDefs(userParts[partId])
 
-        
+
 
 
     #
     # EXECUTION PHASE
     #
-    
+
     sets = _computeVariantCombinations(userVariants)
     for pos, variants in enumerate(sets):
         print
@@ -557,24 +557,24 @@ def generateScript():
             for entry in variants:
                 print "  - %s = %s" % (entry["id"], entry["value"])
             print "----------------------------------------------------------------------------"
-        
-        
+
+
         # Detect dependencies
         print ">>> Resolving application dependencies..."
         includeDict = resolveDependencies(smartInclude, smartExclude, dynLoadDeps, dynRunDeps, variants)
-        
-    
+
+
         # Explicit include/exclude
         if len(explicitInclude) > 0 or len(explicitExclude) > 0:
             print ">>> Processing explicitely configured includes/excludes..."
             for entry in explicitInclude:
                 includeDict[entry] = True
-    
+
             for entry in explicitExclude:
                 if includeDict.has_key(entry):
                     del includeDict[entry]
-    
-    
+
+
         # Detect optionals
         if verbose:
             optionals = getOptionals(includeDict)
@@ -582,29 +582,29 @@ def generateScript():
                 print ">>> These optional classes may be useful:"
                 for entry in optionals:
                     print "  - %s" % entry
-                    
-        
+
+
         if apiScript != None:
             storeApiScript(includeDict, apiScript, dynLoadDeps, dynRunDeps)
-                       
-        
+
+
         if buildScript != None:
             if execMode == "parts":
                 processParts(partClasses, partBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
             else:
                 sys.stdout.write(">>> Compiling classes:")
                 sys.stdout.flush()
-                packageFileName = buildScript + "_$variants_$process.js" 
-                packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)            
+                packageFileName = buildScript + "_$variants_$process.js"
+                packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)
                 print "    - Done: %s" % packageSize
 
-    
+
 
 
 
 
 def storeApiScript(includeDict, apiScript, dynLoadDeps, dynRunDeps):
-    
+
     for entry in includeDict:
         print "API of %s" % entry
         apidata = getApi(entry)
@@ -632,19 +632,19 @@ def readCache(id, segment, dep):
         cacheModTime = os.stat(cachePath + id + "-" + segment).st_mtime
     except OSError:
         cacheModTime = 0
-        
+
     # Out of date check
     if fileModTime > cacheModTime:
         return None
-        
+
     try:
         return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
 
     except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
         print ">>> Could not read cache from %s" % cachePath
         return None
-    
-    
+
+
 def writeCache(id, segment, content):
     try:
         cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
@@ -655,11 +655,11 @@ def writeCache(id, segment, content):
 
 
 
-        
-        
-        
-        
-   
+
+
+
+
+
 ######################################################################
 #  SESSION STABLE HASH CODE SUPPORT
 ######################################################################
@@ -670,27 +670,27 @@ def writeCache(id, segment, content):
 def toHashCode(id):
     global classes
     global hashes
-    
+
     try:
         hashes = cPickle.load(open(cachePath + "hashes", 'rb'))
     except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
         hashes = {}
-    
+
     if not hashes.has_key(id):
         hashes[id] = mapper.convert(len(hashes))
-        
+
         try:
             cPickle.dump(hashes, open(cachePath + "hashes", 'wb'), 2)
         except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
             print ">>> Could not store hash cache: %s" % cachePath
             sys.exit(1)
-    
+
     return hashes[id]
-    
-    
-    
-    
-    
+
+
+
+
+
 
 ######################################################################
 #  API DATA SUPPORT
@@ -698,55 +698,55 @@ def toHashCode(id):
 
 def getApi(id):
     global classes
-    
+
     entry = classes[id]
     path = entry["path"]
-    
+
     cache = readCache(id, "api", path)
     if cache != None:
         return cache
-      
+
     tree = getTree(id)
-    
+
     if verbose:
         print "  - Generating API data: %s..." % id
     apidata = api.createDoc(tree)
-        
+
     writeCache(id, "api", apidata)
-    
-    return apidata        
-        
-            
+
+    return apidata
 
 
-     
-        
+
+
+
+
 ######################################################################
 #  META DATA SUPPORT
 ######################################################################
 
 def getMeta(id):
     global classes
-    
+
     entry = classes[id]
     path = entry["path"]
-    
+
     cache = readCache(id, "meta", path)
     if cache != None:
         return cache
-        
+
     meta = {}
     category = entry["category"]
 
     if category == "qx.doc":
         pass
-        
+
     elif category == "qx.locale":
         meta["loadtimeDeps"] = ["qx.locale.Locale", "qx.locale.Manager"]
-        
+
     elif category == "qx.impl":
         content = filetool.read(path, entry["encoding"])
-        
+
         meta["loadtimeDeps"] = _extractQxLoadtimeDeps(content, id)
         meta["runtimeDeps"] = _extractQxRuntimeDeps(content, id)
         meta["optionalDeps"] = _extractQxOptionalDeps(content)
@@ -754,10 +754,10 @@ def getMeta(id):
 
         meta["modules"] = _extractQxModules(content)
         meta["resources"] = _extractQxResources(content)
-        meta["embeds"] = _extractQxEmbeds(content)    
-        
+        meta["embeds"] = _extractQxEmbeds(content)
+
     writeCache(id, "meta", meta)
-    
+
     return meta
 
 
@@ -848,19 +848,19 @@ def _extractQxEmbeds(data):
 def getTokens(id):
     global classes
     global verbose
-    
+
     cache = readCache(id, "tokens", classes[id]["path"])
     if cache != None:
         return cache
-    
+
     if verbose:
         print "  - Generating tokens: %s..." % id
     tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
-    
+
     writeCache(id, "tokens", tokens)
     return tokens
-        
-        
+
+
 
 def getLength(id):
     return len(getTokens(id))
@@ -870,56 +870,56 @@ def getLength(id):
 def getTree(id):
     global classes
     global verbose
-    
+
     cache = readCache(id, "tree", classes[id]["path"])
     if cache != None:
         return cache
-    
+
     tokens = getTokens(id)
-    
+
     if verbose:
         print "  - Generating tree: %s..." % id
     tree = treegenerator.createSyntaxTree(tokens)
-    
+
     writeCache(id, "tree", tree)
     return tree
-    
 
-    
+
+
 def getVariantsTree(id, variants):
     global classes
     global verbose
 
     variantsId = generateVariantCombinationId(variants)
-    
+
     cache = readCache(id, "tree-" + variantsId, classes[id]["path"])
     if cache != None:
         return cache
-            
+
     # Generate map
     variantsMap = {}
     for entry in variants:
         variantsMap[entry["id"]] = entry["value"]
-        
+
     # Copy tree to work with
     tree = copy.deepcopy(getTree(id))
 
     if verbose:
         print "  - Select variants: %s..." % id
-    
+
     # Call variant optimizer
     variantoptimizer.search(tree, variantsMap, id)
 
     # Store result into cache
     writeCache(id, "tree-" + variantsId, tree)
-    
+
     return tree
-        
 
 
-  
-        
-        
+
+
+
+
 
 
 
@@ -935,25 +935,25 @@ def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, varian
     # Pre storage calculations
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
-    
+
     packageFileName = packageFileName.replace("$variants", variantsId)
     packageFileName = packageFileName.replace("$process", processId)
-    
+
     # Saving compiled content
-    filetool.save(packageFileName, compiledContent)  
+    filetool.save(packageFileName, compiledContent)
     return getContentSize(compiledContent)
 
-    
+
 
 
 def getContentSize(content):
     # Convert to utf-8 first
     uni = unicode(content).encode("utf-8")
-    
+
     # Calculate sizes
     origSize = len(uni) / 1024
     compressedSize = len(zlib.compress(uni, 9)) / 1024
-      
+
     return "%sKB / %sKB" % (origSize, compressedSize)
 
 
@@ -968,24 +968,24 @@ def _splitIncludeExcludeList(input):
             explicit.append(entry[1:])
         else:
             intelli.append(entry)
-    
+
     return intelli, explicit
 
 
 
 def _findCombinations(a):
     result = [[]]
-    
+
     for x in a:
         t = []
         for y in x:
             for i in result:
                 t.append(i+[y])
-        result = t    
+        result = t
 
     return result
-    
-    
+
+
 
 def _computeVariantCombinations(variants):
     variantPossibilities = []
@@ -994,7 +994,7 @@ def _computeVariantCombinations(variants):
         for variantValue in variants[variantId]:
             innerList.append({"id" : variantId, "value" : variantValue})
         variantPossibilities.append(innerList)
-    
+
     return _findCombinations(variantPossibilities)
 
 
@@ -1005,24 +1005,24 @@ def generateVariantCombinationId(selected):
 
         if x["id"] < y["id"]:
             return -1
-        
+
         return 0
 
     sortedList = []
     sortedList.extend(selected)
     sortedList.sort(_compare)
-    
+
     sortedString = []
     for entry in sortedList:
         sortedString.append("(" + entry["id"].replace(".", "") + "_" + entry["value"] + ")")
-        
+
     return "_".join(sortedString)
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
 ######################################################################
 #  VIEW/PACKAGE SUPPORT
@@ -1033,18 +1033,18 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     global verbose
     global quiet
 
-    
+
     # Caching dependencies of each part
     if not quiet:
         print
-        
+
     print ">>> Resolving part dependencies..."
     partDeps = {}
     length = len(partClasses.keys())
     for pos, partId in enumerate(partClasses.keys()):
         if not quiet:
             print "  - Part #%s..." % partId
-        
+
         # Exclude all features of other parts
         # and handle dependencies the smart way =>
         # also exclude classes only needed by the
@@ -1056,9 +1056,9 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
         # Finally resolve the dependencies
         localDeps = resolveDependencies(partClasses[partId], partExcludes, loadDeps, runDeps, variants)
-        
-         
-        # Remove all dependencies which are not included in the full list       
+
+
+        # Remove all dependencies which are not included in the full list
         if len(includeDict) > 0:
           depKeys = localDeps.keys()
           for dep in depKeys:
@@ -1067,15 +1067,15 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
         if not quiet:
             print "    - Needs %s classes" % len(localDeps)
-        
+
         partDeps[partId] = localDeps
 
 
-    
+
     # Assign classes to packages
     if not quiet:
         print
-        
+
     print ">>> Assigning classes to packages..."
 
     # References packageId -> class list
@@ -1087,25 +1087,25 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     for classId in classes:
         packageId = 0
         bitCount = 0
-    
+
         # Iterate through the parts use needs this class
         for partId in partClasses:
             if classId in partDeps[partId]:
                 packageId += partBits[partId]
                 bitCount += 1
-    
+
         # Ignore unused classes
         if packageId == 0:
             continue
-    
+
         # Create missing data structure
         if not packageClasses.has_key(packageId):
             packageClasses[packageId] = []
             packageBitCounts[packageId] = bitCount
-        
+
         # Finally store the class to the package
         packageClasses[packageId].append(classId)
-    
+
 
 
 
@@ -1115,20 +1115,20 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
     for partId in partClasses:
         partBit = partBits[partId]
-    
+
         for packageId in packageClasses:
             if packageId&partBit:
                 if not partPackages.has_key(partId):
                     partPackages[partId] = []
-                
+
                 partPackages[partId].append(packageId)
-            
+
         # Be sure that the part package list is in order to the package priorit
         _sortPackageIdsByPriority(partPackages[partId], packageBitCounts)
 
 
 
-            
+
     # User feedback
     _printPartStats(packageClasses, partPackages)
 
@@ -1143,31 +1143,31 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     if len(collapseParts) > 0:
         if not quiet:
             print
-        
+
         collapsePos = 0
         print ">>> Collapsing parts..."
         for partId in collapseParts:
             if not quiet:
                 print "  - Collapsing part #%s(%s)..." % (partId, collapsePos)
-                
+
             collapsePackage = partPackages[partId][collapsePos]
             for packageId in partPackages[partId][collapsePos+1:]:
                 if not quiet:
                     print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
-                    
+
                 _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
-            
+
             collapsePos += 1
-    
+
         # User feedback
         _printPartStats(packageClasses, partPackages)
-  
-  
+
+
     # Support for merging small packages
     # Hint1: Based on the token length which is a bit strange but a good
     # possibility to get the not really correct filesize in an ultrafast way
     # More complex code and classes generally also have more tokens in them
-    # Hint2: The first common package before the selected package between two 
+    # Hint2: The first common package before the selected package between two
     # or more parts is allowed to merge with. As the package which should be merged
     # may have requirements these must be solved. The easiest way to be sure regarding
     # this issue, is to look out for another common package. The package for which we
@@ -1175,23 +1175,23 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     # so there must be another common package. Hardly to describe... hope this makes some sense
     if optimizeLatency != None and optimizeLatency != 0:
         smallPackages = []
-    
+
         # Start at the end with the priority sorted list
         sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
         sortedPackageIds.reverse()
-    
+
         if not quiet:
             print
         print ">>> Analysing package sizes..."
         if not quiet:
             print "  - Optimize at %s tokens" % optimizeLatency
-            
+
         for packageId in sortedPackageIds:
             packageLength = 0
-    
+
             for classId in packageClasses[packageId]:
                 packageLength += getLength(classId)
-        
+
             if packageLength >= optimizeLatency:
                 if not quiet:
                     print "    - Package #%s has %s tokens" % (packageId, packageLength)
@@ -1199,13 +1199,13 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
             else:
                 if not quiet:
                     print "    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
-        
+
             collapsePackage = _getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
             if collapsePackage != None:
                 if not quiet:
                     print "      - Merge package #%s into #%s" % (packageId, collapsePackage)
-                _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)                
-        
+                _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
+
         # User feedback
         _printPartStats(packageClasses, partPackages)
 
@@ -1216,16 +1216,16 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
-    
+
     if not quiet:
         print
-        
-      
-    print ">>> Creating packages..."  
+
+
+    print ">>> Creating packages..."
     for packageId in sortedPackageIds:
         sys.stdout.write("  - Compiling package #%s:" % packageId)
         sys.stdout.flush()
-        
+
         packageFileName = buildScript + "_$variants_$process_%s.js" % packageId
         packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess)
         print "    - Done: %s" % packageSize
@@ -1233,32 +1233,32 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
         # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFileName)
-        
+
 
     print ">>> Storing package loader script..."
     packageLoader = "%s_%s_%s.js" % (buildScript, variantsId, processId)
     filetool.save(packageLoader, packageLoaderContent)
- 
- 
- 
+
+
+
 def _sortPackageIdsByPriority(packageIds, packageBitCounts):
     def _cmpPackageIds(pkgId1, pkgId2):
         if packageBitCounts[pkgId2] > packageBitCounts[pkgId1]:
             return 1
         elif packageBitCounts[pkgId2] < packageBitCounts[pkgId1]:
             return -1
-        
+
         return pkgId2 - pkgId1
-        
+
     packageIds.sort(_cmpPackageIds)
-    
+
     return packageIds
-    
-  
+
+
 def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
     relevantParts = []
     relevantPackages = []
-    
+
     for partId in partPackages:
         packages = partPackages[partId]
         if searchId in packages:
@@ -1273,18 +1273,18 @@ def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
     for packageId in relevantPackages:
         if relevantPackages.count(packageId) == len(relevantParts):
             return packageId
-            
+
     return None
 
-        
+
 def _printPartStats(packageClasses, partPackages):
     global verbose
-    
+
     if not verbose:
         return
-        
+
     packageIds = _dictToHumanSortedList(packageClasses)
-    
+
     print
     print ">>> Content of packages(%s):" % len(packageIds)
     for packageId in packageIds:
@@ -1294,7 +1294,7 @@ def _printPartStats(packageClasses, partPackages):
     print ">>> Content of parts(%s):" % len(partPackages)
     for partId in partPackages:
         print "  - Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId]))
-        
+
 
 def _dictToHumanSortedList(input):
     output = []
@@ -1304,17 +1304,17 @@ def _dictToHumanSortedList(input):
     output.reverse()
 
     return output
-    
+
 
 def _mergePackage(replacePackage, collapsePackage, partClasses, partPackages, packageClasses):
     # Replace other package content
     for partId in partClasses:
         partContent = partPackages[partId]
-    
+
         if replacePackage in partContent:
             # Store collapse package at the place of the old value
             partContent[partContent.index(replacePackage)] = collapsePackage
-        
+
             # Remove duplicate (may be, but only one)
             if partContent.count(collapsePackage) > 1:
                 partContent.reverse()
@@ -1323,14 +1323,14 @@ def _mergePackage(replacePackage, collapsePackage, partClasses, partPackages, pa
 
     # Merging collapsed packages
     packageClasses[collapsePackage].extend(packageClasses[replacePackage])
-    del packageClasses[replacePackage]    
+    del packageClasses[replacePackage]
 
 
 def _intListToString(input):
     result = ""
     for entry in input:
         result += "#%s, " % entry
-        
+
     return result[:-2]
 
 
@@ -1345,21 +1345,21 @@ def _intListToString(input):
 def resolveComplexDefs(entries):
     global modules
     global classes
-    
+
     content = []
-    
+
     for entry in entries:
         if entry in modules:
             content.extend(modules[entry])
-        else:        
+        else:
             regexp = textutil.toRegExp(entry)
 
             for className in classes:
                 if regexp.search(className):
                     if not className in content:
                         # print "Resolved: %s with %s" % (entry, className)
-                        content.append(className)    
-                        
+                        content.append(className)
+
     return content
 
 
@@ -1373,14 +1373,14 @@ def resolveComplexDefs(entries):
 
 def getOptionals(classes):
     opt = {}
-    
+
     for id in classes:
         for sub in getMeta(id)["optionalDeps"]:
             if not sub in classes:
                 opt[sub] = True
 
     return opt
-        
+
 
 
 
@@ -1392,21 +1392,21 @@ def getOptionals(classes):
 
 def printProgress(pos, length):
     global quiet
-    
+
     if quiet:
         return
-    
+
     # starts normally at null, but this is not useful here
     # also the length is normally +1 the real size
     pos += 1
-    
+
     thisstep = 10 * pos / length
     prevstep = 10 * (pos-1) / length
-    
+
     if thisstep != prevstep:
         sys.stdout.write(" %s%%" % (thisstep * 10))
         sys.stdout.flush()
-        
+
     if pos == length:
         sys.stdout.write("\n")
         sys.stdout.flush()
@@ -1415,60 +1415,60 @@ def printProgress(pos, length):
 def compileClasses(todo, variants, process):
     content = ""
     length = len(todo)
-    
+
     for pos, id in enumerate(todo):
         printProgress(pos, length)
         content += getCompiled(id, variants, process)
-    
+
     return content
-    
+
 
 def _compileClassHelper(restree):
     # Emulate options
     parser = optparse.OptionParser()
-    parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False) 
-    parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")     
-    parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")     
-    parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")     
-    
+    parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
+    parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
+    parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
+    parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
+
     (options, args) = parser.parse_args([])
-    
-    return compiler.compile(restree, options)    
-    
-    
+
+    return compiler.compile(restree, options)
+
+
 def getCompiled(id, variants, process):
     global classes
     global verbose
-    
+
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(process)
-    
+
     cache = readCache(id, "compiled-" + variantsId + "-" + processId, classes[id]["path"])
     if cache != None:
         return cache
-    
+
     tokens = getTokens(id)
-    
+
     tree = copy.deepcopy(getVariantsTree(id, variants))
 
     if verbose:
         print "  - Postprocessing tree: %s..." % id
-        
-    tree = _postProcessHelper(tree, id, process, variants)    
-        
+
+    tree = _postProcessHelper(tree, id, process, variants)
+
     if verbose:
         print "  - Compiling tree: %s..." % id
-    
+
     compiled = _compileClassHelper(tree)
-    
+
     writeCache(id, "compiled-" + variantsId + "-" + processId, compiled)
     return compiled
-    
+
 
 def _postProcessHelper(tree, id, process, variants):
     global verbose
     global quiet
-    
+
     if "optimize-basecalls" in process:
         if verbose:
             print "    - Optimize base calls..."
@@ -1478,7 +1478,7 @@ def _postProcessHelper(tree, id, process, variants):
         if verbose:
             print "    - Optimize local variables..."
         variableOptimizeHelper(tree, id, variants)
-    
+
     if "optimize-privates" in process:
         if verbose:
             print "    - Optimize privates..."
@@ -1488,44 +1488,44 @@ def _postProcessHelper(tree, id, process, variants):
         if verbose:
             print "    - Optimize strings..."
         stringOptimizeHelper(tree, id, variants)
-        
+
     return tree
-     
-     
+
+
 def generateProcessCombinationId(process):
     process = copy.copy(process)
     process.sort()
-    
+
     return "[%s]" % ("-".join(process))
-       
-     
+
+
 def baseCallOptimizeHelper(tree, id, variants):
     basecalloptimizer.patch(tree)
-    
-    
+
+
 def variableOptimizeHelper(tree, id, variants):
     variableoptimizer.search(tree, [], 0, 0, "$")
-     
+
 
 def privateOptimizeHelper(tree, id, variants):
     unique = toHashCode(id)
     privateoptimizer.patch(unique, tree, {})
-    
-    
+
+
 def stringOptimizeHelper(tree, id, variants):
     global verbose
     global quiet
-    
+
     # Do not optimize strings for non-mshtml clients
     clientValue = getVariantValue(variants, "qx.client")
     if clientValue != None and clientValue != "mshtml":
         return
-    
+
     # TODO: Customize option for __SS__
-    
-    stringMap = stringoptimizer.search(tree)    
+
+    stringMap = stringoptimizer.search(tree)
     stringList = stringoptimizer.sort(stringMap)
-    
+
     stringoptimizer.replace(tree, stringList, "__SS__")
 
     # Build JS string fragments
@@ -1535,110 +1535,110 @@ def stringOptimizeHelper(tree, id, variants):
 
     # Compile wrapper node
     wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop)
-        
+
     # Reorganize structure
     funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
     if tree.hasChildren():
         for child in copy.copy(tree.children):
             tree.removeChild(child)
             funcBody.addChild(child)
-            
+
     # Add wrapper to tree
     tree.addChild(wrapperNode)
-            
-    
+
+
 def getVariantValue(variants, key):
     for entry in variants:
         if entry["id"] == key:
             return entry["value"]
-    
+
     return None
-     
-     
-     
+
+
+
 ######################################################################
 #  CLASS DEPENDENCY SUPPORT
 ######################################################################
 
 def resolveDependencies(add, block, loadDeps, runDeps, variants):
     result = {}
-    
+
     for entry in add:
         _resolveDependenciesRecurser(entry, result, block, loadDeps, runDeps, variants)
-        
+
     return result
 
 
 def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps, variants):
     global classes
-    
+
     # check if already in
     if result.has_key(add):
         return
-    
+
     # add self
-    
+
     result[add] = True
 
     # reading dependencies
     deps = getCombinedDeps(add, loadDeps, runDeps, variants)
-    
+
     # process lists
     for sub in deps["load"]:
         if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)            
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)
 
     for sub in deps["run"]:
         if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)     
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)
 
 
 def getCombinedDeps(id, loadDeps, runDeps, variants):
     # init lists
     loadFinal = []
     runFinal = []
-    
+
     # add static dependencies
     static = getDeps(id, variants)
     loadFinal.extend(static["load"])
     runFinal.extend(static["run"])
-    
+
     # add dynamic dependencies
     if loadDeps.has_key(id):
         loadFinal.extend(loadDeps[id])
 
     if runDeps.has_key(id):
         runFinal.extend(runDeps[id])
-    
+
     # return dict
     return {
         "load" : loadFinal,
         "run" : runFinal
     }
-    
+
 
 def getDeps(id, variants):
     global classes
     global verbose
-    
+
     variantsId = generateVariantCombinationId(variants)
-    
+
     cache = readCache(id, "deps" + variantsId, classes[id]["path"])
     if cache != None:
         return cache
-    
+
     # Notes:
     # load time = before class = require
-    # runtime = after class = use    
+    # runtime = after class = use
 
     if verbose:
         print "  - Gathering dependencies: %s" % id
-        
+
     load = []
     run = []
-    
+
     # Read meta data
-    
+
     meta = getMeta(id)
     metaLoad = _readDictKey(meta, "loadtimeDeps", [])
     metaRun = _readDictKey(meta, "runtimeDeps", [])
@@ -1647,7 +1647,7 @@ def getDeps(id, variants):
 
     # Process meta data
     load.extend(metaLoad)
-    run.extend(metaRun)    
+    run.extend(metaRun)
 
     # Read content data
     (autoLoad, autoRun) = _analyzeClassDeps(id, variants)
@@ -1674,40 +1674,40 @@ def getDeps(id, variants):
                     print "  - #use(%s) is auto-detected" % entry
             else:
                 run.append(entry)
-                    
+
     # Build data structure
     deps = {
         "load" : load,
         "run" : run
     }
-    
+
     writeCache(id, "deps" + variantsId, deps)
-    
+
     return deps
-    
-    
+
+
 def _readDictKey(data, key, default=None):
     if data.has_key(key):
         return data[key]
-    
+
     return default
-    
-    
+
+
 def _analyzeClassDeps(id, variants):
     global classes
-    
+
     tree = getVariantsTree(id, variants)
     loadtime = []
     runtime = []
-    
+
     _analyzeClassDepsNode(id, tree, loadtime, runtime, False)
-    
+
     return loadtime, runtime
-    
+
 
 def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
     global classes
-        
+
     if node.type == "variable":
         if node.hasChildren:
             assembled = ""
@@ -1735,13 +1735,13 @@ def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
                 else:
                     assembled = ""
                     break
-                    
+
                 # treat dependencies in defer as requires
                 if assembled == "qx.Class.define":
                     if node.parent.type == "operand" and node.parent.parent.type == "call":
                         deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                         if deferNode != None:
-                            _analyzeClassDepsNode(id, deferNode, loadtime, runtime, False)                    
+                            _analyzeClassDepsNode(id, deferNode, loadtime, runtime, False)
 
     elif node.type == "body" and node.parent.type == "function":
         inFunction = True
@@ -1754,39 +1754,39 @@ def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
 
 
 
-            
-            
-            
+
+
+
 ######################################################################
 #  CLASS SORT SUPPORT
 ######################################################################
-            
+
 def sortClasses(input, loadDeps, runDeps, variants):
     sorted = []
-    
+
     for entry in input:
         _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps, variants)
-     
+
     return sorted
-    
-    
+
+
 def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
     global classes
-    
+
     if id in sorted:
         return
-            
+
     # reading dependencies
     deps = getCombinedDeps(id, loadDeps, runDeps, variants)
-    
+
     # process loadtime requirements
     for entry in deps["load"]:
         if entry in available and not entry in sorted:
             _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps, variants)
-            
+
     if id in sorted:
         return
-        
+
     # print "  - Adding: %s" % id
     sorted.append(id)
 
@@ -1795,8 +1795,8 @@ def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
         if entry in available and not entry in sorted:
             _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps, variants)
 
-    
-    
+
+
 
 
 ######################################################################
@@ -1807,7 +1807,7 @@ def scanModules():
     global classes
     global modules
     global quiet
-    
+
     modules = {}
 
     print ">>> Searching for module definitions..."
@@ -1816,41 +1816,41 @@ def scanModules():
             for mod in getMeta(id)["modules"]:
                 if not modules.has_key(mod):
                     modules[mod] = []
-                
+
                 modules[mod].append(id)
-    
+
     if not quiet:
         print "  - Found %s modules" % len(modules)
         print
-                
+
 
 def scanClassPaths(paths):
     global classes
     global quiet
-    
+
     classes = {}
-    
+
     print ">>> Scanning class paths..."
     for path in paths:
         _addClassPath(path)
 
     if not quiet:
         print
-        
+
     return classes
-    
+
 
 def _addClassPath(classPath, encoding="utf-8"):
     global classes
     global quiet
-        
+
     if not quiet:
         print "  - Scanning: %s" % classPath
-    
+
     implCounter = 0
     docCounter = 0
     localeCounter = 0
-    
+
     for root, dirs, files in os.walk(classPath):
 
         # Filter ignored directories
@@ -1865,35 +1865,36 @@ def _addClassPath(classPath, encoding="utf-8"):
                 filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
                 fileContent = filetool.read(filePath, encoding)
                 fileCategory = "unknown"
-                
+
                 if fileName == "__init__.js":
                     fileContentId = filePathId
                     fileCategory = "qx.doc"
                     docCounter += 1
-                    
+
                 else:
                     fileContentId = _extractQxClassContentId(fileContent)
-                    
+
                     if fileContentId == None:
                         fileContentId = _extractQxLocaleContentId(fileContent)
-                        
+
                         if fileContentId != None:
                             fileCategory = "qx.locale"
                             localeCounter += 1
-                    
+
                     else:
                         fileCategory = "qx.impl"
                         implCounter += 1
-                    
+
                     if filePathId != fileContentId:
                         print "    - Mismatching IDs in file: %s" % filePath
-                
+                        print "      Detail: %s != %s" % (filePathId, fileContentId)
+
                 if fileCategory == "unknown":
                     print "    - Invalid file: %s" % filePath
                     sys.exit(1)
-                
+
                 fileId = filePathId
-                    
+
                 classes[fileId] = {
                     "path" : filePath,
                     "encoding" : encoding,
@@ -1903,13 +1904,13 @@ def _addClassPath(classPath, encoding="utf-8"):
                     "contentId" : fileContentId,
                     "pathId" : filePathId
                 }
-                
+
     if not quiet:
         print "    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
 
 
 def _extractQxClassContentId(data):
-    classDefine = re.compile('qx.(Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+    classDefine = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
 
     for item in classDefine.findall(data):
         return item[1]
@@ -1918,8 +1919,8 @@ def _extractQxClassContentId(data):
 
 
 def _extractQxLocaleContentId(data):
-    localeDefine = re.compile('qx.locale\.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-    
+    localeDefine = re.compile('qx.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+
     for item in localeDefine.findall(data):
         return item
 
@@ -1927,10 +1928,10 @@ def _extractQxLocaleContentId(data):
 
 
 
-    
-    
-    
-    
+
+
+
+
 ######################################################################
 #  MAIN LOOP
 ######################################################################
