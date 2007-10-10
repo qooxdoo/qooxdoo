@@ -224,8 +224,8 @@ def updateFunction(node, renameVariables, scopes, constructor, renameIdentifierJ
 def renameUses(constructorNode, renameVariables, scopes):
     renameIdentifierJobs = updateFunction(constructorNode, renameVariables, scopes, constructorNode)
 
-    #for (parent, thisNode) in renameIdentifierJobs:
-        #parent.addChild(thisNode, 0)
+    for (parent, thisNode) in renameIdentifierJobs:
+        parent.addChild(thisNode, 0)
 
 
 def moveVariables(node, target):
@@ -439,8 +439,6 @@ def getFixSuperCallJobs(node, jobs=None):
 
 def fixSuperCalls(node):
     jobs = getFixSuperCallJobs(node)
-    # print jobs
-
     for (node, replNode) in jobs:
         node.parent.replaceChild(node, replNode)
 
