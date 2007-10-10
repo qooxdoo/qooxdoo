@@ -23,22 +23,27 @@ def declaredVariablesIterator(node):
             if child.type == "definitionList":
                 for definition in child.children:
                     if definition.type == "definition":
-                        yield definition.get("identifier")
+                        yield (definition.get("identifier"), definition)
 
-            for var in declaredVariablesIterator(child):
-                yield var
-
-
-def getDeclaredVariables(node):
-    variables = []
-    for var in declaredVariablesIterator(node):
-        variables.append(var)
-    return variables
+            for (var, node) in declaredVariablesIterator(child):
+                yield (var, node)
 
 
-def renameDefinitions(node, variables):
+def getDeclaredVariables(root):
+    names = []
+    for (name, node) in declaredVariablesIterator(root):
+        names.append(name)
+    return names
+
+
+def getDefinitionRenameJobs(node, variables, jobs=None):
+
+    if jobs == None:
+        jobs = []
+
     if node.type == "function":
-        return
+        return jobs
+
 
     if node.type == "definitionList":
         defNodes = []
@@ -47,7 +52,7 @@ def renameDefinitions(node, variables):
 
                 assignment = definition.getChild("assignment", False)
                 if assignment is not None:
-                    renameDefinitions(assignment, variables)
+                    getDefinitionRenameJobs(assignment, variables, jobs)
 
                 varName = definition.get("identifier")
                 if varName in variables:
@@ -57,7 +62,27 @@ def renameDefinitions(node, variables):
                         if assignment is not None and assignment.hasChildren():
                             defNode.getChild("right").replaceChild(defNode.getChild("right").getFirstChild(), assignment.getFirstChild());
                         defNodes.append(defNode)
+                        #print "rename %s -> %s" % (varName, defStr)
 
+        jobs.append({
+            "definition": node,
+            "newNodes" : defNodes
+        })
+        return jobs
+
+    if node.hasChildren():
+        for child in node.children:
+            getDefinitionRenameJobs(child, variables, jobs)
+
+    return jobs
+
+
+def renameDefinitions(node, variables, jobs=None):
+    jobs = getDefinitionRenameJobs(node, variables)
+
+    for job in jobs:
+        node = job["definition"]
+        defNodes = job["newNodes"]
         parent = node.parent
         defIndex = parent.getChildPosition(node)
         for defNode in defNodes:
@@ -66,37 +91,15 @@ def renameDefinitions(node, variables):
 
         if len(defNodes) > 0 and node.hasChild("commentsBefore"):
             defNodes[0].addChild(node.getChild("commentsBefore"), 0)
+            pass
 
         parent.removeChild(node)
+
+
+def usedVariablesIterator(node):
+
+    if node.type == "function":
         return
-
-    if node.hasChildren():
-        for child in node.children:
-            renameDefinitions(child, variables)
-
-
-def renameIdentifier(node, renameVariables, scopes, constructor):
-    idenName = node.get("name", False)
-
-    if idenName != None and idenName in renameVariables:
-
-        parentFcn = getParentFunction(node)
-        decl = getVariableDeclaration(parentFcn, scopes, idenName)
-
-        if decl != None and (decl == constructor):
-            if idenName == "self":
-                node.set("name", "this")
-            else:
-                replName = translatePrivateName(idenName)
-
-                parent = node.parent
-                thisNode = tree.Node("identifier")
-                thisNode.set("name", "this")
-                parent.addChild(thisNode, 0)
-                node.set("name", replName)
-
-
-def updateFunction(node, renameVariables, scopes, constructor):
 
     # Handle all identifiers
     if node.type == "identifier":
@@ -126,18 +129,102 @@ def updateFunction(node, renameVariables, scopes, constructor):
 
         # inside a variable parent only respect the first member
         if not isVariableMember or isFirstChild:
-            renameIdentifier(node, renameVariables, scopes, constructor)
+            yield (node.get("name", False), node)
 
 
     # Iterate over children
     if node.hasChildren():
         for child in node.children:
-            updateFunction(child, renameVariables, scopes, constructor)
+            for (name, use) in usedVariablesIterator(child):
+                yield (name, use)
+
+
+def getUsedVariables(root):
+    names = []
+    for (name, node) in usedVariablesIterator(root):
+        names.append(name)
+    return names
+
+
+def renameIdentifier(node, renameVariables, scopes, constructor):
+
+    idenName = node.get("name", False)
+    job = None
+
+    if idenName != None and idenName in renameVariables:
+
+        parentFcn = getParentFunction(node)
+        decl = getVariableDeclaration(parentFcn, scopes, idenName)
+
+        if decl != None and (decl == constructor):
+            if idenName in ["self", "this"]:
+                node.set("name", "this")
+                secondIdentifier = node.getFollowingSibling(False)
+                if secondIdentifier:
+                    idenName = secondIdentifier.get("name")
+                    if idenName in renameVariables:
+                        secondIdentifier.set("name", translatePrivateName(idenName))
+            else:
+                replName = translatePrivateName(idenName)
+                thisNode = tree.Node("identifier")
+                thisNode.set("name", "this")
+                job = (node.parent, thisNode)
+                node.set("name", replName)
+
+    return job
+
+
+def updateFunction(node, renameVariables, scopes, constructor, renameIdentifierJobs=None):
+
+    if renameIdentifierJobs is None:
+        renameIdentifierJobs = []
+
+    # Handle all identifiers
+    if node.type == "identifier":
+        isFirstChild = False
+        isVariableMember = False
+
+        if node.parent.type == "variable":
+            isVariableMember = True
+            varParent = node.parent.parent
+
+            # catch corner case: a().b(); var b;
+            if (
+                varParent.type == "operand" and
+                varParent.parent.type == "call" and
+                varParent.parent.parent.type == "right" and
+                varParent.parent.parent.parent.type == "accessor"
+            ):
+                varParent = varParent.parent.parent
+
+            if not (varParent.type == "right" and varParent.parent.type == "accessor"):
+                isFirstChild = node.parent.getFirstChild(True, True) == node
+
+        elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
+            isVariableMember = True
+            accessor = node.parent.parent
+            isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
+
+        # inside a variable parent only respect the first member
+        if not isVariableMember or isFirstChild:
+            renameJob = renameIdentifier(node, renameVariables, scopes, constructor)
+            if renameJob is not None:
+                renameIdentifierJobs.append(renameJob)
+
+
+    # Iterate over children
+    if node.hasChildren():
+        for child in node.children:
+            updateFunction(child, renameVariables, scopes, constructor, renameIdentifierJobs)
+
+    return renameIdentifierJobs
 
 
 def renameUses(constructorNode, renameVariables, scopes):
-    updateFunction(constructorNode, renameVariables, scopes, constructorNode)
+    renameIdentifierJobs = updateFunction(constructorNode, renameVariables, scopes, constructorNode)
 
+    #for (parent, thisNode) in renameIdentifierJobs:
+        #parent.addChild(thisNode, 0)
 
 
 def moveFunctions(node, target, removeList):
@@ -210,7 +297,8 @@ def buildScope(root):
         scopes[fcn] = {
             "variables" : getDeclaredVariables(fcn.getChild("body")),
             "parentFcn" : parentFcn,
-            "arguments" : getArguments(fcn)
+            "arguments" : getArguments(fcn),
+            "usedVars" : getUsedVariables(fcn.getChild("body"))
         }
     return scopes
 
@@ -240,7 +328,11 @@ def translatePrivateName(name):
     return name
 
 
-def fixSuperCalls(node):
+def getFixSuperCallJobs(node, jobs=None):
+
+    if jobs is None:
+        jobs = []
+
     if node.type == "assignment" and node.hasChild("left") and node.hasChild("right"):
         # contains identifiers: this + superName
         left = node.getChild("left").getFirstChild(False, True)
@@ -271,12 +363,22 @@ def fixSuperCalls(node):
 
         if rightMatch:
             replNode = treeutil.compileString("this." + leftOrig + " = this.self(arguments).superclass.prototype." + leftName)
-            node.parent.replaceChild(node, replNode)
+            jobs.append( (node, replNode) )
 
 
     elif node.hasChildren():
         for child in node.children:
-            fixSuperCalls(child)
+            getFixSuperCallJobs(child, jobs)
+
+    return jobs
+
+
+def fixSuperCalls(node):
+    jobs = getFixSuperCallJobs(node)
+    print jobs
+
+    for (node, replNode) in jobs:
+        node.parent.replaceChild(node, replNode)
 
 
 def beautify(fileName):
@@ -288,15 +390,22 @@ def beautify(fileName):
 
     constructor = classMap["construct"].getChild("function")
     constructorBody = constructor.getChild("body")
-    scope =  buildScope(constructor)
+    scopes =  buildScope(restree)
 
-    constructorDefs = scope[constructor]["variables"]
+    constructorDefs = scopes[constructor]["variables"]
     #print constructorDefs
     #print scope
 
+    #print
+    #for scope in scopes:
+        #print scopes[scope]["usedVars"]
+        #print scopes[scope]["variables"]
+
+    #return
+
     # only in constructor
     renameDefinitions(constructorBody, constructorDefs)
-    renameUses(constructor, constructorDefs, scope)
+    renameUses(constructor, constructorDefs, scopes)
     #return
 
     #print "-------------------------------------"
@@ -338,6 +447,7 @@ def main(argv=None):
         return
 
     beautify(argv[1])
+
 
 if __name__ == "__main__":
     sys.exit(main())
