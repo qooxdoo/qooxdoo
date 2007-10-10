@@ -624,7 +624,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * the user is clicking outside the combo box.
      *
      * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} MouseDown event
+     * @param e {qx.event.type.MouseEvent} MouseDown event
      * @return {void}
      */
     _onclick : function(e)

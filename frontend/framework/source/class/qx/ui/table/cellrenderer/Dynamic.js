@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
-     * @return {void}
+     * @return {String}
      */
     _getContentHtml : function(cellInfo)
     {

@@ -96,6 +96,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
 
     /**
      * Compatibility with {@link qx.ui.table.selection.Model}.
+     * @return {Object}
      */
     getSelectionMode: function()
     {

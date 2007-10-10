@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
     /**
      * Applies the cell styles to the style map.
      * @param condition {Array} The matched condition
-     * @param style {style} map of already applied styles.
+     * @param style {Map} map of already applied styles.
      */
     __applyFormatting : function(condition, style)
     {
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
-     * @return {void}
+     * @return {Map}
      */
     _getCellStyle : function(cellInfo)
     {
