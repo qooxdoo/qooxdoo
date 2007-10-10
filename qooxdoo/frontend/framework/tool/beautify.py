@@ -271,7 +271,6 @@ def addMoveVariables(node, removeList, addList):
                             value.set("value", "null")
 
                         pairChild = treeutil.createPair(name, value, node)
-
                         addList.append(pairChild)
                         return
 
