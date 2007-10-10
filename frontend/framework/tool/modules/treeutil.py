@@ -54,10 +54,10 @@ import tokenizer
 import treegenerator
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -399,3 +399,62 @@ def getFileFromSyntaxItem(syntaxItem):
         else:
             syntaxItem = None
     return file
+
+
+def createPair(key, value, commentParent=None):
+    par = tree.Node("keyvalue")
+    sub = tree.Node("value")
+
+    par.set("key", key)
+    par.addChild(sub)
+    sub.addChild(value)
+
+    if commentParent and commentParent.hasChild("commentsBefore"):
+        par.addChild(commentParent.getChild("commentsBefore"))
+
+    return par
+
+
+def createConstant(type, value):
+    constant = tree.Node("constant")
+    constant.set("constantType", type)
+    constant.set("value", value)
+
+    if type == "string":
+        constant.set("detail", "doublequotes")
+
+    return constant
+
+
+def createVariable(l):
+    var = tree.Node("variable")
+
+    for name in l:
+        iden = tree.Node("identifier")
+        iden.set("name", name)
+        var.addChild(iden)
+
+    return var
+
+
+def createBlockComment(txt):
+    l = "*****************************************************************************"
+
+    s = ""
+    s += "/*\n"
+    s += "%s\n" % l
+    s += "   %s\n" % txt.upper()
+    s += "%s\n" % l
+    s += "*/"
+
+    bef = tree.Node("commentsBefore")
+    com = tree.Node("comment")
+
+    bef.addChild(com)
+
+    com.set("multiline", True)
+    com.set("connection", "before")
+    com.set("text", s)
+    com.set("detail", comment.getFormat(s))
+
+    return bef

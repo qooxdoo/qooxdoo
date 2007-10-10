@@ -529,6 +529,12 @@ class Node:
         options.prettyPrint =  True
         options.prettypIndentString = "  "
         options.prettypCommentsInlinePadding = "  "
+        options.prettypCommentsTrailingCommentCols = ""
+        options.prettypOpenCurlyNewlineBefore = "m"
+        options.prettypOpenCurlyIndentBefore = False
+        options.prettypAlignBlockWithCurlies = False
+        options.prettypCommentsTrailingKeepColumn = False
+
         return compiler.compile(self, options)
 
     def nodeIter(self):
@@ -536,7 +542,7 @@ class Node:
         yield self
 
         if self.hasChildren():
-            for child in self.children: 
+            for child in self.children:
                 for node in child.nodeIter():
                     yield node
 
@@ -668,7 +674,7 @@ def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
         if n_type not in types:
             types.append(n_type)
         tyx = types.index(n_type)
-        
+
         if node.type in ['class','interface','package','mixin']:
             # add to fullNames - assuming uniqueness
             fullNames.append(longestName)
