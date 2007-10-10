@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table.ITableModel, null}
+   * @param tableModel {qx.ui.table.ITableModel ? null}
    *   The table model to read the data from.
    *
    * @param custom {Map ? null}

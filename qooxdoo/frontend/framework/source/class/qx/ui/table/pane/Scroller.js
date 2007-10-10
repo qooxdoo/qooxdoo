@@ -431,7 +431,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Set the current position of the vertical scroll bar.
      *
-     * @return scrollX {Integer} The new scroll position.
+     * @param scrollX {Integer} The new scroll position.
      */
     setScrollX : function(scrollX)
     {
