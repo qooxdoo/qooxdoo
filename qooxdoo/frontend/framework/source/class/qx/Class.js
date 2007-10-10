@@ -1275,7 +1275,6 @@ qx.Bootstrap.define("qx.Class",
      */
     __addMembers : function(clazz, members, patch, base)
     {
-      var superproto = clazz.superclass.prototype;
       var proto = clazz.prototype;
       var key, member;
 
@@ -1286,6 +1285,10 @@ qx.Bootstrap.define("qx.Class",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
+          if (proto[key] !== undefined && key.charAt(0) == "_" && key.charAt(1) == "_") {
+            throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+          }
+
           if (patch !== true && proto[key] !== undefined) {
             throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
@@ -1296,8 +1299,9 @@ qx.Bootstrap.define("qx.Class",
         if (base !== false && member instanceof Function)
         {
           // Configure extend (named base here)
-          if (superproto[key]) {
-            member.base = superproto[key];
+          // Hint: proto[key] is not yet overwritten here
+          if (proto[key]) {
+            member.base = proto[key];
           }
 
           member.self = clazz;
