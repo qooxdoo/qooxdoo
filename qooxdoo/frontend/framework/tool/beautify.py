@@ -9,6 +9,7 @@ import getopt
 from modules import treegenerator
 from modules import tokenizer
 from modules import treeutil
+from modules import filetool
 from modules import tree
 from modules import api
 
@@ -375,7 +376,7 @@ def getFixSuperCallJobs(node, jobs=None):
 
 def fixSuperCalls(node):
     jobs = getFixSuperCallJobs(node)
-    print jobs
+    # print jobs
 
     for (node, replNode) in jobs:
         node.parent.replaceChild(node, replNode)
