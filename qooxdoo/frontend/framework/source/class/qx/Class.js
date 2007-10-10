@@ -1305,6 +1305,7 @@ qx.Class.define("qx.Class",
         if (base !== false && member instanceof Function)
         {
           // Configure extend (named base here)
+          // Hint: proto[key] is not yet overwritten here
           if (proto[key]) {
             member.base = proto[key];
           }
