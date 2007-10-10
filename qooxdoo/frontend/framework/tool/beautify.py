@@ -228,14 +228,22 @@ def renameUses(constructorNode, renameVariables, scopes):
         #parent.addChild(thisNode, 0)
 
 
-def moveFunctions(node, target):
+def moveVariables(node, target):
     removeList = []
-    addMoveFunctions(node, target, removeList)
+    addList = []
+
+    addMoveVariables(node, removeList, addList)
+
     for entry in removeList:
         entry.parent.removeChild(entry)
 
+    pos = 0
+    for entry in addList:
+        target.addChild(entry, pos)
+        pos += 1
 
-def addMoveFunctions(node, target, removeList):
+
+def addMoveVariables(node, removeList, addList):
     if node.type == "function":
         return
 
@@ -246,7 +254,57 @@ def addMoveFunctions(node, target, removeList):
 
             name = None
 
-            if keyChild and keyChild.type == "variable":
+            if keyChild and keyChild.type == "variable" and keyChild.getChildrenLength(True) == 2:
+                nameChild = keyChild.getLastChild(False, True)
+
+                if nameChild and nameChild.type == "identifier":
+                    name = nameChild.get("name")
+
+                    if assignChild:
+                        if assignChild.type == "constant":
+                            value = assignChild
+                            removeList.append(node)
+
+                        else:
+                            value = tree.Node("constant")
+                            value.set("constantType", "null")
+                            value.set("value", "null")
+
+                        pairChild = treeutil.createPair(name, value, node)
+
+                        addList.append(pairChild)
+                        return
+
+    if node.hasChildren():
+        for child in node.children:
+            addMoveVariables(child, removeList, addList)
+
+
+def moveFunctions(node, target):
+    removeList = []
+    addList = []
+
+    addMoveFunctions(node, removeList, addList)
+
+    for entry in removeList:
+        entry.parent.removeChild(entry)
+
+    for entry in addList:
+        target.addChild(entry)
+
+
+def addMoveFunctions(node, removeList, addList):
+    if node.type == "function":
+        return
+
+    if node.type == "assignment":
+        if node.hasChild("left") and node.hasChild("right"):
+            keyChild = node.getChild("left").getFirstChild(False, True)
+            assignChild = node.getChild("right").getFirstChild(False, True)
+
+            name = None
+
+            if keyChild and keyChild.type == "variable" and keyChild.getChildrenLength(True) == 2:
                 nameChild = keyChild.getLastChild(False)
 
                 if nameChild and nameChild.type == "identifier":
@@ -254,15 +312,13 @@ def addMoveFunctions(node, target, removeList):
 
                     if assignChild and assignChild.type == "function":
                         pairChild = treeutil.createPair(name, assignChild, node)
-                        target.addChild(pairChild)
-
+                        addList.append(pairChild)
                         removeList.append(node)
                         return
 
-
     if node.hasChildren():
         for child in node.children:
-            addMoveFunctions(child, target, removeList)
+            addMoveFunctions(child, removeList, addList)
 
 
 def getParentFunction(fcnNode):
@@ -433,8 +489,10 @@ def beautify(fileName):
         members = classMap["members"].getChild("map")
 
 
-    moveFunctions(constructorBody, members)
     fixSuperCalls(constructorBody)
+    moveFunctions(constructorBody, members)
+    moveVariables(constructorBody, members)
+
 
     #print "-------------------------------------"
     #print members.toXml()
