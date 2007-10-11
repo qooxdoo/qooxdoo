@@ -978,6 +978,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         else:
             print "  * Generating API tree: ",
 
+        hasDocError = False
         for fileId in sortedIncludeList:
             if options.verbose:
                 print "    - %s" % fileId
@@ -985,7 +986,14 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            docTree = api.createDoc(loader.getTree(fileDb, fileId, options), docTree)
+
+            (docTree, error) = api.createDoc(loader.getTree(fileDb, fileId, options), docTree)
+            hasDocError = hasDocError or error
+
+        if hasDocError:
+            print
+            print "  * Building API failed!!"
+            sys.exit(0)
 
         if not options.verbose:
             print
@@ -1045,6 +1053,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
             jsonContent = tree.nodeToIndexString(docTree, "", childPrefix, newLine)
             print "  * Writing API search index to %s" % options.apiDocumentationIndexFile
             filetool.save(options.apiDocumentationIndexFile, jsonContent, options.scriptOutputEncoding)
+
+
+
 
 
 
