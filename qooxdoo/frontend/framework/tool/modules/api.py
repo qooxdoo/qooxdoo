@@ -66,6 +66,22 @@ class DocException (Exception):
         self.node = syntaxItem
 
 
+hasDocError = False
+
+def printDocError(node, msg):
+    (line, column) = getLineAndColumnFromSyntaxItem(node)
+    file = getFileFromSyntaxItem(node)
+    if line != None or file != None:
+        print "    - Failed: %s\n      %s, Line: %s, Column: %s" % (
+            msg, str(file), str(line), str(column)
+        )
+    else:
+        print "    - Failed: %s" % msg
+
+    global hasDocError
+    hasDocError = True
+
+
 def findQxDefine(rootNode):
     if rootNode.type == "variable":
         try:
@@ -90,40 +106,24 @@ def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
 
-    try:
-        file = syntaxTree.get("file")
-        if file.endswith("__init__"):
-            return createPackageDoc(syntaxTree, docTree, file[:-9])
+    file = syntaxTree.get("file")
+    if file.endswith("__init__"):
+        return createPackageDoc(syntaxTree, docTree, file[:-9])
 
-        defineNode = findQxDefine(syntaxTree)
-        if defineNode != None:
-            variant = selectNode(defineNode, "operand/variable/2/@name").lower()
-            handleClassDefinition(docTree, defineNode, variant)
+    defineNode = findQxDefine(syntaxTree)
+    if defineNode != None:
+        variant = selectNode(defineNode, "operand/variable/2/@name").lower()
+        handleClassDefinition(docTree, defineNode, variant)
 
-        else:
-            # try old style class definition of no new style class could be found
-            docTree = createDocOld(syntaxTree, docTree)
+    else:
+        # try old style class definition of no new style class could be found
+        docTree = createDocOld(syntaxTree, docTree)
 
-    except Exception, exc:
-        exc = sys.exc_info()[1]
-        msg = ""
+    global hasDocError
+    if hasDocError:
+        print "    - Building API failed!!"
+        sys.exit(0)
 
-        if hasattr(exc, "node"):
-            (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
-            file = getFileFromSyntaxItem(exc.node)
-            if line != None or file != None:
-                msg = (
-                    str(exc) + "\n      " + str(file) +
-                    ", Line: " + str(line) + ", Column: " + str(column)
-                )
-
-        if msg == "":
-            raise exc
-
-        else:
-            print
-            print "    - Failed: %s" % msg
-            sys.exit(1)
 
     return docTree
 
@@ -149,7 +149,8 @@ def createPackageDoc(syntaxTree, docTree, packageName):
 
         elif attrib["category"] == "see":
             if not attrib.has_key("name"):
-                raise DocException("Missing target for see.", classNode)
+                printDocError(classNode, "Missing target for see.")
+                return docTree
 
             seeNode = tree.Node("see").set("name", attrib["name"])
             package.addChild(seeNode)
@@ -559,7 +560,9 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             node.set("check", check.get("value"))
             #checkBasic = check.get("value")
         else:
-            raise DocException("Unknown check value", check)
+            printDocError(check, "Unknown check value", check)
+            return node
+
 
     return node
 
@@ -737,17 +740,19 @@ def handleAppearance(item, classNode, className, commentAttributes):
             attrib["states"] = []
 
     if len(thisAppearance) > 1:
-        raise DocException("The class '%s' has more than one own appearance!" % className, item)
+        printDocError(item, "The class '%s' has more than one own appearance!" % className)
+        return
 
     # parse states
     for attrib in commentAttributes:
         if attrib["category"] == "state":
             if not attrib.has_key("type"):
                 if thisAppearance == []:
-                    raise DocException(
+                    printDocError(item,
                        "The default state '%s' of the class '%s' is defined but no default appearance is defined"
-                       % (attrib["name"], className), item
+                       % (attrib["name"], className)
                     )
+                    return
                 type = thisAppearance[0]
             else:
                 type = attrib["type"][0]["type"]
@@ -817,83 +822,66 @@ def handleAccess(docNode, commentAttributes):
 
 def createDocOld(syntaxTree, docTree = None):
 
-    try:
-        currClassNode = None
-        if not syntaxTree.hasChildren():
-            return docTree
+    currClassNode = None
+    if not syntaxTree.hasChildren():
+        return docTree
 
-        for item in syntaxTree.children:
-            if item.type == "assignment":
-                leftItem = item.getFirstListChild("left")
-                rightItem = item.getFirstListChild("right")
-                if leftItem.type == "variable":
+    for item in syntaxTree.children:
+        if item.type == "assignment":
+            leftItem = item.getFirstListChild("left")
+            rightItem = item.getFirstListChild("right")
+            if leftItem.type == "variable":
+                if (
+                    currClassNode and len(leftItem.children) == 3 and
+                    leftItem.children[0].get("name") == "qx"
+                   ):
+
                     if (
-                        currClassNode and len(leftItem.children) == 3 and
-                        leftItem.children[0].get("name") == "qx"
+                        leftItem.children[1].get("name") == "Proto" and
+                        rightItem.type == "function"
                        ):
+                        # It's a method definition
+                        handleMethodDefinitionOld(item, False, currClassNode)
 
-                        if (
-                            leftItem.children[1].get("name") == "Proto" and
-                            rightItem.type == "function"
-                           ):
-                            # It's a method definition
-                            handleMethodDefinitionOld(item, False, currClassNode)
-
-                        elif leftItem.children[1].get("name") == "Clazz":
-                            if rightItem.type == "function":
-                                handleMethodDefinitionOld(item, True, currClassNode)
-
-                            elif leftItem.children[2].get("name").isupper():
-                                handleConstantDefinition(item, currClassNode)
-
-                    elif (
-                          currClassNode and
-                          assembleVariable(leftItem).startswith(currClassNode.get("fullName"))
-                         ):
-                        # This is definition of the type "mypackage.MyClass.bla = ..."
+                    elif leftItem.children[1].get("name") == "Clazz":
                         if rightItem.type == "function":
                             handleMethodDefinitionOld(item, True, currClassNode)
 
-                        elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
+                        elif leftItem.children[2].get("name").isupper():
                             handleConstantDefinition(item, currClassNode)
 
-            elif item.type == "call":
-                operand = item.getChild("operand", False)
-                if operand:
-                    var = operand.getChild("variable", False)
+                elif (
+                      currClassNode and
+                      assembleVariable(leftItem).startswith(currClassNode.get("fullName"))
+                     ):
+                    # This is definition of the type "mypackage.MyClass.bla = ..."
+                    if rightItem.type == "function":
+                        handleMethodDefinitionOld(item, True, currClassNode)
 
-                    # qooxdoo < 0.7 (DEPRECATED)
-                    if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
-                        methodName = var.children[2].get("name")
+                    elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
+                        handleConstantDefinition(item, currClassNode)
 
-                        if methodName == "defineClass":
-                            currClassNode = handleClassDefinitionOld(docTree, item)
+        elif item.type == "call":
+            operand = item.getChild("operand", False)
+            if operand:
+                var = operand.getChild("variable", False)
 
-                        elif methodName in ["addProperty", "addFastProperty"]:
-                            # these are private and should be marked if listed, otherwise just hide them (wpbasti)
-                            #or methodName == "addCachedProperty" or methodName == "changeProperty":
-                            handlePropertyDefinitionOld(item, currClassNode)
+                # qooxdoo < 0.7 (DEPRECATED)
+                if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
+                    methodName = var.children[2].get("name")
 
-    except DocException:
-        exc = sys.exc_info()[1]
-        msg = ""
+                    if methodName == "defineClass":
+                        currClassNode = handleClassDefinitionOld(docTree, item)
 
-        if hasattr(exc, "node"):
-            (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
-            file = getFileFromSyntaxItem(exc.node)
-            if line != None or file != None:
-                msg = (
-                    str(exc) + "\n      " + str(file) +
-                    ", Line: " + str(line) + ", Column: " + str(column)
-                )
+                    elif methodName in ["addProperty", "addFastProperty"]:
+                        # these are private and should be marked if listed, otherwise just hide them (wpbasti)
+                        #or methodName == "addCachedProperty" or methodName == "changeProperty":
+                        handlePropertyDefinitionOld(item, currClassNode)
 
-        if msg == "":
-            raise exc
-
-        else:
-            print
-            print "    - Failed: %s" % msg
-            sys.exit(1)
+    global hasDocError
+    if hasDocError:
+        print "    - Building API failed!!"
+        sys.exit(0)
 
     return docTree
 
@@ -912,7 +900,8 @@ def handleClassDefinitionOld(docTree, item):
         superClassName = assembleVariable(params.children[1])
         ctorItem = params.children[2]
     else:
-        raise DocException("defineClass call has more than three parameters: " + str(len(params.children)), item)
+        printDocError(item, "defineClass call has more than three parameters: " + str(len(params.children)))
+        return classNode
 
     className = params.children[0].get("value")
     classNode = getClassNode(docTree, className)
@@ -1118,11 +1107,13 @@ def handleConstantDefinition(item, classNode):
 
 
 def handleFunction(funcItem, name, commentAttributes, classNode):
-    if funcItem.type != "function":
-        raise DocException("'funcItem' is no function", funcItem)
 
     node = tree.Node("method")
     node.set("name", name)
+
+    if funcItem.type != "function":
+        printDocError(funcItem, "'funcItem' is no function")
+        return node
 
     # Read the parameters
     params = funcItem.getChild("params", False)
@@ -1160,14 +1151,16 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
 
         elif attrib["category"] == "see":
             if not attrib.has_key("name"):
-                raise DocException("Missing target for see.", funcItem)
+                printDocError(funcItem, "Missing target for see.")
+                return
 
             seeNode = tree.Node("see").set("name", attrib["name"])
             node.addChild(seeNode)
 
         elif attrib["category"] == "param":
             if not attrib.has_key("name"):
-                raise DocException("Missing name of parameter.", funcItem)
+                printDocError(funcItem, "Missing name of parameter.")
+                return
 
             # Find the matching param node
             paramName = attrib["name"]
@@ -1341,7 +1334,8 @@ def getType(item):
         return val
 
     else:
-        raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
+        printDocError(item, "Can't gess type. type is neither string nor variable: " + item.type)
+        return "unknown"
 
 
 def getPackageNode(docTree, namespace):
@@ -1396,7 +1390,8 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
 
             elif attrib["category"] == "see":
                 if not attrib.has_key("name"):
-                    raise DocException("Missing target for see.", classNode)
+                    printDocError(classNode, "Missing target for see.")
+                    return classNode
 
                 seeNode = tree.Node("see").set("name", attrib["name"])
                 classNode.addChild(seeNode)
