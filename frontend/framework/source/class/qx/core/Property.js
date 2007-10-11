@@ -97,7 +97,6 @@
  *   </td></tr>
  * </table>
  *
- *
  * *Property groups*
  *
  * Property groups are defined in a similar way but support a different set of keys:
@@ -305,7 +304,9 @@ qx.Class.define("qx.core.Property",
           {
             for (var name in this.$$inheritable)
             {
-              if (properties[name])
+              // Whether the property is available in this class
+              // and whether it is inheritable in this class as well
+              if (properties[name] && widget[refresh[name]])
               {
                 if (qx.core.Variant.isSet("qx.debug", "on"))
                 {
