@@ -190,6 +190,10 @@ def handleClassDefinition(docTree, item, variant):
         return
 
     for keyvalueItem in children:
+
+        if child.type != "keyvalue":
+            continue
+
         key = keyvalueItem.get("key")
         valueItem = keyvalueItem.getChild("value").getFirstChild()
 
