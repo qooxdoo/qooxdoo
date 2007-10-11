@@ -123,6 +123,7 @@ def createDoc(syntaxTree, docTree = None):
         else:
             print
             print "    - Failed: %s" % msg
+            raise exc
             sys.exit(1)
 
     return docTree
@@ -190,7 +191,12 @@ def handleClassDefinition(docTree, item, variant):
         return
 
     for keyvalueItem in children:
+
+        if child.type != "keyvalue":
+            continue
+
         key = keyvalueItem.get("key")
+
         valueItem = keyvalueItem.getChild("value").getFirstChild()
 
         # print "KEY: %s = %s" % (key, valueItem.type)
