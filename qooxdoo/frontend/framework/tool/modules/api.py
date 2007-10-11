@@ -1152,7 +1152,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
         elif attrib["category"] == "see":
             if not attrib.has_key("name"):
                 printDocError(funcItem, "Missing target for see.")
-                return
+                return node
 
             seeNode = tree.Node("see").set("name", attrib["name"])
             node.addChild(seeNode)
@@ -1160,7 +1160,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
         elif attrib["category"] == "param":
             if not attrib.has_key("name"):
                 printDocError(funcItem, "Missing name of parameter.")
-                return
+                return node
 
             # Find the matching param node
             paramName = attrib["name"]
