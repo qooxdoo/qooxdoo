@@ -109,7 +109,7 @@ def createDoc(syntaxTree, docTree = None):
 
     file = syntaxTree.get("file")
     if file.endswith("__init__"):
-        return createPackageDoc(syntaxTree, docTree, file[:-9])
+        return (createPackageDoc(syntaxTree, docTree, file[:-9]), False)
 
     defineNode = findQxDefine(syntaxTree)
     if defineNode != None:
@@ -121,12 +121,7 @@ def createDoc(syntaxTree, docTree = None):
         docTree = createDocOld(syntaxTree, docTree)
 
     global hasDocError
-    if hasDocError:
-        print "    - Building API failed!!"
-        sys.exit(0)
-
-
-    return docTree
+    return (docTree, hasDocError)
 
 
 ########################################################################################
@@ -878,11 +873,6 @@ def createDocOld(syntaxTree, docTree = None):
                         # these are private and should be marked if listed, otherwise just hide them (wpbasti)
                         #or methodName == "addCachedProperty" or methodName == "changeProperty":
                         handlePropertyDefinitionOld(item, currClassNode)
-
-    global hasDocError
-    if hasDocError:
-        print "    - Building API failed!!"
-        sys.exit(0)
 
     return docTree
 
