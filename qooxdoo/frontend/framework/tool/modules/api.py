@@ -123,7 +123,6 @@ def createDoc(syntaxTree, docTree = None):
         else:
             print
             print "    - Failed: %s" % msg
-            raise exc
             sys.exit(1)
 
     return docTree
