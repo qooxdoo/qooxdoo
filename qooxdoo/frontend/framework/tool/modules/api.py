@@ -90,7 +90,7 @@ def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
 
-    try:
+    #try:
         file = syntaxTree.get("file")
         if file.endswith("__init__"):
             return createPackageDoc(syntaxTree, docTree, file[:-9])
@@ -104,6 +104,7 @@ def createDoc(syntaxTree, docTree = None):
             # try old style class definition of no new style class could be found
             docTree = createDocOld(syntaxTree, docTree)
 
+    """
     except Exception, exc:
         exc = sys.exc_info()[1]
         msg = ""
@@ -126,6 +127,7 @@ def createDoc(syntaxTree, docTree = None):
             raise exc
             sys.exit(1)
 
+    """
     return docTree
 
 
@@ -192,7 +194,7 @@ def handleClassDefinition(docTree, item, variant):
 
     for keyvalueItem in children:
 
-        if child.type != "keyvalue":
+        if keyvalueItem.type != "keyvalue":
             continue
 
         key = keyvalueItem.get("key")
