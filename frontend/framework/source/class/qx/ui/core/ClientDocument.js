@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.core.Parent} TODOC
      * @signature function()
      */
     getParent : qx.lang.Function.returnNull,
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.popup.ToolTip} TODOC
      * @signature function()
      */
     getToolTip : qx.lang.Function.returnNull,
