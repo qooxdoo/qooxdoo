@@ -1625,6 +1625,23 @@ def postWorkItemList(docTree, classNode, listName, overridable):
             superClassName = classNode.get("superClass", False)
             overriddenFound = False
             docFound = itemHasAnyDocs(itemNode)
+
+            # look for documentation in interfaces
+            if (not docFound):
+                for item in dependendClassIterator(docTree, classNode):
+                    if item.get("type", False) == "interface":
+                        interfaceItemNode = item.getListChildByAttribute(listName, "name", name, False)
+                        if not interfaceItemNode:
+                            continue
+                        itemNode.set("docFrom", item.get("fullName"))
+                        docFound = itemHasAnyDocs(interfaceItemNode)
+
+                        # Remove previously recorded documentation errors from the item
+                        # (Any documentation errors will be recorded in the super class)
+                        removeErrors(itemNode)
+                        break
+
+            # look for documentation in super classes
             while superClassName and (not overriddenFound or not docFound):
                 superClassNode = getClassNode(docTree, superClassName)
                 superItemNode = superClassNode.getListChildByAttribute(listName, "name", name, False)
