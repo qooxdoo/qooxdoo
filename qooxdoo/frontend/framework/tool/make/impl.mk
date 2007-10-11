@@ -77,7 +77,6 @@ exec-distclean:
 #
 
 exec-script-source:
-
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
