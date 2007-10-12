@@ -144,9 +144,10 @@ def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
             if not (varParent.type == "right" and varParent.parent.type == "accessor"):
                 isFirstChild = node.parent.getFirstChild(True, True) == node
 
-        elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
+        # used in foo.bar.some[thing] where "some" is the identifier
+        elif node.parent.type == "accessor":
             isVariableMember = True
-            accessor = node.parent.parent
+            accessor = node.parent
             isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
 
         # inside a variable parent only respect the first member
