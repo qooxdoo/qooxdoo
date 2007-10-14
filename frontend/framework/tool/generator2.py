@@ -225,7 +225,7 @@ def generateScript():
     # Script names
     buildScript = getJobConfig("buildScript")
     sourceScript = getJobConfig("sourceScript")
-    apiScript = getJobConfig("apiScript")
+    apiPath = getJobConfig("apiPath")
 
     # Dynamic dependencies
     dynLoadDeps = getJobConfig("require", {})
@@ -387,8 +387,8 @@ def generateScript():
                     print "  - %s" % entry
 
 
-        if apiScript != None:
-            storeApiScript(includeDict, apiScript, dynLoadDeps, dynRunDeps)
+        if apiPath != None:
+            storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath)
 
 
         if buildScript != None:
@@ -406,14 +406,93 @@ def generateScript():
 
 
 
-def storeApiScript(includeDict, apiScript, dynLoadDeps, dynRunDeps):
-
-    for entry in includeDict:
-        print "API of %s" % entry
-        apidata = getApi(entry)
-        print apidata
 
 
+######################################################################
+#  API SUPPORT
+######################################################################
+
+def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath):
+    docTree = tree.Node("doctree")
+    todo = includeDict.keys()
+    length = len(todo)
+
+    sys.stdout.write(">>> Generating API data:")
+    sys.stdout.flush()
+    for pos, id in enumerate(todo):
+        printProgress(pos, length)
+        mergeApiNodes(docTree, getApi(id))        
+    
+    print "  - Postprocessing..."
+    api.postWorkPackage(docTree, docTree)
+    
+    print "  - Storing..."
+    packages = api.packagesToJsonString(docTree, "", "  ", "\n")
+    filetool.save(os.path.join(apiPath, "apidata.js"), packages)
+
+    for classData in api.classNodeIterator(docTree):
+        classContent = tree.nodeToJsonString(classData, "", "  ", "\n")
+        fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
+        filetool.save(fileName, classContent)
+    
+    print ">>> Done"
+    
+        
+def mergeApiNodes(target, source):
+    if source.hasAttributes():
+        attr = source.attributes
+        for key in attr:
+            # Special handling for attributes which stores a list (this is BTW quite ugly)
+            if key in ["childClasses", "includer", "mixins", "implementations"] and target.get(key, False) != None:
+                target.set(key, "%s,%s" % (target.get(key), attr[key]))
+            else:
+                target.set(key, attr[key])
+
+    if source.hasChildren():
+        # copy to keep length while iterating
+        children = source.children[:]
+        
+        for child in children:
+            # print "Child: %s" % child.type
+            
+            # no such type => append
+            if not target.hasChild(child.type):
+                # print "=> direct append"
+                target.addChild(child)
+            
+            else:
+                # looking for identical child (e.g. equal name etc.)
+                identical = findIdenticalChild(target, child)
+                if identical:
+                    # print "=> identical merge"
+                    mergeApiNodes(identical, child)
+                
+                else:
+                    # print "=> fallback append"
+                    target.addChild(child)
+                    
+
+def findIdenticalChild(node, search):
+    if node.hasChildren():
+        for child in node.children:
+            if isNodeIdentical(child, search):
+                return child
+    
+    return None
+            
+
+def isNodeIdentical(nodeA, nodeB):
+    if nodeA.type == nodeB.type:
+        if not nodeA.hasAttributes() and not nodeB.hasAttributes():
+            return True
+
+        if nodeA.type in [ "method", "param", "property" ]:
+            return nodeA.get("name") == nodeB.get("name")
+            
+        if nodeA.type in [ "class", "package" ]:
+            return nodeA.get("fullName") == nodeB.get("fullName")
+        
+    return False
 
 
 
@@ -513,7 +592,8 @@ def getApi(id):
 
     if verbose:
         print "  - Generating API data: %s..." % id
-    apidata = api.createDoc(tree)
+
+    (apidata, hasError) = api.createDoc(tree)
 
     writeCache(id, "api", apidata)
 
