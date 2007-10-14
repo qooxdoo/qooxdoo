@@ -26,11 +26,16 @@
 		"api-feedreader" :
 		{
 		    "extend" : ["common"],
-		    "apiScript" : "api-feedreader",
+		    "apiPath" : "application/apiviewer/source/script",
 		    "include" : ["feedreader.Application"]
 		},
 
-
+		"api-webmail" :
+		{
+		    "extend" : ["common"],
+		    "apiPath" : "application/apiviewer/source/script",
+		    "include" : ["webmail.Application"]
+		},
 
 		"build-common" :
 		{
