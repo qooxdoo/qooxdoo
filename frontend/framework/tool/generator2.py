@@ -421,7 +421,7 @@ def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath):
     sys.stdout.flush()
     for pos, id in enumerate(todo):
         printProgress(pos, length)
-        mergeApiNodes(docTree, getApi(id))        
+        _mergeApiNodes(docTree, getApi(id))        
     
     print "  - Postprocessing..."
     api.postWorkPackage(docTree, docTree)
