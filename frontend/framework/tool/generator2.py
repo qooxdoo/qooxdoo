@@ -438,7 +438,7 @@ def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath):
     print ">>> Done"
     
         
-def mergeApiNodes(target, source):
+def _mergeApiNodes(target, source):
     if source.hasAttributes():
         attr = source.attributes
         for key in attr:
@@ -462,34 +462,34 @@ def mergeApiNodes(target, source):
             
             else:
                 # looking for identical child (e.g. equal name etc.)
-                identical = findIdenticalChild(target, child)
+                identical = _findIdenticalChild(target, child)
                 if identical:
                     # print "=> identical merge"
-                    mergeApiNodes(identical, child)
+                    _mergeApiNodes(identical, child)
                 
                 else:
                     # print "=> fallback append"
                     target.addChild(child)
                     
 
-def findIdenticalChild(node, search):
+def _findIdenticalChild(node, search):
     if node.hasChildren():
         for child in node.children:
-            if isNodeIdentical(child, search):
+            if _isNodeIdentical(child, search):
                 return child
     
     return None
             
 
-def isNodeIdentical(nodeA, nodeB):
+def _isNodeIdentical(nodeA, nodeB):
     if nodeA.type == nodeB.type:
         if not nodeA.hasAttributes() and not nodeB.hasAttributes():
             return True
 
-        if nodeA.type in [ "method", "param", "property" ]:
+        if nodeA.type in [ "method", "param", "property", "event" ]:
             return nodeA.get("name") == nodeB.get("name")
             
-        if nodeA.type in [ "class", "package" ]:
+        if nodeA.type in [ "class", "package", "interface", "mixin" ]:
             return nodeA.get("fullName") == nodeB.get("fullName")
         
     return False
