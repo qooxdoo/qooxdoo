@@ -407,10 +407,136 @@ def generateScript():
 
 
 
+######################################################################
+#  CORE: CACHE SUPPORT
+######################################################################
+
+# Improved version of the one in filetool module
+# TODO: Add memcache with controllable size
+
+cachePath = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".cache") + os.sep
+filetool.directory(cachePath)
+
+def readCache(id, segment, dep):
+    fileModTime = os.stat(dep).st_mtime
+
+    try:
+        cacheModTime = os.stat(cachePath + id + "-" + segment).st_mtime
+    except OSError:
+        cacheModTime = 0
+
+    # Out of date check
+    if fileModTime > cacheModTime:
+        return None
+
+    try:
+        return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
+
+    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+        print ">>> Could not read cache from %s" % cachePath
+        return None
+
+
+
+def writeCache(id, segment, content):
+    try:
+        cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
+
+    except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
+        print ">>> Could not store cache to %s" % cachePath
+        sys.exit(1)
+
+
+
+
+
 
 ######################################################################
-#  API SUPPORT
+#  CORE: SESSION STABLE HASH CODE SUPPORT
 ######################################################################
+
+# calculates a hash code (simple incrementer)
+# cache all already calculates inputs for the next session using pickle
+# to keep hash codes identical between different sessions
+def toHashCode(id):
+    global classes
+    global hashes
+
+    try:
+        hashes = cPickle.load(open(cachePath + "hashes", 'rb'))
+    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+        hashes = {}
+
+    if not hashes.has_key(id):
+        hashes[id] = mapper.convert(len(hashes))
+
+        try:
+            cPickle.dump(hashes, open(cachePath + "hashes", 'wb'), 2)
+        except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+            print ">>> Could not store hash cache: %s" % cachePath
+            sys.exit(1)
+
+    return hashes[id]
+
+
+
+
+
+######################################################################
+#  CORE: PROGRESS DISPLAY
+######################################################################
+
+def printProgress(pos, length):
+    global quiet
+
+    if quiet:
+        return
+
+    # starts normally at null, but this is not useful here
+    # also the length is normally +1 the real size
+    pos += 1
+
+    thisstep = 10 * pos / length
+    prevstep = 10 * (pos-1) / length
+
+    if thisstep != prevstep:
+        sys.stdout.write(" %s%%" % (thisstep * 10))
+        sys.stdout.flush()
+
+    if pos == length:
+        sys.stdout.write("\n")
+        sys.stdout.flush()
+
+
+
+
+
+######################################################################
+#  API: DATA SUPPORT
+######################################################################
+
+def getApi(id):
+    global classes
+
+    entry = classes[id]
+    path = entry["path"]
+
+    cache = readCache(id, "api", path)
+    if cache != None:
+        return cache
+
+    tree = getTree(id)
+
+    if verbose:
+        print "  - Generating API data: %s..." % id
+
+    (apidata, hasError) = api.createDoc(tree)
+
+    writeCache(id, "api", apidata)
+
+    return apidata
+
+
 
 def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath):
     docTree = tree.Node("doctree")
@@ -436,6 +562,7 @@ def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath):
         filetool.save(fileName, classContent)
     
     print ">>> Done"
+    
     
         
 def _mergeApiNodes(target, source):
@@ -472,6 +599,7 @@ def _mergeApiNodes(target, source):
                     target.addChild(child)
                     
 
+
 def _findIdenticalChild(node, search):
     if node.hasChildren():
         for child in node.children:
@@ -479,6 +607,7 @@ def _findIdenticalChild(node, search):
                 return child
     
     return None
+            
             
 
 def _isNodeIdentical(nodeA, nodeB):
@@ -493,113 +622,9 @@ def _isNodeIdentical(nodeA, nodeB):
             return nodeA.get("fullName") == nodeB.get("fullName")
         
     return False
-
-
-
-
-######################################################################
-#  CORE: CACHE SUPPORT
-######################################################################
-
-# Improved version of the one in filetool module
-# TODO: Add memcache with controllable size
-
-cachePath = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".cache") + os.sep
-filetool.directory(cachePath)
-
-def readCache(id, segment, dep):
-    fileModTime = os.stat(dep).st_mtime
-
-    try:
-        cacheModTime = os.stat(cachePath + id + "-" + segment).st_mtime
-    except OSError:
-        cacheModTime = 0
-
-    # Out of date check
-    if fileModTime > cacheModTime:
-        return None
-
-    try:
-        return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
-
-    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-        print ">>> Could not read cache from %s" % cachePath
-        return None
-
-
-def writeCache(id, segment, content):
-    try:
-        cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
-
-    except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
-        print ">>> Could not store cache to %s" % cachePath
-        sys.exit(1)
-
-
-
-
-
-
-
-
-######################################################################
-#  SESSION STABLE HASH CODE SUPPORT
-######################################################################
-
-# calculates a hash code (simple incrementer)
-# cache all already calculates inputs for the next session using pickle
-# to keep hash codes identical between different sessions
-def toHashCode(id):
-    global classes
-    global hashes
-
-    try:
-        hashes = cPickle.load(open(cachePath + "hashes", 'rb'))
-    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-        hashes = {}
-
-    if not hashes.has_key(id):
-        hashes[id] = mapper.convert(len(hashes))
-
-        try:
-            cPickle.dump(hashes, open(cachePath + "hashes", 'wb'), 2)
-        except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-            print ">>> Could not store hash cache: %s" % cachePath
-            sys.exit(1)
-
-    return hashes[id]
-
-
-
-
-
-
-######################################################################
-#  API DATA SUPPORT
-######################################################################
-
-def getApi(id):
-    global classes
-
-    entry = classes[id]
-    path = entry["path"]
-
-    cache = readCache(id, "api", path)
-    if cache != None:
-        return cache
-
-    tree = getTree(id)
-
-    if verbose:
-        print "  - Generating API data: %s..." % id
-
-    (apidata, hasError) = api.createDoc(tree)
-
-    writeCache(id, "api", apidata)
-
-    return apidata
-
-
+    
+    
+    
 
 
 
@@ -644,6 +669,7 @@ def getMeta(id):
     return meta
 
 
+
 def _extractQxLoadtimeDeps(data, fileId=""):
     deps = []
 
@@ -655,6 +681,7 @@ def _extractQxLoadtimeDeps(data, fileId=""):
             deps.append(item)
 
     return deps
+
 
 
 def _extractQxRuntimeDeps(data, fileId=""):
@@ -669,6 +696,7 @@ def _extractQxRuntimeDeps(data, fileId=""):
     return deps
 
 
+
 def _extractQxOptionalDeps(data):
     deps = []
 
@@ -678,6 +706,7 @@ def _extractQxOptionalDeps(data):
             deps.append(item)
 
     return deps
+    
 
 
 def _extractQxIgnoreDeps(data):
@@ -691,6 +720,7 @@ def _extractQxIgnoreDeps(data):
     return ignores
 
 
+
 def _extractQxModules(data):
     mods = []
 
@@ -701,6 +731,7 @@ def _extractQxModules(data):
     return mods
 
 
+
 def _extractQxResources(data):
     res = []
 
@@ -708,6 +739,7 @@ def _extractQxResources(data):
         res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
 
     return res
+
 
 
 def _extractQxEmbeds(data):
@@ -828,7 +860,6 @@ def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, varian
 
 
 
-
 def getContentSize(content):
     # Convert to utf-8 first
     uni = unicode(content).encode("utf-8")
@@ -838,7 +869,6 @@ def getContentSize(content):
     compressedSize = len(zlib.compress(uni, 9)) / 1024
 
     return "%sKB / %sKB" % (origSize, compressedSize)
-
 
 
 
@@ -879,6 +909,7 @@ def _computeVariantCombinations(variants):
         variantPossibilities.append(innerList)
 
     return _findCombinations(variantPossibilities)
+
 
 
 def generateVariantCombinationId(selected):
@@ -1138,6 +1169,7 @@ def _sortPackageIdsByPriority(packageIds, packageBitCounts):
     return packageIds
 
 
+
 def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
     relevantParts = []
     relevantPackages = []
@@ -1158,6 +1190,7 @@ def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
             return packageId
 
     return None
+    
 
 
 def _printPartStats(packageClasses, partPackages):
@@ -1179,6 +1212,7 @@ def _printPartStats(packageClasses, partPackages):
         print "  - Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId]))
 
 
+
 def _dictToHumanSortedList(input):
     output = []
     for key in input:
@@ -1187,6 +1221,7 @@ def _dictToHumanSortedList(input):
     output.reverse()
 
     return output
+
 
 
 def _mergePackage(replacePackage, collapsePackage, partClasses, partPackages, packageClasses):
@@ -1207,6 +1242,7 @@ def _mergePackage(replacePackage, collapsePackage, partClasses, partPackages, pa
     # Merging collapsed packages
     packageClasses[collapsePackage].extend(packageClasses[replacePackage])
     del packageClasses[replacePackage]
+
 
 
 def _intListToString(input):
@@ -1272,28 +1308,6 @@ def getOptionals(classes):
 ######################################################################
 #  COMPILER SUPPORT
 ######################################################################
-
-def printProgress(pos, length):
-    global quiet
-
-    if quiet:
-        return
-
-    # starts normally at null, but this is not useful here
-    # also the length is normally +1 the real size
-    pos += 1
-
-    thisstep = 10 * pos / length
-    prevstep = 10 * (pos-1) / length
-
-    if thisstep != prevstep:
-        sys.stdout.write(" %s%%" % (thisstep * 10))
-        sys.stdout.flush()
-
-    if pos == length:
-        sys.stdout.write("\n")
-        sys.stdout.flush()
-
 
 def compileClasses(todo, variants, process):
     content = ""
@@ -1436,6 +1450,9 @@ def getVariantValue(variants, key):
             return entry["value"]
 
     return None
+
+
+
 
 
 
