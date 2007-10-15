@@ -138,8 +138,6 @@ qx.Class.define("qx.util.GuiBuilder",
      */
     _buildNodes : function(parent, nodes)
     {
-      var x = 0;
-
       for (var i=0; i<nodes.length; i++)
       {
         var n = nodes[i];

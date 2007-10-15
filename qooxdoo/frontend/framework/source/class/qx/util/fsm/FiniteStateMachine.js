@@ -462,7 +462,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // Delete references to any groupos this friendly name was in
       if (this._friendlyToGroups[friendlyName])
       {
-        for (groupName in this._friendlyToGroups[friendlyName])
+        for (var groupName in this._friendlyToGroups[friendlyName])
         {
           delete this._groupToFriendly[groupName];
         }
@@ -834,8 +834,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     __run : function(event)
     {
       // For use in generated functions...
-      var fsm = this;
-
       // State name variables
       var thisState;
       var nextState;

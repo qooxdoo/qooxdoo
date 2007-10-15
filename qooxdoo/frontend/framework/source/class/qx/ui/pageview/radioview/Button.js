@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
       if (vPrevious)
       {
         // Find the previous child which is a subclass of AbstractButton
-        vChild = this;
+        var vChild = this;
         do
         {
           // If we're at the first child, ...

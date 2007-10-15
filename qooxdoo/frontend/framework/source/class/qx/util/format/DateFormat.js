@@ -645,7 +645,6 @@ qx.Class.define("qx.util.format.DateFormat",
         return ;
       }
 
-      var DateFormat = qx.util.format.DateFormat;
       var format = this._format;
 
       // Initialize the rules
@@ -778,7 +777,6 @@ qx.Class.define("qx.util.format.DateFormat",
         shortMonthNames[i] = qx.lang.String.escapeRegexpChars(shortMonthNames[i].toString());
       }
 
-      var self = this;
       var shortMonthNamesManipulator = function(dateValues, value) {
         value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = shortMonthNames.indexOf(value);

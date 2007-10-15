@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
     removeSelectionInterval : function(fromIndex, toIndex)
     {
       var mod = this._tree.getDataModel();
-      for (var row = fromIndex; row <= toIndex; i++)
+      for (var row = fromIndex; row <= toIndex; row++)
       {
         this._selectNode(mod.getNodeFromRow(row), false);
       }

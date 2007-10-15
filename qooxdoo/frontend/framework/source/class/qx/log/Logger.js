@@ -97,19 +97,18 @@ qx.Class.define("qx.log.Logger",
      * @param clazz {Class} reference to the deprecated class.
      * @param msg {String?} Optional message which is printed.
      */
-    deprecatedClassWarning : function(clazz)
+    deprecatedClassWarning : function(clazz, msg)
     {
       if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
       {
         var logger = qx.log.Logger.getClassLogger(clazz);
 
-        var functionName = qx.dev.StackTrace.getFunctionName(fcn);
         var className = clazz.self ? clazz.self.classname : "unknown";
         logger.warn(
-          "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
-          msg || "Please consult the API documentation of this method for alternatives."
+          "The method class '"+className+"' is deprecated: " +
+          msg || "Please consult the API documentation of this class for alternatives."
         );
-        logger.trace();
+        logger.printStackTrace();
       }
     },
 

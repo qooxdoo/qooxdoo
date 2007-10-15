@@ -417,7 +417,6 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         var margin, width, height, padding, border;
-        var clazz = qx.ui.core.Border;
 
         if (states.checked || states.over)
         {
@@ -501,9 +500,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var paddingTop, paddingBottom, paddingLeft, paddingRight;
-        var marginTop, marginBottom, marginRight, marginLeft;
-        var backgroundColor, zIndex, border;
+        var marginTop, marginBottom;
 
         marginTop    = 0;
         marginBottom = 0;
@@ -526,7 +523,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
 
         if (states.checked) {
-          vReturn = {
+          var vReturn = {
             textColor       : "tab-view-text",
             backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
             backgroundColor : "tab-view-button-checked",
@@ -1741,7 +1738,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border, backgroundColor, paddingBottom;
+        var border, backgroundColor;
 
         if (states.mouseover)
         {

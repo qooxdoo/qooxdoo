@@ -402,7 +402,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       {
         // mask off the opened bit but retain the hide open/close button bit
         bOpened = false;
-        bHideOpenClose = false;
+        bHideOpenCloseButton = false;
       }
 
       // Determine the node id of this new node
@@ -739,7 +739,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       if (nodeArr instanceof Array)
       {
         // Determine the set of selected nodes
-        for (i=0; i<nodeArr.length; i++)
+        for (var i=0; i<nodeArr.length; i++)
         {
           if (nodeArr[i].selected)
           {
@@ -854,7 +854,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      */
     setState : function(nodeReference, attributes)
     {
-      var nodeId;
+      var nodeId, node;
 
       if (typeof(nodeReference) == "object")
       {
@@ -929,9 +929,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
           {
             // It's still boolean.  Toggle the state
             node.bOpened = !node.bOpened;
-
-            // Determine if this node was selected
-            var rowIndex = this.getNodeRowMap()[node.nodeId];
 
             // Clear the old selections in the tree
             tree.getSelectionModel()._clearSelection();

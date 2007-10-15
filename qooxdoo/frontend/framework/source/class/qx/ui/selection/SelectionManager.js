@@ -575,8 +575,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      */
     setItemSelected : function(vItem, vSelected)
     {
-      var hc = this.getItemHashCode(vItem);
-
       switch(this.getMultiSelection())
       {
           // Multiple item selection is allowed
@@ -1701,7 +1699,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       var vParentClientHeight = vBoundedWidget.getClientHeight();
 
       // Find next item
-      var newItem;
       var nextItem = this.getLeadItem();
 
       if (!nextItem) {
@@ -1767,7 +1764,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       // this.debug("ClientHeight-1: " + vBoundedWidget._getTargetNode().clientHeight);
       // this.debug("ClientHeight-2: " + vBoundedWidget.getElement().clientHeight);
       // Find next item
-      var newItem;
       var nextItem = this.getLeadItem();
 
       if (!nextItem) {

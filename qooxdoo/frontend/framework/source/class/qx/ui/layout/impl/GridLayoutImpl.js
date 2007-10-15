@@ -260,8 +260,6 @@ qx.Class.define("qx.ui.layout.impl.GridLayoutImpl",
      */
     layoutChild : function(vChild, vJobs)
     {
-      var vWidget = this.getWidget();
-
       this.layoutChild_sizeX(vChild, vJobs);
       this.layoutChild_sizeY(vChild, vJobs);
 
