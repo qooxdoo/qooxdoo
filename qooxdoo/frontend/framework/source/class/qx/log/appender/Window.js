@@ -217,6 +217,13 @@ qx.Class.define("qx.log.appender.Window",
         return;
       }
 
+      // If window open is already running
+      if (this._inLogWindowCallback) {
+        return;
+      }
+
+      this._inLogWindowCallback = true;
+
       if (this._logWindow && !this._logWindow.closed)
       {
         // The window is already open -> Nothing to do
@@ -248,6 +255,13 @@ qx.Class.define("qx.log.appender.Window",
       } catch(ex) {
         return;
       };
+
+      qx.client.Timer.once(this._openWindowCallback, this, 200);
+    },
+
+    _openWindowCallback : function()
+    {
+      delete this._inLogWindowCallback;
 
       if (!this._logWindow || this._logWindow.closed)
       {
@@ -394,7 +408,7 @@ qx.Class.define("qx.log.appender.Window",
     {
       if (!this._logWindow || this._logWindow.closed)
       {
-        if (!this._logWindow || !this._logEventQueue) {
+        if (!this._logEventQueue) {
           this._logEventQueue = [];
         }
 
