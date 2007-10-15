@@ -205,15 +205,14 @@ qx.Class.define("qx.ui.table.selection.Manager",
     {
       var selectionModel = this.getSelectionModel();
 
+      var leadIndex = selectionModel.getLeadSelectionIndex();
+      var anchorIndex = selectionModel.getAnchorSelectionIndex();
+      
       if (evt.isShiftPressed())
       {
-        var leadIndex = selectionModel.getLeadSelectionIndex();
-
         if (index != leadIndex || selectionModel.isSelectionEmpty())
         {
           // The lead selection index was changed
-          var anchorIndex = selectionModel.getAnchorSelectionIndex();
-
           if (anchorIndex == -1) {
             anchorIndex = index;
           }
@@ -235,7 +234,10 @@ qx.Class.define("qx.ui.table.selection.Manager",
       }
       else
       {
-        selectionModel.setSelectionInterval(index, index);
+        // only set the selection interval if there is really a change of the selection
+        if (! (anchorIndex == leadIndex && anchorIndex == index)) {
+          selectionModel.setSelectionInterval(index, index);
+        }
       }
     }
   }
