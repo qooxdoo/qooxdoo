@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     // init event handlers
     this._headerClipper.addEventListener("changeCapture", this._onChangeCaptureHeader, this);
-    
+
     this._headerClipper.addEventListener("mousemove", this._onmousemoveHeader, this);
     this._paneClipper.addEventListener("mousemove", this._onmousemovePane, this);
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /*** See {@link qx.ui.table.Table#cellDblclick}.*/
     "cellDblclick" : "qx.ui.table.pane.CellEvent",
-    
+
     /**See {@link qx.ui.table.Table#cellContextmenu}.*/
     "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
@@ -654,7 +654,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.base(arguments);
 
-      var self = this;
       this.getElement().onselectstart = qx.lang.Function.returnFalse;
 
       this._updateContent();
@@ -927,8 +926,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
       }
     },
-    
-    
+
+
     /**
      * Start a resize session of the header.
      *
@@ -940,15 +939,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _startResizeHeader : function(resizeCol, pageX)
     {
       var columnModel = this.getTable().getTableColumnModel();
-      
+
       // The mouse is over a resize region -> Start resizing
       this._resizeColumn = resizeCol;
       this._lastResizeMousePageX = pageX;
       this._lastResizeWidth = columnModel.getColumnWidth(this._resizeColumn);
       this._headerClipper.setCapture(true);
     },
-    
-    
+
+
     /**
      * Start a move session of the header.
      *
@@ -965,7 +964,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._lastMoveColPos = this.getTablePaneModel().getColumnLeft(moveCol);
       this._headerClipper.setCapture(true);
     },
-    
+
 
 
     /**
@@ -1025,20 +1024,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      var columnModel = table.getTableColumnModel();
-      var paneModel = this.getTablePaneModel();
-
       if (this._resizeColumn != null) {
         this._stopResizeHeader();
       } else if (this._moveColumn != null) {
         this._stopMoveHeader();
       }
     },
-    
-    
+
+
     /**
      * Event handler. Called when the event capturing of the header changed.
-     * Stops/finishes an active header resize/move session if it lost capturing 
+     * Stops/finishes an active header resize/move session if it lost capturing
      * during the session to stay in a stable state.
      */
     _onChangeCaptureHeader : function(e)
@@ -1046,13 +1042,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (this._resizeColumn != null && e.getValue() == false) {
         this._stopResizeHeader();
       }
-      
+
       if (this._moveColumn != null && e.getValue() == false) {
         this._stopMoveHeader();
       }
     },
-    
-    
+
+
     /**
      * Stop a resize session of the header.
      *
@@ -1062,7 +1058,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _stopResizeHeader : function()
     {
       var columnModel = this.getTable().getTableColumnModel();
-      
+
       // We are currently resizing -> Finish resizing
       if (! this.getLiveResize()) {
         this._hideResizeLine();
@@ -1074,8 +1070,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this.getTopLevelWidget().setGlobalCursor(null);
     },
-    
-    
+
+
     /**
      * Stop a move session of the header.
      *
@@ -1086,7 +1082,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
-      
+
       // We are moving a column -> Drop the column
       this._header.hideColumnMoveFeedback();
       if (this._lastMoveTargetScroller) {
@@ -1197,8 +1193,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (!table.getEnabled()) {
         return;
       }
-
-      var tableModel = table.getTableModel();
 
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
@@ -1680,7 +1674,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
             this._cellEditor.removeEventListener(
               "disappear",
-              _onCellEditorModalWindowClose,
+              this._onCellEditorModalWindowClose,
               this
             );
 

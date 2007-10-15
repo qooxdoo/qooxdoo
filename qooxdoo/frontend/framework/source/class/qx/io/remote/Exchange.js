@@ -833,8 +833,6 @@ qx.Class.define("qx.io.remote.Exchange",
      */
     _applyState : function(value, old)
     {
-      var vRequest = this.getRequest();
-
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug")) {

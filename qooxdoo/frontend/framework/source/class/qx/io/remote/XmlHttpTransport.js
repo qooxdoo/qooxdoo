@@ -258,7 +258,6 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       {
         vRequest.onreadystatechange = function(e)
         {
-          var self = this;
           window.setTimeout(function(e) {
             onreadyStateChangeCallback(e);
           }, 0);

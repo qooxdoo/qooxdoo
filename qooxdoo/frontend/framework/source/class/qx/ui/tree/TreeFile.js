@@ -89,7 +89,6 @@ qx.Class.define("qx.ui.tree.TreeFile",
      */
     getIndentSymbol : function(vUseTreeLines, vColumn, vFirstColumn, vLastColumn)
     {
-      var vLevel = this.getLevel();
       var vExcludeList = this.getTree().getExcludeSpecificTreeLines();
       var vExclude = vExcludeList[vLastColumn - vColumn - 1];
 

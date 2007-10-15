@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxTree",
     }
     if (! custom.dataRowRenderer)
     {
-      r = custom.dataRowRenderer =
+      var r = custom.dataRowRenderer =
         new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
       // Disable highlight of selected rows with background colors.
       r.setRowColors({

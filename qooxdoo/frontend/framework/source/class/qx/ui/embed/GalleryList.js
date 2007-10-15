@@ -571,8 +571,6 @@ qx.Class.define("qx.ui.embed.GalleryList",
      */
     createView : function()
     {
-      var s = (new Date).valueOf();
-
       var protoCell = this.createProtoCell(this.getThumbMaxHeight());
       var frame = this._frame = document.createElement("div");
 

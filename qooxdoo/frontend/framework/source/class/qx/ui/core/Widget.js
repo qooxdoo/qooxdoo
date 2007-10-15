@@ -5090,7 +5090,7 @@ qx.Class.define("qx.ui.core.Widget",
         for (var i=0, l=data.length; i<l; i++)
         {
           if (!this[unstyler[data[i]]]) {
-            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+            throw new Error(this.classname + ' has no themeable property "' + data[i] + '"');
           }
         }
       }
@@ -6655,7 +6655,6 @@ qx.Class.define("qx.ui.core.Widget",
     renderBorder : function(changes)
     {
       var value = this.__borderObject;
-      var mgr = qx.theme.manager.Border.getInstance();
 
       if (value)
       {

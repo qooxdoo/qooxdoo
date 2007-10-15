@@ -555,7 +555,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         var data =
         {
           firstRow    : 0,
-          lastRow     : rowCount - 1,
+          lastRow     : this.getRowCount() - 1,
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };

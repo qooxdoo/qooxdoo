@@ -57,7 +57,7 @@ qx.Class.define("qx.dev.Debug",
     debugObject : function(obj, initialMessage, maxLevel, appender)
     {
       // Get a new logger
-      logger = new qx.log.Logger("Debug", qx.log.Logger.ROOT_LOGGER);
+      var logger = new qx.log.Logger("Debug", qx.log.Logger.ROOT_LOGGER);
 
       // If a maximum recursion level was not specified...
       if (!maxLevel)
@@ -143,7 +143,7 @@ qx.Class.define("qx.dev.Debug",
       else if (typeof(obj) == "object")
       {
         var count = 0;
-        for (prop in obj)
+        for (var prop in obj)
         {
           count++;
         }

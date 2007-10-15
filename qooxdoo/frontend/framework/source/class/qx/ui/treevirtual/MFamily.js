@@ -101,7 +101,7 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
 
       if (node.children.length > 0)
       {
-        return node.children[children.length - 1];
+        return node.children[node.children.length - 1];
       }
 
       return null;

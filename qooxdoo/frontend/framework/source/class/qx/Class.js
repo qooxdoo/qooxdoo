@@ -180,8 +180,6 @@ qx.Class.define("qx.Class",
       // Members, properties, events and mixins are only allowed for non-static classes
       if (config.extend)
       {
-        var superclass = config.extend;
-
         // Attach properties
         if (config.properties) {
           this.__addProperties(clazz, config.properties, true);
@@ -1344,7 +1342,7 @@ qx.Class.define("qx.Class",
         // directly used by this class. It is allowed however, to have an interface
         // included multiple times by extends in the interfaces etc.
         if (this.hasOwnInterface(clazz, iface)) {
-          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
+          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '!');
         }
 
         // Check interface and wrap members

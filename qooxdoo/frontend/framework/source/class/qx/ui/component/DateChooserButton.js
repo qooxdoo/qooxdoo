@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _chooserSelectHandler : function(e)
     {
-      target = this.getTargetWidget();
+      var target = this.getTargetWidget();
       target.setValue(this._dateFormat.format(this._chooser.getDate()));
       this._chooserWindow.close();
       target.focus();

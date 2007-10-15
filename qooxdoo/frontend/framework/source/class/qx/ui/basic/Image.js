@@ -386,8 +386,6 @@ qx.Class.define("qx.ui.basic.Image",
         old.removeEventListener("error", this._onerror, this);
       }
 
-      var imageMgr = qx.io.image.Manager.getInstance();
-
       if (value)
       {
         // Omit  here, otherwise the later setLoaded(true)

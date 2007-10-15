@@ -426,8 +426,6 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpenItem : function(value, old)
     {
-      var vMakeActive = false;
-
       if (old)
       {
         var vOldSub = old.getMenu();
@@ -717,6 +715,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _invalidateMaxLabelWidth : function()
     {
       this._cachedMaxLabelWidth = null;
+      this._cachedMaxArrowWidth = null;
 
       this._invalidateShortcutPosition();
       this._invalidateMaxLabelWidthIncShortcut();
@@ -737,19 +736,6 @@ qx.Class.define("qx.ui.menu.Menu",
 
       this._invalidateArrowPosition();
       this._invalidateMaxContentWidth();
-      this._invalidateMenuButtonNeededWidth();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _invalidateMaxLabelWidth : function()
-    {
-      this._cachedMaxArrowWidth = null;
       this._invalidateMenuButtonNeededWidth();
     },
 

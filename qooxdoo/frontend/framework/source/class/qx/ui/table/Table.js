@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.table.Table",
      * boolean indicating whether a vertical scrollbar is now being used.
      */
     "verticalScrollBarChanged" : "qx.event.type.DataEvent",
-    
+
     /**
      * Dispatched when a data cell has been clicked.
      */
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.table.Table",
      * Dispatched when a data cell has been clicked.
      */
     "cellDblclick" : "qx.ui.table.pane.CellEvent",
-    
+
     /**
      * Dispatched when the context menu is needed in a data cell
      */
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.table.Table",
   	/**Events that must be redirected to the scrollers.*/
     __redirectEvents : { cellClick: 1, cellDblclick: 1, cellContextmenu: 1 }
   },
-  
+
 
   /*
   *****************************************************************************
@@ -678,8 +678,6 @@ qx.Class.define("qx.ui.table.Table",
       // Add the new panes
       if (metaColumnCounts.length > scrollerArr.length)
       {
-        var selectionModel = this.getSelectionModel();
-        var tableModel = this.getTableModel();
         var columnModel = this.getTableColumnModel();
 
         for (var i=scrollerArr.length; i<metaColumnCounts.length; i++)
@@ -1694,7 +1692,6 @@ qx.Class.define("qx.ui.table.Table",
       {
         var col = columnModel.getOverallColumnAtX(x);
         var visible = columnModel.isColumnVisible(col);
-        var cmd = { col : col };
         var bt = new qx.ui.menu.CheckBox(tableModel.getColumnName(col), null, visible);
 
         var handler = this._createColumnVisibilityCheckBoxHandler(col);
@@ -1840,7 +1837,7 @@ qx.Class.define("qx.ui.table.Table",
 
       this._updateScrollBarVisibility();
     },
-    
+
     /**
      * Add event listener to an object.
      */

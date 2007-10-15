@@ -393,7 +393,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       };
 
       event.addData(this.getDragDataMimeType(), dragData);
-      
+
       // add actions
       var action = this.getDragAction();
       if ( action instanceof Array )
@@ -406,7 +406,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       {
         event.addAction(action);
       }
-      
+
       // start drag session
       event.startDrag();
      },
@@ -685,11 +685,11 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           {
             // initialize timeout for current row
             this.__dragHoverRow = row;
-            _this = this;
+            var self = this;
             this.__dragHoverTimeoutFunc = window.setTimeout(function(){
               // dispatch event with targetNode with row hint
               targetNode.row = row;
-              _this.createDispatchDataEvent(dragHoverEventName,targetNode);
+              self.createDispatchDataEvent(dragHoverEventName,targetNode);
            }, dragHoverTimeout );
           }
         }
@@ -779,13 +779,13 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
      * @param sourceNode {Object}
      * @param targetNode {Object}
      * @param position {Integer}
-     * @param action {String} 
+     * @param action {String}
      *    position source node will be inserted above target if -1,
      *    below target if 1, and as a child if 0 or undefined
      */
     moveNode : function ( first, sourceNodes, targetNode, position, action )
     {
-      
+
       // one-parameter signature
       if ( arguments.length == 1)
       {
@@ -838,7 +838,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       }
 
       // moving / copying the node
-      
+
 
       // copy action
 
@@ -911,7 +911,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       var sortMap = this.getSortChildNodesBy();
       if ( ! sortMap || this.getAllowDropBetweenNodes() ) return;
       var node = this.nodeGet(nodeReference);
-      var _this = this;
+      var self = this;
       node.children.sort(function(a,b){
         for(var key in sortMap )
         {
@@ -930,8 +930,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
            }
 
            // get values to compare
-           var nodeA = _this.nodeGet(a);
-           var nodeB = _this.nodeGet(b);
+           var nodeA = self.nodeGet(a);
+           var nodeB = self.nodeGet(b);
 
            try
            {

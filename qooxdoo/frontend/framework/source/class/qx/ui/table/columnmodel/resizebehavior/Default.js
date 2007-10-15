@@ -418,7 +418,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // *************************************************************
       // 4. Adjust flexible columns, taking min/max values into account
       // *************************************************************
-      bSomethingChanged = true;
+      var bSomethingChanged = true;
 
       for (flexibleColumnsLength=flexibleColumns.length;
            bSomethingChanged&&flexibleColumnsLength>0;
@@ -431,7 +431,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
         {
           columnData = flexibleColumns[i];
 
-          computedFlexibleWidth =
+          var computedFlexibleWidth =
             columnData._computedWidthFlexValue =
             columnData._computedWidthParsed * partWidth;
 
@@ -607,7 +607,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // Determine the available width
       var availableWidth = this._getAvailableWidth(tableColumnModel);
       var width = availableWidth.width;
-      var extraWidth = availableWidth.extraWidth;
 
       // Determine the number of visible columns
       var numColumns = visibleColumns.length;
@@ -647,7 +646,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
         if (nextCol)
         {
           // Make the next column take up the available space.
-          var oldWidth = tableColumnModel.getColumnWidth(nextCol);
           var newWidth =
             (width - (widthUsed - tableColumnModel.getColumnWidth(nextCol)));
           tableColumnModel.setColumnWidth(nextCol, newWidth);
@@ -692,7 +690,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // Determine the available width
       var availableWidth = this._getAvailableWidth(tableColumnModel);
       var width = availableWidth.width;
-      var extraWidth = availableWidth.extraWidth;
 
       // Determine the number of visible columns
       var numColumns = visibleColumns.length;
@@ -714,7 +711,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
         lastCol = visibleColumns[visibleColumns.length - 1];
 
         // Make the last column take up the available space.
-        var oldWidth = tableColumnModel.getColumnWidth(lastCol);
         var newWidth =
           (width - (widthUsed - tableColumnModel.getColumnWidth(lastCol)));
         tableColumnModel.setColumnWidth(lastCol, newWidth);

@@ -375,8 +375,6 @@ qx.Class.define("qx.ui.component.DateChooser",
      */
     _applyDate : function(value, old)
     {
-      var DateChooser = qx.ui.component.DateChooser;
-
       if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
         // The new date is in another month -> Show that month

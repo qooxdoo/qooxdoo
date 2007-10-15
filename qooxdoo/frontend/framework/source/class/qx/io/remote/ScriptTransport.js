@@ -217,7 +217,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
       // --------------------------------------
       //   Sending data
       // --------------------------------------
-      vData = this.getData();
+      var vData = this.getData();
 
       if (vData != null) {
         vUrl += "&" + qx.io.remote.ScriptTransport.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);
