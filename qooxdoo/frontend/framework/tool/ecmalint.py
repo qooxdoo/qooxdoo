@@ -6,7 +6,6 @@ import os
 import sys
 from optparse import OptionParser
 
-
 from modules import treegenerator
 from modules import tokenizer
 from modules import treeutil
@@ -126,11 +125,12 @@ Function %s(%s):
     def computeVariableUses(self):
         self.uses = []
 
-        body = self.node.getChild("body", False)
-        if body:
-            startNode = body
-        else:
+        if self.type == Scope.GLOBAL:
             startNode = self.node
+        elif self.type == Scope.FUNCTION:
+            startNode = self.node.getChild("body")
+        elif self.type == Scope.EXCEPTION:
+            startNode = self.node.getChild("statement")
 
         for (name, node) in Scope.usedVariablesIterator(startNode):
             self.uses.append(VariableUse(name, node, self))
@@ -200,11 +200,10 @@ Function %s(%s):
     def _getDeclaredVariables(self):
         variables = {}
 
-        body = self.node.getChild("body", False)
-        if body:
-            startNode = body
-        else:
+        if self.type == Scope.GLOBAL:
             startNode = self.node
+        elif self.type == Scope.FUNCTION:
+            startNode = self.node.getChild("body")
 
         for (name, node) in Scope.declaredVariablesIterator(startNode):
             variables[name] = VariableDefinition(name, node, False, self)
@@ -263,13 +262,27 @@ Function %s(%s):
                 ):
                     varParent = varParent.parent.parent
 
+                # catch corner case a().b().length
+                if (
+                    varParent.type == "operand" and
+                    varParent.parent.type == "call" and
+                    varParent.parent.parent.type == "left" and
+                    varParent.parent.parent.parent.type == "accessor" and
+                    varParent.parent.parent.parent.parent.type == "right"
+                ):
+                    varParent = varParent.parent.parent.parent.parent
+
                 if not (varParent.type == "right" and varParent.parent.type == "accessor"):
                     isFirstChild = node.parent.getFirstChild(True, True) == node
 
             # used in foo.bar.some[thing] where "some" is the identifier
             elif node.parent.type == "accessor":
                 isVariableMember = True
+
                 accessor = node.parent
+                while accessor.parent.type == "accessor":
+                    accessor = accessor.parent
+
                 isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
 
             # inside a variable parent only respect the first member
@@ -332,6 +345,7 @@ class Lint:
             self.logger = ConsoleLogger()
         else:
             self.logger = logger
+
 
     def log(self, node, msg):
         (row, column) = treeutil.getLineAndColumnFromSyntaxItem(node)
