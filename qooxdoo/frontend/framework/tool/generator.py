@@ -658,7 +658,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            counter += basecalloptimizer.patch(loader.getTree(fileDb, fileId, options), fileId, options.verbose)
+            counter += basecalloptimizer.patch(loader.getTree(fileDb, fileId, options))
 
         if not options.verbose:
             print
