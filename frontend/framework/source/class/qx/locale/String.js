@@ -57,7 +57,7 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {qx.locale.LocalizedString} alternative quotation start sign
      */
-    getQuotationStart : function(locale) {
+    getAlternateQuotationStart : function(locale) {
       return new qx.locale.LocalizedString("cldr_alternateQuotationStart", [], locale);
     },
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {qx.locale.LocalizedString} alternative quotation end sign
      */
-    getQuotationEnd : function(locale) {
+    getAlternateQuotationEnd : function(locale) {
       return new qx.locale.LocalizedString("cldr_alternateQuotationEnd", [], locale);
     }
   }

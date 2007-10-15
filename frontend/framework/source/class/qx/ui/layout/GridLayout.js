@@ -1271,7 +1271,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
     mergeCells : function(vStartCol, vStartRow, vColLength, vRowLength)
     {
       var vSpans = this._spans;
-      var vLength = vSpans.length;
 
       // Find end cols/rows
       var vEndCol = vStartCol + vColLength - 1;

@@ -248,8 +248,6 @@ qx.Class.define("qx.locale.Manager",
     _applyLocale : function(value, old)
     {
       this._locale = value;
-
-      var pos = value.indexOf("_");
       this._language = this._extractLanguage(value);
       this._updateObjects();
     },

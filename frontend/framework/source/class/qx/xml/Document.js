@@ -90,7 +90,7 @@ qx.Class.define("qx.xml.Document",
 
         if (qualifiedName && vObject)
         {
-          xmlStr = new qx.util.StringBuilder();
+          var xmlStr = new qx.util.StringBuilder();
           xmlStr.add("<?xml version='1.0' encoding='UTF-8'?>\n<");
           xmlStr.add(qualifiedName);
 

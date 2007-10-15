@@ -315,7 +315,6 @@ qx.Class.define("qx.locale.Date",
         "VI" : 0,
         "ZA" : 0,
         "ZW" : 0,
-        "ET" : 0,
         "MW" : 0,
         "NG" : 0,
         "TJ" : 0

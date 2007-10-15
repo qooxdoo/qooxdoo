@@ -337,7 +337,7 @@ qx.Class.define("qx.util.fsm.State",
           }
 
           // Retrieve the parameter list
-          params = objectAndGroupList["parameters"];
+          var params = objectAndGroupList["parameters"];
 
           // If it didn't exist, ...
           if (!params)
@@ -798,7 +798,7 @@ qx.Class.define("qx.util.fsm.State",
         }
         else if (typeof (action) == "object")
         {
-          for (action_e in action)
+          for (var action_e in action)
           {
             if (typeof (action[action_e]) == "number" &&
                 action[action_e] !=

@@ -654,7 +654,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.base(arguments);
 
-      var self = this;
       this.getElement().onselectstart = qx.lang.Function.returnFalse;
 
       this._updateContent();
@@ -1031,9 +1030,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      var columnModel = table.getTableColumnModel();
-      var paneModel = this.getTablePaneModel();
-
       if (this._resizeColumn != null) {
         this._stopResizeHeader();
       } else if (this._moveColumn != null) {
@@ -1203,8 +1199,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (!table.getEnabled()) {
         return;
       }
-
-      var tableModel = table.getTableModel();
 
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
@@ -1696,7 +1690,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
             this._cellEditor.removeListener(
               "disappear",
-              _onCellEditorModalWindowClose,
+              this._onCellEditorModalWindowClose,
               this
             );
 

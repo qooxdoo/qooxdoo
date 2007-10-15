@@ -685,11 +685,11 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           {
             // initialize timeout for current row
             this.__dragHoverRow = row;
-            _this = this;
+            var self = this;
             this.__dragHoverTimeoutFunc = window.setTimeout(function(){
               // dispatch event with targetNode with row hint
               targetNode.row = row;
-              _this.fireDataEvent(dragHoverEventName,targetNode);
+              self.fireDataEvent(dragHoverEventName,targetNode);
            }, dragHoverTimeout );
           }
         }
@@ -911,7 +911,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       var sortMap = this.getSortChildNodesBy();
       if ( ! sortMap || this.getAllowDropBetweenNodes() ) return;
       var node = this.nodeGet(nodeReference);
-      var _this = this;
+      var self = this;
       node.children.sort(function(a,b){
         for(var key in sortMap )
         {
@@ -930,8 +930,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
            }
 
            // get values to compare
-           var nodeA = _this.nodeGet(a);
-           var nodeB = _this.nodeGet(b);
+           var nodeA = self.nodeGet(a);
+           var nodeB = self.nodeGet(b);
 
            try
            {

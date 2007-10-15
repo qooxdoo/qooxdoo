@@ -122,7 +122,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
 
       if (typeof(nodeReference) == "object")
       {
-        node = nodeReference;
+        var node = nodeReference;
         nodeId = node.nodeId;
       }
       else if (typeof(nodeReference) == "number")
@@ -240,7 +240,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
     {
       if (typeof(nodeReference) == "object")
       {
-        node = nodeReference;
+        var node = nodeReference;
       }
       else if (typeof(nodeReference) == "number")
       {

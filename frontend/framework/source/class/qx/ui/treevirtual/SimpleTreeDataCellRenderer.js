@@ -240,7 +240,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var html = "";
       var node = cellInfo.value;
       var imageUrl;
-      var _this = this;
 
       // Generate the indentation.  Obtain icon determination values once
       // rather than each time through the loop.

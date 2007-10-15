@@ -678,8 +678,6 @@ qx.Class.define("qx.ui.table.Table",
       // Add the new panes
       if (metaColumnCounts.length > scrollerArr.length)
       {
-        var selectionModel = this.getSelectionModel();
-        var tableModel = this.getTableModel();
         var columnModel = this.getTableColumnModel();
 
         for (var i=scrollerArr.length; i<metaColumnCounts.length; i++)
@@ -1694,7 +1692,6 @@ qx.Class.define("qx.ui.table.Table",
       {
         var col = columnModel.getOverallColumnAtX(x);
         var visible = columnModel.isColumnVisible(col);
-        var cmd = { col : col };
         var bt = new qx.ui.menu.CheckBox(tableModel.getColumnName(col), null, visible);
 
         var handler = this._createColumnVisibilityCheckBoxHandler(col);

@@ -51,21 +51,25 @@ qx.Class.define("qx.dev.StackTrace",
     {
       "gecko" : function()
       {
-        try {
+        try
+        {
           throw new Error();
-        } catch(e) {
+        }
+        catch(e)
+        {
           var errorTrace = this.getStackTraceFromError(e);
           qx.lang.Array.removeAt(errorTrace, 0);
           var callerTrace = this.getStackTraceFromCaller(arguments);
 
           var trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
-          for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++) {
-            callerCall = callerTrace[i];
+          for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++)
+          {
+            var callerCall = callerTrace[i];
             if (callerCall.indexOf("anonymous") >= 0) {
               continue;
             }
 
-            callerArr = callerCall.split(":");
+            var callerArr = callerCall.split(":");
             if (callerArr.length != 2) {
               continue;
             }
@@ -143,7 +147,6 @@ qx.Class.define("qx.dev.StackTrace",
       {
         var trace = [];
         var fcn = qx.lang.Function.getCaller(args);
-        var i=0;
         var knownFunction = {};
         while (fcn)
         {
