@@ -240,10 +240,6 @@ Function %s(%s):
         if node.type == "expression" and node.parent.type == "catch":
             return
 
-        # handle calls like "this.foo()[key]"
-        if node.type == "identifier" and node.getChild("call", False):
-            return
-
         # Handle all identifiers
         if node.type == "identifier":
             isFirstChild = False
@@ -272,6 +268,16 @@ Function %s(%s):
                 ):
                     varParent = varParent.parent.parent.parent.parent
 
+                # catch corner case a().b()[0]
+                if (
+                    varParent.type == "operand" and
+                    varParent.parent.type == "call" and
+                    varParent.parent.parent.type == "identifier" and
+                    varParent.parent.parent.parent.type == "accessor" and
+                    varParent.parent.parent.parent.parent.type == "right"
+                ):
+                    varParent = varParent.parent.parent.parent.parent
+
                 if not (varParent.type == "right" and varParent.parent.type == "accessor"):
                     isFirstChild = node.parent.getFirstChild(True, True) == node
 
@@ -288,7 +294,8 @@ Function %s(%s):
             # inside a variable parent only respect the first member
             if not isVariableMember or isFirstChild:
                 name = node.get("name", False)
-                yield (name, node)
+                if name:
+                    yield (name, node)
 
         # Iterate over children
         if node.hasChildren():
