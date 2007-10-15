@@ -425,7 +425,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var margin, width, height, padding, border;
-        var clazz = qx.ui.core.Border;
 
         if (states.checked || states.over)
         {
@@ -528,7 +527,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
         var marginTop, marginBottom, marginRight, marginLeft;
-        var backgroundColor, zIndex, border;
+        var backgroundColor, border;
 
         marginTop = 0;
         marginBottom = 0;

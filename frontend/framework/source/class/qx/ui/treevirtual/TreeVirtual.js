@@ -601,7 +601,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     {
       var _this = this;
       var components = [];
-      var nodeId;
+      var nodeId, node;
 
       if (typeof(nodeReference) == "object")
       {

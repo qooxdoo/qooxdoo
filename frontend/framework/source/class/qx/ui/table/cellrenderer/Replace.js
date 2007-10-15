@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
     addReversedReplaceMap : function()
     {
        var map = this.getReplaceMap();
-       for ( key in map )
+       for (var key in map )
        {
          var value = map[key];
          map[value] = key;

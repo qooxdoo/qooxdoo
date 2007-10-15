@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
      */
     updateChildrenOnRemoveChild : function(vChild, vIndex)
     {
-      var w = this.getWidget(), ch = w.getVisibleChildren(), chl = ch.length, chc, i = -1;
+      var w = this.getWidget(), ch = w.getVisibleChildren(), chc, i = -1;
 
       if (w.getReverseChildrenOrder())
       {
@@ -470,7 +470,7 @@ qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
         if ((vChild._cachedLocationHorizontal + vChild.getOuterWidth()) > vWidget.getInnerWidth())
         {
           // evaluate width of previous row
-          vRowMax = vTempChild.getOuterHeight();
+          var vRowMax = vTempChild.getOuterHeight();
 
           while ((vTempChild = vTempChild[vMethodContinue]()) && vTempChild._cachedRow == vChild._cachedRow) {
             vRowMax = Math.max(vRowMax, vTempChild.getOuterHeight());

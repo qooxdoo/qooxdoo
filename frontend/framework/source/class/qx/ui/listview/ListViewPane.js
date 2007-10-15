@@ -199,8 +199,6 @@ qx.Class.define("qx.ui.listview.ListViewPane",
       }
 
       // this.debug("Rows: " + vRowCount);
-
-      var vData = this._data;
       var vCell;
 
       // Sync cells: Add new ones and configure them

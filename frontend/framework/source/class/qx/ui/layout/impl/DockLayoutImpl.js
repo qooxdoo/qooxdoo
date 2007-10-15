@@ -647,8 +647,6 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
-        var vWidget = this.getWidget();
-
         vChild._resetRuntimeRight();
         vChild._resetRuntimeBottom();
 

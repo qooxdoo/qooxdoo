@@ -120,8 +120,6 @@ qx.Class.define("qx.log.appender.HtmlElement",
 
     appendLogEvent : function(evt)
     {
-      var Logger = qx.log.Logger;
-
       this._prepare();
 
       // Append the group when needed

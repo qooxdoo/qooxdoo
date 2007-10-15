@@ -768,8 +768,6 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     createView : function()
     {
-      var s = (new Date).valueOf();
-
       if (!this._protoCell) {
         this.createProtoCell();
       }

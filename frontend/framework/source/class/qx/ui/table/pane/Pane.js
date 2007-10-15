@@ -175,7 +175,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     {
       if (col != this._focusedCol || row != this._focusedRow)
       {
-        var oldCol = this._focusedCol;
         var oldRow = this._focusedRow;
         this._focusedCol = col;
         this._focusedRow = row;
@@ -413,8 +412,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var selectionModel = table.getSelectionModel();
       var tableModel = table.getTableModel();
       var rowRenderer = table.getDataRowRenderer();
-
-      var rowHeight = table.getRowHeight();
       var firstRow = this.getFirstVisibleRow();
 
       var elem = this.getElement();
@@ -620,12 +617,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     _updateAllRows : function()
     {
-      var TablePane = qx.ui.table.pane.Pane;
-
       var table = this.getTable();
 
       var tableModel = table.getTableModel();
-      var columnModel = table.getTableColumnModel();
       var paneModel = this.getPaneScroller().getTablePaneModel();
 
       var colCount = paneModel.getColumnCount();
