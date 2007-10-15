@@ -213,6 +213,13 @@ qx.Class.define("qx.log.appender.Window",
      */
     openWindow : function()
     {
+      // If window open is already running
+      if (this._inLogWindowCallback) {
+        return;
+      }
+
+      this._inLogWindowCallback = true;
+
       if (this._logWindow && !this._logWindow.closed)
       {
         // The window is already open -> Nothing to do
@@ -240,6 +247,13 @@ qx.Class.define("qx.log.appender.Window",
       //     this._logElem is not created yet. These events will be added to the
       //     this._logEventQueue and logged after this._logElem is created.
       this._logWindow = window.open("", this._name, params);
+
+      qx.client.Timer.once(this._openWindowCallback, this, 200);
+    },
+
+    _openWindowCallback : function()
+    {
+      delete this._inLogWindowCallback;
 
       if (!this._logWindow || this._logWindow.closed)
       {
@@ -379,7 +393,7 @@ qx.Class.define("qx.log.appender.Window",
     {
       if (!this._logWindow || this._logWindow.closed)
       {
-        if (!this._logWindow || !this._logEventQueue) {
+        if (!this._logEventQueue) {
           this._logEventQueue = [];
         }
 
