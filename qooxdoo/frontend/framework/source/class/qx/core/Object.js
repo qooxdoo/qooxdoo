@@ -167,13 +167,13 @@ qx.Class.define("qx.core.Object",
           }
           catch(ex)
           {
-            try
+            if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              console.warn("Could not dispose: " + vObject + ": " + ex);
-            }
-            catch(exc)
-            {
-              throw new Error("Could not dispose: " + vObject + ": " + ex);
+              if (window.console) {
+                console.warn("Could not dispose: " + vObject + ": ", ex);
+              } else {
+                throw ex;
+              }
             }
           }
         }

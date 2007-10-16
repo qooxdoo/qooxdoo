@@ -2706,7 +2706,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {var} TODOC
      */
     _computeDisplayable : function() {
-      return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
+      return this.getDisplay() && this.getParent() && this.getParent()._isDisplayable ? true : false;
     },
 
 
