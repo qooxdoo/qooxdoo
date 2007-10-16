@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     {
       // Get the inner width off the table
       var el = tableColumnModel._table.getElement();
-      var width = qx.html.Dimension.getInnerWidth(el) - 2;
+      var width = qx.html.Dimension.getInnerWidth(el);
 
       // Get the last meta column scroller
       var scrollers = tableColumnModel._table._getPaneScrollerArr();
@@ -201,7 +201,13 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
 
       // If the column visibility button is displayed or a verticalscroll bar is
       // being displayed, then reduce the available width by the width of those.
-      if (tableColumnModel._table.getColumnVisibilityButtonVisible() || (lastScroller._verScrollBar.getVisibility() && lastScroller._verScrollBar.getWidth() == "auto"))
+      if (
+        tableColumnModel._table.getColumnVisibilityButtonVisible() ||
+        (
+          lastScroller._verScrollBar.getVisibility() &&
+          lastScroller._verScrollBar.getWidth() == "auto"
+        )
+      )
       {
         // provide width without scrollbar space; no scrollbar space available
         return {
