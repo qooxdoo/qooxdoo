@@ -299,8 +299,6 @@ qx.Class.define("qx.ui.form.List",
       if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
       {
         var items = this.getSelectedItems();
-        var currentItem;
-
         for (var i=0; i<items.length; i++) {
           items[i].fireEvent("action");
         }
