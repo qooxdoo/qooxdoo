@@ -261,15 +261,23 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * @param cacheContent {Map} An old cache state.
      */
-    restoreCacheContent : function(cacheContent) {
-      if (this._firstLoadingBlock != -1) {
+    restoreCacheContent : function(cacheContent)
+    {
+      // If there is currently a request on its way, then this request will bring
+      // obsolete data -> Ignore it
+      if (this._firstLoadingBlock != -1)
+      {
         // Try to cancel the current request
         var cancelingSuceed = this._cancelCurrentRequest();
-        if (cancelingSuceed) {
+
+        if (cancelingSuceed)
+        {
           // The request was cancelled -> We're not loading any blocks any more
           this._firstLoadingBlock = -1;
           this._ignoreCurrentRequest = false;
-        } else {
+        }
+        else
+        {
           // The request was not cancelled -> Ignore it
           this._ignoreCurrentRequest = true;
         }
@@ -277,15 +285,22 @@ qx.Class.define("qx.ui.table.model.Remote",
 
       // Restore the cache content
       this._sortColumnIndex = cacheContent.sortColumnIndex;
-      this._sortAscending   = cacheContent.sortAscending;
-      this._rowCount        = cacheContent.rowCount;
-      this._lruCounter      = cacheContent.lruCounter;
-      this._rowBlockCache   = cacheContent.rowBlockCache;
-      this._rowBlockCount   = cacheContent.rowBlockCount;
+      this._sortAscending = cacheContent.sortAscending;
+      this._rowCount = cacheContent.rowCount;
+      this._lruCounter = cacheContent.lruCounter;
+      this._rowBlockCache = cacheContent.rowBlockCache;
+      this._rowBlockCount = cacheContent.rowBlockCount;
 
       // Inform the listeners
-      var data = { firstRow:0, lastRow:this._rowCount - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
-      this.createDispatchDataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data);
+      var data =
+      {
+        firstRow    : 0,
+        lastRow     : this._rowCount - 1,
+        firstColumn : 0,
+        lastColumn  : this.getColumnCount() - 1
+      };
+
+      this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
     },
 
 
