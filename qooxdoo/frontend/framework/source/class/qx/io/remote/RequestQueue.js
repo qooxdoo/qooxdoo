@@ -316,7 +316,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       var vActive = this._active;
 
-      if (vActive.length == 0) {
+      if (vActive.length == 0)
+      {
+        this._timer.stop();
         return;
       }
 
