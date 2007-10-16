@@ -253,6 +253,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
          to avoid those problems, because onreadystatechange can then return instantly.
       */
       var onreadyStateChangeCallback = qx.lang.Function.bind(this._onreadystatechange, this);
+      /*
       if (qx.core.Variant.isSet("qx.client", "mshtml") && this.getAsynchronous())
       {
         vRequest.onreadystatechange = function(e)
@@ -265,8 +266,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
       else
       {
-        vRequest.onreadystatechange = onreadyStateChangeCallback
+        vRequest.onreadystatechange = onreadyStateChangeCallback;
       }
+      */
+      vRequest.onreadystatechange = onreadyStateChangeCallback;
 
       // --------------------------------------
       //   Opening connection
