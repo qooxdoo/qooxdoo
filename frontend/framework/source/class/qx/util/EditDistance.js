@@ -159,7 +159,7 @@ qx.Class.define("qx.util.EditDistance",
      *
      * @type static
      * @param dataA {Array} incoming source data
-     * @param dataA {Array} incoming target data
+     * @param dataB {Array} incoming target data
      * @return {Map[]} Array of maps describing the operations needed
      */
     getEditOperations : function(dataA, dataB)
