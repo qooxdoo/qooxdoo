@@ -187,7 +187,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
   *****************************************************************************
   */
 
-  destruct : {
+  destruct : function() {
     this._disposeFields("_history");
   }
 });
