@@ -509,7 +509,7 @@ qx.Class.define("qx.core.Property",
 
       // Fill dispose value
       if (config.dispose === undefined && typeof config.check === "string") {
-        config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check);
+        config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check) || qx.Interface.isDefined(config.check);
       }
 
       var method = this.$$method;
