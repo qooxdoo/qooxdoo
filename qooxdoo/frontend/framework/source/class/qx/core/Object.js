@@ -720,17 +720,20 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
         {
+          var vValue;
           for (var vKey in this)
           {
+            vValue = this[vKey];
+
             // Check for Objects but respect values attached to the prototype itself
-            if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
+            if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
             {
               // Allow class, interface and mixin aliases
-              if (qx.Class.isDefined(vKey) || qx.Interface.isDefined(vKey) || qx.Mixin.isDefined(vKey) || qx.Theme.isDefined(vKey)) {
+              if (qx.Class.isDefined(vValue) || qx.Interface.isDefined(vValue) || qx.Mixin.isDefined(vValue) || qx.Theme.isDefined(vValue)) {
                 continue;
               }
 
-              qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + this[vKey]);
+              qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
               delete this[vKey];
             }
           }
