@@ -333,6 +333,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         // Create a veritcal box layout for all of this folder's children
         this._containerObject = new qx.ui.layout.VerticalBoxLayout;
         this._containerObject.setWidth(null);
+        this._containerObject.setHeight("auto");
         this._containerObject.setAnonymous(true);
 
         // it should be faster to first handle display,
