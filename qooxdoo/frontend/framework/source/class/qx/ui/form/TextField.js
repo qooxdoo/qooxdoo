@@ -192,7 +192,8 @@ qx.Class.define("qx.ui.form.TextField",
       init : "",
       nullable : true,
       event : "changeValue",
-      apply : "_applyValue"
+      apply : "_applyValue",
+      dispose : true // in the case we use i18n text here
     },
 
     /**
