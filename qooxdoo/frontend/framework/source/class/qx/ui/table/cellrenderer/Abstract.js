@@ -45,6 +45,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         "  overflow:hidden;" +
         "  text-overflow:ellipsis;" +
         "  -o-text-overflow: ellipsis;" +
+        "  white-space:nowrap;" +
         "  border-right:1px solid #eeeeee;" +
         "  border-bottom:1px solid #eeeeee;" +
         "  padding : 0px 2px;" +
