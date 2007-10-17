@@ -542,8 +542,8 @@ qx.Class.define("qx.core.Object",
             // Check for Objects but respect values attached to the prototype itself
             if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
             {
-              // Allow class, interface and mixin aliases
-              if (qx.Class.isDefined(vValue) || qx.Interface.isDefined(vValue) || qx.Mixin.isDefined(vValue) || qx.Theme.isDefined(vValue)) {
+              // Allow class, interface, mixin and theme aliases
+              if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
                 continue;
               }
 
