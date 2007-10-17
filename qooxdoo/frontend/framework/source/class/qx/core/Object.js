@@ -652,7 +652,7 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
           console.debug("Dispose Deep: " + name);
         }
       }
@@ -678,7 +678,7 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
             console.debug("Sending dispose to " + obj.classname);
           }
         }
@@ -703,7 +703,7 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
                   console.debug("- Deep processing item '" + i + "'");
                 }
               }
@@ -713,7 +713,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
                 console.debug("- Resetting key (object) '" + key + "'");
               }
             }
@@ -724,7 +724,7 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
                 console.debug("- Resetting key (function) '" + key + "'");
               }
             }
@@ -751,7 +751,7 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
                   console.debug("- Deep processing key '" + key + "'");
                 }
               }
@@ -761,7 +761,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
                 console.debug("- Resetting key (object) '" + key + "'");
               }
             }
@@ -772,7 +772,7 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
                 console.debug("- Resetting key (function) '" + key + "'");
               }
             }
