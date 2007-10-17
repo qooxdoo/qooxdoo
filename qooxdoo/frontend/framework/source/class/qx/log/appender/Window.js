@@ -539,5 +539,8 @@ qx.Class.define("qx.log.appender.Window",
     catch(ex) {};
 
     this._autoCloseWindow();
+
+    this._disposeFields("_markerBtn", "_filterInput", "_logLinesDiv",
+      "_logEventQueue", "_filterTextWords", "_divDataSets");
   }
 });
