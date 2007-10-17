@@ -722,8 +722,14 @@ qx.Class.define("qx.core.Object",
         {
           for (var vKey in this)
           {
+            // Check for Objects but respect values attached to the prototype itself
             if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
             {
+              // Allow class, interface and mixin aliases
+              if (qx.Class.isDefined(vKey) || qx.Interface.isDefined(vKey) || qx.Mixin.isDefined(vKey) || qx.Theme.isDefined(vKey)) {
+                continue;
+              }
+
               qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + this[vKey]);
               delete this[vKey];
             }
