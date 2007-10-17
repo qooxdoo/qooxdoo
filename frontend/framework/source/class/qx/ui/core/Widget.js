@@ -1482,8 +1482,10 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** Contains the support drop types for drag and drop support */
-    dropDataTypes : {
-      nullable : true
+    dropDataTypes :
+    {
+      nullable : true,
+      dispose : true
     },
 
 
