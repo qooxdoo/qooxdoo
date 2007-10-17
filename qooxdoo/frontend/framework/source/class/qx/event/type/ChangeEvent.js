@@ -41,7 +41,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
  /**
   * @param type {String} the type name of the event
   * @param value {var} additional value which should be passed to the event listener
-  * @param value {var} additional old value which should be passed to the event listener
+  * @param old {var} additional old value which should be passed to the event listener
   */
   construct : function(type, value, old)
   {
