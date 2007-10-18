@@ -145,6 +145,7 @@ qx.Class.define("qx.core.Object",
       }
 
       this.__disposed = true;
+      this.__unload = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -227,13 +228,24 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Returns whether a global dispose (page unload) is currently taking place.
+     * Returns whether a global dispose is currently taking place.
      *
      * @type static
      * @return {Boolean} whether a global dispose is taking place.
      */
     inGlobalDispose : function() {
-      return this.__disposed;
+      return this.__disposed || false;
+    },
+
+
+    /**
+     * Returns whether a global unload (page unload) is currently taking place.
+     *
+     * @type static
+     * @return {Boolean} whether a global unload is taking place.
+     */
+    isPageUnload : function() {
+      return this.__unload || false;
     }
   },
 
@@ -719,23 +731,26 @@ qx.Class.define("qx.core.Object",
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
+        if (!qx.core.Object.isPageUnload())
         {
-          var vValue;
-          for (var vKey in this)
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
           {
-            vValue = this[vKey];
-
-            // Check for Objects but respect values attached to the prototype itself
-            if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
+            var vValue;
+            for (var vKey in this)
             {
-              // Allow class, interface, mixin and theme aliases
-              if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
-                continue;
-              }
+              vValue = this[vKey];
 
-              qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
-              delete this[vKey];
+              // Check for Objects but respect values attached to the prototype itself
+              if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
+              {
+                // Allow class, interface, mixin and theme aliases
+                if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
+                  continue;
+                }
+
+                qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
+                delete this[vKey];
+              }
             }
           }
         }
