@@ -25,7 +25,6 @@
 #use(qx.core.Init)
 #require(qx.core.LegacyProperty)
 #require(qx.core.Property)
-#resource(qx.static:static)
 
 ************************************************************************ */
 
@@ -150,9 +149,7 @@ qx.Class.define("qx.core.Object",
         if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           var disposeStart = new Date;
-          if (window.console) {
-            console.debug("Disposing qooxdoo application...");
-          }
+          qx.core.Log.debug("Disposing qooxdoo application...");
         }
       }
 
@@ -171,13 +168,8 @@ qx.Class.define("qx.core.Object",
           }
           catch(ex)
           {
-            if (qx.core.Variant.isSet("qx.debug", "on"))
-            {
-              if (window.console) {
-                console.warn("Could not dispose: " + vObject + ": ", ex);
-              } else {
-                throw ex;
-              }
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              qx.core.Log.warn("Could not dispose: " + vObject + ": ", ex);
             }
           }
         }
@@ -190,9 +182,7 @@ qx.Class.define("qx.core.Object",
           // check dom
           var elems = document.all ? document.all : document.getElementsByTagName("*");
 
-          if (window.console) {
-            console.debug("Checking " + elems.length + " elements for object references...");
-          }
+          qx.core.Log.debug("Checking " + elems.length + " elements for object references...");
 
           for (var i=0, l=elems.length; i<l; i++)
           {
@@ -204,17 +194,15 @@ qx.Class.define("qx.core.Object",
               {
                 if (typeof elem[key] == "object")
                 {
-                  if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array) {
-
+                  if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array)
+                  {
                     var name = "unknown object";
 
                     if (elem[key] instanceof qx.core.Object) {
                       name = elem[key].classname + "[" + elem[key].toHashCode() + "]";
                     }
 
-                    if (window.console) {
-                      console.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
-                    }
+                    qx.core.Log.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
                   }
                 }
               }
@@ -225,9 +213,7 @@ qx.Class.define("qx.core.Object",
             }
           }
 
-          if (window.console) {
-            console.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
-          }
+          qx.core.Log.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
     },
@@ -506,11 +492,8 @@ qx.Class.define("qx.core.Object",
       // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1)
-        {
-          if (window.console) {
-            console.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
-          }
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+          qx.core.Log.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -562,10 +545,7 @@ qx.Class.define("qx.core.Object",
                   continue;
                 }
 
-                if (window.console) {
-                  console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
-                }
-
+                qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
                 delete this[vKey];
               }
             }
@@ -605,11 +585,8 @@ qx.Class.define("qx.core.Object",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (qx.core.Setting.get("qx.disposerDebugLevel") > 1)
-            {
-              if (window.console) {
-                console.debug(this.classname + " has no own field " + name);
-              }
+            if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+              qx.core.Log.debug(this.classname + " has no own field " + name);
             }
           }
 
@@ -644,11 +621,8 @@ qx.Class.define("qx.core.Object",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (qx.core.Setting.get("qx.disposerDebugLevel") > 1)
-            {
-              if (window.console) {
-                console.debug(this.classname + " has no own field " + name);
-              }
+            if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+              qx.core.Log.debug(this.classname + " has no own field " + name);
             }
           }
 
@@ -687,11 +661,8 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") > 1)
-          {
-            if (window.console) {
-              console.debug(this.classname + " has no own field " + name);
-            }
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
+            qx.core.Log.debug(this.classname + " has no own field " + name);
           }
         }
 
@@ -700,11 +671,8 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 2)
-        {
-          if (window.console) {
-            console.debug("Dispose Deep: " + name);
-          }
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+          qx.core.Log.debug("Dispose Deep: " + name);
         }
       }
 
@@ -729,11 +697,8 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-          {
-            if (window.console) {
-              console.debug("Sending dispose to " + obj.classname);
-            }
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+            qx.core.Log.debug("Sending dispose to " + obj.classname);
           }
         }
 
@@ -757,11 +722,8 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-                {
-                  if (window.console) {
-                    console.debug("- Deep processing item '" + i + "'");
-                  }
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                  qx.core.Log.debug("- Deep processing item '" + i + "'");
                 }
               }
 
@@ -770,11 +732,8 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-              {
-                if (window.console) {
-                  console.debug("- Resetting key (object) '" + key + "'");
-                }
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (object) '" + key + "'");
               }
             }
 
@@ -784,11 +743,8 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-              {
-                if (window.console) {
-                  console.debug("- Resetting key (function) '" + key + "'");
-                }
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (function) '" + key + "'");
               }
             }
 
@@ -814,11 +770,8 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-                {
-                  if (window.console) {
-                    console.debug("- Deep processing key '" + key + "'");
-                  }
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                  qx.core.Log.debug("- Deep processing key '" + key + "'");
                 }
               }
 
@@ -827,11 +780,8 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-              {
-                if (window.console) {
-                  console.debug("- Resetting key (object) '" + key + "'");
-                }
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (object) '" + key + "'");
               }
             }
 
@@ -841,11 +791,8 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3)
-              {
-                if (window.console) {
-                  console.debug("- Resetting key (function) '" + key + "'");
-                }
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (function) '" + key + "'");
               }
             }
 

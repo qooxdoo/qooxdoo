@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#resource(qx.static:static)
 #ignore(auto-require)
 #ignore(auto-use)
 #use(qx.lang.Core)
