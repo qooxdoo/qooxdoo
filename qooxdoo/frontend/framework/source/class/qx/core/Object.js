@@ -133,9 +133,10 @@ qx.Class.define("qx.core.Object",
      * this method and free these resources.
      *
      * @type static
+     * @param unload {Boolean?false} Whether the dispose is fired through the page unload event
      * @return {void}
      */
-    dispose : function()
+    dispose : function(unload)
     {
       if (this.__disposed) {
         return;
@@ -145,7 +146,7 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
+        if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           var disposeStart = new Date;
           if (window.console) {
@@ -183,7 +184,7 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
+        if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           // check dom
           var elems = document.all ? document.all : document.getElementsByTagName("*");
@@ -532,29 +533,26 @@ qx.Class.define("qx.core.Object",
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit"))
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
+          var vValue;
+          for (var vKey in this)
           {
-            var vValue;
-            for (var vKey in this)
+            vValue = this[vKey];
+
+            // Check for Objects but respect values attached to the prototype itself
+            if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
             {
-              vValue = this[vKey];
-
-              // Check for Objects but respect values attached to the prototype itself
-              if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
-              {
-                // Allow class, interface, mixin and theme aliases
-                if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
-                  continue;
-                }
-
-                if (window.console) {
-                  console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
-                }
-
-                delete this[vKey];
+              // Allow class, interface, mixin and theme aliases
+              if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
+                continue;
               }
+
+              if (window.console) {
+                console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
+              }
+
+              delete this[vKey];
             }
           }
         }
