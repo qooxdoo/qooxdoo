@@ -145,7 +145,7 @@ qx.Class.define("qx.core.Object",
       }
 
       this.__disposed = true;
-      this.__unload = true;
+      this.__unload = unload || false;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
