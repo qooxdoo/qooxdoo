@@ -257,7 +257,7 @@ qx.Class.define("qx.core.Init",
       }
 
       // Dispose all qooxdoo objects
-      qx.core.Object.dispose();
+      qx.core.Object.dispose(true);
     }
   },
 
