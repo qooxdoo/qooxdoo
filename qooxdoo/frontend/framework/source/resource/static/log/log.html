@@ -11,7 +11,7 @@
   <div id="log"></div>
   <input type="text" id="commandLine">
   <script type="text/javascript">
-  if (opener.qx.core.Log._onLogReady) {
+  if (opener.qx && opener.qx.core && opener.qx.core.Log && opener.qx.core.Log._onLogReady) {
     opener.qx.core.Log._onLogReady(window);
   }
   </script>
