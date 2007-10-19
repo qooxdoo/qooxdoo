@@ -55,6 +55,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     this.initSelectable();
     this.initTabIndex();
+    this.initScrolling();
 
     if (vSource != undefined) {
       this.setSource(vSource);
@@ -401,7 +402,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       frameEl.vspace = "0";
 
       frameEl.border = "0";
-      frameEl.scrolling = "auto";
       frameEl.unselectable = "on";
       frameEl.allowTransparency = "true";
 
@@ -468,7 +468,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       var blockerNode = this.setBlockerNode(this._generateBlockerElement());
 
       this._syncSource();
-      this._applyScrolling();
+      this._syncScrolling();
 
       value.appendChild(iframeNode);
       value.appendChild(blockerNode);
