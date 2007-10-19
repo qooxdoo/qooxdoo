@@ -157,6 +157,15 @@ qx.Class.define("qx.ui.embed.Iframe",
       check : "String",
       init : "",
       apply : "_applyFrameName"
+    },
+
+
+    /** Whether the iframe's content pane should have scroll bars */
+    scrolling :
+    {
+      check : ["yes", "no", "auto"],
+      init  : "auto",
+      apply : "_applyScrolling"
     }
   },
 
@@ -459,6 +468,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       var blockerNode = this.setBlockerNode(this._generateBlockerElement());
 
       this._syncSource();
+      this._applyScrolling();
 
       value.appendChild(iframeNode);
       value.appendChild(blockerNode);
@@ -537,6 +547,25 @@ qx.Class.define("qx.ui.embed.Iframe",
       } else {
         this.getIframeNode().src = currentSource;
       }
+    },
+
+
+    // property apply
+    _applyScrolling : function(value, old)
+    {
+      if (this.isCreated()) {
+        this._syncScrolling();
+      }
+    },
+
+
+    /**
+     * Sync scrolling property to the iframe DOM node.
+     *
+     * @type member
+     */
+    _syncScrolling : function() {
+      this.getIframeNode().setAttribute("scrolling", this.getScrolling());
     },
 
 
