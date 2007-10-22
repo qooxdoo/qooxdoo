@@ -30,6 +30,7 @@ APPLICATION_API_TITLE = Quickstart
 
 APPLICATION_FILES = index.html button.png Application.js
 APPLICATION_RESOURCE_FILTER = true
+APPLICATION_LOCALES = en
 
 # Generate a single JavaScript file
 APPLICATION_SCRIPT_FILENAME = qx.js
