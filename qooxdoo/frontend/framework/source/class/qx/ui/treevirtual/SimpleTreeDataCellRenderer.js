@@ -377,18 +377,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
           ! node.bHideOpenClose)
       {
-        // Yup.  Determine if this node has any children
-        var child = null;
-
-        for (child in node.children)
-        {
-          // If we find even one, we're done here.
-          break;
-        }
-
         // Does this node have any children, or do we always want the
         // open/close symbol to be shown?
-        if (child !== null || bAlwaysShowOpenCloseSymbol)
+        if (node.children.length > 0 || bAlwaysShowOpenCloseSymbol)
         {
           // If we're not showing tree lines...
           if (!bUseTreeLines)
