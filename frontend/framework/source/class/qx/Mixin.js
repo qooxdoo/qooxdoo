@@ -151,7 +151,7 @@ qx.Class.define("qx.Mixin",
       mixin.toString = this.genericToString;
 
       // Assign to namespace
-      mixin.basename = qx.Class.createNamespace(name, mixin);
+      mixin.basename = qx.Bootstrap.createNamespace(name, mixin);
 
       // Store class reference in global mixin registry
       this.$$registry[name] = mixin;

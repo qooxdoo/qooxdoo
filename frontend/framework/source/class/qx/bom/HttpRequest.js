@@ -34,6 +34,13 @@ qx.Class.define("qx.bom.HttpRequest",
 
   statics :
   {
+    UNSENT : 0,
+    OPEN : 1,
+    SENT : 2,
+    LOADING : 3,
+    DONE : 4,
+    
+        
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
