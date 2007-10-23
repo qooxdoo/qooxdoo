@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     this.initTabIndex();
     this.initScrolling();
 
-    if (vSource != undefined) {
+    if (vSource != null) {
       this.setSource(vSource);
     }
   },
@@ -146,8 +146,8 @@ qx.Class.define("qx.ui.embed.Iframe",
       check : "String",
       init : "",
       apply : "_applySource",
-      event : "changeSource"
-
+      event : "changeSource",
+      nullable : true
     },
 
     /**
