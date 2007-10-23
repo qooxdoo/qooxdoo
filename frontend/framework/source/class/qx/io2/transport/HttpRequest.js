@@ -23,14 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.io2.transport.HttpRequest",
+qx.Bootstrap.define("qx.io2.transport.HttpRequest",
 {
-  extend : qx.core.Object,
-  
-  construct : function()
-  {
-    this.base(arguments);
-    
+  construct : function() {
     this.object = qx.bom.HttpRequest.create();
   },
   

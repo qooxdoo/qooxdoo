@@ -65,11 +65,33 @@ qx =
       if (!config) {
         var config = { statics : {} };
       }
+      
+      var clazz;
+      var proto = null;
+      
+      if (config.members) 
+      {
+        clazz = config.construct || new Function;
+        var statics = config.statics;
+        for (var key in statics) {
+          clazz[key] = statics[key];
+        }
 
-      this.createNamespace(name, config.statics);
-
+        proto = clazz.prototype;
+        var members = config.members;
+        for (var key in members) {
+          proto[key] = members[key];
+        }
+      }
+      else
+      {
+        clazz = config.statics || {};
+      }
+      
+      this.createNamespace(name, clazz);        
+      
       if (config.defer) {
-        config.defer(config.statics);
+        config.defer(clazz, proto);
       }
 
       // Store class reference in global class registry
@@ -85,6 +107,16 @@ qx =
  *
  * Automatically loads JavaScript language fixes and enhancements to
  * bring all engines to at least JavaScript 1.6.
+ *
+ * Does support:
+ * * Statics
+ * * Members
+ * * Defer
+ *
+ * Does not support:
+ * * Custom extends
+ * * Super class calls
+ * * Mixins, Interfaces, Properties, ...
  */
 qx.Bootstrap.define("qx.Bootstrap",
 {
