@@ -940,7 +940,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Create namespace
-      var basename = qx.Boostrap.createNamespace(name, clazz, false);
+      var basename = qx.Bootstrap.createNamespace(name, clazz, false);
 
       // Store names in constructor/object
       clazz.name = clazz.classname = name;
