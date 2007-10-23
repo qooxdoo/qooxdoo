@@ -144,7 +144,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     source :
     {
       check : "String",
-      init : "",
       apply : "_applySource",
       event : "changeSource",
       nullable : true
@@ -532,7 +531,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       var currentSource = this.getSource();
 
-      if (qx.util.Validation.isInvalidString(currentSource)) {
+      if (currentSource == null || currentSource === "") {
         currentSource = qx.io.Alias.getInstance().resolve("static/html/blank.html");
       }
 
