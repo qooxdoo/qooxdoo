@@ -252,46 +252,6 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Creates a namespace and assigns the given object to it.
-     *
-     * @type static
-     * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
-     * @param object {Object} The object to attach to the namespace
-     * @return {Object} last part of the namespace (typically the class name)
-     * @throws TODOC
-     */
-    createNamespace : function(name, object)
-    {
-      var splits = name.split(".");
-      var parent = window;
-      var part = splits[0];
-
-      for (var i=0, l=splits.length-1; i<l; i++, part=splits[i])
-      {
-        if (!parent[part]) {
-          parent = parent[part] = {};
-        } else {
-          parent = parent[part];
-        }
-      }
-
-      // do not overwrite
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (parent[part] !== undefined) {
-          throw new Error("An object of the name '" + name + "' already exists and overwriting is not allowed!");
-        }
-      }
-
-      // store object
-      parent[part] = object;
-
-      // return last part name (i.e. classname)
-      return part;
-    },
-
-
-    /**
      * Whether the given class exists
      *
      * @type static
@@ -980,7 +940,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Create namespace
-      var basename = this.createNamespace(name, clazz, false);
+      var basename = qx.Boostrap.createNamespace(name, clazz, false);
 
       // Store names in constructor/object
       clazz.name = clazz.classname = name;

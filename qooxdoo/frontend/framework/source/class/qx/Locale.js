@@ -47,7 +47,7 @@ qx.Class.define("qx.Locale",
      */
     define : function(name, config)
     {
-      qx.Class.createNamespace(name, config);
+      qx.Bootstrap.createNamespace(name, config);
       qx.locale.Manager.getInstance().addTranslationFromClass(name, config);
     }
   }

@@ -99,7 +99,7 @@ qx.Class.define("qx.Theme",
       }
 
       // Assign to namespace
-      theme.basename = qx.Class.createNamespace(name, theme);
+      theme.basename = qx.Bootstrap.createNamespace(name, theme);
 
       // Convert theme entry from Object to Function (for prototype inheritance)
       this.__convert(theme, config);
