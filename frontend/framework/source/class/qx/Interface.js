@@ -140,7 +140,7 @@ qx.Class.define("qx.Interface",
       iface.toString = this.genericToString;
 
       // Assign to namespace
-      iface.basename = qx.Class.createNamespace(name, iface);
+      iface.basename = qx.Bootstrap.createNamespace(name, iface);
 
       // Add to registry
       qx.Interface.$$registry[name] = iface;
