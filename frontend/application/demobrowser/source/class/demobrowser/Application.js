@@ -58,6 +58,8 @@ qx.Class.define("demobrowser.Application",
     {
       this.base(arguments);
 
+      qx.Class.include(qx.core.Object, qx.core.MUserData);
+
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
 
