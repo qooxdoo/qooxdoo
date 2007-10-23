@@ -554,6 +554,15 @@ exec-download-contribs:
 		--contrib-cache "$(QOOXDOO_INCLUDE_CACHE)"
 
 
+#
+# lint targets
+#
+lint:
+	$(SILENCE) python -c "import sys; src=sys.argv[1]; print src.replace(\"--class-path\", \"\").replace(\",\", \" \")" "$(COMPUTED_CLASS_PATH)" | \
+		xargs find | \
+		grep "\.js\$$" | \
+		xargs $(CMD_LINT) -gqx -gqxsettings -gqxvariants -g$(APPLICATION_NAMESPACE) $(patsubst %,-g%,$(LINT_ALLOWED_GLOBALS))
+
 
 #
 # Publish targets

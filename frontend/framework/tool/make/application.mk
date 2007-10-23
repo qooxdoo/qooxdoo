@@ -64,6 +64,7 @@ endif
 
 
 
+
 ################################################################################
 # BASIC SETTINGS
 ################################################################################
@@ -610,6 +611,23 @@ endif
 #
 ifndef APPLICATION_SCRIPT_FILENAME
   APPLICATION_SCRIPT_FILENAME = $(APPLICATION_NAMESPACE).js
+endif
+
+
+
+
+
+
+################################################################################
+# LINT OPTIONS
+################################################################################
+
+#
+# A list of valid global identifiers. These identifiers will not be reported
+# as errors.
+#
+ifndef LINT_ALLOWED_GLOBALS
+  LINT_ALLOWED_GLOBALS = 
 endif
 
 
