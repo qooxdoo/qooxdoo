@@ -29,6 +29,7 @@
 # ==============================================================================
 
 ifneq ($(APPLICATION_INCLUDES),false)
+	
 	QOOXDOO_INCLUDE_CACHE = $(FRAMEWORK_PATH)/.includes
 
 	DOWNLOAD_CONTRIBS = $(filter contrib://%, $(APPLICATION_INCLUDES))
