@@ -173,7 +173,13 @@ def parsePart(part):
                 #for char in item:
                     # look for a regexp
                     mo = R_REGEXP.match(item[i:])
-                    if mo:
+                    if ( mo
+                         # if this thingy looks like a regexp, look that the preceding token is no
+                         # "left-hand operand" that might turn the expression into a division
+                         and (tokens[-1]['detail'] != 'int')
+                         and (tokens[-1]['detail'] != 'float')
+                         and (tokens[-1]['detail'] != 'RP')
+                         and (tokens[-1]['detail'] != 'public')):
                         tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(mo.group(0)), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
                         parseColumn += len(mo.group(0))
                         i += len(mo.group(0))
