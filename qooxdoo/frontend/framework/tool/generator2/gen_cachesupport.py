@@ -11,9 +11,7 @@ import filetool
 
 # Improved version of the one in filetool module
 
-def readCache(id, segment, dep, jobconfig):
-
-    cachePath = jobconfig["cachePath"]
+def readCache(id, segment, dep, cachePath):
 
     if not cachePath.endswith(os.sep):
         cachePath += os.sep
@@ -40,9 +38,7 @@ def readCache(id, segment, dep, jobconfig):
 
 
 
-def writeCache(id, segment, content, jobconfig):
-
-    cachePath = jobconfig["cachePath"]
+def writeCache(id, segment, content, cachePath):
 
     if not cachePath.endswith(os.sep):
         cachePath += os.sep
@@ -55,6 +51,7 @@ def writeCache(id, segment, content, jobconfig):
     except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
         print ">>> Could not store cache to %s" % cachePath
         sys.exit(1)
+
 
 
 

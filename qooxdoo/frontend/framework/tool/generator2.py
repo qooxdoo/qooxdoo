@@ -486,7 +486,7 @@ def getApi(id):
     entry = classes[id]
     path = entry["path"]
 
-    cache = gen_cachesupport.readCache(id, "api", path, jobconfig)
+    cache = gen_cachesupport.readCache(id, "api", path, jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -497,7 +497,7 @@ def getApi(id):
 
     (apidata, hasError) = api.createDoc(tree)
 
-    gen_cachesupport.writeCache(id, "api", apidata, jobconfig)
+    gen_cachesupport.writeCache(id, "api", apidata, jobconfig["cachePath"])
 
     return apidata
 
@@ -604,7 +604,7 @@ def getMeta(id):
     entry = classes[id]
     path = entry["path"]
 
-    cache = gen_cachesupport.readCache(id, "meta", path, jobconfig)
+    cache = gen_cachesupport.readCache(id, "meta", path, jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -629,7 +629,7 @@ def getMeta(id):
         meta["resources"] = _extractQxResources(content)
         meta["embeds"] = _extractQxEmbeds(content)
 
-    gen_cachesupport.writeCache(id, "meta", meta, jobconfig)
+    gen_cachesupport.writeCache(id, "meta", meta, jobconfig["cachePath"])
 
     return meta
 
@@ -729,7 +729,7 @@ def getTokens(id):
     global classes
     global verbose
 
-    cache = gen_cachesupport.readCache(id, "tokens", classes[id]["path"], jobconfig)
+    cache = gen_cachesupport.readCache(id, "tokens", classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -737,7 +737,7 @@ def getTokens(id):
         print "  - Generating tokens: %s..." % id
     tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
 
-    gen_cachesupport.writeCache(id, "tokens", tokens, jobconfig)
+    gen_cachesupport.writeCache(id, "tokens", tokens, jobconfig["cachePath"])
     return tokens
 
 
@@ -751,7 +751,7 @@ def getTree(id):
     global classes
     global verbose
 
-    cache = gen_cachesupport.readCache(id, "tree", classes[id]["path"], jobconfig)
+    cache = gen_cachesupport.readCache(id, "tree", classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -761,7 +761,7 @@ def getTree(id):
         print "  - Generating tree: %s..." % id
     tree = treegenerator.createSyntaxTree(tokens)
 
-    gen_cachesupport.writeCache(id, "tree", tree, jobconfig)
+    gen_cachesupport.writeCache(id, "tree", tree, jobconfig["cachePath"])
     return tree
 
 
@@ -775,7 +775,7 @@ def getVariantsTree(id, variants):
     if variantsId != "":
         variantsId = "-" + variantsId
 
-    cache = gen_cachesupport.readCache(id, "tree" + variantsId, classes[id]["path"], jobconfig)
+    cache = gen_cachesupport.readCache(id, "tree" + variantsId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -794,7 +794,7 @@ def getVariantsTree(id, variants):
     variantoptimizer.search(tree, variantsMap, id)
 
     # Store result into cache
-    gen_cachesupport.writeCache(id, "tree" + variantsId, tree, jobconfig)
+    gen_cachesupport.writeCache(id, "tree" + variantsId, tree, jobconfig["cachePath"])
 
     return tree
 
@@ -1314,7 +1314,7 @@ def getCompiled(id, variants, process):
     if processId != "":
         processId = "-" + processId
 
-    cache = gen_cachesupport.readCache(id, "compiled" + variantsId + processId, classes[id]["path"], jobconfig)
+    cache = gen_cachesupport.readCache(id, "compiled" + variantsId + processId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -1332,7 +1332,7 @@ def getCompiled(id, variants, process):
 
     compiled = _compileClassHelper(tree)
 
-    gen_cachesupport.writeCache(id, "compiled" + variantsId + processId, compiled, jobconfig)
+    gen_cachesupport.writeCache(id, "compiled" + variantsId + processId, compiled, jobconfig["cachePath"])
     return compiled
 
 
@@ -1497,7 +1497,7 @@ def getDeps(id, variants):
 
     variantsId = generateVariantCombinationId(variants)
 
-    cache = gen_cachesupport.readCache(id, "deps" + variantsId, classes[id]["path"], jobconfig)
+    cache = gen_cachesupport.readCache(id, "deps" + variantsId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -1555,7 +1555,7 @@ def getDeps(id, variants):
         "run" : run
     }
 
-    gen_cachesupport.writeCache(id, "deps" + variantsId, deps, jobconfig)
+    gen_cachesupport.writeCache(id, "deps" + variantsId, deps, jobconfig["cachePath"])
 
     return deps
 
