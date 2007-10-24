@@ -93,6 +93,7 @@ import variantoptimizer
 import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 import api
 import simplejson
+import gen_cachesupport
 
 
 
@@ -410,64 +411,6 @@ def generateScript():
 
 
 ######################################################################
-#  CORE: CACHE SUPPORT
-######################################################################
-
-# Improved version of the one in filetool module
-
-def readCache(id, segment, dep):
-    global jobconfig
-
-    cachePath = jobconfig["cachePath"]
-
-    if not cachePath.endswith(os.sep):
-        cachePath += os.sep
-
-    filetool.directory(cachePath)
-
-    fileModTime = os.stat(dep).st_mtime
-
-    try:
-        cacheModTime = os.stat(cachePath + id + "-" + segment).st_mtime
-    except OSError:
-        cacheModTime = 0
-
-    # Out of date check
-    if fileModTime > cacheModTime:
-        return None
-
-    try:
-        return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
-
-    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-        print ">>> Could not read cache from %s" % cachePath
-        return None
-
-
-
-def writeCache(id, segment, content):
-    global jobconfig
-
-    cachePath = jobconfig["cachePath"]
-
-    if not cachePath.endswith(os.sep):
-        cachePath += os.sep
-
-    filetool.directory(cachePath)
-
-    try:
-        cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
-
-    except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
-        print ">>> Could not store cache to %s" % cachePath
-        sys.exit(1)
-
-
-
-
-
-
-######################################################################
 #  CORE: SESSION STABLE HASH CODE SUPPORT
 ######################################################################
 
@@ -543,7 +486,7 @@ def getApi(id):
     entry = classes[id]
     path = entry["path"]
 
-    cache = readCache(id, "api", path)
+    cache = gen_cachesupport.readCache(id, "api", path, jobconfig)
     if cache != None:
         return cache
 
@@ -554,7 +497,7 @@ def getApi(id):
 
     (apidata, hasError) = api.createDoc(tree)
 
-    writeCache(id, "api", apidata)
+    gen_cachesupport.writeCache(id, "api", apidata, jobconfig)
 
     return apidata
 
@@ -661,7 +604,7 @@ def getMeta(id):
     entry = classes[id]
     path = entry["path"]
 
-    cache = readCache(id, "meta", path)
+    cache = gen_cachesupport.readCache(id, "meta", path, jobconfig)
     if cache != None:
         return cache
 
@@ -686,7 +629,7 @@ def getMeta(id):
         meta["resources"] = _extractQxResources(content)
         meta["embeds"] = _extractQxEmbeds(content)
 
-    writeCache(id, "meta", meta)
+    gen_cachesupport.writeCache(id, "meta", meta, jobconfig)
 
     return meta
 
@@ -786,7 +729,7 @@ def getTokens(id):
     global classes
     global verbose
 
-    cache = readCache(id, "tokens", classes[id]["path"])
+    cache = gen_cachesupport.readCache(id, "tokens", classes[id]["path"], jobconfig)
     if cache != None:
         return cache
 
@@ -794,7 +737,7 @@ def getTokens(id):
         print "  - Generating tokens: %s..." % id
     tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
 
-    writeCache(id, "tokens", tokens)
+    gen_cachesupport.writeCache(id, "tokens", tokens, jobconfig)
     return tokens
 
 
@@ -808,7 +751,7 @@ def getTree(id):
     global classes
     global verbose
 
-    cache = readCache(id, "tree", classes[id]["path"])
+    cache = gen_cachesupport.readCache(id, "tree", classes[id]["path"], jobconfig)
     if cache != None:
         return cache
 
@@ -818,7 +761,7 @@ def getTree(id):
         print "  - Generating tree: %s..." % id
     tree = treegenerator.createSyntaxTree(tokens)
 
-    writeCache(id, "tree", tree)
+    gen_cachesupport.writeCache(id, "tree", tree, jobconfig)
     return tree
 
 
@@ -832,7 +775,7 @@ def getVariantsTree(id, variants):
     if variantsId != "":
         variantsId = "-" + variantsId
 
-    cache = readCache(id, "tree" + variantsId, classes[id]["path"])
+    cache = gen_cachesupport.readCache(id, "tree" + variantsId, classes[id]["path"], jobconfig)
     if cache != None:
         return cache
 
@@ -851,7 +794,7 @@ def getVariantsTree(id, variants):
     variantoptimizer.search(tree, variantsMap, id)
 
     # Store result into cache
-    writeCache(id, "tree" + variantsId, tree)
+    gen_cachesupport.writeCache(id, "tree" + variantsId, tree, jobconfig)
 
     return tree
 
@@ -1371,7 +1314,7 @@ def getCompiled(id, variants, process):
     if processId != "":
         processId = "-" + processId
 
-    cache = readCache(id, "compiled" + variantsId + processId, classes[id]["path"])
+    cache = gen_cachesupport.readCache(id, "compiled" + variantsId + processId, classes[id]["path"], jobconfig)
     if cache != None:
         return cache
 
@@ -1389,7 +1332,7 @@ def getCompiled(id, variants, process):
 
     compiled = _compileClassHelper(tree)
 
-    writeCache(id, "compiled" + variantsId + processId, compiled)
+    gen_cachesupport.writeCache(id, "compiled" + variantsId + processId, compiled, jobconfig)
     return compiled
 
 
@@ -1554,7 +1497,7 @@ def getDeps(id, variants):
 
     variantsId = generateVariantCombinationId(variants)
 
-    cache = readCache(id, "deps" + variantsId, classes[id]["path"])
+    cache = gen_cachesupport.readCache(id, "deps" + variantsId, classes[id]["path"], jobconfig)
     if cache != None:
         return cache
 
@@ -1612,7 +1555,7 @@ def getDeps(id, variants):
         "run" : run
     }
 
-    writeCache(id, "deps" + variantsId, deps)
+    gen_cachesupport.writeCache(id, "deps" + variantsId, deps, jobconfig)
 
     return deps
 
