@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       // only do this if we called setSelected seperatly
       // and not from the property "value".
       if (!this._fromValue) {
-        this.setValue(value ? value.getValue() : "");
+        this.setValue(value ? value.getLabel().toString() : "");
       }
 
       // reset manager cache
