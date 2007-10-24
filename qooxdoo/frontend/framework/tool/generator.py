@@ -830,7 +830,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            counter += privateoptimizer.patch(loader.getTree(fileDb, fileId, options), {}, "$", options.verbose)
+            counter += privateoptimizer.patch("",loader.getTree(fileDb, fileId, options), {}, "$", options.verbose)
 
         if not options.verbose:
             print
