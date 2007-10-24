@@ -93,8 +93,10 @@ import variantoptimizer
 import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 import api
 import simplejson
-import gen_cachesupport
+import gen_cachesupport, gen_hashcode
 
+
+hashes = None
 
 
 ######################################################################
@@ -405,43 +407,6 @@ def generateScript():
                 print "    - Done: %s" % packageSize
 
 
-
-
-
-
-
-######################################################################
-#  CORE: SESSION STABLE HASH CODE SUPPORT
-######################################################################
-
-# calculates a hash code (simple incrementer)
-# cache all already calculates inputs for the next session using pickle
-# to keep hash codes identical between different sessions
-def toHashCode(id):
-    global classes
-    global hashes
-    global jobconfig
-
-    cachePath = jobconfig["cachePath"]
-
-    if not cachePath.endswith(os.sep):
-        cachePath += os.sep
-
-    try:
-        hashes = cPickle.load(open(cachePath + "hashes", 'rb'))
-    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-        hashes = {}
-
-    if not hashes.has_key(id):
-        hashes[id] = mapper.convert(len(hashes))
-
-        try:
-            cPickle.dump(hashes, open(cachePath + "hashes", 'wb'), 2)
-        except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-            print ">>> Could not store hash cache: %s" % cachePath
-            sys.exit(1)
-
-    return hashes[id]
 
 
 
@@ -1379,7 +1344,9 @@ def variableOptimizeHelper(tree, id, variants):
 
 
 def privateOptimizeHelper(tree, id, variants):
-    unique = toHashCode(id)
+    global hashes
+    global jobconfig
+    unique = gen_hashcode.toHashCode(id, hashes, jobconfig["cachePath"])
     privateoptimizer.patch(unique, tree, {})
 
 
