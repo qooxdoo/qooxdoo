@@ -58,7 +58,7 @@ ignore = []
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
-def patch(node, known, prefix, verbose):
+def patch(node, known, prefix, verbose=False):
     if node.type == "identifier":
         name = node.get("name", False)
 
