@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     this.initTabIndex();
     this.initScrolling();
 
-    if (vSource != undefined) {
+    if (vSource != null) {
       this.setSource(vSource);
     }
   },
@@ -144,10 +144,9 @@ qx.Class.define("qx.ui.embed.Iframe",
     source :
     {
       check : "String",
-      init : "",
       apply : "_applySource",
-      event : "changeSource"
-
+      event : "changeSource",
+      nullable : true
     },
 
     /**
@@ -532,7 +531,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       var currentSource = this.getSource();
 
-      if (qx.util.Validation.isInvalidString(currentSource)) {
+      if (currentSource == null || currentSource === "") {
         currentSource = qx.io.Alias.getInstance().resolve("static/html/blank.html");
       }
 
