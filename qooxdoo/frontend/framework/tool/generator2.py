@@ -477,6 +477,12 @@ def writeCache(id, segment, content):
 def toHashCode(id):
     global classes
     global hashes
+    global jobconfig
+
+    cachePath = jobconfig["cachePath"]
+
+    if not cachePath.endswith(os.sep):
+        cachePath += os.sep
 
     try:
         hashes = cPickle.load(open(cachePath + "hashes", 'rb'))
