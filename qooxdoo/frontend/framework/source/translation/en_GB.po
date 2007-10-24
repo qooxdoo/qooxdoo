@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-14 08:41+0200\n"
+"POT-Creation-Date: 2007-10-15 16:52+0200\n"
 "PO-Revision-Date: 2007-04-05 16:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -299,18 +299,18 @@ msgstr "Description"
 msgid "ID"
 msgstr "ID"
 
-#: class/qx/ui/form/ComboBoxEx.js:953
+#: class/qx/ui/form/ComboBoxEx.js:954
 msgid "Search"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1069
+#: class/qx/ui/form/ComboBoxEx.js:1070
 msgid "Case sensitive"
 msgstr "Case sensitive"
 
-#: class/qx/ui/form/ComboBoxEx.js:1111
+#: class/qx/ui/form/ComboBoxEx.js:1112
 msgid "Search next occurrence"
 msgstr "Search next occurrence"
 
-#: class/qx/ui/form/ComboBoxEx.js:1155
+#: class/qx/ui/form/ComboBoxEx.js:1156
 msgid "Search items in list"
 msgstr "Search items in list"
