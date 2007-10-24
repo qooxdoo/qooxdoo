@@ -13,7 +13,10 @@
 		    "require" :
 		    {
 		        "qx.log.Logger" : ["qx.log.appender.Native"]
-		    }
+		    },
+
+        "cachePath" : "./.cache2"
+
 		},
 
 		"source" :
