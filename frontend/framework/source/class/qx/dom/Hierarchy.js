@@ -137,7 +137,7 @@ qx.Class.define("qx.dom.Hierarchy",
 
       // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
       "gecko" : function(element, target) {
-        return !!(element.compareDocumentPosition(target) & 16)
+        return !!(element.compareDocumentPosition(target) & 16);
       },
 
       "default" : function(element, target)
