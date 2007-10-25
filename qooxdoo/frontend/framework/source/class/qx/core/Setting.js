@@ -206,8 +206,10 @@ qx.Class.define("qx.core.Setting",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer : function(statics)
+  {
     statics.define("qx.allowUrlSettings", true);
+    statics.define("qx.resourceUri", "./resource");
     statics.__init();
   }
 });
