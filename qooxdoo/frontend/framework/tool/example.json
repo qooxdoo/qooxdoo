@@ -1,7 +1,7 @@
 {
 		"common" :
 		{
-		    "classPath" :
+		    "classPath__" :
 		    [
 		        "framework/source/class",
 		        "application/apiviewer/source/class",
@@ -9,6 +9,24 @@
 		        "application/webmail/source/class",
 		        "application/showcase/source/class"
 		    ],
+
+        "path" :
+        {
+            "class" :
+            [
+                "framework/source/class",
+                "application/apiviewer/source/class",
+                "application/feedreader/source/class",
+                "application/webmail/source/class",
+                "application/showcase/source/class"
+            ],
+            
+            "web" : 
+                "../source/class",
+
+            "resource" :
+                "framework/source/resource"
+        },
 
 		    "require" :
 		    {

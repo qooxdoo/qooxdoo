@@ -216,11 +216,26 @@ def execute(job, config):
 
 def getJobConfig(key, default=None):
     global jobconfig
+    return _getJobConfig(key, jobconfig, default)
 
-    if jobconfig.has_key(key):
-        return jobconfig[key]
+
+def _getJobConfig(key, configpart, default):
+
+    sepindex = key.find(".")
+
+    # simple key
+    if sepindex == -1:
+        if configpart.has_key(key):
+            return configpart[key]
+        else:
+            return default
+    # complex key
     else:
-        return default
+        firstpart = key[0:sepindex]
+        if configpart.has_key(firstpart):  # check first part
+            return _getJobConfig(key[sepindex+1:], configpart[firstpart],default)
+        else:
+            return default
 
 
 def generateScript():
@@ -235,7 +250,8 @@ def generateScript():
     #
 
     # Class paths
-    classPaths = getJobConfig("classPath")
+    #classPaths = getJobConfig("classPath")
+    classPaths = getJobConfig("path.class")
 
     # Script names
     buildScript = getJobConfig("buildScript")
