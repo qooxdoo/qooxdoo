@@ -250,8 +250,8 @@ def generateScript():
     #
 
     # Class paths
-    #classPaths = getJobConfig("classPath")
-    classPaths = getJobConfig("path.class")
+    classPaths = getJobConfig("classPath__")
+    #classPaths = getJobConfig("path.class")
 
     # Script names
     buildScript = getJobConfig("buildScript")
@@ -434,8 +434,39 @@ def generateScript():
                 packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)
                 print "    - Done: %s" % packageSize
 
+        sourceScript = True
+
+        if sourceScript != None:
+            sys.stdout.write(">>> Generating script file...\n")
+            sys.stdout.flush()
+            sourceScriptFile = "script.js"
+            sourceScript = storeSourceScript(includeDict, sourceScriptFile, dynLoadDeps, dynRunDeps, variants, buildProcess)
+            print "    - Done"
 
 
+
+def storeSourceScript(includeDict, sourceScriptFile, loadDeps, runDeps, variants, buildProcess):
+    global classes
+
+    scriptBlocks = ""
+    sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
+    for f in sortedClasses:
+        cEntry    = classes[f]
+        uriprefix = ""
+        for pElem in jobconfig['path']:
+            if pElem['class'] == cEntry['classPath']:
+                uriprefix = pElem['web']
+                break
+        if uriprefix == "":
+            raise "Cannot find uriprefix for %s" % f
+        uri       = os.path.join(uriprefix, f.replace(".",os.sep)) + ".js"
+        scriptBlocks += '<script type="text/javascript" src="%s"></script>' % uri
+        scriptBlocks += "\n"
+
+    sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
+
+    filetool.save(sourceScriptFile, sourceScript)
+    return sourceScript
 
 
 

@@ -11,22 +11,30 @@
 		    ],
 
         "path" :
-        {
-            "class" :
-            [
-                "framework/source/class",
-                "application/apiviewer/source/class",
-                "application/feedreader/source/class",
-                "application/webmail/source/class",
-                "application/showcase/source/class"
-            ],
-            
-            "web" : 
-                "../source/class",
+        [
+            {
+                "class" : "framework/source/class",
+                "web"   : "../source/class",
+                 "resource" : "framework/source/resource"
+            },
+            {
+                "class" : "application/apiviewer/source/class",
+                "web"   : "../source/class"
+            },
+            {
+                "class" : "application/feedreader/source/class",
+                "web"   : "../source/class"
+            },
+            {
+                "class" : "application/webmail/source/class",
+                "web"   : "../source/class"
+            },
+            {
+                "class" : "application/showcase/source/class",
+                "web"   : "../source/class"
+            }
 
-            "resource" :
-                "framework/source/resource"
-        },
+        ],
 
 		    "require" :
 		    {
