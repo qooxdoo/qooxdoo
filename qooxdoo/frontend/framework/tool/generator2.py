@@ -93,7 +93,7 @@ import variantoptimizer
 import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 import api
 import simplejson
-import gen_cachesupport, gen_hashcode
+import gen_cachesupport, gen_hashcode, gen_apidata, gen_progress, gen_treesupport
 
 
 hashes = None
@@ -124,6 +124,16 @@ def main():
     (options, args) = parser.parse_args(sys.argv[1:])
 
     process(options)
+
+
+def init():
+    "Construct some global objects"
+    global treesupport
+    global classes
+    global jobconfig
+    global verbose
+
+    treesupport = gen_treesupport.TreeSupport(classes, jobconfig["cachePath"], verbose)
 
 
 def process(options):
@@ -270,6 +280,8 @@ def generateScript():
     scanModules()
 
 
+    # Init global objects
+    init()
 
 
     #
@@ -393,7 +405,7 @@ def generateScript():
 
 
         if apiPath != None:
-            storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath)
+            gen_apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, jobconfig["cachePath"], treesupport, quiet, verbose)
 
 
         if buildScript != None:
@@ -405,153 +417,6 @@ def generateScript():
                 packageFileName = buildScript + "_$variants_$process.js"
                 packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)
                 print "    - Done: %s" % packageSize
-
-
-
-
-
-
-
-######################################################################
-#  CORE: PROGRESS DISPLAY
-######################################################################
-
-def printProgress(pos, length):
-    global quiet
-
-    if quiet:
-        return
-
-    # starts normally at null, but this is not useful here
-    # also the length is normally +1 the real size
-    pos += 1
-
-    thisstep = 10 * pos / length
-    prevstep = 10 * (pos-1) / length
-
-    if thisstep != prevstep:
-        sys.stdout.write(" %s%%" % (thisstep * 10))
-        sys.stdout.flush()
-
-    if pos == length:
-        sys.stdout.write("\n")
-        sys.stdout.flush()
-
-
-
-
-
-######################################################################
-#  API: DATA SUPPORT
-######################################################################
-
-def getApi(id):
-    global classes
-
-    entry = classes[id]
-    path = entry["path"]
-
-    cache = gen_cachesupport.readCache(id, "api", path, jobconfig["cachePath"])
-    if cache != None:
-        return cache
-
-    tree = getTree(id)
-
-    if verbose:
-        print "  - Generating API data: %s..." % id
-
-    (apidata, hasError) = api.createDoc(tree)
-
-    gen_cachesupport.writeCache(id, "api", apidata, jobconfig["cachePath"])
-
-    return apidata
-
-
-
-def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath):
-    docTree = tree.Node("doctree")
-    todo = includeDict.keys()
-    length = len(todo)
-
-    sys.stdout.write(">>> Generating API data:")
-    sys.stdout.flush()
-    for pos, id in enumerate(todo):
-        printProgress(pos, length)
-        _mergeApiNodes(docTree, getApi(id))
-
-    print "  - Postprocessing..."
-    api.postWorkPackage(docTree, docTree)
-
-    print "  - Storing..."
-    packages = api.packagesToJsonString(docTree, "", "  ", "\n")
-    filetool.save(os.path.join(apiPath, "apidata.js"), packages)
-
-    for classData in api.classNodeIterator(docTree):
-        classContent = tree.nodeToJsonString(classData, "", "  ", "\n")
-        fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
-        filetool.save(fileName, classContent)
-
-    print ">>> Done"
-
-
-
-def _mergeApiNodes(target, source):
-    if source.hasAttributes():
-        attr = source.attributes
-        for key in attr:
-            # Special handling for attributes which stores a list (this is BTW quite ugly)
-            if key in ["childClasses", "includer", "mixins", "implementations"] and target.get(key, False) != None:
-                target.set(key, "%s,%s" % (target.get(key), attr[key]))
-            else:
-                target.set(key, attr[key])
-
-    if source.hasChildren():
-        # copy to keep length while iterating
-        children = source.children[:]
-
-        for child in children:
-            # print "Child: %s" % child.type
-
-            # no such type => append
-            if not target.hasChild(child.type):
-                # print "=> direct append"
-                target.addChild(child)
-
-            else:
-                # looking for identical child (e.g. equal name etc.)
-                identical = _findIdenticalChild(target, child)
-                if identical:
-                    # print "=> identical merge"
-                    _mergeApiNodes(identical, child)
-
-                else:
-                    # print "=> fallback append"
-                    target.addChild(child)
-
-
-
-def _findIdenticalChild(node, search):
-    if node.hasChildren():
-        for child in node.children:
-            if _isNodeIdentical(child, search):
-                return child
-
-    return None
-
-
-
-def _isNodeIdentical(nodeA, nodeB):
-    if nodeA.type == nodeB.type:
-        if not nodeA.hasAttributes() and not nodeB.hasAttributes():
-            return True
-
-        if nodeA.type in [ "method", "param", "property", "event" ]:
-            return nodeA.get("name") == nodeB.get("name")
-
-        if nodeA.type in [ "class", "package", "interface", "mixin" ]:
-            return nodeA.get("fullName") == nodeB.get("fullName")
-
-    return False
 
 
 
@@ -679,91 +544,6 @@ def _extractQxEmbeds(data):
         emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
 
     return emb
-
-
-
-
-
-
-
-######################################################################
-#  TOKEN/TREE SUPPORT
-######################################################################
-
-def getTokens(id):
-    global classes
-    global verbose
-
-    cache = gen_cachesupport.readCache(id, "tokens", classes[id]["path"], jobconfig["cachePath"])
-    if cache != None:
-        return cache
-
-    if verbose:
-        print "  - Generating tokens: %s..." % id
-    tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
-
-    gen_cachesupport.writeCache(id, "tokens", tokens, jobconfig["cachePath"])
-    return tokens
-
-
-
-def getLength(id):
-    return len(getTokens(id))
-
-
-
-def getTree(id):
-    global classes
-    global verbose
-
-    cache = gen_cachesupport.readCache(id, "tree", classes[id]["path"], jobconfig["cachePath"])
-    if cache != None:
-        return cache
-
-    tokens = getTokens(id)
-
-    if verbose:
-        print "  - Generating tree: %s..." % id
-    tree = treegenerator.createSyntaxTree(tokens)
-
-    gen_cachesupport.writeCache(id, "tree", tree, jobconfig["cachePath"])
-    return tree
-
-
-
-def getVariantsTree(id, variants):
-    global classes
-    global verbose
-
-    variantsId = generateVariantCombinationId(variants)
-
-    if variantsId != "":
-        variantsId = "-" + variantsId
-
-    cache = gen_cachesupport.readCache(id, "tree" + variantsId, classes[id]["path"], jobconfig["cachePath"])
-    if cache != None:
-        return cache
-
-    # Generate map
-    variantsMap = {}
-    for entry in variants:
-        variantsMap[entry["id"]] = entry["value"]
-
-    # Copy tree to work with
-    tree = copy.deepcopy(getTree(id))
-
-    if verbose:
-        print "  - Select variants: %s..." % id
-
-    # Call variant optimizer
-    variantoptimizer.search(tree, variantsMap, id)
-
-    # Store result into cache
-    gen_cachesupport.writeCache(id, "tree" + variantsId, tree, jobconfig["cachePath"])
-
-    return tree
-
-
 
 
 
@@ -1037,7 +817,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
             packageLength = 0
 
             for classId in packageClasses[packageId]:
-                packageLength += getLength(classId)
+                packageLength += treesupport.getLength(classId)
 
             if packageLength >= optimizeLatency:
                 if not quiet:
@@ -1243,11 +1023,12 @@ def getOptionals(classes):
 ######################################################################
 
 def compileClasses(todo, variants, process):
+    global quiet
     content = ""
     length = len(todo)
 
     for pos, id in enumerate(todo):
-        printProgress(pos, length)
+        gen_progress.printProgress(pos, length, quiet)
         content += getCompiled(id, variants, process)
 
     return content
@@ -1283,9 +1064,9 @@ def getCompiled(id, variants, process):
     if cache != None:
         return cache
 
-    tokens = getTokens(id)
+    tokens = treesupport.getTokens(id)
 
-    tree = copy.deepcopy(getVariantsTree(id, variants))
+    tree = copy.deepcopy(treesupport.getVariantsTree(id, variants))
 
     if verbose:
         print "  - Postprocessing tree: %s..." % id
@@ -1537,7 +1318,7 @@ def _readDictKey(data, key, default=None):
 def _analyzeClassDeps(id, variants):
     global classes
 
-    tree = getVariantsTree(id, variants)
+    tree = treesupport.getVariantsTree(id, variants)
     loadtime = []
     runtime = []
 
