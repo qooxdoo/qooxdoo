@@ -538,8 +538,15 @@ qx.Class.define("qx.core.Object",
               vValue = this[vKey];
 
               // Check for Objects but respect values attached to the prototype itself
-              if (vValue !== null && typeof vValue === "object" && this.constructor.prototype[vKey] === undefined)
+              if (vValue !== null && typeof vValue === "object")
               {
+                // Check prototype value
+                // undefined is the best, but null may be used as a placeholder for
+                // private variables (hint: checks in qx.Class.define). We accept both.
+                if (this.constructor.prototype[vKey] != null) {
+                  continue;
+                }
+
                 // Allow class, interface, mixin and theme aliases
                 if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
                   continue;
