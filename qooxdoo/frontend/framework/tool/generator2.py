@@ -564,6 +564,9 @@ def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, varian
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
 
+    variantsId = gen_hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
+    processId  = gen_hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
+
     packageFileName = packageFileName.replace("$variants", variantsId)
     packageFileName = packageFileName.replace("$process", processId)
 
@@ -1053,6 +1056,9 @@ def getCompiled(id, variants, process):
 
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(process)
+
+    variantsId = gen_hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
+    processId  = gen_hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
 
     if variantsId != "":
         variantsId = "-" + variantsId
