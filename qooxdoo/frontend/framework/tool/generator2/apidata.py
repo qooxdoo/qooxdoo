@@ -4,7 +4,7 @@ script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.insert(0, os.path.join(script_path, "../modules"))
 
 import api, tree, filetool
-import gen_cachesupport, gen_progress, gen_treesupport
+import cachesupport, progress, treesupport
 
 ######################################################################
 #  API: DATA SUPPORT
@@ -15,7 +15,7 @@ def getApi(id, classes, cachePath, treesupport, verbose=False):
     entry = classes[id]
     path = entry["path"]
 
-    cache = gen_cachesupport.readCache(id, "api", path, cachePath)
+    cache = cachesupport.readCache(id, "api", path, cachePath)
     if cache != None:
         return cache
 
@@ -26,7 +26,7 @@ def getApi(id, classes, cachePath, treesupport, verbose=False):
 
     (apidata, hasError) = api.createDoc(tree)
 
-    gen_cachesupport.writeCache(id, "api", apidata, cachePath)
+    cachesupport.writeCache(id, "api", apidata, cachePath)
 
     return apidata
 
@@ -40,7 +40,7 @@ def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cachePath, 
     sys.stdout.write(">>> Generating API data:")
     sys.stdout.flush()
     for pos, id in enumerate(todo):
-        gen_progress.printProgress(pos, length, quiet)
+        progress.printProgress(pos, length, quiet)
         _mergeApiNodes(docTree, getApi(id, classes, cachePath, treesupport, verbose))
 
     print "  - Postprocessing..."

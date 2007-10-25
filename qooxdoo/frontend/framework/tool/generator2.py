@@ -87,14 +87,29 @@ script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.insert(0, os.path.join(script_path, "modules"))
 sys.path.insert(0, os.path.join(script_path, "generator2"))
 
-import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, textutil, mapper
-import variantoptimizer
-import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
-import api
-import simplejson
-import gen_cachesupport, gen_hashcode, gen_apidata, gen_progress, gen_treesupport
+from modules import config
+from modules import tokenizer
+from modules import tree
+from modules import treegenerator
+from modules import treeutil
+from modules import optparseext
+from modules import filetool
+from modules import compiler
+from modules import textutil
+from modules import mapper
+from modules import variantoptimizer
+from modules import variableoptimizer
+from modules import stringoptimizer
+from modules import basecalloptimizer
+from modules import privateoptimizer
+from modules import api
+from modules import simplejson
 
+from generator2 import cachesupport
+from generator2 import hashcode
+from generator2 import apidata
+from generator2 import progress
+from generator2 import treesupport
 
 hashes = None
 
@@ -133,7 +148,7 @@ def init():
     global jobconfig
     global verbose
 
-    treesupport = gen_treesupport.TreeSupport(classes, jobconfig["cachePath"], verbose)
+    treesupport = treesupport.TreeSupport(classes, jobconfig["cachePath"], verbose)
 
 
 def process(options):
@@ -421,7 +436,7 @@ def generateScript():
 
 
         if apiPath != None:
-            gen_apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, jobconfig["cachePath"], treesupport, quiet, verbose)
+            apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, jobconfig["cachePath"], treesupport, quiet, verbose)
 
 
         if buildScript != None:
@@ -481,7 +496,7 @@ def getMeta(id):
     entry = classes[id]
     path = entry["path"]
 
-    cache = gen_cachesupport.readCache(id, "meta", path, jobconfig["cachePath"])
+    cache = cachesupport.readCache(id, "meta", path, jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -506,7 +521,7 @@ def getMeta(id):
         meta["resources"] = _extractQxResources(content)
         meta["embeds"] = _extractQxEmbeds(content)
 
-    gen_cachesupport.writeCache(id, "meta", meta, jobconfig["cachePath"])
+    cachesupport.writeCache(id, "meta", meta, jobconfig["cachePath"])
 
     return meta
 
@@ -611,8 +626,8 @@ def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, varian
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
 
-    variantsId = gen_hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
-    processId  = gen_hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
+    variantsId = hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
+    processId  = hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
 
     packageFileName = packageFileName.replace("$variants", variantsId)
     packageFileName = packageFileName.replace("$process", processId)
@@ -1078,7 +1093,7 @@ def compileClasses(todo, variants, process):
     length = len(todo)
 
     for pos, id in enumerate(todo):
-        gen_progress.printProgress(pos, length, quiet)
+        progress.printProgress(pos, length, quiet)
         content += getCompiled(id, variants, process)
 
     return content
@@ -1104,8 +1119,8 @@ def getCompiled(id, variants, process):
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(process)
 
-    variantsId = gen_hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
-    processId  = gen_hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
+    variantsId = hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
+    processId  = hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
 
     if variantsId != "":
         variantsId = "-" + variantsId
@@ -1113,7 +1128,7 @@ def getCompiled(id, variants, process):
     if processId != "":
         processId = "-" + processId
 
-    cache = gen_cachesupport.readCache(id, "compiled" + variantsId + processId, classes[id]["path"], jobconfig["cachePath"])
+    cache = cachesupport.readCache(id, "compiled" + variantsId + processId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -1131,7 +1146,7 @@ def getCompiled(id, variants, process):
 
     compiled = _compileClassHelper(tree)
 
-    gen_cachesupport.writeCache(id, "compiled" + variantsId + processId, compiled, jobconfig["cachePath"])
+    cachesupport.writeCache(id, "compiled" + variantsId + processId, compiled, jobconfig["cachePath"])
     return compiled
 
 
@@ -1180,7 +1195,7 @@ def variableOptimizeHelper(tree, id, variants):
 def privateOptimizeHelper(tree, id, variants):
     global hashes
     global jobconfig
-    unique = gen_hashcode.toHashCode(id, hashes, jobconfig["cachePath"])
+    unique = hashcode.toHashCode(id, hashes, jobconfig["cachePath"])
     privateoptimizer.patch(unique, tree, {})
 
 
@@ -1298,7 +1313,7 @@ def getDeps(id, variants):
 
     variantsId = generateVariantCombinationId(variants)
 
-    cache = gen_cachesupport.readCache(id, "deps" + variantsId, classes[id]["path"], jobconfig["cachePath"])
+    cache = cachesupport.readCache(id, "deps" + variantsId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -1356,7 +1371,7 @@ def getDeps(id, variants):
         "run" : run
     }
 
-    gen_cachesupport.writeCache(id, "deps" + variantsId, deps, jobconfig["cachePath"])
+    cachesupport.writeCache(id, "deps" + variantsId, deps, jobconfig["cachePath"])
 
     return deps
 
