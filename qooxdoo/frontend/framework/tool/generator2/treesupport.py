@@ -1,19 +1,8 @@
-
-######################################################################
-#  TOKEN/TREE SUPPORT
-######################################################################
-
-import os, sys, copy
-
-script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
-sys.path.insert(0, os.path.join(script_path, "../modules"))
-sys.path.insert(0, os.path.join(script_path, ".."))
-
-import tokenizer, treegenerator, variantoptimizer
-import cachesupport, generator2
+import os, sys, copy, zlib
+from modules import tokenizer, treegenerator, variantoptimizer
+from generator2 import cachesupport, variantsupport
 
 class TreeSupport(object):
-
     def __init__(self, classes, cachePath, verbose=False):
         self.classes        = classes
         self.cachePath      = cachePath
@@ -21,8 +10,8 @@ class TreeSupport(object):
 
 
     def getTokens(self, id):
-
-        cache = cachesupport.readCache(id, "tokens", self.classes[id]["path"], self.cachePath)
+        cacheId = "%s-tokens" % id
+        cache = cachesupport.readCache(cacheId, self.classes[id]["path"], self.cachePath)
         if cache != None:
             return cache
 
@@ -30,7 +19,7 @@ class TreeSupport(object):
             print "  - Generating tokens: %s..." % id
         tokens = tokenizer.parseFile(self.classes[id]["path"], id, self.classes[id]["encoding"])
 
-        cachesupport.writeCache(id, "tokens", tokens, self.cachePath)
+        cachesupport.writeCache(cacheId, tokens, self.cachePath)
         return tokens
 
 
@@ -41,8 +30,8 @@ class TreeSupport(object):
 
 
     def getTree(self, id):
-
-        cache = cachesupport.readCache(id, "tree", self.classes[id]["path"], self.cachePath)
+        cacheId = "%s-tree" % id
+        cache = cachesupport.readCache(cacheId, self.classes[id]["path"], self.cachePath)
         if cache != None:
             return cache
 
@@ -52,20 +41,15 @@ class TreeSupport(object):
             print "  - Generating tree: %s..." % id
         tree = treegenerator.createSyntaxTree(tokens)
 
-        cachesupport.writeCache(id, "tree", tree, self.cachePath)
+        cachesupport.writeCache(cacheId, tree, self.cachePath)
         return tree
 
 
 
     def getVariantsTree(self, id, variants):
+        cacheId = "%s-tree-%s" % (id, zlib.adler32(variantsupport.generateCombinationId(variants)))
 
-        # TODO: compiledpkg.py
-        variantsId = generator2.generateVariantCombinationId(variants)
-
-        if variantsId != "":
-            variantsId = "-" + variantsId
-
-        cache = cachesupport.readCache(id, "tree" + variantsId, self.classes[id]["path"], self.cachePath)
+        cache = cachesupport.readCache(cacheId, self.classes[id]["path"], self.cachePath)
         if cache != None:
             return cache
 
@@ -84,7 +68,7 @@ class TreeSupport(object):
         variantoptimizer.search(tree, variantsMap, id)
 
         # Store result into cache
-        cachesupport.writeCache(id, "tree" + variantsId, tree, self.cachePath)
+        cachesupport.writeCache(cacheId, tree, self.cachePath)
 
         return tree
 

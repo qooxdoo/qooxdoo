@@ -1,27 +1,14 @@
-
-######################################################################
-#  CORE: CACHE SUPPORT
-######################################################################
 import os, sys, cPickle
+from modules import filetool
+from generator2 import hashcode
 
-script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
-sys.path.insert(0, os.path.join(script_path, "../modules"))
-
-import filetool
-
-# Improved version of the one in filetool module
-
-def readCache(id, segment, dep, cachePath):
-
-    if not cachePath.endswith(os.sep):
-        cachePath += os.sep
-
+def readCache(id, dep, cachePath):
     filetool.directory(cachePath)
-
     fileModTime = os.stat(dep).st_mtime
+    cacheFile = os.path.join(cachePath, hashcode.convert(id))
 
     try:
-        cacheModTime = os.stat(cachePath + id + "-" + segment).st_mtime
+        cacheModTime = os.stat(cacheFile).st_mtime
     except OSError:
         cacheModTime = 0
 
@@ -30,7 +17,7 @@ def readCache(id, segment, dep, cachePath):
         return None
 
     try:
-        return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
+        return cPickle.load(open(cacheFile, 'rb'))
 
     except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
         print ">>> Could not read cache from %s" % cachePath
@@ -38,15 +25,12 @@ def readCache(id, segment, dep, cachePath):
 
 
 
-def writeCache(id, segment, content, cachePath):
-
-    if not cachePath.endswith(os.sep):
-        cachePath += os.sep
-
+def writeCache(id, content, cachePath):
     filetool.directory(cachePath)
+    cacheFile = os.path.join(cachePath, hashcode.convert(id))
 
     try:
-        cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
+        cPickle.dump(content, open(cacheFile, 'wb'), 2)
 
     except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
         print ">>> Could not store cache to %s" % cachePath

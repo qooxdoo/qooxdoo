@@ -26,7 +26,7 @@ Currently includes features of the old modules "generator" and "loader"
 
 Overview
 ======================
-* Load project configuration from JSON(-like) data file
+* Load project configuration from JSON data file
 * Each configuration can define multiple so named jobs
 * Each job defines one action with all configuration
 * A job can extend any other job and finetune the configuration
@@ -85,7 +85,7 @@ import sys, re, os, optparse, math, cPickle, copy, sets, zlib
 # reconfigure path to import own modules from modules subfolder
 script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.insert(0, os.path.join(script_path, "modules"))
-sys.path.insert(0, os.path.join(script_path, "generator2"))
+#sys.path.insert(0, os.path.join(script_path, "generator2"))
 
 from modules import config
 from modules import tokenizer
@@ -106,12 +106,11 @@ from modules import api
 from modules import simplejson
 
 from generator2 import cachesupport
-from generator2 import hashcode
 from generator2 import apidata
 from generator2 import progress
 from generator2 import treesupport
-
-hashes = None
+from generator2 import classpath
+from generator2 import variantsupport
 
 
 ######################################################################
@@ -307,7 +306,7 @@ def generateScript():
     #
 
     # Scan for classes and modules
-    scanClassPaths(classPaths)
+    classes = classpath.scanClassPaths(classPaths)
     scanModules()
 
 
@@ -398,7 +397,7 @@ def generateScript():
     # EXECUTION PHASE
     #
 
-    sets = _computeVariantCombinations(userVariants)
+    sets = variantsupport.computeCombinations(userVariants)
     for pos, variants in enumerate(sets):
         print
         print "----------------------------------------------------------------------------"
@@ -408,7 +407,6 @@ def generateScript():
             for entry in variants:
                 print "  - %s = %s" % (entry["id"], entry["value"])
             print "----------------------------------------------------------------------------"
-
 
         # Detect dependencies
         print ">>> Resolving application dependencies..."
@@ -445,8 +443,7 @@ def generateScript():
             else:
                 sys.stdout.write(">>> Compiling classes:")
                 sys.stdout.flush()
-                packageFileName = buildScript + "_$variants_$process.js"
-                packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)
+                packageSize = storeCompiledPackage(includeDict, buildScript, dynLoadDeps, dynRunDeps, variants, buildProcess, pos+1)
                 print "    - Done: %s" % packageSize
 
         sourceScript = True
@@ -454,33 +451,38 @@ def generateScript():
         if sourceScript != None:
             sys.stdout.write(">>> Generating script file...\n")
             sys.stdout.flush()
-            sourceScriptFile = "script.js"
-            sourceScript = storeSourceScript(includeDict, sourceScriptFile, dynLoadDeps, dynRunDeps, variants, buildProcess)
+            sourceScriptFile = "source"
+            sourceScript = storeSourceScript(includeDict, sourceScriptFile, dynLoadDeps, dynRunDeps, variants, pos+1)
             print "    - Done"
 
 
 
-def storeSourceScript(includeDict, sourceScriptFile, loadDeps, runDeps, variants, buildProcess):
+def storeSourceScript(includeDict, packageFileName, loadDeps, runDeps, variants, variantPos):
     global classes
 
     scriptBlocks = ""
     sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
+    fileId = "%s-%s.js" % (packageFileName, variantPos)    
+    
     for f in sortedClasses:
-        cEntry    = classes[f]
+        cEntry = classes[f]
         uriprefix = ""
+        
         for pElem in jobconfig['path']:
             if pElem['class'] == cEntry['classPath']:
                 uriprefix = pElem['web']
                 break
+                
         if uriprefix == "":
             raise "Cannot find uriprefix for %s" % f
-        uri       = os.path.join(uriprefix, f.replace(".",os.sep)) + ".js"
+            
+        uri = os.path.join(uriprefix, f.replace(".",os.sep)) + ".js"
         scriptBlocks += '<script type="text/javascript" src="%s"></script>' % uri
         scriptBlocks += "\n"
 
     sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
 
-    filetool.save(sourceScriptFile, sourceScript)
+    filetool.save(fileId, sourceScript)
     return sourceScript
 
 
@@ -495,8 +497,10 @@ def getMeta(id):
 
     entry = classes[id]
     path = entry["path"]
+    
+    cacheId = "%s-meta" % id
 
-    cache = cachesupport.readCache(id, "meta", path, jobconfig["cachePath"])
+    cache = cachesupport.readCache(cacheId, path, jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -521,7 +525,7 @@ def getMeta(id):
         meta["resources"] = _extractQxResources(content)
         meta["embeds"] = _extractQxEmbeds(content)
 
-    cachesupport.writeCache(id, "meta", meta, jobconfig["cachePath"])
+    cachesupport.writeCache(cacheId, meta, jobconfig["cachePath"])
 
     return meta
 
@@ -617,23 +621,15 @@ def _extractQxEmbeds(data):
 #  COMMON COMPILED PKG SUPPORT
 ######################################################################
 
-def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, variants, buildProcess):
+def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, variants, buildProcess, variantPos):
+    fileId = "%s-%s" % (packageFileName, variantPos)
+    
     # Compiling classes
     sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
     compiledContent = compileClasses(sortedClasses, variants, buildProcess)
 
-    # Pre storage calculations
-    variantsId = generateVariantCombinationId(variants)
-    processId = generateProcessCombinationId(buildProcess)
-
-    variantsId = hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
-    processId  = hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
-
-    packageFileName = packageFileName.replace("$variants", variantsId)
-    packageFileName = packageFileName.replace("$process", processId)
-
     # Saving compiled content
-    filetool.save(packageFileName, compiledContent)
+    filetool.save(fileId + ".js", compiledContent)
     return getContentSize(compiledContent)
 
 
@@ -664,51 +660,6 @@ def _splitIncludeExcludeList(input):
 
 
 
-def _findCombinations(a):
-    result = [[]]
-
-    for x in a:
-        t = []
-        for y in x:
-            for i in result:
-                t.append(i+[y])
-        result = t
-
-    return result
-
-
-
-def _computeVariantCombinations(variants):
-    variantPossibilities = []
-    for variantId in variants:
-        innerList = []
-        for variantValue in variants[variantId]:
-            innerList.append({"id" : variantId, "value" : variantValue})
-        variantPossibilities.append(innerList)
-
-    return _findCombinations(variantPossibilities)
-
-
-
-def generateVariantCombinationId(selected):
-    def _compare(x, y):
-        if x["id"] > y["id"]:
-            return 1
-
-        if x["id"] < y["id"]:
-            return -1
-
-        return 0
-
-    sortedList = []
-    sortedList.extend(selected)
-    sortedList.sort(_compare)
-
-    sortedString = []
-    for entry in sortedList:
-        sortedString.append("(" + entry["id"].replace(".", "") + "_" + entry["value"] + ")")
-
-    return "_".join(sortedString)
 
 
 
@@ -906,7 +857,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     # Compile files...
     packageLoaderContent = ""
     sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
-    variantsId = generateVariantCombinationId(variants)
+    variantsId = variantsupport.generateCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
 
     if not quiet:
@@ -918,7 +869,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
         sys.stdout.write("  - Compiling package #%s:" % packageId)
         sys.stdout.flush()
 
-        packageFileName = buildScript + "_$variants_$process_%s.js" % packageId
+        packageFileName = "%s_%s" % (buildScript, packageId) 
         packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess)
         print "    - Done: %s" % packageSize
 
@@ -1116,23 +1067,13 @@ def getCompiled(id, variants, process):
     global classes
     global verbose
 
-    variantsId = generateVariantCombinationId(variants)
+    variantsId = variantsupport.generateCombinationId(variants)
     processId = generateProcessCombinationId(process)
+    cacheId = "%s-compiled-%s-%s" % (id, variantsId, processId)
 
-    variantsId = hashcode.toHashCode(variantsId, hashes, jobconfig["cachePath"])
-    processId  = hashcode.toHashCode(processId , hashes, jobconfig["cachePath"])
-
-    if variantsId != "":
-        variantsId = "-" + variantsId
-
-    if processId != "":
-        processId = "-" + processId
-
-    cache = cachesupport.readCache(id, "compiled" + variantsId + processId, classes[id]["path"], jobconfig["cachePath"])
+    cache = cachesupport.readCache(cacheId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
-
-    tokens = treesupport.getTokens(id)
 
     tree = copy.deepcopy(treesupport.getVariantsTree(id, variants))
 
@@ -1146,7 +1087,7 @@ def getCompiled(id, variants, process):
 
     compiled = _compileClassHelper(tree)
 
-    cachesupport.writeCache(id, "compiled" + variantsId + processId, compiled, jobconfig["cachePath"])
+    cachesupport.writeCache(cacheId, compiled, jobconfig["cachePath"])
     return compiled
 
 
@@ -1193,9 +1134,8 @@ def variableOptimizeHelper(tree, id, variants):
 
 
 def privateOptimizeHelper(tree, id, variants):
-    global hashes
     global jobconfig
-    unique = hashcode.toHashCode(id, hashes, jobconfig["cachePath"])
+    unique = zlib.adler32(id)
     privateoptimizer.patch(unique, tree, {})
 
 
@@ -1311,9 +1251,9 @@ def getDeps(id, variants):
     global classes
     global verbose
 
-    variantsId = generateVariantCombinationId(variants)
+    cacheId = "%s-deps-%s" % (id, variantsupport.generateCombinationId(variants))
 
-    cache = cachesupport.readCache(id, "deps" + variantsId, classes[id]["path"], jobconfig["cachePath"])
+    cache = cachesupport.readCache(cacheId, classes[id]["path"], jobconfig["cachePath"])
     if cache != None:
         return cache
 
@@ -1371,7 +1311,7 @@ def getDeps(id, variants):
         "run" : run
     }
 
-    cachesupport.writeCache(id, "deps" + variantsId, deps, jobconfig["cachePath"])
+    cachesupport.writeCache(cacheId, deps, jobconfig["cachePath"])
 
     return deps
 
@@ -1489,10 +1429,6 @@ def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
 
 
 
-######################################################################
-#  CLASS PATH SUPPORT
-######################################################################
-
 def scanModules():
     global classes
     global modules
@@ -1512,116 +1448,6 @@ def scanModules():
     if not quiet:
         print "  - Found %s modules" % len(modules)
         print
-
-
-def scanClassPaths(paths):
-    global classes
-    global quiet
-
-    classes = {}
-
-    print ">>> Scanning class paths..."
-    for path in paths:
-        _addClassPath(path)
-
-    if not quiet:
-        print
-
-    return classes
-
-
-def _addClassPath(classPath, encoding="utf-8"):
-    global classes
-    global quiet
-
-    if not quiet:
-        print "  - Scanning: %s" % classPath
-
-    implCounter = 0
-    docCounter = 0
-    localeCounter = 0
-
-    for root, dirs, files in os.walk(classPath):
-
-        # Filter ignored directories
-        for ignoredDir in config.DIRIGNORE:
-            if ignoredDir in dirs:
-                dirs.remove(ignoredDir)
-
-        # Searching for files
-        for fileName in files:
-            if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startswith("."):
-                filePath = os.path.join(root, fileName)
-                filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
-                fileContent = filetool.read(filePath, encoding)
-                fileCategory = "unknown"
-
-                if fileName == "__init__.js":
-                    fileContentId = filePathId
-                    fileCategory = "qx.doc"
-                    docCounter += 1
-
-                else:
-                    fileContentId = _extractQxClassContentId(fileContent)
-
-                    if fileContentId == None:
-                        fileContentId = _extractQxLocaleContentId(fileContent)
-
-                        if fileContentId != None:
-                            fileCategory = "qx.locale"
-                            localeCounter += 1
-
-                    else:
-                        fileCategory = "qx.impl"
-                        implCounter += 1
-
-                    if filePathId != fileContentId:
-                        print "    - Mismatching IDs in file: %s" % filePath
-                        print "      Detail: %s != %s" % (filePathId, fileContentId)
-
-                if fileCategory == "unknown":
-                    print "    - Invalid file: %s" % filePath
-                    sys.exit(1)
-
-                fileId = filePathId
-
-                classes[fileId] = {
-                    "path" : filePath,
-                    "encoding" : encoding,
-                    "classPath" : classPath,
-                    "category" : fileCategory,
-                    "id" : fileId,
-                    "contentId" : fileContentId,
-                    "pathId" : filePathId
-                }
-
-    if not quiet:
-        print "    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
-
-
-def _extractQxClassContentId(data):
-    classDefine = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
-    for item in classDefine.findall(data):
-        return item[1]
-
-    return None
-
-
-def _extractQxLocaleContentId(data):
-    # 0.8 style
-    localeDefine = re.compile('qx.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
-    for item in localeDefine.findall(data):
-        return item
-
-    # 0.7.x compat
-    localeDefine = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
-    for item in localeDefine.findall(data):
-        return item
-
-    return None
 
 
 
