@@ -181,21 +181,24 @@ qx.Class.define("qx.core.Variant",
      */
     __loadUrlVariants : function()
     {
-      if (qx.core.Setting.get("qx.allowUrlSettings") != true) {
-        return
+      if (qx.core.Setting.get("qx.allowUrlVariants") != true) {
+        return;
       }
 
       var urlVariants = document.location.search.slice(1).split("&");
+
       for (var i=0; i<urlVariants.length; i++)
       {
         var variant = urlVariants[i].split(":");
         if (variant.length != 3 || variant[0] != "qxvariant") {
           continue;
         }
+
         var key = variant[1];
         if (!this.__variants[key]) {
           this.__variants[key] = {};
         }
+
         this.__variants[key].value = decodeURIComponent(variant[2]);
       }
     },
