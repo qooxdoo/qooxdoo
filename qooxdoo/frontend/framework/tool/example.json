@@ -89,8 +89,7 @@
 		    [
 		        "optimize-variables",
 		        "optimize-basecalls",
-		        "optimize-strings",
-		        "optimize-privates"
+		        "optimize-strings"
 		    ]
 		},
 		

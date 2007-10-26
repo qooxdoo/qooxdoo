@@ -75,10 +75,9 @@ both views from the current position to the left side.
   * verbose{Boolean}: If verbose mode is enabled
   * quiet{Boolean}: If quiet mode is enabled
 
-* All cache data is automatically stored into framework/tool/.cache. The path is automatically
+* All cache data is automatically stored into "cache2"". The path is automatically
   detected through the location of the generator script.
 """
-
 
 import sys, re, os, optparse, math, cPickle, copy, sets, zlib
 
