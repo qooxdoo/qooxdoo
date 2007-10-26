@@ -183,13 +183,11 @@ qx.Bootstrap.define("qx.core.Setting",
       for (var i=0; i<urlSettings.length; i++)
       {
         var setting = urlSettings[i].split(":");
-
         if (setting.length != 3 || setting[0] != "qxsetting") {
           continue;
         }
 
         var key = setting[1];
-
         if (!this.__settings[key]) {
           this.__settings[key] = {};
         }
@@ -210,8 +208,9 @@ qx.Bootstrap.define("qx.core.Setting",
 
   defer : function(statics)
   {
+    statics.define("qx.allowUrlSettings", false);
+    statics.define("qx.allowUrlVariants", false);
     statics.define("qx.resourceUri", "./resource");
-    statics.define("qx.allowUrlSettings", true);
 
     statics.__init();
   }
