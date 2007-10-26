@@ -66,20 +66,15 @@
 		    "include" : ["webmail.Application"]
 		},
 
-		"build-common" :
-		{
-		    "extend" : ["common"]
-		},
-
 		"build-all" :
 		{
-		    "extend" : ["build-common"],
+		    "extend" : ["common"],
 		    "buildScript" : "build-all"
 		},
 
 		"build-core" :
 		{
-		    "extend" : ["build-common"],
+		    "extend" : ["common"],
 		    "buildScript" : "build-core",
 		    "include" : ["apiviewer.Application"],
 		    "exclude" : ["ui_tree","=qx.ui.core.Widget"]
@@ -87,7 +82,7 @@
 
 		"build-apiviewer" :
 		{
-		    "extend" : ["build-common"],
+		    "extend" : ["common"],
 		    "buildScript" : "build-apiviewer",
 		    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
 		    "buildProcess" :
@@ -98,10 +93,17 @@
 		        "optimize-privates"
 		    ]
 		},
+		
+		"source-apiviewer" :
+		{
+				"extend" : ["common"],
+				"sourceScript" : "source-apiviewer",
+				"include" : ["apiviewer.*","qx.theme.ClassicRoyale"]	
+		},
 
 		"build-apiviewer-variants" :
 		{
-		    "extend" : ["build-common"],
+		    "extend" : ["common"],
 		    "buildScript" : "build-apiviewer-variants",
 		    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
 		    "variants" :
@@ -120,14 +122,14 @@
 
 		"build-feedreader" :
 		{
-		    "extend" : ["build-common"],
+		    "extend" : ["common"],
 		    "buildScript" : "build-feedreader",
 		    "include" : ["feedreader.Application"]
 		},
 
 		"build-parts-common" :
 		{
-		    "extend" : ["build-common"],
+		    "extend" : ["common"],
 		    "optimizeLatency" : 5000
 		},
 

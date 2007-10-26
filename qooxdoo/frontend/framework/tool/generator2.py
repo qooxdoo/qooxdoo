@@ -446,14 +446,10 @@ def generateScript():
                 packageSize = storeCompiledPackage(includeDict, buildScript, dynLoadDeps, dynRunDeps, variants, buildProcess, pos+1)
                 print "    - Done: %s" % packageSize
 
-        sourceScript = True
-
         if sourceScript != None:
             sys.stdout.write(">>> Generating script file...\n")
             sys.stdout.flush()
-            sourceScriptFile = "source"
-            sourceScript = storeSourceScript(includeDict, sourceScriptFile, dynLoadDeps, dynRunDeps, variants, pos+1)
-            print "    - Done"
+            sourceScript = storeSourceScript(includeDict, sourceScript, dynLoadDeps, dynRunDeps, variants, pos+1)
 
 
 
