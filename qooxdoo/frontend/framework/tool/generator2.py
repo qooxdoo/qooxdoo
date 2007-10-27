@@ -144,11 +144,11 @@ def process(options):
     global console
     
     if options.verbose:
-        console = logsupport.Log(options.logfile, 10)
+        console = logsupport.Log(logfile=options.logfile, level=10)
     elif options.quiet:
-        console = logsupport.Log(options.logfile, 30)
+        console = logsupport.Log(logfile=options.logfile, level=30)
     else:
-        console = logsupport.Log(options.logfile, 20)
+        console = logsupport.Log(logfile=options.logfile, level=20)
         
     console.info(">>> Processing...")
     console.debug("  - Configuration: %s" % options.config)

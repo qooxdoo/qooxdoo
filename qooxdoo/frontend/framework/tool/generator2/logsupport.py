@@ -7,7 +7,7 @@ class Log:
     _errorLevel = 40
     _criticalLevel = 50
     
-    def __init__(self, logfile, level=20):
+    def __init__(self, logfile=None, level=20):
         self.set(level)
         if logfile != "":
             self.logfile = codecs.open(logfile, encoding="utf-8", mode="w")
