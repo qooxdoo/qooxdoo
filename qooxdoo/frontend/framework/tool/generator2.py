@@ -333,7 +333,7 @@ def generateScript():
 
 
     # Resolve modules/regexps
-    console.info("  - Resolving modules/regexps...")
+    console.debug("  - Resolving modules/regexps...")
     smartInclude = resolveComplexDefs(smartInclude)
     explicitInclude = resolveComplexDefs(explicitInclude)
     smartExclude = resolveComplexDefs(smartExclude)
@@ -1382,8 +1382,8 @@ def scanModules():
 
                 modules[mod].append(id)
 
-    console.info("  - Found %s modules" % len(modules))
-    console.info("")
+    console.debug("  - Found %s modules" % len(modules))
+    console.debug("")
 
 
 
