@@ -688,7 +688,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
     # Assign classes to packages
     console.debug("")
-    console.info(">>> Assigning classes to packages...")
+    console.debug(">>> Assigning classes to packages...")
 
     # References packageId -> class list
     packageClasses = {}
@@ -722,7 +722,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
 
     # Assign packages to parts
-    console.info(">>> Assigning packages to parts...")
+    console.debug(">>> Assigning packages to parts...")
     partPackages = {}
 
     for partId in partClasses:
@@ -821,9 +821,9 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
 
     console.debug("")
-    console.info(">>> Creating packages...")
+    console.info(">>> Compiling packages...")
     for packageId in sortedPackageIds:
-        console.info("  - Compiling package #%s:" % packageId, False)
+        console.info("  - Package #%s:" % packageId, False)
 
         packageFileName = "%s_%s" % (buildScript, packageId) 
         packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess, pos+1)
