@@ -127,6 +127,7 @@ def main():
     parser.add_option("-j", "--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
+    parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default="", type="string", help="Log file")    
 
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
@@ -143,11 +144,11 @@ def process(options):
     global console
     
     if options.verbose:
-        console = logsupport.Log(10)
+        console = logsupport.Log(options.logfile, 10)
     elif options.quiet:
-        console = logsupport.Log(30)
+        console = logsupport.Log(options.logfile, 30)
     else:
-        console = logsupport.Log(20)
+        console = logsupport.Log(options.logfile, 20)
         
     console.info(">>> Processing...")
     console.debug("  - Configuration: %s" % options.config)
@@ -158,6 +159,7 @@ def process(options):
 
     for job in options.jobs:
         execute(job, config[job])
+        
 
 
 def resolve(config, jobs):
@@ -351,7 +353,7 @@ def generateScript():
         console.info(">>> Preparing part configuration...")
 
         # Build bitmask ids for parts
-        console.info("  - Assigning bits to parts...")
+        console.debug("  - Assigning bits to parts...")
 
         # References partId -> bitId of that part
         partBits = {}
@@ -360,13 +362,13 @@ def generateScript():
         for partId in userParts:
             partBit = 1<<partPos
 
-            console.info("    - Part #%s => %s" % (partId, partBit))
+            console.debug("    - Part #%s => %s" % (partId, partBit))
 
             partBits[partId] = partBit
             partPos += 1
 
         # Resolving modules/regexps
-        console.info("  - Resolving part modules/regexps...")
+        console.debug("  - Resolving part modules/regexps...")
         partClasses = {}
         for partId in userParts:
             partClasses[partId] = resolveComplexDefs(userParts[partId])
@@ -651,8 +653,7 @@ def _splitIncludeExcludeList(input):
 def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
     global classes
 
-
-    console.info("")
+    console.debug("")
     console.info(">>> Resolving part dependencies...")
     partDeps = {}
     length = len(partClasses.keys())
@@ -754,14 +755,13 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     if len(collapseParts) > 0:
         console.debug("")
         collapsePos = 0
-        console.info(">>> Collapsing parts...")
+        console.info(">>> Collapsing packages...")
         for partId in collapseParts:
-            console.info("  - Collapsing part #%s(%s)..." % (partId, collapsePos))
+            console.debug("  - #%s(%s)..." % (partId, collapsePos))
 
             collapsePackage = partPackages[partId][collapsePos]
             for packageId in partPackages[partId][collapsePos+1:]:
-                console.debug("    - Merge package #%s into #%s" % (packageId, collapsePackage))
-
+                console.debug("    - Merge #%s into #%s" % (packageId, collapsePackage))
                 _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
 
             collapsePos += 1
@@ -795,7 +795,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
             packageLength = 0
 
             for classId in packageClasses[packageId]:
-                packageLength += treesupport.getLength(classId)
+                packageLength += treesupport.getLength(classes[classId], cache, console)
 
             if packageLength >= optimizeLatency:
                 console.debug("    - Package #%s has %s tokens" % (packageId, packageLength))
@@ -826,7 +826,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
         console.info("  - Compiling package #%s:" % packageId, False)
 
         packageFileName = "%s_%s" % (buildScript, packageId) 
-        packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess)
+        packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess, pos+1)
         console.info("    - Done: %s" % packageSize)
 
         # TODO: Make prefix configurable

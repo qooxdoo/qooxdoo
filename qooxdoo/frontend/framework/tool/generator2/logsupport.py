@@ -1,4 +1,4 @@
-import sys
+import sys, codecs
 
 class Log:
     _debugLevel = 10
@@ -7,13 +7,23 @@ class Log:
     _errorLevel = 40
     _criticalLevel = 50
     
-    def __init__(self, level=20):
+    def __init__(self, logfile, level=20):
         self.set(level)
+        if logfile != "":
+            self.logfile = codecs.open(logfile, encoding="utf-8", mode="w")
+        else:
+            self.logfile = False
     
     def set(self, level):
         self.level = level
         
     def log(self, msg, level, feed=True):
+        # log file
+        if self.logfile:
+            self.logfile.write(msg + "\n")
+            self.logfile.flush()
+        
+        # standard out
         if level >= self.level:
             if feed:
                 print msg
