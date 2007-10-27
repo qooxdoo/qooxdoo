@@ -46,13 +46,13 @@ For example: gecko+debug, mshtml+debug, gecko+nodebug, mshtml+nodebug
 * Each part defines a part of the application which you want to load separately
 * A part could be of visual or logical nature
 * Each part may result into multiple packages (script files)
-* The number of packages could be exponential to the number of views
+* The number of packages could be exponential to the number of parts
 but through the optimization this is often not the case
-* You can automatically collapse the important views. Such an important
-view may be the initial application class (application layout frame) or
+* You can automatically collapse the important parts. Such an important
+part may be the initial application class (application layout frame) or
 the splashscreen. Collapsing reduces the number of packages for the
-defined views. However collapsing badly influences the fine-grained nature
-of the package system and should be ommitted for non-initial views normally.
+defined parts. However collapsing badly influences the fine-grained nature
+of the package system and should be ommitted for non-initial parts normally.
 * Further optimization includes support for auto-merging small packages.
 The relevant size to decide if a package is too small is the token size which
 is defined by the author of the job. The system calculates the token size of
@@ -61,9 +61,9 @@ each package and tries to merge packages automatically.
 Internals
 ======================
 * All merges happen from right to left when the package list is sorted by priority.
-The main theory is that a package which is used by multiple views must have the dependencies
+The main theory is that a package which is used by multiple parts must have the dependencies
 solved by both of them. So the merge will always happen into the next common package of
-both views from the current position to the left side.
+both parts from the current position to the left side.
 
 * There are some utility method which
 
@@ -344,7 +344,7 @@ def generateScript():
 
 
     #
-    # PREPROCESS PHASE: VIEWS
+    # PREPROCESS PHASE: PARTS
     #
 
     if execMode == "parts":
@@ -645,7 +645,7 @@ def _splitIncludeExcludeList(input):
 
 
 ######################################################################
-#  VIEW/PACKAGE SUPPORT
+#  PART SUPPORT
 ######################################################################
 
 def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
