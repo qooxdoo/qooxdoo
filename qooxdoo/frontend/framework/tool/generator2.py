@@ -139,16 +139,6 @@ def main():
     process(options)
 
 
-def init():
-    "Construct some global objects"
-    global treesupport
-    global classes
-    global jobconfig
-    global verbose
-
-    treesupport = treesupport.TreeSupport(classes, jobconfig["cachePath"], verbose)
-
-
 def process(options):
     global verbose
     global quiet
@@ -256,6 +246,7 @@ def generateScript():
     global modules
     global verbose
     global quiet
+    global cache
 
 
     #
@@ -299,6 +290,14 @@ def generateScript():
         execMode = "normal"
 
 
+    #
+    # INIT PHASE
+    #
+
+    cache = cachesupport.Cache(getJobConfig("cachePath"))
+    
+    
+
 
     #
     # SCAN PHASE
@@ -307,10 +306,6 @@ def generateScript():
     # Scan for classes and modules
     classes = classpath.scanClassPaths(classPaths)
     scanModules()
-
-
-    # Init global objects
-    init()
 
 
     #
@@ -433,7 +428,7 @@ def generateScript():
 
 
         if apiPath != None:
-            apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, jobconfig["cachePath"], treesupport, quiet, verbose)
+            apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cache, quiet, verbose)
 
 
         if buildScript != None:
@@ -495,9 +490,9 @@ def getMeta(id):
     
     cacheId = "%s-meta" % id
 
-    cache = cachesupport.readCache(cacheId, path, jobconfig["cachePath"])
-    if cache != None:
-        return cache
+    meta = cache.read(cacheId, path)
+    if meta != None:
+        return meta
 
     meta = {}
     category = entry["category"]
@@ -520,7 +515,7 @@ def getMeta(id):
         meta["resources"] = _extractQxResources(content)
         meta["embeds"] = _extractQxEmbeds(content)
 
-    cachesupport.writeCache(cacheId, meta, jobconfig["cachePath"])
+    cache.write(cacheId, meta)
 
     return meta
 
@@ -1035,12 +1030,15 @@ def getOptionals(classes):
 
 def compileClasses(todo, variants, process):
     global quiet
+    global verbose
+    global classes
+    
     content = ""
     length = len(todo)
 
     for pos, id in enumerate(todo):
         progress.printProgress(pos, length, quiet)
-        content += getCompiled(id, variants, process)
+        content += getCompiled(classes[id], variants, process, verbose, quiet)
 
     return content
 
@@ -1058,31 +1056,33 @@ def _compileClassHelper(restree):
     return compiler.compile(restree, options)
 
 
-def getCompiled(id, variants, process):
-    global classes
-    global verbose
+def getCompiled(entry, variants, process, verbose=False, quiet=False):
+    global cache
+    
+    fileId = entry["id"]
+    filePath = entry["path"]
 
     variantsId = variantsupport.generateCombinationId(variants)
     processId = generateProcessCombinationId(process)
-    cacheId = "%s-compiled-%s-%s" % (id, variantsId, processId)
+    cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, processId)
 
-    cache = cachesupport.readCache(cacheId, classes[id]["path"], jobconfig["cachePath"])
-    if cache != None:
-        return cache
+    compiled = cache.read(cacheId, filePath)
+    if compiled != None:
+        return compiled
 
-    tree = copy.deepcopy(treesupport.getVariantsTree(id, variants))
-
-    if verbose:
-        print "  - Postprocessing tree: %s..." % id
-
-    tree = _postProcessHelper(tree, id, process, variants)
+    tree = copy.deepcopy(treesupport.getVariantsTree(entry, cache, variants))
 
     if verbose:
-        print "  - Compiling tree: %s..." % id
+        print "  - Postprocessing tree: %s..." % fileId
+
+    tree = _postProcessHelper(tree, fileId, process, variants)
+
+    if verbose:
+        print "  - Compiling tree: %s..." % fileId
 
     compiled = _compileClassHelper(tree)
 
-    cachesupport.writeCache(cacheId, compiled, jobconfig["cachePath"])
+    cache.write(cacheId, compiled)
     return compiled
 
 
@@ -1248,9 +1248,9 @@ def getDeps(id, variants):
 
     cacheId = "%s-deps-%s" % (id, variantsupport.generateCombinationId(variants))
 
-    cache = cachesupport.readCache(cacheId, classes[id]["path"], jobconfig["cachePath"])
-    if cache != None:
-        return cache
+    deps = cache.read(cacheId, classes[id]["path"])
+    if deps != None:
+        return deps
 
     # Notes:
     # load time = before class = require
@@ -1306,7 +1306,7 @@ def getDeps(id, variants):
         "run" : run
     }
 
-    cachesupport.writeCache(cacheId, deps, jobconfig["cachePath"])
+    cache.write(cacheId, deps)
 
     return deps
 
@@ -1320,8 +1320,9 @@ def _readDictKey(data, key, default=None):
 
 def _analyzeClassDeps(id, variants):
     global classes
+    global cache
 
-    tree = treesupport.getVariantsTree(id, variants)
+    tree = treesupport.getVariantsTree(classes[id], cache, variants)
     loadtime = []
     runtime = []
 

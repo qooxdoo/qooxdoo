@@ -6,12 +6,8 @@ sys.path.insert(0, os.path.join(script_path, "../modules"))
 import api, tree, filetool
 import cachesupport, progress, treesupport
 
-######################################################################
-#  API: DATA SUPPORT
-######################################################################
 
-def getApi(id, classes, cachePath, treesupport, verbose=False):
-
+def getApi(id, classes, cachePath, verbose=False):
     entry = classes[id]
     path = entry["path"]
 
