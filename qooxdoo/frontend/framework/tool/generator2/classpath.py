@@ -1,22 +1,19 @@
 import os, re
 from modules import config, filetool
 
-def scanClassPaths(paths, encoding="utf-8", verbose=False, quiet=False):
+def getClasses(paths, console, encoding="utf-8"):
     classes = {}
 
-    print ">>> Scanning class paths..."
+    console.info(">>> Scanning class paths...")
     for path in paths:
-        _addClassPath(classes, path, encoding, verbose, quiet)
+        _addClassPath(classes, path, console, encoding)
 
-    if not quiet:
-        print    
-
+    console.debug("")
     return classes
 
 
-def _addClassPath(classes, classPath, encoding, quiet, verbose):
-    if not quiet:
-        print "  - Scanning: %s" % classPath
+def _addClassPath(classes, classPath, console, encoding):
+    console.debug("  - Scanning: %s" % classPath)
 
     implCounter = 0
     docCounter = 0
@@ -57,11 +54,11 @@ def _addClassPath(classes, classPath, encoding, quiet, verbose):
                         implCounter += 1
 
                     if filePathId != fileContentId:
-                        print "    - Mismatching IDs in file: %s" % filePath
-                        print "      Detail: %s != %s" % (filePathId, fileContentId)
+                        console.error("    - Mismatching IDs in file: %s" % filePath)
+                        console.error("      Detail: %s != %s" % (filePathId, fileContentId))
 
                 if fileCategory == "unknown":
-                    print "    - Invalid file: %s" % filePath
+                    console.error("    - Invalid file: %s" % filePath)
                     sys.exit(1)
 
                 fileId = filePathId
@@ -76,8 +73,7 @@ def _addClassPath(classes, classPath, encoding, quiet, verbose):
                     "pathId" : filePathId
                 }
 
-    if not quiet:
-        print "    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
+    console.debug("    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter))
 
 
 def _extractQxClassContentId(data):

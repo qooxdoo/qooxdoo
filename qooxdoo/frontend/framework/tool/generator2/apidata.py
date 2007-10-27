@@ -1,48 +1,42 @@
 import sys, os
-
-script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
-sys.path.insert(0, os.path.join(script_path, "../modules"))
-
-import api, tree, filetool
-import cachesupport, progress, treesupport
+from modules import api, tree, filetool
+from generator2 import treesupport
 
 
-def getApi(id, classes, cachePath, verbose=False):
-    entry = classes[id]
-    path = entry["path"]
+def getApi(entry, cache, console):
+    fileId = entry["id"]
+    filePath = entry["path"]
 
-    cache = cachesupport.readCache(id, "api", path, cachePath)
-    if cache != None:
-        return cache
+    cacheId = "api-%s" % fileId
+    data = cache.read(cacheId, filePath)
+    if data != None:
+        return data
 
-    tree = treesupport.getTree(id)
+    tree = treesupport.getTree(entry, cache, console)
 
-    if verbose:
-        print "  - Generating API data: %s..." % id
+    console.debug("  - Generating API data: %s..." % fileId)
+    (data, hasError) = api.createDoc(tree)
 
-    (apidata, hasError) = api.createDoc(tree)
+    cache.write(cacheId, data)
 
-    cachesupport.writeCache(id, "api", apidata, cachePath)
-
-    return apidata
+    return data
 
 
 
-def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cachePath, treesupport, quiet, verbose):
+def storeApi(includeDict, apiPath, classes, cache, console):
     docTree = tree.Node("doctree")
     todo = includeDict.keys()
     length = len(todo)
 
-    sys.stdout.write(">>> Generating API data:")
-    sys.stdout.flush()
-    for pos, id in enumerate(todo):
-        progress.printProgress(pos, length, quiet)
-        _mergeApiNodes(docTree, getApi(id, classes, cachePath, treesupport, verbose))
+    console.info(">>> Generating API data:", False)
+    for pos, fileId in enumerate(todo):
+        console.progress(pos, length)
+        _mergeApiNodes(docTree, getApi(classes[fileId], cache, console))
 
-    print "  - Postprocessing..."
+    console.info("  - Postprocessing...")
     api.postWorkPackage(docTree, docTree)
 
-    print "  - Storing..."
+    console.info("  - Storing...")
     packages = api.packagesToJsonString(docTree, "", "  ", "\n")
     filetool.save(os.path.join(apiPath, "apidata.js"), packages)
 
@@ -51,7 +45,7 @@ def storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cachePath, 
         fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
         filetool.save(fileName, classContent)
 
-    print ">>> Done"
+    console.info(">>> Done")
 
 
 
@@ -64,6 +58,7 @@ def _mergeApiNodes(target, source):
                 target.set(key, "%s,%s" % (target.get(key), attr[key]))
             else:
                 target.set(key, attr[key])
+
 
     if source.hasChildren():
         # copy to keep length while iterating
@@ -112,10 +107,3 @@ def _isNodeIdentical(nodeA, nodeB):
             return nodeA.get("fullName") == nodeB.get("fullName")
 
     return False
-
-
-
-
-
-
-

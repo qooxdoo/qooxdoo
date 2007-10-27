@@ -287,7 +287,7 @@ def generateScript():
     # INIT PHASE
     #
 
-    cache = cachesupport.Cache(getJobConfig("cachePath"))
+    cache = cachesupport.Cache(getJobConfig("cachePath"), console)
     
     
 
@@ -297,7 +297,7 @@ def generateScript():
     #
 
     # Scan for classes and modules
-    classes = classpath.scanClassPaths(classPaths)
+    classes = classpath.getClasses(classPaths, console)
     scanModules()
 
 
@@ -415,7 +415,7 @@ def generateScript():
 
 
         if apiPath != None:
-            apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cache)
+            apidata.storeApi(includeDict, apiPath, classes, cache, console)
 
 
         if buildScript != None:

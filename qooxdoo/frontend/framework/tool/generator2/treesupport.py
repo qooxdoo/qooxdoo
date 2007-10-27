@@ -3,7 +3,7 @@ from modules import tokenizer, treegenerator, variantoptimizer
 from generator2 import variantsupport
 
 
-def getTokens(entry, cache, log):
+def getTokens(entry, cache, console):
     filePath = entry["path"]
     fileId = entry["id"]
     fileEncoding = entry["encoding"]
@@ -14,7 +14,7 @@ def getTokens(entry, cache, log):
     if tokens != None:
         return tokens
 
-    log.debug("  - Generating tokens: %s..." % fileId)
+    console.debug("  - Generating tokens: %s..." % fileId)
         
     tokens = tokenizer.parseFile(filePath, fileId, fileEncoding)
 
@@ -23,12 +23,12 @@ def getTokens(entry, cache, log):
 
 
 
-def getLength(entry, cache, log):
-    return len(getTokens(entry, cache, log))
+def getLength(entry, cache, console):
+    return len(getTokens(entry, cache, console))
 
 
 
-def getTree(entry, cache, log):
+def getTree(entry, cache, console):
     filePath = entry["path"]
     fileId = entry["id"]
     
@@ -38,9 +38,9 @@ def getTree(entry, cache, log):
     if tree != None:
         return tree
 
-    tokens = getTokens(entry, cache, log)
+    tokens = getTokens(entry, cache, console)
 
-    log.debug("  - Generating tree: %s..." % fileId)
+    console.debug("  - Generating tree: %s..." % fileId)
         
     tree = treegenerator.createSyntaxTree(tokens)
 
@@ -49,7 +49,7 @@ def getTree(entry, cache, log):
 
 
 
-def getVariantsTree(entry, variants, cache, log):
+def getVariantsTree(entry, variants, cache, console):
     filePath = entry["path"]
     fileId = entry["id"]
     
@@ -60,9 +60,9 @@ def getVariantsTree(entry, variants, cache, log):
         return tree
 
     # Copy tree to work with
-    tree = copy.deepcopy(getTree(entry, cache, log))
+    tree = copy.deepcopy(getTree(entry, cache, console))
 
-    log.debug("  - Select variants: %s..." % fileId)
+    console.debug("  - Select variants: %s..." % fileId)
 
     # Generate map
     variantsMap = {}

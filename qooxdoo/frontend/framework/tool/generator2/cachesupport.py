@@ -2,10 +2,10 @@ import os, sys, cPickle
 from modules import filetool
 from generator2 import hashcode
 
-
 class Cache:
-    def __init__(self, path):
+    def __init__(self, path, console):
         self.path = path
+        self.console = console
     
     
     def read(self, id, dep):
@@ -26,7 +26,7 @@ class Cache:
             return cPickle.load(open(cacheFile, 'rb'))
 
         except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-            print ">>> Could not read cache from %s" % self.path
+            self.console.error(">>> Could not read cache from %s" % self.path)
             return None
 
 
@@ -38,7 +38,7 @@ class Cache:
             cPickle.dump(content, open(cacheFile, 'wb'), 2)
 
         except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
-            print ">>> Could not store cache to %s" % self.path
+            self.console.error(">>> Could not store cache to %s" % self.path)
             sys.exit(1)
 
 
