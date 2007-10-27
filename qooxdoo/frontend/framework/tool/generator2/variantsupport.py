@@ -1,3 +1,24 @@
+def computeCombinations(variants):
+    variantPossibilities = []
+    for variantId in variants:
+        innerList = []
+        for variantValue in variants[variantId]:
+            innerList.append({"id" : variantId, "value" : variantValue})
+        variantPossibilities.append(innerList)
+
+    return _findCombinations(variantPossibilities)
+    
+
+def generateCombinationId(selected):
+    sortedList = _getSortedCopy(selected)
+
+    sortedString = []
+    for entry in sortedList:
+        sortedString.append("%s_%s" % (entry["id"], entry["value"]))
+
+    return "|".join(sortedString)
+        
+    
 def _findCombinations(a):
     result = [[]]
 
@@ -9,18 +30,6 @@ def _findCombinations(a):
         result = t
 
     return result
-
-
-
-def computeCombinations(variants):
-    variantPossibilities = []
-    for variantId in variants:
-        innerList = []
-        for variantValue in variants[variantId]:
-            innerList.append({"id" : variantId, "value" : variantValue})
-        variantPossibilities.append(innerList)
-
-    return _findCombinations(variantPossibilities)
 
 
 def _getSortedCopy(entries):
@@ -37,15 +46,4 @@ def _getSortedCopy(entries):
     result.sort(_compare)
     
     return result    
-
-
-def generateCombinationId(selected):
-    sortedList = _getSortedCopy(selected)
-
-    sortedString = []
-    for entry in sortedList:
-        sortedString.append("%s_%s" % (entry["id"], entry["value"]))
-
-    return "|".join(sortedString)
-    
     

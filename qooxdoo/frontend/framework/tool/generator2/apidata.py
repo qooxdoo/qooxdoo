@@ -2,7 +2,6 @@ import sys, os
 from modules import api, tree, filetool
 from generator2 import treesupport
 
-
 def getApi(entry, cache, console):
     fileId = entry["id"]
     filePath = entry["path"]
