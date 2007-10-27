@@ -27,7 +27,7 @@ class Log:
     def info(self, msg, feed=True):
         self.log(msg, self._infoLevel, feed)
 
-    def warning(self, msg, feed=True):
+    def warn(self, msg, feed=True):
         self.log(msg, self._warningLevel, feed)
 
     def error(self, msg, feed=True):

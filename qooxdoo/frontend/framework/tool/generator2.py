@@ -1017,7 +1017,6 @@ def _compileClassHelper(restree):
 
 def getCompiled(entry, variants, process):
     global cache
-    global log
     
     fileId = entry["id"]
     filePath = entry["path"]
@@ -1030,7 +1029,7 @@ def getCompiled(entry, variants, process):
     if compiled != None:
         return compiled
 
-    tree = copy.deepcopy(treesupport.getVariantsTree(entry, variants, cache, log))
+    tree = copy.deepcopy(treesupport.getVariantsTree(entry, variants, cache, console))
 
     console.debug("  - Postprocessing tree: %s..." % fileId)
     tree = _postProcessHelper(tree, fileId, process, variants)
@@ -1261,13 +1260,10 @@ def _readDictKey(data, key, default=None):
 
 
 def _analyzeClassDeps(id, variants):
-    global classes
-    global cache
+    tree = treesupport.getVariantsTree(classes[id], variants, cache, console)
 
-    tree = treesupport.getVariantsTree(classes[id], variants, cache, log)
     loadtime = []
     runtime = []
-
     _analyzeClassDepsNode(id, tree, loadtime, runtime, False)
 
     return loadtime, runtime
