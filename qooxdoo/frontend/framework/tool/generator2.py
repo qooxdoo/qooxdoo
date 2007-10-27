@@ -139,14 +139,8 @@ def main():
     process(options)
 
 
-
-
-
-
-
-
 def process(options):
-    global log
+    global console
     
     if options.verbose:
         console = logsupport.Log(10)

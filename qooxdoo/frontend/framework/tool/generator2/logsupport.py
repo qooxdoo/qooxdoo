@@ -1,3 +1,5 @@
+import sys
+
 class Log:
     _debugLevel = 10
     _infoLevel = 20
