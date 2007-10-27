@@ -3,7 +3,7 @@ from modules import tokenizer, treegenerator, variantoptimizer
 from generator2 import variantsupport
 
 
-def getTokens(entry, cache, verbose=False, quiet=False):
+def getTokens(entry, cache, log):
     filePath = entry["path"]
     fileId = entry["id"]
     fileEncoding = entry["encoding"]
@@ -14,8 +14,7 @@ def getTokens(entry, cache, verbose=False, quiet=False):
     if tokens != None:
         return tokens
 
-    if verbose:
-        print "  - Generating tokens: %s..." % fileId
+    log.debug("  - Generating tokens: %s..." % fileId)
         
     tokens = tokenizer.parseFile(filePath, fileId, fileEncoding)
 
@@ -24,12 +23,12 @@ def getTokens(entry, cache, verbose=False, quiet=False):
 
 
 
-def getLength(entry, cache, verbose=False, quiet=False):
-    return len(getTokens(entry, cache, verbose, quiet))
+def getLength(entry, cache, log):
+    return len(getTokens(entry, cache, log))
 
 
 
-def getTree(entry, cache, verbose=False, quiet=False):
+def getTree(entry, cache, log):
     filePath = entry["path"]
     fileId = entry["id"]
     
@@ -39,10 +38,9 @@ def getTree(entry, cache, verbose=False, quiet=False):
     if tree != None:
         return tree
 
-    tokens = getTokens(entry, cache)
+    tokens = getTokens(entry, cache, log)
 
-    if verbose:
-        print "  - Generating tree: %s..." % fileId
+    log.debug("  - Generating tree: %s..." % fileId)
         
     tree = treegenerator.createSyntaxTree(tokens)
 
@@ -51,7 +49,7 @@ def getTree(entry, cache, verbose=False, quiet=False):
 
 
 
-def getVariantsTree(entry, cache, variants, verbose=False, quiet=False):
+def getVariantsTree(entry, variants, cache, log):
     filePath = entry["path"]
     fileId = entry["id"]
     
@@ -62,10 +60,9 @@ def getVariantsTree(entry, cache, variants, verbose=False, quiet=False):
         return tree
 
     # Copy tree to work with
-    tree = copy.deepcopy(getTree(entry, cache, verbose, quiet))
+    tree = copy.deepcopy(getTree(entry, cache, log))
 
-    if verbose:
-        print "  - Select variants: %s..." % fileId
+    log.debug("  - Select variants: %s..." % fileId)
 
     # Generate map
     variantsMap = {}

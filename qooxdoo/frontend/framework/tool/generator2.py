@@ -106,10 +106,10 @@ from modules import simplejson
 
 from generator2 import cachesupport
 from generator2 import apidata
-from generator2 import progress
 from generator2 import treesupport
 from generator2 import classpath
 from generator2 import variantsupport
+from generator2 import logsupport
 
 
 ######################################################################
@@ -139,20 +139,25 @@ def main():
     process(options)
 
 
+
+
+
+
+
+
 def process(options):
-    global verbose
-    global quiet
-
-    verbose = options.verbose
-    quiet = options.quiet
-
-    if verbose:
-        quiet = False
-
-    print ">>> Processing..."
-    if not quiet:
-        print "  - Configuration: %s" % options.config
-        print "  - Jobs: %s" % ", ".join(options.jobs)
+    global log
+    
+    if options.verbose:
+        console = logsupport.Log(10)
+    elif options.quiet:
+        console = logsupport.Log(30)
+    else:
+        console = logsupport.Log(20)
+        
+    console.info(">>> Processing...")
+    console.debug("  - Configuration: %s" % options.config)
+    console.debug("  - Jobs: %s" % ", ".join(options.jobs))
 
     config = simplejson.loads(filetool.read(options.config))
     resolve(config, options.jobs)
@@ -162,24 +167,20 @@ def process(options):
 
 
 def resolve(config, jobs):
-    print ">>> Resolving jobs..."
+    console.info(">>> Resolving jobs...")
     for job in jobs:
         resolveEntry(config, job)
 
 
 def resolveEntry(config, job):
-    global quiet
-
     if not config.has_key(job):
-        print "  - No such job: %s" % job
+        console.warn("  - No such job: %s" % job)
         sys.exit(1)
 
     data = config[job]
 
     if data.has_key("resolved"):
         return
-
-    #print "  - Processing: %s" % job
 
     if data.has_key("extend"):
         includes = data["extend"]
@@ -201,10 +202,10 @@ def execute(job, config):
     global jobconfig
     jobconfig = config
 
-    print
-    print "============================================================================"
-    print "    EXECUTING: %s" % job
-    print "============================================================================"
+    console.info("")
+    console.info("============================================================================")
+    console.info("    EXECUTING: %s" % job)
+    console.info("============================================================================")
 
     generateScript()
 
@@ -244,8 +245,6 @@ def _getJobConfig(key, configpart, default):
 def generateScript():
     global classes
     global modules
-    global verbose
-    global quiet
     global cache
 
 
@@ -314,26 +313,25 @@ def generateScript():
 
     # Auto include all when nothing defined
     if execMode == "normal" and len(userInclude) == 0:
-        print "  - Automatically including all available classes"
+        console.info(">>> Automatically including all available classes")
         userInclude.append("*")
 
 
 
-    print ">>> Preparing include/exclude configuration..."
+    console.info(">>> Preparing include/exclude configuration...")
     smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
     smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
 
 
     # Configuration feedback
-    if not quiet:
-        print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
-        print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
+    console.debug("  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+    console.debug("  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
 
-        if len(userExclude) > 0:
-            print "    - Warning: Excludes may break code!"
+    if len(userExclude) > 0:
+        console.warn("  - Warning: Excludes may break code!")
 
-        if len(explicitInclude) > 0:
-            print "    - Warning: Explicit included classes may not work"
+    if len(explicitInclude) > 0:
+        console.warn("  - Warning: Explicit included classes may not work")
 
 
 
@@ -341,7 +339,7 @@ def generateScript():
 
 
     # Resolve modules/regexps
-    print "  - Resolving modules/regexps..."
+    console.info("  - Resolving modules/regexps...")
     smartInclude = resolveComplexDefs(smartInclude)
     explicitInclude = resolveComplexDefs(explicitInclude)
     smartExclude = resolveComplexDefs(smartExclude)
@@ -356,14 +354,10 @@ def generateScript():
     #
 
     if execMode == "parts":
-        print
-        print ">>> Preparing part configuration..."
+        console.info(">>> Preparing part configuration...")
 
         # Build bitmask ids for parts
-        if verbose:
-            print
-
-        print "  - Assigning bits to parts..."
+        console.info("  - Assigning bits to parts...")
 
         # References partId -> bitId of that part
         partBits = {}
@@ -372,14 +366,13 @@ def generateScript():
         for partId in userParts:
             partBit = 1<<partPos
 
-            if verbose:
-                print "    - Part #%s => %s" % (partId, partBit)
+            console.info("    - Part #%s => %s" % (partId, partBit))
 
             partBits[partId] = partBit
             partPos += 1
 
         # Resolving modules/regexps
-        print "  - Resolving part modules/regexps..."
+        console.info("  - Resolving part modules/regexps...")
         partClasses = {}
         for partId in userParts:
             partClasses[partId] = resolveComplexDefs(userParts[partId])
@@ -393,23 +386,24 @@ def generateScript():
 
     sets = variantsupport.computeCombinations(userVariants)
     for pos, variants in enumerate(sets):
-        print
-        print "----------------------------------------------------------------------------"
-        print "    PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets))
-        print "----------------------------------------------------------------------------"
-        if not quiet and len(variants) > 0:
+        console.info("")
+        console.info("----------------------------------------------------------------------------")
+        console.info("    PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets)))
+        console.info("----------------------------------------------------------------------------")
+        
+        if len(variants) > 0:
             for entry in variants:
-                print "  - %s = %s" % (entry["id"], entry["value"])
-            print "----------------------------------------------------------------------------"
+                console.debug("  - %s = %s" % (entry["id"], entry["value"]))
+            console.debug("----------------------------------------------------------------------------")
 
         # Detect dependencies
-        print ">>> Resolving application dependencies..."
+        console.info(">>> Resolving application dependencies...")
         includeDict = resolveDependencies(smartInclude, smartExclude, dynLoadDeps, dynRunDeps, variants)
 
 
         # Explicit include/exclude
         if len(explicitInclude) > 0 or len(explicitExclude) > 0:
-            print ">>> Processing explicitely configured includes/excludes..."
+            console.info(">>> Processing explicitely configured includes/excludes...")
             for entry in explicitInclude:
                 includeDict[entry] = True
 
@@ -419,16 +413,15 @@ def generateScript():
 
 
         # Detect optionals
-        if verbose:
-            optionals = getOptionals(includeDict)
-            if len(optionals) > 0:
-                print ">>> These optional classes may be useful:"
-                for entry in optionals:
-                    print "  - %s" % entry
+        optionals = getOptionals(includeDict)
+        if len(optionals) > 0:
+            console.debug(">>> These optional classes may be useful:")
+            for entry in optionals:
+                console.debug("  - %s" % entry)
 
 
         if apiPath != None:
-            apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cache, quiet, verbose)
+            apidata.storeApi(includeDict, dynLoadDeps, dynRunDeps, apiPath, classes, cache)
 
 
         if buildScript != None:
@@ -663,20 +656,14 @@ def _splitIncludeExcludeList(input):
 
 def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
     global classes
-    global verbose
-    global quiet
 
 
-    # Caching dependencies of each part
-    if not quiet:
-        print
-
-    print ">>> Resolving part dependencies..."
+    console.info("")
+    console.info(">>> Resolving part dependencies...")
     partDeps = {}
     length = len(partClasses.keys())
     for pos, partId in enumerate(partClasses.keys()):
-        if not quiet:
-            print "  - Part #%s..." % partId
+        console.debug("  - Part #%s..." % partId)
 
         # Exclude all features of other parts
         # and handle dependencies the smart way =>
@@ -698,18 +685,15 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
               if not dep in includeDict:
                   del localDeps[dep]
 
-        if not quiet:
-            print "    - Needs %s classes" % len(localDeps)
+        console.debug("    - Needs %s classes" % len(localDeps))
 
         partDeps[partId] = localDeps
 
 
 
     # Assign classes to packages
-    if not quiet:
-        print
-
-    print ">>> Assigning classes to packages..."
+    console.debug("")
+    console.info(">>> Assigning classes to packages...")
 
     # References packageId -> class list
     packageClasses = {}
@@ -743,7 +727,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
 
 
     # Assign packages to parts
-    print ">>> Assigning packages to parts..."
+    console.info(">>> Assigning packages to parts...")
     partPackages = {}
 
     for partId in partClasses:
@@ -774,19 +758,15 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     # easily merge all following packages with the first one, because
     # the first one is always the one with the highest priority
     if len(collapseParts) > 0:
-        if not quiet:
-            print
-
+        console.debug("")
         collapsePos = 0
-        print ">>> Collapsing parts..."
+        console.info(">>> Collapsing parts...")
         for partId in collapseParts:
-            if not quiet:
-                print "  - Collapsing part #%s(%s)..." % (partId, collapsePos)
+            console.info("  - Collapsing part #%s(%s)..." % (partId, collapsePos))
 
             collapsePackage = partPackages[partId][collapsePos]
             for packageId in partPackages[partId][collapsePos+1:]:
-                if not quiet:
-                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                console.debug("    - Merge package #%s into #%s" % (packageId, collapsePackage))
 
                 _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
 
@@ -813,11 +793,9 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
         sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
         sortedPackageIds.reverse()
 
-        if not quiet:
-            print
-        print ">>> Analysing package sizes..."
-        if not quiet:
-            print "  - Optimize at %s tokens" % optimizeLatency
+        console.debug("")
+        console.info(">>> Analysing package sizes...")
+        console.debug("  - Optimize at %s tokens" % optimizeLatency)
 
         for packageId in sortedPackageIds:
             packageLength = 0
@@ -826,17 +804,14 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
                 packageLength += treesupport.getLength(classId)
 
             if packageLength >= optimizeLatency:
-                if not quiet:
-                    print "    - Package #%s has %s tokens" % (packageId, packageLength)
+                console.debug("    - Package #%s has %s tokens" % (packageId, packageLength))
                 continue
             else:
-                if not quiet:
-                    print "    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
+                console.debug("    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength))
 
             collapsePackage = _getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
             if collapsePackage != None:
-                if not quiet:
-                    print "      - Merge package #%s into #%s" % (packageId, collapsePackage)
+                console.debug("      - Merge package #%s into #%s" % (packageId, collapsePackage))
                 _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
 
         # User feedback
@@ -850,25 +825,22 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     variantsId = variantsupport.generateCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
 
-    if not quiet:
-        print
 
-
-    print ">>> Creating packages..."
+    console.debug("")
+    console.info(">>> Creating packages...")
     for packageId in sortedPackageIds:
-        sys.stdout.write("  - Compiling package #%s:" % packageId)
-        sys.stdout.flush()
+        console.info("  - Compiling package #%s:" % packageId, False)
 
         packageFileName = "%s_%s" % (buildScript, packageId) 
         packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess)
-        print "    - Done: %s" % packageSize
+        console.info("    - Done: %s" % packageSize)
 
         # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFileName)
 
 
-    print ">>> Storing package loader script..."
+    console.info(">>> Storing package loader script...")
     packageLoader = "%s_%s_%s.js" % (buildScript, variantsId, processId)
     filetool.save(packageLoader, packageLoaderContent)
 
@@ -913,22 +885,17 @@ def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
 
 
 def _printPartStats(packageClasses, partPackages):
-    global verbose
-
-    if not verbose:
-        return
-
     packageIds = _dictToHumanSortedList(packageClasses)
 
-    print
-    print ">>> Content of packages(%s):" % len(packageIds)
+    console.debug("")
+    console.debug(">>> Content of packages(%s):" % len(packageIds))
     for packageId in packageIds:
-        print "  - Package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
+        console.debug("  - Package #%s contains %s classes" % (packageId, len(packageClasses[packageId])))
 
-    print
-    print ">>> Content of parts(%s):" % len(partPackages)
+    console.debug("")
+    console.debug(">>> Content of parts(%s):" % len(partPackages))
     for partId in partPackages:
-        print "  - Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId]))
+        console.debug("  - Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId])))
 
 
 
@@ -1029,16 +996,14 @@ def getOptionals(classes):
 ######################################################################
 
 def compileClasses(todo, variants, process):
-    global quiet
-    global verbose
     global classes
     
     content = ""
     length = len(todo)
 
     for pos, id in enumerate(todo):
-        progress.printProgress(pos, length, quiet)
-        content += getCompiled(classes[id], variants, process, verbose, quiet)
+        console.progress(pos, length)
+        content += getCompiled(classes[id], variants, process)
 
     return content
 
@@ -1056,8 +1021,9 @@ def _compileClassHelper(restree):
     return compiler.compile(restree, options)
 
 
-def getCompiled(entry, variants, process, verbose=False, quiet=False):
+def getCompiled(entry, variants, process):
     global cache
+    global log
     
     fileId = entry["id"]
     filePath = entry["path"]
@@ -1070,16 +1036,12 @@ def getCompiled(entry, variants, process, verbose=False, quiet=False):
     if compiled != None:
         return compiled
 
-    tree = copy.deepcopy(treesupport.getVariantsTree(entry, cache, variants))
+    tree = copy.deepcopy(treesupport.getVariantsTree(entry, variants, cache, log))
 
-    if verbose:
-        print "  - Postprocessing tree: %s..." % fileId
-
+    console.debug("  - Postprocessing tree: %s..." % fileId)
     tree = _postProcessHelper(tree, fileId, process, variants)
 
-    if verbose:
-        print "  - Compiling tree: %s..." % fileId
-
+    console.debug("  - Compiling tree: %s..." % fileId)
     compiled = _compileClassHelper(tree)
 
     cache.write(cacheId, compiled)
@@ -1087,27 +1049,20 @@ def getCompiled(entry, variants, process, verbose=False, quiet=False):
 
 
 def _postProcessHelper(tree, id, process, variants):
-    global verbose
-    global quiet
-
     if "optimize-basecalls" in process:
-        if verbose:
-            print "    - Optimize base calls..."
+        console.debug("    - Optimize base calls...")
         baseCallOptimizeHelper(tree, id, variants)
 
     if "optimize-variables" in process:
-        if verbose:
-            print "    - Optimize local variables..."
+        console.debug("    - Optimize local variables...")
         variableOptimizeHelper(tree, id, variants)
 
     if "optimize-privates" in process:
-        if verbose:
-            print "    - Optimize privates..."
+        console.debug("    - Optimize privates...")
         privateOptimizeHelper(tree, id, variants)
 
     if "optimize-strings" in process:
-        if verbose:
-            print "    - Optimize strings..."
+        console.debug("    - Optimize strings...")
         stringOptimizeHelper(tree, id, variants)
 
     return tree
@@ -1135,9 +1090,6 @@ def privateOptimizeHelper(tree, id, variants):
 
 
 def stringOptimizeHelper(tree, id, variants):
-    global verbose
-    global quiet
-
     # Do not optimize strings for non-mshtml clients
     clientValue = getVariantValue(variants, "qx.client")
     if clientValue != None and clientValue != "mshtml":
@@ -1244,7 +1196,6 @@ def getCombinedDeps(id, loadDeps, runDeps, variants):
 
 def getDeps(id, variants):
     global classes
-    global verbose
 
     cacheId = "%s-deps-%s" % (id, variantsupport.generateCombinationId(variants))
 
@@ -1256,8 +1207,7 @@ def getDeps(id, variants):
     # load time = before class = require
     # runtime = after class = use
 
-    if verbose:
-        print "  - Gathering dependencies: %s" % id
+    console.debug("  - Gathering dependencies: %s" % id)
 
     load = []
     run = []
@@ -1283,8 +1233,7 @@ def getDeps(id, variants):
             if entry in metaOptional:
                 pass
             elif entry in load:
-                if verbose:
-                    print "  - #require(%s) is auto-detected" % entry
+                console.debug("  - #require(%s) is auto-detected" % entry)
             else:
                 load.append(entry)
 
@@ -1295,8 +1244,7 @@ def getDeps(id, variants):
             elif entry in load:
                 pass
             elif entry in run:
-                if verbose:
-                    print "  - #use(%s) is auto-detected" % entry
+                console.debug("  - #use(%s) is auto-detected" % entry)
             else:
                 run.append(entry)
 
@@ -1322,7 +1270,7 @@ def _analyzeClassDeps(id, variants):
     global classes
     global cache
 
-    tree = treesupport.getVariantsTree(classes[id], cache, variants)
+    tree = treesupport.getVariantsTree(classes[id], variants, cache, log)
     loadtime = []
     runtime = []
 
@@ -1428,11 +1376,10 @@ def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
 def scanModules():
     global classes
     global modules
-    global quiet
 
     modules = {}
 
-    print ">>> Searching for module definitions..."
+    console.info(">>> Searching for module definitions...")
     for id in classes:
         if classes[id]["category"] == "qx.impl":
             for mod in getMeta(id)["modules"]:
@@ -1441,9 +1388,8 @@ def scanModules():
 
                 modules[mod].append(id)
 
-    if not quiet:
-        print "  - Found %s modules" % len(modules)
-        print
+    console.info("  - Found %s modules" % len(modules))
+    console.info("")
 
 
 
@@ -1461,6 +1407,6 @@ if __name__ == '__main__':
 
     except KeyboardInterrupt:
         print
-        print "  * Keyboard Interrupt"
+        print "Keyboard interrupt!"
         sys.exit(1)
 
