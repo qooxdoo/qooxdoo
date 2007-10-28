@@ -99,6 +99,7 @@ from generator2 import variantsupport
 from generator2 import logsupport
 from generator2 import dependencysupport
 from generator2 import compilesupport
+from generator2 import partsupport
 
 
 ######################################################################
@@ -228,6 +229,7 @@ def execute(job, config):
     global jobconfig
     global treeutil
     global apiutil
+    global partutil
 
     jobconfig = config
 
@@ -272,6 +274,8 @@ def execute(job, config):
         execMode = "normal"
 
 
+
+
     #
     # INIT PHASE
     #
@@ -283,6 +287,8 @@ def execute(job, config):
     modules = deputil.getModules()
     compiler = compilesupport.Compiler(classes, cache, console, treeutil)
     apiutil = apidata.ApiUtil(classes, cache, console, treeutil)
+    partutil = partsupport.PartUtil(classes, console, deputil, treeutil)
+
     
     
 
@@ -375,8 +381,8 @@ def execute(job, config):
     #
 
     sets = variantsupport.computeCombinations(userVariants)
-    for pos, variants in enumerate(sets):
-        console.head("PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets)))
+    for variantSetPos, variants in enumerate(sets):
+        console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(sets)))
         
         if len(variants) > 0:
             console.debug("Selected variants:")
@@ -417,20 +423,30 @@ def execute(job, config):
             apiutil.storeApi(includeDict, apiPath)
 
 
-        if buildScript != None:
+        if buildScript != None or sourceScript != None:
             if execMode == "parts":
-                processParts(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
-            else:
-                console.info("Compiling classes:", False)
-                packageSize = storeCompiledPackage(includeDict, buildScript, variants, buildProcess, pos+1)
-                
-                console.indent()
-                console.debug("Done: %s" % packageSize)
-                console.outdent()
+                (ids, pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
 
-        if sourceScript != None:
-            console.debug("Generating script file...")
-            sourceScript = storeSourceScript(includeDict, sourceScript, variants, pos+1)
+            else:
+                # simulate package
+                ids = ["1"]
+                pkgs = {
+                    "1" : includeDict.keys()
+                }
+
+            if buildScript != None:
+                for packageId in ids:
+                    console.info("Compiling classes for package %s:" % packageId, False)
+                    packageSize = storeCompiledPackage(pkgs[packageId], buildScript, variants, buildProcess, variantSetPos+1)
+                
+                    console.indent()
+                    console.debug("Done: %s" % packageSize)
+                    console.outdent()
+
+            if sourceScript != None:
+                for packageId in ids:
+                  console.info("Generating source includer for package %s:" % packageId)
+                  sourceScript = storeSourceScript(includeDict, sourceScript, variants, variantSetPos+1)
 
 
 
@@ -512,328 +528,6 @@ def _splitIncludeExcludeList(input):
     return intelli, explicit
 
 
-
-
-
-
-
-
-
-
-######################################################################
-#  PART SUPPORT
-######################################################################
-
-def processParts(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
-    global classes
-
-    console.debug("")
-    console.info("Resolving part dependencies...")
-    console.indent()
-    partDeps = {}
-    length = len(partClasses.keys())
-    for pos, partId in enumerate(partClasses.keys()):
-        # Exclude all features of other parts
-        # and handle dependencies the smart way =>
-        # also exclude classes only needed by the
-        # already excluded features
-        partExcludes = []
-        for subPartId in partClasses:
-            if subPartId != partId:
-                partExcludes.extend(partClasses[subPartId])
-
-        # Finally resolve the dependencies
-        localDeps = dependencysupport.resolveDependencies(partClasses[partId], partExcludes, variants)
-
-
-        # Remove all dependencies which are not included in the full list
-        if len(includeDict) > 0:
-          depKeys = localDeps.keys()
-          for dep in depKeys:
-              if not dep in includeDict:
-                  del localDeps[dep]
-
-        console.debug("Part #%s needs %s classes" % (partId, len(localDeps)))
-
-        partDeps[partId] = localDeps
-        
-    console.outdent()
-
-
-    # Assign classes to packages
-    console.debug("")
-    console.debug("Assigning classes to packages...")
-
-    # References packageId -> class list
-    packageClasses = {}
-
-    # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
-    packageBitCounts = {}
-
-    for classId in classes:
-        packageId = 0
-        bitCount = 0
-
-        # Iterate through the parts use needs this class
-        for partId in partClasses:
-            if classId in partDeps[partId]:
-                packageId += partBits[partId]
-                bitCount += 1
-
-        # Ignore unused classes
-        if packageId == 0:
-            continue
-
-        # Create missing data structure
-        if not packageClasses.has_key(packageId):
-            packageClasses[packageId] = []
-            packageBitCounts[packageId] = bitCount
-
-        # Finally store the class to the package
-        packageClasses[packageId].append(classId)
-
-
-
-
-    # Assign packages to parts
-    console.debug("Assigning packages to parts...")
-    partPackages = {}
-
-    for partId in partClasses:
-        partBit = partBits[partId]
-
-        for packageId in packageClasses:
-            if packageId&partBit:
-                if not partPackages.has_key(partId):
-                    partPackages[partId] = []
-
-                partPackages[partId].append(packageId)
-
-        # Be sure that the part package list is in order to the package priorit
-        _sortPackageIdsByPriority(partPackages[partId], packageBitCounts)
-
-
-
-
-    # User feedback
-    _printPartStats(packageClasses, partPackages)
-
-
-
-    # Support for package collapsing
-    # Could improve latency when initial loading an application
-    # Merge all packages of a specific part into one (also supports multiple parts)
-    # Hint: Part packages are sorted by priority, this way we can
-    # easily merge all following packages with the first one, because
-    # the first one is always the one with the highest priority
-    if len(collapseParts) > 0:
-        console.debug("")
-        collapsePos = 0
-        console.info("Collapsing packages...")
-        console.indent()
-        for partId in collapseParts:
-            console.debug("#%s(%s)..." % (partId, collapsePos))
-
-            collapsePackage = partPackages[partId][collapsePos]
-            console.indent()
-            for packageId in partPackages[partId][collapsePos+1:]:
-                console.debug("    - Merge #%s into #%s" % (packageId, collapsePackage))
-                _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
-            
-            console.outdent()
-            collapsePos += 1
-
-        console.outdent()
-        
-        # User feedback
-        _printPartStats(packageClasses, partPackages)
-
-
-    # Support for merging small packages
-    # Hint1: Based on the token length which is a bit strange but a good
-    # possibility to get the not really correct filesize in an ultrafast way
-    # More complex code and classes generally also have more tokens in them
-    # Hint2: The first common package before the selected package between two
-    # or more parts is allowed to merge with. As the package which should be merged
-    # may have requirements these must be solved. The easiest way to be sure regarding
-    # this issue, is to look out for another common package. The package for which we
-    # are looking must have requirements in all parts so these must be solved by all parts
-    # so there must be another common package. Hardly to describe... hope this makes some sense
-    if optimizeLatency != None and optimizeLatency != 0:
-        smallPackages = []
-
-        # Start at the end with the priority sorted list
-        sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
-        sortedPackageIds.reverse()
-
-        console.debug("")
-        console.info("Analysing package sizes...")
-        console.indent()
-        console.debug("Optimize at %s tokens" % optimizeLatency)
-
-        for packageId in sortedPackageIds:
-            packageLength = 0
-            console.indent()
-
-            for classId in packageClasses[packageId]:
-                packageLength += treeutil.getLength(classes[classId], cache, console)
-
-            if packageLength >= optimizeLatency:
-                console.debug("    - Package #%s has %s tokens" % (packageId, packageLength))
-                continue
-            else:
-                console.debug("    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength))
-
-            collapsePackage = _getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
-
-            console.indent()
-            if collapsePackage != None:
-                console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
-                _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
-
-            console.outdent()
-            console.outdent()
-
-        # User feedback
-        _printPartStats(packageClasses, partPackages)
-
-
-
-    # Compile files...
-    packageLoaderContent = ""
-    sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
-    variantsId = variantsupport.generateCombinationId(variants)
-    processId = generateProcessCombinationId(buildProcess)
-
-
-    console.debug("")
-    console.info("Compiling packages...")
-    console.indent()
-    for packageId in sortedPackageIds:
-        console.info("Package #%s:" % packageId, False)
-
-        packageFileName = "%s_%s" % (buildScript, packageId) 
-        packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, variants, buildProcess, pos+1)
-        
-        console.indent()
-        console.debug("Done: %s" % packageSize)
-        console.outdent()
-
-        # TODO: Make prefix configurable
-        prefix = "script/"
-        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFileName)
-
-    console.outdent()
-    console.info("Storing package loader script...")
-    packageLoader = "%s_%s_%s.js" % (buildScript, variantsId, processId)
-    filetool.save(packageLoader, packageLoaderContent)
-
-
-
-def _sortPackageIdsByPriority(packageIds, packageBitCounts):
-    def _cmpPackageIds(pkgId1, pkgId2):
-        if packageBitCounts[pkgId2] > packageBitCounts[pkgId1]:
-            return 1
-        elif packageBitCounts[pkgId2] < packageBitCounts[pkgId1]:
-            return -1
-
-        return pkgId2 - pkgId1
-
-    packageIds.sort(_cmpPackageIds)
-
-    return packageIds
-
-
-
-def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
-    relevantParts = []
-    relevantPackages = []
-
-    for partId in partPackages:
-        packages = partPackages[partId]
-        if searchId in packages:
-            relevantParts.append(partId)
-            relevantPackages.extend(packages[:packages.index(searchId)])
-
-    # Sorted by priority, but start from end
-    _sortPackageIdsByPriority(relevantPackages, packageBitCounts)
-    relevantPackages.reverse()
-
-    # Check if a package is available identical times to the number of parts
-    for packageId in relevantPackages:
-        if relevantPackages.count(packageId) == len(relevantParts):
-            return packageId
-
-    return None
-
-
-
-def _printPartStats(packageClasses, partPackages):
-    packageIds = _dictToHumanSortedList(packageClasses)
-
-    console.debug("")
-    console.debug("Content of packages(%s):" % len(packageIds))
-    console.indent()
-    for packageId in packageIds:
-        console.debug("Package #%s contains %s classes" % (packageId, len(packageClasses[packageId])))
-    console.outdent()
-
-    console.debug("")
-    console.debug("Content of parts(%s):" % len(partPackages))
-    console.indent()
-    for partId in partPackages:
-        console.debug("Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId])))
-    console.outdent()
-
-
-
-def _dictToHumanSortedList(input):
-    output = []
-    for key in input:
-        output.append(key)
-    output.sort()
-    output.reverse()
-
-    return output
-
-
-
-def _mergePackage(replacePackage, collapsePackage, partClasses, partPackages, packageClasses):
-    # Replace other package content
-    for partId in partClasses:
-        partContent = partPackages[partId]
-
-        if replacePackage in partContent:
-            # Store collapse package at the place of the old value
-            partContent[partContent.index(replacePackage)] = collapsePackage
-
-            # Remove duplicate (may be, but only one)
-            if partContent.count(collapsePackage) > 1:
-                partContent.reverse()
-                partContent.remove(collapsePackage)
-                partContent.reverse()
-
-    # Merging collapsed packages
-    packageClasses[collapsePackage].extend(packageClasses[replacePackage])
-    del packageClasses[replacePackage]
-
-
-
-def _intListToString(input):
-    result = ""
-    for entry in input:
-        result += "#%s, " % entry
-
-    return result[:-2]
-
-
-
-
-
-
-######################################################################
-#  MODULE/REGEXP SUPPORT
-######################################################################
 
 def resolveComplexDefs(entries):
     global modules
