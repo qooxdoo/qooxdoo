@@ -221,7 +221,7 @@ def _getJobConfig(key, configpart, default):
 
 def execute(job, config):
     global classes
-    global dependency
+    global deputil
     global modules
     global cache
     global compiler
@@ -279,8 +279,8 @@ def execute(job, config):
     cache = cachesupport.Cache(getJobConfig("cachePath"), console)
     classes = classpath.getClasses(classPaths, console)
     treeutil = treesupport.TreeUtil(classes, cache, console)
-    dependency = dependencysupport.Dependency(classes, cache, console, treeutil, getJobConfig("require", {}), getJobConfig("use", {}))
-    modules = dependency.getModules()
+    deputil = dependencysupport.DependencyUtil(classes, cache, console, treeutil, getJobConfig("require", {}), getJobConfig("use", {}))
+    modules = deputil.getModules()
     compiler = compilesupport.Compiler(classes, cache, console, treeutil)
     apiutil = apidata.ApiUtil(classes, cache, console, treeutil)
     
@@ -388,7 +388,7 @@ def execute(job, config):
         # Detect dependencies
         console.info("Resolving application dependencies...")
         console.indent()
-        includeDict = dependency.resolveDependencies(smartInclude, smartExclude, variants)
+        includeDict = deputil.resolveDependencies(smartInclude, smartExclude, variants)
         console.outdent()
 
 
@@ -404,7 +404,7 @@ def execute(job, config):
 
 
         # Detect optionals
-        optionals = dependency.getOptionals(includeDict)
+        optionals = deputil.getOptionals(includeDict)
         if len(optionals) > 0:
             console.debug("These optional classes may be useful:")
             console.indent()
@@ -438,7 +438,7 @@ def storeSourceScript(includeDict, packageFileName, variants, variantPos):
     global classes
 
     scriptBlocks = ""
-    sortedClasses = dependency.sortClasses(includeDict, variants)
+    sortedClasses = deputil.sortClasses(includeDict, variants)
     fileId = "%s-%s.js" % (packageFileName, variantPos)    
     
     for f in sortedClasses:
@@ -478,7 +478,7 @@ def storeCompiledPackage(includeDict, packageFileName, variants, buildProcess, v
     fileId = "%s-%s" % (packageFileName, variantPos)
     
     # Compiling classes
-    sortedClasses = dependency.sortClasses(includeDict, variants)
+    sortedClasses = deputil.sortClasses(includeDict, variants)
     compiledContent = compiler.compileClasses(sortedClasses, variants, buildProcess)
 
     # Saving compiled content

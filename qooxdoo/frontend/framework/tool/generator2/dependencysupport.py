@@ -1,7 +1,7 @@
 from modules import config, treeutil, filetool
 from generator2 import variantsupport
 
-class Dependency:
+class DependencyUtil:
     def __init__(self, classes, cache, console, treeutil, loadDeps, runDeps):
         self._classes = classes
         self._cache = cache
