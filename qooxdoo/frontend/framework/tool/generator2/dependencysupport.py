@@ -1,4 +1,4 @@
-from modules import config, treeutil
+from modules import config, treeutil, filetool
 from generator2 import variantsupport, treesupport
 
 class Dependency:
@@ -254,7 +254,7 @@ class Dependency:
             return meta
 
         meta = {}
-        category = entry["category"]
+        category = fileEntry["category"]
 
         if category == "qx.doc":
             pass
@@ -265,14 +265,14 @@ class Dependency:
         elif category == "qx.impl":
             content = filetool.read(filePath, fileEntry["encoding"])
 
-            meta["loadtimeDeps"] = _extractQxLoadtimeDeps(content, fileId)
-            meta["runtimeDeps"] = _extractQxRuntimeDeps(content, fileId)
-            meta["optionalDeps"] = _extractQxOptionalDeps(content)
-            meta["ignoreDeps"] = _extractQxIgnoreDeps(content)
+            meta["loadtimeDeps"] = self._extractQxLoadtimeDeps(content, fileId)
+            meta["runtimeDeps"] = self._extractQxRuntimeDeps(content, fileId)
+            meta["optionalDeps"] = self._extractQxOptionalDeps(content)
+            meta["ignoreDeps"] = self._extractQxIgnoreDeps(content)
 
-            meta["modules"] = _extractQxModules(content)
-            meta["resources"] = _extractQxResources(content)
-            meta["embeds"] = _extractQxEmbeds(content)
+            meta["modules"] = self._extractQxModules(content)
+            meta["resources"] = self._extractQxResources(content)
+            meta["embeds"] = self._extractQxEmbeds(content)
 
         self.cache.write(cacheId, meta)
 

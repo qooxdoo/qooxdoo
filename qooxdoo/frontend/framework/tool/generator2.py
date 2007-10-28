@@ -82,26 +82,13 @@ both parts from the current position to the left side.
 import sys, re, os, optparse, math, cPickle, copy, sets, zlib
 
 # reconfigure path to import own modules from modules subfolder
+# only needed for simplejson...
 script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.insert(0, os.path.join(script_path, "modules"))
-#sys.path.insert(0, os.path.join(script_path, "generator2"))
 
-from modules import config
-from modules import tokenizer
-from modules import tree
-from modules import treegenerator
-from modules import treeutil
 from modules import optparseext
 from modules import filetool
-from modules import compiler
 from modules import textutil
-from modules import mapper
-from modules import variantoptimizer
-from modules import variableoptimizer
-from modules import stringoptimizer
-from modules import basecalloptimizer
-from modules import privateoptimizer
-from modules import api
 from modules import simplejson
 
 from generator2 import apidata
@@ -111,6 +98,7 @@ from generator2 import classpath
 from generator2 import variantsupport
 from generator2 import logsupport
 from generator2 import dependencysupport
+from generator2 import compilesupport
 
 
 ######################################################################
@@ -233,6 +221,7 @@ def execute(job, config):
     global dependency
     global modules
     global cache
+    global compiler
     global jobconfig
 
     jobconfig = config
@@ -289,6 +278,7 @@ def execute(job, config):
     classes = classpath.getClasses(classPaths, console)
     dependency = dependencysupport.Dependency(classes, cache, console, getJobConfig("require", {}), getJobConfig("use", {}))
     modules = dependency.getModules()
+    compiler = compilesupport.Compiler(classes, cache, console)
     
     
 
@@ -471,7 +461,7 @@ def storeCompiledPackage(includeDict, packageFileName, variants, buildProcess, v
     
     # Compiling classes
     sortedClasses = dependency.sortClasses(includeDict, variants)
-    compiledContent = compileClasses(sortedClasses, variants, buildProcess)
+    compiledContent = compiler.compileClasses(sortedClasses, variants, buildProcess)
 
     # Saving compiled content
     filetool.save(fileId + ".js", compiledContent)
@@ -826,156 +816,6 @@ def resolveComplexDefs(entries):
                         content.append(className)
 
     return content
-
-
-
-
-
-######################################################################
-#  COMPILER SUPPORT
-######################################################################
-
-def compileClasses(todo, variants, process):
-    global classes
-    
-    content = ""
-    length = len(todo)
-
-    for pos, id in enumerate(todo):
-        console.progress(pos, length)
-        content += getCompiled(classes[id], variants, process)
-
-    return content
-
-
-def _compileClassHelper(restree):
-    # Emulate options
-    parser = optparse.OptionParser()
-    parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
-    parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
-    parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-    parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
-
-    (options, args) = parser.parse_args([])
-
-    return compiler.compile(restree, options)
-
-
-def getCompiled(entry, variants, process):
-    global cache
-    
-    fileId = entry["id"]
-    filePath = entry["path"]
-
-    variantsId = variantsupport.generateCombinationId(variants)
-    processId = generateProcessCombinationId(process)
-    cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, processId)
-
-    compiled = cache.read(cacheId, filePath)
-    if compiled != None:
-        return compiled
-
-    tree = copy.deepcopy(treesupport.getVariantsTree(entry, variants, cache, console))
-
-    console.debug("  - Postprocessing tree: %s..." % fileId)
-    tree = _postProcessHelper(tree, fileId, process, variants)
-
-    console.debug("  - Compiling tree: %s..." % fileId)
-    compiled = _compileClassHelper(tree)
-
-    cache.write(cacheId, compiled)
-    return compiled
-
-
-def _postProcessHelper(tree, id, process, variants):
-    if "optimize-basecalls" in process:
-        console.debug("    - Optimize base calls...")
-        baseCallOptimizeHelper(tree, id, variants)
-
-    if "optimize-variables" in process:
-        console.debug("    - Optimize local variables...")
-        variableOptimizeHelper(tree, id, variants)
-
-    if "optimize-privates" in process:
-        console.debug("    - Optimize privates...")
-        privateOptimizeHelper(tree, id, variants)
-
-    if "optimize-strings" in process:
-        console.debug("    - Optimize strings...")
-        stringOptimizeHelper(tree, id, variants)
-
-    return tree
-
-
-def generateProcessCombinationId(process):
-    process = copy.copy(process)
-    process.sort()
-
-    return "[%s]" % ("-".join(process))
-
-
-def baseCallOptimizeHelper(tree, id, variants):
-    basecalloptimizer.patch(tree)
-
-
-def variableOptimizeHelper(tree, id, variants):
-    variableoptimizer.search(tree, [], 0, 0, "$")
-
-
-def privateOptimizeHelper(tree, id, variants):
-    global jobconfig
-    unique = zlib.adler32(id)
-    privateoptimizer.patch(unique, tree, {})
-
-
-def stringOptimizeHelper(tree, id, variants):
-    # Do not optimize strings for non-mshtml clients
-    clientValue = getVariantValue(variants, "qx.client")
-    if clientValue != None and clientValue != "mshtml":
-        return
-
-    # TODO: Customize option for __SS__
-
-    stringMap = stringoptimizer.search(tree)
-    stringList = stringoptimizer.sort(stringMap)
-
-    stringoptimizer.replace(tree, stringList, "__SS__")
-
-    # Build JS string fragments
-    stringStart = "(function(){"
-    stringReplacement = "var " + stringoptimizer.replacement(stringList, "__SS__")
-    stringStop = "})();"
-
-    # Compile wrapper node
-    wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop)
-
-    # Reorganize structure
-    funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
-    if tree.hasChildren():
-        for child in copy.copy(tree.children):
-            tree.removeChild(child)
-            funcBody.addChild(child)
-
-    # Add wrapper to tree
-    tree.addChild(wrapperNode)
-
-
-def getVariantValue(variants, key):
-    for entry in variants:
-        if entry["id"] == key:
-            return entry["value"]
-
-    return None
-
-
-
-
-
-
-
-
-
-
 
 
 

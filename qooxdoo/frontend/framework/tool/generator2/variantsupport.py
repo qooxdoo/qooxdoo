@@ -1,3 +1,11 @@
+def getVariantValue(variants, key):
+    for entry in variants:
+        if entry["id"] == key:
+            return entry["value"]
+
+    return None
+    
+    
 def computeCombinations(variants):
     variantPossibilities = []
     for variantId in variants:
