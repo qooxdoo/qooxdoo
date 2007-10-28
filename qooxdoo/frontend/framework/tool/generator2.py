@@ -74,9 +74,6 @@ both parts from the current position to the left side.
       the classes of the current module
   * verbose{Boolean}: If verbose mode is enabled
   * quiet{Boolean}: If quiet mode is enabled
-
-* All cache data is automatically stored into "cache2"". The path is automatically
-  detected through the location of the generator script.
 """
 
 import sys, re, os, optparse, math, cPickle, copy, sets, zlib
