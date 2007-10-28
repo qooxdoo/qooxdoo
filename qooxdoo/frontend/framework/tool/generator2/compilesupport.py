@@ -1,21 +1,26 @@
 import copy, optparse
 from modules import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, treeutil
-from generator2 import variantsupport, treesupport
+from generator2 import variantsupport
 
 class Compiler:
-    def __init__(self, classes, cache, console):
+    def __init__(self, classes, cache, console, treeutil):
         self._classes = classes
         self._cache = cache
         self._console = console
+        self._treeutil = treeutil
         
         
     def compileClasses(self, todo, variants, process):
         content = ""
         length = len(todo)
+        
+        self._console.indent()
 
         for pos, fileId in enumerate(todo):
             self._console.progress(pos, length)
             content += self.getCompiled(fileId, variants, process)
+            
+        self._console.outdent()            
 
         return content
 
@@ -32,12 +37,14 @@ class Compiler:
         if compiled != None:
             return compiled
 
-        tree = copy.deepcopy(treesupport.getVariantsTree(fileEntry, variants, self._cache, self._console))
+        tree = copy.deepcopy(self._treeutil.getVariantsTree(fileId, variants))
 
-        self._console.debug("  - Postprocessing tree: %s..." % fileId)
+        self._console.debug("Postprocessing tree: %s..." % fileId)
+        self._console.indent()
         tree = self._postProcessHelper(tree, fileId, process, variants)
+        self._console.outdent()        
 
-        self._console.debug("  - Compiling tree: %s..." % fileId)
+        self._console.debug("Compiling tree: %s..." % fileId)
         compiled = self._compileClassHelper(tree)
 
         self._cache.write(cacheId, compiled)
@@ -59,19 +66,19 @@ class Compiler:
 
     def _postProcessHelper(self, fileTree, fileId, process, variants):
         if "optimize-basecalls" in process:
-            self._console.debug("    - Optimize base calls...")
+            self._console.debug("Optimize base calls...")
             self._baseCallOptimizeHelper(fileTree, fileId, variants)
 
         if "optimize-variables" in process:
-            self._console.debug("    - Optimize local variables...")
+            self._console.debug("Optimize local variables...")
             self._variableOptimizeHelper(fileTree, fileId, variants)
 
         if "optimize-privates" in process:
-            self._console.debug("    - Optimize privates...")
+            self._console.debug("Optimize privates...")
             self._privateOptimizeHelper(fileTree, fileId, variants)
 
         if "optimize-strings" in process:
-            self._console.debug("    - Optimize strings...")
+            self._console.debug("Optimize strings...")
             self._stringOptimizeHelper(fileTree, fileId, variants)
 
         return fileTree

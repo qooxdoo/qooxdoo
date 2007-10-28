@@ -106,10 +106,6 @@ from generator2 import compilesupport
 ######################################################################
 
 def main():
-    print "============================================================================"
-    print "    INITIALIZATION"
-    print "============================================================================"
-
     parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
 
     parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
@@ -139,9 +135,12 @@ def process(options):
     else:
         console = logsupport.Log(logfile=options.logfile, level=20)
         
-    console.info(">>> Processing...")
-    console.debug("  - Configuration: %s" % options.config)
-    console.debug("  - Jobs: %s" % ", ".join(options.jobs))
+    console.head("Initialization", True)
+    console.info("Processing...")
+    console.indent()
+    console.debug("Configuration: %s" % options.config)
+    console.debug("Jobs: %s" % ", ".join(options.jobs))
+    console.outdent()
 
     config = simplejson.loads(filetool.read(options.config))
     resolve(config, options.jobs)
@@ -152,14 +151,18 @@ def process(options):
 
 
 def resolve(config, jobs):
-    console.info(">>> Resolving jobs...")
+    console.info("Resolving jobs...")
+    console.indent()
+    
     for job in jobs:
         resolveEntry(config, job)
+        
+    console.outdent()
 
 
 def resolveEntry(config, job):
     if not config.has_key(job):
-        console.warn("  - No such job: %s" % job)
+        console.warn("No such job: %s" % job)
         sys.exit(1)
 
     data = config[job]
@@ -223,13 +226,13 @@ def execute(job, config):
     global cache
     global compiler
     global jobconfig
+    global treeutil
+    global apiutil
 
     jobconfig = config
 
-    console.info("")
-    console.info("============================================================================")
-    console.info("    EXECUTING: %s" % job)
-    console.info("============================================================================")
+    console.head("Executing: %s" % job, True)
+    
     
 
 
@@ -247,7 +250,6 @@ def execute(job, config):
     apiPath = getJobConfig("apiPath")
 
     # Variants data
-    # TODO: Variants for source -> Not possible
     userVariants = getJobConfig("variants", {})
 
     # Part support (has priority)
@@ -276,9 +278,11 @@ def execute(job, config):
 
     cache = cachesupport.Cache(getJobConfig("cachePath"), console)
     classes = classpath.getClasses(classPaths, console)
-    dependency = dependencysupport.Dependency(classes, cache, console, getJobConfig("require", {}), getJobConfig("use", {}))
+    treeutil = treesupport.TreeUtil(classes, cache, console)
+    dependency = dependencysupport.Dependency(classes, cache, console, treeutil, getJobConfig("require", {}), getJobConfig("use", {}))
     modules = dependency.getModules()
-    compiler = compilesupport.Compiler(classes, cache, console)
+    compiler = compilesupport.Compiler(classes, cache, console, treeutil)
+    apiutil = apidata.ApiUtil(classes, cache, console, treeutil)
     
     
 
@@ -289,25 +293,28 @@ def execute(job, config):
 
     # Auto include all when nothing defined
     if execMode == "normal" and len(userInclude) == 0:
-        console.info(">>> Automatically including all available classes")
+        console.info("Automatically including all available classes")
         userInclude.append("*")
 
 
 
-    console.info(">>> Preparing include/exclude configuration...")
+    console.info("Preparing include/exclude configuration...")
     smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
     smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
 
 
     # Configuration feedback
-    console.debug("  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
-    console.debug("  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
+    console.indent()
+    console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+    console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
 
     if len(userExclude) > 0:
-        console.warn("  - Warning: Excludes may break code!")
+        console.warn("Excludes may break code!")
 
     if len(explicitInclude) > 0:
-        console.warn("  - Warning: Explicit included classes may not work")
+        console.warn("Explicit included classes may not work")
+        
+    console.outdent()
 
 
 
@@ -315,11 +322,13 @@ def execute(job, config):
 
 
     # Resolve modules/regexps
-    console.debug("  - Resolving modules/regexps...")
+    console.indent()
+    console.debug("Resolving modules/regexps...")
     smartInclude = resolveComplexDefs(smartInclude)
     explicitInclude = resolveComplexDefs(explicitInclude)
     smartExclude = resolveComplexDefs(smartExclude)
     explicitExclude = resolveComplexDefs(explicitExclude)
+    console.outdent()
 
 
 
@@ -330,28 +339,33 @@ def execute(job, config):
     #
 
     if execMode == "parts":
-        console.info(">>> Preparing part configuration...")
+        console.info("Preparing part configuration...")
+        console.indent()
 
         # Build bitmask ids for parts
-        console.debug("  - Assigning bits to parts...")
+        console.debug("Assigning bits to parts...")
 
         # References partId -> bitId of that part
+        console.indent()
         partBits = {}
-
         partPos = 0
         for partId in userParts:
             partBit = 1<<partPos
 
-            console.debug("    - Part #%s => %s" % (partId, partBit))
+            console.debug("Part #%s => %s" % (partId, partBit))
 
             partBits[partId] = partBit
             partPos += 1
+            
+        console.outdent()
 
         # Resolving modules/regexps
-        console.debug("  - Resolving part modules/regexps...")
+        console.debug("Resolving part modules/regexps...")
         partClasses = {}
         for partId in userParts:
             partClasses[partId] = resolveComplexDefs(userParts[partId])
+            
+        console.outdent()
 
 
 
@@ -362,24 +376,25 @@ def execute(job, config):
 
     sets = variantsupport.computeCombinations(userVariants)
     for pos, variants in enumerate(sets):
-        console.info("")
-        console.info("----------------------------------------------------------------------------")
-        console.info("    PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets)))
-        console.info("----------------------------------------------------------------------------")
+        console.head("PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets)))
         
         if len(variants) > 0:
+            console.debug("Selected variants:")
+            console.indent()
             for entry in variants:
-                console.debug("  - %s = %s" % (entry["id"], entry["value"]))
-            console.debug("----------------------------------------------------------------------------")
+                console.debug("%s = %s" % (entry["id"], entry["value"]))
+            console.outdent()
 
         # Detect dependencies
-        console.info(">>> Resolving application dependencies...")
+        console.info("Resolving application dependencies...")
+        console.indent()
         includeDict = dependency.resolveDependencies(smartInclude, smartExclude, variants)
+        console.outdent()
 
 
         # Explicit include/exclude
         if len(explicitInclude) > 0 or len(explicitExclude) > 0:
-            console.info(">>> Processing explicitely configured includes/excludes...")
+            console.info("Processing explicitely configured includes/excludes...")
             for entry in explicitInclude:
                 includeDict[entry] = True
 
@@ -391,27 +406,30 @@ def execute(job, config):
         # Detect optionals
         optionals = dependency.getOptionals(includeDict)
         if len(optionals) > 0:
-            console.debug(">>> These optional classes may be useful:")
+            console.debug("These optional classes may be useful:")
+            console.indent()
             for entry in optionals:
-                console.debug("  - %s" % entry)
+                console.debug("%s" % entry)
+            console.outdent()
 
 
         if apiPath != None:
-            apidata.storeApi(includeDict, apiPath, classes, cache, console)
+            apiutil.storeApi(includeDict, apiPath)
 
 
         if buildScript != None:
             if execMode == "parts":
                 processParts(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
             else:
-                sys.stdout.write(">>> Compiling classes:")
-                sys.stdout.flush()
+                console.info("Compiling classes:", False)
                 packageSize = storeCompiledPackage(includeDict, buildScript, variants, buildProcess, pos+1)
-                print "    - Done: %s" % packageSize
+                
+                console.indent()
+                console.debug("Done: %s" % packageSize)
+                console.outdent()
 
         if sourceScript != None:
-            sys.stdout.write(">>> Generating script file...\n")
-            sys.stdout.flush()
+            console.debug("Generating script file...")
             sourceScript = storeSourceScript(includeDict, sourceScript, variants, pos+1)
 
 
@@ -510,12 +528,11 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
     global classes
 
     console.debug("")
-    console.info(">>> Resolving part dependencies...")
+    console.info("Resolving part dependencies...")
+    console.indent()
     partDeps = {}
     length = len(partClasses.keys())
     for pos, partId in enumerate(partClasses.keys()):
-        console.debug("  - Part #%s..." % partId)
-
         # Exclude all features of other parts
         # and handle dependencies the smart way =>
         # also exclude classes only needed by the
@@ -536,15 +553,16 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
               if not dep in includeDict:
                   del localDeps[dep]
 
-        console.debug("    - Needs %s classes" % len(localDeps))
+        console.debug("Part #%s needs %s classes" % (partId, len(localDeps)))
 
         partDeps[partId] = localDeps
-
+        
+    console.outdent()
 
 
     # Assign classes to packages
     console.debug("")
-    console.debug(">>> Assigning classes to packages...")
+    console.debug("Assigning classes to packages...")
 
     # References packageId -> class list
     packageClasses = {}
@@ -578,7 +596,7 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
 
 
     # Assign packages to parts
-    console.debug(">>> Assigning packages to parts...")
+    console.debug("Assigning packages to parts...")
     partPackages = {}
 
     for partId in partClasses:
@@ -611,17 +629,22 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
     if len(collapseParts) > 0:
         console.debug("")
         collapsePos = 0
-        console.info(">>> Collapsing packages...")
+        console.info("Collapsing packages...")
+        console.indent()
         for partId in collapseParts:
-            console.debug("  - #%s(%s)..." % (partId, collapsePos))
+            console.debug("#%s(%s)..." % (partId, collapsePos))
 
             collapsePackage = partPackages[partId][collapsePos]
+            console.indent()
             for packageId in partPackages[partId][collapsePos+1:]:
                 console.debug("    - Merge #%s into #%s" % (packageId, collapsePackage))
                 _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
-
+            
+            console.outdent()
             collapsePos += 1
 
+        console.outdent()
+        
         # User feedback
         _printPartStats(packageClasses, partPackages)
 
@@ -644,14 +667,16 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
         sortedPackageIds.reverse()
 
         console.debug("")
-        console.info(">>> Analysing package sizes...")
-        console.debug("  - Optimize at %s tokens" % optimizeLatency)
+        console.info("Analysing package sizes...")
+        console.indent()
+        console.debug("Optimize at %s tokens" % optimizeLatency)
 
         for packageId in sortedPackageIds:
             packageLength = 0
+            console.indent()
 
             for classId in packageClasses[packageId]:
-                packageLength += treesupport.getLength(classes[classId], cache, console)
+                packageLength += treeutil.getLength(classes[classId], cache, console)
 
             if packageLength >= optimizeLatency:
                 console.debug("    - Package #%s has %s tokens" % (packageId, packageLength))
@@ -660,9 +685,14 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
                 console.debug("    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength))
 
             collapsePackage = _getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
+
+            console.indent()
             if collapsePackage != None:
-                console.debug("      - Merge package #%s into #%s" % (packageId, collapsePackage))
+                console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
                 _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
+
+            console.outdent()
+            console.outdent()
 
         # User feedback
         _printPartStats(packageClasses, partPackages)
@@ -677,20 +707,24 @@ def processParts(partClasses, partBits, includeDict, variants, collapseParts, op
 
 
     console.debug("")
-    console.info(">>> Compiling packages...")
+    console.info("Compiling packages...")
+    console.indent()
     for packageId in sortedPackageIds:
-        console.info("  - Package #%s:" % packageId, False)
+        console.info("Package #%s:" % packageId, False)
 
         packageFileName = "%s_%s" % (buildScript, packageId) 
         packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, variants, buildProcess, pos+1)
-        console.info("    - Done: %s" % packageSize)
+        
+        console.indent()
+        console.debug("Done: %s" % packageSize)
+        console.outdent()
 
         # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFileName)
 
-
-    console.info(">>> Storing package loader script...")
+    console.outdent()
+    console.info("Storing package loader script...")
     packageLoader = "%s_%s_%s.js" % (buildScript, variantsId, processId)
     filetool.save(packageLoader, packageLoaderContent)
 
@@ -738,14 +772,18 @@ def _printPartStats(packageClasses, partPackages):
     packageIds = _dictToHumanSortedList(packageClasses)
 
     console.debug("")
-    console.debug(">>> Content of packages(%s):" % len(packageIds))
+    console.debug("Content of packages(%s):" % len(packageIds))
+    console.indent()
     for packageId in packageIds:
-        console.debug("  - Package #%s contains %s classes" % (packageId, len(packageClasses[packageId])))
+        console.debug("Package #%s contains %s classes" % (packageId, len(packageClasses[packageId])))
+    console.outdent()
 
     console.debug("")
-    console.debug(">>> Content of parts(%s):" % len(partPackages))
+    console.debug("Content of parts(%s):" % len(partPackages))
+    console.indent()
     for partId in partPackages:
-        console.debug("  - Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId])))
+        console.debug("Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId])))
+    console.outdent()
 
 
 

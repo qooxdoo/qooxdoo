@@ -4,16 +4,20 @@ from modules import config, filetool
 def getClasses(paths, console, encoding="utf-8"):
     classes = {}
 
-    console.info(">>> Scanning class paths...")
+    console.info("Scanning class paths...")
+    console.indent()
+    
     for path in paths:
         _addClassPath(classes, path, console, encoding)
 
+    console.outdent()
     console.debug("")
+    
     return classes
 
 
 def _addClassPath(classes, classPath, console, encoding):
-    console.debug("  - Scanning: %s" % classPath)
+    console.debug("Scanning: %s" % classPath)
 
     implCounter = 0
     docCounter = 0
@@ -73,7 +77,9 @@ def _addClassPath(classes, classPath, console, encoding):
                     "pathId" : filePathId
                 }
 
-    console.debug("    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter))
+    console.indent()
+    console.debug("Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter))
+    console.outdent()
 
 
 def _extractQxClassContentId(data):

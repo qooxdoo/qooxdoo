@@ -6,6 +6,8 @@ class Log:
     _warningLevel = 30
     _errorLevel = 40
     _criticalLevel = 50
+    _indent = 0
+    
     
     def __init__(self, logfile=None, level=20):
         self.set(level)
@@ -13,11 +15,38 @@ class Log:
             self.logfile = codecs.open(logfile, encoding="utf-8", mode="w")
         else:
             self.logfile = False
-    
+        
+            
     def set(self, level):
         self.level = level
         
-    def log(self, msg, level, feed=True):
+        
+    def indent(self):
+        self._indent += 1
+        
+        
+    def outdent(self):
+        if self._indent > 0:
+            self._indent -= 1
+            
+            
+    def head(self, msg, main=False):
+        if main:
+            line = "=" * 76
+        else:
+            line = "-" * 76
+        
+        self.write("", self._infoLevel)
+        self.write(line, self._infoLevel)
+        self.write("    %s" % msg.upper(), self._infoLevel)
+        self.write(line, self._infoLevel)        
+        
+    
+    def write(self, msg, level, feed=True):
+        # Always add a line feed in debug mode
+        if self.level < self._infoLevel:
+            feed = True
+        
         # log file
         if self.logfile:
             self.logfile.write(msg + "\n")
@@ -30,29 +59,47 @@ class Log:
             else:
                 sys.stdout.write(msg)
                 sys.stdout.flush()
+                        
+        
+    def log(self, msg, level, feed=True):
+        # add prefix
+        if msg == "":
+            prefix = ""
+        elif self._indent == 0:
+            prefix = ">>> "
+        elif self._indent > 0:
+            prefix = ("  " * self._indent) + "- "
+            
+        self.write(prefix + msg, level, feed)
+
                 
     def debug(self, msg, feed=True):
         self.log(msg, self._debugLevel, feed)
+
         
     def info(self, msg, feed=True):
         self.log(msg, self._infoLevel, feed)
 
+
     def warn(self, msg, feed=True):
         self.log(msg, self._warningLevel, feed)
+
 
     def error(self, msg, feed=True):
         self.log(msg, self._errorLevel, feed)
 
+
     def critical(self, msg, feed=True):
         self.log(msg, self._criticalLevel, feed)
         
+        
     def progress(self, pos, length):
-        if self.level > self._infoLevel:
-            return
-            
         # starts normally at null, but this is not useful here
         # also the length is normally +1 the real size
         pos += 1
+
+        if self.level < self._infoLevel:
+            return
 
         thisstep = 10 * pos / length
         prevstep = 10 * (pos-1) / length

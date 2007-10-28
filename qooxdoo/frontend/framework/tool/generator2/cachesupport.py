@@ -4,14 +4,14 @@ from generator2 import hashcode
 
 class Cache:
     def __init__(self, path, console):
-        self.path = path
-        self.console = console
+        self._path = path
+        self._console = console
     
     
-    def read(self, id, dep):
-        filetool.directory(self.path)
-        fileModTime = os.stat(dep).st_mtime
-        cacheFile = os.path.join(self.path, hashcode.convert(id))
+    def read(self, cacheId, dependsOn):
+        filetool.directory(self._path)
+        fileModTime = os.stat(dependsOn).st_mtime
+        cacheFile = os.path.join(self._path, hashcode.convert(cacheId))
 
         try:
             cacheModTime = os.stat(cacheFile).st_mtime
@@ -26,19 +26,19 @@ class Cache:
             return cPickle.load(open(cacheFile, 'rb'))
 
         except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-            self.console.error(">>> Could not read cache from %s" % self.path)
+            self._console.error("Could not read cache from %s" % self._path)
             return None
 
 
-    def write(self, id, content):
-        filetool.directory(self.path)
-        cacheFile = os.path.join(self.path, hashcode.convert(id))
+    def write(self, cacheId, content):
+        filetool.directory(self._path)
+        cacheFile = os.path.join(self._path, hashcode.convert(cacheId))
 
         try:
             cPickle.dump(content, open(cacheFile, 'wb'), 2)
 
         except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
-            self.console.error(">>> Could not store cache to %s" % self.path)
+            self._console.error("Could not store cache to %s" % self._path)
             sys.exit(1)
 
 

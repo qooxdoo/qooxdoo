@@ -1,13 +1,14 @@
 from modules import config, treeutil, filetool
-from generator2 import variantsupport, treesupport
+from generator2 import variantsupport
 
 class Dependency:
-    def __init__(self, classes, cache, console, loadDeps, runDeps):
-        self.classes = classes
-        self.cache = cache
-        self.console = console
-        self.loadDeps = loadDeps
-        self.runDeps = runDeps
+    def __init__(self, classes, cache, console, treeutil, loadDeps, runDeps):
+        self._classes = classes
+        self._cache = cache
+        self._console = console
+        self._treeutil = treeutil
+        self._loadDeps = loadDeps
+        self._runDeps = runDeps
         
         
         
@@ -54,11 +55,11 @@ class Dependency:
         runFinal.extend(static["run"])
 
         # add dynamic dependencies
-        if self.loadDeps.has_key(fileId):
-            loadFinal.extend(self.loadDeps[fileId])
+        if self._loadDeps.has_key(fileId):
+            loadFinal.extend(self._loadDeps[fileId])
 
-        if self.runDeps.has_key(fileId):
-            runFinal.extend(self.runDeps[fileId])
+        if self._runDeps.has_key(fileId):
+            runFinal.extend(self._runDeps[fileId])
 
         # return dict
         return {
@@ -69,10 +70,10 @@ class Dependency:
 
 
     def getDeps(self, fileId, variants):
-        filePath = self.classes[fileId]["path"]
+        filePath = self._classes[fileId]["path"]
         cacheId = "%s-deps-%s" % (fileId, variantsupport.generateCombinationId(variants))
 
-        deps = self.cache.read(cacheId, filePath)
+        deps = self._cache.read(cacheId, filePath)
         if deps != None:
             return deps
 
@@ -83,7 +84,8 @@ class Dependency:
         load = []
         run = []
 
-        self.console.debug("  - Gathering dependencies: %s" % fileId)
+        self._console.debug("Gathering dependencies: %s" % fileId)
+        self._console.indent()
 
         # Read meta data
         meta = self.getMeta(fileId)
@@ -91,7 +93,7 @@ class Dependency:
         metaRun = self._readDictKey(meta, "runtimeDeps", [])
         metaOptional = self._readDictKey(meta, "optionalDeps", [])
         metaIgnore = self._readDictKey(meta, "ignoreDeps", [])
-
+        
         # Process meta data
         load.extend(metaLoad)
         run.extend(metaRun)
@@ -105,7 +107,7 @@ class Dependency:
                 if item in metaOptional:
                     pass
                 elif item in load:
-                    self.console.debug("  - #require(%s) is auto-detected" % item)
+                    self._console.warn("#require(%s) is auto-detected" % item)
                 else:
                     load.append(item)
 
@@ -116,9 +118,11 @@ class Dependency:
                 elif item in load:
                     pass
                 elif item in run:
-                    self.console.debug("  - #use(%s) is auto-detected" % item)
+                    self._console.warn("#use(%s) is auto-detected" % item)
                 else:
                     run.append(item)
+
+        self._console.outdent()                    
 
         # Build data structure
         deps = {
@@ -126,7 +130,7 @@ class Dependency:
             "run" : run
         }
 
-        self.cache.write(cacheId, deps)
+        self._cache.write(cacheId, deps)
 
         return deps
 
@@ -141,10 +145,10 @@ class Dependency:
 
 
     def _analyzeClassDeps(self, fileId, variants):
-        tree = treesupport.getVariantsTree(self.classes[fileId], variants, self.cache, self.console)
-
         loadtimeDeps = []
         runtimeDeps = []
+
+        tree = self._treeutil.getVariantsTree(fileId, variants)
         self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, False)
 
         return loadtimeDeps, runtimeDeps
@@ -165,7 +169,7 @@ class Dependency:
                         assembled += child.get("name")
                         first = False
 
-                        if assembled != fileId and self.classes.has_key(assembled):
+                        if assembled != fileId and self._classes.has_key(assembled):
                             if inFunction:
                                 target = runtime
                             else:
@@ -227,7 +231,6 @@ class Dependency:
         if fileId in result:
             return
 
-        # print "  - Adding: %s" % id
         result.append(fileId)
 
         # process runtime requirements
@@ -245,17 +248,19 @@ class Dependency:
     ######################################################################
 
     def getMeta(self, fileId):
-        fileEntry = self.classes[fileId]
+        fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]    
         cacheId = "%s-meta" % fileId
 
-        meta = self.cache.read(cacheId, filePath)
+        meta = self._cache.read(cacheId, filePath)
         if meta != None:
             return meta
 
         meta = {}
         category = fileEntry["category"]
 
+        self._console.indent()
+        
         if category == "qx.doc":
             pass
 
@@ -274,7 +279,8 @@ class Dependency:
             meta["resources"] = self._extractQxResources(content)
             meta["embeds"] = self._extractQxEmbeds(content)
 
-        self.cache.write(cacheId, meta)
+        self._console.outdent()
+        self._cache.write(cacheId, meta)
 
         return meta
 
@@ -293,17 +299,19 @@ class Dependency:
     def getModules(self):
         modules = {}
 
-        self.console.info(">>> Searching for module definitions...")
-        for fileId in self.classes:
-            if self.classes[fileId]["category"] == "qx.impl":
+        self._console.info("Searching for module definitions...")
+        for fileId in self._classes:
+            if self._classes[fileId]["category"] == "qx.impl":
                 for mod in self.getMeta(fileId)["modules"]:
                     if not modules.has_key(mod):
                         modules[mod] = []
 
                     modules[mod].append(fileId)
 
-        self.console.debug("  - Found %s modules" % len(modules))
-        self.console.debug("")
+        self._console.indent()
+        self._console.debug("Found %s modules" % len(modules))
+        self._console.outdent()        
+        self._console.debug("")
     
         return modules
 
@@ -313,7 +321,7 @@ class Dependency:
 
         for item in config.QXHEAD["require"].findall(data):
             if item == fileId:
-                print "    - Error: Self-referring load dependency: %s" % item
+                self._console.error("Self-referring load dependency: %s" % item)
                 sys.exit(1)
             else:
                 deps.append(item)
@@ -327,7 +335,7 @@ class Dependency:
 
         for item in config.QXHEAD["use"].findall(data):
             if item == fileId:
-                print "    - Self-referring runtime dependency: %s" % item
+                self._console.error("Self-referring runtime dependency: %s" % item)
             else:
                 deps.append(item)
 
