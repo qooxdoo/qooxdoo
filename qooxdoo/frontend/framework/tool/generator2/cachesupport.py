@@ -1,6 +1,5 @@
-import os, sys, cPickle
+import os, sys, sha, cPickle
 from modules import filetool
-from generator2 import hashcode
 
 class Cache:
     def __init__(self, path, console):
@@ -11,7 +10,7 @@ class Cache:
     def read(self, cacheId, dependsOn):
         filetool.directory(self._path)
         fileModTime = os.stat(dependsOn).st_mtime
-        cacheFile = os.path.join(self._path, hashcode.convert(cacheId))
+        cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
 
         try:
             cacheModTime = os.stat(cacheFile).st_mtime
@@ -32,7 +31,7 @@ class Cache:
 
     def write(self, cacheId, content):
         filetool.directory(self._path)
-        cacheFile = os.path.join(self._path, hashcode.convert(cacheId))
+        cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
 
         try:
             cPickle.dump(content, open(cacheFile, 'wb'), 2)

@@ -40,10 +40,15 @@ class ApiUtil:
         docTree = tree.Node("doctree")
         todo = includeDict.keys()
         length = len(todo)
-
+        
+        self._console.debug("Loading...")
+        self._console.indent()
+        
         for pos, fileId in enumerate(todo):
             self._console.progress(pos, length)
             self._mergeApiNodes(docTree, self.getApi(fileId))
+            
+        self._console.outdent()
 
         self._console.info("Postprocessing...")
         api.postWorkPackage(docTree, docTree)
