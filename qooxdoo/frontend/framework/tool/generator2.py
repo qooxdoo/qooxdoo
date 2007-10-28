@@ -104,12 +104,13 @@ from modules import privateoptimizer
 from modules import api
 from modules import simplejson
 
-from generator2 import cachesupport
 from generator2 import apidata
+from generator2 import cachesupport
 from generator2 import treesupport
 from generator2 import classpath
 from generator2 import variantsupport
 from generator2 import logsupport
+from generator2 import dependencysupport
 
 
 ######################################################################
@@ -194,17 +195,6 @@ def mergeEntry(target, source):
             target[key] = source[key]
 
 
-def execute(job, config):
-    global jobconfig
-    jobconfig = config
-
-    console.info("")
-    console.info("============================================================================")
-    console.info("    EXECUTING: %s" % job)
-    console.info("============================================================================")
-
-    generateScript()
-
 
 
 
@@ -220,7 +210,6 @@ def getJobConfig(key, default=None):
 
 
 def _getJobConfig(key, configpart, default):
-
     sepindex = key.find(".")
 
     # simple key
@@ -229,6 +218,7 @@ def _getJobConfig(key, configpart, default):
             return configpart[key]
         else:
             return default
+            
     # complex key
     else:
         firstpart = key[0:sepindex]
@@ -238,10 +228,20 @@ def _getJobConfig(key, configpart, default):
             return default
 
 
-def generateScript():
+def execute(job, config):
     global classes
+    global dependency
     global modules
     global cache
+    global jobconfig
+
+    jobconfig = config
+
+    console.info("")
+    console.info("============================================================================")
+    console.info("    EXECUTING: %s" % job)
+    console.info("============================================================================")
+    
 
 
     #
@@ -256,10 +256,6 @@ def generateScript():
     buildScript = getJobConfig("buildScript")
     sourceScript = getJobConfig("sourceScript")
     apiPath = getJobConfig("apiPath")
-
-    # Dynamic dependencies
-    dynLoadDeps = getJobConfig("require", {})
-    dynRunDeps = getJobConfig("use", {})
 
     # Variants data
     # TODO: Variants for source -> Not possible
@@ -290,17 +286,11 @@ def generateScript():
     #
 
     cache = cachesupport.Cache(getJobConfig("cachePath"), console)
-    
-    
-
-
-    #
-    # SCAN PHASE
-    #
-
-    # Scan for classes and modules
     classes = classpath.getClasses(classPaths, console)
-    scanModules()
+    dependency = dependencysupport.Dependency(classes, cache, console, getJobConfig("require", {}), getJobConfig("use", {}))
+    modules = dependency.getModules()
+    
+    
 
 
     #
@@ -394,7 +384,7 @@ def generateScript():
 
         # Detect dependencies
         console.info(">>> Resolving application dependencies...")
-        includeDict = resolveDependencies(smartInclude, smartExclude, dynLoadDeps, dynRunDeps, variants)
+        includeDict = dependency.resolveDependencies(smartInclude, smartExclude, variants)
 
 
         # Explicit include/exclude
@@ -409,7 +399,7 @@ def generateScript():
 
 
         # Detect optionals
-        optionals = getOptionals(includeDict)
+        optionals = dependency.getOptionals(includeDict)
         if len(optionals) > 0:
             console.debug(">>> These optional classes may be useful:")
             for entry in optionals:
@@ -422,25 +412,25 @@ def generateScript():
 
         if buildScript != None:
             if execMode == "parts":
-                processParts(partClasses, partBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
+                processParts(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
             else:
                 sys.stdout.write(">>> Compiling classes:")
                 sys.stdout.flush()
-                packageSize = storeCompiledPackage(includeDict, buildScript, dynLoadDeps, dynRunDeps, variants, buildProcess, pos+1)
+                packageSize = storeCompiledPackage(includeDict, buildScript, variants, buildProcess, pos+1)
                 print "    - Done: %s" % packageSize
 
         if sourceScript != None:
             sys.stdout.write(">>> Generating script file...\n")
             sys.stdout.flush()
-            sourceScript = storeSourceScript(includeDict, sourceScript, dynLoadDeps, dynRunDeps, variants, pos+1)
+            sourceScript = storeSourceScript(includeDict, sourceScript, variants, pos+1)
 
 
 
-def storeSourceScript(includeDict, packageFileName, loadDeps, runDeps, variants, variantPos):
+def storeSourceScript(includeDict, packageFileName, variants, variantPos):
     global classes
 
     scriptBlocks = ""
-    sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
+    sortedClasses = dependency.sortClasses(includeDict, variants)
     fileId = "%s-%s.js" % (packageFileName, variantPos)    
     
     for f in sortedClasses:
@@ -467,130 +457,6 @@ def storeSourceScript(includeDict, packageFileName, loadDeps, runDeps, variants,
 
 
 
-######################################################################
-#  META DATA SUPPORT
-######################################################################
-
-def getMeta(id):
-    global classes
-
-    entry = classes[id]
-    path = entry["path"]
-    
-    cacheId = "%s-meta" % id
-
-    meta = cache.read(cacheId, path)
-    if meta != None:
-        return meta
-
-    meta = {}
-    category = entry["category"]
-
-    if category == "qx.doc":
-        pass
-
-    elif category == "qx.locale":
-        meta["loadtimeDeps"] = ["qx.locale.Locale", "qx.locale.Manager"]
-
-    elif category == "qx.impl":
-        content = filetool.read(path, entry["encoding"])
-
-        meta["loadtimeDeps"] = _extractQxLoadtimeDeps(content, id)
-        meta["runtimeDeps"] = _extractQxRuntimeDeps(content, id)
-        meta["optionalDeps"] = _extractQxOptionalDeps(content)
-        meta["ignoreDeps"] = _extractQxIgnoreDeps(content)
-
-        meta["modules"] = _extractQxModules(content)
-        meta["resources"] = _extractQxResources(content)
-        meta["embeds"] = _extractQxEmbeds(content)
-
-    cache.write(cacheId, meta)
-
-    return meta
-
-
-
-def _extractQxLoadtimeDeps(data, fileId=""):
-    deps = []
-
-    for item in config.QXHEAD["require"].findall(data):
-        if item == fileId:
-            print "    - Error: Self-referring load dependency: %s" % item
-            sys.exit(1)
-        else:
-            deps.append(item)
-
-    return deps
-
-
-
-def _extractQxRuntimeDeps(data, fileId=""):
-    deps = []
-
-    for item in config.QXHEAD["use"].findall(data):
-        if item == fileId:
-            print "    - Self-referring runtime dependency: %s" % item
-        else:
-            deps.append(item)
-
-    return deps
-
-
-
-def _extractQxOptionalDeps(data):
-    deps = []
-
-    # Adding explicit requirements
-    for item in config.QXHEAD["optional"].findall(data):
-        if not item in deps:
-            deps.append(item)
-
-    return deps
-
-
-
-def _extractQxIgnoreDeps(data):
-    ignores = []
-
-    # Adding explicit requirements
-    for item in config.QXHEAD["ignore"].findall(data):
-        if not item in ignores:
-            ignores.append(item)
-
-    return ignores
-
-
-
-def _extractQxModules(data):
-    mods = []
-
-    for item in config.QXHEAD["module"].findall(data):
-        if not item in mods:
-            mods.append(item)
-
-    return mods
-
-
-
-def _extractQxResources(data):
-    res = []
-
-    for item in config.QXHEAD["resource"].findall(data):
-        res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
-
-    return res
-
-
-
-def _extractQxEmbeds(data):
-    emb = []
-
-    for item in config.QXHEAD["embed"].findall(data):
-        emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
-
-    return emb
-
-
 
 
 
@@ -600,11 +466,11 @@ def _extractQxEmbeds(data):
 #  COMMON COMPILED PKG SUPPORT
 ######################################################################
 
-def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, variants, buildProcess, variantPos):
+def storeCompiledPackage(includeDict, packageFileName, variants, buildProcess, variantPos):
     fileId = "%s-%s" % (packageFileName, variantPos)
     
     # Compiling classes
-    sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
+    sortedClasses = dependency.sortClasses(includeDict, variants)
     compiledContent = compileClasses(sortedClasses, variants, buildProcess)
 
     # Saving compiled content
@@ -650,7 +516,7 @@ def _splitIncludeExcludeList(input):
 #  PART SUPPORT
 ######################################################################
 
-def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
+def processParts(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
     global classes
 
     console.debug("")
@@ -670,7 +536,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
                 partExcludes.extend(partClasses[subPartId])
 
         # Finally resolve the dependencies
-        localDeps = resolveDependencies(partClasses[partId], partExcludes, loadDeps, runDeps, variants)
+        localDeps = dependencysupport.resolveDependencies(partClasses[partId], partExcludes, variants)
 
 
         # Remove all dependencies which are not included in the full list
@@ -826,7 +692,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
         console.info("  - Package #%s:" % packageId, False)
 
         packageFileName = "%s_%s" % (buildScript, packageId) 
-        packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess, pos+1)
+        packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, variants, buildProcess, pos+1)
         console.info("    - Done: %s" % packageSize)
 
         # TODO: Make prefix configurable
@@ -960,26 +826,6 @@ def resolveComplexDefs(entries):
                         content.append(className)
 
     return content
-
-
-
-
-
-
-######################################################################
-#  SUPPORT FOR OPTIONAL CLASSES/FEATURES
-######################################################################
-
-def getOptionals(classes):
-    opt = {}
-
-    for id in classes:
-        for sub in getMeta(id)["optionalDeps"]:
-            if not sub in classes:
-                opt[sub] = True
-
-    return opt
-
 
 
 
@@ -1126,260 +972,9 @@ def getVariantValue(variants, key):
 
 
 
-######################################################################
-#  CLASS DEPENDENCY SUPPORT
-######################################################################
 
-def resolveDependencies(add, block, loadDeps, runDeps, variants):
-    result = {}
 
-    for entry in add:
-        _resolveDependenciesRecurser(entry, result, block, loadDeps, runDeps, variants)
 
-    return result
-
-
-def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps, variants):
-    global classes
-
-    # check if already in
-    if result.has_key(add):
-        return
-
-    # add self
-
-    result[add] = True
-
-    # reading dependencies
-    deps = getCombinedDeps(add, loadDeps, runDeps, variants)
-
-    # process lists
-    for sub in deps["load"]:
-        if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)
-
-    for sub in deps["run"]:
-        if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)
-
-
-def getCombinedDeps(id, loadDeps, runDeps, variants):
-    # init lists
-    loadFinal = []
-    runFinal = []
-
-    # add static dependencies
-    static = getDeps(id, variants)
-    loadFinal.extend(static["load"])
-    runFinal.extend(static["run"])
-
-    # add dynamic dependencies
-    if loadDeps.has_key(id):
-        loadFinal.extend(loadDeps[id])
-
-    if runDeps.has_key(id):
-        runFinal.extend(runDeps[id])
-
-    # return dict
-    return {
-        "load" : loadFinal,
-        "run" : runFinal
-    }
-
-
-def getDeps(id, variants):
-    global classes
-
-    cacheId = "%s-deps-%s" % (id, variantsupport.generateCombinationId(variants))
-
-    deps = cache.read(cacheId, classes[id]["path"])
-    if deps != None:
-        return deps
-
-    # Notes:
-    # load time = before class = require
-    # runtime = after class = use
-
-    console.debug("  - Gathering dependencies: %s" % id)
-
-    load = []
-    run = []
-
-    # Read meta data
-
-    meta = getMeta(id)
-    metaLoad = _readDictKey(meta, "loadtimeDeps", [])
-    metaRun = _readDictKey(meta, "runtimeDeps", [])
-    metaOptional = _readDictKey(meta, "optionalDeps", [])
-    metaIgnore = _readDictKey(meta, "ignoreDeps", [])
-
-    # Process meta data
-    load.extend(metaLoad)
-    run.extend(metaRun)
-
-    # Read content data
-    (autoLoad, autoRun) = _analyzeClassDeps(id, variants)
-
-    # Process content data
-    if not "auto-require" in metaIgnore:
-        for entry in autoLoad:
-            if entry in metaOptional:
-                pass
-            elif entry in load:
-                console.debug("  - #require(%s) is auto-detected" % entry)
-            else:
-                load.append(entry)
-
-    if not "auto-use" in metaIgnore:
-        for entry in autoRun:
-            if entry in metaOptional:
-                pass
-            elif entry in load:
-                pass
-            elif entry in run:
-                console.debug("  - #use(%s) is auto-detected" % entry)
-            else:
-                run.append(entry)
-
-    # Build data structure
-    deps = {
-        "load" : load,
-        "run" : run
-    }
-
-    cache.write(cacheId, deps)
-
-    return deps
-
-
-def _readDictKey(data, key, default=None):
-    if data.has_key(key):
-        return data[key]
-
-    return default
-
-
-def _analyzeClassDeps(id, variants):
-    tree = treesupport.getVariantsTree(classes[id], variants, cache, console)
-
-    loadtime = []
-    runtime = []
-    _analyzeClassDepsNode(id, tree, loadtime, runtime, False)
-
-    return loadtime, runtime
-
-
-def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
-    global classes
-
-    if node.type == "variable":
-        if node.hasChildren:
-            assembled = ""
-            first = True
-
-            for child in node.children:
-                if child.type == "identifier":
-                    if not first:
-                        assembled += "."
-
-                    assembled += child.get("name")
-                    first = False
-
-                    if assembled != id and classes.has_key(assembled):
-                        if inFunction:
-                            target = runtime
-                        else:
-                            target = loadtime
-
-                        if assembled in target:
-                            return
-
-                        target.append(assembled)
-
-                else:
-                    assembled = ""
-                    break
-
-                # treat dependencies in defer as requires
-                if assembled == "qx.Class.define":
-                    if node.parent.type == "operand" and node.parent.parent.type == "call":
-                        deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
-                        if deferNode != None:
-                            _analyzeClassDepsNode(id, deferNode, loadtime, runtime, False)
-
-    elif node.type == "body" and node.parent.type == "function":
-        inFunction = True
-
-    if node.hasChildren():
-        for child in node.children:
-            _analyzeClassDepsNode(id, child, loadtime, runtime, inFunction)
-
-
-
-
-
-
-
-
-######################################################################
-#  CLASS SORT SUPPORT
-######################################################################
-
-def sortClasses(input, loadDeps, runDeps, variants):
-    sorted = []
-
-    for entry in input:
-        _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps, variants)
-
-    return sorted
-
-
-def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
-    global classes
-
-    if id in sorted:
-        return
-
-    # reading dependencies
-    deps = getCombinedDeps(id, loadDeps, runDeps, variants)
-
-    # process loadtime requirements
-    for entry in deps["load"]:
-        if entry in available and not entry in sorted:
-            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps, variants)
-
-    if id in sorted:
-        return
-
-    # print "  - Adding: %s" % id
-    sorted.append(id)
-
-    # process runtime requirements
-    for entry in deps["run"]:
-        if entry in available and not entry in sorted:
-            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps, variants)
-
-
-
-
-
-def scanModules():
-    global classes
-    global modules
-
-    modules = {}
-
-    console.info(">>> Searching for module definitions...")
-    for id in classes:
-        if classes[id]["category"] == "qx.impl":
-            for mod in getMeta(id)["modules"]:
-                if not modules.has_key(mod):
-                    modules[mod] = []
-
-                modules[mod].append(id)
-
-    console.debug("  - Found %s modules" % len(modules))
-    console.debug("")
 
 
 
