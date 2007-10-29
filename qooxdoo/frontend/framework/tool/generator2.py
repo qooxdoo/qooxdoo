@@ -442,19 +442,18 @@ def execute(job, config):
 
             if sourceScript != None:
                 for packageId in pkgIds:
-                  console.info("Generating source includer for package %s:" % packageId)
-                  sourceText = storeSourceScript(pkg2classes[packageId], sourceScript+"-"+str(packageId), 
-                                                 variants, variantSetPos+1)
+                    fileId = "%s-%s-%s.js" % (sourceScript, str(packageId), str(variantSetPos+1))
+                    console.info("Generating source includer for package %s: %s" % (packageId, fileId))
+                    sourceText = storeSourceScript(pkg2classes[packageId], fileId, variants)
 
 
 
-def storeSourceScript(classList, packageFileName, variants, variantPos):
+def storeSourceScript(classList, fileId, variants):
     global classes
 
     scriptBlocks = ""
     dict = _arrayToDict(classList)
     sortedClasses = deputil.sortClasses(dict, variants)
-    fileId = "%s-%s.js" % (packageFileName, variantPos)    
     
     for f in sortedClasses:
         cEntry = classes[f]
