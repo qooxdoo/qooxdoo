@@ -195,7 +195,7 @@
 		"source-apiviewer-parts" :
 		{
 		    "extend" : ["source"],
-		    "sourceScript" : "source-apiviewer-parts",
+		    "sourceScript" : "source-apiviewer-packages",
 		    "variants" :
 		    {
 		        "qx.debug" : ["off"],

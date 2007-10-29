@@ -443,15 +443,17 @@ def execute(job, config):
             if sourceScript != None:
                 for packageId in pkgIds:
                   console.info("Generating source includer for package %s:" % packageId)
-                  sourceScript = storeSourceScript(includeDict, sourceScript, variants, variantSetPos+1)
+                  sourceText = storeSourceScript(pkg2classes[packageId], sourceScript+"-"+str(packageId), 
+                                                 variants, variantSetPos+1)
 
 
 
-def storeSourceScript(includeDict, packageFileName, variants, variantPos):
+def storeSourceScript(classList, packageFileName, variants, variantPos):
     global classes
 
     scriptBlocks = ""
-    sortedClasses = deputil.sortClasses(includeDict, variants)
+    dict = _arrayToDict(classList)
+    sortedClasses = deputil.sortClasses(dict, variants)
     fileId = "%s-%s.js" % (packageFileName, variantPos)    
     
     for f in sortedClasses:
@@ -476,7 +478,11 @@ def storeSourceScript(includeDict, packageFileName, variants, variantPos):
     return sourceScript
 
 
-
+def _arrayToDict(arr):
+    dict = {}
+    for e in arr:
+        dict[e] = True
+    return dict
 
 
 
