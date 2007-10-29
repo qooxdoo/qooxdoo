@@ -297,9 +297,25 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     reload : function()
     {
-      if (this.isCreated() && this.getContentWindow()) {
+      if (this.isCreated() && this.getContentWindow())
+      {
         this._isLoaded = false;
-        this.getContentWindow().location.replace(this.getContentWindow().location.href);
+
+        var currentSource = this.queryCurrentUrl() || this.getSource();
+
+        /*
+        Some gecko users might have an exception here:
+          Exception... "Component returned failure code: 0x805e000a
+          [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+        */
+        try {
+          this.getContentWindow().location.replace(currentSource);
+        }
+        catch(ex)
+        {
+          this.warn("Could not reload iframe using location.replace()!", ex);
+          this.getIframeNode().src = currentSource;
+        }
       }
     },
 
@@ -541,9 +557,21 @@ qx.Class.define("qx.ui.embed.Iframe",
       // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
       // with the history (which is taken care of by the history manager), but there
       // has to be a loaded document
-      if (this.getContentWindow()) {
-        this.getContentWindow().location.replace(currentSource);
-      } else {
+      if (this.getContentWindow())
+      {
+        /*
+        Some gecko users might have an exception here:
+          Exception... "Component returned failure code: 0x805e000a
+          [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+        */
+        try {
+          this.getContentWindow().location.replace(currentSource);
+        } catch(ex) {
+          this.getIframeNode().src = currentSource;
+        }
+      }
+      else
+      {
         this.getIframeNode().src = currentSource;
       }
     },
