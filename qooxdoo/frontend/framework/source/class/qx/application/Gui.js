@@ -74,10 +74,6 @@ qx.Class.define("qx.application.Gui",
      */
     main : function()
     {
-      // this is needed to verify that the application developer has called the
-      // overridden main method.
-      this._initializedMain = true;
-
       // Prepare widget
       qx.ui.core.Widget.initScrollbarWidth();
 

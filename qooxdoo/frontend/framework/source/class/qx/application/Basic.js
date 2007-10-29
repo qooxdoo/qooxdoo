@@ -52,11 +52,7 @@ qx.Class.define("qx.application.Basic",
      *
      * @type member
      */
-    main : function() {
-      // this is needed to verify that the application developer has called the
-      // overridden main method
-      this._initializedMain = true;
-    },
+    main : function() {},
 
 
     /**
