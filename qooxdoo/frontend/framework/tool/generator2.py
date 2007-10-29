@@ -87,6 +87,8 @@ from modules import optparseext
 from modules import filetool
 from modules import textutil
 from modules import simplejson
+from modules import settings
+from modules import variants as mvariants
 
 from generator2 import apidata
 from generator2 import cachesupport
@@ -441,14 +443,32 @@ def execute(job, config):
                     console.outdent()
 
             if sourceScript != None:
+                _settings = []
+                _settings.append("qx.isSource:true")
+                _settings = settings.generate(_settings, True)
+                _variants = []
+                _variants = mvariants.generate(_variants, True)
                 for packageId in pkgIds:
                     fileId = "%s-%s-%s.js" % (sourceScript, str(packageId), str(variantSetPos+1))
                     console.info("Generating source includer for package %s: %s" % (packageId, fileId))
-                    sourceText = storeSourceScript(pkg2classes[packageId], fileId, variants)
+                    sourceText = getSourceIncludeList(pkg2classes[packageId], variants)
+                    sourceText = sourceText.replace("'", "\\'")
+                    sourceText = wrapInlineSource([_settings, _variants], False) + "\n" + sourceText
+                    sourceText = "document.write('%s');" % sourceText
+                    filetool.save(fileId, sourceText)
 
 
 
-def storeSourceScript(classList, fileId, variants):
+def wrapInlineSource(sourceArr, pNewLine):
+    if pNewLine:
+        nl = "\n"
+    else:
+        nl = ""
+    wrapped = '<script type="text/javascript">%s</script>%s' % (nl.join(sourceArr), nl)
+    return wrapped
+
+    
+def getSourceIncludeList(classList, variants):
     global classes
 
     scriptBlocks = ""
@@ -471,10 +491,7 @@ def storeSourceScript(classList, fileId, variants):
         scriptBlocks += '<script type="text/javascript" src="%s"></script>' % uri
         scriptBlocks += "\n"
 
-    sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
-
-    filetool.save(fileId, sourceScript)
-    return sourceScript
+    return scriptBlocks
 
 
 def _arrayToDict(arr):
