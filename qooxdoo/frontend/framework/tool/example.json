@@ -192,6 +192,24 @@
 		    }
 		},
 
+		"source-apiviewer-parts" :
+		{
+		    "extend" : ["source"],
+		    "sourceScript" : "source-apiviewer-parts",
+		    "variants" :
+		    {
+		        "qx.debug" : ["off"],
+		        "qx.client" : ["gecko","mshtml"]
+		    },
+		    "collapseParts" : ["core"],
+		    "parts" :
+		    {
+		        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+		        "viewer" : ["apiviewer.Viewer"],
+		        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+		    }
+		},
+
 		"build-apiviewer-parts-noqx" :
 		{
 		    "extend" : ["build-parts-common"],

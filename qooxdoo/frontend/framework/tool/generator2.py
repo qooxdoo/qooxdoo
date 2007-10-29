@@ -422,26 +422,26 @@ def execute(job, config):
 
         if buildScript != None or sourceScript != None:
             if execMode == "parts":
-                (ids, pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
+                (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
 
             else:
                 # simulate package
-                ids = ["1"]
-                pkgs = {
+                pkgIds = ["1"]
+                pkg2classes = {
                     "1" : includeDict.keys()
                 }
 
             if buildScript != None:
-                for packageId in ids:
+                for packageId in pkgIds:
                     console.info("Compiling classes for package %s:" % packageId, False)
-                    packageSize = storeCompiledPackage(pkgs[packageId], buildScript, variants, buildProcess, variantSetPos+1)
+                    packageSize = storeCompiledPackage(pkg2classes[packageId], buildScript, variants, buildProcess, variantSetPos+1)
                 
                     console.indent()
                     console.debug("Done: %s" % packageSize)
                     console.outdent()
 
             if sourceScript != None:
-                for packageId in ids:
+                for packageId in pkgIds:
                   console.info("Generating source includer for package %s:" % packageId)
                   sourceScript = storeSourceScript(includeDict, sourceScript, variants, variantSetPos+1)
 

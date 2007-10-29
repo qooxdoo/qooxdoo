@@ -184,7 +184,7 @@ class PartUtil:
 
         # Return
         sortedPackageIds = self._sortPackageIdsByPriority(self._dictToHumanSortedList(packageClasses), packageBitCounts)
-        return sortedPackageIds, packageClasses
+        return sortedPackageIds, packageClasses, partPackages
 
 
 
