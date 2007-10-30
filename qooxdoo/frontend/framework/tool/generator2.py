@@ -89,9 +89,6 @@ from modules import textutil
 from modules import simplejson
 from modules import settings
 from modules import variants as m_variants
-from modules import tokenizer
-#from modules import compiler as m_compiler
-from modules import treegenerator
 
 from generator2 import apidata
 from generator2 import cachesupport
