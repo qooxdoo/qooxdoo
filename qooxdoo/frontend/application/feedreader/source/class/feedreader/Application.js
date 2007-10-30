@@ -77,19 +77,15 @@ qx.Class.define("feedreader.Application",
       [
         {
           url  : "feedreader/feeds/qooxdoo-news.xml",
-          name : "qooxdoo-blog"
+          name : "qooxdoo Blog"
         },
         {
           url  : "feedreader/feeds/qooxdoo-blog.xml",
-          name : "qooxdoo-news"
+          name : "qooxdoo News"
         },
         {
           url  : "feedreader/feeds/ajaxian.xml",
-          name : "ajaxian"
-        },
-        {
-          url  : "feedreader/feeds/safari.xml",
-          name : "Surfin' Safari"
+          name : "Ajaxian"
         }
       ],
 
@@ -97,19 +93,47 @@ qx.Class.define("feedreader.Application",
       [
         {
           url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
-          name : "qooxdoo-blog"
+          name : "qooxdoo Blog"
         },
         {
           url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
-          name : "qooxdoo-news"
+          name : "qooxdoo News"
         },
         {
           url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
-          name : "ajaxian"
+          name : "Ajaxian"
         },
         {
           url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
           name : "Surfin' Safari"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://www.alistapart.com/rss.xml"),
+          name : "A List Apart"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://www.css3.info/feed/"),
+          name : "CSS3 Info"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://daringfireball.net/index.xml"),
+          name : "Daring Fireball"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://blogs.msdn.com/ie/Rss.aspx"),
+          name : "IEBlog"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://blogs.msdn.com/jscript/rss.xml"),
+          name : "JScript Team Blog"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://developer.mozilla.org/devnews/index.php/feed/"),
+          name : "Mozilla Developer News"
+        },
+        {
+          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://blog.whatwg.org/feed/"),
+          name : "The WHATWG Blog"
         }
       ]
     })
