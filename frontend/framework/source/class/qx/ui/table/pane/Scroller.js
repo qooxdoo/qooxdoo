@@ -2137,6 +2137,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.getElement().onselectstart = null;
     }
 
+    if (this._updateInterval)
+    {
+      window.clearInterval(this._updateInterval);
+      this._updateInterval = null;
+    }
+
     this._disposeObjects("_verScrollBar", "_horScrollBar", "_header", "_headerClipper",
       "_spacer", "_top", "_tablePane", "_paneClipper", "_resizeLine", "_table",
       "_focusIndicator", "_topRightWidget");
