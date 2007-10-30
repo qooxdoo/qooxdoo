@@ -340,6 +340,7 @@ qx.Class.define("feedreader.Application",
 
       table.setStatusBarVisible(false);
       table.getDataRowRenderer().setHighlightFocusRow(false);
+      table.getPaneScroller(0).setShowCellFocusIndicator(false);
       table.getTableColumnModel().setColumnWidth(0, 350);
       table.getTableColumnModel().setColumnWidth(1, 200);
       table.getTableColumnModel().setColumnWidth(2, 200);

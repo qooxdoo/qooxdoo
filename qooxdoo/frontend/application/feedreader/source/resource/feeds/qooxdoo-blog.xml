@@ -1,278 +1,291 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="http://feeds.feedburner.com/~d/styles/rss2full.xsl" type="text/xsl" media="screen"?><?xml-stylesheet href="http://feeds.feedburner.com/~d/styles/itemcontent.css" type="text/css" media="screen"?><!-- generator="wordpress/2.0.5" --><rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+<?xml-stylesheet href="http://feeds.feedburner.com/~d/styles/rss2full.xsl" type="text/xsl" media="screen"?><?xml-stylesheet href="http://feeds.feedburner.com/~d/styles/itemcontent.css" type="text/css" media="screen"?><!-- generator="wordpress/2.1.3" --><rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
 
 <channel>
 	<title>qooxdoo Blog</title>
 	<link>http://blog.qooxdoo.org</link>
 	<description>The blog of the qooxdoo developers</description>
-	<pubDate>Sun, 26 Nov 2006 15:53:14 +0000</pubDate>
-	<generator>http://wordpress.org/?v=2.0.5</generator>
+	<pubDate>Sat, 20 Oct 2007 20:13:21 +0000</pubDate>
+	<generator>http://wordpress.org/?v=2.1.3</generator>
 	<language>en</language>
-			<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" href="http://feeds.feedburner.com/qooxdoo/blog/content" type="application/rss+xml" /><feedburner:emailServiceId>384287</feedburner:emailServiceId><item>
-		<title>Safari support for qooxdoo coming</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/48836959/safari-support-for-qooxdoo-coming</link>
-		<comments>http://blog.qooxdoo.org/safari-support-for-qooxdoo-coming#comments</comments>
-		<pubDate>Mon, 13 Nov 2006 14:46:19 +0000</pubDate>
+			<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" href="http://feeds.feedburner.com/qooxdoo/blog/content" type="application/rss+xml" /><feedburner:emailServiceId>384287</feedburner:emailServiceId><feedburner:feedburnerHostname>http://www.feedburner.com</feedburner:feedburnerHostname><item>
+		<title>qooxdoo Web Toolkit (QWT) announced</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/172618011/qooxdoo-web-toolkit-qwt-announced</link>
+		<comments>http://blog.qooxdoo.org/qooxdoo-web-toolkit-qwt-announced#comments</comments>
+		<pubDate>Sat, 20 Oct 2007 12:11:47 +0000</pubDate>
+		<dc:creator>Michael Hartmeier</dc:creator>
+		
+		<category><![CDATA[Announcements]]></category>
+
+		<category><![CDATA[Development]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/qwt-072-released</guid>
+		<description><![CDATA[we are proud to announce the first official release of QWT, the &#8220;qooxdoo Web Toolkit&#8221;. In short this contribution to the qooxdoo framework is like &#8220;qooxdoo for Java&#8221;: Write your qooxdoo application in Java, and QWT will translate the client part into a pure JavaScript application. It is quite similar to GWT, the Google Web [...]]]></description>
+			<content:encoded><![CDATA[<p>we are proud to announce the first official release of QWT, the &#8220;qooxdoo Web Toolkit&#8221;. In short this contribution to the qooxdoo framework is like &#8220;qooxdoo for Java&#8221;: Write your qooxdoo application in Java, and QWT will translate the client part into a pure JavaScript application. It is quite similar to GWT, the Google Web Toolkit, but with QWT you can use the high-quality qooxdoo widgets and its comprehensive set of classes.</p>
+<p>Have a look at the preliminary <a href="http://qooxdoo.org/documentation/contrib/contributions/qwt">QWT homepage</a> and give it a try. Please use the regular <a href="https://lists.sourceforge.net/lists/listinfo/qooxdoo-contrib-devel">qooxdoo-contrib-devel</a> mailing list for feedback and discussion.</p>
+<p>Cheers,</p>
+<p>Michael</p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=X7JMTwA"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=X7JMTwA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=dm5shUa"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=dm5shUa" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=DZnqdoA"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=DZnqdoA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=gupI8ua"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=gupI8ua" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=dTsQkEa"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=dTsQkEa" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=riRT0AA"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=riRT0AA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=aOHwhXA"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=aOHwhXA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=3JO5KFa"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=3JO5KFa" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=GTUUgYa"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=GTUUgYa" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/172618011" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/qooxdoo-web-toolkit-qwt-announced/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/qooxdoo-web-toolkit-qwt-announced</feedburner:origLink></item>
+		<item>
+		<title>Photos of qooxdoo at Ajax Experience</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/139517219/photos-of-qooxdoo-at-ajax-experience</link>
+		<comments>http://blog.qooxdoo.org/photos-of-qooxdoo-at-ajax-experience#comments</comments>
+		<pubDate>Wed, 01 Aug 2007 09:36:32 +0000</pubDate>
+		<dc:creator>Sebastian Werner</dc:creator>
+		
+		<category><![CDATA[Discussion]]></category>
+
+		<category><![CDATA[Public Relations]]></category>
+
+		<category><![CDATA[Photos]]></category>
+
+		<category><![CDATA[Conferences]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/photos-of-qooxdoo-at-ajax-experience</guid>
+		<description><![CDATA[I have made some photos of our visitation of San Francisco during the AJAX Experience.
+Our booth attracted many visitors:
+   
+qooxdoo talk by Andreas &#38; Derrell:
+
+qooxdoo user meeting with Jim, myself, Bill,  Andreas, Mike and Derrell:
+ 
+We had also a lot of fun in San Francisco:
+ 
+]]></description>
+			<content:encoded><![CDATA[<p>I have made some photos of our visitation of San Francisco during the <a href="http://ajaxexperience.techtarget.com/west/index.html">AJAX Experience</a>.</p>
+<p>Our booth attracted many visitors:</p>
+<p><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc00946.JPG" title="San Francisco 2007 - 1"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc00946.thumbnail.JPG" alt="San Francisco 2007 - 1" /></a>  <a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc00973.JPG" title="San Francisco 2007 - 2"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc00973.thumbnail.JPG" alt="San Francisco 2007 - 2" /> </a><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01024.JPG" title="San Francisco 2007 - 3"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01024.thumbnail.JPG" alt="San Francisco 2007 - 3" /></a></p>
+<p>qooxdoo talk by Andreas &amp; Derrell:</p>
+<p><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01031.JPG" title="San Francisco 2007 - 4"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01031.thumbnail.JPG" alt="San Francisco 2007 - 4" /></a></p>
+<p>qooxdoo user meeting with Jim, myself, Bill,  Andreas, Mike and Derrell:</p>
+<p><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01048.JPG" title="San Francisco 2007 - 5"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01048.thumbnail.JPG" alt="San Francisco 2007 - 5" /> </a><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01044.jpg" title="San Francisco 2007 - 10"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01044.thumbnail.jpg" alt="San Francisco 2007 - 10" /></a></p>
+<p>We had also a lot of fun in San Francisco:</p>
+<p><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01168.JPG" title="San Francisco 2007 - 7"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01168.thumbnail.JPG" alt="San Francisco 2007 - 7" /> </a><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01187.JPG" title="San Francisco 2007 - 8"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/08/dsc01187.thumbnail.JPG" alt="San Francisco 2007 - 8" /></a></p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=4aAGVit9"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=4aAGVit9" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=nLkhQWmB"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=nLkhQWmB" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=QcZon4l3"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=QcZon4l3" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=SuxdCAmH"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=SuxdCAmH" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=XdPYnf0b"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=XdPYnf0b" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=R3b4L2VR"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=R3b4L2VR" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=VxUjo7V4"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=VxUjo7V4" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=5a2fn0VQ"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=5a2fn0VQ" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=UiW9NpfQ"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=UiW9NpfQ" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/139517219" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/photos-of-qooxdoo-at-ajax-experience/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/photos-of-qooxdoo-at-ajax-experience</feedburner:origLink></item>
+		<item>
+		<title>Adobe AIR powered API viewer</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/139283204/adobe-air-powered-api-viewer</link>
+		<comments>http://blog.qooxdoo.org/adobe-air-powered-api-viewer#comments</comments>
+		<pubDate>Tue, 31 Jul 2007 17:40:35 +0000</pubDate>
+		<dc:creator>Sebastian Werner</dc:creator>
+		
+		<category><![CDATA[Development]]></category>
+
+		<category><![CDATA[Safari]]></category>
+
+		<category><![CDATA[Adobe]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/adobe-air-powered-api-viewer</guid>
+		<description><![CDATA[Adobe AIR is a new system to allow typical web applications to better integrate in the desktop. This includes access to file system resources, a local SQL database, and a controlable chrome for the &#8220;browser&#8221; window and some other goodies. The whole thing uses Webkit to render HTML pages. This is a great choice &#8212; [...]]]></description>
+			<content:encoded><![CDATA[<p><a href="http://labs.adobe.com/technologies/air/">Adobe AIR</a> is a new system to allow typical web applications to better integrate in the desktop. This includes access to file system resources, a local SQL database, and a controlable chrome for the &#8220;browser&#8221; window and some other goodies. The whole thing uses <a href="http://webkit.org">Webkit </a>to render HTML pages. This is a great choice &#8212; for qooxdoo based applications Webkit currently easily outperforms the other engines.</p>
+<p><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/07/air-based-qooxdoo-api-viewer.png" title="AIR based qooxdoo API Viewer (9197) (Screenshot)"><img src="http://blog.qooxdoo.org/wp-content/uploads/2007/07/air-based-qooxdoo-api-viewer.thumbnail.png" alt="AIR based qooxdoo API Viewer (9197) (Screenshot)" /></a></p>
+<p>I have integrated AIR into the build system (trunk only). For a small demonstration I have created an AIR based API-Viewer of the current trunk. This can be used as an offline application. Including all API data the download is about 700 KB which is really small. (I had to zip the download again because of security <strike>limitations</strike> features of wordpress.)</p>
+<p>In the current trunk each skeleton based application can be converted to an AIR application easily. Just execute &#8220;make air&#8221; in the root folder of your application. Unfortunately this feature required changes in a lot of files. This will be a trunk-only feature for now and will not be backported to legacy_0_7_x.</p>
+<p><a href="http://blog.qooxdoo.org/wp-content/uploads/2007/07/apiviewer.zip" title="AIR based qooxdoo API Viewer (9197)">Download AIR based qooxdoo API Viewer (r9197)</a></p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=7EhcMEG7"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=7EhcMEG7" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=C5GSEqUZ"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=C5GSEqUZ" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=5YdCyRjX"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=5YdCyRjX" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=qO02Lw8R"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=qO02Lw8R" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=O2HHML4x"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=O2HHML4x" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=JNAk71KN"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=JNAk71KN" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Hd0CaFty"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Hd0CaFty" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=NEvwMLlP"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=NEvwMLlP" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Wxb5Hm4v"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Wxb5Hm4v" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/139283204" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/adobe-air-powered-api-viewer/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/adobe-air-powered-api-viewer</feedburner:origLink></item>
+		<item>
+		<title>Mysterious security zone issue in IE7</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/128091030/mysterious-security-zone-issue-in-ie7</link>
+		<comments>http://blog.qooxdoo.org/mysterious-security-zone-issue-in-ie7#comments</comments>
+		<pubDate>Tue, 26 Jun 2007 15:04:26 +0000</pubDate>
+		<dc:creator>Sebastian Werner</dc:creator>
+		
+		<category><![CDATA[Development]]></category>
+
+		<category><![CDATA[Internet Explorer]]></category>
+
+		<category><![CDATA[Technical]]></category>
+
+		<category><![CDATA[Issues]]></category>
+
+		<category><![CDATA[Vista]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/mysterious-security-zone-issue-in-ie7</guid>
+		<description><![CDATA[It seems that Microsoft&#8217;s brand new operating system, Windows Vista, introduced at least one interesting, not to say mysterious, phenomenon. It only arises when the user is trying to open a local HTML file with so-called &#8220;active content&#8221;.
+After some investigation we found out that it is problematic to open local HTML pages which reference non-existing [...]]]></description>
+			<content:encoded><![CDATA[<p>It seems that Microsoft&#8217;s brand new operating system, Windows Vista, introduced at least one interesting, not to say mysterious, phenomenon. It only arises when the user is trying to open a local HTML file with so-called &#8220;active content&#8221;.</p>
+<p>After some investigation we found out that it is problematic to open local HTML pages which reference non-existing JavaScript files. During development of qooxdoo applications this could be caused by renaming or moving a class without a re-execute of &#8220;make&#8221; to re-index the available classes (to regenerate the includer script).</p>
+<p>Annoyingly, the displayed error is not very helpful. It just says &#8220;Invalid character&#8221; in line &#8220;0&#8243;. No hint about security at all. All files are stored on the local file system. No &#8220;src&#8221; attribute uses another protocol like &#8220;http://&#8221;or an address of an (external) server. Just simple, relative paths. There seems to be no reason to interpret them the way IE7 under Vista does. The files do not access remote resources. They are not stored in other security zones. We really do not know what Internet Explorer &#8220;thinks&#8221; in this case.</p>
+<p>In all other browsers a non-existing JS file is just ignored. No warning at the error console etc. (Ok, this could be improved here, too).</p>
+<p>Please also take a look at the <a href="http://bugzilla.qooxdoo.org/show_bug.cgi?id=510">corresponding bug report</a>. Any idea if this is a real IE7/Vista bug?</p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=aUPLIVvn"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=aUPLIVvn" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=F0FYNWEU"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=F0FYNWEU" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Pl8CvQVB"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Pl8CvQVB" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=tzd01Njz"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=tzd01Njz" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=NLZug9AK"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=NLZug9AK" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=798wqZZ6"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=798wqZZ6" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=BIrnB8EM"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=BIrnB8EM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=fvqNIxNp"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=fvqNIxNp" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=dNjqUURr"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=dNjqUURr" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/128091030" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/mysterious-security-zone-issue-in-ie7/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/mysterious-security-zone-issue-in-ie7</feedburner:origLink></item>
+		<item>
+		<title>qooxdoo Syntax-Highlighting for UltraEdit</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/127694144/qooxdoo-syntax-highlighting-for-ultraedit</link>
+		<comments>http://blog.qooxdoo.org/qooxdoo-syntax-highlighting-for-ultraedit#comments</comments>
+		<pubDate>Mon, 25 Jun 2007 08:30:42 +0000</pubDate>
+		<dc:creator>Sebastian Werner</dc:creator>
+		
+		<category><![CDATA[Development]]></category>
+
+		<category><![CDATA[Technical]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/qooxdoo-syntax-highlighting-for-ultraedit</guid>
+		<description><![CDATA[I have just spend some minutes to update my wordfile for Ultraedit to correctly handle and highlight qooxdoo 0.7 JavaScript code. This is optimized for typical qooxdoo formatting and class declaration. It works well with my preferred indention of 2 spaces. For other indentions it needs a little modification to correctly detect all functions. BTW: [...]]]></description>
+			<content:encoded><![CDATA[<p>I have just spend some minutes to update my wordfile for Ultraedit to correctly handle and highlight qooxdoo 0.7 JavaScript code. This is optimized for typical qooxdoo formatting and class declaration. It works well with my preferred indention of 2 spaces. For other indentions it needs a little modification to correctly detect all functions. BTW: Ultraedit has no possibility to differ between static and normal members. This is a result of the quite limited RegExp based matching. <a href="http://blog.qooxdoo.org/wp-content/uploads/2007/06/wordfile-qooxdoo-javascript.txt" title="qooxdoo Wordfile for Ultraedit">Download qooxdoo Wordfile for Ultraedit</a></p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=9FGwZxgH"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=9FGwZxgH" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=A9c6NJ3j"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=A9c6NJ3j" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Od7EHNTd"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Od7EHNTd" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=naB0t4A1"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=naB0t4A1" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=NkYlJ49N"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=NkYlJ49N" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=KhILLzyT"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=KhILLzyT" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=rwAbVI20"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=rwAbVI20" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=dMPrT39k"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=dMPrT39k" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=8O88TCET"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=8O88TCET" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/127694144" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/qooxdoo-syntax-highlighting-for-ultraedit/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/qooxdoo-syntax-highlighting-for-ultraedit</feedburner:origLink></item>
+		<item>
+		<title>First steps to 0.8</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/125771312/first-steps-to-08</link>
+		<comments>http://blog.qooxdoo.org/first-steps-to-08#comments</comments>
+		<pubDate>Mon, 18 Jun 2007 11:42:15 +0000</pubDate>
+		<dc:creator>Sebastian Werner</dc:creator>
+		
+		<category><![CDATA[Development]]></category>
+
+		<category><![CDATA[Technical]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/first-steps-to-08</guid>
+		<description><![CDATA[Observers of our commit mailing list may already have seen that there was a lot of development in a new &#8220;qx.html2&#8243; package during the last days. Most things were not even alpha at this point and could just be seen as technical evaluation and test. It was interesting for us, and meant as an early [...]]]></description>
+			<content:encoded><![CDATA[<p>Observers of our commit mailing list may already have seen that there was a lot of development in a new &#8220;qx.html2&#8243; package during the last days. Most things were not even alpha at this point and could just be seen as technical evaluation and test. It was interesting for us, and meant as an early investigation, of how we could improve the usefulness of qooxdoo&#8217;s richness even in simpler, more HTML/DOM oriented web sites or mini applications. It is also listed as a goal for 0.8 to bring more qooxdoo features to a lower level to improve the adaption of qooxdoo in this market.</p>
+<p>Finally the newly created classes (especially qx.html2.Element) are the first step to replace the widget focused implementation of DOM element handling and separate it. The current implementation supports all the features previously covered by the element and display queue (both quite internal widget technology). The big news is that the new implementation of this technology is nowhere widget oriented and could be used for simple DOM manipulation needs, too.</p>
+<p>This element class allows the user to setup styles, configure attributes and add children or HTML content. All these things happen in memory first and are applied to the elements (which are only created if they become visible) later. The whole DOM manipulation to handle children (which is quite limited) is also covered by this new implementation with a lot of additional features. Children will be appended to each other in the optimal way e.g. inner nodes first, other (visible) nodes last. (It may be the first implementation of DOM manipulation based on the ideas of <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Edit Distance</a>. Thanks to Fabian for your great help here.)</p>
+<p>There are two new documents online in our wiki which describe two of the challenges for 0.8. The <a href="http://qooxdoo.org/documentation/general/next_generation_element_handling">first article</a> deal with the above mentioned topic. And <a href="http://qooxdoo.org/documentation/general/working_around_box_model">the other one</a> gives an earlier preview how to work around the box model limitations of recent qooxdoo versions to make it possible to use qooxdoo applications in standard compliant documents, too.</p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=HkaTevLo"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=HkaTevLo" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=5Qu9iPoT"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=5Qu9iPoT" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=iGYrAigt"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=iGYrAigt" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=YbWKwwpj"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=YbWKwwpj" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Dy6RSFr9"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Dy6RSFr9" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=hoLlmeUs"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=hoLlmeUs" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=CnV9m2JG"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=CnV9m2JG" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=zcPod1Gi"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=zcPod1Gi" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=PmzlTd26"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=PmzlTd26" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/125771312" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/first-steps-to-08/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/first-steps-to-08</feedburner:origLink></item>
+		<item>
+		<title>External qooxdoo Tutorials</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/81969890/external-qooxdoo-tutorials</link>
+		<comments>http://blog.qooxdoo.org/external-qooxdoo-tutorials#comments</comments>
+		<pubDate>Fri, 26 Jan 2007 16:12:30 +0000</pubDate>
 		<dc:creator>Fabian Jakobs</dc:creator>
 		
-		<category>Announcements</category>
+		<category><![CDATA[Uncategorized]]></category>
 
-		<category>Safari</category>
+		<category><![CDATA[Development]]></category>
 
-		<category>Technical</category>
+		<category><![CDATA[Documentation]]></category>
 
-		<guid isPermaLink="false">http://blog.qooxdoo.org/safari-support-for-qooxdoo-coming</guid>
-		<description><![CDATA[Safari support for qooxdoo is coming along nicely. qooxdoo support for the nightly build of WebKit is near to complete. Most demos and examples are working, including the API viewer . The screenshot shows the &#8220;At a Glance&#8221; example running in WebKit. Safari 2.0.4 shipped with the current OS X 10.4 is usable but still [...]]]></description>
-			<content:encoded><![CDATA[<p>Safari support for qooxdoo is coming along nicely. qooxdoo support for the nightly build of <a href="http://nightly.webkit.org" title="WebKit">WebKit</a> is near to complete. Most demos and examples are working, including the <a href="http://api.qooxdoo.org/">API viewer</a> . The screenshot shows the &ldquo;<a href="http://demo.qooxdoo.org/html/at-a-glance/index.html">At a Glance</a>&rdquo; example running in WebKit. Safari 2.0.4 shipped with the current OS X 10.4 is usable but still has some rendering issues.</p>
-<div><a href="http://blog.qooxdoo.org/wp-content/uploads/2006/11/webkit-at_a_glance.jpg" title="WebKit - &quot;At a Glance&quot; example"><img src="http://blog.qooxdoo.org/wp-content/uploads/2006/11/webkit-at_a_glance.thumbnail.jpg" alt="WebKit - &quot;At a Glance&quot; example" /></a> <a href="http://blog.qooxdoo.org/wp-content/uploads/2006/11/webkit-api_viewer.jpg" title="WebKit - API viewer"><img src="http://blog.qooxdoo.org/wp-content/uploads/2006/11/webkit-api_viewer.thumbnail.jpg" alt="WebKit - API viewer" /></a></div>
-<p>For the next qooxdoo release we plan to fully support WebKit, which hopefully builds the basis for the next major release of Safari shipped with the upcoming OS X 10.5. We decided to target WebKit because of its improved standard support and its dramatically faster JavaScript engine. Some qooxdoo examples are up to seven times faster using WebKit compared to Safari 2. Even if we would fully support Safari 2, it will never be a good platform for big JavaScript applications.</p>
+		<guid isPermaLink="false">http://blog.qooxdoo.org/external-qooxdoo-tutorials</guid>
+		<description><![CDATA[Googling for the term qooxdoo revealed some interesting qooxdoo tutorials and HOWTOS. They have been added to the qooxdoo tutorials section in our wiki.
 
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=rgDIT7iC"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=rgDIT7iC" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=jZaVEgHu"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=jZaVEgHu" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Kni66m1x"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Kni66m1x" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=OdCjYPt3"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=OdCjYPt3" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=zlqmlozO"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=zlqmlozO" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=3F9MjAuf"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=3F9MjAuf" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=LPVxsJLI"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=LPVxsJLI" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=wCgbZ6gf"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=wCgbZ6gf" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/safari-support-for-qooxdoo-coming/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/safari-support-for-qooxdoo-coming</feedburner:origLink></item>
-		<item>
-		<title>Tamarin Follow-ups</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/46350978/tamarin-follow-ups</link>
-		<comments>http://blog.qooxdoo.org/tamarin-follow-ups#comments</comments>
-		<pubDate>Tue, 07 Nov 2006 21:53:17 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Firefox</category>
-
-		<category>Performance</category>
-
-		<category>Adobe</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/tamarin-follow-ups</guid>
-		<description><![CDATA[    	 	  
-I have just found some more interesting stuff regarding our Tamarin post today:&#160;
-
-Inside Tamarin - Adobe&#8217;s Open Source Flash VM
-JD on EP 
-Adobe press release
-Mozilla press release 
-Digg frontpage
-
-  
-
-]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>
-<p>I have just found some more interesting stuff regarding our Tamarin post today:&nbsp;</p>
+Using qooxdoo on Rails. (English, qooxdoo 0.6.1) Tutorial by Ganesh Gunasegaran showing how to set a simple Ruby on Rails project with a qooxdoo frontend.
+qooxdoo on Rails (Russian, qooxdoo 0.6.1-RC1) Another qoodoo [...]]]></description>
+			<content:encoded><![CDATA[<p>Googling for the term <strong>qooxdoo</strong> revealed some interesting qooxdoo tutorials and HOWTOS. They have been added to the qooxdoo tutorials section in our <a href="http://qooxdoo.org/documentation/0.6/tutorials">wiki</a>.</p>
 <ul>
-<li><a href="http://www.satine.org/archives/2006/11/06/inside-tamarin-adobes-open-source-flash-vm/">Inside Tamarin - Adobe&rsquo;s Open Source Flash VM</a></li>
-<li><a href="http://weblogs.macromedia.com/jd/archives/2006/11/tamarin_project.cfm">JD on EP</a> </li>
-<li><a href="http://www.mozilla.com/en-US/press/mozilla-2006-11-07.html">Adobe press release</a></li>
-<li><a href="http://www.mozilla.com/en-US/press/mozilla-2006-11-07.html">Mozilla press release</a> </li>
-<li><a href="http://digg.com/tech_news/Adobe_and_Mozilla_Foundation_to_Open_Source_Flash_Player_Scripting_Engine">Digg frontpage</a></li>
-</ul>
-<p> </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=q9EAMSac"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=q9EAMSac" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=wzDEJbB5"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=wzDEJbB5" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=yiNGdYRa"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=yiNGdYRa" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=OhkFuOKM"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=OhkFuOKM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=B6t2zevO"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=B6t2zevO" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Q0RQVLHL"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Q0RQVLHL" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=FPcP7kjS"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=FPcP7kjS" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=ysJCQQQ4"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=ysJCQQQ4" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/tamarin-follow-ups/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/tamarin-follow-ups</feedburner:origLink></item>
-		<item>
-		<title>Project Tamarin to boost JavaScript</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/46219737/project-tamarin-to-boost-javascript</link>
-		<comments>http://blog.qooxdoo.org/project-tamarin-to-boost-javascript#comments</comments>
-		<pubDate>Tue, 07 Nov 2006 12:55:22 +0000</pubDate>
-		<dc:creator>Andreas Ecker</dc:creator>
-		
-		<category>Firefox</category>
-
-		<category>Performance</category>
-
-		<category>Adobe</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/project-tamarin-to-boost-javascript</guid>
-		<description><![CDATA[    	 	  
-Good news, everyone!&#160;
-Recently we have been puzzled by some statements of Brendan Eich, the creator of the JavaScript programming language.
-In Brendan&#39;s blog he wrote &#34;For Mozilla 2, we will have a JIT-oriented JavaScript VM (details soon) that supports the forthcoming ECMAScript Edition 4 (&#34;JS2&#34;) language&#34; (October 13, 2006). [...]]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>
-<p>Good news, everyone!&nbsp;</p>
-<p>Recently we have been puzzled by some statements of Brendan Eich, the creator of the JavaScript programming language.</p>
-<p>In Brendan&#39;s blog he wrote &quot;For Mozilla 2, we will have a JIT-oriented JavaScript VM (details soon) that supports the forthcoming ECMAScript Edition 4 (&quot;JS2&quot;) language&quot; (<a href="http://weblogs.mozillazine.org/roadmap/archives/2006/10/mozilla_2.html">October 13, 2006</a>). Well, could hardly wait for any details. Another statement that made us curious was at The Ajax Experience this fall. In his slides about JavaScript 2.0  he mentioned&nbsp; &quot;Open source optimizing VMs coming soon. Look for an announcement in a few weeks&quot; (<a href="http://ajaxian.com/downloads/presentations/eich-ajax-experience-boston/">October 25, 2006</a>). Interestingly, this mysterious announcement was in a section he called &quot;JavaScript Fun Facts&quot;.</p>
-<p>Well done Brendan, you are our Master of Suspense! Finally, as a revelation today came <a href="http://blog.qooxdoo.org/adobe-improves-javascript-performance">the announcement that is going to boost JavaScript</a>. Congratulations to Adobe for their decision of contributing the ActionScript Virtual Machine (AVM) as open source to the Mozilla project. And a warm open-source welcome to all the developers of the AVM! The code has <a href="http://weblogs.mozillazine.org/roadmap/archives/2006/11/project_tamarin.html">just been committed</a>  into the Mozilla repository.</p>
-<p>This is great news for qooxdoo being a client-side JavaScript framework. Performance has always been one of our major concerns, and we think we have pushed the limit for JavaScript based web applications, e.g. for qooxdoo&#39;s powerful browser-independent layout engine. Can&#39;t wait to tweak the last bit of performance out of any new Mozilla browser backed by the new JavaScript VM. This is going to change the future of browser-based applications. Cheers!</p>
-<p> </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=USVMighM"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=USVMighM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=w54mM05O"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=w54mM05O" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=l0FOLc3Z"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=l0FOLc3Z" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=UjEK9OXh"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=UjEK9OXh" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=hSi2ujP0"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=hSi2ujP0" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=huRmnKOf"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=huRmnKOf" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=aLB65Efe"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=aLB65Efe" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=RfSxRPZF"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=RfSxRPZF" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/project-tamarin-to-boost-javascript/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/project-tamarin-to-boost-javascript</feedburner:origLink></item>
-		<item>
-		<title>Adobe improves JavaScript performance</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/46178140/adobe-improves-javascript-performance</link>
-		<comments>http://blog.qooxdoo.org/adobe-improves-javascript-performance#comments</comments>
-		<pubDate>Tue, 07 Nov 2006 12:01:29 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Firefox</category>
-
-		<category>Flash</category>
-
-		<category>Adobe</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/adobe-improves-javascript-performance</guid>
-		<description><![CDATA[    	 	  
-In my opinion there was never a reason why JavaScript should be slower than other typical script languages e.g. Python, Perl, Ruby, &#8230; With the newest committment from Abobe to Mozilla we could reach a new level of performance in web applications.&#160;
-As news.com reports &#34;Adobe will provide the [...]]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>
-<p>In my opinion there was never a reason why JavaScript should be slower than other typical script languages e.g. Python, Perl, Ruby, &#8230; With the newest committment from Abobe to Mozilla we could reach a new level of performance in web applications.&nbsp;</p>
-<p>As news.com reports &quot;Adobe will provide the same software, called the ActionScript Virtual Machine, which it uses to run script code in the <a href="http://news.com.com/Adobe+updates+Flash+Player%2C+Flex+tool/2100-1012_3-6088705.html?tag=nl" title="Adobe updates Flash Player, Flex tool -- Tuesday, Jun 27, 2006">Adobe Flash Player 9</a>.  This virtual machine is expected to be built into future versions of the Firefox browser by the first half of 2008, said <a href="http://www.hecker.org/info/bio?tag=nl">Frank Hecker</a>, the executive director of the <a href="http://www.mozilla.org/foundation/?tag=nl">Mozilla Foundation</a>.&quot; </p>
-<p>Via <a href="http://news.com.com/2100-7344_3-6133052.html">news.com</a></p>
-<p> </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=bVlh8s4Z"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=bVlh8s4Z" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=T4rDBMyi"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=T4rDBMyi" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=IjP7zAmO"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=IjP7zAmO" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=JuQT2l0H"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=JuQT2l0H" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=SDqAETvO"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=SDqAETvO" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=HCWVQRJl"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=HCWVQRJl" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=bHmzAB8O"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=bHmzAB8O" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=iApj6TU3"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=iApj6TU3" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/adobe-improves-javascript-performance/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/adobe-improves-javascript-performance</feedburner:origLink></item>
-		<item>
-		<title>Keep yourself up-to-date</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/37261107/keep-yourself-up-to-date</link>
-		<comments>http://blog.qooxdoo.org/keep-yourself-up-to-date#comments</comments>
-		<pubDate>Sat, 14 Oct 2006 21:41:08 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Development</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/keep-yourself-up-to-date</guid>
-		<description><![CDATA[    	 	  There is a new feed  available on our homepage. You can now easily follow the development in our SVN repository. Hope you like this. Especially interesting for users who want to be up-to-date. Also a nice alternative to our qooxdoo-commit mailing list.  
-
-]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>There is a <a href="http://feeds.feedburner.com/qooxdoo/svn/commits">new feed</a>  available on <a href="http://qooxdoo.org">our homepage</a>. You can now easily follow the development in our SVN repository. Hope you like this. Especially interesting for users who want to be up-to-date. Also a nice alternative to our <a href="http://lists.sourceforge.net/mailman/listinfo/qooxdoo-commit">qooxdoo-commit mailing list</a>. </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=ufmev5Dk"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=ufmev5Dk" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=4EgKz1gp"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=4EgKz1gp" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=SKoJto7H"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=SKoJto7H" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=WTdFl3yy"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=WTdFl3yy" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=ZPm4BqBx"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=ZPm4BqBx" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=7dz9P0xU"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=7dz9P0xU" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=qABtQjRx"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=qABtQjRx" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=3FQ8FBbL"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=3FQ8FBbL" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/keep-yourself-up-to-date/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/keep-yourself-up-to-date</feedburner:origLink></item>
-		<item>
-		<title>Only five days to IE7</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/36678532/5-days-to-ie7</link>
-		<comments>http://blog.qooxdoo.org/5-days-to-ie7#comments</comments>
-		<pubDate>Fri, 13 Oct 2006 08:42:36 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Internet Explorer</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/5-days-to-ie7</guid>
-		<description><![CDATA[    	 	  Following a report  of Microsoft Higher Education - Mid-Atlantic  it seems that IE7 will be released on the 18th this month. In just 5 days. The most changes are only interesting for typical web developers (e.g. CSS fixes) while the latest improvements to the JavaScript engine [...]]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>Following <a href="http://blogs.msdn.com/hied_mid-atlantic/archive/2006/10/10/Internet-Explorer-7-is-coming-this-month-_2E002E002E00_-Are-you-ready_3F00_.aspx">a report</a>  of <a href="http://blogs.msdn.com/hied_mid-atlantic/default.aspx">Microsoft Higher Education - Mid-Atlantic</a>  it seems that <a href="http://blogs.msdn.com/hied_mid-atlantic/archive/2006/10/10/Internet-Explorer-7-is-coming-this-month-_2E002E002E00_-Are-you-ready_3F00_.aspx">IE7 will be released on the 18th this month</a>. In just 5 days. The most changes are only interesting for typical web developers (e.g. CSS fixes) while the <a href="http://blog.qooxdoo.org/dramatically-improved-ie7-javascript-performance">latest improvements to the JavaScript engine</a>  are also an interesting point for us and other big JavaScript frameworks. I hope we will see a market share of 50 percent after the first six months. </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=6KCHC8Qt"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=6KCHC8Qt" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=znn30SWW"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=znn30SWW" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=iDMgk0h2"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=iDMgk0h2" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=tH88lPZg"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=tH88lPZg" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=0u2q8HcY"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=0u2q8HcY" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=C8h6ZyP0"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=C8h6ZyP0" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=p7GgwlgK"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=p7GgwlgK" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=8AEwoRbb"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=8AEwoRbb" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/5-days-to-ie7/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/5-days-to-ie7</feedburner:origLink></item>
-		<item>
-		<title>IE7 CSS changes</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/32468983/ie7-css-changes</link>
-		<comments>http://blog.qooxdoo.org/ie7-css-changes#comments</comments>
-		<pubDate>Wed, 04 Oct 2006 20:04:27 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Bookmark</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/ie7-css-changes</guid>
-		<description><![CDATA[    	 	   An interesting read for all web developers: Cascading Style Sheet Compatibility in Internet Explorer 7.  
-
-]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body> An interesting read for all web developers: <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/IETechCol/cols/dnexpie/ie7_css_compat.asp?frame=true">Cascading Style Sheet Compatibility in Internet Explorer 7.</a><br /> </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=l0NmonZB"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=l0NmonZB" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=R0iSOfdT"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=R0iSOfdT" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=oEqiKUKM"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=oEqiKUKM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=1VRsHJUp"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=1VRsHJUp" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=6TsnDDrP"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=6TsnDDrP" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=3JFLZ0Cf"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=3JFLZ0Cf" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=QuSZgCNp"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=QuSZgCNp" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Y8oWww1z"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Y8oWww1z" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/ie7-css-changes/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/ie7-css-changes</feedburner:origLink></item>
-		<item>
-		<title>Support for compression of local variables added</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/32241766/support-for-compression-of-local-variables-added</link>
-		<comments>http://blog.qooxdoo.org/support-for-compression-of-local-variables-added#comments</comments>
-		<pubDate>Wed, 04 Oct 2006 11:06:46 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Development</category>
-
-		<category>Technical</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/support-for-compression-of-local-variables-added</guid>
-		<description><![CDATA[    	 	  
-A few hours ago I&#39;ve committed a change which adds a variable name optimizer into the qooxdoo trunk. This optimizer replaces the names of local variables with shorter ones. The result is a size reduction of the compiled JavaScript file by 10%. This new behavior is enabled per [...]]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>
-<p>A few hours ago I&#39;ve committed a change which adds a variable name optimizer into the qooxdoo trunk. This optimizer replaces the names of local variables with shorter ones. The result is a size reduction of the compiled JavaScript file by 10%. This new behavior is enabled per default for all the included Makefiles. So after an SVN update you can build your (again) better optimized version of qooxdoo.</p>
-<p>This can also been seen as a next step in bringing support for obfuscation another step forward. I have also updated the <a href="http://demo.qooxdoo.org">online demos</a> and the <a href="http://api.qooxdoo.org">API viewer</a> to use this new feature. I would like to invite you to give me feedback as soon as possible. Maybe you also find some bugs. If so, please report them immediately. Thank you.</p>
-<p> </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=tppbJ4bc"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=tppbJ4bc" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=dbe1sxCT"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=dbe1sxCT" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=kuoqNS00"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=kuoqNS00" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=HlJ6f0Ls"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=HlJ6f0Ls" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=xbjmDWoL"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=xbjmDWoL" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=V2cWssXw"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=V2cWssXw" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=C10aMNYQ"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=C10aMNYQ" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=F2ic6JR6"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=F2ic6JR6" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/support-for-compression-of-local-variables-added/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/support-for-compression-of-local-variables-added</feedburner:origLink></item>
-		<item>
-		<title>AJAX framework survey</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/26565493/ajax-framework-poll</link>
-		<comments>http://blog.qooxdoo.org/ajax-framework-poll#comments</comments>
-		<pubDate>Sun, 24 Sep 2006 09:04:41 +0000</pubDate>
-		<dc:creator>Sebastian Werner</dc:creator>
-		
-		<category>Discussion</category>
-
-		<category>Survey</category>
-
-		<guid isPermaLink="false">http://blog.qooxdoo.org/ajax-framework-poll</guid>
-		<description><![CDATA[    	 	  
-The guys at ajaxian.com have reported about a current survey regarding the popularity of common AJAX frameworks. It is quite clear why prototype is the winner. It&#39;s well-known, small and easily embedable into existing pages. However I think it is interesting that Mochikit is less widely used, because [...]]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>
-<p>The guys at <a href="http://ajaxian.com">ajaxian.com</a> have reported about a current <a href="http://ajaxian.com/archives/ajaxiancom-2006-survey-results">survey regarding the popularity of common AJAX frameworks</a>. It is quite clear why prototype is the winner. It&#39;s well-known, small and easily embedable into existing pages. However I think it is interesting that Mochikit is less widely used, because the targets of these libraries are comparable in my opinion. And Mochikit does not depends on extensions of native objects (especially Object.prototype) which makes it the better choice.</p>
-<p>I should mention that in my opinion the whole survey is quite problematic because of their comparison of different levels of so named &quot;AJAX frameworks&quot;. For a next survey I would suggest to divide the list into these groups:</p>
-<p>AJAX wrappers &amp; DOM utilities:</p>
+<li><a href="http://maravan.wordpress.com/2006/10/20/using-qooxdoo-in-rails">Using qooxdoo on Rails.</a> (English, qooxdoo 0.6.1) Tutorial by Ganesh Gunasegaran showing how to set a simple Ruby on Rails project with a qooxdoo frontend.</li>
+<li><a href="http://www.html-blog.ru/archives/58">qooxdoo on Rails</a> (Russian, qooxdoo 0.6.1-RC1) Another qoodoo Tutorial for Ruby on Rails and qooxdoo.</li>
+<li>Two Chinese qooxdoo Tutorials:
 <ul>
-<li>Prototype &amp; Scriptaclous &amp; Rico</li>
-<li>Moo.fx</li>
-<li>jQuery </li>
-<li>Yahoo UI</li>
-<li>Mochikit</li>
-<li>XAJAX</li>
-<li>DWR (includes backend code, too) </li>
+<li><a href="http://readonly.javaeye.com/blog/25324">qooxdoo&#8217;s events handle and dispatch</a></li>
+<li><a href="http://readonly.javaeye.com/blog/25315">qooxdoo&#8217;s namespace and inheritance</a></li>
 </ul>
-<p>Framework &amp; Toolkits:</p>
-<ul>
-<li>Dojo</li>
-<li>Atlas</li>
-<li>GWT</li>
-<li>qooxdoo (seems to be missing <img src='http://blog.qooxdoo.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> )&nbsp;</li>
+</li>
 </ul>
-<p>I&#39;ve grouped together Scriptaclous and Rico because they both depend on Prototype which means they are more or less an extension of this library and not a real separate solution.</p>
-<p>What do you think?&nbsp;</p>
-<p> </body> </html>
-</p>
-
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=zVG9wfIU"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=zVG9wfIU" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=FyUymhC2"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=FyUymhC2" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=SCV0WhJ4"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=SCV0WhJ4" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=BYHTg0aH"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=BYHTg0aH" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=sYMapwTd"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=sYMapwTd" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=r7Dt6YTk"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=r7Dt6YTk" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=fWqhBoBV"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=fWqhBoBV" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=bOeZDScE"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=bOeZDScE" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/ajax-framework-poll/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/ajax-framework-poll</feedburner:origLink></item>
+<p>It would be great if some Russian or Chinese speaking qooxdoo users could translate them to English. We would be happy to host translations in our wiki.</p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=TQOqJ65G"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=TQOqJ65G" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=P4mvTLoN"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=P4mvTLoN" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=y4HsIBAA"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=y4HsIBAA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=uav2h2vH"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=uav2h2vH" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=vIRPCh1l"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=vIRPCh1l" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=jnFXhpu0"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=jnFXhpu0" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=yCJ2djVE"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=yCJ2djVE" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=3BlcN2io"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=3BlcN2io" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=aMyhhIG3"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=aMyhhIG3" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/81969890"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/external-qooxdoo-tutorials/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/external-qooxdoo-tutorials</feedburner:origLink></item>
 		<item>
-		<title>Dramatically improved IE7 JavaScript performance</title>
-		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/21793941/dramatically-improved-ie7-javascript-performance</link>
-		<comments>http://blog.qooxdoo.org/dramatically-improved-ie7-javascript-performance#comments</comments>
-		<pubDate>Wed, 13 Sep 2006 11:35:53 +0000</pubDate>
+		<title>qooxdoo 0.6.5 delayed</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/81964728/qooxdoo-065-delayed</link>
+		<comments>http://blog.qooxdoo.org/qooxdoo-065-delayed#comments</comments>
+		<pubDate>Fri, 26 Jan 2007 15:45:34 +0000</pubDate>
 		<dc:creator>Sebastian Werner</dc:creator>
 		
-		<category>Internet Explorer</category>
+		<category><![CDATA[Issues]]></category>
 
-		<category>Technical</category>
+		<guid isPermaLink="false">http://blog.qooxdoo.org/qooxdoo-065-delayed</guid>
+		<description><![CDATA[Update: The problems have been resolved. qooxdoo 0.6.5 was released some minutes ago.
+The open-source hosting involved for qooxdoo - Sourceforge currently has some problems with their file release service. Because of this we need to hold up the release of qooxdoo-0.6.5 a bit. Hopefully they will get it done in the next hours. Otherwise we [...]]]></description>
+			<content:encoded><![CDATA[<p><strong>Update</strong>: The problems have been resolved. <a href="http://news.qooxdoo.org/qooxdoo-065-released">qooxdoo 0.6.5 was released</a> some minutes ago.</p>
+<p><strike>The open-source hosting involved for qooxdoo - Sourceforge currently has some problems with their file release service. Because of this we need to hold up the release of qooxdoo-0.6.5 a bit. Hopefully they will get it done in the next hours. Otherwise we will push out the release ASAP tomorrow. The release is already tagged in SVN, which means that SVN users can update their projects to this tag already. You can monitor <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1645410&amp;group_id=1&amp;atid=200001">this ticket</a> in sourceforge&#8217;s tracker.</strike></p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Ea3ukoC4"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Ea3ukoC4" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=ffyq36cn"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=ffyq36cn" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=A2KLwTe1"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=A2KLwTe1" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=mDDFOm7D"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=mDDFOm7D" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=CzWDPxF4"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=CzWDPxF4" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=a2T1EHJH"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=a2T1EHJH" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Vghp2mnj"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Vghp2mnj" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=4QxyE8Zp"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=4QxyE8Zp" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=8CcKmyYX"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=8CcKmyYX" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/81964728"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/qooxdoo-065-delayed/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/qooxdoo-065-delayed</feedburner:origLink></item>
+		<item>
+		<title>Key Event Nightmare - Resolved</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/76437193/key-event-nightmare-resolved</link>
+		<comments>http://blog.qooxdoo.org/key-event-nightmare-resolved#comments</comments>
+		<pubDate>Wed, 17 Jan 2007 09:18:29 +0000</pubDate>
+		<dc:creator>Fabian Jakobs</dc:creator>
+		
+		<category><![CDATA[Development]]></category>
 
-		<category>Performance</category>
+		<category><![CDATA[Opera]]></category>
 
-		<guid isPermaLink="false">http://blog.qooxdoo.org/dramatically-improved-ie7-javascript-performance</guid>
-		<description><![CDATA[    	 	  
-Really good news. My vocabulary may to be too limited to tell you how great the latest changes in IE7 RC1 are. Microsoft announced that they have &#34;recently made some great fixes to our engine to improve the garbage collection routine and to reduce unbounded memory growth.&#34; and [...]]]></description>
-			<content:encoded><![CDATA[<p><?xml version="1.0" encoding="utf-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> <head> 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head> <body>
-<p>Really good news. My vocabulary may to be too limited to tell you how great the latest changes in <a href="http://www.microsoft.com/windows/ie/default.mspx">IE7 RC1</a> are. <a href="http://blogs.msdn.com/ie/archive/2006/08/28/728654.aspx">Microsoft announced</a> that they have &quot;recently made some great fixes to our engine to improve the garbage collection routine and to reduce unbounded memory growth.&quot; and that one &quot;should see noticeable improvements on AJAX sites in the Release Candidate we shipped last week&quot;. Yes indeed, we do see tremendeous improvements. <img src='http://blog.qooxdoo.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
-<p>In fact <a href="http://qooxdoo.org/demo">many demos</a> of <a href="http://qooxdoo.org">qooxdoo</a> run much faster now in IE7 compared to IE6. And they are even faster than in <a href="http://www.mozilla.com/firefox/">Firefox</a> 1.5 in many cases. This is a huge jump in performance. Microsoft did not tell about their exact modifications, of course. Anyway, they have fixed <em>the</em> major problem of large JavaScript-based web applications. This problem, despite having a catchy name, was mentioned many times before like <a href="http://demo.qooxdoo.org/html/performance/GlobalObject_2.html">here</a>, <a href="http://alex.dojotoolkit.org/?p=536">here</a> and <a href="http://groups.google.com/group/microsoft.public.inetsdk.programming.scripting.jscript/browse_thread/thread/d758f148f03cd2ed/cc6143cd1b0d1e38?lnk=st&amp;q=jscript+slow+performance+ie+firefox&amp;rnum=2#cc6143cd1b0d1e3">there</a>: If you have many objects created, which are simply accessible in the current scope, all methods and features of JavaScript slow down dramatically. Yeah, right, the entire execution speed drops significantly. No other browser besides IE shows such a strange behavior. It is quite interesting that IE6 really gets slower the larger the total number of (accessible) objects. Sure, it is logical that more instanciated objects need more memory, but it is not logical that at the same time this will dramatically reduce the performance of any code (that is not even accessing this data).</p>
-<p>With the release candidate RC1 of their new browser version IE7, it seems that they have finally fixed this issue. You can test it yourself in <a href="http://demo.qooxdoo.org/html/performance/GlobalObject_2.html">this test case</a>, which has been available in <a href="http://qooxdoo.org">qooxdoo</a> for several months to analyze and measure the IE performance problems. Please look at status bar of your browser (maybe you need to enable the status bar in the IE7 security settings). It will display the execution time of each loop while a large number of objects exists. On my machine the IE6 needs ~1400ms, while IE7 needs ~30ms, which is roughly the time Firefox 1.5 needs. Definitely incredible! Bright future for modern web applications. <img src='http://blog.qooxdoo.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />  </p>
-<p> </body> </html>
-</p>
+		<category><![CDATA[Internet Explorer]]></category>
 
-<div class="feedflare"><a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=27qjvIjz"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=27qjvIjz" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=0pcpSBXq"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=0pcpSBXq" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Z4mzepLM"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Z4mzepLM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=Cko7rv3A"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=Cko7rv3A" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=F2xJwTjG"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=F2xJwTjG" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=xrRqiV8e"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=xrRqiV8e" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=nLBUMGef"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=nLBUMGef" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=hUPfCg1N"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=hUPfCg1N" border="0"></img></a></div>]]></content:encoded>
-			<wfw:commentRss>http://blog.qooxdoo.org/dramatically-improved-ie7-javascript-performance/feed/</wfw:commentRss>
-		<feedburner:origLink>http://blog.qooxdoo.org/dramatically-improved-ie7-javascript-performance</feedburner:origLink></item>
+		<category><![CDATA[Firefox]]></category>
+
+		<category><![CDATA[Safari]]></category>
+
+		<category><![CDATA[Technical]]></category>
+
+		<category><![CDATA[Survey]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/key-event-nightmare-resolved</guid>
+		<description><![CDATA[Since the 0.6.3 release, qooxdoo includes a complete rewrite of the key event handling layer. The old one was basically a wrapper for each browsers native key event handler. It fixed many cross-browser issues but nonetheless the differences between browsers were still visible to the application developer. The new key handler aims to unify key [...]]]></description>
+			<content:encoded><![CDATA[<p>Since the <a href="http://qooxdoo.org/about/release_notes">0.6.3 release</a>, qooxdoo includes a complete rewrite of the key event handling layer. The old one was basically a wrapper for each browsers native key event handler. It fixed many cross-browser issues but nonetheless the differences between browsers were still visible to the application developer. The new key handler aims to unify key event handling across all supported browsers (Internet Explorer, Firefox, Opera, Safari) so that qooxdoo application developers always see the same behavior. This ambitious task turned out to be harder than expected&#8230;</p>
+<p>Key events are one area of web browser functionality where standardization has not yet taken place. Although there is a <a href="http://www.w3.org/TR/DOM-Level-3-Events/events.html#Events-KeyboardEvents-Interfaces">W3C draft</a> for keyboard events, it is more or less useless because no browser currently implements it. Even if it would be implemented, it would not solve all problems, because the standard is still incomplete. Pretty sad. For example, it has  no concept of repeated key events which are fired repeatedly while the key is held down.</p>
+<p>At first glance key event handling doesn&#8217;t look so different across browsers. All major browsers support the three key events <em>keydown</em>, <em>keypress</em>, <em>keyup</em> and all key event objects have a <em>keyCode</em> property and properties for the modifier keys <em>altKey</em>, <em>shiftKey</em>, <em>ctrlKey</em>, <em>metaKey</em>. Unfortunately, under the hood <strong>all</strong> browsers behave quite different. Even the same browser can behave different on different platforms, e.g. Firefox under MS Windows and Mac OS X, respectively.</p>
+<p>Key event handling is so challenging because of (at least) the following five shortcomings:</p>
+<ol>
+<li><strong>Key code vs. Char code</strong>: Key events return codes for the actual key that is pressed (the key code) and the character that will be printed on screen (char code). Theses codes are represented as numbers and it is sometimes hard to figure out if a given code is to be understood as a key code or rather a char code. This is a severe problem because some numbers can be interpreted as either key code or char code. For example in key press events in Opera it cannot be decided whether the returned code is a key code or a char code.</li>
+<li><strong>Keys that require shift on some keyboard layout</strong>: The key code of keys that require the shift key on some keyboard layouts are not reliable. The key code which is generated depends on the current language-specific keyboard layout of the user. The key “#” for example can be reached on a German keyboard layout without the shift key and generates the key code 35, while the same character composed with Shift+3 on an American layout produces a key code of 51.</li>
+<li><strong>Repeated key events</strong>: If the user keeps pressing a key the browsers fires some events repeatedly. Normally, only the keypress event is expected to be repeated, but no other events. Under Windows however, both Internet Explorer and Firefox repeat the keydown event as well.</li>
+<li><strong>Incomplete event sequences</strong>: Not every browser fires for every key the complete event sequence of keydown, keypress and keyup. Internet Explorer does not fire keypress events if the corresponding key is non-printable (i.e. function key F1). Firefox does not fire keypress events for modifier keys (i.e. Ctrl or Alt) and Safari does not fire any key events for modifier keys at all.</li>
+<li><strong>Char code only reliable in keypress events</strong>: Only Safari sets the char code also in keyup and keydown events. The good news is that the character code in keypress events is reliable and always represents the Unicode number of the character that would be printed on the screen.</li>
+</ol>
+<p><a href="http://qooxdoo.org/documentation/0.6/user_manual/keyboard_events">qooxdoo&#8217;s new key handler</a> solves most of above challenges by browser specific key handlers which differentiate between key and char codes and normalize the event sequence. This means for example that repeated keydown events in Internet Explorer are intercepted and passed on as keypress events and that the missing keypress events for special keys are synthesized if the corresponding keydown event is detected. To simplify the programming interface for qooxdoo developers we chose the W3C draft for orientation and implemented their <a href="http://www.w3.org/TR/DOM-Level-3-Events/keyset.html#KeySet-Set"><em>keyIdentifier</em></a> property. The <em>keyIdentifier</em> maps the key codes to a (human readable) key identifier strings. To prevent the developer from accidentally using keys which seem to be working in one browser but might not work in another, we introduced a white list of keys which can be detected reliably with the new key handler.</p>
+<p>Unfortunately, a completely unified key handler is still not possible with today&#8217;s browsers. Issues like the ambiguity of Opera&#8217;s key code in keypress events or Safari not firing any key events for modifier keys can only be solved by the browser manufacturers/programmers. Nonetheless, we think that we came pretty close to the, to our knowledge, best possible solution and can offer one of the most advanced key event handlers out there.</p>
+<p>For more detailed information you may consult the corresponding <a href="http://qooxdoo.org/documentation/0.6/user_manual/keyboard_events">documentation of qooxdoo&#8217;s new key handler</a> and the following sources:</p>
+<ul>
+<li><a href="http://www.w3.org/TR/DOM-Level-3-Events/">Document Object Model (DOM) Level 3 Events Specification</a></li>
+<li><a href="http://developer.mozilla.org/en/docs/DOM:event">Mozilla Developer Center on DOM events</a></li>
+<li><a href="http://my.opera.com/hallvors/blog/show.dml/217592">Hallvord R. M. Steen about key events</a></li>
+</ul>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=LlE7vXxC"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=LlE7vXxC" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=kIYRnXq0"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=kIYRnXq0" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=00RGTqev"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=00RGTqev" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=QNZEIlqm"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=QNZEIlqm" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=L1p7ODxR"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=L1p7ODxR" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=KmGE5FdY"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=KmGE5FdY" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=SfJXag8l"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=SfJXag8l" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=qqeWmIVQ"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=qqeWmIVQ" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=RXTesau0"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=RXTesau0" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/76437193"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/key-event-nightmare-resolved/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/key-event-nightmare-resolved</feedburner:origLink></item>
+		<item>
+		<title>Updated custom builds documentation</title>
+		<link>http://feeds.feedburner.com/~r/qooxdoo/blog/content/~3/73905262/updated-custom-builds-documentation</link>
+		<comments>http://blog.qooxdoo.org/updated-custom-builds-documentation#comments</comments>
+		<pubDate>Thu, 11 Jan 2007 13:10:42 +0000</pubDate>
+		<dc:creator>Sebastian Werner</dc:creator>
+		
+		<category><![CDATA[Development]]></category>
+
+		<category><![CDATA[Documentation]]></category>
+
+		<guid isPermaLink="false">http://blog.qooxdoo.org/updated-custom-builds-documentation</guid>
+		<description><![CDATA[We would like to inform you about recent updates to the documentation to customize qooxdoo and projects based on qooxdoo (Diff). This detailed article is for all users that need custom builds beyond the standard set of Makefile features.  The documentation has been updated to account for all the recent changes introduced by qooxdoo [...]]]></description>
+			<content:encoded><![CDATA[<p>We would like to inform you about recent updates to the <a href="http://qooxdoo.org/documentation/0.6/user_manual/custom_builds">documentation to customize qooxdoo and projects based on qooxdoo</a> (<a href="http://qooxdoo.org/documentation/0.6/user_manual/custom_builds?rev=1166815705&amp;do=diff">Diff</a>). This detailed article is for all users that need custom builds beyond the standard set of Makefile features.  The documentation has been updated to account for all the recent changes introduced by qooxdoo release 0.6.4 and the upcoming release 0.6.5 (to be released soon). Documentation may be a bit overwhelming due to all the expert features supported by the build system. For beginners, but also for more advanced qooxdoo application developers, the skeletons and their pre-configured and easy-to-use makefiles should be all they need for powerful development and deployment.<br />
+It would be great to get feedback from users who test the whole feature set in real-life scenarios (maybe trying to integrate it with some other build tool like cmake, ant, &#8230;). We are also looking for some volunteers to take a look at this piece of documentation. It is quite important to have this article as complete and easy to understand as possible. Any corrections, particularly from native English speakers are appreciated.</p>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=J5nIkbDe"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=J5nIkbDe" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=HDMGshW3"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=HDMGshW3" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=PewUCaQt"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=PewUCaQt" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=zTzPiAQZ"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=zTzPiAQZ" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=L9gIN0A3"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=L9gIN0A3" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=KCcBQcoT"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=KCcBQcoT" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=IVFOxC6P"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=IVFOxC6P" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=VcFxy8lV"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=VcFxy8lV" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/qooxdoo/blog/content?a=mQeo7ONd"><img src="http://feeds.feedburner.com/~f/qooxdoo/blog/content?i=mQeo7ONd" border="0"></img></a>
+</div><img src="http://feeds.feedburner.com/~r/qooxdoo/blog/content/~4/73905262"/>]]></content:encoded>
+			<wfw:commentRss>http://blog.qooxdoo.org/updated-custom-builds-documentation/feed/</wfw:commentRss>
+		<feedburner:origLink>http://blog.qooxdoo.org/updated-custom-builds-documentation</feedburner:origLink></item>
 	</channel>
-</rss><!-- Dynamic Page Served (once) in 0.666 seconds --><!-- Cached page served by WP-Cache -->
+</rss>
