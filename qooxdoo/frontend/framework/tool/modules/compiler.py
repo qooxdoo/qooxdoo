@@ -45,7 +45,7 @@
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
-import accessorobfuscator
+import accessorobfuscator, optparseext, variantoptimizer, privateoptimizer
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
@@ -1655,14 +1655,17 @@ def addCommandLineOptions(parser):
 def main():
     global options
 
-    parser = optparse.OptionParser()
+    parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
 
     parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
     parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default="")
     parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
     parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+    parser.add_option("--optimize-privates", action="store_true", dest="optimizePrivates", default=False, help="Optimize privates. Protected them and reducing size.")
     parser.add_option("--obfuscate-accessors", action="store_true", dest="obfuscateAccessors", default=False, help="Enable accessor obfuscation")
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
+    parser.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
+    
     # Options for pretty printing
     addCommandLineOptions(parser)
 
@@ -1678,8 +1681,23 @@ def main():
 
         restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, fileName, options.encoding))
 
+        if len(options.useVariant) > 0:
+            variantMap = {}
+            for variant in options.useVariant:
+                keyValue = variant.split(":")
+                if len(keyValue) != 2:
+                    print "  * Error: Variants must be specified as key value pair separated by ':'!"
+                    sys.exit(1)
+    
+                variantMap[keyValue[0]] = keyValue[1]     
+                
+            variantoptimizer.search(restree, variantMap, fileName)  
+            
         if options.obfuscateAccessors:
             accessorobfuscator.process(restree)
+            
+        if options.optimizePrivates:
+            privateoptimizer.patch("A", restree, {})
 
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, 0, "$")
@@ -1688,7 +1706,7 @@ def main():
             options.prettyPrint = False  # make sure it's set
         else:
             options.prettyPrint = True
-
+            
         compiledString = compile(restree, options)
         if options.write:
             if compiledString != "" and not compiledString.endswith("\n"):

@@ -42,7 +42,7 @@
 #</pre>
 ##
 
-import os, codecs, cPickle, sys
+import os, codecs, cPickle, sys, gzip
 import textutil
 
 ##                                                                              
@@ -120,7 +120,7 @@ def storeCache(cachePath, data):
     try:
         cPickle.dump(data, open(cachePath, 'wb'), 2)
 
-    except EOFError or PickleError or PicklingError:
+    except (EOFError, cPickle.PickleError, cPickle.PicklingError):
         print "  * Could not store cache to %s" % cachePath
         sys.exit(1)
 
@@ -129,7 +129,7 @@ def readCache(cachePath):
     try:
         return cPickle.load(open(cachePath, 'rb'))
 
-    except EOFError or PickleError or UnpicklingError:
+    except (EOFError, cPickle.PickleError, cPickle.UnpicklingError):
         print "  * Could not read cache from %s" % cachePath
         sys.exit(1)
 
