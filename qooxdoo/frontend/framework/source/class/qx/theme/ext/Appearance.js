@@ -1772,7 +1772,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundImage       : "widget/gradient/button_gradient.png",
           icon                  : states.sorted ?
             (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
-            : null
+            : null,
+          horizontalChildrenAlign : "left"
         };
       }
     },
