@@ -98,13 +98,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
     this._focusIndicator.setAppearance("table-focus-indicator");
+    this._focusIndicator.setStyleProperty("fontSize", "0px");
+    this._focusIndicator.setStyleProperty("lineHeight", "0px");
     this._focusIndicator.hide();
-
-    // Workaround: If the _focusIndicator has no content if always gets a too
-    //       high hight in IE.
-    var dummyContent = new qx.ui.basic.Terminator;
-    dummyContent.setWidth(0);
-    this._focusIndicator.add(dummyContent);
 
     this._paneClipper = new qx.ui.layout.CanvasLayout;
     this._paneClipper.setWidth("1*");
