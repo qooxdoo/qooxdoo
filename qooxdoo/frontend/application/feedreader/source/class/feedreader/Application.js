@@ -422,70 +422,8 @@ qx.Class.define("feedreader.Application",
 
     showPreferences : function()
     {
-      if (!this._prefWindow)
-      {
-        var win = new qx.ui.window.Window(this.tr("Preferences"), "icon/16/apps/preferences.png");
-        win.set({
-          modal : true,
-          showMinimize: false,
-          showMaximize: false,
-          allowMaximize: false,
-          width: 150
-        });
-        win.addToDocument();
-
-        var winLayout = new qx.ui.layout.VerticalBoxLayout();
-        winLayout.set({
-          width: "100%",
-          height: "auto",
-          spacing: 5,
-          padding: 5
-        });
-        win.add(winLayout);
-
-        var gb = new qx.ui.groupbox.GroupBox(this.tr("Theme"));
-        gb.set({
-          height: "auto",
-          width: "100%"
-        });
-        winLayout.add(gb);
-
-        var vb = new qx.ui.layout.VerticalBoxLayout();
-        gb.add(vb);
-
-        var btn_classic = new qx.ui.form.RadioButton("Classic");
-        var btn_ext = new qx.ui.form.RadioButton("Ext");
-        btn_ext.setChecked(true);
-        var rm = new qx.ui.selection.RadioManager();
-        rm.add(btn_classic, btn_ext);
-        vb.add(btn_classic, btn_ext);
-
-        var hb = new qx.ui.layout.HorizontalBoxLayout();
-        hb.set({
-          width: "100%",
-          horizontalChildrenAlign: "right",
-          spacing: 5,
-          paddingRight: 3
-        });
-
-        var btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
-        btn_cancel.addEventListener("execute", win.close, win);
-        var btn_ok = new qx.ui.form.Button(this.tr("OK"));
-        btn_ok.addEventListener("execute", function() {
-          if (btn_ext.getChecked()) {
-            qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
-          } else {
-            qx.theme.manager.Meta.getInstance().setTheme(qx.theme.ClassicRoyale);
-          }
-          win.close();
-        }, this);
-        hb.add(btn_cancel);
-        hb.add(btn_ok);
-
-        winLayout.add(hb);
-
-        this._prefWindow = win;
-        win.addEventListener("appear", win.centerToBrowser, win);
+      if (!this._prefWindow) {
+        this._prefWindow = new feedreader.PreferenceWindow;
       }
 
       this._prefWindow.open();
