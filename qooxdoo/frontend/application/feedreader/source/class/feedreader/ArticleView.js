@@ -14,10 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
-
-************************************************************************ */
-
-/* ************************************************************************
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -37,8 +34,8 @@ qx.Class.define("feedreader.ArticleView",
   construct : function(article)
   {
     qx.ui.basic.Terminator.call(this);
+
     this.setHtmlProperty("className", "blogEntry");
-    this.setArticle(article);
   },
 
 
@@ -50,8 +47,12 @@ qx.Class.define("feedreader.ArticleView",
   *****************************************************************************
   */
 
-  properties : {
-    article : { _legacy : true }
+  properties :
+  {
+    article :
+    {
+      apply : "_applyArticle"
+    }
   },
 
 
@@ -74,7 +75,7 @@ qx.Class.define("feedreader.ArticleView",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyArticle : function(propValue, propOldValue, propData)
+    _applyArticle : function(propValue, propOldValue, propData)
     {
       if (this._isCreated) {
         this._applyElementData();
