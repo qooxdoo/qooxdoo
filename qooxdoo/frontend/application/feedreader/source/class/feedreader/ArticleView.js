@@ -51,7 +51,8 @@ qx.Class.define("feedreader.ArticleView",
   {
     article :
     {
-      apply : "_applyArticle"
+      apply : "_applyArticle",
+      nullable : true
     }
   },
 
