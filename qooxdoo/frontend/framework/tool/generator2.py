@@ -88,7 +88,10 @@ from modules import filetool
 from modules import textutil
 from modules import simplejson
 from modules import settings
-from modules import variants as mvariants
+from modules import variants as m_variants
+from modules import tokenizer
+#from modules import compiler as m_compiler
+from modules import treegenerator
 
 from generator2 import apidata
 from generator2 import cachesupport
@@ -423,8 +426,11 @@ def execute(job, config):
 
 
         if buildScript != None or sourceScript != None:
+            _settings = []
+            _variants = []
             if execMode == "parts":
                 (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
+                pParts  = True
 
             else:
                 # simulate package
@@ -432,22 +438,31 @@ def execute(job, config):
                 pkg2classes = {
                     "1" : includeDict.keys()
                 }
+                pParts  = False
 
             if buildScript != None:
+                _settings.append("qx.isSource:false")
+                _settings = settings.generate(_settings, True)
+                _variants = m_variants.generate(_variants, True)
+                prelude = "".join([_settings, _variants])
+                compiledPrelude = compiler._compileClassHelper(treegenerator.createSyntaxTree(tokenizer.parseStream(prelude)))
                 for packageId in pkgIds:
                     console.info("Compiling classes for package %s:" % packageId, False)
-                    packageSize = storeCompiledPackage(pkg2classes[packageId], buildScript, variants, buildProcess, variantSetPos+1)
+                    packageSize, compiledContent = getCompiledPackage(pkg2classes[packageId], variants, buildProcess)
+                    # Saving compiled content
+                    fileId = "%s-%s" % (buildScript, variantSetPos+1)
+                    if not pParts:  # it's a simulated package
+                        compiledContent = compiledPrelude + compiledContent
+                    filetool.save(fileId + ".js", compiledContent)
                 
                     console.indent()
                     console.debug("Done: %s" % packageSize)
                     console.outdent()
 
             if sourceScript != None:
-                _settings = []
                 _settings.append("qx.isSource:true")
                 _settings = settings.generate(_settings, True)
-                _variants = []
-                _variants = mvariants.generate(_variants, True)
+                _variants = m_variants.generate(_variants, True)
                 for packageId in pkgIds:
                     fileId = "%s-%s-%s.js" % (sourceScript, str(packageId), str(variantSetPos+1))
                     console.info("Generating source includer for package %s: %s" % (packageId, fileId))
@@ -509,16 +524,13 @@ def _arrayToDict(arr):
 #  COMMON COMPILED PKG SUPPORT
 ######################################################################
 
-def storeCompiledPackage(includeDict, packageFileName, variants, buildProcess, variantPos):
-    fileId = "%s-%s" % (packageFileName, variantPos)
+def getCompiledPackage(includeDict, variants, buildProcess):
     
     # Compiling classes
     sortedClasses = deputil.sortClasses(includeDict, variants)
     compiledContent = compiler.compileClasses(sortedClasses, variants, buildProcess)
 
-    # Saving compiled content
-    filetool.save(fileId + ".js", compiledContent)
-    return getContentSize(compiledContent)
+    return getContentSize(compiledContent), compiledContent
 
 
 
