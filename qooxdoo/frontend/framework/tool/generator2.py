@@ -445,14 +445,13 @@ def execute(job, config):
                 _settings = settings.generate(_settings, True)
                 _variants = m_variants.generate(_variants, True)
                 prelude = "".join([_settings, _variants])
-                compiledPrelude = compiler._compileClassHelper(treegenerator.createSyntaxTree(tokenizer.parseStream(prelude)))
                 for packageId in pkgIds:
                     console.info("Compiling classes for package %s:" % packageId, False)
                     packageSize, compiledContent = getCompiledPackage(pkg2classes[packageId], variants, buildProcess)
                     # Saving compiled content
                     fileId = "%s-%s" % (buildScript, variantSetPos+1)
                     if not pParts:  # it's a simulated package
-                        compiledContent = compiledPrelude + compiledContent
+                        compiledContent = prelude + compiledContent
                     filetool.save(fileId + ".js", compiledContent)
                 
                     console.indent()
