@@ -424,7 +424,7 @@ def execute(job, config):
 
         if buildScript != None or sourceScript != None:
             _settings = []
-            _variants = []
+            _variants = variantsToArray(variants) # need alternative format for variants.generate()
             if execMode == "parts":
                 (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
                 pParts  = True
@@ -468,6 +468,13 @@ def execute(job, config):
                     sourceText = "document.write('%s');" % sourceText
                     filetool.save(fileId, sourceText)
 
+
+def variantsToArray(variants):
+    varr = []
+    for elem in variants:
+        varr.append(":".join([elem['id'], elem['value']]))
+
+    return varr
 
 
 def wrapInlineSource(sourceArr, pNewLine):
