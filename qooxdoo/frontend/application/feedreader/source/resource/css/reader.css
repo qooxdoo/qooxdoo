@@ -38,6 +38,17 @@
   margin: 0;
 }
 
+.blogEntry p,
+.blogEntry ul,
+.blogEntry ol{
+  margin: 8px 0 20px;
+}
+
+.blogEntry ul,
+.blogEntry ol{
+  margin-left: 24px;
+}
+
 .blogEntry {
 	overflow: auto;
 }
