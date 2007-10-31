@@ -227,8 +227,7 @@ qx.Class.define("feedreader.Application",
 
       radioManager.addEventListener("changeSelected", function(e)
       {
-        var lang = e.getData().getUserData("locale");
-        this.debug("lang:" + lang);
+        var lang = e.getValue().getUserData("locale");
         qx.locale.Manager.getInstance().setLocale(lang);
       });
 
@@ -436,16 +435,9 @@ qx.Class.define("feedreader.Application",
       }
     },
 
-
     loadJsonFeed : function(feedName, json)
     {
-      var items = [];
-
-      if (json.channel) {
-        items = this.normalizeRssFeed(json);
-      } else if (json.entry) {
-        items = this.normalizeAtomFeed(json);
-      }
+      var items = feedreader.FeedParser.parseFeed(json);
 
       this.getFeeds()[feedName] =
       {
@@ -456,51 +448,6 @@ qx.Class.define("feedreader.Application",
       if (feedName == this.getSelectedFeed()) {
         this.displayFeed(feedName);
       }
-    },
-
-
-    normalizeRssFeed : function(json)
-    {
-      var items = [];
-
-      for (var i=0, a=json.channel.item, l=a.length; i<l; i++)
-      {
-        var entry = a[i];
-
-        items.push(
-        {
-          title : entry.title,
-          author : "",
-          date : entry.pubDate,
-          content : entry.description,
-          link : entry.link,
-          id : i
-        });
-      }
-
-      return items;
-    },
-
-    normalizeAtomFeed : function(json)
-    {
-      var items = [];
-
-      for (var i=0, a=json.entry, l=a.length; i<l; i++)
-      {
-        var entry = a[i];
-
-        items.push(
-        {
-          title : entry.title,
-          author : entry.author.name,
-          date : entry.published || entry.created,
-          content : entry.content,
-          link : entry.href,
-          id : i
-        });
-      }
-
-      return items;
     },
 
 
