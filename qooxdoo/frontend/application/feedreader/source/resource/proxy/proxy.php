@@ -1,7 +1,5 @@
 <?php
 
-//require_once("xml2json.php5");
-
 $url = isset($_GET['proxy']) ? $_GET['proxy'] : false;
 $mode = isset($_GET['mode']) ? $_GET['mode'] : false;
 
@@ -20,8 +18,8 @@ $xmlContent = curl_exec($session);
 
 if ($mode == "json")
 {
-    $jsonContent = xml2json::transformXmlStringToJson($xmlContent);
-		header("Content-Type: application/json");
+    $jsonContent = json_encode(simplexml_load_string($xmlContent, 'SimpleXMLElement', LIBXML_NOCDATA));
+		header("Content-Type: text/plain");
 		echo($jsonContent);
 }
 else if ($mode == "jsonp")
@@ -30,8 +28,7 @@ else if ($mode == "jsonp")
 		$scriptBegin = "try{qx.io.remote.ScriptTransport._requestFinished('".$scriptId."', ";
 		$scriptEnd = ");}catch(ex){};";
 
-		$jsonContent = json_encode(simplexml_load_string($xmlContent));
-    //$jsonContent = xml2json::transformXmlStringToJson($xmlContent);
+		$jsonContent = json_encode(simplexml_load_string($xmlContent, 'SimpleXMLElement', LIBXML_NOCDATA));
 		$jsonpContent = $scriptBegin."".$jsonContent.$scriptEnd;
 		header("Content-Type: text/plain");
 		echo($jsonpContent);
