@@ -163,10 +163,13 @@ qx.Class.define("qx.ui.table.Table",
 
     this._columnVisibilityBt = new qx.ui.form.Button;
     this._columnVisibilityBt.setAppearance("table-menubar-button");
+    this._columnVisibilityBt.setHeight(null);
+    this._columnVisibilityBt.setWidth("auto");
+    this._columnVisibilityBt.setAllowStretchY(true);
     this._columnVisibilityBt.addListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
-    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
+    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
 
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
@@ -213,7 +216,7 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the top of the
      * menu.
      */
-    "columnVisibilityMenuCreateStart" : "qx.event.type.Data",
+    "columnVisibilityMenuCreateStart" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched after adding the column list to the column visibility menu.
@@ -221,19 +224,19 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the bottom of the
      * menu.
      */
-    "columnVisibilityMenuCreateEnd" : "qx.event.type.Data",
+    "columnVisibilityMenuCreateEnd" : "qx.event.type.DataEvent",
 
      /**
       * Dispatched when the inner width of the table has changed.
       */
-    "tableWidthChanged" : "qx.event.type.Data",
+    "tableWidthChanged" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched when updating scrollbars discovers that a vertical scrollbar
      * is needed when it previously was not, or vice versa.  The data is a
      * boolean indicating whether a vertical scrollbar is now being used.
      */
-    "verticalScrollBarChanged" : "qx.event.type.Data",
+    "verticalScrollBarChanged" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched when a data cell has been clicked.
@@ -261,7 +264,7 @@ qx.Class.define("qx.ui.table.Table",
 
   statics :
   {
-    /**Events that must be redirected to the scrollers.*/
+  	/**Events that must be redirected to the scrollers.*/
     __redirectEvents : { cellClick: 1, cellDblclick: 1, cellContextmenu: 1 }
   },
 
@@ -380,14 +383,6 @@ qx.Class.define("qx.ui.table.Table",
       init : false
     },
 
-    /** The height of the header cells. */
-    headerCellHeight :
-    {
-      check : "Integer",
-      init : 16,
-      apply : "_applyHeaderCellHeight",
-      event : "changeHeaderCellHeight"
-    },
 
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
@@ -395,7 +390,6 @@ qx.Class.define("qx.ui.table.Table",
       check : "qx.ui.table.IRowRenderer",
       init : null,
       nullable : true,
-      apply : "_applyDataRowRenderer",
       event : "changeDataRowRenderer"
     },
 
@@ -703,9 +697,6 @@ qx.Class.define("qx.ui.table.Table",
         var paneScroller = scrollerArr[i];
         var isLast = (i == (scrollerArr.length - 1));
 
-        // Set the right header height
-        paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
-
         // Put the _columnVisibilityBt in the top right corner of the last meta column
         paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);
       }
@@ -764,44 +755,6 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i]._onKeepFirstVisibleRowCompleteChanged();
       }
-    },
-
-    // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyHeaderCellHeight : function(value, old)
-    {
-      var scrollerArr = this._getPaneScrollerArr();
-
-      for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].getHeader().setHeight(value);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyDataRowRenderer : function(value, old)
-    {
-      if (this._dataRowRenderer != null)
-      {
-        this._dataRowRenderer.setParent(null);
-        this._dataRowRenderer.dispose();
-        this._dataRowRenderer = null;
-      }
-
-      value.setParent(this);
-      this._dataRowRenderer = value;
     },
 
 
@@ -1447,7 +1400,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (!this._updateContentPlanned)
       {
-        qx.event.Timer.once(function()
+        qx.client.Timer.once(function()
         {
           if (this.getDisposed()) {
             return;
@@ -1634,7 +1587,7 @@ qx.Class.define("qx.ui.table.Table",
           if (isLast && verNeeded != bHadVerticalScrollBar)
           {
             // ... then dispatch an event to any awaiting listeners
-            this.fireDataEvent("verticalScrollBarChanged", verNeeded);
+            this.createDispatchDataEvent("verticalScrollBarChanged", verNeeded);
           }
         }
       }
@@ -1686,7 +1639,7 @@ qx.Class.define("qx.ui.table.Table",
         table : this,
         menu  : menu
       };
-      this.fireDataEvent("columnVisibilityMenuCreateStart", data, true);
+      this.createDispatchDataEvent("columnVisibilityMenuCreateStart", data, true);
 
       for (var x=0; x<columnModel.getOverallColumnCount(); x++)
       {
@@ -1707,7 +1660,7 @@ qx.Class.define("qx.ui.table.Table",
         table : this,
         menu  : menu
       };
-      this.fireDataEvent("columnVisibilityMenuCreateEnd", data, true);
+      this.createDispatchDataEvent("columnVisibilityMenuCreateEnd", data, true);
 
       menu.setParent(this.getTopLevelWidget());
 
@@ -1799,7 +1752,7 @@ qx.Class.define("qx.ui.table.Table",
           return;
         }
 
-        self.fireEvent("tableWidthChanged");
+        self.createDispatchEvent("tableWidthChanged");
         self._updateScrollerWidths();
         self._updateScrollBarVisibility();
         qx.ui.core.Widget.flushGlobalQueues();
@@ -1838,23 +1791,22 @@ qx.Class.define("qx.ui.table.Table",
       this._updateScrollBarVisibility();
     },
 
-
     /**
      * Add event listener to an object.
      */
     addListener : function(type, func, obj)
     {
-      if (this.self(arguments).__redirectEvents[type])
-      {
-        for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
-        {
-          arr[i].addListener.apply(arr[i], arguments);
-        }
-      }
-      else
-      {
-        arguments.callee.base.apply(this, arguments);
-      }
+    	if (this.self(arguments).__redirectEvents[type])
+    	{
+    		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+    		{
+    			arr[i].addListener.apply(arr[i], arguments);
+    		}
+    	}
+    	else
+    	{
+    		arguments.callee.base.apply(this, arguments);
+    	}
     },
 
 
@@ -1863,17 +1815,17 @@ qx.Class.define("qx.ui.table.Table",
      */
     removeListener : function(type, func, obj)
     {
-      if (this.self(arguments).__redirectEvents[type])
-      {
-        for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
-        {
-          arr[i].removeListener.apply(arr[i], arguments);
-        }
-      }
-      else
-      {
-        arguments.callee.base.apply(this, arguments);
-      }
+    	if (this.self(arguments).__redirectEvents[type])
+    	{
+    		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+    		{
+    			arr[i].removeListener.apply(arr[i], arguments);
+    		}
+    	}
+    	else
+    	{
+    		arguments.callee.base.apply(this, arguments);
+    	}
     }
   },
 
@@ -1889,6 +1841,6 @@ qx.Class.define("qx.ui.table.Table",
   destruct : function()
   {
     this._cleanUpMetaColumns(0);
-    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar", "_dataRowRenderer");
+    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
   }
 });
