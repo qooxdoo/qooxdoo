@@ -1729,18 +1729,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border;
-
-        if (states.editing) {
-          border = new qx.ui.core.Border(2, "solid", "table-focus-indicator-active");
-        } else if (states.tableHasFocus) {
-          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator-active");
-        } else {
-          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator");
-        }
-
         return {
-          border : border
+          border : new qx.ui.core.Border(2, "solid", "table-focus-indicator")
         };
       }
     },
@@ -1853,26 +1843,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
             (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
             : null,
           horizontalChildrenAlign : "left"
-        };
-      }
-    },
-
-    "table-row" :
-    {
-      style : function(states)
-      {
-        return {
-          font                     : "default",
-          bgcolFocusedSelected     : "table-row-background-focused-selected",
-          bgcolFocusedSelectedBlur : "table-row-background-focused-selected-blur",
-          bgcolFocused             : "table-row-background-focused",
-          bgcolFocusedBlur         : "table-row-background-focused-blur",
-          bgcolSelected            : "table-row-background-selected",
-          bgcolSelectedBlur        : "table-row-background-selected-blur",
-          bgcolEven                : "table-row-background-even",
-          bgcolOdd                 : "table-row-background-odd",
-          colSelected              : "table-row-selected",
-          colNormal                : "table-row"
         };
       }
     },
