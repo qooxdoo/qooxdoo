@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.ui.table.rowrenderer.Default",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.core.Target,
   implement : qx.ui.table.IRowRenderer,
 
 
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(table)
   {
     this.base(arguments);
 
@@ -52,6 +52,20 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     this._fontStyleString = "";
 
     this._colors = {};
+
+    this._table = table;
+
+    // link to font theme
+    qx.theme.manager.Font.getInstance().connect(this._styleFont, this, "default");
+
+    // link to color theme
+    qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, "table-row-background-focused-selected");
+    qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, "table-row-background-focused");
+    qx.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, "table-row-background-selected");
+    qx.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, "table-row-background-even");
+    qx.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, "table-row-background-odd");
+    qx.theme.manager.Color.getInstance().connect(this._styleColSelected, this, "table-row-selected");
+    qx.theme.manager.Color.getInstance().connect(this._styleColNormal, this, "table-row");
   },
 
 
@@ -65,141 +79,11 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   properties :
   {
-
     /** Whether the focused row should be highlighted. */
     highlightFocusRow :
     {
       check : "Boolean",
       init : true
-    },
-
-    /**
-     * Whether the focused row and the selection should be grayed out when the
-     * table hasn't the focus.
-     */
-    visualizeFocusedState :
-    {
-      check : "Boolean",
-      init : true
-    },
-
-    /**
-     * Refine the appearance of the data row renderer.
-     */
-    appearance :
-    {
-      refine : true,
-      init   : "table-row"
-    },
-
-    /**
-     * Sets the row background for state focused, selected
-     */
-    bgcolFocusedSelected     : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-focused-selected",
-      apply     : "_applyBgcolFocusedSelected"
-    },
-
-    /**
-     * Sets the row background for state focused, selected, blurred
-     */
-    bgcolFocusedSelectedBlur : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-focused-selected-blur",
-      apply     : "_applyBgcolFocusedSelectedBlur"
-    },
-
-    /**
-     * Sets the row background for state focused
-     */
-    bgcolFocused             : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-focused",
-      apply     : "_applyBgcolFocused"
-    },
-
-    /**
-     * Sets the row background for state focused, blurred
-     */
-    bgcolFocusedBlur         : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-focused-blur",
-      apply     : "_applyBgcolFocusedBlur"
-    },
-
-    /**
-     * Sets the row background for state selected
-     */
-    bgcolSelected            : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-selected",
-      apply     : "_applyBgcolSelected"
-    },
-
-    /**
-     * Sets the row background for state selected, blurred
-     */
-    bgcolSelectedBlur        : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-selected-blur",
-      apply     : "_applyBgcolSelectedBlur"
-    },
-
-    /**
-     * Sets the row background for even row number
-     */
-    bgcolEven                : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-even",
-      apply     : "_applyBgcolEven"
-    },
-
-    /**
-     * Sets the row background for odd row number
-     */
-    bgcolOdd                 : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-background-odd",
-      apply     : "_applyBgcolOdd"
-    },
-
-    /**
-     * Sets the row background for state selected
-     */
-    colSelected              : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row-selected",
-      apply     : "_applyColSelected"
-    },
-
-    /**
-     * Sets the row background for state normal
-     */
-    colNormal                : {
-      check     : "Color",
-      nullable  : true,
-      themeable : true,
-      init      : "table-row",
-      apply     : "_applyColNormal"
     }
   },
 
@@ -213,52 +97,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   members :
   {
-    /*
-    *****************************************************************************
-       APPLYERS FOR COLOR PROPERTIES
-    *****************************************************************************
-    */
-    _applyBgcolFocusedSelected : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, value);
-    },
-
-    _applyBgcolFocusedSelectedBlur : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelectedBlur, this, value);
-    },
-
-    _applyBgcolFocused : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, value);
-    },
-
-    _applyBgcolFocusedBlur : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedBlur, this, value);
-    },
-
-    _applyBgcolSelected : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, value);
-    },
-
-    _applyBgcolSelectedBlur : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolSelectedBlur, this, value);
-    },
-
-    _applyBgcolEven : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, value);
-    },
-
-    _applyBgcolOdd : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, value);
-    },
-
-    _applyColSelected : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleColSelected, this, value);
-    },
-
-    _applyColNormal : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleColNormal, this, value);
-    },
-
-
     /*
     *****************************************************************************
        THEME STYLERS FOR COLOR PROPERTIES
@@ -282,17 +120,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * @param value {String} new value
      * @param old {String} old value
      */
-    _styleBgcolFocusedSelectedBlur : function(value, old) {
-      this._colors.bgcolFocusedSelectedBlur = value;
-      this._postponedUpdateTableContent();
-    },
-
-    /**
-     * Theme styler for color property.
-     *
-     * @param value {String} new value
-     * @param old {String} old value
-     */
     _styleBgcolFocused             : function(value, old) {
       this._colors.bgcolFocused = value;
       this._postponedUpdateTableContent();
@@ -304,30 +131,8 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * @param value {String} new value
      * @param old {String} old value
      */
-    _styleBgcolFocusedBlur         : function(value, old) {
-      this._colors.bgcolFocusedBlur = value;
-      this._postponedUpdateTableContent();
-    },
-
-    /**
-     * Theme styler for color property.
-     *
-     * @param value {String} new value
-     * @param old {String} old value
-     */
     _styleBgcolSelected            : function(value, old) {
       this._colors.bgcolSelected = value;
-      this._postponedUpdateTableContent();
-    },
-
-    /**
-     * Theme styler for color property.
-     *
-     * @param value {String} new value
-     * @param old {String} old value
-     */
-    _styleBgcolSelectedBlur        : function(value, old) {
-      this._colors.bgcolSelectedBlur = value;
       this._postponedUpdateTableContent();
     },
 
@@ -377,90 +182,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
 
     /**
-     * Set colors from a given color map and updates
-     * the content of the table.
-     *
-     * The map may contain any or all of the
-     * following properties:
-     * <ul>
-     *   <li>bgcolFocusedSelected</li>
-     *   <li>bgcolFocusedSelectedBlur</li>
-     *   <li>bgcolFocused</li>
-     *   <li>bgcolFocusedBlur</li>
-     *   <li>bgcolSelected</li>
-     *   <li>bgcolSelectedBlur</li>
-     *   <li>bgcolEven</li>
-     *   <li>bgcolOdd</li>
-     *   <li>colSelected</li>
-     *   <li>colNormal</li>
-     * </ul>
-     *
-     * @type member
-     * @param colors {Map} color map
-     */
-    setRowColors : function(colors) {
-      // stop continuous table updates while setting
-      // multipe colors
-      this._noTableContentUpdate = true;
-
-      this.set(colors);
-
-      // re-enable table updates
-      delete this._noTableContentUpdate;
-
-      this._postponedUpdateTableContent();
-    },
-
-
-    /**
-     * Get a map with the row colors.
-     *
-     * The map contains the following properties:
-     * <ul>
-     *   <li>bgcolFocusedSelected</li>
-     *   <li>bgcolFocusedSelectedBlur</li>
-     *   <li>bgcolFocused</li>
-     *   <li>bgcolFocusedBlur</li>
-     *   <li>bgcolSelected</li>
-     *   <li>bgcolSelectedBlur</li>
-     *   <li>bgcolEven</li>
-     *   <li>bgcolOdd</li>
-     *   <li>colSelected</li>
-     *   <li>colNormal</li>
-     * </ul>
-     *
-     * @type member
-     * @return {Map} the color map
-     */
-    getRowColors : function() {
-      return {
-        bgcolFocusedSelected     : this.getBgcolFocusedSelected(),
-        bgcolFocusedSelectedBlur : this.getBgcolFocusedSelectedBlur(),
-        bgcolFocused             : this.getBgcolFocused(),
-        bgcolFocusedBlur         : this.getBgcolFocusedBlur(),
-        bgcolSelected            : this.getBgcolSelected(),
-        bgcolSelectedBlur        : this.getBgcolSelectedBlur(),
-        bgcolEven                : this.getBgcolEven(),
-        bgcolOdd                 : this.getBgcolOdd(),
-        colSelected              : this.getColSelected(),
-        colNormal                : this.getColNormal()
-      };
-    },
-
-
-    /**
-     * Font property applyer.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyFont : function(value, old) {
-      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
-    },
-
-
-    /**
      * Utility method to render the given font. Calls the
      * {@link #_renderFont} method.
      *
@@ -505,21 +226,13 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
-        if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-          style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused;
-        } else {
-          style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelectedBlur : this._colors.bgcolFocusedBlur;
-        }
+        style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused;
       }
       else
       {
         if (rowInfo.selected)
         {
-          if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-            style.backgroundColor = this._colors.bgcolSelected;
-          } else {
-            style.backgroundColor = this._colors.bgcolSelectedBlur;
-          }
+          style.backgroundColor = this._colors.bgcolSelected;
         }
         else
         {
@@ -541,21 +254,13 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
-        if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-          rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused);
-        } else {
-          rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelectedBlur : this._colors.bgcolFocusedBlur);
-        }
+        rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused);
       }
       else
       {
         if (rowInfo.selected)
         {
-          if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-            rowStyle.push(this._colors.bgcolSelected);
-          } else {
-            rowStyle.push(this._colors.bgcolSelectedBlur);
-          }
+          rowStyle.push(this._colors.bgcolSelected);
         }
         else
         {
@@ -610,14 +315,14 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      *
      * @type member
      */
-    _updateTableContent : function() {
+    _updateTableContent : function()
+    {
       if(this._noTableContentUpdate) {
         return;
       }
 
-      var table = this.getParent();
-      if(table) {
-        table.updateContent();
+      if(this._table) {
+        this._table.updateContent();
       }
     }
   },
@@ -632,6 +337,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   */
 
   destruct : function() {
-    this._disposeFields("_colors", "_fontStyle", "__font");
+    this._disposeFields("_colors", "_fontStyle", "__font", "_table");
   }
 });

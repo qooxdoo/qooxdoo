@@ -163,10 +163,13 @@ qx.Class.define("qx.ui.table.Table",
 
     this._columnVisibilityBt = new qx.ui.form.Button;
     this._columnVisibilityBt.setAppearance("table-menubar-button");
+    this._columnVisibilityBt.setHeight(null);
+    this._columnVisibilityBt.setWidth("auto");
+    this._columnVisibilityBt.setAllowStretchY(true);
     this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
-    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
+    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
 
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
@@ -380,14 +383,6 @@ qx.Class.define("qx.ui.table.Table",
       init : false
     },
 
-    /** The height of the header cells. */
-    headerCellHeight :
-    {
-      check : "Integer",
-      init : 16,
-      apply : "_applyHeaderCellHeight",
-      event : "changeHeaderCellHeight"
-    },
 
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
@@ -395,7 +390,6 @@ qx.Class.define("qx.ui.table.Table",
       check : "qx.ui.table.IRowRenderer",
       init : null,
       nullable : true,
-      apply : "_applyDataRowRenderer",
       event : "changeDataRowRenderer"
     },
 
@@ -703,9 +697,6 @@ qx.Class.define("qx.ui.table.Table",
         var paneScroller = scrollerArr[i];
         var isLast = (i == (scrollerArr.length - 1));
 
-        // Set the right header height
-        paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
-
         // Put the _columnVisibilityBt in the top right corner of the last meta column
         paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);
       }
@@ -764,44 +755,6 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i]._onKeepFirstVisibleRowCompleteChanged();
       }
-    },
-
-    // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyHeaderCellHeight : function(value, old)
-    {
-      var scrollerArr = this._getPaneScrollerArr();
-
-      for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].getHeader().setHeight(value);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyDataRowRenderer : function(value, old)
-    {
-      if (this._dataRowRenderer != null)
-      {
-        this._dataRowRenderer.setParent(null);
-        this._dataRowRenderer.dispose();
-        this._dataRowRenderer = null;
-      }
-
-      value.setParent(this);
-      this._dataRowRenderer = value;
     },
 
 
@@ -1888,6 +1841,6 @@ qx.Class.define("qx.ui.table.Table",
   destruct : function()
   {
     this._cleanUpMetaColumns(0);
-    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar", "_dataRowRenderer");
+    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
   }
 });
