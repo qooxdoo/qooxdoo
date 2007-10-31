@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         "  white-space:nowrap;" +
         "  border-right:1px solid #eeeeee;" +
         "  border-bottom:1px solid #eeeeee;" +
-        "  padding : 0px 2px;" +
+        "  padding : 0px 6px;" +
         "  cursor:default;" +
         (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;') +
         "}" +

@@ -1735,8 +1735,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
 
         return {
-          paddingLeft           : 8,
-          paddingRight          : 8,
+          paddingLeft           : 6,
+          paddingRight          : 6,
           paddingTop            : 4,
           paddingBottom         : 3,
           spacing               : 2,
