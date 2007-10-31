@@ -28,27 +28,27 @@ qx.Theme.define("qx.theme.ext.font.Default",
   {
     "default" :
     {
-      size : 11,
-      family : [ "Verdana", "Helvetica", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ]
+      size : 12,
+      family : [ "Segoe UI", "Calibri", "Lucida Grande", "Liberation Sans", "Bitstream Vera Sans", "Verdana" ]
     },
 
     "bold" :
     {
-      size : 11,
-      family : [ "Verdana", "Helvetica", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ],
+      size : 12,
+      family : [ "Verdana", "Helvetica", "Lucida Grande", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ],
       bold : true
     },
 
     "large" :
     {
       size : 13,
-      family : [ "Verdana", "Helvetica", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ]
+      family : [ "Verdana", "Helvetica", "Lucida Grande", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ]
     },
 
     "bold-large" :
     {
       size : 13,
-      family : [ "Verdana", "Helvetica", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ],
+      family : [ "Verdana", "Helvetica", "Lucida Grande", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ],
       bold : true
     }
   }
