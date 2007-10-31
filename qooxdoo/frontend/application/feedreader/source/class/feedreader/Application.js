@@ -56,87 +56,7 @@ qx.Class.define("feedreader.Application",
   {
     this.base(arguments);
 
-    // this.fetchFeedDesc();
     this.setFeeds([]);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    _feedDesc : qx.lang.Object.select(qx.core.Client.getInstance().getRunsLocally() ? "local" : "remote",
-    {
-      "local" :
-      [
-        {
-          url  : "feedreader/feeds/qooxdoo-news.xml",
-          name : "qooxdoo Blog"
-        },
-        {
-          url  : "feedreader/feeds/qooxdoo-blog.xml",
-          name : "qooxdoo News"
-        },
-        {
-          url  : "feedreader/feeds/ajaxian.xml",
-          name : "Ajaxian"
-        }
-      ],
-
-      "remote" :
-      [
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
-          name : "qooxdoo Blog"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
-          name : "qooxdoo News"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
-          name : "Ajaxian"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
-          name : "Surfin' Safari"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://www.alistapart.com/rss.xml"),
-          name : "A List Apart"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://www.css3.info/feed/"),
-          name : "CSS3 Info"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://daringfireball.net/index.xml"),
-          name : "Daring Fireball"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://blogs.msdn.com/ie/Rss.aspx"),
-          name : "IEBlog"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://blogs.msdn.com/jscript/rss.xml"),
-          name : "JScript Team Blog"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://developer.mozilla.org/devnews/index.php/feed/"),
-          name : "Mozilla Developer News"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://blog.whatwg.org/feed/"),
-          name : "The WHATWG Blog"
-        }
-      ]
-    })
   },
 
 
@@ -165,26 +85,48 @@ qx.Class.define("feedreader.Application",
 
   members :
   {
+    _feedDesc :
+    [
+      {
+        url  : "http://feeds.feedburner.com/qooxdoo/blog/content",
+        name : "qooxdoo Blog"
+      },
+      {
+        url  : "http://feeds.feedburner.com/qooxdoo/news/content",
+        name : "qooxdoo News"
+      },
+      {
+        url  : "http://feeds.feedburner.com/ajaxian",
+        name : "Ajaxian"
+      },
+      {
+        url  : "http://webkit.org/blog/?feed=rss2",
+        name : "Surfin' Safari"
+      },
+      {
+        url  : "http://daringfireball.net/index.xml",
+        name : "Daring Fireball"
+      },
+      {
+        url  : "http://blogs.msdn.com/jscript/rss.xml",
+        name : "JScript Team Blog"
+      },
+      {
+        url  : "http://developer.mozilla.org/devnews/index.php/feed/",
+        name : "Mozilla Developer News"
+      },
+      {
+        url  : "http://blog.whatwg.org/feed/",
+        name : "The WHATWG Blog"
+      }
+    ],
+
+
     /*
     ---------------------------------------------------------------------------
       METHODS
     ---------------------------------------------------------------------------
     */
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    close : function()
-    {
-      this.base(arguments);
-
-      // return "Do you really want to quit?";
-    },
-
 
     /**
      * TODOC
@@ -312,7 +254,7 @@ qx.Class.define("feedreader.Application",
         overflow : "auto"
       });
 
-      var feedDesc = feedreader.Application._feedDesc;
+      var feedDesc = this._feedDesc;
 
       for (var i=0; i<feedDesc.length; i++)
       {
@@ -419,7 +361,7 @@ qx.Class.define("feedreader.Application",
       mainSplitPane.addLeft(tree);
       mainSplitPane.addRight(contentSplitPane);
 
-      dockLayout.add(mainSplitPane);
+        dockLayout.add(mainSplitPane);
 
       dockLayout.addToDocument();
 
@@ -428,6 +370,13 @@ qx.Class.define("feedreader.Application",
 
       // load and display feed data
       this.setSelectedFeed(feedDesc[0].name);
+    },
+
+
+    _postload : function()
+    {
+      this.base(arguments);
+
       this.fetchFeeds();
     },
 
@@ -461,80 +410,41 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @return {void}
      */
-    fetchFeedDesc : function()
-    {
-      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
-      feedreader.Application._feedDesc = [];
-
-      req.addEventListener("completed", function(e)
-      {
-        var xml = e.getContent();
-        var eItems = xml.getElementsByTagName("outline");
-
-        for (var i=0; i<eItems.length; i++)
-        {
-          var eDesc = eItems[i];
-
-          feedreader.Application._feedDesc.push(
-          {
-            name : eDesc.getAttribute("title"),
-            url  : qx.io.Alias.getInstance().resolve("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
-          });
-        }
-      },
-      this);
-
-      req.setAsynchronous(false);
-      req.send();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     fetchFeeds : function()
     {
       qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(2);
-      var feedDesc = feedreader.Application._feedDesc;
+      var feedDesc = this._feedDesc;
       var that = this;
 
       var getCallback = function(feedName)
       {
         return function(e)
         {
-          that.debug("loading " + feedName + " complete!");
-          that.parseXmlFeed(feedName, e.getContent());
+          // that.debug("loading " + feedName + " complete!");
+          that.loadJsonFeed(feedName, e.getContent());
         };
       };
 
       for (var i=0; i<feedDesc.length; i++)
       {
-        var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve(feedDesc[i].url), "GET", qx.util.Mime.XML);
+        var feedUrl = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(feedDesc[i].url);
+        var req = new qx.io.remote.Request(feedUrl, "GET", qx.util.Mime.TEXT);
+        req.setCrossDomain(true);
+        req.setTimeout(30000);
         req.addEventListener("completed", getCallback(feedDesc[i].name));
         req.send();
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param feedName {var} TODOC
-     * @param xml {var} TODOC
-     * @return {void}
-     */
-    parseXmlFeed : function(feedName, xml)
+    loadJsonFeed : function(feedName, json)
     {
       var items = [];
 
-      if (xml.documentElement.tagName == "rss") {
-        items = this.parseRSSFeed(xml);
-      } else if (xml.documentElement.tagName == "feed") {
-        items = this.parseAtomFeed(xml);
+      if (json.channel) {
+        items = this.normalizeRssFeed(json);
+      } else if (json.entry) {
+        items = this.normalizeAtomFeed(json);
       }
 
       this.getFeeds()[feedName] =
@@ -549,66 +459,45 @@ qx.Class.define("feedreader.Application",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param xml {var} TODOC
-     * @return {var} TODOC
-     */
-    parseAtomFeed : function(xml)
+    normalizeRssFeed : function(json)
     {
-      var eItems = xml.getElementsByTagName("entry");
-      var empty = xml.createElement("empty");
       var items = [];
 
-      for (var i=0; i<eItems.length; i++)
+      for (var i=0, a=json.channel.item, l=a.length; i<l; i++)
       {
-        var eItem = eItems[i];
-        var item = {};
-        item.title = qx.dom.Element.getTextContent(eItem.getElementsByTagName("title")[0]);
+        var entry = a[i];
 
-        if (eItem.getElementsByTagName("author").length > 0) {
-          item.author = qx.dom.Element.getTextContent(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
-        } else {
-          item.author = "";
-        }
-
-        item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("created")[0] || eItem.getElementsByTagName("published")[0] || eItem.getElementsByTagName("updated")[0] || empty);
-        item.content = qx.dom.Element.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
-        item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
-        item.id = i;
-        items.push(item);
+        items.push(
+        {
+          title : entry.title,
+          author : "",
+          date : entry.pubDate,
+          content : entry.description,
+          link : entry.link,
+          id : i
+        });
       }
 
       return items;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param xml {var} TODOC
-     * @return {var} TODOC
-     */
-    parseRSSFeed : function(xml)
+    normalizeAtomFeed : function(json)
     {
-      var eItems = xml.getElementsByTagName("item");
-      var empty = xml.createElement("empty");
       var items = [];
 
-      for (var i=0; i<eItems.length; i++)
+      for (var i=0, a=json.entry, l=a.length; i<l; i++)
       {
-        var eItem = eItems[i];
-        var item = {};
-        item.title = qx.dom.Element.getTextContent(eItem.getElementsByTagName("title")[0]);
-        item.author = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
-        item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
-        item.content = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
-        item.link = qx.dom.Element.getTextContent(eItem.getElementsByTagName("link")[0]);
-        item.id = i;
-        items.push(item);
+        var entry = a[i];
+
+        items.push(
+        {
+          title : entry.title,
+          author : entry.author.name,
+          date : entry.published || entry.created,
+          content : entry.content,
+          link : entry.href,
+          id : i
+        });
       }
 
       return items;
