@@ -412,7 +412,7 @@ qx.Class.define("feedreader.Application",
      */
     fetchFeeds : function()
     {
-      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(2);
+      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
       var feedDesc = this._feedDesc;
       var that = this;
 
