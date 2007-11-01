@@ -24,6 +24,13 @@ qx.Class.define("feedreader.FeedParser",
 
   statics :
   {
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param json {var} TODOC
+     * @return {var} TODOC
+     */
     parseFeed : function(json)
     {
       var items = [];
@@ -38,6 +45,13 @@ qx.Class.define("feedreader.FeedParser",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param json {var} TODOC
+     * @return {var} TODOC
+     */
     normalizeRssFeed : function(json)
     {
       var items = [];
@@ -48,18 +62,26 @@ qx.Class.define("feedreader.FeedParser",
 
         items.push(
         {
-          title : entry.title,
-          author : "",
-          date : entry.pubDate,
+          title   : entry.title,
+          author  : "",
+          date    : entry.pubDate,
           content : entry.description,
-          link : entry.link,
-          id : i
+          link    : entry.link,
+          id      : i
         });
       }
 
       return items;
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param json {var} TODOC
+     * @return {var} TODOC
+     */
     normalizeAtomFeed : function(json)
     {
       var items = [];
@@ -70,12 +92,12 @@ qx.Class.define("feedreader.FeedParser",
 
         items.push(
         {
-          title : entry.title,
-          author : entry.author.name,
-          date : entry.published || entry.created,
+          title   : entry.title,
+          author  : entry.author.name,
+          date    : entry.published || entry.created,
           content : entry.content,
-          link : entry.href,
-          id : i
+          link    : entry.href,
+          id      : i
         });
       }
 

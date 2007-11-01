@@ -36,6 +36,13 @@ qx.Class.define("feedreader.ArticleView",
     qx.ui.basic.Terminator.call(this);
 
     this.setHtmlProperty("className", "blogEntry");
+
+    this.set(
+    {
+      height : "100%",
+      width  : "100%",
+      border : "line-top"
+    });
   },
 
 
@@ -51,7 +58,7 @@ qx.Class.define("feedreader.ArticleView",
   {
     article :
     {
-      apply : "_applyArticle",
+      apply    : "_applyArticle",
       nullable : true
     }
   },
@@ -90,7 +97,7 @@ qx.Class.define("feedreader.ArticleView",
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _applyElementData : function()
     {
