@@ -105,7 +105,7 @@ qx.Class.define("feedreader.Application",
      * all library files are loaded and ready
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -134,7 +134,7 @@ qx.Class.define("feedreader.Application",
      * It is always a good idea to load data in the next step because the GUI feels better then (Outlook effect).
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _postload : function()
     {
@@ -152,13 +152,13 @@ qx.Class.define("feedreader.Application",
       FEED MANAGMENT
     ---------------------------------------------------------------------------
     */
-    
+
     getFeedDataByUrl : function(url)
     {
       var db = this._feeds;
       return db[url] || null;
     },
-    
+
     getFeedDataByTitle : function(title)
     {
       var db = this._feeds;
@@ -182,7 +182,7 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @param title {var} TODOC
      * @param url {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addFeed : function(title, url)
     {
@@ -201,7 +201,7 @@ qx.Class.define("feedreader.Application",
         loader : qx.lang.Function.bind(this._loadJsonFeed, this, url),
         added  : new Date
       };
-      
+
       this._tree.refreshView(url);
     },
 
@@ -211,7 +211,7 @@ qx.Class.define("feedreader.Application",
      *
      * @type member
      * @param url {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFeed : function(url)
     {
@@ -222,7 +222,7 @@ qx.Class.define("feedreader.Application",
       {
         delete db[url];
         this._tree.refreshView(url);
-        
+
         return;
       }
 
@@ -242,7 +242,7 @@ qx.Class.define("feedreader.Application",
      * Creates the core layout
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createLayout : function()
     {
@@ -287,7 +287,7 @@ qx.Class.define("feedreader.Application",
      * Syncs CSS theme to selected meta theme
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyCssTheme : function() {
       document.body.className = qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext ? "Ext" : "Classic";
@@ -298,7 +298,7 @@ qx.Class.define("feedreader.Application",
      * Opens the preferences window
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _showPreferences : function()
     {
@@ -315,7 +315,7 @@ qx.Class.define("feedreader.Application",
      *
      * @type member
      * @param entry {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _displayFeed : function(entry)
     {
@@ -333,22 +333,22 @@ qx.Class.define("feedreader.Application",
         this._table.setFocusedCell(0, selection, true);
       }
     },
-    
+
     _applySelected : function(value, old)
     {
-      if (old) 
+      if (old)
       {
         // Store old selection
         old.selection = this._table.getSelectionModel().getAnchorSelectionIndex();
       }
-      
-      if (value) 
+
+      if (value)
       {
         // Update model with new data
         this._tableModel.setDataAsMapArray(value.items);
-        
+
         // If a selection was stored, recover it
-        if (value.selection != null) 
+        if (value.selection != null)
         {
           this._table.getSelectionModel().setSelectionInterval(value.selection, value.selection);
           delete value.selection;
@@ -373,7 +373,7 @@ qx.Class.define("feedreader.Application",
      * Load feed data from remote servers
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _fetchData : function()
     {
@@ -414,7 +414,7 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @param url {String} The URL which was loaded
      * @param json {String} JSON data string
-     * @return {void} 
+     * @return {void}
      */
     _loadJsonFeed : function(url, json)
     {
@@ -440,8 +440,8 @@ qx.Class.define("feedreader.Application",
   *****************************************************************************
   */
 
-  settings : { 
-    "feedreader.resourceUri" : "./resource" 
+  settings : {
+    "feedreader.resourceUri" : "./resource"
   },
 
 

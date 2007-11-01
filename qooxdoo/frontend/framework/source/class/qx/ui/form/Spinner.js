@@ -45,15 +45,15 @@
  * A brief, but non-trivial example:
  *
  * <pre>
- * var s = new qx.ui.form.Spinner;                                           
- * s.set({                                                                   
- *   max: 3000,                                                               
- *   min: -3000                                                              
- * });                                                                        
- * var nf = new qx.util.format.NumberFormat();                                
- * nf.setMaximumFractionDigits(2);                                            
- * s.setNumberFormat(nf);                                                    
- * s.getManager().setPrecision(2);                                           
+ * var s = new qx.ui.form.Spinner;
+ * s.set({
+ *   max: 3000,
+ *   min: -3000
+ * });
+ * var nf = new qx.util.format.NumberFormat();
+ * nf.setMaximumFractionDigits(2);
+ * s.setNumberFormat(nf);
+ * s.getManager().setPrecision(2);
  * </pre>
  *
  * A spinner instance without any further properties specified in the
@@ -495,7 +495,7 @@ qx.Class.define("qx.ui.form.Spinner",
             break;
 
           default:
-            if ((vIdentifier >= "0" && vIdentifier <= "9") || 
+            if ((vIdentifier >= "0" && vIdentifier <= "9") ||
                 (vIdentifier == '-')) {
               return;
             }
@@ -738,7 +738,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _onchange : function(e)
     {
       var vValue = this.getManager().getValue();
-      if (this._numberFormat) {  
+      if (this._numberFormat) {
         this._textfield.setValue(this._numberFormat.format(vValue));
       } else {
         this._textfield.setValue(String(vValue));
@@ -811,7 +811,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     getValue : function()
     {
-      // make sure the manager is uptodate with what is on screen  
+      // make sure the manager is uptodate with what is on screen
       this._checkValue(true);
       return this.getManager().getValue();
     },
@@ -968,12 +968,12 @@ qx.Class.define("qx.ui.form.Spinner",
         var str_val = el.value;
 
         // prepare for parsing. We don't use numberFormat itself to parse the
-        // string, as we want to be a little more liberal at this point since 
+        // string, as we want to be a little more liberal at this point since
         // we might be currently editing the string. For example, we accept
         // things like "4000."
         var parsable_str;
 
-        if (this._numberFormat) 
+        if (this._numberFormat)
         {
           var groupSepEsc =
     qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._numberFormat._locale) + "");
@@ -982,7 +982,7 @@ qx.Class.define("qx.ui.form.Spinner",
           parsable_str = str_val.replace(new RegExp(decimalSepEsc), ".");
           parsable_str = parsable_str.replace(new RegExp(groupSepEsc, "g"), "");
         }
-        else 
+        else
         {
           parsable_str = str_val;
         }
@@ -996,7 +996,7 @@ qx.Class.define("qx.ui.form.Spinner",
         // NaN means we had a parse error, but we'll be more picky than
         // parseFloat (refuse stuff like 5.55-12.5 which parseFloat
         // parses as 5.55). We also refuse values outside the range.
-        if (isNaN(val) || (limitedVal != val) || (val != parsable_str)) 
+        if (isNaN(val) || (limitedVal != val) || (val != parsable_str))
         {
           if (acceptEdit) {
             this._textfield.setValue(this._last_value);

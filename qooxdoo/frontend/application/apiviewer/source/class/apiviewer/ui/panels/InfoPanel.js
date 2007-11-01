@@ -65,7 +65,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
     /** whether the info panel is open */
     isOpen :
-    { 
+    {
       check : "Boolean",
       init : true
     },

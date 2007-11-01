@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("feedreader.Header",
+qx.Class.define("feedreader.view.Header",
 {
   extend : qx.ui.embed.HtmlEmbed,
 

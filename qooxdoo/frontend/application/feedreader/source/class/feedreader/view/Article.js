@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("feedreader.ArticleView",
+qx.Class.define("feedreader.view.Article",
 {
   extend : qx.ui.basic.Terminator,
 
@@ -97,7 +97,7 @@ qx.Class.define("feedreader.ArticleView",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyElementData : function()
     {

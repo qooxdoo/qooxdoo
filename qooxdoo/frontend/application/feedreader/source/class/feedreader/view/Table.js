@@ -18,10 +18,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("feedreader.Table",
+qx.Class.define("feedreader.view.Table",
 {
   extend : qx.ui.table.xxx,
-  
+
   construct : function()
   {
     // create table model
@@ -77,9 +77,9 @@ qx.Class.define("feedreader.Table",
         this.displayArticle(item);
       }
     },
-    this);    
-    
-    
-    
+    this);
+
+
+
   }
 });

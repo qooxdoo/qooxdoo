@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("feedreader.ToolBar",
+qx.Class.define("feedreader.view.ToolBar",
 {
   construct : function()
   {
@@ -94,11 +94,11 @@ qx.Class.define("feedreader.ToolBar",
     toolBar.add(about_btn);
   },
 
-  members : 
+  members :
   {
-    
-    
-    
-    
+
+
+
+
   }
 });

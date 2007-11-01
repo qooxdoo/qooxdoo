@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
     _handleSelectEvent : function(index, evt)
     {
       var selectionModel = this.getSelectionModel();
-      
+
       var leadIndex = selectionModel.getLeadSelectionIndex();
       var anchorIndex = selectionModel.getAnchorSelectionIndex();
 

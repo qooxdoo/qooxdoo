@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("feedreader.Tree",
+qx.Class.define("feedreader.view.Tree",
 {
   construct : function()
   {
