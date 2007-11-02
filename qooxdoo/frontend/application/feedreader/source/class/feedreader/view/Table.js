@@ -20,10 +20,12 @@
 
 qx.Class.define("feedreader.view.Table",
 {
-  extend : qx.ui.table.xxx,
+  extend : qx.ui.table.Table,
 
-  construct : function()
+  construct : function(controller)
   {
+    this._controller = controller;
+    
     // create table model
     this._tableModel = new qx.ui.table.model.Simple();
     this._tableModel.setColumnIds([ "title", "author", "date", "id" ]);
@@ -46,24 +48,24 @@ qx.Class.define("feedreader.view.Table",
       }
     };
 
-    var table = new qx.ui.table.Table(this._tableModel, custom);
-
-    table.set(
+    this.base(arguments, this._tableModel, custom);
+  
+    this.set(
     {
       height : "100%",
       width  : "100%",
       border : "line-bottom"
     });
 
-    table.setStatusBarVisible(false);
-    table.getDataRowRenderer().setHighlightFocusRow(false);
-    table.getPaneScroller(0).setShowCellFocusIndicator(false);
-    table.getTableColumnModel().setColumnWidth(0, 350);
-    table.getTableColumnModel().setColumnWidth(1, 200);
-    table.getTableColumnModel().setColumnWidth(2, 200);
-    table.getTableColumnModel().setColumnVisible(3, false);
+    this.setStatusBarVisible(false);
+    this.getDataRowRenderer().setHighlightFocusRow(false);
+    this.getPaneScroller(0).setShowCellFocusIndicator(false);
+    this.getTableColumnModel().setColumnWidth(0, 350);
+    this.getTableColumnModel().setColumnWidth(1, 200);
+    this.getTableColumnModel().setColumnWidth(2, 200);
+    this.getTableColumnModel().setColumnVisible(3, false);
 
-    table.getSelectionModel().addEventListener("changeSelection", function(e)
+    this.getSelectionModel().addEventListener("changeSelection", function(e)
     {
       var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
       var feedName = this.getSelectedFeed();
@@ -78,8 +80,5 @@ qx.Class.define("feedreader.view.Table",
       }
     },
     this);
-
-
-
   }
 });

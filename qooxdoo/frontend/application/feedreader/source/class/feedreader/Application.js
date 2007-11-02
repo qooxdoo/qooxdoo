@@ -152,6 +152,10 @@ qx.Class.define("feedreader.Application",
       FEED MANAGMENT
     ---------------------------------------------------------------------------
     */
+    
+    getFeeds : function() {
+      return this._feeds;
+    },
 
     getFeedDataByUrl : function(url)
     {
@@ -202,7 +206,9 @@ qx.Class.define("feedreader.Application",
         added  : new Date
       };
 
-      this._tree.refreshView(url);
+      if (this._tree) {
+        this._tree.refreshView(url);
+      }
     },
 
 
@@ -217,16 +223,24 @@ qx.Class.define("feedreader.Application",
     {
       var db = this._feeds;
 
-
       if (db[url])
       {
         delete db[url];
-        this._tree.refreshView(url);
+        
+        if (this._tree) {
+          this._tree.refreshView(url);
+        }
 
         return;
       }
 
       throw new Error("The feed could not be found!");
+    },
+    
+    selectFeed : function(url)
+    {
+      var value = this._db[url];
+      value ? this.setSelected(value) : this.resetSelected(); 
     },
 
 
@@ -252,11 +266,11 @@ qx.Class.define("feedreader.Application",
       dockLayout.addToDocument();
 
       // Create header
-      this.headerView = new feedreader.Header;
+      this.headerView = new feedreader.view.Header;
       dockLayout.addTop(this._headerView);
 
       // Create toolbar
-      this._toolBarView = new feedreader.ToolBar;
+      this._toolBarView = new feedreader.view.ToolBar(this);
       dockLayout.addTop(this._toolBarView);
 
       // Create horizontal split pane
@@ -264,7 +278,7 @@ qx.Class.define("feedreader.Application",
       dockLayout.add(horSplitPane);
 
       // Create tree view
-      this._treeView = new feedreader.Tree;
+      this._treeView = new feedreader.view.Tree(this);
       horSplitPane.addLeft(this._treeView);
 
       // Create vertical split pane
@@ -274,11 +288,11 @@ qx.Class.define("feedreader.Application",
       horSplitPane.addRight(vertSplitPane);
 
       // Create table view
-      this._tableView = new feedreader.Table;
+      this._tableView = new feedreader.view.Table;
       verticalSplitPane.addTop(this._tableView);
 
       // Create article view
-      this._articleView = new feedreader.ArticleView;
+      this._articleView = new feedreader.view.Article;
       verticalSplitPane.addBottom(this._articleView);
     },
 

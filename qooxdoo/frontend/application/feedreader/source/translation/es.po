@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-02 14:14+0100\n"
+"POT-Creation-Date: 2007-11-02 14:52+0100\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-Country: COLOMBIA\n"
 
 #: source/class/feedreader/PreferenceWindow.js:34
-#: source/class/feedreader/view/ToolBar.js:45
+#: source/class/feedreader/view/ToolBar.js:55
 msgid "Preferences"
 msgstr ""
 
@@ -35,77 +35,77 @@ msgstr ""
 msgid "read more ..."
 msgstr "leer más ..."
 
-#: source/class/feedreader/view/Table.js:33
+#: source/class/feedreader/view/Table.js:35
 msgid "Subject"
 msgstr "Asunto"
 
-#: source/class/feedreader/view/Table.js:34
+#: source/class/feedreader/view/Table.js:36
 msgid "Sender"
 msgstr "Remitente"
 
-#: source/class/feedreader/view/Table.js:35
+#: source/class/feedreader/view/Table.js:37
 msgid "Date"
 msgstr "Fecha"
 
-#: source/class/feedreader/view/Table.js:36
+#: source/class/feedreader/view/Table.js:38
 msgid "ID"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:35
+#: source/class/feedreader/view/ToolBar.js:40
 #, fuzzy
 msgid "Add feed"
 msgstr "Agregar feed"
 
-#: source/class/feedreader/view/ToolBar.js:36
+#: source/class/feedreader/view/ToolBar.js:43
 msgid "Remove feed"
 msgstr "Eliminar feed"
 
-#: source/class/feedreader/view/ToolBar.js:39
+#: source/class/feedreader/view/ToolBar.js:48
 msgid "Reload"
 msgstr "Actualizar"
 
-#: source/class/feedreader/view/ToolBar.js:41
+#: source/class/feedreader/view/ToolBar.js:50
 msgid "(%1) Reload the feeds."
 msgstr "(%1) Actualizar los feeds."
 
-#: source/class/feedreader/view/ToolBar.js:47
+#: source/class/feedreader/view/ToolBar.js:57
 msgid "Open preferences window."
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:55
-#: source/class/feedreader/view/ToolBar.js:57
+#: source/class/feedreader/view/ToolBar.js:65
+#: source/class/feedreader/view/ToolBar.js:67
 msgid "English"
 msgstr "Inglés"
 
-#: source/class/feedreader/view/ToolBar.js:56
+#: source/class/feedreader/view/ToolBar.js:66
 msgid "German"
 msgstr "Alemán"
 
-#: source/class/feedreader/view/ToolBar.js:58
+#: source/class/feedreader/view/ToolBar.js:68
 msgid "Turkish"
 msgstr "Turco"
 
-#: source/class/feedreader/view/ToolBar.js:59
+#: source/class/feedreader/view/ToolBar.js:69
 msgid "Italian"
 msgstr "Italiano"
 
-#: source/class/feedreader/view/ToolBar.js:60
+#: source/class/feedreader/view/ToolBar.js:70
 msgid "Spanish"
 msgstr "Español"
 
-#: source/class/feedreader/view/ToolBar.js:61
+#: source/class/feedreader/view/ToolBar.js:71
 msgid "Swedish"
 msgstr "Sueco"
 
-#: source/class/feedreader/view/ToolBar.js:62
+#: source/class/feedreader/view/ToolBar.js:72
 msgid "Russian"
 msgstr "Ruso"
 
-#: source/class/feedreader/view/ToolBar.js:91
+#: source/class/feedreader/view/ToolBar.js:101
 msgid "Help"
 msgstr "Ayuda"
 
-#: source/class/feedreader/view/Tree.js:26
+#: source/class/feedreader/view/Tree.js:27
 msgid "News feeds"
 msgstr "Feeds de noticias"
 

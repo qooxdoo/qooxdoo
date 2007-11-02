@@ -20,12 +20,15 @@
 
 qx.Class.define("feedreader.view.Tree",
 {
-  construct : function()
+  extend : qx.ui.tree.Tree,
+  
+  construct : function(controller)
   {
-    // add tree
-    var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
-
-    tree.set(
+    this.base(arguments, this.tr("News feeds"));
+    
+    this._controller = controller;
+    
+    this.set(
     {
       height   : "100%",
       width    : "100%",
@@ -33,24 +36,31 @@ qx.Class.define("feedreader.view.Tree",
       border   : "line-right",
       overflow : "auto"
     });
-
-    var feedDesc = this._feedDesc;
-
-    for (var i=0; i<feedDesc.length; i++)
-    {
-      var folder = new qx.ui.tree.TreeFolder(feedDesc[i].name);
-
-      tree.getManager().addEventListener("changeSelection", function(e)
-      {
-        if (e.getData()[0].getParentFolder()) {
-          this.displayFeed(e.getData()[0].getLabel());
-        }
-      },
-      this);
-
-      tree.add(folder);
-    }
+    
+    this.getManager().addEventListener("changeSelection", this._onChangeSelection, this);
+    this.refresh();
   },
 
-  members : {}
+  members : 
+  {
+    refresh : function()
+    {
+      var db = this._controller.getFeeds();
+      for (var url in db)
+      {
+        var folder = new qx.ui.tree.TreeFolder(db[url].title);
+        folder.setUserData("url", url);
+        this.add(folder);
+      }      
+    },
+    
+    _onChangeSelection : function(e)
+    {
+      var controller = this._controller;
+      var item = e.getData()[0];
+      var url = item.getUserData("url");
+      
+      controller.selectFeed(url);
+    }
+  }
 });

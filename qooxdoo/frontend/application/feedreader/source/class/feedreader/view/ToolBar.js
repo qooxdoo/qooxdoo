@@ -20,8 +20,12 @@
 
 qx.Class.define("feedreader.view.ToolBar",
 {
+  extend : qx.ui.toolbar.ToolBar,
+  
   construct : function()
   {
+    this.base(arguments);
+    
     // define commands
     var reload_cmd = new qx.client.Command("Control+R");
     reload_cmd.addEventListener("execute", this._fetchFeeds, this);
@@ -30,24 +34,30 @@ qx.Class.define("feedreader.view.ToolBar",
     about_cmd.addEventListener("execute", this._showAboutWindow, this);
 
     // create toolbar
-    var toolBar = new qx.ui.toolbar.ToolBar();
-    toolBar.setBorder("line-bottom");
-    toolBar.add(new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/16/actions/dialog-ok.png"));
-    toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/actions/dialog-cancel.png"));
-    toolBar.add(new qx.ui.toolbar.Separator());
+    this.setBorder("line-bottom");
+    
+    
+    var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/16/actions/dialog-ok.png");
+    this.add(addBtn);
+    
+    var removeBtn = new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/actions/dialog-cancel.png");
+    this.add(removeBtn);
+    
+    this.add(new qx.ui.toolbar.Separator());
 
     var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/actions/view-refresh.png");
     reload_btn.setCommand(reload_cmd);
     reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
-    toolBar.add(reload_btn);
-    toolBar.add(new qx.ui.toolbar.Separator());
+    this.add(reload_btn);
+    
+    this.add(new qx.ui.toolbar.Separator());
 
     var pref_btn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/16/apps/preferences.png");
     pref_btn.addEventListener("execute", this.showPreferences, this);
     pref_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
-    toolBar.add(pref_btn);
+    this.add(pref_btn);
 
-    toolBar.add(new qx.ui.basic.HorizontalSpacer());
+    this.add(new qx.ui.basic.HorizontalSpacer());
 
     // poulate languages menu and add it to the toolbar
     var locales =
@@ -86,12 +96,12 @@ qx.Class.define("feedreader.view.ToolBar",
     });
 
     lang_menu.addToDocument();
-    toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "feedreader/images/locale.png"));
+    this.add(new qx.ui.toolbar.MenuButton("", lang_menu, "feedreader/images/locale.png"));
 
     var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
     about_btn.setCommand(about_cmd);
     about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + about_cmd.toString() + ")"));
-    toolBar.add(about_btn);
+    this.add(about_btn);
   },
 
   members :
