@@ -251,6 +251,16 @@ qx.Class.define("feedreader.Application",
       GUI RELATED INTERNAL API
     ---------------------------------------------------------------------------
     */
+    
+    _registerCommands : function()
+    {
+      // define commands
+      this._reloadCmd = new qx.client.Command("Control+R");
+      this._reloadCmd.addEventListener("execute", this._fetchData, this);
+
+      this._aboutCmd = new qx.client.Command("F1");
+      this._aboutCmd.addEventListener("execute", this._showAboutWindow, this);
+    },
 
     /**
      * Creates the core layout
@@ -266,7 +276,7 @@ qx.Class.define("feedreader.Application",
       dockLayout.addToDocument();
 
       // Create header
-      this.headerView = new feedreader.view.Header;
+      this._headerView = new feedreader.view.Header;
       dockLayout.addTop(this._headerView);
 
       // Create toolbar
@@ -289,11 +299,11 @@ qx.Class.define("feedreader.Application",
 
       // Create table view
       this._tableView = new feedreader.view.Table;
-      verticalSplitPane.addTop(this._tableView);
+      vertSplitPane.addTop(this._tableView);
 
       // Create article view
       this._articleView = new feedreader.view.Article;
-      verticalSplitPane.addBottom(this._articleView);
+      vertSplitPane.addBottom(this._articleView);
     },
 
 

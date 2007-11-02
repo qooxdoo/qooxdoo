@@ -22,19 +22,14 @@ qx.Class.define("feedreader.view.ToolBar",
 {
   extend : qx.ui.toolbar.ToolBar,
   
-  construct : function()
+  construct : function(controller)
   {
     this.base(arguments);
     
-    // define commands
-    var reload_cmd = new qx.client.Command("Control+R");
-    reload_cmd.addEventListener("execute", this._fetchFeeds, this);
-
-    var about_cmd = new qx.client.Command("F1");
-    about_cmd.addEventListener("execute", this._showAboutWindow, this);
-
-    // create toolbar
     this.setBorder("line-bottom");
+
+    this._controller = controller;
+    
     
     
     var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/16/actions/dialog-ok.png");
@@ -46,14 +41,14 @@ qx.Class.define("feedreader.view.ToolBar",
     this.add(new qx.ui.toolbar.Separator());
 
     var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/actions/view-refresh.png");
-    reload_btn.setCommand(reload_cmd);
-    reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
+    //reload_btn.setCommand(reload_cmd);
+    //reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
     this.add(reload_btn);
     
     this.add(new qx.ui.toolbar.Separator());
 
     var pref_btn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/16/apps/preferences.png");
-    pref_btn.addEventListener("execute", this.showPreferences, this);
+    //pref_btn.addEventListener("execute", this.showPreferences, this);
     pref_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
     this.add(pref_btn);
 
@@ -99,8 +94,8 @@ qx.Class.define("feedreader.view.ToolBar",
     this.add(new qx.ui.toolbar.MenuButton("", lang_menu, "feedreader/images/locale.png"));
 
     var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
-    about_btn.setCommand(about_cmd);
-    about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + about_cmd.toString() + ")"));
+    //about_btn.setCommand(about_cmd);
+    //about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + about_cmd.toString() + ")"));
     this.add(about_btn);
   },
 
