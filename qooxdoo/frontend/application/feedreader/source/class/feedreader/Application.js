@@ -239,7 +239,7 @@ qx.Class.define("feedreader.Application",
     
     selectFeed : function(url)
     {
-      var value = this._db[url];
+      var value = this._feeds[url];
       value ? this.setSelected(value) : this.resetSelected(); 
     },
 
@@ -369,7 +369,7 @@ qx.Class.define("feedreader.Application",
       if (value)
       {
         // Update model with new data
-        this._tableModel.setDataAsMapArray(value.items);
+        this._table.getTableModel().setDataAsMapArray(value.items);
 
         // If a selection was stored, recover it
         if (value.selection != null)
@@ -381,7 +381,7 @@ qx.Class.define("feedreader.Application",
       else
       {
         // Clean up model
-        this._tableModel.setDataAsMapArray([]);
+        this._table.getTableModel().setDataAsMapArray([]);
       }
     },
 
