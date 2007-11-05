@@ -81,10 +81,16 @@ qx.Class.define("feedreader.view.Table",
 
       if (selectedEntry >= 0)
       {
-        var itemId = this.getTableModel().getRowData(selectedEntry)[2];
+        var itemData = this.getTableModel().getRowData(selectedEntry);
 
-        feed.selected = itemId;
-        this._controller.setSelectedArticle(feed.items[itemId]);
+        // If this is undefined, the data is not yet ready...
+        if (itemData)
+        {
+          var itemId = itemData[2];
+
+          feed.selected = itemId;
+          this._controller.setSelectedArticle(feed.items[itemId]);
+        }
       }
     }
   }
