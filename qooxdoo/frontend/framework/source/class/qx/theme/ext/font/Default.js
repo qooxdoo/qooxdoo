@@ -28,13 +28,13 @@ qx.Theme.define("qx.theme.ext.font.Default",
   {
     "default" :
     {
-      size : 12,
+      size : 11,
       family : [ "Verdana", "Helvetica", "Lucida Grande", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ]
     },
 
     "bold" :
     {
-      size : 12,
+      size : 11,
       family : [ "Verdana", "Helvetica", "Lucida Grande", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ],
       bold : true
     },
