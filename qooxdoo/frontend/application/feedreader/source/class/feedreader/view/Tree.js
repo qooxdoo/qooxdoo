@@ -43,9 +43,16 @@ qx.Class.define("feedreader.view.Tree",
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     refresh : function()
     {
       var db = this._controller.getFeeds();
+
       for (var url in db)
       {
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
@@ -54,6 +61,14 @@ qx.Class.define("feedreader.view.Tree",
       }
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
     _onChangeSelection : function(e)
     {
       var controller = this._controller;

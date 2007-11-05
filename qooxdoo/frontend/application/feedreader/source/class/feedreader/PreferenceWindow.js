@@ -52,7 +52,7 @@ qx.Class.define("feedreader.PreferenceWindow",
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _addContent : function()
     {

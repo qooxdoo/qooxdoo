@@ -26,14 +26,11 @@ qx.Class.define("feedreader.view.ToolBar",
   {
     this.base(arguments);
 
-
     // Apply style
     this.setBorder("line-bottom");
 
-
     // Link for controller
     this._controller = controller;
-
 
     // Define commands
     var reloadCmd = new qx.client.Command("Control+R");
@@ -50,7 +47,6 @@ qx.Class.define("feedreader.view.ToolBar",
 
     var removeFeedCmd = new qx.client.Command("Control+D");
     removeFeedCmd.addEventListener("execute", this._controller.showRemoveFeed, this._controller);
-
 
     // Add buttons
     var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/16/actions/dialog-ok.png");
@@ -76,8 +72,6 @@ qx.Class.define("feedreader.view.ToolBar",
     this.add(prefBtn);
 
     this.add(new qx.ui.basic.HorizontalSpacer());
-
-
 
     // Poulate languages menu and add it to the toolbar
     var locales =

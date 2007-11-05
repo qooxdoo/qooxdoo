@@ -29,6 +29,7 @@ qx.Class.define("feedreader.FeedParser",
     _atomDate1 : new qx.util.format.DateFormat("yyyy-MM-d'T'HH:mm:ss'Z'", "en_US"),
     _atomDate2 : new qx.util.format.DateFormat("yyyy-MM-d'T'HH:mm:ssZ", "en_US"),
 
+
     /**
      * TODOC
      *
@@ -74,7 +75,7 @@ qx.Class.define("feedreader.FeedParser",
         }
         catch(ex)
         {
-          try{
+          try {
             date = this._rssDate2.parse(date);
           } catch(ex1) {}
         }

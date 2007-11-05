@@ -57,9 +57,9 @@ qx.Class.define("feedreader.Application",
 
     selectedArticle :
     {
-      check : "Object",
+      check    : "Object",
       nullable : true,
-      apply : "_applySelectedArticle"
+      apply    : "_applySelectedArticle"
     }
   },
 
@@ -100,12 +100,12 @@ qx.Class.define("feedreader.Application",
       // Add some static feeds
       this.addFeed("qooxdoo Blog", "http://feeds.feedburner.com/qooxdoo/blog/content");
       this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
-      this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
       this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
       this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
       this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
       this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
       this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
+      this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
 
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
@@ -149,16 +149,38 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getFeeds : function() {
       return this._feeds;
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {var} TODOC
+     */
     getFeedDataByUrl : function(url)
     {
       var db = this._feeds;
       return db[url] || null;
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param title {var} TODOC
+     * @return {var | null} TODOC
+     */
     getFeedDataByTitle : function(title)
     {
       var db = this._feeds;
@@ -175,6 +197,7 @@ qx.Class.define("feedreader.Application",
 
       return null;
     },
+
 
     /**
      * Adds a new feed
@@ -214,6 +237,7 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @param url {var} TODOC
      * @return {void}
+     * @throws TODOC
      */
     removeFeed : function(url)
     {
@@ -233,6 +257,14 @@ qx.Class.define("feedreader.Application",
       throw new Error("The feed could not be found!");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {void}
+     */
     selectFeed : function(url)
     {
       var value = this._feeds[url];
@@ -320,19 +352,37 @@ qx.Class.define("feedreader.Application",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
     showAbout : function() {
       alert("qooxdoo based feed reader");
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
     showAddFeed : function() {
       alert("Missing implementation");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
     showRemoveFeed : function() {
       alert("Missing implementation");
     },
-
 
 
 
@@ -343,6 +393,14 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} TODOC
+     * @param old {var} TODOC
+     * @return {void}
+     */
     _applySelectedFeed : function(value, old)
     {
       if (old)
@@ -378,6 +436,15 @@ qx.Class.define("feedreader.Application",
       }
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} TODOC
+     * @param old {var} TODOC
+     * @return {void}
+     */
     _applySelectedArticle : function(value, old) {
       this._articleView.setArticle(value);
     },
@@ -391,9 +458,16 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
     reload : function() {
       this._fetchData();
     },
+
 
     /**
      * Load feed data from remote servers
@@ -477,9 +551,7 @@ qx.Class.define("feedreader.Application",
   *****************************************************************************
   */
 
-  settings : {
-    "feedreader.resourceUri" : "./resource"
-  },
+  settings : { "feedreader.resourceUri" : "./resource" },
 
 
 
@@ -490,7 +562,9 @@ qx.Class.define("feedreader.Application",
   *****************************************************************************
   */
 
-  destruct : function() {
-    // TODO
+  destruct : function()
+  {
+    this._disposeFields("_feeds");
+    this._disposeObjects("_toolbarView", "_headerView", "_tableView", "_articleView", "_treeView");
   }
 });

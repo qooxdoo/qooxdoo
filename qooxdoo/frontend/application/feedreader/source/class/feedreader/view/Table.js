@@ -27,18 +27,16 @@ qx.Class.define("feedreader.view.Table",
     // Establish controller link
     this._controller = controller;
 
-
     // Create table model
     this._tableModel = new qx.ui.table.model.Simple();
     this._tableModel.setColumnIds([ "title", "date", "id" ]);
 
     this._tableModel.setColumnNamesById(
     {
-      title  : this.tr("Subject"),
-      date   : this.tr("Date"),
-      id     : this.tr("ID")
+      title : this.tr("Subject"),
+      date  : this.tr("Date"),
+      id    : this.tr("ID")
     });
-
 
     // Customize the table column model. We want one that
     // automatically resizes columns.
@@ -49,14 +47,12 @@ qx.Class.define("feedreader.view.Table",
       }
     });
 
-
     // Basic setup
     this.setDimension("100%", "100%");
     this.setBorder("line-bottom");
     this.setStatusBarVisible(false);
     this.getDataRowRenderer().setHighlightFocusRow(false);
     this.getPaneScroller(0).setShowCellFocusIndicator(false);
-
 
     // Configure columns
     var columnModel = this.getTableColumnModel();
@@ -67,13 +63,19 @@ qx.Class.define("feedreader.view.Table",
 
     this.getTableColumnModel().setColumnVisible(2, false);
 
-
     // Add selection listener
     this.getSelectionModel().addEventListener("changeSelection", this._onChangeSelection, this);
   },
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
     _onChangeSelection : function(e)
     {
       var selectedEntry = this.getSelectionModel().getAnchorSelectionIndex();
