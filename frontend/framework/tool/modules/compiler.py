@@ -811,8 +811,8 @@ def compileNode(node,optns):
             # force double new lines
             if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
                 sep()
+                dec_indent()
 
-            dec_indent()
             line()
 
         write("case")
@@ -1363,7 +1363,8 @@ def compileNode(node,optns):
         if node.get("switchType") == "case":
             if pretty:
                 dec_indent()
-                dec_indent()
+                if not options.prettypAlignBlockWithCurlies:
+                    dec_indent()
                 line()
 
             write("}")
@@ -1514,8 +1515,8 @@ def compileNode(node,optns):
             write("{")
 
             if pretty:
-                inc_indent()
-                inc_indent()
+                if not options.prettypAlignBlockWithCurlies:
+                    inc_indent()
 
 
     #
