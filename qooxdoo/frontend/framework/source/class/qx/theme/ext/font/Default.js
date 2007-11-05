@@ -29,7 +29,7 @@ qx.Theme.define("qx.theme.ext.font.Default",
     "default" :
     {
       size : 12,
-      family : [ "Segoe UI", "Calibri", "Lucida Grande", "Liberation Sans", "Bitstream Vera Sans", "Verdana" ]
+      family : [ "Verdana", "Helvetica", "Lucida Grande", "Tahoma", "Bitstream Vera Sans", "Liberation Sans" ]
     },
 
     "bold" :
