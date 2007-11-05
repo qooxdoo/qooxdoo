@@ -248,16 +248,6 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
-    _registerCommands : function()
-    {
-      // define commands
-      this._reloadCmd = new qx.client.Command("Control+R");
-      this._reloadCmd.addEventListener("execute", this._fetchData, this);
-
-      this._aboutCmd = new qx.client.Command("F1");
-      this._aboutCmd.addEventListener("execute", this._showAboutWindow, this);
-    },
-
     /**
      * Creates the core layout
      *
@@ -320,13 +310,27 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @return {void}
      */
-    _showPreferences : function()
+    showPreferences : function()
     {
       if (!this._prefWindow) {
         this._prefWindow = new feedreader.PreferenceWindow;
       }
 
       this._prefWindow.open();
+    },
+
+
+    showAbout : function() {
+      alert("qooxdoo based feed reader");
+    },
+
+
+    showAddFeed : function() {
+      alert("Missing implementation");
+    },
+
+    showRemoveFeed : function() {
+      alert("Missing implementation");
     },
 
 
@@ -386,6 +390,10 @@ qx.Class.define("feedreader.Application",
       DATA RELATED INTERNAL API
     ---------------------------------------------------------------------------
     */
+
+    reload : function() {
+      this._fetchData();
+    },
 
     /**
      * Load feed data from remote servers
