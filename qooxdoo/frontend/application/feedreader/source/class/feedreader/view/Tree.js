@@ -21,13 +21,13 @@
 qx.Class.define("feedreader.view.Tree",
 {
   extend : qx.ui.tree.Tree,
-  
+
   construct : function(controller)
   {
     this.base(arguments, this.tr("News feeds"));
-    
+
     this._controller = controller;
-    
+
     this.set(
     {
       height   : "100%",
@@ -36,12 +36,12 @@ qx.Class.define("feedreader.view.Tree",
       border   : "line-right",
       overflow : "auto"
     });
-    
+
     this.getManager().addEventListener("changeSelection", this._onChangeSelection, this);
     this.refresh();
   },
 
-  members : 
+  members :
   {
     refresh : function()
     {
@@ -51,15 +51,15 @@ qx.Class.define("feedreader.view.Tree",
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
         folder.setUserData("url", url);
         this.add(folder);
-      }      
+      }
     },
-    
+
     _onChangeSelection : function(e)
     {
       var controller = this._controller;
       var item = e.getData()[0];
       var url = item.getUserData("url");
-      
+
       controller.selectFeed(url);
     }
   }
