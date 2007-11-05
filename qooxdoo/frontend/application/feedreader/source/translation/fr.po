@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-05 14:24+0100\n"
+"POT-Creation-Date: 2007-11-05 15:15+0100\n"
 "PO-Revision-Date: 2007-04-07 11:30+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: source/class/feedreader/PreferenceWindow.js:34
-#: source/class/feedreader/view/ToolBar.js:50
+#: source/class/feedreader/view/ToolBar.js:69
 msgid "Preferences"
 msgstr ""
 
@@ -37,64 +37,68 @@ msgstr ""
 msgid "read more ..."
 msgstr ""
 
-#: source/class/feedreader/view/Table.js:37
+#: source/class/feedreader/view/Table.js:36
 msgid "Subject"
 msgstr ""
 
-#: source/class/feedreader/view/Table.js:38
+#: source/class/feedreader/view/Table.js:37
 msgid "Date"
 msgstr ""
 
-#: source/class/feedreader/view/Table.js:39
+#: source/class/feedreader/view/Table.js:38
 msgid "ID"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:35
+#: source/class/feedreader/view/ToolBar.js:52
 msgid "Add feed"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:38
+#: source/class/feedreader/view/ToolBar.js:56
 msgid "Remove feed"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:43
+#: source/class/feedreader/view/ToolBar.js:62
 msgid "Reload"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:52
+#: source/class/feedreader/view/ToolBar.js:64
+msgid "(%1) Reload the feeds."
+msgstr ""
+
+#: source/class/feedreader/view/ToolBar.js:71
 msgid "Open preferences window."
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:60
-#: source/class/feedreader/view/ToolBar.js:62
+#: source/class/feedreader/view/ToolBar.js:79
+#: source/class/feedreader/view/ToolBar.js:81
 msgid "English"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:61
+#: source/class/feedreader/view/ToolBar.js:80
 msgid "German"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:63
+#: source/class/feedreader/view/ToolBar.js:82
 msgid "Turkish"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:64
+#: source/class/feedreader/view/ToolBar.js:83
 msgid "Italian"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:65
+#: source/class/feedreader/view/ToolBar.js:84
 msgid "Spanish"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:66
+#: source/class/feedreader/view/ToolBar.js:85
 msgid "Swedish"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:67
+#: source/class/feedreader/view/ToolBar.js:86
 msgid "Russian"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:96
+#: source/class/feedreader/view/ToolBar.js:115
 msgid "Help"
 msgstr ""
 

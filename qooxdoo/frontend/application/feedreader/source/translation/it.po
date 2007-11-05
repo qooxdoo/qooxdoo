@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-05 14:24+0100\n"
+"POT-Creation-Date: 2007-11-05 15:15+0100\n"
 "PO-Revision-Date: 2006-12-21 22:55+0100\n"
 "Last-Translator: Alessandro Sala <alessandro.sala@mclink.net>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 
 #: source/class/feedreader/PreferenceWindow.js:34
-#: source/class/feedreader/view/ToolBar.js:50
+#: source/class/feedreader/view/ToolBar.js:69
 msgid "Preferences"
 msgstr ""
 
@@ -35,65 +35,69 @@ msgstr ""
 msgid "read more ..."
 msgstr "continua..."
 
-#: source/class/feedreader/view/Table.js:37
+#: source/class/feedreader/view/Table.js:36
 msgid "Subject"
 msgstr "Oggetto"
 
-#: source/class/feedreader/view/Table.js:38
+#: source/class/feedreader/view/Table.js:37
 msgid "Date"
 msgstr "Data"
 
-#: source/class/feedreader/view/Table.js:39
+#: source/class/feedreader/view/Table.js:38
 msgid "ID"
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:35
+#: source/class/feedreader/view/ToolBar.js:52
 #, fuzzy
 msgid "Add feed"
 msgstr "Aggiungi un feed"
 
-#: source/class/feedreader/view/ToolBar.js:38
+#: source/class/feedreader/view/ToolBar.js:56
 msgid "Remove feed"
 msgstr "Rimuovi un feed"
 
-#: source/class/feedreader/view/ToolBar.js:43
+#: source/class/feedreader/view/ToolBar.js:62
 msgid "Reload"
 msgstr "Ricarica"
 
-#: source/class/feedreader/view/ToolBar.js:52
+#: source/class/feedreader/view/ToolBar.js:64
+msgid "(%1) Reload the feeds."
+msgstr "(%1) Ricarica i feed"
+
+#: source/class/feedreader/view/ToolBar.js:71
 msgid "Open preferences window."
 msgstr ""
 
-#: source/class/feedreader/view/ToolBar.js:60
-#: source/class/feedreader/view/ToolBar.js:62
+#: source/class/feedreader/view/ToolBar.js:79
+#: source/class/feedreader/view/ToolBar.js:81
 msgid "English"
 msgstr "Inglese"
 
-#: source/class/feedreader/view/ToolBar.js:61
+#: source/class/feedreader/view/ToolBar.js:80
 msgid "German"
 msgstr "Tedesco"
 
-#: source/class/feedreader/view/ToolBar.js:63
+#: source/class/feedreader/view/ToolBar.js:82
 msgid "Turkish"
 msgstr "Turco"
 
-#: source/class/feedreader/view/ToolBar.js:64
+#: source/class/feedreader/view/ToolBar.js:83
 msgid "Italian"
 msgstr "Italiano"
 
-#: source/class/feedreader/view/ToolBar.js:65
+#: source/class/feedreader/view/ToolBar.js:84
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: source/class/feedreader/view/ToolBar.js:66
+#: source/class/feedreader/view/ToolBar.js:85
 msgid "Swedish"
 msgstr "Svedese"
 
-#: source/class/feedreader/view/ToolBar.js:67
+#: source/class/feedreader/view/ToolBar.js:86
 msgid "Russian"
 msgstr "Russo"
 
-#: source/class/feedreader/view/ToolBar.js:96
+#: source/class/feedreader/view/ToolBar.js:115
 msgid "Help"
 msgstr "Aiuto"
 
@@ -109,6 +113,3 @@ msgstr "Feed di notizie"
 
 #~ msgid "qooxdoo feed reader."
 #~ msgstr "lettore di feed di qooxdoo"
-
-#~ msgid "(%1) Reload the feeds."
-#~ msgstr "(%1) Ricarica i feed"
