@@ -1,10 +1,10 @@
 # Spanish translation
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-02 15:03+0100\n"
+"POT-Creation-Date: 2007-11-05 14:24+0100\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -31,23 +31,19 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: source/class/feedreader/view/Article.js:148
+#: source/class/feedreader/view/Article.js:133
 msgid "read more ..."
 msgstr "leer más ..."
 
-#: source/class/feedreader/view/Table.js:35
+#: source/class/feedreader/view/Table.js:37
 msgid "Subject"
 msgstr "Asunto"
 
-#: source/class/feedreader/view/Table.js:36
-msgid "Sender"
-msgstr "Remitente"
-
-#: source/class/feedreader/view/Table.js:37
+#: source/class/feedreader/view/Table.js:38
 msgid "Date"
 msgstr "Fecha"
 
-#: source/class/feedreader/view/Table.js:38
+#: source/class/feedreader/view/Table.js:39
 msgid "ID"
 msgstr ""
 
@@ -104,6 +100,9 @@ msgstr "Ayuda"
 #: source/class/feedreader/view/Tree.js:27
 msgid "News feeds"
 msgstr "Feeds de noticias"
+
+#~ msgid "Author"
+#~ msgstr "Remitente"
 
 #~ msgid "(%1) Reload the feeds."
 #~ msgstr "(%1) Actualizar los feeds."

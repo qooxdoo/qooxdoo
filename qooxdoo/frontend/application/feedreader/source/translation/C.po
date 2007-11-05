@@ -1,10 +1,10 @@
 # Default translation
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-02 15:03+0100\n"
+"POT-Creation-Date: 2007-11-05 14:24+0100\n"
 "PO-Revision-Date: 2006-12-19 16:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -30,23 +30,19 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: source/class/feedreader/view/Article.js:148
+#: source/class/feedreader/view/Article.js:133
 msgid "read more ..."
 msgstr ""
 
-#: source/class/feedreader/view/Table.js:35
+#: source/class/feedreader/view/Table.js:37
 msgid "Subject"
 msgstr ""
 
-#: source/class/feedreader/view/Table.js:36
-msgid "Sender"
-msgstr ""
-
-#: source/class/feedreader/view/Table.js:37
+#: source/class/feedreader/view/Table.js:38
 msgid "Date"
 msgstr ""
 
-#: source/class/feedreader/view/Table.js:38
+#: source/class/feedreader/view/Table.js:39
 msgid "ID"
 msgstr ""
 

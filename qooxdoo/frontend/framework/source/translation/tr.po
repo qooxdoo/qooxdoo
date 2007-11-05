@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-21 15:42+0200\n"
+"POT-Creation-Date: 2007-10-10 17:21+0200\n"
 "PO-Revision-Date: 2006-12-18 21:14+0200\n"
 "Last-Translator: Fatih Tolga Ata <fatih@diyezon.com>\n"
 "Language-Team:  <fatih@tullab.com>\n"
@@ -290,22 +290,26 @@ msgstr "Sonraki yıl"
 msgid "Choose a date"
 msgstr "Bir tarih seç"
 
-#: class/qx/ui/form/ComboBoxEx.js:268
+#: class/qx/ui/form/ComboBoxEx.js:270
 msgid "Description"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:268
+#: class/qx/ui/form/ComboBoxEx.js:270
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1052
+#: class/qx/ui/form/ComboBoxEx.js:954
+msgid "Search"
+msgstr ""
+
+#: class/qx/ui/form/ComboBoxEx.js:1070
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1095
+#: class/qx/ui/form/ComboBoxEx.js:1113
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1139
+#: class/qx/ui/form/ComboBoxEx.js:1157
 msgid "Search items in list"
 msgstr ""
