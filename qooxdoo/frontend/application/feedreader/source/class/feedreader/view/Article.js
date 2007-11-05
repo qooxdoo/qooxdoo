@@ -36,13 +36,8 @@ qx.Class.define("feedreader.view.Article",
     qx.ui.basic.Terminator.call(this);
 
     this.setHtmlProperty("className", "blogEntry");
-
-    this.set(
-    {
-      height : "100%",
-      width  : "100%",
-      border : "line-top"
-    });
+    this.setDimension("100%", "100%");
+    this.setBorder("line-top");
   },
 
 
@@ -59,7 +54,8 @@ qx.Class.define("feedreader.view.Article",
     article :
     {
       apply    : "_applyArticle",
-      nullable : true
+      nullable : true,
+      check    : "Object"
     }
   },
 
@@ -85,30 +81,19 @@ qx.Class.define("feedreader.view.Article",
      */
     _applyArticle : function(propValue, propOldValue, propData)
     {
-      if (this._isCreated) {
-        this._applyElementData();
+      if (this._isCreated)
+      {
+        var element = this.getElement();
+        element.innerHTML = this.getHtml();
+
+        var links = element.getElementsByTagName("a");
+
+        for (var i=0; i<links.length; i++) {
+          links[i].target = "_blank";
+        }
       }
 
       return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _applyElementData : function()
-    {
-      var element = this.getElement();
-      element.innerHTML = this.getHtml();
-
-      var links = element.getElementsByTagName("a");
-
-      for (var i=0; i<links.length; i++) {
-        links[i].target = "_blank";
-      }
     },
 
 

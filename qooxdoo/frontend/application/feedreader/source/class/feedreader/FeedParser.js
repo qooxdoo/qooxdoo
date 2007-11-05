@@ -24,6 +24,11 @@ qx.Class.define("feedreader.FeedParser",
 
   statics :
   {
+    _rssDate1 : new qx.util.format.DateFormat("EEE, d MMM yyyy HH:mm:ss Z", "en_US"),
+    _rssDate2 : new qx.util.format.DateFormat("EEE, d MMM yyyy HH:mm:ss z", "en_US"),
+    _atomDate1 : new qx.util.format.DateFormat("yyyy-MM-d'T'HH:mm:ss'Z'", "en_US"),
+    _atomDate2 : new qx.util.format.DateFormat("yyyy-MM-d'T'HH:mm:ssZ", "en_US"),
+
     /**
      * TODOC
      *
@@ -35,10 +40,13 @@ qx.Class.define("feedreader.FeedParser",
     {
       var items = [];
 
-      if (json.channel) {
-        items = this.normalizeRssFeed(json);
-      } else if (json.entry) {
-        items = this.normalizeAtomFeed(json);
+      if (json)
+      {
+        if (json.channel) {
+          items = this.normalizeRssFeed(json);
+        } else if (json.entry) {
+          items = this.normalizeAtomFeed(json);
+        }
       }
 
       return items;
@@ -59,12 +67,30 @@ qx.Class.define("feedreader.FeedParser",
       for (var i=0, a=json.channel.item, l=a.length; i<l; i++)
       {
         var entry = a[i];
+        var date = entry.pubDate;
+
+        try {
+          date = this._rssDate1.parse(date);
+        }
+        catch(ex)
+        {
+          try{
+            date = this._rssDate2.parse(date);
+          } catch(ex1) {}
+        }
+
+        // Handle parse problems
+        if (!(date instanceof Date))
+        {
+          // console.debug("RSS Date Error: " + date);
+          date = null;
+        }
 
         items.push(
         {
           title   : entry.title,
           author  : "",
-          date    : entry.pubDate,
+          date    : date,
           content : entry.description,
           link    : entry.link,
           id      : i
@@ -89,12 +115,30 @@ qx.Class.define("feedreader.FeedParser",
       for (var i=0, a=json.entry, l=a.length; i<l; i++)
       {
         var entry = a[i];
+        var date = entry.published || entry.created;
+
+        try {
+          date = this._atomDate1.parse(date);
+        }
+        catch(ex)
+        {
+          try {
+            date = this._atomDate2.parse(date);
+          } catch(ex2) {}
+        }
+
+        // Handle parse problems
+        if (!(date instanceof Date))
+        {
+          // console.debug("ATOM Date Error: " + date);
+          date = null;
+        }
 
         items.push(
         {
           title   : entry.title,
           author  : entry.author.name,
-          date    : entry.published || entry.created,
+          date    : date,
           content : entry.content,
           link    : entry.href,
           id      : i

@@ -42,44 +42,24 @@ qx.Class.define("feedreader.Application",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // Initialize data field
-    this._feeds = {};
-
-    // Add some static feeds
-    this.addFeed("qooxdoo Blog", "http://feeds.feedburner.com/qooxdoo/blog/content");
-    this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
-    this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
-    this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
-    this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
-    this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
-    this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
-    this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
   properties :
   {
-    selected :
+    selectedFeed :
     {
       check    : "Object",
       nullable : true,
-      apply    : "_applySelected"
+      apply    : "_applySelectedFeed"
+    },
+
+    selectedArticle :
+    {
+      check : "Object",
+      nullable : true,
+      apply : "_applySelectedArticle"
     }
   },
 
@@ -110,6 +90,22 @@ qx.Class.define("feedreader.Application",
     main : function()
     {
       this.base(arguments);
+
+      // Initialize data field
+      this._feeds = {};
+
+      // Initialialize date format
+      this._dateFormat = new qx.util.format.DateFormat;
+
+      // Add some static feeds
+      this.addFeed("qooxdoo Blog", "http://feeds.feedburner.com/qooxdoo/blog/content");
+      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
+      this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
+      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
+      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
+      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
+      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
+      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
 
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
@@ -152,7 +148,7 @@ qx.Class.define("feedreader.Application",
       FEED MANAGMENT
     ---------------------------------------------------------------------------
     */
-    
+
     getFeeds : function() {
       return this._feeds;
     },
@@ -226,7 +222,7 @@ qx.Class.define("feedreader.Application",
       if (db[url])
       {
         delete db[url];
-        
+
         if (this._tree) {
           this._tree.refreshView(url);
         }
@@ -236,11 +232,11 @@ qx.Class.define("feedreader.Application",
 
       throw new Error("The feed could not be found!");
     },
-    
+
     selectFeed : function(url)
     {
       var value = this._feeds[url];
-      value ? this.setSelected(value) : this.resetSelected(); 
+      value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
     },
 
 
@@ -251,7 +247,7 @@ qx.Class.define("feedreader.Application",
       GUI RELATED INTERNAL API
     ---------------------------------------------------------------------------
     */
-    
+
     _registerCommands : function()
     {
       // define commands
@@ -298,7 +294,7 @@ qx.Class.define("feedreader.Application",
       horSplitPane.addRight(vertSplitPane);
 
       // Create table view
-      this._tableView = new feedreader.view.Table;
+      this._tableView = new feedreader.view.Table(this);
       vertSplitPane.addTop(this._tableView);
 
       // Create article view
@@ -334,56 +330,54 @@ qx.Class.define("feedreader.Application",
     },
 
 
-    /**
-     * This is the subroutine which is used to actually display a given feed
-     *
-     * @type member
-     * @param entry {Object} TODOC
-     * @return {void}
-     */
-    _displayFeed : function(entry)
-    {
-      if (this.getSelectedFeed() != feedName) {
-        this.getFeeds()[this.getSelectedFeed()].selected = this._table.getSelectionModel().getAnchorSelectionIndex();
-      }
 
-      if (this.getFeeds()[feedName])
-      {
-        var items = this.getFeeds()[feedName].items;
-        var selection = this.getFeeds()[feedName].selected;
 
-        this._tableModel.setDataAsMapArray(items);
-        this._table.getSelectionModel().setSelectionInterval(selection, selection);
-        this._table.setFocusedCell(0, selection, true);
-      }
-    },
 
-    _applySelected : function(value, old)
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    _applySelectedFeed : function(value, old)
     {
       if (old)
       {
         // Store old selection
-        old.selection = this._table.getSelectionModel().getAnchorSelectionIndex();
+        old.selection = this._tableView.getSelectionModel().getAnchorSelectionIndex();
       }
 
       if (value)
       {
         // Update model with new data
-        this._table.getTableModel().setDataAsMapArray(value.items);
+        this._tableView.getTableModel().setDataAsMapArray(value.items);
 
-        // If a selection was stored, recover it
         if (value.selection != null)
         {
-          this._table.getSelectionModel().setSelectionInterval(value.selection, value.selection);
+          // If a selection was stored, recover it
+          this._tableView.getSelectionModel().setSelectionInterval(value.selection, value.selection);
           delete value.selection;
+        }
+        else
+        {
+          // Initially select first article
+          this._tableView.getSelectionModel().setSelectionInterval(0, 0);
         }
       }
       else
       {
         // Clean up model
-        this._table.getTableModel().setDataAsMapArray([]);
+        this._tableView.getTableModel().setDataAsMapArray([]);
+
+        // Clean up article
+        this._articleView.resetArticle();
       }
     },
+
+    _applySelectedArticle : function(value, old) {
+      this._articleView.setArticle(value);
+    },
+
 
 
 
@@ -410,7 +404,7 @@ qx.Class.define("feedreader.Application",
 
         // Redirect request through proxy (required for cross-domain loading)
         // The proxy also translates the data from XML to JSON
-        proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(entry.url);
+        proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(url);
 
         // Create request object
         req = new qx.io.remote.Request(proxy, "GET", qx.util.Mime.TEXT);
@@ -437,20 +431,31 @@ qx.Class.define("feedreader.Application",
      *
      * @type member
      * @param url {String} The URL which was loaded
-     * @param json {String} JSON data string
+     * @param response {qx.io.remote.Response} Response object
      * @return {void}
      */
-    _loadJsonFeed : function(url, json)
+    _loadJsonFeed : function(url, response)
     {
       // Link to feed entry
       var feed = this._feeds[url];
 
+      // Read content
+      var json = response.getContent();
+
       // Normalize json feed data to item list
-      feed.items = feedreader.FeedParser.parseFeed(json);
+      var items = feedreader.FeedParser.parseFeed(json);
+
+      // Post processing items
+      for (var i=0, l=items.length; i<l; i++) {
+        items[i].date = this._dateFormat.format(items[i].date);
+      }
+
+      // Store items
+      feed.items = items;
 
       // Update display
-      if (this.getSelected() == feed) {
-        this._applySelected(feed);
+      if (this.getSelectedFeed() == feed) {
+        this._applySelectedFeed(feed);
       }
     }
   },

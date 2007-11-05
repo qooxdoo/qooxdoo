@@ -24,61 +24,68 @@ qx.Class.define("feedreader.view.Table",
 
   construct : function(controller)
   {
+    // Establish controller link
     this._controller = controller;
-    
-    // create table model
+
+
+    // Create table model
     this._tableModel = new qx.ui.table.model.Simple();
-    this._tableModel.setColumnIds([ "title", "author", "date", "id" ]);
+    this._tableModel.setColumnIds([ "title", "date", "id" ]);
 
     this._tableModel.setColumnNamesById(
     {
       title  : this.tr("Subject"),
-      author : this.tr("Sender"),
       date   : this.tr("Date"),
       id     : this.tr("ID")
     });
 
-    // add table
-    // Customize the table column model.  We want one that automatically
-    // resizes columns.
-    var custom =
+
+    // Customize the table column model. We want one that
+    // automatically resizes columns.
+    this.base(arguments, this._tableModel,
     {
       tableColumnModel : function(obj) {
         return new qx.ui.table.columnmodel.Resize(obj);
       }
-    };
-
-    this.base(arguments, this._tableModel, custom);
-  
-    this.set(
-    {
-      height : "100%",
-      width  : "100%",
-      border : "line-bottom"
     });
 
+
+    // Basic setup
+    this.setDimension("100%", "100%");
+    this.setBorder("line-bottom");
     this.setStatusBarVisible(false);
     this.getDataRowRenderer().setHighlightFocusRow(false);
     this.getPaneScroller(0).setShowCellFocusIndicator(false);
-    this.getTableColumnModel().setColumnWidth(0, 350);
-    this.getTableColumnModel().setColumnWidth(1, 200);
-    this.getTableColumnModel().setColumnWidth(2, 200);
-    this.getTableColumnModel().setColumnVisible(3, false);
 
-    this.getSelectionModel().addEventListener("changeSelection", function(e)
+
+    // Configure columns
+    var columnModel = this.getTableColumnModel();
+    var resizeBehavior = columnModel.getBehavior();
+
+    resizeBehavior.setWidth(0, "3*");
+    resizeBehavior.setWidth(1, "1*");
+
+    this.getTableColumnModel().setColumnVisible(2, false);
+
+
+    // Add selection listener
+    this.getSelectionModel().addEventListener("changeSelection", this._onChangeSelection, this);
+  },
+
+  members :
+  {
+    _onChangeSelection : function(e)
     {
-      var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
-      var feedName = this.getSelectedFeed();
+      var selectedEntry = this.getSelectionModel().getAnchorSelectionIndex();
+      var feed = this._controller.getSelectedFeed();
 
       if (selectedEntry >= 0)
       {
-        var feeds = this.getFeeds();
-        var itemId = this._tableModel.getRowData(selectedEntry)[3];
-        feeds[feedName].selected = itemId;
-        var item = feeds[feedName].items[itemId];
-        this.displayArticle(item);
+        var itemId = this.getTableModel().getRowData(selectedEntry)[2];
+
+        feed.selected = itemId;
+        this._controller.setSelectedArticle(feed.items[itemId]);
       }
-    },
-    this);
+    }
   }
 });
