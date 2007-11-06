@@ -512,8 +512,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     __saveSelectionBeforeRemove : function()
     {
       var tree = this.getTree();
-      this.__oldSelection = tree.getSelectedElement();
-      tree.setSelectedElement(tree);
+      if (tree)
+      {
+        this.__oldSelection = tree.getSelectedElement();
+        tree.setSelectedElement(tree);
+      }
     },
 
 
@@ -524,10 +527,13 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     __restoreSelectionAfterRemove : function()
     {
       var tree = this.getTree();
-      if (!this.__oldSelection || !this.__oldSelection.getTree()) {
-        tree.setSelectedElement(tree);
-      } else {
-        tree.setSelectedElement(this.__oldSelection);
+      if (tree)
+      {
+        if (!this.__oldSelection || !this.__oldSelection.getTree()) {
+          tree.setSelectedElement(tree);
+        } else {
+          tree.setSelectedElement(this.__oldSelection);
+        }
       }
     },
 
