@@ -332,6 +332,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
         this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
+        this.setAppearance("widget");
 
         // Move the row fields into the horizontal layout
         for (var i=0; i<this._treeRowStructureFields.length; i++) {
@@ -526,8 +527,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     __saveSelectionBeforeRemove : function()
     {
       var tree = this.getTree();
-      this.__oldSelection = tree.getSelectedElement();
-      tree.setSelectedElement(tree);
+      if (tree)
+      {
+        this.__oldSelection = tree.getSelectedElement();
+        tree.setSelectedElement(tree);
+      }
     },
 
 
@@ -538,10 +542,13 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     __restoreSelectionAfterRemove : function()
     {
       var tree = this.getTree();
-      if (!this.__oldSelection || !this.__oldSelection.getTree()) {
-        tree.setSelectedElement(tree);
-      } else {
-        tree.setSelectedElement(this.__oldSelection);
+      if (tree)
+      {
+        if (!this.__oldSelection || !this.__oldSelection.getTree()) {
+          tree.setSelectedElement(tree);
+        } else {
+          tree.setSelectedElement(this.__oldSelection);
+        }
       }
     },
 
