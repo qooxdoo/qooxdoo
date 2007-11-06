@@ -351,10 +351,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
     getParentFolder : function()
     {
-      try {
+      if (
+        this.getParent() &&
+        typeof(this.getParent().getParent) == "function"
+      ) {
         return this.getParent().getParent();
-      } catch(ex) {}
-
+      }
       return null;
     },
 
