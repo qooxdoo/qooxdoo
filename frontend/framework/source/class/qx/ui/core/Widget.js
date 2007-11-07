@@ -2617,7 +2617,16 @@ qx.Class.define("qx.ui.core.Widget",
             this._beforeRemoveDom();
 
             // DOM action
-            vParent._getTargetNode().removeChild(this.getElement());
+            var parentNode = this.getElement().parentNode;
+            if (parentNode)
+            {
+              parentNode.removeChild(this.getElement())
+
+              // DOM element check
+              if (parentNode && parentNode !== vParent._getTargetNode()) {
+                this.warn("Unexpected parent node: " + parentNode);
+              }
+            }
 
             // After Remove DOM Event
             this._afterRemoveDom();
