@@ -296,6 +296,30 @@ qx.Class.define("qx.lang.Array",
      */
     contains : function(arr, obj) {
       return arr.indexOf(obj) != -1;
+    },
+
+
+    /**
+     * Check whether the two array have the same content. Checks only the
+     * equality of the arrays' content.
+     *
+     * @param array1 {Array} first array
+     * @param array2 {Array} second array
+     * @return {Boolean} Whether the two arrays are equal
+     */
+    equals : function(array1, array2)
+    {
+      if (array1.length !== array2.length) {
+        return false;
+      }
+      for (var i=0, l=array1.length; i<l; i++)
+      {
+        if (array1[i] !== array2[i]) {
+          return false;
+        }
+      }
+      return true;
     }
+
   }
 });
