@@ -4,13 +4,13 @@ class PartUtil:
         self._console = console
         self._deputil = deputil
         self._treeutil = treeutil
-        
+
 
     def getPackages(self, partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency):
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
-        
+
         partDeps = {}
         length = len(partClasses.keys())
         for pos, partId in enumerate(partClasses.keys()):
@@ -37,7 +37,7 @@ class PartUtil:
             self._console.debug("Part #%s needs %s classes" % (partId, len(localDeps)))
 
             partDeps[partId] = localDeps
-        
+
         self._console.outdent()
 
 
@@ -111,7 +111,7 @@ class PartUtil:
             self._console.debug("")
             self._console.info("Collapsing packages...")
             self._console.indent()
-            
+
             collapsePos = 0
             for partId in collapseParts:
                 self._console.debug("Package %s(%s)..." % (partId, collapsePos))
@@ -121,12 +121,12 @@ class PartUtil:
                 for packageId in partPackages[partId][collapsePos+1:]:
                     self._console.debug("Merge #%s into #%s" % (packageId, collapsePackage))
                     self._mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
-            
+
                 self._console.outdent()
                 collapsePos += 1
 
             self._console.outdent()
-        
+
             # User feedback
             self._printPartStats(packageClasses, partPackages)
 
@@ -183,6 +183,7 @@ class PartUtil:
 
 
         # Return
+        self._console.debug("")
         sortedPackageIds = self._sortPackageIdsByPriority(self._dictToHumanSortedList(packageClasses), packageBitCounts)
         return sortedPackageIds, packageClasses, partPackages
 
