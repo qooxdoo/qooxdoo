@@ -112,7 +112,7 @@ def main():
     parser.add_option("-j", "--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
-    parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default="", type="string", help="Log file")    
+    parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default="", type="string", help="Log file")
 
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
@@ -127,14 +127,14 @@ def main():
 
 def process(options):
     global console
-    
+
     if options.verbose:
         console = logsupport.Log(logfile=options.logfile, level=10)
     elif options.quiet:
         console = logsupport.Log(logfile=options.logfile, level=30)
     else:
         console = logsupport.Log(logfile=options.logfile, level=20)
-        
+
     console.head("Initialization", True)
     console.info("Processing...")
     console.indent()
@@ -147,16 +147,16 @@ def process(options):
 
     for job in options.jobs:
         execute(job, config[job])
-        
+
 
 
 def resolve(config, jobs):
     console.info("Resolving jobs...")
     console.indent()
-    
+
     for job in jobs:
         resolveEntry(config, job)
-        
+
     console.outdent()
 
 
@@ -209,7 +209,7 @@ def _getJobConfig(key, configpart, default):
             return configpart[key]
         else:
             return default
-            
+
     # complex key
     else:
         firstpart = key[0:sepindex]
@@ -233,17 +233,13 @@ def execute(job, config):
     jobconfig = config
 
     console.head("Executing: %s" % job, True)
-    
-    
+
+
 
 
     #
     # INITIALIZATION PHASE
     #
-
-    # Class paths
-    classPaths = getJobConfig("classPath__")
-    #classPaths = getJobConfig("path.class")
 
     # Script names
     buildScript = getJobConfig("buildScript")
@@ -279,8 +275,8 @@ def execute(job, config):
     # INIT PHASE
     #
 
-    cache = cachesupport.Cache(getJobConfig("cachePath"), console)
-    classes = classpath.getClasses(classPaths, console)
+    cache = cachesupport.Cache(getJobConfig("cache")["path"], console)
+    classes = classpath.getClasses(getJobConfig("class"), console)
     treeutil = treesupport.TreeUtil(classes, cache, console)
     deputil = dependencysupport.DependencyUtil(classes, cache, console, treeutil, getJobConfig("require", {}), getJobConfig("use", {}))
     modules = deputil.getModules()
@@ -288,8 +284,8 @@ def execute(job, config):
     apiutil = apidata.ApiUtil(classes, cache, console, treeutil)
     partutil = partsupport.PartUtil(classes, console, deputil, treeutil)
 
-    
-    
+
+
 
 
     #
@@ -318,7 +314,7 @@ def execute(job, config):
 
     if len(explicitInclude) > 0:
         console.warn("Explicit included classes may not work")
-        
+
     console.outdent()
 
 
@@ -361,7 +357,7 @@ def execute(job, config):
 
             partBits[partId] = partBit
             partPos += 1
-            
+
         console.outdent()
 
         # Resolving modules/regexps
@@ -369,7 +365,7 @@ def execute(job, config):
         partClasses = {}
         for partId in userParts:
             partClasses[partId] = resolveComplexDefs(userParts[partId])
-            
+
         console.outdent()
 
 
@@ -382,7 +378,7 @@ def execute(job, config):
     sets = variantsupport.computeCombinations(userVariants)
     for variantSetPos, variants in enumerate(sets):
         console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(sets)))
-        
+
         if len(variants) > 0:
             console.debug("Selected variants:")
             console.indent()
@@ -450,7 +446,7 @@ def execute(job, config):
                     if not pParts:  # it's a simulated package
                         compiledContent = prelude + compiledContent
                     filetool.save(fileId + ".js", compiledContent)
-                
+
                     console.indent()
                     console.debug("Done: %s" % packageSize)
                     console.outdent()
@@ -485,26 +481,26 @@ def wrapInlineSource(sourceArr, pNewLine):
     wrapped = '<script type="text/javascript">%s</script>%s' % (nl.join(sourceArr), nl)
     return wrapped
 
-    
+
 def getSourceIncludeList(classList, variants):
     global classes
 
     scriptBlocks = ""
     dict = _arrayToDict(classList)
     sortedClasses = deputil.sortClasses(dict, variants)
-    
+
     for f in sortedClasses:
         cEntry = classes[f]
         uriprefix = ""
-        
+
         for pElem in jobconfig['path']:
             if pElem['class'] == cEntry['classPath']:
                 uriprefix = pElem['web']
                 break
-                
+
         if uriprefix == "":
             raise "Cannot find uriprefix for %s" % f
-            
+
         uri = os.path.join(uriprefix, f.replace(".",os.sep)) + ".js"
         scriptBlocks += '<script type="text/javascript" src="%s"></script>' % uri
         scriptBlocks += "\n"
@@ -528,7 +524,7 @@ def _arrayToDict(arr):
 ######################################################################
 
 def getCompiledPackage(includeDict, variants, buildProcess):
-    
+
     # Compiling classes
     sortedClasses = deputil.sortClasses(includeDict, variants)
     compiledContent = compiler.compileClasses(sortedClasses, variants, buildProcess)

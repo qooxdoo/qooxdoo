@@ -5,8 +5,8 @@ class Cache:
     def __init__(self, path, console):
         self._path = path
         self._console = console
-    
-    
+
+
     def read(self, cacheId, dependsOn):
         filetool.directory(self._path)
         fileModTime = os.stat(dependsOn).st_mtime
@@ -39,10 +39,4 @@ class Cache:
         except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
             self._console.error("Could not store cache to %s" % self._path)
             sys.exit(1)
-
-
-
-
-
-
 

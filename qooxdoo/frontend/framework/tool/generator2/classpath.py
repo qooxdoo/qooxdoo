@@ -1,29 +1,33 @@
 import os, re
 from modules import config, filetool
 
-def getClasses(paths, console, encoding="utf-8"):
+def getClasses(config, console):
     classes = {}
 
     console.info("Scanning class paths...")
     console.indent()
-    
-    for path in paths:
-        _addClassPath(classes, path, console, encoding)
+
+    for entry in config:
+        _addEntry(classes, entry, console)
 
     console.outdent()
     console.debug("")
-    
+
     return classes
 
 
-def _addClassPath(classes, classPath, console, encoding):
-    console.debug("Scanning: %s" % classPath)
+def _addEntry(classes, entry, console):
+    path = entry["path"]
+    uri = entry["uri"]
+    encoding = entry["encoding"]
+
+    console.debug("Scanning: %s" % path)
 
     implCounter = 0
     docCounter = 0
     localeCounter = 0
 
-    for root, dirs, files in os.walk(classPath):
+    for root, dirs, files in os.walk(path):
 
         # Filter ignored directories
         for ignoredDir in config.DIRIGNORE:
@@ -33,8 +37,10 @@ def _addClassPath(classes, classPath, console, encoding):
         # Searching for files
         for fileName in files:
             if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startswith("."):
+                fileEncoding = encoding
                 filePath = os.path.join(root, fileName)
-                filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
+                fileUri = uri + "/" + fileName.replace(os.sep, "/")
+                filePathId = filePath.replace(path + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
                 fileContent = filetool.read(filePath, encoding)
                 fileCategory = "unknown"
 
@@ -69,12 +75,10 @@ def _addClassPath(classes, classPath, console, encoding):
 
                 classes[fileId] = {
                     "path" : filePath,
-                    "encoding" : encoding,
-                    "classPath" : classPath,
+                    "uri" : fileUri,
+                    "encoding" : fileEncoding,
                     "category" : fileCategory,
-                    "id" : fileId,
-                    "contentId" : fileContentId,
-                    "pathId" : filePathId
+                    "id" : fileId
                 }
 
     console.indent()
