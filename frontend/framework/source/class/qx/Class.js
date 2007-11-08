@@ -23,6 +23,7 @@
 #module(core)
 #require(qx.core.Setting)
 #require(qx.core.Variant)
+#require(qx.lang.Object)
 #optional(qx.Interface)
 #optional(qx.Mixin)
 #optional(qx.core.Property)
