@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
         vElement.checked = this.getChecked();
 
         if (this.getEnabled()===false) {
-          vElement.disabled = false;
+          vElement.disabled = true;
         }
       },
 
