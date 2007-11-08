@@ -23,6 +23,7 @@
 #module(core)
 #module(oo)
 #require(qx.core.Setting)
+#require(qx.lang.Object)
 
 ************************************************************************ */
 
