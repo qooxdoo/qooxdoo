@@ -9,9 +9,9 @@ class DependencyUtil:
         self._treeutil = treeutil
         self._loadDeps = loadDeps
         self._runDeps = runDeps
-        
-        
-        
+
+
+
     def resolveDependencies(self, include, block, variants):
         result = {}
 
@@ -71,7 +71,7 @@ class DependencyUtil:
 
     def getDeps(self, fileId, variants):
         filePath = self._classes[fileId]["path"]
-        cacheId = "%s-deps-%s" % (fileId, variantsupport.generateCombinationId(variants))
+        cacheId = "%s-deps-%s" % (fileId, variantsupport.generateId(variants))
 
         deps = self._cache.read(cacheId, filePath)
         if deps != None:
@@ -93,7 +93,7 @@ class DependencyUtil:
         metaRun = self._readDictKey(meta, "runtimeDeps", [])
         metaOptional = self._readDictKey(meta, "optionalDeps", [])
         metaIgnore = self._readDictKey(meta, "ignoreDeps", [])
-        
+
         # Process meta data
         load.extend(metaLoad)
         run.extend(metaRun)
@@ -122,7 +122,7 @@ class DependencyUtil:
                 else:
                     run.append(item)
 
-        self._console.outdent()                    
+        self._console.outdent()
 
         # Build data structure
         deps = {
@@ -237,11 +237,11 @@ class DependencyUtil:
         for item in deps["run"]:
             if item in available and not item in result:
                 self._sortClassesRecurser(item, available, variants, result)
-                
-                
-                
-                
-                
+
+
+
+
+
 
     ######################################################################
     #  META DATA SUPPORT
@@ -249,7 +249,7 @@ class DependencyUtil:
 
     def getMeta(self, fileId):
         fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]    
+        filePath = fileEntry["path"]
         cacheId = "%s-meta" % fileId
 
         meta = self._cache.read(cacheId, filePath)
@@ -260,7 +260,7 @@ class DependencyUtil:
         category = fileEntry["category"]
 
         self._console.indent()
-        
+
         if category == "qx.doc":
             pass
 
@@ -294,7 +294,7 @@ class DependencyUtil:
                     opt[sub] = True
 
         return opt
-    
+
 
     def getModules(self):
         modules = {}
@@ -310,9 +310,9 @@ class DependencyUtil:
 
         self._console.indent()
         self._console.debug("Found %s modules" % len(modules))
-        self._console.outdent()        
+        self._console.outdent()
         self._console.debug("")
-    
+
         return modules
 
 
@@ -394,4 +394,4 @@ class DependencyUtil:
         for item in config.QXHEAD["embed"].findall(data):
             emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
 
-        return emb                
+        return emb

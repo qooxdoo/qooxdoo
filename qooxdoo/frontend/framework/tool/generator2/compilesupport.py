@@ -8,19 +8,19 @@ class Compiler:
         self._cache = cache
         self._console = console
         self._treeutil = treeutil
-        
-        
+
+
     def compileClasses(self, todo, variants, process):
         content = ""
         length = len(todo)
-        
+
         self._console.indent()
 
         for pos, fileId in enumerate(todo):
             self._console.progress(pos, length)
             content += self.getCompiled(fileId, variants, process)
-            
-        self._console.outdent()            
+
+        self._console.outdent()
 
         return content
 
@@ -29,8 +29,9 @@ class Compiler:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = variantsupport.generateCombinationId(variants)
-        processId = self.generateProcessCombinationId(process)
+        variantsId = variantsupport.generateId(variants)
+        processId = self.generateProcessId(process)
+
         cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, processId)
 
         compiled = self._cache.read(cacheId, filePath)
@@ -42,7 +43,7 @@ class Compiler:
         self._console.debug("Postprocessing tree: %s..." % fileId)
         self._console.indent()
         tree = self._postProcessHelper(tree, fileId, process, variants)
-        self._console.outdent()        
+        self._console.outdent()
 
         self._console.debug("Compiling tree: %s..." % fileId)
         compiled = self._compileClassHelper(tree)
@@ -62,7 +63,7 @@ class Compiler:
         (options, args) = parser.parse_args([])
 
         return compiler.compile(restree, options)
-    
+
 
     def _postProcessHelper(self, fileTree, fileId, process, variants):
         if "optimize-basecalls" in process:
@@ -84,7 +85,7 @@ class Compiler:
         return fileTree
 
 
-    def generateProcessCombinationId(self, process):
+    def generateProcessId(self, process):
         process = copy.copy(process)
         process.sort()
 
@@ -107,7 +108,7 @@ class Compiler:
 
     def _stringOptimizeHelper(self, tree, id, variants):
         # Do not optimize strings for non-mshtml clients
-        clientValue = variantsupport.getVariantValue(variants, "qx.client")
+        clientValue = variants["qx.client"]
         if clientValue != None and clientValue != "mshtml":
             return
 

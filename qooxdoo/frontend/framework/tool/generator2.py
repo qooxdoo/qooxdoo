@@ -76,7 +76,7 @@ both parts from the current position to the left side.
   * quiet{Boolean}: If quiet mode is enabled
 """
 
-import sys, re, os, optparse, math, cPickle, copy, sets, zlib
+import sys, re, os, optparse, math, cPickle, copy, zlib
 
 # reconfigure path to import own modules from modules subfolder
 # only needed for simplejson...
@@ -87,8 +87,6 @@ from modules import optparseext
 from modules import filetool
 from modules import textutil
 from modules import simplejson
-from modules import settings
-from modules import variants as m_variants
 
 from generator2 import apidata
 from generator2 import cachesupport
@@ -246,9 +244,6 @@ def execute(job, config):
     sourceScript = getJobConfig("sourceScript")
     apiPath = getJobConfig("apiPath")
 
-    # Variants data
-    userVariants = getJobConfig("variants", {})
-
     # Part support (has priority)
     userParts = getJobConfig("parts", {})
 
@@ -375,16 +370,20 @@ def execute(job, config):
     # EXECUTION PHASE
     #
 
-    sets = variantsupport.computeCombinations(userVariants)
-    for variantSetPos, variants in enumerate(sets):
-        console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(sets)))
+    variantSets = variantsupport.computeCombinations(getJobConfig("variants", {}))
 
+    for variantSetPos, variants in enumerate(variantSets):
+        console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
+
+
+        # Debug variant combination
         if len(variants) > 0:
             console.debug("Selected variants:")
             console.indent()
-            for entry in variants:
-                console.debug("%s = %s" % (entry["id"], entry["value"]))
+            for key in variants:
+                console.debug("%s = %s" % (key, variants[key]))
             console.outdent()
+
 
         # Detect dependencies
         console.info("Resolving application dependencies...")
@@ -404,7 +403,7 @@ def execute(job, config):
                     del includeDict[entry]
 
 
-        # Detect optionals
+        # Debug optional classes
         optionals = deputil.getOptionals(includeDict)
         if len(optionals) > 0:
             console.debug("These optional classes may be useful:")
@@ -414,16 +413,15 @@ def execute(job, config):
             console.outdent()
 
 
+        # Generate API data
         if apiPath != None:
             apiutil.storeApi(includeDict, apiPath)
 
 
+        # Generate application script files
         if buildScript != None or sourceScript != None:
-            _settings = []
-            _variants = variantsToArray(variants) # need alternative format for variants.generate()
             if execMode == "parts":
                 (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
-                pParts  = True
 
             else:
                 # simulate package
@@ -431,46 +429,55 @@ def execute(job, config):
                 pkg2classes = {
                     "1" : includeDict.keys()
                 }
-                pParts  = False
+
+
+            settings = getJobConfig("settings", {})
+            firstPackage = True
+
 
             if buildScript != None:
-                _settings.append("qx.isSource:false")
-                _settings = settings.generate(_settings, True)
-                _variants = m_variants.generate(_variants, True)
-                prelude = "".join([_settings, _variants])
                 for packageId in pkgIds:
                     console.info("Compiling classes for package %s:" % packageId, False)
-                    packageSize, compiledContent = getCompiledPackage(pkg2classes[packageId], variants, buildProcess)
-                    # Saving compiled content
-                    fileId = "%s-%s" % (buildScript, variantSetPos+1)
-                    if not pParts:  # it's a simulated package
-                        compiledContent = prelude + compiledContent
-                    filetool.save(fileId + ".js", compiledContent)
-
                     console.indent()
-                    console.debug("Done: %s" % packageSize)
+
+                    # Compile file content
+                    compiledContent = getCompiledPackage(pkg2classes[packageId], variants, buildProcess)
+
+                    # Add settings and variants to first package
+                    if firstPackage:
+                        settings["qx.isSource"] = "false"
+                        settingsCode = generateSettingsCode(settings)
+                        variantsCode = generateVariantsCode(variants)
+                        compiledContent = settingsCode + variantsCode + compiledContent
+                        firstPackage = False
+
+                    # Save result file
+                    fileName = "%s-%s-%s.js" % (buildScript, variantSetPos, packageId)
+                    filetool.save(fileName, compiledContent)
+
+                    console.debug("Done: %s" % getContentSize(compiledContent))
                     console.outdent()
 
+
             if sourceScript != None:
-                _settings.append("qx.isSource:true")
-                _settings = settings.generate(_settings, True)
-                _variants = m_variants.generate(_variants, True)
+                settings["qx.isSource"] = "true"
+                settingsCode = generateSettingsCode(settings)
+                variantsCode = generateVariantsCode(variants)
+
                 for packageId in pkgIds:
                     fileId = "%s-%s-%s.js" % (sourceScript, str(packageId), str(variantSetPos+1))
                     console.info("Generating source includer for package %s: %s" % (packageId, fileId))
+
                     sourceText = getSourceIncludeList(pkg2classes[packageId], variants)
                     sourceText = sourceText.replace("'", "\\'")
                     sourceText = wrapInlineSource([_settings, _variants], False) + "\n" + sourceText
                     sourceText = "document.write('%s');" % sourceText
+
                     filetool.save(fileId, sourceText)
 
 
-def variantsToArray(variants):
-    varr = []
-    for elem in variants:
-        varr.append(":".join([elem['id'], elem['value']]))
 
-    return varr
+
 
 
 def wrapInlineSource(sourceArr, pNewLine):
@@ -485,8 +492,9 @@ def wrapInlineSource(sourceArr, pNewLine):
 def getSourceIncludeList(classList, variants):
     global classes
 
+    # TODO: Fix this again
+
     scriptBlocks = ""
-    dict = _arrayToDict(classList)
     sortedClasses = deputil.sortClasses(dict, variants)
 
     for f in sortedClasses:
@@ -508,11 +516,52 @@ def getSourceIncludeList(classList, variants):
     return scriptBlocks
 
 
-def _arrayToDict(arr):
-    dict = {}
-    for e in arr:
-        dict[e] = True
-    return dict
+
+
+
+
+
+
+def generateSettingsCode(settings, format=True):
+    number = re.compile("^([0-9\-]+)$")
+    result = 'if(!window.qxsettings)qxsettings={};'
+
+    if format:
+        result += "\n"
+
+    for key in settings:
+        value = settings[key]
+
+        if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+            value = '"%s"' % value.replace("\"", "\\\"")
+
+        result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
+
+        if format:
+            result += "\n"
+
+    return result
+
+
+def generateVariantsCode(variants, format=True):
+    number = re.compile("^([0-9\-]+)$")
+    result = 'if(!window.qxvariants)qxvariants={};'
+
+    if format:
+        result += "\n"
+
+    for key in variants:
+        value = variants[key]
+
+        if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+            value = '"%s"' % value.replace("\"", "\\\"")
+
+        result += 'qxvariants["%s"]=%s;' % (key, value)
+
+        if format:
+            result += "\n"
+
+    return result
 
 
 
@@ -529,7 +578,7 @@ def getCompiledPackage(includeDict, variants, buildProcess):
     sortedClasses = deputil.sortClasses(includeDict, variants)
     compiledContent = compiler.compileClasses(sortedClasses, variants, buildProcess)
 
-    return getContentSize(compiledContent), compiledContent
+    return compiledContent
 
 
 

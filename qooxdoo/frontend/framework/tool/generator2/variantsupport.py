@@ -1,12 +1,5 @@
-def getVariantValue(variants, key):
-    for entry in variants:
-        if entry["id"] == key:
-            return entry["value"]
-
-    return None
-    
-    
 def computeCombinations(variants):
+    # convert dict to list
     variantPossibilities = []
     for variantId in variants:
         innerList = []
@@ -14,19 +7,29 @@ def computeCombinations(variants):
             innerList.append({"id" : variantId, "value" : variantValue})
         variantPossibilities.append(innerList)
 
-    return _findCombinations(variantPossibilities)
-    
+    combinations = _findCombinations(variantPossibilities)
+    result = []
 
-def generateCombinationId(selected):
-    sortedList = _getSortedCopy(selected)
+    # convert to dict[]
+    for pos, entry in enumerate(combinations):
+        result.append({})
+        for item in entry:
+            result[pos][item["id"]] = item["value"]
+
+    return result
+
+
+
+def generateId(variants):
+    sortedList = _getSortedCopy(variants)
 
     sortedString = []
     for entry in sortedList:
         sortedString.append("%s_%s" % (entry["id"], entry["value"]))
 
     return "|".join(sortedString)
-        
-    
+
+
 def _findCombinations(a):
     result = [[]]
 
@@ -41,6 +44,11 @@ def _findCombinations(a):
 
 
 def _getSortedCopy(entries):
+    # Convert dict to array
+    result = []
+    for key in entries:
+        result.append({ "id" : key, "value" : entries[key] })
+
     def _compare(x, y):
         if x["id"] > y["id"]:
             return 1
@@ -50,8 +58,6 @@ def _getSortedCopy(entries):
 
         return 0
 
-    result = entries[:]
     result.sort(_compare)
-    
-    return result    
-    
+
+    return result
