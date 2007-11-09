@@ -4,24 +4,29 @@
     "class" :
     [
       {
+        "encoding" : "utf-8",
         "path" : "framework/source/class",
-        "uri"  : "../source/class"
+        "uri" : "../source/class"
       },
       {
+        "encoding" : "utf-8",
         "path" : "application/apiviewer/source/class",
-        "uri"  : "../source/class"
+        "uri" : "../source/class"
       },
       {
+        "encoding" : "utf-8",
         "path" : "application/feedreader/source/class",
-        "uri"  : "../source/class"
+        "uri" : "../source/class"
       },
       {
+        "encoding" : "utf-8",
         "path" : "application/webmail/source/class",
-        "uri"  : "../source/class"
+        "uri" : "../source/class"
       },
       {
+        "encoding" : "utf-8",
         "path" : "application/showcase/source/class",
-        "uri"  : "../source/class"
+        "uri" : "../source/class"
       }
     ],
 
@@ -36,12 +41,9 @@
     }
   },
 
-  "source" :
-  {
-    "extend" : ["common"],
-    "sourceScript" : "source.js"
-  },
-
+  
+  
+  
 
   "api-feedreader" :
   {
@@ -56,21 +58,33 @@
     "apiPath" : "application/apiviewer/source/script",
     "include" : ["webmail.Application"]
   },
+  
+  
+
+
+  "source-all" :
+  {
+    "extend" : ["common"],
+    "sourceScript" : "source-all"
+  },
 
   "build-all" :
   {
     "extend" : ["common"],
     "buildScript" : "build-all"
   },
+  
+  
+  
 
-  "build-core" :
+  
+  "source-apiviewer" :
   {
     "extend" : ["common"],
-    "buildScript" : "build-core",
-    "include" : ["apiviewer.Application"],
-    "exclude" : ["ui_tree","=qx.ui.core.Widget"]
+    "sourceScript" : "source-apiviewer",
+    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"]  
   },
-
+    
   "build-apiviewer" :
   {
     "extend" : ["common"],
@@ -83,13 +97,6 @@
       "optimize-basecalls",
       "optimize-strings"
     ]
-  },
-  
-  "source-apiviewer" :
-  {
-    "extend" : ["common"],
-    "sourceScript" : "source-apiviewer",
-    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"]  
   },
 
   "build-apiviewer-variants" :
@@ -112,6 +119,10 @@
       "optimize-strings"
     ]
   },
+  
+  
+  
+  
 
   "build-feedreader" :
   {
@@ -120,16 +131,14 @@
     "include" : ["feedreader.Application"]
   },
 
-  "build-parts-common" :
-  {
-    "extend" : ["common"],
-    "optimizeLatency" : 5000
-  },
+
+
 
   "build-app-parts" :
   {
-    "extend" : ["build-parts-common"],
-    "buildScript" : "build-app-parts",
+    "extend" : ["common"],
+    "optimizeLatency" : 5000,
+    "buildScript" : "build-app-pkgs",
     
     "views" :
     {
@@ -142,8 +151,9 @@
 
   "build-comp-parts" :
   {
-    "extend" : ["build-parts-common"],
-    "buildScript" : "build-comp-parts",
+    "extend" : ["common"],
+    "optimizeLatency" : 5000,
+    "buildScript" : "build-comp-pkgs",
     
     "parts" :
     {
@@ -155,26 +165,12 @@
       "form" : ["ui_form"]
     }
   },
-
-  "build-feedreader-parts" :
+  
+  "source-apiviewer-parts" :
   {
-    "extend" : ["build-parts-common"],
-    "buildScript" : "build-feedreader-parts",
-    "collapseParts" : ["core"],
-    
-    "parts" :
-    {
-      "core" : ["feedreader.Application","qx.theme.ClassicRoyale"],
-      "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
-      "article" : ["feedreader.ArticleView"],
-      "preferences" : ["ui_window"]
-    }
-  },
-
-  "build-apiviewer-parts" :
-  {
-    "extend" : ["build-parts-common"],
-    "buildScript" : "build-apiviewer-parts",
+    "extend" : ["common"],
+    "optimizeLatency" : 5000,    
+    "sourceScript" : "source-apiviewer-pkgs",
     
     "variants" :
     {
@@ -192,10 +188,11 @@
     }
   },
 
-  "source-apiviewer-parts" :
+  "build-apiviewer-parts" :
   {
-    "extend" : ["source"],
-    "sourceScript" : "source-apiviewer-packages",
+    "extend" : ["common"],
+    "optimizeLatency" : 5000,
+    "buildScript" : "build-apiviewer-pkgs",
     
     "variants" :
     {
@@ -216,7 +213,7 @@
   "build-apiviewer-parts-noqx" :
   {
     "extend" : ["build-parts-common"],
-    "buildScript" : "build-apiviewer-parts-noqx",
+    "buildScript" : "build-apiviewer-pkgs-noqx",
     
     "variants" :
     {
