@@ -24,6 +24,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class RemoteCallUtils {
      * A cache for all methods called by clients.
      */
 
-    protected HashMap _methodCache = new HashMap();
+    protected Map _methodCache = Collections.synchronizedMap(new HashMap());
 
     
     /**
