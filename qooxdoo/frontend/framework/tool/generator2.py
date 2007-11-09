@@ -371,7 +371,8 @@ def execute(job, config):
     variantSets = variantsupport.computeCombinations(getJobConfig("variants", {}))
 
     for variantSetPos, variants in enumerate(variantSets):
-        console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
+        if len(variantSets) > 1:
+            console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
 
 
         # Debug variant combination
