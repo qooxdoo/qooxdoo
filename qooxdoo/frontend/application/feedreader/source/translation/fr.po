@@ -2,12 +2,12 @@
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2007.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-05 15:15+0100\n"
+"POT-Creation-Date: 2007-11-09 22:22+0100\n"
 "PO-Revision-Date: 2007-04-07 11:30+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
