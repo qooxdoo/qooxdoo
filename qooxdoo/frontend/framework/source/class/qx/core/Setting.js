@@ -214,6 +214,7 @@ qx.Class.define("qx.core.Setting",
     statics.define("qx.allowUrlSettings", false);
     statics.define("qx.allowUrlVariants", false);
     statics.define("qx.resourceUri", "./resource");
+    statics.define("qx.isSource", true);
     statics.__init();
   }
 });

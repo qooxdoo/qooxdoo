@@ -262,8 +262,7 @@ qx.Class.define("qx.core.Init",
 
   settings :
   {
-    "qx.application" : "qx.application.Gui",
-    "qx.isSource" : true
+    "qx.application" : "qx.application.Gui"
   },
 
 
