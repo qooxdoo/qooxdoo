@@ -806,7 +806,7 @@ check:
 		echo "      * wget or curl (for downloading additional locale information)"; \
 		echo "      * svn (for automatic downloading of contributions from qooxdoo-contrib)"; \
 		echo ; \
-		echo "    PACKAGES WHICH ARE NOT AVAILABLE CURRENTLY:"; \
+		echo "    PACKAGES WHICH ARE CURRENTLY NOT AVAILABLE:"; \
 		echo "      *$$FAILED_OPTS"; \
 		echo ; \
 	fi; \
