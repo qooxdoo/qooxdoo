@@ -39,8 +39,9 @@ def _addEntry(classes, entry, console):
             if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startswith("."):
                 fileEncoding = encoding
                 filePath = os.path.join(root, fileName)
-                fileUri = uri + "/" + fileName.replace(os.sep, "/")
-                filePathId = filePath.replace(path + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
+                fileRelPath = filePath.replace(path + os.sep, "")
+                fileUri = uri + "/" + fileRelPath.replace(os.sep, "/")
+                filePathId = fileRelPath.replace(config.JSEXT, "").replace(os.sep, ".")
                 fileContent = filetool.read(filePath, encoding)
                 fileCategory = "unknown"
 

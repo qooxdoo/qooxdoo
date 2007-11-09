@@ -48,15 +48,23 @@
   "api-feedreader" :
   {
     "extend" : ["common"],
-    "apiPath" : "application/apiviewer/source/script",
-    "include" : ["feedreader.Application"]
+    "include" : ["feedreader.Application"],
+    
+    "api" :
+    {
+      "path" : "application/apiviewer/source/script"
+    }
   },
 
   "api-webmail" :
   {
     "extend" : ["common"],
-    "apiPath" : "application/apiviewer/source/script",
-    "include" : ["webmail.Application"]
+    "include" : ["webmail.Application"],
+    
+    "api" :
+    {
+      "path" : "application/apiviewer/source/script"
+    }
   },
   
   
@@ -65,13 +73,19 @@
   "source-all" :
   {
     "extend" : ["common"],
-    "sourceScript" : "source-all"
+    "source" : 
+    {
+      "file" : "source-all.js"
+    }
   },
 
   "build-all" :
   {
     "extend" : ["common"],
-    "buildScript" : "build-all"
+    "build" : 
+    {
+      "file" : "build-all.js"
+    }
   },
   
   
@@ -81,29 +95,35 @@
   "source-apiviewer" :
   {
     "extend" : ["common"],
-    "sourceScript" : "source-apiviewer",
-    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"]  
+    "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
+    
+    "source" :
+    {
+      "file" : "apiviewer-source.js"
+    }
   },
     
   "build-apiviewer" :
   {
     "extend" : ["common"],
-    "buildScript" : "build-apiviewer",
-    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
+    "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
     
-    "buildProcess" :
-    [
-      "optimize-variables",
-      "optimize-basecalls",
-      "optimize-strings"
-    ]
+    "build" :
+    {
+      "file" : "apiviewer-build.js",
+      "process" :
+      [
+        "optimize-variables",
+        "optimize-basecalls",
+        "optimize-strings"      
+      ]
+    }
   },
 
   "build-apiviewer-variants" :
   {
     "extend" : ["common"],
-    "buildScript" : "build-apiviewer-variants",
-    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
+    "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
     
     "variants" :
     {
@@ -112,12 +132,16 @@
       "qx.client" : ["gecko","mshtml"]
     },
     
-    "buildProcess" :
-    [
-      "optimize-variables",
-      "optimize-basecalls",
-      "optimize-strings"
-    ]
+    "build" :
+    {
+      "file" : "apiviewer-variants-build.js",
+      "process" :
+      [
+        "optimize-variables",
+        "optimize-basecalls",
+        "optimize-strings"      
+      ]
+    }
   },
   
   

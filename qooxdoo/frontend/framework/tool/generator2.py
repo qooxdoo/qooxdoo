@@ -240,22 +240,19 @@ def execute(job, config):
     #
 
     # Script names
-    buildScript = getJobConfig("buildScript")
-    sourceScript = getJobConfig("sourceScript")
-    apiPath = getJobConfig("apiPath")
-    cleanCache = getJobConfig("cleanCache")
+    buildCfg = getJobConfig("build")
+    sourceCfg = getJobConfig("source")
+    apiCfg = getJobConfig("api")
+    cleanCfg = getJobConfig("clean")
 
     # Part support (has priority)
     userParts = getJobConfig("parts", {})
-
-    # Build relevant post processing
-    buildProcess = getJobConfig("buildProcess", [])
+    collapseParts = getJobConfig("collapseParts", [])
+    optimizeLatency = getJobConfig("optimizeLatency")
 
     userInclude = getJobConfig("include", [])
     userExclude = getJobConfig("exclude", [])
 
-    collapseParts = getJobConfig("collapseParts", [])
-    optimizeLatency = getJobConfig("optimizeLatency")
 
 
 
@@ -387,10 +384,10 @@ def execute(job, config):
 
 
         # Cleanup cache
-        if cleanCache != None:
+        if cleanCfg != None:
             console.info("Cleaning up cache")
             console.indent()
-            for cleanJob in cleanCache:
+            for cleanJob in cleanCfg:
                 console.info("Job: %s" % cleanJob)
 
             console.outdent()
@@ -451,8 +448,8 @@ def execute(job, config):
 
 
         # Generate API data
-        if apiPath != None:
-            apiutil.storeApi(includeDict, apiPath)
+        if apiCfg != None:
+            apiutil.storeApi(includeDict, apiCfg["path"])
 
 
 
@@ -460,7 +457,7 @@ def execute(job, config):
 
 
         # Generate application script files
-        if buildScript != None or sourceScript != None:
+        if buildCfg != None or sourceCfg != None:
             if execMode == "parts":
                 (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
 
@@ -473,86 +470,102 @@ def execute(job, config):
 
 
             settings = getJobConfig("settings", {})
-            firstPackage = True
 
 
-            if buildScript != None:
+            if buildCfg != None:
+                addVariants = True
+                addSettings = True
+                
+                if buildCfg.has_key("process"):
+                    buildProcess = buildCfg["process"]
+                else:
+                    buildProcess = []  
+                    
+                if buildCfg.has_key("format"):
+                    buildFormat = buildCfg["format"]
+                else:
+                    buildFormat = False
+                
                 for packageId in pkgIds:
-                    console.info("Compiling classes for package %s:" % packageId, False)
+                    console.info("Compiling classes for package #%s:" % packageId, False)
                     console.indent()
 
                     # Compile file content
                     compiledContent = getCompiledPackage(pkg2classes[packageId], variants, buildProcess)
 
-                    # Add settings and variants to first package
-                    if firstPackage:
-                        settings["qx.isSource"] = "false"
-                        settingsCode = generateSettingsCode(settings)
+                    # Add settings and variants
+                    if addVariants:
                         variantsCode = generateVariantsCode(variants)
-                        compiledContent = settingsCode + variantsCode + compiledContent
-                        firstPackage = False
+                        compiledContent = variantsCode + compiledContent
+                        addVariants = False
+
+                    if addSettings:
+                        settingsCode = generateSettingsCode(settings)
+                        compiledContent = settingsCode + compiledContent
+                        addSettings = False
+
+                    # Construct file name
+                    fileName = buildCfg["file"]
+                    fileName = fileName.replace("$variant", str(variantSetPos))
+                    fileName = fileName.replace("$package", str(packageId))
 
                     # Save result file
-                    fileName = "%s-%s-%s.js" % (buildScript, variantSetPos, packageId)
                     filetool.save(fileName, compiledContent)
 
                     console.debug("Done: %s" % getContentSize(compiledContent))
                     console.outdent()
 
 
-            if sourceScript != None:
-                settings["qx.isSource"] = "true"
-                settingsCode = generateSettingsCode(settings)
-                variantsCode = generateVariantsCode(variants)
+            if sourceCfg != None:
+                addVariants = True
+                addSettings = True
+                
+                if sourceCfg.has_key("format"):
+                    sourceFormat = sourceCfg["format"]
+                else:
+                    sourceFormat = True
 
                 for packageId in pkgIds:
-                    fileId = "%s-%s-%s.js" % (sourceScript, str(packageId), str(variantSetPos+1))
-                    console.info("Generating source includer for package %s: %s" % (packageId, fileId))
+                    console.info("Generating source includer for package #%s" % packageId)
+                    
+                    # Generate loader
+                    includeBlocks = getSourceIncludeList(pkg2classes[packageId], variants)
+                    
+                    # Add settings and variants
+                    if addVariants:
+                        variantsCode = generateVariantsCode(variants, sourceFormat)
+                        includeBlocks.insert(0, wrapJavaScript(variantsCode))
+                        addVariants = False
 
-                    sourceText = getSourceIncludeList(pkg2classes[packageId], variants)
-                    sourceText = sourceText.replace("'", "\\'")
-                    sourceText = wrapInlineSource([_settings, _variants], False) + "\n" + sourceText
-                    sourceText = "document.write('%s');" % sourceText
+                    if addSettings:
+                        settingsCode = generateSettingsCode(settings, sourceFormat)
+                        includeBlocks.insert(0, wrapJavaScript(settingsCode))
+                        addSettings = False
+                        
+                    # Put into document.write
+                    loaderCode = "document.write('%s');" % "\n".join(includeBlocks).replace("'", "\\'")
 
-                    filetool.save(fileId, sourceText)
-
-
-
-
-
-
-def wrapInlineSource(sourceArr, pNewLine):
-    if pNewLine:
-        nl = "\n"
-    else:
-        nl = ""
-    wrapped = '<script type="text/javascript">%s</script>%s' % (nl.join(sourceArr), nl)
-    return wrapped
+                    # Construct file name
+                    fileName = sourceCfg["file"]
+                    fileName = fileName.replace("$variant", str(variantSetPos))
+                    fileName = fileName.replace("$package", str(packageId))
+                    
+                    # Save result file
+                    filetool.save(fileName, loaderCode)
 
 
-def getSourceIncludeList(classList, variants):
-    global classes
+    
+def wrapJavaScript(code):
+    return '<script type="text/javascript">%s</script>' % code
 
-    # TODO: Fix this again
 
-    scriptBlocks = ""
-    sortedClasses = deputil.sortClasses(dict, variants)
+def getSourceIncludeList(include, variants):
+    scriptBlocks = []
+    sortedInclude = deputil.sortClasses(include, variants)
 
-    for f in sortedClasses:
-        cEntry = classes[f]
-        uriprefix = ""
-
-        for pElem in jobconfig['path']:
-            if pElem['class'] == cEntry['classPath']:
-                uriprefix = pElem['web']
-                break
-
-        if uriprefix == "":
-            raise "Cannot find uriprefix for %s" % f
-
-        uri = os.path.join(uriprefix, f.replace(".",os.sep)) + ".js"
-        scriptBlocks += '<script type="text/javascript" src="%s"></script>' % uri
-        scriptBlocks += "\n"
+    for fileId in sortedInclude:
+        fileUri = classes[fileId]["uri"]
+        scriptBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
 
     return scriptBlocks
 

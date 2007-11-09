@@ -117,9 +117,10 @@ class Compiler:
 
     def _stringOptimizeHelper(self, tree, id, variants):
         # Do not optimize strings for non-mshtml clients
-        clientValue = variants["qx.client"]
-        if clientValue != None and clientValue != "mshtml":
-            return
+        if variants.has_key("qx.client"):
+            clientValue = variants["qx.client"]
+            if clientValue != None and clientValue != "mshtml":
+                return
 
         # TODO: Customize option for __SS__
 
