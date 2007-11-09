@@ -264,10 +264,7 @@ class DependencyUtil:
         if category == "qx.doc":
             pass
 
-        elif category == "qx.locale":
-            meta["loadtimeDeps"] = ["qx.locale.Locale", "qx.locale.Manager"]
-
-        elif category == "qx.impl":
+        elif category == "qx.impl" or category == "qx.locale":
             content = filetool.read(filePath, fileEntry["encoding"])
 
             meta["loadtimeDeps"] = self._extractQxLoadtimeDeps(content, fileId)
