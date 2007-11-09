@@ -7,6 +7,11 @@ class Cache:
         self._console = console
 
 
+    def clean(self, cacheId):
+        cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
+        filetool.remove(cacheFile)
+
+
     def read(self, cacheId, dependsOn):
         filetool.directory(self._path)
         fileModTime = os.stat(dependsOn).st_mtime

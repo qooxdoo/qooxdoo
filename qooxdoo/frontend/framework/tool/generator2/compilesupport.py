@@ -42,7 +42,7 @@ class Compiler:
 
         self._console.debug("Postprocessing tree: %s..." % fileId)
         self._console.indent()
-        tree = self._postProcessHelper(tree, fileId, process, variants)
+        self._postProcessHelper(tree, fileId, process, variants)
         self._console.outdent()
 
         self._console.debug("Compiling tree: %s..." % fileId)
@@ -50,6 +50,15 @@ class Compiler:
 
         self._cache.write(cacheId, compiled)
         return compiled
+
+
+    def cleanCompiled(self, fileId, variants, process):
+        variantsId = variantsupport.generateId(variants)
+        processId = self.generateProcessId(process)
+
+        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, processId)
+
+        self._cache.clean(cacheId)
 
 
     def _compileClassHelper(self, restree):

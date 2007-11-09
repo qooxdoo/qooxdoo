@@ -243,6 +243,7 @@ def execute(job, config):
     buildScript = getJobConfig("buildScript")
     sourceScript = getJobConfig("sourceScript")
     apiPath = getJobConfig("apiPath")
+    cleanCache = getJobConfig("cleanCache")
 
     # Part support (has priority)
     userParts = getJobConfig("parts", {})
@@ -385,6 +386,39 @@ def execute(job, config):
             console.outdent()
 
 
+        # Cleanup cache
+        if cleanCache != None:
+            console.info("Cleaning up cache")
+            console.indent()
+            for cleanJob in cleanCache:
+                console.info("Job: %s" % cleanJob)
+
+            console.outdent()
+
+            console.info("Removing cache files:", False)
+            console.indent()
+
+            for entryPos, entry in enumerate(classes):
+                console.progress(entryPos, len(classes))
+                console.debug("Cleaning up: %s" % entry)
+
+                if "tokens" in cleanCache:
+                    treeutil.cleanTokens(entry)
+
+                if "tree" in cleanCache:
+                    treeutil.cleanTree(entry)
+
+                if "variants-tree" in cleanCache:
+                    treeutil.cleanVariantsTree(entry, variants)
+
+                if "compiled" in cleanCache:
+                    compiler.cleanCompiled(entry, variants, buildProcess)
+
+
+            console.outdent()
+            return
+
+
         # Detect dependencies
         console.info("Resolving application dependencies...")
         console.indent()
@@ -413,9 +447,16 @@ def execute(job, config):
             console.outdent()
 
 
+
+
+
         # Generate API data
         if apiPath != None:
             apiutil.storeApi(includeDict, apiPath)
+
+
+
+
 
 
         # Generate application script files
