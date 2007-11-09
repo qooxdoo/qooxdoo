@@ -413,7 +413,7 @@ public class RpcServlet extends HttpServlet {
                     //System.out.println("Requested session id: " + request.getRequestedSessionId());
                     String res = handleRPC(request, requestString);
                     
-                    responseWriter.write("qx.io.remote.ScriptTransport._requestFinished(\"" +
+                    responseWriter.write("qx.io.remote.transport.Script._requestFinished(\"" +
                             jsTransportId + "\", " + res + ");");
                 }
             } catch (Exception e) {
