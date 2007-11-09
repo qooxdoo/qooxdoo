@@ -1,232 +1,238 @@
 {
-		"common" :
-		{
-		    "classPath__" :
-		    [
-		        "framework/source/class",
-		        "application/apiviewer/source/class",
-		        "application/feedreader/source/class",
-		        "application/webmail/source/class",
-		        "application/showcase/source/class"
-		    ],
+  "common" :
+  {
+    "class" :
+    [
+      {
+        "path" : "framework/source/class",
+        "uri"  : "../source/class"
+      },
+      {
+        "path" : "application/apiviewer/source/class",
+        "uri"  : "../source/class"
+      },
+      {
+        "path" : "application/feedreader/source/class",
+        "uri"  : "../source/class"
+      },
+      {
+        "path" : "application/webmail/source/class",
+        "uri"  : "../source/class"
+      },
+      {
+        "path" : "application/showcase/source/class",
+        "uri"  : "../source/class"
+      }
+    ],
 
-        "path" :
-        [
-            {
-                "class" : "framework/source/class",
-                "web"   : "../source/class",
-                 "resource" : "framework/source/resource"
-            },
-            {
-                "class" : "application/apiviewer/source/class",
-                "web"   : "../source/class"
-            },
-            {
-                "class" : "application/feedreader/source/class",
-                "web"   : "../source/class"
-            },
-            {
-                "class" : "application/webmail/source/class",
-                "web"   : "../source/class"
-            },
-            {
-                "class" : "application/showcase/source/class",
-                "web"   : "../source/class"
-            }
+    "require" :
+    {
+      "qx.log.Logger" : ["qx.log.appender.Native"]
+    },  
 
-        ],
+    "cache" : 
+    {
+      "path" : "cache2"
+    }
+  },
 
-		    "require" :
-		    {
-		        "qx.log.Logger" : ["qx.log.appender.Native"]
-		    },
-
-        "cachePath" : "cache2"
-
-		},
-
-		"source" :
-		{
-		    "extend" : ["common"],
-		    "sourceScript" : "source.js"
-		},
+  "source" :
+  {
+    "extend" : ["common"],
+    "sourceScript" : "source.js"
+  },
 
 
-		"api-feedreader" :
-		{
-		    "extend" : ["common"],
-		    "apiPath" : "application/apiviewer/source/script",
-		    "include" : ["feedreader.Application"]
-		},
+  "api-feedreader" :
+  {
+    "extend" : ["common"],
+    "apiPath" : "application/apiviewer/source/script",
+    "include" : ["feedreader.Application"]
+  },
 
-		"api-webmail" :
-		{
-		    "extend" : ["common"],
-		    "apiPath" : "application/apiviewer/source/script",
-		    "include" : ["webmail.Application"]
-		},
+  "api-webmail" :
+  {
+    "extend" : ["common"],
+    "apiPath" : "application/apiviewer/source/script",
+    "include" : ["webmail.Application"]
+  },
 
-		"build-all" :
-		{
-		    "extend" : ["common"],
-		    "buildScript" : "build-all"
-		},
+  "build-all" :
+  {
+    "extend" : ["common"],
+    "buildScript" : "build-all"
+  },
 
-		"build-core" :
-		{
-		    "extend" : ["common"],
-		    "buildScript" : "build-core",
-		    "include" : ["apiviewer.Application"],
-		    "exclude" : ["ui_tree","=qx.ui.core.Widget"]
-		},
+  "build-core" :
+  {
+    "extend" : ["common"],
+    "buildScript" : "build-core",
+    "include" : ["apiviewer.Application"],
+    "exclude" : ["ui_tree","=qx.ui.core.Widget"]
+  },
 
-		"build-apiviewer" :
-		{
-		    "extend" : ["common"],
-		    "buildScript" : "build-apiviewer",
-		    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
-		    "buildProcess" :
-		    [
-		        "optimize-variables",
-		        "optimize-basecalls",
-		        "optimize-strings"
-		    ]
-		},
-		
-		"source-apiviewer" :
-		{
-				"extend" : ["common"],
-				"sourceScript" : "source-apiviewer",
-				"include" : ["apiviewer.*","qx.theme.ClassicRoyale"]	
-		},
+  "build-apiviewer" :
+  {
+    "extend" : ["common"],
+    "buildScript" : "build-apiviewer",
+    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
+    
+    "buildProcess" :
+    [
+      "optimize-variables",
+      "optimize-basecalls",
+      "optimize-strings"
+    ]
+  },
+  
+  "source-apiviewer" :
+  {
+    "extend" : ["common"],
+    "sourceScript" : "source-apiviewer",
+    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"]  
+  },
 
-		"build-apiviewer-variants" :
-		{
-		    "extend" : ["common"],
-		    "buildScript" : "build-apiviewer-variants",
-		    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
-		    "variants" :
-		    {
-		        "qx.debug" : ["off"],
-		        "qx.aspects" : ["off"],
-		        "qx.client" : ["gecko","mshtml"]
-		    },
-		    "buildProcess" :
-		    [
-		        "optimize-variables",
-		        "optimize-basecalls",
-		        "optimize-strings"
-		    ]
-		},
+  "build-apiviewer-variants" :
+  {
+    "extend" : ["common"],
+    "buildScript" : "build-apiviewer-variants",
+    "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
+    
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
+    },
+    
+    "buildProcess" :
+    [
+      "optimize-variables",
+      "optimize-basecalls",
+      "optimize-strings"
+    ]
+  },
 
-		"build-feedreader" :
-		{
-		    "extend" : ["common"],
-		    "buildScript" : "build-feedreader",
-		    "include" : ["feedreader.Application"]
-		},
+  "build-feedreader" :
+  {
+    "extend" : ["common"],
+    "buildScript" : "build-feedreader",
+    "include" : ["feedreader.Application"]
+  },
 
-		"build-parts-common" :
-		{
-		    "extend" : ["common"],
-		    "optimizeLatency" : 5000
-		},
+  "build-parts-common" :
+  {
+    "extend" : ["common"],
+    "optimizeLatency" : 5000
+  },
 
-		"build-app-views" :
-		{
-		    "extend" : ["build-parts-common"],
-		    "buildScript" : "build-app-views",
-		    "views" :
-		    {
-		        "apiviewer" : ["apiviewer.Application"],
-		        "feedreader" : ["feedreader.Application"],
-		        "webmail" : ["webmail.Application"],
-		        "showcase" : ["showcase.Application"]
-		    }
-		},
+  "build-app-parts" :
+  {
+    "extend" : ["build-parts-common"],
+    "buildScript" : "build-app-parts",
+    
+    "views" :
+    {
+      "apiviewer" : ["apiviewer.Application"],
+      "feedreader" : ["feedreader.Application"],
+      "webmail" : ["webmail.Application"],
+      "showcase" : ["showcase.Application"]
+    }
+  },
 
-		"build-comp-views" :
-		{
-		    "extend" : ["build-parts-common"],
-		    "buildScript" : "build-comp-parts",
-		    "parts" :
-		    {
-		        "tree" : ["ui_tree"],
-		        "colorselector" : ["qx.ui.component.ColorSelector"],
-		        "window" : ["ui_window"],
-		        "toolbar" : ["ui_toolbar", "ui_menu"],
-		        "table" : ["ui_table"],
-		        "form" : ["ui_form"]
-		    }
-		},
+  "build-comp-parts" :
+  {
+    "extend" : ["build-parts-common"],
+    "buildScript" : "build-comp-parts",
+    
+    "parts" :
+    {
+      "tree" : ["ui_tree"],
+      "colorselector" : ["qx.ui.component.ColorSelector"],
+      "window" : ["ui_window"],
+      "toolbar" : ["ui_toolbar", "ui_menu"],
+      "table" : ["ui_table"],
+      "form" : ["ui_form"]
+    }
+  },
 
-		"build-feedreader-parts" :
-		{
-		    "extend" : ["build-parts-common"],
-		    "buildScript" : "build-feedreader-parts",
-		    "collapseParts" : ["core"],
-		    "parts" :
-		    {
-		        "core" : ["feedreader.Application","qx.theme.ClassicRoyale"],
-		        "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
-		        "article" : ["feedreader.ArticleView"],
-		        "preferences" : ["ui_window"]
-		    }
-		},
+  "build-feedreader-parts" :
+  {
+    "extend" : ["build-parts-common"],
+    "buildScript" : "build-feedreader-parts",
+    "collapseParts" : ["core"],
+    
+    "parts" :
+    {
+      "core" : ["feedreader.Application","qx.theme.ClassicRoyale"],
+      "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
+      "article" : ["feedreader.ArticleView"],
+      "preferences" : ["ui_window"]
+    }
+  },
 
-		"build-apiviewer-parts" :
-		{
-		    "extend" : ["build-parts-common"],
-		    "buildScript" : "build-apiviewer-parts",
-		    "variants" :
-		    {
-		        "qx.debug" : ["off"],
-		        "qx.client" : ["gecko","mshtml"]
-		    },
-		    "collapseParts" : ["core"],
-		    "parts" :
-		    {
-		        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-		        "viewer" : ["apiviewer.Viewer"],
-		        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
-		    }
-		},
+  "build-apiviewer-parts" :
+  {
+    "extend" : ["build-parts-common"],
+    "buildScript" : "build-apiviewer-parts",
+    
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
+    },
+    
+    "collapseParts" : ["core"],
+    
+    "parts" :
+    {
+      "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+      "viewer" : ["apiviewer.Viewer"],
+      "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+    }
+  },
 
-		"source-apiviewer-parts" :
-		{
-		    "extend" : ["source"],
-		    "sourceScript" : "source-apiviewer-packages",
-		    "variants" :
-		    {
-		        "qx.debug" : ["off"],
-		        "qx.client" : ["gecko","mshtml"]
-		    },
-		    "collapseParts" : ["core"],
-		    "parts" :
-		    {
-		        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-		        "viewer" : ["apiviewer.Viewer"],
-		        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
-		    }
-		},
+  "source-apiviewer-parts" :
+  {
+    "extend" : ["source"],
+    "sourceScript" : "source-apiviewer-packages",
+    
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
+    },
+    
+    "collapseParts" : ["core"],
+    
+    "parts" :
+    {
+      "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+      "viewer" : ["apiviewer.Viewer"],
+      "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+    }
+  },
 
-		"build-apiviewer-parts-noqx" :
-		{
-		    "extend" : ["build-parts-common"],
-		    "buildScript" : "build-apiviewer-parts-noqx",
-		    "variants" :
-		    {
-		        "qx.debug" : ["off"],
-		        "qx.client" : ["gecko","mshtml"]
-		    },
-		    "collapseParts" : ["core"],
-		    "include" : ["apiviewer.Application"],
-		    "exclude" : ["=qx.*"],
-		    "parts" :
-		    {
-		        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-		        "viewer" : ["apiviewer.Viewer"],
-		        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
-		    }
-		}
+  "build-apiviewer-parts-noqx" :
+  {
+    "extend" : ["build-parts-common"],
+    "buildScript" : "build-apiviewer-parts-noqx",
+    
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
+    },
+    
+    "collapseParts" : ["core"],
+    "include" : ["apiviewer.Application"],
+    "exclude" : ["=qx.*"],
+    
+    "parts" :
+    {
+      "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+      "viewer" : ["apiviewer.Viewer"],
+      "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+    }
+  }
 }
