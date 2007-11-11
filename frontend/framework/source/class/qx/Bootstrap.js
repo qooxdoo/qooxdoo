@@ -155,6 +155,18 @@ qx.Bootstrap.define("qx.Bootstrap",
 
 
     /**
+     * Find a class by its name
+     *
+     * @type static
+     * @param name {String} class name to resolve
+     * @return {Class} the class
+     */
+    getByName : function(name) {
+      return this.$$registry[name];
+    },
+    
+
+    /**
      * Returns the current timestamp
      *
      * @type static
