@@ -10,7 +10,7 @@ class Compiler:
         self._treeutil = treeutil
 
 
-    def compileClasses(self, todo, variants, process):
+    def compileClasses(self, todo, variants, optimize):
         content = ""
         length = len(todo)
 
@@ -18,21 +18,21 @@ class Compiler:
 
         for pos, fileId in enumerate(todo):
             self._console.progress(pos, length)
-            content += self.getCompiled(fileId, variants, process)
+            content += self.getCompiled(fileId, variants, optimize)
 
         self._console.outdent()
 
         return content
 
 
-    def getCompiled(self, fileId, variants, process):
+    def getCompiled(self, fileId, variants, optimize):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
         variantsId = variantsupport.generateId(variants)
-        processId = self.generateProcessId(process)
+        optimizeId = self.generateOptimizeId(optimize)
 
-        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, processId)
+        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, optimizeId)
 
         compiled = self._cache.read(cacheId, filePath)
         if compiled != None:
@@ -40,9 +40,9 @@ class Compiler:
 
         tree = copy.deepcopy(self._treeutil.getVariantsTree(fileId, variants))
 
-        self._console.debug("Postprocessing tree: %s..." % fileId)
+        self._console.debug("Optimizing tree: %s..." % fileId)
         self._console.indent()
-        self._postProcessHelper(tree, fileId, process, variants)
+        self._optimizeHelper(tree, fileId, variants, optimize)
         self._console.outdent()
 
         self._console.debug("Compiling tree: %s..." % fileId)
@@ -52,11 +52,11 @@ class Compiler:
         return compiled
 
 
-    def cleanCompiled(self, fileId, variants, process):
+    def cleanCompiled(self, fileId, variants, optimize):
         variantsId = variantsupport.generateId(variants)
-        processId = self.generateProcessId(process)
+        optimizeId = self.generateOptimizeId(variants)
 
-        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, processId)
+        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, optimizeId)
 
         self._cache.clean(cacheId)
 
@@ -74,31 +74,31 @@ class Compiler:
         return compiler.compile(restree, options)
 
 
-    def _postProcessHelper(self, fileTree, fileId, process, variants):
-        if "optimize-basecalls" in process:
+    def _optimizeHelper(self, fileTree, fileId, variants, optimize):
+        if "basecalls" in optimize:
             self._console.debug("Optimize base calls...")
             self._baseCallOptimizeHelper(fileTree, fileId, variants)
 
-        if "optimize-variables" in process:
+        if "variables" in optimize:
             self._console.debug("Optimize local variables...")
             self._variableOptimizeHelper(fileTree, fileId, variants)
 
-        if "optimize-privates" in process:
+        if "privates" in optimize:
             self._console.debug("Optimize privates...")
             self._privateOptimizeHelper(fileTree, fileId, variants)
 
-        if "optimize-strings" in process:
+        if "strings" in optimize:
             self._console.debug("Optimize strings...")
             self._stringOptimizeHelper(fileTree, fileId, variants)
 
         return fileTree
 
 
-    def generateProcessId(self, process):
-        process = copy.copy(process)
-        process.sort()
+    def generateOptimizeId(self, optimize):
+        optimize = copy.copy(optimize)
+        optimize.sort()
 
-        return "[%s]" % ("-".join(process))
+        return "[%s]" % ("-".join(optimize))
 
 
     def _baseCallOptimizeHelper(self, tree, id, variants):

@@ -12,6 +12,7 @@ class DependencyUtil:
 
 
 
+
     def resolveDependencies(self, include, block, variants):
         result = {}
 

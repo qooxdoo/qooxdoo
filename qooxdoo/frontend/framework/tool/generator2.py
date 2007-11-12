@@ -99,6 +99,8 @@ from generator2 import compilesupport
 from generator2 import partsupport
 
 
+
+
 ######################################################################
 #  MAIN CONTENT
 ######################################################################
@@ -144,8 +146,9 @@ def process(options):
     resolve(config, options.jobs)
 
     for job in options.jobs:
-        execute(job, config[job])
-
+        console.head("Executing: %s" % job, True)
+        generator = Generator(config[job], console)
+        generator.run()
 
 
 def resolve(config, jobs):
@@ -193,495 +196,434 @@ def mergeEntry(target, source):
 #  CORE: GENERATORS
 ######################################################################
 
-def getJobConfig(key, default=None):
-    global jobconfig
-    return _getJobConfig(key, jobconfig, default)
+class Generator():
+    def __init__(self, config, console):
+        self._config = config
+        self._console = console
 
+        self._cache = cachesupport.Cache(self.getConfig("cache/path"), self._console)
+        self._classes = classpath.getClasses(self.getConfig("library"), self._console)
+        self._treeutil = treesupport.TreeUtil(self._classes, self._cache, self._console)
+        self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self.getConfig("require", {}), self.getConfig("use", {}))
+        self._modules = self._deputil.getModules()
+        self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
+        self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
+        self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._treeutil)
 
-def _getJobConfig(key, configpart, default):
-    sepindex = key.find(".")
 
-    # simple key
-    if sepindex == -1:
-        if configpart.has_key(key):
-            return configpart[key]
-        else:
-            return default
 
-    # complex key
-    else:
-        firstpart = key[0:sepindex]
-        if configpart.has_key(firstpart):  # check first part
-            return _getJobConfig(key[sepindex+1:], configpart[firstpart],default)
-        else:
-            return default
+    def run(self):
+        smartInclude, explicitInclude = self.getIncludes()
+        smartExclude, explicitExclude = self.getExcludes()
 
 
-def execute(job, config):
-    global classes
-    global deputil
-    global modules
-    global cache
-    global compiler
-    global jobconfig
-    global treeutil
-    global apiutil
-    global partutil
+        #
+        # EXECUTION PHASE
+        #
 
-    jobconfig = config
+        variantSets = variantsupport.computeCombinations(self.getConfig("variants", {}))
 
-    console.head("Executing: %s" % job, True)
+        for variantSetPos, variants in enumerate(variantSets):
+            if len(variantSets) > 1:
+                console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
 
 
+            # Debug variant combination
+            if len(variants) > 0:
+                console.debug("Selected variants:")
+                console.indent()
+                for key in variants:
+                    console.debug("%s = %s" % (key, variants[key]))
+                console.outdent()
 
 
-    #
-    # INITIALIZATION PHASE
-    #
+            # Cleanup Job
+            self.cleanJob()
 
-    # Script names
-    buildCfg = getJobConfig("build")
-    sourceCfg = getJobConfig("source")
-    apiCfg = getJobConfig("api")
-    cleanCfg = getJobConfig("clean")
 
-    # Part support (has priority)
-    userParts = getJobConfig("parts", {})
-    collapseParts = getJobConfig("collapseParts", [])
-    optimizeLatency = getJobConfig("optimizeLatency")
-
-    userInclude = getJobConfig("include", [])
-    userExclude = getJobConfig("exclude", [])
-
-
-
-
-    if len(userParts) > 0:
-        execMode = "parts"
-    else:
-        execMode = "normal"
-
-
-
-
-    #
-    # INIT PHASE
-    #
-
-    cache = cachesupport.Cache(getJobConfig("cache")["path"], console)
-    classes = classpath.getClasses(getJobConfig("class"), console)
-    treeutil = treesupport.TreeUtil(classes, cache, console)
-    deputil = dependencysupport.DependencyUtil(classes, cache, console, treeutil, getJobConfig("require", {}), getJobConfig("use", {}))
-    modules = deputil.getModules()
-    compiler = compilesupport.Compiler(classes, cache, console, treeutil)
-    apiutil = apidata.ApiUtil(classes, cache, console, treeutil)
-    partutil = partsupport.PartUtil(classes, console, deputil, treeutil)
-
-
-
-
-
-    #
-    # PREPROCESS PHASE: INCLUDE/EXCLUDE
-    #
-
-    # Auto include all when nothing defined
-    if execMode == "normal" and len(userInclude) == 0:
-        console.info("Automatically including all available classes")
-        userInclude.append("*")
-
-
-
-    console.info("Preparing include/exclude configuration...")
-    smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
-    smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
-
-
-    # Configuration feedback
-    console.indent()
-    console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
-    console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
-
-    if len(userExclude) > 0:
-        console.warn("Excludes may break code!")
-
-    if len(explicitInclude) > 0:
-        console.warn("Explicit included classes may not work")
-
-    console.outdent()
-
-
-
-
-
-
-    # Resolve modules/regexps
-    console.indent()
-    console.debug("Resolving modules/regexps...")
-    smartInclude = resolveComplexDefs(smartInclude)
-    explicitInclude = resolveComplexDefs(explicitInclude)
-    smartExclude = resolveComplexDefs(smartExclude)
-    explicitExclude = resolveComplexDefs(explicitExclude)
-    console.outdent()
-
-
-
-
-
-    #
-    # PREPROCESS PHASE: PARTS
-    #
-
-    if execMode == "parts":
-        console.info("Preparing part configuration...")
-        console.indent()
-
-        # Build bitmask ids for parts
-        console.debug("Assigning bits to parts...")
-
-        # References partId -> bitId of that part
-        console.indent()
-        partBits = {}
-        partPos = 0
-        for partId in userParts:
-            partBit = 1<<partPos
-
-            console.debug("Part #%s => %s" % (partId, partBit))
-
-            partBits[partId] = partBit
-            partPos += 1
-
-        console.outdent()
-
-        # Resolving modules/regexps
-        console.debug("Resolving part modules/regexps...")
-        partClasses = {}
-        for partId in userParts:
-            partClasses[partId] = resolveComplexDefs(userParts[partId])
-
-        console.outdent()
-
-
-
-
-    #
-    # EXECUTION PHASE
-    #
-
-    variantSets = variantsupport.computeCombinations(getJobConfig("variants", {}))
-
-    for variantSetPos, variants in enumerate(variantSets):
-        if len(variantSets) > 1:
-            console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
-
-
-        # Debug variant combination
-        if len(variants) > 0:
-            console.debug("Selected variants:")
+            # Detect dependencies
+            console.info("Resolving application dependencies...")
             console.indent()
-            for key in variants:
-                console.debug("%s = %s" % (key, variants[key]))
+            includeDict = self._deputil.resolveDependencies(smartInclude, smartExclude, variants)
             console.outdent()
 
 
-        # Cleanup cache
-        if cleanCfg != None:
-            console.info("Cleaning up cache")
-            console.indent()
-            for cleanJob in cleanCfg:
-                console.info("Job: %s" % cleanJob)
+            # Explicit include/exclude
+            if len(explicitInclude) > 0 or len(explicitExclude) > 0:
+                console.info("Processing explicitely configured includes/excludes...")
+                for entry in explicitInclude:
+                    includeDict[entry] = True
 
-            console.outdent()
-
-            console.info("Removing cache files:", False)
-            console.indent()
-
-            for entryPos, entry in enumerate(classes):
-                console.progress(entryPos, len(classes))
-                console.debug("Cleaning up: %s" % entry)
-
-                if "tokens" in cleanCache:
-                    treeutil.cleanTokens(entry)
-
-                if "tree" in cleanCache:
-                    treeutil.cleanTree(entry)
-
-                if "variants-tree" in cleanCache:
-                    treeutil.cleanVariantsTree(entry, variants)
-
-                if "compiled" in cleanCache:
-                    compiler.cleanCompiled(entry, variants, buildProcess)
+                for entry in explicitExclude:
+                    if includeDict.has_key(entry):
+                        del includeDict[entry]
 
 
-            console.outdent()
-            return
-
-
-        # Detect dependencies
-        console.info("Resolving application dependencies...")
-        console.indent()
-        includeDict = deputil.resolveDependencies(smartInclude, smartExclude, variants)
-        console.outdent()
-
-
-        # Explicit include/exclude
-        if len(explicitInclude) > 0 or len(explicitExclude) > 0:
-            console.info("Processing explicitely configured includes/excludes...")
-            for entry in explicitInclude:
-                includeDict[entry] = True
-
-            for entry in explicitExclude:
-                if includeDict.has_key(entry):
-                    del includeDict[entry]
-
-
-        # Debug optional classes
-        optionals = deputil.getOptionals(includeDict)
-        if len(optionals) > 0:
-            console.debug("These optional classes may be useful:")
-            console.indent()
-            for entry in optionals:
-                console.debug("%s" % entry)
-            console.outdent()
+            # Debug optional classes
+            optionals = self._deputil.getOptionals(includeDict)
+            if len(optionals) > 0:
+                console.debug("These optional classes may be useful:")
+                console.indent()
+                for entry in optionals:
+                    console.debug("%s" % entry)
+                console.outdent()
 
 
 
-
-
-        # Generate API data
-        if apiCfg != None:
-            apiutil.storeApi(includeDict, apiCfg["path"])
+            # JOBS: NO-PARTS
+            self.apiJob()
 
 
 
+            # Part support
+            if self.getConfig("packages"):
+                console.info("Preparing part configuration...")
+                console.indent()
 
+                # Build bitmask ids for parts
+                console.debug("Assigning bits to parts...")
 
+                # References partId -> bitId of that part
+                console.indent()
+                partBits = {}
+                partPos = 0
+                for partId in userParts:
+                    partBit = 1<<partPos
 
-        # Generate application script files
-        if buildCfg != None or sourceCfg != None:
-            if execMode == "parts":
+                    console.debug("Part #%s => %s" % (partId, partBit))
+
+                    partBits[partId] = partBit
+                    partPos += 1
+
+                console.outdent()
+
+                # Resolving modules/regexps
+                console.debug("Resolving part modules/regexps...")
+                partClasses = {}
+                for partId in userParts:
+                    partClasses[partId] = resolveComplexDefs(userParts[partId])
+
+                console.outdent()
+
                 (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
 
+                for pkgId in pkgIds:
+                    self.sourceJob()
+                    self.compileJob()
+
             else:
-                # simulate package
-                pkgIds = ["1"]
-                pkg2classes = {
-                    "1" : includeDict.keys()
-                }
-
-
-            settings = getJobConfig("settings", {})
-
-
-            if buildCfg != None:
-                addVariants = True
-                addSettings = True
-                
-                if buildCfg.has_key("process"):
-                    buildProcess = buildCfg["process"]
-                else:
-                    buildProcess = []  
-                    
-                if buildCfg.has_key("format"):
-                    buildFormat = buildCfg["format"]
-                else:
-                    buildFormat = False
-                
-                for packageId in pkgIds:
-                    console.info("Compiling classes for package #%s:" % packageId, False)
-                    console.indent()
+                sortedInclude = self._deputil.sortClasses(includeDict, variants)
 
-                    # Compile file content
-                    compiledContent = getCompiledPackage(pkg2classes[packageId], variants, buildProcess)
+                self.sourceJob(sortedInclude, variants, str(variantSetPos))
+                self.compileJob(sortedInclude, variants, str(variantSetPos))
 
-                    # Add settings and variants
-                    if addVariants:
-                        variantsCode = generateVariantsCode(variants)
-                        compiledContent = variantsCode + compiledContent
-                        addVariants = False
 
-                    if addSettings:
-                        settingsCode = generateSettingsCode(settings)
-                        compiledContent = settingsCode + compiledContent
-                        addSettings = False
 
-                    # Construct file name
-                    fileName = buildCfg["file"]
-                    fileName = fileName.replace("$variant", str(variantSetPos))
-                    fileName = fileName.replace("$package", str(packageId))
 
-                    # Save result file
-                    filetool.save(fileName, compiledContent)
 
-                    console.debug("Done: %s" % getContentSize(compiledContent))
-                    console.outdent()
+    def cleanJob(self):
+        cleanCfg = self.getConfig("clean")
 
+        if not cleanCfg:
+            return
 
-            if sourceCfg != None:
-                addVariants = True
-                addSettings = True
-                
-                if sourceCfg.has_key("format"):
-                    sourceFormat = sourceCfg["format"]
-                else:
-                    sourceFormat = True
+        console.info("Cleaning up cache")
+        console.indent()
+        for cleanJob in cleanCfg:
+            console.info("Job: %s" % cleanJob)
 
-                for packageId in pkgIds:
-                    console.info("Generating source includer for package #%s" % packageId)
-                    
-                    # Generate loader
-                    includeBlocks = getSourceIncludeList(pkg2classes[packageId], variants)
-                    
-                    # Add settings and variants
-                    if addVariants:
-                        variantsCode = generateVariantsCode(variants, sourceFormat)
-                        includeBlocks.insert(0, wrapJavaScript(variantsCode))
-                        addVariants = False
+        console.outdent()
 
-                    if addSettings:
-                        settingsCode = generateSettingsCode(settings, sourceFormat)
-                        includeBlocks.insert(0, wrapJavaScript(settingsCode))
-                        addSettings = False
-                        
-                    # Put into document.write
-                    loaderCode = "document.write('%s');" % "\n".join(includeBlocks).replace("'", "\\'")
+        console.info("Removing cache files:", False)
+        console.indent()
 
-                    # Construct file name
-                    fileName = sourceCfg["file"]
-                    fileName = fileName.replace("$variant", str(variantSetPos))
-                    fileName = fileName.replace("$package", str(packageId))
-                    
-                    # Save result file
-                    filetool.save(fileName, loaderCode)
+        for entryPos, entry in enumerate(classes):
+            console.progress(entryPos, len(classes))
+            console.debug("Cleaning up: %s" % entry)
 
+            if "tokens" in cleanCache:
+                treeutil.cleanTokens(entry)
 
-    
-def wrapJavaScript(code):
-    return '<script type="text/javascript">%s</script>' % code
+            if "tree" in cleanCache:
+                treeutil.cleanTree(entry)
 
+            if "variants-tree" in cleanCache:
+                treeutil.cleanVariantsTree(entry, variants)
 
-def getSourceIncludeList(include, variants):
-    scriptBlocks = []
-    sortedInclude = deputil.sortClasses(include, variants)
+            if "compiled" in cleanCache:
+                compiler.cleanCompiled(entry, variants, buildProcess)
 
-    for fileId in sortedInclude:
-        fileUri = classes[fileId]["uri"]
-        scriptBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
 
-    return scriptBlocks
+        console.outdent()
+        return
 
 
 
+    def apiJob(self):
+        apiCfg = self.getConfig("api")
 
+        if not apiCfg:
+            return
 
+        apiutil.storeApi(includeDict, getKey(config, "api/path"))
 
 
 
-def generateSettingsCode(settings, format=True):
-    number = re.compile("^([0-9\-]+)$")
-    result = 'if(!window.qxsettings)qxsettings={};'
+    def compileJob(self, include, variants, variantId="", packageId=""):
+        if not self.getConfig("compile/file"):
+            return
 
-    if format:
-        result += "\n"
+        console.info("Compiling classes:", False)
+        console.indent()
 
-    for key in settings:
-        value = settings[key]
+        # Read in compiler options
+        optimize = self.getConfig("compile/optimize", [])
 
-        if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-            value = '"%s"' % value.replace("\"", "\\\"")
+        # Compile file content
+        compiledContent = self._compiler.compileClasses(include, variants, optimize)
 
-        result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
+        # Add settings and variants
+        if "qx.core.Variant" in include:
+            variantsCode = self.generateVariantsCode(variants)
+            compiledContent = variantsCode + compiledContent
 
-        if format:
-            result += "\n"
+        if "qx.core.Setting" in include:
+            settingsCode = self.generateSettingsCode(self.getConfig("settings", {}))
+            compiledContent = settingsCode + compiledContent
 
-    return result
+        # Construct file name
+        fileName = self.getConfig("compile/file")
+        fileName = fileName.replace("$variant", variantId)
+        fileName = fileName.replace("$package", packageId)
 
+        # Save result file
+        filetool.save(fileName, compiledContent)
 
-def generateVariantsCode(variants, format=True):
-    number = re.compile("^([0-9\-]+)$")
-    result = 'if(!window.qxvariants)qxvariants={};'
+        console.debug("Done: %s" % self.getContentSize(compiledContent))
+        console.outdent()
 
-    if format:
-        result += "\n"
 
-    for key in variants:
-        value = variants[key]
 
-        if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-            value = '"%s"' % value.replace("\"", "\\\"")
+    def sourceJob(self, include, variants, variantId="", packageId=""):
+        if not self.getConfig("source/file"):
+            return
 
-        result += 'qxvariants["%s"]=%s;' % (key, value)
+        console.info("Generating source includer...")
 
-        if format:
-            result += "\n"
+        # Generate loader
+        includeBlocks = []
+        for fileId in include:
+            fileUri = self._classes[fileId]["uri"]
+            includeBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
 
-    return result
+        # Add settings and variants
+        if "qx.core.Variant" in include:
+            variantsCode = self.generateVariantsCode(variants)
+            includeBlocks.insert(0, self.wrapJavaScript(variantsCode))
 
+        if "qx.core.Setting" in include:
+            settingsCode = self.generateSettingsCode(self.getConfig("settings", {}))
+            includeBlocks.insert(0, self.wrapJavaScript(settingsCode))
 
+        # Put into document.write
+        loaderCode = "document.write('%s');" % "\n".join(includeBlocks).replace("'", "\\'")
 
+        # Construct file name
+        fileName = self.getConfig("source/file")
+        fileName = fileName.replace("$variant", variantId)
+        fileName = fileName.replace("$package", packageId)
 
+        # Save result file
+        filetool.save(fileName, loaderCode)
 
 
-######################################################################
-#  COMMON COMPILED PKG SUPPORT
-######################################################################
 
-def getCompiledPackage(includeDict, variants, buildProcess):
 
-    # Compiling classes
-    sortedClasses = deputil.sortClasses(includeDict, variants)
-    compiledContent = compiler.compileClasses(sortedClasses, variants, buildProcess)
+    def getConfig(self, key, default=None):
+        data = self._config
+        splits = key.split("/")
 
-    return compiledContent
+        for item in splits:
+            if data.has_key(item):
+                data = data[item]
+            else:
+                return default
 
+        return data
 
 
-def getContentSize(content):
-    # Convert to utf-8 first
-    uni = unicode(content).encode("utf-8")
 
-    # Calculate sizes
-    origSize = len(uni) / 1024
-    compressedSize = len(zlib.compress(uni, 9)) / 1024
 
-    return "%sKB / %sKB" % (origSize, compressedSize)
+    def getIncludes(self):
+        #
+        # PREPROCESS PHASE: INCLUDE/EXCLUDE
+        #
 
+        includeCfg = self.getConfig("include", [])
+        packagesCfg = self.getConfig("packages")
 
+        # Auto include all when nothing defined
+        if not packagesCfg and len(includeCfg) == 0:
+            console.info("Automatically including all available classes")
+            includeCfg.append("*")
 
-def _splitIncludeExcludeList(input):
-    intelli = []
-    explicit = []
+        # Splitting lists
+        console.info("Preparing include configuration...")
+        smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
 
-    for entry in input:
-        if entry[0] == "=":
-            explicit.append(entry[1:])
-        else:
-            intelli.append(entry)
+        # Configuration feedback
+        console.indent()
+        console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
 
-    return intelli, explicit
+        if len(explicitInclude) > 0:
+            console.warn("Explicit included classes may not work")
 
+        console.outdent()
 
+        # Resolve modules/regexps
+        console.indent()
+        console.debug("Resolving modules/regexps...")
+        smartInclude = self._resolveComplexDefs(smartInclude)
+        explicitInclude = self._resolveComplexDefs(explicitInclude)
+        console.outdent()
 
-def resolveComplexDefs(entries):
-    global modules
-    global classes
+        return smartInclude, explicitInclude
 
-    content = []
 
-    for entry in entries:
-        if entry in modules:
-            content.extend(modules[entry])
-        else:
-            regexp = textutil.toRegExp(entry)
 
-            for className in classes:
-                if regexp.search(className):
-                    if not className in content:
-                        # print "Resolved: %s with %s" % (entry, className)
-                        content.append(className)
 
-    return content
+    def getExcludes(self):
+        #
+        # PREPROCESS PHASE: INCLUDE/EXCLUDE
+        #
+
+        excludeCfg = self.getConfig("exclude", [])
+
+        # Splitting lists
+        console.info("Preparing exclude configuration...")
+        smartExclude, explicitExclude = self._splitIncludeExcludeList(excludeCfg)
+
+        # Configuration feedback
+        console.indent()
+        console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
+
+        if len(excludeCfg) > 0:
+            console.warn("Excludes may break code!")
+
+        console.outdent()
+
+        # Resolve modules/regexps
+        console.indent()
+        console.debug("Resolving modules/regexps...")
+        smartExclude = self._resolveComplexDefs(smartExclude)
+        explicitExclude = self._resolveComplexDefs(explicitExclude)
+        console.outdent()
+
+        return smartExclude, explicitExclude
+
+
+
+
+    def _splitIncludeExcludeList(self, data):
+        intelli = []
+        explicit = []
+
+        for entry in data:
+            if entry[0] == "=":
+                explicit.append(entry[1:])
+            else:
+                intelli.append(entry)
+
+        return intelli, explicit
+
+
+
+
+    def _resolveComplexDefs(self, entries):
+        classes = self._classes
+        modules = self._modules
+
+        content = []
+
+        for entry in entries:
+            if entry in modules:
+                content.extend(modules[entry])
+            else:
+                regexp = textutil.toRegExp(entry)
+
+                for className in classes:
+                    if regexp.search(className):
+                        if not className in content:
+                            # print "Resolved: %s with %s" % (entry, className)
+                            content.append(className)
+
+        return content
+
+
+
+
+
+
+    ######################################################################
+    #  SETTINGS/VARIANTS
+    ######################################################################
+
+    def wrapJavaScript(self, code):
+        return '<script type="text/javascript">%s</script>' % code
+
+
+    def generateSettingsCode(self, settings, format=True):
+        number = re.compile("^([0-9\-]+)$")
+        result = 'if(!window.qxsettings)qxsettings={};'
+
+        for key in settings:
+            if format:
+                result += "\n"
+
+            value = settings[key]
+
+            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+                value = '"%s"' % value.replace("\"", "\\\"")
+
+            result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
+
+        return result
+
+
+
+    def generateVariantsCode(self, variants, format=True):
+        number = re.compile("^([0-9\-]+)$")
+        result = 'if(!window.qxvariants)qxvariants={};'
+
+        for key in variants:
+            if format:
+                result += "\n"
+
+            value = variants[key]
+
+            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+                value = '"%s"' % value.replace("\"", "\\\"")
+
+            result += 'qxvariants["%s"]=%s;' % (key, value)
+
+        return result
+
+
+
+
+    ######################################################################
+    #  UTIL
+    ######################################################################
+
+    def getContentSize(self, content):
+        # Convert to utf-8 first
+        uni = unicode(content).encode("utf-8")
+
+        # Calculate sizes
+        origSize = len(uni) / 1024
+        compressedSize = len(zlib.compress(uni, 9)) / 1024
+
+        return "%sKB / %sKB" % (origSize, compressedSize)
 
 
 

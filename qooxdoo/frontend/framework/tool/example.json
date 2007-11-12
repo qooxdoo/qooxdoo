@@ -1,28 +1,32 @@
 {
   "common" :
   {
-    "class" :
+    "library" :
     [
       {
         "encoding" : "utf-8",
         "path" : "framework/source/class",
         "uri" : "../source/class"
       },
+
       {
         "encoding" : "utf-8",
         "path" : "application/apiviewer/source/class",
         "uri" : "../source/class"
       },
+
       {
         "encoding" : "utf-8",
         "path" : "application/feedreader/source/class",
         "uri" : "../source/class"
       },
+
       {
         "encoding" : "utf-8",
         "path" : "application/webmail/source/class",
         "uri" : "../source/class"
       },
+
       {
         "encoding" : "utf-8",
         "path" : "application/showcase/source/class",
@@ -33,23 +37,22 @@
     "require" :
     {
       "qx.log.Logger" : ["qx.log.appender.Native"]
-    },  
+    },
 
-    "cache" : 
+    "cache" :
     {
       "path" : "cache2"
     }
   },
 
-  
-  
-  
+
+
 
   "api-feedreader" :
   {
     "extend" : ["common"],
     "include" : ["feedreader.Application"],
-    
+
     "api" :
     {
       "path" : "application/apiviewer/source/script"
@@ -60,20 +63,21 @@
   {
     "extend" : ["common"],
     "include" : ["webmail.Application"],
-    
+
     "api" :
     {
       "path" : "application/apiviewer/source/script"
     }
   },
-  
-  
+
+
 
 
   "source-all" :
   {
     "extend" : ["common"],
-    "source" : 
+
+    "source" :
     {
       "file" : "source-all.js"
     }
@@ -82,41 +86,36 @@
   "build-all" :
   {
     "extend" : ["common"],
-    "build" : 
+
+    "compile" :
     {
       "file" : "build-all.js"
     }
   },
-  
-  
-  
 
-  
+
+
+
   "source-apiviewer" :
   {
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
-    
+
     "source" :
     {
       "file" : "apiviewer-source.js"
     }
   },
-    
+
   "build-apiviewer" :
   {
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
-    
-    "build" :
+
+    "compile" :
     {
       "file" : "apiviewer-build.js",
-      "process" :
-      [
-        "optimize-variables",
-        "optimize-basecalls",
-        "optimize-strings"      
-      ]
+      "optimize" : [ "variables", "basecalls" ]
     }
   },
 
@@ -124,136 +123,109 @@
   {
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
-    
+
+    "compile" :
+    {
+      "file" : "apiviewer-variants-build-$variant.js",
+      "optimize" : [ "variables", "basecalls" ]
+    },
+
     "variants" :
     {
       "qx.debug" : ["off"],
       "qx.aspects" : ["off"],
-      "qx.client" : ["gecko","mshtml"]
-    },
-    
-    "build" :
-    {
-      "file" : "apiviewer-variants-build.js",
-      "process" :
-      [
-        "optimize-variables",
-        "optimize-basecalls",
-        "optimize-strings"      
-      ]
-    }
-  },
-  
-  
-  
-  
-
-  "build-feedreader" :
-  {
-    "extend" : ["common"],
-    "buildScript" : "build-feedreader",
-    "include" : ["feedreader.Application"]
-  },
-
-
-
-
-  "build-app-parts" :
-  {
-    "extend" : ["common"],
-    "optimizeLatency" : 5000,
-    "buildScript" : "build-app-pkgs",
-    
-    "views" :
-    {
-      "apiviewer" : ["apiviewer.Application"],
-      "feedreader" : ["feedreader.Application"],
-      "webmail" : ["webmail.Application"],
-      "showcase" : ["showcase.Application"]
+      "qx.client" : ["gecko", "mshtml"]
     }
   },
 
-  "build-comp-parts" :
-  {
-    "extend" : ["common"],
-    "optimizeLatency" : 5000,
-    "buildScript" : "build-comp-pkgs",
-    
-    "parts" :
-    {
-      "tree" : ["ui_tree"],
-      "colorselector" : ["qx.ui.component.ColorSelector"],
-      "window" : ["ui_window"],
-      "toolbar" : ["ui_toolbar", "ui_menu"],
-      "table" : ["ui_table"],
-      "form" : ["ui_form"]
-    }
-  },
-  
   "source-apiviewer-parts" :
   {
     "extend" : ["common"],
-    "optimizeLatency" : 5000,    
-    "sourceScript" : "source-apiviewer-pkgs",
-    
+
+    "source" :
+    {
+      "file" : "source-apiviewer-pkgs-$variant-$package.js"
+    },
+
     "variants" :
     {
       "qx.debug" : ["off"],
-      "qx.client" : ["gecko","mshtml"]
+      "qx.client" : ["gecko", "mshtml"]
     },
-    
-    "collapseParts" : ["core"],
-    
-    "parts" :
+
+    "packages" :
     {
-      "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-      "viewer" : ["apiviewer.Viewer"],
-      "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+      "collapse" : ["core"],
+      "optimize" : 5000,
+
+      "parts" :
+      {
+        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+        "viewer" : ["apiviewer.Viewer"],
+        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+      }
     }
   },
 
   "build-apiviewer-parts" :
   {
     "extend" : ["common"],
-    "optimizeLatency" : 5000,
-    "buildScript" : "build-apiviewer-pkgs",
-    
+
+    "compile" :
+    {
+      "file" : "build-apiviewer-pkgs-$variant-$package.js"
+    },
+
     "variants" :
     {
       "qx.debug" : ["off"],
-      "qx.client" : ["gecko","mshtml"]
+      "qx.client" : ["gecko", "mshtml"]
     },
-    
-    "collapseParts" : ["core"],
-    
-    "parts" :
+
+    "packages" :
     {
-      "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-      "viewer" : ["apiviewer.Viewer"],
-      "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+      "collapse" : ["core"],
+      "optimize" : 5000,
+
+      "parts" :
+      {
+        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+        "viewer" : ["apiviewer.Viewer"],
+        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+      }
     }
   },
 
   "build-apiviewer-parts-noqx" :
   {
     "extend" : ["build-parts-common"],
-    "buildScript" : "build-apiviewer-pkgs-noqx",
-    
+
+    "compile" :
+    {
+      "file" : "build-apiviewer-pkgs-noqx-$variant-$package.js"
+    },
+
     "variants" :
     {
       "qx.debug" : ["off"],
-      "qx.client" : ["gecko","mshtml"]
+      "qx.client" : ["gecko", "mshtml"]
     },
-    
-    "collapseParts" : ["core"],
-    "include" : ["apiviewer.Application"],
-    "exclude" : ["=qx.*"],
-    
-    "parts" :
+
+    "packages" :
     {
-      "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-      "viewer" : ["apiviewer.Viewer"],
-      "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+      "collapse" : ["core"],
+      "include" : ["apiviewer.Application"],
+      "exclude" : ["=qx.*"],
+
+      "parts" :
+      {
+        "items" :
+        {
+          "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+          "viewer" : ["apiviewer.Viewer"],
+          "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+        }
+      }
     }
   }
 }
