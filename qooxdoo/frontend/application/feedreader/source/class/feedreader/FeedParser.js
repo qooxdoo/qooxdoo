@@ -20,8 +20,6 @@
 
 qx.Class.define("feedreader.FeedParser",
 {
-  extend : qx.ui.basic.Terminator,
-
   statics :
   {
     _rssDate1 : new qx.util.format.DateFormat("EEE, d MMM yyyy HH:mm:ss Z", "en_US"),
