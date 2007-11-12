@@ -12,9 +12,44 @@ class DependencyUtil:
 
 
 
+    def getClassList(self, include, block, explicitInclude, explicitExclude, variants):
+        result = self.resolveDependencies(include, block, variants)
+
+
+        # Explicit include/exclude
+        if len(explicitInclude) > 0 or len(explicitExclude) > 0:
+            self._console.info("Processing explicitely configured includes/excludes...")
+            for entry in explicitInclude:
+                if not entry in result:
+                    include.append(entry)
+
+            for entry in explicitExclude:
+                if entry in result:
+                    result.remove(entry)
+
+
+        # Debug optional classes
+        optionals = self.getOptionals(result)
+        if len(optionals) > 0:
+            self._console.debug("These optional classes may be useful:")
+            self._console.indent()
+            for entry in optionals:
+                self._console.debug("%s" % entry)
+            self._console.outdent()
+
+
+        # Sort classes
+        self.sortClasses(result, variants)
+
+
+        # Return list
+        return result
+
+
+
 
     def resolveDependencies(self, include, block, variants):
-        result = {}
+        result = []
 
         for item in include:
             self._resolveDependenciesRecurser(item, block, variants, result)
@@ -25,22 +60,22 @@ class DependencyUtil:
 
     def _resolveDependenciesRecurser(self, item, block, variants, result):
         # check if already in
-        if result.has_key(item):
+        if item in result:
             return
 
         # add self
-        result[item] = True
+        result.append(item)
 
         # reading dependencies
         deps = self.getCombinedDeps(item, variants)
 
         # process lists
         for subitem in deps["load"]:
-            if not result.has_key(subitem) and not subitem in block:
+            if not subitem in result and not subitem in block:
                 self._resolveDependenciesRecurser(subitem, block, variants, result)
 
         for subitem in deps["run"]:
-            if not result.has_key(subitem) and not subitem in block:
+            if not subitem in result and not subitem in block:
                 self._resolveDependenciesRecurser(subitem, block, variants, result)
 
 
@@ -283,15 +318,15 @@ class DependencyUtil:
         return meta
 
 
-    def getOptionals(self, classes):
-        opt = {}
+    def getOptionals(self, include):
+        result = []
 
-        for id in classes:
-            for sub in self.getMeta(id)["optionalDeps"]:
-                if not sub in classes:
-                    opt[sub] = True
+        for classId in include:
+            for optional in self.getMeta(classId)["optionalDeps"]:
+                if not optional in include and not optional in result:
+                    result.append(optional)
 
-        return opt
+        return result
 
 
     def getModules(self):

@@ -213,11 +213,14 @@ class Generator():
 
 
     def run(self):
+        # Preprocess include/exclude lists
+        # This is only the parsing of the config values
+        # We only need to call this once on each job
         smartInclude, explicitInclude = self.getIncludes()
         smartExclude, explicitExclude = self.getExcludes()
 
+        # Processing all combinations of variants
         variantSets = variantsupport.computeCombinations(self.getConfig("variants", {}))
-
         for variantSetPos, variants in enumerate(variantSets):
             if len(variantSets) > 1:
                 console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
@@ -239,43 +242,19 @@ class Generator():
             # Detect dependencies
             console.info("Resolving application dependencies...")
             console.indent()
-            includeDict = self._deputil.resolveDependencies(smartInclude, smartExclude, variants)
+            include = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
             console.outdent()
 
 
-            # Explicit include/exclude
-            if len(explicitInclude) > 0 or len(explicitExclude) > 0:
-                console.info("Processing explicitely configured includes/excludes...")
-                for entry in explicitInclude:
-                    includeDict[entry] = True
 
-                for entry in explicitExclude:
-                    if includeDict.has_key(entry):
-                        del includeDict[entry]
-
-
-            # Debug optional classes
-            optionals = self._deputil.getOptionals(includeDict)
-            if len(optionals) > 0:
-                console.debug("These optional classes may be useful:")
-                console.indent()
-                for entry in optionals:
-                    console.debug("%s" % entry)
-                console.outdent()
-
-
-
+            # Use include/exclude
             if not self.getConfig("packages"):
-                # Sort classes
-                sortedInclude = self._deputil.sortClasses(includeDict, variants)
-
-                # Executing jobs
-                self.apiJob(sortedInclude)
-                self.sourceJob(sortedInclude, variants, str(variantSetPos))
-                self.compileJob(sortedInclude, variants, str(variantSetPos))
+                self.apiJob(include)
+                self.sourceJob(include, variants, str(variantSetPos))
+                self.compileJob(include, variants, str(variantSetPos))
 
 
-            # Part support
+            # Enable package support
             else:
                 console.info("Preparing part configuration...")
                 console.indent()
@@ -316,8 +295,6 @@ class Generator():
 
 
 
-
-
     def cleanJob(self):
         cleanCfg = self.getConfig("clean")
 
@@ -350,9 +327,9 @@ class Generator():
             if "compiled" in cleanCache:
                 compiler.cleanCompiled(entry, variants, buildProcess)
 
-
         console.outdent()
         return
+
 
 
 
@@ -363,6 +340,7 @@ class Generator():
             return
 
         self._apiutil.storeApi(include, apiPath)
+
 
 
 
@@ -396,6 +374,7 @@ class Generator():
 
         console.debug("Done: %s" % self.getContentSize(compiledContent))
         console.outdent()
+
 
 
 
@@ -455,13 +434,8 @@ class Generator():
         includeCfg = self.getConfig("include", [])
         packagesCfg = self.getConfig("packages")
 
-        # Auto include all when nothing defined
-        if not packagesCfg and len(includeCfg) == 0:
-            console.info("Automatically including all available classes")
-            includeCfg.append("*")
-
         # Splitting lists
-        console.info("Preparing include configuration...")
+        console.debug("Preparing include configuration...")
         smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
 
         # Configuration feedback
@@ -493,7 +467,7 @@ class Generator():
         excludeCfg = self.getConfig("exclude", [])
 
         # Splitting lists
-        console.info("Preparing exclude configuration...")
+        console.debug("Preparing exclude configuration...")
         smartExclude, explicitExclude = self._splitIncludeExcludeList(excludeCfg)
 
         # Configuration feedback

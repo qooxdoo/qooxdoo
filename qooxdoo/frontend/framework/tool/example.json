@@ -83,7 +83,7 @@
     }
   },
 
-  "build-all" :
+  "compile-all" :
   {
     "extend" : ["common"],
 
@@ -107,7 +107,7 @@
     }
   },
 
-  "build-apiviewer" :
+  "compile-apiviewer" :
   {
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
@@ -119,7 +119,7 @@
     }
   },
 
-  "build-apiviewer-variants" :
+  "compile-apiviewer-variants" :
   {
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
@@ -167,7 +167,7 @@
     }
   },
 
-  "build-apiviewer-parts" :
+  "compile-apiviewer-parts" :
   {
     "extend" : ["common"],
 
@@ -196,7 +196,7 @@
     }
   },
 
-  "build-apiviewer-parts-noqx" :
+  "compile-apiviewer-parts-noqx" :
   {
     "extend" : ["build-parts-common"],
 
