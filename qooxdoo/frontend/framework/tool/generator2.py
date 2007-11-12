@@ -247,8 +247,10 @@ class Generator():
 
 
 
+            packageCfg = self.getConfig("packages")
+
             # Use include/exclude
-            if not self.getConfig("packages"):
+            if not packageCfg:
                 self.apiJob(include)
                 self.sourceJob(include, variants, str(variantSetPos))
                 self.compileJob(include, variants, str(variantSetPos))
@@ -259,6 +261,10 @@ class Generator():
                 console.info("Preparing part configuration...")
                 console.indent()
 
+                partsCfg = self.getConfig("packages/parts", [])
+                collapseCfg = self.getConfig("packages/collapse", [])
+                latencyCfg = self.getConfig("packages/latency", 0)
+
                 # Build bitmask ids for parts
                 console.debug("Assigning bits to parts...")
 
@@ -266,7 +272,7 @@ class Generator():
                 console.indent()
                 partBits = {}
                 partPos = 0
-                for partId in userParts:
+                for partId in partsCfg:
                     partBit = 1<<partPos
 
                     console.debug("Part #%s => %s" % (partId, partBit))
@@ -279,18 +285,23 @@ class Generator():
                 # Resolving modules/regexps
                 console.debug("Resolving part modules/regexps...")
                 partClasses = {}
-                for partId in userParts:
-                    partClasses[partId] = resolveComplexDefs(userParts[partId])
+                for partId in partsCfg:
+                    partClasses[partId] = self._resolveComplexDefs(partsCfg[partId])
 
                 console.outdent()
 
-                (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
+                (pkgIds, pkg2classes, part2pkgs) = self._partutil.getPackages(partClasses, partBits, include, variants, collapseCfg, latencyCfg)
 
                 for pkgId in pkgIds:
-                    sortedInclude = self._deputil.sortClasses(pkg2classes[pkgId], variants)
+                    partInclude = self._deputil.sortClasses(pkg2classes[pkgId], variants)
 
-                    self.sourceJob(sortedInclude, variants, str(variantSetPos), pkgId)
-                    self.compileJob(sortedInclude, variants, str(variantSetPos), pkgId)
+                    console.info("Creating package %s (%s classes)" % (pkgId, len(partInclude)))
+                    console.indent()
+
+                    self.sourceJob(partInclude, variants, str(variantSetPos), str(pkgId))
+                    self.compileJob(partInclude, variants, str(variantSetPos), str(pkgId))
+
+                    console.outdent()
 
 
 
