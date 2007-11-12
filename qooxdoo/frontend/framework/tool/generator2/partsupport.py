@@ -6,7 +6,7 @@ class PartUtil:
         self._treeutil = treeutil
 
 
-    def getPackages(self, partClasses, includeDict, variants, collapseParts, optimizeLatency):
+    def getPackages(self, partClasses, appClasses, variants, collapseParts, optimizeLatency):
         # Build bitmask ids for parts
         self._console.debug("Assigning bits to parts...")
 
@@ -45,11 +45,11 @@ class PartUtil:
 
 
             # Remove all dependencies which are not included in the full list
-            if len(includeDict) > 0:
-              depKeys = localDeps.keys()
-              for dep in depKeys:
-                  if not dep in includeDict:
-                      del localDeps[dep]
+            if len(appClasses) > 0:
+              localDepsCopy = localDeps[:]
+              for dep in localDepsCopy:
+                  if not dep in appClasses:
+                      localDeps.remove(dep)
 
             self._console.debug("Part #%s needs %s classes" % (partId, len(localDeps)))
 

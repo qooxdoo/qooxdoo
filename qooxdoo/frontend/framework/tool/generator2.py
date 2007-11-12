@@ -217,6 +217,9 @@ class Generator():
         smartInclude, explicitInclude = self.getIncludes()
         smartExclude, explicitExclude = self.getExcludes()
 
+        # Read settings
+        settings = self.getConfig("settings", {})
+
         # Processing all combinations of variants
         variantSets = variantsupport.computeCombinations(self.getConfig("variants", {}))
         for variantSetPos, variants in enumerate(variantSets):
@@ -250,8 +253,8 @@ class Generator():
             # Use include/exclude
             if not packageCfg:
                 self.apiJob(classList)
-                self.sourceJob(classList, variants, variantSetPos)
-                self.compileJob(classList, variants, variantSetPos)
+                self.sourceJob(classList, variants, settings, variantSetPos)
+                self.compileJob(classList, variants, settings, variantSetPos)
 
 
             # Enable package support
@@ -275,8 +278,8 @@ class Generator():
                     self._console.info("Creating package #%s (%s classes)" % (pkgId, len(partList)))
                     self._console.indent()
 
-                    self.sourceJob(partList, variants, variantSetPos, pkgId)
-                    self.compileJob(partList, variants, variantSetPos, pkgId)
+                    self.sourceJob(partList, variants, settings, variantSetPos, pkgId, partPkgs)
+                    self.compileJob(partList, variants, settings, variantSetPos, pkgId, partPkgs)
 
                     self._console.outdent()
 
@@ -332,7 +335,7 @@ class Generator():
 
 
 
-    def compileJob(self, include, variants, variantId="", packageId=""):
+    def compileJob(self, include, variants, settings, variantId="", packageId="", partPkgs=None):
         if not self.getConfig("compile/file"):
             return
 
@@ -342,20 +345,27 @@ class Generator():
         # Read in compiler options
         optimize = self.getConfig("compile/optimize", [])
 
+        # Read in base file name
+        baseFileName = self.getConfig("compile/file")
+
         # Compile file content
         compiledContent = self._compiler.compileClasses(include, variants, optimize)
 
-        # Add settings and variants
+        # Add data from packages, settings, variants
+        if "qx.lang.Core" in include:
+            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId)
+            compiledContent = packageCode + compiledContent
+
         if "qx.core.Variant" in include:
             variantsCode = self.generateVariantsCode(variants)
             compiledContent = variantsCode + compiledContent
 
         if "qx.core.Setting" in include:
-            settingsCode = self.generateSettingsCode(self.getConfig("settings", {}))
+            settingsCode = self.generateSettingsCode(settings)
             compiledContent = settingsCode + compiledContent
 
         # Construct file name
-        fileName = self.getFileName(self.getConfig("compile/file"), variantId, packageId)
+        fileName = self.getFileName(baseFileName, variantId, packageId)
 
         # Save result file
         filetool.save(fileName, compiledContent)
@@ -366,11 +376,14 @@ class Generator():
 
 
 
-    def sourceJob(self, include, variants, variantId="", packageId=""):
+    def sourceJob(self, include, variants, settings, variantId="", packageId="", partPkgs=None):
         if not self.getConfig("source/file"):
             return
 
         self._console.info("Generating source includer...")
+
+        # Read in base file name
+        baseFileName = self.getConfig("source/file")
 
         # Generate loader
         includeBlocks = []
@@ -378,20 +391,24 @@ class Generator():
             fileUri = self._classes[fileId]["uri"]
             includeBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
 
-        # Add settings and variants
+        # Add data from packages, settings, variants
+        if "qx.lang.Core" in include:
+            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId)
+            compiledContent = packageCode + compiledContent
+
         if "qx.core.Variant" in include:
             variantsCode = self.generateVariantsCode(variants)
             includeBlocks.insert(0, self.wrapJavaScript(variantsCode))
 
         if "qx.core.Setting" in include:
-            settingsCode = self.generateSettingsCode(self.getConfig("settings", {}))
+            settingsCode = self.generateSettingsCode(settings)
             includeBlocks.insert(0, self.wrapJavaScript(settingsCode))
 
         # Put into document.write
         loaderCode = "document.write('%s');" % "\n".join(includeBlocks).replace("'", "\\'")
 
         # Construct file name
-        fileName = self.getFileName(self.getConfig("source/file"), variantId, packageId)
+        fileName = self.getFileName(baseFileName, variantId, packageId)
 
         # Save result file
         filetool.save(fileName, loaderCode)
@@ -431,7 +448,7 @@ class Generator():
         self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
 
         if len(explicitInclude) > 0:
-            console.warn("Explicit included classes may not work")
+            self._console.warn("Explicit included classes may not work")
 
         self._console.outdent()
 
@@ -463,7 +480,7 @@ class Generator():
         self._console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
 
         if len(excludeCfg) > 0:
-            console.warn("Excludes may break code!")
+            self._console.warn("Excludes may break code!")
 
         self._console.outdent()
 
@@ -520,7 +537,7 @@ class Generator():
 
 
     ######################################################################
-    #  SETTINGS/VARIANTS
+    #  SETTINGS/VARIANTS/PACKAGE DATA
     ######################################################################
 
     def wrapJavaScript(self, code):
@@ -560,6 +577,37 @@ class Generator():
                 value = '"%s"' % value.replace("\"", "\\\"")
 
             result += 'qxvariants["%s"]=%s;' % (key, value)
+
+        return result
+
+
+    def generatePackageCode(self, partPkgs, baseFileName, variantId, format=False):
+        if not partPkgs:
+            return ""
+
+        result = 'if(!window.qxpackages)qxpackages={};'
+
+        # open map
+        partData = "{"
+        for partId in partPkgs:
+            partData += '"%s":' % (partId, )
+            partData += ('%s,' % partPkgs[partId][1:]).replace(" ", "")
+
+        # remove last comma
+        partData=partData[:-1]
+
+        # close map
+        partData += "}"
+
+        result += 'qxpackages.parts=%s;' % partData
+
+        if format:
+            result += "\n"
+
+        result += 'qxpackages.filename="%s";' % baseFileName.replace("$variant", str(variantId))
+
+        # print "---- RESULT ----"
+        # print result
 
         return result
 
