@@ -216,11 +216,6 @@ class Generator():
         smartInclude, explicitInclude = self.getIncludes()
         smartExclude, explicitExclude = self.getExcludes()
 
-
-        #
-        # EXECUTION PHASE
-        #
-
         variantSets = variantsupport.computeCombinations(self.getConfig("variants", {}))
 
         for variantSetPos, variants in enumerate(variantSets):
@@ -270,13 +265,18 @@ class Generator():
 
 
 
-            # JOBS: NO-PARTS
-            self.apiJob()
+            if not self.getConfig("packages"):
+                # Sort classes
+                sortedInclude = self._deputil.sortClasses(includeDict, variants)
 
+                # Executing jobs
+                self.apiJob(sortedInclude)
+                self.sourceJob(sortedInclude, variants, str(variantSetPos))
+                self.compileJob(sortedInclude, variants, str(variantSetPos))
 
 
             # Part support
-            if self.getConfig("packages"):
+            else:
                 console.info("Preparing part configuration...")
                 console.indent()
 
@@ -308,14 +308,11 @@ class Generator():
                 (pkgIds, pkg2classes, part2pkgs) = partutil.getPackages(partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency)
 
                 for pkgId in pkgIds:
-                    self.sourceJob()
-                    self.compileJob()
+                    sortedInclude = self._deputil.sortClasses(pkg2classes[pkgId], variants)
 
-            else:
-                sortedInclude = self._deputil.sortClasses(includeDict, variants)
+                    self.sourceJob(sortedInclude, variants, str(variantSetPos), pkgId)
+                    self.compileJob(sortedInclude, variants, str(variantSetPos), pkgId)
 
-                self.sourceJob(sortedInclude, variants, str(variantSetPos))
-                self.compileJob(sortedInclude, variants, str(variantSetPos))
 
 
 
@@ -359,13 +356,13 @@ class Generator():
 
 
 
-    def apiJob(self):
-        apiCfg = self.getConfig("api")
+    def apiJob(self, include):
+        apiPath = self.getConfig("api/path")
 
-        if not apiCfg:
+        if not apiPath:
             return
 
-        apiutil.storeApi(includeDict, getKey(config, "api/path"))
+        self._apiutil.storeApi(include, apiPath)
 
 
 
@@ -392,9 +389,7 @@ class Generator():
             compiledContent = settingsCode + compiledContent
 
         # Construct file name
-        fileName = self.getConfig("compile/file")
-        fileName = fileName.replace("$variant", variantId)
-        fileName = fileName.replace("$package", packageId)
+        fileName = self.getFileName(self.getConfig("compile/file"), variantId, packageId)
 
         # Save result file
         filetool.save(fileName, compiledContent)
@@ -429,9 +424,7 @@ class Generator():
         loaderCode = "document.write('%s');" % "\n".join(includeBlocks).replace("'", "\\'")
 
         # Construct file name
-        fileName = self.getConfig("source/file")
-        fileName = fileName.replace("$variant", variantId)
-        fileName = fileName.replace("$package", packageId)
+        fileName = self.getFileName(self.getConfig("source/file"), variantId, packageId)
 
         # Save result file
         filetool.save(fileName, loaderCode)
@@ -624,6 +617,15 @@ class Generator():
         compressedSize = len(zlib.compress(uni, 9)) / 1024
 
         return "%sKB / %sKB" % (origSize, compressedSize)
+
+
+
+    def getFileName(self, fileName, variantId="", packageId=""):
+        fileName = fileName.replace("$variant", variantId)
+        fileName = fileName.replace("$package", packageId)
+
+        return fileName
+
 
 
 

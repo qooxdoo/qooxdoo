@@ -8,8 +8,8 @@ class ApiUtil:
         self._cache = cache
         self._console = console
         self._treeutil = treeutil
-        
-        
+
+
     def getApi(self, fileId):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
@@ -33,21 +33,20 @@ class ApiUtil:
 
 
 
-    def storeApi(self, includeDict, apiPath):
+    def storeApi(self, include, apiPath):
         self._console.info("Generating API data:", False)
         self._console.indent()
-        
+
         docTree = tree.Node("doctree")
-        todo = includeDict.keys()
-        length = len(todo)
-        
+        length = len(include)
+
         self._console.debug("Loading...")
         self._console.indent()
-        
-        for pos, fileId in enumerate(todo):
+
+        for pos, fileId in enumerate(include):
             self._console.progress(pos, length)
             self._mergeApiNodes(docTree, self.getApi(fileId))
-            
+
         self._console.outdent()
 
         self._console.info("Postprocessing...")
