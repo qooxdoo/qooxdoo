@@ -332,7 +332,7 @@ class DependencyUtil:
     def getModules(self):
         modules = {}
 
-        self._console.info("Searching for module definitions...")
+        self._console.info("Gathering modules...")
         for fileId in self._classes:
             if self._classes[fileId]["category"] == "qx.impl":
                 for mod in self.getMeta(fileId)["modules"]:

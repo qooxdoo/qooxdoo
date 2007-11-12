@@ -6,7 +6,24 @@ class PartUtil:
         self._treeutil = treeutil
 
 
-    def getPackages(self, partClasses, partBits, includeDict, variants, collapseParts, optimizeLatency):
+    def getPackages(self, partClasses, includeDict, variants, collapseParts, optimizeLatency):
+        # Build bitmask ids for parts
+        self._console.debug("Assigning bits to parts...")
+
+        # References partId -> bitId of that part
+        self._console.indent()
+        partBits = {}
+        partPos = 0
+        for partId in partClasses:
+            partBit = 1<<partPos
+
+            self._console.debug("Part #%s => %s" % (partId, partBit))
+
+            partBits[partId] = partBit
+            partPos += 1
+
+        self._console.outdent()
+
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -145,7 +162,7 @@ class PartUtil:
             smallPackages = []
 
             # Start at the end with the priority sorted list
-            sortedPackageIds = self._sortPackageIdsByPriority(self._dictToHumanSortedList(packageClasses), packageBitCounts)
+            sortedPackageIds = self._sortPackageIdsByPriority(self._classesToPackageIds(packageClasses), packageBitCounts)
             sortedPackageIds.reverse()
 
             self._console.debug("")
@@ -182,10 +199,29 @@ class PartUtil:
 
 
 
-        # Return
+        # Post process results
+        # Translate bit-like IDs to easy numeric ones.
+        # Apply human sorting from 0-...
         self._console.debug("")
-        sortedPackageIds = self._sortPackageIdsByPriority(self._dictToHumanSortedList(packageClasses), packageBitCounts)
-        return sortedPackageIds, packageClasses, partPackages
+        sortedPackageIds = self._sortPackageIdsByPriority(self._classesToPackageIds(packageClasses), packageBitCounts)
+
+        resultInclude = []
+        resultParts = {}
+        for pkgPos, pkgId in enumerate(sortedPackageIds):
+            self._console.debug("Optimize package ID: %s => %s" % (pkgId, pkgPos))
+            resultInclude.append(self._deputil.sortClasses(packageClasses[pkgId], variants))
+
+            for partId in partPackages:
+                if pkgId in partPackages[partId]:
+                    if not resultParts.has_key(partId):
+                        resultParts[partId] = []
+
+                    resultParts[partId].append(pkgPos)
+
+
+
+        # Return
+        return resultInclude, resultParts
 
 
 
@@ -228,7 +264,7 @@ class PartUtil:
 
 
     def _printPartStats(self, packageClasses, partPackages):
-        packageIds = self._dictToHumanSortedList(packageClasses)
+        packageIds = self._classesToPackageIds(packageClasses)
 
         self._console.debug("")
         self._console.debug("Content of packages(%s):" % len(packageIds))
@@ -246,14 +282,16 @@ class PartUtil:
 
 
 
-    def _dictToHumanSortedList(self, input):
-        output = []
-        for key in input:
-            output.append(key)
-        output.sort()
-        output.reverse()
+    def _classesToPackageIds(self, incoming):
+        result = []
 
-        return output
+        for key in incoming:
+            result.append(key)
+
+        result.sort()
+        result.reverse()
+
+        return result
 
 
 
@@ -284,4 +322,3 @@ class PartUtil:
             result += "#%s, " % entry
 
         return result[:-2]
-

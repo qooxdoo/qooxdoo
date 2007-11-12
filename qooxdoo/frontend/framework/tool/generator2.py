@@ -126,8 +126,6 @@ def main():
 
 
 def process(options):
-    global console
-
     if options.verbose:
         console = logsupport.Log(logfile=options.logfile, level=10)
     elif options.quiet:
@@ -143,7 +141,7 @@ def process(options):
     console.outdent()
 
     config = simplejson.loads(filetool.read(options.config))
-    resolve(config, options.jobs)
+    resolve(console, config, options.jobs)
 
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
@@ -151,17 +149,17 @@ def process(options):
         generator.run()
 
 
-def resolve(config, jobs):
+def resolve(console, config, jobs):
     console.info("Resolving jobs...")
     console.indent()
 
     for job in jobs:
-        resolveEntry(config, job)
+        resolveEntry(console, config, job)
 
     console.outdent()
 
 
-def resolveEntry(config, job):
+def resolveEntry(console, config, job):
     if not config.has_key(job):
         console.warn("No such job: %s" % job)
         sys.exit(1)
@@ -175,7 +173,7 @@ def resolveEntry(config, job):
         includes = data["extend"]
 
         for entry in includes:
-            resolveEntry(config, entry)
+            resolveEntry(console, config, entry)
             mergeEntry(config[job], config[entry])
 
     data["resolved"] = True
@@ -223,16 +221,16 @@ class Generator():
         variantSets = variantsupport.computeCombinations(self.getConfig("variants", {}))
         for variantSetPos, variants in enumerate(variantSets):
             if len(variantSets) > 1:
-                console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
+                self._console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
 
 
             # Debug variant combination
             if len(variants) > 0:
-                console.debug("Selected variants:")
-                console.indent()
+                self._console.debug("Selected variants:")
+                self._console.indent()
                 for key in variants:
-                    console.debug("%s = %s" % (key, variants[key]))
-                console.outdent()
+                    self._console.debug("%s = %s" % (key, variants[key]))
+                self._console.outdent()
 
 
             # Cleanup Job
@@ -240,10 +238,10 @@ class Generator():
 
 
             # Detect dependencies
-            console.info("Resolving application dependencies...")
-            console.indent()
-            include = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-            console.outdent()
+            self._console.info("Resolving application dependencies...")
+            self._console.indent()
+            classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._console.outdent()
 
 
 
@@ -251,57 +249,36 @@ class Generator():
 
             # Use include/exclude
             if not packageCfg:
-                self.apiJob(include)
-                self.sourceJob(include, variants, str(variantSetPos))
-                self.compileJob(include, variants, str(variantSetPos))
+                self.apiJob(classList)
+                self.sourceJob(classList, variants, variantSetPos)
+                self.compileJob(classList, variants, variantSetPos)
 
 
             # Enable package support
             else:
-                console.info("Preparing part configuration...")
-                console.indent()
-
+                # Reading configuration
                 partsCfg = self.getConfig("packages/parts", [])
                 collapseCfg = self.getConfig("packages/collapse", [])
-                latencyCfg = self.getConfig("packages/latency", 0)
-
-                # Build bitmask ids for parts
-                console.debug("Assigning bits to parts...")
-
-                # References partId -> bitId of that part
-                console.indent()
-                partBits = {}
-                partPos = 0
-                for partId in partsCfg:
-                    partBit = 1<<partPos
-
-                    console.debug("Part #%s => %s" % (partId, partBit))
-
-                    partBits[partId] = partBit
-                    partPos += 1
-
-                console.outdent()
+                latencyCfg = self.getConfig("packages/optimize", 0)
 
                 # Resolving modules/regexps
-                console.debug("Resolving part modules/regexps...")
-                partClasses = {}
+                self._console.debug("Resolving part modules/regexps...")
+                partIncludes = {}
                 for partId in partsCfg:
-                    partClasses[partId] = self._resolveComplexDefs(partsCfg[partId])
+                    partIncludes[partId] = self._resolveComplexDefs(partsCfg[partId])
 
-                console.outdent()
+                # Computing packages
+                pkgLists, partPkgs = self._partutil.getPackages(partIncludes, classList, variants, collapseCfg, latencyCfg)
 
-                (pkgIds, pkg2classes, part2pkgs) = self._partutil.getPackages(partClasses, partBits, include, variants, collapseCfg, latencyCfg)
+                # Generating packages
+                for pkgId, partList in enumerate(pkgLists):
+                    self._console.info("Creating package #%s (%s classes)" % (pkgId, len(partList)))
+                    self._console.indent()
 
-                for pkgId in pkgIds:
-                    partInclude = self._deputil.sortClasses(pkg2classes[pkgId], variants)
+                    self.sourceJob(partList, variants, variantSetPos, pkgId)
+                    self.compileJob(partList, variants, variantSetPos, pkgId)
 
-                    console.info("Creating package %s (%s classes)" % (pkgId, len(partInclude)))
-                    console.indent()
-
-                    self.sourceJob(partInclude, variants, str(variantSetPos), str(pkgId))
-                    self.compileJob(partInclude, variants, str(variantSetPos), str(pkgId))
-
-                    console.outdent()
+                    self._console.outdent()
 
 
 
@@ -312,19 +289,19 @@ class Generator():
         if not cleanCfg:
             return
 
-        console.info("Cleaning up cache")
-        console.indent()
+        self._console.info("Cleaning up cache")
+        self._console.indent()
         for cleanJob in cleanCfg:
-            console.info("Job: %s" % cleanJob)
+            self._console.info("Job: %s" % cleanJob)
 
-        console.outdent()
+        self._console.outdent()
 
-        console.info("Removing cache files:", False)
-        console.indent()
+        self._console.info("Removing cache files:", False)
+        self._console.indent()
 
         for entryPos, entry in enumerate(classes):
-            console.progress(entryPos, len(classes))
-            console.debug("Cleaning up: %s" % entry)
+            self._console.progress(entryPos, len(classes))
+            self._console.debug("Cleaning up: %s" % entry)
 
             if "tokens" in cleanCache:
                 treeutil.cleanTokens(entry)
@@ -338,7 +315,7 @@ class Generator():
             if "compiled" in cleanCache:
                 compiler.cleanCompiled(entry, variants, buildProcess)
 
-        console.outdent()
+        self._console.outdent()
         return
 
 
@@ -359,8 +336,8 @@ class Generator():
         if not self.getConfig("compile/file"):
             return
 
-        console.info("Compiling classes:", False)
-        console.indent()
+        self._console.info("Compiling classes:", False)
+        self._console.indent()
 
         # Read in compiler options
         optimize = self.getConfig("compile/optimize", [])
@@ -383,8 +360,8 @@ class Generator():
         # Save result file
         filetool.save(fileName, compiledContent)
 
-        console.debug("Done: %s" % self.getContentSize(compiledContent))
-        console.outdent()
+        self._console.debug("Done: %s" % self.getContentSize(compiledContent))
+        self._console.outdent()
 
 
 
@@ -393,7 +370,7 @@ class Generator():
         if not self.getConfig("source/file"):
             return
 
-        console.info("Generating source includer...")
+        self._console.info("Generating source includer...")
 
         # Generate loader
         includeBlocks = []
@@ -446,24 +423,24 @@ class Generator():
         packagesCfg = self.getConfig("packages")
 
         # Splitting lists
-        console.debug("Preparing include configuration...")
+        self._console.debug("Preparing include configuration...")
         smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
 
         # Configuration feedback
-        console.indent()
-        console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+        self._console.indent()
+        self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
 
         if len(explicitInclude) > 0:
             console.warn("Explicit included classes may not work")
 
-        console.outdent()
+        self._console.outdent()
 
         # Resolve modules/regexps
-        console.indent()
-        console.debug("Resolving modules/regexps...")
+        self._console.indent()
+        self._console.debug("Resolving modules/regexps...")
         smartInclude = self._resolveComplexDefs(smartInclude)
         explicitInclude = self._resolveComplexDefs(explicitInclude)
-        console.outdent()
+        self._console.outdent()
 
         return smartInclude, explicitInclude
 
@@ -478,24 +455,24 @@ class Generator():
         excludeCfg = self.getConfig("exclude", [])
 
         # Splitting lists
-        console.debug("Preparing exclude configuration...")
+        self._console.debug("Preparing exclude configuration...")
         smartExclude, explicitExclude = self._splitIncludeExcludeList(excludeCfg)
 
         # Configuration feedback
-        console.indent()
-        console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
+        self._console.indent()
+        self._console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
 
         if len(excludeCfg) > 0:
             console.warn("Excludes may break code!")
 
-        console.outdent()
+        self._console.outdent()
 
         # Resolve modules/regexps
-        console.indent()
-        console.debug("Resolving modules/regexps...")
+        self._console.indent()
+        self._console.debug("Resolving modules/regexps...")
         smartExclude = self._resolveComplexDefs(smartExclude)
         explicitExclude = self._resolveComplexDefs(explicitExclude)
-        console.outdent()
+        self._console.outdent()
 
         return smartExclude, explicitExclude
 
@@ -550,7 +527,7 @@ class Generator():
         return '<script type="text/javascript">%s</script>' % code
 
 
-    def generateSettingsCode(self, settings, format=True):
+    def generateSettingsCode(self, settings, format=False):
         number = re.compile("^([0-9\-]+)$")
         result = 'if(!window.qxsettings)qxsettings={};'
 
@@ -569,7 +546,7 @@ class Generator():
 
 
 
-    def generateVariantsCode(self, variants, format=True):
+    def generateVariantsCode(self, variants, format=False):
         number = re.compile("^([0-9\-]+)$")
         result = 'if(!window.qxvariants)qxvariants={};'
 
@@ -606,8 +583,8 @@ class Generator():
 
 
     def getFileName(self, fileName, variantId="", packageId=""):
-        fileName = fileName.replace("$variant", variantId)
-        fileName = fileName.replace("$package", packageId)
+        fileName = fileName.replace("$variant", str(variantId))
+        fileName = fileName.replace("$package", str(packageId))
 
         return fileName
 
