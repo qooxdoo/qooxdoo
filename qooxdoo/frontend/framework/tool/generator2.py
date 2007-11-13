@@ -348,20 +348,23 @@ class Generator():
         # Read in base file name
         baseFileName = self.getConfig("compile/file")
 
+        # Whether the code should be formatted
+        formatCode = self.getConfig("compile/format", False)
+
         # Compile file content
-        compiledContent = self._compiler.compileClasses(include, variants, optimize)
+        compiledContent = self._compiler.compileClasses(include, variants, optimize, formatCode)
 
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
-            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId)
+            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId, formatCode)
             compiledContent = packageCode + compiledContent
 
         if "qx.core.Variant" in include:
-            variantsCode = self.generateVariantsCode(variants)
+            variantsCode = self.generateVariantsCode(variants, formatCode)
             compiledContent = variantsCode + compiledContent
 
         if "qx.core.Setting" in include:
-            settingsCode = self.generateSettingsCode(settings)
+            settingsCode = self.generateSettingsCode(settings, formatCode)
             compiledContent = settingsCode + compiledContent
 
         # Construct file name
@@ -385,6 +388,9 @@ class Generator():
         # Read in base file name
         baseFileName = self.getConfig("source/file")
 
+        # Whether the code should be formatted
+        formatCode = self.getConfig("source/format", False)
+
         # Generate loader
         includeBlocks = []
         for fileId in include:
@@ -393,19 +399,24 @@ class Generator():
 
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
-            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId)
-            compiledContent = packageCode + compiledContent
+            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId, formatCode)
+            includeBlocks.insert(0, self.wrapJavaScript(packageCode))
 
         if "qx.core.Variant" in include:
-            variantsCode = self.generateVariantsCode(variants)
+            variantsCode = self.generateVariantsCode(variants, formatCode)
             includeBlocks.insert(0, self.wrapJavaScript(variantsCode))
 
         if "qx.core.Setting" in include:
-            settingsCode = self.generateSettingsCode(settings)
+            settingsCode = self.generateSettingsCode(settings, formatCode)
             includeBlocks.insert(0, self.wrapJavaScript(settingsCode))
 
         # Put into document.write
-        loaderCode = "document.write('%s');" % "\n".join(includeBlocks).replace("'", "\\'")
+        if formatCode:
+            divider = "\n"
+        else:
+            divider = ""
+
+        loaderCode = "document.write('%s');" % divider.join(includeBlocks).replace("'", "\\'")
 
         # Construct file name
         fileName = self.getFileName(baseFileName, variantId, packageId)
@@ -424,10 +435,21 @@ class Generator():
             if data.has_key(item):
                 data = data[item]
             else:
-                return default
+                return self._normalizeConfig(default)
 
-        return data
+        return self._normalizeConfig(data)
 
+
+
+    def _normalizeConfig(self, value):
+        if hasattr(value, "lower"):
+            if value.lower() in [ "on", "true", "yes" ]:
+                return True
+
+            if value.lower() in [ "off", "false", "no" ]:
+                return False
+
+        return value
 
 
 

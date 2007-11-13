@@ -10,29 +10,25 @@ class Compiler:
         self._treeutil = treeutil
 
 
-    def compileClasses(self, todo, variants, optimize):
+    def compileClasses(self, todo, variants, optimize, format):
         content = ""
         length = len(todo)
 
-        self._console.indent()
-
         for pos, fileId in enumerate(todo):
             self._console.progress(pos, length)
-            content += self.getCompiled(fileId, variants, optimize)
-
-        self._console.outdent()
+            content += self.getCompiled(fileId, variants, optimize, format)
 
         return content
 
 
-    def getCompiled(self, fileId, variants, optimize):
+    def getCompiled(self, fileId, variants, optimize, format=False):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
         variantsId = variantsupport.generateId(variants)
         optimizeId = self.generateOptimizeId(optimize)
 
-        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, optimizeId)
+        cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
 
         compiled = self._cache.read(cacheId, filePath)
         if compiled != None:
@@ -46,22 +42,22 @@ class Compiler:
         self._console.outdent()
 
         self._console.debug("Compiling tree: %s..." % fileId)
-        compiled = self._compileClassHelper(tree)
+        compiled = self._compileClassHelper(tree, format)
 
         self._cache.write(cacheId, compiled)
         return compiled
 
 
-    def cleanCompiled(self, fileId, variants, optimize):
+    def cleanCompiled(self, fileId, variants, optimize, format=False):
         variantsId = variantsupport.generateId(variants)
         optimizeId = self.generateOptimizeId(variants)
 
-        cacheId = "%s-compiled-%s-%s" % (fileId, variantsId, optimizeId)
+        cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
 
         self._cache.clean(cacheId)
 
 
-    def _compileClassHelper(self, restree):
+    def _compileClassHelper(self, restree, format=False):
         # Emulate options
         parser = optparse.OptionParser()
         parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
@@ -71,7 +67,7 @@ class Compiler:
 
         (options, args) = parser.parse_args([])
 
-        return compiler.compile(restree, options)
+        return compiler.compile(restree, options, format)
 
 
     def _optimizeHelper(self, fileTree, fileId, variants, optimize):

@@ -1,4 +1,4 @@
-import os, re
+import os, re, sys
 from modules import config, filetool
 
 def getClasses(config, console):
@@ -65,11 +65,11 @@ def _addEntry(classes, entry, console):
                         implCounter += 1
 
                     if filePathId != fileContentId:
-                        console.error("    - Mismatching IDs in file: %s" % filePath)
-                        console.error("      Detail: %s != %s" % (filePathId, fileContentId))
+                        console.error("Mismatching IDs in file: %s" % filePath)
+                        console.error("Detail: %s != %s" % (filePathId, fileContentId))
 
                 if fileCategory == "unknown":
-                    console.error("    - Invalid file: %s" % filePath)
+                    console.error("Invalid file: %s" % filePath)
                     sys.exit(1)
 
                 fileId = filePathId
