@@ -356,7 +356,7 @@ class Generator():
 
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
-            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId, formatCode)
+            packageCode = self.generatePackageCode(partPkgs, variantId, formatCode)
             compiledContent = packageCode + compiledContent
 
         if "qx.core.Variant" in include:
@@ -399,7 +399,7 @@ class Generator():
 
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
-            packageCode = self.generatePackageCode(partPkgs, baseFileName, variantId, formatCode)
+            packageCode = self.generatePackageCode(partPkgs, variantId, formatCode)
             includeBlocks.insert(0, self.wrapJavaScript(packageCode))
 
         if "qx.core.Variant" in include:
@@ -416,7 +416,7 @@ class Generator():
         else:
             divider = ""
 
-        loaderCode = "document.write('%s');" % divider.join(includeBlocks).replace("'", "\\'")
+        loaderCode = "document.write('%s');" % divider.join(includeBlocks).replace("'", "\\'").replace("\n", "\\\n")
 
         # Construct file name
         fileName = self.getFileName(baseFileName, variantId, packageId)
@@ -603,7 +603,7 @@ class Generator():
         return result
 
 
-    def generatePackageCode(self, partPkgs, baseFileName, variantId, format=False):
+    def generatePackageCode(self, partPkgs, variantId, format=False):
         if not partPkgs:
             return ""
 
@@ -622,11 +622,10 @@ class Generator():
         partData += "}"
 
         result += 'qxpackages.parts=%s;' % partData
+        result += 'qxpackages.variant=%s;' % variantId
 
         if format:
             result += "\n"
-
-        result += 'qxpackages.filename="%s";' % baseFileName.replace("$variant", str(variantId))
 
         # print "---- RESULT ----"
         # print result

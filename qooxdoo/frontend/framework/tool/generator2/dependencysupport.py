@@ -106,6 +106,10 @@ class DependencyUtil:
 
 
     def getDeps(self, fileId, variants):
+        if not self._classes.has_key(fileId):
+            self._console.error("Could not find class information for %s" % fileId)
+            sys.exit(1)
+
         filePath = self._classes[fileId]["path"]
         cacheId = "%s-deps-%s" % (fileId, variantsupport.generateId(variants))
 
