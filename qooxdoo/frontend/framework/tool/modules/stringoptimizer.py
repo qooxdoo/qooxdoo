@@ -46,10 +46,10 @@
 import tree, treeutil
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -76,7 +76,7 @@ def search_loop(node, stringMap={}, verbose=False):
                     variableName = None
 
                 # Don't extract from locales
-                if variableName == "qx.locale.Locale.define":
+                if variableName == "qx.locale.Locale.define" or variableName == "qx.Locale.define":
                     return stringMap
 
     if node.type == "constant" and node.get("constantType") == "string":

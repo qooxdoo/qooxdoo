@@ -123,6 +123,9 @@ class Compiler:
         stringMap = stringoptimizer.search(tree)
         stringList = stringoptimizer.sort(stringMap)
 
+        if len(stringList) == 0:
+            return
+
         stringoptimizer.replace(tree, stringList, "__SS__")
 
         # Build JS string fragments
