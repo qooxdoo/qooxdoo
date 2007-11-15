@@ -131,7 +131,7 @@ class Compiler:
         stringStop = "})();"
 
         # Compile wrapper node
-        wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop)
+        wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, id + "||stringopt")
 
         # Reorganize structure
         funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")

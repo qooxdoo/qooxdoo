@@ -343,11 +343,11 @@ def assembleVariable(variableItem):
     return assembled
 
 
-def compileString(jsString):
+def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString)).getFirstChild()
+    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild()
 
 
 def variableOrArrayNodeToArray(node):
