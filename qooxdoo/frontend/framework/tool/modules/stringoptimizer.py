@@ -240,6 +240,9 @@ def replace(node, stringList, var="$", verbose=False):
 
 
 def replacement(stringList, var="$"):
+    if len(stringList) == 0:
+        return ""
+
     repl = "%s=[" % var
 
     for item in stringList:
