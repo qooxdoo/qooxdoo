@@ -28,7 +28,7 @@
 qx.Class.define("qx.io.image.Manager",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 
