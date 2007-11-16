@@ -28,7 +28,7 @@
 qx.Class.define("qx.io.image.Manager",
 {
   type : "singleton",
-  extend : qx.core.Object,
+  extend : qx.core.Target,
 
 
 
@@ -82,8 +82,7 @@ qx.Class.define("qx.io.image.Manager",
 
 
     /**
-     * Register an image.
-     * Gives the application the possibility to preload images.
+     * Unregister an image.
      *
      * @type member
      * @param source {String} The incoming (unresolved) URL.
