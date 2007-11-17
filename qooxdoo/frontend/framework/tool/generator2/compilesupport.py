@@ -42,7 +42,7 @@ class Compiler:
         self._console.outdent()
 
         self._console.debug("Compiling tree: %s..." % fileId)
-        compiled = self._compileClassHelper(tree, format)
+        compiled = self.compileTree(tree, format)
 
         self._cache.write(cacheId, compiled)
         return compiled
@@ -57,7 +57,7 @@ class Compiler:
         self._cache.clean(cacheId)
 
 
-    def _compileClassHelper(self, restree, format=False):
+    def compileTree(self, restree, format=False):
         # Emulate options
         parser = optparse.OptionParser()
         parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)

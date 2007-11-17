@@ -43,7 +43,29 @@
 ##
 
 import os, codecs, cPickle, sys
+import gzip as sys_gzip
 import textutil
+
+def gzip(filePath, content, encoding="utf-8"):
+    if not filePath.endswith(".gz"):
+        filePath = filePath + ".gz"
+    
+    content = unicode(content).encode(encoding)
+    
+    outputFile = sys_gzip.open(filePath, "wb", 9)
+    outputFile.write(content)
+    outputFile.close()
+
+
+def gunzip(filePath, encoding="utf-8"):
+    if not filePath.endswith(".gz"):
+        filePath = filePath + ".gz"
+
+    inputFile = sys_gzip.open(filePath, "rb")
+    content = inputFile.read()
+    
+    return textutil.any2Unix(unicode(content))
+
 
 def remove(filePath):
     # Normalize

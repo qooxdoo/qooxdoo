@@ -6,7 +6,7 @@
       {
         "encoding" : "utf-8",
         "path" : "framework/source/class",
-        "uri" : "../source/class"
+        "uri" : "../../../framework/source/class"
       },
 
       {
@@ -96,14 +96,63 @@
 
 
 
+
+  "source-feedreader" :
+  {
+    "extend" : ["common"],
+    "include" : ["feedreader.*", "qx.theme.Ext"],
+    
+    "settings" :
+    {
+      "qx.application" : "feedreader.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
+    "source" :
+    {
+      "file" : "feedreader-source.js",
+      "gzip" : "true"      
+    }
+  },
+
+  "compile-feedreader" :
+  {
+    "extend" : ["common"],
+    "include" : ["feedreader.*", "qx.theme.Ext"],
+
+    "settings" :
+    {
+      "qx.application" : "feedreader.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
+    "compile" :
+    {
+      "file" : "feedreader-build.js",
+      "gzip" : "true",
+      "optimize" : [ "variables", "basecalls" ]
+    }
+  },
+  
+  
+  
+
+
   "source-apiviewer" :
   {
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
 
+    "settings" :
+    {
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
     "source" :
     {
-      "file" : "apiviewer-source.js"
+      "file" : "apiviewer-source.js",
+      "gzip" : "true"
     }
   },
 
@@ -112,9 +161,16 @@
     "extend" : ["common"],
     "include" : ["apiviewer.*", "qx.theme.ClassicRoyale"],
 
+    "settings" :
+    {
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
     "compile" :
     {
       "file" : "apiviewer-build.js",
+      "gzip" : "true",
       "optimize" : [ "variables", "basecalls" ]
     }
   },

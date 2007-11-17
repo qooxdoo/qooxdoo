@@ -22,7 +22,6 @@
 Introduction
 ======================
 Replacement for old generator
-Currently includes features of the old modules "generator" and "loader"
 
 Overview
 ======================
@@ -64,16 +63,6 @@ Internals
 The main theory is that a package which is used by multiple parts must have the dependencies
 solved by both of them. So the merge will always happen into the next common package of
 both parts from the current position to the left side.
-
-* There are some utility method which
-
-* The following global variables exist:
-  * classes{Dict}: All classes of the present class path configuration. Each entry
-      contains information regarding the path, the encoding, the class path and stuff
-  * modules{Dict}: All known modules from all available classes. Each entry contains
-      the classes of the current module
-  * verbose{Boolean}: If verbose mode is enabled
-  * quiet{Boolean}: If quiet mode is enabled
 """
 
 import sys, re, os, optparse, math, cPickle, copy, zlib
@@ -97,6 +86,7 @@ from generator2 import logsupport
 from generator2 import dependencysupport
 from generator2 import compilesupport
 from generator2 import partsupport
+from generator2 import javascript
 
 
 
@@ -203,7 +193,6 @@ class Generator():
         self._classes = classpath.getClasses(self.getConfig("library"), self._console)
         self._treeutil = treesupport.TreeUtil(self._classes, self._cache, self._console)
         self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self.getConfig("require", {}), self.getConfig("use", {}))
-        self._modules = self._deputil.getModules()
         self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
         self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
         self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._treeutil)
@@ -252,9 +241,11 @@ class Generator():
 
             # Use include/exclude
             if not packageCfg:
-                self.apiJob(classList)
-                self.sourceJob(classList, variants, settings, variantSetPos)
-                self.compileJob(classList, variants, settings, variantSetPos)
+                sortedClassList = self._deputil.sortClasses(classList, variants)
+                
+                self.apiJob(sortedClassList)
+                self.sourceJob(sortedClassList, variants, settings, variantSetPos)
+                self.compileJob(sortedClassList, variants, settings, variantSetPos)
 
 
             # Enable package support
@@ -264,8 +255,8 @@ class Generator():
                 collapseCfg = self.getConfig("packages/collapse", [])
                 latencyCfg = self.getConfig("packages/optimize", 0)
 
-                # Resolving modules/regexps
-                self._console.debug("Resolving part modules/regexps...")
+                # Resolving regexps
+                self._console.debug("Resolving part regexps...")
                 partIncludes = {}
                 for partId in partsCfg:
                     partIncludes[partId] = self._resolveComplexDefs(partsCfg[partId])
@@ -372,7 +363,10 @@ class Generator():
 
         # Save result file
         filetool.save(fileName, compiledContent)
-
+        
+        if self.getConfig("compile/gzip"):
+            filetool.gzip(fileName, compiledContent)
+        
         self._console.debug("Done: %s" % self.getContentSize(compiledContent))
         self._console.outdent()
 
@@ -391,12 +385,15 @@ class Generator():
         # Whether the code should be formatted
         formatCode = self.getConfig("source/format", False)
 
+        # Prepare source list
+        sourceList = []
+        for fileId in include:
+            sourceList.append(self._classes[fileId]["uri"])
+
         # Generate loader
         includeBlocks = []
-        for fileId in include:
-            fileUri = self._classes[fileId]["uri"]
-            includeBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
-
+        includeBlocks.append(self.wrapJavaScript(javascript.generateHttpIncluder(sourceList, formatCode)))
+        
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
             packageCode = self.generatePackageCode(partPkgs, variantId, formatCode)
@@ -423,8 +420,20 @@ class Generator():
 
         # Save result file
         filetool.save(fileName, loaderCode)
+        
+        if self.getConfig("source/gzip"):
+            filetool.gzip(fileName, loaderCode)
+        
+        self._console.debug("Done: %s" % self.getContentSize(loaderCode))
+        self._console.outdent()
 
 
+
+
+        
+        
+        
+        
 
 
     def getConfig(self, key, default=None):
@@ -443,10 +452,10 @@ class Generator():
 
     def _normalizeConfig(self, value):
         if hasattr(value, "lower"):
-            if value.lower() in [ "on", "true", "yes" ]:
+            if value.lower() in [ "1", "on", "true", "yes", "enabled" ]:
                 return True
 
-            if value.lower() in [ "off", "false", "no" ]:
+            if value.lower() in [ "0", "off", "false", "no", "disabled" ]:
                 return False
 
         return value
@@ -474,9 +483,9 @@ class Generator():
 
         self._console.outdent()
 
-        # Resolve modules/regexps
+        # Resolve regexps
         self._console.indent()
-        self._console.debug("Resolving modules/regexps...")
+        self._console.debug("Resolving regexps...")
         smartInclude = self._resolveComplexDefs(smartInclude)
         explicitInclude = self._resolveComplexDefs(explicitInclude)
         self._console.outdent()
@@ -506,15 +515,14 @@ class Generator():
 
         self._console.outdent()
 
-        # Resolve modules/regexps
+        # Resolve regexps
         self._console.indent()
-        self._console.debug("Resolving modules/regexps...")
+        self._console.debug("Resolving regexps...")
         smartExclude = self._resolveComplexDefs(smartExclude)
         explicitExclude = self._resolveComplexDefs(explicitExclude)
         self._console.outdent()
 
         return smartExclude, explicitExclude
-
 
 
 
@@ -532,24 +540,18 @@ class Generator():
 
 
 
-
     def _resolveComplexDefs(self, entries):
         classes = self._classes
-        modules = self._modules
 
         content = []
 
         for entry in entries:
-            if entry in modules:
-                content.extend(modules[entry])
-            else:
-                regexp = textutil.toRegExp(entry)
+            regexp = textutil.toRegExp(entry)
 
-                for className in classes:
-                    if regexp.search(className):
-                        if not className in content:
-                            # print "Resolved: %s with %s" % (entry, className)
-                            content.append(className)
+            for className in classes:
+                if regexp.search(className):
+                    if not className in content:
+                        content.append(className)
 
         return content
 
@@ -563,6 +565,9 @@ class Generator():
     ######################################################################
 
     def wrapJavaScript(self, code):
+        if code.endswith("\n"):
+            code = code[:-1]
+        
         return '<script type="text/javascript">%s</script>' % code
 
 
@@ -582,7 +587,6 @@ class Generator():
             result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
 
         return result
-
 
 
     def generateVariantsCode(self, variants, format=False):
@@ -626,9 +630,6 @@ class Generator():
 
         if format:
             result += "\n"
-
-        # print "---- RESULT ----"
-        # print result
 
         return result
 

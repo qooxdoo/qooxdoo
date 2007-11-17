@@ -312,7 +312,6 @@ class DependencyUtil:
             meta["optionalDeps"] = self._extractQxOptionalDeps(content)
             meta["ignoreDeps"] = self._extractQxIgnoreDeps(content)
 
-            meta["modules"] = self._extractQxModules(content)
             meta["resources"] = self._extractQxResources(content)
             meta["embeds"] = self._extractQxEmbeds(content)
 
@@ -332,25 +331,6 @@ class DependencyUtil:
 
         return result
 
-
-    def getModules(self):
-        modules = {}
-
-        self._console.info("Gathering modules...")
-        for fileId in self._classes:
-            if self._classes[fileId]["category"] == "qx.impl":
-                for mod in self.getMeta(fileId)["modules"]:
-                    if not modules.has_key(mod):
-                        modules[mod] = []
-
-                    modules[mod].append(fileId)
-
-        self._console.indent()
-        self._console.debug("Found %s modules" % len(modules))
-        self._console.outdent()
-        self._console.debug("")
-
-        return modules
 
 
     def _extractQxLoadtimeDeps(self, data, fileId):
@@ -401,17 +381,6 @@ class DependencyUtil:
                 ignores.append(item)
 
         return ignores
-
-
-
-    def _extractQxModules(self, data):
-        mods = []
-
-        for item in config.QXHEAD["module"].findall(data):
-            if not item in mods:
-                mods.append(item)
-
-        return mods
 
 
 
