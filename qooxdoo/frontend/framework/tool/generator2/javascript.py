@@ -5,13 +5,38 @@ from modules import treegenerator
 from modules import variableoptimizer
 from modules import compiler
 
-    
-def generateHttpIncluder(files, formatCode=False):
+
+def generateScriptIncluder(files, format=False, callback=""):
     code = []
     
-    code.append('var arr=["')
-    code.append('","'.join(files))
-    code.append('"];')
+    code.append('var files=["%s"];' % '","'.join(files))
+    code.append('var head = document.getElementsByTagName("head")[0];')
+    
+    code.append('function load(url, i, callback){')
+    code.append('var elem = document.createElement("script");')
+    code.append('elem.src = url;')
+    code.append('elem.onload = elem.onreadystatechange = function(){')
+    code.append('if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete"){')
+    code.append('elem.onload = elem.onreadystatechange = undefined;next();}')
+    code.append('};head.appendChild(elem);}')
+
+    code.append('var pos=0;')
+    code.append('function next() {')
+    code.append('if(files.length==pos){')
+    code.append(callback)
+    code.append('return;')
+    code.append('}')
+    code.append('load(files[pos++]);}')
+
+    code.append('next();')
+    
+    return blocksToCode(code, format)    
+    
+    
+def generateHttpIncluder(files, format=False, callback=""):
+    code = []
+    
+    code.append('var arr=["%s"]' % '","'.join(files))
 
     code.append('function empty(){}')
     code.append('function load(url, i, callback){')
@@ -39,7 +64,7 @@ def generateHttpIncluder(files, formatCode=False):
     code.append('count++;')
     code.append('if(count==length){')
     code.append('eval(content.join(""));')
-    code.append('qx.core.Init.getInstance()._onload();')
+    code.append(callback)
     code.append('}')
     code.append('}')
 
@@ -52,22 +77,22 @@ def generateHttpIncluder(files, formatCode=False):
     
     code.append('include(arr);')
     
-    return blocksToCode(code, formatCode)
+    return blocksToCode(code, format)
     
 
 def protectJavaScript(code):
     return "(function(){" + code + "})();"
 
 
-def blocksToCode(code, formatCode=False):
-    if formatCode:
+def blocksToCode(code, format=False):
+    if format:
         result = "\n".join(code)
     else:
         result = "".join(code)
     
     result = protectJavaScript(result)
     
-    if not formatCode:
+    if not format:
         result = optimizeJavaScript(result)
         
     return result    

@@ -392,7 +392,7 @@ class Generator():
 
         # Generate loader
         includeBlocks = []
-        includeBlocks.append(self.wrapJavaScript(javascript.generateHttpIncluder(sourceList, formatCode)))
+        includeBlocks.append(self.wrapJavaScript(javascript.generateScriptIncluder(sourceList, formatCode)))        
         
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
