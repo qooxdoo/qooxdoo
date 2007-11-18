@@ -86,7 +86,8 @@ from generator2 import logsupport
 from generator2 import dependencysupport
 from generator2 import compilesupport
 from generator2 import partsupport
-from generator2 import javascript
+from generator2 import scriptsupport
+from generator2 import configsupport
 
 
 
@@ -116,13 +117,15 @@ def main():
 
 
 def process(options):
+    # Initialize console
     if options.verbose:
-        console = logsupport.Log(logfile=options.logfile, level=10)
+        console = logsupport.Log(options.logfile, "debug")
     elif options.quiet:
-        console = logsupport.Log(logfile=options.logfile, level=30)
+        console = logsupport.Log(options.logfile, "warning")
     else:
-        console = logsupport.Log(logfile=options.logfile, level=20)
+        console = logsupport.Log(options.logfile, "info")
 
+    # Initial user feedback
     console.head("Initialization", True)
     console.info("Processing...")
     console.indent()
@@ -130,13 +133,19 @@ def process(options):
     console.debug("Jobs: %s" % ", ".join(options.jobs))
     console.outdent()
 
+    # Load from json configuration
     config = simplejson.loads(filetool.read(options.config))
+    
+    # Resolve "extend"-Keys
     resolve(console, config, options.jobs)
+    
+    # Convert into Config class instance
+    config = configsupport.Config(config)
 
+    # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
-        generator = Generator(config[job], console)
-        generator.run()
+        Generator(config.split(job), console)
 
 
 def resolve(console, config, jobs):
@@ -188,15 +197,16 @@ class Generator():
     def __init__(self, config, console):
         self._config = config
         self._console = console
-
-        self._cache = cachesupport.Cache(self.getConfig("cache/path"), self._console)
-        self._classes = classpath.getClasses(self.getConfig("library"), self._console)
+        
+        self._cache = cachesupport.Cache(self._config.get("cache/path"), self._console)
+        self._classes = classpath.getClasses(self._config.split("library"), self._console)
         self._treeutil = treesupport.TreeUtil(self._classes, self._cache, self._console)
-        self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self.getConfig("require", {}), self.getConfig("use", {}))
+        self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
         self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
         self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
         self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._treeutil)
-
+        
+        self.run()
 
 
     def run(self):
@@ -207,10 +217,10 @@ class Generator():
         smartExclude, explicitExclude = self.getExcludes()
 
         # Read settings
-        settings = self.getConfig("settings", {})
+        settings = self._config.get("settings", {})
 
         # Processing all combinations of variants
-        variantSets = variantsupport.computeCombinations(self.getConfig("variants", {}))
+        variantSets = variantsupport.computeCombinations(self._config.get("variants", {}))
         for variantSetPos, variants in enumerate(variantSets):
             if len(variantSets) > 1:
                 self._console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
@@ -237,7 +247,7 @@ class Generator():
 
 
 
-            packageCfg = self.getConfig("packages")
+            packageCfg = self._config.get("packages")
 
             # Use include/exclude
             if not packageCfg:
@@ -251,9 +261,9 @@ class Generator():
             # Enable package support
             else:
                 # Reading configuration
-                partsCfg = self.getConfig("packages/parts", [])
-                collapseCfg = self.getConfig("packages/collapse", [])
-                latencyCfg = self.getConfig("packages/optimize", 0)
+                partsCfg = self._config.get("packages/parts", [])
+                collapseCfg = self._config.get("packages/collapse", [])
+                latencyCfg = self._config.get("packages/optimize", 0)
 
                 # Resolving regexps
                 self._console.debug("Resolving part regexps...")
@@ -278,7 +288,7 @@ class Generator():
 
 
     def cleanJob(self):
-        cleanCfg = self.getConfig("clean")
+        cleanCfg = self._config.get("clean")
 
         if not cleanCfg:
             return
@@ -316,7 +326,7 @@ class Generator():
 
 
     def apiJob(self, include):
-        apiPath = self.getConfig("api/path")
+        apiPath = self._config.get("api/path")
 
         if not apiPath:
             return
@@ -327,20 +337,20 @@ class Generator():
 
 
     def compileJob(self, include, variants, settings, variantId="", packageId="", partPkgs=None):
-        if not self.getConfig("compile/file"):
+        if not self._config.get("compile/file"):
             return
 
         self._console.info("Compiling classes:", False)
         self._console.indent()
 
         # Read in compiler options
-        optimize = self.getConfig("compile/optimize", [])
+        optimize = self._config.get("compile/optimize", [])
 
         # Read in base file name
-        baseFileName = self.getConfig("compile/file")
+        baseFileName = self._config.get("compile/file")
 
         # Whether the code should be formatted
-        formatCode = self.getConfig("compile/format", False)
+        formatCode = self._config.get("compile/format", False)
 
         # Compile file content
         compiledContent = self._compiler.compileClasses(include, variants, optimize, formatCode)
@@ -364,7 +374,7 @@ class Generator():
         # Save result file
         filetool.save(fileName, compiledContent)
         
-        if self.getConfig("compile/gzip"):
+        if self._config.get("compile/gzip"):
             filetool.gzip(fileName, compiledContent)
         
         self._console.debug("Done: %s" % self.getContentSize(compiledContent))
@@ -374,16 +384,16 @@ class Generator():
 
 
     def sourceJob(self, include, variants, settings, variantId="", packageId="", partPkgs=None):
-        if not self.getConfig("source/file"):
+        if not self._config.get("source/file"):
             return
 
         self._console.info("Generating source includer...")
 
         # Read in base file name
-        baseFileName = self.getConfig("source/file")
+        baseFileName = self._config.get("source/file")
 
         # Whether the code should be formatted
-        formatCode = self.getConfig("source/format", False)
+        formatCode = self._config.get("source/format", False)
 
         # Prepare source list
         sourceList = []
@@ -392,7 +402,7 @@ class Generator():
 
         # Generate loader
         includeBlocks = []
-        includeBlocks.append(self.wrapJavaScript(javascript.generateScriptIncluder(sourceList, formatCode)))        
+        includeBlocks.append(self.wrapJavaScript(scriptsupport.generateScriptIncluder(sourceList, formatCode)))        
         
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
@@ -421,54 +431,20 @@ class Generator():
         # Save result file
         filetool.save(fileName, loaderCode)
         
-        if self.getConfig("source/gzip"):
+        if self._config.get("source/gzip"):
             filetool.gzip(fileName, loaderCode)
         
         self._console.debug("Done: %s" % self.getContentSize(loaderCode))
         self._console.outdent()
 
-
-
-
         
-        
-        
-        
-
-
-    def getConfig(self, key, default=None):
-        data = self._config
-        splits = key.split("/")
-
-        for item in splits:
-            if data.has_key(item):
-                data = data[item]
-            else:
-                return self._normalizeConfig(default)
-
-        return self._normalizeConfig(data)
-
-
-
-    def _normalizeConfig(self, value):
-        if hasattr(value, "lower"):
-            if value.lower() in [ "1", "on", "true", "yes", "enabled" ]:
-                return True
-
-            if value.lower() in [ "0", "off", "false", "no", "disabled" ]:
-                return False
-
-        return value
-
-
-
     def getIncludes(self):
         #
         # PREPROCESS PHASE: INCLUDE/EXCLUDE
         #
 
-        includeCfg = self.getConfig("include", [])
-        packagesCfg = self.getConfig("packages")
+        includeCfg = self._config.get("include", [])
+        packagesCfg = self._config.get("packages")
 
         # Splitting lists
         self._console.debug("Preparing include configuration...")
@@ -500,7 +476,7 @@ class Generator():
         # PREPROCESS PHASE: INCLUDE/EXCLUDE
         #
 
-        excludeCfg = self.getConfig("exclude", [])
+        excludeCfg = self._config.get("exclude", [])
 
         # Splitting lists
         self._console.debug("Preparing exclude configuration...")

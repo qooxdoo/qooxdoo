@@ -1,112 +1,182 @@
 import os, re, sys
-from modules import config, filetool
+from modules import filetool
 
 def getClasses(config, console):
-    classes = {}
-
     console.info("Scanning class paths...")
     console.indent()
 
-    for entry in config:
-        _addEntry(classes, entry, console)
+    classes = {}
+    for segment in config.iter():
+        Path(segment, classes, console)
 
     console.outdent()
     console.debug("")
 
     return classes
+    
+    
+class Path:
+    def __init__(self, config, classes, console):
+        self._config = config
+        self._classes = classes
+        self._console = console
+        
+        self.scan()
+        
+        
+    _implFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+    _localeFile = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+    
+        
+    def isDocFile(self, fileName, fileContent):
+        return fileName == "__init__.js"
 
 
-def _addEntry(classes, entry, console):
-    path = entry["path"]
-    uri = entry["uri"]
-    encoding = entry["encoding"]
+    def isImplFile(self, fileName, fileContent):
+        if self._implFile.search(fileContent):
+            return True
+            
+        return False
 
-    console.debug("Scanning: %s" % path)
 
-    implCounter = 0
-    docCounter = 0
-    localeCounter = 0
+    def isLocaleFile(self, fileName, fileContent):
+        for item in self._localeFile.findall(fileContent):
+            return True
 
-    for root, dirs, files in os.walk(path):
+        return False    
 
-        # Filter ignored directories
-        for ignoredDir in config.DIRIGNORE:
-            if ignoredDir in dirs:
-                dirs.remove(ignoredDir)
 
-        # Searching for files
-        for fileName in files:
-            if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startswith("."):
-                fileEncoding = encoding
+    def getContentType(self, fileName, fileContent):
+        if self.isImplFile(fileName, fileContent):
+            return "impl"
+        
+        if self.isLocaleFile(fileName, fileContent):
+            return "locale"
+            
+        if self.isDocFile(fileName, fileContent):
+            return "doc"
+
+        return None        
+
+        
+    def getContentId(self, fileType, filePathId, fileContent):
+        if fileType == "impl":
+            for item in self._implFile.findall(fileContent):
+                return item[1]
+        
+        elif fileType == "locale":
+            return filePathId
+            
+        elif fileType == "doc":
+            return filePathId
+
+        return None
+        
+            
+    def getClassFolderName(self):
+        return "class"
+        
+
+    def getResourceFolderName(self):
+        return "resource"
+        
+
+    def getTranslationFolder(self):
+        return "translation"
+        
+        
+    # Normally there is no need to overwrite this one!    
+    def scan(self):
+        path = self._config.get("path", "")
+        uri = self._config.get("uri", path)
+        encoding = self._config.get("encoding", "utf-8")
+        
+        classFolder = self.getClassFolderName()
+        # resourceFolder = self.getResourceFolderName()
+        # translationFolder = self.getTranslationFolderName()
+
+        if path == "":
+            console.error("Missing path information!")
+            sys.exit(1)
+            
+        self._console.debug("Scanning: %s" % path)
+        
+        if not os.path.exists(path):
+            console.error("Path does not exist: %s" % path)
+            sys.exit(1)
+            
+        classPath = os.path.join(path, classFolder)    
+
+        if not os.path.exists(classPath):
+            console.error("The given path does not contains a class folder: %s" % path)
+            sys.exit(1)
+          
+        # Initialize counters  
+        implNumber = 0
+        docNumber = 0
+        localeNumber = 0
+            
+        # Iterate...
+        for root, dirs, files in os.walk(classPath):        
+            # Filter ignored directories
+            for ignoredDir in [".svn", "CVS"]:
+                if ignoredDir in dirs:
+                    dirs.remove(ignoredDir)            
+
+            # Searching for files
+            for fileName in files:
+                # Ignore non-script and dot files 
+                if os.path.splitext(fileName)[-1] != ".js" or fileName.startswith("."):
+                    continue
+                    
+                # Process path data
                 filePath = os.path.join(root, fileName)
-                fileRelPath = filePath.replace(path + os.sep, "")
-                fileUri = uri + "/" + fileRelPath.replace(os.sep, "/")
-                filePathId = fileRelPath.replace(config.JSEXT, "").replace(os.sep, ".")
+                fileRel = filePath.replace(classPath + os.sep, "")
+                
+                # Compute full URI from relative path                
+                fileUri = uri + "/" + classFolder + "/" + fileRel.replace(os.sep, "/")
+                
+                # Compute identifier from relative path
+                filePathId = fileRel.replace(".js", "").replace(os.sep, ".")
+                
+                # Read content
                 fileContent = filetool.read(filePath, encoding)
-                fileCategory = "unknown"
-
-                if fileName == "__init__.js":
-                    fileContentId = filePathId
-                    fileCategory = "qx.doc"
-                    docCounter += 1
-
-                else:
-                    fileContentId = _extractQxClassContentId(fileContent)
-
-                    if fileContentId == None:
-                        fileContentId = _extractQxLocaleContentId(fileContent)
-
-                        if fileContentId != None:
-                            fileCategory = "qx.locale"
-                            localeCounter += 1
-
-                    else:
-                        fileCategory = "qx.impl"
-                        implCounter += 1
-
-                    if filePathId != fileContentId:
-                        console.error("Mismatching IDs in file: %s" % filePath)
-                        console.error("Detail: %s != %s" % (filePathId, fileContentId))
-
-                if fileCategory == "unknown":
-                    console.error("Invalid file: %s" % filePath)
+                
+                # Extract type
+                fileType = self.getContentType(fileName, fileContent)
+                
+                # Read content identifier (class name)
+                fileContentId = self.getContentId(fileType, filePathId, fileContent)
+                
+                # Check return value
+                if fileContentId == None:
+                    self._console.error("Could not extract content ID from %s (%s)!" % (fileRel, fileType))
                     sys.exit(1)
-
-                fileId = filePathId
-
-                classes[fileId] = {
+                    
+                # Compare path and content
+                if fileContentId != filePathId:
+                    self._console.error("Detected conflict between filename and classname. Please correct!")
+                    self._console.indent()
+                    self._console.error("Classname: %s" % fileContentId)
+                    self._console.error("Path: %s" % fileRel)   
+                    self._console.outdent()                    
+                    sys.exit(1)
+                    
+                # Increment counter
+                if fileType == "impl":
+                    implNumber += 1
+                elif fileType == "doc":
+                    docNumber += 1
+                elif fileType == "locale":
+                    localeNumber += 1
+                    
+                # Store file data
+                self._classes[filePathId] = {
                     "path" : filePath,
                     "uri" : fileUri,
-                    "encoding" : fileEncoding,
-                    "category" : fileCategory,
-                    "id" : fileId
-                }
-
-    console.indent()
-    console.debug("Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter))
-    console.outdent()
-
-
-def _extractQxClassContentId(data):
-    classDefine = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
-    for item in classDefine.findall(data):
-        return item[1]
-
-    return None
-
-
-def _extractQxLocaleContentId(data):
-    # 0.8 style
-    localeDefine = re.compile('qx.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
-    for item in localeDefine.findall(data):
-        return item
-
-    # 0.7.x compat
-    localeDefine = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
-    for item in localeDefine.findall(data):
-        return item
-
-    return None
+                    "encoding" : encoding,
+                    "type" : fileType,
+                    "id" : filePathId
+                }                
+        
+        self._console.info("Added: %s impl, %s doc, %s locale" % (implNumber, docNumber, localeNumber))

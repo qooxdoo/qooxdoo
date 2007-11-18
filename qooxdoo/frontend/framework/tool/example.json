@@ -5,32 +5,32 @@
     [
       {
         "encoding" : "utf-8",
-        "path" : "framework/source/class",
-        "uri" : "../../../framework/source/class"
+        "path" : "framework/source",
+        "uri" : "../../../framework/source"
       },
 
       {
         "encoding" : "utf-8",
-        "path" : "application/apiviewer/source/class",
-        "uri" : "../source/class"
+        "path" : "application/apiviewer/source",
+        "uri" : "../source"
       },
 
       {
         "encoding" : "utf-8",
-        "path" : "application/feedreader/source/class",
-        "uri" : "../source/class"
+        "path" : "application/feedreader/source",
+        "uri" : "../source"
       },
 
       {
         "encoding" : "utf-8",
-        "path" : "application/webmail/source/class",
-        "uri" : "../source/class"
+        "path" : "application/webmail/source",
+        "uri" : "../source"
       },
 
       {
         "encoding" : "utf-8",
-        "path" : "application/showcase/source/class",
-        "uri" : "../source/class"
+        "path" : "application/showcase/source",
+        "uri" : "../source"
       }
     ],
 
