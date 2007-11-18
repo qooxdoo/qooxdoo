@@ -74,15 +74,15 @@ class Path:
         
             
     def getClassFolderName(self):
-        return "class"
+        return self._config.get("folders/class", "class")
         
 
     def getResourceFolderName(self):
-        return "resource"
+        return self._config.get("folders/resource", "resource")
         
 
     def getTranslationFolder(self):
-        return "translation"
+        return self._config.get("folders/translation", "translation")
         
         
     # Normally there is no need to overwrite this one!    
@@ -96,20 +96,21 @@ class Path:
         # translationFolder = self.getTranslationFolderName()
 
         if path == "":
-            console.error("Missing path information!")
+            self._console.error("Missing path information!")
             sys.exit(1)
             
-        self._console.debug("Scanning: %s" % path)
-        
         if not os.path.exists(path):
-            console.error("Path does not exist: %s" % path)
+            self._console.error("Path does not exist: %s" % path)
             sys.exit(1)
             
         classPath = os.path.join(path, classFolder)    
-
+        
         if not os.path.exists(classPath):
-            console.error("The given path does not contains a class folder: %s" % path)
+            self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
+
+
+        self._console.debug("Scanning: %s" % classPath)
           
         # Initialize counters  
         implNumber = 0
