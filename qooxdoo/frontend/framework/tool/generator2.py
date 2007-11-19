@@ -135,10 +135,10 @@ def process(options):
 
     # Load from json configuration
     config = simplejson.loads(filetool.read(options.config))
-    
+
     # Resolve "extend"-Keys
     resolve(console, config, options.jobs)
-    
+
     # Convert into Config class instance
     config = configsupport.Config(config)
 
@@ -197,7 +197,7 @@ class Generator():
     def __init__(self, config, console):
         self._config = config
         self._console = console
-        
+
         self._cache = cachesupport.Cache(self._config.get("cache/path"), self._console)
         self._classes = classpath.getClasses(self._config.split("library"), self._console)
         self._treeutil = treesupport.TreeUtil(self._classes, self._cache, self._console)
@@ -205,7 +205,7 @@ class Generator():
         self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
         self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
         self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._treeutil)
-        
+
         self.run()
 
 
@@ -252,7 +252,7 @@ class Generator():
             # Use include/exclude
             if not packageCfg:
                 sortedClassList = self._deputil.sortClasses(classList, variants)
-                
+
                 self.apiJob(sortedClassList)
                 self.sourceJob(sortedClassList, variants, settings, variantSetPos)
                 self.compileJob(sortedClassList, variants, settings, variantSetPos)
@@ -373,10 +373,10 @@ class Generator():
 
         # Save result file
         filetool.save(fileName, compiledContent)
-        
+
         if self._config.get("compile/gzip"):
             filetool.gzip(fileName, compiledContent)
-        
+
         self._console.debug("Done: %s" % self.getContentSize(compiledContent))
         self._console.outdent()
 
@@ -401,9 +401,14 @@ class Generator():
             sourceList.append(self._classes[fileId]["uri"])
 
         # Generate loader
+        #includeBlocks = []
+        #includeBlocks.append(self.wrapJavaScript(scriptsupport.generateScriptIncluder(sourceList, formatCode)))
+
+        # Generate loader (old one)
         includeBlocks = []
-        includeBlocks.append(self.wrapJavaScript(scriptsupport.generateScriptIncluder(sourceList, formatCode)))        
-        
+        for fileUri in sourceList:
+            includeBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
+
         # Add data from packages, settings, variants
         if "qx.lang.Core" in include:
             packageCode = self.generatePackageCode(partPkgs, variantId, formatCode)
@@ -430,14 +435,14 @@ class Generator():
 
         # Save result file
         filetool.save(fileName, loaderCode)
-        
+
         if self._config.get("source/gzip"):
             filetool.gzip(fileName, loaderCode)
-        
+
         self._console.debug("Done: %s" % self.getContentSize(loaderCode))
         self._console.outdent()
 
-        
+
     def getIncludes(self):
         #
         # PREPROCESS PHASE: INCLUDE/EXCLUDE
@@ -543,7 +548,7 @@ class Generator():
     def wrapJavaScript(self, code):
         if code.endswith("\n"):
             code = code[:-1]
-        
+
         return '<script type="text/javascript">%s</script>' % code
 
 

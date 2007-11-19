@@ -8,12 +8,13 @@ from modules import compiler
 
 def generateScriptIncluder(files, format=False, callback=""):
     code = []
-    
+
     code.append('var files=["%s"];' % '","'.join(files))
     code.append('var head = document.getElementsByTagName("head")[0];')
-    
+
     code.append('function load(url, i, callback){')
     code.append('var elem = document.createElement("script");')
+    code.append('elem.charset = "utf-8";')
     code.append('elem.src = url;')
     code.append('elem.onload = elem.onreadystatechange = function(){')
     code.append('if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete"){')
@@ -29,13 +30,13 @@ def generateScriptIncluder(files, format=False, callback=""):
     code.append('load(files[pos++]);}')
 
     code.append('next();')
-    
-    return blocksToCode(code, format)    
-    
-    
+
+    return blocksToCode(code, format)
+
+
 def generateHttpIncluder(files, format=False, callback=""):
     code = []
-    
+
     code.append('var arr=["%s"]' % '","'.join(files))
 
     code.append('function empty(){}')
@@ -44,21 +45,21 @@ def generateHttpIncluder(files, format=False, callback=""):
     code.append('xml.open("GET", url, true);')
     code.append('xml.onreadystatechange=function(){')
     code.append('if(xml.readyState==4){')
-    code.append('if(!xml.status && location.protocol == "file:" || (xml.status >= 200 && r.status < 300) || xml.status == 304){')
+    code.append('if(!xml.status && location.protocol == "file:" || (xml.status >= 200 && xml.status < 300) || xml.status == 304){')
     code.append('callback(i, xml.responseText);')
     code.append('}else{')
-    code.append('throw new Error("Could not load URL: " + url);')    
+    code.append('throw new Error("Could not load URL: " + url);')
     code.append('}')
     code.append('xml.onreadystatechange=empty;')
     code.append('}')
     code.append('};')
     code.append('xml.send();')
     code.append('}')
-        
+
     code.append('var content=[];')
     code.append('var count=0;')
     code.append('var length;')
-    
+
     code.append('function callback(i, response){')
     code.append('content[i]=response;')
     code.append('count++;')
@@ -74,11 +75,11 @@ def generateHttpIncluder(files, format=False, callback=""):
     code.append('load(arr[i], i, callback);')
     code.append('}')
     code.append('}')
-    
+
     code.append('include(arr);')
-    
+
     return blocksToCode(code, format)
-    
+
 
 def protectJavaScript(code):
     return "(function(){" + code + "})();"
@@ -89,13 +90,13 @@ def blocksToCode(code, format=False):
         result = "\n".join(code)
     else:
         result = "".join(code)
-    
+
     result = protectJavaScript(result)
-    
+
     if not format:
         result = optimizeJavaScript(result)
-        
-    return result    
+
+    return result
 
 
 def optimizeJavaScript(code):
@@ -112,4 +113,3 @@ def optimizeJavaScript(code):
     (options, args) = parser.parse_args([])
 
     return compiler.compile(restree, options)
-    

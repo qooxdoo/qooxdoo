@@ -297,14 +297,14 @@ class DependencyUtil:
             return meta
 
         meta = {}
-        category = fileEntry["category"]
+        category = fileEntry["type"]
 
         self._console.indent()
 
-        if category == "qx.doc":
+        if category == "doc":
             pass
 
-        elif category == "qx.impl" or category == "qx.locale":
+        elif category == "impl" or category == "locale":
             content = filetool.read(filePath, fileEntry["encoding"])
 
             meta["loadtimeDeps"] = self._extractQxLoadtimeDeps(content, fileId)
