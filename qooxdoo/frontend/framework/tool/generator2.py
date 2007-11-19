@@ -193,7 +193,7 @@ def mergeEntry(target, source):
 #  CORE: GENERATORS
 ######################################################################
 
-class Generator():
+class Generator:
     def __init__(self, config, console):
         self._config = config
         self._console = console
