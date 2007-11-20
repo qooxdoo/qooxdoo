@@ -281,6 +281,23 @@ qx.Class.define("qx.core.Init",
 
   /*
   *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // Detach DOM events
+    qx.event.Registration.removeListener(window, "load", this._onload, this);
+    qx.event.Registration.removeListener(window, "beforeunload", this._onbeforeunload, this);
+    qx.event.Registration.removeListener(window, "unload", this._onunload, this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      DEFER
   *****************************************************************************
   */
