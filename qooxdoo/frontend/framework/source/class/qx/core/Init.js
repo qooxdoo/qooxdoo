@@ -55,10 +55,15 @@ qx.Class.define("qx.core.Init",
   {
     this.base(arguments);
 
+    // Bind event handlers
+    this._onloadWrapped = qx.lang.Function.bind(this._onload, this);
+    this._onbeforeunloadWrapped = qx.lang.Function.bind(this._onbeforeunload, this);
+    this._onunloadWrapped = qx.lang.Function.bind(this._onunload, this);
+
     // Attach DOM events
-    qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
-    qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
-    qx.html.EventRegistration.addEventListener(window, "unload", qx.lang.Function.bind(this._onunload, this));
+    qx.html.EventRegistration.addEventListener(window, "load", this._onloadWrapped);
+    qx.html.EventRegistration.addEventListener(window, "beforeunload", this._onbeforeunloadWrapped);
+    qx.html.EventRegistration.addEventListener(window, "unload", this._onunloadWrapped);
   },
 
 
@@ -265,6 +270,22 @@ qx.Class.define("qx.core.Init",
     "qx.application" : "qx.application.Gui"
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // Detach DOM events
+    qx.html.EventRegistration.removeEventListener(window, "load", this._onloadWrapped);
+    qx.html.EventRegistration.removeEventListener(window, "beforeunload", this._onbeforeunloadWrapped);
+    qx.html.EventRegistration.removeEventListener(window, "unload", this._onunloadWrapped);
+  },
 
 
 
