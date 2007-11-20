@@ -216,14 +216,13 @@ class Generator:
         smartInclude, explicitInclude = self.getIncludes()
         smartExclude, explicitExclude = self.getExcludes()
 
-        # Read settings
-        settings = self._config.get("settings", {})
-
         # Processing all combinations of variants
-        variantSets = variantsupport.computeCombinations(self._config.get("variants", {}))
-        for variantSetPos, variants in enumerate(variantSets):
+        variantData = self._config.get("variants", {})
+        variantSets = variantsupport.computeCombinations(variantData)
+
+        for variantSetNum, variants in enumerate(variantSets):
             if len(variantSets) > 1:
-                self._console.head("PROCESSING VARIANT SET %s/%s" % (variantSetPos+1, len(variantSets)))
+                self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
 
 
             # Debug variant combination
@@ -246,24 +245,13 @@ class Generator:
             self._console.outdent()
 
 
-
-            packageCfg = self._config.get("packages")
-
-            # Use include/exclude
-            if not packageCfg:
-                sortedClassList = self._deputil.sortClasses(classList, variants)
-
-                self.apiJob(sortedClassList)
-                self.sourceJob(sortedClassList, variants, settings, variantSetPos)
-                self.compileJob(sortedClassList, variants, settings, variantSetPos)
-
-
-            # Enable package support
-            else:
+            # Check for package configuration
+            if self._config.get("packages"):
                 # Reading configuration
                 partsCfg = self._config.get("packages/parts", [])
                 collapseCfg = self._config.get("packages/collapse", [])
                 latencyCfg = self._config.get("packages/optimize", 0)
+                bootPart = self._config.get("packages/init", "boot")
 
                 # Resolving regexps
                 self._console.debug("Resolving part regexps...")
@@ -272,17 +260,22 @@ class Generator:
                     partIncludes[partId] = self._resolveComplexDefs(partsCfg[partId])
 
                 # Computing packages
-                pkgLists, partPkgs = self._partutil.getPackages(partIncludes, classList, variants, collapseCfg, latencyCfg)
+                packageContent, partToPackages = self._partutil.getPackages(partIncludes, classList, variants, collapseCfg, latencyCfg)
 
-                # Generating packages
-                for pkgId, partList in enumerate(pkgLists):
-                    self._console.info("Creating package #%s (%s classes)" % (pkgId, len(partList)))
-                    self._console.indent()
+            else:
+                # Emulate configuration
+                bootPart = "boot"
 
-                    self.sourceJob(partList, variants, settings, variantSetPos, pkgId, partPkgs)
-                    self.compileJob(partList, variants, settings, variantSetPos, pkgId, partPkgs)
+                # Emulate one package
+                partToPackages = { "boot" : [0] }
+                packageContent = [self._deputil.sortClasses(classList, variants)]
 
-                    self._console.outdent()
+
+            # Generating source file
+            self.sourceJob(partToPackages, packageContent, bootPart, variants)
+
+            # Generating compiled file
+            self.compileJob(partToPackages, packageContent, bootPart, variants)
 
 
 
@@ -324,7 +317,6 @@ class Generator:
 
 
 
-
     def apiJob(self, include):
         apiPath = self._config.get("api/path")
 
@@ -336,118 +328,243 @@ class Generator:
 
 
 
-    def compileJob(self, include, variants, settings, variantId="", packageId="", partPkgs=None):
+    def compileJob(self, partToPackages, packageContents, bootPart, variants):
         if not self._config.get("compile/file"):
             return
 
-        self._console.info("Compiling classes:", False)
-        self._console.indent()
+        # Read in base file name
+        filePath = self._config.get("compile/file")
+
+        # Read in relative file name
+        fileUri = self._config.get("compile/uri", filePath)
 
         # Read in compiler options
         optimize = self._config.get("compile/optimize", [])
 
-        # Read in base file name
-        baseFileName = self._config.get("compile/file")
-
         # Whether the code should be formatted
-        formatCode = self._config.get("compile/format", False)
+        format = self._config.get("compile/format", False)
 
-        # Compile file content
-        compiledContent = self._compiler.compileClasses(include, variants, optimize, formatCode)
+        # Read in settings
+        settings = self._config.get("settings", {})
 
-        # Add data from packages, settings, variants
-        if "qx.lang.Core" in include:
-            packageCode = self.generatePackageCode(partPkgs, variantId, formatCode)
-            compiledContent = packageCode + compiledContent
 
-        if "qx.core.Variant" in include:
-            variantsCode = self.generateVariantsCode(variants, formatCode)
-            compiledContent = variantsCode + compiledContent
 
-        if "qx.core.Setting" in include:
-            settingsCode = self.generateSettingsCode(settings, formatCode)
-            compiledContent = settingsCode + compiledContent
+        # Generating boot script
+        self._console.info("Generating boot script...")
 
-        # Construct file name
-        fileName = self.getFileName(baseFileName, variantId, packageId)
+        bootBlocks = []
+        bootBlocks.append(self.generateSettingsCode(settings, format))
+        bootBlocks.append(self.generateVariantsCode(variants, format))
+        bootBlocks.append(self.generateCompiledPackageCode(fileUri, partToPackages, packageContents, bootPart, variants, settings, format))
+
+        if format:
+            bootContent = "\n\n".join(bootBlocks)
+        else:
+            bootContent = scriptsupport.optimizeJavaScript("".join(bootBlocks))
+
+        # Resolve file name variables
+        resolvedFilePath = self.resolveFileName(filePath, variants, settings)
 
         # Save result file
-        filetool.save(fileName, compiledContent)
+        filetool.save(resolvedFilePath, bootContent)
 
         if self._config.get("compile/gzip"):
-            filetool.gzip(fileName, compiledContent)
+            filetool.gzip(resolvedFilePath, bootContent)
 
-        self._console.debug("Done: %s" % self.getContentSize(compiledContent))
+        self._console.debug("Done: %s" % self.getContentSize(bootContent))
+
+
+
+        # Generating packages
+        self._console.info("Generating packages...")
+        self._console.indent()
+
+        for packageId, packageContent in enumerate(packageContents):
+            self._console.info("Compiling classes of package %s:" % packageId, False)
+            self._console.indent()
+
+            # Compile file content
+            compiledContent = self._compiler.compileClasses(packageContent, variants, optimize, format)
+
+            # Construct file name
+            resolvedFilePath = self.resolveFileName(filePath, variants, settings, packageId)
+
+            # Save result file
+            filetool.save(resolvedFilePath, compiledContent)
+
+            if self._config.get("compile/gzip"):
+                filetool.gzip(resolvedFilePath, compiledContent)
+
+            self._console.debug("Done: %s" % self.getContentSize(compiledContent))
+            self._console.outdent()
+
         self._console.outdent()
 
 
 
 
-    def sourceJob(self, include, variants, settings, variantId="", packageId="", partPkgs=None):
+    def sourceJob(self, partToPackages, packageContents, bootPart, variants):
         if not self._config.get("source/file"):
             return
 
-        self._console.info("Generating source includer...")
+        self._console.info("Generate source version...")
 
         # Read in base file name
-        baseFileName = self._config.get("source/file")
+        filePath = self._config.get("source/file")
 
         # Whether the code should be formatted
-        formatCode = self._config.get("source/format", False)
+        format = self._config.get("source/format", False)
 
-        # Prepare source list
-        sourceList = []
-        for fileId in include:
-            sourceList.append(self._classes[fileId]["uri"])
+        # Read in settings
+        settings = self._config.get("settings", {})
 
-        # Generate loader
-        #includeBlocks = []
-        #includeBlocks.append(self.wrapJavaScript(scriptsupport.generateScriptIncluder(sourceList, formatCode)))
+        # Add data from settings, variants and packages
+        sourceBlocks = []
+        sourceBlocks.append(self.generateSettingsCode(settings, format))
+        sourceBlocks.append(self.generateVariantsCode(variants, format))
+        sourceBlocks.append(self.generateSourcePackageCode(partToPackages, packageContents, bootPart, format))
 
-        # Generate loader (old one)
-        includeBlocks = []
-        for fileUri in sourceList:
-            includeBlocks.append('<script type="text/javascript" src="%s"></script>' % fileUri)
-
-        # Add data from packages, settings, variants
-        if "qx.lang.Core" in include:
-            packageCode = self.generatePackageCode(partPkgs, variantId, formatCode)
-            includeBlocks.insert(0, self.wrapJavaScript(packageCode))
-
-        if "qx.core.Variant" in include:
-            variantsCode = self.generateVariantsCode(variants, formatCode)
-            includeBlocks.insert(0, self.wrapJavaScript(variantsCode))
-
-        if "qx.core.Setting" in include:
-            settingsCode = self.generateSettingsCode(settings, formatCode)
-            includeBlocks.insert(0, self.wrapJavaScript(settingsCode))
-
-        # Put into document.write
-        if formatCode:
-            divider = "\n"
+        if format:
+            sourceContent = "\n\n".join(sourceBlocks)
         else:
-            divider = ""
-
-        loaderCode = "document.write('%s');" % divider.join(includeBlocks).replace("'", "\\'").replace("\n", "\\\n")
+            sourceContent = scriptsupport.optimizeJavaScript("".join(sourceBlocks))
 
         # Construct file name
-        fileName = self.getFileName(baseFileName, variantId, packageId)
+        resolvedFilePath = self.resolveFileName(filePath, variants, settings)
 
         # Save result file
-        filetool.save(fileName, loaderCode)
+        filetool.save(resolvedFilePath, sourceContent)
 
         if self._config.get("source/gzip"):
-            filetool.gzip(fileName, loaderCode)
+            filetool.gzip(resolvedFilePath, sourceContent)
 
-        self._console.debug("Done: %s" % self.getContentSize(loaderCode))
+        self._console.debug("Done: %s" % self.getContentSize(sourceContent))
         self._console.outdent()
 
 
-    def getIncludes(self):
-        #
-        # PREPROCESS PHASE: INCLUDE/EXCLUDE
-        #
 
+
+
+    ######################################################################
+    #  SETTINGS/VARIANTS/PACKAGE DATA
+    ######################################################################
+
+    def generateSettingsCode(self, settings, format=False):
+        number = re.compile("^([0-9\-]+)$")
+        result = 'if(!window.qxsettings)qxsettings={};'
+
+        for key in settings:
+            if format:
+                result += "\n"
+
+            value = settings[key]
+
+            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+                value = '"%s"' % value.replace("\"", "\\\"")
+
+            result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
+
+        return result
+
+
+
+    def generateVariantsCode(self, variants, format=False):
+        number = re.compile("^([0-9\-]+)$")
+        result = 'if(!window.qxvariants)qxvariants={};'
+
+        for key in variants:
+            if format:
+                result += "\n"
+
+            value = variants[key]
+
+            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+                value = '"%s"' % value.replace("\"", "\\\"")
+
+            result += 'qxvariants["%s"]=%s;' % (key, value)
+
+        return result
+
+
+
+    def generateSourcePackageCode(self, partToPackages, packageContents, bootPart, format=False):
+        if not partToPackages:
+            return ""
+
+        # Translate part information to JavaScript
+        partData = "{"
+        for partId in partToPackages:
+            partData += '"%s":' % (partId)
+            partData += ('%s,' % partToPackages[partId]).replace(" ", "")
+
+        partData=partData[:-1] + "}"
+
+        # Translate URI data to JavaScript
+        allUris = []
+        for packageId, packageContent in enumerate(packageContents):
+            packageUris = []
+            for fileId in packageContent:
+                packageUris.append('"%s"' % self._classes[fileId]["uri"])
+
+            allUris.append("[" + ",".join(packageUris) + "]")
+
+        uriData = "[" + ",\n".join(allUris) + "]"
+
+        # Locate and load loader basic script
+        loaderFile = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "loader.js")
+        result = filetool.read(loaderFile)
+
+        # Replace template with computed data
+        result = result.replace("%PARTS%", partData)
+        result = result.replace("%URIS%", uriData)
+        result = result.replace("%BOOT%", '"%s"' % bootPart)
+
+        return result
+
+
+
+    def generateCompiledPackageCode(self, fileName, partToPackages, packageContents, bootPart, variants, settings, format=False):
+        if not partToPackages:
+            return ""
+
+        # Translate part information to JavaScript
+        partData = "{"
+        for partId in partToPackages:
+            partData += '"%s":' % (partId)
+            partData += ('%s,' % partToPackages[partId]).replace(" ", "")
+
+        partData=partData[:-1] + "}"
+
+        # Translate URI data to JavaScript
+        allUris = []
+        for packageId, packageContent in enumerate(packageContents):
+            packageFileName = self.resolveFileName(fileName, variants, settings, packageId)
+            allUris.append('["' + packageFileName + '"]')
+
+        uriData = "[" + ",\n".join(allUris) + "]"
+
+        # Locate and load loader basic script
+        loaderFile = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "loader.js")
+        result = filetool.read(loaderFile)
+
+        # Replace template with computed data
+        result = result.replace("%PARTS%", partData)
+        result = result.replace("%URIS%", uriData)
+        result = result.replace("%BOOT%", '"%s"' % bootPart)
+
+        return result
+
+
+
+
+
+
+
+    ######################################################################
+    #  DEPENDENCIES
+    ######################################################################
+
+    def getIncludes(self):
         includeCfg = self._config.get("include", [])
         packagesCfg = self._config.get("packages")
 
@@ -475,12 +592,7 @@ class Generator:
 
 
 
-
     def getExcludes(self):
-        #
-        # PREPROCESS PHASE: INCLUDE/EXCLUDE
-        #
-
         excludeCfg = self._config.get("exclude", [])
 
         # Splitting lists
@@ -542,82 +654,6 @@ class Generator:
 
 
     ######################################################################
-    #  SETTINGS/VARIANTS/PACKAGE DATA
-    ######################################################################
-
-    def wrapJavaScript(self, code):
-        if code.endswith("\n"):
-            code = code[:-1]
-
-        return '<script type="text/javascript">%s</script>' % code
-
-
-    def generateSettingsCode(self, settings, format=False):
-        number = re.compile("^([0-9\-]+)$")
-        result = 'if(!window.qxsettings)qxsettings={};'
-
-        for key in settings:
-            if format:
-                result += "\n"
-
-            value = settings[key]
-
-            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-                value = '"%s"' % value.replace("\"", "\\\"")
-
-            result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
-
-        return result
-
-
-    def generateVariantsCode(self, variants, format=False):
-        number = re.compile("^([0-9\-]+)$")
-        result = 'if(!window.qxvariants)qxvariants={};'
-
-        for key in variants:
-            if format:
-                result += "\n"
-
-            value = variants[key]
-
-            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-                value = '"%s"' % value.replace("\"", "\\\"")
-
-            result += 'qxvariants["%s"]=%s;' % (key, value)
-
-        return result
-
-
-    def generatePackageCode(self, partPkgs, variantId, format=False):
-        if not partPkgs:
-            return ""
-
-        result = 'if(!window.qxpackages)qxpackages={};'
-
-        # open map
-        partData = "{"
-        for partId in partPkgs:
-            partData += '"%s":' % (partId, )
-            partData += ('%s,' % partPkgs[partId][1:]).replace(" ", "")
-
-        # remove last comma
-        partData=partData[:-1]
-
-        # close map
-        partData += "}"
-
-        result += 'qxpackages.parts=%s;' % partData
-        result += 'qxpackages.variant=%s;' % variantId
-
-        if format:
-            result += "\n"
-
-        return result
-
-
-
-
-    ######################################################################
     #  UTIL
     ######################################################################
 
@@ -633,9 +669,19 @@ class Generator:
 
 
 
-    def getFileName(self, fileName, variantId="", packageId=""):
-        fileName = fileName.replace("$variant", str(variantId))
-        fileName = fileName.replace("$package", str(packageId))
+    def resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
+        if variants:
+            for key in variants:
+                pattern = "{%s}" % key
+                fileName = fileName.replace(pattern, variants[key])
+
+        if settings:
+            for key in settings:
+                pattern = "{%s}" % key
+                fileName = fileName.replace(pattern, settings[key])
+
+        if packageId != "":
+            fileName = fileName.replace(".js", "-%s.js" % packageId)
 
         return fileName
 

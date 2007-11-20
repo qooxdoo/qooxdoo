@@ -208,7 +208,7 @@ class PartUtil:
         resultInclude = []
         resultParts = {}
         for pkgPos, pkgId in enumerate(sortedPackageIds):
-            self._console.debug("Optimize package ID: %s => %s" % (pkgId, pkgPos))
+            self._console.debug("Translate package ID: %s => %s" % (pkgId, pkgPos))
             resultInclude.append(self._deputil.sortClasses(packageClasses[pkgId], variants))
 
             for partId in partPackages:

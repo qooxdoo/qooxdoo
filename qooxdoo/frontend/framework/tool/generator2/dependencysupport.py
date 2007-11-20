@@ -9,6 +9,7 @@ class DependencyUtil:
         self._treeutil = treeutil
         self._loadDeps = loadDeps
         self._runDeps = runDeps
+        self._memCache = {}
 
 
 
@@ -29,16 +30,18 @@ class DependencyUtil:
 
 
         # Debug optional classes
-        optionals = self.getOptionals(result)
-        if len(optionals) > 0:
-            self._console.debug("These optional classes may be useful:")
-            self._console.indent()
-            for entry in optionals:
-                self._console.debug("%s" % entry)
-            self._console.outdent()
+        if self._console.inDebugMode():
+            optionals = self.getOptionals(result)
+            if len(optionals) > 0:
+                self._console.debug("These optional classes may be useful:")
+                self._console.indent()
+                for entry in optionals:
+                    self._console.debug("%s" % entry)
+                self._console.outdent()
 
 
         # Sort classes
+        self._console.info("Sorting classes...")
         self.sortClasses(result, variants)
 
 
@@ -81,6 +84,8 @@ class DependencyUtil:
 
 
     def getCombinedDeps(self, fileId, variants):
+        # print "Get combined deps: %s" % fileId
+
         # init lists
         loadFinal = []
         runFinal = []
@@ -113,8 +118,14 @@ class DependencyUtil:
         filePath = self._classes[fileId]["path"]
         cacheId = "%s-deps-%s" % (fileId, variantsupport.generateId(variants))
 
+        if self._memCache.has_key(cacheId):
+            return self._memCache[cacheId]
+
+        # print "Read from cache: %s" % fileId
+
         deps = self._cache.read(cacheId, filePath)
         if deps != None:
+            self._memCache[cacheId] = deps
             return deps
 
         # Notes:
@@ -171,6 +182,7 @@ class DependencyUtil:
         }
 
         self._cache.write(cacheId, deps)
+        self._memCache[cacheId] = deps
 
         return deps
 
@@ -292,8 +304,12 @@ class DependencyUtil:
         filePath = fileEntry["path"]
         cacheId = "%s-meta" % fileId
 
+        if self._memCache.has_key(cacheId):
+            return self._memCache[cacheId]
+
         meta = self._cache.read(cacheId, filePath)
         if meta != None:
+            self._memCache[cacheId] = meta
             return meta
 
         meta = {}
@@ -316,7 +332,9 @@ class DependencyUtil:
             meta["embeds"] = self._extractQxEmbeds(content)
 
         self._console.outdent()
+
         self._cache.write(cacheId, meta)
+        self._memCache[cacheId] = meta
 
         return meta
 

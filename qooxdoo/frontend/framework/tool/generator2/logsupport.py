@@ -9,51 +9,60 @@ class Log:
       "error" : 40,
       "critical" : 50
     }
-    
-    
+
+
     def __init__(self, logfile=None, level="info"):
-        self.set(level)
+        self.setLevel(level)
+
         if logfile != "":
             self.logfile = codecs.open(logfile, encoding="utf-8", mode="w")
         else:
             self.logfile = False
-            
 
-    def set(self, level):
+
+    def setLevel(self, level):
         self._level = level
-        
-        
+
+
+    def getLevel(self):
+        return self._level
+
+
+    def inDebugMode(self):
+        return self._levels[self._level] < self._levels["info"]
+
+
     def indent(self):
         self._indent += 1
-        
-        
+
+
     def outdent(self):
         if self._indent > 0:
             self._indent -= 1
-            
-            
+
+
     def head(self, msg, main=False):
         if main:
             line = "=" * 76
         else:
             line = "-" * 76
-        
+
         self.write("", "info")
         self.write(line, "info")
         self.write("    %s" % msg.upper(), "info")
-        self.write(line, "info")        
-        
-    
+        self.write(line, "info")
+
+
     def write(self, msg, level="info", feed=True):
         # Always add a line feed in debug mode
         if self._levels[self._level] < self._levels["info"]:
             feed = True
-        
+
         # Log file
         if self.logfile:
             self.logfile.write(msg + "\n")
             self.logfile.flush()
-        
+
         # Standard out
         if self._levels[level] >= self._levels[self._level]:
             if feed:
@@ -61,8 +70,8 @@ class Log:
             else:
                 sys.stdout.write(msg)
                 sys.stdout.flush()
-                        
-        
+
+
     def log(self, msg, level="info", feed=True):
         # add prefix
         if msg == "":
@@ -71,14 +80,14 @@ class Log:
             prefix = ">>> "
         elif self._indent > 0:
             prefix = ("  " * self._indent) + "- "
-            
+
         self.write(prefix + msg, level, feed)
 
-                
+
     def debug(self, msg, feed=True):
         self.log(msg, "debug", feed)
 
-        
+
     def info(self, msg, feed=True):
         self.log(msg, "info", feed)
 
@@ -93,11 +102,11 @@ class Log:
 
     def critical(self, msg, feed=True):
         self.log(msg, "critical", feed)
-        
-        
+
+
     def progress(self, pos, length):
         # Ignore in debug mode: There is richer alternative debugging normally
-        if self._level < self._levels["info"]:
+        if self._levels[self._level] < self._levels["info"]:
             return
 
         # starts normally at null, but this is not useful here
@@ -113,4 +122,4 @@ class Log:
 
         if pos == length:
             sys.stdout.write("\n")
-            sys.stdout.flush()    
+            sys.stdout.flush()
