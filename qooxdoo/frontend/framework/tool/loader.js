@@ -12,21 +12,9 @@ window.qxloader =
   loadedScripts : {},
 
   callbackList : [],
+
   scriptQueue : [],
   inFlushQueue : false,
-
-
-  // Simple bind wrapper
-  _bind : function(func, obj)
-  {
-    if (!obj) {
-      return func;
-    }
-
-    return function() {
-      func.call(obj);
-    }
-  },
 
 
   // Simple log wrapper
@@ -57,29 +45,46 @@ window.qxloader =
   // Main method to manage part loading
   loadPart : function(name, callback, self)
   {
+    if (callback && !self) {
+      self = window;
+    }
+
     if (this.parts[name]==null)
     {
       this.log("No such part: " + name, "warn");
-
-      if (callback) {
-        self ? callback.call(self) : callback();
-      }
-
+      callback.call(self);
       return;
     }
 
     if (this.loadedParts[name])
     {
       this._log("Part " + name + " is already loaded...");
-
-      if (callback) {
-        self ? callback.call(self) : callback();
-      }
-
+      callback.call(self);
       return;
     }
 
-    if (this.runningParts[name]) {
+    if (this.runningParts[name])
+    {
+      this._log("The part " + name + " is already in loading state... checking callback");
+
+      if (callback)
+      {
+        for (var i=0, a=this.callbackList, l=a.length; i<l; i++)
+        {
+          if (a[i].callback == callback && a[i].self == self)
+          {
+            this._log("Callback is already registered.");
+            return;
+          }
+        }
+
+        this._log("Registering callback");
+        this.callbackList.push({
+          callback : callback,
+          self : self || null
+        });
+      }
+
       return;
     }
 
@@ -127,8 +132,13 @@ window.qxloader =
       return;
     }
 
-    if (callback) {
-      this.callbackList.push(this._bind(callback, self));
+    if (callback)
+    {
+      this._log("Registering callback");
+      this.callbackList.push({
+        callback : callback,
+        self : self || null
+      });
     }
 
     if (!this.inFlushQueue) {
@@ -169,11 +179,9 @@ window.qxloader =
       // Execute callbacks
       var callbacks = this.callbackList;
       for (var i=0, l=callbacks.length; i<l; i++) {
-        callbacks[i]();
+        callbacks[i].callback.call(callbacks[i].self);
       }
-
-      // Clear list
-      this.callbackList = [];
+      this.callbackList.length = 0;
 
       // Is this the boot module? => start init process
       if (part == this.boot && this._pageLoaded && window.qx && qx.core && qx.core.Init) {
@@ -193,6 +201,23 @@ window.qxloader =
 
   loadScript : function(uri, callback, self)
   {
+    if (callback && !self) {
+      self = window;
+    }
+
+    if (this.loadedScripts[uri])
+    {
+      this._log("Script is already loaded: " + uri);
+      callback.call(self);
+      return;
+    }
+
+    if (this.runningScripts[uri]) {
+      throw new Error("Script is already loading. This case is not queued correctly yet. Sorry.");
+    }
+
+    this.runningScripts[uri] = true;
+
     var head = document.getElementsByTagName("head")[0];
     var elem = document.createElement("script");
 
@@ -207,10 +232,12 @@ window.qxloader =
         // Remove listeners (mem leak prevention)
         elem.onreadystatechange = elem.onload = null;
 
+        // Remember
+        delete qxloader.runningScripts[uri];
+        qxloader.loadedScripts[uri] = true;
+
         // Execute callback
-        if (callback) {
-          self ? callback.call(self) : callback();
-        }
+        callback.call(self);
       }
     };
 
