@@ -200,13 +200,12 @@
 
     "source" :
     {
-      "file" : "source-apiviewer-pkgs-$variant-$package.js"
+      "file" : "source-apiviewer-pkgs.js"
     },
 
     "variants" :
     {
-      "qx.debug" : ["off"],
-      "qx.client" : ["gecko", "mshtml"]
+      "qx.debug" : ["off"]
     },
 
     "packages" :
@@ -229,7 +228,7 @@
 
     "compile" :
     {
-      "file" : "build-apiviewer-pkgs-$variant-$package.js"
+      "file" : "build-apiviewer-pkgs-{qx.client}.js"
     },
 
     "variants" :
@@ -254,11 +253,11 @@
 
   "compile-apiviewer-parts-noqx" :
   {
-    "extend" : ["build-parts-common"],
+    "extend" : ["common"],
 
     "compile" :
     {
-      "file" : "build-apiviewer-pkgs-noqx-$variant-$package.js"
+      "file" : "build-apiviewer-pkgs-noqx-{qx.client}.js"
     },
 
     "variants" :
@@ -267,20 +266,18 @@
       "qx.client" : ["gecko", "mshtml"]
     },
 
+    "include" : ["apiviewer.Application"],
+    "exclude" : ["=qx.*"],
+
     "packages" :
     {
       "collapse" : ["core"],
-      "include" : ["apiviewer.Application"],
-      "exclude" : ["=qx.*"],
 
       "parts" :
       {
-        "items" :
-        {
-          "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
-          "viewer" : ["apiviewer.Viewer"],
-          "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
-        }
+        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+        "viewer" : ["apiviewer.Viewer"],
+        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
       }
     }
   }
