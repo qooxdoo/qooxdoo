@@ -173,15 +173,15 @@ window.qxloader =
       }
       this.runningParts = {};
 
+      // Clear flag
+      this.inFlushQueue = false;
+
       // Execute callbacks
-      var callbacks = this.callbackList;
+      var callbacks = this.callbackList.concat();
+      this.callbackList.length = 0;
       for (var i=0, l=callbacks.length; i<l; i++) {
         callbacks[i].callback.call(callbacks[i].self);
       }
-      this.callbackList.length = 0;
-
-      // Clear flag
-      this.inFlushQueue = false;
 
       // Is this the boot module? => start init process
       if (part == this.boot && this._pageLoaded && window.qx && qx.core && qx.core.Init) {
