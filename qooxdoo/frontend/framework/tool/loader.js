@@ -51,7 +51,7 @@ window.qxloader =
 
     if (this.parts[name]==null)
     {
-      this.log("No such part: " + name, "warn");
+      this._log("No such part: " + name, "warn");
       callback.call(self);
       return;
     }
