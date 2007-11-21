@@ -173,15 +173,15 @@ window.qxloader =
       }
       this.runningParts = {};
 
-      // Clear flag
-      this.inFlushQueue = false;
-
       // Execute callbacks
       var callbacks = this.callbackList;
       for (var i=0, l=callbacks.length; i<l; i++) {
         callbacks[i].callback.call(callbacks[i].self);
       }
       this.callbackList.length = 0;
+
+      // Clear flag
+      this.inFlushQueue = false;
 
       // Is this the boot module? => start init process
       if (part == this.boot && this._pageLoaded && window.qx && qx.core && qx.core.Init) {
@@ -208,7 +208,11 @@ window.qxloader =
     if (this.loadedScripts[uri])
     {
       this._log("Script is already loaded: " + uri);
-      callback.call(self);
+
+      if (callback) {
+        callback.call(self);
+      }
+
       return;
     }
 
@@ -237,7 +241,9 @@ window.qxloader =
         qxloader.loadedScripts[uri] = true;
 
         // Execute callback
-        callback.call(self);
+        if (callback) {
+          callback.call(self);
+        }
       }
     };
 
