@@ -58,7 +58,7 @@ window.qxloader =
 
     if (this.loadedParts[name])
     {
-      this._log("Part " + name + " is already loaded...");
+      // this._log("Part " + name + " is already loaded...");
       callback.call(self);
       return;
     }
@@ -78,7 +78,7 @@ window.qxloader =
           }
         }
 
-        this._log("Registering callback");
+        // this._log("Registering callback");
         this.callbackList.push({
           callback : callback,
           self : self || null
@@ -90,7 +90,7 @@ window.qxloader =
 
     this.runningParts[name] = true;
 
-    this._log("Part " + name + " needs further packages");
+    this._log("Loading Part " + name + "...");
 
     var pkgs = this.parts[name];
     var pkg;
@@ -103,7 +103,7 @@ window.qxloader =
 
       if (this.loadedPackages[pkg])
       {
-        this._log("Package: " + pkg + " is already loaded...");
+        // this._log("Package: " + pkg + " is already loaded...");
         continue;
       }
 
@@ -111,11 +111,11 @@ window.qxloader =
         continue;
       }
 
-      this._log("Loading package: " + pkg);
+      // this._log("Loading package: " + pkg);
       this.runningPackages[pkg] = true;
 
       uris = this.uris[pkg];
-      this._log("Queueing " + uris.length + " files");
+      // this._log("Queueing " + uris.length + " files");
       this.scriptQueue.push.apply(this.scriptQueue, uris);
     }
 
@@ -134,7 +134,7 @@ window.qxloader =
 
     if (callback)
     {
-      this._log("Registering callback");
+      // this._log("Registering callback");
       this.callbackList.push({
         callback : callback,
         self : self || null
@@ -156,12 +156,12 @@ window.qxloader =
     // Queue empty?
     if (queue.length == 0)
     {
-      this._log("Queue flushed successfully!");
+      // this._log("Queue flushed successfully!");
 
       // Move running packages to loaded packages
       for (var pkg in this.runningPackages)
       {
-        this._log("Package " + pkg + " successfully loaded");
+        // this._log("Package " + pkg + " successfully loaded");
         this.loadedPackages[pkg] = true;
       }
       this.runningPackages = {};
@@ -207,7 +207,7 @@ window.qxloader =
 
     if (this.loadedScripts[uri])
     {
-      this._log("Script is already loaded: " + uri);
+      // this._log("Script is already loaded: " + uri);
 
       if (callback) {
         callback.call(self);
