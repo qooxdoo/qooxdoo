@@ -286,6 +286,9 @@ class Generator:
             # Compiled Task
             self.runCompiled(partToPackages, packageContent, bootPart, variants)
 
+            # Dependeny Debug Task
+            self.runDependencyDebug(partToPackages, packageContent, variants)
+
 
 
 
@@ -333,6 +336,36 @@ class Generator:
             return
 
         self._apiutil.storeApi(classList, apiPath)
+
+
+
+    def runDependencyDebug(self, partToPackages, packageContents, variants):
+         if not self._config.get("debug/dependencies", False):
+            return
+
+         self._console.info("Dependency debugging...")
+         self._console.indent()
+
+         for packageId, packageContent in enumerate(packageContents):
+             self._console.info("Package %s" % packageId)
+             self._console.indent()
+             for classId in packageContent:
+                 self._console.debug("Class: %s" % classId)
+                 self._console.indent()
+
+                 for otherClassId in packageContent:
+                     otherClassDeps = self._deputil.getDeps(otherClassId, variants)
+
+                     if classId in otherClassDeps["load"]:
+                         self._console.debug("Used by: %s (load)" % otherClassId)
+
+                     if classId in otherClassDeps["run"]:
+                         self._console.debug("Used by: %s (run)" % otherClassId)
+
+                 self._console.outdent()
+             self._console.outdent()
+
+         self._console.outdent()
 
 
 
