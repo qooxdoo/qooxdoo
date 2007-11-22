@@ -235,11 +235,7 @@ class Generator:
                 self._console.outdent()
 
 
-            # Cleanup Task
-            self.runClean()
 
-            # API Data Task
-            # self.runApiData()
 
 
             # Check for package configuration
@@ -270,6 +266,12 @@ class Generator:
                 classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
                 self._console.outdent()
 
+                # Cleanup Task
+                self.runClean(classList)
+
+                # API Data Task
+                self.runApiData(classList)
+
                 # Emulate configuration
                 bootPart = "boot"
 
@@ -287,7 +289,7 @@ class Generator:
 
 
 
-    def runClean(self):
+    def runClean(self, classList):
         cleanCfg = self._config.get("clean")
 
         if not cleanCfg:
@@ -324,13 +326,13 @@ class Generator:
 
 
 
-    def runApiData(self, include):
+    def runApiData(self, classList):
         apiPath = self._config.get("api/path")
 
         if not apiPath:
             return
 
-        self._apiutil.storeApi(include, apiPath)
+        self._apiutil.storeApi(classList, apiPath)
 
 
 
