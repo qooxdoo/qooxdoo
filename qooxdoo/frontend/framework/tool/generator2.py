@@ -239,7 +239,7 @@ class Generator:
             self.runClean()
 
             # API Data Task
-            self.runApiData()
+            # self.runApiData()
 
 
             # Check for package configuration
@@ -255,7 +255,7 @@ class Generator:
                     collapseCfg.append(bootPart)
 
                 # Expanding expressions
-                self._console.debug("Resolving part regexps...")
+                self._console.debug("Expanding include expressions...")
                 partIncludes = {}
                 for partId in partsCfg:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
@@ -324,7 +324,7 @@ class Generator:
 
 
 
-    def apiJob(self, include):
+    def runApiData(self, include):
         apiPath = self._config.get("api/path")
 
         if not apiPath:
