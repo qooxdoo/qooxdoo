@@ -90,7 +90,7 @@ window.qxloader =
 
     this.runningParts[name] = true;
 
-    this._log("Loading Part " + name + "...");
+    this._log("Loading part " + name + "...");
 
     var pkgs = this.parts[name];
     var pkg;
