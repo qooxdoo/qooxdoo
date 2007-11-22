@@ -6,7 +6,7 @@ class PartUtil:
         self._treeutil = treeutil
 
 
-    def getPackages(self, partClasses, appClasses, variants, collapseParts, optimizeLatency):
+    def getPackages(self, partIncludes, variants, collapseParts, optimizeLatency, smartExclude, explicitExclude):
         # Build bitmask ids for parts
         self._console.debug("Assigning bits to parts...")
 
@@ -14,7 +14,7 @@ class PartUtil:
         self._console.indent()
         partBits = {}
         partPos = 0
-        for partId in partClasses:
+        for partId in partIncludes:
             partBit = 1<<partPos
 
             self._console.debug("Part #%s => %s" % (partId, partBit))
@@ -29,31 +29,31 @@ class PartUtil:
         self._console.indent()
 
         partDeps = {}
-        length = len(partClasses.keys())
-        for pos, partId in enumerate(partClasses.keys()):
+        for partId in partIncludes:
             # Exclude all features of other parts
             # and handle dependencies the smart way =>
             # also exclude classes only needed by the
             # already excluded features
             partExcludes = []
-            for subPartId in partClasses:
-                if subPartId != partId:
-                    partExcludes.extend(partClasses[subPartId])
+            for otherPartId in partIncludes:
+                if otherPartId != partId:
+                    partExcludes.extend(partIncludes[otherPartId])
+
+            # Extend with smart excludes
+            partExcludes.extend(smartExclude)
 
             # Finally resolve the dependencies
-            localDeps = self._deputil.resolveDependencies(partClasses[partId], partExcludes, variants)
+            partClasses = self._deputil.resolveDependencies(partIncludes[partId], partExcludes, variants)
 
+            # Remove explicit excludes
+            for classId in explicitExclude:
+                if classId in partClasses:
+                    # self._console.debug("Explicit excluding: %s" % classId)
+                    partClasses.remove(classId)
 
-            # Remove all dependencies which are not included in the full list
-            if len(appClasses) > 0:
-              localDepsCopy = localDeps[:]
-              for dep in localDepsCopy:
-                  if not dep in appClasses:
-                      localDeps.remove(dep)
-
-            self._console.debug("Part #%s needs %s classes" % (partId, len(localDeps)))
-
-            partDeps[partId] = localDeps
+            # Store
+            self._console.debug("Part #%s needs %s classes" % (partId, len(partClasses)))
+            partDeps[partId] = partClasses
 
         self._console.outdent()
 
@@ -73,7 +73,7 @@ class PartUtil:
             bitCount = 0
 
             # Iterate through the parts use needs this class
-            for partId in partClasses:
+            for partId in partIncludes:
                 if classId in partDeps[partId]:
                     packageId += partBits[partId]
                     bitCount += 1
@@ -97,7 +97,7 @@ class PartUtil:
         self._console.debug("Assigning packages to parts...")
         partPackages = {}
 
-        for partId in partClasses:
+        for partId in partIncludes:
             partBit = partBits[partId]
 
             for packageId in packageClasses:
@@ -137,7 +137,7 @@ class PartUtil:
                 self._console.indent()
                 for packageId in partPackages[partId][collapsePos+1:]:
                     self._console.debug("Merge #%s into #%s" % (packageId, collapsePackage))
-                    self._mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
+                    self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
 
                 self._console.outdent()
                 collapsePos += 1
@@ -189,7 +189,7 @@ class PartUtil:
                 self._console.indent()
                 if collapsePackage != None:
                     self._console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
-                    self._mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
+                    self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
 
                 self._console.outdent()
                 self._console.outdent()
@@ -295,9 +295,9 @@ class PartUtil:
 
 
 
-    def _mergePackage(self, replacePackage, collapsePackage, partClasses, partPackages, packageClasses):
+    def _mergePackage(self, replacePackage, collapsePackage, partIncludes, partPackages, packageClasses):
         # Replace other package content
-        for partId in partClasses:
+        for partId in partIncludes:
             partContent = partPackages[partId]
 
             if replacePackage in partContent:

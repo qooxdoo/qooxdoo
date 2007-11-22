@@ -220,6 +220,7 @@ class Generator:
         variantData = self._config.get("variants", {})
         variantSets = variantsupport.computeCombinations(variantData)
 
+        # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
             if len(variantSets) > 1:
                 self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
@@ -234,15 +235,11 @@ class Generator:
                 self._console.outdent()
 
 
-            # Cleanup Job
-            self.cleanJob()
+            # Cleanup Task
+            self.runClean()
 
-
-            # Detect dependencies
-            self._console.info("Resolving application dependencies...")
-            self._console.indent()
-            classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-            self._console.outdent()
+            # API Data Task
+            self.runApiData()
 
 
             # Check for package configuration
@@ -253,34 +250,44 @@ class Generator:
                 latencyCfg = self._config.get("packages/optimize", 0)
                 bootPart = self._config.get("packages/init", "boot")
 
-                # Resolving regexps
+                # Automatically add boot part to collapse list
+                if not bootPart in collapseCfg:
+                    collapseCfg.append(bootPart)
+
+                # Expanding expressions
                 self._console.debug("Resolving part regexps...")
                 partIncludes = {}
                 for partId in partsCfg:
-                    partIncludes[partId] = self._resolveComplexDefs(partsCfg[partId])
+                    partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                packageContent, partToPackages = self._partutil.getPackages(partIncludes, classList, variants, collapseCfg, latencyCfg)
+                packageContent, partToPackages = self._partutil.getPackages(partIncludes, variants, collapseCfg, latencyCfg, smartExclude, explicitExclude)
 
             else:
+                # Resolving dependencies
+                self._console.info("Resolving dependencies...")
+                self._console.indent()
+                classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+                self._console.outdent()
+
                 # Emulate configuration
                 bootPart = "boot"
 
                 # Emulate one package
                 partToPackages = { "boot" : [0] }
-                packageContent = [self._deputil.sortClasses(classList, variants)]
+                packageContent = [classList]
 
 
-            # Generating source file
-            self.sourceJob(partToPackages, packageContent, bootPart, variants)
+            # Source Task
+            self.runSource(partToPackages, packageContent, bootPart, variants)
 
-            # Generating compiled file
-            self.compileJob(partToPackages, packageContent, bootPart, variants)
-
-
+            # Compiled Task
+            self.runCompiled(partToPackages, packageContent, bootPart, variants)
 
 
-    def cleanJob(self):
+
+
+    def runClean(self):
         cleanCfg = self._config.get("clean")
 
         if not cleanCfg:
@@ -328,7 +335,7 @@ class Generator:
 
 
 
-    def compileJob(self, partToPackages, packageContents, bootPart, variants):
+    def runCompiled(self, partToPackages, packageContents, bootPart, variants):
         if not self._config.get("compile/file"):
             return
 
@@ -403,7 +410,7 @@ class Generator:
 
 
 
-    def sourceJob(self, partToPackages, packageContents, bootPart, variants):
+    def runSource(self, partToPackages, packageContents, bootPart, variants):
         if not self._config.get("source/file"):
             return
 
@@ -583,9 +590,9 @@ class Generator:
 
         # Resolve regexps
         self._console.indent()
-        self._console.debug("Resolving regexps...")
-        smartInclude = self._resolveComplexDefs(smartInclude)
-        explicitInclude = self._resolveComplexDefs(explicitInclude)
+        self._console.debug("Expanding expressions...")
+        smartInclude = self._expandRegExps(smartInclude)
+        explicitInclude = self._expandRegExps(explicitInclude)
         self._console.outdent()
 
         return smartInclude, explicitInclude
@@ -610,9 +617,9 @@ class Generator:
 
         # Resolve regexps
         self._console.indent()
-        self._console.debug("Resolving regexps...")
-        smartExclude = self._resolveComplexDefs(smartExclude)
-        explicitExclude = self._resolveComplexDefs(explicitExclude)
+        self._console.debug("Expanding expressions...")
+        smartExclude = self._expandRegExps(smartExclude)
+        explicitExclude = self._expandRegExps(explicitExclude)
         self._console.outdent()
 
         return smartExclude, explicitExclude
@@ -633,7 +640,7 @@ class Generator:
 
 
 
-    def _resolveComplexDefs(self, entries):
+    def _expandRegExps(self, entries):
         classes = self._classes
 
         content = []
