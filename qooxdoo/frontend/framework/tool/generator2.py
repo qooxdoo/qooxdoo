@@ -349,6 +349,11 @@ class Generator:
          for packageId, packageContent in enumerate(packageContents):
              self._console.info("Package %s" % packageId)
              self._console.indent()
+
+             for partId in partToPackages:
+                 if packageId in partToPackages[partId]:
+                     self._console.info("Part %s" % partId)
+
              for classId in packageContent:
                  self._console.debug("Class: %s" % classId)
                  self._console.indent()
