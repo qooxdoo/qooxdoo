@@ -681,19 +681,29 @@ class Generator:
 
 
     def _expandRegExps(self, entries):
-        classes = self._classes
-
-        content = []
+        result = []
 
         for entry in entries:
-            regexp = textutil.toRegExp(entry)
+            # Fast path: Try if a matching class could directly be found
+            if entry in self._classes:
+                result.append(entry)
 
-            for className in classes:
-                if regexp.search(className):
-                    if not className in content:
-                        content.append(className)
+            else:
+                regexp = textutil.toRegExp(entry)
+                expanded = []
 
-        return content
+                for classId in self._classes:
+                    if regexp.search(classId):
+                        if not classId in content:
+                            result.append(classId)
+
+                if len(expanded) == 0:
+                    self._console.error("Expression gives no results. Maybe malformed expression?: %s" % entry)
+                    sys.exit(1)
+
+                result.extend(expanded)
+
+        return result
 
 
 
