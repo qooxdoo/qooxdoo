@@ -254,9 +254,15 @@ qx.Class.define("qx.ui.core.Widget",
         qx.ui.core.Widget._removeAutoFlush();
       }
 
-      if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
+      if (qx.ui.core.Widget._inFlushGlobalQueues) {
         return;
       }
+
+      var app = qx.core.Init.getInstance().getApplication();
+      if (app.getUiReady && !app.getUiReady()) {
+        return;
+      }
+
 
       // Also used for inline event handling to seperate 'real' events
       qx.ui.core.Widget._inFlushGlobalQueues = true;
