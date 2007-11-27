@@ -325,9 +325,6 @@ class Generator:
             self._console.outdent()
 
 
-
-
-
             # Check for package configuration
             if self._config.get("packages"):
                 # Reading configuration
