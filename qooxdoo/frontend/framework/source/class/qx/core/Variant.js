@@ -123,10 +123,6 @@ qx.Class.define("qx.core.Variant",
         if (data === undefined) {
           throw new Error('Variant "' + key + '" is not defined.');
         }
-
-        if (data.defaultValue === undefined) {
-          throw new Error('Variant "' + key + '" is not supported by API.');
-        }
       }
 
       if (data.value !== undefined) {
