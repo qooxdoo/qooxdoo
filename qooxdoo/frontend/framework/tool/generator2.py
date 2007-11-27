@@ -105,6 +105,12 @@ def main():
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default="", type="string", help="Log file")
 
+    # runtime addons
+    parser.add_option("--use-setting", action="extend", dest="usedSettings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
+    parser.add_option("--select-variant", action="extend", dest="selectedVariants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
+    parser.add_option("--load-variants", action="extend", dest="variantFiles", metavar="NAMESPACE:FILE", type="string", default=[], help="Variant files to load")
+    parser.add_option("--load-settings", action="extend", dest="settingFiles", metavar="NAMESPACE:FILE", type="string", default=[], help="Setting files to load")
+
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
         print "usage: %s [options]" % basename
@@ -142,10 +148,92 @@ def process(options):
     # Convert into Config class instance
     config = configsupport.Config(config)
 
+
+    # Preprocess selected variants
+    variants = {}
+    for entry in options.selectedVariants:
+        splitted = entry.split(":")
+        variants[splitted[0]] = splitted[1]
+
+
+    # Preprocess variant files
+    for entry in options.variantFiles:
+        splitted = entry.split(":")
+        namespace = splitted[0]
+        filename = splitted[1]
+
+        runtime = {}
+        for key in variants:
+            runtime[key[len(namespace + "."):]] = variants[key]
+
+        execfile(filename, {}, runtime)
+
+        for key in runtime:
+            if key == "" or key.startswith("_") or key.isupper():
+                continue
+
+            namespaced = "%s.%s" % (namespace, key)
+
+            if variants.has_key(namespaced) and variants[namespaced] != runtime[key]:
+                console.error("Overwriting key not allowed: %s" % key)
+                sys.exit(1)
+
+            value = runtime[key]
+
+            if value == True:
+                value = "on"
+            elif value == False:
+                value = "off"
+
+            variants[namespaced] = value
+
+
+    # Preprocess used settings
+    settings = {}
+    for entry in options.usedSettings:
+        splitted = entry.split(":")
+        settings[splitted[0]] = splitted[1]
+
+
+    # Preprocess setting files
+    for entry in options.settingFiles:
+        splitted = entry.split(":")
+        namespace = splitted[0]
+        filename = splitted[1]
+
+        runtime = {}
+
+        runtime = {}
+        for key in variants:
+            runtime[key[len(namespace + "."):]] = variants[key]
+
+        execfile(filename, {}, runtime)
+
+        for key in runtime:
+            if key == "" or key.startswith("_") or key.isupper():
+                continue
+
+            namespaced = "%s.%s" % (namespace, key)
+
+            # Settings must be unique
+            if variants.has_key(namespaced):
+                continue
+
+            value = runtime[key]
+
+            if value == True:
+                value = "on"
+            elif value == False:
+                value = "off"
+
+            settings[namespaced] = value
+
+
     # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.split(job), console)
+        generator = Generator(config.split(job), console, variants, settings)
+
 
 
 def resolve(console, config, jobs):
@@ -156,6 +244,7 @@ def resolve(console, config, jobs):
         resolveEntry(console, config, job)
 
     console.outdent()
+
 
 
 def resolveEntry(console, config, job):
@@ -178,6 +267,7 @@ def resolveEntry(console, config, job):
     data["resolved"] = True
 
 
+
 def mergeEntry(target, source):
     for key in source:
         if not target.has_key(key):
@@ -194,9 +284,11 @@ def mergeEntry(target, source):
 ######################################################################
 
 class Generator:
-    def __init__(self, config, console):
+    def __init__(self, config, console, variants, settings):
         self._config = config
         self._console = console
+        self._variants = variants
+        self._settings = settings
 
         self._cache = cachesupport.Cache(self._config.get("cache/path"), self._console)
         self._classes = classpath.getClasses(self._config.split("library"), self._console)
@@ -217,8 +309,7 @@ class Generator:
         smartExclude, explicitExclude = self.getExcludes()
 
         # Processing all combinations of variants
-        variantData = self._config.get("variants", {})
-        variantSets = variantsupport.computeCombinations(variantData)
+        variantSets = variantsupport.computeCombinations(self.getVariants())
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
@@ -227,12 +318,11 @@ class Generator:
 
 
             # Debug variant combination
-            if len(variants) > 0:
-                self._console.debug("Selected variants:")
-                self._console.indent()
-                for key in variants:
-                    self._console.debug("%s = %s" % (key, variants[key]))
-                self._console.outdent()
+            self._console.debug("Selected variants:")
+            self._console.indent()
+            for key in variants:
+                self._console.debug("%s = %s" % (key, variants[key]))
+            self._console.outdent()
 
 
 
@@ -328,6 +418,35 @@ class Generator:
         return
 
 
+    def getSettings(self):
+        settings = {}
+        settingsConfig = self._config.get("settings", {})
+        settingsRuntime = self._settings
+
+        for key in settingsConfig:
+            settings[key] = settingsConfig[key]
+
+        for key in settingsRuntime:
+            settings[key] = settingsRuntime[key]
+
+        return settings
+
+
+
+    def getVariants(self):
+        variants = {}
+        variantsConfig = self._config.get("variants", {})
+        variantsRuntime = self._variants
+
+        for key in variantsConfig:
+            variants[key] = variantsConfig[key]
+
+        for key in variantsRuntime:
+            variants[key] = [variantsRuntime[key]]
+
+        return variants
+
+
 
     def runApiData(self, classList):
         apiPath = self._config.get("api/path")
@@ -392,8 +511,7 @@ class Generator:
         format = self._config.get("compile/format", False)
 
         # Read in settings
-        settings = self._config.get("settings", {})
-
+        settings = self.getSettings()
 
 
         # Generating boot script
@@ -463,7 +581,7 @@ class Generator:
         format = self._config.get("source/format", False)
 
         # Read in settings
-        settings = self._config.get("settings", {})
+        settings = self.getSettings()
 
         # Add data from settings, variants and packages
         sourceBlocks = []
