@@ -63,10 +63,11 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this._document.body.style.position = "";
 
     // Disable IE background image cache
-    // TODO: Optimize this => Only needed in IE6
-    try {
-      document.execCommand("BackgroundImageCache", false, true);
-    } catch(err) {};
+    if( qx.core.Variant.isSet("qx.client", "mshtml") && (qx.core.Client.getInstance().getMajor() < 7) ){
+      try {
+        document.execCommand("BackgroundImageCache", false, true);
+      } catch(err) {};
+    }
 
     // Cache current size
     this._cachedInnerWidth = this._document.body.offsetWidth;
