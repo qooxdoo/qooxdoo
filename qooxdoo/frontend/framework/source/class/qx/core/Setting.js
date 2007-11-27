@@ -121,10 +121,6 @@ qx.Bootstrap.define("qx.core.Setting",
         throw new Error('Setting "' + key + '" is not defined.');
       }
 
-      if (cache.defaultValue === undefined) {
-        throw new Error('Setting "' + key + '" is not supported by API.');
-      }
-
       if (cache.value !== undefined) {
         return cache.value;
       }
