@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           throw new Error("Could not detect Opera version: " + agent + "!");
         }
       }
-      else if (agent.indexOf("AppleWebKit") != -1)
+      else if (navigator.vendor && navigator.vendor === "Apple Computer, Inc.")
       {
         engine = "webkit";
         this.WEBKIT = true;
@@ -129,7 +129,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           throw new Error("Could not detect Gecko version: " + agent + "!");
         }
       }
-      else if (/MSIE\s+([^\);]+)(\)|;)/.test(agent))
+      else if (navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(agent))
       {
         engine = "mshtml";
         version = RegExp.$1;
