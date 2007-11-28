@@ -164,7 +164,14 @@ def process(options):
 
         runtime = {}
         for key in variants:
-            runtime[key[len(namespace + "."):]] = variants[key]
+            value = variants[key]
+
+            if value == "on":
+                value = True
+            elif value == "off":
+                value = False
+
+            runtime[key[len(namespace + "."):]] = value
 
         execfile(filename, {}, runtime)
 
@@ -201,11 +208,16 @@ def process(options):
         namespace = splitted[0]
         filename = splitted[1]
 
-        runtime = {}
+        # use old runtime dict and add settings
+        for key in settings:
+            value = settings[key]
 
-        runtime = {}
-        for key in variants:
-            runtime[key[len(namespace + "."):]] = variants[key]
+            if value == "on":
+                value = True
+            elif value == "off":
+                value = False
+
+            runtime[key[len(namespace + "."):]] = value
 
         execfile(filename, {}, runtime)
 
