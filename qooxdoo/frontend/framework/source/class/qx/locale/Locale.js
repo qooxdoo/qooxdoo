@@ -45,7 +45,9 @@ qx.Class.define("qx.locale.Locale",
      * @param config {Map} config structure
      * @return {void}
      */
-    define : function(name, config) {
+    define : function(name, config)
+    {
+      qx.Class.createNamespace(name, config);
       qx.locale.Manager.getInstance().addTranslationFromClass(name, config);
     }
   }
