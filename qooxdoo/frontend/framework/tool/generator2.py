@@ -93,6 +93,43 @@ from generator2 import configsupport
 
 
 ######################################################################
+#  UTILITIES
+######################################################################
+
+def __splitListToDict(data, divider=":"):
+    result = {}
+    for entry in data:
+        splitted = entry.split(divider)
+        result[splitted[0]] = splitted[1]
+
+    return result
+
+
+def __translateValuesToFeatureSet(data):
+    for key in data:
+        if data[key] == "on":
+            data[key] = True
+        elif data[key] == "off":
+            data[key] = False
+
+    return data
+
+
+def __translateValuesFromFeatureSet(data):
+    for key in data:
+        if data[key] == True:
+            data[key] = "on"
+        elif data[key] == False:
+            data[key] = "off"
+
+    return data
+
+
+
+
+
+
+######################################################################
 #  MAIN CONTENT
 ######################################################################
 
@@ -106,10 +143,9 @@ def main():
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default="", type="string", help="Log file")
 
     # runtime addons
-    parser.add_option("--use-setting", action="extend", dest="usedSettings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
-    parser.add_option("--select-variant", action="extend", dest="selectedVariants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
-    parser.add_option("--load-variants", action="extend", dest="variantFiles", metavar="NAMESPACE:FILE", type="string", default=[], help="Variant files to load")
-    parser.add_option("--load-settings", action="extend", dest="settingFiles", metavar="NAMESPACE:FILE", type="string", default=[], help="Setting files to load")
+    parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
+    parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
+    parser.add_option("--featureset", action="extend", dest="featuresets", metavar="NAMESPACE:FILE", type="string", default=[], help="Featureset files to load")
 
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
@@ -120,6 +156,7 @@ def main():
     (options, args) = parser.parse_args(sys.argv[1:])
 
     process(options)
+
 
 
 def process(options):
@@ -148,98 +185,19 @@ def process(options):
     # Convert into Config class instance
     config = configsupport.Config(config)
 
+    # Process feature sets
+    runtime = {
+      "variant" : __translateValuesToFeatureSet(__splitListToDict(options.variants)),
+      "setting" : __translateValuesToFeatureSet(__splitListToDict(options.settings))
+    }
 
-    # Preprocess selected variants
-    variants = {}
-    for entry in options.selectedVariants:
-        splitted = entry.split(":")
-        variants[splitted[0]] = splitted[1]
+    for fileName in options.featuresets:
+        console.debug("Executing feature set: %s" % fileName)
+        execfile(fileName, {}, runtime)
 
-
-    # Preprocess variant files
-    for entry in options.variantFiles:
-        splitted = entry.split(":")
-        namespace = splitted[0]
-        filename = splitted[1]
-
-        runtime = {}
-        for key in variants:
-            value = variants[key]
-
-            if value == "on":
-                value = True
-            elif value == "off":
-                value = False
-
-            runtime[key[len(namespace + "."):]] = value
-
-        execfile(filename, {}, runtime)
-
-        for key in runtime:
-            if key == "" or key.startswith("_") or key.isupper():
-                continue
-
-            namespaced = "%s.%s" % (namespace, key)
-
-            if variants.has_key(namespaced) and variants[namespaced] != runtime[key]:
-                console.error("Overwriting key not allowed: %s" % key)
-                sys.exit(1)
-
-            value = runtime[key]
-
-            if value == True:
-                value = "on"
-            elif value == False:
-                value = "off"
-
-            variants[namespaced] = value
-
-
-    # Preprocess used settings
-    settings = {}
-    for entry in options.usedSettings:
-        splitted = entry.split(":")
-        settings[splitted[0]] = splitted[1]
-
-
-    # Preprocess setting files
-    for entry in options.settingFiles:
-        splitted = entry.split(":")
-        namespace = splitted[0]
-        filename = splitted[1]
-
-        # use old runtime dict and add settings
-        for key in settings:
-            value = settings[key]
-
-            if value == "on":
-                value = True
-            elif value == "off":
-                value = False
-
-            runtime[key[len(namespace + "."):]] = value
-
-        execfile(filename, {}, runtime)
-
-        for key in runtime:
-            if key == "" or key.startswith("_") or key.isupper():
-                continue
-
-            namespaced = "%s.%s" % (namespace, key)
-
-            # Settings must be unique
-            if variants.has_key(namespaced):
-                continue
-
-            value = runtime[key]
-
-            if value == True:
-                value = "on"
-            elif value == False:
-                value = "off"
-
-            settings[namespaced] = value
-
+    # Convert to useable variants and settings
+    variants = __translateValuesFromFeatureSet(runtime["variant"])
+    settings = __translateValuesFromFeatureSet(runtime["setting"])
 
     # Processing jobs...
     for job in options.jobs:
@@ -321,20 +279,21 @@ class Generator:
         smartExclude, explicitExclude = self.getExcludes()
 
         # Processing all combinations of variants
-        variantSets = variantsupport.computeCombinations(self.getVariants())
+        variantData = self.getVariants()
+        variantSets = variantsupport.computeCombinations(variantData)
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
             if len(variantSets) > 1:
                 self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
 
-
-            # Debug variant combination
-            self._console.debug("Selected variants:")
-            self._console.indent()
-            for key in variants:
-                self._console.debug("%s = %s" % (key, variants[key]))
-            self._console.outdent()
+                # Debug variant combination
+                self._console.debug("Switched variants:")
+                self._console.indent()
+                for key in variants:
+                    if len(variantData[key]) > 1:
+                        self._console.debug("%s = %s" % (key, variants[key]))
+                self._console.outdent()
 
 
             # Check for package configuration
@@ -636,7 +595,7 @@ class Generator:
             if not (value == "false" or value == "true" or value == "null" or number.match(value)):
                 value = '"%s"' % value.replace("\"", "\\\"")
 
-            result += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;' % (key, key, value)
+            result += 'qxsettings["%s"]=%s;' % (key, value)
 
         return result
 
