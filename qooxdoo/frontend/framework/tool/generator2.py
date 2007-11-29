@@ -105,7 +105,7 @@ def __splitListToDict(data, divider=":"):
     return result
 
 
-def __translateValuesToFeatureSet(data):
+def __translateVariantValuesToFeatureSet(data):
     for key in data:
         if data[key] == "on":
             data[key] = True
@@ -115,7 +115,7 @@ def __translateValuesToFeatureSet(data):
     return data
 
 
-def __translateValuesFromFeatureSet(data):
+def __translateVariantValuesFromFeatureSet(data):
     for key in data:
         if data[key] == True:
             data[key] = "on"
@@ -125,6 +125,24 @@ def __translateValuesFromFeatureSet(data):
     return data
 
 
+def __translateSettingValuesToFeatureSet(data):
+    for key in data:
+        if data[key] == "true":
+            data[key] = True
+        elif data[key] == "false":
+            data[key] = False
+
+    return data
+
+
+def __translateSettingValuesFromFeatureSet(data):
+    for key in data:
+        if data[key] == True:
+            data[key] = "true"
+        elif data[key] == False:
+            data[key] = "false"
+
+    return data
 
 
 
@@ -187,8 +205,8 @@ def process(options):
 
     # Process feature sets
     runtime = {
-      "variant" : __translateValuesToFeatureSet(__splitListToDict(options.variants)),
-      "setting" : __translateValuesToFeatureSet(__splitListToDict(options.settings))
+      "variant" : __translateVariantValuesToFeatureSet(__splitListToDict(options.variants)),
+      "setting" : __translateSettingValuesToFeatureSet(__splitListToDict(options.settings))
     }
 
     for fileName in options.featuresets:
@@ -196,8 +214,8 @@ def process(options):
         execfile(fileName, {}, runtime)
 
     # Convert to useable variants and settings
-    variants = __translateValuesFromFeatureSet(runtime["variant"])
-    settings = __translateValuesFromFeatureSet(runtime["setting"])
+    variants = __translateVariantValuesFromFeatureSet(runtime["variant"])
+    settings = __translateSettingValuesFromFeatureSet(runtime["setting"])
 
     # Processing jobs...
     for job in options.jobs:
