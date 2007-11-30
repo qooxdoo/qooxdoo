@@ -405,6 +405,7 @@ class Generator:
         return
 
 
+
     def getSettings(self):
         settings = {}
         settingsConfig = self._config.get("settings", {})
@@ -480,7 +481,6 @@ class Generator:
 
 
 
-
     def runCompiled(self, partToPackages, packageContents, bootPart, variants):
         if not self._config.get("compile/file"):
             return
@@ -533,7 +533,7 @@ class Generator:
         self._console.indent()
 
         for packageId, packageContent in enumerate(packageContents):
-            self._console.info("Compiling classes of package %s:" % packageId, False)
+            self._console.info("Compiling classes of package #%s:" % packageId, False)
             self._console.indent()
 
             # Compile file content

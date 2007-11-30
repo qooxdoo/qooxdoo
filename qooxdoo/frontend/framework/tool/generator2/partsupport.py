@@ -115,6 +115,7 @@ class PartUtil:
 
         # User feedback
         self._printPartStats(packageClasses, partPackages)
+        modifiedPackages = False
 
 
 
@@ -137,6 +138,7 @@ class PartUtil:
                 for packageId in partPackages[partId][collapsePos+1:]:
                     self._console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
                     self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
+                    modifiedPackages = True
 
                 self._console.outdent()
 
@@ -188,13 +190,18 @@ class PartUtil:
                 if collapsePackage != None:
                     self._console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
                     self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
+                    modifiedPackages = True
 
                 self._console.outdent()
                 self._console.outdent()
             
             self._console.outdent()
 
-            # User feedback
+
+
+
+        # User feedback
+        if modifiedPackages:
             self._printPartStats(packageClasses, partPackages)
 
 
@@ -207,8 +214,11 @@ class PartUtil:
 
         resultInclude = []
         resultParts = {}
+        
+        self._console.debug("Translate package ids...")
+        self._console.indent()
         for pkgPos, pkgId in enumerate(sortedPackageIds):
-            self._console.debug("Translate package ID: %s => %s" % (pkgId, pkgPos))
+            self._console.debug("Package #%s to #%s" % (pkgId, pkgPos))
             resultInclude.append(self._deputil.sortClasses(packageClasses[pkgId], variants))
 
             for partId in partPackages:
@@ -218,6 +228,7 @@ class PartUtil:
 
                     resultParts[partId].append(pkgPos)
 
+        self._console.outdent()
         self._console.debug("")
         
 
