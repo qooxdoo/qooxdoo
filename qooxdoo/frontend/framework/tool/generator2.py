@@ -524,6 +524,7 @@ class Generator:
             filetool.gzip(resolvedFilePath, bootContent)
 
         self._console.debug("Done: %s" % self.getContentSize(bootContent))
+        self._console.debug("")
 
 
 

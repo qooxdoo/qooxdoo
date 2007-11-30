@@ -193,6 +193,8 @@ class PartUtil:
 
                 self._console.outdent()
                 self._console.outdent()
+            
+            self._console.outdent()
 
             # User feedback
             self._printPartStats(packageClasses, partPackages)
@@ -218,7 +220,8 @@ class PartUtil:
 
                     resultParts[partId].append(pkgPos)
 
-
+        self._console.debug("")
+        
 
         # Return
         return resultInclude, resultParts
