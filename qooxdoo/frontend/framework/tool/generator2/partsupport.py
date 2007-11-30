@@ -126,21 +126,19 @@ class PartUtil:
         # the first one is always the one with the highest priority
         if len(collapseParts) > 0:
             self._console.debug("")
-            self._console.info("Collapsing packages...")
+            self._console.info("Collapsing part packages...")
             self._console.indent()
 
-            collapsePos = 0
-            for partId in collapseParts:
-                self._console.debug("Package %s..." % (partId))
+            for collapsePos, partId in enumerate(collapseParts):
+                self._console.debug("Part %s..." % (partId))
+                self._console.indent()
 
                 collapsePackage = partPackages[partId][collapsePos]
-                self._console.indent()
                 for packageId in partPackages[partId][collapsePos+1:]:
-                    self._console.debug("Merge #%s into #%s" % (packageId, collapsePackage))
+                    self._console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
                     self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
 
                 self._console.outdent()
-                collapsePos += 1
 
             self._console.outdent()
 
