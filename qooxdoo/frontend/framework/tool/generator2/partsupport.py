@@ -1,12 +1,12 @@
 class PartUtil:
-    def __init__(self, classes, console, deputil, treeutil):
+    def __init__(self, classes, console, deputil, compiler):
         self._classes = classes
         self._console = console
         self._deputil = deputil
-        self._treeutil = treeutil
+        self._compiler = compiler
 
 
-    def getPackages(self, partIncludes, variants, collapseParts, optimizeLatency, smartExclude, explicitExclude):
+    def getPackages(self, partIncludes, variants, collapseParts, minPackageSize, smartExclude, explicitExclude):
         # Build bitmask ids for parts
         self._console.debug("Assigning bits to parts...")
 
@@ -131,7 +131,7 @@ class PartUtil:
 
             collapsePos = 0
             for partId in collapseParts:
-                self._console.debug("Package %s(%s)..." % (partId, collapsePos))
+                self._console.debug("Package %s..." % (partId))
 
                 collapsePackage = partPackages[partId][collapsePos]
                 self._console.indent()
@@ -144,8 +144,6 @@ class PartUtil:
 
             self._console.outdent()
 
-            # User feedback
-            self._printPartStats(packageClasses, partPackages)
 
 
         # Support for merging small packages
@@ -158,32 +156,34 @@ class PartUtil:
         # this issue, is to look out for another common package. The package for which we
         # are looking must have requirements in all parts so these must be solved by all parts
         # so there must be another common package. Hardly to describe... hope this makes some sense
-        if optimizeLatency != None and optimizeLatency != 0:
+        if minPackageSize != None and minPackageSize != 0:
             smallPackages = []
 
             # Start at the end with the priority sorted list
             sortedPackageIds = self._sortPackageIdsByPriority(self._classesToPackageIds(packageClasses), packageBitCounts)
             sortedPackageIds.reverse()
-
+            
             self._console.debug("")
-            self._console.info("Analysing package sizes...")
+            self._console.info("Optimizing package sizes...")
             self._console.indent()
-            self._console.debug("Optimize at %s tokens" % optimizeLatency)
+            self._console.debug("Minimum package size: %sKB" % minPackageSize)
+            
+            # We need bytes (the user defines kbytes)
+            minPackageSize = minPackageSize * 1024
 
             for packageId in sortedPackageIds:
-                packageLength = 0
+                packageSize = 0
                 self._console.indent()
 
                 for classId in packageClasses[packageId]:
-                    packageLength += self._treeutil.getLength(classId)
+                    packageSize += self._compiler.getCompiledSize(classId, variants)
 
-                if packageLength >= optimizeLatency:
-                    self._console.debug("Package #%s has %s tokens" % (packageId, packageLength))
+                if packageSize >= minPackageSize:
+                    self._console.debug("Package #%s: %sKB" % (packageId, packageSize / 1024))
                     self._console.outdent()
                     continue
-                else:
-                    self._console.debug("Package #%s has %s tokens => trying to optimize" % (packageId, packageLength))
-
+                    
+                self._console.debug("Package #%s: %sKB" % (packageId, packageSize / 1024))
                 collapsePackage = self._getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
 
                 self._console.indent()
@@ -270,14 +270,14 @@ class PartUtil:
         packageIds = self._classesToPackageIds(packageClasses)
 
         self._console.debug("")
-        self._console.debug("Content of packages(%s):" % len(packageIds))
+        self._console.debug("Packages Summary")
         self._console.indent()
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packageClasses[packageId])))
         self._console.outdent()
 
         self._console.debug("")
-        self._console.debug("Content of parts(%s):" % len(partPackages))
+        self._console.debug("Part Summary")
         self._console.indent()
         for partId in partPackages:
             self._console.debug("Part #%s uses these packages: %s" % (partId, self._intListToString(partPackages[partId])))

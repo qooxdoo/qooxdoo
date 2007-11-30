@@ -211,7 +211,7 @@
     "packages" :
     {
       "collapse" : ["core"],
-      "optimize" : 5000,
+      "size" : 10,
 
       "parts" :
       {
@@ -240,7 +240,7 @@
     "packages" :
     {
       "collapse" : ["core"],
-      "optimize" : 5000,
+      "size" : 10,
 
       "parts" :
       {

@@ -36,16 +36,34 @@ class Compiler:
 
         tree = copy.deepcopy(self._treeutil.getVariantsTree(fileId, variants))
 
-        self._console.debug("Optimizing tree: %s..." % fileId)
-        self._console.indent()
-        self._optimizeHelper(tree, fileId, variants, optimize)
-        self._console.outdent()
+        if len(optimize) > 0:
+            self._console.debug("Optimizing tree: %s..." % fileId)
+            self._console.indent()
+            self._optimizeHelper(tree, fileId, variants, optimize)
+            self._console.outdent()
 
         self._console.debug("Compiling tree: %s..." % fileId)
         compiled = self.compileTree(tree, format)
 
         self._cache.write(cacheId, compiled)
         return compiled
+
+
+    def getCompiledSize(self, fileId, variants):
+        fileEntry = self._classes[fileId]
+        filePath = fileEntry["path"]
+
+        variantsId = variantsupport.generateId(variants)
+        cacheId = "%s-compiled-size-%s" % (fileId, variantsId)
+
+        size = self._cache.read(cacheId, filePath)
+        if size != None:
+            return size
+
+        size = len(self.getCompiled(fileId, variants, []))
+
+        self._cache.write(cacheId, size)
+        return size        
 
 
     def cleanCompiled(self, fileId, variants, optimize, format=False):

@@ -32,21 +32,6 @@ class TreeUtil:
         return tokens
 
 
-    def getLength(self, fileId):
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
-        
-        cacheId = "%s-token-length" % fileId
-        length = self._cache.read(cacheId, filePath)
-        if length != None:
-            return length
-
-        length = len(self.getTokens(fileId))
-        
-        self._cache.write(cacheId, length)
-        return length        
-
-
     def cleanTree(self, fileId):
         cacheId = "%s-tree" % fileId
         self._cache.clean(cacheId)
@@ -101,4 +86,4 @@ class TreeUtil:
         # Store result into cache
         self._cache.write(cacheId, tree)
 
-        return tree
+        return tree    

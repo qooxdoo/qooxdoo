@@ -284,7 +284,7 @@ class Generator:
         self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
         self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
         self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
-        self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._treeutil)
+        self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._compiler)
 
         self.run()
 
@@ -319,7 +319,7 @@ class Generator:
                 # Reading configuration
                 partsCfg = self._config.get("packages/parts", [])
                 collapseCfg = self._config.get("packages/collapse", [])
-                latencyCfg = self._config.get("packages/optimize", 0)
+                sizeCfg = self._config.get("packages/size", 0)
                 bootPart = self._config.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
@@ -334,7 +334,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                packageContent, partToPackages = self._partutil.getPackages(partIncludes, variants, collapseCfg, latencyCfg, smartExclude, explicitExclude)
+                packageContent, partToPackages = self._partutil.getPackages(partIncludes, variants, collapseCfg, sizeCfg, smartExclude, explicitExclude)
 
             else:
                 # Resolving dependencies
@@ -800,8 +800,8 @@ class Generator:
 
                 for classId in self._classes:
                     if regexp.search(classId):
-                        if not classId in content:
-                            result.append(classId)
+                        if not classId in expanded:
+                            expanded.append(classId)
 
                 if len(expanded) == 0:
                     self._console.error("Expression gives no results. Maybe malformed expression?: %s" % entry)
