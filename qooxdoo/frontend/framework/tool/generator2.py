@@ -323,8 +323,9 @@ class Generator:
                 bootPart = self._config.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
-                if not bootPart in collapseCfg:
-                    collapseCfg.append(bootPart)
+                if bootPart in partsCfg:
+                    if not bootPart in collapseCfg:
+                        collapseCfg.append(bootPart)
 
                 # Expanding expressions
                 self._console.debug("Expanding include expressions...")
