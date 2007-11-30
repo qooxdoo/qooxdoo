@@ -228,7 +228,8 @@
 
     "compile" :
     {
-      "file" : "build-apiviewer-pkgs-{qx.client}.js"
+      "file" : "build-apiviewer-pkgs-{qx.client}.js",
+      "optimize" : ["basecalls", "variables"]
     },
 
     "variants" :
