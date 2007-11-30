@@ -321,6 +321,27 @@ qx.Class.define("qx.ui.table.selection.Model",
 
 
     /**
+     * Returns whether the given row is selected
+     *
+     * @param row {Integer} The row index to check
+     * @return {Boolean} Whether the row is selected
+     */
+    isSelected : function(row)
+    {
+      var ranges = this._selectedRangeArr;
+
+      for (var i=0,l=ranges.length; i<l; i++)
+      {
+        var range = ranges[i];
+        if (range.minIndex <= row && range.maxIndex >= row) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+
+    /**
      * Calls a iterator function for each selected index.
      *
      * Usage Example:
