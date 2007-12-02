@@ -13,17 +13,14 @@ class PartUtil:
         # References partId -> bitId of that part
         self._console.indent()
         partBits = {}
-        partPos = 0
-        for partId in partIncludes:
-            partBit = 1<<partPos
-
-            self._console.debug("Part #%s => %s" % (partId, partBit))
-
-            partBits[partId] = partBit
-            partPos += 1
+        for partPos, partId in enumerate(partIncludes):
+            self._console.debug("Part #%s => %s" % (partId, 1<<partPos))
+            partBits[partId] = 1<<partPos
 
         self._console.outdent()
-
+        
+        
+        
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -48,7 +45,6 @@ class PartUtil:
             # Remove explicit excludes
             for classId in explicitExclude:
                 if classId in partClasses:
-                    # self._console.debug("Explicit excluding: %s" % classId)
                     partClasses.remove(classId)
 
             # Store
