@@ -1,12 +1,46 @@
+import sys
+
 class PartUtil:
-    def __init__(self, classes, console, deputil, compiler):
-        self._classes = classes
+    def __init__(self, console, deputil, compiler):
         self._console = console
         self._deputil = deputil
         self._compiler = compiler
+        
 
 
-    def getPackages(self, partIncludes, variants, collapseParts, minPackageSize, smartExclude, explicitExclude):
+    def getPackages(self, partIncludes, smartExclude, explicitExclude, collapseParts, variants, minPackageSize):
+        # Preprocess part data
+        partBits = self._getPartBits(partIncludes)
+        partDeps = self._getPartDeps(partIncludes, variants, smartExclude, explicitExclude)
+        
+        # Compute packages
+        packageClasses = self._getPackageClasses(partDeps, partBits)
+        packageUsers, partPackages = self._getPackageUsers(packageClasses, partBits)
+        
+        self._printPartStats(packageClasses, partPackages)
+
+        # Collapse parts
+        if len(collapseParts) > 0:
+            self._collapseParts(partPackages, packageClasses, collapseParts)
+
+        # Optimize packages
+        if minPackageSize != None and minPackageSize != 0:
+            self._optimizePackages(packageClasses, packageUsers, partPackages, variants, minPackageSize)
+        
+        self._printPartStats(packageClasses, partPackages)
+        
+        # Post process results
+        resultParts = self._getFinalPartData(packageClasses, packageUsers, partPackages)
+        resultClasses = self._getFinalClassList(packageClasses, packageUsers)
+
+        # Return
+        # {Map} resultParts[partId] = [packageId1, packageId2]
+        # {Array} resultClasses[packageId] = [class1, class2]
+        return resultParts, resultClasses
+        
+        
+        
+    def _getPartBits(self, partIncludes):
         # Build bitmask ids for parts
         self._console.debug("Assigning bits to parts...")
 
@@ -19,8 +53,11 @@ class PartUtil:
 
         self._console.outdent()
         
-        
-        
+        return partBits
+                
+                
+
+    def _getPartDeps(self, partIncludes, variants, smartExclude, explicitExclude):        
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -52,192 +89,143 @@ class PartUtil:
             partDeps[partId] = partClasses
 
         self._console.outdent()
-
-
-        # Assign classes to packages
-        self._console.debug("")
-        self._console.debug("Assigning classes to packages...")
-
-        # References packageId -> class list
-        packageClasses = {}
-
-        # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
-        packageBitCounts = {}
-
-        for classId in self._classes:
-            packageId = 0
-            bitCount = 0
-
-            # Iterate through the parts use needs this class
-            for partId in partIncludes:
+        return partDeps
+        
+        
+        
+    # Returns a map with packageId -> classes of the package
+    def _getPackageClasses(self, partDeps, partBits):
+        # Generating list of all classes
+        allClasses = {}
+        for partId in partDeps:
+            for classId in partDeps[partId]:
+                allClasses[classId] = True
+                
+        # Detecting packageId for each class and register 
+        # the class into the matching data structure
+        pkgClasses = {}
+        for classId in allClasses.keys():
+            pkgId = 0
+            
+            for partId in partDeps:
                 if classId in partDeps[partId]:
-                    packageId += partBits[partId]
-                    bitCount += 1
-
-            # Ignore unused classes
-            if packageId == 0:
-                continue
-
-            # Create missing data structure
-            if not packageClasses.has_key(packageId):
-                packageClasses[packageId] = []
-                packageBitCounts[packageId] = bitCount
-
-            # Finally store the class to the package
-            packageClasses[packageId].append(classId)
+                    pkgId += partBits[partId]
+            
+            if not pkgClasses.has_key(pkgId):
+                pkgClasses[pkgId] = []
+            
+            pkgClasses[pkgId].append(classId)
+                    
+        return pkgClasses
 
 
 
-
-        # Assign packages to parts
-        self._console.debug("Assigning packages to parts...")
+    # Returns a map with packageId -> number of parts using the package
+    # and a map with partId -> list of package ids
+    def _getPackageUsers(self, pkgClasses, partBits):
+        packageUsers = {}
         partPackages = {}
-
-        for partId in partIncludes:
-            partBit = partBits[partId]
-
-            for packageId in packageClasses:
-                if packageId&partBit:
+        
+        for pkgId in pkgClasses:
+            partCount = 0
+            
+            for partId in partBits:
+                if pkgId&partBits[partId]:
+                    partCount += 1
+                    
                     if not partPackages.has_key(partId):
                         partPackages[partId] = []
+                    
+                    partPackages[partId].append(pkgId)
+                    
+            packageUsers[pkgId] = partCount
 
-                    partPackages[partId].append(packageId)
-
-            # Be sure that the part package list is in order to the package priorit
-            self._sortPackageIdsByPriority(partPackages[partId], packageBitCounts)
-
-
-
-
-        # User feedback
-        self._printPartStats(packageClasses, partPackages)
-        modifiedPackages = False
-
-
-
+        # Sorting package list
+        for partId in partBits:
+            self._sortPackages(partPackages[partId], packageUsers)
+        
+        return packageUsers, partPackages      
+            
+            
+        
+    def _collapseParts(self, partPackages, packageClasses, collapseParts):
         # Support for package collapsing
         # Could improve latency when initial loading an application
         # Merge all packages of a specific part into one (also supports multiple parts)
         # Hint: Part packages are sorted by priority, this way we can
         # easily merge all following packages with the first one, because
         # the first one is always the one with the highest priority
-        if len(collapseParts) > 0:
-            self._console.debug("")
-            self._console.info("Collapsing part packages...")
-            self._console.indent()
-
-            for collapsePos, partId in enumerate(collapseParts):
-                self._console.debug("Part %s..." % (partId))
-                self._console.indent()
-
-                collapsePackage = partPackages[partId][collapsePos]
-                for packageId in partPackages[partId][collapsePos+1:]:
-                    self._console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
-                    self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
-                    modifiedPackages = True
-
-                self._console.outdent()
-
-            self._console.outdent()
-
-
-
-        # Support for merging small packages
-        # Hint1: Based on the token length which is a bit strange but a good
-        # possibility to get the not really correct filesize in an ultrafast way
-        # More complex code and classes generally also have more tokens in them
-        # Hint2: The first common package before the selected package between two
-        # or more parts is allowed to merge with. As the package which should be merged
-        # may have requirements these must be solved. The easiest way to be sure regarding
-        # this issue, is to look out for another common package. The package for which we
-        # are looking must have requirements in all parts so these must be solved by all parts
-        # so there must be another common package. Hardly to describe... hope this makes some sense
-        if minPackageSize != None and minPackageSize != 0:
-            smallPackages = []
-
-            # Start at the end with the priority sorted list
-            sortedPackageIds = self._sortPackageIdsByPriority(self._classesToPackageIds(packageClasses), packageBitCounts)
-            sortedPackageIds.reverse()
-            
-            self._console.debug("")
-            self._console.info("Optimizing package sizes...")
-            self._console.indent()
-            self._console.debug("Minimum package size: %sKB" % minPackageSize)
-            
-            # We need bytes (the user defines kbytes)
-            minPackageSize = minPackageSize * 1024
-
-            for packageId in sortedPackageIds:
-                packageSize = 0
-                self._console.indent()
-
-                for classId in packageClasses[packageId]:
-                    packageSize += self._compiler.getCompiledSize(classId, variants)
-
-                if packageSize >= minPackageSize:
-                    self._console.debug("Package #%s: %sKB" % (packageId, packageSize / 1024))
-                    self._console.outdent()
-                    continue
-                    
-                self._console.debug("Package #%s: %sKB" % (packageId, packageSize / 1024))
-                collapsePackage = self._getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
-
-                self._console.indent()
-                if collapsePackage != None:
-                    self._console.debug("Merge package #%s into #%s" % (packageId, collapsePackage))
-                    self._mergePackage(packageId, collapsePackage, partIncludes, partPackages, packageClasses)
-                    modifiedPackages = True
-
-                self._console.outdent()
-                self._console.outdent()
-            
-            self._console.outdent()
-
-
-
-
-        # User feedback
-        if modifiedPackages:
-            self._printPartStats(packageClasses, partPackages)
-
-
-
-        # Post process results
-        # Translate bit-like IDs to easy numeric ones.
-        # Apply human sorting from 0-...
         self._console.debug("")
-        sortedPackageIds = self._sortPackageIdsByPriority(self._classesToPackageIds(packageClasses), packageBitCounts)
-
-        resultInclude = []
-        resultParts = {}
-        
-        self._console.debug("Translate package ids...")
+        self._console.info("Collapsing part packages...")
         self._console.indent()
-        for pkgPos, pkgId in enumerate(sortedPackageIds):
-            self._console.debug("Package #%s to #%s" % (pkgId, pkgPos))
-            resultInclude.append(self._deputil.sortClasses(packageClasses[pkgId], variants))
 
-            for partId in partPackages:
-                if pkgId in partPackages[partId]:
-                    if not resultParts.has_key(partId):
-                        resultParts[partId] = []
+        for collapsePos, partId in enumerate(collapseParts):
+            self._console.debug("Part %s..." % (partId))
+            self._console.indent()
 
-                    resultParts[partId].append(pkgPos)
+            toId = partPackages[partId][collapsePos]
+            for fromId in partPackages[partId][collapsePos+1:]:
+                self._console.debug("Merge package #%s into #%s" % (fromId, toId))
+                self._mergePackage(fromId, toId, partPackages, packageClasses)
 
-        self._console.outdent()
+            self._console.outdent()
+        self._console.outdent()        
+
+
+        
+    def _computePackageSize(self, packageClasses, packageId, variants):
+        packageSize = 0
+        
+        self._console.indent()
+        for classId in packageClasses[packageId]:
+            packageSize += self._compiler.getCompiledSize(classId, variants)
+        self._console.outdent()        
+        
+        return packageSize
+        
+        
+        
+    def _optimizePackages(self, packageClasses, packageUsers, partPackages, variants, minPackageSize):
+        # Support for merging small packages
+        # The first common package before the selected package between two
+        # or more parts is allowed to merge with. As the package which should be merged
+        # may have requirements, these must be solved. The easiest way to be sure regarding
+        # this issue, is to look out for another common package.  
+
         self._console.debug("")
+        self._console.info("Optimizing package sizes...")
+        self._console.indent()
+        self._console.debug("Minimum package size: %sKB" % minPackageSize)
+        
+        # Start at the end with the sorted list
+        # e.g. merge 4->7 etc.
+        packageIds = packageClasses.keys()
+        self._sortPackages(packageIds, packageUsers)
+        packageIds.reverse()
+
+        # Test and optimize 'fromId'
+        for fromId in packageIds:
+            packageSize = self._computePackageSize(packageClasses, fromId, variants) / 1024
+            self._console.debug("Package #%s: %sKB" % (fromId, packageSize))
+            if packageSize >= minPackageSize:
+                continue
+
+            toId = self._getPreviousCommonPackage(fromId, partPackages, packageUsers)
+            if toId != None:
+                self._console.indent()
+                self._console.debug("Merge package #%s into #%s" % (fromId, toId))
+                self._mergePackage(fromId, toId, partPackages, packageClasses)
+                self._console.outdent()
+        
+        self._console.outdent()        
         
 
-        # Return
-        return resultInclude, resultParts
 
-
-
-    def _sortPackageIdsByPriority(self, packageIds, packageBitCounts):
+    def _sortPackages(self, packageIds, packageUsers):
         def _cmpPackageIds(pkgId1, pkgId2):
-            if packageBitCounts[pkgId2] > packageBitCounts[pkgId1]:
+            if packageUsers[pkgId2] > packageUsers[pkgId1]:
                 return 1
-            elif packageBitCounts[pkgId2] < packageBitCounts[pkgId1]:
+            elif packageUsers[pkgId2] < packageUsers[pkgId1]:
                 return -1
 
             return pkgId2 - pkgId1
@@ -248,7 +236,7 @@ class PartUtil:
 
 
 
-    def _getPreviousCommonPackage(self, searchId, partPackages, packageBitCounts):
+    def _getPreviousCommonPackage(self, searchId, partPackages, packageUsers):
         relevantParts = []
         relevantPackages = []
 
@@ -259,7 +247,7 @@ class PartUtil:
                 relevantPackages.extend(packages[:packages.index(searchId)])
 
         # Sorted by priority, but start from end
-        self._sortPackageIdsByPriority(relevantPackages, packageBitCounts)
+        self._sortPackages(relevantPackages, packageUsers)
         relevantPackages.reverse()
 
         # Check if a package is available identical times to the number of parts
@@ -269,11 +257,62 @@ class PartUtil:
 
         return None
 
+        
+    
+    def _mergePackage(self, fromId, toId, partPackages, packageClasses):
+        # Update part information
+        for partId in partPackages:
+            partContent = partPackages[partId]
+            
+            if fromId in partContent:
+                if not toId in partPackages[partId]:
+                    self._console.error("Could not merge these packages!")
+                    sys.exit(0)
+                    
+                # fromPos = partContent.index(fromId)
+                # toPos = partContent.index(toId)
+                # self._console.debug("Merging package at position #%s into #%s" % (fromPos, toPos))
+                
+                partPackages[partId].remove(fromId)
+        
+        # Merging package content
+        packageClasses[toId].extend(packageClasses[fromId])
+        del packageClasses[fromId]   
+        
+        
+        
+    def _getFinalPartData(self, packageClasses, packageUsers, partPackages):
+        packageIds = self._sortPackages(packageClasses.keys(), packageUsers)
+        
+        resultParts = {}
+        for toId, fromId in enumerate(packageIds):
+            for partId in partPackages:
+                if fromId in partPackages[partId]:
+                    if not resultParts.has_key(partId):
+                        resultParts[partId] = [toId]
+                    else:
+                        resultParts[partId].append(toId)
+        
+        return resultParts
+        
+        
+                
+    def _getFinalClassList(self, packageClasses, packageUsers):
+        packageIds = self._sortPackages(packageClasses.keys(), packageUsers)
 
-
+        resultClasses = []
+        for pkgId in packageIds:
+            resultClasses.append(packageClasses[pkgId])
+        
+        return resultClasses
+                
+        
+        
     def _printPartStats(self, packageClasses, partPackages):
-        packageIds = self._classesToPackageIds(packageClasses)
-
+        packageIds = packageClasses.keys()
+        packageIds.sort()
+        packageIds.reverse()
+        
         self._console.debug("")
         self._console.debug("Packages Summary")
         self._console.indent()
@@ -285,48 +324,10 @@ class PartUtil:
         self._console.debug("Part Summary")
         self._console.indent()
         for partId in partPackages:
-            self._console.debug("Part #%s uses these packages: %s" % (partId, self._intListToString(partPackages[partId])))
+            pkgList = []
+            for entry in partPackages[partId]:
+                pkgList.append("#%s" % entry)
+
+            self._console.debug("Part #%s uses these packages: %s" % (partId, ", ".join(pkgList)))
+
         self._console.outdent()
-
-
-
-    def _classesToPackageIds(self, incoming):
-        result = []
-
-        for key in incoming:
-            result.append(key)
-
-        result.sort()
-        result.reverse()
-
-        return result
-
-
-
-    def _mergePackage(self, replacePackage, collapsePackage, partIncludes, partPackages, packageClasses):
-        # Replace other package content
-        for partId in partIncludes:
-            partContent = partPackages[partId]
-
-            if replacePackage in partContent:
-                # Store collapse package at the place of the old value
-                partContent[partContent.index(replacePackage)] = collapsePackage
-
-                # Remove duplicate (may be, but only one)
-                if partContent.count(collapsePackage) > 1:
-                    partContent.reverse()
-                    partContent.remove(collapsePackage)
-                    partContent.reverse()
-
-        # Merging collapsed packages
-        packageClasses[collapsePackage].extend(packageClasses[replacePackage])
-        del packageClasses[replacePackage]
-
-
-
-    def _intListToString(self, input):
-        result = ""
-        for entry in input:
-            result += "#%s, " % entry
-
-        return result[:-2]

@@ -284,7 +284,7 @@ class Generator:
         self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
         self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
         self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
-        self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._compiler)
+        self._partutil = partsupport.PartUtil(self._console, self._deputil, self._compiler)
 
         self.run()
         
@@ -364,7 +364,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                packageContent, partToPackages = self._partutil.getPackages(partIncludes, variants, collapseCfg, sizeCfg, smartExclude, explicitExclude)
+                partToPackages, packageContent = self._partutil.getPackages(partIncludes, smartExclude, explicitExclude, collapseCfg, variants, sizeCfg)
 
             else:
                 # Resolving dependencies
