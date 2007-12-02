@@ -67,10 +67,10 @@ both parts from the current position to the left side.
 
 import sys, re, os, optparse, math, cPickle, copy, zlib
 
-# reconfigure path to import own modules from modules subfolder
-# only needed for simplejson...
+# reconfigure path
 script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.insert(0, os.path.join(script_path, "modules"))
+sys.path.insert(0, os.path.join(script_path, "generator2"))
 
 from modules import optparseext
 from modules import filetool
