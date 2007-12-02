@@ -347,7 +347,7 @@ class Generator:
             # Check for package configuration
             if self._config.get("packages"):
                 # Reading configuration
-                partsCfg = self._config.get("packages/parts", [])
+                partsCfg = self._config.get("packages/parts", {})
                 collapseCfg = self._config.get("packages/collapse", [])
                 sizeCfg = self._config.get("packages/size", 0)
                 bootPart = self._config.get("packages/init", "boot")
