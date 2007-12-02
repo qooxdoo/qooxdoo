@@ -287,6 +287,36 @@ class Generator:
         self._partutil = partsupport.PartUtil(self._classes, self._console, self._deputil, self._compiler)
 
         self.run()
+        
+
+    def getSettings(self):
+        settings = {}
+        settingsConfig = self._config.get("settings", {})
+        settingsRuntime = self._settings
+
+        for key in settingsConfig:
+            settings[key] = settingsConfig[key]
+
+        for key in settingsRuntime:
+            settings[key] = settingsRuntime[key]
+
+        return settings
+
+
+
+    def getVariants(self):
+        variants = {}
+        variantsConfig = self._config.get("variants", {})
+        variantsRuntime = self._variants
+
+        for key in variantsConfig:
+            variants[key] = variantsConfig[key]
+
+        for key in variantsRuntime:
+            variants[key] = [variantsRuntime[key]]
+
+        return variants        
+
 
 
     def run(self):
@@ -368,7 +398,6 @@ class Generator:
 
 
 
-
     def runClean(self, classList):
         cleanCfg = self._config.get("clean")
 
@@ -403,36 +432,6 @@ class Generator:
 
         self._console.outdent()
         return
-
-
-
-    def getSettings(self):
-        settings = {}
-        settingsConfig = self._config.get("settings", {})
-        settingsRuntime = self._settings
-
-        for key in settingsConfig:
-            settings[key] = settingsConfig[key]
-
-        for key in settingsRuntime:
-            settings[key] = settingsRuntime[key]
-
-        return settings
-
-
-
-    def getVariants(self):
-        variants = {}
-        variantsConfig = self._config.get("variants", {})
-        variantsRuntime = self._variants
-
-        for key in variantsConfig:
-            variants[key] = variantsConfig[key]
-
-        for key in variantsRuntime:
-            variants[key] = [variantsRuntime[key]]
-
-        return variants
 
 
 
@@ -515,7 +514,7 @@ class Generator:
             bootContent = scriptsupport.optimizeJavaScript("".join(bootBlocks))
 
         # Resolve file name variables
-        resolvedFilePath = self.resolveFileName(filePath, variants, settings)
+        resolvedFilePath = self._resolveFileName(filePath, variants, settings)
 
         # Save result file
         filetool.save(resolvedFilePath, bootContent)
@@ -523,9 +522,8 @@ class Generator:
         if self._config.get("compile/gzip"):
             filetool.gzip(resolvedFilePath, bootContent)
 
-        self._console.debug("Done: %s" % self.getContentSize(bootContent))
+        self._console.debug("Done: %s" % self._getContentSize(bootContent))
         self._console.debug("")
-
 
 
         # Generating packages
@@ -540,7 +538,7 @@ class Generator:
             compiledContent = self._compiler.compileClasses(packageContent, variants, optimize, format)
 
             # Construct file name
-            resolvedFilePath = self.resolveFileName(filePath, variants, settings, packageId)
+            resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
 
             # Save result file
             filetool.save(resolvedFilePath, compiledContent)
@@ -548,7 +546,7 @@ class Generator:
             if self._config.get("compile/gzip"):
                 filetool.gzip(resolvedFilePath, compiledContent)
 
-            self._console.debug("Done: %s" % self.getContentSize(compiledContent))
+            self._console.debug("Done: %s" % self._getContentSize(compiledContent))
             self._console.outdent()
 
         self._console.outdent()
@@ -583,7 +581,7 @@ class Generator:
             sourceContent = scriptsupport.optimizeJavaScript("".join(sourceBlocks))
 
         # Construct file name
-        resolvedFilePath = self.resolveFileName(filePath, variants, settings)
+        resolvedFilePath = self._resolveFileName(filePath, variants, settings)
 
         # Save result file
         filetool.save(resolvedFilePath, sourceContent)
@@ -591,7 +589,7 @@ class Generator:
         if self._config.get("source/gzip"):
             filetool.gzip(resolvedFilePath, sourceContent)
 
-        self._console.debug("Done: %s" % self.getContentSize(sourceContent))
+        self._console.debug("Done: %s" % self._getContentSize(sourceContent))
         self._console.outdent()
 
 
@@ -691,7 +689,7 @@ class Generator:
         # Translate URI data to JavaScript
         allUris = []
         for packageId, packageContent in enumerate(packageContents):
-            packageFileName = self.resolveFileName(fileName, variants, settings, packageId)
+            packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
             allUris.append('["' + packageFileName + '"]')
 
         uriData = "[" + ",\n".join(allUris) + "]"
@@ -820,7 +818,7 @@ class Generator:
     #  UTIL
     ######################################################################
 
-    def getContentSize(self, content):
+    def _getContentSize(self, content):
         # Convert to utf-8 first
         uni = unicode(content).encode("utf-8")
 
@@ -832,7 +830,7 @@ class Generator:
 
 
 
-    def resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
+    def _resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
         if variants:
             for key in variants:
                 pattern = "{%s}" % key
