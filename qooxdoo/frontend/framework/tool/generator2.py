@@ -287,7 +287,7 @@ class Generator:
         self._partutil = partsupport.PartUtil(self._console, self._deputil, self._compiler)
 
         self.run()
-        
+
 
     def getSettings(self):
         settings = {}
@@ -315,7 +315,7 @@ class Generator:
         for key in variantsRuntime:
             variants[key] = [variantsRuntime[key]]
 
-        return variants        
+        return variants
 
 
 
@@ -717,7 +717,6 @@ class Generator:
 
     def getIncludes(self):
         includeCfg = self._config.get("include", [])
-        packagesCfg = self._config.get("packages")
 
         # Splitting lists
         self._console.debug("Preparing include configuration...")
@@ -802,7 +801,7 @@ class Generator:
                             expanded.append(classId)
 
                 if len(expanded) == 0:
-                    self._console.error("Expression gives no results. Maybe malformed expression?: %s" % entry)
+                    self._console.error("Expression gives no results. Malformed entry: %s" % entry)
                     sys.exit(1)
 
                 result.extend(expanded)
