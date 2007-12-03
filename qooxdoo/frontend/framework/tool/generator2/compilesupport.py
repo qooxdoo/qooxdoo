@@ -60,10 +60,14 @@ class Compiler:
         if size != None:
             return size
 
-        size = len(self.getCompiled(fileId, variants, []))
+        tree = self._treeutil.getVariantsTree(fileId, variants)
+
+        self._console.debug("Computing compiled size: %s..." % fileId)
+        compiled = self.compileTree(tree)
+        size = len(compiled)
 
         self._cache.write(cacheId, size)
-        return size        
+        return size
 
 
     def cleanCompiled(self, fileId, variants, optimize, format=False):
