@@ -450,7 +450,15 @@ qx.Class.define("qx.ui.popup.ToolTip",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    var mgr = qx.ui.popup.ToolTipManager.getInstance();
+    mgr.remove(this);
+
+    if (mgr.getCurrentToolTip() == this) {
+      mgr.resetCurrentToolTip();
+    }
+
     this._disposeObjects("_showTimer", "_hideTimer");
   }
 });

@@ -558,7 +558,10 @@ qx.Class.define("qx.ui.popup.Popup",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    qx.ui.popup.PopupManager.getInstance().remove(this);
+
     this._disposeFields("_showTimeStamp", "_hideTimeStamp");
   }
 });
