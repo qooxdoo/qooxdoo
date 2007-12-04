@@ -52,14 +52,21 @@ window.qxloader =
     if (this.parts[name]==null)
     {
       this._log("No such part: " + name, "warn");
-      callback.call(self);
+
+      if (callback) {
+        callback.call(self);
+      }
+
       return;
     }
 
     if (this.loadedParts[name])
     {
       // this._log("Part " + name + " is already loaded...");
-      callback.call(self);
+      if (callback) {
+        callback.call(self);
+      }
+
       return;
     }
 
@@ -216,8 +223,9 @@ window.qxloader =
       return;
     }
 
+    // This needs a better implementation!
     if (this.runningScripts[uri]) {
-      throw new Error("Script is already loading. This case is not queued correctly yet. Sorry.");
+      throw new Error("Script is already loading.");
     }
 
     this.runningScripts[uri] = true;
