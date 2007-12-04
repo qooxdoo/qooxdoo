@@ -57,7 +57,12 @@ class DependencyUtil:
         result = []
 
         for item in include:
-            self._resolveDependenciesRecurser(item, block, variants, result)
+            try:
+                self._resolveDependenciesRecurser(item, block, variants, result)
+
+            except NameError, detail:
+                self._console.error("Dependencies resolving failed for %s with: \n%s" % (item, detail))
+                sys.exit(1)
 
         return result
 
@@ -72,16 +77,23 @@ class DependencyUtil:
         result.append(item)
 
         # reading dependencies
-        deps = self.getCombinedDeps(item, variants)
+        try:
+            deps = self.getCombinedDeps(item, variants)
+        except NameError, detail:
+            raise NameError("Could not resolve dependencies of class: %s\n%s" % (item, detail))
 
         # process lists
-        for subitem in deps["load"]:
-            if not subitem in result and not subitem in block:
-                self._resolveDependenciesRecurser(subitem, block, variants, result)
+        try:
+          for subitem in deps["load"]:
+              if not subitem in result and not subitem in block:
+                  self._resolveDependenciesRecurser(subitem, block, variants, result)
 
-        for subitem in deps["run"]:
-            if not subitem in result and not subitem in block:
-                self._resolveDependenciesRecurser(subitem, block, variants, result)
+          for subitem in deps["run"]:
+              if not subitem in result and not subitem in block:
+                  self._resolveDependenciesRecurser(subitem, block, variants, result)
+
+        except NameError, detail:
+            raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
 
 
 
@@ -104,6 +116,7 @@ class DependencyUtil:
         if self._runDeps.has_key(fileId):
             runFinal.extend(self._runDeps[fileId])
 
+
         # return dict
         return {
             "load" : loadFinal,
@@ -114,8 +127,7 @@ class DependencyUtil:
 
     def getDeps(self, fileId, variants):
         if not self._classes.has_key(fileId):
-            self._console.error("Could not find class information for dependency %s" % fileId)
-            sys.exit(1)
+            raise NameError("Could not find class to fulfil dependency: %s" % fileId)
 
         filePath = self._classes[fileId]["path"]
         cacheId = "%s-deps-%s" % (fileId, variantsupport.generateId(variants))
@@ -358,8 +370,7 @@ class DependencyUtil:
 
         for item in config.QXHEAD["require"].findall(data):
             if item == fileId:
-                self._console.error("Self-referring load dependency: %s" % item)
-                sys.exit(1)
+                raise NameError("Self-referring load dependency: %s" % item)
             else:
                 deps.append(item)
 
