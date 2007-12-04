@@ -39,7 +39,7 @@ class ApiUtil:
         docTree = tree.Node("doctree")
         length = len(include)
 
-        self._console.debug("Loading...")
+        self._console.debug("Loading class data...")
         self._console.indent()
 
         for pos, fileId in enumerate(include):
@@ -48,23 +48,23 @@ class ApiUtil:
 
         self._console.outdent()
 
-        self._console.info("Post processing...")
+        self._console.info("Connecting class data...")
         api.postWorkPackage(docTree, docTree)
 
-        self._console.info("Storing basic data...")
+        self._console.info("Generating search index...")
+        indexContent = tree.nodeToIndexString(docTree, "", "", "")
+        
+        self._console.info("Saving basic data...")
         packages = api.packagesToJsonString(docTree, "", "  ", "\n")
         filetool.save(os.path.join(apiPath, "apidata.js"), packages)
 
-        self._console.info("Storing class data...")
+        self._console.info("Saving class data...")
         for classData in api.classNodeIterator(docTree):
             classContent = tree.nodeToJsonString(classData, "", "  ", "\n")
             fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
             filetool.save(fileName, classContent)
             
-        self._console.info("Generating index...")
-        indexContent = tree.nodeToIndexString(docTree, "", "", "")
-        
-        self._console.info("Writing index...")
+        self._console.info("Saving search index...")
         filetool.save(os.path.join(apiPath, "apiindex.js"), indexContent)            
 
         self._console.outdent()
