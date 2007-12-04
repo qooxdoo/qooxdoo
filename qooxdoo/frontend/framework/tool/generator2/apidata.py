@@ -17,7 +17,6 @@ class ApiUtil:
         cacheId = "api-%s" % fileId
         data = self._cache.read(cacheId, filePath)
         if data != None:
-            self._console.debug("Using cached API data: %s" % fileId)
             return data
 
         self._console.debug("Generating API data: %s..." % fileId)
@@ -49,17 +48,24 @@ class ApiUtil:
 
         self._console.outdent()
 
-        self._console.info("Postprocessing...")
+        self._console.info("Post processing...")
         api.postWorkPackage(docTree, docTree)
 
-        self._console.info("Storing...")
+        self._console.info("Storing basic data...")
         packages = api.packagesToJsonString(docTree, "", "  ", "\n")
         filetool.save(os.path.join(apiPath, "apidata.js"), packages)
 
+        self._console.info("Storing class data...")
         for classData in api.classNodeIterator(docTree):
             classContent = tree.nodeToJsonString(classData, "", "  ", "\n")
             fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
             filetool.save(fileName, classContent)
+            
+        self._console.info("Generating index...")
+        indexContent = tree.nodeToIndexString(docTree, "", "", "")
+        
+        self._console.info("Writing index...")
+        filetool.save(os.path.join(apiPath, "apiindex.js"), indexContent)            
 
         self._console.outdent()
         self._console.info("Done")

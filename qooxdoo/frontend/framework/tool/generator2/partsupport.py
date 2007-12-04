@@ -85,7 +85,7 @@ class PartUtil:
                     partClasses.remove(classId)
 
             # Store
-            self._console.debug("Part #%s needs %s classes" % (partId, len(partClasses)))
+            self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
             partDeps[partId] = partClasses
 
         self._console.outdent()
@@ -165,7 +165,7 @@ class PartUtil:
 
             toId = partPackages[partId][collapsePos]
             for fromId in partPackages[partId][collapsePos+1:]:
-                self._console.debug("Merge package #%s into #%s" % (fromId, toId))
+                self._console.debug("Merging package #%s into #%s" % (fromId, toId))
                 self._mergePackage(fromId, toId, partPackages, packageClasses)
 
             self._console.outdent()
@@ -195,7 +195,8 @@ class PartUtil:
         self._console.debug("")
         self._console.info("Optimizing package sizes...")
         self._console.indent()
-        self._console.debug("Minimum package size: %sKB" % minPackageSize)
+        self._console.debug("Minimum size: %sKB" % minPackageSize)
+        self._console.indent()        
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
@@ -217,6 +218,7 @@ class PartUtil:
                 self._mergePackage(fromId, toId, partPackages, packageClasses)
                 self._console.outdent()
 
+        self._console.outdent()
         self._console.outdent()
 
 
@@ -314,14 +316,14 @@ class PartUtil:
         packageIds.reverse()
 
         self._console.debug("")
-        self._console.debug("Packages Summary")
+        self._console.debug("Package summary")
         self._console.indent()
         for packageId in packageIds:
             self._console.debug("Package #%s contains %s classes" % (packageId, len(packageClasses[packageId])))
         self._console.outdent()
 
         self._console.debug("")
-        self._console.debug("Part Summary")
+        self._console.debug("Part summary")
         self._console.indent()
         for partId in partPackages:
             pkgList = []

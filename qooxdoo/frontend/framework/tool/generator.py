@@ -1048,7 +1048,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
         # create search index
         if options.apiDocumentationIndexFile != None:
-
             print "  * Generating API index..."
             jsonContent = tree.nodeToIndexString(docTree, "", childPrefix, newLine)
             print "  * Writing API search index to %s" % options.apiDocumentationIndexFile
