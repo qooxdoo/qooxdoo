@@ -684,8 +684,8 @@ qx.Class.define("qx.event.handler.EventHandler",
           }
         }
 
-        try
-        {
+        //try
+        //{
           // Starting Objects Internal Event Dispatcher
           // This handles the real event action
           vTarget.dispatchEvent(vKeyEventObject);
@@ -694,12 +694,12 @@ qx.Class.define("qx.event.handler.EventHandler",
           if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler")) {
             qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
           }
-        }
-        catch(ex)
-        {
-          this.error("Failed to dispatch key event", ex);
-          this.createDispatchDataEvent("error", ex);
-        }
+        //}
+        //catch(ex)
+        //{
+        //  this.error("Failed to dispatch key event", ex);
+        //  this.createDispatchDataEvent("error", ex);
+        //}
       }
 
       // Cleanup Event Object
