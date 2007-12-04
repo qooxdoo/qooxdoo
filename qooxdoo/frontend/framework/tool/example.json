@@ -69,6 +69,31 @@
       "path" : "application/apiviewer/source/script"
     }
   },
+  
+  "api-create" :
+  {
+    "extend" :["common"],
+    "include" : ["apiviewer.Application", "qx.theme.ClassicRoyale"],
+    
+    "settings" :
+    {
+      "qx.minLogLevel" : "700",
+      "qx.theme" : "qx.theme.ClassicRoyale",
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "../../../framework/source/resource",
+      "apiviewer.title" : "Generator2 API Viewer"
+    },
+    
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+    
+    "source" :
+    {
+      "file" : "application/apiviewer/source/script/apiviewer.js"
+    }    
+  },
 
 
 
