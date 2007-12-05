@@ -145,10 +145,10 @@ qx.Class.define("qx.lang.Array",
      *
      * @type static
      * @param arr {Array} the array
-     * @return {var} the first element of the array
+     * @return {var|null} the first element of the array
      */
     getFirst : function(arr) {
-      return arr[0];
+      return (arr && arr.length > 0 ? arr[0] : null);
     },
 
 
