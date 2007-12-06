@@ -1388,6 +1388,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Mapping to native style property background-repeat.
+     */
+    backgroundRepeat :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBackgroundRepeat",
+      themeable : true
+    },
+
+
+    /**
      * Describes how to handle content that is too large to fit inside the widget.
      *
      * Overflow modes:
@@ -6285,6 +6297,11 @@ qx.Class.define("qx.ui.core.Widget",
 
     _styleBackgroundImage : function(value) {
       value ? this.setStyleProperty("backgroundImage", "url(" + value + ")") : this.removeStyleProperty("backgroundImage");
+    },
+
+    _applyBackgroundRepeat : function(value, old)
+    {
+      value ? this.setStyleProperty("backgroundRepeat", value) : this.removeStyleProperty("backgroundRepeat");
     },
 
 
