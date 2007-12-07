@@ -762,6 +762,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       // generate html for indent area
       var vLevel = this.getLevel();
       var vTree = this.getTree();
+
+      if (!vTree) {
+        return;
+      }
+
       var vImage;
       var vHtml = [];
       var vCurrentObject = this;

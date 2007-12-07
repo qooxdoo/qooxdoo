@@ -429,7 +429,7 @@ class Lint:
         "Array", "Object", "Date", "Error", "Function", "String", "RegExp", "Math",
         "Number",
 
-        "decodeURI", "decodeURIComponent", "encodeURIComponent",
+        "encodeURI", "decodeURI", "decodeURIComponent", "encodeURIComponent",
         "escape", "unescape",
         "parseInt", "parseFloat", "isNaN", "isFinite",
 
