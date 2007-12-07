@@ -122,6 +122,17 @@ qx.Class.define("qx.ui.form.TextArea",
         }
       },
 
+      "gecko" : function()
+      {
+        if (this._inputElement) {
+          var wrapValue  = this.getWrap() ? "soft" : "off";
+          var styleValue = this.getWrap() ? ""     : "auto";
+
+          this._inputElement.setAttribute('wrap', wrapValue);
+          this._inputElement.style.overflow = styleValue;
+        }
+      },
+      
       "default" : function()
       {
         if (this._inputElement) {
