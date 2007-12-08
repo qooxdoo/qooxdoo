@@ -89,10 +89,6 @@ class PartUtil:
             if len(partClasses) == 0:
                 raise NameError("Part #%s depends on no classes" % (partId))
                 
-            for classId in partClasses:
-                print classId
-            
-                
             self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
             partDeps[partId] = partClasses
 
