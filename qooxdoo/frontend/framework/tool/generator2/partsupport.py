@@ -8,10 +8,10 @@ class PartUtil:
 
 
 
-    def getPackages(self, partIncludes, smartExclude, explicitExclude, collapseParts, variants, minPackageSize):
+    def getPackages(self, partIncludes, smartExclude, classList, collapseParts, variants, minPackageSize):
         # Preprocess part data
         partBits = self._getPartBits(partIncludes)
-        partDeps = self._getPartDeps(partIncludes, variants, smartExclude, explicitExclude)
+        partDeps = self._getPartDeps(partIncludes, variants, smartExclude, classList)
 
         # Compute packages
         packageClasses = self._getPackageClasses(partDeps, partBits)
@@ -57,7 +57,7 @@ class PartUtil:
 
 
 
-    def _getPartDeps(self, partIncludes, variants, smartExclude, explicitExclude):
+    def _getPartDeps(self, partIncludes, variants, smartExclude, classList):
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -79,12 +79,20 @@ class PartUtil:
             # Finally resolve the dependencies
             partClasses = self._deputil.resolveDependencies(partIncludes[partId], partExcludes, variants)
 
-            # Remove explicit excludes
-            for classId in explicitExclude:
-                if classId in partClasses:
+            # Remove all non-included files
+            # Need to work on a copy because of runtime changes
+            for classId in partClasses[:]:
+                if not classId in classList:
                     partClasses.remove(classId)
-
+            
             # Store
+            if len(partClasses) == 0:
+                raise NameError("Part #%s depends on no classes" % (partId))
+                
+            for classId in partClasses:
+                print classId
+            
+                
             self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
             partDeps[partId] = partClasses
 

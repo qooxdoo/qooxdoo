@@ -33,9 +33,10 @@ class DependencyUtil:
 
         # Debug optional classes
         if self._console.inDebugMode():
+            self._console.debug("Looking out for optional classes...")
             optionals = self.getOptionals(result)
             if len(optionals) > 0:
-                self._console.debug("These optional classes may be useful:")
+                self._console.debug("Found these optional classes:")
                 self._console.indent()
                 for entry in optionals:
                     self._console.debug("%s" % entry)
@@ -54,15 +55,24 @@ class DependencyUtil:
 
 
     def resolveDependencies(self, include, block, variants):
-        result = []
+        if len(include) == 0:
+            self._console.info("Including all known classes")
+            result = self._classes.keys()
+            
+            # In this case the block works like an exclicit exclude
+            # because all classes are included like an explicit include.
+            for classId in block:
+                result.remove(classId)
+            
+        else:
+            result = []
+            for item in include:
+                try:
+                    self._resolveDependenciesRecurser(item, block, variants, result)
 
-        for item in include:
-            try:
-                self._resolveDependenciesRecurser(item, block, variants, result)
-
-            except NameError, detail:
-                self._console.error("Dependencies resolving failed for %s with: \n%s" % (item, detail))
-                sys.exit(1)
+                except NameError, detail:
+                    self._console.error("Dependencies resolving failed for %s with: \n%s" % (item, detail))
+                    sys.exit(1)
 
         return result
 
@@ -357,9 +367,14 @@ class DependencyUtil:
         result = []
 
         for classId in include:
-            for optional in self.getMeta(classId)["optionalDeps"]:
-                if not optional in include and not optional in result:
-                    result.append(optional)
+            try:
+                for optional in self.getMeta(classId)["optionalDeps"]:
+                    if not optional in include and not optional in result:
+                        result.append(optional)
+            
+            # Not all meta data contains optional infos
+            except KeyError:
+                continue
 
         return result
 

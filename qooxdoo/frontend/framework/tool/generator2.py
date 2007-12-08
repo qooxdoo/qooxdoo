@@ -204,23 +204,29 @@ def process(options):
     config = configsupport.Config(config)
 
     # Process feature sets
+    variants, settings = featureset(options.featuresets, options.variants, options.settings)
+
+    # Processing jobs...
+    for job in options.jobs:
+        console.head("Executing: %s" % job, True)
+        Generator(config.split(job), console, variants, settings)
+
+
+def featureset(sets, variants, settings):
     runtime = {
-      "variant" : __translateVariantValuesToFeatureSet(__splitListToDict(options.variants)),
-      "setting" : __translateSettingValuesToFeatureSet(__splitListToDict(options.settings))
+      "variant" : __translateVariantValuesToFeatureSet(__splitListToDict(variants)),
+      "setting" : __translateSettingValuesToFeatureSet(__splitListToDict(settings))
     }
 
-    for fileName in options.featuresets:
+    for fileName in sets:
         console.debug("Executing feature set: %s" % fileName)
         execfile(fileName, {}, runtime)
 
     # Convert to useable variants and settings
     variants = __translateVariantValuesFromFeatureSet(runtime["variant"])
     settings = __translateSettingValuesFromFeatureSet(runtime["setting"])
-
-    # Processing jobs...
-    for job in options.jobs:
-        console.head("Executing: %s" % job, True)
-        generator = Generator(config.split(job), console, variants, settings)
+    
+    return variants, settings    
 
 
 
@@ -289,36 +295,6 @@ class Generator:
         self.run()
 
 
-    def getSettings(self):
-        settings = {}
-        settingsConfig = self._config.get("settings", {})
-        settingsRuntime = self._settings
-
-        for key in settingsConfig:
-            settings[key] = settingsConfig[key]
-
-        for key in settingsRuntime:
-            settings[key] = settingsRuntime[key]
-
-        return settings
-
-
-
-    def getVariants(self):
-        variants = {}
-        variantsConfig = self._config.get("variants", {})
-        variantsRuntime = self._variants
-
-        for key in variantsConfig:
-            variants[key] = variantsConfig[key]
-
-        for key in variantsRuntime:
-            variants[key] = [variantsRuntime[key]]
-
-        return variants
-
-
-
     def run(self):
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
@@ -344,6 +320,20 @@ class Generator:
                 self._console.outdent()
 
 
+            # Resolving dependencies                
+            self._console.info("Resolving dependencies...")
+            self._console.indent()
+            classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._console.outdent()
+
+
+            # Cleanup Task
+            self.runClean(classList)
+
+            # API Data Task
+            self.runApiData(classList)
+
+
             # Check for package configuration
             if self._config.get("packages"):
                 # Reading configuration
@@ -353,9 +343,8 @@ class Generator:
                 bootPart = self._config.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
-                if bootPart in partsCfg:
-                    if not bootPart in collapseCfg:
-                        collapseCfg.append(bootPart)
+                if bootPart in partsCfg and not bootPart in collapseCfg:
+                    collapseCfg.append(bootPart)
 
                 # Expanding expressions
                 self._console.debug("Expanding include expressions...")
@@ -364,37 +353,23 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                partToPackages, packageContent = self._partutil.getPackages(partIncludes, smartExclude, explicitExclude, collapseCfg, variants, sizeCfg)
+                partContent, packageContent = self._partutil.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
 
             else:
-                # Resolving dependencies
-                self._console.info("Resolving dependencies...")
-                self._console.indent()
-                classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-                self._console.outdent()
-
-                # Cleanup Task
-                self.runClean(classList)
-
-                # API Data Task
-                self.runApiData(classList)
-
                 # Emulate configuration
                 bootPart = "boot"
-
-                # Emulate one package
-                partToPackages = { "boot" : [0] }
+                partContent = { "boot" : [0] }
                 packageContent = [classList]
 
 
             # Source Task
-            self.runSource(partToPackages, packageContent, bootPart, variants)
+            self.runSource(partContent, packageContent, bootPart, variants)
 
             # Compiled Task
-            self.runCompiled(partToPackages, packageContent, bootPart, variants)
+            self.runCompiled(partContent, packageContent, bootPart, variants)
 
             # Dependeny Debug Task
-            self.runDependencyDebug(partToPackages, packageContent, variants)
+            self.runDependencyDebug(partContent, packageContent, variants)
 
 
 
@@ -445,7 +420,7 @@ class Generator:
 
 
 
-    def runDependencyDebug(self, partToPackages, packageContents, variants):
+    def runDependencyDebug(self, partContent, packageContents, variants):
          if not self._config.get("debug/dependencies", False):
             return
 
@@ -456,8 +431,8 @@ class Generator:
              self._console.info("Package %s" % packageId)
              self._console.indent()
 
-             for partId in partToPackages:
-                 if packageId in partToPackages[partId]:
+             for partId in partContent:
+                 if packageId in partContent[partId]:
                      self._console.info("Part %s" % partId)
 
              for classId in packageContent:
@@ -480,7 +455,7 @@ class Generator:
 
 
 
-    def runCompiled(self, partToPackages, packageContents, bootPart, variants):
+    def runCompiled(self, partContent, packageContents, bootPart, variants):
         if not self._config.get("compile/file"):
             return
 
@@ -506,7 +481,7 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateCompiledPackageCode(fileUri, partToPackages, packageContents, bootPart, variants, settings, format))
+        bootBlocks.append(self.generateCompiledPackageCode(fileUri, partContent, packageContents, bootPart, variants, settings, format))
 
         if format:
             bootContent = "\n\n".join(bootBlocks)
@@ -554,7 +529,7 @@ class Generator:
 
 
 
-    def runSource(self, partToPackages, packageContents, bootPart, variants):
+    def runSource(self, partContent, packageContents, bootPart, variants):
         if not self._config.get("source/file"):
             return
 
@@ -573,7 +548,7 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateSourcePackageCode(partToPackages, packageContents, bootPart, format))
+        sourceBlocks.append(self.generateSourcePackageCode(partContent, packageContents, bootPart, format))
 
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
@@ -600,6 +575,35 @@ class Generator:
     #  SETTINGS/VARIANTS/PACKAGE DATA
     ######################################################################
 
+    def getSettings(self):
+        settings = {}
+        settingsConfig = self._config.get("settings", {})
+        settingsRuntime = self._settings
+
+        for key in settingsConfig:
+            settings[key] = settingsConfig[key]
+
+        for key in settingsRuntime:
+            settings[key] = settingsRuntime[key]
+
+        return settings
+
+
+
+    def getVariants(self):
+        variants = {}
+        variantsConfig = self._config.get("variants", {})
+        variantsRuntime = self._variants
+
+        for key in variantsConfig:
+            variants[key] = variantsConfig[key]
+
+        for key in variantsRuntime:
+            variants[key] = [variantsRuntime[key]]
+
+        return variants
+        
+        
     def generateSettingsCode(self, settings, format=False):
         number = re.compile("^([0-9\-]+)$")
         result = 'if(!window.qxsettings)qxsettings={};'
@@ -638,15 +642,15 @@ class Generator:
 
 
 
-    def generateSourcePackageCode(self, partToPackages, packageContents, bootPart, format=False):
-        if not partToPackages:
+    def generateSourcePackageCode(self, partContent, packageContents, bootPart, format=False):
+        if not partContent:
             return ""
 
         # Translate part information to JavaScript
         partData = "{"
-        for partId in partToPackages:
+        for partId in partContent:
             partData += '"%s":' % (partId)
-            partData += ('%s,' % partToPackages[partId]).replace(" ", "")
+            partData += ('%s,' % partContent[partId]).replace(" ", "")
 
         partData=partData[:-1] + "}"
 
@@ -674,15 +678,15 @@ class Generator:
 
 
 
-    def generateCompiledPackageCode(self, fileName, partToPackages, packageContents, bootPart, variants, settings, format=False):
-        if not partToPackages:
+    def generateCompiledPackageCode(self, fileName, partContent, packageContents, bootPart, variants, settings, format=False):
+        if not partContent:
             return ""
 
         # Translate part information to JavaScript
         partData = "{"
-        for partId in partToPackages:
+        for partId in partContent:
             partData += '"%s":' % (partId)
-            partData += ('%s,' % partToPackages[partId]).replace(" ", "")
+            partData += ('%s,' % partContent[partId]).replace(" ", "")
 
         partData=partData[:-1] + "}"
 
@@ -721,21 +725,35 @@ class Generator:
         # Splitting lists
         self._console.debug("Preparing include configuration...")
         smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
-
-        # Configuration feedback
         self._console.indent()
-        self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
 
-        if len(explicitInclude) > 0:
-            self._console.warn("Explicit included classes may not work")
+        if len(smartInclude) > 0 or len(explicitInclude) > 0:
+            # Configuration feedback
+            self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
 
-        self._console.outdent()
+            if len(explicitInclude) > 0:
+                self._console.warn("Explicit included classes may not work")
 
-        # Resolve regexps
-        self._console.indent()
-        self._console.debug("Expanding expressions...")
-        smartInclude = self._expandRegExps(smartInclude)
-        explicitInclude = self._expandRegExps(explicitInclude)
+            # Resolve regexps
+            self._console.debug("Expanding expressions...")
+            smartInclude = self._expandRegExps(smartInclude)
+            explicitInclude = self._expandRegExps(explicitInclude)
+        
+        elif self._config.get("packages"):
+            # Special part include handling
+            self._console.info("Including all given part classes...")
+            partsCfg = partsCfg = self._config.get("packages/parts", {})
+            smartInclude = []
+            for partId in partsCfg:
+                smartInclude.extend(partsCfg[partId])
+                
+            # Configuration feedback
+            self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+            
+            # Resolve regexps
+            self._console.debug("Expanding expressions...")
+            smartInclude = self._expandRegExps(smartInclude)
+
         self._console.outdent()
 
         return smartInclude, explicitInclude
