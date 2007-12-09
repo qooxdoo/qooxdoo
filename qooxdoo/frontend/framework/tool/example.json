@@ -122,6 +122,20 @@
 
 
 
+  "locales-feedreader" :
+  {
+    "extend" : ["common"],    
+    "include" : ["feedreader.Application"],
+    
+    "localisation" : 
+    {
+      "locales" : ["de","en","fr"]
+    }
+  },
+
+
+
+
   "source-feedreader" :
   {
     "extend" : ["common"],

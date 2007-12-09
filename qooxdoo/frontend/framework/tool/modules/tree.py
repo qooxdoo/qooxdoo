@@ -19,6 +19,11 @@
 #
 ################################################################################
 
+import sys, os
+
+# reconfigure path to import own modules from modules subfolder
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../"))
+
 import simplejson
 
 ##

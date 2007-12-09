@@ -336,6 +336,8 @@ def assembleVariable(variableItem):
 
     assembled = ""
     for child in variableItem.children:
+        if child.type != "identifier":
+            return ""
         if len(assembled) != 0:
             assembled += "."
         assembled += child.get("name")

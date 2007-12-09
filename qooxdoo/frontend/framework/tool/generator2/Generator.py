@@ -49,6 +49,7 @@ class Generator:
         self._treeutil = TreeUtil(self._classes, self._cache, self._console)
         self._deputil = DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
         self._compiler = Compiler(self._classes, self._cache, self._console, self._treeutil)
+        self._locale = Locale(self._classes, self._cache, self._console, self._treeutil)        
         self._apiutil = ApiUtil(self._classes, self._cache, self._console, self._treeutil)
         self._partutil = PartUtil(self._console, self._deputil, self._compiler)
 
@@ -122,6 +123,9 @@ class Generator:
                 packageContent = [classList]
 
 
+            # Locale Task
+            self.runLocale(partContent, packageContent, variants)
+
             # Source Task
             self.runSource(partContent, packageContent, bootPart, variants)
 
@@ -130,6 +134,7 @@ class Generator:
 
             # Dependeny Debug Task
             self.runDependencyDebug(partContent, packageContent, variants)
+            
 
 
 
@@ -213,6 +218,27 @@ class Generator:
 
          self._console.outdent()
 
+
+
+    def runLocale(self, partContent, packageContents, variants):
+        if not self._config.get("localisation"):
+            return
+            
+        self._console.info("Looking up locales...")
+
+        for packageId, packageContent in enumerate(packageContents):
+            self._console.info("Processing package #%s:" % packageId)
+            self._console.indent()
+            
+            strings = self._locale.getPackageStrings(packageContent, variants)
+            for entry in strings:
+                print "%s: %s" % (entry, strings[entry])
+                
+            self._console.outdent()
+        
+        
+        
+        
 
 
     def runCompiled(self, partContent, packageContents, bootPart, variants):
