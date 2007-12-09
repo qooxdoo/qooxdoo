@@ -1,0 +1,33 @@
+{
+  "common" :
+  {
+    "library" :
+    [
+      {
+        "type" : "ext",
+        "encoding" : "utf-8",
+        "path" : "../../../ext-2.0",
+        "uri" : ""
+      }
+    ],
+    
+    "cache" :
+    {
+      "path" : "cache2"
+    }  
+  },
+  
+  
+  "compile-panel" :
+  {
+    "extend" : ["common"],
+    "include" : ["widgets.Panel"],
+
+    "compile" :
+    {
+      "file" : "build-ext-panel.js"
+    }
+  }  
+}
+      
+      

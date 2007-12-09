@@ -7,15 +7,23 @@ def getClasses(config, console):
 
     classes = {}
     for segment in config.iter():
-        Path(segment, classes, console)
-
+        entryType = segment.get("type", "qooxdoo")
+         
+        if entryType == "ext":
+            ExtPath(segment, classes, console)
+        else:
+            QooxdooPath(segment, classes, console)
+            
     console.outdent()
     console.debug("")
-
+    
     return classes
 
 
-class Path:
+
+
+
+class QooxdooPath:
     def __init__(self, config, classes, console):
         self._config = config
         self._classes = classes
@@ -23,7 +31,7 @@ class Path:
 
         self.scan()
 
-
+    
     _implFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
     _localeFile = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
 
@@ -37,8 +45,8 @@ class Path:
             return True
 
         return False
-
-
+        
+    
     def isLocaleFile(self, fileName, fileContent):
         for item in self._localeFile.findall(fileContent):
             return True
@@ -181,3 +189,54 @@ class Path:
                 }
 
         self._console.debug("Added: %s impl, %s doc, %s locale" % (implNumber, docNumber, localeNumber))
+        
+        
+        
+        
+        
+        
+        
+        
+class ExtPath(QooxdooPath):
+    _implFile1 = re.compile('([\.a-zA-Z0-9_-]+)\s*=\s*Ext\.extend\(', re.M)
+    _implFile2 = re.compile('Ext\.extend\(([\.a-zA-Z0-9_-]+),')
+
+
+    def getContentType(self, fileName, fileContent):
+        if self.isImplFile(fileName, fileContent):
+            return "impl"
+
+        if self.isLocaleFile(fileName, fileContent):
+            return "locale"
+
+        if self.isStaticFile(fileName, fileContent):
+            return "impl"
+
+        return None
+        
+        
+    def isImplFile(self, fileName, fileContent):
+        if self._implFile1.search(fileContent):
+            return True
+
+        if self._implFile2.search(fileContent):
+            return True
+
+        return False
+        
+        
+    def isLocaleFile(self, fileName, fileContent):
+        return "ext-lang" in fileName
+
+
+    def isStaticFile(self, fileName, fileContent):
+        return True
+        
+        
+    def getClassFolderName(self):
+        return self._config.get("folders/class", "source")
+        
+
+    def getContentId(self, fileType, filePathId, fileContent):
+        return filePathId
+                
