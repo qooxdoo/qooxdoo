@@ -506,7 +506,7 @@ class Generator:
         self._console.indent()
 
         for packageId, packageContent in enumerate(packageContents):
-            self._console.info("Compiling classes of package #%s:" % packageId, False)
+            self._console.info("Compiling package #%s:" % packageId, False)
             self._console.indent()
 
             # Compile file content
@@ -741,7 +741,7 @@ class Generator:
         
         elif self._config.get("packages"):
             # Special part include handling
-            self._console.info("Including all given part classes...")
+            self._console.info("Including part classes...")
             partsCfg = partsCfg = self._config.get("packages/parts", {})
             smartInclude = []
             for partId in partsCfg:
