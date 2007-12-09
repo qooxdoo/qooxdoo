@@ -118,16 +118,11 @@
     }
   },
 
-
-
-
-
-  "locales-feedreader" :
+  "localize-all" :
   {
     "extend" : ["common"],    
-    "include" : ["feedreader.Application"],
     
-    "localisation" : 
+    "localize" : 
     {
       "locales" : ["de","en","fr"]
     }
@@ -135,6 +130,20 @@
 
 
 
+
+
+
+
+  "localize-feedreader" :
+  {
+    "extend" : ["common"],    
+    "include" : ["feedreader.Application"],
+    
+    "localize" : 
+    {
+      "locales" : ["de","en","fr"]
+    }
+  },
 
   "source-feedreader" :
   {
@@ -172,6 +181,46 @@
       "optimize" : [ "variables", "basecalls" ]
     }
   },
+  
+  "compile-feedreader-parts" :
+  {
+    "extend" : ["compile-feedreader"],
+    
+    "packages" :
+    {
+      "size" : 5,
+      
+      "parts" :
+      {
+        "core" : ["feedreader.Application"],
+        "table" : ["feedreader.view.Table"],
+        "tree" : ["feedreader.view.Tree"]        
+      }
+    }   
+  },
+  
+  "localize-feedreader-parts" :
+  {
+    "extend" : ["compile-feedreader"],
+    
+    "compile" : {},
+    "localize" :
+    {
+      "locales" : ["de","en","fr"]
+    },
+    
+    "packages" :
+    {
+      "size" : 5,
+      
+      "parts" :
+      {
+        "core" : ["feedreader.Application"],
+        "table" : ["feedreader.view.Table"],
+        "tree" : ["feedreader.view.Tree"]        
+      }
+    }   
+  },  
   
   
   
@@ -233,6 +282,34 @@
     }
   },
 
+  "localize-apiviewer-parts" :
+  {
+    "extend" : ["common"],
+
+    "localize" :
+    {
+      "locales" : ["de","en","fr"]
+    },
+
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+
+    "packages" :
+    {
+      "collapse" : ["core"],
+      "size" : 10,
+
+      "parts" :
+      {
+        "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+        "viewer" : ["apiviewer.Viewer"],
+        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+      }
+    }
+  },
+  
   "source-apiviewer-parts" :
   {
     "extend" : ["common"],

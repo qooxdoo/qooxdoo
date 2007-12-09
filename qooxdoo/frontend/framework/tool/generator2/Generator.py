@@ -221,13 +221,14 @@ class Generator:
 
 
     def runLocale(self, partContent, packageContents, variants):
-        if not self._config.get("localisation"):
+        if not self._config.get("localize"):
             return
             
         self._console.info("Looking up locales...")
+        self._console.indent()
 
         for packageId, packageContent in enumerate(packageContents):
-            self._console.info("Processing package #%s:" % packageId)
+            self._console.info("Processing package #%s" % packageId)
             self._console.indent()
             
             strings = self._locale.getPackageStrings(packageContent, variants)
@@ -235,7 +236,8 @@ class Generator:
                 print "%s: %s" % (entry, strings[entry])
                 
             self._console.outdent()
-        
+
+        self._console.outdent()
         
         
         
