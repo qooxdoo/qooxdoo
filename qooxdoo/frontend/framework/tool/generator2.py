@@ -24,10 +24,11 @@ import sys, os, optparse, simplejson
 from modules import optparseext
 
 from generator2 import util
-from generator2 import logsupport
-from generator2 import configsupport
 from generator2 import featureset
-from generator2 import Generator
+
+from generator2.Log import Log
+from generator2.Config import Config
+from generator2.Generator import Generator
 
 
 ######################################################################
@@ -63,11 +64,11 @@ def main():
 def process(options):
     # Initialize console
     if options.verbose:
-        console = logsupport.Log(options.logfile, "debug")
+        console = Log(options.logfile, "debug")
     elif options.quiet:
-        console = logsupport.Log(options.logfile, "warning")
+        console = Log(options.logfile, "warning")
     else:
-        console = logsupport.Log(options.logfile, "info")
+        console = Log(options.logfile, "info")
 
     # Initial user feedback
     console.head("Initialization", True)
@@ -86,7 +87,7 @@ def process(options):
     _resolve(console, config, options.jobs)
 
     # Convert into Config class instance
-    config = configsupport.Config(config)
+    config = Config(config)
 
     # Process feature sets
     variants, settings = featureset.execute(console, options.featuresets, 
@@ -95,7 +96,7 @@ def process(options):
     # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
-        Generator.Generator(config.split(job), console, variants, settings)
+        Generator(config.split(job), console, variants, settings)
 
 
 

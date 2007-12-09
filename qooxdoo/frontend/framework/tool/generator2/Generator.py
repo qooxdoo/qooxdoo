@@ -25,16 +25,17 @@ from modules import filetool
 from modules import textutil
 
 from generator2 import util
-from generator2 import apidata
-from generator2 import cachesupport
-from generator2 import treesupport
 from generator2 import classpath
 from generator2 import variantsupport
-from generator2 import dependencysupport
-from generator2 import compilesupport
-from generator2 import partsupport
 from generator2 import scriptsupport
 from generator2 import localesupport
+
+from generator2.ApiUtil import ApiUtil
+from generator2.Cache import Cache
+from generator2.TreeUtil import TreeUtil
+from generator2.DependencyUtil import DependencyUtil
+from generator2.Compiler import Compiler
+from generator2.PartUtil import PartUtil
 
 class Generator:
     def __init__(self, config, console, variants, settings):
@@ -43,13 +44,13 @@ class Generator:
         self._variants = variants
         self._settings = settings
 
-        self._cache = cachesupport.Cache(self._config.get("cache/path"), self._console)
+        self._cache = Cache(self._config.get("cache/path"), self._console)
         self._classes = classpath.getClasses(self._config.split("library"), self._console)
-        self._treeutil = treesupport.TreeUtil(self._classes, self._cache, self._console)
-        self._deputil = dependencysupport.DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
-        self._compiler = compilesupport.Compiler(self._classes, self._cache, self._console, self._treeutil)
-        self._apiutil = apidata.ApiUtil(self._classes, self._cache, self._console, self._treeutil)
-        self._partutil = partsupport.PartUtil(self._console, self._deputil, self._compiler)
+        self._treeutil = TreeUtil(self._classes, self._cache, self._console)
+        self._deputil = DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
+        self._compiler = Compiler(self._classes, self._cache, self._console, self._treeutil)
+        self._apiutil = ApiUtil(self._classes, self._cache, self._console, self._treeutil)
+        self._partutil = PartUtil(self._console, self._deputil, self._compiler)
 
         self.run()
 
