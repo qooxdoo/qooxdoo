@@ -10,13 +10,13 @@ class Compiler:
         self._treeutil = treeutil
 
 
-    def compileClasses(self, todo, variants, optimize, format):
+    def compileClasses(self, classes, variants, optimize, format):
         content = ""
-        length = len(todo)
+        length = len(classes)
 
-        for pos, fileId in enumerate(todo):
+        for pos, classId in enumerate(classes):
             self._console.progress(pos, length)
-            content += self.getCompiled(fileId, variants, optimize, format)
+            content += self.getCompiled(classId, variants, optimize, format)
 
         return content
 

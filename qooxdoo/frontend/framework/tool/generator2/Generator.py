@@ -37,6 +37,8 @@ from generator2.DependencyUtil import DependencyUtil
 from generator2.Compiler import Compiler
 from generator2.PartUtil import PartUtil
 
+
+
 class Generator:
     def __init__(self, config, console, variants, settings):
         self._config = config
@@ -588,13 +590,6 @@ class Generator:
         return result
 
 
-
-
-
-
-    ######################################################################
-    #  UTIL
-    ######################################################################
 
     def _resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
         if variants:
