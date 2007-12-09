@@ -44,8 +44,8 @@ class DependencyUtil:
 
 
         # Sort classes
-        self._console.info("Sorting classes...")
-        self.sortClasses(result, variants)
+        self._console.info("Sorting %s classes..." % len(result))
+        result = self.sortClasses(result, variants)
 
 
         # Return list
@@ -285,29 +285,30 @@ class DependencyUtil:
     def sortClasses(self, include, variants):
         result = []
 
-        for item in include:
-            self._sortClassesRecurser(item, include, variants, result)
+        for classId in include:
+            self._sortClassesRecurser(classId, include, variants, result)
 
         return result
 
 
 
-    def _sortClassesRecurser(self, fileId, available, variants, result):
-        if fileId in result:
+    def _sortClassesRecurser(self, classId, available, variants, result):
+        if classId in result:
             return
 
         # reading dependencies
-        deps = self.getCombinedDeps(fileId, variants)
+        deps = self.getCombinedDeps(classId, variants)
 
         # process loadtime requirements
         for item in deps["load"]:
             if item in available and not item in result:
                 self._sortClassesRecurser(item, available, variants, result)
 
-        if fileId in result:
+        if classId in result:
             return
 
-        result.append(fileId)
+        # print "Add: %s" % classId
+        result.append(classId)
 
         # process runtime requirements
         for item in deps["run"]:
