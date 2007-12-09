@@ -303,7 +303,8 @@
       {
         "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
         "viewer" : ["apiviewer.Viewer"],
-        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+        "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"],
+        "feed" : ["feedreader.Application"]
       }
     }
   }

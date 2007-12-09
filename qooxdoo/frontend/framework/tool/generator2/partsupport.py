@@ -87,10 +87,10 @@ class PartUtil:
             
             # Store
             if len(partClasses) == 0:
-                raise NameError("Part #%s depends on no classes" % (partId))
-                
-            self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
-            partDeps[partId] = partClasses
+                self._console.info("Part #%s is ignored in current configuration" % partId)
+            else:
+                self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
+                partDeps[partId] = partClasses
 
         self._console.outdent()
         return partDeps
@@ -146,7 +146,8 @@ class PartUtil:
 
         # Sorting package list
         for partId in partBits:
-            self._sortPackages(partPackages[partId], packageUsers)
+            if partPackages.has_key(partId):
+                self._sortPackages(partPackages[partId], packageUsers)
 
         return packageUsers, partPackages
 
