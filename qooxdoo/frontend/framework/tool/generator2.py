@@ -22,7 +22,6 @@
 import sys, os, optparse, simplejson
 
 from modules import optparseext
-
 from generator2 import featureset
 
 from generator2.Log import Log

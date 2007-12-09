@@ -28,7 +28,6 @@ from generator2 import util
 from generator2 import classpath
 from generator2 import variantutil
 from generator2 import scriptutil
-from generator2 import localesupport
 
 from generator2.ApiUtil import ApiUtil
 from generator2.Cache import Cache
@@ -36,7 +35,7 @@ from generator2.TreeUtil import TreeUtil
 from generator2.DependencyUtil import DependencyUtil
 from generator2.Compiler import Compiler
 from generator2.PartUtil import PartUtil
-
+from generator2.Locale import Locale
 
 
 class Generator:
