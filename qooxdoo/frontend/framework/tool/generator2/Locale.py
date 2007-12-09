@@ -1,3 +1,5 @@
+import variantutil
+
 class Locale:
     def __init__(self, classes, cache, console, treeutil):
         self._classes = classes
@@ -10,7 +12,7 @@ class Locale:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
         
-        variantsId = variantsupport.generateId(variants)
+        variantsId = variantutil.generateId(variants)
 
         cacheId = "%s-locale-%s" % (fileId, variantsId)
         

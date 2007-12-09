@@ -24,7 +24,6 @@ import re, os, sys, zlib
 from modules import filetool
 from modules import textutil
 
-from generator2 import util
 from generator2 import classpath
 from generator2 import variantutil
 from generator2 import scriptutil

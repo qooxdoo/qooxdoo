@@ -1,7 +1,7 @@
 import sys
 
 from modules import config, treeutil, filetool
-from generator2 import variantsupport
+from generator2 import variantutil
 
 class DependencyUtil:
     def __init__(self, classes, cache, console, treeutil, loadDeps, runDeps):
@@ -140,7 +140,7 @@ class DependencyUtil:
             raise NameError("Could not find class to fulfil dependency: %s" % fileId)
 
         filePath = self._classes[fileId]["path"]
-        cacheId = "%s-deps-%s" % (fileId, variantsupport.generateId(variants))
+        cacheId = "%s-deps-%s" % (fileId, variantutil.generateId(variants))
 
         if self._memCache.has_key(cacheId):
             return self._memCache[cacheId]
