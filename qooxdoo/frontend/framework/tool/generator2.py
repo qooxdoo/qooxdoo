@@ -19,15 +19,9 @@
 #
 ################################################################################
 
-import sys, os, optparse
-
-# reconfigure path
-script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
-sys.path.insert(0, os.path.join(script_path, "modules"))
-sys.path.insert(0, os.path.join(script_path, "generator2"))
+import sys, os, optparse, simplejson
 
 from modules import optparseext
-from modules import simplejson
 
 from generator2 import util
 from generator2 import logsupport

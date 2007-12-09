@@ -19,6 +19,8 @@
 #
 ################################################################################
 
+import simplejson
+
 ##
 #<h2>Module Description</h2>
 #<pre>
@@ -627,7 +629,6 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
 
 
 def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
-    import simplejson
     types = []
     fullNames = []
     indexs = {}
