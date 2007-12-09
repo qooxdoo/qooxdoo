@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import re, os, sys
+import re, os, sys, zlib
 
 from modules import filetool
 from modules import textutil
@@ -259,7 +259,7 @@ class Generator:
         if self._config.get("compile/gzip"):
             filetool.gzip(resolvedFilePath, bootContent)
 
-        self._console.debug("Done: %s" % util.getContentSize(bootContent))
+        self._console.debug("Done: %s" % self._computeContentSize(bootContent))
         self._console.debug("")
 
 
@@ -283,7 +283,7 @@ class Generator:
             if self._config.get("compile/gzip"):
                 filetool.gzip(resolvedFilePath, compiledContent)
 
-            self._console.debug("Done: %s" % util.getContentSize(compiledContent))
+            self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
 
         self._console.outdent()
@@ -326,7 +326,7 @@ class Generator:
         if self._config.get("source/gzip"):
             filetool.gzip(resolvedFilePath, sourceContent)
 
-        self._console.debug("Done: %s" % util.getContentSize(sourceContent))
+        self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
         self._console.outdent()
 
 
@@ -607,3 +607,13 @@ class Generator:
 
         return fileName
 
+
+    def _computeContentSize(self, content):
+        # Convert to utf-8 first
+        uni = unicode(content).encode("utf-8")
+
+        # Calculate sizes
+        origSize = len(uni) / 1024
+        compressedSize = len(zlib.compress(uni, 9)) / 1024
+
+        return "%sKB / %sKB" % (origSize, compressedSize)

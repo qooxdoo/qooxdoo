@@ -19,7 +19,6 @@ def computeCombinations(variants):
     return result
 
 
-
 def generateId(variants):
     sortedList = _getSortedCopy(variants)
 

@@ -23,7 +23,6 @@ import sys, os, optparse, simplejson
 
 from modules import optparseext
 
-from generator2 import util
 from generator2 import featureset
 
 from generator2.Log import Log
@@ -91,13 +90,21 @@ def process(options):
 
     # Process feature sets
     variants, settings = featureset.execute(console, options.featuresets, 
-        util.splitListToDict(options.variants), util.splitListToDict(options.settings))
+        _splitListToDict(options.variants), _splitListToDict(options.settings))
 
     # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
         Generator(config.split(job), console, variants, settings)
 
+
+def _splitListToDict(data, divider=":"):
+    result = {}
+    for entry in data:
+        splitted = entry.split(divider)
+        result[splitted[0]] = splitted[1]
+
+    return result
 
 
 def _resolve(console, config, jobs):
