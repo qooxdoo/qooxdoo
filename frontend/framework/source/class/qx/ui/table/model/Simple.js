@@ -45,6 +45,15 @@ qx.Class.define("qx.ui.table.model.Simple",
     this._editableColArr = null;
   },
 
+  properties :
+  {
+    caseSensitiveSorting :
+    {
+      check    : "Boolean",
+      init : true
+    }
+  },
+
 
   statics :
   {
@@ -64,6 +73,25 @@ qx.Class.define("qx.ui.table.model.Simple",
         return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
       },
 
+
+    /**
+     * Same as the Default ascending sort method but using case insensitivity
+     *
+     * @param row1 {var} first row
+     * @param row2 {var} second row
+     * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
+     */
+      _defaultSortComparatorInsensitiveAscending :
+	function(row1, row2)
+	{
+	  var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+		      row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
+	  var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+		      row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+	  return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+	},
+
+
     /**
      * Default descendeing sort method to use if no custom method has been
      * provided.
@@ -78,7 +106,26 @@ qx.Class.define("qx.ui.table.model.Simple",
         var obj1 = row1[arguments.callee.columnIndex];
         var obj2 = row2[arguments.callee.columnIndex];
         return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      },
+
+
+    /**
+     * Same as the Default descending sort method but using case insensitivity
+     *
+     * @param row1 {var} first row
+     * @param row2 {var} second row
+     * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
+     */
+      _defaultSortComparatorInsensitiveDescending :
+      function(row1, row2)
+      {
+	var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+		    row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
+	var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+		    row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+	return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
       }
+
   },
 
 
@@ -206,10 +253,20 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
       else
       {
-        comparator =
-          (ascending
-           ? qx.ui.table.model.Simple._defaultSortComparatorAscending
-           : qx.ui.table.model.Simple._defaultSortComparatorDescending);
+      	if (this.getCaseSensitiveSorting())
+        {
+      	  comparator =
+      	    (ascending
+      	     ? qx.ui.table.model.Simple._defaultSortComparatorAscending
+      	     : qx.ui.table.model.Simple._defaultSortComparatorDescending);
+      	}
+        else
+        {
+      	  comparator =
+      	    (ascending
+      	     ? qx.ui.table.model.Simple._defaultSortComparatorInsensitiveAscending
+      	     : qx.ui.table.model.Simple._defaultSortComparatorInsensitiveDescending);
+      	}
       }
 
       comparator.columnIndex = columnIndex;
