@@ -29,9 +29,6 @@ from generator2.Config import Config
 from generator2.Generator import Generator
 
 
-######################################################################
-#  MAIN CONTENT
-######################################################################
 
 def main():
     parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
@@ -88,13 +85,14 @@ def process(options):
     config = Config(config)
 
     # Process feature sets
-    variants, settings = featureset.execute(console, options.featuresets, 
+    variants, settings = featureset.execute(console, options.featuresets,
         _splitListToDict(options.variants), _splitListToDict(options.settings))
 
     # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
         Generator(config.split(job), console, variants, settings)
+
 
 
 def _splitListToDict(data, divider=":"):
@@ -104,6 +102,7 @@ def _splitListToDict(data, divider=":"):
         result[splitted[0]] = splitted[1]
 
     return result
+
 
 
 def _resolve(console, config, jobs):
@@ -145,12 +144,6 @@ def _mergeEntry(target, source):
 
 
 
-
-
-######################################################################
-#  MAIN LOOP
-######################################################################
-
 if __name__ == '__main__':
     try:
         main()
@@ -159,4 +152,3 @@ if __name__ == '__main__':
         print
         print "Keyboard interrupt!"
         sys.exit(1)
-
