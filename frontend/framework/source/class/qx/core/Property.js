@@ -458,6 +458,12 @@ qx.Class.define("qx.core.Property",
 
         if (themeable)
         {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (!this.$$method.style[a[i]]) {
+              throw new Error("Cannot add the non themable property '" + a[i] + "' to the themable property group '"+ name +"'");
+            }
+          }
           styler.push("this.", this.$$method.style[a[i]], "(a[", i, "]);");
           unstyler.push("this.", this.$$method.unstyle[a[i]], "();");
         }
