@@ -76,6 +76,16 @@ class PartUtil:
             # Extend with smart excludes
             partExcludes.extend(smartExclude)
 
+            # Remove classes before checking dependencies
+            for classId in partIncludes[partId]:
+                if not classId in classList:
+                    partIncludes[partId].remove(classId)
+
+            # Checking part includes
+            if len(partIncludes[partId]) == 0:
+                self._console.info("Part #%s is ignored in current configuration" % partId)
+                continue
+
             # Finally resolve the dependencies
             partClasses = self._deputil.resolveDependencies(partIncludes[partId], partExcludes, variants)
 
@@ -84,16 +94,13 @@ class PartUtil:
             for classId in partClasses[:]:
                 if not classId in classList:
                     partClasses.remove(classId)
-            
-            # Store
-            if len(partClasses) == 0:
-                self._console.info("Part #%s is ignored in current configuration" % partId)
-            else:
-                self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
-                partDeps[partId] = partClasses
 
-        self._console.outdent()
+            # Store
+            self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
+            partDeps[partId] = partClasses
+
         return partDeps
+
 
 
 
@@ -201,7 +208,7 @@ class PartUtil:
         self._console.info("Optimizing package sizes...")
         self._console.indent()
         self._console.debug("Minimum size: %sKB" % minPackageSize)
-        self._console.indent()        
+        self._console.indent()
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
