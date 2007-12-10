@@ -1409,6 +1409,11 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __getPageSource : function(url)
     {
+
+      if( typeof(url) != "string" ){
+        return ;
+      }
+
       var req = new qx.io.remote.Request(url);
 
       req.setTimeout(180000);
