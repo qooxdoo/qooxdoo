@@ -232,6 +232,7 @@ qx.Class.define("qx.ui.form.Button",
         case "Space":
           this.removeState("abandoned");
           this.addState("pressed");
+          e.stopPropagation();
       }
     },
 
@@ -256,6 +257,7 @@ qx.Class.define("qx.ui.form.Button",
             this.removeState("abandoned");
             this.removeState("pressed");
             this.execute();
+            e.stopPropagation();
           }
       }
     }
