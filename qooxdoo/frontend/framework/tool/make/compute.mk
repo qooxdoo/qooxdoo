@@ -213,6 +213,10 @@ endif
 
 
 
+
+
+
+
 # ==============================================================================
 # Compute locales
 # ==============================================================================
@@ -334,6 +338,10 @@ endif
 
 
 
+
+
+
+
 # ==============================================================================
 # Compute variant configuration
 # ==============================================================================
@@ -363,6 +371,9 @@ ifeq ($(APPLICATION_OPTIMIZE_REMOVE_ASPECTS),true)
 	  COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:off
 	endif
 endif
+
+
+
 
 
 
@@ -420,6 +431,7 @@ endif
 ifneq ($(COMPUTED_SOURCE_DEPENDENCIES),)
   COMPUTED_BUILD_OPTIONS += $(COMPUTED_BUILD_DEPENDENCIES)
 endif
+
 
 
 
