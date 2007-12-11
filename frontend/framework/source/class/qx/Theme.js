@@ -87,7 +87,6 @@ qx.Class.define("qx.Theme",
         $$type : "Theme",
         name : name,
         title : config.title,
-        type : config.type || "normal",
 
         // Attach toString
         toString : this.genericToString
@@ -189,7 +188,7 @@ qx.Class.define("qx.Theme",
      * @param config {Map} The map from where to extract the key
      * @return {String} the key which was found
      */
-    __extractInheritableKey : function(config)
+    __extractType : function(config)
     {
       for (var i=0, keys=this.__inheritableKeys, l=keys.length; i<l; i++)
       {
@@ -208,20 +207,18 @@ qx.Class.define("qx.Theme",
      */
     __convert : function(theme, config)
     {
-      var keyCurrent = this.__extractInheritableKey(config);
+      var type = this.__extractType(config);
 
-      if (config.extend)
-      {
-        var keyExtended = this.__extractInheritableKey(config.extend);
-
-        // Use theme key from extended theme if own one is not available
-        if (!keyCurrent) {
-          keyCurrent = keyExtended;
-        }
+      // Use theme key from extended theme if own one is not available
+      if (config.extend && !type) {
+        type = config.extend.type;
       }
 
+      // Save theme type
+      theme.type = type || "other";
+
       // Return if there is no key defined at all
-      if (!keyCurrent) {
+      if (!type) {
         return;
       }
 
@@ -234,18 +231,33 @@ qx.Class.define("qx.Theme",
       }
 
       var target = clazz.prototype;
-      var source = config[keyCurrent];
+      var source = config[type];
+      var base;
 
       // Copy entries to prototype
-      for (var id in source) {
+      for (var id in source)
+      {
         target[id] = source[id];
+
+        // Convert base flag to class reference (needed for mixin support)
+        if (target[id].base)
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (!config.extend) {
+              throw new Error("Found base flag in entry '" + id + "' of theme '" + config.name + "'. Base flags are not allowed for themes without a valid super theme!");
+            }
+          }
+
+          target[id].base = config.extend;
+        }
       }
 
       // store pseudo class
       theme.$$clazz = clazz;
 
       // and create instance under the old key
-      theme[keyCurrent] = new clazz;
+      theme[type] = new clazz;
     },
 
 
@@ -403,13 +415,13 @@ qx.Class.define("qx.Theme",
      */
     patch : function(theme, mixinTheme)
     {
-      var keyCurrent = this.__extractInheritableKey(mixinTheme);
-      if (keyCurrent !== this.__extractInheritableKey(theme)) {
+      var type = this.__extractType(mixinTheme);
+      if (type !== this.__extractType(theme)) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
 
-      var source = mixinTheme[keyCurrent];
-      var target = theme[keyCurrent];
+      var source = mixinTheme[type];
+      var target = theme[type];
 
       for (var key in source) {
         target[key] = source[key];
@@ -428,13 +440,13 @@ qx.Class.define("qx.Theme",
      */
     include : function(theme, mixinTheme)
     {
-      var keyCurrent = this.__extractInheritableKey(mixinTheme);
-      if (keyCurrent !== this.__extractInheritableKey(theme)) {
+      var type = mixinTheme.type;
+      if (type !== theme.type) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
 
-      var source = mixinTheme[keyCurrent];
-      var target = theme[keyCurrent];
+      var source = mixinTheme[type];
+      var target = theme[type];
 
       for (var key in source)
       {
