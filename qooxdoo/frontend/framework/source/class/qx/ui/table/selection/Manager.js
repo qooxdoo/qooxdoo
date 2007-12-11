@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
 
       var leadIndex = selectionModel.getLeadSelectionIndex();
       var anchorIndex = selectionModel.getAnchorSelectionIndex();
-      
+
       if (evt.isShiftPressed())
       {
         if (index != leadIndex || selectionModel.isSelectionEmpty())
@@ -235,7 +235,13 @@ qx.Class.define("qx.ui.table.selection.Manager",
       else
       {
         // only set the selection interval if there is really a change of the selection
-        if (! (anchorIndex == leadIndex && anchorIndex == index)) {
+      else
+      {
+        // only set the selection interval if there is really a change of the selection
+        if (
+          !(anchorIndex == leadIndex && anchorIndex == index) ||
+          selectionModel.isSelectionEmpty()
+        ) {
           selectionModel.setSelectionInterval(index, index);
         }
       }
