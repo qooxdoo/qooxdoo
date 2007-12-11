@@ -227,9 +227,9 @@ qx.Class.define("qx.theme.manager.Appearance",
         result = {};
 
         // Copy base data, but exclude overwritten local and included stuff
-        if (entry.base && theme.supertheme)
+        if (entry.base)
         {
-          var base = this.styleFromTheme(theme.supertheme, id, states);
+          var base = this.styleFromTheme(entry.base, id, states);
 
           if (entry.include)
           {
