@@ -155,8 +155,6 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createToolbar : function()
     {
-
-      var self = this;
       function createButton(text, clazz, icon, tooltip, checked, id)
       {
         if (!clazz) {
@@ -222,7 +220,7 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createDetailFrame : function()
     {
-      detailFrame = new qx.ui.layout.CanvasLayout;
+      var detailFrame = new qx.ui.layout.CanvasLayout;
       detailFrame.set(
       {
         width           : "100%",

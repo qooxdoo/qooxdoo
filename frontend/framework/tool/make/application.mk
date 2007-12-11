@@ -109,7 +109,7 @@ endif
 
 #
 # Title used in your API viewer or AIR application
-# Default is identical to your application ID.
+# Default is the uppercase variant of your normal title.
 #
 ifndef APPLICATION_TITLE
   APPLICATION_TITLE := $(APPLICATION_ID)
@@ -581,7 +581,6 @@ ifndef APPLICATION_BUILDTOOL_PATH
   APPLICATION_BUILDTOOL_PATH = $(APPLICATION_TOOL_PATH)/buildtool
 endif
  
-
 
 
 

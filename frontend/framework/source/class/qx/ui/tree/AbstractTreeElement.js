@@ -711,9 +711,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       e._treeProcessed = true;
     },
 
-    /**
-     * @signature function()
-     */
+
+
     _onmouseup : function(e)
     {
       if (e._treeProcessed) {
