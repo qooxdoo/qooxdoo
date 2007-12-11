@@ -481,6 +481,7 @@ exec-testrunner-build:
 	@cp -f $(TESTRUNNER_BUILD_PATH)/script/testrunner.js $(APPLICATION_TEST_PATH)/script
 	@cp -f $(TESTRUNNER_BUILD_PATH)/index.html $(APPLICATION_TEST_PATH)
 	@cp -f $(TESTRUNNER_SOURCE_PATH)/html/QooxdooTest.html $(APPLICATION_TEST_PATH)/html/tests.html
+	@cp -f $(TESTRUNNER_SOURCE_PATH)/html/QooxdooTest-source.html $(APPLICATION_TEST_PATH)/html/tests-source.html
 	@cp -Rf $(TESTRUNNER_BUILD_PATH)/resource $(APPLICATION_TEST_PATH)
 
 	@# restore old testrunner build contents
@@ -515,6 +516,35 @@ exec-tests-build:
 	   --optimize-strings --optimize-variables \
 	   --generate-compiled-script \
 	   --compiled-script-file $(APPLICATION_TEST_PATH)/script/tests.js
+
+
+
+exec-tests-source:
+	$(SILENCE) $(CMD_GENERATOR) \
+	   --class-path $(FRAMEWORK_SOURCE_PATH)/class \
+	   --class-uri=../../$(FRAMEWORK_SOURCE_PATH)/class \
+	   --class-path $(TESTRUNNER_SOURCE_PATH)/class \
+	   --class-uri=../../$(TESTRUNNER_SOURCE_PATH)/class \
+	   --class-path $(APPLICATION_SOURCE_PATH)/class \
+	   --class-uri=../../$(APPLICATION_SOURCE_PATH)/class \
+	   --include testrunner.TestLoader \
+	   --include $(APPLICATION_NAMESPACE).* \
+	   --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
+	   --add-require qx.log.Logger:qx.log.appender.Native \
+	   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	   --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(TESTRUNNER_NAMESPACE_PATH) \
+	   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(APPLICATION_NAMESPACE_PATH) \
+	   --use-setting qx.minLogLevel:700 \
+	   --use-setting qx.application:testrunner.TestLoader \
+	   --use-setting qx.theme:qx.theme.ClassicRoyale \
+	   --copy-resources \
+	   --generate-source-script \
+	   --source-script-file $(APPLICATION_TEST_PATH)/script/tests-source.js
+
+
 
 #
 # BuildTool targets
