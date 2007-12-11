@@ -1530,7 +1530,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       e.preventDefault();
 
-      if (!this.isEditable() && this._list.isSeeable()) {
+      if (!this.isEditable() && this._list && this._list.isSeeable()) {
         this._list.dispatchEvent(e);
       }
     },
