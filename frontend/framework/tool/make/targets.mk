@@ -35,7 +35,8 @@ air: info-build exec-download-contribs exec-localization exec-translation exec-s
 build-split: info-build exec-download-contribs exec-localization exec-translation exec-script-build-split exec-files-build build-addon
 api: info-api exec-download-contribs exec-localization exec-translation exec-api-build exec-api-data exec-files-api
 test: info-test exec-localization exec-translation exec-testrunner-build exec-tests-build
-#buildtool: info-buildtool exec-localization exec-translation exec-buildtool-build exec-files-buildtool
+test-source: info-test exec-localization exec-translation exec-testrunner-build exec-tests-source
+buildtool: info-buildtool exec-localization exec-translation exec-buildtool-build exec-files-buildtool
 all: source build api
 
 source-addon: exec-none
