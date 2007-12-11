@@ -76,11 +76,11 @@
         c1.setSelected(c1.getList().getFirstChild());
   
         c1.addEventListener("changeValue", function(e) {
-          this.debug("New value: " + e.getData());
+          this.debug("New value: " + e.getValue());
         });
   
         c1.addEventListener("changeSelected", function(e) {
-          this.debug("New selected: " + e.getData());
+          this.debug("New selected: " + e.getValue());
         });
   
   
