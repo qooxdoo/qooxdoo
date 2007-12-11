@@ -72,8 +72,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
             generatedMethods.push("{@link #" + access + "is" + name + "}</td><td> Check whether the property equals <code>true</code>.");
           }
         }
-
-        var ClassViewer = apiviewer.ui.ClassViewer;
         var textHtml = new qx.util.StringBuilder();
         textHtml.add('<div class="item-detail-headline">', "Generated methods:", '</div>', '<div class="item-detail-text">');
         textHtml.add("<table><tr><td>");
@@ -105,7 +103,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
       if (attributes.length > 0)
       {
-        var ClassViewer = apiviewer.ui.ClassViewer;
         var textHtml = new qx.util.StringBuilder();
         textHtml.add('<div class="item-detail-headline">', "Property attributes:", '</div>', '<div class="item-detail-text">');
         textHtml.add("<ul><li>");
@@ -129,7 +126,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
      */
     __createRefinedFromHtml : function(node)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
       if (node.isRefined())
       {
         var html = new qx.util.StringBuilder(
@@ -170,8 +166,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
      */
     getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
       // Get the property node that holds the documentation
       var docNode = node.getDocNode();
 
@@ -184,7 +178,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         // Add allowed values
         var allowedValue = null;
 
-        possibleValues = qx.lang.Array.clone(node.getPossibleValues());
+        var possibleValues = qx.lang.Array.clone(node.getPossibleValues());
         if (possibleValues.length > 0) {
           if (node.isNullable()) {
             possibleValues.push("null");

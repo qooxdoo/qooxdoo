@@ -71,6 +71,7 @@ CMD_CLDR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/cldr.py
 CMD_MSGFMT = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/msgfmt.py
 CMD_CHECKLOCALES = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/checklocales.py
 CMD_REMOVE = $(CMD_NICE) rm -rf
+CMD_COPY = $(CMD_NICE) cp -f
 CMD_FIND = $(CMD_NICE) find
 CMD_ZIP = $(CMD_NICE) zip
 CMD_TAR = $(CMD_NICE) tar

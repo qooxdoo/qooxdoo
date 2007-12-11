@@ -100,7 +100,7 @@ endif
 
 #
 # Title used during the make process.
-# Default is the uppercase variant of your custom namespace.
+# Default is the uppercase variant of your normal title.
 #
 ifndef APPLICATION_MAKE_TITLE
   APPLICATION_MAKE_TITLE := $(shell echo $(APPLICATION_NAMESPACE) | tr "[:lower:]" "[:upper:]")
@@ -492,7 +492,7 @@ endif
 ifndef APPLICATION_PUBLISH_PATH
   APPLICATION_PUBLISH_PATH = ./publish
 endif
- 
+
 #
 # The folder that will contain a unit test appliction for your classes, defined
 # from the directory which contains the Makefile (if defined relatively). This
@@ -523,7 +523,6 @@ ifndef APPLICATION_BUILDTOOL_PATH
   APPLICATION_BUILDTOOL_PATH = $(APPLICATION_TOOL_PATH)/buildtool
 endif
  
-
 
 
 

@@ -420,6 +420,9 @@ exec-files-buildtool:
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
 
 
+
+
+
 #
 # API targets
 #
@@ -458,6 +461,8 @@ exec-api-build:
 	  --use-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE_PATH) \
 	  --use-setting $(APIVIEWER_NAMESPACE).title:$(APPLICATION_API_TITLE)
 
+
+
 #
 # TestRunner/UnitTest targets
 #
@@ -491,7 +496,6 @@ exec-testrunner-build:
 		 else \
 		    rm -fr $(TESTRUNNER_PATH)/build; \
 		 fi)
-
 
 exec-tests-build:
 	$(SILENCE) $(CMD_GENERATOR) \

@@ -52,12 +52,12 @@ qx.Class.define("qx.lang.Object",
 
 
     /**
-     * Check whether the number of objects in the maps is at least "lenght"
+     * Check whether the number of objects in the maps is at least "length"
      *
      * @type static
      * @param map {Object} the map to check
      * @param length {Integer} minimum number of objects in the map
-     * @return {Boolean} whether the map contains at least "lenght" objects.
+     * @return {Boolean} whether the map contains at least "length" objects.
      */
     hasMinLength : function(map, length)
     {
