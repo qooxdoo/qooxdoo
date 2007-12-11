@@ -239,6 +239,7 @@ qx.Class.define("qx.Theme",
       {
         target[id] = source[id];
 
+        // Appearance themes only:
         // Convert base flag to class reference (needed for mixin support)
         if (target[id].base)
         {
