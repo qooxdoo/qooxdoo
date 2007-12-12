@@ -43,10 +43,7 @@ qx.Class.define("qx.ui.form.ListItem",
   construct : function(vText, vIcon, vValue)
   {
     this.base(arguments, vText, vIcon);
-
-    if (vValue != null) {
-      this.setValue(vValue);
-    }
+    this.setValue(vValue || null);
 
     this.addListener("dblclick", this._ondblclick);
 
@@ -108,6 +105,7 @@ qx.Class.define("qx.ui.form.ListItem",
     value :
     {
       check : "String",
+      nullable : true,
       event : "changeValue"
     }
   },
