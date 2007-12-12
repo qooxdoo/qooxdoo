@@ -24,7 +24,6 @@ import re, os, sys, zlib
 from modules import filetool
 from modules import textutil
 
-from generator2 import classpath
 from generator2 import variantutil
 from generator2 import scriptutil
 
@@ -35,6 +34,8 @@ from generator2.Locale import Locale
 from generator2.PartBuilder import PartBuilder
 from generator2.TreeLoader import TreeLoader
 from generator2.TreeCompiler import TreeCompiler
+from generator2.QxPath import QxPath
+from generator2.ExtPath import ExtPath
 
 
 class Generator:
@@ -45,7 +46,7 @@ class Generator:
         self._settings = settings
 
         self._cache = Cache(self._config.split("cache"), self._console)
-        self._classes = classpath.getClasses(self._config.split("library"), self._console)
+        self._classes = self.getClasses()
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, self._config.get("require", {}), self._config.get("use", {}))
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
@@ -55,6 +56,36 @@ class Generator:
 
         self.run()
 
+
+
+    def getClasses(self):
+        self._console.info("Scanning class paths...")
+        self._console.indent()
+
+        classes = {}
+        for segment in self._config.split("library").iter():
+            entryType = segment.get("type", "qooxdoo")
+            entryDir = segment.get("path", ".")
+            
+            self._console.debug("Path: %s, Type: %s" % (entryDir, entryType))
+            self._console.indent()
+         
+            if entryType == "ext":
+                ExtPath(segment, classes, self._console)
+            elif entryType == "qooxdoo":
+                QxPath(segment, classes, self._console)
+            else:
+                self._console.outdent()
+                raise NameError("Unsupported path type: %s" % entryType)
+            
+            self._console.outdent()
+            
+        self._console.outdent()
+        self._console.debug("")
+    
+        return classes
+    
+            
 
     def run(self):
         # Preprocess include/exclude lists
