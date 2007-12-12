@@ -1,9 +1,9 @@
 import sys
 
-class PartUtil:
+class PartBuilder:
     def __init__(self, console, deputil, compiler):
         self._console = console
-        self._deputil = deputil
+        self._depLoader = deputil
         self._compiler = compiler
 
 
@@ -87,7 +87,7 @@ class PartUtil:
                 continue
 
             # Finally resolve the dependencies
-            partClasses = self._deputil.resolveDependencies(partIncludes[partId], partExcludes, variants)
+            partClasses = self._depLoader.resolveDependencies(partIncludes[partId], partExcludes, variants)
 
             # Remove all non-included files
             # Need to work on a copy because of runtime changes
@@ -316,7 +316,7 @@ class PartUtil:
 
         resultClasses = []
         for pkgId in packageIds:
-            resultClasses.append(self._deputil.sortClasses(packageClasses[pkgId], variants))
+            resultClasses.append(self._depLoader.sortClasses(packageClasses[pkgId], variants))
 
         return resultClasses
 

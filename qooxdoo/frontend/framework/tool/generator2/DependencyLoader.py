@@ -3,12 +3,12 @@ import sys
 from modules import config, treeutil, filetool
 from generator2 import variantutil
 
-class DependencyUtil:
+class DependencyLoader:
     def __init__(self, classes, cache, console, treeutil, loadDeps, runDeps):
         self._classes = classes
         self._cache = cache
         self._console = console
-        self._treeutil = treeutil
+        self._treeLoader = treeutil
         self._loadDeps = loadDeps
         self._runDeps = runDeps
         self._memCache = {}
@@ -224,7 +224,7 @@ class DependencyUtil:
         loadtimeDeps = []
         runtimeDeps = []
 
-        tree = self._treeutil.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getVariantsTree(fileId, variants)
         self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, False)
 
         return loadtimeDeps, runtimeDeps

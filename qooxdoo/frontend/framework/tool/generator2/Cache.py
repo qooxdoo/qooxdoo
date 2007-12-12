@@ -2,8 +2,8 @@ import os, sys, sha, cPickle
 from modules import filetool
 
 class Cache:
-    def __init__(self, path, console):
-        self._path = path
+    def __init__(self, config, console):
+        self._path = config.get("path")
         self._console = console
 
 

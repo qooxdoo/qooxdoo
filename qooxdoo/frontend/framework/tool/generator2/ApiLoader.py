@@ -2,12 +2,12 @@ import sys, os
 from modules import api, tree, filetool
 
 
-class ApiUtil:
+class ApiLoader:
     def __init__(self, classes, cache, console, treeutil):
         self._classes = classes
         self._cache = cache
         self._console = console
-        self._treeutil = treeutil
+        self._treeLoader = treeutil
 
 
     def getApi(self, fileId):
@@ -22,7 +22,7 @@ class ApiUtil:
         self._console.debug("Generating API data: %s..." % fileId)
 
         self._console.indent()
-        tree = self._treeutil.getTree(fileId)
+        tree = self._treeLoader.getTree(fileId)
         (data, hasError) = api.createDoc(tree)
         self._console.outdent()
 

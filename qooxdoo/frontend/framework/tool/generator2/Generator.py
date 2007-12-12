@@ -28,13 +28,13 @@ from generator2 import classpath
 from generator2 import variantutil
 from generator2 import scriptutil
 
-from generator2.ApiUtil import ApiUtil
+from generator2.ApiLoader import ApiLoader
 from generator2.Cache import Cache
-from generator2.TreeUtil import TreeUtil
-from generator2.DependencyUtil import DependencyUtil
-from generator2.Compiler import Compiler
-from generator2.PartUtil import PartUtil
+from generator2.DependencyLoader import DependencyLoader
 from generator2.Locale import Locale
+from generator2.PartBuilder import PartBuilder
+from generator2.TreeLoader import TreeLoader
+from generator2.TreeCompiler import TreeCompiler
 
 
 class Generator:
@@ -44,14 +44,14 @@ class Generator:
         self._variants = variants
         self._settings = settings
 
-        self._cache = Cache(self._config.get("cache/path"), self._console)
+        self._cache = Cache(self._config.split("cache"), self._console)
         self._classes = classpath.getClasses(self._config.split("library"), self._console)
-        self._treeutil = TreeUtil(self._classes, self._cache, self._console)
-        self._deputil = DependencyUtil(self._classes, self._cache, self._console, self._treeutil, self._config.get("require", {}), self._config.get("use", {}))
-        self._compiler = Compiler(self._classes, self._cache, self._console, self._treeutil)
-        self._locale = Locale(self._classes, self._cache, self._console, self._treeutil)        
-        self._apiutil = ApiUtil(self._classes, self._cache, self._console, self._treeutil)
-        self._partutil = PartUtil(self._console, self._deputil, self._compiler)
+        self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
+        self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, self._config.get("require", {}), self._config.get("use", {}))
+        self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
+        self._locale = Locale(self._classes, self._cache, self._console, self._treeLoader)        
+        self._apiLoader = ApiLoader(self._classes, self._cache, self._console, self._treeLoader)
+        self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         self.run()
 
@@ -84,7 +84,7 @@ class Generator:
             # Resolving dependencies                
             self._console.info("Resolving dependencies...")
             self._console.indent()
-            classList = self._deputil.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
             self._console.outdent()
 
 
@@ -114,7 +114,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                partContent, packageContent = self._partutil.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+                partContent, packageContent = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
 
             else:
                 # Emulate configuration
@@ -181,7 +181,7 @@ class Generator:
         if not apiPath:
             return
 
-        self._apiutil.storeApi(classList, apiPath)
+        self._apiLoader.storeApi(classList, apiPath)
 
 
 
@@ -205,7 +205,7 @@ class Generator:
                  self._console.indent()
 
                  for otherClassId in packageContent:
-                     otherClassDeps = self._deputil.getDeps(otherClassId, variants)
+                     otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
 
                      if classId in otherClassDeps["load"]:
                          self._console.debug("Used by: %s (load)" % otherClassId)
@@ -298,7 +298,7 @@ class Generator:
             self._console.indent()
 
             # Compile file content
-            compiledContent = self._compiler.compileClasses(packageContent, variants, optimize, format)
+            compiledContent = self._treeCompiler.compileClasses(packageContent, variants, optimize, format)
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)

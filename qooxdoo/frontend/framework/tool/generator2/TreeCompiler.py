@@ -2,12 +2,12 @@ import copy, optparse
 from modules import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, treeutil
 from generator2 import variantutil
 
-class Compiler:
+class TreeCompiler:
     def __init__(self, classes, cache, console, treeutil):
         self._classes = classes
         self._cache = cache
         self._console = console
-        self._treeutil = treeutil
+        self._treeLoader = treeutil
 
 
     def compileClasses(self, classes, variants, optimize, format):
@@ -34,7 +34,7 @@ class Compiler:
         if compiled != None:
             return compiled
 
-        tree = copy.deepcopy(self._treeutil.getVariantsTree(fileId, variants))
+        tree = copy.deepcopy(self._treeLoader.getVariantsTree(fileId, variants))
 
         if len(optimize) > 0:
             self._console.debug("Optimizing tree: %s..." % fileId)
@@ -60,7 +60,7 @@ class Compiler:
         if size != None:
             return size
 
-        tree = self._treeutil.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getVariantsTree(fileId, variants)
 
         self._console.debug("Computing compiled size: %s..." % fileId)
         compiled = self.compileTree(tree)

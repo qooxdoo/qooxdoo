@@ -2,7 +2,7 @@ import os, sys, copy, zlib
 from modules import tokenizer, treegenerator, variantoptimizer
 from generator2 import variantutil
 
-class TreeUtil:
+class TreeLoader:
     def __init__(self, classes, cache, console):
         self._classes = classes
         self._cache = cache
