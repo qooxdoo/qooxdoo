@@ -260,9 +260,8 @@ class Generator:
             self._console.info("Processing package #%s" % packageId)
             self._console.indent()
             
-            strings = self._locale.getPackageStrings(packageContent, variants)
-            for entry in strings:
-                print "%s: %s" % (entry, strings[entry])
+            po = self._locale.getPoFile(packageContent, variants)
+            print po
                 
             self._console.outdent()
 

@@ -14,8 +14,10 @@ class QxPath:
     _localeFile = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
 
 
+
     def isDocFile(self, fileName, fileContent):
         return fileName == "__init__.js"
+
 
 
     def isImplFile(self, fileName, fileContent):
@@ -24,12 +26,14 @@ class QxPath:
 
         return False
         
+        
     
     def isLocaleFile(self, fileName, fileContent):
         for item in self._localeFile.findall(fileContent):
             return True
 
         return False
+        
 
 
     def getContentType(self, fileName, fileContent):
@@ -43,6 +47,7 @@ class QxPath:
             return "doc"
 
         return None
+
 
 
     def getContentId(self, fileType, filePathId, fileContent):
@@ -59,17 +64,6 @@ class QxPath:
         return None
 
 
-    def getClassFolderName(self):
-        return self._config.get("folders/class", "class")
-
-
-    def getResourceFolderName(self):
-        return self._config.get("folders/resource", "resource")
-
-
-    def getTranslationFolder(self):
-        return self._config.get("folders/translation", "translation")
-
 
     # Normally there is no need to overwrite this one!
     def scan(self):
@@ -77,9 +71,9 @@ class QxPath:
         uri = self._config.get("uri", path)
         encoding = self._config.get("encoding", "utf-8")
 
-        classFolder = self.getClassFolderName()
-        # resourceFolder = self.getResourceFolderName()
-        # translationFolder = self.getTranslationFolderName()
+        classFolder = "class"
+        resourceFolder = "resource"
+        translationFolder = "translation"
 
         if path == "":
             self._console.error("Missing path information!")

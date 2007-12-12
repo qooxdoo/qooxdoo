@@ -1,0 +1,99 @@
+=====
+polib
+=====
+
+:Author: David JEAN LOUIS <izimobil@gmail>
+:Title: polib
+:Version: 0.3.0
+:License: MIT License
+:Date: 16 oct. 2007
+
+A library to manipulate gettext files (po and mo files).
+
+polib allows you to manipulate, create, modify gettext files (pot, po and mo
+files).  You can load existing files, iterate through it's entries, add,
+modify entries, comments or metadata, etc... or create new po files from
+scratch.
+
+polib provides a simple and pythonic API, exporting only three convenience
+functions 'pofile', 'mofile' and 'detect_encoding', and the 4 core classes:
+POFile, MOFile, POEntry and MOEntry for creating new files/entries.
+
+
+Installation
+------------
+
+Download latest version from: http://cheeseshop.python.org/pypi/polib/
+
+On unix systems
+~~~~~~~~~~~~~~~
+
+::
+
+  $ tar xzfv polib-x.y.z.tar.gz
+  $ cd polib-x.y.z
+  $ python setup build
+  $ sudo python setup.py install
+
+If your system support the rpm format you can alternatively download the
+binary rpm (polib-x.y.z-k.rpm) and install it as usual.
+
+On windows systems
+~~~~~~~~~~~~~~~~~~
+
+We recommend you download and install the binary package provided
+(polib-x.y.z.win32.exe).
+
+
+Basic usage example
+-------------------
+
+::
+
+>>> import polib
+>>> # load an existing po file
+>>> po = polib.pofile('tests/test_utf8.po')
+>>> for entry in po:
+...     # do something with entry...
+...     print entry.msgid, entry.msgstr
+>>> # add an entry
+>>> entry = polib.POEntry(msgid='Welcome', msgstr='Bienvenue')
+>>> entry.occurences = [('welcome.py', '12'), ('anotherfile.py', '34')]
+>>> po.append(entry)
+>>> # save our modified po file
+>>> po.save()
+
+
+Development
+-----------
+
+Bugtracker, wiki and svn repository can be found at:
+  http://code.google.com/p/polib/
+
+New released are published at python cheeseshop:
+  http://cheeseshop.python.org/pypi/polib/
+
+
+Credits
+-------
+
+Original author
+~~~~~~~~~~~~~~~
+
+David JEAN LOUIS <izimobil@gmail.com>
+
+Contributors
+~~~~~~~~~~~~
+
+* Yuri Baburov <burchik@gmail.com>
+
+
+References
+----------
+
+* Gettext manual: http://www.gnu.org/software/gettext/manual/
+* PO file format:
+  http://www.gnu.org/software/gettext/manual/html_node/gettext_9.html
+* MO file format:
+  http://www.gnu.org/software/gettext/manual/html_node/gettext_136.html
+
