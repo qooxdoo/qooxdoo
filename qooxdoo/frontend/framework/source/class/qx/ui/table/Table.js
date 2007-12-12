@@ -1499,9 +1499,9 @@ qx.Class.define("qx.ui.table.Table",
         var text;
 
         if (selectedRowCount == 0) {
-          text = rowCount + ((rowCount == 1) ? " row" : " rows");
+          text = this.trn("one row", "%1 rows", rowCount, rowCount);
         } else {
-          text = selectedRowCount + " of " + rowCount + ((rowCount == 1) ? " row" : " rows") + " selected";
+          text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
         }
 
         this._statusBar.setText(text);
