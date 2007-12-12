@@ -22,7 +22,6 @@
 import sys, os, optparse, simplejson
 
 from modules import optparseext
-from generator2 import featureset
 
 from generator2.Log import Log
 from generator2.Config import Config
@@ -52,11 +51,11 @@ def main():
 
     (options, args) = parser.parse_args(sys.argv[1:])
 
-    process(options)
+    _processOptions(options)
 
 
 
-def process(options):
+def _processOptions(options):
     # Initialize console
     if options.verbose:
         console = Log(options.logfile, "debug")
@@ -84,9 +83,8 @@ def process(options):
     # Convert into Config class instance
     config = Config(config)
 
-    # Process feature sets
-    variants, settings = featureset.execute(console, options.featuresets,
-        _splitListToDict(options.variants), _splitListToDict(options.settings))
+    # Processing feature sets
+    variants, settings = _executeFeatureSets(console, options)
 
     # Processing jobs...
     for job in options.jobs:
@@ -141,6 +139,72 @@ def _mergeEntry(target, source):
     for key in source:
         if not target.has_key(key):
             target[key] = source[key]
+
+
+
+def _executeFeatureSets(console, options):
+    sets = options.featuresets
+    variants = _splitListToDict(options.variants)
+    settings = _splitListToDict(options.settings)
+    
+    runtime = {
+      "variant" : _translateVariantValuesToFeatureSet(variants),
+      "setting" : _translateSettingValuesToFeatureSet(settings)
+    }
+
+    for fileName in sets:
+        console.debug("Executing feature set: %s" % fileName)
+        execfile(fileName, {}, runtime)
+
+    # Convert to useable variants and settings
+    variants = _translateVariantValuesFromFeatureSet(runtime["variant"])
+    settings = _translateSettingValuesFromFeatureSet(runtime["setting"])
+    
+    return variants, settings
+    
+    
+    
+def _translateVariantValuesToFeatureSet(data):
+    for key in data:
+        if data[key] == "on":
+            data[key] = True
+        elif data[key] == "off":
+            data[key] = False
+
+    return data
+
+
+
+def _translateVariantValuesFromFeatureSet(data):
+    for key in data:
+        if data[key] == True:
+            data[key] = "on"
+        elif data[key] == False:
+            data[key] = "off"
+
+    return data
+
+
+
+def _translateSettingValuesToFeatureSet(data):
+    for key in data:
+        if data[key] == "true":
+            data[key] = True
+        elif data[key] == "false":
+            data[key] = False
+
+    return data
+
+
+
+def _translateSettingValuesFromFeatureSet(data):
+    for key in data:
+        if data[key] == True:
+            data[key] = "true"
+        elif data[key] == False:
+            data[key] = "false"
+
+    return data    
 
 
 

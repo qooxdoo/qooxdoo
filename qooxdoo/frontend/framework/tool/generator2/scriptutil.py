@@ -6,24 +6,6 @@ from modules import variableoptimizer
 from modules import compiler
 
 
-def protectJavaScript(code):
-    return "(function(){" + code + "})();"
-
-
-def blocksToCode(code, format=False):
-    if format:
-        result = "\n".join(code)
-    else:
-        result = "".join(code)
-
-    result = protectJavaScript(result)
-
-    if not format:
-        result = optimizeJavaScript(result)
-
-    return result
-
-
 def optimizeJavaScript(code):
     restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
     variableoptimizer.search(restree, [], 0, 0, "$")
