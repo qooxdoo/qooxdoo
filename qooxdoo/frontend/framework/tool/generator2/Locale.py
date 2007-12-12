@@ -10,9 +10,7 @@ class Locale:
         
         
     _matches = [
-      "this.tr", "this.trn", "this.trc", "this.marktr",
-      "self.tr", "self.trn", "self.trc", "self.marktr",
-      "Manager.tr", "Manager.trn", "Manager.trc", "Manager.marktr"            
+      ".tr", ".trn", ".trc", ".marktr"
     ]
         
     
@@ -71,8 +69,10 @@ class Locale:
                 var = oper.getChild("variable", False)
                 if var:
                     varname = treeutil.assembleVariable(var)
-                    if varname in self._matches:
-                        self._addString(strings, node, var)                     
+                    for entry in self._matches:
+                        if varname.endswith(entry):
+                            self._addString(strings, node, var)
+                            break
             
         if node.hasChildren():
             for child in node.children:
@@ -82,12 +82,11 @@ class Locale:
         
         
     def _addString(self, strings, node, var):
-        string = treeutil.selectNode(node, "params/constant")
+        try:
+            string = node.getChild("params").getChildByTypeAndAttribute("constant", "constantType", "string", True)
+        except NodeAccessException:
+            raise NameError("Found locale element with invalid content: " % node.get("line"))
         
-        if not string:
-            self._console.warn("Found no constant at line: " % node.get("line"))
-            return
-            
         value = string.get("value")
         
         if not strings.has_key(value):
