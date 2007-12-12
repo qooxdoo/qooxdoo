@@ -48,7 +48,7 @@ class Generator:
         self._cache = Cache(self._config.split("cache"), self._console)
         self._classes = self.getClasses()
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
-        self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, self._config.get("require", {}), self._config.get("use", {}))
+        self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._config, self._treeLoader)
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._locale = Locale(self._classes, self._cache, self._console, self._treeLoader)        
         self._apiLoader = ApiLoader(self._classes, self._cache, self._console, self._treeLoader)

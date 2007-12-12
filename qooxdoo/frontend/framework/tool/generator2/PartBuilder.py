@@ -1,9 +1,9 @@
 import sys
 
 class PartBuilder:
-    def __init__(self, console, deputil, compiler):
+    def __init__(self, console, depLoader, compiler):
         self._console = console
-        self._depLoader = deputil
+        self._depLoader = depLoader
         self._compiler = compiler
 
 

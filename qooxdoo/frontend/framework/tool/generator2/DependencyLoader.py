@@ -4,13 +4,13 @@ from modules import config, treeutil, filetool
 from generator2 import variantutil
 
 class DependencyLoader:
-    def __init__(self, classes, cache, console, treeutil, loadDeps, runDeps):
+    def __init__(self, classes, cache, console, config, treeLoader):
         self._classes = classes
         self._cache = cache
         self._console = console
-        self._treeLoader = treeutil
-        self._loadDeps = loadDeps
-        self._runDeps = runDeps
+        self._treeLoader = treeLoader
+        self._loadDeps = config.get("load", {})
+        self._runDeps = config.get("use", {})
         self._memCache = {}
 
 

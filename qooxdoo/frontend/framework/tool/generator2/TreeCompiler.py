@@ -3,11 +3,11 @@ from modules import compiler, variableoptimizer, stringoptimizer, basecalloptimi
 from generator2 import variantutil
 
 class TreeCompiler:
-    def __init__(self, classes, cache, console, treeutil):
+    def __init__(self, classes, cache, console, treeLoader):
         self._classes = classes
         self._cache = cache
         self._console = console
-        self._treeLoader = treeutil
+        self._treeLoader = treeLoader
 
 
     def compileClasses(self, classes, variants, optimize, format):
