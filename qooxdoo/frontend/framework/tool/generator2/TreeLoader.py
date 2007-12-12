@@ -1,6 +1,6 @@
 import os, sys, copy, zlib
 from modules import tokenizer, treegenerator, variantoptimizer
-from generator2 import variantutil
+from generator2 import util
 
 class TreeLoader:
     def __init__(self, classes, cache, console):
@@ -59,7 +59,7 @@ class TreeLoader:
 
 
     def cleanVariantsTree(self, fileId, variants):
-        cacheId = "%s-tree-%s" % (fileId, variantutil.generateId(variants))
+        cacheId = "%s-tree-%s" % (fileId, util.generateId(variants))
         self._cache.clean(cacheId)
 
 
@@ -67,7 +67,7 @@ class TreeLoader:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        cacheId = "%s-tree-%s" % (fileId, variantutil.generateId(variants))
+        cacheId = "%s-tree-%s" % (fileId, util.generateId(variants))
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
             return tree

@@ -1,12 +1,12 @@
-from generator2 import variantutil
+from generator2 import util
 from modules import treeutil
 
 class Locale:
-    def __init__(self, classes, cache, console, treeutil):
+    def __init__(self, classes, cache, console, treeLoader):
         self._classes = classes
         self._cache = cache
         self._console = console
-        self._treeutil = treeutil
+        self._treeLoader = treeLoader
         
         
     _matches = [
@@ -41,7 +41,7 @@ class Locale:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
         
-        variantsId = variantutil.generateId(variants)
+        variantsId = util.generateId(variants)
 
         cacheId = "%s-locale-%s" % (fileId, variantsId)
         
@@ -49,7 +49,7 @@ class Locale:
         if strings != None:
             return strings
             
-        tree = self._treeutil.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getVariantsTree(fileId, variants)
 
         self._console.debug("Looking for localizable strings: %s..." % fileId)
         strings = self._findStrings(tree)

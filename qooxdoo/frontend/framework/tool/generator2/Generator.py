@@ -24,9 +24,7 @@ import re, os, sys, zlib
 from modules import filetool
 from modules import textutil
 
-from generator2 import variantutil
-from generator2 import scriptutil
-
+from generator2 import util
 from generator2.ApiLoader import ApiLoader
 from generator2.Cache import Cache
 from generator2.DependencyLoader import DependencyLoader
@@ -96,7 +94,7 @@ class Generator:
 
         # Processing all combinations of variants
         variantData = self.getVariants()
-        variantSets = variantutil.computeCombinations(variantData)
+        variantSets = util.computeCombinations(variantData)
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
@@ -305,7 +303,7 @@ class Generator:
         if format:
             bootContent = "\n\n".join(bootBlocks)
         else:
-            bootContent = scriptutil.optimizeJavaScript("".join(bootBlocks))
+            bootContent = util.optimizeJavaScript("".join(bootBlocks))
 
         # Resolve file name variables
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -372,7 +370,7 @@ class Generator:
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
         else:
-            sourceContent = scriptutil.optimizeJavaScript("".join(sourceBlocks))
+            sourceContent = util.optimizeJavaScript("".join(sourceBlocks))
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)

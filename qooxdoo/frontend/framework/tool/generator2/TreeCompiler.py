@@ -1,6 +1,6 @@
 import copy, optparse
 from modules import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, treeutil
-from generator2 import variantutil
+from generator2 import util
 
 class TreeCompiler:
     def __init__(self, classes, cache, console, treeLoader):
@@ -25,7 +25,7 @@ class TreeCompiler:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = variantutil.generateId(variants)
+        variantsId = util.generateId(variants)
         optimizeId = self.generateOptimizeId(optimize)
 
         cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
@@ -53,7 +53,7 @@ class TreeCompiler:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = variantutil.generateId(variants)
+        variantsId = util.generateId(variants)
         cacheId = "%s-compiled-size-%s" % (fileId, variantsId)
 
         size = self._cache.read(cacheId, filePath)
@@ -71,7 +71,7 @@ class TreeCompiler:
 
 
     def cleanCompiled(self, fileId, variants, optimize, format=False):
-        variantsId = variantutil.generateId(variants)
+        variantsId = util.generateId(variants)
         optimizeId = self.generateOptimizeId(variants)
 
         cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
