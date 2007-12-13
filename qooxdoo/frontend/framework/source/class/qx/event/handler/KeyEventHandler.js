@@ -215,6 +215,9 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
       "opera" : function(domEvent) {
         this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
+
+        // Store key code
+        this._lastKeyCode = domEvent.keyCode;
       },
 
       "default" : function() {
@@ -311,21 +314,31 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
       "opera" : function(domEvent)
       {
-        if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
-          this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
-        } else {
-          this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+
+        var keyCode = domEvent.keyCode;
+        var type = domEvent.type;
+
+        if(keyCode != this._lastKeyCode)
+        {
+          this._idealKeyHandler(0, this._lastKeyCode, type, domEvent);
         }
+        else
+        {
+          if (this._keyCodeToIdentifierMap[keyCode]) {
+            this._idealKeyHandler(keyCode, 0, type, domEvent);
+          } else {
+            this._idealKeyHandler(0, keyCode, type, domEvent);
+          }
+        }
+
+        // Store key code
+        this._lastKeyCode = keyCode;
       },
 
       "default" : function() {
         throw new Error("Unsupported browser for key event handler!");
       }
     }),
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -581,6 +594,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      */
     _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
     {
+
       if (!keyCode && !charCode) {
         return;
       }
@@ -674,6 +688,10 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
         13    : members._identifierToKeyCode("Enter")
       };
     }
+    else if (qx.core.Variant.isSet("qx.client", "opera"))
+    {
+      members._lastKeyCode = null;
+    }
   },
 
 
@@ -688,6 +706,6 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
   destruct : function()
   {
     this._detachEvents();
-    this._disposeFields("_lastUpDownType");
+    this._disposeFields("_lastUpDownType", "_lastKeyCode");
   }
 });
