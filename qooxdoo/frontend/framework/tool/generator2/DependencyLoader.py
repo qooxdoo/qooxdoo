@@ -9,7 +9,7 @@ class DependencyLoader:
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
-        self._loadDeps = config.get("load", {})
+        self._loadDeps = config.get("require", {})
         self._runDeps = config.get("use", {})
         self._memCache = {}
 
@@ -58,12 +58,12 @@ class DependencyLoader:
         if len(include) == 0:
             self._console.info("Including all known classes")
             result = self._classes.keys()
-            
+
             # In this case the block works like an exclicit exclude
             # because all classes are included like an explicit include.
             for classId in block:
                 result.remove(classId)
-            
+
         else:
             result = []
             for item in include:
@@ -372,7 +372,7 @@ class DependencyLoader:
                 for optional in self.getMeta(classId)["optionalDeps"]:
                     if not optional in include and not optional in result:
                         result.append(optional)
-            
+
             # Not all meta data contains optional infos
             except KeyError:
                 continue
