@@ -9,8 +9,7 @@ class DependencyLoader:
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
-        self._loadDeps = config.get("require", {})
-        self._runDeps = config.get("use", {})
+        self._config = config
         self._memCache = {}
 
 
@@ -120,12 +119,13 @@ class DependencyLoader:
         runFinal.extend(static["run"])
 
         # add dynamic dependencies
-        if self._loadDeps.has_key(fileId):
-            loadFinal.extend(self._loadDeps[fileId])
+        loadDeps = self._config.get("require", {})
+        if loadDeps.has_key(fileId):
+            loadFinal.extend(loadDeps[fileId])
 
-        if self._runDeps.has_key(fileId):
-            runFinal.extend(self._runDeps[fileId])
-
+        runDeps = self._config.get("use", {})
+        if runDeps.has_key(fileId):
+            runFinal.extend(runDeps[fileId])
 
         # return dict
         return {
