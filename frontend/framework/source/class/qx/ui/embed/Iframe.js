@@ -303,18 +303,25 @@ qx.Class.define("qx.ui.embed.Iframe",
 
         var currentSource = this.queryCurrentUrl() || this.getSource();
 
-        /*
-        Some gecko users might have an exception here:
-          Exception... "Component returned failure code: 0x805e000a
-          [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
-        */
-        try {
-          this.getContentWindow().location.replace(currentSource);
-        }
-        catch(ex)
+        try
         {
-          this.warn("Could not reload iframe using location.replace()!", ex);
-          this.getIframeNode().src = currentSource;
+          /*
+          Some gecko users might have an exception here:
+            Exception... "Component returned failure code: 0x805e000a
+            [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+          */
+          try
+          {
+            this.getContentWindow().location.replace(currentSource);
+          }
+          catch(ex)
+          {
+            this.warn("Could not reload iframe using location.replace()!", ex);
+            this.getIframeNode().src = currentSource;
+          }
+        }
+        catch(ex) {
+          this.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
         }
       }
     },
@@ -553,26 +560,35 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       this._isLoaded = false;
 
-      // the guru says ...
-      // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
-      // with the history (which is taken care of by the history manager), but there
-      // has to be a loaded document
-      if (this.getContentWindow())
+      try
       {
-        /*
-        Some gecko users might have an exception here:
-          Exception... "Component returned failure code: 0x805e000a
-          [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
-        */
-        try {
-          this.getContentWindow().location.replace(currentSource);
-        } catch(ex) {
+        // the guru says ...
+        // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
+        // with the history (which is taken care of by the history manager), but there
+        // has to be a loaded document
+        if (this.getContentWindow())
+        {
+          /*
+          Some gecko users might have an exception here:
+            Exception... "Component returned failure code: 0x805e000a
+            [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+          */
+          try
+          {
+            this.getContentWindow().location.replace(currentSource);
+          }
+          catch(ex)
+          {
+            this.getIframeNode().src = currentSource;
+          }
+        }
+        else
+        {
           this.getIframeNode().src = currentSource;
         }
       }
-      else
-      {
-        this.getIframeNode().src = currentSource;
+      catch(ex) {
+        this.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
       }
     },
 
