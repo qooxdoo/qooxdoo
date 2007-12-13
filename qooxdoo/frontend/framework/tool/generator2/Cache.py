@@ -5,8 +5,8 @@ class Cache:
     def __init__(self, config, console, dynamic=100):
         self._path = config.get("path")
         self._console = console
-        self._memory = {}
         self._dynamic = dynamic
+        self._memory = {}
 
 
     def _storeInMemory(self, cacheId, flag, content):
