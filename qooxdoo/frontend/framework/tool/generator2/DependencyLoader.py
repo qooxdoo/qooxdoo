@@ -10,7 +10,6 @@ class DependencyLoader:
         self._console = console
         self._treeLoader = treeLoader
         self._config = config
-        self._memCache = {}
 
 
 
@@ -142,14 +141,10 @@ class DependencyLoader:
         filePath = self._classes[fileId]["path"]
         cacheId = "%s-deps-%s" % (fileId, util.generateId(variants))
 
-        if self._memCache.has_key(cacheId):
-            return self._memCache[cacheId]
-
         # print "Read from cache: %s" % fileId
 
-        deps = self._cache.read(cacheId, filePath)
+        deps = self._cache.read(cacheId, filePath, True)
         if deps != None:
-            self._memCache[cacheId] = deps
             return deps
 
         # Notes:
@@ -205,8 +200,7 @@ class DependencyLoader:
             "run" : run
         }
 
-        self._cache.write(cacheId, deps)
-        self._memCache[cacheId] = deps
+        self._cache.write(cacheId, deps, True)
 
         return deps
 
@@ -329,12 +323,8 @@ class DependencyLoader:
         filePath = fileEntry["path"]
         cacheId = "%s-meta" % fileId
 
-        if self._memCache.has_key(cacheId):
-            return self._memCache[cacheId]
-
-        meta = self._cache.read(cacheId, filePath)
+        meta = self._cache.read(cacheId, filePath, True)
         if meta != None:
-            self._memCache[cacheId] = meta
             return meta
 
         meta = {}
@@ -358,8 +348,7 @@ class DependencyLoader:
 
         self._console.outdent()
 
-        self._cache.write(cacheId, meta)
-        self._memCache[cacheId] = meta
+        self._cache.write(cacheId, meta, True)
 
         return meta
 
