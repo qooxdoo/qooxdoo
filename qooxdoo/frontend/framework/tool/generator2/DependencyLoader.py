@@ -1,4 +1,4 @@
-import sys
+import sys, re
 
 from modules import config, treeutil, filetool
 from generator2 import util
@@ -144,6 +144,7 @@ class DependencyLoader:
         # print "Read from cache: %s" % fileId
 
         deps = self._cache.read(cacheId, filePath, True)
+        deps = None
         if deps != None:
             return deps
 
@@ -228,21 +229,33 @@ class DependencyLoader:
     def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, inFunction):
         if node.type == "variable":
             assembled = treeutil.assembleVariable(node)
-            if assembled != fileId and self._classes.has_key(assembled):
+
+            # treat dependencies in defer as requires
+            if assembled == "qx.Class.define":
+                if node.parent.type == "operand" and node.parent.parent.type == "call":
+                    deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
+                    if deferNode != None:
+                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, False)
+
+
+            # try to reduce to a class name
+            assembledId = None
+            if self._classes.has_key(assembled):
+                assembledId = assembled
+
+            elif "." in assembled:
+                for entryId in self._classes:
+                    if re.match("%s\W" % entryId, assembled):
+                        assembledId = entryId
+
+            if assembledId and assembledId != fileId and self._classes.has_key(assembledId):
                 if inFunction:
                     target = runtime
                 else:
                     target = loadtime
 
-                if not assembled in target:
-                    target.append(assembled)
-
-            # treat dependencies in defer as requires
-            elif assembled == "qx.Class.define":
-                if node.parent.type == "operand" and node.parent.parent.type == "call":
-                    deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
-                    if deferNode != None:
-                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, False)
+                if not assembledId in target:
+                    target.append(assembledId)
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
