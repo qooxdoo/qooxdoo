@@ -227,39 +227,22 @@ class DependencyLoader:
 
     def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, inFunction):
         if node.type == "variable":
-            if node.hasChildren:
-                assembled = ""
-                first = True
+            assembled = treeutil.assembleVariable(node)
+            if assembled != fileId and self._classes.has_key(assembled):
+                if inFunction:
+                    target = runtime
+                else:
+                    target = loadtime
 
-                for child in node.children:
-                    if child.type == "identifier":
-                        if not first:
-                            assembled += "."
+                if not assembled in target:
+                    target.append(assembled)
 
-                        assembled += child.get("name")
-                        first = False
-
-                        if assembled != fileId and self._classes.has_key(assembled):
-                            if inFunction:
-                                target = runtime
-                            else:
-                                target = loadtime
-
-                            if assembled in target:
-                                return
-
-                            target.append(assembled)
-
-                    else:
-                        assembled = ""
-                        break
-
-                    # treat dependencies in defer as requires
-                    if assembled == "qx.Class.define":
-                        if node.parent.type == "operand" and node.parent.parent.type == "call":
-                            deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
-                            if deferNode != None:
-                                self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, False)
+            # treat dependencies in defer as requires
+            elif assembled == "qx.Class.define":
+                if node.parent.type == "operand" and node.parent.parent.type == "call":
+                    deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
+                    if deferNode != None:
+                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, False)
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True

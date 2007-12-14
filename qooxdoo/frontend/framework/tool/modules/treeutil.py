@@ -336,10 +336,16 @@ def assembleVariable(variableItem):
 
     assembled = ""
     for child in variableItem.children:
-        if child.type != "identifier":
-            return ""
+        if child.type == "commentsBefore":
+            continue
+        elif child.type != "identifier":
+            # this means there is some accessor like part in the variable
+            # e.g. foo["hello"]
+            return assembled
+
         if len(assembled) != 0:
             assembled += "."
+
         assembled += child.get("name")
 
     return assembled
