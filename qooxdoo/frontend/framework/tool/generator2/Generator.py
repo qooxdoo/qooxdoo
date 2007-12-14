@@ -59,7 +59,7 @@ class Generator:
         self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         # Start job
-        #self.run()
+        self.run()
 
 
     def _mergeDicts(self, source1, source2):
