@@ -4,13 +4,13 @@ from modules import config, treeutil, filetool
 from generator2 import util
 
 class DependencyLoader:
-    def __init__(self, classes, cache, console, config, treeLoader):
+    def __init__(self, classes, cache, console, treeLoader, require, use):
         self._classes = classes
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
-        self._config = config
-
+        self._require = require
+        self._use = use
 
 
     def getClassList(self, include, block, explicitInclude, explicitExclude, variants):
@@ -48,7 +48,6 @@ class DependencyLoader:
 
         # Return list
         return result
-
 
 
 
@@ -118,13 +117,11 @@ class DependencyLoader:
         runFinal.extend(static["run"])
 
         # add dynamic dependencies
-        loadDeps = self._config.get("require", {})
-        if loadDeps.has_key(fileId):
-            loadFinal.extend(loadDeps[fileId])
+        if self._require.has_key(fileId):
+            loadFinal.extend(self._require[fileId])
 
-        runDeps = self._config.get("use", {})
-        if runDeps.has_key(fileId):
-            runFinal.extend(runDeps[fileId])
+        if self._use.has_key(fileId):
+            runFinal.extend(self._use[fileId])
 
         # return dict
         return {

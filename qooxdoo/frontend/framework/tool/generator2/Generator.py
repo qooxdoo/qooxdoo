@@ -37,31 +37,54 @@ from generator2.ExtPath import ExtPath
 
 
 class Generator:
-    def __init__(self, config, console, variants, settings):
+    def __init__(self, config, console, variants, settings, require, use):
         self._config = config
         self._console = console
         self._variants = variants
         self._settings = settings
 
-        self._cache = Cache(self._config.split("cache"), self._console)
-        self._classes = self.getClasses()
+        # Merge config deps and runtime deps
+        require = self._mergeDicts(require, config.get("require", {}))
+        use = self._mergeDicts(use, config.get("use", {}))
+
+        # Create instances
+        self._cache = Cache(config.split("cache"), self._console)
+        self._classes = self.getClasses(config.split("library"))
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
-        self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._config, self._treeLoader)
+        self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._locale = Locale(self._classes, self._cache, self._console, self._treeLoader)
         self._apiLoader = ApiLoader(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
+        # Start job
         self.run()
 
 
+    def _mergeDicts(self, source1, source2):
+        target = {}
 
-    def getClasses(self):
+        for key in source1:
+            if not target.has_key(key):
+                target[key] = []
+
+            target[key].extend(source1[key])
+
+        for key in source2:
+            if not target.has_key(key):
+                target[key] = []
+
+            target[key].extend(source2[key])
+
+        return target
+
+
+    def getClasses(self, library):
         self._console.info("Scanning class paths...")
         self._console.indent()
 
         classes = {}
-        for segment in self._config.split("library").iter():
+        for segment in library.iter():
             entryType = segment.get("type", "qooxdoo")
             entryDir = segment.get("path", ".")
 

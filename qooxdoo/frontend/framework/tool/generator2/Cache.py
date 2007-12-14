@@ -2,22 +2,15 @@ import os, sys, sha, cPickle
 from modules import filetool
 
 class Cache:
-    def __init__(self, config, console, dynamic=100):
+    def __init__(self, config, console):
         self._path = config.get("path")
         self._console = console
-        self._dynamic = dynamic
         self._memory = {}
 
 
     def _storeInMemory(self, cacheId, flag, content):
-        if flag:
-            pass
-
-        elif len(repr(content)) < self._dynamic:
-            pass
-
-        else:
-            return False
+        if not flag:
+            return
 
         self._memory[cacheId] = content
 

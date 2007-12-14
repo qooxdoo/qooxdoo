@@ -41,6 +41,8 @@ def main():
     # runtime addons
     parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
     parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
+    parser.add_option("--require", action="extend", dest="require", metavar="CLASS1:CLASS2", type="string", default=[], help="Special loadtime class dependencies")
+    parser.add_option("--use", action="extend", dest="use", metavar="CLASS1:CLASS2", type="string", default=[], help="Special runtime class dependencies")
     parser.add_option("--featureset", action="extend", dest="featuresets", metavar="NAMESPACE:FILE", type="string", default=[], help="Featureset files to load")
 
     if len(sys.argv[1:]) == 0:
@@ -84,12 +86,12 @@ def _processOptions(options):
     config = Config(config)
 
     # Processing feature sets
-    variants, settings = _executeFeatureSets(console, options)
+    variants, settings, loadtime, runtime = _executeFeatureSets(console, options)
 
     # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.split(job), console, variants, settings)
+        Generator(config.split(job), console, variants, settings, loadtime, runtime)
 
 
 
@@ -146,10 +148,14 @@ def _executeFeatureSets(console, options):
     sets = options.featuresets
     variants = _splitListToDict(options.variants)
     settings = _splitListToDict(options.settings)
+    require = _splitListToDict(options.require)
+    use = _splitListToDict(options.use)
 
     runtime = {
       "variant" : _translateVariantValuesToFeatureSet(variants),
-      "setting" : _translateSettingValuesToFeatureSet(settings)
+      "setting" : _translateSettingValuesToFeatureSet(settings),
+      "require" : require,
+      "use" : use
     }
 
     for fileName in sets:
@@ -160,7 +166,7 @@ def _executeFeatureSets(console, options):
     variants = _translateVariantValuesFromFeatureSet(runtime["variant"])
     settings = _translateSettingValuesFromFeatureSet(runtime["setting"])
 
-    return variants, settings
+    return variants, settings, require, use
 
 
 
