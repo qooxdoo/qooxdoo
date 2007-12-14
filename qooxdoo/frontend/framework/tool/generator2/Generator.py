@@ -48,7 +48,7 @@ class Generator:
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._config, self._treeLoader)
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._locale = Locale(self._classes, self._cache, self._console, self._treeLoader)        
+        self._locale = Locale(self._classes, self._cache, self._console, self._treeLoader)
         self._apiLoader = ApiLoader(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
@@ -64,10 +64,10 @@ class Generator:
         for segment in self._config.split("library").iter():
             entryType = segment.get("type", "qooxdoo")
             entryDir = segment.get("path", ".")
-            
+
             self._console.debug("Path: %s, Type: %s" % (entryDir, entryType))
             self._console.indent()
-         
+
             if entryType == "ext":
                 ExtPath(segment, classes, self._console)
             elif entryType == "qooxdoo":
@@ -75,15 +75,15 @@ class Generator:
             else:
                 self._console.outdent()
                 raise NameError("Unsupported path type: %s" % entryType)
-            
+
             self._console.outdent()
-            
+
         self._console.outdent()
         self._console.debug("")
-    
+
         return classes
-    
-            
+
+
 
     def run(self):
         # Preprocess include/exclude lists
@@ -110,7 +110,7 @@ class Generator:
                 self._console.outdent()
 
 
-            # Resolving dependencies                
+            # Resolving dependencies
             self._console.info("Resolving dependencies...")
             self._console.indent()
             classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
@@ -163,7 +163,7 @@ class Generator:
 
             # Dependeny Debug Task
             self.runDependencyDebug(partContent, packageContent, variants)
-            
+
 
 
 
@@ -252,23 +252,23 @@ class Generator:
     def runLocale(self, partContent, packageContents, variants):
         if not self._config.get("localize"):
             return
-            
+
         self._console.info("Looking up locales...")
         self._console.indent()
 
         for packageId, packageContent in enumerate(packageContents):
             self._console.info("Processing package #%s" % packageId)
             self._console.indent()
-            
+
             po = self._locale.getPoFile(packageContent, variants)
             print po
-                
+
             self._console.outdent()
 
         self._console.outdent()
-        
-        
-        
+
+
+
 
 
     def runCompiled(self, partContent, packageContents, bootPart, variants):
@@ -418,22 +418,25 @@ class Generator:
             variants[key] = [variantsRuntime[key]]
 
         return variants
-        
-        
-        
-    def generateSettingsCode(self, settings, format=False):
+
+
+    def _toJavaScript(self, value):
         number = re.compile("^([0-9\-]+)$")
+
+        if not (value == "false" or value == "true" or value == "null" or number.match(value)):
+            value = '"%s"' % value.replace("\"", "\\\"")
+
+        return value
+
+
+    def generateSettingsCode(self, settings, format=False):
         result = 'if(!window.qxsettings)qxsettings={};'
 
         for key in settings:
             if format:
                 result += "\n"
 
-            value = settings[key]
-
-            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-                value = '"%s"' % value.replace("\"", "\\\"")
-
+            value = self._toJavaScript(settings[key])
             result += 'qxsettings["%s"]=%s;' % (key, value)
 
         return result
@@ -441,18 +444,13 @@ class Generator:
 
 
     def generateVariantsCode(self, variants, format=False):
-        number = re.compile("^([0-9\-]+)$")
         result = 'if(!window.qxvariants)qxvariants={};'
 
         for key in variants:
             if format:
                 result += "\n"
 
-            value = variants[key]
-
-            if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-                value = '"%s"' % value.replace("\"", "\\\"")
-
+            value = self._toJavaScript(variants[key])
             result += 'qxvariants["%s"]=%s;' % (key, value)
 
         return result
@@ -555,7 +553,7 @@ class Generator:
             self._console.debug("Expanding expressions...")
             smartInclude = self._expandRegExps(smartInclude)
             explicitInclude = self._expandRegExps(explicitInclude)
-        
+
         elif self._config.get("packages"):
             # Special part include handling
             self._console.info("Including part classes...")
@@ -563,10 +561,10 @@ class Generator:
             smartInclude = []
             for partId in partsCfg:
                 smartInclude.extend(partsCfg[partId])
-                
+
             # Configuration feedback
             self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
-            
+
             # Resolve regexps
             self._console.debug("Expanding expressions...")
             smartInclude = self._expandRegExps(smartInclude)

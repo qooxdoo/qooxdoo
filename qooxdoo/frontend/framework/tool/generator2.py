@@ -146,7 +146,7 @@ def _executeFeatureSets(console, options):
     sets = options.featuresets
     variants = _splitListToDict(options.variants)
     settings = _splitListToDict(options.settings)
-    
+
     runtime = {
       "variant" : _translateVariantValuesToFeatureSet(variants),
       "setting" : _translateSettingValuesToFeatureSet(settings)
@@ -159,11 +159,11 @@ def _executeFeatureSets(console, options):
     # Convert to useable variants and settings
     variants = _translateVariantValuesFromFeatureSet(runtime["variant"])
     settings = _translateSettingValuesFromFeatureSet(runtime["setting"])
-    
+
     return variants, settings
-    
-    
-    
+
+
+
 def _translateVariantValuesToFeatureSet(data):
     for key in data:
         if data[key] == "on":
@@ -181,6 +181,8 @@ def _translateVariantValuesFromFeatureSet(data):
             data[key] = "on"
         elif data[key] == False:
             data[key] = "off"
+        elif not isinstance(data[key], basestring):
+            data[key] = "%s" % data[key]
 
     return data
 
@@ -203,8 +205,10 @@ def _translateSettingValuesFromFeatureSet(data):
             data[key] = "true"
         elif data[key] == False:
             data[key] = "false"
+        elif not isinstance(data[key], basestring):
+            data[key] = "%s" % data[key]
 
-    return data    
+    return data
 
 
 
