@@ -95,7 +95,7 @@ def _processOptions(options):
 
 
 
-def _splitListToDict(data, divider=":"):
+def _splitListToDictSingle(data, divider=":"):
     result = {}
     for entry in data:
         splitted = entry.split(divider)
@@ -103,6 +103,20 @@ def _splitListToDict(data, divider=":"):
 
     return result
 
+
+def _splitListToDictMulti(data, divider=":"):
+    result = {}
+    for entry in data:
+        splitted = entry.split(divider)
+        key = splitted[0]
+        value = splitted[1]
+        
+        if not result.has_key(key):
+            result[key] = []
+            
+        result[key].append(value)
+
+    return result
 
 
 def _resolve(console, config, jobs):
@@ -146,10 +160,10 @@ def _mergeEntry(target, source):
 
 def _executeFeatureSets(console, options):
     sets = options.featuresets
-    variants = _splitListToDict(options.variants)
-    settings = _splitListToDict(options.settings)
-    require = _splitListToDict(options.require)
-    use = _splitListToDict(options.use)
+    variants = _splitListToDictSingle(options.variants)
+    settings = _splitListToDictSingle(options.settings)
+    require = _splitListToDictMulti(options.require)
+    use = _splitListToDictMulti(options.use)
 
     runtime = {
       "variant" : _translateVariantValuesToFeatureSet(variants),

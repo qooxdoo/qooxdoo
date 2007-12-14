@@ -32,8 +32,7 @@ from generator2.Locale import Locale
 from generator2.PartBuilder import PartBuilder
 from generator2.TreeLoader import TreeLoader
 from generator2.TreeCompiler import TreeCompiler
-from generator2.QxPath import QxPath
-from generator2.ExtPath import ExtPath
+from generator2.LibraryPath import LibraryPath
 
 
 class Generator:
@@ -47,9 +46,11 @@ class Generator:
         require = self._mergeDicts(require, config.get("require", {}))
         use = self._mergeDicts(use, config.get("use", {}))
 
-        # Create instances
+        # Scanning given library paths
+        self.scanLibrary(config.split("library"))
+
+        # Create tool chain instances
         self._cache = Cache(config.split("cache"), self._console)
-        self._classes = self.getClasses(config.split("library"))
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
@@ -58,7 +59,7 @@ class Generator:
         self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         # Start job
-        self.run()
+        #self.run()
 
 
     def _mergeDicts(self, source1, source2):
@@ -79,34 +80,42 @@ class Generator:
         return target
 
 
-    def getClasses(self, library):
-        self._console.info("Scanning class paths...")
+
+    def scanLibrary(self, library):
+        self._console.info("Scanning libraries...")
         self._console.indent()
 
         classes = {}
+        translation = {}
+        ns = []
+        
         for segment in library.iter():
-            entryType = segment.get("type", "qooxdoo")
             entryDir = segment.get("path", ".")
 
-            self._console.debug("Path: %s, Type: %s" % (entryDir, entryType))
+            self._console.debug("Path: %s" % entryDir)
             self._console.indent()
+            
+            path = LibraryPath(segment, self._console)
+            
+            segNamespace = path.getNamespace()
+            segClasses = path.getClasses()
+            segTranslation = path.getTranslation()
 
-            if entryType == "ext":
-                ExtPath(segment, classes, self._console)
-            elif entryType == "qooxdoo":
-                QxPath(segment, classes, self._console)
-            else:
-                self._console.outdent()
-                raise NameError("Unsupported path type: %s" % entryType)
-
+            ns.append(segNamespace)
+            classes.update(segClasses)
+            translation[segNamespace] = segTranslation
+            
             self._console.outdent()
 
         self._console.outdent()
+        self._console.debug("Loaded %s libraries" % len(ns))
         self._console.debug("")
-
-        return classes
-
-
+        
+        self._classes = classes
+        self._translation = translation
+        self._namespaces = ns
+        
+        
 
     def run(self):
         # Preprocess include/exclude lists

@@ -1,18 +1,30 @@
 import os, re, sys
 from modules import filetool
 
-class QxPath:
-    def __init__(self, config, classes, console):
+class LibraryPath:
+    def __init__(self, config, console):
         self._config = config
-        self._classes = classes
         self._console = console
-
+        self._classes = {}
+        self._translation = {}
+        
         self.scan()
 
     
     _implFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
     _localeFile = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
 
+
+    def getClasses(self):
+        return self._classes
+        
+        
+    def getTranslation(self):
+        return self._translation
+        
+        
+    def getNamespace(self):
+        return self._namespace
 
 
     def isDocFile(self, fileName, fileContent):
@@ -68,12 +80,6 @@ class QxPath:
     # Normally there is no need to overwrite this one!
     def scan(self):
         path = self._config.get("path", "")
-        uri = self._config.get("uri", path)
-        encoding = self._config.get("encoding", "utf-8")
-
-        classFolder = "class"
-        resourceFolder = "resource"
-        translationFolder = "translation"
 
         if path == "":
             self._console.error("Missing path information!")
@@ -83,14 +89,60 @@ class QxPath:
             self._console.error("Path does not exist: %s" % path)
             sys.exit(1)
 
-        classPath = os.path.join(path, classFolder)
+        uri = self._config.get("uri", path)
+        encoding = self._config.get("encoding", "utf-8")
+        classFolder = os.path.join(path, self._classFolder)
+        classUri = path + "/" + self._classFolder
 
-        if not os.path.exists(classPath):
+        self.detectNamespace(classFolder)
+        self.scanClassPath(classFolder, classUri, encoding)
+        self.scanTranslationPath(os.path.join(path, "translation"))
+        
+        
+        
+    
+    _ignoredDirectories = [".svn", "CVS"]
+    _classFolder = "class"
+    _translationFolder = "translation"
+    
+    
+    
+    def detectNamespace(self, path):
+        if not os.path.exists(path):
+            self._console.error("The given path does not contains a class folder: %s" % path)
+            sys.exit(1)
+            
+        ns = None
+
+        files = os.listdir(path)
+        
+        for entry in files:
+            if entry.startswith(".") or entry in self._ignoredDirectories:
+                continue
+            
+            full = os.path.join(path, entry)
+            if os.path.isdir(full):
+                if ns != None:
+                    self._console.error("Multi namespaces per library are not supported!")
+                    sys.exit(1)
+                
+                ns = entry
+        
+        if ns == None:
+            self._console.error("Namespace could not be detected!")
+            sys.exit(1)
+                        
+        self._console.debug("Auto detected namespace: %s" % ns)
+        self._namespace = ns
+    
+    
+        
+    def scanClassPath(self, path, uri, encoding):
+        if not os.path.exists(path):
             self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
 
-
-        self._console.debug("Scanning class folder: %s" % classPath)
+        self._console.debug("Scanning class folder: %s" % path)
 
         # Initialize counters
         implNumber = 0
@@ -98,9 +150,9 @@ class QxPath:
         localeNumber = 0
 
         # Iterate...
-        for root, dirs, files in os.walk(classPath):
+        for root, dirs, files in os.walk(path):
             # Filter ignored directories
-            for ignoredDir in [".svn", "CVS"]:
+            for ignoredDir in self._ignoredDirectories:
                 if ignoredDir in dirs:
                     dirs.remove(ignoredDir)
 
@@ -112,10 +164,10 @@ class QxPath:
 
                 # Process path data
                 filePath = os.path.join(root, fileName)
-                fileRel = filePath.replace(classPath + os.sep, "")
+                fileRel = filePath.replace(path + os.sep, "")
 
                 # Compute full URI from relative path
-                fileUri = uri + "/" + classFolder + "/" + fileRel.replace(os.sep, "/")
+                fileUri = uri + "/" + fileRel.replace(os.sep, "/")
 
                 # Compute identifier from relative path
                 filePathId = fileRel.replace(".js", "").replace(os.sep, ".")
@@ -160,5 +212,57 @@ class QxPath:
                     "id" : filePathId
                 }
 
-        self._console.debug("Added: %s impl, %s doc, %s locale" % (implNumber, docNumber, localeNumber))
+        self._console.indent()
+        self._console.debug("Added classes: %s impl, %s doc, %s locale" % (implNumber, docNumber, localeNumber))
+        self._console.outdent()        
         
+        
+        
+    def scanTranslationPath(self, path):
+        if not os.path.exists(path):
+            self._console.error("The given path does not contains a translation folder: %s" % path)
+            sys.exit(1)
+
+        self._console.debug("Scanning translation folder: %s" % path)
+        
+        number = 0
+        
+        # Iterate...
+        for root, dirs, files in os.walk(path):
+            # Filter ignored directories
+            for ignoredDir in self._ignoredDirectories:
+                if ignoredDir in dirs:
+                    dirs.remove(ignoredDir)
+
+            # Searching for files
+            for fileName in files:
+                # Ignore non-script and dot files
+                if os.path.splitext(fileName)[-1] != ".po" or fileName.startswith("."):
+                    continue
+                
+                filePath = os.path.join(root, fileName)
+                locale = os.path.splitext(fileName)[0]
+                number += 1
+                
+                #fileId = 
+                
+                if "_" in locale:
+                    split = locale.index("_")
+                    parent = locale[:split]
+                    variant = locale[split+1:]
+                
+                else:
+                    parent = "C"
+                    variant = ""
+                
+                # Store file data
+                self._translation[locale] = {
+                    "path" : filePath,
+                    "id" : locale,
+                    "parent" : parent,
+                    "variant" : variant
+                }
+                
+        self._console.indent()                
+        self._console.debug("Added translation: %s locales" % number)
+        self._console.outdent()        
