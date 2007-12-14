@@ -188,6 +188,8 @@ qx.Bootstrap.define("qx.lang.Object",
      * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
      *
+     * TODO: Rename to update() like in python
+     *
      * @type static
      * @param target {Object} target object
      * @param source {Object} object to be merged
