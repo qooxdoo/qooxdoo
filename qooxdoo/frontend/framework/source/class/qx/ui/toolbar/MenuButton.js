@@ -123,35 +123,22 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       if (vMenu)
       {
         // Caching common stuff
-        var vMenuParent = vMenu.getParent();
-        var vMenuParentElement = vMenuParent.getElement();
         var vButtonElement = this.getElement();
-        var vButtonHeight = qx.html.Dimension.getBoxHeight(vButtonElement);
+        var buttonPos = qx.bom.element.Location.get(vButtonElement);
 
         // Apply X-Location
-        var vMenuParentLeft = qx.bom.element.Location.getLeft(vMenuParentElement);
-        var vButtonLeft = qx.bom.element.Location.getLeft(vButtonElement);
-        var vScrollLeft = qx.html.Scroll.getLeftSum(vButtonElement);
-
-        vMenu.setLeft(vButtonLeft - vMenuParentLeft - vScrollLeft);
+        vMenu.setLeft(buttonPos.left);
 
         // Apply Y-Location
-        var vScrollTop = qx.html.Scroll.getTopSum(vButtonElement);
         switch(this.getDirection())
         {
           case "up":
-            var vBodyHeight = qx.html.Dimension.getInnerHeight(document.body);
-            var vMenuParentBottom = qx.bom.element.Location.getBottom(vMenuParentElement);
-            var vButtonBottom = qx.bom.element.Location.getBottom(vButtonElement);
-
-            vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom) - vScrollTop);
+            vMenu.setBottom(buttonPos.top);
             vMenu.setTop(null);
             break;
 
           case "down":
-            var vButtonTop = qx.bom.element.Location.getTop(vButtonElement);
-
-            vMenu.setTop(vButtonTop + vButtonHeight - vScrollTop);
+            vMenu.setTop(buttonPos.bottom);
             vMenu.setBottom(null);
             break;
         }
