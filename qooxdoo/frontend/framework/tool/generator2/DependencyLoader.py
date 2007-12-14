@@ -244,8 +244,9 @@ class DependencyLoader:
 
             elif "." in assembled:
                 for entryId in self._classes:
-                    if re.match("%s\W" % entryId, assembled):
+                    if assembled.startswith(entryId) and re.match("%s\W" % entryId, assembled):
                         assembledId = entryId
+                        break
 
             if assembledId and assembledId != fileId and self._classes.has_key(assembledId):
                 if inFunction:
