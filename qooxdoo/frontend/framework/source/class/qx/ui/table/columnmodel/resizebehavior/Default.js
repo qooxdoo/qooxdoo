@@ -107,6 +107,21 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       {
         return new qx.ui.table.columnmodel.resizebehavior.ColumnData();
       }
+    },
+
+    /*
+     * Whether to reinitialize default widths on each appear event.
+     * Typically, one would want to initialize the default widths only upon
+     * the first appearance of the table, but the original behavior was to
+     * reinitialize it even if the table is hidden and then reshown
+     * (e.g. it's in a pageview and the page is switched and then switched
+     * back).
+     *
+     */
+    initializeWidthsOnEveryAppear :
+    {
+      check : "Boolean",
+      init  : false
     }
   },
 
@@ -121,6 +136,11 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
   members :
   {
+    /**
+     * Whether we have initialized widths on the first appear yet
+     */
+    widthsInitialized : false,
+
     /**
      * Set the width of a column.
      *
@@ -255,12 +275,20 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     // overloaded
     onAppear : function(tableColumnModel, event)
     {
-      // Get the initial available width so we know whether a resize caused an
-      // increase or decrease in the available space.
-      this._width = this._getAvailableWidth(tableColumnModel);
+      // If we haven't initialized widths at least once, or
+      // they want us to reinitialize widths on every appear event...
+      if (! this.widthsInitialized || this.getInitializeWidthsOnEveryAppear())
+      {
+        // Get the initial available width so we know whether a resize caused
+        // an increase or decrease in the available space.
+        this._width = this._getAvailableWidth(tableColumnModel);
 
-      // Calculate column widths
-      this._computeColumnsFlexWidth(tableColumnModel, event);
+        // Calculate column widths
+        this._computeColumnsFlexWidth(tableColumnModel, event);
+
+        // Track that we've initialized widths at least once
+        this.widthsInitialized = true;
+      }
     },
 
     // overloaded
