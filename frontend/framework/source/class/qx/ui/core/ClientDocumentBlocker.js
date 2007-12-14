@@ -48,9 +48,10 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
     this.base(arguments);
 
     this.initTop();
-    this.initRight();
-    this.initBottom();
     this.initLeft();
+
+    this.initWidth();
+    this.initHeight();
 
     this.initZIndex();
   },
@@ -84,22 +85,22 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
       init : 0
     },
 
-    right :
-    {
-      refine : true,
-      init : 0
-    },
-
-    bottom :
-    {
-      refine : true,
-      init : 0
-    },
-
     left :
     {
       refine : true,
       init : 0
+    },
+
+    width :
+    {
+      refine : true,
+      init : "100%"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "100%"
     },
 
     display :
