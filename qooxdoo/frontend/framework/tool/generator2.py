@@ -86,12 +86,12 @@ def _processOptions(options):
     config = Config(config)
 
     # Processing feature sets
-    variants, settings, loadtime, runtime = _executeFeatureSets(console, options)
+    variants, settings, require, use = _executeFeatureSets(console, options)
 
     # Processing jobs...
     for job in options.jobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.split(job), console, variants, settings, loadtime, runtime)
+        Generator(config.split(job), console, variants, settings, require, use)
 
 
 
