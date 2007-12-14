@@ -130,12 +130,14 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     {
       custom.dataRowRenderer =
         new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
+/* BROKEN: someone removed setRowColors() but didn't change this!
       // Change focus colors.  Make them less obtrusive.
       custom.dataRowRenderer.setRowColors(
       {
         bgcolFocused     : "#f0f0f0",
         bgcolFocusedBlur : "#f0f0f0"
       });
+*/
     }
 
     if (! custom.selectionManager)
