@@ -144,7 +144,6 @@ class DependencyLoader:
         # print "Read from cache: %s" % fileId
 
         deps = self._cache.read(cacheId, filePath, True)
-        deps = None
         if deps != None:
             return deps
 
