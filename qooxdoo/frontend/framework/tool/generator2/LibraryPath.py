@@ -143,11 +143,14 @@ class LibraryPath:
             sys.exit(1)
 
         self._console.debug("Scanning class folder: %s" % path)
-
+        
         # Initialize counters
         implNumber = 0
         docNumber = 0
         localeNumber = 0
+        
+        # Shorten namespace
+        ns = self._namespace
 
         # Iterate...
         for root, dirs, files in os.walk(path):
@@ -208,6 +211,7 @@ class LibraryPath:
                     "path" : filePath,
                     "uri" : fileUri,
                     "encoding" : encoding,
+                    "namespace" : ns,
                     "type" : fileType,
                     "id" : filePathId
                 }

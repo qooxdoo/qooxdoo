@@ -117,7 +117,10 @@ class Generator:
         
         
 
-    def run(self):
+    def run(self):    
+        # Updating translation
+        self.runUpdateTranslation()        
+        
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
@@ -183,9 +186,6 @@ class Generator:
                 partContent = { "boot" : [0] }
                 packageContent = [classList]
 
-
-            # Locale Task
-            self.runLocale(partContent, packageContent, variants)
 
             # Source Task
             self.runSource(partContent, packageContent, bootPart, variants)
@@ -281,25 +281,35 @@ class Generator:
 
 
 
-    def runLocale(self, partContent, packageContents, variants):
-        if not self._config.get("localize"):
+
+    def runUpdateTranslation(self):
+        namespaces = self._config.get("localize/update")
+        
+        if not namespaces:
             return
-
-        self._console.info("Looking up locales...")
+            
+        self._console.info("Updating translation files")
         self._console.indent()
-
-        for packageId, packageContent in enumerate(packageContents):
-            self._console.info("Processing package #%s" % packageId)
-            self._console.indent()
-
-            po = self._locale.getPoFile(packageContent, variants)
-            print po
-
-            self._console.outdent()
-
+        
+        content = []
+        for namespace in namespaces:
+            self._console.debug("Updating: %s" % namespace)
+            
+            classes = self._classes
+            for classId in classes:
+                if classes[classId]["namespace"] == namespace:
+                    content.append(classId)
+        
+        pot = self._locale.getPotFile(content)
+        
+        # TODO: msgmerge
+        
         self._console.outdent()
-
-
+        
+        
+        
+        
+    
 
 
 

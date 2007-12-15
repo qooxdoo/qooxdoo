@@ -131,9 +131,6 @@
 
 
 
-
-
-
   "localize-feedreader" :
   {
     "extend" : ["common"],    
@@ -141,6 +138,7 @@
     
     "localize" : 
     {
+      "update" : ["feedreader"],
       "locales" : ["de","en","fr"]
     }
   },

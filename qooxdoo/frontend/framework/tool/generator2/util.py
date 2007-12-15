@@ -44,6 +44,9 @@ def computeCombinations(variants):
 
 
 def generateId(variants):
+    if variants == None:
+        return ""
+    
     sortedList = _getSortedCopy(variants)
 
     sortedString = []
