@@ -4,9 +4,9 @@ polib
 
 :Author: David JEAN LOUIS <izimobil@gmail>
 :Title: polib
-:Version: 0.3.0
+:Version: 0.3.1
 :License: MIT License
-:Date: 16 oct. 2007
+:Date: 11 dec. 2007
 
 A library to manipulate gettext files (po and mo files).
 
@@ -64,6 +64,16 @@ Basic usage example
 >>> po.save()
 
 
+Documentation
+-------------
+
+A complete tutorial is available here:
+  http://code.google.com/p/polib/wiki/Tutorial
+
+The api docs can be found here:
+  http://www.izimobil.org/polib/api/
+
+
 Development
 -----------
 
@@ -86,6 +96,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Yuri Baburov <burchik@gmail.com>
+* Anders Quist
 
 
 References
