@@ -64,26 +64,37 @@ class TreeLoader:
 
 
     def getVariantsTree(self, fileId, variants):
+        if variants == None or len(variants) == 0:
+            return self.getTree(fileId)
+        
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
         cacheId = "%s-tree-%s" % (fileId, util.generateId(variants))
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
+            if tree == "unmodified":
+                return self.getTree(fileId)
+                
             return tree
+            
+        tree = self.getTree(fileId)
 
         self._console.debug("Select variants: %s..." % fileId)
         self._console.indent()
 
-        # Copy tree to work with
-        tree = copy.deepcopy(self.getTree(fileId))
-
         # Call variant optimizer
-        variantoptimizer.search(tree, variants, fileId)
+        modified = variantoptimizer.search(tree, variants, fileId)
+        
+        if not modified:
+            self._console.debug("Store unmodified hint.")
 
         self._console.outdent()
 
         # Store result into cache
-        self._cache.write(cacheId, tree)
+        if modified:
+            self._cache.write(cacheId, tree)
+        else:
+            self._cache.write(cacheId, "unmodified")
 
         return tree    
