@@ -248,8 +248,6 @@ class LibraryPath:
                 locale = os.path.splitext(fileName)[0]
                 number += 1
                 
-                #fileId = 
-                
                 if "_" in locale:
                     split = locale.index("_")
                     parent = locale[:split]

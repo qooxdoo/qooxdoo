@@ -902,7 +902,7 @@ class POEntry(_BaseEntry):
                 else: return -1
         
             if a[1] != b[1]:
-                if a[1] > b[1]: return 1
+                if int(a[1]) > int(b[1]): return 1
                 else: return -1
         
             return 0
@@ -934,7 +934,7 @@ class POEntry(_BaseEntry):
                 else: return -1
 
             if entry1[1] != entry2[1]:
-                if entry1[1] > entry2[1]: return 1
+                if int(entry1[1]) > int(entry2[1]): return 1
                 else: return -1
             
             pos += 1
