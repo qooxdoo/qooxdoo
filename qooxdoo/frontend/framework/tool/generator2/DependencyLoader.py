@@ -14,7 +14,10 @@ class DependencyLoader:
 
 
     def getClassList(self, include, block, explicitInclude, explicitExclude, variants):
-        result = self.resolveDependencies(include, block, variants)
+        if len(include) == 0 and len(explicitInclude) > 0:
+            result = []
+        else:
+            result = self.resolveDependencies(include, block, variants)
 
 
         # Explicit include/exclude
@@ -22,7 +25,7 @@ class DependencyLoader:
             self._console.info("Processing explicitely configured includes/excludes...")
             for entry in explicitInclude:
                 if not entry in result:
-                    include.append(entry)
+                    result.append(entry)
 
             for entry in explicitExclude:
                 if entry in result:
