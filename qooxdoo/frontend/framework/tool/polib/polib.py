@@ -266,8 +266,11 @@ class _BaseFile(list):
     def __str__(self):
         """String representation of the file."""
         ret = []
-        entries = [self.metadata_as_entry()] + self
+        entries = [self.metadata_as_entry()] + \
+                  [e for e in self if not e.obsolete]
         for entry in entries:
+            _listappend(ret, entry.__str__(self.wrapwidth))
+        for entry in self.obsolete_entries():
             _listappend(ret, entry.__str__(self.wrapwidth))
         return _strjoin('\n', ret)
 
@@ -316,6 +319,10 @@ class _BaseFile(list):
         """
         Find entry which msgid (or property identified by the *by*
         attribute) matches the string *st*.
+
+        **Keyword arguments**:
+          - *st*: string, the string to search for
+          - *by*: string, the comparison attribute
 
         **Examples**:
 
@@ -391,8 +398,8 @@ class _BaseFile(list):
         entries = [mentry] + entries
         entries_len = len(entries)
         for e in entries:
-            # For each string, we need size and file offset.  Each string is NUL
-            # terminated; the NUL does not count into the size.
+            # For each string, we need size and file offset.  Each string is
+            # NUL terminated; the NUL does not count into the size.
             msgid = e._decode(e.msgid)
             msgstr = e._decode(e.msgstr)
             offsets.append((len(ids), len(msgid), len(strs), len(msgstr)))
@@ -561,6 +568,51 @@ class POFile(_BaseFile):
         4
         """
         return [e for e in self if e.obsolete]
+
+    def merge(self, refpot):
+        """
+        XXX this could not work if encodings are different, needs thinking
+        and general refactoring of how polib handles encoding...
+
+        Convenience method that merge the current pofile with the pot file
+        provided. It behaves exactly as the gettext msgmerge utility:
+          * comments of this file will be preserved, but extracted comments
+            and occurrences  will  be  discarded.
+          * any  translations or comments in the file will be discarded,
+            however dot comments and file positions will  be  preserved.
+
+        **Keyword argument**:
+          - *refpot*: object POFile, the reference catalog.
+
+        **Example**:
+
+        >>> import polib
+        >>> refpot = polib.pofile('tests/test_merge.pot')
+        >>> po = polib.pofile('tests/test_merge_before.po')
+        >>> po.merge(refpot)
+        >>> expected_po = polib.pofile('tests/test_merge_after.po')
+        >>> str(po) == str(expected_po)
+        True
+        """
+        for entry in refpot:
+            e = self.find(entry.msgid)
+            if e is None:
+                # entry is not in the po file, we must add it
+                # entry is created with msgid, occurrences and comment
+                self.append(POEntry(
+                    msgid=entry.msgid,
+                    occurrences=entry.occurrences,
+                    comment=entry.comment
+                ))
+            else:
+                # entry found, we update it...
+                e.occurrences = entry.occurrences
+                e.comment = entry.comment
+        # ok, now we must "obsolete" entries that are not in the refpot
+        # anymore
+        for entry in self:
+            if refpot.find(entry.msgid) is None:
+                entry.obsolete = True
     # }}}
 
 
@@ -781,6 +833,8 @@ class POEntry(_BaseEntry):
         """
         Return the string representation of the entry.
         """
+        if self.obsolete:
+            return _BaseEntry.__str__(self)
         ret = []
         # comment first, if any (with text wrapping as xgettext does)
         if self.comment != '':
