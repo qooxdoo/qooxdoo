@@ -68,8 +68,7 @@ class Locale:
         po.save(poname)
         pot.save(potname)
         
-        ret = subprocess.call(["msgmerge", "--update", "-q", poname, potname])
-        
+        ret = subprocess.call(["msgmerge", "--update", "-q", poname, potname])        
         if ret != 0:
             raise NameError("Could not update po file!")
 
@@ -80,6 +79,7 @@ class Locale:
         
         return po
         
+      
         
     def createPoFile(self):
         po = polib.POFile()
@@ -95,7 +95,6 @@ class Locale:
         po.metadata['Content-Transfer-Encoding'] = '8bit'
         
         return po
-
 
         
         
@@ -118,6 +117,7 @@ class Locale:
                     })
         
         return result 
+
         
     
     def getPackageStrings(self, packageContent, variants):
@@ -141,6 +141,7 @@ class Locale:
         return result          
 
         
+        
     def getStrings(self, fileId, variants):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
@@ -156,7 +157,7 @@ class Locale:
         tree = self._treeLoader.getVariantsTree(fileId, variants)
 
         self._console.debug("Looking for localizable strings: %s..." % fileId)
-        strings = self._findStrings(tree)
+        strings = self._findStrings(tree, {})
         if len(strings) > 0:
             self._console.debug("Found %s localizable strings" % len(strings))
 
@@ -164,11 +165,8 @@ class Locale:
         return strings
         
 
-    def _findStrings(self, tree):
-        return self._findStringsRec(tree, {})
         
-        
-    def _findStringsRec(self, node, strings):
+    def _findStrings(self, node, strings):
         if node.type == "call":
             oper = node.getChild("operand", False)
             if oper:
@@ -187,6 +185,7 @@ class Locale:
         return strings
         
         
+        
     def _addString(self, strings, node, var):
         try:
             string = node.getChild("params").getChildByTypeAndAttribute("constant", "constantType", "string", True)
@@ -202,7 +201,4 @@ class Locale:
             "line" : node.get("line"),
             "column" : node.get("column")
         })
-        
-            
-        
         
