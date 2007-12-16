@@ -14,7 +14,7 @@ class Locale:
         self._native = False
         
     
-    def getPotFile(self, packageContent, variants=None):
+    def getPotFile(self, packageContent, variants=None, sort=True):
         pot = self.createPoFile()
         strings = self.getPackageStrings(packageContent, variants)
         
@@ -27,14 +27,20 @@ class Locale:
             obj.occurrences = occ            
             pot.append(obj)
             
+        if sort:
+            pot.sort()
+            
+        self._console.debug("File contains %s items" % len(pot))
+        
         return pot
         
         
 
-    def updatePoFiles(self, namespace, locales, content):
+    def updatePoFiles(self, namespace, locales, content, sort=True):
         self._console.debug("Generating pot file...")
         pot = self.getPotFile(content)
-
+        if sort: pot.sort()
+        
         self._console.debug("Process po files...")
         self._console.indent()
         
@@ -43,6 +49,7 @@ class Locale:
         for name in locales:
             if not name in files:
                 self._console.debug("Creating: %s" % name)
+                pot.save(entry["path"])
                 
         for name in files:
             self._console.debug("Updating: %s" % name)
@@ -50,6 +57,7 @@ class Locale:
             entry = files[name]
             po = polib.pofile(entry["path"])
             po = self.msgmerge(po, pot)
+            if sort: po.sort()            
             po.save(entry["path"])
             
         self._console.outdent()                
@@ -57,25 +65,26 @@ class Locale:
         
         
     def msgmerge(self, po, pot):
-        if not self._native:
-            po.merge(pot)
-            return po
-        
         # Native implementation
-        poname = tempfile.NamedTemporaryFile().name
-        potname = tempfile.NamedTemporaryFile().name
+        if self._native:
+            poname = tempfile.NamedTemporaryFile().name
+            potname = tempfile.NamedTemporaryFile().name
 
-        po.save(poname)
-        pot.save(potname)
+            po.save(poname)
+            pot.save(potname)
         
-        ret = subprocess.call(["msgmerge", "--update", "-q", poname, potname])        
-        if ret != 0:
-            raise NameError("Could not update po file!")
+            ret = subprocess.call(["msgmerge", "--update", "-q", poname, potname])        
+            if ret != 0:
+                raise NameError("Could not update po file!")
 
-        po = polib.pofile(poname)
+            po = polib.pofile(poname)
         
-        os.unlink(potname)
-        os.unlink(poname)        
+            os.unlink(potname)
+            os.unlink(poname)        
+
+        # Polib implementation
+        else:
+            po.merge(pot)
         
         return po
         
@@ -95,28 +104,6 @@ class Locale:
         po.metadata['Content-Transfer-Encoding'] = '8bit'
         
         return po
-
-        
-        
-    def getPackageStrings(self, packageContent, variants):
-        result = {}
-        
-        # combines data from multiple classes into one map
-        for classId in packageContent:
-            strings = self.getStrings(classId, variants)        
-            
-            for entry in strings:
-                if not result.has_key(entry):
-                    result[entry] = []
-                
-                for location in strings[entry]:
-                    result[entry].append({
-                      "file" : classId,
-                      "line" : location["line"],
-                      "column" : location["column"]
-                    })
-        
-        return result 
 
         
     
@@ -154,14 +141,18 @@ class Locale:
         if strings != None:
             return strings
             
+        self._console.debug("Looking for localizable strings: %s..." % fileId)
+        self._console.indent()
+
         tree = self._treeLoader.getVariantsTree(fileId, variants)
 
-        self._console.debug("Looking for localizable strings: %s..." % fileId)
         strings = self._findStrings(tree, {})
         if len(strings) > 0:
             self._console.debug("Found %s localizable strings" % len(strings))
 
+        self._console.outdent()
         self._cache.write(cacheId, strings)
+        
         return strings
         
 
@@ -175,18 +166,18 @@ class Locale:
                     varname = treeutil.assembleVariable(var)
                     for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
                         if varname.endswith(entry):
-                            self._addString(strings, node, var)
+                            self._addString(entry[1:], strings, node, var)
                             break
             
         if node.hasChildren():
             for child in node.children:
-                self._findStringsRec(child, strings)
+                self._findStrings(child, strings)
         
         return strings
         
         
         
-    def _addString(self, strings, node, var):
+    def _addString(self, method, strings, node, var):
         try:
             string = node.getChild("params").getChildByTypeAndAttribute("constant", "constantType", "string", True)
         except NodeAccessException:
@@ -194,11 +185,20 @@ class Locale:
         
         value = string.get("value")
         
+        entry = {
+            "method" : method,
+            "line" : node.get("line"),
+            "column" : node.get("column")
+        }
+
+        if method == "trn":
+            next = string.getFollowingSibling(True, True)
+            if next.type == "constant" and next.get("constantType") == "string":
+                entry["plural"] = next.get("value")
+            else:
+                raise NameError("Found locale element with invalid content: " % node.get("line"))
+
         if not strings.has_key(value):
             strings[value] = []
             
-        strings[value].append({
-            "line" : node.get("line"),
-            "column" : node.get("column")
-        })
-        
+        strings[value].append(entry)
