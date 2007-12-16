@@ -1,6 +1,6 @@
 import os, tempfile
 
-from polib.polib import *
+from polib import polib
 from generator2 import util
 from modules import treeutil
 
@@ -15,11 +15,11 @@ class Locale:
         
     
     def getPotFile(self, packageContent, variants=None):
-        pot = POFile()
+        pot = polib.POFile()
         strings = self.getPackageStrings(packageContent, variants)
         
         for entry in strings:
-            obj = POEntry(msgid=entry)
+            obj = polib.POEntry(msgid=entry)
             occ = []
             for location in strings[entry]:
                 occ.append((location["file"], location["line"]))
@@ -48,7 +48,7 @@ class Locale:
             self._console.debug("Updating: %s" % name)
             
             entry = files[name]
-            po = pofile(entry["path"])
+            po = polib.pofile(entry["path"])
             po = self.msgmergeNative(pot, po)
             po.save(entry["path"])
             
@@ -73,13 +73,29 @@ class Locale:
         
         os.spawnl(os.P_WAIT, "msgmerge", "--update", "-v", poname, potname)
 
-        po = pofile(poname)
+        po = polib.pofile(poname)
         
         os.unlink(potname)
         os.unlink(poname)        
         
         return po
         
+        
+        
+    def createPoFile(self):
+        po = polib.POFile()
+        po.metadata['Project-Id-Version'] = '1.0'
+        po.metadata['Report-Msgid-Bugs-To'] = 'you@example.com'
+        po.metadata['POT-Creation-Date'] = '2007-10-18 14:00+0100'
+        po.metadata['PO-Revision-Date'] = '2007-10-18 14:00+0100'
+        po.metadata['Last-Translator'] = 'you <you@example.com>'
+        po.metadata['Language-Team'] = 'English <yourteam@example.com>'
+        po.metadata['MIME-Version'] = '1.0'
+        po.metadata['Content-Type'] = 'text/plain; charset=utf-8'
+        po.metadata['Content-Transfer-Encoding'] = '8bit'
+        
+        return po
+
 
         
         
