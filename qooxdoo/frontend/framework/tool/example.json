@@ -131,10 +131,25 @@
 
 
 
+  "localize-qx" :
+  {
+    "extend" : ["common"],    
+    "include" : ["=qx.*"],
+    
+    "localize" : 
+    {
+      "update" : ["qx"],
+      "locales" : ["de","en","fr"]
+    }
+  },
+
+
+
+
   "localize-feedreader" :
   {
     "extend" : ["common"],    
-    "include" : ["feedreader.Application"],
+    "include" : ["=feedreader.*"],
     
     "localize" : 
     {
