@@ -234,21 +234,6 @@ def unquote(st):
     # }}}
 
 
-def compareOccurrences(a, b):
-    """
-    Compare an entry occurrence with another one.
-    """
-    # compareOccurrences {{{
-    if a[0] != b[0]:
-        return a[0] < b[0]
-        
-    if a[1] != b[1]:
-        return a[1] < b[1]
-        
-    return 0
-    # }}}
-    
-    
 class _BaseFile(list):
     """
     Common parent class for POFile and MOFile classes.
@@ -907,6 +892,22 @@ class POEntry(_BaseEntry):
 
     def __cmp__(self, other):    
         """ Called by comparison operations if rich comparison is not defined. """
+        def compareOccurrences(a, b):
+            """
+            Compare an entry occurrence with another one.
+            """
+            # compareOccurrences {{{
+            if a[0] != b[0]:
+                if a[0] > b[0]: return 1
+                else: return -1
+        
+            if a[1] != b[1]:
+                if a[1] > b[1]: return 1
+                else: return -1
+        
+            return 0
+            # }}}
+            
         # First: Obsolete test
         if self.obsolete != other.obsolete:
             if self.obsolete: return -1
@@ -921,8 +922,12 @@ class POEntry(_BaseEntry):
         occ2.sort(compareOccurrences)
         
         # Comparing sorted occurrences
-        for pos, entry1 in enumerate(occ1):
-            entry2 = occ2[pos]
+        pos = 0
+        for entry1 in occ1:
+            try:
+                entry2 = occ2[pos]
+            except IndexError:
+                break
             
             if entry1[0] != entry2[0]:
                 if entry1[0] > entry2[0]: return 1
@@ -931,6 +936,8 @@ class POEntry(_BaseEntry):
             if entry1[1] != entry2[1]:
                 if entry1[1] > entry2[1]: return 1
                 else: return -1
+            
+            pos += 1
 
         # Finally: Compare message ID
         if self.msgid > other.msgid: return 1
