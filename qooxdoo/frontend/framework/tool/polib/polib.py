@@ -234,6 +234,21 @@ def unquote(st):
     # }}}
 
 
+def compareOccurrences(a, b):
+    """
+    Compare an entry occurrence with another one.
+    """
+    # compareOccurrences {{{
+    if a[0] != b[0]:
+        return a[0] < b[0]
+        
+    if a[1] != b[1]:
+        return a[1] < b[1]
+        
+    return 0
+    # }}}
+    
+    
 class _BaseFile(list):
     """
     Common parent class for POFile and MOFile classes.
@@ -762,7 +777,7 @@ class _BaseEntry(object):
             ret += self._str_field("msgstr", delflag, "", self.msgstr)
         _listappend(ret, '')
         return _strjoin('\n', ret)
-
+        
     def _str_field(self, fieldname, delflag, plural_index, field):
         field = self._decode(field)
         lines = field.splitlines(True) # keep line breaks in strings
@@ -889,6 +904,37 @@ class POEntry(_BaseEntry):
             _listappend(ret, '#, %s' % _strjoin(', ', flags))
         _listappend(ret, _BaseEntry.__str__(self))
         return _strjoin('\n', ret)
+
+    def __cmp__(self, other):    
+        """ Called by comparison operations if rich comparison is not defined. """
+        # First: Obsolete test
+        if self.obsolete != other.obsolete:
+            if self.obsolete: return -1
+            else: return 1
+        
+        # Work on a copy to protect original
+        occ1 = self.occurrences[:]
+        occ2 = other.occurrences[:]
+        
+        # Sorting using compare method
+        occ1.sort(compareOccurrences)
+        occ2.sort(compareOccurrences)
+        
+        # Comparing sorted occurrences
+        for pos, entry1 in enumerate(occ1):
+            entry2 = occ2[pos]
+            
+            if entry1[0] != entry2[0]:
+                if entry1[0] > entry2[0]: return 1
+                else: return -1
+
+            if entry1[1] != entry2[1]:
+                if entry1[1] > entry2[1]: return 1
+                else: return -1
+
+        # Finally: Compare message ID
+        if self.msgid > other.msgid: return 1
+        else: return -1
 
     def translated(self):
         """Return True if the entry has been translated or False"""
