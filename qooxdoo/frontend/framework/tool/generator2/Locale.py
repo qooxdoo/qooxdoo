@@ -1,10 +1,13 @@
+import os, tempfile
+
 from polib.polib import *
 from generator2 import util
 from modules import treeutil
 
 class Locale:
-    def __init__(self, classes, cache, console, treeLoader):
+    def __init__(self, classes, translation, cache, console, treeLoader):
         self._classes = classes
+        self._translation = translation
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
@@ -21,16 +24,64 @@ class Locale:
             for location in strings[entry]:
                 occ.append((location["file"], location["line"]))
             
-            obj.occurences = occ            
+            obj.occurrences = occ            
             pot.append(obj)
             
         return pot
         
         
-    def loadPoFile(self, path):
-        po = pofile(path)
+
+    def updatePoFiles(self, namespace, locales, content):
+        self._console.debug("Generating pot file...")
+        pot = self.getPotFile(content)
+
+        self._console.debug("Process po files...")
+        self._console.indent()
+        
+        files = self._translation[namespace]
+        
+        for name in locales:
+            if not name in files:
+                self._console.debug("Creating: %s" % name)
+                
+        for name in files:
+            self._console.debug("Updating: %s" % name)
+            
+            entry = files[name]
+            po = pofile(entry["path"])
+            po = self.msgmergeNative(pot, po)
+            po.save(entry["path"])
+            
+            
+        self._console.outdent()                
+        
+        
+        
+    def msgmergeCustom(self, pot, po):
+        for entry in pot:
+            print po.find(entry.msgid)
+        
+        # TODO
         
 
+    def msgmergeNative(self, pot, po):
+        potname = tempfile.NamedTemporaryFile().name
+        poname = tempfile.NamedTemporaryFile().name
+        
+        pot.save(potname)
+        po.save(poname)
+        
+        os.spawnl(os.P_WAIT, "msgmerge", "--update", "-v", poname, potname)
+
+        po = pofile(poname)
+        
+        os.unlink(potname)
+        os.unlink(poname)        
+        
+        return po
+        
+
+        
         
     def getPackageStrings(self, packageContent, variants):
         result = {}

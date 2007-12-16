@@ -54,7 +54,7 @@ class Generator:
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._locale = Locale(self._classes, self._cache, self._console, self._treeLoader)
+        self._locale = Locale(self._classes, self._translation, self._cache, self._console, self._treeLoader)
         self._apiLoader = ApiLoader(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
@@ -284,6 +284,7 @@ class Generator:
 
     def runUpdateTranslation(self):
         namespaces = self._config.get("localize/update")
+        locales = self._config.get("localize/locales")
         
         if not namespaces:
             return
@@ -300,10 +301,7 @@ class Generator:
                 if classes[classId]["namespace"] == namespace:
                     content.append(classId)
         
-        pot = self._locale.getPotFile(content)
-        
-        # TODO: msgmerge
-        
+        self._locale.updatePoFiles(namespace, locales, content)
         self._console.outdent()
         
         
