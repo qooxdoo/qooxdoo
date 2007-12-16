@@ -1,4 +1,4 @@
-import os, tempfile
+import os, tempfile, subprocess
 
 from polib import polib
 from generator2 import util
@@ -11,11 +11,11 @@ class Locale:
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
-        
+        self._native = False
         
     
     def getPotFile(self, packageContent, variants=None):
-        pot = polib.POFile()
+        pot = self.createPoFile()
         strings = self.getPackageStrings(packageContent, variants)
         
         for entry in strings:
@@ -49,29 +49,29 @@ class Locale:
             
             entry = files[name]
             po = polib.pofile(entry["path"])
-            po = self.msgmergeNative(pot, po)
+            po = self.msgmerge(po, pot)
             po.save(entry["path"])
-            
             
         self._console.outdent()                
         
         
         
-    def msgmergeCustom(self, pot, po):
-        for entry in pot:
-            print po.find(entry.msgid)
+    def msgmerge(self, po, pot):
+        if not self._native:
+            po.merge(pot)
+            return po
         
-        # TODO
-        
-
-    def msgmergeNative(self, pot, po):
-        potname = tempfile.NamedTemporaryFile().name
+        # Native implementation
         poname = tempfile.NamedTemporaryFile().name
-        
-        pot.save(potname)
+        potname = tempfile.NamedTemporaryFile().name
+
         po.save(poname)
+        pot.save(potname)
         
-        os.spawnl(os.P_WAIT, "msgmerge", "--update", "-v", poname, potname)
+        ret = subprocess.call(["msgmerge", "--update", "-q", poname, potname])
+        
+        if ret != 0:
+            raise NameError("Could not update po file!")
 
         po = polib.pofile(poname)
         
@@ -81,15 +81,15 @@ class Locale:
         return po
         
         
-        
     def createPoFile(self):
         po = polib.POFile()
+        
         po.metadata['Project-Id-Version'] = '1.0'
-        po.metadata['Report-Msgid-Bugs-To'] = 'you@example.com'
+        po.metadata['Report-Msgid-Bugs-To'] = 'you@qooxdoo.org'
         po.metadata['POT-Creation-Date'] = '2007-10-18 14:00+0100'
         po.metadata['PO-Revision-Date'] = '2007-10-18 14:00+0100'
-        po.metadata['Last-Translator'] = 'you <you@example.com>'
-        po.metadata['Language-Team'] = 'English <yourteam@example.com>'
+        po.metadata['Last-Translator'] = 'you <you@qooxdoo.org>'
+        po.metadata['Language-Team'] = 'Team <yourteam@qooxdoo.org>'
         po.metadata['MIME-Version'] = '1.0'
         po.metadata['Content-Type'] = 'text/plain; charset=utf-8'
         po.metadata['Content-Transfer-Encoding'] = '8bit'
