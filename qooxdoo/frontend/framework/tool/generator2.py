@@ -80,7 +80,7 @@ def _processOptions(options):
     obj.close()
 
     # Resolve "extend"-Keys
-    _resolve(console, config, options.jobs)
+    _resolveExtends(console, config, options.jobs)
 
     # Convert into Config class instance
     config = Config(config)
@@ -95,31 +95,31 @@ def _processOptions(options):
 
 
 
-def _splitListToDictSingle(data, divider=":"):
-    result = {}
-    for entry in data:
-        splitted = entry.split(divider)
-        result[splitted[0]] = splitted[1]
+def _resolveExtends(console, config, jobs):
+    def _mergeEntry(target, source):
+        for key in source:
+            if not target.has_key(key):
+                target[key] = source[key]
 
-    return result
+    def _resolveEntry(console, config, job):
+        if not config.has_key(job):
+            console.warn("No such job: %s" % job)
+            sys.exit(1)
 
+        data = config[job]
 
-def _splitListToDictMulti(data, divider=":"):
-    result = {}
-    for entry in data:
-        splitted = entry.split(divider)
-        key = splitted[0]
-        value = splitted[1]
-        
-        if not result.has_key(key):
-            result[key] = []
-            
-        result[key].append(value)
+        if data.has_key("resolved"):
+            return
 
-    return result
+        if data.has_key("extend"):
+            includes = data["extend"]
 
+            for entry in includes:
+                _resolveEntry(console, config, entry)
+                _mergeEntry(config[job], config[entry])
 
-def _resolve(console, config, jobs):
+        data["resolved"] = True
+
     console.info("Resolving jobs...")
     console.indent()
 
@@ -130,44 +130,78 @@ def _resolve(console, config, jobs):
 
 
 
-def _resolveEntry(console, config, job):
-    if not config.has_key(job):
-        console.warn("No such job: %s" % job)
-        sys.exit(1)
-
-    data = config[job]
-
-    if data.has_key("resolved"):
-        return
-
-    if data.has_key("extend"):
-        includes = data["extend"]
-
-        for entry in includes:
-            _resolveEntry(console, config, entry)
-            _mergeEntry(config[job], config[entry])
-
-    data["resolved"] = True
-
-
-
-def _mergeEntry(target, source):
-    for key in source:
-        if not target.has_key(key):
-            target[key] = source[key]
-
-
-
 def _executeFeatureSets(console, options):
+    def _variantToSet(data):
+        for key in data:
+            if data[key] == "on":
+                data[key] = True
+            elif data[key] == "off":
+                data[key] = False
+
+        return data
+
+    def _variantFromSet(data):
+        for key in data:
+            if data[key] == True:
+                data[key] = "on"
+            elif data[key] == False:
+                data[key] = "off"
+            elif not isinstance(data[key], basestring):
+                data[key] = "%s" % data[key]
+
+        return data
+
+    def _settingToSet(data):
+        for key in data:
+            if data[key] == "true":
+                data[key] = True
+            elif data[key] == "false":
+                data[key] = False
+
+        return data
+
+    def _settingFromSet(data):
+        for key in data:
+            if data[key] == True:
+                data[key] = "true"
+            elif data[key] == False:
+                data[key] = "false"
+            elif not isinstance(data[key], basestring):
+                data[key] = "%s" % data[key]
+
+        return data
+
+    def _splitSingle(data, divider=":"):
+        result = {}
+        for entry in data:
+            splitted = entry.split(divider)
+            result[splitted[0]] = splitted[1]
+
+        return result
+
+    def _splitMulti(data, divider=":"):
+        result = {}
+        for entry in data:
+            splitted = entry.split(divider)
+            key = splitted[0]
+            value = splitted[1]
+
+            if not result.has_key(key):
+                result[key] = []
+
+            result[key].append(value)
+
+        return result
+
     sets = options.featuresets
-    variants = _splitListToDictSingle(options.variants)
-    settings = _splitListToDictSingle(options.settings)
-    require = _splitListToDictMulti(options.require)
-    use = _splitListToDictMulti(options.use)
+    variants = _splitSingle(options.variants)
+    settings = _splitSingle(options.settings)
+    require = _splitMulti(options.require)
+    use = _splitMulti(options.use)
 
     runtime = {
-      "variant" : _translateVariantValuesToFeatureSet(variants),
-      "setting" : _translateSettingValuesToFeatureSet(settings),
+      "variant" : _variantToSet(variants),
+      "setting" : _settingToSet(settings),
       "require" : require,
       "use" : use
     }
@@ -177,58 +211,10 @@ def _executeFeatureSets(console, options):
         execfile(fileName, {}, runtime)
 
     # Convert to useable variants and settings
-    variants = _translateVariantValuesFromFeatureSet(runtime["variant"])
-    settings = _translateSettingValuesFromFeatureSet(runtime["setting"])
+    variants = _variantFromSet(runtime["variant"])
+    settings = _settingFromSet(runtime["setting"])
 
     return variants, settings, require, use
-
-
-
-def _translateVariantValuesToFeatureSet(data):
-    for key in data:
-        if data[key] == "on":
-            data[key] = True
-        elif data[key] == "off":
-            data[key] = False
-
-    return data
-
-
-
-def _translateVariantValuesFromFeatureSet(data):
-    for key in data:
-        if data[key] == True:
-            data[key] = "on"
-        elif data[key] == False:
-            data[key] = "off"
-        elif not isinstance(data[key], basestring):
-            data[key] = "%s" % data[key]
-
-    return data
-
-
-
-def _translateSettingValuesToFeatureSet(data):
-    for key in data:
-        if data[key] == "true":
-            data[key] = True
-        elif data[key] == "false":
-            data[key] = False
-
-    return data
-
-
-
-def _translateSettingValuesFromFeatureSet(data):
-    for key in data:
-        if data[key] == True:
-            data[key] = "true"
-        elif data[key] == False:
-            data[key] = "false"
-        elif not isinstance(data[key], basestring):
-            data[key] = "%s" % data[key]
-
-    return data
 
 
 

@@ -7,22 +7,22 @@ class LibraryPath:
         self._console = console
         self._classes = {}
         self._translation = {}
-        
+
         self.scan()
 
-    
+
     _implFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
     _localeFile = re.compile('qx.locale.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
 
 
     def getClasses(self):
         return self._classes
-        
-        
+
+
     def getTranslation(self):
         return self._translation
-        
-        
+
+
     def getNamespace(self):
         return self._namespace
 
@@ -37,15 +37,15 @@ class LibraryPath:
             return True
 
         return False
-        
-        
-    
+
+
+
     def isLocaleFile(self, fileName, fileContent):
         for item in self._localeFile.findall(fileContent):
             return True
 
         return False
-        
+
 
 
     def getContentType(self, fileName, fileContent):
@@ -91,64 +91,67 @@ class LibraryPath:
 
         uri = self._config.get("uri", path)
         encoding = self._config.get("encoding", "utf-8")
-        classFolder = os.path.join(path, self._classFolder)
-        classUri = path + "/" + self._classFolder
 
-        self.detectNamespace(classFolder)
-        self.scanClassPath(classFolder, classUri, encoding)
-        self.scanTranslationPath(os.path.join(path, "translation"))
-        
-        
-        
-    
+        classPath = os.path.join(path, self._classFolder)
+        classUri = uri + "/" + self._classFolder
+
+        translationPath = os.path.join(path, self._translationFolder)
+
+        self.detectNamespace(classPath)
+        self.scanClassPath(classPath, classUri, encoding)
+        self.scanTranslationPath(translationPath)
+
+
+
+
     _ignoredDirectories = [".svn", "CVS"]
     _classFolder = "class"
     _translationFolder = "translation"
-    
-    
-    
+
+
+
     def detectNamespace(self, path):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
-            
+
         ns = None
 
         files = os.listdir(path)
-        
+
         for entry in files:
             if entry.startswith(".") or entry in self._ignoredDirectories:
                 continue
-            
+
             full = os.path.join(path, entry)
             if os.path.isdir(full):
                 if ns != None:
                     self._console.error("Multi namespaces per library are not supported!")
                     sys.exit(1)
-                
+
                 ns = entry
-        
+
         if ns == None:
             self._console.error("Namespace could not be detected!")
             sys.exit(1)
-                        
+
         self._console.debug("Auto detected namespace: %s" % ns)
         self._namespace = ns
-    
-    
-        
+
+
+
     def scanClassPath(self, path, uri, encoding):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
 
         self._console.debug("Scanning class folder: %s" % path)
-        
+
         # Initialize counters
         implNumber = 0
         docNumber = 0
         localeNumber = 0
-        
+
         # Shorten namespace
         ns = self._namespace
 
@@ -218,19 +221,19 @@ class LibraryPath:
 
         self._console.indent()
         self._console.debug("Added classes: %s impl, %s doc, %s locale" % (implNumber, docNumber, localeNumber))
-        self._console.outdent()        
-        
-        
-        
+        self._console.outdent()
+
+
+
     def scanTranslationPath(self, path):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a translation folder: %s" % path)
             sys.exit(1)
 
         self._console.debug("Scanning translation folder: %s" % path)
-        
+
         number = 0
-        
+
         # Iterate...
         for root, dirs, files in os.walk(path):
             # Filter ignored directories
@@ -243,20 +246,20 @@ class LibraryPath:
                 # Ignore non-script and dot files
                 if os.path.splitext(fileName)[-1] != ".po" or fileName.startswith("."):
                     continue
-                
+
                 filePath = os.path.join(root, fileName)
                 locale = os.path.splitext(fileName)[0]
                 number += 1
-                
+
                 if "_" in locale:
                     split = locale.index("_")
                     parent = locale[:split]
                     variant = locale[split+1:]
-                
+
                 else:
                     parent = "C"
                     variant = ""
-                
+
                 # Store file data
                 self._translation[locale] = {
                     "path" : filePath,
@@ -264,7 +267,7 @@ class LibraryPath:
                     "parent" : parent,
                     "variant" : variant
                 }
-                
-        self._console.indent()                
+
+        self._console.indent()
         self._console.debug("Added translation: %s locales" % number)
-        self._console.outdent()        
+        self._console.outdent()
