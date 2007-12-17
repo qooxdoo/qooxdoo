@@ -120,7 +120,7 @@ class Generator:
     def run(self):
         # Updating translation
         self.runUpdateTranslation()
-
+        
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
@@ -186,6 +186,9 @@ class Generator:
                 partContent = { "boot" : [0] }
                 packageContent = [classList]
 
+            
+            # Translation Task
+            self.runTranslation(partContent, packageContent)
 
             # Source Task
             self.runSource(partContent, packageContent, bootPart, variants)
@@ -281,10 +284,8 @@ class Generator:
 
 
 
-
     def runUpdateTranslation(self):
         namespaces = self._config.get("localize/update")
-        locales = self._config.get("localize/locales")
 
         if not namespaces:
             return
@@ -301,8 +302,30 @@ class Generator:
                 if classes[classId]["namespace"] == namespace:
                     content.append(classId)
 
-        self._locale.updatePoFiles(namespace, locales, content)
+        self._locale.updatePoFiles(namespace, content)
         self._console.outdent()
+        
+        
+        
+    def runTranslation(self, partContent, packageContent):
+        locales = self._config.get("localize/locales")
+        
+        if locales == None:
+            return
+        
+        localizationData = self._locale.getLocalizationData(locales)
+
+        # returns a string
+        #for namespace in namespaces:
+        #    self._locale.getTranslationData(locales)
+        
+        translation = []
+        translation.append(localizationData)
+        
+        print "".join(translation)
+        
+        return "".join(translation)
+
 
 
 

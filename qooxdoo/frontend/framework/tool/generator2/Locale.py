@@ -2,7 +2,7 @@ import os, tempfile, subprocess
 
 from polib import polib
 from generator2 import util
-from modules import treeutil
+from modules import treeutil, cldr
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):
@@ -13,6 +13,30 @@ class Locale:
         self._treeLoader = treeLoader
         self._native = False
 
+
+    def getLocalizationData(self, locales):
+        self._console.debug("Generating localization data...")
+        self._console.indent()
+        
+        data = []
+        for locale in locales:
+            self._console.debug("Processing locale: %s" % locale)
+            data.append(cldr.parseCldrFile("framework/tool/cldr/main/%s.xml" % locale))
+            
+        self._console.outdent()
+        return "".join(data)
+        
+        
+    def getTranslationData(self, locales, namespace):
+        self._console.debug("Generating translation data for namespace %s..." % namespace)
+        self._console.indent()
+
+        data = []
+        for locale in locales:
+            self._console.debug("Processing locale: %s" % locale)        
+        
+        self._console.outdent()
+        return "".join(data)
 
 
     def getPotFile(self, packageContent, variants=None):
@@ -36,7 +60,7 @@ class Locale:
 
 
 
-    def updatePoFiles(self, namespace, locales, content):
+    def updatePoFiles(self, namespace, content):
         self._console.debug("Generating pot file...")
         pot = self.getPotFile(content)
         pot.sort()
@@ -45,11 +69,6 @@ class Locale:
         self._console.indent()
 
         files = self._translation[namespace]
-
-        for name in locales:
-            if not name in files:
-                self._console.debug("Creating: %s" % name)
-                pot.save(entry["path"])
 
         for name in files:
             self._console.debug("Updating: %s" % name)

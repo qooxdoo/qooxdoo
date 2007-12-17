@@ -131,32 +131,38 @@
 
 
 
-  "localize-qx" :
+  "localize-update-qx" :
   {
     "extend" : ["common"],    
-    "include" : ["=qx.*"],
-    
+    "include" : ["=qx.core.Object"],    
     "localize" : 
     {
-      "update" : ["qx"],
-      "locales" : ["de","en","fr"]
+      "update" : ["qx"]
     }
   },
 
-
-
-
+  "localize-update-feedreader" :
+  {
+    "extend" : ["common"],
+    "include" : ["=qx.core.Object"],    
+    "localize" : 
+    {
+      "update" : ["feedreader"]
+    }
+  },
+  
+  
+  
+  
   "localize-feedreader" :
   {
-    "extend" : ["common"],    
-    "include" : ["=feedreader.*"],
-    
-    "localize" : 
+    "extend" : ["common"],
+    "include" : ["=qx.core.Object"],    
+    "localize" :
     {
-      "update" : ["feedreader"],
-      "locales" : ["de","en","fr"]
-    }
-  },
+      "locales" : ["en","de","fr"]
+    }    
+  },  
 
   "source-feedreader" :
   {
