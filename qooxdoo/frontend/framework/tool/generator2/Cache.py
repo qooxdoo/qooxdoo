@@ -8,13 +8,6 @@ class Cache:
         self._memory = {}
 
 
-    def _storeInMemory(self, cacheId, flag, content):
-        if not flag:
-            return
-
-        self._memory[cacheId] = content
-
-
     def clean(self, cacheId):
         cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
         filetool.remove(cacheFile)
@@ -38,9 +31,12 @@ class Cache:
             return None
 
         try:
-            result = cPickle.load(open(cacheFile, 'rb'))
-            self._storeInMemory(cacheId, memory, result)
-            return result
+            content = cPickle.load(open(cacheFile, 'rb'))
+
+            if memory:
+                self._memory[cacheId] = content
+
+            return content
 
         except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
             self._console.error("Could not read cache from %s" % self._path)
@@ -58,4 +54,5 @@ class Cache:
             self._console.error("Could not store cache to %s" % self._path)
             sys.exit(1)
 
-        self._storeInMemory(cacheId, memory, content)
+        if memory:
+            self._memory[cacheId] = content
