@@ -225,7 +225,7 @@ def parseCldrFile(filename, outputDirectory=None):
     	outfile = os.path.join(outputDirectory, locale + ".js");
     	open(outfile, "w").write(code)
     else:
-    	print code
+    	return code
 
 
 def main(argv=None):
