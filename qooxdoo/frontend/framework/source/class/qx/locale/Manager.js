@@ -76,7 +76,7 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a plural message
      *
-     * Depending on the third argument the plursl or the singular form is chosen.
+     * Depending on the third argument the plural or the singular form is chosen.
      *
      * @type static
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
@@ -101,8 +101,6 @@ qx.Class.define("qx.locale.Manager",
 
     /**
      * Translate a message with translation hint
-     *
-     * Depending on the third argument the plursl or the singular form is chosen.
      *
      * @type static
      * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
