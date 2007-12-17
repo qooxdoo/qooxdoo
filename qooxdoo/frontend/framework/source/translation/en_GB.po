@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-21 15:42+0200\n"
+"POT-Creation-Date: 2007-12-13 11:44+0100\n"
 "PO-Revision-Date: 2007-04-05 16:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -291,22 +291,38 @@ msgstr "Next year"
 msgid "Choose a date"
 msgstr "Choose a date"
 
-#: class/qx/ui/form/ComboBoxEx.js:268
+#: class/qx/ui/form/ComboBoxEx.js:270
 msgid "Description"
 msgstr "Description"
 
-#: class/qx/ui/form/ComboBoxEx.js:268
+#: class/qx/ui/form/ComboBoxEx.js:270
 msgid "ID"
 msgstr "ID"
 
-#: class/qx/ui/form/ComboBoxEx.js:1052
+#: class/qx/ui/form/ComboBoxEx.js:954
+msgid "Search"
+msgstr ""
+
+#: class/qx/ui/form/ComboBoxEx.js:1070
 msgid "Case sensitive"
 msgstr "Case sensitive"
 
-#: class/qx/ui/form/ComboBoxEx.js:1095
+#: class/qx/ui/form/ComboBoxEx.js:1113
 msgid "Search next occurrence"
 msgstr "Search next occurrence"
 
-#: class/qx/ui/form/ComboBoxEx.js:1139
+#: class/qx/ui/form/ComboBoxEx.js:1157
 msgid "Search items in list"
 msgstr "Search items in list"
+
+#: class/qx/ui/table/Table.js:1502
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/qx/ui/table/Table.js:1504
+msgid "one of one row"
+msgid_plural "%1 of %2 rows"
+msgstr[0] ""
+msgstr[1] ""
