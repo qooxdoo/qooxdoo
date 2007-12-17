@@ -361,7 +361,7 @@ exec-application-translation:
 	  echo "    - Translation: $$LOC"; \
 	  if [ ! -r $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
-	    msginit --locale $$LOC --no-translator -i $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot -o $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale C --no-translator -i $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot -o $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
 	    msgmerge --update -q $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot; \
