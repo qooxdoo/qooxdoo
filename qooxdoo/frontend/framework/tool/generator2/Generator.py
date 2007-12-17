@@ -88,15 +88,15 @@ class Generator:
         classes = {}
         translation = {}
         ns = []
-        
+
         for segment in library.iter():
             entryDir = segment.get("path", ".")
 
             self._console.debug("Path: %s" % entryDir)
             self._console.indent()
-            
+
             path = LibraryPath(segment, self._console)
-            
+
             segNamespace = path.getNamespace()
             segClasses = path.getClasses()
             segTranslation = path.getTranslation()
@@ -104,23 +104,23 @@ class Generator:
             ns.append(segNamespace)
             classes.update(segClasses)
             translation[segNamespace] = segTranslation
-            
+
             self._console.outdent()
 
         self._console.outdent()
         self._console.debug("Loaded %s libraries" % len(ns))
         self._console.debug("")
-        
+
         self._classes = classes
         self._translation = translation
         self._namespaces = ns
-        
-        
 
-    def run(self):    
+
+
+    def run(self):
         # Updating translation
-        self.runUpdateTranslation()        
-        
+        self.runUpdateTranslation()
+
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
@@ -285,29 +285,29 @@ class Generator:
     def runUpdateTranslation(self):
         namespaces = self._config.get("localize/update")
         locales = self._config.get("localize/locales")
-        
+
         if not namespaces:
             return
-            
+
         self._console.info("Updating translation files")
         self._console.indent()
-        
+
         content = []
         for namespace in namespaces:
             self._console.debug("Updating: %s" % namespace)
-            
+
             classes = self._classes
             for classId in classes:
                 if classes[classId]["namespace"] == namespace:
                     content.append(classId)
-        
+
         self._locale.updatePoFiles(namespace, locales, content)
         self._console.outdent()
-        
-        
-        
-        
-    
+
+
+
+
+
 
 
 

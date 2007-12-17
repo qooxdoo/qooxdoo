@@ -14,7 +14,12 @@ class DependencyLoader:
 
 
     def getClassList(self, include, block, explicitInclude, explicitExclude, variants):
+        # Resolve intelli include depdendencies
         if len(include) == 0 and len(explicitInclude) > 0:
+            if len(block) > 0:
+                self._console.error("Blocking is not supported when only explicit includes are defined!");
+                sys.exit(1)
+
             result = []
         else:
             result = self.resolveDependencies(include, block, variants)
