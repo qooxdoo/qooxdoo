@@ -135,7 +135,8 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
 
     /**
-     * Sets the column IDs. These IDs may be used internally to identify a column.
+     * Sets the column IDs. These IDs may be used internally to identify a
+     * column.
      *
      * Note: This will clear previously set column names.
      *
@@ -213,7 +214,13 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
 
     /**
-     * Sets the columns.
+     * Sets the column names (and optionally IDs)
+     *
+     * Note: You can not change the _number_ of columns this way.  The number
+     *       of columns is highly intertwined in the entire table operation,
+     *       and dynamically changing it would require as much work as just
+     *       recreating your table.  If you must change the number of columns
+     *       in a table then you should remove the table and add a new one.
      *
      * @type member
      * @param columnNameArr {String[]} The column names. These names will be shown to
