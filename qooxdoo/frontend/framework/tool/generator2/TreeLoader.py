@@ -50,7 +50,12 @@ class TreeLoader:
         self._console.indent()
 
         tokens = self.getTokens(fileId)
-        tree = treegenerator.createSyntaxTree(tokens)
+
+        try:
+            tree = treegenerator.createSyntaxTree(tokens)
+        except treegenerator.SyntaxException, detail:
+            self._console.error("%s" % detail)
+            sys.exit(1)
 
         self._console.outdent()
 
@@ -66,7 +71,7 @@ class TreeLoader:
     def getVariantsTree(self, fileId, variants):
         if variants == None or len(variants) == 0:
             return self.getTree(fileId)
-        
+
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
@@ -75,9 +80,9 @@ class TreeLoader:
         if tree != None:
             if tree == "unmodified":
                 return self.getTree(fileId)
-                
+
             return tree
-            
+
         tree = self.getTree(fileId)
 
         self._console.debug("Select variants: %s..." % fileId)
@@ -85,7 +90,7 @@ class TreeLoader:
 
         # Call variant optimizer
         modified = variantoptimizer.search(tree, variants, fileId)
-        
+
         if not modified:
             self._console.debug("Store unmodified hint.")
 
@@ -97,4 +102,4 @@ class TreeLoader:
         else:
             self._cache.write(cacheId, "unmodified")
 
-        return tree    
+        return tree
