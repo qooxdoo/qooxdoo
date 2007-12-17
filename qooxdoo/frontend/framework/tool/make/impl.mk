@@ -332,7 +332,7 @@ exec-framework-translation:
 	  echo "    - Translation: $$LOC"; \
 	  if [ ! -r $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po ]; then \
   	  echo "      - Generating initial translation file..."; \
-	    msginit --locale C --no-translator -i $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot -o $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot -o $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
 	    msgmerge --update -q $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
