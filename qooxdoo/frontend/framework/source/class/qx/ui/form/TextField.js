@@ -648,18 +648,6 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
     
-    /**
-     * Changes the font color of the text field.
-     * @see qx.util.ColorUtil 
-     *
-     * @param value {String} value for text color. Must be a valid qooxdoo color.
-     * @param old {String} old color value
-     * @return {void}
-     */
-    _applyTextColor : function(value, old)
-    {
-      this._inputElement.style.color = value;
-    },
 
 
 
