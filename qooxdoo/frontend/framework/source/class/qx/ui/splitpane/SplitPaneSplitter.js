@@ -38,6 +38,7 @@ qx.Class.define("qx.ui.splitpane.SplitPaneSplitter",
   {
     this.base(arguments);
 
+    this.setZIndex(1000);
     this.setStyleProperty("fontSize", "0px");
     this.setStyleProperty("lineHeight", "0px");
     this._pane = pane;
