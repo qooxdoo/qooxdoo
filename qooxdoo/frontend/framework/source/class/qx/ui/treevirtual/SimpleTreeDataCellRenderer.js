@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         '<div style="position:absolute;' +
         'left:' +
         ((node.level * 19) + 16 + 2 + 2) +
-        ';' +
+        'px;' +
         'top:0' +
         (node.labelStyle ? ";" + node.labelStyle : "") +
         ';">' +

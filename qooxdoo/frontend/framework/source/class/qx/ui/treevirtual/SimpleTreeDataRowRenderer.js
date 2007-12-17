@@ -70,8 +70,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
       if (node.bSelected)
       {
         // Ensure that the selection model knows it's selected
-        var nodeRowMap = tableModel.getNodeRowMap();
-        var row = nodeRowMap[node.nodeId];
+        var row = rowInfo.row;
         tree.getSelectionModel()._addSelectionInterval(row, row);
       }
 

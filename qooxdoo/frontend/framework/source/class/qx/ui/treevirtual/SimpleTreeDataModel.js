@@ -33,14 +33,14 @@
  *   // USER-PROVIDED ATTRIBUTES
  *   // ------------------------
  *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
- *   parentNodeId   : 23,    // index in _nodeArr of the parent node
+ *   parentNodeId   : 23,    // index of the parent node in _nodeArr
+ *   
  *   label          : "My Documents",
  *   bSelected      : true,  // true if node is selected; false otherwise.
  *   bOpened        : true,  // true (-), false (+)
  *   bHideOpenClose : false, // whether to hide the open/close button
  *   icon           : "images/folder.gif",
  *   iconSelected   : "images/folder_selected.gif",
- *   children       : [ ],   // each value is an index into _nodeArr
  *
  *   cellStyle      : "background-color:cyan"
  *   labelStyle     : "background-color:red;color:white"
@@ -78,6 +78,7 @@
  *   // while others may be of use to event listeners.
  *
  *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners.
+ *   children       : [ ],  // each value is an index into _nodeArr
  *
  *   level          : 2,    // The indentation level of this tree node
  *
@@ -110,10 +111,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     this._nodeArr = []; // tree nodes, organized with hierarchy
 
     this._nodeRowMap = []; // map nodeArr index to rowArr index.  The
+                           // index of this array is the index of
+                           // _nodeArr, and the values in this array are
+                           // the indexes into _rowArr.
 
-    // index of this array is the index of
-    // _nodeArr, and the values in this array are
-    // the indexes into _rowArr.
     this._treeColumn = 0; // default column for tree nodes
 
     this._selections = {}; // list of indexes of selected nodes
@@ -974,9 +975,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return this._nodeRowMap;
     },
 
+    /**
+     * This operation maps nodes to rowIndexes.  It does the opposite job to {@link #getNodeFromRow}.
+     *
+     * @type member
+     *
+     * @param nodeId {Integer}
+     *   The id of the node (as would have been returned by addBranch(), 
+     *   addLeaf(), etc.) to get the row index for. 
+     */
+    getRowFromNodeId : function(nodeId)
+    {
+      return this._nodeRowMap[nodeId];
+    },
 
     /**
-     * This operation maps rowIndexes to nodes.  It does the opposite job to {@link #getNodeRowMap}.
+     * This operation maps rowIndexes to nodes.  It does the opposite job to {@link #getRowFromNodeId}.
      * This function is useful to map selection (row based) to nodes.
      *
      * @type member
@@ -984,7 +998,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param rowIndex {Integer} zero-based row index.
      * @return {Object} node associated to <tt>rowIndex</tt>.
      */
-    getNodeFromRow: function(rowIndex)
+    getNodeFromRow : function(rowIndex)
     {
       return this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
     },

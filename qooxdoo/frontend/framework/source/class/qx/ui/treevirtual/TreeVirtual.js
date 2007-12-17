@@ -103,15 +103,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       custom = { };
     }
 
-    if (custom.treeColumn === undefined)
-    {
-      custom.treeColumn = 0;
-    }
-
     if (! custom.dataModel)
     {
       custom.dataModel =
         new qx.ui.treevirtual.SimpleTreeDataModel();
+    }
+
+    if (custom.treeColumn === undefined)
+    {
+      custom.treeColumn = 0;
+      custom.dataModel.setTreeColumn(custom.treeColumn);
     }
 
     if (! custom.treeDataCellRenderer)
@@ -205,9 +206,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     // Move the focus with the mouse
     this.setFocusCellOnMouseMove(true);
-
-    // slightly increase the line height
-    this.setRowHeight(16);
 
     // Set the cell focus color
     var lightblue = "rgb(" + qx.util.ExtendedColor.toRgb("lightblue") + ")";
@@ -830,7 +828,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             if (node.parentNodeId)
             {
               // Find out what rendered row our parent node is at
-              var rowIndex = dm.getNodeRowMap()[node.parentNodeId];
+              var rowIndex = dm.getRowFromNode(node.parentNodeId);
 
               // Set the focus to our parent
               this.setFocusedCell(this._focusedCol, rowIndex, true);
