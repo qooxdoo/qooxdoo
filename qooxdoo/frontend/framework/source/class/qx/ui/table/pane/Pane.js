@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     /**
      * If only focus or selection changes it is sufficient to only update the
-     * row styles. This method updates the row styles of alll vivible rows or
+     * row styles. This method updates the row styles of all visible rows or
      * of just one row.
      *
      * @param onlyRow {Integer|null ? null} If this parameter is set only the row
@@ -408,36 +408,51 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     _updateRowStyles : function(onlyRow)
     {
-      var table = this.getTable();
-      var selectionModel = table.getSelectionModel();
-      var tableModel = table.getTableModel();
-      var rowRenderer = table.getDataRowRenderer();
-      var firstRow = this.getFirstVisibleRow();
-
       var elem = this.getElement();
       if (!elem.firstChild) {
         this._updateAllRows();
         return;
       }
 
+      var table = this.getTable();
+      var selectionModel = table.getSelectionModel();
+      var tableModel = table.getTableModel();
+      var rowRenderer = table.getDataRowRenderer();
       var rowNodes = elem.firstChild.childNodes;
       var cellInfo = { table : table };
 
-      for (var y=0, l=rowNodes.length; y<l; y++)
+      // We don't want to execute the row loop below more than necessary. If
+      // onlyrow is not null, we want to do the loop only for that row.
+      // In that case, was start at (set the "row" variable to) that row, and
+      // stop at (set the "end" variable to the offset of) the next row; .
+      var row = this.getFirstVisibleRow();
+      var y = 0;
+
+      // How many rows do we need to update?
+      var end = rowNodes.length;
+
+      if (onlyRow != null) 
       {
-        var row = firstRow + y;
-
-        if ((onlyRow != null) && (row != onlyRow)) {
-          continue;
+        // How many rows are we skipping?
+        var offset = onlyRow - row;
+        if (offset >= 0 && offset < end) 
+        {
+          row = onlyRow;
+          y = offset;
+          end = offset + 1;
         }
+        else
+          return;
+      }
 
+      for (; y<end; y++, row++)
+      {
         cellInfo.row = row;
         cellInfo.selected = selectionModel.isSelectedIndex(row);
         cellInfo.focusedRow = (this._focusedRow == row);
         cellInfo.rowData = tableModel.getRowData(row);
 
-        var rowElem = rowNodes[y];
-        rowRenderer.updateDataRowElement(cellInfo, rowElem);
+        rowRenderer.updateDataRowElement(cellInfo, rowNodes[y]);
       };
     },
 
@@ -461,6 +476,28 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
+      var rowHeight = table.getRowHeight();
+      var colCount = paneModel.getColumnCount();
+      var left = 0;
+      var cols = [];
+
+      // precompute column properties
+      for (var x=0; x<colCount; x++)
+      {
+        var col = paneModel.getColumnAtX(x);
+        var cellWidth = columnModel.getColumnWidth(col);
+        cols.push({
+          col: col,
+          xPos: x,
+          editable: tableModel.isColumnEditable(col),
+          focusedCol: this._focusedCol == col,
+          styleLeft: left,
+          styleWidth: cellWidth
+        });
+        
+        left += cellWidth;
+      }
+
       var rowsArr = [];
       for (var row=firstRow; row < firstRow + rowCount; row++)
       {
@@ -474,9 +511,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
 
         var rowHtml = [];
-
-        var rowHeight = table.getRowHeight();
-        var colCount = paneModel.getColumnCount();
 
         var cellInfo = { table : table };
         cellInfo.styleHeight = rowHeight;
@@ -500,25 +534,16 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
         rowHtml.push('>');
 
-        var left = 0;
-
         for (var x=0; x<colCount; x++)
         {
-          var col = paneModel.getColumnAtX(x);
-          cellInfo.xPos = x;
-          cellInfo.col = col;
-          cellInfo.editable = tableModel.isColumnEditable(col);
-          cellInfo.focusedCol = (this._focusedCol == col);
-          cellInfo.value = tableModel.getValue(col, row);
-          var cellWidth = columnModel.getColumnWidth(col);
-
-          cellInfo.styleLeft = left;
-          cellInfo.styleWidth = cellWidth;
-
+          var col_def = cols[x];
+          for (var attr in col_def) {
+            cellInfo[attr] = col_def[attr];
+          }
+          var col = cellInfo.col;
+          cellInfo.value = cellInfo.rowData[col];
           var cellRenderer = columnModel.getDataCellRenderer(col);
           cellRenderer.createDataCellHtml(cellInfo, rowHtml);
-
-          left += cellWidth;
         }
         rowHtml.push('</div>');
 
