@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 
     this.numericAllowed = ["==", "!=", ">", "<", ">=", "<="];
     this.betweenAllowed = ["between", "!between"];
-    this.Conditions = [];
+    this.conditions = [];
 
     this._defaultTextAlign = align || "";
     this._defaultColor = color || "";
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       }
 
       if (temp != null) {
-        this.Conditions.push(temp);
+        this.conditions.push(temp);
       } else {
         throw new Error("Condition not recognized or value is null!");
       }
@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       }
 
       if (temp != null) {
-        this.Conditions.push(temp);
+        this.conditions.push(temp);
       } else {
         throw new Error("Condition not recognized or value1/value2 is null!");
       }
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       }
 
       if (temp != null) {
-        this.Conditions.push(temp);
+        this.conditions.push(temp);
       } else {
         throw new Error("regex cannot be null!");
       }
@@ -228,6 +228,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      */
     _getCellStyle : function(cellInfo)
     {
+      if (!this.conditions.length)
+        return cellInfo.style || "";
+
       var tableModel = cellInfo.table.getTableModel();
       var i;
       var cond_test;
@@ -241,112 +244,113 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
         "font-weight": this._defaultFontWeight
       };
 
-      for (i in this.Conditions)
+      for (i in this.conditions)
       {
         cond_test = false;
 
-        if (qx.lang.Array.contains(this.numericAllowed, this.Conditions[i][0]))
+        if (qx.lang.Array.contains(this.numericAllowed, this.conditions[i][0]))
         {
-          if (this.Conditions[i][6] == null) {
+          if (this.conditions[i][6] == null) {
             compareValue = cellInfo.value;
           } else {
-            compareValue = tableModel.getValueById(this.Conditions[i][6], cellInfo.row);
+            compareValue = tableModel.getValueById(this.conditions[i][6], cellInfo.row);
           }
 
-          switch(this.Conditions[i][0])
+          switch(this.conditions[i][0])
           {
             case "==":
-              if (compareValue == this.Conditions[i][5]) {
+              if (compareValue == this.conditions[i][5]) {
                 cond_test = true;
               }
 
               break;
 
             case "!=":
-              if (compareValue != this.Conditions[i][5]) {
+              if (compareValue != this.conditions[i][5]) {
                 cond_test = true;
               }
 
               break;
 
             case ">":
-              if (compareValue > this.Conditions[i][5]) {
+              if (compareValue > this.conditions[i][5]) {
                 cond_test = true;
               }
 
               break;
 
             case "<":
-              if (compareValue < this.Conditions[i][5]) {
+              if (compareValue < this.conditions[i][5]) {
                 cond_test = true;
               }
 
               break;
 
             case ">=":
-              if (compareValue >= this.Conditions[i][5]) {
+              if (compareValue >= this.conditions[i][5]) {
                 cond_test = true;
               }
 
               break;
 
             case "<=":
-              if (compareValue <= this.Conditions[i][5]) {
+              if (compareValue <= this.conditions[i][5]) {
                 cond_test = true;
               }
 
               break;
           }
         }
-        else if (qx.lang.Array.contains(this.betweenAllowed, this.Conditions[i][0]))
+        else if (qx.lang.Array.contains(this.betweenAllowed, this.conditions[i][0]))
         {
-          if (this.Conditions[i][7] == null) {
+          if (this.conditions[i][7] == null) {
             compareValue = cellInfo.value;
           } else {
-            compareValue = tableModel.getValueById(this.Conditions[i][7], cellInfo.row);
+            compareValue = tableModel.getValueById(this.conditions[i][7], cellInfo.row);
           }
 
-          switch(this.Conditions[i][0])
+          switch(this.conditions[i][0])
           {
             case "between":
-              if (compareValue >= this.Conditions[i][5] && compareValue <= this.Conditions[i][6]) {
+              if (compareValue >= this.conditions[i][5] && compareValue <= this.conditions[i][6]) {
                 cond_test = true;
               }
 
               break;
 
             case "!between":
-              if (compareValue < this.Conditions[i][5] && compareValue > this.Conditions[i][6]) {
+              if (compareValue < this.conditions[i][5] && compareValue > this.conditions[i][6]) {
                 cond_test = true;
               }
 
               break;
           }
         }
-        else if (this.Conditions[i][0] == "regex")
+        else if (this.conditions[i][0] == "regex")
         {
-          if (this.Conditions[i][6] == null) {
+          if (this.conditions[i][6] == null) {
             compareValue = cellInfo.value;
           } else {
-            compareValue = tableModel.getValueById(this.Conditions[i][6], cellInfo.row);
+            compareValue = tableModel.getValueById(this.conditions[i][6], cellInfo.row);
           }
 
-          var the_pattern = new RegExp(this.Conditions[i][5], 'g');
+          var the_pattern = new RegExp(this.conditions[i][5], 'g');
           cond_test = the_pattern.test(compareValue);
         }
 
         // Apply formatting, if any.
         if (cond_test == true) {
-          this.__applyFormatting(this.Conditions[i], style);
+          this.__applyFormatting(this.conditions[i], style);
         }
       }
 
       var styleString = [];
       for(var key in style) {
-        styleString.push(key, ":", style[key], ";");
+        if (style[key]) {
+          styleString.push(key, ":", style[key], ";");
+        }    
       }
       return styleString.join("");
-
     }
   }
 });
