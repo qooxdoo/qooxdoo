@@ -50,9 +50,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
     // Apply shadow
     this.setStyleProperty("filter", "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
 
-    // Apply overflow
-    this.setStyleProperty("overflow", "hidden");
-
     // ************************************************************************
     //   TIMER
     // ************************************************************************
