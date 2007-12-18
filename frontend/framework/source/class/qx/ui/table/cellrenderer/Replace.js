@@ -28,22 +28,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
 {
   extend : qx.ui.table.cellrenderer.Default,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-    this.Conditions = [];
-  },
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -86,7 +70,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
     /**
      * Overridden; called whenever the cell updates. The cell will use, if given, the
      * replaceMap property and/or the replaceFunction to look up labels for a
-     * specific celll value. if the replaceMap, which does not need to be used but
+     * specific cell value. if the replaceMap, which does not need to be used but
      * takes precedence if given, has no entry for a specific value, you can implement
      * a fallback lookup in the replacementFunction, or use the replacementFunction exclusively.
      *
