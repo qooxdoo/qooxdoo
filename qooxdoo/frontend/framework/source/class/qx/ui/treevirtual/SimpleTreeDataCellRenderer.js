@@ -414,15 +414,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           // parent?
           if (bLastChild)
           {
-            // Yup.  Return an ending plus or minus, or blank if node.bOpened
-            // so indicates.
+            // Yup.  Return an ending plus or minus.
             return (node.bOpened
                     ? this.WIDGET_TREE_URI + "end_minus.gif"
                     : this.WIDGET_TREE_URI + "end_plus.gif");
           }
 
-          // Otherwise, return a crossing plus or minus, or a blank if
-          // node.bOpened so indicates.
+          // Otherwise, return a crossing plus or minus.
           return (node.bOpened
                   ? this.WIDGET_TREE_URI + "cross_minus.gif"
                   : this.WIDGET_TREE_URI + "cross_plus.gif");
@@ -436,8 +434,26 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         // If this is a child of the root node...
         if (node.parentNodeId == 0)
         {
-          // then return a blank.
-          return this.STATIC_IMAGE_URI + "blank.gif";
+          // If this is the only child...
+          if (bLastChild && node.bFirstChild)
+          {
+            // ... then return a blank.
+            return this.STATIC_IMAGE_URI + "blank.gif";
+          }
+
+          // Otherwise, if this is the last child...
+          if (bLastChild)
+          {
+            // ... then return an end line.
+            return this.WIDGET_TREE_URI + "end.gif";
+          }
+
+          // Otherwise if this is the first child...
+          if (node.bFirstChild)
+          {
+            // ... then return a start line.
+            return this.WIDGET_TREE_URI + "start.gif";
+          }
         }
 
         // If this is a last child, return and ending line; otherwise cross.
