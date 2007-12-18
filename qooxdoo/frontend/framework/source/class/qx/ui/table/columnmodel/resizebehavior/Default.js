@@ -315,6 +315,16 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     // overloaded
     onVisibilityChanged : function(tableColumnModel, event)
     {
+      // Event data properties: col, visible
+      var data = event.getData();
+
+      // If a column just became visible, resize all columns.
+      if (data.visible)
+      {
+        this._computeColumnsFlexWidth(tableColumnModel, event);
+        return;
+      }
+
       // Extend the last column to fill blank space
       this._extendLastColumn(tableColumnModel, event);
     },
