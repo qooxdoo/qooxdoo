@@ -56,7 +56,6 @@ class Locale:
             for location in strings[msgid]["occurrences"]:
                 obj.occurrences.append((location["file"], location["line"]))
 
-        self._console.debug("File contains %s items" % len(pot))
         pot.sort()
 
         return pot
@@ -87,8 +86,8 @@ class Locale:
 
 
     def generatePackageData(self, content, variants, locales):
-        # Generate POT file
-        self._console.info("Generating POT file...")
+        # Generate POT file to filter PO files
+        self._console.debug("Compiling filter...")
         self._console.indent()
         pot = self.getPotFile(content, variants)
         self._console.outdent()
@@ -117,7 +116,7 @@ class Locale:
         # Load po files
         blocks = {}
         for entry in data:
-            self._console.info("Processing translation: %s" % entry)
+            self._console.debug("Processing translation: %s" % entry)
             self._console.indent()
 
             result = {}

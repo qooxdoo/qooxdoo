@@ -158,11 +158,11 @@ class Generator:
                 partsCfg = self._config.get("packages/parts", {})
                 collapseCfg = self._config.get("packages/collapse", [])
                 sizeCfg = self._config.get("packages/size", 0)
-                bootPart = self._config.get("packages/init", "boot")
+                boot = self._config.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
-                if bootPart in partsCfg and not bootPart in collapseCfg:
-                    collapseCfg.append(bootPart)
+                if boot in partsCfg and not boot in collapseCfg:
+                    collapseCfg.append(boot)
 
                 # Expanding expressions
                 self._console.debug("Expanding include expressions...")
@@ -171,58 +171,58 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                partContent, packageContent = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
 
             else:
                 # Emulate configuration
-                bootPart = "boot"
-                partContent = { "boot" : [0] }
-                packageContent = [classList]
+                boot = "boot"
+                parts = { "boot" : [0] }
+                packages = [classList]
 
 
             # Execute real tasks
-            self.runApiData(packageContent)
-            self.runTranslation(partContent, packageContent, variants)
-            self.runSource(partContent, packageContent, bootPart, variants)
-            self.runCompiled(partContent, packageContent, bootPart, variants)
-            self.runDependencyDebug(partContent, packageContent, variants)
+            self.runApiData(packages)
+            self.runTranslation(parts, packages, variants)
+            self.runSource(parts, packages, boot, variants)
+            self.runCompiled(parts, packages, boot, variants)
+            self.runDependencyDebug(parts, packages, variants)
 
 
 
-    def runApiData(self, packageContent):
+    def runApiData(self, packages):
         apiPath = self._config.get("api/path")
 
         if not apiPath:
             return
 
         apiContent = []
-        for classes in packageContent:
+        for classes in packages:
             apiContent.extend(classes)
             
         self._apiLoader.storeApi(apiContent, apiPath)
 
 
 
-    def runDependencyDebug(self, partContent, packageContents, variants):
+    def runDependencyDebug(self, parts, packages, variants):
          if not self._config.get("debug/dependencies", False):
             return
 
          self._console.info("Dependency debugging...")
          self._console.indent()
 
-         for packageId, packageContent in enumerate(packageContents):
+         for packageId, packages in enumerate(packages):
              self._console.info("Package %s" % packageId)
              self._console.indent()
 
-             for partId in partContent:
-                 if packageId in partContent[partId]:
+             for partId in parts:
+                 if packageId in parts[partId]:
                      self._console.info("Part %s" % partId)
 
-             for classId in packageContent:
+             for classId in packages:
                  self._console.debug("Class: %s" % classId)
                  self._console.indent()
 
-                 for otherClassId in packageContent:
+                 for otherClassId in packages:
                      otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
 
                      if classId in otherClassDeps["load"]:
@@ -261,24 +261,21 @@ class Generator:
 
 
 
-    def runTranslation(self, partContent, packageContent, variants):
+    def runTranslation(self, parts, packages, variants):
         locales = self._config.get("localize/locales")
 
         if locales == None:
             return
 
-        self._console.debug("Integrating %s locales" % len(locales))
-
-        self._console.info("Processing packages...")
+        self._console.info("Processing translation for %s locales..." % len(locales))
         self._console.indent()
 
         packageTranslation = []
-        for pos, classes in enumerate(packageContent):
+        for pos, classes in enumerate(packages):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
             
             packageTranslation.append(self._locale.generatePackageData(classes, variants, locales))
-            #print packageTranslation[len(packageTranslation)-1]
             
             self._console.outdent()
 
@@ -292,7 +289,7 @@ class Generator:
 
 
 
-    def runCompiled(self, partContent, packageContents, bootPart, variants):
+    def runCompiled(self, parts, packages, boot, variants):
         if not self._config.get("compile/file"):
             return
 
@@ -317,7 +314,7 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateCompiledPackageCode(fileUri, partContent, packageContents, bootPart, variants, settings, format))
+        bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
         if format:
             bootContent = "\n\n".join(bootBlocks)
@@ -341,12 +338,12 @@ class Generator:
         self._console.info("Generating packages...")
         self._console.indent()
 
-        for packageId, packageContent in enumerate(packageContents):
+        for packageId, packages in enumerate(packages):
             self._console.info("Compiling package #%s:" % packageId, False)
             self._console.indent()
 
             # Compile file content
-            compiledContent = self._treeCompiler.compileClasses(packageContent, variants, optimize, format)
+            compiledContent = self._treeCompiler.compileClasses(packages, variants, optimize, format)
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
@@ -365,7 +362,7 @@ class Generator:
 
 
 
-    def runSource(self, partContent, packageContents, bootPart, variants):
+    def runSource(self, parts, packages, boot, variants):
         if not self._config.get("source/file"):
             return
 
@@ -384,7 +381,7 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateSourcePackageCode(partContent, packageContents, bootPart, format))
+        sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
@@ -477,23 +474,23 @@ class Generator:
 
 
 
-    def generateSourcePackageCode(self, partContent, packageContents, bootPart, format=False):
-        if not partContent:
+    def generateSourcePackageCode(self, parts, packages, boot, format=False):
+        if not parts:
             return ""
 
         # Translate part information to JavaScript
         partData = "{"
-        for partId in partContent:
+        for partId in parts:
             partData += '"%s":' % (partId)
-            partData += ('%s,' % partContent[partId]).replace(" ", "")
+            partData += ('%s,' % parts[partId]).replace(" ", "")
 
         partData=partData[:-1] + "}"
 
         # Translate URI data to JavaScript
         allUris = []
-        for packageId, packageContent in enumerate(packageContents):
+        for packageId, packages in enumerate(packages):
             packageUris = []
-            for fileId in packageContent:
+            for fileId in packages:
                 packageUris.append('"%s"' % self._classes[fileId]["uri"])
 
             allUris.append("[" + ",".join(packageUris) + "]")
@@ -507,27 +504,27 @@ class Generator:
         # Replace template with computed data
         result = result.replace("%PARTS%", partData)
         result = result.replace("%URIS%", uriData)
-        result = result.replace("%BOOT%", '"%s"' % bootPart)
+        result = result.replace("%BOOT%", '"%s"' % boot)
 
         return result
 
 
 
-    def generateCompiledPackageCode(self, fileName, partContent, packageContents, bootPart, variants, settings, format=False):
-        if not partContent:
+    def generateCompiledPackageCode(self, fileName, parts, packages, boot, variants, settings, format=False):
+        if not parts:
             return ""
 
         # Translate part information to JavaScript
         partData = "{"
-        for partId in partContent:
+        for partId in parts:
             partData += '"%s":' % (partId)
-            partData += ('%s,' % partContent[partId]).replace(" ", "")
+            partData += ('%s,' % parts[partId]).replace(" ", "")
 
         partData=partData[:-1] + "}"
 
         # Translate URI data to JavaScript
         allUris = []
-        for packageId, packageContent in enumerate(packageContents):
+        for packageId, packages in enumerate(packages):
             packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
             allUris.append('["' + packageFileName + '"]')
 
@@ -540,7 +537,7 @@ class Generator:
         # Replace template with computed data
         result = result.replace("%PARTS%", partData)
         result = result.replace("%URIS%", uriData)
-        result = result.replace("%BOOT%", '"%s"' % bootPart)
+        result = result.replace("%BOOT%", '"%s"' % boot)
 
         return result
 
