@@ -69,12 +69,12 @@
       "path" : "application/apiviewer/source/script"
     }
   },
-  
+
   "api-create" :
   {
     "extend" :["common"],
     "include" : ["apiviewer.Application", "qx.theme.ClassicRoyale"],
-    
+
     "settings" :
     {
       "qx.minLogLevel" : "700",
@@ -83,16 +83,16 @@
       "qx.resourceUri" : "../../../framework/source/resource",
       "apiviewer.title" : "Generator2 API Viewer"
     },
-    
+
     "variants" :
     {
       "qx.debug" : ["off"]
     },
-    
+
     "source" :
     {
       "file" : "application/apiviewer/source/script/apiviewer.js"
-    }    
+    }
   },
 
 
@@ -120,9 +120,9 @@
 
   "localize-all" :
   {
-    "extend" : ["common"],    
-    
-    "localize" : 
+    "extend" : ["common"],
+
+    "localize" :
     {
       "locales" : ["de","en","fr"]
     }
@@ -133,9 +133,9 @@
 
   "localize-update-qx" :
   {
-    "extend" : ["common"],    
-    "include" : ["=qx.core.Object"],    
-    "localize" : 
+    "extend" : ["common"],
+    "include" : ["=qx.core.Object"],
+    "localize" :
     {
       "update" : ["qx"]
     }
@@ -144,31 +144,31 @@
   "localize-update-feedreader" :
   {
     "extend" : ["common"],
-    "include" : ["=qx.core.Object"],    
-    "localize" : 
+    "include" : ["=qx.core.Object"],
+    "localize" :
     {
       "update" : ["feedreader"]
     }
   },
-  
-  
-  
-  
+
+
+
+
   "localize-feedreader" :
   {
     "extend" : ["common"],
-    "include" : ["=qx.core.Object"],    
+    "include" : ["=qx.core.Object"],
     "localize" :
     {
       "locales" : ["en","de","fr"]
-    }    
-  },  
+    }
+  },
 
   "source-feedreader" :
   {
     "extend" : ["common"],
     "include" : ["feedreader.*", "qx.theme.Ext"],
-    
+
     "settings" :
     {
       "qx.application" : "feedreader.Application",
@@ -178,7 +178,7 @@
     "source" :
     {
       "file" : "feedreader-source.js",
-      "gzip" : "true"      
+      "gzip" : "true"
     }
   },
 
@@ -200,49 +200,49 @@
       "optimize" : [ "variables", "basecalls" ]
     }
   },
-  
+
   "compile-feedreader-parts" :
   {
     "extend" : ["compile-feedreader"],
-    
+
     "packages" :
     {
       "size" : 5,
-      
+
       "parts" :
       {
         "core" : ["feedreader.Application"],
         "table" : ["feedreader.view.Table"],
-        "tree" : ["feedreader.view.Tree"]        
+        "tree" : ["feedreader.view.Tree"]
       }
-    }   
+    }
   },
-  
+
   "localize-feedreader-parts" :
   {
     "extend" : ["compile-feedreader"],
-    
+
     "compile" : {},
     "localize" :
     {
       "locales" : ["de","en","fr"]
     },
-    
+
     "packages" :
     {
       "size" : 5,
-      
+
       "parts" :
       {
         "core" : ["feedreader.Application"],
         "table" : ["feedreader.view.Table"],
-        "tree" : ["feedreader.view.Tree"]        
+        "tree" : ["feedreader.view.Tree"]
       }
-    }   
-  },  
-  
-  
-  
+    }
+  },
+
+
+
 
 
   "source-apiviewer" :
@@ -328,7 +328,7 @@
       }
     }
   },
-  
+
   "source-apiviewer-parts" :
   {
     "extend" : ["common"],
