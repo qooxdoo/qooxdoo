@@ -198,7 +198,7 @@ class Locale:
                     target = result[msgid]
                 else:
                     target = result[msgid] = {
-                      "occurrences" : []
+                        "occurrences" : []
                     }
 
                     if source.has_key("plural"):

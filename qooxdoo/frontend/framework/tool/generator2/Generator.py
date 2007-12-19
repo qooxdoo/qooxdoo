@@ -321,7 +321,7 @@ class Generator:
         packageTranslation = []
         for classes in packageContent:
             packageTranslation.append(self._locale.generatePackageData(classes, variants, locales))
-            print packageTranslation[len(packageTranslation)-1]
+            #print packageTranslation[len(packageTranslation)-1]
 
         self._console.outdent()
         return packageTranslation
