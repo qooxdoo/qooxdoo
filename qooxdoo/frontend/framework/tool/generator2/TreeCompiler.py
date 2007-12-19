@@ -70,15 +70,6 @@ class TreeCompiler:
         return size
 
 
-    def cleanCompiled(self, fileId, variants, optimize, format=False):
-        variantsId = util.generateId(variants)
-        optimizeId = self.generateOptimizeId(variants)
-
-        cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
-
-        self._cache.clean(cacheId)
-
-
     def compileTree(self, restree, format=False):
         # Emulate options
         parser = optparse.OptionParser()

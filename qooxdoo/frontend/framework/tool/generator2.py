@@ -53,11 +53,6 @@ def main():
 
     (options, args) = parser.parse_args(sys.argv[1:])
 
-    _processOptions(options)
-
-
-
-def _processOptions(options):
     # Initialize console
     if options.verbose:
         console = Log(options.logfile, "debug")

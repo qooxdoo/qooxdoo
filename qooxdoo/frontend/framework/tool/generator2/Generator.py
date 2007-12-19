@@ -152,13 +152,6 @@ class Generator:
             self._console.outdent()
 
 
-            # Cleanup Task
-            self.runClean(classList)
-
-            # API Data Task
-            self.runApiData(classList)
-
-
             # Check for package configuration
             if self._config.get("packages"):
                 # Reading configuration
@@ -187,65 +180,26 @@ class Generator:
                 packageContent = [classList]
 
 
-            # Translation Task
+            # Execute real tasks
+            self.runApiData(packageContent)
             self.runTranslation(partContent, packageContent, variants)
-
-            # Source Task
             self.runSource(partContent, packageContent, bootPart, variants)
-
-            # Compiled Task
             self.runCompiled(partContent, packageContent, bootPart, variants)
-
-            # Dependeny Debug Task
             self.runDependencyDebug(partContent, packageContent, variants)
 
 
 
-
-    def runClean(self, classList):
-        cleanCfg = self._config.get("clean")
-
-        if not cleanCfg:
-            return
-
-        self._console.info("Cleaning up cache")
-        self._console.indent()
-        for cleanJob in cleanCfg:
-            self._console.info("Job: %s" % cleanJob)
-
-        self._console.outdent()
-
-        self._console.info("Removing cache files:", False)
-        self._console.indent()
-
-        for entryPos, entry in enumerate(classes):
-            self._console.progress(entryPos, len(classes))
-            self._console.debug("Cleaning up: %s" % entry)
-
-            if "tokens" in cleanCache:
-                treeutil.cleanTokens(entry)
-
-            if "tree" in cleanCache:
-                treeutil.cleanTree(entry)
-
-            if "variants-tree" in cleanCache:
-                treeutil.cleanVariantsTree(entry, variants)
-
-            if "compiled" in cleanCache:
-                compiler.cleanCompiled(entry, variants, buildProcess)
-
-        self._console.outdent()
-        return
-
-
-
-    def runApiData(self, classList):
+    def runApiData(self, packageContent):
         apiPath = self._config.get("api/path")
 
         if not apiPath:
             return
 
-        self._apiLoader.storeApi(classList, apiPath)
+        apiContent = []
+        for classes in packageContent:
+            apiContent.extend(classes)
+            
+        self._apiLoader.storeApi(apiContent, apiPath)
 
 
 
@@ -319,9 +273,14 @@ class Generator:
         self._console.indent()
 
         packageTranslation = []
-        for classes in packageContent:
+        for pos, classes in enumerate(packageContent):
+            self._console.debug("Package: %s" % pos)
+            self._console.indent()
+            
             packageTranslation.append(self._locale.generatePackageData(classes, variants, locales))
             #print packageTranslation[len(packageTranslation)-1]
+            
+            self._console.outdent()
 
         self._console.outdent()
         return packageTranslation

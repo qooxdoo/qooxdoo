@@ -9,11 +9,6 @@ class TreeLoader:
         self._console = console
 
 
-    def cleanTokens(self, fileId):
-        cacheId = "%s-tokens" % fileId
-        self._cache.clean(cacheId)
-
-
     def getTokens(self, fileId):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
@@ -30,11 +25,6 @@ class TreeLoader:
 
         self._cache.write(cacheId, tokens)
         return tokens
-
-
-    def cleanTree(self, fileId):
-        cacheId = "%s-tree" % fileId
-        self._cache.clean(cacheId)
 
 
     def getTree(self, fileId):
@@ -63,12 +53,7 @@ class TreeLoader:
         return tree
 
 
-    def cleanVariantsTree(self, fileId, variants):
-        cacheId = "%s-tree-%s" % (fileId, util.generateId(variants))
-        self._cache.clean(cacheId)
-
-
-    def getVariantsTree(self, fileId, variants):
+    def getVariantsTree(self, fileId, variants=None):
         if variants == None or len(variants) == 0:
             return self.getTree(fileId)
 
