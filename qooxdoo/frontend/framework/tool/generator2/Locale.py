@@ -17,24 +17,25 @@ class Locale:
     def getLocalizationData(self, locales):
         self._console.debug("Generating localization data...")
         self._console.indent()
-        
+
         data = []
-        for locale in locales:
-            self._console.debug("Processing locale: %s" % locale)
-            data.append(cldr.parseCldrFile("framework/tool/cldr/main/%s.xml" % locale))
-            
+        for entry in locales:
+            self._console.debug("Processing locale: %s" % entry)
+            data.append(cldr.parseCldrFile("framework/tool/cldr/main/%s.xml" % entry))
+
         self._console.outdent()
         return "".join(data)
-        
-        
+
+
     def getTranslationData(self, locales, namespace):
         self._console.debug("Generating translation data for namespace %s..." % namespace)
         self._console.indent()
 
         data = []
-        for locale in locales:
-            self._console.debug("Processing locale: %s" % locale)        
-        
+        for entry in locales:
+            self._console.debug("Processing locale: %s" % entry)
+            # TODO
+
         self._console.outdent()
         return "".join(data)
 
