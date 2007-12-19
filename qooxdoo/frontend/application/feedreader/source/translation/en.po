@@ -1,5 +1,5 @@
 # English translation
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -32,15 +32,15 @@ msgstr ""
 
 #: source/class/feedreader/view/Article.js:133
 msgid "read more ..."
-msgstr "read more ..."
+msgstr ""
 
 #: source/class/feedreader/view/Table.js:36
 msgid "Subject"
-msgstr "Subject"
+msgstr ""
 
 #: source/class/feedreader/view/Table.js:37
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 #: source/class/feedreader/view/Table.js:38
 msgid "ID"
@@ -49,19 +49,19 @@ msgstr ""
 #: source/class/feedreader/view/ToolBar.js:52
 #, fuzzy
 msgid "Add feed"
-msgstr "Add feed"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:56
 msgid "Remove feed"
-msgstr "Remove feed"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:62
 msgid "Reload"
-msgstr "Reload"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:64
 msgid "(%1) Reload the feeds."
-msgstr "(%1) Reload the feeds."
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:71
 msgid "Open preferences window."
@@ -70,45 +70,36 @@ msgstr ""
 #: source/class/feedreader/view/ToolBar.js:79
 #: source/class/feedreader/view/ToolBar.js:81
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:80
 msgid "German"
-msgstr "German"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:82
 msgid "Turkish"
-msgstr "Turkish"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:83
 msgid "Italian"
-msgstr "Italian"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:84
 msgid "Spanish"
-msgstr "Spanish"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:85
 msgid "Swedish"
-msgstr "Swedish"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:86
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:115
 msgid "Help"
-msgstr "Help"
+msgstr ""
 
 #: source/class/feedreader/view/Tree.js:27
 msgid "News feeds"
-msgstr "News feeds"
-
-#~ msgid "Author"
-#~ msgstr "Author"
-
-#~ msgid "reloading ..."
-#~ msgstr "reloading ..."
-
-#~ msgid "qooxdoo feed reader."
-#~ msgstr "qooxdoo feed reader."
+msgstr ""

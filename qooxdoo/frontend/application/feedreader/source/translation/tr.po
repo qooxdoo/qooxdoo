@@ -1,5 +1,5 @@
 # Turkish translation
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -105,12 +105,3 @@ msgstr "Yardım"
 #: source/class/feedreader/view/Tree.js:27
 msgid "News feeds"
 msgstr "Haber beslemeleri"
-
-#~ msgid "Author"
-#~ msgstr "Gönderen"
-
-#~ msgid "reloading ..."
-#~ msgstr "yenileniyor ..."
-
-#~ msgid "qooxdoo feed reader."
-#~ msgstr "qooxdoo besleme okuyucu."

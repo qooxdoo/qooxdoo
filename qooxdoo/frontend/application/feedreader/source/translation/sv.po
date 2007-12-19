@@ -1,5 +1,5 @@
 # Swedish translation
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -103,12 +103,3 @@ msgstr "Hjälp"
 #: source/class/feedreader/view/Tree.js:27
 msgid "News feeds"
 msgstr "Nyhetsfeed"
-
-#~ msgid "Author"
-#~ msgstr "Avsändare"
-
-#~ msgid "reloading ..."
-#~ msgstr "uppdaterar..."
-
-#~ msgid "qooxdoo feed reader."
-#~ msgstr "qooxdoo feed läsare."
