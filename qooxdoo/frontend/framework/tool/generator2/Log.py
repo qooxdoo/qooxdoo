@@ -97,11 +97,11 @@ class Log:
 
 
     def error(self, msg, feed=True):
-        self.log(msg, "error", feed)
+        self.write("!!! %s" % msg, "error", feed)
 
 
     def critical(self, msg, feed=True):
-        self.log(msg, "critical", feed)
+        self.log(msg, "critical", "critical", feed)
 
 
     def progress(self, pos, length):

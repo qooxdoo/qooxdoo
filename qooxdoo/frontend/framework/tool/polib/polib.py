@@ -762,7 +762,7 @@ class _BaseEntry(object):
             ret += self._str_field("msgstr", delflag, "", self.msgstr)
         _listappend(ret, '')
         return _strjoin('\n', ret)
-        
+
     def _str_field(self, fieldname, delflag, plural_index, field):
         field = self._decode(field)
         lines = field.splitlines(True) # keep line breaks in strings
@@ -867,9 +867,9 @@ class POEntry(_BaseEntry):
                 _listappend(filelist, '%s:%s' % (self._decode(fpath), lineno))
             filestr = _strjoin(' ', filelist)
             if wrapwidth > 0 and len(filestr)+3 > wrapwidth:
-                # XXX textwrap split words that contain hyphen, this is not 
-                # what we want for filenames, so the dirty hack is to 
-                # temporally replace hyphens with a char that a file cannot 
+                # XXX textwrap split words that contain hyphen, this is not
+                # what we want for filenames, so the dirty hack is to
+                # temporally replace hyphens with a char that a file cannot
                 # contain, like "*"
                 lines = _strreplace(filestr, '-', '*')
                 lines = _textwrap(filestr, wrapwidth,
@@ -890,7 +890,7 @@ class POEntry(_BaseEntry):
         _listappend(ret, _BaseEntry.__str__(self))
         return _strjoin('\n', ret)
 
-    def __cmp__(self, other):    
+    def __cmp__(self, other):
         """ Called by comparison operations if rich comparison is not defined. """
         def compareOccurrences(a, b):
             """
@@ -900,27 +900,27 @@ class POEntry(_BaseEntry):
             if a[0] != b[0]:
                 if a[0] > b[0]: return 1
                 else: return -1
-        
+
             if a[1] != b[1]:
                 if int(a[1]) > int(b[1]): return 1
                 else: return -1
-        
+
             return 0
             # }}}
-            
+
         # First: Obsolete test
         if self.obsolete != other.obsolete:
             if self.obsolete: return -1
             else: return 1
-        
+
         # Work on a copy to protect original
         occ1 = self.occurrences[:]
         occ2 = other.occurrences[:]
-        
+
         # Sorting using compare method
         occ1.sort(compareOccurrences)
         occ2.sort(compareOccurrences)
-        
+
         # Comparing sorted occurrences
         pos = 0
         for entry1 in occ1:
@@ -928,7 +928,7 @@ class POEntry(_BaseEntry):
                 entry2 = occ2[pos]
             except IndexError:
                 break
-            
+
             if entry1[0] != entry2[0]:
                 if entry1[0] > entry2[0]: return 1
                 else: return -1
@@ -936,7 +936,7 @@ class POEntry(_BaseEntry):
             if entry1[1] != entry2[1]:
                 if int(entry1[1]) > int(entry2[1]): return 1
                 else: return -1
-            
+
             pos += 1
 
         # Finally: Compare message ID
@@ -945,8 +945,20 @@ class POEntry(_BaseEntry):
 
     def translated(self):
         """Return True if the entry has been translated or False"""
-        return ((self.msgstr != '' or self.msgstr_plural) and \
-                (not self.obsolete and 'fuzzy' not in self.flags))
+        if self.obsolete or 'fuzzy' in self.flags:
+            return False
+
+        if self.msgstr != '':
+            return True
+
+        if self.msgstr_plural:
+            for pos in self.msgstr_plural:
+                if self.msgstr_plural[pos] == '':
+                    return False
+
+            return True
+
+        return False
 
     def __getattr__(self, name):
         if name == 'occurences':
@@ -1093,7 +1105,7 @@ class _POFileParser(object):
             # since entries are added when another entry is found, we must add
             # the last entry here (only if there are lines)
             _listappend(self.instance, self.current_entry)
-        # before returning the instance, check if there's metadata and if 
+        # before returning the instance, check if there's metadata and if
         # so extract it in a dict
         firstentry = self.instance[0]
         if firstentry.msgid == '': # metadata found

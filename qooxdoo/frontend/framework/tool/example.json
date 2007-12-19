@@ -154,15 +154,6 @@
 
 
 
-  "localize-feedreader" :
-  {
-    "extend" : ["common"],
-    "include" : ["=qx.core.Object"],
-    "localize" :
-    {
-      "locales" : ["en","de","fr"]
-    }
-  },
 
   "source-feedreader" :
   {
@@ -179,6 +170,33 @@
     {
       "file" : "feedreader-source.js",
       "gzip" : "true"
+    },
+
+    "localize" :
+    {
+      "locales" : ["en", "de", "es", "it"]
+    }
+  },
+
+  "source-feedreader-parts" :
+  {
+    "extend" : ["source-feedreader"],
+
+    "packages" :
+    {
+      "size" : 5,
+
+      "parts" :
+      {
+        "core" : ["feedreader.Application"],
+        "table" : ["feedreader.view.Table"],
+        "tree" : ["feedreader.view.Tree"]
+      }
+    },
+
+    "localize" :
+    {
+      "locales" : ["en", "de", "es", "it"]
     }
   },
 
@@ -218,28 +236,6 @@
     }
   },
 
-  "localize-feedreader-parts" :
-  {
-    "extend" : ["compile-feedreader"],
-
-    "compile" : {},
-    "localize" :
-    {
-      "locales" : ["de","en","fr"]
-    },
-
-    "packages" :
-    {
-      "size" : 5,
-
-      "parts" :
-      {
-        "core" : ["feedreader.Application"],
-        "table" : ["feedreader.view.Table"],
-        "tree" : ["feedreader.view.Tree"]
-      }
-    }
-  },
 
 
 

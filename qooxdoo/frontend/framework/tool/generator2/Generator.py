@@ -120,7 +120,7 @@ class Generator:
     def run(self):
         # Updating translation
         self.runUpdateTranslation()
-        
+
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
@@ -186,9 +186,9 @@ class Generator:
                 partContent = { "boot" : [0] }
                 packageContent = [classList]
 
-            
+
             # Translation Task
-            self.runTranslation(partContent, packageContent)
+            self.runTranslation(partContent, packageContent, variants)
 
             # Source Task
             self.runSource(partContent, packageContent, bootPart, variants)
@@ -304,28 +304,27 @@ class Generator:
 
         self._locale.updatePoFiles(namespace, content)
         self._console.outdent()
-        
-        
-        
-    def runTranslation(self, partContent, packageContent):
+
+
+
+    def runTranslation(self, partContent, packageContent, variants):
         locales = self._config.get("localize/locales")
-        
+
         if locales == None:
             return
-        
-        localizationData = self._locale.getLocalizationData(locales)
 
-        # returns a string
-        #for namespace in namespaces:
-        #    self._locale.getTranslationData(locales)
-        
-        translation = []
-        translation.append(localizationData)
-        
-        print "".join(translation)
-        
-        return "".join(translation)
+        self._console.debug("Integrating %s locales" % len(locales))
 
+        self._console.info("Processing packages...")
+        self._console.indent()
+
+        packageTranslation = []
+        for classes in packageContent:
+            packageTranslation.append(self._locale.generatePackageData(classes, variants, locales))
+            print packageTranslation[len(packageTranslation)-1]
+
+        self._console.outdent()
+        return packageTranslation
 
 
 
@@ -352,7 +351,6 @@ class Generator:
 
         # Read in settings
         settings = self.getSettings()
-
 
         # Generating boot script
         self._console.info("Generating boot script...")

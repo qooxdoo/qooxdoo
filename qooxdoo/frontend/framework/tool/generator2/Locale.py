@@ -1,8 +1,8 @@
-import os, tempfile, subprocess
+import os, sys
 
 from polib import polib
 from generator2 import util
-from modules import treeutil, cldr
+from modules import treeutil, cldr, tree
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):
@@ -11,7 +11,7 @@ class Locale:
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
-        self._native = False
+
 
 
     def getLocalizationData(self, locales):
@@ -27,6 +27,7 @@ class Locale:
         return "".join(data)
 
 
+
     def getTranslationData(self, locales, namespace):
         self._console.debug("Generating translation data for namespace %s..." % namespace)
         self._console.indent()
@@ -40,9 +41,10 @@ class Locale:
         return "".join(data)
 
 
-    def getPotFile(self, packageContent, variants=None):
+
+    def getPotFile(self, content, variants=None):
         pot = self.createPoFile()
-        strings = self.getPackageStrings(packageContent, variants)
+        strings = self.getPackageStrings(content, variants)
 
         for msgid in strings:
             # create poentry
@@ -70,7 +72,6 @@ class Locale:
         self._console.indent()
 
         files = self._translation[namespace]
-
         for name in files:
             self._console.debug("Updating: %s" % name)
 
@@ -81,6 +82,86 @@ class Locale:
             po.save(entry["path"])
 
         self._console.outdent()
+
+
+
+
+    def generatePackageData(self, content, variants, locales):
+        # Generate POT file
+        self._console.info("Generating POT file...")
+        self._console.indent()
+        pot = self.getPotFile(content, variants)
+        self._console.outdent()
+
+        if len(pot) == 0:
+            return {}
+
+        # Find all influenced namespaces
+        namespaces = {}
+        for classId in content:
+            ns = self._classes[classId]["namespace"]
+            namespaces[ns] = True
+
+        # Create a map of locale => files
+        data = {}
+        for namespace in namespaces:
+            files = self._translation[namespace]
+
+            for entry in locales:
+                if files.has_key(entry):
+                    if not data.has_key(entry):
+                        data[entry] = []
+
+                    data[entry].append(files[entry]["path"])
+
+        # Load po files
+        blocks = {}
+        for entry in data:
+            self._console.info("Processing translation: %s" % entry)
+            self._console.indent()
+
+            result = {}
+            for path in data[entry]:
+                self._console.debug("Reading file: %s" % path)
+                self._console.indent()
+
+                po = polib.pofile(path)
+                po.merge(pot)
+
+                translated = po.translated_entries()
+                percent = po.percent_translated()
+                self._console.debug("%s translated entries (%s%%)" % (len(translated), percent))
+                self._console.outdent()
+                result.update(self.entriesToDict(translated))
+
+            self._console.debug("Formatting %s entries" % len(result))
+            blocks[entry] = self.msgfmt(result)
+            self._console.outdent()
+
+        return blocks
+
+
+
+
+
+    def entriesToDict(self, entries):
+        all = {}
+
+        for entry in entries:
+            # TODO: Plural support
+            all[entry.msgid] = entry.msgstr
+
+        return all
+
+
+
+    def msgfmt(self, data):
+        result = []
+
+        for msgid in data:
+            result.append('"%s":"%s"' % (msgid, data[msgid]))
+
+        return "{" + ",".join(result) + "}"
 
 
 
@@ -101,12 +182,12 @@ class Locale:
 
 
 
-    def getPackageStrings(self, packageContent, variants):
+    def getPackageStrings(self, content, variants):
         """ combines data from multiple classes into one map """
 
         result = {}
         counter = 0
-        for classId in packageContent:
+        for classId in content:
             strings = self.getStrings(classId, variants)
             counter += len(strings)
 
@@ -154,7 +235,13 @@ class Locale:
 
         tree = self._treeLoader.getVariantsTree(fileId, variants)
 
-        strings = self._findStrings(tree, [])
+        try:
+            strings = self._findStrings(tree, [])
+        except NameError, detail:
+            self._console.error("Could not extract localizable strings from %s!" % fileId)
+            self._console.error("%s" % detail)
+            sys.exit(1)
+
         if len(strings) > 0:
             self._console.debug("Found %s localizable strings" % len(strings))
 
@@ -202,7 +289,7 @@ class Locale:
 
         params = node.getChild("params", False)
         if not params or not params.hasChildren():
-            raise NameError("Invalid param data for localizable string method!")
+            raise NameError("Invalid param data for localizable string method at line %s!" % node.get("line"))
 
         strings = []
         for child in params.children:
@@ -212,14 +299,18 @@ class Locale:
             elif child.type == "constant" and child.get("constantType") == "string":
                 strings.append(child.get("value"))
 
-            elif len(strings) < no:
-                raise NameError("Unsupported children type: %s" % child.type)
+            elif child.type == "operation":
+                strings.append(self._concatOperation(child))
 
-            else:
+            elif len(strings) < no:
+                raise NameError("Unsupported param of type %s at line %s" % (child.type, child.get("line")))
+
+            # Ignore remaining params (arguments)
+            if len(strings) == no:
                 break
 
         if len(strings) != no:
-            raise NameError("Invalid number of parameters")
+            raise NameError("Invalid number of parameters %s at line %s" % (len(strings), node.get("line")))
 
         if method == "trc":
             entry["hint"] = strings[0]
@@ -231,3 +322,23 @@ class Locale:
             entry["plural"] = strings[1]
 
         data.append(entry)
+
+
+
+    def _concatOperation(self, node):
+        result = ""
+
+        try:
+            first = node.getChild("first").getChildByTypeAndAttribute("constant", "constantType", "string")
+            result += first.get("value")
+
+            second = node.getChild("second").getFirstChild(True, True)
+            if second.type == "operation":
+                result += self._concatOperation(second)
+            else:
+                result += second.get("value")
+
+        except tree.NodeAccessException:
+            raise NameError("Unsupported param of type at line %s" % node.get("line"))
+
+        return result

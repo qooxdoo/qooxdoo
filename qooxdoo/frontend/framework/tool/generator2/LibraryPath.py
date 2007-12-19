@@ -233,6 +233,7 @@ class LibraryPath:
         self._console.debug("Scanning translation folder: %s" % path)
 
         number = 0
+        ns = self._namespace
 
         # Iterate...
         for root, dirs, files in os.walk(path):
@@ -248,24 +249,25 @@ class LibraryPath:
                     continue
 
                 filePath = os.path.join(root, fileName)
-                locale = os.path.splitext(fileName)[0]
+                fileLocale = os.path.splitext(fileName)[0]
                 number += 1
 
-                if "_" in locale:
-                    split = locale.index("_")
-                    parent = locale[:split]
-                    variant = locale[split+1:]
+                if "_" in fileLocale:
+                    split = fileLocale.index("_")
+                    parent = fileLocale[:split]
+                    variant = fileLocale[split+1:]
 
                 else:
                     parent = "C"
                     variant = ""
 
                 # Store file data
-                self._translation[locale] = {
+                self._translation[fileLocale] = {
                     "path" : filePath,
-                    "id" : locale,
+                    "id" : fileLocale,
                     "parent" : parent,
-                    "variant" : variant
+                    "variant" : variant,
+                    "namespace" : ns
                 }
 
         self._console.indent()
