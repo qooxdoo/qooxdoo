@@ -1007,7 +1007,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _applyMaxWidth : function(value, old)
     {
-      this.base(arguments);
+      this.base(arguments, value);
       this._maximizeButtonManager();
     },
 
@@ -1022,7 +1022,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _applyMaxHeight : function(value, old)
     {
-      this.base(arguments);
+      this.base(arguments, value);
       this._maximizeButtonManager();
     },
 
