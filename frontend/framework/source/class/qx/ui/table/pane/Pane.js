@@ -541,7 +541,12 @@ qx.Class.define("qx.ui.table.pane.Pane",
             cellInfo[attr] = col_def[attr];
           }
           var col = cellInfo.col;
-          cellInfo.value = cellInfo.rowData[col];
+          
+          // AB: use the "getValue" method of the tableModel to get the cell's value
+          // working directly on the "rowData" object (-> cellInfo.rowData[col];) is not a solution
+          // because you can't work with the columnIndex -> you have to use the columnId of the columnIndex
+          // This is exactly what the method "getValue" does
+          cellInfo.value = tableModel.getValue(col, row);
           var cellRenderer = columnModel.getDataCellRenderer(col);
           cellRenderer.createDataCellHtml(cellInfo, rowHtml);
         }
