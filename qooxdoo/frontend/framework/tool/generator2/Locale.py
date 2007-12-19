@@ -88,9 +88,7 @@ class Locale:
     def generatePackageData(self, content, variants, locales):
         # Generate POT file to filter PO files
         self._console.debug("Compiling filter...")
-        self._console.indent()
         pot = self.getPotFile(content, variants)
-        self._console.outdent()
 
         if len(pot) == 0:
             return {}
@@ -185,10 +183,8 @@ class Locale:
         """ combines data from multiple classes into one map """
 
         result = {}
-        counter = 0
         for classId in content:
             strings = self.getStrings(classId, variants)
-            counter += len(strings)
 
             for source in strings:
                 msgid = source["id"]
@@ -212,7 +208,7 @@ class Locale:
                     "column" : source["column"]
                 })
 
-        self._console.debug("Package contains %s strings (from %s individual ones)" % (len(result), counter))
+        self._console.debug("Package contains %s unique strings" % len(result))
         return result
 
 

@@ -204,7 +204,6 @@ class PartBuilder:
         # may have requirements, these must be solved. The easiest way to be sure regarding
         # this issue, is to look out for another common package.
 
-        self._console.debug("")
         self._console.info("Optimizing package sizes...")
         self._console.indent()
         self._console.debug("Minimum size: %sKB" % minPackageSize)
@@ -345,3 +344,4 @@ class PartBuilder:
             self._console.debug("Part #%s uses these packages: %s" % (partId, ", ".join(pkgList)))
 
         self._console.outdent()
+        self._console.debug("")
