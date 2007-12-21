@@ -45,7 +45,7 @@
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
-import accessorobfuscator, optparseext, variantoptimizer, privateoptimizer
+import optparseext, variantoptimizer
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
@@ -1694,12 +1694,6 @@ def main():
                 
             variantoptimizer.search(restree, variantMap, fileName)  
             
-        if options.obfuscateAccessors:
-            accessorobfuscator.process(restree)
-            
-        if options.optimizePrivates:
-            privateoptimizer.patch("A", restree, {})
-
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, 0, "$")
 

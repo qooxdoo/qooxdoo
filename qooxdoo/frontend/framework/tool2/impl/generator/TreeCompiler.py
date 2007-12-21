@@ -1,5 +1,5 @@
 import copy, optparse
-from compat import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, treeutil
+from compat import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, treeutil
 import util
 
 class TreeCompiler:
@@ -92,10 +92,6 @@ class TreeCompiler:
             self._console.debug("Optimize local variables...")
             self._variableOptimizeHelper(fileTree, fileId, variants)
 
-        if "privates" in optimize:
-            self._console.debug("Optimize privates...")
-            self._privateOptimizeHelper(fileTree, fileId, variants)
-
         if "strings" in optimize:
             self._console.debug("Optimize strings...")
             self._stringOptimizeHelper(fileTree, fileId, variants)
@@ -116,12 +112,6 @@ class TreeCompiler:
 
     def _variableOptimizeHelper(self, tree, id, variants):
         variableoptimizer.search(tree, [], 0, 0, "$")
-
-
-    def _privateOptimizeHelper(self, tree, id, variants):
-        # TODO: Try to find a solution to have a small unique-like ID
-        unique = zlib.adler32(id)
-        privateoptimizer.patch(unique, tree, {})
 
 
     def _stringOptimizeHelper(self, tree, id, variants):
