@@ -44,8 +44,9 @@
 ##
 
 import sys, string, re
-import config, tree, textile
+import config, tree
 
+from textile import textile
 
 ##
 # Many Regexp's
