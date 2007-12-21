@@ -1,5 +1,5 @@
 import sys, os
-from modules import api, tree, filetool
+from compat import api, tree, filetool
 
 
 class ApiLoader:

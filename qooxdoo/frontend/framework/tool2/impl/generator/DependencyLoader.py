@@ -1,7 +1,7 @@
 import sys, re
 
-from modules import config, treeutil, filetool
-from generator2 import util
+from compat import config, treeutil, filetool
+import util
 
 class DependencyLoader:
     def __init__(self, classes, cache, console, treeLoader, require, use):

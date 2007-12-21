@@ -1,5 +1,5 @@
 import os, sys, sha, cPickle
-from modules import filetool
+from compat import filetool
 
 class Cache:
     def __init__(self, config, console):

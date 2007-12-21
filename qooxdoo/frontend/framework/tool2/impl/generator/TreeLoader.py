@@ -1,6 +1,6 @@
 import os, sys, copy, zlib
-from modules import tokenizer, treegenerator, variantoptimizer
-from generator2 import util
+from compat import tokenizer, treegenerator, variantoptimizer
+import util
 
 class TreeLoader:
     def __init__(self, classes, cache, console):

@@ -1,6 +1,6 @@
 import copy, optparse
-from modules import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, treeutil
-from generator2 import util
+from compat import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, treeutil
+import util
 
 class TreeCompiler:
     def __init__(self, classes, cache, console, treeLoader):

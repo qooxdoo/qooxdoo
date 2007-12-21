@@ -1,5 +1,5 @@
 import os, re, sys
-from modules import filetool
+from compat import filetool
 
 class LibraryPath:
     def __init__(self, config, console):

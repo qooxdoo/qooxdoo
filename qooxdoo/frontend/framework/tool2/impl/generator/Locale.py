@@ -1,8 +1,8 @@
 import os, sys
 
 from polib import polib
-from generator2 import util
-from modules import treeutil, cldr, tree
+import util
+from compat import treeutil, cldr, tree
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):
