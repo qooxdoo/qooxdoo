@@ -43,14 +43,17 @@
 #
 ##
 
-typeset -i DEBUG=0  # don't use this on MacX
+typeset -i DEBUG=1  # don't use this on MacX
 typeset -i rc=0
-typeset adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
+typeset adminHost=127.0.0.1
+typeset adminPort=8000
+typeset adminPath=tool/buildtool/index.html
+typeset adminStart=tool/buildtool/buildtool_starter.html
+typeset adminUrl=http://${adminHost}:${adminPort}/${adminStart}
+#typeset adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
 #typeset adminUrl=http://127.0.0.1:8000/source/index.html
 #typeset testUrl=http://127.0.0.1:8000/
 typeset testUrl=$adminUrl
-typeset adminHost=127.0.0.1
-typeset adminPort=8000
 typeset pybin=python
 typeset Browsers="firefox mozilla webkit safari"
 typeset websrvPath=tool/buildtool/bin/cgiserver.py

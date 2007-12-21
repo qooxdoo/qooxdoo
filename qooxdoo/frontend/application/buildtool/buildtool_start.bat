@@ -45,7 +45,11 @@ rem
   set WebSvrWait=5
   set websrvPath=tool/buildtool/bin/cgiserver.py
   set rc=0
-  set adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
+  set adminHost=127.0.0.1
+  set adminPort=8000
+  set adminPath=tool/buildtool/index.html
+  set adminUrl=http://!adminHost!:!adminPort!/!adminPath!
+  rem set adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
   set testUrl=http://127.0.0.1:8000/
   set pybin=python
   set tmpFile="%TEMP%.\qxtmp.txt"
