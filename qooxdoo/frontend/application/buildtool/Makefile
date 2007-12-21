@@ -103,3 +103,16 @@ exec-deploy: build
 	@cp -fr ./tool/buildtool/* ./deploy
 	@cp -fr ./buildtool_start.* ./deploy
 
+
+#TESTDEPS = 1
+
+ifdef TESTDEPS
+	CLASSFILES = $(shell find $(APPLICATION_SOURCE_PATH)/class -type f -name '.svn' -prune -o -print)
+	FRAMEFILES = $(shell find $(FRAMEWORK_SOURCE_PATH) -name '.svn' -prune -o -print)
+endif
+
+#source/script/buildtool.js: $(CLASSFILES) $(FRAMEFILES)
+bingo: $(CLASSFILES) $(FRAMEFILES)
+	#make source
+	@#echo $(CLASSFILES)
+	touch bingo
