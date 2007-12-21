@@ -433,8 +433,8 @@ exec-files-buildtool:
 	@echo "  * Copying files..."
 	@mkdir -p $(APPLICATION_BUILDTOOL_PATH)
 	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH);
-	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.sh ./buildtool_start.sh
-	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
+	@mv $(APPLICATION_BUILDTOOL_PATH)/buildtool_start.sh ./buildtool_start.sh
+	@mv $(APPLICATION_BUILDTOOL_PATH)/buildtool_start.bat ./buildtool_start.bat
 
 
 
