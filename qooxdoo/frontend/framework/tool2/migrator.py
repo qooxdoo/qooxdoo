@@ -19,12 +19,7 @@
 #
 ################################################################################
 
-import re
-import os
-import sys
-import shutil
-import logging
-import optparse
+import re, os, sys, shutil, logging, optparse
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))

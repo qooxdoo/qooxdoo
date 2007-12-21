@@ -19,18 +19,21 @@
 #
 ################################################################################
 
-import sys, os, optparse, simplejson
+import sys, os, optparse
+sys.path.insert(0, "impl")
 
-from modules import optparseext
+import simplejson
 
-from generator2.Log import Log
-from generator2.Config import Config
-from generator2.Generator import Generator
+from optparse.ExtendAction import *
+
+from generator.Log import Log
+from generator.Config import Config
+from generator.Generator import Generator
 
 
 
 def main():
-    parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
+    parser = optparse.OptionParser(option_class=ExtendAction)
 
     parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
     parser.add_option("-j", "--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
