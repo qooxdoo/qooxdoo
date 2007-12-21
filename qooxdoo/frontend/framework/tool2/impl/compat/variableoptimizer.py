@@ -19,44 +19,26 @@
 #
 ################################################################################
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
-##
+import tree
 
-import tree, mapper
+def convert(current):
+    # Possibilities with each character
+    # 1: 36 = 36
+    # 2: 36*36 = 1296
+    # 3: 36*36*36 = 46656
+    
+    table = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-##
-# Some nice short description of foo(); this can contain html and
-# {@link #foo Links} to items in the current file.
-#
-# @param     a        Describe a positional parameter
-# @keyparam  b        Describe a keyword parameter
-# @def       foo(name)    # overwrites auto-generated function signature
-# @param     name     Describe aliased parameter
-# @return             Description of the things returned
-# @defreturn          The return type
-# @exception IOError  The error it throws
-#
+    res = ""
+    length = len(table) - 1
+
+    if current / length > 0:
+        res += convert(current / length)
+
+    res += table[current % length]
+
+    return res
+
 def skip(name, prefix):
     return len(prefix) > 0 and name[:len(prefix)] == prefix
 
@@ -155,7 +137,7 @@ def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
             idenName = node.get("name", False)
 
             if idenName != None and idenName in found and not skip(idenName, skipPrefix):
-                replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
+                replName = "%s%s" % (prefix, convert(found.index(idenName)))
                 node.set("name", replName)
                 counter += 1
 
@@ -167,7 +149,7 @@ def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
         idenName = node.get("identifier", False)
 
         if idenName != None and idenName in found and not skip(idenName, skipPrefix):
-            replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
+            replName = "%s%s" % (prefix, convert(found.index(idenName)))
             node.set("identifier", replName)
             counter += 1
 
@@ -179,7 +161,7 @@ def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
         idenName = node.get("name", False)
 
         if idenName != None and idenName in found and not skip(idenName, skipPrefix):
-            replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
+            replName = "%s%s" % (prefix, convert(found.index(idenName)))
             node.set("name", replName)
             counter += 1
 
