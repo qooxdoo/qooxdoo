@@ -24,7 +24,7 @@ sys.path.insert(0, "impl")
 
 import simplejson
 
-from optparse.ExtendAction import *
+from optparseext.ExtendAction import *
 
 from generator.Log import Log
 from generator.Config import Config
