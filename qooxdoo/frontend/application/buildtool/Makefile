@@ -48,6 +48,7 @@ error:
 ################################################################################
 
 TMP_XML = $(FRAMEWORK_CACHE_PATH)/mak.xml
+DOC2ADMIN_XML = tool/buildtool/bin/mk-doc2admin-json.xsl
 MAK_VARS = applicationvars.js
 CMD_XSLT = xsltproc
 CMD_COPY = cp -f
@@ -64,7 +65,7 @@ $(FRAMEWORK_CACHE_PATH):
 source-makvars: check-framework gen-vardata
 
 # this target is less readable, but is actually *checked* by make
-gen-vardata: tool/mk-doc2admin-json.xsl $(FRAMEWORK_TOOL_PATH)/make/application.mk
+gen-vardata: $(DOC2ADMIN_XML) $(FRAMEWORK_TOOL_PATH)/make/application.mk
 	@echo
 	@echo "  GENERATION OF BUILD TOOL DATA"
 	@$(CMD_LINE)
@@ -72,7 +73,7 @@ gen-vardata: tool/mk-doc2admin-json.xsl $(FRAMEWORK_TOOL_PATH)/make/application.
 	@$(CMD_DIR) $(APPLICATION_SOURCE_PATH)/script
 	@$(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/makefile_doc.py \
 	  -e $(FRAMEWORK_TOOL_PATH)/make/application.mk > $(TMP_XML)
-	@$(CMD_XSLT) tool/mk-doc2admin-json.xsl $(TMP_XML) > \
+	@$(CMD_XSLT) $(DOC2ADMIN_XML) $(TMP_XML) > \
 	  $(APPLICATION_SOURCE_PATH)/script/$(MAK_VARS)
 
 # Build Targets
@@ -99,5 +100,6 @@ exec-deploy: build
 	@echo "  * Creating ./deploy..."
 	@$(CMD_DIR) ./deploy
 	@cp -fr ./build/* ./deploy
-	@cp -fr ./admin/* ./deploy
+	@cp -fr ./tool/buildtool/* ./deploy
+	@cp -fr ./buildtool_start.* ./deploy
 

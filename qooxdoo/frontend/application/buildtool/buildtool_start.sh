@@ -132,7 +132,7 @@ shutDown () {
   echo_ this application.
   read -n 1
   kill $ServerPid
-  popd >/dev/null
+  popd >/dev/null 2>&1
 }
 
 sleepDot () {
