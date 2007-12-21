@@ -416,8 +416,8 @@ exec-files-buildtool:
 	@echo "  * Copying files..."
 	@mkdir -p $(APPLICATION_BUILDTOOL_PATH)
 	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH);
-	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.sh ./buildtool_start.sh
-	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
+	@mv $(APPLICATION_BUILDTOOL_PATH)/buildtool_start.sh ./buildtool_start.sh
+	@mv $(APPLICATION_BUILDTOOL_PATH)/buildtool_start.bat ./buildtool_start.bat
 
 
 
@@ -476,10 +476,10 @@ exec-testrunner-build:
 
 	@# make a specific testrunner build
 	@( cd $(TESTRUNNER_PATH); \
-          make -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
-                  --use-setting qx.testPageUri:html/tests.html \
-                  --use-setting qx.testNameSpace:$(APPLICATION_NAMESPACE)' \
-                build )
+	   make -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
+		   --use-setting qx.testPageUri:html/tests.html \
+		   --use-setting qx.testNameSpace:$(APPLICATION_NAMESPACE)' \
+		 build )
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/script
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/html
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/resource
@@ -499,27 +499,27 @@ exec-testrunner-build:
 
 exec-tests-build:
 	$(SILENCE) $(CMD_GENERATOR) \
-	   --class-path $(FRAMEWORK_SOURCE_PATH)/class \
-	   --class-path $(TESTRUNNER_SOURCE_PATH)/class \
-	   --class-path $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) \
-	   --include testrunner.TestLoader \
-	   --include $(APPLICATION_NAMESPACE).* \
-	   --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
-	   --add-require qx.log.Logger:qx.log.appender.Native \
-	   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
-	   --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
-	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(TESTRUNNER_NAMESPACE_PATH) \
-	   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
-	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(APPLICATION_NAMESPACE_PATH) \
-	   --use-setting qx.minLogLevel:700 \
-	   --use-setting qx.application:testrunner.TestLoader \
-	   --use-setting qx.theme:qx.theme.ClassicRoyale \
-	   --use-variant qx.debug:off \
-	   --copy-resources \
-	   --optimize-strings --optimize-variables \
-	   --generate-compiled-script \
-	   --compiled-script-file $(APPLICATION_TEST_PATH)/script/tests.js
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
+	  --class-path $(TESTRUNNER_SOURCE_PATH)/class \
+	  --class-path $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) \
+	  --include testrunner.TestLoader \
+	  --include $(APPLICATION_NAMESPACE).* \
+	  --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
+	  --add-require qx.log.Logger:qx.log.appender.Native \
+	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
+	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	  --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
+	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(TESTRUNNER_NAMESPACE_PATH) \
+	  --resource-input $(APPLICATION_SOURCE_PATH)/resource \
+	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(APPLICATION_NAMESPACE_PATH) \
+	  --use-setting qx.minLogLevel:700 \
+	  --use-setting qx.application:testrunner.TestLoader \
+	  --use-setting qx.theme:qx.theme.ClassicRoyale \
+	  --use-variant qx.debug:off \
+	  --copy-resources \
+	  --optimize-strings --optimize-variables \
+	  --generate-compiled-script \
+	  --compiled-script-file $(APPLICATION_TEST_PATH)/script/tests.js
 
 
 
