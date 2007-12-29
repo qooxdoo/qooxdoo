@@ -21,18 +21,18 @@
 
 import re, os, sys, zlib
 
-from compat import filetool
-from compat import textutil
+from misc import filetool
+from misc import textutil
 
-import util
-from ApiLoader import ApiLoader
-from Cache import Cache
-from DependencyLoader import DependencyLoader
-from Locale import Locale
-from PartBuilder import PartBuilder
-from TreeLoader import TreeLoader
-from TreeCompiler import TreeCompiler
-from LibraryPath import LibraryPath
+from generator import util
+from generator.ApiLoader import ApiLoader
+from generator.Cache import Cache
+from generator.DependencyLoader import DependencyLoader
+from generator.Locale import Locale
+from generator.PartBuilder import PartBuilder
+from generator.TreeLoader import TreeLoader
+from generator.TreeCompiler import TreeCompiler
+from generator.LibraryPath import LibraryPath
 
 
 class Generator:

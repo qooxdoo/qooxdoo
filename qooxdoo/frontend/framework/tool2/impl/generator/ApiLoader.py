@@ -1,5 +1,8 @@
 import sys, os
-from compat import api, tree, filetool
+
+from misc import filetool
+from ecmascript import api, tree
+
 
 
 class ApiLoader:

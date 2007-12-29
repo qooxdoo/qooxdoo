@@ -19,50 +19,10 @@
 #
 ################################################################################
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
-##
-
 import re, sys
-import tree
-import compiler
 
-import treegenerator
-import tokenizer
-import treeutil
+from ecmascript import treeutil
 
-##
-# Some nice short description of foo(); this can contain html and
-# {@link #foo Links} to items in the current file.
-#
-# @param     a        Describe a positional parameter
-# @keyparam  b        Describe a keyword parameter
-# @def       foo(name)    # overwrites auto-generated function signature
-# @param     name     Describe aliased parameter
-# @return             Description of the things returned
-# @defreturn          The return type
-# @exception IOError  The error it throws
-#
 def patch(node):
     patchCount = 0
 
@@ -99,8 +59,6 @@ def patch(node):
             newCall = treeutil.compileString("arguments.callee.self")
             call.parent.replaceChild(call, newCall)
             patchCount += 1
-
-
 
     return patchCount
 

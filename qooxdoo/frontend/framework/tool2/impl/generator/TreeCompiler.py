@@ -1,5 +1,8 @@
 import copy, optparse
-from compat import compiler, variableoptimizer, stringoptimizer, basecalloptimizer, treeutil
+
+from ecmascript import compiler, treeutil
+from ecmascript.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
+
 import util
 
 class TreeCompiler:

@@ -1,5 +1,8 @@
 import os, sys, copy, zlib
-from compat import tokenizer, treegenerator, variantoptimizer
+
+from ecmascript import tokenizer, treegenerator
+from ecmascript.optimizer import variantoptimizer
+
 import util
 
 class TreeLoader:

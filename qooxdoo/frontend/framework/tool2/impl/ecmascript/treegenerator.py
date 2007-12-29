@@ -18,28 +18,12 @@
 #
 ################################################################################
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  treegenerator.py -- Parses JavaScript token stream and generates AST
-#
-# SYNTAX
-#  treegenerator.py --help
-#
-#  or
-#
-#  import treegenerator
-#  result = treegenerator.createSyntaxTree(tokenArray)
-#
-# DESCRIPTION
-#  The task of this module is to genereate an abstract syntax tree from an
-#  array of JavaScript tokens.
-#</pre>
-##
-
 import sys, optparse
-import tokenizer, tree, filetool, variableoptimizer
+
+from misc import filetool
+from ecmascript import tokenizer
+from ecmascript import tree
+from ecmascript.optimizer import variableoptimizer
 
 
 SINGLE_LEFT_OPERATORS = ["NOT", "BITNOT", "ADD", "SUB", "INC", "DEC"]

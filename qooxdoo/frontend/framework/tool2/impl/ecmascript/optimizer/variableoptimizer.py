@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import tree
+from ecmascript import tree
 
 def convert(current):
     # Possibilities with each character

@@ -1,8 +1,10 @@
 import os, sys
 
 from polib import polib
+from ecmascript import treeutil, tree
+from misc import cldr
+
 import util
-from compat import treeutil, cldr, tree
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):

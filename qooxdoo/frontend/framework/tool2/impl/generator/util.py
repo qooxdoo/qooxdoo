@@ -1,9 +1,9 @@
 import optparse
 
-from compat import tokenizer
-from compat import treegenerator
-from compat import variableoptimizer
-from compat import compiler
+from ecmascript import tokenizer
+from ecmascript import treegenerator
+from ecmascript import compiler
+from ecmascript.optimizer import variableoptimizer
 
 
 def optimizeJavaScript(code):

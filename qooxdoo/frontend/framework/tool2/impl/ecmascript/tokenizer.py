@@ -19,28 +19,13 @@
 #
 ################################################################################
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  tokenizer.py -- create tokens from JavaScript source code
-#
-# SYNTAX
-#  tokenizer.py --help
-#
-#  or
-#
-#  import tokenizer
-#  result = tokenizer.parseStream(string, id)
-#
-# DESCRIPTION
-#  The module tokenizer.py creates JSON-style tokens from JavaScript source code.
-#
-#</pre>
-##
-
 import sys, string, re, optparse
-import config, filetool, comment
+
+from compat import config
+from ecmascript import comment
+from misc import filetool
+
+
 
 R_WHITESPACE = re.compile(r"(\s+)")
 R_NONWHITESPACE = re.compile("\S+")

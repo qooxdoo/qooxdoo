@@ -19,33 +19,13 @@
 #
 ################################################################################
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  compiler.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
-##
-
 import sys, string, re, optparse
-import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
-import optparseext, variantoptimizer
+import optparseext
+
+from compat import config
+from ecmascript import tokenizer, treegenerator, comment, tree
+from ecmascript.optimizer import variantoptimizer, variableoptimizer
+from misc import filetool
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 

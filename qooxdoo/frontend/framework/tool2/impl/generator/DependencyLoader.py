@@ -1,6 +1,9 @@
 import sys, re
 
-from compat import config, treeutil, filetool
+from compat import config
+from ecmascript import treeutil
+from misc import filetool
+
 import util
 
 class DependencyLoader:
