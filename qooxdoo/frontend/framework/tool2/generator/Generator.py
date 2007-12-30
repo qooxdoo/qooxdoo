@@ -21,10 +21,7 @@
 
 import re, os, sys, zlib
 
-from misc import filetool
-from misc import textutil
-
-import util
+from misc import filetool, textutil, idlist
 from generator.ApiLoader import ApiLoader
 from generator.Cache import Cache
 from generator.DependencyLoader import DependencyLoader
@@ -129,7 +126,7 @@ class Generator:
 
         # Processing all combinations of variants
         variantData = self.getVariants()
-        variantSets = self._computeCombinations(variantData)
+        variantSets = idlist.computeCombinations(variantData)
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
@@ -688,7 +685,7 @@ class Generator:
         return "%sKB / %sKB" % (origSize, compressedSize)
 
 
-    def _optimizeJavaScript(code):
+    def _optimizeJavaScript(self, code):
         restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
         variableoptimizer.search(restree, [], 0, 0, "$")
 
@@ -702,25 +699,3 @@ class Generator:
         (options, args) = parser.parse_args([])
 
         return compiler.compile(restree, options)
-        
-        
-    def _computeCombinations(variants):
-        # convert dict to list
-        variantPossibilities = []
-        for variantId in variants:
-            innerList = []
-            for variantValue in variants[variantId]:
-                innerList.append({"id" : variantId, "value" : variantValue})
-            variantPossibilities.append(innerList)
-
-        combinations = _findCombinations(variantPossibilities)
-        result = []
-
-        # convert to dict[]
-        for pos, entry in enumerate(combinations):
-            result.append({})
-            for item in entry:
-                result[pos][item["id"]] = item["value"]
-
-        return result        
-        

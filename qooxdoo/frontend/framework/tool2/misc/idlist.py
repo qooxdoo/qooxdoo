@@ -10,7 +10,28 @@ def toString(data):
 
     return "|".join(sortedString)
 
+        
+def computeCombinations(variants):
+    # convert dict to list
+    variantPossibilities = []
+    for variantId in variants:
+        innerList = []
+        for variantValue in variants[variantId]:
+            innerList.append({"id" : variantId, "value" : variantValue})
+        variantPossibilities.append(innerList)
 
+    combinations = _findCombinations(variantPossibilities)
+    result = []
+
+    # convert to dict[]
+    for pos, entry in enumerate(combinations):
+        result.append({})
+        for item in entry:
+            result[pos][item["id"]] = item["value"]
+
+    return result  
+
+        
 def _findCombinations(a):
     result = [[]]
 
