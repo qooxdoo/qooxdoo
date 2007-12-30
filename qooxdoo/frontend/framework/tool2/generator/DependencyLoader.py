@@ -1,13 +1,8 @@
 import sys, re
 
 from ecmascript import treeutil
-from misc import filetool
+from misc import filetool, idlist
 
-import util
-
-#
-# QOOXDOO HEADER SUPPORT
-#
 
 class DependencyLoader:
     def __init__(self, classes, cache, console, treeLoader, require, use):
@@ -150,7 +145,7 @@ class DependencyLoader:
             raise NameError("Could not find class to fulfil dependency: %s" % fileId)
 
         filePath = self._classes[fileId]["path"]
-        cacheId = "%s-deps-%s" % (fileId, util.generateId(variants))
+        cacheId = "%s-deps-%s" % (fileId, idlist.toString(variants))
 
         # print "Read from cache: %s" % fileId
 

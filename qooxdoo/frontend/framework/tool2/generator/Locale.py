@@ -2,9 +2,7 @@ import os, sys
 
 from polib import polib
 from ecmascript import treeutil, tree
-from misc import cldr
-
-import util
+from misc import cldr, idlist
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):
@@ -219,7 +217,7 @@ class Locale:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = util.generateId(variants)
+        variantsId = idlist.toString(variants)
 
         cacheId = "%s-locale-%s" % (fileId, variantsId)
 

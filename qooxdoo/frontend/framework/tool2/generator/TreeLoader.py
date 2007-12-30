@@ -1,10 +1,8 @@
-import os, sys
+import sys
 
 from ecmascript import tokenizer, treegenerator
 from ecmascript.optimizer import variantoptimizer
-from misc import filetool
-
-import util
+from misc import filetool, idlist
 
 class TreeLoader:
     def __init__(self, classes, cache, console):
@@ -67,7 +65,7 @@ class TreeLoader:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        cacheId = "%s-tree-%s" % (fileId, util.generateId(variants))
+        cacheId = "%s-tree-%s" % (fileId, idlist.toString(variants))
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
             if tree == "unmodified":

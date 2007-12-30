@@ -24,7 +24,7 @@ import re, os, sys, zlib
 from misc import filetool
 from misc import textutil
 
-from generator import util
+import util
 from generator.ApiLoader import ApiLoader
 from generator.Cache import Cache
 from generator.DependencyLoader import DependencyLoader
@@ -129,7 +129,7 @@ class Generator:
 
         # Processing all combinations of variants
         variantData = self.getVariants()
-        variantSets = util.computeCombinations(variantData)
+        variantSets = self._computeCombinations(variantData)
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
@@ -319,7 +319,7 @@ class Generator:
         if format:
             bootContent = "\n\n".join(bootBlocks)
         else:
-            bootContent = util.optimizeJavaScript("".join(bootBlocks))
+            bootContent = self._optimizeJavaScript("".join(bootBlocks))
 
         # Resolve file name variables
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -386,7 +386,7 @@ class Generator:
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
         else:
-            sourceContent = util.optimizeJavaScript("".join(sourceBlocks))
+            sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -686,3 +686,41 @@ class Generator:
         compressedSize = len(zlib.compress(uni, 9)) / 1024
 
         return "%sKB / %sKB" % (origSize, compressedSize)
+
+
+    def _optimizeJavaScript(code):
+        restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
+        variableoptimizer.search(restree, [], 0, 0, "$")
+
+        # Emulate options
+        parser = optparse.OptionParser()
+        parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
+        parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
+        parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
+        parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
+
+        (options, args) = parser.parse_args([])
+
+        return compiler.compile(restree, options)
+        
+        
+    def _computeCombinations(variants):
+        # convert dict to list
+        variantPossibilities = []
+        for variantId in variants:
+            innerList = []
+            for variantValue in variants[variantId]:
+                innerList.append({"id" : variantId, "value" : variantValue})
+            variantPossibilities.append(innerList)
+
+        combinations = _findCombinations(variantPossibilities)
+        result = []
+
+        # convert to dict[]
+        for pos, entry in enumerate(combinations):
+            result.append({})
+            for item in entry:
+                result[pos][item["id"]] = item["value"]
+
+        return result        
+        

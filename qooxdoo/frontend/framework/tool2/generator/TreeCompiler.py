@@ -2,8 +2,7 @@ import copy, optparse
 
 from ecmascript import compiler, treeutil
 from ecmascript.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
-
-import util
+from misc import idlist
 
 class TreeCompiler:
     def __init__(self, classes, cache, console, treeLoader):
@@ -28,7 +27,7 @@ class TreeCompiler:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = util.generateId(variants)
+        variantsId = idlist.toString(variants)
         optimizeId = self.generateOptimizeId(optimize)
 
         cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
@@ -56,7 +55,7 @@ class TreeCompiler:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = util.generateId(variants)
+        variantsId = idlist.toString(variants)
         cacheId = "%s-compiled-size-%s" % (fileId, variantsId)
 
         size = self._cache.read(cacheId, filePath)
