@@ -2,6 +2,7 @@ import os, sys, copy, zlib
 
 from ecmascript import tokenizer, treegenerator
 from ecmascript.optimizer import variantoptimizer
+from misc import filetool
 
 import util
 
@@ -22,9 +23,12 @@ class TreeLoader:
         if tokens != None:
             return tokens
 
-        self._console.debug("Generating tokens: %s..." % fileId)
 
-        tokens = tokenizer.parseFile(filePath, fileId, fileEncoding)
+        self._console.debug("Opening file: %s..." % fileId)
+        fileContent = filetool.read(filePath, fileEncoding)
+
+        self._console.debug("Generating tokens: %s..." % fileId)
+        tokens = tokenizer.parseStream(fileContent, fileId)
 
         self._cache.write(cacheId, tokens)
         return tokens

@@ -21,7 +21,6 @@
 
 import sys, string, re
 
-from compat import config
 from ecmascript import tree
 from textile import textile
 

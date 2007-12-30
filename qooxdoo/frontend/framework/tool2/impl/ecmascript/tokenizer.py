@@ -19,12 +19,8 @@
 #
 ################################################################################
 
-import sys, string, re, optparse
-
-from compat import config
-from ecmascript import comment
-from misc import filetool
-
+import sys, re
+from ecmascript import lang, comment
 
 
 R_WHITESPACE = re.compile(r"(\s+)")
@@ -97,11 +93,11 @@ def parseElement(element):
     global parseLine
     global parseColumn
 
-    if config.JSRESERVED.has_key(element):
+    if lang.RESERVED.has_key(element):
         # print "PROTECTED: %s" % JSRESERVED[content]
-        obj = { "type" : "reserved", "detail" : config.JSRESERVED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        obj = { "type" : "reserved", "detail" : lang.RESERVED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
-    elif element in config.JSBUILTIN:
+    elif element in lang.BUILTIN:
         # print "BUILTIN: %s" % content
         obj = { "type" : "builtin", "detail" : "", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
@@ -183,7 +179,7 @@ def parsePart(part):
 
                     char = item[i]
                     i += 1
-                    if config.JSTOKENS.has_key(char):
+                    if lang.TOKENS.has_key(char):
                         # convert existing element
                         if element != "":
                             if R_NONWHITESPACE.search(element):
@@ -192,7 +188,7 @@ def parsePart(part):
                             element = ""
 
                         # add character to token list
-                        tokens.append({ "type" : "token", "detail" : config.JSTOKENS[char], "source" : char, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId })
+                        tokens.append({ "type" : "token", "detail" : lang.TOKENS[char], "source" : char, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId })
                         parseColumn += 1
 
                     else:
@@ -361,7 +357,7 @@ def parseStream(content, uniqueId=""):
         elif R_OPERATORS.match(fragment):
             # print "Type:Operator: %s" % fragment
             content = parseFragmentLead(content, fragment, tokens)
-            tokens.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+            tokens.append({ "type" : "token", "detail" : lang.TOKENS[fragment], "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
         # Handle everything else
         else:
@@ -384,67 +380,3 @@ def parseStream(content, uniqueId=""):
     tokens.append({ "type" : "eof", "source" : "", "detail" : "", "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     return tokens
-
-
-
-def parseFile(fileName, uniqueId="", encoding="utf-8"):
-    return parseStream(filetool.read(fileName, encoding), uniqueId)
-
-
-
-
-def convertTokensToString(tokens):
-    tokenizedString = ""
-
-    for token in tokens:
-        tokenizedString += "%s%s" % (token, "\n")
-
-    return tokenizedString
-
-
-
-
-
-def main():
-    parser = optparse.OptionParser()
-
-    parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
-    parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".tokenized")
-    parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
-
-    (options, args) = parser.parse_args()
-
-    if len(args) == 0:
-        print "Needs one or more arguments (files) to tokenize!"
-        sys.exit(1)
-
-    for fileName in args:
-        if options.write:
-            print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
-        else:
-            print "Compiling %s => stdout" % fileName
-
-        tokenString = convertTokensToString(parseFile(fileName, fileName, options.encoding))
-
-        if options.write:
-            filetool.save(fileName + options.extension, tokenString, options.encoding)
-
-        else:
-            try:
-                print tokenString
-
-            except UnicodeEncodeError:
-                print "  * Could not encode result to ascii. Use '-w' instead."
-                sys.exit(1)
-
-
-
-
-if __name__ == '__main__':
-    try:
-        main()
-
-    except KeyboardInterrupt:
-        print
-        print "  * Keyboard Interrupt"
-        sys.exit(1)

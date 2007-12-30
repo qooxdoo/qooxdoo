@@ -1,10 +1,13 @@
 import sys, re
 
-from compat import config
 from ecmascript import treeutil
 from misc import filetool
 
 import util
+
+#
+# QOOXDOO HEADER SUPPORT
+#
 
 class DependencyLoader:
     def __init__(self, classes, cache, console, treeLoader, require, use):
@@ -342,13 +345,10 @@ class DependencyLoader:
         elif category == "impl" or category == "locale":
             content = filetool.read(filePath, fileEntry["encoding"])
 
-            meta["loadtimeDeps"] = self._extractQxLoadtimeDeps(content, fileId)
-            meta["runtimeDeps"] = self._extractQxRuntimeDeps(content, fileId)
-            meta["optionalDeps"] = self._extractQxOptionalDeps(content)
-            meta["ignoreDeps"] = self._extractQxIgnoreDeps(content)
-
-            meta["resources"] = self._extractQxResources(content)
-            meta["embeds"] = self._extractQxEmbeds(content)
+            meta["loadtimeDeps"] = self._extractLoadtimeDeps(content, fileId)
+            meta["runtimeDeps"] = self._extractRuntimeDeps(content, fileId)
+            meta["optionalDeps"] = self._extractOptionalDeps(content)
+            meta["ignoreDeps"] = self._extractIgnoreDeps(content)
 
         self._console.outdent()
 
@@ -373,11 +373,18 @@ class DependencyLoader:
         return result
 
 
+    HEAD = {
+        "require" : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    }
 
-    def _extractQxLoadtimeDeps(self, data, fileId):
+
+    def _extractLoadtimeDeps(self, data, fileId):
         deps = []
 
-        for item in config.QXHEAD["require"].findall(data):
+        for item in self.HEAD["require"].findall(data):
             if item == fileId:
                 raise NameError("Self-referring load dependency: %s" % item)
             else:
@@ -387,10 +394,10 @@ class DependencyLoader:
 
 
 
-    def _extractQxRuntimeDeps(self, data, fileId):
+    def _extractRuntimeDeps(self, data, fileId):
         deps = []
 
-        for item in config.QXHEAD["use"].findall(data):
+        for item in self.HEAD["use"].findall(data):
             if item == fileId:
                 self._console.error("Self-referring runtime dependency: %s" % item)
             else:
@@ -400,11 +407,11 @@ class DependencyLoader:
 
 
 
-    def _extractQxOptionalDeps(self, data):
+    def _extractOptionalDeps(self, data):
         deps = []
 
         # Adding explicit requirements
-        for item in config.QXHEAD["optional"].findall(data):
+        for item in self.HEAD["optional"].findall(data):
             if not item in deps:
                 deps.append(item)
 
@@ -412,32 +419,12 @@ class DependencyLoader:
 
 
 
-    def _extractQxIgnoreDeps(self, data):
+    def _extractIgnoreDeps(self, data):
         ignores = []
 
         # Adding explicit requirements
-        for item in config.QXHEAD["ignore"].findall(data):
+        for item in self.HEAD["ignore"].findall(data):
             if not item in ignores:
                 ignores.append(item)
 
         return ignores
-
-
-
-    def _extractQxResources(self, data):
-        res = []
-
-        for item in config.QXHEAD["resource"].findall(data):
-            res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
-
-        return res
-
-
-
-    def _extractQxEmbeds(self, data):
-        emb = []
-
-        for item in config.QXHEAD["embed"].findall(data):
-            emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
-
-        return emb

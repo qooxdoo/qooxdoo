@@ -1,99 +1,6 @@
-#!/usr/bin/env python
-################################################################################
-#
-#  qooxdoo - the new era of web development
-#
-#  http://qooxdoo.org
-#
-#  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
-#
-#  License:
-#    LGPL: http://www.gnu.org/licenses/lgpl.html
-#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
-#    See the LICENSE file in the project's top-level directory for details.
-#
-#  Authors:
-#    * Sebastian Werner (wpbasti)
-#
-################################################################################
+BUILTIN = ["Object", "Array", "RegExp", "Math", "String", "Number", "Error", "Date"]
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
-##
-
-import re
-
-
-
-
-##
-# FILE EXTENSIONS
-#
-
-JSEXT = ".js"
-PYEXT = ".py"
-XMLEXT = ".xml"
-TOKENEXT = ".txt"
-DIRIGNORE = [".svn", "CVS"]
-
-
-
-
-#
-# QOOXDOO HEADER SUPPORT
-#
-
-QXHEAD = {
-    # 0.6 class style
-    "defineClass" : re.compile('qx.OO.defineClass\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
-
-    # 0.7 class style
-    "classDefine" : re.compile('qx.(Class|locale\.Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
-
-    # Loader hints
-    "module" : re.compile("^#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "require" : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-
-    # Resource hints
-    "resource" : re.compile("^#resource\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?):(.*?)\s*\)", re.M),
-    "embed" : re.compile("^#embed\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?)/(.+?)\s*\)", re.M)
-}
-
-
-
-
-
-#
-# JAVASCRIPT SUPPORT
-#
-
-JSBUILTIN = ["Object", "Array", "RegExp", "Math", "String", "Number", "Error"]
-
-JSTOKENS = {
+TOKENS = {
     "." : "DOT",
     "," : "COMMA",
     ":" : "COLON",
@@ -167,7 +74,7 @@ JSTOKENS = {
     "/*!" : "DOC_START"
 }
 
-JSRESERVED = {
+RESERVED = {
     # key words
     "break" : "BREAK",
     "case" : "CASE",
@@ -237,7 +144,7 @@ JSRESERVED = {
     "public": "FUTURE_RESERVED_WORD"
 }
 
-JSSPACE_BEFORE = ["INSTANCEOF", "IN"]
-JSSPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE"]
-JSSPACE_AFTER_USAGE = ["RETURN", "FUNCTION"]
-JSPARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
+SPACE_BEFORE = ["INSTANCEOF", "IN"]
+SPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE"]
+SPACE_AFTER_USAGE = ["RETURN", "FUNCTION"]
+PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]

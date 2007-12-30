@@ -19,28 +19,12 @@
 #
 ################################################################################
 
-import sys, string, re, optparse
-import optparseext
-
-from compat import config
-from ecmascript import tokenizer, treegenerator, comment, tree
-from ecmascript.optimizer import variantoptimizer, variableoptimizer
-from misc import filetool
+import sys, string, re
+from ecmascript import lang
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
 
-##
-# Some nice short description of foo(); this can contain html and
-# {@link #foo Links} to items in the current file.
-#
-# @param     a        Describe a positional parameter
-# @keyparam  b        Describe a keyword parameter
-# @def       foo(name)    # overwrites auto-generated function signature
-# @param     name     Describe aliased parameter
-# @return             The return type
-# @exception IOError  The error it throws
-#
 def compileToken(name, compact=False):
     global pretty
 
@@ -63,8 +47,8 @@ def compileToken(name, compact=False):
         write(name.lower())
 
     else:
-        for key in config.JSTOKENS:
-            if config.JSTOKENS[key] == name:
+        for key in lang.TOKENS:
+            if lang.TOKENS[key] == name:
                 write(key)
 
 
@@ -915,7 +899,7 @@ def compileNode(node,optns):
             else:
                 keyString = "'" + keyString + "'"
 
-        elif keyString in config.JSRESERVED or not KEY.match(keyString):
+        elif keyString in lang.RESERVED or not KEY.match(keyString):
             print "Warning: Auto protect key: %s" % keyString
             keyString = "\"" + keyString + "\""
 
@@ -1631,79 +1615,3 @@ def addCommandLineOptions(parser):
     parser.add_option("--pretty-print-comments-trailing-commentCols", metavar="\"<col1>,<col2>,..,<colN>\"", dest="prettypCommentsTrailingCommentCols", default="", help="Columns for trailing comments as a comma separated list e.g. \"50,70,90\". In this case if code length is less than 49, column 50 will be used; if between 50 and 69, column 70 will be used and so on. These apply if --pretty-print-comments-trailing-keepColumn isn't specified, or if it is specified but the code exceeds the original column (default: \"\")")
     parser.add_option("--pretty-print-inline-comment-padding", metavar="STRING", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment; escapes possible, e.g. \"\\t\" (default: \"  \"). If --pretty-print-comments-trailing-keepColumn or --pretty-print-comments-trailing-commentCols are set then they take precendence.")
 
-
-
-def main():
-    global options
-
-    parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
-
-    parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
-    parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default="")
-    parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
-    parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
-    parser.add_option("--optimize-privates", action="store_true", dest="optimizePrivates", default=False, help="Optimize privates. Protected them and reducing size.")
-    parser.add_option("--obfuscate-accessors", action="store_true", dest="obfuscateAccessors", default=False, help="Enable accessor obfuscation")
-    parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
-    parser.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
-    
-    # Options for pretty printing
-    addCommandLineOptions(parser)
-
-    (options, args) = parser.parse_args()
-
-    if len(args) == 0:
-        print "Needs one or more arguments (files) to compile!"
-        sys.exit(1)
-
-    for fileName in args:
-        if options.write:
-            print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
-
-        restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, fileName, options.encoding))
-
-        if len(options.useVariant) > 0:
-            variantMap = {}
-            for variant in options.useVariant:
-                keyValue = variant.split(":")
-                if len(keyValue) != 2:
-                    print "  * Error: Variants must be specified as key value pair separated by ':'!"
-                    sys.exit(1)
-    
-                variantMap[keyValue[0]] = keyValue[1]     
-                
-            variantoptimizer.search(restree, variantMap, fileName)  
-            
-        if options.optimizeVariables:
-            variableoptimizer.search(restree, [], 0, 0, "$")
-
-        if options.compress:
-            options.prettyPrint = False  # make sure it's set
-        else:
-            options.prettyPrint = True
-            
-        compiledString = compile(restree, options)
-        if options.write:
-            if compiledString != "" and not compiledString.endswith("\n"):
-                compiledString += "\n"
-
-            filetool.save(fileName + options.extension, compiledString)
-
-        else:
-            try:
-                print compiledString
-
-            except UnicodeEncodeError:
-                print "  * Could not encode result to ascii. Use '-w' instead."
-                sys.exit(1)
-
-
-
-if __name__ == '__main__':
-    try:
-        main()
-
-    except KeyboardInterrupt:
-        print
-        print "  * Keyboard Interrupt"
-        sys.exit(1)
