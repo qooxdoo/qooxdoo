@@ -18,12 +18,7 @@
 #
 ################################################################################
 
-import sys, optparse
-
-from misc import filetool
-from ecmascript import tokenizer
 from ecmascript import tree
-from ecmascript.optimizer import variableoptimizer
 
 
 SINGLE_LEFT_OPERATORS = ["NOT", "BITNOT", "ADD", "SUB", "INC", "DEC"]
@@ -1024,59 +1019,3 @@ def readTryCatch(stream):
         item.addChild(finallyItem)
 
     return item
-
-
-
-
-
-
-
-
-
-def main():
-    parser = optparse.OptionParser()
-
-    parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
-    parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
-    parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
-    parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
-
-    (options, args) = parser.parse_args()
-
-    if len(args) == 0:
-        print "Needs one or more arguments (files) to compile!"
-        sys.exit(1)
-
-    for fileName in args:
-        if options.write:
-            print "Generating tree of %s => %s%s" % (fileName, fileName, options.extension)
-        else:
-            print "Generating tree of %s => stdout" % fileName
-
-        restree = createSyntaxTree(tokenizer.parseFile(fileName, fileName, options.encoding))
-
-        if options.optimizeVariables:
-            variableoptimizer.search(restree, [], 0, "$")
-
-        compiledString = tree.nodeToXmlString(restree)
-        if options.write:
-            filetool.save(fileName + options.extension, compiledString)
-
-        else:
-            try:
-                print compiledString
-
-            except UnicodeEncodeError:
-                print "  * Could not encode result to ascii. Use '-w' instead."
-                sys.exit(1)
-
-
-
-if __name__ == '__main__':
-    try:
-        main()
-
-    except KeyboardInterrupt:
-        print
-        print "  * Keyboard Interrupt"
-        sys.exit(1)

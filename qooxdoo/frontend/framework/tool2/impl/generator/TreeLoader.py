@@ -1,4 +1,4 @@
-import os, sys, copy, zlib
+import os, sys
 
 from ecmascript import tokenizer, treegenerator
 from ecmascript.optimizer import variantoptimizer
