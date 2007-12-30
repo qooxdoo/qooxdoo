@@ -20,10 +20,6 @@
 ################################################################################
 
 import sys, os, optparse
-
-# reconfigure path to import own modules from modules subfolder
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "impl"))
-
 import simplejson
 from optparseext.ExtendAction import ExtendAction
 from generator.Log import Log

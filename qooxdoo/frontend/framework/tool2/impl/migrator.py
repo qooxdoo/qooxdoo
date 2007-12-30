@@ -20,18 +20,12 @@
 ################################################################################
 
 import re, os, sys, shutil, logging, optparse
-
-# reconfigure path to import own modules from modules subfolder
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
-
-import config
-import loader
-import filetool
-import compiler
-import textutil
-import tokenizer
-import optparseext
-import treegenerator
+from optparseext import ExtendAction
+from misc import filetool
+from misc import textutil
+from ecmascript import tokenizer
+from ecmascript import treegenerator
+from ecmascript import compiler
 
 
 
@@ -112,7 +106,7 @@ def getHtmlList(migrationInput):
         for root, dirs, files in os.walk(htmlDir):
 
             # Filter ignored directories
-            for ignoredDir in config.DIRIGNORE:
+            for ignoredDir in [".svn","CVS"]:
                 if ignoredDir in dirs:
                     dirs.remove(ignoredDir)
 
@@ -166,7 +160,7 @@ def getPatchModulePath(version):
     for root, dirs, files in os.walk(versionPatchPath):
 
         # Filter ignored directories
-        for ignoredDir in config.DIRIGNORE:
+        for ignoredDir in [".svn","CVS"]:
             if ignoredDir in dirs:
                 dirs.remove(ignoredDir)
 
@@ -174,7 +168,7 @@ def getPatchModulePath(version):
         for fileName in files:
             filePath = os.path.join(root, fileName)
 
-            if os.path.splitext(fileName)[1] != config.PYEXT:
+            if os.path.splitext(fileName)[1] != ".py":
                 continue
 
             if fileName == "patch.py":
@@ -195,7 +189,7 @@ def readPatchInfoFiles(baseDir):
     for root, dirs, files in os.walk(baseDir):
 
         # Filter ignored directories
-        for ignoredDir in config.DIRIGNORE:
+        for ignoredDir in [".svn", "CVS"]:
             if ignoredDir in dirs:
                 dirs.remove(ignoredDir)
 
@@ -416,7 +410,7 @@ def main():
 
     parser = optparse.OptionParser(
         "usage: %prog [options]",
-        option_class=optparseext.ExtendAction
+        option_class=ExtendAction
     )
 
     migrator_options = optparse.OptionGroup(parser, "Migrator Options")
