@@ -515,7 +515,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
               this.debug("Response: " + this._responseContent);
             }
           }
-          return vText();
+          return vText;
           break;
 
         case qx.util.Mime.JSON:
