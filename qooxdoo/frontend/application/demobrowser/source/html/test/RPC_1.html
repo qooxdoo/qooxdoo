@@ -29,6 +29,8 @@
       var layout1 = new qx.ui.layout.VerticalBoxLayout();
       layout1.setTop(40);
       layout1.setLeft(20);
+      layout1.setRight(0);
+      layout1.setBottom(0);
       layout1.setSpacing(4);
 
       var async = new qx.ui.form.CheckBox("Asynchronous (must be checked if cross-domain is selected)");
@@ -55,6 +57,7 @@
 
       var layout2 = new qx.ui.layout.HorizontalBoxLayout();
       layout2.setHeight("auto");
+      layout2.setWidth("auto");
       layout2.setVerticalChildrenAlign("middle");
       layout2.setSpacing(4);
       var message = new qx.ui.form.TextField("Hello");
