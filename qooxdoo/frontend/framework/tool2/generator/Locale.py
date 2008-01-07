@@ -2,7 +2,7 @@ import os, sys
 
 from polib import polib
 from ecmascript import treeutil, tree
-from misc import cldr, idlist
+from misc import cldr, idlist, filetool
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):
@@ -19,9 +19,10 @@ class Locale:
         self._console.indent()
 
         data = []
+        root = os.path.join(filetool.root(), "data", "cldr", "main")
         for entry in locales:
             self._console.debug("Processing locale: %s" % entry)
-            data.append(cldr.parseCldrFile("framework/tool/cldr/main/%s.xml" % entry))
+            data.append(cldr.parseCldrFile(os.path.join(root, "%s.xml" % entry)))
 
         self._console.outdent()
         return "".join(data)

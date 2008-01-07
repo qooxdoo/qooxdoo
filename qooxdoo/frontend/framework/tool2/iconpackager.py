@@ -19,4 +19,22 @@
 #
 ################################################################################
 
+import os
 from misc import filetool
+
+
+def main():
+    data = os.path.join(filetool.root(), "data", "icon", "qooxdoo.dat")
+    print filetool.read(data)
+
+
+
+if __name__ == '__main__':
+    try:
+        main()
+
+    except KeyboardInterrupt:
+        print
+        print "Keyboard interrupt!"
+        sys.exit(1)
+        
