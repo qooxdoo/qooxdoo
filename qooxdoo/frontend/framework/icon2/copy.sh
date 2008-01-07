@@ -8,7 +8,7 @@ if [ "$SOURCE" = "" ]; then
 fi
 
 DIRS=`./dirs.sh $SOURCE`
-FILES=`cat common.dat`
+FILES=`cat data/common.dat`
 BASE=build/`basename $1`
 
 for FILE in $FILES; do
