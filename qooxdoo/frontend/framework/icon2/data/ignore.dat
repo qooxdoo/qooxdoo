@@ -1,0 +1,8 @@
+actions/bookmark-new
+actions/contact-new
+actions/document-print-preview
+actions/process-stop
+actions/system-lock-screen
+actions/system-log-out
+actions/window-new
+animations/process-working
