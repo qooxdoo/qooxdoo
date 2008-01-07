@@ -11,7 +11,7 @@ echo ">>> Indexing $BASE"
 rm -f ${TEMP}
 for DIR in $DIRS; do
   if [ -r $DIR ]; then
-    find $DIR -name "*.png" -o -name "*.svgz" -o -name "*.svg" >> ${TEMP}
+    find $DIR -mindepth 2 -maxdepth 2 -name "*.png" -o -name "*.svgz" -o -name "*.svg" >> ${TEMP}
   fi
 done  
   
