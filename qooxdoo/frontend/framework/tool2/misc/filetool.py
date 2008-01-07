@@ -21,6 +21,7 @@
 import os, codecs, cPickle, sys
 import gzip as sys_gzip
 import textutil
+import roothelper
 
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
@@ -124,8 +125,6 @@ def read(filePath, encoding="utf_8"):
 
 
 def root():
-    import roothelper
-    
     modulepath = str(roothelper).split()[3][1:-2]
     
     miscfolder = os.path.dirname(modulepath)
@@ -133,7 +132,13 @@ def root():
     
     root = os.path.abspath(toolfolder)
 
-    # Cleanup
-    os.remove(modulepath)
+    # Try to remove bytecode
+    if modulepath.endswith(".py"):
+        modulepath = modulepath[:-2] + "pyc"
+        
+    try:
+        os.remove(modulepath)
+    except OSError:
+        pass
     
     return root
