@@ -18,30 +18,6 @@
 #
 ################################################################################
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
-##
-
 import os, codecs, cPickle, sys
 import gzip as sys_gzip
 import textutil
@@ -147,38 +123,17 @@ def read(filePath, encoding="utf_8"):
         sys.exit(1)
 
 
-# deprecated
-def storeCache(cachePath, data):
-    try:
-        cPickle.dump(data, open(cachePath, 'wb'), 2)
+def root():
+    import roothelper
+    
+    modulepath = str(roothelper).split()[3][1:-2]
+    
+    miscfolder = os.path.dirname(modulepath)
+    toolfolder = os.path.dirname(miscfolder)
+    
+    root = os.path.abspath(toolfolder)
 
-    except (EOFError, cPickle.PickleError, cPickle.PicklingError):
-        print "  * Could not store cache to %s" % cachePath
-        sys.exit(1)
-
-
-# deprecated
-def readCache(cachePath):
-    try:
-        return cPickle.load(open(cachePath, 'rb'))
-
-    except (EOFError, cPickle.PickleError, cPickle.UnpicklingError):
-        print "  * Could not read cache from %s" % cachePath
-        sys.exit(1)
-
-
-# deprecated
-def checkCache(filePath, cachePath, internalModTime):
-    fileModTime = os.stat(filePath).st_mtime
-
-    try:
-        cacheModTime = os.stat(cachePath).st_mtime
-    except OSError:
-        cacheModTime = 0
-
-    if internalModTime > cacheModTime:
-        # print "Invalid cache: %s" % filePath
-        # print "%s > %s" % (internalModTime, cacheModTime)
-        return True
-
-    return fileModTime > cacheModTime
+    # Cleanup
+    os.remove(modulepath)
+    
+    return root

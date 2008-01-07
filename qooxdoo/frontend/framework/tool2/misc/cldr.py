@@ -15,75 +15,11 @@
 #
 #  Authors:
 #    * Fabian Jakobs (fjakobs)
+#    * Sebastian Werner (swerner)
 #
 ################################################################################
-# encoding: utf-8
 
-##
-#<h2>Module Description</h2>
-#<pre>
-# NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
-#
-# DESCRIPTION
-#  The module module does blah.
-#
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
-##
-
-"""
-extract_cldr.py
-"""
-
-import os
-import sys
-import getopt
 from elementtree import ElementTree
-
-help_message = '''
-The help message goes here.
-'''
-
-
-##                                                                              
-# Some nice short description of class Foo
-#                                                                               
-# @param Super The super-class of Foo
-class Usage(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-
-
-def getJavaScript(data, locale, language, territory="", namespace="qx.locale.data"):
-    str = "/*\n"
-    if territory != "":
-    	str += "#use(%s.%s)\n" % (namespace, language)
-    str += '''
-*/
-qx.locale.Locale.define("%s.%s", {
-''' % (namespace, locale)
-    lines = []
-    keys = data.keys()
-    keys.sort()
-    for key in keys:
-    	lines.append('  cldr_%s: "%s"' % (key.replace("-", "_"), data[key].encode("UTF-8").replace("\n", "\n" + 4 * " ").replace('"', '\\"')) )
-
-    body = ",\n".join(lines)
-    str += "%s\n});" % body
-    return str
-
 
 def getLocale(calendarElement):
     locale = calendarElement.find("identity/language").attrib["type"]
@@ -113,6 +49,7 @@ def extractDay(calendarElement):
     		if day.attrib.has_key("alt"): continue
     		data['day_%s_%s' % (dayType, day.attrib["type"])] = day.text
     return data
+
 
 def extractQuarter(calendarElement):
     return {'': ''}
@@ -204,9 +141,9 @@ def parseCldrFile(filename, outputDirectory=None):
     for cal in tree.findall('dates/calendars/calendar'):
     	if not cal.attrib.has_key("type"): continue
     	if cal.attrib["type"] != "gregorian": continue
+
     	data.update(extractMonth(cal))
     	data.update(extractDay(cal))
-    	#data.update(extractQuarter(cal))
     	data.update(extractAmPm(cal))
     	data.update(extractDateFormat(cal))
     	data.update(extractTimeFormat(cal))
@@ -216,44 +153,5 @@ def parseCldrFile(filename, outputDirectory=None):
     data.update(extractDelimiter(tree))
     data.update(extractNumber(tree))
 
-    locale = language
-    if territory != "":
-    	locale += "_" + territory
-
-    code = getJavaScript(data, locale, language, territory)
-    if outputDirectory != None:
-    	outfile = os.path.join(outputDirectory, locale + ".js");
-    	open(outfile, "w").write(code)
-    else:
-    	return code
-
-
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
-        except getopt.error, msg:
-            raise Usage(msg)
-
-        output = None
-        for option, value in opts:
-            if option == "-v":
-                verbose = True
-            if option in ("-h", "--help"):
-                raise Usage(help_message)
-            if option in ("-o", "--output"):
-                output = value
-
-        for arg in args:
-            parseCldrFile(arg, output)
-
-    except Usage, err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
-        print >> sys.stderr, "\t for help use --help"
-        return 2
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+    return data
+    
