@@ -388,8 +388,10 @@ qx.Class.define("qx.ui2.decoration.Basic",
     },
 
 
-    getHtml : function(widget, width, height) {
-      return "<div style='" + this._getStyle(widget, width, height) + "'></div>";
+    update : function(widget, decorationElement, width, height)
+    {
+      var decorationHtml = "<div style='" + this._getStyle(widget, width, height) + "'></div>";
+      decorationElement.setAttribute("html", decorationHtml);
     },
 
 
