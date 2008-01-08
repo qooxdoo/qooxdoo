@@ -14,7 +14,7 @@ class Log:
     def __init__(self, logfile=None, level="info"):
         self.setLevel(level)
 
-        if logfile != "":
+        if logfile != None:
             self.logfile = codecs.open(logfile, encoding="utf-8", mode="w")
         else:
             self.logfile = False
