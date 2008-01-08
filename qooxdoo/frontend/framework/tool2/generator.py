@@ -29,6 +29,12 @@ from generator.Generator import Generator
 
 
 def main():
+    if len(sys.argv[1:]) == 0:
+        basename = os.path.basename(sys.argv[0])
+        print "usage: %s [options]" % basename
+        print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
+        sys.exit(1)
+
     parser = optparse.OptionParser(option_class=ExtendAction)
 
     parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
@@ -43,12 +49,6 @@ def main():
     parser.add_option("--require", action="extend", dest="require", metavar="CLASS1:CLASS2", type="string", default=[], help="Special loadtime class dependencies")
     parser.add_option("--use", action="extend", dest="use", metavar="CLASS1:CLASS2", type="string", default=[], help="Special runtime class dependencies")
     parser.add_option("--featureset", action="extend", dest="featuresets", metavar="NAMESPACE:FILE", type="string", default=[], help="Featureset files to load")
-
-    if len(sys.argv[1:]) == 0:
-        basename = os.path.basename(sys.argv[0])
-        print "usage: %s [options]" % basename
-        print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
-        sys.exit(1)
 
     (options, args) = parser.parse_args(sys.argv[1:])
 
