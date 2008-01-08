@@ -19,47 +19,99 @@
 #
 ################################################################################
 
-import os, sys, optparse, subprocess, tempfile
+import os, sys, optparse, subprocess, tempfile, shutil
 from misc import filetool
+from generator.Log import Log
 
+
+# Supported icon sizes
 SIZES = [ 8, 16, 22, 32, 48, 64, 128 ]
+
+# Temporary file names
+TMPSVG = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.svg")
+TMPPNG = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.png")
 
 
 def main():
+    global console
+    
+    # Init console object
+    console = Log()
+    
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
-        print "usage: %s [options]" % basename
-        print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
+        console.error("usage: %s [options]" % basename)
+        console.error("Try '%s -h' or '%s --help' to show the help message." % (basename, basename))
         sys.exit(1)
 
     parser = optparse.OptionParser()
 
-    parser.add_option("-t", "--theme", dest="theme", metavar="DIRECTORY", help="Icon theme base directory")
+    parser.add_option("--source", dest="source", metavar="DIRECTORY", help="Source directory of theme")
+    parser.add_option("--target", dest="target", metavar="DIRECTORY", help="Target directory for theme")
 
     (options, args) = parser.parse_args(sys.argv[1:])
 
+    if options.source == None or options.target == None:
+        console.error("Please define both, the target and the source folder!")
+        sys.exit(1)
+
     data = getData()
-    path = options.theme
+    source = os.path.abspath(options.source)
+    target = os.path.abspath(options.target)
+    
+    console.info("Processing theme...")
+    console.info("Source folder: %s" % source)
+    console.info("Target folder: %s" % target)    
+    console.indent()
+    
+    for name in data:
+        console.info("Processing entry %s" % name)
+        console.indent()
 
-    for entry in data:
         for size in SIZES:
-            copyFile(path, entry, data[entry], size)
+            copyFile(source, target, name, data[name], size)
+
+        console.outdent()
+
+    console.outdent()
 
 
-def copyFile(path, entry, alternate, size):
-    names = [entry]
+def copyFile(source, target, name, alternate, size):
+    # Concat name and alternates to one list
+    names = [name]
     names.extend(alternate)
 
-    pixmap = getPixmapSmart(path, names, size)
+    # Get pixmap (may return None!)
+    pixmap = getPixmapSmart(source, names, size)
+    if not pixmap:
+        return
+        
+    if not isinstance(pixmap, basestring):
+        keeper = pixmap
+        pixmap = pixmap.name
 
-    return
+    dest = os.path.join(target, str(size), name + ".png")
 
-    if pixmap:
-        print "Copying %s" % pixmap
+    console.debug("copying: %s" % pixmap)
+    console.debug("     to: %s" % dest)
+    
+    destDir = os.path.dirname(dest)
+
+    try:
+        os.stat(destDir)
+    except OSError:
+        os.makedirs(destDir)
+        
+    shutil.copy(pixmap, dest)
+
+    try: os.remove(TMPPNG)
+    except OSError: pass
+
+    try: os.remove(TMPSVG)
+    except OSError: pass
 
 
 def getPixmapSmart(path, names, size):
-
     pixmap = getPixmap(path, names, size)
     if pixmap:
         return pixmap
@@ -67,27 +119,27 @@ def getPixmapSmart(path, names, size):
     scale = getScalable(path, names)
     if scale:
         if os.path.splitext(scale)[-1] == ".svgz":
-            gztmp = tempfile.NamedTemporaryFile()
+            console.debug("Decompressing source...")
+            gztmp = file(TMPSVG, "wb")
             gzreturn = subprocess.Popen(["gzip", "-d", "-c", scale], stdout=gztmp).wait()
             if gzreturn != 0:
-                print ">>> Could not extract file: %s" % scale
+                console.error("Could not extract file: %s" % scale)
                 sys.exit(1)
 
             gztmp.flush()
             scale = gztmp.name
 
-        svgtmp = tempfile.NamedTemporaryFile()
+        console.debug("Rendering image...")
+        svgtmp = file(TMPPNG, "wb")
         svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-o", svgtmp.name, scale]).wait()
         if svgreturn != 0:
-            print ">>> Could not convert SVG file: %s" % scale
+            console.error("Could not convert SVG file: %s" % scale)
             sys.exit(1)
 
-        print ">>> Return converted file..."
         return svgtmp.name
 
-    print "Missing pixmap %s in %spx" % (names[0], size)
+    console.warn("Missing %spx icon" % size)
     return None
-
 
 
 def getPixmap(path, names, size):
@@ -130,7 +182,7 @@ def getData():
             key = line
 
         if result.has_key(key):
-            print ">>> Duplicate key found: %s" % key
+            console.error("Duplicate key found: %s" % key)
             sys.exit(1)
 
         result[key] = alternative
