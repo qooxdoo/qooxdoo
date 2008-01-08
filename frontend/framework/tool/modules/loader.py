@@ -96,11 +96,11 @@ def validateFiles():
 
 
 
-def getInternalModTime(options):
+def getInternalModTime(disableInternalCheck):
 
     global internalModTime
 
-    if internalModTime == 0 and not options.disableInternalCheck:
+    if internalModTime == 0 and not disableInternalCheck:
         validateFiles()
 
     return internalModTime
@@ -217,7 +217,7 @@ def getTokens(fileDb, fileId, options):
             cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
             useCache = True
 
-            if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
+            if not filetool.checkCache(filePath, cachePath, getInternalModTime(options.disableInternalCheck)):
                 loadCache = True
 
         if loadCache:
@@ -260,7 +260,7 @@ def getTree(fileDb, fileId, options):
             cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
             useCache = True
 
-            if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
+            if not filetool.checkCache(filePath, cachePath, getInternalModTime(options.disableInternalCheck)):
                 loadCache = True
 
         if loadCache:
@@ -471,7 +471,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
         cachePath = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + "-entry.pcl")
         useCache = True
 
-        if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
+        if not filetool.checkCache(filePath, cachePath, getInternalModTime(options.disableInternalCheck)):
             loadCache = True
 
 
