@@ -22,7 +22,7 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
 {
   members :
   {
-    getHtml : function(widget, height, width) {
+    update : function(widget, decorationElement, height, width) {
       return true;
     },
 

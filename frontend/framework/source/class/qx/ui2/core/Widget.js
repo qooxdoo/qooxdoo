@@ -18,12 +18,34 @@
 
 ************************************************************************ */
 
+/**
+ * This is the base class for all widgets.
+ *
+ * TODOC: give a high level overview over widget.
+ *
+ * A widget consits of at least three DOM elements. The outer element, which is
+ * added to the parent widget has two child Element: The "decoration" and the
+ * "inner" element. The decoration element has a lower z-Index and contains
+ * markup to render the widget's backround and border using an implementation
+ * of {@link qx.ui2.decoration.IDecoration}.The inner element is positioned
+ * inside the "outer" element to respect paddings and contains the "real"
+ * widget element.
+ *
+ *  <pre>
+ * -outer----------------
+ * |                    |
+ * |  -decoration----   |
+ * |  | -inner------|-  |
+ * |  | |           ||  |
+ * |  --|------------|  |
+ * |    --------------  |
+ * |                    |
+ * ----------------------
+ *  </pre>
+ */
 qx.Class.define("qx.ui2.core.Widget",
 {
   extend : qx.core.Object,
-
-
-
 
   /*
   *****************************************************************************
@@ -55,15 +77,31 @@ qx.Class.define("qx.ui2.core.Widget",
 
   events :
   {
-    // mouse events
+    /** Fired if the mouse curser moves over the widget. */
     mousemove : "qx.event.type.Mouse",
+
+    /** Fired if the mouse curser enters the widget. */
     mouseover : "qx.event.type.Mouse",
+
+    /** Fired if the mouse curser leaves widget. */
     mouseout : "qx.event.type.Mouse",
+
+    /** Fired if a mouse button is pressed on the widget. */
     mousedown : "qx.event.type.Mouse",
+
+    /** Fired if a mouse button is released on the widget. */
     mouseup : "qx.event.type.Mouse",
+
+    /** Fired if the widget is clicked using the left mouse button. */
     click : "qx.event.type.Mouse",
+
+    /** Fired if the widget is double clicked using the left mouse button. */
     dblclick : "qx.event.type.Mouse",
+
+    /** Fired if the widget is clicked using the right mouse button. */
     contextmenu : "qx.event.type.Mouse",
+
+    /** Fired if the mouse wheel is used over the widget. */
     mousewheel : "qx.event.type.Mouse",
 
     // key events
@@ -1079,8 +1117,10 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
+     * Return the left inset of the widget's inner element relative to its
+     * outer element. The inset is the sum of the padding and border width.
      *
-     *
+     * @return {Integer} The left inset
      */
     getInsetLeft : function()
     {
@@ -1093,6 +1133,13 @@ qx.Class.define("qx.ui2.core.Widget",
       return value;
     },
 
+
+    /**
+     * Return the top inset of the widget's inner element relative to its
+     * outer element. The inset is the sum of the padding and border width.
+     *
+     * @return {Integer} The top inset
+     */
     getInsetTop : function()
     {
       var value = this.getPaddingTop();
@@ -1104,6 +1151,13 @@ qx.Class.define("qx.ui2.core.Widget",
       return value;
     },
 
+
+    /**
+     * Return the right inset of the widget's inner element relative to its
+     * outer element. The inset is the sum of the padding and border width.
+     *
+     * @return {Integer} The right inset
+     */
     getInsetRight : function()
     {
       var value = this.getPaddingRight();
@@ -1115,6 +1169,13 @@ qx.Class.define("qx.ui2.core.Widget",
       return value;
     },
 
+
+    /**
+     * Return the bottom inset of the widget's inner element relative to its
+     * outer element. The inset is the sum of the padding and border width.
+     *
+     * @return {Integer} The bottom inset
+     */
     getInsetBottom : function()
     {
       var value = this.getPaddingBottom();
@@ -1222,8 +1283,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var decoration = this.getDecoration();
       if (decoration) {
-        var decorationHtml = decoration.getHtml(this, width, height);
-        this._decorationElement.setAttribute("html", decorationHtml);
+        decoration.update(this, this._decorationElement, width, height);
       }
       qx.ui2.core.DecorationQueue.remove(this);
     },
