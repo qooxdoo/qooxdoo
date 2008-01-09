@@ -148,7 +148,7 @@ qx.Class.define("qx.lang.Array",
      * @return {var|null} the first element of the array
      */
     getFirst : function(arr) {
-      return (arr && arr.length > 0 ? arr[0] : null);
+      return arr[0];
     },
 
 
