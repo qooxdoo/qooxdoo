@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.form.TextArea",
           this._inputElement.style.overflow = styleValue;
         }
       },
-      
+
       "default" : function()
       {
         if (this._inputElement) {

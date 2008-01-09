@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       return matched;
     },
 
- 
+
     /**
      * The addBetweenFilter method is used to add a between filter to the
      * table model.
@@ -166,8 +166,8 @@ qx.Class.define("qx.ui.table.model.Filtered",
         throw new Error("regex cannot be null!");
       }
     },
-    
-    
+
+
     /**
      * The applyFilters method is called to apply filters to the table model.
      *
@@ -228,9 +228,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
               if (compareValue >= this.Filters[i][1]) {
                 filter_test = true;
               }
-  
+
               break;
-  
+
             case "<=":
               if (compareValue <= this.Filters[i][1]) {
                 filter_test = true;
@@ -252,9 +252,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
                   compareValue <= this.Filters[i][2]) {
                 filter_test = true;
               }
-  
+
               break;
-  
+
             case "!between":
               if (compareValue < this.Filters[i][1] &&
                   compareValue > this.Filters[i][2]) {
@@ -267,12 +267,12 @@ qx.Class.define("qx.ui.table.model.Filtered",
           else if (this.Filters[i][0] == "regex" && filter_test == false)
           {
             compareValue = this.getValueById(this.Filters[i][2], row);
-  
+
             var the_pattern = new RegExp(this.Filters[i][1], 'g');
             filter_test = the_pattern.test(compareValue);
           }
         }
-        
+
         // Hide row if necessary.
         if (filter_test == true) {
           this.hideRows(row, 1, false);
@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      *
      * @param numOfRows {Integer}
      *    The number of rows to be hidden sequentially after rowNum.
-     * 
+     *
      * @return {void}
      */
     hideRows : function(rowNum, numOfRows, dispatchEvent)
@@ -306,18 +306,18 @@ qx.Class.define("qx.ui.table.model.Filtered",
         this._fullArr = this._rowArr.slice();
         this._applyingFilters = true;
       }
-    
+
       if (numOfRows == null || numOfRows < 1) {
         numOfRows = 1;
       }
-      
+
       for (var kludge = rowNum;
            kludge<(this._rowArr.length - numOfRows);
            kludge++) {
         this._rowArr[kludge] = this._rowArr[kludge + numOfRows];
       }
       this.removeRows(kludge, numOfRows);
-      
+
       // Inform the listeners
       this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
     },

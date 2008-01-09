@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Date",
           } else {
             return "";
           }
-        }         
+        }
       } else {
         method = function(cellInfo) {
           return cellInfo.value || "";

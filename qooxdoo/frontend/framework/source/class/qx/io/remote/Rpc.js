@@ -45,7 +45,7 @@
  * the server-side properties). Beans can also be nested, but be careful not to
  * create circular references! There are no checks to detect these (which would
  * be expensive), so you as the user are responsible for avoiding them.
- * 
+ *
  * A simple example:
  * <pre class='javascript'>
  *   function callRpcServer ()

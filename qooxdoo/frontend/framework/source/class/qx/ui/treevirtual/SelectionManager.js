@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           {
             // ... then focus it now so we can determine the node to open/close
             var scrollers = table._getPaneScrollerArr();
-  
+
             for (var i=0; i<scrollers.length; i++)
             {
               scrollers[i]._focusCellAtPagePos(evt.getPageX(), evt.getPageY());

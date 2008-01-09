@@ -74,7 +74,7 @@ qx.Class.define("feedreader.view.Table",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onChangeSelection : function(e)
     {

@@ -647,7 +647,7 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
-    
+
 
 
 

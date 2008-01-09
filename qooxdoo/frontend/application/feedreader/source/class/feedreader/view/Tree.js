@@ -47,7 +47,7 @@ qx.Class.define("feedreader.view.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     refresh : function()
     {
@@ -67,7 +67,7 @@ qx.Class.define("feedreader.view.Tree",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onChangeSelection : function(e)
     {

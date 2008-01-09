@@ -48,7 +48,7 @@ qx.Class.define("testrunner.TestFunction",
         if (typeof (cls.setUp) == "function") {
           cls.setUp();
         }
-       
+
         try {
             cls[methodName]();
         } catch (e) {

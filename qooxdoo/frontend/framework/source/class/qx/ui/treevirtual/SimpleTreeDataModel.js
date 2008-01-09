@@ -34,7 +34,7 @@
  *   // ------------------------
  *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
  *   parentNodeId   : 23,    // index of the parent node in _nodeArr
- *   
+ *
  *   label          : "My Documents",
  *   bSelected      : true,  // true if node is selected; false otherwise.
  *   bOpened        : true,  // true (-), false (+)
@@ -981,8 +981,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @type member
      *
      * @param nodeId {Integer}
-     *   The id of the node (as would have been returned by addBranch(), 
-     *   addLeaf(), etc.) to get the row index for. 
+     *   The id of the node (as would have been returned by addBranch(),
+     *   addLeaf(), etc.) to get the row index for.
      */
     getRowFromNodeId : function(nodeId)
     {

@@ -1246,7 +1246,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height          : 15,
           padding         : 2,
           backgroundColor : states.selected ? "selected" : "undefined",
-          textColor       : states.disabled ? "text-disabled" : (states.selected ? "text-selected" : "undefined")  
+          textColor       : states.disabled ? "text-disabled" : (states.selected ? "text-selected" : "undefined")
         };
       }
     },
