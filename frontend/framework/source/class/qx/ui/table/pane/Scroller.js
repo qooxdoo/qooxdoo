@@ -96,11 +96,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this._showCellFocusIndicator = this.getShowCellFocusIndicator();
 
-    this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
-    this._focusIndicator.setAppearance("table-focus-indicator");
-    this._focusIndicator.setStyleProperty("fontSize", "0px");
-    this._focusIndicator.setStyleProperty("lineHeight", "0px");
-    this._focusIndicator.hide();
+    this._focusIndicator = new qx.ui.table.pane.FocusIndicator(this);
 
     this._paneClipper = new qx.ui.layout.CanvasLayout;
     this._paneClipper.setWidth("1*");
@@ -124,6 +120,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._headerClipper.addListener("mousedown", this._onmousedownHeader, this);
     this._paneClipper.addListener("mousedown", this._onmousedownPane, this);
 
+    this._focusIndicator.addListener("mouseup", this._onMouseupFocusIndicator, this);
     this._headerClipper.addListener("mouseup", this._onmouseupHeader, this);
     this._paneClipper.addListener("mouseup", this._onmouseupPane, this);
 
@@ -987,8 +984,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
       var row = this._getRowForPagePos(pageX, pageY);
+      var col = this._getColumnForPageX(pageX);
 
-      if (row != null && this._getColumnForPageX(pageX) != null) {
+      if (row != null && col != null)
+      {
+        // The focus indicagtor blocks the click event on the scroller so we
+        // store the current cell and listen for the mouseup event on the
+        // focus indicator
+        this._lastMouseDownCell = {
+          row : row,
+          col : col
+        };
+
         var selectBeforeFocus = this.getSelectBeforeFocus();
 
         if (selectBeforeFocus) {
@@ -1003,6 +1010,21 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         if (! selectBeforeFocus) {
           table._getSelectionManager().handleMouseDown(row, evt);
         }
+      }
+    },
+
+
+    _onMouseupFocusIndicator : function(e)
+    {
+      if (
+        this._lastMouseDownCell &&
+        this._focusIndicator.getRow() == this._lastMouseDownCell.row &&
+        this._focusIndicator.getColumn() == this._lastMouseDownCell.col
+      ) {
+        console.log(e.getButton());
+        this._lastMouseDownCell = {};
+
+        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", e), true);
       }
     },
 
@@ -1199,10 +1221,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (row != null && this._getColumnForPageX(pageX) != null)
       {
         table._getSelectionManager().handleClick(row, evt);
-       if (this.hasListeners("cellClick"))
-       {
-         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
-       }
+        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick"), true);
       }
     },
 
@@ -1214,12 +1233,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {qx.event.type.MouseEvent} the event.
      * @return {void}
      */
-    _onContextMenu : function(evt)
-    {
-       if (this.hasListeners("cellContextmenu"))
-       {
-         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
-       }
+    _onContextMenu : function(evt) {
+       this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu"), true);
     },
 
 
@@ -1237,13 +1252,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this._focusCellAtPagePos(pageX, pageY);
       this.startEditing();
-      if (this.hasListeners("cellDblclick"))
-      {
-        var row = this._getRowForPagePos(pageX, pageY);
-        if (row != -1 && row != null)
-        {
-          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
-        }
+
+      var row = this._getRowForPagePos(pageX, pageY);
+      if (row != -1 && row != null) {
+        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellDblClick"), true);
       }
     },
 
@@ -2085,32 +2097,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      if (this._focusedCol == null) {
-        this._focusIndicator.hide();
-      }
-      else
-      {
-        var xPos = this.getTablePaneModel().getX(this._focusedCol);
-
-        if (xPos == -1) {
-          this._focusIndicator.hide();
-        }
-        else
-        {
-          var columnModel = table.getTableColumnModel();
-          var paneModel = this.getTablePaneModel();
-
-          var firstRow = this._tablePane.getFirstVisibleRow();
-          var rowHeight = table.getRowHeight();
-
-          this._focusIndicator.setHeight(rowHeight + 3);
-          this._focusIndicator.setWidth(columnModel.getColumnWidth(this._focusedCol) + 3);
-          this._focusIndicator.setTop((this._focusedRow - firstRow) * rowHeight - 2);
-          this._focusIndicator.setLeft(paneModel.getColumnLeft(this._focusedCol) - 2);
-
-          this._focusIndicator.show();
-        }
-      }
+      this._focusIndicator.moveToCell(this._focusedCol, this._focusedRow);
     }
   },
 
