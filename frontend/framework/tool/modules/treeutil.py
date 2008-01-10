@@ -336,18 +336,26 @@ def assembleVariable(variableItem):
 
     assembled = ""
     for child in variableItem.children:
+        if child.type == "commentsBefore":
+            continue
+        elif child.type != "identifier":
+            # this means there is some accessor like part in the variable
+            # e.g. foo["hello"]
+            return assembled
+
         if len(assembled) != 0:
             assembled += "."
+
         assembled += child.get("name")
 
     return assembled
 
 
-def compileString(jsString):
+def compileString(jsString, uniqueId=""):
     """
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
-    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString)).getFirstChild()
+    return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString, uniqueId)).getFirstChild()
 
 
 def variableOrArrayNodeToArray(node):

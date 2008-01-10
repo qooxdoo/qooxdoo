@@ -42,7 +42,8 @@
 #</pre>
 ##
 
-import os, codecs, cPickle, sys, gzip
+import os, codecs, cPickle, sys
+import gzip as sys_gzip
 import textutil
 
 ##                                                                              
@@ -57,6 +58,45 @@ import textutil
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
+def gzip(filePath, content, encoding="utf-8"):
+    if not filePath.endswith(".gz"):
+        filePath = filePath + ".gz"
+    
+    content = unicode(content).encode(encoding)
+    
+    outputFile = sys_gzip.open(filePath, "wb", 9)
+    outputFile.write(content)
+    outputFile.close()
+
+
+def gunzip(filePath, encoding="utf-8"):
+    if not filePath.endswith(".gz"):
+        filePath = filePath + ".gz"
+
+    inputFile = sys_gzip.open(filePath, "rb")
+    content = inputFile.read()
+    
+    return textutil.any2Unix(unicode(content))
+
+
+def remove(filePath):
+    # Normalize
+    filePath = normalize(filePath)
+
+    # Removing file
+    try:
+        if os.path.exists(filePath):
+            os.remove(filePath)
+
+    except IOError, (errno, strerror):
+        print "  * I/O error(%s): %s" % (errno, strerror)
+        sys.exit(1)
+
+    except:
+        print "  * Unexpected error:", sys.exc_info()[0]
+        sys.exit(1)
+
+
 def save(filePath, content="", encoding="utf-8"):
     # Normalize
     filePath = normalize(filePath)
@@ -116,6 +156,7 @@ def read(filePath, encoding="utf_8"):
         sys.exit(1)
 
 
+# deprecated
 def storeCache(cachePath, data):
     try:
         cPickle.dump(data, open(cachePath, 'wb'), 2)
@@ -125,6 +166,7 @@ def storeCache(cachePath, data):
         sys.exit(1)
 
 
+# deprecated
 def readCache(cachePath):
     try:
         return cPickle.load(open(cachePath, 'rb'))
@@ -134,6 +176,7 @@ def readCache(cachePath):
         sys.exit(1)
 
 
+# deprecated
 def checkCache(filePath, cachePath, internalModTime):
     fileModTime = os.stat(filePath).st_mtime
 
