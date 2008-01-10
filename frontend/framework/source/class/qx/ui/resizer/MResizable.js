@@ -35,9 +35,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
   {
     this._frame = new qx.ui.basic.Terminator;
     this._frame.setAppearance("resizer-frame");
-    this.addListener("mousedown", this._onmousedown);
-    this.addListener("mouseup", this._onmouseup);
-    this.addListener("mousemove", this._onmousemove);
+    this.addEventListener("mousedown", this._onmousedown);
+    this.addEventListener("mouseup", this._onmouseup);
+    this.addEventListener("mousemove", this._onmousemove);
   },
 
 
@@ -171,8 +171,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         var pa = this._getResizeParent();
         var pl = pa.getElement();
 
-        var parentLocation = qx.bom.element.Location.get(pl);
-        var elementLocation = qx.bom.element.Location.get(el);
+        // compute locations
+        var paLoc = qx.bom.element.Location.get(pl, "content");
+        var elLoc = qx.bom.element.Location.get(el);
 
         // handle frame and translucently
         switch(this.getResizeMethod())
@@ -190,11 +191,11 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
               qx.ui.core.Widget.flushGlobalQueues();
             }
 
-            f._renderRuntimeLeft(elementLocation.left - parentLocation.left);
-            f._renderRuntimeTop(elementLocation.top - parentLocation.top);
+            f._renderRuntimeLeft(elLoc.left - paLoc.left);
+            f._renderRuntimeTop(elLoc.top - paLoc.top);
 
-            f._renderRuntimeWidth(qx.legacy.html.Dimension.getBoxWidth(el));
-            f._renderRuntimeHeight(qx.legacy.html.Dimension.getBoxHeight(el));
+            f._renderRuntimeWidth(el.offsetWidth);
+            f._renderRuntimeHeight(el.offsetHeight);
 
             f.setZIndex(this.getZIndex() + 1);
 
@@ -207,16 +208,16 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         if (this._resizeWest)
         {
-          s.boxWidth = qx.legacy.html.Dimension.getBoxWidth(el);
-          s.boxRight = elementLocation.right;
+          s.boxWidth = el.offsetWidth;
+          s.boxRight = elLoc.right;
         }
 
         if (this._resizeWest || this._resizeEast)
         {
-          s.boxLeft = elementLocation.left;
+          s.boxLeft = elLoc.left;
 
-          s.parentAreaOffsetLeft = parentLocation.left;
-          s.parentAreaOffsetRight = parentLocation.right;
+          s.parentContentLeft = paLoc.left;
+          s.parentContentRight = paLoc.right;
 
           s.minWidth = minRef.getMinWidthValue();
           s.maxWidth = minRef.getMaxWidthValue();
@@ -224,16 +225,16 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         if (this._resizeNorth)
         {
-          s.boxHeight = qx.legacy.html.Dimension.getBoxHeight(el);
-          s.boxBottom = elementLocation.bottom;
+          s.boxHeight = el.offsetHeight;
+          s.boxBottom = elLoc.bottom;
         }
 
         if (this._resizeNorth || this._resizeSouth)
         {
-          s.boxTop = elementLocation.top;
+          s.boxTop = elLoc.top;
 
-          s.parentAreaOffsetTop = parentLocation.top;
-          s.parentAreaOffsetBottom = parentLocation.bottom;
+          s.parentContentTop = paLoc.top;
+          s.parentContentBottom = paLoc.bottom;
 
           s.minHeight = minRef.getMinHeightValue();
           s.maxHeight = minRef.getMaxHeightValue();
@@ -352,22 +353,22 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
       {
         if (this._resizeWest)
         {
-          s.lastWidth = qx.lang.Number.limit(s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentAreaOffsetLeft), s.minWidth, s.maxWidth);
-          s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
+          s.lastWidth = qx.lang.Number.limit(s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentContentLeft), s.minWidth, s.maxWidth);
+          s.lastLeft = s.boxRight - s.lastWidth - s.parentContentLeft;
         }
         else if (this._resizeEast)
         {
-          s.lastWidth = qx.lang.Number.limit(Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft, s.minWidth, s.maxWidth);
+          s.lastWidth = qx.lang.Number.limit(Math.min(e.getPageX(), s.parentContentRight) - s.boxLeft, s.minWidth, s.maxWidth);
         }
 
         if (this._resizeNorth)
         {
-          s.lastHeight = qx.lang.Number.limit(s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentAreaOffsetTop), s.minHeight, s.maxHeight);
-          s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
+          s.lastHeight = qx.lang.Number.limit(s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentContentTop), s.minHeight, s.maxHeight);
+          s.lastTop = s.boxBottom - s.lastHeight - s.parentContentTop;
         }
         else if (this._resizeSouth)
         {
-          s.lastHeight = qx.lang.Number.limit(Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop, s.minHeight, s.maxHeight);
+          s.lastHeight = qx.lang.Number.limit(Math.min(e.getPageY(), s.parentContentBottom) - s.boxTop, s.minHeight, s.maxHeight);
         }
 
         switch(this.getResizeMethod())
@@ -423,7 +424,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-        if (this._near(qx.bom.element.Location.get(el).top, e.getPageY()))
+        if (this._near(qx.bom.element.Location.getTop(el), e.getPageY()))
         {
           if (this.getResizableNorth())
           {
@@ -431,7 +432,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             this._resizeNorth = true;
           }
         }
-        else if (this._near(qx.bom.element.Location.get(el).bottom, e.getPageY()))
+        else if (this._near(qx.bom.element.Location.getBottom(el), e.getPageY()))
         {
           if (this.getResizableSouth())
           {
@@ -440,7 +441,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
           }
         }
 
-        if (this._near(qx.bom.element.Location.get(el).left, e.getPageX()))
+        if (this._near(qx.bom.element.Location.getLeft(el), e.getPageX()))
         {
           if (this.getResizableWest())
           {
@@ -448,7 +449,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             this._resizeWest = true;
           }
         }
-        else if (this._near(qx.bom.element.Location.get(el).right, e.getPageX()))
+        else if (this._near(qx.bom.element.Location.getRight(el), e.getPageX()))
         {
           if (this.getResizableEast())
           {
