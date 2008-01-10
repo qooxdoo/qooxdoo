@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
       else
       {
         this.remove(this._closeButtonImage);
-        this._closeButtonImage.removeEventListener("click", this._ontabclose);
+        this._closeButtonImage.removeEventListener("click", this._ontabclose, this);
       }
     },
 
