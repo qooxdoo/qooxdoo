@@ -922,8 +922,8 @@ qx.Class.define("qx.ui.form.TextField",
       CROSS-BROWSER SELECTION HANDLING
 
       Microsoft Documentation:
-      http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/createrange.asp
-      http://msdn.microsoft.com/workshop/author/dhtml/reference/objects/obj_textrange.asp
+      http://msdn2.microsoft.com/en-us/library/ms536394.aspx
+      http://msdn2.microsoft.com/en-us/library/ms535872.aspx
     ---------------------------------------------------------------------------
     */
 
@@ -1024,14 +1024,19 @@ qx.Class.define("qx.ui.form.TextField",
 
         var vSelectionRange = this.__getSelectionRange();
 
+        // Check if the document.selection is the text range inside the input element
         if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return -1;
         }
 
         var vRange = this.__getRange();
+        var len = this._inputElement.value.length; 
 
-        vRange.setEndPoint("EndToStart", vSelectionRange);
-        return vRange.text.length;
+        // Weird Internet Explorer statement
+        vRange.moveToBookmark(vSelectionRange.getBookmark());
+        vRange.moveEnd('character', len);
+
+        return len - vRange.text.length;
       },
 
       "default" : function()
