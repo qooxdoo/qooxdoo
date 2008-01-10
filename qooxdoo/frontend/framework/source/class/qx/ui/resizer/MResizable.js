@@ -172,7 +172,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         var pl = pa.getElement();
 
         // compute locations
-        var paLoc = qx.bom.element.Location.get(pl, "content");
+        var paLoc = qx.bom.element.Location.get(pl, "scroll");
         var elLoc = qx.bom.element.Location.get(el);
 
         // handle frame and translucently
@@ -424,7 +424,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-        if (this._near(qx.bom.element.Location.getTop(el), e.getPageY()))
+        var elLoc = qx.bom.element.Location.get(el);
+
+        if (this._near(elLoc.top, e.getPageY()))
         {
           if (this.getResizableNorth())
           {
@@ -432,7 +434,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             this._resizeNorth = true;
           }
         }
-        else if (this._near(qx.bom.element.Location.getBottom(el), e.getPageY()))
+        else if (this._near(elLoc.bottom, e.getPageY()))
         {
           if (this.getResizableSouth())
           {
@@ -441,7 +443,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
           }
         }
 
-        if (this._near(qx.bom.element.Location.getLeft(el), e.getPageX()))
+        if (this._near(elLoc.left, e.getPageX()))
         {
           if (this.getResizableWest())
           {
@@ -449,7 +451,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             this._resizeWest = true;
           }
         }
-        else if (this._near(qx.bom.element.Location.getRight(el), e.getPageX()))
+        else if (this._near(elLoc.right, e.getPageX()))
         {
           if (this.getResizableEast())
           {

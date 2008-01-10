@@ -441,10 +441,11 @@ qx.Class.define("qx.bom.element.Location",
      *
      * Supported modes:
      *
-     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
-     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
-     * * <code>border</code>: Align to the border of the given element (incl. padding)
-     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -488,16 +489,22 @@ qx.Class.define("qx.bom.element.Location",
             bottom += this.__num(elem, "marginBottom");
             break;
 
-          case "content":
-            left -= elem.scrollLeft;
-            top -= elem.scrollTop;
-            right += elem.scrollLeft;
-            bottom += elem.scrollTop;
+          case "box":
+            // no modification needed
+            break;
 
+          case "padding":
             left += this.__num(elem, "paddingLeft");
             top += this.__num(elem, "paddingTop");
             right -= this.__num(elem, "paddingRight");
             bottom -= this.__num(elem, "paddingBottom");
+            // no break here
+
+          case "scroll":
+            left -= elem.scrollLeft;
+            top -= elem.scrollTop;
+            right += elem.scrollLeft;
+            bottom += elem.scrollTop;
             // no break here
 
           case "border":
@@ -506,6 +513,9 @@ qx.Class.define("qx.bom.element.Location",
             right -= this.__num(elem, "borderRightWidth");
             bottom -= this.__num(elem, "borderBottomWidth");
             break;
+
+          default:
+            throw new Error("Invalid mode for location detection: " + mode);
         }
       }
 
@@ -520,14 +530,8 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimensions.
-     *
-     * Supported modes:
-     *
-     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
-     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
-     * * <code>border</code>: Align to the border of the given element (incl. padding)
-     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     * the document dimensions. For supported modes please
+     * have a look at the {@see #get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -542,14 +546,8 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimensions.
-     *
-     * Supported modes:
-     *
-     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
-     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
-     * * <code>border</code>: Align to the border of the given element (incl. padding)
-     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     * the document dimensions.For supported modes please
+     * have a look at the {@see #get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -564,14 +562,8 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.
-     *
-     * Supported modes:
-     *
-     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
-     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
-     * * <code>border</code>: Align to the border of the given element (incl. padding)
-     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     * the document dimenions.For supported modes please
+     * have a look at the {@see #get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -586,14 +578,8 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.
-     *
-     * Supported modes:
-     *
-     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
-     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
-     * * <code>border</code>: Align to the border of the given element (incl. padding)
-     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     * the document dimenions.For supported modes please
+     * have a look at the {@see #get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -607,22 +593,27 @@ qx.Class.define("qx.bom.element.Location",
 
 
     /**
-     * Returns the distance between two DOM elements
+     * Returns the distance between two DOM elements. For supported modes please
+     * have a look at the {@see #get} method.
      *
      * @type static
      * @param elem1 {Element} First element
      * @param elem2 {Element} Second element
+     * @param mode1 {String?null} Mode for first element
+     * @param mode2 {String?null} Mode for second element
      * @return {Map} Returns a map with <code>left</code> and <code>top</code>
      *   which contains the distance of the elements from each other.
      */
-    getRelative : function(elem1, elem2)
+    getRelative : function(elem1, elem2, mode1, mode2)
     {
-      var loc1 = this.get(elem1);
-      var loc2 = this.get(elem2);
+      var loc1 = this.get(elem1, mode1);
+      var loc2 = this.get(elem2, mode2);
 
       return {
         left : loc1.left - loc2.left,
-        top : loc1.top - loc2.top
+        top : loc1.top - loc2.top,
+        right : loc1.right - loc2.right,
+        bottom : loc1.bottom - loc2.bottom
       };
     }
   }
