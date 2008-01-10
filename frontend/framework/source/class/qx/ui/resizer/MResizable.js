@@ -35,9 +35,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
   {
     this._frame = new qx.ui.basic.Terminator;
     this._frame.setAppearance("resizer-frame");
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("mousemove", this._onmousemove);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mousemove", this._onmousemove);
   },
 
 
