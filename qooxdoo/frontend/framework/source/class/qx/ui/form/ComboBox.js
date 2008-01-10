@@ -610,10 +610,11 @@ qx.Class.define("qx.ui.form.ComboBox",
           this.setCapture(true);
           break;
 
-
         default:
           break;
       }
+
+      e.stopPropagation();
     },
 
 
