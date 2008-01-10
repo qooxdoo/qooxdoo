@@ -80,6 +80,9 @@ def log(level, msg, node=None):
 
 
 def search(node, variantMap, fileId="", verb=False):
+    if variantMap == None:
+        return False
+    
     global verbose
     global file
     verbose = verb
@@ -101,6 +104,7 @@ def search(node, variantMap, fileId="", verb=False):
 def processVariantSelect(callNode, variantMap):
     if callNode.type != "call":
         return False
+        
     params = callNode.getChild("params")
     if len(params.children) != 2:
         log("Warning", "Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence.", params)
@@ -148,6 +152,7 @@ def processVariantSelect(callNode, variantMap):
 def processVariantIsSet(callNode, variantMap):
     if callNode.type != "call":
         return False
+        
     params = callNode.getChild("params")
     if len(params.children) != 2:
         log("Warning", "Expecting exactly two arguments for qx.core.Variant.isSet. Ignoring this occurrence.", params)
