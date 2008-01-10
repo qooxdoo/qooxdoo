@@ -41,9 +41,9 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
    * @param scroller    {qx.ui.table.pane.Scroller}
    * @param me          {qx.event.type.MouseEvent}
    */
-  construct : function(scroller, me)
+  construct : function(scroller, type, me)
   {
-    this.base(arguments, 'cell'+qx.lang.String.toFirstUp(me.getType()), me.getDomEvent(), me.getDomTarget(), me.getTarget(), me.getOriginalTarget(), me.getRelatedTarget());
+    this.base(arguments, type, me.getDomEvent(), me.getDomTarget(), me.getTarget(), me.getOriginalTarget(), me.getRelatedTarget());
     this._scroller = scroller;
   },
 
