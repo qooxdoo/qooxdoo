@@ -64,6 +64,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   members :
   {
     // overridden
+    _getCellStyle : function(cellInfo) {
+      return this.base(arguments, cellInfo) + ";padding-top:4px;";
+    },
+
+
+    // overridden
     _identifyImage : function(cellInfo)
     {
       var imageHints =

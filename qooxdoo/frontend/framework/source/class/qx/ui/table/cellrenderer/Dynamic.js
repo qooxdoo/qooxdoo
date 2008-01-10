@@ -96,7 +96,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
 
   members :
   {
-
     /**
      * Overridden; called whenever the cell updates. The cell will call the
      * function stored in the cellRendererFactoryFunction to retrieve the
@@ -106,7 +105,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      *          See {@link #createDataCellHtml}.
      * @return {String}
      */
-    _getContentHtml : function(cellInfo)
+    createDataCellHtml : function(cellInfo, htmlArr)
     {
       var cellRendererFactoryFunction = this.getCellRendererFactoryFunction();
       if ( ! cellRendererFactoryFunction )
@@ -114,7 +113,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
         this.error("No function provided! Aborting.");
       }
       var cellRenderer = cellRendererFactoryFunction(cellInfo);
-      return cellRenderer._getContentHtml(cellInfo);
+
+      return cellRenderer.createDataCellHtml(cellInfo, htmlArr);
     }
   }
 });
