@@ -1021,7 +1021,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._focusIndicator.getRow() == this._lastMouseDownCell.row &&
         this._focusIndicator.getColumn() == this._lastMouseDownCell.col
       ) {
-        console.log(e.getButton());
         this._lastMouseDownCell = {};
 
         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", e), true);
