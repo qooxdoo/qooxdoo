@@ -30,6 +30,16 @@
       inlineWidget.setHeight("100%");
       inlineWidget.setWidth("auto");
 
+      var wnd = new qx.ui.window.Window("Test window");
+      wnd.set({
+          left : 200,
+          top : 200,
+          width : 400,
+          height : 300
+      });
+      inlineWidget.add(wnd);
+      wnd.show();
+
       var vbx = new qx.ui.layout.VerticalBoxLayout();
       vbx.set(
       {
