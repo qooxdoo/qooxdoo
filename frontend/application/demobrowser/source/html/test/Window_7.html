@@ -1,0 +1,54 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>qx.ui.basic.Atom is the parent class for buttons, menu entries, icons, checkboxes. While you can do,
+    you usually don't have to instantiate qx.ui.basic.Atom directly.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+var layout = new qx.ui.layout.CanvasLayout();
+layout.set({
+    left : 0,
+    right : 0,
+    top : 0,
+    bottom : 0,
+    overflow : "auto"
+});
+layout.addToDocument();
+var lbl = new qx.ui.basic.Label("label");
+lbl.setLeft(2000);
+lbl.setTop(2000);
+layout.add(lbl);
+var wnd = new qx.ui.window.Window("Test window");
+wnd.set({
+    left : 200,
+    top : 200,
+    width : 400,
+    height : 300
+});
+layout.add(wnd);
+wnd.show();
+
+      }
+    }
+  });
+
+  qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
