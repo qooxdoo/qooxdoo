@@ -82,14 +82,14 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
       _defaultSortComparatorInsensitiveAscending :
-	function(row1, row2)
-	{
-	  var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
-		      row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-	  var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
-		      row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
-	  return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-	},
+  function(row1, row2)
+  {
+    var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+          row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
+    var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+          row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+    return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+  },
 
 
     /**
@@ -119,11 +119,11 @@ qx.Class.define("qx.ui.table.model.Simple",
       _defaultSortComparatorInsensitiveDescending :
       function(row1, row2)
       {
-	var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
-		    row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-	var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
-		    row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
-	return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+  var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+        row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
+  var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+        row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+  return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
       }
 
   },
@@ -253,20 +253,20 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
       else
       {
-      	if (this.getCaseSensitiveSorting())
+        if (this.getCaseSensitiveSorting())
         {
-      	  comparator =
-      	    (ascending
-      	     ? qx.ui.table.model.Simple._defaultSortComparatorAscending
-      	     : qx.ui.table.model.Simple._defaultSortComparatorDescending);
-      	}
+          comparator =
+            (ascending
+             ? qx.ui.table.model.Simple._defaultSortComparatorAscending
+             : qx.ui.table.model.Simple._defaultSortComparatorDescending);
+        }
         else
         {
-      	  comparator =
-      	    (ascending
-      	     ? qx.ui.table.model.Simple._defaultSortComparatorInsensitiveAscending
-      	     : qx.ui.table.model.Simple._defaultSortComparatorInsensitiveDescending);
-      	}
+          comparator =
+            (ascending
+             ? qx.ui.table.model.Simple._defaultSortComparatorInsensitiveAscending
+             : qx.ui.table.model.Simple._defaultSortComparatorInsensitiveDescending);
+        }
       }
 
       comparator.columnIndex = columnIndex;

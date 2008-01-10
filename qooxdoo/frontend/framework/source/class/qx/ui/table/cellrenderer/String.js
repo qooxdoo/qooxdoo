@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * The string data cell renderer. All it does is escape the incoming String 
+ * The string data cell renderer. All it does is escape the incoming String
  * values.
  */
 qx.Class.define("qx.ui.table.cellrenderer.String",

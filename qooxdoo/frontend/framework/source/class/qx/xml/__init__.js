@@ -11,6 +11,6 @@
  *   }
  * }
  * var myElements = qx.xml.Element.selectNodes(myXml, "//view-info[starts-with(&#64;viewname, 'MyView')]/&#64;viewname");
- * 
+ *
  * </pre>
  */

@@ -5,21 +5,21 @@
 
 qx.Class.define("qx.io2.transport.Iframe",
 {
-  statics : 
+  statics :
   {
-    _dataTypes : 
-    { 
+    _dataTypes :
+    {
       text : true,
       html : true
     },
-        
+
     isSupported : function(options) {
       return !!(!options.crossDomain && this._dataTypes[options.dataType]);
     },
-    
+
     send : function(options)
     {
       // TODO
     }
-  }  
+  }
 });
