@@ -471,8 +471,8 @@ qx.Class.define("qx.bom.element.Location",
         var top = offset.top + body.top - scroll.top;
       }
 
-      // qx.core.Init.getInstance().debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
-      // qx.core.Init.getInstance().debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
+      // qx.core.Log.debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
+      // qx.core.Log.debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
 
       var right = left + elem.offsetWidth;
       var bottom = top + elem.offsetHeight;
@@ -489,6 +489,11 @@ qx.Class.define("qx.bom.element.Location",
             break;
 
           case "content":
+            left -= elem.scrollLeft;
+            top -= elem.scrollTop;
+            right += elem.scrollLeft;
+            bottom += elem.scrollTop;
+
             left += this.__num(elem, "paddingLeft");
             top += this.__num(elem, "paddingTop");
             right -= this.__num(elem, "paddingRight");
@@ -515,7 +520,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.
+     * the document dimensions.
      *
      * Supported modes:
      *
@@ -537,7 +542,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.
+     * the document dimensions.
      *
      * Supported modes:
      *

@@ -1369,19 +1369,18 @@ qx.Class.define("qx.ui.window.Window",
       var pa = this.getParent();
       var pl = pa.getElement();
 
-      var l = qx.legacy.html.Location.getPageAreaLeft(pl);
-      var t = qx.legacy.html.Location.getPageAreaTop(pl);
-      var r = qx.legacy.html.Location.getPageAreaRight(pl);
-      var b = qx.legacy.html.Location.getPageAreaBottom(pl);
+      // compute locations
+      var paLoc = qx.bom.element.Location.get(pl, "content");
+      var elLoc = qx.bom.element.Location.get(el);
 
       this._dragSession =
       {
-        offsetX                   : e.getPageX() - qx.bom.element.Location.getLeft(el) + l,
-        offsetY                   : e.getPageY() - qx.bom.element.Location.getTop(el) + t,
-        parentAvailableAreaLeft   : l + 5,
-        parentAvailableAreaTop    : t + 5,
-        parentAvailableAreaRight  : r - 5,
-        parentAvailableAreaBottom : b - 5
+        offsetX                   : e.getPageX() - elLoc.left + paLoc.left,
+        offsetY                   : e.getPageY() - elLoc.top + paLoc.top,
+        parentAvailableAreaLeft   : paLoc.left + 5,
+        parentAvailableAreaTop    : paLoc.top + 5,
+        parentAvailableAreaRight  : paLoc.right - 5,
+        parentAvailableAreaBottom : paLoc.bottom - 5
       };
 
       // handle frame and translucently
@@ -1403,11 +1402,11 @@ qx.Class.define("qx.ui.window.Window",
             qx.ui.core.Widget.flushGlobalQueues();
           }
 
-          f._renderRuntimeLeft(qx.bom.element.Location.getLeft(el) - l);
-          f._renderRuntimeTop(qx.bom.element.Location.getTop(el) - t);
+          f._renderRuntimeLeft(elLoc.left - paLoc.left);
+          f._renderRuntimeTop(elLoc.top - paLoc.top);
 
-          f._renderRuntimeWidth(qx.legacy.html.Dimension.getBoxWidth(el));
-          f._renderRuntimeHeight(qx.legacy.html.Dimension.getBoxHeight(el));
+          f._renderRuntimeWidth(el.offsetWidth);
+          f._renderRuntimeHeight(el.offsetHeight);
 
           f.setZIndex(this.getZIndex() + 1);
 
