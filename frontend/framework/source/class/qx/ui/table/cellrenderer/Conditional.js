@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       for(var key in style) {
         if (style[key]) {
           styleString.push(key, ":", style[key], ";");
-        }    
+        }
       }
       return styleString.join("");
     }

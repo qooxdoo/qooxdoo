@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
     /**
      * NumberFormat used to format data. If the numberFormat contains a
      * prefix and/or postfix containing characters which needs to be escaped,
-     * those need to be given to the numberFormat in their escaped form 
+     * those need to be given to the numberFormat in their escaped form
      * because no escaping happens at the cellrenderer level.
      */
     numberFormat :
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
           } else {
             return "";
           }
-        }         
+        }
       } else {
         method = function(cellInfo) {
           return cellInfo.value || "";

@@ -388,7 +388,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
   destruct : function() {
 
     qx.locale.Manager.getInstance().removeListener("changeLocale", this._changeLocaleHandler, this);
-    
+
     var chooserWindowParent = this._chooserWindow.getParent();
     if (chooserWindowParent)
       chooserWindowParent.remove(this._chooserWindow);

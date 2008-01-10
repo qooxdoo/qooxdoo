@@ -7,8 +7,8 @@ qx.Bootstrap.define("qx.io2.transport.Script",
 {
   statics :
   {
-    _dataTypes : 
-    { 
+    _dataTypes :
+    {
       script : true,
       jsonp : true
     },
@@ -32,16 +32,16 @@ qx.Bootstrap.define("qx.io2.transport.Script",
      * @type static
      * @param options {var} TODOC
      * @param callback {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     send : function(options, callback)
     {
       // Place script element into head
       var head = document.getElementsByTagName("head")[0];
-      
+
       // Create script element
       var script = document.createElement("script");
-      
+
       // Setup URL
       script.src = options.url;
 

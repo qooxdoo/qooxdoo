@@ -101,7 +101,7 @@ qx.Bootstrap.define("qx.io2.Request",
      */
     _preprocess : function(options)
     {
-      // Matches the placeholder for the callback 
+      // Matches the placeholder for the callback
       var jsre = /=(\?|%3F)/g;
 
       // Fill options with defaults
@@ -123,12 +123,12 @@ qx.Bootstrap.define("qx.io2.Request",
             options.url += (options.url.match(/\?/) ? "&" : "?") + (options.jsonp || "callback") + "=?";
           }
         }
-        
+
         // Add the callback method placeholder to the data (if not already done)
         else if (options.type === "POST")
         {
           var callbackName = options.jsonp || "callback";
-          
+
           // Add callback placeholder (if missing)
           if (!options.data) {
             options.data = callbackName + "=?";
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.io2.Request",
         window[jsonp] = function(jsonData)
         {
           options.callback(jsonData);
-          
+
           // Garbage collect
           window[jsonp] = undefined;
 
@@ -180,19 +180,19 @@ qx.Bootstrap.define("qx.io2.Request",
         options.data = null;
       }
     },
-    
+
     // Define classes in strings to omit auto dependency tracking.
     // Maybe variants are a good alternative for this.
     // Also possible: Special classes for script loading etc.
     // which creates dependencies to these transport layers.
-    _transports : 
-    [ 
-      "qx.io2.transport.HttpRequest", 
-      "qx.io2.transport.Script", 
-      "qx.io2.transport.Iframe", 
-      "qx.io2.transport.JsonRequest" 
+    _transports :
+    [
+      "qx.io2.transport.HttpRequest",
+      "qx.io2.transport.Script",
+      "qx.io2.transport.Iframe",
+      "qx.io2.transport.JsonRequest"
     ],
-    
+
     /**
      * TODOC
      *

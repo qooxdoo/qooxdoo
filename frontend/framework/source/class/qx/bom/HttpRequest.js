@@ -39,8 +39,8 @@ qx.Bootstrap.define("qx.bom.HttpRequest",
     SENT : 2,
     LOADING : 3,
     DONE : 4,
-    
-        
+
+
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.bom.HttpRequest",
 
           [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_XMLHTTP_RESPECT_ZONEPOLICY]
           "Iexplore.exe"=dword:00000001
-          
+
           Generally it seems that the ActiveXObject is more stable. jQuery seems to use it always. We will do the same for
           the moment being.
       */
