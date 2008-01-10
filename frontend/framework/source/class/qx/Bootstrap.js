@@ -65,11 +65,11 @@ qx =
       if (!config) {
         var config = { statics : {} };
       }
-      
+
       var clazz;
       var proto = null;
-      
-      if (config.members) 
+
+      if (config.members)
       {
         clazz = config.construct || new Function;
         var statics = config.statics;
@@ -87,9 +87,9 @@ qx =
       {
         clazz = config.statics || {};
       }
-      
-      this.createNamespace(name, clazz);        
-      
+
+      this.createNamespace(name, clazz);
+
       if (config.defer) {
         config.defer(clazz, proto);
       }
@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     getByName : function(name) {
       return this.$$registry[name];
     },
-    
+
 
     /**
      * Returns the current timestamp

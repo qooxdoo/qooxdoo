@@ -647,7 +647,7 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
-    
+
 
 
 
@@ -1030,7 +1030,7 @@ qx.Class.define("qx.ui.form.TextField",
         }
 
         var vRange = this.__getRange();
-        var len = this._inputElement.value.length; 
+        var len = this._inputElement.value.length;
 
         // Weird Internet Explorer statement
         vRange.moveToBookmark(vSelectionRange.getBookmark());

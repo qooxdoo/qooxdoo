@@ -431,11 +431,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
       // How many rows do we need to update?
       var end = rowNodes.length;
 
-      if (onlyRow != null) 
+      if (onlyRow != null)
       {
         // How many rows are we skipping?
         var offset = onlyRow - row;
-        if (offset >= 0 && offset < end) 
+        if (offset >= 0 && offset < end)
         {
           row = onlyRow;
           y = offset;
@@ -494,7 +494,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
           styleLeft: left,
           styleWidth: cellWidth
         });
-        
+
         left += cellWidth;
       }
 
@@ -541,7 +541,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
             cellInfo[attr] = col_def[attr];
           }
           var col = cellInfo.col;
-          
+
           // AB: use the "getValue" method of the tableModel to get the cell's value
           // working directly on the "rowData" object (-> cellInfo.rowData[col];) is not a solution
           // because you can't work with the columnIndex -> you have to use the columnId of the columnIndex
