@@ -304,21 +304,17 @@ qx.Class.define("qx.ui.tree.TreeRowStructure",
       this._fields.push(this._labelObject);
     },
 
-    /*
+
+    /**
      * Add an object to the tree row structure.  For convenience, vAnonymous can
-     * be provided, and if a boolean value is provided, vObj.setAnonymous() is
+     * be provided, and if a boolean value is provided, vObj.setAnonymous() {@link qx.ui.core.Widget#anonymous} is
      * called with the provided value.  If the object has already been
      * setAnonymous or if there is no need to do so, then provide no value for
      * vAnonymous or pass 'null'.
-     */
-
-    /**
-     * TODOC
      *
      * @type member
-     * @param vObj {var} TODOC
-     * @param vAnonymous {var} TODOC
-     * @return {void}
+     * @param vObj {qx.ui.core.Widget} Widget to add
+     * @param vAnonymous {Boolean} Whether the widget should be set to be anonymous
      */
     addObject : function(vObj, vAnonymous)
     {
