@@ -1108,6 +1108,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
   destruct : function()
   {
+    var mgr = this.getManager();
+    if (mgr) {
+      mgr.dispose();
+    }
+
     this._disposeObjects("_textfield", "_buttonlayout", "_upbutton", "_downbutton",
       "_timer");
   }
