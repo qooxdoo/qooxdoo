@@ -131,6 +131,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this.addListener("mouseout", this._onmouseout, this);
 
+    this._lastRowCount = this.getTable().getTableModel().getRowCount();
+
     this.initScrollTimeout();
   },
 
@@ -509,14 +511,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _onTableModelDataChanged : function(evt)
     {
       this._tablePane._onTableModelDataChanged(evt);
-
       var rowCount = this.getTable().getTableModel().getRowCount();
 
       if (rowCount != this._lastRowCount)
       {
-        this._lastRowCount = rowCount;
-
         this._updateVerScrollBarMaximum();
+
+        var removedRows = this._lastRowCount - rowCount;
+        if (removedRows > 0) {
+          this.getTable().getSelectionModel().removeSelectionInterval(this._lastRowCount-1, rowCount);
+        }
 
         if (this.getFocusedRow() >= rowCount)
         {
@@ -526,6 +530,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             this.setFocusedCell(this.getFocusedColumn(), rowCount - 1);
           }
         }
+        this._lastRowCount = rowCount;
       }
     },
 
