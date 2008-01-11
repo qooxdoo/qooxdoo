@@ -1223,7 +1223,9 @@ def getValue(item):
         else:
             value = item.get("value")
     elif item.type == "variable":
-        value = (assembleVariable(item))[0]
+        value, isComplete = assembleVariable(item)
+        if not isComplete:
+            value = "[Complex expression]"
     elif item.type == "operation" and item.get("operator") == "SUB":
         # E.g. "-1" or "-Infinity"
         value = "-" + getValue(item.getChild("first").getFirstChild())
