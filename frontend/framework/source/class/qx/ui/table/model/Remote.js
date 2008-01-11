@@ -696,6 +696,36 @@ qx.Class.define("qx.ui.table.model.Remote",
       }
     },
 
+    // overridden
+    setValue : function(columnIndex, rowIndex, value)
+    {
+      var rowData = this.getRowData(rowIndex);
+
+      if (rowData == null) {
+        // row has not yet been loaded or does not exist
+        return null;
+      }
+      else
+      {
+        var columnId = this.getColumnId(columnIndex);
+        rowData[columnId] = value;
+        
+        // Inform the listeners
+        if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
+        {
+          var data =
+          {
+            firstRow    : rowIndex,
+            lastRow     : rowIndex,
+            firstColumn : columnIndex,
+            lastColumn  : columnIndex
+          };
+
+          this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+        }
+      }
+    },
+
 
     /**
      * Sets whether a column is sortable.
