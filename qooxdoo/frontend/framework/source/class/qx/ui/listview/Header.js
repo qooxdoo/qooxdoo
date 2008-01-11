@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.listview.Header",
 
       var vLeft =
         qx.bom.element.Location.getLeft(this._resizeSeparator.getElement()) -
-        qx.bom.element.Location.getLeft(this.getElement(), "content");
+        qx.bom.element.Location.getLeft(this.getElement(), "border");
 
       var vTop = qx.bom.element.Dimension.getHeight(vParent.getHeader().getElement());
       var vHeight = qx.bom.element.Dimension.getHeight(vParent.getElement()) - vTop;

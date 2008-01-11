@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     getListViewTarget : function(e)
     {
       var vEventTop = e.getPageY();
-      var vPaneTop = qx.bom.element.Location.getTop(this.getElement(), "content");
+      var vPaneTop = qx.bom.element.Location.getTop(this.getElement(), "border");
       var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) + Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
       return this._data[vItemNo];
