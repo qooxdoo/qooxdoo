@@ -107,7 +107,7 @@ def track(node):
             vari = oper.getChild("variable", False)
             
             if vari:
-                isClass = treeutil.assembleVariable(vari) == "qx.Class.define"
+                isClass = (treeutil.assembleVariable(vari))[0] == "qx.Class.define"
                     
         if not isClass: 
             return        

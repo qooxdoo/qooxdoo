@@ -329,7 +329,8 @@ def isStringLiteral(node):
 
 def assembleVariable(variableItem):
     """
-    Return the full variable name from a variable node"
+    Return the full variable name from a variable node, and an isComplete flag if the name could
+    be assembled completely.
     """
     if variableItem.type != "variable":
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
@@ -341,14 +342,14 @@ def assembleVariable(variableItem):
         elif child.type != "identifier":
             # this means there is some accessor like part in the variable
             # e.g. foo["hello"]
-            return assembled
+            return assembled, False
 
         if len(assembled) != 0:
             assembled += "."
 
         assembled += child.get("name")
 
-    return assembled
+    return assembled, True
 
 
 def compileString(jsString, uniqueId=""):
@@ -368,9 +369,9 @@ def variableOrArrayNodeToArray(node):
     if node.type == "array":
         for child in node.children:
             if child.type == "variable":
-                arr.append(assembleVariable(child))
+                arr.append((assembleVariable(child))[0])
     elif node.type == "variable":
-        arr.append(assembleVariable(node))
+        arr.append((assembleVariable(node))[0])
     else:
         raise tree.NodeAccessException("'node' is no variable or array node", node)
     return arr
