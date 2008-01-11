@@ -175,7 +175,9 @@ qx.Class.define("qx.ui.form.ListItem",
      * @param vText {String} String which should be matched with the ListItem's label
      * @return {Boolean} Match found
      */
-    matchesString : function(vText) {
+    matchesString : function(vText)
+    {
+      vText = String(vText);
       return vText != "" && this.getLabel().toString().toLowerCase().indexOf(vText.toLowerCase()) == 0;
     },
 
@@ -188,7 +190,9 @@ qx.Class.define("qx.ui.form.ListItem",
      * @param vText {String} String which should be matched exactly with the ListItem's label
      * @return {Boolean} Match found
      */
-    matchesStringExact : function(vText) {
+    matchesStringExact : function(vText)
+    {
+      vText = String(vText);
       return vText != "" && this.getLabel().toString().toLowerCase() == String(vText).toLowerCase();
     },
 
@@ -201,7 +205,9 @@ qx.Class.define("qx.ui.form.ListItem",
      * @param vText {String} String which should be matched with the ListItem's value
      * @return {Boolean} Match found
      */
-    matchesValue : function(vText) {
+    matchesValue : function(vText)
+    {
+      vText = String(vText);
       return vText != "" && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
     },
 
@@ -214,7 +220,9 @@ qx.Class.define("qx.ui.form.ListItem",
      * @param vText {String} String which should be matched exactly with the ListItem's value
      * @return {Boolean} Match found
      */
-    matchesValueExact : function(vText) {
+    matchesValueExact : function(vText)
+    {
+      vText = String(vText);
       return vText != "" && this.getValue().toLowerCase() == String(vText).toLowerCase();
     },
 
