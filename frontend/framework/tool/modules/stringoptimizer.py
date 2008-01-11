@@ -71,7 +71,7 @@ def search_loop(node, stringMap={}, verbose=False):
 
             if variable:
                 try:
-                    variableName = treeutil.assembleVariable(variable)
+                    variableName = (treeutil.assembleVariable(variable))[0]
                 except tree.NodeAccessException:
                     variableName = None
 

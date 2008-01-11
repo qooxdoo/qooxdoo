@@ -58,7 +58,7 @@ def printDocError(node, msg):
 def findQxDefine(rootNode):
     if rootNode.type == "variable":
         try:
-            variableName = assembleVariable(rootNode)
+            variableName = (assembleVariable(rootNode))[0]
         except tree.NodeAccessException:
             return None
 
@@ -201,7 +201,7 @@ def handleClassDefinition(docTree, item, variant):
 
 
 def handleClassExtend(valueItem, classNode, docTree, className):
-    superClassName = assembleVariable(valueItem)
+    superClassName = (assembleVariable(valueItem))[0]
     if superClassName not in [
                               "Array", "Boolean", "Date", "Error",
                               "Function", "Math", "Number",
@@ -820,7 +820,7 @@ def createDocOld(syntaxTree, docTree = None):
 
                 elif (
                       currClassNode and
-                      assembleVariable(leftItem).startswith(currClassNode.get("fullName"))
+                      (assembleVariable(leftItem))[0].startswith(currClassNode.get("fullName"))
                      ):
                     # This is definition of the type "mypackage.MyClass.bla = ..."
                     if rightItem.type == "function":
@@ -860,7 +860,7 @@ def handleClassDefinitionOld(docTree, item):
         superClassName = "Object"
         ctorItem = params.children[1]
     elif paramsLen == 3:
-        superClassName = assembleVariable(params.children[1])
+        superClassName = (assembleVariable(params.children[1]))[0]
         ctorItem = params.children[2]
     else:
         printDocError(item, "defineClass call has more than three parameters: " + str(len(params.children)))
@@ -1195,7 +1195,7 @@ def getValue(item):
         else:
             value = item.get("value")
     elif item.type == "variable":
-        value = assembleVariable(item)
+        value = (assembleVariable(item))[0]
     elif item.type == "operation" and item.get("operator") == "SUB":
         # E.g. "-1" or "-Infinity"
         value = "-" + getValue(item.getChild("first").getFirstChild())
