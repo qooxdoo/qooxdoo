@@ -1213,14 +1213,23 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
       var row = this._getRowForPagePos(pageX, pageY);
+      var col = this._getColumnForPageX(pageX);
 
-      if (row != null && this._getColumnForPageX(pageX) != null)
+      if (row != null && col != null)
       {
         table._getSelectionManager().handleClick(row, evt);
-       if (this.hasEventListeners("cellClick"))
-       {
-         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", evt), true);
-       }
+
+        if (
+          this._lastMouseDownCell &&
+          row == this._lastMouseDownCell.row &&
+          col == this._lastMouseDownCell.col
+        ) {
+          this._lastMouseDownCell = {};
+
+          if (this.hasEventListeners("cellClick")) {
+            this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", evt), true);
+          }
+        }
       }
     },
 
@@ -1234,10 +1243,23 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onContextMenu : function(evt)
     {
-       if (this.hasEventListeners("cellContextmenu"))
-       {
-         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu", evt), true);
-       }
+      var pageX = evt.getPageX();
+      var pageY = evt.getPageY();
+      var row = this._getRowForPagePos(pageX, pageY);
+      var col = this._getColumnForPageX(pageX);
+
+      if (
+        this._lastMouseDownCell &&
+        row == this._lastMouseDownCell.row &&
+        col == this._lastMouseDownCell.col
+      ) {
+        this._lastMouseDownCell = {};
+
+        if (this.hasEventListeners("cellContextmenu"))
+        {
+          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu", evt), true);
+        }
+      }
     },
 
     /**
