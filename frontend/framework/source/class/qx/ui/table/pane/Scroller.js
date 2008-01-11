@@ -1003,7 +1003,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
 
         // The mouse is over the data -> update the focus
-        if (! this.getFocusCellOnMouseMove()) {
+        if (! this.getFocusCellOnMouseMove())
+        {
+          this._focusIndicator.setAnonymous(false);
           this._focusCellAtPagePos(pageX, pageY);
         }
 
@@ -1025,6 +1027,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", e), true);
       }
+      this._focusIndicator.setAnonymous(true);
     },
 
 

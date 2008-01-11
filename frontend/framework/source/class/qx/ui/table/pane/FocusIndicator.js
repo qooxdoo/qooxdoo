@@ -35,6 +35,8 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
     this.setStyleProperty("fontSize", "0px");
     this.setStyleProperty("lineHeight", "0px");
+    this.setAnonymous(true);
+
     this.hide();
   },
 
