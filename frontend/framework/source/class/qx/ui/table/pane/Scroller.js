@@ -301,6 +301,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /**
      * Interval time (in milliseconds) for the table update timer.
+     * Setting this to 0 clears the timer.
      */
     scrollTimeout :
     {
@@ -1992,16 +1993,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     // property apply method
     _applyScrollTimeout : function(value, old)
     {
+      // Clear old timer if it's present
       if (this._updateInterval)
       {
         window.clearInterval(this._updateInterval);
         this._updateInterval = null;
       }
-      else
-      {
-        if (!this._onintervalWrapper) {
-          this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-        }
+      // Set up wrapper if required
+      if (!this._onintervalWrapper) {
+        this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
+      }
+      // Set up new timer if interval is non-zero
+      if (value) {
         this._updateInterval = window.setInterval(this._onintervalWrapper, value);
       }
     },
