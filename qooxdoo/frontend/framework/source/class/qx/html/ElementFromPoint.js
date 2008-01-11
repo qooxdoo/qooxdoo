@@ -23,6 +23,10 @@
 
 ************************************************************************ */
 
+/**
+ * @deprecated: No replacement. Only needed for historic gecko support
+ *
+ */
 qx.Class.define("qx.html.ElementFromPoint",
 {
   /*
