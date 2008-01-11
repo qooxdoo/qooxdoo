@@ -295,7 +295,12 @@ qx.Class.define("qx.ui.table.Table",
       nullable : true
     },
 
-    /** The table column model. */
+    /**
+     * The table column model.
+     *
+     * Note that is is not possible to change the table column model once it
+     * is set.
+     */
     tableColumnModel :
     {
       check : "qx.ui.table.columnmodel.Basic",
@@ -571,20 +576,10 @@ qx.Class.define("qx.ui.table.Table",
     },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyTableColumnModel : function(value, old)
     {
-      if (old != null)
-      {
-        old.removeListener("visibilityChanged", this._onColVisibilityChanged, this);
-        old.removeListener("widthChanged", this._onColWidthChanged, this);
-        old.removeListener("orderChanged", this._onColOrderChanged, this);
+      if (old != null) {
+        throw new Error("The table column model can only be set once per table.");
       }
 
       value.addListener("visibilityChanged", this._onColVisibilityChanged, this);
