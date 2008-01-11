@@ -254,7 +254,7 @@ class Locale:
             if oper:
                 var = oper.getChild("variable", False)
                 if var:
-                    varname = treeutil.assembleVariable(var)
+                    varname = (treeutil.assembleVariable(var))[0]
                     for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
                         if varname.endswith(entry):
                             self._addString(entry[1:], strings, node, var)

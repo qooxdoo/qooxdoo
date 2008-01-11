@@ -233,7 +233,7 @@ class DependencyLoader:
 
     def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, inFunction):
         if node.type == "variable":
-            assembled = treeutil.assembleVariable(node)
+            assembled = (treeutil.assembleVariable(node))[0]
 
             # treat dependencies in defer as requires
             if assembled == "qx.Class.define":
