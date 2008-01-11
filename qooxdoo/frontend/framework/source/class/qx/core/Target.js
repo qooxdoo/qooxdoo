@@ -256,7 +256,7 @@ qx.Class.define("qx.core.Target",
       this._dispatchEvent(evt, dispose);
 
       // Read default prevented
-      var defaultPrevented = evt._defaultPrevented;
+      var defaultPrevented = evt.getDefaultPrevented();
 
       // enable dispose for event?
       dispose && evt.dispose();
