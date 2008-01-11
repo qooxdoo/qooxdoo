@@ -241,35 +241,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         return output;
       };
 
-      /*
-         XmlHttpTransport makes IE crash when a HTTP response with a statusCode != 200
-         arrives. The problem is propably some manipulation on the XmlHttpRequest object
-         during the handling of onreadystatechange. This problem needs further
-         investigation.
-
-         http://bugzilla.qooxdoo.org/show_bug.cgi?id=190
-
-         The following workaround calls the handler code with a zero timeout in order
-         to avoid those problems, because onreadystatechange can then return instantly.
-      */
-      var onreadyStateChangeCallback = qx.lang.Function.bind(this._onreadystatechange, this);
-      /*
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && this.getAsynchronous())
-      {
-        vRequest.onreadystatechange = function(e)
-        {
-          var self = this;
-          window.setTimeout(function(e) {
-            onreadyStateChangeCallback(e);
-          }, 0);
-        };
-      }
-      else
-      {
-        vRequest.onreadystatechange = onreadyStateChangeCallback;
-      }
-      */
-      vRequest.onreadystatechange = onreadyStateChangeCallback;
+      vRequest.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
 
       // --------------------------------------
       //   Opening connection
