@@ -1216,11 +1216,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
       var row = this._getRowForPagePos(pageX, pageY);
+      var col = this._getColumnForPageX(pageX);
 
-      if (row != null && this._getColumnForPageX(pageX) != null)
+      if (row != null && col != null)
       {
-        table._getSelectionManager().handleClick(row, evt);
-        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick"), true);
+        if (
+          this._lastMouseDownCell &&
+          row == this._lastMouseDownCell.row &&
+          col == this._lastMouseDownCell.col
+        ) {
+          this._lastMouseDownCell = {};
+
+          table._getSelectionManager().handleClick(row, evt);
+          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick"), true);
+        }
       }
     },
 
@@ -1232,8 +1241,21 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {qx.event.type.MouseEvent} the event.
      * @return {void}
      */
-    _onContextMenu : function(evt) {
-       this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu"), true);
+    _onContextMenu : function(evt)
+    {
+      var pageX = evt.getPageX();
+      var pageY = evt.getPageY();
+      var row = this._getRowForPagePos(pageX, pageY);
+      var col = this._getColumnForPageX(pageX);
+
+      if (
+        this._lastMouseDownCell &&
+        row == this._lastMouseDownCell.row &&
+        col == this._lastMouseDownCell.col
+      ) {
+        this._lastMouseDownCell = {};
+        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu"), true);
+      }
     },
 
 
