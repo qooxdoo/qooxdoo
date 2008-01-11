@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      */
     useAutoAlign :
     {
-      check : "boolean",
+      check : "Boolean",
       init : true
     }
   },
