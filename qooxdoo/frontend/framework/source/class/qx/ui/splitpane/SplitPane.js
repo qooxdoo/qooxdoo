@@ -612,7 +612,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
       this._knob.addState("dragging");
 
       // initialize the drag session
-      this._dragMin = qx.bom.element.Location.getLeft(this._box.getElement(), "content");
+      this._dragMin = qx.bom.element.Location.getLeft(this._box.getElement(), "border");
       this._dragMax = this._dragMin + this._box.getInnerWidth() - this._splitter.getBoxWidth();
       this._dragOffset = e.getPageX() - qx.bom.element.Location.getLeft(this._splitter.getElement());
     },
@@ -640,7 +640,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
 
       // initialize the drag session
       // dragStart = position of layout + mouse offset on splitter
-      this._dragMin = qx.bom.element.Location.getTop(this._box.getElement(), "content");
+      this._dragMin = qx.bom.element.Location.getTop(this._box.getElement(), "border");
       this._dragMax = this._dragMin + this._box.getInnerHeight() - this._splitter.getBoxHeight();
       this._dragOffset = e.getPageY() - qx.bom.element.Location.getTop(this._splitter.getElement());
     },
