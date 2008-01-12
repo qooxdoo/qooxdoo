@@ -64,23 +64,23 @@ def main():
     console.info("Target folder: %s" % target)    
     console.indent()
     
-    for name in data:
+    for entry in data:
+        name = entry[0]
+        
         console.info("Processing entry %s" % name)
         console.indent()
 
         for size in SIZES:
-            copyFile(source, target, name, data[name], size)
+            copyFile(source, target, entry, size)
 
         console.outdent()
 
     console.outdent()
 
 
-def copyFile(source, target, name, alternate, size):
-    # Concat name and alternates to one list
-    names = [name]
-    names.extend(alternate)
-
+def copyFile(source, target, names, size):
+    name = names[0]
+    
     # Get pixmap (may return None!)
     pixmap = getPixmapSmart(source, names, size)
     if not pixmap:
@@ -187,7 +187,17 @@ def getData():
 
         result[key] = alternative
 
-    return result
+    # convert to array
+    arr = []
+    keys = result.keys()
+    keys.sort()
+    for key in keys:
+        tmp = []
+        tmp.append(key)
+        tmp.extend(result[key])
+        arr.append(tmp)
+
+    return arr
 
 
 if __name__ == '__main__':
