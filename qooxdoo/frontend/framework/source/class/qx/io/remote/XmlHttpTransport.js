@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
 
    License:
