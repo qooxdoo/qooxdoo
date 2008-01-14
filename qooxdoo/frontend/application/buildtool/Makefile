@@ -107,12 +107,12 @@ exec-deploy: build
 #TESTDEPS = 1
 
 ifdef TESTDEPS
-	CLASSFILES = $(shell find $(APPLICATION_SOURCE_PATH)/class -type f -name '.svn' -prune -o -print)
-	FRAMEFILES = $(shell find $(FRAMEWORK_SOURCE_PATH) -name '.svn' -prune -o -print)
+	CLASSFILES = $(shell find $(APPLICATION_SOURCE_PATH)/class -name '.svn' -prune -o -name '*.js' -print)
+	FRAMEFILES = $(shell find $(FRAMEWORK_SOURCE_PATH) -name '.svn' -prune -o -name '*.js' ! -name '__init__.js' -print)
 endif
 
 #source/script/buildtool.js: $(CLASSFILES) $(FRAMEFILES)
 bingo: $(CLASSFILES) $(FRAMEFILES)
 	#make source
-	@#echo $(CLASSFILES)
+	@echo $(FRAMEFILES)
 	touch bingo
