@@ -161,6 +161,8 @@ def do_getroot(form):
     print os.getcwd()
 
 def do_reldir(form):
+    # relativize local directory path to Makefile directory and check it's
+    # a qooxdoo installation
     rc = 0
     print "Content-type: text/plain"
     print

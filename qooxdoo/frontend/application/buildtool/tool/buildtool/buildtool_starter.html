@@ -7,6 +7,30 @@
   <link rel="stylesheet" type="text/css" href="resource/buildtool/css/buildtool_starter.css">
   <title>qooxdoo &raquo; Buildtool Starter</title>
 
+  <script type="text/javascript">
+  var buildtoolAppUrl = "index.html";  // the real Buildtool app page, relat. to this one
+  var buildtoolCgiUrl = "bin/nph-qxadmin_cgi.py";   // the CGI backend URL for Buildtool, used for qooxdoo path
+
+  function checkQxPath(pathexp)
+  {
+    // create XHR object
+    var req;
+    var XHRfactories = [
+      function () { return new XMLHttpRequest(); },
+      function () { return new ActiveXObject("Msxml2.XMLHTTP");},
+      function () { return new ActiveXObject("Microsoft.XMLHTTP");}
+    ];
+    
+    req.Url = buildtoolCgiUrl + "?action=reldir&path=" + pathexp;
+  };
+
+  function saveQxPathAndLoadApp()
+  {
+
+    document.location.href=buildtoolAppUrl;
+  };
+  </script>
+
 
 </head>
 <body>
@@ -24,11 +48,12 @@ Buildtool to continue managing it.<br>
 
 <br>
 
-Enter the path to your qooxdoo environment: <input name="qooxdoo_path" type="file"><br>
+Enter the path to your qooxdoo environment: <input name="qooxdoo_path" type="file" onchange="checkQxPath(this.value);"><br>
 
-<br>
+and <input type="button" value="Continue" onclick="saveQxPathAndLoadApp();"/>
 
-or<br>
+<p>
+OR<br>
 
 <br>
 
@@ -40,16 +65,15 @@ Choose an SDK package to download:<br>
 
 <ul>
 
-  <li><a href="http://downloads.sourceforge.net/qooxdoo/qooxdoo-0.7.2-sdk.tar.gz">qooxdoo-sdk</a>
+  <li><a href="http://downloads.sourceforge.net/qooxdoo/qooxdoo-0.7.3-sdk.tar.gz">qooxdoo-sdk</a>
 (Unix-like environments)</li>
 
-  <li><a href="http://downloads.sourceforge.net/qooxdoo/qooxdoo-0.7.2-sdk.zip">qooxdoo-sdk</a>
+  <li><a href="http://downloads.sourceforge.net/qooxdoo/qooxdoo-0.7.3-sdk.zip">qooxdoo-sdk</a>
 (Windows environment)</li>
 
 </ul>
 
-(If you download a package come back to this page to enter the path
-where you unpacked it).
+and come back to this page to enter the path after you unpacked the package on your local filesystem.
 </div>
 
 </body>
