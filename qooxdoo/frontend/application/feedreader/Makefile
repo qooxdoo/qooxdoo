@@ -34,8 +34,8 @@ APPLICATION_BUILD_LOG_LEVEL = error
 
 APPLICATION_THEME=qx.theme.Ext
 
-APPLICATION_LOCALES = en de tr it es sv ru fr
-#APPLICATION_LOCALES = de es en
+#APPLICATION_LOCALES = en de tr it es sv ru fr
+APPLICATION_LOCALES = de es en
 
 
 
