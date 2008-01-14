@@ -232,7 +232,6 @@ qx.Class.define("qx.Theme",
 
       var target = clazz.prototype;
       var source = config[type];
-      var base;
 
       // Copy entries to prototype
       for (var id in source)

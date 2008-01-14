@@ -589,7 +589,7 @@ qx.Class.define("qx.ui.tree.Tree",
     _onkeydown : function(e)
     {
       var vManager = this.getManager();
-      var vSelectedItem = vManager.getSelectedItem();
+      vManager.getSelectedItem();
     },
 
 
