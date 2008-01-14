@@ -39,6 +39,9 @@ distclean:
 	@$(MAKE) -s -f Makefile.demobrowser distclean
 	@$(MAKE) -s -f Makefile.demo distclean
 
+locales:
+	@$(MAKE) -s -f Makefile.demobrowser locales
+
 api:
 	@$(MAKE) -s -f Makefile.demobrowser api
 
