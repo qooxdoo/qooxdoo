@@ -203,19 +203,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     var lightblue = "rgb(" + qx.util.ExtendedColor.toRgb("lightblue") + ")";
     this.setCellFocusAttributes({ backgroundColor : lightblue });
 
-    /*
-    // Use this instead, to help determine which does what
-    this.setRowColors(
-    {
-      bgcolFocusedSelected     : "cyan",
-      bgcolFocusedSelectedBlur : "green",
-      bgcolFocused             : "yellow",
-      bgcolFocusedBlur         : "blue",
-      bgcolSelected            : "red",
-      bgcolSelectedBlur        : "pink",
-    });
-    */
-
     // Get the list of pane scrollers
     var scrollers = this._getPaneScrollerArr();
 
@@ -642,35 +629,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
       addHierarchy(nodeId);
       return components;
-    },
-
-
-    /**
-     * Allow setting the tree row colors.
-     *
-     * @type member
-     * @param colors {Map}
-     *   The value of each property in the map is a string containing either a
-     *   number (e.g. "#518ad3") or color name ("white") representing the
-     *   color for that type of display.  The map may contain any or all of
-     *   the following properties:
-     *      <ul>
-     *        <li>bgcolFocusedSelected</li>
-     *        <li>bgcolFocusedSelectedBlur</li>
-     *        <li>bgcolFocused</li>
-     *        <li>bgcolFocusedBlur</li>
-     *        <li>bgcolSelected</li>
-     *        <li>bgcolSelectedBlur</li>
-     *        <li>bgcolEven</li>
-     *        <li>bgcolOdd</li>
-     *        <li>colSelected</li>
-     *        <li>colNormal</li>
-     *      </ul>
-     * @return {void}
-     */
-    setRowColors : function(colors)
-    {
-      this.getDataRowRenderer().setRowColors(colors);
     },
 
 
