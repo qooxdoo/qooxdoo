@@ -2154,6 +2154,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._updateInterval = null;
     }
 
+    // this object was created by the table on init so we have to clean it up.
+    var tablePaneModel = this.getTablePaneModel();
+    if (tablePaneModel)
+    {
+      tablePaneModel.dispose();
+    }
+  
     this._disposeObjects("_verScrollBar", "_horScrollBar", "_header", "_headerClipper",
       "_spacer", "_top", "_tablePane", "_paneClipper", "_resizeLine", "_table",
       "_focusIndicator", "_topRightWidget");
