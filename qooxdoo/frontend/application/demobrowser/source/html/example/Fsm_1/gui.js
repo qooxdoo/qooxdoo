@@ -7,6 +7,8 @@ function initGui(fsm)
   vLayout.setTop(40);
   vLayout.setLeft(20);
   vLayout.setSpacing(4);
+  vLayout.setWidth(700);
+  vLayout.setHeight(300);
 
   vLayout.add(new qx.ui.basic.Label("URL:"));
   var defaultURL = qx.io.remote.Rpc.makeServerURL();
