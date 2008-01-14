@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 ################################################################################
 #
 #  qooxdoo - the new era of web development
