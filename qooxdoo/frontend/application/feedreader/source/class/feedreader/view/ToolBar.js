@@ -78,7 +78,6 @@ qx.Class.define("feedreader.view.ToolBar",
     {
       en : this.tr("English"),
       de : this.tr("German"),
-      en : this.tr("English"),
       tr : this.tr("Turkish"),
       it : this.tr("Italian"),
       es : this.tr("Spanish"),
