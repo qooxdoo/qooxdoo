@@ -297,7 +297,6 @@ qx.Class.define("qx.ui.table.pane.Header",
       var paneModel = this.getPaneScroller().getTablePaneModel();
 
       var children = this.getChildren();
-      var oldColCount = children.length;
       var colCount = paneModel.getColumnCount();
 
       var sortedColum = tableModel.getSortColumnIndex();
