@@ -1506,7 +1506,7 @@ qx.Class.define("buildtool.AppFrame",
     // find item with 'lab'==label in itemList; return item
     findOldItem : function (label, itemList) 
     {
-      item = null;
+      var item = null;
       for (var i=0; i<itemList.length; i++) 
       {
         if (itemList[i]['lab'] == label)
