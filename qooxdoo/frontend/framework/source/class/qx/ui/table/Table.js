@@ -1837,17 +1837,17 @@ qx.Class.define("qx.ui.table.Table",
   {
     // we allocated these objects on init so we have to clean them up.
     var selectionModel = this.getSelectionModel();
-    if (selectionModel) 
+    if (selectionModel)
     {
       selectionModel.dispose();
     }
-    
+
     var dataRowRenderer = this.getDataRowRenderer();
     if (dataRowRenderer)
     {
       dataRowRenderer.dispose();
     }
-    
+
     this._cleanUpMetaColumns(0);
     this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
   }

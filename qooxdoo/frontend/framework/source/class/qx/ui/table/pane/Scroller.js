@@ -2158,7 +2158,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       tablePaneModel.dispose();
     }
-  
+
     this._disposeObjects("_verScrollBar", "_horScrollBar", "_header", "_headerClipper",
       "_spacer", "_top", "_tablePane", "_paneClipper", "_resizeLine", "_table",
       "_focusIndicator", "_topRightWidget");
