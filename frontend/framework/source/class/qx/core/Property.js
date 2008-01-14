@@ -743,7 +743,6 @@ qx.Class.define("qx.core.Property",
     {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
-      var value = args ? args[0] : undefined;
       var code = [];
 
       var incomingValue = variant === "set" || variant === "style" || (variant === "init" && config.init === undefined);

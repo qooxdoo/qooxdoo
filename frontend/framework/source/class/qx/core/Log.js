@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.core.Log",
       {
         var delta = (new Date()).getTime() - this._timeMap[name];
         this._logFormatted([ name + ":", delta + "ms" ]);
-        delete _timeMap[name];
+        delete this._timeMap[name];
       }
     },
 
@@ -348,7 +348,7 @@ qx.Bootstrap.define("qx.core.Log",
       if (qx.core.Setting)
       {
         var file = qx.core.Setting.get("qx.resourceUri") + "/static/log/log.html";
-        var win = this._consoleWindow = window.open(file, "win", "width=500,height=250,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
+        this._consoleWindow = window.open(file, "win", "width=500,height=250,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
       }
     },
 
@@ -603,7 +603,7 @@ qx.Bootstrap.define("qx.core.Log",
       for (var m=reg.exec(format); m; m=reg.exec(format))
       {
         var type = m[8] ? m[8] : m[5];
-        var appender = type in appenderMap ? appenderMap[type] : _appendObject;
+        var appender = type in appenderMap ? appenderMap[type] : this._appendObject;
         var precision = m[3] ? parseInt(m[3]) : (m[4] == "." ? -1 : 0);
 
         parts.push(format.substr(0, m[0][0] == "%" ? m.index : m.index + 1));

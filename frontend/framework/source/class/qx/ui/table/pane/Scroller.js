@@ -131,7 +131,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this.addListener("mouseout", this._onmouseout, this);
 
-    this._lastRowCount = this.getTable().getTableModel().getRowCount();
+    var tableModel = this.getTable().getTableModel();
+    this._lastRowCount = tableModel ? tableModel.getRowCount() : 0;
 
     this.initScrollTimeout();
   },
