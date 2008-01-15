@@ -8,26 +8,157 @@
   <title>qooxdoo &raquo; Buildtool Starter</title>
 
   <script type="text/javascript">
-  var buildtoolAppUrl = "index.html";  // the real Buildtool app page, relat. to this one
-  var buildtoolCgiUrl = "bin/nph-qxadmin_cgi.py";   // the CGI backend URL for Buildtool, used for qooxdoo path
+  var buildtoolAppUrl = "/tool/buildtool/index.html";  // the real Buildtool app page, relat. to this one
+  var buildtoolCgiUrl = "/tool/buildtool/bin/nph-qxadmin_cgi.py";   // the CGI backend URL for Buildtool, used for qooxdoo path
 
-  function checkQxPath(pathexp)
-  {
-    // create XHR object
-    var req;
-    var XHRfactories = [
+  var qxPathRel       = "";
+
+  // ----------------------------------------------------------------------
+  // this XHR code taken from the Rhino Book, p.480f (5th ed.)
+  var XHR = {};
+  XHR._factories = [
       function () { return new XMLHttpRequest(); },
       function () { return new ActiveXObject("Msxml2.XMLHTTP");},
       function () { return new ActiveXObject("Microsoft.XMLHTTP");}
-    ];
-    
-    req.Url = buildtoolCgiUrl + "?action=reldir&path=" + pathexp;
+  ];
+  XHR._factory = null;
+
+  // memoizing function to create XHR object
+  XHR.newRequest = function ()
+  {
+    if (XHR._factory != null) {
+      return XHR._factory();
+    }
+
+    for (var i=0; i < XHR._factories.length; i++)
+    {
+      try {
+        var factory = XHR._factories[i];
+        var request = factory();
+        if (request != null) {
+          XHR._factory = factory;
+          return request;
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+
+    // no XHR support -> exception
+    XHR._factory = function ()
+    {
+      throw new Error("XMLHttpRequest not supported");
+    }
+    XHR._factory();
+
+  }; // XHR.newRequest()
+
+  // ----------------------------------------------------------------------
+  function __loadPage(url, fn, obj)
+  {
+    // create XHR object
+    var req = XHR.newRequest();
+
+    req.open("GET", url);
+
+    req.onreadystatechange  = function () 
+    {
+      if (req.readyState == 4)
+      {
+        if (req.status == 200)
+        {
+          fn.call(obj, req);
+        } else
+        {
+          alert("Problems contacting Buildtool Mini-Webserver: " + req.status +" ("+req.statusText+")");
+        }
+      }
+    }
+
+    req.send(null);
   };
 
+  // ----------------------------------------------------------------------
+  function checkQxPath(pathexp)
+  {
+    var url = buildtoolCgiUrl + "?action=reldir&path=" + pathexp;
+
+    __loadPage(url, function (req)
+    {
+      var res = req.responseText;
+      res = res.replace(/^\s*/,"");  // trim
+      res = res.replace(/\s*$/,"");
+      if (res != "-1")
+      {
+        //document.getElementById('pathmsg').textContent ="Valid path to qooxdoo installation";
+        alert("Valid path to qooxdoo installation");
+        qxPathRel = res;  // memoize
+      } else
+      {
+        alert("This doesn't look like the path to a qooxdoo installation; please choose again!");
+        qxPathRel = "";
+      }
+    }, this);
+
+  };
+
+  // ----------------------------------------------------------------------
   function saveQxPathAndLoadApp()
   {
+    var url;
+    var qxpath = qxPathRel;
 
-    document.location.href=buildtoolAppUrl;
+    if (qxpath == ""){
+      alert("You have to choose a valid qooxdoo path first!");
+      return -1;
+    }
+
+    // save qx path to Makefile
+    var reqdata = "action=save&makvars={'QOOXDOO_PATH':'"+qxpath+"'}";
+    url = encodeURI(buildtoolCgiUrl + "?" + reqdata);
+    __loadPage(url,function (req) 
+    {
+      var res = req.responseText;
+      res = res.replace(/^\s*/,"");  // trim
+      res = res.replace(/\s*$/,"");
+      if (res == "-1")
+      {
+        alert("Saving Makefile failed! ("+req.status+" - "+req.statusText+")\n" +
+              "Please enter '"+qxPathRel+"' as the value of 'QOOXDOO_PATH' and call 'make buildtool'.\n" +
+              "Then, open "+buildtoolAppUrl+"in your browser to start the Buildtool");
+        return -1;
+      } else
+      {
+        alert("Saved Makefile; now running make ... (this may take a while)");
+        // make buildtool
+        var url = buildtoolCgiUrl + "?action=run&make=buildtool&null";
+        /*
+        __loadPage(url,function (req) 
+        {
+          var res = req.responseText;
+          res = res.replace(/^\s* /,"");  // remove the blank in the regexp!
+          res = res.replace(/\s*$/,"");
+          if (res != "-1")
+          {
+            alert("Bootstrapping of Buildtool succeeded; now redirecting to Buildtool ...");
+            // skip to buildtool app
+            document.location.href=buildtoolAppUrl;
+          } else
+          {
+            alert("Bootstrapping of Buildtool failed; please invoke 'make buildtool' on the commandline.");
+            return -1;
+          }
+        }, this);
+        */
+        var iframe = document.getElementById("iframe");
+        iframe.height = 300;
+        iframe.width  = 700;
+        iframe.src = url;
+
+      }
+    }, this);
+
+
   };
   </script>
 
@@ -48,9 +179,16 @@ Buildtool to continue managing it.<br>
 
 <br>
 
-Enter the path to your qooxdoo environment: <input name="qooxdoo_path" type="file" onchange="checkQxPath(this.value);"><br>
+<form name="qxPathForm">
+Enter the path to your qooxdoo environment: <input name="qooxdoo_path" type="file" onchange="checkQxPath(this.value);"> <div id="pathmsg"></div>
+<small>(Please identify your qooxdoo installation by selecting one of its top-level files (AUTHORS, LICENSE,...).)</small><p>
 
 and <input type="button" value="Continue" onclick="saveQxPathAndLoadApp();"/>
+</form>
+
+<p align="center">
+<iframe id="iframe" scrolling="auto" height="50" width="700">
+</iframe>
 
 <p>
 OR<br>
