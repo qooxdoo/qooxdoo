@@ -18,27 +18,50 @@
 
 ************************************************************************ */
 
+/**
+ * A decoration renderer is responsible for rendering a widget's background and
+ * border. It is passed the widget's decoration element {@link qx.html.Element}
+ * and configures it to display the decoration.
+ *
+ * All Decoration renderer must implement this interface.
+ */
 qx.Interface.define("qx.ui2.decoration.IDecoration",
 {
   members :
   {
+    /**
+     * Initialize the decoration for the given widget and decoration element.
+     *
+     * @param widget {qx.ui2.core.Widget} widget to initialize the decoration for.
+     * @param decorationElement {qx.html.Element} The widget's decoration element.
+     */
+    init : function(widget, decorationElement) {
+      return true;
+    },
+
     update : function(widget, decorationElement, height, width) {
       return true;
     },
 
-    getInsetLeft : function() {
-      return true
-    },
-
-    getInsetTop : function() {
-      return true
-    },
-
-    getInsetRight : function() {
+    /**
+     * Reset all properties set by the decoration on the widget's decoration
+     * element.
+     *
+     * @param widget {qx.ui2.core.Widget} widget to reset the decoration for.
+     * @param decorationElement {qx.html.Element} The widget's decoration element.
+     */
+    reset : function(widget, decorationElement) {
       return true;
     },
 
-    getInsetBottom : function() {
+    /**
+     * Get the amount of space, the decoration needs for its border on each
+     * side.
+     *
+     * @return {Map} the desired insed a map with the keys <code>top</code>,
+     *     <code>right</code>, <code>bottom</code>, <code>left</code>.
+     */
+    getInsets : function() {
       return true;
     }
   }

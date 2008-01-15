@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * A basic decoration featuring background colors and simple borders based on
+ * CSS styles.
+ */
 qx.Class.define("qx.ui2.decoration.Basic",
 {
   extend : qx.core.Object,
@@ -388,6 +392,12 @@ qx.Class.define("qx.ui2.decoration.Basic",
     },
 
 
+    // interface implementation
+    init : function(widget, decorationElement) {
+    },
+
+
+    // interface implementation
     update : function(widget, decorationElement, width, height)
     {
       var decorationHtml = "<div style='" + this._getStyle(widget, width, height) + "'></div>";
@@ -395,20 +405,21 @@ qx.Class.define("qx.ui2.decoration.Basic",
     },
 
 
-    getInsetLeft : function() {
-      return this.getWidthLeft();
+    // interface implementation
+    reset : function(widget, decorationElement) {
+      decorationElement.setAttribute("html", "");
     },
 
-    getInsetTop : function() {
-      return this.getWidthTop();
-    },
 
-    getInsetRight : function() {
-      return this.getWidthRight();
-    },
-
-    getInsetBottom : function() {
-      return this.getWidthBottom();
+    // interface implementation
+    getInsets : function()
+    {
+      return {
+        top : this.getWidthTop(),
+        right : this.getWidthTop(),
+        bottom : this.getWidthBottom(),
+        left : this.getWidthLeft()
+      }
     },
 
 
@@ -418,22 +429,27 @@ qx.Class.define("qx.ui2.decoration.Basic",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applyBorderChange : function(value, old, name) {
       this.__informManager();
     },
 
+    // property apply
     _applyColorTop : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._changeColorTop, this, value);
     },
 
+    // property apply
     _applyColorRight : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._changeColorRight, this, value);
     },
 
+    // property apply
     _applyColorBottom : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, value);
     },
 
+    // property apply
     _applyColorLeft : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, value);
     },
