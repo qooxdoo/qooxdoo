@@ -465,7 +465,7 @@ qx.Bootstrap.define("qx.core.Log",
           className = className.toUpperCase();
         }
 
-        if (!window.confirm(className + ": " + message + "\n\nDo you want to cancel the debugging process?")) {
+        if (!window.confirm(className + ": " + message.join("") + "\n\nDo you want to continue the debugging?")) {
           this._unloadCancelled = true;
         }
       }
