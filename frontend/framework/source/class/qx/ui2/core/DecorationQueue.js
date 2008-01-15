@@ -26,7 +26,6 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
 {
   statics :
   {
-
     _decorationQueue : {},
 
     /**
@@ -73,6 +72,5 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
 
       this._decorationQueue = {};
     }
-
   }
 });
