@@ -53,3 +53,5 @@ fix:
 	@$(MAKE) -s -f Makefile.demobrowser fix
 	@$(MAKE) -s -f Makefile.demo fix
 
+lint:
+	@$(MAKE) -s -f Makefile.demobrowser lint
