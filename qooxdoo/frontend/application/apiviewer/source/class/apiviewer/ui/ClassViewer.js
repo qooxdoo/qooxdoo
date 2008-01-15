@@ -375,8 +375,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __getDependentClassesHtml : function(dependentClasses, title)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
       if (dependentClasses.length > 0)
       {
         var result = new qx.util.StringBuilder("<h2>", title, "</h2>");

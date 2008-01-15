@@ -73,7 +73,6 @@ qx.Class.define("apiviewer.ui.LegendView",
         return;
       }
 
-      var TreeUtil = apiviewer.TreeUtil;
       var legend = [
         {
           icon: "ICON_PACKAGE",
