@@ -369,7 +369,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var radioMgr = new qx.ui.selection.RadioManager();
         for (var i=0, l=themes.length; i<l; i++)
         {
-          theme = themes[i];
+          var theme = themes[i];
 
           if (theme.type === "abstract") {
             continue;
@@ -1069,53 +1069,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-      function buildSubTreeFlat(widgetR, modelR)
-      {
-        var iter = modelR.getIterator("depth");
-        var currNode;
-
-        while (currNode = iter())
-        {
-          // it's a container
-          if (!(currNode.type && currNode.type == "test"))
-          {
-            if (handler.hasTests(currNode))
-            {
-              var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(that.polish(fullName), "demobrowser/image/package18.gif");
-              widgetR.add(t);
-              t.setUserData("modelLink", currNode);
-              currNode.widgetLinkFlat = t;
-
-              if (that.tests.handler.getFullName(currNode) == that.tests.selected) {
-                selectedElement = currNode;
-              }
-
-              var children = currNode.getChildren();
-
-              for (var i=0; i<children.length; i++)
-              {
-                if (children[i].type && children[i].type == "test")
-                {
-                  var c = new qx.ui.tree.TreeFile(that.polish(children[i].label), "demobrowser/image/class18.gif");
-                  c.setToolTip(new qx.ui.popup.ToolTip(children[i].desc));
-                  t.add(c);
-                  c.setUserData("modelLink", children[i]);
-                  children[i].widgetLinkFlat = c;
-
-                  if (that.tests.handler.getFullName(children[i]) == that.tests.selected) {
-                    selectedElement = children[i];
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-
       // -- Main --------------------------------
       var ttree = this.tests.handler.ttree;
-      var handler = this.tests.handler;
       var that = this;
 
       /*
@@ -1131,7 +1086,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       var fulltree = this.widgets["treeview.full"];
       var flattree = this.widgets["treeview.flat"];
       var trees = [ fulltree, flattree ];
-      var stree = this.widgets["treeview"].getBar().getManager().getSelected();
 
       for (var i=0; i<trees.length; i++)
       {
@@ -1150,7 +1104,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Build the widget trees
       buildSubTree(this.widgets["treeview.full"], ttree);
 
-      // buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
 
@@ -1596,14 +1549,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     __beautyHtml : function (str)
     {
       var res = str;
-      var PTagStart = '&lt;\/?'
 
       // This match function might be a bit of overkill right now, but provides
       // for later extensions (cf. Flanagan(5th), 703)
       function matchfunc (vargs)
       {
         var s = arguments[1]+'<span class="html-tag-name">'+arguments[2]+'</span>';
-        var pair, curr;
+        var curr;
         var endT = false;
 
         // handle rest of submatches
