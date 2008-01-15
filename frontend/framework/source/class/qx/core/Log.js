@@ -452,6 +452,23 @@ qx.Bootstrap.define("qx.core.Log",
       {
         this._writeMessage(message, className);
       }
+      // dying messages - just show an alert
+      else if (qx.core.Object.isPageUnload())
+      {
+        if (this._unloadCancelled) {
+          return;
+        }
+
+        if (!className || className == "") {
+          className = "DEBUG";
+        } else {
+          className = className.toUpperCase();
+        }
+
+        if (!window.confirm(className + ": " + message + "\n\nDo you want to cancel the debugging process?")) {
+          this._unloadCancelled = true;
+        }
+      }
       else
       {
         this._messageQueue.push([ message, className ]);
