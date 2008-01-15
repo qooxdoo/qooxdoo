@@ -173,6 +173,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             childLeft = width - childWidth - childRight;
 
             // Reduce the width to keep left edge visible
+            /*
             if (childLeft < 0)
             {
               // Detect minimum width vs. calculated width
@@ -181,6 +182,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
               childLeft += (childWidth - childLimitWidth);
               childWidth = childLimitWidth
             }
+            */
           }
         }
 
@@ -197,6 +199,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             childTop = height - childHeight - childBottom;
 
             // Reduce the height to keep top edge visible
+            /*
             if (childTop < 0)
             {
               // Detect minimum height vs. calculated height
@@ -205,6 +208,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
               childTop += (childHeight - childLimitHeight);
               childHeight = childLimitHeight
             }
+            */
           }
         }
 
