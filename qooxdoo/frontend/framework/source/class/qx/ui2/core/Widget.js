@@ -64,6 +64,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Layout data
     this._layoutProperties = {};
+    this._computedLayout = {};
   },
 
 
@@ -409,6 +410,21 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+    /**
+     * The background color the rendered widget.
+     */
+    backgroundColor :
+    {
+      nullable : true,
+      init : "inherit",
+      check : "Color",
+      apply : "_applyBackgroundColor",
+      event : "changeBackgroundColor",
+      themeable : true,
+      inheritable : true
+    },
+
+
     /** The font property describes how to paint the font on the widget. */
     font :
     {
@@ -521,30 +537,32 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     renderLayout : function(left, top, width, height)
     {
-      var innerWidth = width - this.getInsetLeft() - this.getInsetRight();
-      var innerHeight = height - this.getInsetTop() - this.getInsetBottom();
+      var insets = this.getInsets();
 
-      var locationChange = (left !== this._left || top !== this._top);
+      var innerWidth = width - insets.left - insets.right;
+      var innerHeight = height - insets.top - insets.bottom;
+
+      var locationChange = (left !== this._computedLayout.left || top !== this._computedLayout.top);
       if (locationChange)
       {
-        this._left = left;
-        this._top = top;
+        this._computedLayout.left = left;
+        this._computedLayout.top = top;
 
         this._outerElement.setStyle("left", left + "px");
         this._outerElement.setStyle("top", top + "px");
       }
 
-      var sizeChange = (width !== this._width || height !== this._height);
+      var sizeChange = (width !== this._computedLayout.width || height !== this._computedLayout.height);
       if (sizeChange)
       {
-        this._width = width;
-        this._height = height;
+        this._computedLayout.width = width;
+        this._computedLayout.height = height;
 
         this._outerElement.setStyle("width", width + "px");
         this._outerElement.setStyle("height", height + "px");
 
-        this._contentElement.setStyle("left", this.getInsetLeft() + "px");
-        this._contentElement.setStyle("top", this.getInsetTop() + "px");
+        this._contentElement.setStyle("left", insets.left + "px");
+        this._contentElement.setStyle("top", insets.top + "px");
         this._contentElement.setStyle("width", innerWidth + "px");
         this._contentElement.setStyle("height", innerHeight + "px");
 
@@ -803,8 +821,10 @@ qx.Class.define("qx.ui2.core.Widget",
       var height, minHeight, maxHeight;
 
       // Prepare insets
-      var insetX = this.getInsetLeft() + this.getInsetRight();
-      var insetY = this.getInsetTop() + this.getInsetBottom();
+      var insets = this.getInsets();
+
+      var insetX = insets.left + insets.right;
+      var insetY = insets.top + insets.bottom;
 
 
       // Read properties
@@ -998,7 +1018,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * @return {Map} Map with <code>minWidth</code>, <code>maxWidth</code>,
      *    <code>minHeight</code> and <code>maxHeight</code>.
      */
-    _getTechnicalSize : function()
+    _getTechnicalLimits : function()
     {
       return {
         minWidth : 0,
@@ -1008,15 +1028,6 @@ qx.Class.define("qx.ui2.core.Widget",
       };
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      FLEX POLICY
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Whether a widget is able to stretch on the x-axis. Some specific y-axis
@@ -1070,76 +1081,37 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * Return the left inset of the widget's inner element relative to its
+     * Return the insets of the widget's inner element relative to its
      * outer element. The inset is the sum of the padding and border width.
      *
-     * @return {Integer} The left inset
+     * @return {Map} Contains the keys <code>top</code>, <code>right</code>,
+     *   <code>bottom</code> and <code>left</code>. All values are integers.
      */
-    getInsetLeft : function()
+    getInsets : function()
     {
-      var value = this.getPaddingLeft();
+      var top = this.getPaddingTop();
+      var right = this.getPaddingRight();
+      var bottom = this.getPaddingBottom();
+      var left = this.getPaddingLeft();
 
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetLeft();
+      var decoration = this.getDecoration();
+      if (decoration)
+      {
+        var inset = decoration.getInsets();
+
+        top += inset.top;
+        right += inset.right;
+        bottom += inset.bottom;
+        left += inset.left;
       }
 
-      return value;
+      return {
+        "top" : top,
+        "right" : right,
+        "bottom" : bottom,
+        "left" : left
+      };
     },
-
-
-    /**
-     * Return the top inset of the widget's inner element relative to its
-     * outer element. The inset is the sum of the padding and border width.
-     *
-     * @return {Integer} The top inset
-     */
-    getInsetTop : function()
-    {
-      var value = this.getPaddingTop();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetTop();
-      }
-
-      return value;
-    },
-
-
-    /**
-     * Return the right inset of the widget's inner element relative to its
-     * outer element. The inset is the sum of the padding and border width.
-     *
-     * @return {Integer} The right inset
-     */
-    getInsetRight : function()
-    {
-      var value = this.getPaddingRight();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetRight();
-      }
-
-      return value;
-    },
-
-
-    /**
-     * Return the bottom inset of the widget's inner element relative to its
-     * outer element. The inset is the sum of the padding and border width.
-     *
-     * @return {Integer} The bottom inset
-     */
-    getInsetBottom : function()
-    {
-      var value = this.getPaddingBottom();
-
-      if (this.getDecoration()) {
-        value += this.getDecoration().getInsetBottom();
-      }
-
-      return value;
-    },
-
 
 
 
@@ -1147,74 +1119,28 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      COMPUTED LAYOUT DIMENSIONS
+      COMPUTED LAYOUT
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Get the widget's top position inside its parent element as computed by
+     * Get the widget's computed location and dimension as computed by
      * the layout manager. This function will return <code>null</code> if the
      * layout is invalid.
      *
      * This function is guaranteed to return a non <code>null</code> value
      * during a {@link #changeSize} or {@link #changePosition} event dispatch.
      *
-     *  @type member
-     *  @return {Integer|null} The widget's top position in pixel or
-     *      <code>null</code> if the layout is invalid.
+     * @type member
+     * @return {Map|null} The widget location and dimensions in pixel (or
+     *    <code>null</code> if the layout is invalid). Contains the keys
+     *    <code>width</code>, <code>height</code>, <code>left</code> and
+     *    <code>top</code>.
      */
-    getComputedTop : function() {
-      return this._hasValidLayout ? this._top : null;
+    getComputedLayout : function() {
+      return this._hasValidLayout ? this._computedLayout : null;
     },
 
-
-    /**
-     * Get the widget's left position inside its parent element as computed by
-     * the layout manager. This function will return <code>null</code> if the
-     * layout is invalid.
-     *
-     * This function is guaranteed to return a non <code>null</code> value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's left position in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedLeft : function() {
-      return this._hasValidLayout ? this._left : null;
-    },
-
-
-    /**
-     * Get the widget's width as computed by the layout manager. This function
-     * will return <code>null</code> if the layout is invalid.
-     *
-     * This function is guaranteed to return a non <code>null</code> value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's width in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedWidth : function() {
-      return this._hasValidLayout ? this._width : null;
-    },
-
-
-    /**
-     * Get the widget's height as computed by the layout manager. This function
-     * will return <code>null</code> if the layout is invalid.
-     *
-     *  This function is guaranteed to return a non <code>null</code> value
-     *  during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     *  @type member
-     *  @return {Integer|null} The widget's height in pixel or
-     *      <code>null</code> if the layout is invalid.
-     */
-    getComputedHeight : function() {
-      return this._hasValidLayout ? this._height : null;
-    },
 
 
 
@@ -1238,6 +1164,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (decoration) {
         decoration.update(this, this._decorationElement, width, height);
       }
+
       qx.ui2.core.DecorationQueue.remove(this);
     },
 
@@ -1328,6 +1255,14 @@ qx.Class.define("qx.ui2.core.Widget",
       this._outerElement.include();
     },
 
+
+
+
+
+
+    _applyBackgroundColor : function(value) {
+      this._outerElement.setStyle("backgroundColor", value);
+    },
 
 
 
@@ -1448,6 +1383,9 @@ qx.Class.define("qx.ui2.core.Widget",
       qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
 
+    _defaultDecorationInsets : {
+      top : 0, right : 0, bottom : 0, left : 0
+    },
 
     /**
      * Callback for decoration manager connection
@@ -1456,25 +1394,14 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _styleDecoration : function(decoration)
     {
-      var insetTop=0, insetRight=0, insetBottom=0, insetLeft=0;
-
-      // Read out decoration inset
-      if (decoration)
-      {
-        insetTop = decoration.getInsetTop();
-        insetRight = decoration.getInsetRight();
-        insetBottom = decoration.getInsetBottom();
-        insetLeft = decoration.getInsetLeft();
-      }
+      var old = this._lastDecorationInsets || this._defaultDecorationInsets;
+      var current = decoration ? decoration.getInsets() : this._defaultDecorationInsets;
 
       // Detect inset changes
-      if (insetTop != this._insetTop || insetRight != this._insetRight || insetBottom != this._insetBottom || insetLeft != this._insetLeft)
+      if (old.top != current.top || old.right != current.right || old.bottom != current.bottom || old.left != current.left)
       {
-        // Store new insets
-        this._insetTop = insetTop;
-        this._insetRight = insetRight;
-        this._insetBottom = insetBottom;
-        this._insetLeft = insetLeft;
+        // Create copy and store for next modification.
+        this._lastDecorationInsets = qx.lang.Object.copy(current);
 
         // Inset changes requires a layout update
         qx.ui2.core.LayoutQueue.add(this);
@@ -1485,16 +1412,6 @@ qx.Class.define("qx.ui2.core.Widget",
         qx.ui2.core.DecorationQueue.add(this);
       }
     },
-
-
-    _applyBackgroundColor : function(value, old)
-    {
-      var decoration = this.getDecoration();
-      if(decoration !== null) {
-        this._styleDecoration();
-      }
-    },
-
 
     _applyTextColor : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
@@ -1509,34 +1426,11 @@ qx.Class.define("qx.ui2.core.Widget",
       }
     },
 
-
     _applyLayout : function(value, old)
     {
       if (value) {
         value.setWidget(this);
       }
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      STUFF
-    ---------------------------------------------------------------------------
-    */
-
-    // TODO: debugging code
-    toString : function()
-    {
-      var str = this.base(arguments);
-      var color = this.getBackgroundColor();
-      if(color) {
-        str += " (" + color + ")";
-      }
-      return str;
     }
   },
 
@@ -1547,7 +1441,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
   /*
   *****************************************************************************
-     DESTRUCT
+     DESTRUCTOR
   *****************************************************************************
   */
 
