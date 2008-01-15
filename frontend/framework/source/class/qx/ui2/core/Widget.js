@@ -380,14 +380,16 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * The background color of the rendered widget.
+     * The decoration property points to an object, which is responsible
+     * for drawing the widget's decoration, e.g. border, background or shadow
      */
-    backgroundColor :
+    decoration :
     {
       nullable : true,
-      check : "Color",
-      apply : "_applyBackgroundColor",
-      event : "changeBackgroundColor",
+      init : null,
+      apply : "_applyDecoration",
+      event : "changeDecoration",
+      check : "qx.ui2.decoration.IDecoration",
       themeable : true
     },
 
@@ -404,21 +406,6 @@ qx.Class.define("qx.ui2.core.Widget",
       event : "changeTextColor",
       themeable : true,
       inheritable : true
-    },
-
-
-    /**
-     * The decoration property points to an object, which is responsible
-     * for drawing the widget's decoration, e.g. border, background or shadow
-     */
-    decoration :
-    {
-      nullable : true,
-      init : null,
-      apply : "_applyDecoration",
-      event : "changeDecoration",
-      check : "qx.ui2.decoration.IDecoration",
-      themeable : true
     },
 
 
@@ -595,6 +582,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * layout changes inside the widget will not be propagated up to the
      * layout root's parent.
      *
+     * @internal
      * @return {Boolean} Whether the widget is a layout root.
      */
     isLayoutRoot : function() {
@@ -606,6 +594,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * Get the widget's nesting level. Top level widgets have a nesting level
      * of <code>0</code>.
      *
+     * @internal
      * @return {Integer} The widgets nesting level.
      */
     getNestingLevel : function()
@@ -630,6 +619,15 @@ qx.Class.define("qx.ui2.core.Widget",
     _isRootWidget : false,
 
 
+    /**
+     * Returns the root widget. The root widget is the widget which
+     * is directly inserted into an existing DOM node at HTML level.
+     * This is often the BODY element of a typical web page.
+     *
+     * @internal
+     * @type member
+     * @return {qx.ui2.core.Widget|null} The root widget (if available)
+     */
     getRoot : function()
     {
       var parent = this;
@@ -650,11 +648,23 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Indicate that the widget has layout changes and propagate this information
      * up the widget hierarchy.
+     *
+     * @internal
+     * @type member
      */
     scheduleLayoutUpdate : function() {
       qx.ui2.core.LayoutQueue.add(this);
     },
 
+
+    /**
+     * Whether the layout of this widget (to layout the children)
+     * is valid.
+     *
+     * @internal
+     * @type member
+     * @return {Boolean} Returns <code>true</code>
+     */
     hasValidLayout : function() {
       return this._hasValidLayout == true;
     },
@@ -689,6 +699,9 @@ qx.Class.define("qx.ui2.core.Widget",
     /*
     ---------------------------------------------------------------------------
       LAYOUT PROPERTIES
+    ---------------------------------------------------------------------------
+      These are used to manage the additonal layout data of a child used by
+      the parent layout manager.
     ---------------------------------------------------------------------------
     */
 
@@ -755,17 +768,6 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    /**
-     * Remove all layout properties. This happens, when the widget
-     * if removed from a layout.
-     *
-     * @internal
-     * @type member
-     */
-    hasLayoutProperty : function(name) {
-      this._layoutProperties = {};
-    },
-
 
 
 
@@ -773,6 +775,10 @@ qx.Class.define("qx.ui2.core.Widget",
     /*
     ---------------------------------------------------------------------------
       SIZE HINTS
+    ---------------------------------------------------------------------------
+      A size hint computes the dimensions of a widget. It returns
+      the the recommended dimensions as well as the min and max dimensions.
+      Existing technical limits are also respected.
     ---------------------------------------------------------------------------
     */
 
@@ -809,6 +815,9 @@ qx.Class.define("qx.ui2.core.Widget",
       var minHeight = this.getMinHeight();
       var maxHeight = this.getMaxHeight();
 
+
+      // Cache technical limits
+      var technicalLimits = this._getTechnicalLimits();
 
       // Cache content hint
       var contentHint = this._getContentHint();
@@ -864,8 +873,8 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       // Always respect technical limitations
-      minWidth = Math.max(insetX, minWidth, this._getTechnicalMinWidth());
-      maxWidth = Math.min(32000, maxWidth, this._getTechnicalMaxWidth());
+      minWidth = Math.max(insetX, minWidth, technicalLimits.minWidth);
+      maxWidth = Math.min(32000, maxWidth, technicalLimits.maxWidth);
 
 
 
@@ -911,8 +920,8 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       // Always respect technical limitations
-      minHeight = Math.max(insetY, minHeight, this._getTechnicalMinHeight());
-      maxHeight = Math.min(32000, maxHeight, this._getTechnicalMaxHeight());
+      minHeight = Math.max(insetY, minHeight, technicalLimits.minWidth);
+      maxHeight = Math.min(32000, maxHeight, technicalLimits.maxWidth);
 
 
 
@@ -974,18 +983,8 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TECHNICAL LIMITS
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Returns the technical minimum width of this widget.
+     * Returns the technical size limits of this widget.
      *
      * Developer note: This method should be overwritten by derived classes
      * to define the minimum width which keeps the widget usable.
@@ -994,65 +993,19 @@ qx.Class.define("qx.ui2.core.Widget",
      * refinable by the widget users and give the widget author a good
      * way to integrate a hard-coded technical minimum width.
      *
+     * @internal
      * @type member
-     * @return {Integer} Minimum width
+     * @return {Map} Map with <code>minWidth</code>, <code>maxWidth</code>,
+     *    <code>minHeight</code> and <code>maxHeight</code>.
      */
-    _getTechnicalMinWidth : function() {
-      return 0;
-    },
-
-
-    /**
-     * Returns the technical maximum width of this widget.
-     *
-     * Developer note: This method should be overwritten by derived classes
-     * to define the maximum width which keeps the widget usable. This
-     * is often not as needed as the technical minimum width, but may be useful,
-     * as well in some cases. The dimension given here is not
-     * refinable by the widget users and give the widget author a good
-     * way to integrate some hard-coded technical maximum width.
-     *
-     * @type member
-     * @return {Integer} Minimum width
-     */
-    _getTechnicalMaxWidth : function() {
-      return 32000;
-    },
-
-
-    /**
-     * Returns the technical minimum height of this widget.
-     *
-     * Developer note: This method should be overwritten by derived classes
-     * to define the minimum height which keeps the widget usable.
-     * This may be for example, that at least the height of the text or icon
-     * used by the widget. The dimension given here is not
-     * refinable by the widget users and give the widget author a good
-     * way to integrate some hard-coded technical minimum height.
-     *
-     * @type member
-     * @return {Integer} Minimum width
-     */
-    _getTechnicalMinHeight : function() {
-      return 0;
-    },
-
-
-    /**
-     * Returns the technical maximum height of this widget.
-     *
-     * Developer note: This method should be overwritten by derived classes
-     * to define the maximum height which keeps the widget usable. This
-     * is often not as needed as the technical minimum height, but may be useful,
-     * as well in some cases. The dimension given here is not
-     * refinable by the widget users and give the widget author a good
-     * way to integrate some hard-coded technical maximum width.
-     *
-     * @type member
-     * @return {Integer} Minimum width
-     */
-    _getTechnicalMaxHeight : function() {
-      return 32000;
+    _getTechnicalSize : function()
+    {
+      return {
+        minWidth : 0,
+        maxWidth : 32000,
+        minHeight : 0,
+        maxHeight : 32000
+      };
     },
 
 
