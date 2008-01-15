@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Application Log</title>
+  <title>Console</title>
   <link rel="stylesheet" type="text/css" href="log.css">
 </head>
 <body>
@@ -11,9 +11,16 @@
   <div id="log"></div>
   <input type="text" id="commandLine">
   <script type="text/javascript">
-  if (opener.qx && opener.qx.core && opener.qx.core.Log && opener.qx.core.Log._onLogReady) {
-    opener.qx.core.Log._onLogReady(window);
+  try
+  {
+    if (eval("opener.qx.core.Log._onLogReady")) {
+      opener.qx.core.Log._onLogReady(window);
+    }
   }
+  catch(ex)
+  {
+    window.close();
+  };
   </script>
 </body>
 </html>
