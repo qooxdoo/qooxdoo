@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-12 14:16+0100\n"
+"POT-Creation-Date: 2008-01-15 10:00+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -313,13 +313,13 @@ msgstr "Buscar siguiente"
 msgid "Search items in list"
 msgstr "Buscar elementos en la lista"
 
-#: class/qx/ui/table/Table.js:1502
+#: class/qx/ui/table/Table.js:1497
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/qx/ui/table/Table.js:1504
+#: class/qx/ui/table/Table.js:1499
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
