@@ -1336,7 +1336,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var path = fpath.split("/");
 
       //if (this._currentSampleUrl != this.defaultUrl)
-      if (this.f1.getSource() != "" && this.f1.getSource() != this.defaultUrl)
+      if (this.f1.getSource() != null && this.f1.getSource() != this.defaultUrl)
       {
         // set logger
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
