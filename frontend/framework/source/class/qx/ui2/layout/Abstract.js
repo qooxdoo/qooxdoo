@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/**
+ * Base class for all layout managers. Custom layout manager must derive from
+ * this class and implement the methods {@link #invalidateLayoutCache},
+ * {@link #renderLayout} and {#getSizeHint}.
+ */
 qx.Class.define("qx.ui2.layout.Abstract",
 {
   extend : qx.core.Object,
