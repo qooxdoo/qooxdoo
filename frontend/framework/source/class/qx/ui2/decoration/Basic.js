@@ -383,8 +383,16 @@ qx.Class.define("qx.ui2.decoration.Basic",
       var borderWidth = this.getWidthLeft() + this.getWidthRight();
       var borderHeight = this.getWidthTop() + this.getWidthBottom();
 
-      template[25] = width - borderWidth;
-      template[27] = height - borderHeight;
+      if (qx.bom.client.Feature.BORDER_BOX)
+      {
+        template[25] = width;
+        template[27] = height;
+      }
+      else
+      {
+        template[25] = width - borderWidth;
+        template[27] = height - borderHeight;
+      }
 
       template[29] = widget.getBackgroundColor();
 
