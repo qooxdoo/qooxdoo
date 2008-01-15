@@ -26,11 +26,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("apiviewer.ui.panels.MethodPanel", {
+qx.Class.define("apiviewer.ui.panels.MethodPanel",
+{
 
   extend: apiviewer.ui.panels.InfoPanel,
 
-  members : {
+  members :
+  {
 
 
     /**
@@ -108,8 +110,6 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
      */
     getItemTextHtml : function(method, currentClassDocNode, showDetails)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
       var docClass = method.getClass();
 
       // Add the description

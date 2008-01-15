@@ -257,8 +257,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createSeeAlsoHtml : function(node)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
       var see = node.getSee();
       if (see.length > 0)
       {
@@ -298,7 +296,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createInheritedFromHtml : function(node, currentClassDocNode)
     {
-     var ClassViewer = apiviewer.ui.ClassViewer;
      if (
        node.getClass().getType() != "mixin" &&
        node.getClass() != currentClassDocNode
@@ -327,7 +324,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createOverwriddenFromHtml : function(node)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
       if (node.getOverriddenFrom())
       {
         var html = new qx.util.StringBuilder(
@@ -354,7 +350,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createIncludedFromHtml : function(node, currentClassDocNode)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
       if (node.getClass() != currentClassDocNode)
       {
         if (node.getClass().getType() == "mixin") {
@@ -471,7 +466,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       }
 
       var types = [];
-      var typeDimensions, typeName, linkText, dims;
+      var typeDimensions, typeName, linkText;
 
       if (typeNode) {
         types = typeNode.getTypes();
@@ -541,8 +536,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createErrorHtml : function(node, currentClassDocNode)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-      docNode = node.getDocNode();
+      var docNode = node.getDocNode();
 
       var errors = docNode.getErrors();
 
@@ -587,7 +581,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         return "";
       }
 
-      var ClassViewer = apiviewer.ui.ClassViewer;
       var html = new qx.util.StringBuilder();
       html.add('<div class="item-detail-error">', "Deprecated:", '</div>');
 
@@ -616,7 +609,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         return "";
       }
 
-      var ClassViewer = apiviewer.ui.ClassViewer;
       var html = new qx.util.StringBuilder();
       html.add('<div class="item-detail-headline">', "Access:", '</div>');
       html.add('<div class="item-detail-text">');
@@ -645,7 +637,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createInfoRequiredByHtml : function(node)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
       var html = new qx.util.StringBuilder();
       var requiredBy = node.getRequiredBy();
       if (requiredBy.length > 0) {
@@ -968,7 +959,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         return nodeArr;
       }
 
-      copyArr = nodeArr.concat();
+      var copyArr = nodeArr.concat();
       for (var i=nodeArr.length-1; i>=0; i--)
       {
         var node = nodeArr[i];
@@ -1000,7 +991,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       // Move protected methods to the end
       nodeArr.sort(function(obj1, obj2)
       {
-        sum1 = 0;
+        var sum1 = 0;
         if (obj1.isInternal()) {
           sum1 += 4;
         }
@@ -1011,7 +1002,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           sum1 += 1;
         }
 
-        sum2 = 0;
+        var sum2 = 0;
         if (obj2.isInternal()) {
           sum2 += 4;
         }
