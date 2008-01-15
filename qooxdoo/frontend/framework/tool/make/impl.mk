@@ -66,6 +66,7 @@ exec-distclean:
 
 	@echo "  * Cleaning up framework..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
+	@$(CMD_REMOVE) $(QOOXDOO_INCLUDE_CACHE)	
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
