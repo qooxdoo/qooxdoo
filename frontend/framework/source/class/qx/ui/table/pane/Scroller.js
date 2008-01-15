@@ -131,9 +131,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this.addListener("mouseout", this._onmouseout, this);
 
-    var tableModel = this.getTable().getTableModel();
-    this._lastRowCount = tableModel ? tableModel.getRowCount() : 0;
-
     this.initScrollTimeout();
   },
 
@@ -517,11 +514,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (rowCount != this._lastRowCount)
       {
         this._updateVerScrollBarMaximum();
-
-        var removedRows = this._lastRowCount - rowCount;
-        if (removedRows > 0) {
-          this.getTable().getSelectionModel().removeSelectionInterval(this._lastRowCount-1, rowCount);
-        }
 
         if (this.getFocusedRow() >= rowCount)
         {
@@ -2161,7 +2153,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       tablePaneModel.dispose();
     }
-  
+
     this._disposeObjects("_verScrollBar", "_horScrollBar", "_header", "_headerClipper",
       "_spacer", "_top", "_tablePane", "_paneClipper", "_resizeLine", "_table",
       "_focusIndicator", "_topRightWidget");
