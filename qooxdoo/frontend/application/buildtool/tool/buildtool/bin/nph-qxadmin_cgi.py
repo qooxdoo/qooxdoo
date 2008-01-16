@@ -204,6 +204,7 @@ def do_make(form):
     else:
         cmd = makecmd
     rc = invoke_external1(cmd)
+    print "<<eod: " + repr(rc) + ">>"
 
     return rc
 

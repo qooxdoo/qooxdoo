@@ -12,6 +12,7 @@
   var buildtoolCgiUrl = "/tool/buildtool/bin/nph-qxadmin_cgi.py";   // the CGI backend URL for Buildtool, used for qooxdoo path
 
   var qxPathRel       = "";
+  var buildStarted    = false;
 
   // ----------------------------------------------------------------------
   // this XHR code taken from the Rhino Book, p.480f (5th ed.)
@@ -153,13 +154,49 @@
         var iframe = document.getElementById("iframe");
         iframe.height = 300;
         iframe.width  = 700;
-        iframe.src = url;
+        iframe.src    = url;
+        buildStarted  = true;
 
       }
     }, this);
 
 
   };
+
+  // ----------------------------------------------------------------------
+  function checkBuildAndForward()
+  {
+    if (! buildStarted) {
+      return false;
+    } else
+    {
+      buildStarted = false;
+      var ifm = document.getElementById('iframe');
+      if (_checkMakeOutput(ifm))  // build succeeded
+      {
+        alert("Bootstrapping of Buildtool succeeded; now redirecting to Buildtool ...");
+        // skip to buildtool app
+        document.location.href=buildtoolAppUrl;
+      } else
+      {
+        alert("Bootstrapping of Buildtool failed; please invoke 'make buildtool' on the command line."+
+              "Then, open "+buildtoolAppUrl+"in your browser to start the Buildtool");
+      }
+    }
+
+  };
+
+  function _checkMakeOutput(ifrm)
+  {
+    var makeOutputStr = ifrm.contentWindow.document.body.innerHTML;
+    var rc = (makeOutputStr.match(/^&lt;&lt;eod: (\d+)&gt;&gt;$/m))[1];
+    if (rc && rc == "0") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   </script>
 
 
@@ -187,7 +224,7 @@ and <input type="button" value="Continue" onclick="saveQxPathAndLoadApp();"/>
 </form>
 
 <p align="center">
-<iframe id="iframe" scrolling="auto" height="50" width="700">
+<iframe id="iframe" scrolling="auto" height="50" width="700" onload="checkBuildAndForward();">
 </iframe>
 
 <p>
