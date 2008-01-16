@@ -553,7 +553,7 @@ qx.Bootstrap.define("qx.core.Log",
      */
     _logFormatted : function(objects, className)
     {
-      if (window.__firebug__ && window.console) {
+      if (window.console && window.console[className]) {
         return window.console[className].apply(window.console, objects);
       }
 
