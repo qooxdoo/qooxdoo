@@ -1,0 +1,114 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+
+qx.Class.define("Button",
+{
+  extend : qx.ui2.core.Label,
+
+  construct : function(text, callback, context)
+  {
+    this.base(arguments, text);
+    this._callback = callback;
+    this.addListener("click", callback, context);
+
+    var deco = new qx.ui2.decoration.Basic.fromString("1px solid black");
+    this.setDecoration(deco);
+
+    this.set({
+      maxWidth : "pref",
+      maxHeight : "pref",
+      padding : 4
+    });
+  }
+});
+
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var container = new qx.ui2.core.Widget();
+      var layout = new qx.ui2.layout.VBox();
+      container.setLayout(layout);
+
+      this._mainArea = new qx.ui2.core.Widget();
+      this._mainArea.setLayout(new qx.ui2.layout.HBox());
+      this._widgets = [];
+      var widgetColors = ["green", "blue", "yellow", "black", "orange", "red"];
+      for (var i=0; i<widgetColors.length; i++)
+      {
+        var widget = new qx.ui2.core.Widget();
+        widget.setBackgroundColor(widgetColors[i]);
+        this._mainArea.getLayout().add(widget);
+        this._widgets.push(widget);
+      }
+
+      container.getLayout().add(this._mainArea);
+
+
+      var removeButtons = new qx.ui2.core.Widget();
+      removeButtons.setLayout(new qx.ui2.layout.HBox());
+
+      for (var i=0; i<this._widgets.length; i++) {
+        removeButtons.getLayout().add(this.createRemoveButton(this._widgets[i]));
+      }
+
+      container.getLayout().add(removeButtons);
+
+      doc.add(container, 0, 0, 0, 0);
+    },
+
+    createRemoveButton : function(widget)
+    {
+      var doRemove = true;
+      var button = new Button("Remove " + widget.getBackgroundColor(), function()
+      {
+        if (doRemove) {
+          this._mainArea.getLayout().remove(widget);
+          button.setContent("Add " + widget.getBackgroundColor());
+        } else {
+          this._mainArea.getLayout().add(widget);
+          button.setContent("Remove " + widget.getBackgroundColor());
+        }
+
+        doRemove = !doRemove;
+      }, this);
+
+      return button;
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
