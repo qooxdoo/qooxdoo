@@ -94,6 +94,12 @@ qx.Class.define("qx.ui2.layout.Canvas",
     */
 
     // overridden
+    getSizeHint : function() {
+      return null;
+    },
+
+
+    // overridden
     renderLayout : function(width, height)
     {
       var children = this.getChildren();
@@ -144,19 +150,35 @@ qx.Class.define("qx.ui2.layout.Canvas",
         childWidth = child.getLayoutProperty("canvas.width");
         childHeight = child.getLayoutProperty("canvas.height");
 
-        if (typeof childWidth === "string" && percent.test(childWidth)) {
+        if (typeof childWidth === "string" && percent.test(childWidth))
+        {
           childWidth = Math.round(parseFloat(childWidth) * width / 100);
-        } else if (childWidth != null) {
+
+          // Limit resolved percent value
+          childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
+        }
+        else if (childWidth != null)
+        {
           throw new Error("Could not parse percent value for width: " + childWidth);
-        } else {
+        }
+        else
+        {
           childWidth = childHint.width;
         }
 
-        if (typeof childHeight === "string" && percent.test(childHeight)) {
+        if (typeof childHeight === "string" && percent.test(childHeight))
+        {
           childHeight = Math.round(parseFloat(childHeight) * height / 100);
-        } else if (childHeight != null) {
+
+          // Limit resolved percent value
+          childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
+        }
+        else if (childHeight != null)
+        {
           throw new Error("Could not parse percent value for width: " + childHeight);
-        } else {
+        }
+        else
+        {
           childHeight = childHint.height;
         }
 
@@ -167,22 +189,13 @@ qx.Class.define("qx.ui2.layout.Canvas",
           if (childLeft != null)
           {
             childWidth = width - childLeft - childRight;
+
+            // Limit computed value
+            childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
           }
           else if (childWidth != null)
           {
             childLeft = width - childWidth - childRight;
-
-            // Reduce the width to keep left edge visible
-            /*
-            if (childLeft < 0)
-            {
-              // Detect minimum width vs. calculated width
-              childLimitWidth = Math.max(childWidth + childLeft, childHint.minWidth);
-
-              childLeft += (childWidth - childLimitWidth);
-              childWidth = childLimitWidth
-            }
-            */
           }
         }
 
@@ -193,29 +206,15 @@ qx.Class.define("qx.ui2.layout.Canvas",
           if (childTop != null)
           {
             childHeight = height - childTop - childBottom;
+
+            // Limit computed value
+            childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
           }
           else if (childHeight != null)
           {
             childTop = height - childHeight - childBottom;
-
-            // Reduce the height to keep top edge visible
-            /*
-            if (childTop < 0)
-            {
-              // Detect minimum height vs. calculated height
-              childLimitHeight = Math.max(childHeight + childTop, childHint.minHeight);
-
-              childTop += (childHeight - childLimitHeight);
-              childHeight = childLimitHeight
-            }
-            */
           }
         }
-
-
-        // Limit dimensions to min/max dimensions and parent size
-        childWidth = Math.max(Math.min(childWidth, childHint.maxWidth, width - childLeft), childHint.minWidth);
-        childHeight = Math.max(Math.min(childHeight, childHint.maxHeight, height - childTop), childHint.minHeight);
 
 
         // Layout child
