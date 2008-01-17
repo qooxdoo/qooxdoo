@@ -540,6 +540,15 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     renderLayout : function(left, top, width, height)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (left == null || top == null || width == null || height == null)
+        {
+          this.printStackTrace();
+          throw new Error("Something went wrong with the layout of " + this.toString() + "!");
+        }
+      }
+
       var insets = this.getInsets();
 
       var innerWidth = width - insets.left - insets.right;

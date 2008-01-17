@@ -76,10 +76,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           // children without changing its position and size.
           // TODO: rerenderLayout() method missing
           item.renderLayout(
-            item._left,
-            item._top,
-            item._width,
-            item._height
+            item._computedLayout.left,
+            item._computedLayout.top,
+            item._computedLayout.width,
+            item._computedLayout.height
           );
         }
       }
