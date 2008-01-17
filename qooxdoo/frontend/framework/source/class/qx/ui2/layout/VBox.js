@@ -146,6 +146,11 @@ qx.Class.define("qx.ui2.layout.VBox",
     {
       // Initialize
       var children = this.getChildren();
+
+      if (children.length == 0) {
+        return;
+      }
+
       var align = this.getAlign();
       var child, childHint;
       var childWidth, childAlign, childLeft, childTop;
@@ -203,14 +208,14 @@ qx.Class.define("qx.ui2.layout.VBox",
           {
             childFlex = child.getLayoutProperty("vbox.flex");
 
-            if (childFlex == null || childFlex > 0)
+            if (childFlex > 0)
             {
               childHint = childHints[i];
 
               flexCandidates.push({
                 id : i,
                 potential : childGrow ? childHint.maxHeight - childHint.height : childHint.height - childHint.minHeight,
-                flex : childGrow ? (childFlex || 1) : 1 / (childFlex || 1)
+                flex : childGrow ? childFlex : 1 / childFlex
               });
             }
           }
@@ -295,7 +300,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       // Initialize
       var children = this.getChildren();
       var gaps = this._getGaps();
-      var minHeight=gaps, height=gaps, maxHeight=gaps;
+      var minHeight=gaps, height=gaps, maxHeight=32000;
       var minWidth=0, width=0, maxWidth=32000;
 
       // Support for reversed children
@@ -376,6 +381,11 @@ qx.Class.define("qx.ui2.layout.VBox",
     {
       var children = this.getChildren();
       var length = children.length;
+
+      if (length == 0) {
+        return 0;
+      }
+
       var gaps = this.getSpacing() * (length - 1);
 
       // Support for reversed children
@@ -599,7 +609,7 @@ qx.Class.define("qx.ui2.layout.VBox",
      * @return {Integer} The flex value
      */
     getFlex : function(widget) {
-      return widget.getLayoutProperty("vbox.flex") || 1;
+      return widget.getLayoutProperty("vbox.flex") || 0;
     },
 
 

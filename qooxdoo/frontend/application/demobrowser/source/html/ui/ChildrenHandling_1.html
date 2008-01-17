@@ -33,8 +33,6 @@ qx.Class.define("Button",
     this.setDecoration(deco);
 
     this.set({
-      maxWidth : "pref",
-      maxHeight : "pref",
       padding : 4
     });
   }
@@ -61,6 +59,9 @@ qx.Class.define("BasicSample",
       container.setLayout(layout);
 
       this._mainArea = new qx.ui2.core.Widget();
+      this._mainArea.set({
+        height : 100
+      });
       this._mainArea.setLayout(new qx.ui2.layout.HBox());
       this._widgets = [];
       var widgetColors = ["green", "blue", "yellow", "black", "orange", "red"];
@@ -84,7 +85,7 @@ qx.Class.define("BasicSample",
 
       container.getLayout().add(removeButtons);
 
-      doc.add(container, 0, 0, 0, 0);
+      doc.add(container, 0, 0);
     },
 
     createRemoveButton : function(widget)
