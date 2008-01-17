@@ -23,19 +23,19 @@
  *
  * TODOC: give a high level overview over widget.
  *
- * A widget consits of at least three DOM elements. The outer element, which is
+ * A widget consits of at least three DOM elements. The container element, which is
  * added to the parent widget has two child Element: The "decoration" and the
- * "inner" element. The decoration element has a lower z-Index and contains
+ * "content" element. The decoration element has a lower z-Index and contains
  * markup to render the widget's backround and border using an implementation
- * of {@link qx.ui2.decoration.IDecoration}.The inner element is positioned
- * inside the "outer" element to respect paddings and contains the "real"
+ * of {@link qx.ui2.decoration.IDecoration}.The cntent element is positioned
+ * inside the "container" element to respect paddings and contains the "real"
  * widget element.
  *
  *  <pre>
- * -outer----------------
+ * -container------------
  * |                    |
  * |  -decoration----   |
- * |  | -inner------|-  |
+ * |  | -content----|-  |
  * |  | |           ||  |
  * |  --|------------|  |
  * |    --------------  |
@@ -58,9 +58,12 @@ qx.Class.define("qx.ui2.core.Widget",
     this.base(arguments);
 
     // Create content element
-    this._outerElement = this._createOuterElement();
+    this._containerElement = this._createContainerElement();
     this._decorationElement = this._createDecorationElement();
     this._contentElement = this._createContentElement();
+
+    this._containerElement.add(this._decorationElement);
+    this._containerElement.add(this._contentElement);
 
     // Layout data
     this._layoutProperties = {};
@@ -548,8 +551,8 @@ qx.Class.define("qx.ui2.core.Widget",
         this._computedLayout.left = left;
         this._computedLayout.top = top;
 
-        this._outerElement.setStyle("left", left + "px");
-        this._outerElement.setStyle("top", top + "px");
+        this._containerElement.setStyle("left", left + "px");
+        this._containerElement.setStyle("top", top + "px");
       }
 
       var sizeChange = (width !== this._computedLayout.width || height !== this._computedLayout.height);
@@ -558,8 +561,8 @@ qx.Class.define("qx.ui2.core.Widget",
         this._computedLayout.width = width;
         this._computedLayout.height = height;
 
-        this._outerElement.setStyle("width", width + "px");
-        this._outerElement.setStyle("height", height + "px");
+        this._containerElement.setStyle("width", width + "px");
+        this._containerElement.setStyle("height", height + "px");
 
         this._contentElement.setStyle("left", insets.left + "px");
         this._contentElement.setStyle("top", insets.top + "px");
@@ -1184,7 +1187,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * @return {qx.html.Element} The outer HTML element
      */
     getElement : function() {
-      return this._outerElement;
+      return this._containerElement;
     },
 
 
@@ -1240,19 +1243,19 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
     setId : function(value) {
-      this._outerElement.setAttribute("id", value);
+      this._containerElement.setAttribute("id", value);
     },
 
     getId : function(value) {
-      this._outerElement.getAttribute("id");
+      this._containerElement.getAttribute("id");
     },
 
     exclude : function() {
-      this._outerElement.exclude();
+      this._containerElement.exclude();
     },
 
     include : function() {
-      this._outerElement.include();
+      this._containerElement.include();
     },
 
 
@@ -1278,7 +1281,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @return {qx.html.Element} The outer HTML element
      */
-    _createOuterElement : function()
+    _createContainerElement : function()
     {
       var el = new qx.html.Element("div");
 
@@ -1301,8 +1304,6 @@ qx.Class.define("qx.ui2.core.Widget",
       el.setStyle("zIndex", 10);
       el.setStyle("overflow", "hidden");
 
-      this._outerElement.add(el);
-
       return el;
     },
 
@@ -1316,8 +1317,6 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var el = new qx.html.Element("div");
       el.setStyle("zIndex", 5);
-      this._outerElement.add(el);
-
       return el;
     },
 
@@ -1340,7 +1339,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (hints.content[type]) {
         this._contentElement.addListener(type, func, obj);
       } else if (hints.outer[type]) {
-        this._outerElement.addListener(type, func, obj);
+        this._containerElement.addListener(type, func, obj);
       } else {
         this.base(arguments, type, func, obj);
       }
@@ -1355,7 +1354,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (hints.content[type]) {
         this._contentElement.removeListener(type, func, obj);
       } else if (hints.outer[type]) {
-        this._outerElement.removeListener(type, func, obj);
+        this._containerElement.removeListener(type, func, obj);
       } else {
         this.base(arguments, type, func, obj);
       }
@@ -1420,9 +1419,9 @@ qx.Class.define("qx.ui2.core.Widget",
     _styleTextColor : function(value)
     {
       if (value) {
-        this._outerElement.setStyle("color", value);
+        this._containerElement.setStyle("color", value);
       } else {
-        this._outerElement.resetStyle("color");
+        this._containerElement.resetStyle("color");
       }
     },
 
