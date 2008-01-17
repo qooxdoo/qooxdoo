@@ -48,6 +48,23 @@ qx.Class.define("qx.ui2.layout.Basic",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    LAYOUT_DEFAULTS : {
+      left : 0,
+      top : 0
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -75,7 +92,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     renderLayout : function(width, height)
     {
       var children = this.getChildren();
-      var child, childHint, childLeft, childTop;
+      var child, childProps;
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -84,12 +101,8 @@ qx.Class.define("qx.ui2.layout.Basic",
         // Only (re-)render modified children
         if (!child.hasValidLayout())
         {
-          childHint = child.getSizeHint();
-
-          childLeft = Math.max(0, child.getLayoutProperty("basic.left") || 0);
-          childTop = Math.max(0, child.getLayoutProperty("basic.top") || 0);
-
-          child.renderLayout(childLeft, childTop, childHint.width, childHint.height);
+          childProps = this._getChildProperties(child);
+          child.renderLayout(childProps.left, childProps.top, childProps.width, childProps.height);
         }
       }
     },
@@ -105,36 +118,37 @@ qx.Class.define("qx.ui2.layout.Basic",
       }
 
       var children = this.getChildren();
-      var child, childHint, childLeft, childTop;
-      var childWidth=0, childHeight=0;
+      var childProps;
+      var childMaxNeededWidth=0, childMaxNeededHeight=0;
 
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)
       {
-        child = children[i];
+        childProps = this._getChildProperties(children[i]);
 
-        childHint = child.getSizeHint();
-        childLeft = child.getLayoutProperty("basic.left") || 0;
-        childTop = child.getLayoutProperty("basic.top") || 0;
-
-        childWidth = Math.max(childWidth, childLeft + childHint.width);
-        childHeight = Math.max(childHeight, childTop + childHint.height);
+        childMaxNeededWidth = Math.max(0, childMaxNeededWidth, childProps.left + childProps.width);
+        childMaxNeededHeight = Math.max(0, childMaxNeededHeight, childProps.top + childProps.height);
       }
 
 
-      // Limit dimensions to min/max dimensions
-      childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
-      childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
+      // Limit needed dimensions
+      if (childMaxNeededWidth > 32000) {
+        childMaxNeededWidth = 32000;
+      }
+
+      if (childMaxNeededHeight > 32000) {
+        childMaxNeededHeight = 32000;
+      }
 
 
       // Build hint
       var hint = {
-        minWidth : childWidth,
-        width : childWidth,
+        minWidth : 0,
+        width : childMaxNeededWidth,
         maxWidth : 32000,
-        minHeight : childHeight,
-        height : childHeight,
+        minHeight : 0,
+        height : childMaxNeededHeight,
         maxHeight : 32000
       };
 
@@ -142,114 +156,6 @@ qx.Class.define("qx.ui2.layout.Basic",
       // Return hint
       this.debug("Computed size hint: ", hint);
       return this._sizeHint = hint;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES: LOCATION: LEFT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets the left position on the layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {Integer} The left position to apply
-     * @return {qx.ui2.layout.Basic} This layout (for chaining support)
-     */
-    setLeft : function(widget, value)
-    {
-      widget.addLayoutProperty("basic.left", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the left position on the layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.Basic} This layout (for chaining support)
-     */
-    resetLeft : function(widget)
-    {
-      widget.removeLayoutProperty("basic.left");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Returns the currently configured left position on the layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {Integer} The currently configured left position
-     */
-    getLeft : function(widget) {
-      return widget.getLayoutProperty("basic.left");
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES: LOCATION: TOP
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets the top position on the layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {Integer} The top position to apply
-     * @return {qx.ui2.layout.Basic} This layout (for chaining support)
-     */
-    setTop : function(widget, value)
-    {
-      widget.addLayoutProperty("basic.top", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the top position on the layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.Basic} This layout (for chaining support)
-     */
-    resetTop : function(widget)
-    {
-      widget.removeLayoutProperty("basic.top");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Returns the currently configured top position on the layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {Integer} The currently configured top position
-     */
-    getTop : function(widget) {
-      return widget.getLayoutProperty("basic.top");
     }
   }
 });
