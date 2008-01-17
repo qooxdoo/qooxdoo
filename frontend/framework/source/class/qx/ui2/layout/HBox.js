@@ -146,6 +146,11 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       // Initialize
       var children = this.getChildren();
+
+      if (children.length == 0) {
+        return;
+      }
+
       var align = this.getAlign();
       var child, childHint;
       var childHeight, childAlign, childTop, childLeft;
@@ -203,14 +208,14 @@ qx.Class.define("qx.ui2.layout.HBox",
           {
             childFlex = child.getLayoutProperty("hbox.flex");
 
-            if (childFlex == null || childFlex > 0)
+            if (childFlex > 0)
             {
               childHint = childHints[i];
 
               flexCandidates.push({
                 id : i,
                 potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
-                flex : childGrow ? (childFlex || 1) : 1 / (childFlex || 1)
+                flex : childGrow ? childFlex : 1 / childFlex
               });
             }
           }
@@ -295,7 +300,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Initialize
       var children = this.getChildren();
       var gaps = this._getGaps();
-      var minWidth=gaps, width=gaps, maxWidth=gaps;
+      var minWidth=gaps, width=gaps, maxWidth=32000;
       var minHeight=0, height=0, maxHeight=32000;
 
       // Support for reversed children
@@ -376,6 +381,11 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       var children = this.getChildren();
       var length = children.length;
+
+      if (length == 0) {
+        return 0;
+      }
+
       var gaps = this.getSpacing() * (length - 1);
 
       // Support for reversed children
@@ -599,7 +609,7 @@ qx.Class.define("qx.ui2.layout.HBox",
      * @return {Integer} The flex value
      */
     getFlex : function(widget) {
-      return widget.getLayoutProperty("hbox.flex") || 1;
+      return widget.getLayoutProperty("hbox.flex") || 0;
     },
 
 
