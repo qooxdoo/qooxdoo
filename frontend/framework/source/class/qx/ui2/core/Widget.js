@@ -719,82 +719,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES
-    ---------------------------------------------------------------------------
-      These are used to manage the additonal layout data of a child used by
-      the parent layout manager.
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Adds a layout property.
-     *
-     * @internal
-     * @type member
-     * @param name {String} Name of the property (width, top, minHeight, ...)
-     * @param value {var} Any acceptable value (depends on the selected parent layout manager)
-     * @return {qx.ui2.core.Widget} This widget (for chaining support)
-     */
-    addLayoutProperty : function(name, value)
-    {
-      this._layoutProperties[name] = value;
-      this.scheduleLayoutUpdate();
-
-      return this;
-    },
-
-
-    /**
-     * Removes a layout property.
-     *
-     * @internal
-     * @type member
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @return {qx.ui2.core.Widget} This widget (for chaining support)
-     */
-    removeLayoutProperty : function(name)
-    {
-      delete this._layoutProperties[name];
-      this.scheduleLayoutUpdate();
-
-      return this;
-    },
-
-
-    /**
-     * Returns the value of a specific property
-     *
-     * @internal
-     * @type member
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @return {var|null} Configured value
-     */
-    getLayoutProperty : function(name)
-    {
-      var value = this._layoutProperties[name];
-      return value == null ? null : value;
-    },
-
-
-    /**
-     * Whether this widget has a specific property
-     *
-     * @internal
-     * @type member
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @return {Boolean} <code>true</code> when this hint is defined
-     */
-    hasLayoutProperty : function(name) {
-      return this._layoutProperties[name] != null;
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       SIZE HINTS
     ---------------------------------------------------------------------------
       A size hint computes the dimensions of a widget. It returns
@@ -847,8 +771,11 @@ qx.Class.define("qx.ui2.core.Widget",
 
       if (!contentHint)
       {
-        if (width === "auto" || height === "auto") {
-          throw new Error("Auto sizing is not supported by the content!");
+        // Fix invalid values (which are also the default ones in this case)
+        if (width === "auto" || height === "auto")
+        {
+          width = 0;
+          height = 0;
         }
       }
 
