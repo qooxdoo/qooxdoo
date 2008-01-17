@@ -263,7 +263,12 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     _removeFromParent : function(widget)
     {
-      parent._contentElement.remove(widget.getElement());
+      var parent = this.getWidget();
+
+      if (parent) {
+        parent._contentElement.remove(widget.getElement());
+      }
+
       widget.setParent(null);
     },
 
