@@ -1264,7 +1264,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     _applyBackgroundColor : function(value) {
-      this._outerElement.setStyle("backgroundColor", value);
+      this._containerElement.setStyle("backgroundColor", value);
     },
 
 
