@@ -100,11 +100,7 @@ qx.Class.define("qx.ui2.core.Image",
     _createContentElement : function()
     {
       var el = new qx.html.Image;
-
-      this._outerElement.add(el);
-
       el.setStyle("zIndex", 10);
-
       return el;
     },
 

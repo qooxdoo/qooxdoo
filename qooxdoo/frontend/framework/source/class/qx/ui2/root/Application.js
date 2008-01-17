@@ -104,7 +104,7 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    _createOuterElement : function()
+    _createContainerElement : function()
     {
       var doc = this._doc;
 
