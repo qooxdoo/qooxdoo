@@ -59,8 +59,8 @@ qx.Class.define("qx.ui2.layout.Canvas",
   statics :
   {
     LAYOUT_DEFAULTS : {
-      left : 0,
-      top : 0,
+      left : null,
+      top : null,
       right : null,
       bottom : null
     }
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
           }
           else if (childWidth != null)
           {
-              childLeft = width - childWidth - childRight;
+            childLeft = width - childWidth - childRight;
           }
         }
 
@@ -200,6 +200,17 @@ qx.Class.define("qx.ui2.layout.Canvas",
             childTop = height - childHeight - childBottom;
           }
         }
+
+
+        // Post fixes
+        if (childLeft == null) {
+          childLeft = 0;
+        }
+
+        if (childTop == null) {
+          childTop = 0;
+        }
+
 
 
         // Layout child
