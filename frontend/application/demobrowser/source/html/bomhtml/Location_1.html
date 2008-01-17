@@ -14,7 +14,7 @@
   <script type="text/javascript" src="../util.js"></script>
 
 	<style>
-		#moveable{ position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 2px dashed red; background-color: white; opacity : 0.5; -moz-opacity: 0.5 }
+		#moveable{ position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 6px dashed red; }
 
 		#forceScroll { height: 2000px; width:2000px }
 
@@ -63,8 +63,18 @@
     	var moveable = document.getElementById("moveable");
       moveable.style.left = location.left + "px";
     	moveable.style.top = location.top + "px";
-      moveable.style.height = (location.bottom - location.top - 4) + "px";
-      moveable.style.width = (location.right - location.left - 4) + "px";
+
+    	if (qx.bom.client.Feature.BORDER_BOX)
+    	{
+        moveable.style.width = (location.right - location.left) + "px";
+        moveable.style.height = (location.bottom - location.top) + "px";
+    	}
+    	else
+    	{
+    	  var clazz = qx.bom.element.Location;
+        moveable.style.width = (location.right - location.left - clazz.__num(moveable, "borderLeftWidth") - clazz.__num(moveable, "borderRightWidth")) + "px";
+        moveable.style.height = (location.bottom - location.top - clazz.__num(moveable, "borderTopWidth") - clazz.__num(moveable, "borderBottomWidth")) + "px";
+      }
 
     	return false;
     }
@@ -105,12 +115,13 @@
   </script>
 
 	<p>
-	  Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:off)
+	  Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:OFF)
   	<select id="mode">
   	  <option value="margin">margin</option>
   	  <option value="box" selected="selected">box</option>
   	  <option value="border">border</option>
-  	  <option value="content">content</option>
+  	  <option value="scroll">scroll</option>
+  	  <option value="padding">padding</option>
   	</select>
   	<a href="javascript:randomize()">Randomize</a>
 	</p>
