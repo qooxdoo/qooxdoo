@@ -119,7 +119,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      * @param colSpan {Integer?1} How many columns the widget should span
      * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
-    add : function(widget, row, column, rowSpan, colSpan)
+    add : function(widget, row, column, options)
     {
       // validate arguments
       var cell = this.getCellWidget(row, column);
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._maxRowIndex = Math.max(this._maxRowIndex, row + rowSpan - 1);
       this._maxColIndex = Math.max(this._maxColIndex, column + colSpan - 1);
 
-      this.base(arguments, widget);
+      this.base(arguments, widget, options);
 
       this._importProperties(widget, arguments,
         "grid.row", "grid.column", "grid.rowSpan", "grid.colSpan"

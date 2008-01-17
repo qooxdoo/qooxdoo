@@ -42,6 +42,8 @@
  * * For left/right attached childs the height is ignored.
  * * For top/bottom attached childs the width is ignored.
  * * However: In both cases the min/max dimensions are respected.
+ *
+ * Layout Properties: width, height, flexX, flexY, dock/edge
  */
 qx.Class.define("qx.ui2.layout.Dock",
 {
@@ -97,14 +99,13 @@ qx.Class.define("qx.ui2.layout.Dock",
      * @param edge {String?null} Edge to attach. Could be anyone of
      *   <code>north</code>, <code>west</code>, <code>south</code>,
      *   <code>east</code> or <code>center</code>.
-     * @param flexX {Integer?null} Flex value for the x-axis.
-     * @param flexY {Integer?null} Flex value for the y-axis.
      * @return {qx.ui2.layout.HBox} This object (for chaining support)
      */
-    add : function(widget, edge, flexX, flexY)
+    add : function(widget, edge, options)
     {
-      this.base(arguments, widget);
-      this._importProperties(widget, arguments, "dock.edge", "dock.flexX", "dock.flexY");
+      this.base(arguments, widget, options);
+
+      this.setLayoutProperty(widget, "edge", edge)
 
       // Chaining support
       return this;
@@ -546,261 +547,6 @@ qx.Class.define("qx.ui2.layout.Dock",
       }
 
       return children;
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES: DOCK
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Configures the docking position for the given widget
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {String} The docking position to apply
-     * @return {qx.ui2.layout.Dock} This layout (for chaining support)
-     */
-    setDock : function(widget, value)
-    {
-      widget.addLayoutProperty("dock.edge", value)
-
-      // chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the docking position of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {String} The docking position
-     */
-    getDock : function(widget) {
-      return widget.getLayoutProperty("dock.edge");
-    },
-
-
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES: DIMENSION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets the width value of the given widget. This property is used
-     * to apply percent dimensions. For simple pixel dimensions
-     * use the widget property <code>width</code> instead.
-     *
-     * The size given here is only relevant for widgets attached to
-     * the left, right or center. Please do not use it for top or bottom
-     * attached widgets.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {String} The (percent) width value to apply
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    setWidth : function(widget, value)
-    {
-      widget.addLayoutProperty("dock.width", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the (percent) width value of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    resetWidth : function(widget)
-    {
-      widget.removeLayoutProperty("dock.width");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the (percent) width value of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {String} The width value
-     */
-    getWidth : function(widget) {
-      return widget.getLayoutProperty("dock.width") || 1;
-    },
-
-
-    /**
-     * Sets the height value of the given widget. This property is used
-     * to apply percent dimensions. For simple pixel dimensions
-     * use the widget property <code>height</code> instead.
-     *
-     * The size given here is only relevant for widgets attached to
-     * the top, bottom or center. Please do not use it for left or right
-     * attached widgets.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {String} The (percent) height value to apply
-     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
-     */
-    setHeight : function(widget, value)
-    {
-      widget.addLayoutProperty("dock.height", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the (percent) height value of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.VBox} This layout (for chaining support)
-     */
-    resetHeight : function(widget)
-    {
-      widget.removeLayoutProperty("dock.height");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the (percent) height value of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {String} The height value
-     */
-    getHeight : function(widget) {
-      return widget.getLayoutProperty("dock.height") || 1;
-    },
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES: FLEX
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets the flex value for the x-axis of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {Integer} The flex value to apply
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    setFlexX : function(widget, value)
-    {
-      widget.addLayoutProperty("hbox.flexX", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the flex value for the x-axis of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    resetFlexX : function(widget)
-    {
-      widget.removeLayoutProperty("hbox.flexX");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the flex value for the x-axis of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {Integer} The flex value
-     */
-    getFlexX : function(widget) {
-      return widget.getLayoutProperty("hbox.flexX") || 1;
-    },
-
-
-    /**
-     * Sets the flex value for the y-axis of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param value {Integer} The flex value to apply
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    setFlexY : function(widget, value)
-    {
-      widget.addLayoutProperty("hbox.flexY", value);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Resets the flex value for the y-axis of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @return {qx.ui2.layout.HBox} This layout (for chaining support)
-     */
-    resetFlexY : function(widget)
-    {
-      widget.removeLayoutProperty("hbox.flexY");
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Gets the flex value for the y-axis of the given widget.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to query
-     * @return {Integer} The flex value
-     */
-    getFlexY : function(widget) {
-      return widget.getLayoutProperty("hbox.flexY") || 1;
     }
   }
 });

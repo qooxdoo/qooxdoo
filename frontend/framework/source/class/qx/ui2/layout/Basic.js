@@ -56,35 +56,6 @@ qx.Class.define("qx.ui2.layout.Basic",
   {
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Adds a new widget to this layout.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
-     * @param left {Integer?null} Left position of the widget
-     * @param top {Integer?null} Top position of the widget
-     * @return {qx.ui2.layout.Basic} This object (for chaining support)
-     */
-    add : function(widget, left, top)
-    {
-      this.base(arguments, widget);
-      this._importProperties(widget, arguments, "basic.left", "basic.top");
-
-      // Chaining support
-      return this;
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */

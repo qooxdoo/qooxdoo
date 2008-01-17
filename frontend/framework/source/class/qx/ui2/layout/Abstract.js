@@ -95,13 +95,19 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param widget {qx.ui2.core.Widget} the widget to add
      * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
-    add : function(widget)
+    add : function(widget, options)
     {
       this._children.push(widget);
       this._addToParent(widget);
 
       // mark layout as invalid
       this.scheduleLayoutUpdate();
+
+      // import options
+      this._importOptions(options);
+
+      // Create storage object for layout properties
+      this._layoutProperties[widget.toHashCode()] = {};
 
       // Chaining support
       return this;
@@ -120,9 +126,12 @@ qx.Class.define("qx.ui2.layout.Abstract",
       qx.lang.Array.remove(this._children, widget);
       this._removeFromParent(widget);
 
-      // invalidateLayoutCache the layouts of the widget and its old parent
+      // Invalidate layout cache of the layouts of the widget and its old parent
       widget.scheduleLayoutUpdate();
       this.scheduleLayoutUpdate();
+
+      // Destruct storage object for layout properties
+      this._layoutProperties[widget.toHashCode()] = null;
 
       // Chaining support
       return this;
@@ -151,6 +160,79 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     getChildren : function() {
       return this._children;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES
+    ---------------------------------------------------------------------------
+      These are used to manage the additonal layout data of a child used by
+      the parent layout manager.
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Adds a layout property to the given widget.
+     *
+     * @type member
+     * @param child {qx.ui2.core.Widget} Widget to configure
+     * @param name {String} Name of the property (width, top, minHeight, ...)
+     * @param value {var} Any acceptable value (depends on the selected parent layout manager)
+     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     */
+    addLayoutProperty : function(child, name, value)
+    {
+      this._layoutProperties[child.toHashCode()][name] = value;
+
+      this.scheduleLayoutUpdate();
+    },
+
+
+    /**
+     * Removes a layout property from the given widget.
+     *
+     * @type member
+     * @param child {qx.ui2.core.Widget} Widget to configure
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     */
+    removeLayoutProperty : function(child, name)
+    {
+      delete this._layoutProperties[child.toHashCode()][name];
+
+      this.scheduleLayoutUpdate();
+    },
+
+
+    /**
+     * Returns the value of a specific property of the given widget.
+     *
+     * @type member
+     * @param child {qx.ui2.core.Widget} Widget to query
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @return {var|null} Configured value
+     */
+    getLayoutProperty : function(child, name)
+    {
+      var value = this._layoutProperties[child.toHashCode()][name];
+      return value == null ? null : value;
+    },
+
+
+    /**
+     * Whether the given widget has a specific property.
+     *
+     * @type member
+     * @param child {qx.ui2.core.Widget} Widget to query
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @return {Boolean} <code>true</code> when this hint is defined
+     */
+    hasLayoutProperty : function(child, name) {
+      return this._layoutProperties[name] != null;
     },
 
 
