@@ -50,6 +50,22 @@ qx.Class.define("qx.ui2.layout.Canvas",
   extend : qx.ui2.layout.Abstract,
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    LAYOUT_DEFAULTS : {
+      left : 0,
+      top : 0,
+      right : null,
+      bottom : null
+    }
+  },
+
 
 
 
@@ -78,7 +94,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
     renderLayout : function(width, height)
     {
       var children = this.getChildren();
-      var child, childHint;
+      var child, childProps;
       var childLeft, childTop, childRight, childBottom;
       var childWidth, childHeight;
       var childLimitWidth, childLimitHeight;
@@ -87,14 +103,14 @@ qx.Class.define("qx.ui2.layout.Canvas",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childHint = child.getSizeHint();
+        childProps = this._getChildProperties(child);
 
 
         // Processing location data
-        childLeft = child.getLayoutProperty("canvas.left");
-        childTop = child.getLayoutProperty("canvas.top");
-        childRight = child.getLayoutProperty("canvas.right");
-        childBottom = child.getLayoutProperty("canvas.bottom");
+        childLeft = childProps.left;
+        childTop = childProps.top;
+        childRight = childProps.right;
+        childBottom = childProps.bottom;
 
         if (typeof childLeft === "string" && percent.test(childLeft)) {
           childLeft = Math.round(parseFloat(childLeft) * width / 100);
@@ -122,47 +138,34 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
         // Processing width
-        childWidth = child.getLayoutProperty("canvas.width");
-        if (childWidth != null)
+        childWidth = childProps.width;
+        if (childWidth != null && typeof childWidth === "string")
         {
-          if (typeof childWidth === "string" && percent.test(childWidth))
-          {
-            childWidth = Math.round(parseFloat(childWidth) * width / 100);
-
-            // Limit resolved percent value
-            childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
-          }
-          else
-          {
+          if (!percent.test(childWidth)) {
             throw new Error("Could not parse percent value for width: " + childWidth);
           }
-        }
-        else
-        {
-          childWidth = childHint.width;
+
+          childWidth = Math.round(parseFloat(childWidth) * width / 100);
+
+          // Limit resolved percent value
+          childWidth = Math.max(Math.min(childWidth, childProps.maxWidth), childProps.minWidth);
         }
 
 
         // Processing height
-        childHeight = child.getLayoutProperty("canvas.height");
-        if (childHeight != null)
+        childHeight = childProps.height;
+        if (childHeight != null && typeof childHeight === "string")
         {
-          if (typeof childHeight === "string" && percent.test(childHeight))
-          {
-            childHeight = Math.round(parseFloat(childHeight) * height / 100);
-
-            // Limit resolved percent value
-            childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
-          }
-          else
-          {
+          if (!percent.test(childHeight)) {
             throw new Error("Could not parse percent value for width: " + childHeight);
           }
+
+          childHeight = Math.round(parseFloat(childHeight) * height / 100);
+
+          // Limit resolved percent value
+          childHeight = Math.max(Math.min(childHeight, childProps.maxHeight), childProps.minHeight);
         }
-        else
-        {
-          childHeight = childHint.height;
-        }
+
 
 
         // Normalize right
@@ -173,7 +176,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             childWidth = width - childLeft - childRight;
 
             // Limit computed value
-            childWidth = Math.max(Math.min(childWidth, childHint.maxWidth), childHint.minWidth);
+            childWidth = Math.max(Math.min(childWidth, childProps.maxWidth), childProps.minWidth);
           }
           else if (childWidth != null)
           {
@@ -190,7 +193,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             childHeight = height - childTop - childBottom;
 
             // Limit computed value
-            childHeight = Math.max(Math.min(childHeight, childHint.maxHeight), childHint.minHeight);
+            childHeight = Math.max(Math.min(childHeight, childProps.maxHeight), childProps.minHeight);
           }
           else if (childHeight != null)
           {

@@ -42,6 +42,25 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     // This array contains the children (instances of Widget)
     this._children = [];
+
+    // Contains layout data of all children (key = hash code)
+    this._layoutProperties = {};
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    LAYOUT_DEFAULTS : {
+      // abstract
+    }
   },
 
 
@@ -103,11 +122,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
       // mark layout as invalid
       this.scheduleLayoutUpdate();
 
-      // import options
-      this._importOptions(options);
-
       // Create storage object for layout properties
-      this._layoutProperties[widget.toHashCode()] = {};
+      this._layoutProperties[widget.toHashCode()] = options || {};
 
       // Chaining support
       return this;
@@ -250,12 +266,11 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Invalidate all layout relevant caches
      *
      * @internal
-     * @abstract
      * @type member
      * @return {void}
      */
     invalidateLayoutCache : function() {
-      this.warn("Missing invalidateLayoutCache() implementation!");
+      return;
     },
 
 
@@ -305,6 +320,30 @@ qx.Class.define("qx.ui2.layout.Abstract",
       return null;
     },
 
+
+    _getChildProperties : function(child)
+    {
+      var hint = child.getSizeHint();
+      var props = {};
+
+      for (var key in hint) {
+        props[key] = hint[key];
+      }
+
+      var defaults = this.constructor.LAYOUT_DEFAULTS || {};
+      var defined = this._layoutProperties[child.toHashCode()];
+
+      for (var key in defaults)
+      {
+        if (defined[key] !== undefined) {
+          props[key] = defined[key];
+        } else {
+          props[key] = defaults[key];
+        }
+      }
+
+      return props;
+    },
 
 
 
