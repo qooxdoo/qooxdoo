@@ -480,19 +480,23 @@ qx.Class.define("qx.bom.element.Location",
 
       if (mode)
       {
+        // In this modes we want the size as seen from a child what means that we want the full width/height
+        // which may be higher than the outer width/height when the element has scrollbars.
+        if (mode == "padding" || mode == "scroll")
+        {
+          var overX = qx.bom.element.Overflow.getX(elem);
+          if (overX == "scroll" || overX == "auto") {
+            right += elem.scrollWidth - elem.offsetWidth + this.__num(elem, "borderLeftWidth") + this.__num(elem, "borderRightWidth");
+          }
+
+          var overY = qx.bom.element.Overflow.getY(elem);
+          if (overY == "scroll" || overY == "auto") {
+            bottom += elem.scrollHeight - elem.offsetHeight + this.__num(elem, "borderTopWidth") + this.__num(elem, "borderBottomWidth");
+          }
+        }
+
         switch(mode)
         {
-          case "margin":
-            left -= this.__num(elem, "marginLeft");
-            top -= this.__num(elem, "marginTop");
-            right += this.__num(elem, "marginRight");
-            bottom += this.__num(elem, "marginBottom");
-            break;
-
-          case "box":
-            // no modification needed
-            break;
-
           case "padding":
             left += this.__num(elem, "paddingLeft");
             top += this.__num(elem, "paddingTop");
@@ -503,8 +507,8 @@ qx.Class.define("qx.bom.element.Location",
           case "scroll":
             left -= elem.scrollLeft;
             top -= elem.scrollTop;
-            right += elem.scrollLeft;
-            bottom += elem.scrollTop;
+            right -= elem.scrollLeft;
+            bottom -= elem.scrollTop;
             // no break here
 
           case "border":
@@ -514,8 +518,12 @@ qx.Class.define("qx.bom.element.Location",
             bottom -= this.__num(elem, "borderBottomWidth");
             break;
 
-          default:
-            throw new Error("Invalid mode for location detection: " + mode);
+          case "margin":
+            left -= this.__num(elem, "marginLeft");
+            top -= this.__num(elem, "marginTop");
+            right += this.__num(elem, "marginRight");
+            bottom += this.__num(elem, "marginBottom");
+            break;
         }
       }
 
