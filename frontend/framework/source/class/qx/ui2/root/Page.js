@@ -99,7 +99,7 @@ qx.Class.define("qx.ui2.root.Page",
 
 
     // overridden
-    _createOuterElement : function()
+    _createContainerElement : function()
     {
       var elem = this._doc.createElement("div");
       this._doc.body.appendChild(elem);
@@ -116,9 +116,6 @@ qx.Class.define("qx.ui2.root.Page",
     {
       var elem = new qx.html.Element();
       elem.setStyle("position", "absolute");
-
-      this.getElement().add(elem);
-
       return elem;
     },
 
