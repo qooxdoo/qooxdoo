@@ -66,10 +66,10 @@ qx.Class.define("BasicSample",
       w3.setDecoration(border);
       w4.setDecoration(border);
 
-      w1.setWidth(1200);
-      w2.setMinWidth(1200);
-      w3.setWidth(1200);
-      w4.setMinWidth(1200);
+      w1.setWidth(400);
+      w2.setMinWidth(400);
+      w3.setWidth(400);
+      w4.setMinWidth(400);
 
       layout = new qx.ui2.layout.Canvas();
 
@@ -80,8 +80,11 @@ qx.Class.define("BasicSample",
 
       var container = new qx.ui2.core.Widget();
       container.setLayout(layout);
+      container.setWidth(400);
+      container.setHeight(400);
+      container.setDecoration(new qx.ui2.decoration.Basic(10, "solid", "black"));
 
-      doc.add(container, 0, 0, 0, 0);
+      doc.add(container, 0, 0);
     }
   }
 });
