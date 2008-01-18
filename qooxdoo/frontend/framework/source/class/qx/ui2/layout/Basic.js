@@ -72,7 +72,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     // overridden
     renderLayout : function(parentWidth, parentHeight)
     {
-      var children = this.getChildren();
+      var children = this._children;
       var child, size, layout;
 
       for (var i=0, l=children.length; i<l; i++)
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui2.layout.Basic",
         return this._sizeHint;
       }
 
-      var children = this.getChildren();
+      var children = this._children;
       var child, layout, size;
       var neededWidth=0, neededHeight=0;
 
