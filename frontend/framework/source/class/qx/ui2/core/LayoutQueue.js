@@ -55,30 +55,30 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       // level first because these may affect the inner lying children
       for (var i=queue.length-1; i>=0; i--)
       {
-        var item = queue[i];
+        var widget = queue[i];
 
         // continue if a relayout of one of the root's parents has made the
-        // layout valid
-        if (item.hasValidLayout() || item.getRoot() == null) {
+        // layout valid of the widget is not connected to a root widget
+        if (widget.hasValidLayout() || widget.getRoot() == null) {
           continue;
         }
 
         // overflow areas or qx.ui2.root.*
-        if (item.isLayoutRoot())
+        if (widget.isLayoutRoot())
         {
           // This is a real root widget. Set its size to its preferred size.
-          var rootHint = item.getSizeHint();
-          item.renderLayout(0, 0, rootHint.width, rootHint.height);
+          var rootHint = widget.getSizeHint();
+          widget.renderLayout(0, 0, rootHint.width, rootHint.height);
         }
         else
         {
           // This is an inner item of layout changes. Do a relayout of its
           // children without changing its position and size.
-          item.renderLayout(
-            item._computedLayout.left,
-            item._computedLayout.top,
-            item._computedLayout.width,
-            item._computedLayout.height
+          widget.renderLayout(
+            widget._computedLayout.left,
+            widget._computedLayout.top,
+            widget._computedLayout.width,
+            widget._computedLayout.height
           );
         }
       }
@@ -153,6 +153,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
             continue;
           }
 
+          // compare old size hint to new size hint
           var oldSizeHint = widget.getSizeHint();
           widget.invalidateLayoutCache();
           var newSizeHint = widget.getSizeHint();

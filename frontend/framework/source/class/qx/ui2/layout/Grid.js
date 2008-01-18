@@ -619,6 +619,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         var hint = widget.getSizeHint();
 
         var widgetProps = this.getLayoutProperties(widget);
+        var widgetRow = widgetProps.row;
 
         var prefSpanHeight = vSpacing * (widgetProps.rowSpan - 1);
         var minSpanHeight = prefSpanHeight;
@@ -661,7 +662,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             prefRowFlex, hint.height - prefSpanHeight
           );
 
-          for (var j=0; j<widgetRowSpan; j++) {
+          for (var j=0; j<widgetProps.rowSpan; j++) {
             rowHeights[widgetRow+j].height += rowIncrements[widgetRow+j];
           }
         }
@@ -674,7 +675,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             minRowFlex, hint.minHeight - minSpanHeight
           );
 
-          for (var j=0; j<widgetRowSpan; j++) {
+          for (var j=0; j<widgetProps.rowSpan; j++) {
             rowHeights[widgetRow+j].minHeight += rowIncrements[widgetRow+j] || 0;
           }
         }
@@ -705,6 +706,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         var hint = widget.getSizeHint();
 
         var widgetProps = this.getLayoutProperties(widget);
+        var widgetColumn = widgetProps.column;
 
         var prefSpanWidth = hSpacing * (widgetProps.colSpan - 1);
         var minSpanWidth = prefSpanWidth;
@@ -712,7 +714,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         var prefColFlex = [];
         var minColFlex = [];
 
-        for (var j=0; j<widgetProp.colSpan; j++)
+        for (var j=0; j<widgetProps.colSpan; j++)
         {
           var col = widgetProps.column+j;
           var colWidth = colWidths[col];
@@ -747,7 +749,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             prefColFlex, hint.width - prefSpanWidth
           );
 
-          for (var j=0; j<widgetColSpan; j++) {
+          for (var j=0; j<widgetProps.colSpan; j++) {
             colWidths[widgetColumn+j].width += colIncrements[widgetColumn+j] || 0;
           }
         }
@@ -760,7 +762,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             minColFlex, hint.minWidth - minSpanWidth
           );
 
-          for (var j=0; j<widgetColSpan; j++) {
+          for (var j=0; j<widgetProps.colSpan; j++) {
             colWidths[widgetColumn+j].minWidth += colIncrements[widgetColumn+j] || 0;
           }
         }
@@ -1081,7 +1083,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       if (this._sizeHint != null)
       {
-        // this.debug("Cached size hint: ", this._sizeHint);
+        this.debug("Cached size hint: ", this._sizeHint);
         return this._sizeHint;
       }
 
@@ -1123,7 +1125,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         maxHeight : maxHeight + spacingY
       };
 
-      // this.debug("Computed size hint: ", hint);
+      this.debug("Computed size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;
