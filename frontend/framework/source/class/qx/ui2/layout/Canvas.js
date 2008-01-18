@@ -163,9 +163,10 @@ qx.Class.define("qx.ui2.layout.Canvas",
             throw new Error("Unexpected layout data for width: " + width);
           }
 
-          if (right != null)
-          {
+          if (right != null) {
             left = parentWidth - width - right;
+          } else if (left == null) {
+            left = 0;
           }
         }
 
@@ -202,9 +203,10 @@ qx.Class.define("qx.ui2.layout.Canvas",
             throw new Error("Unexpected layout data for height: " + height);
           }
 
-          if (bottom != null)
-          {
+          if (bottom != null) {
             top = parentHeight - height - bottom;
+          } else if (top == null) {
+            top = 0;
           }
         }
 
