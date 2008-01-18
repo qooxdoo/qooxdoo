@@ -77,8 +77,9 @@ qx.Class.define("qx.ui2.layout.Canvas",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        size = child.getSizeHint();
-        layout = this._layoutProperties[child.toHashCode()];
+
+        size = child.widget.getSizeHint();
+        layout = child.layout;
 
 
         // **************************************
@@ -216,7 +217,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
         //   Render child
         // **************************************
 
-        child.renderLayout(left, top, width, height);
+        child.widget.renderLayout(left, top, width, height);
       }
     }
   }
