@@ -494,7 +494,7 @@ exec-testrunner-build:
 
 	@# make a specific testrunner build
 	@( cd $(TESTRUNNER_PATH); \
-	   make -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
+	   $(MAKE) -s -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
 		   --use-setting qx.testPageUri:html/tests.html \
 		   --use-setting qx.testNameSpace:$(APPLICATION_NAMESPACE)' \
 		 build )
@@ -573,7 +573,7 @@ exec-tests-source:
 #
 
 exec-buildtool-build:
-	@( cd $(BUILDTOOL_PATH); make deploy )
+	@( cd $(BUILDTOOL_PATH); $(MAKE) -s deploy )
 
 
 #
