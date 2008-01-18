@@ -37,7 +37,7 @@ qx.Class.define("BasicSample",
       doc.setBackgroundColor("white");
 
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
-
+/*
       // auto size
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.Grid();
@@ -49,7 +49,7 @@ qx.Class.define("BasicSample",
 
       box1.setLayout(layout1);
       doc.add(box1, 20, 10);
-
+*/
       // flex columns
       var box1 = (new qx.ui2.core.Widget).set({
         decoration: border,
@@ -70,14 +70,14 @@ qx.Class.define("BasicSample",
 
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1, 1, 2);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1, {rowSpan: 1, colSpan: 2});
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 1, 0);
 
       var container = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange", width:400, padding: 5});
-      layout1.add(container, 1, 1, 2, 2);
+      layout1.add(container, 1, 1, {rowSpan: 2, colSpan: 2});
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2, 0);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 0, 1, 2);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 0, {rowSpan: 1, colSpan: 2});
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 2);
 
       box1.setLayout(layout1);
@@ -97,7 +97,7 @@ qx.Class.define("BasicSample",
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:170}), 2, 0);//, 1, 2);
 
 
-      doc.add(box1, 260, 10);
+      doc.add(box1, {left: 260, top: 10});
     }
   }
 });
