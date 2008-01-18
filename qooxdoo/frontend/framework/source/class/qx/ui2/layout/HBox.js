@@ -91,6 +91,27 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    LAYOUT_DEFAULTS :
+    {
+      flex : 0,
+      width : null,
+      marginRight : 0,
+      marginLeft : 0,
+      align : "left"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -150,7 +171,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         child = children[i];
         childHint = child.getSizeHint();
 
-        childWidthPercent = child.getLayoutProperty("hbox.width");
+        childWidthPercent = this.getLayoutProperty(child, "width");
 
         childHints[i] = childHint;
         childWidths[i] = childWidthPercent ? Math.floor((width - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
@@ -179,7 +200,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           if (child.canStretchX())
           {
-            childFlex = child.getLayoutProperty("hbox.flex");
+            childFlex = this.getLayoutProperty(child, "flex");
 
             if (childFlex > 0)
             {
@@ -227,7 +248,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childLeft = childAlignOffset + (children[0].getLayoutProperty("hbox.marginLeft") || 0);
+      var childLeft = childAlignOffset + (this.getLayoutProperty(children[0], "marginLeft"));
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -236,7 +257,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         if (childLeft < width)
         {
           // Respect vertical alignment
-          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(child.getLayoutProperty("hbox.align"), childHeights[i], height);
+          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(this.getLayoutProperty(child, "align"), childHeights[i], height);
 
           // Layout child
           child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
@@ -256,8 +277,8 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
 
         // Compute left position of next child
-        thisMargin = child.getLayoutProperty("hbox.marginRight");
-        nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
+        thisMargin = this.getLayoutProperty(child, "marginRight");
+        nextMargin = this.getLayoutProperty(children[i+1], "marginLeft");
         childLeft += childWidths[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
@@ -289,7 +310,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         var childHint = child.getSizeHint();
 
         // Respect percent width (up calculate width by using preferred width)
-        var childPercentWidth = child.getLayoutProperty("hbox.width");
+        var childPercentWidth = this.getLayoutProperty(child, "width");
         if (childPercentWidth) {
           maxPercentWidth = Math.max(maxPercentWidth, childHint.width / parseFloat(childPercentWidth) * 100);
         } else {
@@ -367,7 +388,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       // Add margin left of first child (no collapsing here)
-      gaps += children[0].getLayoutProperty("hbox.marginLeft") || 0;
+      gaps += this.getLayoutProperty(children[0], "marginLeft");
 
       // Add inner margins (with collapsing support)
       if (length > 0)
@@ -375,15 +396,15 @@ qx.Class.define("qx.ui2.layout.HBox",
         var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = children[i].getLayoutProperty("hbox.marginRight");
-          nextMargin = children[i+1].getLayoutProperty("hbox.marginLeft");
+          thisMargin = this.getLayoutProperty(children[i], "marginRight");
+          nextMargin = this.getLayoutProperty(children[i+1], "marginLeft");
 
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin right of last child (no collapsing here)
-      gaps += children[length-1].getLayoutProperty("hbox.marginRight") || 0;
+      gaps += this.getLayoutProperty(children[length-1], "marginRight");
 
       return gaps;
     },

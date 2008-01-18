@@ -119,11 +119,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
       this._children.push(widget);
       this._addToParent(widget);
 
+      this._importLayoutProperties(widget, options, this.constructor.LAYOUT_DEFAULTS);
+
       // mark layout as invalid
       this.scheduleLayoutUpdate();
-
-      // Create storage object for layout properties
-      this._layoutProperties[widget.toHashCode()] = options || {};
 
       // Chaining support
       return this;
@@ -191,6 +190,21 @@ qx.Class.define("qx.ui2.layout.Abstract",
     ---------------------------------------------------------------------------
     */
 
+
+    _importLayoutProperties : function(child, properties, defaults)
+    {
+      properties = properties || {};
+      defaults = defaults || {};
+      for (var key in defaults)
+      {
+        if (properties[key] == undefined) {
+          properties[key] = defaults[key];
+        }
+      }
+      this._layoutProperties[child.toHashCode()] = properties;
+    },
+
+
     /**
      * Adds a layout property to the given widget.
      *
@@ -236,6 +250,17 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       var value = this._layoutProperties[child.toHashCode()][name];
       return value == null ? null : value;
+    },
+
+
+    /**
+     * Returns all layout properties of a child widget as a map.
+     *
+     * @param child {qx.ui2.core.Widget} Widget to query
+     * @return {Map} a map of all layout properties.
+     */
+    getLayoutProperties : function(child) {
+      return this._layoutProperties[child.toHashCode()] || {};
     },
 
 
@@ -391,35 +416,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
       }
 
       widget.setParent(null);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Imports a list of arguments into the widget layout properties.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to modify
-     * @param args {arguments} Arguments of original function
-     * @return {void}
-     */
-    _importProperties : function(widget, args)
-    {
-      var len = Math.min(args.length, arguments.length+1);
-
-      for (var i=1; i<len; i++)
-      {
-        if (args[i] != null) {
-          widget.addLayoutProperty(arguments[i+1], args[i]);
-        }
-      }
     },
 
 
