@@ -100,6 +100,17 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     add : function(child, layout)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!child || !(child instanceof qx.ui2.core.Widget)) {
+          throw new Error("Invalid widget to add: " + child);
+        }
+
+        if (layout != null && typeof layout !== "object") {
+          throw new Error("Invalid layout data: " + layout);
+        }
+      }
+
       this._children.push(child);
       this._options.push(layout || {});
 
@@ -122,6 +133,13 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     remove : function(child)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!child || !(child instanceof qx.ui2.core.Widget)) {
+          throw new Error("Invalid widget to add: " + child);
+        }
+      }
+
       var index = this._children.indexOf(child);
       qx.lang.Array.removeAt(this._children, index);
       qx.lang.Array.removeAt(this._options, index);
