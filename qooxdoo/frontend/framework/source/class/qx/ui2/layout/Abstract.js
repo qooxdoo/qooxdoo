@@ -121,7 +121,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     remove : function(child)
     {
-      var index = qx.lang.Array.indexOf(this._children, child);
+      var index = this._children.indexOf(child);
       qx.lang.Array.removeAt(this._children, index);
       qx.lang.Array.removeAt(this._options, index);
 
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *   the given widget is no child of this layout.
      */
     indexOf : function(child) {
-      return qx.lang.Array.indexOf(this._children, child);
+      return this._children.indexOf(child);
     },
 
 
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *    of this layout.
      */
     contains : function(child) {
-      return qx.lang.Array.indexOf(this._children, child) !== -1;
+      return this._children.indexOf(child) !== -1;
     },
 
 
