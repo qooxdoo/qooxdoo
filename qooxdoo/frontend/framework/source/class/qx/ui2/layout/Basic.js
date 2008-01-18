@@ -48,23 +48,6 @@ qx.Class.define("qx.ui2.layout.Basic",
 
   /*
   *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    LAYOUT_DEFAULTS : {
-      left : 0,
-      top : 0
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -80,30 +63,26 @@ qx.Class.define("qx.ui2.layout.Basic",
     // overridden
     invalidateLayoutCache : function()
     {
-      if (this._sizeHint)
-      {
-        this.debug("Clear layout cache");
+      if (this._sizeHint) {
         this._sizeHint = null;
       }
     },
 
 
     // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(parentWidth, parentHeight)
     {
       var children = this.getChildren();
-      var child, childProps;
+      var child, size, layout;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
-        // Only (re-)render modified children
-        if (!child.hasValidLayout())
-        {
-          childProps = this._getChildProperties(child);
-          child.renderLayout(childProps.left, childProps.top, childProps.width, childProps.height);
-        }
+        size = child.getSizeHint();
+        layout = this._layoutProperties[child.toHashCode()];
+
+        child.renderLayout(layout.left || 0, layout.top || 0, size.width, size.height);
       }
     },
 
@@ -111,50 +90,50 @@ qx.Class.define("qx.ui2.layout.Basic",
     // overridden
     getSizeHint : function()
     {
-      if (this._sizeHint)
-      {
-        this.debug("Cached size hint: ", this._sizeHint);
+      if (this._sizeHint) {
         return this._sizeHint;
       }
 
       var children = this.getChildren();
-      var childProps;
-      var childMaxNeededWidth=0, childMaxNeededHeight=0;
+      var child, layout, size;
+      var neededWidth=0, neededHeight=0;
 
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)
       {
-        childProps = this._getChildProperties(children[i]);
+        child = children[i];
 
-        childMaxNeededWidth = Math.max(0, childMaxNeededWidth, childProps.left + childProps.width);
-        childMaxNeededHeight = Math.max(0, childMaxNeededHeight, childProps.top + childProps.height);
+        layout = this._layoutProperties[child.toHashCode()];
+        size = child.getSizeHint();
+
+        neededWidth = Math.max(neededWidth, (layout.left || 0) + size.width);
+        neededHeight = Math.max(neededHeight, (layout.top || 0) + size.height);
       }
 
 
       // Limit needed dimensions
-      if (childMaxNeededWidth > 32000) {
-        childMaxNeededWidth = 32000;
+      if (neededWidth > 32000) {
+        neededWidth = 32000;
       }
 
-      if (childMaxNeededHeight > 32000) {
-        childMaxNeededHeight = 32000;
+      if (neededHeight > 32000) {
+        neededHeight = 32000;
       }
 
 
       // Build hint
       var hint = {
         minWidth : 0,
-        width : childMaxNeededWidth,
+        width : neededWidth,
         maxWidth : 32000,
         minHeight : 0,
-        height : childMaxNeededHeight,
+        height : neededHeight,
         maxHeight : 32000
       };
 
 
       // Return hint
-      this.debug("Computed size hint: ", hint);
       return this._sizeHint = hint;
     }
   }

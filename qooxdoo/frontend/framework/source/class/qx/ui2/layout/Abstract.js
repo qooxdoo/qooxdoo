@@ -50,23 +50,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    LAYOUT_DEFAULTS : {
-      // abstract
-    }
-  },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -344,32 +327,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
     getSizeHint : function() {
       return null;
     },
-
-
-    _getChildProperties : function(child)
-    {
-      var hint = child.getSizeHint();
-      var props = {};
-
-      for (var key in hint) {
-        props[key] = hint[key];
-      }
-
-      var defaults = this.constructor.LAYOUT_DEFAULTS || {};
-      var defined = this._layoutProperties[child.toHashCode()];
-
-      for (var key in defaults)
-      {
-        if (defined[key] !== undefined) {
-          props[key] = defined[key];
-        } else {
-          props[key] = defaults[key];
-        }
-      }
-
-      return props;
-    },
-
 
 
 
