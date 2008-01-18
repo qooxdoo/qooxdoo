@@ -123,6 +123,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         return;
       }
 
+      var options = this._options;
       var align = this.getAlign();
       var child, childHint;
       var childHeight, childAlign, childTop, childLeft;
@@ -148,8 +149,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         child = children[i];
         childHint = child.getSizeHint();
-
-        childWidthPercent = this.getLayoutProperty(child, "width");
+        childWidthPercent = options[i].percent;
 
         childHints[i] = childHint;
         childWidths[i] = childWidthPercent ? Math.floor((parentWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           if (child.canStretchX())
           {
-            childFlex = this.getLayoutProperty(child, "flex");
+            childFlex = options[i].flex;
 
             if (childFlex > 0)
             {
@@ -226,7 +226,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childLeft = childAlignOffset + (this.getLayoutProperty(children[0], "marginLeft"));
+      var childLeft = childAlignOffset + (options[0].marginLeft || 0);
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         if (childLeft < parentWidth)
         {
           // Respect vertical alignment
-          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(this.getLayoutProperty(child, "align"), childHeights[i], parentHeight);
+          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(options[i].align || "top", childHeights[i], parentHeight);
 
           // Layout child
           child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
@@ -255,8 +255,8 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
 
         // Compute left position of next child
-        thisMargin = this.getLayoutProperty(child, "marginRight");
-        nextMargin = this.getLayoutProperty(children[i+1], "marginLeft");
+        thisMargin = options[i].marginRight || 0;
+        nextMargin = options[i+1].marginLeft || 0;
         childLeft += childWidths[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
@@ -271,6 +271,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Initialize
       var children = this._children;
+      var options = this._options;
       var gaps = this._getGaps();
       var minWidth=gaps, width=gaps, maxWidth=32000;
       var minHeight=0, height=0, maxHeight=32000;
@@ -288,7 +289,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         var childHint = child.getSizeHint();
 
         // Respect percent width (up calculate width by using preferred width)
-        var childPercentWidth = this.getLayoutProperty(child, "width");
+        var childPercentWidth = options[i].width;
         if (childPercentWidth) {
           maxPercentWidth = Math.max(maxPercentWidth, childHint.width / parseFloat(childPercentWidth) * 100);
         } else {
@@ -350,8 +351,8 @@ qx.Class.define("qx.ui2.layout.HBox",
      */
     _getGaps : function()
     {
-      var children = this._children;
-      var length = children.length;
+      var options = this._options;
+      var length = options.length;
 
       if (length == 0) {
         return 0;
@@ -361,11 +362,11 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Support for reversed children
       if (this.getReversed()) {
-        children = children.concat().reverse();
+        options = options.concat().reverse();
       }
 
       // Add margin left of first child (no collapsing here)
-      gaps += children[0].layout.marginLeft || 0;
+      gaps += (options[0].marginLeft || 0);
 
       // Add inner margins (with collapsing support)
       if (length > 0)
@@ -373,15 +374,15 @@ qx.Class.define("qx.ui2.layout.HBox",
         var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = children[i].layout.marginRight || 0;
-          nextMargin = children[i+1].layout.marginLeft || 0;
+          thisMargin = (options[i].marginRight || 0);
+          nextMargin = (options[i+1].marginLeft || 0);
 
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin right of last child (no collapsing here)
-      gaps += children[length-1].layout.marginRight || 0;
+      gaps += (options[length-1].marginRight || 0);
 
       return gaps;
     },
