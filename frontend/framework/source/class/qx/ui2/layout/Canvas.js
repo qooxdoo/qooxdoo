@@ -50,24 +50,6 @@ qx.Class.define("qx.ui2.layout.Canvas",
   extend : qx.ui2.layout.Abstract,
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    LAYOUT_DEFAULTS : {
-      left : null,
-      top : null,
-      right : null,
-      bottom : null
-    }
-  },
-
-
-
 
 
   /*
@@ -85,136 +67,154 @@ qx.Class.define("qx.ui2.layout.Canvas",
     */
 
     // overridden
-    getSizeHint : function() {
-      return null;
-    },
-
-
-    // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(parentWidth, parentHeight)
     {
       var children = this.getChildren();
-      var child, childProps;
-      var childLeft, childTop, childRight, childBottom;
-      var childWidth, childHeight;
-      var childLimitWidth, childLimitHeight;
+      var child, size, layout;
+      var left, top, right, bottom, width, height;
       var percent = /[0-9.]+%/;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childProps = this._getChildProperties(child);
+        size = child.getSizeHint();
+        layout = this._layoutProperties[child.toHashCode()];
 
 
-        // Processing location data
-        childLeft = childProps.left;
-        childTop = childProps.top;
-        childRight = childProps.right;
-        childBottom = childProps.bottom;
-
-        if (typeof childLeft === "string" && percent.test(childLeft)) {
-          childLeft = Math.round(parseFloat(childLeft) * width / 100);
-        } else if (childLeft != null && typeof childLeft !== "number") {
-          throw new Error("Could not parse percent value for left position: " + childLeft);
-        }
-
-        if (typeof childTop === "string" && percent.test(childTop)) {
-          childTop = Math.round(parseFloat(childTop) * height / 100);
-        } else if (childTop != null && typeof childTop !== "number") {
-          throw new Error("Could not parse percent value for top position: " + childTop);
-        }
-
-        if (typeof childRight === "string" && percent.test(childRight)) {
-          childRight = Math.round(parseFloat(childRight) * width / 100);
-        } else if (childRight != null && typeof childRight !== "number") {
-          throw new Error("Could not parse percent value for right position: " + childRight);
-        }
-
-        if (typeof childBottom === "string" && percent.test(childBottom)) {
-          childBottom = Math.round(parseFloat(childBottom) * height / 100);
-        } else if (childBottom != null && typeof childBottom !== "number") {
-          throw new Error("Could not parse percent value for bottom position: " + childBottom);
-        }
-
-
-        // Processing width
-        childWidth = childProps.width;
-        if (childWidth != null && typeof childWidth === "string")
+        // **************************************
+        //   Processing location
+        // **************************************
+        left = layout.left;
+        if (left && typeof left === "string")
         {
-          if (!percent.test(childWidth)) {
-            throw new Error("Could not parse percent value for width: " + childWidth);
+          if (!percent.test(left)) {
+            throw new Error("Invalid percent value for left position: " + left);
           }
 
-          childWidth = Math.round(parseFloat(childWidth) * width / 100);
-
-          // Limit resolved percent value
-          childWidth = Math.max(Math.min(childWidth, childProps.maxWidth), childProps.minWidth);
+          left = Math.round(parseFloat(left) * parentWidth / 100);
         }
 
-
-        // Processing height
-        childHeight = childProps.height;
-        if (childHeight != null && typeof childHeight === "string")
+        right = layout.right;
+        if (right && typeof right === "string")
         {
-          if (!percent.test(childHeight)) {
-            throw new Error("Could not parse percent value for width: " + childHeight);
+          if (!percent.test(right)) {
+            throw new Error("Invalid percent value for right position: " + right);
           }
 
-          childHeight = Math.round(parseFloat(childHeight) * height / 100);
-
-          // Limit resolved percent value
-          childHeight = Math.max(Math.min(childHeight, childProps.maxHeight), childProps.minHeight);
+          right = Math.round(parseFloat(right) * parentWidth / 100);
         }
 
-
-
-        // Normalize right
-        if (childRight != null)
+        top = layout.top;
+        if (top && typeof top === "string")
         {
-          if (childLeft != null)
-          {
-            childWidth = width - childLeft - childRight;
+          if (!percent.test(top)) {
+            throw new Error("Invalid percent value for top position: " + top);
+          }
 
-            // Limit computed value
-            childWidth = Math.max(Math.min(childWidth, childProps.maxWidth), childProps.minWidth);
-          }
-          else if (childWidth != null)
-          {
-            childLeft = width - childWidth - childRight;
-          }
+          top = Math.round(parseFloat(top) * parentWidth / 100);
         }
 
-
-        // Normalize bottom
-        if (childBottom != null)
+        bottom = layout.bottom;
+        if (bottom && typeof bottom === "string")
         {
-          if (childTop != null)
-          {
-            childHeight = height - childTop - childBottom;
-
-            // Limit computed value
-            childHeight = Math.max(Math.min(childHeight, childProps.maxHeight), childProps.minHeight);
+          if (!percent.test(bottom)) {
+            throw new Error("Invalid percent value for bottom position: " + bottom);
           }
-          else if (childHeight != null)
+
+          bottom = Math.round(parseFloat(bottom) * parentWidth / 100);
+        }
+
+
+
+        // **************************************
+        //   Processing dimension
+        // **************************************
+
+        // Stretching has higher priority than dimension data
+        if (left != null && right != null)
+        {
+          width = parentWidth - left - right;
+
+          // Limit computed value
+          width = Math.max(Math.min(width, size.maxWidth), size.minWidth);
+        }
+        else
+        {
+          // Layout data has higher priority than data from size hint
+          width = layout.width;
+
+          if (width == null)
           {
-            childTop = height - childHeight - childBottom;
+            width = size.width;
+          }
+          else if (typeof width === "string")
+          {
+            if (!percent.test(width)) {
+              throw new Error("Invalid percent value for width: " + width);
+            }
+
+            width = Math.round(parseFloat(width) * parentWidth / 100);
+
+            // (Re-)Limit resolved percent value
+            width = Math.max(Math.min(width, size.maxWidth), size.minWidth);
+          }
+          else
+          {
+            throw new Error("Unexpected layout data for width: " + width);
+          }
+
+          if (right != null)
+          {
+            left = parentWidth - width - right;
+          }
+        }
+
+        // Stretching has higher priority than dimension data
+        if (top != null && bottom != null)
+        {
+          height = parentHeight - top - bottom;
+
+          // Limit computed value
+          height = Math.max(Math.min(height, size.maxHeight), size.minHeight);
+        }
+        else
+        {
+          // Layout data has higher priority than data from size hint
+          height = layout.height;
+
+          if (height == null)
+          {
+            height = size.height;
+          }
+          else if (typeof height === "string")
+          {
+            if (!percent.test(height)) {
+              throw new Error("Invalid percent value for height: " + height);
+            }
+
+            height = Math.round(parseFloat(height) * parentHeight / 100);
+
+            // (Re-)Limit resolved percent value
+            height = Math.max(Math.min(height, size.maxHeight), size.minHeight);
+          }
+          else
+          {
+            throw new Error("Unexpected layout data for height: " + height);
+          }
+
+          if (bottom != null)
+          {
+            top = parentHeight - height - bottom;
           }
         }
 
 
-        // Post fixes
-        if (childLeft == null) {
-          childLeft = 0;
-        }
 
-        if (childTop == null) {
-          childTop = 0;
-        }
+        // **************************************
+        //   Render child
+        // **************************************
 
-
-
-        // Layout child
-        child.renderLayout(childLeft, childTop, childWidth, childHeight);
+        child.renderLayout(left, top, width, height);
       }
     }
   }
