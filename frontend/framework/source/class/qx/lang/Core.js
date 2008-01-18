@@ -80,6 +80,8 @@ if (!Error.prototype.toString || Error.prototype.toString() == "[object Error]")
 
 if (!Array.prototype.indexOf)
 {
+  alert("No index of");
+
   /**
    * Returns the first index at which a given element can be found in the array,
    * or <code>-1</code> if it is not present. It compares <code>searchElement</code> to elements of the Array
