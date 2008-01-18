@@ -80,9 +80,9 @@ qx.Class.define("qx.ui2.layout.Basic",
       {
         child = children[i];
         size = child.getSizeHint();
-        options = options[i];
+        layout = options[i];
 
-        child.renderLayout(options.left || 0, options.top || 0, size.width, size.height);
+        child.renderLayout(layout.left || 0, layout.top || 0, size.width, size.height);
       }
     },
 

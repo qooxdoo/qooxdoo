@@ -66,7 +66,6 @@ qx.Class.define("qx.ui2.core.Widget",
     this._containerElement.add(this._contentElement);
 
     // Layout data
-    this._layoutProperties = {};
     this._computedLayout = {};
   },
 
