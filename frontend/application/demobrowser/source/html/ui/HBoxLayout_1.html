@@ -52,9 +52,9 @@ qx.Class.define("BasicSample",
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", minHeight: 60});
       var layout1 = new qx.ui2.layout.HBox();
 
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), null, "top");
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), null, "middle");
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), null, "bottom");
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), { align : "top" });
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), { align : "middle" });
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 70});
 
