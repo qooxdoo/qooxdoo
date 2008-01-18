@@ -771,6 +771,12 @@ qx.Class.define("qx.ui.embed.Flash",
 
   destruct : function()
   {
+    /* 
+     * reset innerHTML to be sure that Flash stops
+     * this is especially needed for mshtml browsers
+	 */ 
+	this.getElement().innerHTML = "";
+    
     this._disposeObjects("_version");
     this._disposeFields("_source", "_params", "_variables");
   }
