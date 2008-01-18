@@ -431,7 +431,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getColumnFlex : function(column)
     {
       var colData = this._colData[column] || {};
-      return colData.flex !== undefined ? colData.flex : 0;
+      return colData.flex !== undefined ? colData.flex : 1;
     },
 
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getRowFlex : function(row)
     {
       var rowData = this._rowData[row] || {};
-      return rowData.flex !== undefined ? rowData.flex : 0;
+      return rowData.flex !== undefined ? rowData.flex : 1;
     },
 
 
