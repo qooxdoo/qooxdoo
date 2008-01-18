@@ -103,7 +103,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       width : null,
       marginRight : 0,
       marginLeft : 0,
-      align : "left"
+      align : "top"
     }
   },
 
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         childWidths[i] = childWidthPercent ? Math.floor((width - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
 
         if (child.canStretchY()) {
-          childHeights[i] = Math.min(height, childHint.maxHeight, Math.max(height, childHint.height, childHint.minHeight));
+          childHeights[i] = Math.max(childHint.minHeight, Math.min(height, childHint.height));
         } else {
           childHeights[i] = childHint.height;
         }

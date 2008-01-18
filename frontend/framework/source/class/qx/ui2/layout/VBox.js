@@ -103,7 +103,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       height : null,
       marginBottom : 0,
       marginTop : 0,
-      align : "top"
+      align : "left"
     }
   },
 
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         childHeights[i] = childHeightPercent ? Math.floor((height - usedGaps) * parseFloat(childHeightPercent) / 100) : childHint.height;
 
         if (child.canStretchY()) {
-          childWidths[i] = Math.min(width, childHint.maxWidth, Math.max(width, childHint.width, childHint.minWidth));
+          childWidths[i] = Math.max(childHint.minWidth, Math.min(width, childHint.width));
         } else {
           childWidths[i] = childHint.width;
         }
