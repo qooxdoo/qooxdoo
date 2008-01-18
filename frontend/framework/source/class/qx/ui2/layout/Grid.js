@@ -431,7 +431,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getColumnFlex : function(column)
     {
       var colData = this._colData[column] || {};
-      return colData.flex !== undefined ? colData.flex : 1;
+      return colData.flex !== undefined ? colData.flex : 0;
     },
 
 
@@ -460,7 +460,8 @@ qx.Class.define("qx.ui2.layout.Grid",
     getRowFlex : function(row)
     {
       var rowData = this._rowData[row] || {};
-      return rowData.flex !== undefined ? rowData.flex : 1;
+      var rowFlex = rowData.flex !== undefined ? rowData.flex : 0
+      return rowFlex;
     },
 
 
@@ -663,7 +664,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           );
 
           for (var j=0; j<widgetProps.rowSpan; j++) {
-            rowHeights[widgetRow+j].height += rowIncrements[widgetRow+j];
+            rowHeights[widgetRow+j].height += rowIncrements[widgetRow+j] || 0;
           }
         }
 
@@ -997,6 +998,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       // calculate row heights
       var prefHeights = this._getRowHeights();
       var rowStretchOffsets = this._getRowFlexOffsets(height);
+
       var rowHeights = [];
       for (var row=0; row<=this._maxRowIndex; row++) {
         rowHeights[row] = prefHeights[row].height + (rowStretchOffsets[row] || 0);
@@ -1103,7 +1105,6 @@ qx.Class.define("qx.ui2.layout.Grid",
       // calculate row heights
       var rowHeights = this._getRowHeights();
       var minHeight=0, height=0, maxHeight=0;
-
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
         var row = rowHeights[i];
