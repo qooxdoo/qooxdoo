@@ -117,7 +117,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     renderLayout : function(parentWidth, parentHeight)
     {
       // Initialize
-      var children = this.getChildren();
+      var children = this._children;
 
       if (children.length == 0) {
         return;
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       // Initialize
-      var children = this.getChildren();
+      var children = this._children;
       var gaps = this._getGaps();
       var minWidth=gaps, width=gaps, maxWidth=32000;
       var minHeight=0, height=0, maxHeight=32000;
@@ -350,7 +350,7 @@ qx.Class.define("qx.ui2.layout.HBox",
      */
     _getGaps : function()
     {
-      var children = this.getChildren();
+      var children = this._children;
       var length = children.length;
 
       if (length == 0) {
@@ -365,7 +365,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       // Add margin left of first child (no collapsing here)
-      gaps += this.getLayoutProperty(children[0], "marginLeft");
+      gaps += children[0].layout.marginLeft || 0;
 
       // Add inner margins (with collapsing support)
       if (length > 0)
@@ -373,15 +373,15 @@ qx.Class.define("qx.ui2.layout.HBox",
         var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = this.getLayoutProperty(children[i], "marginRight");
-          nextMargin = this.getLayoutProperty(children[i+1], "marginLeft");
+          thisMargin = children[i].layout.marginRight || 0;
+          nextMargin = children[i+1].layout.marginLeft || 0;
 
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin right of last child (no collapsing here)
-      gaps += this.getLayoutProperty(children[length-1], "marginRight");
+      gaps += children[length-1].layout.marginRight || 0;
 
       return gaps;
     },
@@ -420,11 +420,8 @@ qx.Class.define("qx.ui2.layout.HBox",
     ---------------------------------------------------------------------------
     */
 
-    _applyLayoutProperty : function(value, old)
-    {
+    _applyLayoutProperty : function(value, old) {
       this.invalidateLayoutCache();
-
-      // Anything else TODO here?
     }
   }
 });

@@ -170,8 +170,14 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {qx.ui2.core.Widget[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
-    getChildren : function() {
-      return this._children;
+    getChildren : function()
+    {
+      var ret = [];
+      for (var i=0, ch=this._children, l=ch.length; i<l; i++) {
+        ret.push(ch[i].widget);
+      }
+
+      return ret;
     },
 
 
@@ -201,6 +207,15 @@ qx.Class.define("qx.ui2.layout.Abstract",
       var index = this.indexOf(child);
       this._children[index].layout[name] = value;
 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (index === -1)
+        {
+          this.trace();
+          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
+        }
+      }
+
       this.scheduleLayoutUpdate();
     },
 
@@ -216,6 +231,16 @@ qx.Class.define("qx.ui2.layout.Abstract",
     removeLayoutProperty : function(child, name)
     {
       var index = this.indexOf(child);
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (index === -1)
+        {
+          this.trace();
+          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
+        }
+      }
+
       delete this._children[index].layout[name];
 
       this.scheduleLayoutUpdate();
@@ -233,6 +258,16 @@ qx.Class.define("qx.ui2.layout.Abstract",
     getLayoutProperty : function(child, name)
     {
       var index = this.indexOf(child);
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (index === -1)
+        {
+          this.trace();
+          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
+        }
+      }
+
       var value = this._children[index].layout[name];
 
       return value == null ? null : value;
@@ -250,6 +285,16 @@ qx.Class.define("qx.ui2.layout.Abstract",
     hasLayoutProperty : function(child, name)
     {
       var index = this.indexOf(child);
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (index === -1)
+        {
+          this.trace();
+          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
+        }
+      }
+
       return this._children[index].layout[name] != null;
     },
 
@@ -380,7 +425,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     _applyWidget : function(value, old)
     {
-      var children = this.getChildren();
+      var children = this._children;
       var length = children.length;
       var child;
 
