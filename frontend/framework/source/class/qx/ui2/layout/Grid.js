@@ -102,6 +102,26 @@ qx.Class.define("qx.ui2.layout.Grid",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    LAYOUT_DEFAULTS :
+    {
+      colSpan : 0,
+      rowSpan : 0,
+      row : null,
+      column : null
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -124,40 +144,39 @@ qx.Class.define("qx.ui2.layout.Grid",
       // validate arguments
       var cell = this.getCellWidget(row, column);
 
-      if (cell != null) {
-        throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
-      }
-
       if (row == null || column == null) {
         throw new Error("The arguments 'row' and 'column' must be defined!");
       }
 
-      var rowSpan = rowSpan || 1;
-      var colSpan = colSpan || 1;
+      if (cell != null) {
+        throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
+      }
 
-      for (var x=0; x<colSpan; x++)
+      options = options || {};
+      options.row = row;
+      options.column = column;
+      options.rowSpan = options.rowSpan || 1;
+      options.colSpan = options.colSpan || 1;
+
+      for (var x=0; x<options.colSpan; x++)
       {
-        for (var y=0; y<rowSpan; y++) {
+        for (var y=0; y<options.rowSpan; y++) {
           this._setCellData(row + y, column + x, "widget", widget);
         }
       }
 
-      if (rowSpan > 1) {
+      if (options.rowSpan > 1) {
         this._rowSpans.push(widget);
       }
 
-      if (colSpan > 1) {
+      if (options.colSpan > 1) {
         this._colSpans.push(widget);
       }
 
-      this._maxRowIndex = Math.max(this._maxRowIndex, row + rowSpan - 1);
-      this._maxColIndex = Math.max(this._maxColIndex, column + colSpan - 1);
+      this._maxRowIndex = Math.max(this._maxRowIndex, row + options.rowSpan - 1);
+      this._maxColIndex = Math.max(this._maxColIndex, column + options.colSpan - 1);
 
       this.base(arguments, widget, options);
-
-      this._importProperties(widget, arguments,
-        "grid.row", "grid.column", "grid.rowSpan", "grid.colSpan"
-      );
 
       // Chaining support
       return this;
@@ -564,16 +583,12 @@ qx.Class.define("qx.ui2.layout.Grid",
     // overridden
     remove : function(widget)
     {
-      var row = widget.getLayoutProperty("grid.row");
-      var column = widget.getLayoutProperty("grid.column");
+      var childProps = this.getLayoutProperties(widget);
 
-      var rowSpan = widget.getLayoutProperty("grid.rowSpan");
-      var colSpan = widget.getLayoutProperty("grid.colSpan");
-
-      for (var x=0; x<colSpan; x++)
+      for (var x=0; x<childProps.colSpan; x++)
       {
-        for (var y=0; y<rowSpan; y++) {
-          this._clearCellData(row + y, column + x);
+        for (var y=0; y<childProps.rowSpan; y++) {
+          this._clearCellData(childProps.row + y, childProps.column + x);
         }
       }
 
@@ -603,18 +618,17 @@ qx.Class.define("qx.ui2.layout.Grid",
         var widget = this._rowSpans[i];
         var hint = widget.getSizeHint();
 
-        var widgetRow = widget.getLayoutProperty("grid.row");
-        var widgetRowSpan = widget.getLayoutProperty("grid.rowSpan") || 1;
+        var widgetProps = this.getLayoutProperties(widget);
 
-        var prefSpanHeight = vSpacing * (widgetRowSpan - 1);
+        var prefSpanHeight = vSpacing * (widgetProps.rowSpan - 1);
         var minSpanHeight = prefSpanHeight;
 
         var prefRowFlex = [];
         var minRowFlex = [];
 
-        for (var j=0; j<widgetRowSpan; j++)
+        for (var j=0; j<widgetProps.rowSpan; j++)
         {
-          var row = widgetRow+j;
+          var row = widgetProps.row+j;
           var rowHeight = rowHeights[row];
           var rowFlex = this.getRowFlex(row);
 
@@ -690,18 +704,17 @@ qx.Class.define("qx.ui2.layout.Grid",
         var widget = this._colSpans[i];
         var hint = widget.getSizeHint();
 
-        var widgetColumn = widget.getLayoutProperty("grid.column");
-        var widgetColSpan = widget.getLayoutProperty("grid.colSpan") || 1;
+        var widgetProps = this.getLayoutProperties(widget);
 
-        var prefSpanWidth = hSpacing * (widgetColSpan - 1);
+        var prefSpanWidth = hSpacing * (widgetProps.colSpan - 1);
         var minSpanWidth = prefSpanWidth;
 
         var prefColFlex = [];
         var minColFlex = [];
 
-        for (var j=0; j<widgetColSpan; j++)
+        for (var j=0; j<widgetProp.colSpan; j++)
         {
-          var col = widgetColumn+j;
+          var col = widgetProps.column+j;
           var colWidth = colWidths[col];
           var colFlex = this.getColumnFlex(col);
 
@@ -783,7 +796,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             continue;
           }
 
-          var widgetRowSpan = widget.getLayoutProperty("grid.rowSpan") || 1;
+          var widgetRowSpan = this.getLayoutProperty(widget, "rowSpan");
           if (widgetRowSpan > 1) {
             continue;
           }
@@ -841,7 +854,7 @@ qx.Class.define("qx.ui2.layout.Grid",
             continue;
           }
 
-          var widgetColSpan = widget.getLayoutProperty("grid.colSpan") || 1;
+          var widgetColSpan = this.getLayoutProperty(widget, "colSpan");
           if (widgetColSpan > 1) {
             continue;
           }
@@ -1004,27 +1017,24 @@ qx.Class.define("qx.ui2.layout.Grid",
             continue;
           }
 
-          var widgetRow = widget.getLayoutProperty("grid.row");
-          var widgetColumn = widget.getLayoutProperty("grid.column");
+          var widgetProps = this.getLayoutProperties(widget);
 
           // ignore cells, which have cell spanning but are not the origin
           // of the widget
-          if(widgetRow !== row || widgetColumn !== col)
+          if(widgetProps.row !== row || widgetProps.column !== col)
           {
             top += rowHeights[row] + vSpacing;
             continue;
           }
 
           // compute sizes width including cell spanning
-          var widgetColSpan = widget.getLayoutProperty("grid.colSpan") || 1;
-          var spanWidth = hSpacing * (widgetColSpan - 1);
-          for (var i=0; i<widgetColSpan; i++) {
+          var spanWidth = hSpacing * (widgetProps.colSpan - 1);
+          for (var i=0; i<widgetProps.colSpan; i++) {
             spanWidth += colWidths[col+i];
           }
 
-          var widgetRowSpan = widget.getLayoutProperty("grid.rowSpan") || 1;
-          var spanHeight = vSpacing * (widgetRowSpan - 1);
-          for (var i=0; i<widgetRowSpan; i++) {
+          var spanHeight = vSpacing * (widgetProps.rowSpan - 1);
+          for (var i=0; i<widgetProps.rowSpan; i++) {
             spanHeight += rowHeights[row+i];
           }
 

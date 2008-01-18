@@ -45,14 +45,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
+      layout1.add(w1, {width: "50%"});
       layout1.add(w2);
       layout1.add(w3);
 
-      layout1.setWidth(w1, "50%");
-
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      doc.add(box1, {left: 10, top: 10});
 
 
 
@@ -65,16 +63,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1);
-      layout1.add(w2);
-      layout1.add(w3);
-
-      layout1.setWidth(w1, "30%");
-      layout1.setWidth(w2, "30%");
-      layout1.setWidth(w3, "30%");
+      layout1.add(w1, {width: "30%", flex: 1});
+      layout1.add(w2, {width: "30%", flex: 1});
+      layout1.add(w3, {width: "30%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 70);
+      doc.add(box1, {left: 10, top: 70});
 
 
 
@@ -87,16 +81,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3, 0);
-
-      layout1.setWidth(w1, "33.3%");
-      layout1.setWidth(w2, "33.3%");
-      layout1.setWidth(w3, "33.3%");
+      layout1.add(w1, {width: "33.3%"});
+      layout1.add(w2, {width: "33.3%"});
+      layout1.add(w3, {width: "33.3%"});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 130);
+      doc.add(box1, {left: 10, top: 130});
 
 
 
@@ -109,16 +99,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3);
-
-      layout1.setWidth(w1, "33.3%");
-      layout1.setWidth(w2, "33.3%");
-      layout1.setWidth(w3, "33.3%");
+      layout1.add(w1, {width: "33.3%"});
+      layout1.add(w2, {width: "33.3%"});
+      layout1.add(w3, {width: "33.3%"});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 190);
+      doc.add(box1, {left: 10, top: 190});
 
 
 
@@ -133,14 +119,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2);
-      layout1.add(w3);
-
-			layout1.setWidth(w1, "50%");
+      layout1.add(w1, {width: "50%"});
+      layout1.add(w2, {flex: 1});
+      layout1.add(w3, {flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 250);
+      doc.add(box1, {left: 10, top: 250});
 
 
 
@@ -152,16 +136,13 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3, 0);
+      layout1.add(w1, {width: "33.3%"});
+      layout1.add(w2, {width: "33.3%"});
+      layout1.add(w3, {width: "33.3%"});
 
-      layout1.setWidth(w1, "33%");
-      layout1.setWidth(w2, "33%");
-      layout1.setWidth(w3, "33%");
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 310);
+      doc.add(box1, {left: 10, top: 310});
 
 
       // all child in percents + auto sizing + flex enabled
@@ -172,16 +153,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 1);
-      layout1.add(w2, 1);
-      layout1.add(w3, 1);
-
-      layout1.setWidth(w1, "33%");
-      layout1.setWidth(w2, "33%");
-      layout1.setWidth(w3, "33%");
+      layout1.add(w1, {width: "33%", flex: 1});
+      layout1.add(w2, {width: "33%", flex: 1});
+      layout1.add(w3, {width: "33%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 370);
+      doc.add(box1, {left: 10, top: 370});
 
 
 
@@ -194,16 +171,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 1);
-      layout1.add(w2, 1);
-      layout1.add(w3, 1);
-
-      layout1.setWidth(w1, "33%");
-      layout1.setWidth(w2, "33%");
-      layout1.setWidth(w3, "33%");
+      layout1.add(w1, {width: "33%", flex: 1});
+      layout1.add(w2, {width: "33%", flex: 1});
+      layout1.add(w3, {width: "33%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 430);
+      doc.add(box1, {left: 10, top: 430});
 
 
 
@@ -217,16 +190,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 1);
-      layout1.add(w2, 1);
-      layout1.add(w3, 1);
-
-      layout1.setWidth(w1, "33%");
-      layout1.setWidth(w2, "33%");
-      layout1.setWidth(w3, "33%");
+      layout1.add(w1, {width: "33%", flex: 1});
+      layout1.add(w2, {width: "33%", flex: 1});
+      layout1.add(w3, {width: "33%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 490);
+      doc.add(box1, {left: 10, top: 490});
 
     }
   }

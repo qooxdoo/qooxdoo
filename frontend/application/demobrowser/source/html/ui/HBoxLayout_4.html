@@ -45,7 +45,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3);
       box1.setLayout(layout1);
-      doc.add(box1, 10, 70);
+      doc.add(box1, {left: 10, top: 70});
 
 
 
@@ -58,19 +58,22 @@ qx.Class.define("BasicSample",
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2);
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth:150}), 3);
       box2.setLayout(layout2);
-      doc.add(box2, 10, 130);
+      doc.add(box2, {left: 10, top: 130});
 
 
       // different flex dimensions + rounding issues
       var box2 = (new qx.ui2.core.Widget).set({width: 500, decoration: border, backgroundColor: "yellow"});
       var layout2 = new qx.ui2.layout.HBox();
 
-      for (var i=0; i<25; i++) {
-        layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:5}), 1);
+      for (var i=0; i<25; i++)
+      {
+        var widget = new qx.ui2.core.Widget();
+        widget.set({decoration: border, backgroundColor: "green", width:5});
+        layout2.add(widget, {flex: 1});
       }
 
       box2.setLayout(layout2);
-      doc.add(box2, 10, 190);
+      doc.add(box2, {left: 10, top: 190});
 
 
 
@@ -82,7 +85,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 120}), 2);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 120}), 3);
       box1.setLayout(layout1);
-      doc.add(box1, 10, 250);
+      doc.add(box1, {left: 10, top: 250});
 
 
       // container width < layout min width
@@ -93,7 +96,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), 2);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), 3);
       box1.setLayout(layout1);
-      doc.add(box1, 10, 310);
+      doc.add(box1, {left: 10, top: 310});
 
 
 
@@ -105,7 +108,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), 2);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), 3);
       box1.setLayout(layout1);
-      doc.add(box1, 10, 370);
+      doc.add(box1, {left: 10, top: 370});
 
     }
   }

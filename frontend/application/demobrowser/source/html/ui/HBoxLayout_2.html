@@ -51,11 +51,11 @@ qx.Class.define("BasicSample",
       layout1.add(w2, null, "middle");
       layout1.add(w3, null, "bottom");
 
-      layout1.setMarginLeft(w2, -10);
-      layout1.setMarginLeft(w3, -10);
+      layout1.addLayoutProperty(w2, "marginLeft", -10);
+      layout1.addLayoutProperty(w3, "marginLeft", -10);
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      doc.add(box1, {left: 10, top: 10});
 
 
 
@@ -74,12 +74,12 @@ qx.Class.define("BasicSample",
       layout1.add(w2, null, "middle");
       layout1.add(w3, null, "bottom");
 
-      layout1.setMarginLeft(w2, -10);
-      layout1.setMarginRight(w2, 20);
-      layout1.setMarginLeft(w3, -10);
+      layout1.addLayoutProperty(w2, "marginLeft", -10);
+      layout1.addLayoutProperty(w2, "marginRight", 20);
+      layout1.addLayoutProperty(w3, "marginLeft", -10);
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 100);
+      doc.add(box1, {left: 10, top: 100});
 
 
 
@@ -98,11 +98,11 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 1, "middle");
       layout1.add(w3, 1, "bottom");
 
-      layout1.setMarginLeft(w2, -10);
-      layout1.setMarginLeft(w3, -10);
+      layout1.addLayoutProperty(w2, "marginLeft", -10);
+      layout1.addLayoutProperty(w3, "marginLeft", -10);
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 190);
+      doc.add(box1, {left: 10, top: 190});
 
 
 
@@ -122,11 +122,11 @@ qx.Class.define("BasicSample",
       layout1.add(w2, 2, "middle");
       layout1.add(w3, 3, "bottom");
 
-      layout1.setMarginLeft(w2, -10);
-      layout1.setMarginLeft(w3, -10);
+      layout1.addLayoutProperty(w2, "marginLeft", -10);
+      layout1.addLayoutProperty(w3, "marginLeft", -10);
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 280);
+      doc.add(box1, {left: 10, top: 280});
 
     }
   }
