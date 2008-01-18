@@ -89,26 +89,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    LAYOUT_DEFAULTS :
-    {
-      flex : 0,
-      width : null,
-      marginRight : 0,
-      marginLeft : 0,
-      align : "top"
-    }
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -127,16 +107,14 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     invalidateLayoutCache : function()
     {
-      if (this._sizeHint)
-      {
-        this.debug("Clear layout cache");
+      if (this._sizeHint) {
         this._sizeHint = null;
       }
     },
 
 
     // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(parentWidth, parentHeight)
     {
       // Initialize
       var children = this.getChildren();
@@ -174,10 +152,10 @@ qx.Class.define("qx.ui2.layout.HBox",
         childWidthPercent = this.getLayoutProperty(child, "width");
 
         childHints[i] = childHint;
-        childWidths[i] = childWidthPercent ? Math.floor((width - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
+        childWidths[i] = childWidthPercent ? Math.floor((parentWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
 
         if (child.canStretchY()) {
-          childHeights[i] = Math.max(childHint.minHeight, Math.min(height, childHint.height));
+          childHeights[i] = Math.max(childHint.minHeight, Math.min(parentHeight, childHint.height));
         } else {
           childHeights[i] = childHint.height;
         }
@@ -185,14 +163,14 @@ qx.Class.define("qx.ui2.layout.HBox",
         usedWidth += childWidths[i];
       }
 
-      // this.debug("Initial widths: avail=" + width + ", used=" + usedWidth);
+      // this.debug("Initial widths: avail=" + parentWidth + ", used=" + usedWidth);
 
 
       // Process widths for flex stretching/shrinking
-      if (usedWidth != width)
+      if (usedWidth != parentWidth)
       {
         var flexCandidates = [];
-        var childGrow = usedWidth < width;
+        var childGrow = usedWidth < parentWidth;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -217,7 +195,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (flexCandidates.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, width - usedWidth);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, parentWidth - usedWidth);
 
           for (var key in flexibleOffsets)
           {
@@ -234,9 +212,9 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Calculate horizontal alignment offset
       var childAlignOffset = 0;
-      if (usedWidth < width && align != "left")
+      if (usedWidth < parentWidth && align != "left")
       {
-        childAlignOffset = width - usedWidth;
+        childAlignOffset = parentWidth - usedWidth;
 
         if (align === "center") {
           childAlignOffset = Math.round(childAlignOffset / 2);
@@ -254,10 +232,10 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         child = children[i];
 
-        if (childLeft < width)
+        if (childLeft < parentWidth)
         {
           // Respect vertical alignment
-          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(this.getLayoutProperty(child, "align"), childHeights[i], height);
+          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(this.getLayoutProperty(child, "align"), childHeights[i], parentHeight);
 
           // Layout child
           child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
@@ -347,7 +325,6 @@ qx.Class.define("qx.ui2.layout.HBox",
         maxHeight : maxHeight
       };
 
-      this.debug("Compute size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;
