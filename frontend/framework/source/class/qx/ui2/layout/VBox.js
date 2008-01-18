@@ -89,26 +89,6 @@ qx.Class.define("qx.ui2.layout.VBox",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    LAYOUT_DEFAULTS :
-    {
-      flex : 0,
-      height : null,
-      marginBottom : 0,
-      marginTop : 0,
-      align : "left"
-    }
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -127,24 +107,23 @@ qx.Class.define("qx.ui2.layout.VBox",
     // overridden
     invalidateLayoutCache : function()
     {
-      if (this._sizeHint)
-      {
-        this.debug("Clear layout cache");
+      if (this._sizeHint) {
         this._sizeHint = null;
       }
     },
 
 
     // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(parentHeight, parentWidth)
     {
       // Initialize
-      var children = this.getChildren();
+      var children = this._children;
 
       if (children.length == 0) {
         return;
       }
 
+      var options = this._options;
       var align = this.getAlign();
       var child, childHint;
       var childWidth, childAlign, childLeft, childTop;
@@ -170,14 +149,13 @@ qx.Class.define("qx.ui2.layout.VBox",
       {
         child = children[i];
         childHint = child.getSizeHint();
-
-        childHeightPercent = this.getLayoutProperty(child, "height");
+        childHeightPercent = options[i].percent;
 
         childHints[i] = childHint;
-        childHeights[i] = childHeightPercent ? Math.floor((height - usedGaps) * parseFloat(childHeightPercent) / 100) : childHint.height;
+        childHeights[i] = childHeightPercent ? Math.floor((parentHeight - usedGaps) * parseFloat(childHeightPercent) / 100) : childHint.height;
 
         if (child.canStretchY()) {
-          childWidths[i] = Math.max(childHint.minWidth, Math.min(width, childHint.width));
+          childWidths[i] = Math.max(childHint.minWidth, Math.min(parentWidth, childHint.width));
         } else {
           childWidths[i] = childHint.width;
         }
@@ -185,14 +163,14 @@ qx.Class.define("qx.ui2.layout.VBox",
         usedHeight += childHeights[i];
       }
 
-      // this.debug("Initial heights: avail=" + height + ", used=" + usedHeight);
+      // this.debug("Initial heights: avail=" + parentHeight + ", used=" + usedHeight);
 
 
       // Process heights for flex stretching/shrinking
-      if (usedHeight != height)
+      if (usedHeight != parentHeight)
       {
         var flexCandidates = [];
-        var childGrow = usedHeight < height;
+        var childGrow = usedHeight < parentHeight;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -200,7 +178,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
           if (child.canStretchX())
           {
-            childFlex = this.getLayoutProperty(child, "flex");
+            childFlex = options[i].flex;
 
             if (childFlex > 0)
             {
@@ -217,7 +195,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
         if (flexCandidates.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, height - usedHeight);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, parentHeight - usedHeight);
 
           for (var key in flexibleOffsets)
           {
@@ -234,9 +212,9 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       // Calculate vertical alignment offset
       var childAlignOffset = 0;
-      if (usedHeight < height && align != "top")
+      if (usedHeight < parentHeight && align != "top")
       {
-        childAlignOffset = height - usedHeight;
+        childAlignOffset = parentHeight - usedHeight;
 
         if (align === "middle") {
           childAlignOffset = Math.round(childAlignOffset / 2);
@@ -248,16 +226,16 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childTop = childAlignOffset + (this.getLayoutProperty(children[0], "marginTop"));
+      var childTop = childAlignOffset + (options[0].marginTop || 0);
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
-        if (childTop < height)
+        if (childTop < parentHeight)
         {
           // Respect horizontal alignment
-          childLeft = qx.ui2.layout.Util.computeHorizontalAlignOffset(this.getLayoutProperty(child, "align"), childWidths[i], width);
+          childLeft = qx.ui2.layout.Util.computeHorizontalAlignOffset(options[i].align || "left", childWidths[i], parentWidth);
 
           // Layout child
           child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
@@ -277,8 +255,8 @@ qx.Class.define("qx.ui2.layout.VBox",
         }
 
         // Compute top position of next child
-        thisMargin = this.getLayoutProperty(child, "marginBottom");
-        nextMargin = this.getLayoutProperty(children[i+1], "marginTop");
+        thisMargin = options[i].marginBottom || 0;
+        nextMargin = options[i+1].marginTop || 0;
         childTop += childHeights[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
@@ -292,7 +270,8 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
       // Initialize
-      var children = this.getChildren();
+      var children = this._children;
+      var options = this._options;
       var gaps = this._getGaps();
       var minHeight=gaps, height=gaps, maxHeight=32000;
       var minWidth=0, width=0, maxWidth=32000;
@@ -310,7 +289,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         var childHint = child.getSizeHint();
 
         // Respect percent height (up calculate height by using preferred height)
-        var childPercentHeight = this.getLayoutProperty(child, "height");
+        var childPercentHeight = options[i].height;
         if (childPercentHeight) {
           maxPercentHeight = Math.max(maxPercentHeight, childHint.height / parseFloat(childPercentHeight) * 100);
         } else {
@@ -347,7 +326,6 @@ qx.Class.define("qx.ui2.layout.VBox",
         maxWidth : maxWidth
       };
 
-      this.debug("Compute size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;
@@ -373,8 +351,8 @@ qx.Class.define("qx.ui2.layout.VBox",
      */
     _getGaps : function()
     {
-      var children = this.getChildren();
-      var length = children.length;
+      var options = this._options;
+      var length = options.length;
 
       if (length == 0) {
         return 0;
@@ -384,11 +362,11 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       // Support for reversed children
       if (this.getReversed()) {
-        children = children.concat().reverse();
+        options = options.concat().reverse();
       }
 
       // Add margin top of first child (no collapsing here)
-      gaps += this.getLayoutProperty(children[0], "marginTop");
+      gaps += (options[0].marginTop || 0);
 
       // Add inner margins (with collapsing support)
       if (length > 0)
@@ -396,15 +374,15 @@ qx.Class.define("qx.ui2.layout.VBox",
         var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = this.getLayoutProperty(children[i], "marginBottom");
-          nextMargin = this.getLayoutProperty(children[i+1], "marginTop");
+          thisMargin = (options[i].marginBottom || 0);
+          nextMargin = (options[i+1].marginTop || 0);
 
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin bottom of last child (no collapsing here)
-      gaps += this.getLayoutProperty(children[length-1], "marginBottom");
+      gaps += (options[length-1].marginBottom || 0);
 
       return gaps;
     },
@@ -443,11 +421,8 @@ qx.Class.define("qx.ui2.layout.VBox",
     ---------------------------------------------------------------------------
     */
 
-    _applyLayoutProperty : function(value, old)
-    {
+    _applyLayoutProperty : function(value, old) {
       this.invalidateLayoutCache();
-
-      // Anything else TODO here?
     }
   }
 });
