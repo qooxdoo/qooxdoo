@@ -91,6 +91,27 @@ qx.Class.define("qx.ui2.layout.VBox",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    LAYOUT_DEFAULTS :
+    {
+      flex : 0,
+      height : null,
+      marginBottom : 0,
+      marginTop : 0,
+      align : "top"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -150,7 +171,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         child = children[i];
         childHint = child.getSizeHint();
 
-        childHeightPercent = child.getLayoutProperty("vbox.height");
+        childHeightPercent = this.getLayoutProperty(child, "height");
 
         childHints[i] = childHint;
         childHeights[i] = childHeightPercent ? Math.floor((height - usedGaps) * parseFloat(childHeightPercent) / 100) : childHint.height;
@@ -179,7 +200,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
           if (child.canStretchX())
           {
-            childFlex = child.getLayoutProperty("vbox.flex");
+            childFlex = this.getLayoutProperty(child, "flex");
 
             if (childFlex > 0)
             {
@@ -227,7 +248,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childTop = childAlignOffset + (children[0].getLayoutProperty("vbox.marginTop") || 0);
+      var childTop = childAlignOffset + (this.getLayoutProperty(children[0], "marginTop"));
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -236,7 +257,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         if (childTop < height)
         {
           // Respect horizontal alignment
-          childLeft = qx.ui2.layout.Util.computeHorizontalAlignOffset(child.getLayoutProperty("vbox.align"), childWidths[i], width);
+          childLeft = qx.ui2.layout.Util.computeHorizontalAlignOffset(this.getLayoutProperty(child, "align"), childWidths[i], width);
 
           // Layout child
           child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
@@ -256,8 +277,8 @@ qx.Class.define("qx.ui2.layout.VBox",
         }
 
         // Compute top position of next child
-        thisMargin = child.getLayoutProperty("vbox.marginBottom");
-        nextMargin = children[i+1].getLayoutProperty("vbox.marginTop");
+        thisMargin = this.getLayoutProperty(child, "marginBottom");
+        nextMargin = this.getLayoutProperty(children[i+1], "marginTop");
         childTop += childHeights[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
@@ -289,7 +310,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         var childHint = child.getSizeHint();
 
         // Respect percent height (up calculate height by using preferred height)
-        var childPercentHeight = child.getLayoutProperty("vbox.height");
+        var childPercentHeight = this.getLayoutProperty(child, "height");
         if (childPercentHeight) {
           maxPercentHeight = Math.max(maxPercentHeight, childHint.height / parseFloat(childPercentHeight) * 100);
         } else {
@@ -367,7 +388,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
       // Add margin top of first child (no collapsing here)
-      gaps += children[0].getLayoutProperty("vbox.marginTop") || 0;
+      gaps += this.getLayoutProperty(children[0], "marginTop");
 
       // Add inner margins (with collapsing support)
       if (length > 0)
@@ -375,15 +396,15 @@ qx.Class.define("qx.ui2.layout.VBox",
         var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = children[i].getLayoutProperty("vbox.marginBottom");
-          nextMargin = children[i+1].getLayoutProperty("vbox.marginTop");
+          thisMargin = this.getLayoutProperty(children[i], "marginBottom");
+          nextMargin = this.getLayoutProperty(children[i+1], "marginTop");
 
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin bottom of last child (no collapsing here)
-      gaps += children[length-1].getLayoutProperty("vbox.marginBottom") || 0;
+      gaps += this.getLayoutProperty(children[length-1], "marginBottom");
 
       return gaps;
     },

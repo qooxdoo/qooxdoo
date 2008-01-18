@@ -63,10 +63,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           continue;
         }
 
-        // overflow areas or qx.ui2.item.*
+        // overflow areas or qx.ui2.root.*
         if (item.isLayoutRoot())
         {
-          // This is a real item widget. Set its size to its preferred size.
+          // This is a real root widget. Set its size to its preferred size.
           var rootHint = item.getSizeHint();
           item.renderLayout(0, 0, rootHint.width, rootHint.height);
         }
@@ -74,7 +74,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         {
           // This is an inner item of layout changes. Do a relayout of its
           // children without changing its position and size.
-          // TODO: rerenderLayout() method missing
           item.renderLayout(
             item._computedLayout.left,
             item._computedLayout.top,
