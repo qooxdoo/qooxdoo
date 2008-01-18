@@ -58,46 +58,61 @@ qx.Class.define("BasicSample",
       var layout = new qx.ui2.layout.VBox();
       container.setLayout(layout);
 
-      this._mainArea = new qx.ui2.core.Widget();
-      this._mainArea.set({
+      this._hbox = new qx.ui2.core.Widget();
+      this._hbox.set({
         height : 100
       });
-      this._mainArea.setLayout(new qx.ui2.layout.HBox());
+      this._hbox.setLayout(new qx.ui2.layout.HBox());
       this._widgets = [];
       var widgetColors = ["green", "blue", "yellow", "black", "orange", "red"];
       for (var i=0; i<widgetColors.length; i++)
       {
         var widget = new qx.ui2.core.Widget();
         widget.setBackgroundColor(widgetColors[i]);
-        this._mainArea.getLayout().add(widget);
+        this._hbox.getLayout().add(widget);
         this._widgets.push(widget);
       }
+      container.getLayout().add(this._hbox);
 
-      container.getLayout().add(this._mainArea);
+      this._grid  = new qx.ui2.core.Widget();
+      this._grid.set({
+        height : 100
+      });
+      this._grid.setLayout(new qx.ui2.layout.Grid());
+      this._gridWidgets = [];
+      for (var i=0; i<widgetColors.length; i++)
+      {
+        var widget = new qx.ui2.core.Widget();
+        widget.setBackgroundColor(widgetColors[i]);
+        this._grid.getLayout().add(widget, 0, i);
+        this._gridWidgets.push(widget);
+      }
+      container.getLayout().add(this._grid);
 
-
-      var removeButtons = new qx.ui2.core.Widget();
-      removeButtons.setLayout(new qx.ui2.layout.HBox());
+      var buttons = new qx.ui2.core.Widget();
+      buttons.setLayout(new qx.ui2.layout.HBox());
 
       for (var i=0; i<this._widgets.length; i++) {
-        removeButtons.getLayout().add(this.createRemoveButton(this._widgets[i]));
+        buttons.getLayout().add(this.createRemoveButton(this._widgets[i], i));
       }
 
-      container.getLayout().add(removeButtons);
+      container.getLayout().add(buttons);
 
       doc.add(container, 0, 0);
     },
 
-    createRemoveButton : function(widget)
+    createRemoveButton : function(widget, widgetIndex)
     {
       var doRemove = true;
       var button = new Button("Remove " + widget.getBackgroundColor(), function()
       {
         if (doRemove) {
-          this._mainArea.getLayout().remove(widget);
+          this._hbox.getLayout().remove(widget);
+          this._grid.getLayout().remove(this._gridWidgets[widgetIndex]);
           button.setContent("Add " + widget.getBackgroundColor());
         } else {
-          this._mainArea.getLayout().add(widget);
+          this._hbox.getLayout().add(widget);
+          this._grid.getLayout().add(this._gridWidgets[widgetIndex], 0, widgetIndex);
           button.setContent("Remove " + widget.getBackgroundColor());
         }
 
