@@ -42,9 +42,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     // This array contains the children (instances of Widget)
     this._children = [];
-
-    // Contains layout data of all children (key = hash code)
-    this._layoutProperties = {};
   },
 
 
@@ -94,15 +91,13 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param child {qx.ui2.core.Widget} the widget to add
      * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
-    add : function(widget, options)
+    add : function(child, layout)
     {
-      this._children.push(widget);
-      this._addToParent(widget);
-
-      this._importLayoutProperties(widget, options, this.constructor.LAYOUT_DEFAULTS);
+      this._children.push({ widget : child, layout : layout });
+      this._addToParent(child);
 
       // mark layout as invalid
       this.scheduleLayoutUpdate();
@@ -116,23 +111,42 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Remove this from the layout
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param child {qx.ui2.core.Widget} the widget to add
      * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
-    remove : function(widget)
+    remove : function(child)
     {
-      qx.lang.Array.remove(this._children, widget);
-      this._removeFromParent(widget);
+      qx.lang.Array.remove(this._children, this.indexOf(child));
+      this._removeFromParent(child);
 
       // Invalidate layout cache of the layouts of the widget and its old parent
-      widget.scheduleLayoutUpdate();
+      child.scheduleLayoutUpdate();
       this.scheduleLayoutUpdate();
-
-      // Destruct storage object for layout properties
-      this._layoutProperties[widget.toHashCode()] = null;
 
       // Chaining support
       return this;
+    },
+
+
+    /**
+     * Returns the index position of the given widget if it is
+     * a member of this layout. Otherwise it returns <code>-1</code>.
+     *
+     * @type member
+     * @param child {qx.ui2.core.Widget} the widget to query for
+     * @return {Integer} The index position or <code>-1</code> when
+     *   the given widget is no child of this layout.
+     */
+    indexOf : function(child)
+    {
+      for (var i=0, ch=this._children, l=ch.length; i<l; i++)
+      {
+        if (ch[i].widget == child) {
+          return i;
+        }
+      }
+
+      return -1;
     },
 
 
@@ -144,8 +158,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {Boolean} <code>true</code> when the given widget is a child
      *    of this layout.
      */
-    has : function(widget) {
-      return qx.lang.Array.contains(this._children, widget);
+    contains : function(child) {
+      return this.indexOf(child) !== -1;
     },
 
 
@@ -173,21 +187,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
     ---------------------------------------------------------------------------
     */
 
-
-    _importLayoutProperties : function(child, properties, defaults)
-    {
-      properties = properties || {};
-      defaults = defaults || {};
-      for (var key in defaults)
-      {
-        if (properties[key] == undefined) {
-          properties[key] = defaults[key];
-        }
-      }
-      this._layoutProperties[child.toHashCode()] = properties;
-    },
-
-
     /**
      * Adds a layout property to the given widget.
      *
@@ -199,7 +198,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     addLayoutProperty : function(child, name, value)
     {
-      this._layoutProperties[child.toHashCode()][name] = value;
+      var index = this.indexOf(child);
+      this._children[index].layout[name] = value;
 
       this.scheduleLayoutUpdate();
     },
@@ -215,7 +215,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     removeLayoutProperty : function(child, name)
     {
-      delete this._layoutProperties[child.toHashCode()][name];
+      var index = this.indexOf(child);
+      delete this._children[index].layout[name];
 
       this.scheduleLayoutUpdate();
     },
@@ -231,19 +232,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     getLayoutProperty : function(child, name)
     {
-      var value = this._layoutProperties[child.toHashCode()][name];
+      var index = this.indexOf(child);
+      var value = this._children[index].layout[name];
+
       return value == null ? null : value;
-    },
-
-
-    /**
-     * Returns all layout properties of a child widget as a map.
-     *
-     * @param child {qx.ui2.core.Widget} Widget to query
-     * @return {Map} a map of all layout properties.
-     */
-    getLayoutProperties : function(child) {
-      return this._layoutProperties[child.toHashCode()] || {};
     },
 
 
@@ -255,8 +247,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {Boolean} <code>true</code> when this hint is defined
      */
-    hasLayoutProperty : function(child, name) {
-      return this._layoutProperties[name] != null;
+    hasLayoutProperty : function(child, name)
+    {
+      var index = this.indexOf(child);
+      return this._children[index].layout[name] != null;
     },
 
 
@@ -388,13 +382,16 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       var children = this.getChildren();
       var length = children.length;
+      var child;
 
       if (old)
       {
         for (var i=0; i<length; i++)
         {
-          this._removeFromParent(children[i]);
-          children[i].scheduleLayoutUpdate();
+          child = children[i].widget;
+
+          this._removeFromParent(child);
+          child.scheduleLayoutUpdate();
         }
       }
 
@@ -402,8 +399,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
       {
         for (var i=0; i<length; i++)
         {
-          this._addToParent(children[i]);
-          children[i].scheduleLayoutUpdate();
+          child = children[i].widget;
+
+          this._addToParent(child);
+          child.scheduleLayoutUpdate();
         }
       }
     },
@@ -428,6 +427,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
   */
 
   destruct : function() {
-    this._disposeObjectDeep("_children", 1);
+    this._disposeObjectDeep("_children", 2);
   }
 });
