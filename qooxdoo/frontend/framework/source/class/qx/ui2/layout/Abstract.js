@@ -42,6 +42,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     // This array contains the children (instances of Widget)
     this._children = [];
+
+    // Contains layout options of widgets (always index identical to the children array)
+    this._options = [];
   },
 
 
@@ -96,7 +99,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     add : function(child, layout)
     {
-      this._children.push({ widget : child, layout : layout });
+      this._children.push(child);
+      this._options.push(layout);
+
       this._addToParent(child);
 
       // mark layout as invalid
@@ -116,7 +121,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     remove : function(child)
     {
-      qx.lang.Array.remove(this._children, this.indexOf(child));
+      var index = qx.lang.Array.indexOf(this._children, child);
+      qx.lang.Array.removeAt(this._children, index);
+      qx.lang.Array.removeAt(this._options, index);
+
       this._removeFromParent(child);
 
       // Invalidate layout cache of the layouts of the widget and its old parent
@@ -137,16 +145,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
-    indexOf : function(child)
-    {
-      for (var i=0, ch=this._children, l=ch.length; i<l; i++)
-      {
-        if (ch[i].widget == child) {
-          return i;
-        }
-      }
-
-      return -1;
+    indexOf : function(child) {
+      return qx.lang.Array.indexOf(this._children, child);
     },
 
 
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *    of this layout.
      */
     contains : function(child) {
-      return this.indexOf(child) !== -1;
+      return qx.lang.Array.indexOf(this._children, child) !== -1;
     },
 
 
@@ -170,14 +170,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {qx.ui2.core.Widget[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
-    getChildren : function()
-    {
-      var ret = [];
-      for (var i=0, ch=this._children, l=ch.length; i<l; i++) {
-        ret.push(ch[i].widget);
-      }
-
-      return ret;
+    getChildren : function() {
+      return this._children;
     },
 
 
@@ -205,7 +199,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     addLayoutProperty : function(child, name, value)
     {
       var index = this.indexOf(child);
-      this._children[index].layout[name] = value;
+      this._options[index][name] = value;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -241,7 +235,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         }
       }
 
-      delete this._children[index].layout[name];
+      delete this._options[index][name];
 
       this.scheduleLayoutUpdate();
     },
@@ -268,8 +262,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         }
       }
 
-      var value = this._children[index].layout[name];
-
+      var value = this._options[index][name];
       return value == null ? null : value;
     },
 
@@ -295,7 +288,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         }
       }
 
-      return this._children[index].layout[name] != null;
+      return this._options[index][name] != null;
     },
 
 
@@ -433,7 +426,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
       {
         for (var i=0; i<length; i++)
         {
-          child = children[i].widget;
+          child = children[i];
 
           this._removeFromParent(child);
           child.scheduleLayoutUpdate();
@@ -444,7 +437,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
       {
         for (var i=0; i<length; i++)
         {
-          child = children[i].widget;
+          child = children[i];
 
           this._addToParent(child);
           child.scheduleLayoutUpdate();
