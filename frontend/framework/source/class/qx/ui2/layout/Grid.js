@@ -214,6 +214,30 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
+     * Clears all data stored for a grid cell
+     *
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     */
+    _clearCellData : function(row, column)
+    {
+      var grid = this._grid;
+
+      if (grid[row] == undefined) {
+         return;
+      }
+
+      var gridData = grid[row][column];
+
+      if (!gridData) {
+        return;
+      } else {
+        grid[row][column] = {};
+      }
+    },
+
+
+    /**
      * Stores data for a grid row
      *
      * @param row {Integer} The row index
@@ -388,7 +412,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getColumnFlex : function(column)
     {
       var colData = this._colData[column] || {};
-      return colData.flex !== undefined ? colData.flex : 1;
+      return colData.flex !== undefined ? colData.flex : 0;
     },
 
 
@@ -417,7 +441,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getRowFlex : function(row)
     {
       var rowData = this._rowData[row] || {};
-      return rowData.flex !== undefined ? rowData.flex : 1;
+      return rowData.flex !== undefined ? rowData.flex : 0;
     },
 
 
@@ -538,8 +562,22 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    remove : function(widget) {
-      throw new Error("Not yet implemented.");
+    remove : function(widget)
+    {
+      var row = widget.getLayoutProperty("grid.row");
+      var column = widget.getLayoutProperty("grid.column");
+
+      var rowSpan = widget.getLayoutProperty("grid.rowSpan");
+      var colSpan = widget.getLayoutProperty("grid.colSpan");
+
+      for (var x=0; x<colSpan; x++)
+      {
+        for (var y=0; y<rowSpan; y++) {
+          this._clearCellData(row + y, column + x);
+        }
+      }
+
+      return this.base(arguments, widget);
     },
 
 
