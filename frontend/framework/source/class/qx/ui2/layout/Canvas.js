@@ -70,21 +70,24 @@ qx.Class.define("qx.ui2.layout.Canvas",
     renderLayout : function(parentWidth, parentHeight)
     {
       var children = this._children;
+      var options = this._options;
+      var percent = /[0-9.]+%/;
+
       var child, size, layout;
       var left, top, right, bottom, width, height;
-      var percent = /[0-9.]+%/;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
+        size = child.getSizeHint();
+        layout = options[i];
 
-        size = child.widget.getSizeHint();
-        layout = child.layout;
 
 
         // **************************************
         //   Processing location
         // **************************************
+
         left = layout.left;
         if (left && typeof left === "string")
         {
@@ -217,7 +220,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
         //   Render child
         // **************************************
 
-        child.widget.renderLayout(left, top, width, height);
+        child.renderLayout(left, top, width, height);
       }
     }
   }

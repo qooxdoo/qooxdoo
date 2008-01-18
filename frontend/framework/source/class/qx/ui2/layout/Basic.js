@@ -73,16 +73,16 @@ qx.Class.define("qx.ui2.layout.Basic",
     renderLayout : function(parentWidth, parentHeight)
     {
       var children = this._children;
+      var options = this._options;
       var child, size, layout;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
+        size = child.getSizeHint();
+        options = options[i];
 
-        size = child.widget.getSizeHint();
-        layout = child.layout;
-
-        child.widget.renderLayout(layout.left || 0, layout.top || 0, size.width, size.height);
+        child.renderLayout(options.left || 0, options.top || 0, size.width, size.height);
       }
     },
 
@@ -95,17 +95,16 @@ qx.Class.define("qx.ui2.layout.Basic",
       }
 
       var children = this._children;
-      var child, layout, size;
+      var options = this._options;
+      var size, layout;
       var neededWidth=0, neededHeight=0;
 
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)
       {
-        child = children[i];
-
-        size = child.widget.getSizeHint();
-        layout = child.layout;
+        size = children[i].getSizeHint();
+        layout = options[i];
 
         neededWidth = Math.max(neededWidth, (layout.left || 0) + size.width);
         neededHeight = Math.max(neededHeight, (layout.top || 0) + size.height);
