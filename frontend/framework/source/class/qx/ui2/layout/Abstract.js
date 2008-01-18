@@ -94,13 +94,14 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to add
+     * @param child {qx.ui2.core.Widget} the widget to add.
+     * @param layout {Map?null} Optional layout data for widget.
      * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
     add : function(child, layout)
     {
       this._children.push(child);
-      this._options.push(layout);
+      this._options.push(layout || {});
 
       this._addToParent(child);
 
