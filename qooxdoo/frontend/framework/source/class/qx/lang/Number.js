@@ -79,9 +79,9 @@ qx.Bootstrap.define("qx.lang.Number",
      */
     limit : function(nr, vmin, vmax)
     {
-      if (nr > vmax) {
+      if (vmax != null && nr > vmax) {
         return vmax;
-      } else if (nr < vmin) {
+      } else if (vmin != null && nr < vmin) {
         return vmin;
       } else {
         return nr;
