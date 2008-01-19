@@ -44,6 +44,11 @@
       "path" : "cache2"
     }
   },
+  
+  
+  
+  
+
 
 
 
@@ -96,6 +101,16 @@
       "path" : "application/apiviewer/source/script"
     }
   },
+  
+  "po-feedreader" :
+  {
+    "extend" : ["common"],
+    
+    "translation" : 
+    {
+      "update" : ["feedreader"]
+    }
+  },  
 
   "source-feedreader" :
   {
