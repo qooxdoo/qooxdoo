@@ -8,9 +8,12 @@ class Cache:
         self._memory = {}
 
 
-    def clean(self, cacheId):
-        cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
-        filetool.remove(cacheFile)
+    def filename(self, cacheId):
+        splittedId = cacheId.split("-")
+        baseId = splittedId.pop(0)
+        digestId = sha.new("-".join(splittedId)).hexdigest()
+        
+        return "%s-%s" % (baseId, digestId)
 
 
     def read(self, cacheId, dependsOn, memory=False):
@@ -19,7 +22,7 @@ class Cache:
 
         filetool.directory(self._path)
         fileModTime = os.stat(dependsOn).st_mtime
-        cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
+        cacheFile = os.path.join(self._path, self.filename(cacheId))
 
         try:
             cacheModTime = os.stat(cacheFile).st_mtime
@@ -45,7 +48,7 @@ class Cache:
 
     def write(self, cacheId, content, memory=False):
         filetool.directory(self._path)
-        cacheFile = os.path.join(self._path, sha.new(cacheId).hexdigest())
+        cacheFile = os.path.join(self._path, self.filename(cacheId))
 
         try:
             cPickle.dump(content, open(cacheFile, 'wb'), 2)
