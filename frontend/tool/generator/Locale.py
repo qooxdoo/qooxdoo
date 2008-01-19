@@ -220,7 +220,7 @@ class Locale:
 
         variantsId = idlist.toString(variants)
 
-        cacheId = "%s-locale-%s" % (fileId, variantsId)
+        cacheId = "locale-%s-%s" % (fileId, variantsId)
 
         strings = self._cache.read(cacheId, filePath)
         if strings != None:
