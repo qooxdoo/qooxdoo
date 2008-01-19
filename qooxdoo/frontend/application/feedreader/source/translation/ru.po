@@ -6,114 +6,114 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-03 18:36+0200\n"
 "PO-Revision-Date: 2006-12-20 23:22+0200\n"
-"Last-Translator:  <zindel@gammacenter.com>\n"
-"Language-Team:  <en@li.org>\n"
+"Last-Translator: <zindel@gammacenter.com>\n"
+"Language-Team: <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: source/class/feedreader/Application.js:201
+#: application/feedreader/source/class/feedreader/Application.js:201
 msgid "reloading ..."
 msgstr "загрузка..."
 
-#: source/class/feedreader/Application.js:208
+#: application/feedreader/source/class/feedreader/Application.js:208
 msgid "qooxdoo feed reader."
 msgstr "qooxdoo RSS reader"
 
-#: source/class/feedreader/Application.js:214
+#: application/feedreader/source/class/feedreader/Application.js:214
 msgid "Add feed"
 msgid_plural "Add feeds"
 msgstr[0] "Добавить канал"
 msgstr[1] "Добавить каналы"
 
-#: source/class/feedreader/Application.js:215
+#: application/feedreader/source/class/feedreader/Application.js:215
 msgid "Remove feed"
 msgstr "Удалить канал"
 
-#: source/class/feedreader/Application.js:218
+#: application/feedreader/source/class/feedreader/Application.js:218
 msgid "Reload"
 msgstr "Перечитать"
 
-#: source/class/feedreader/Application.js:220
+#: application/feedreader/source/class/feedreader/Application.js:220
 msgid "(%1) Reload the feeds."
 msgstr "{%1) Перечитать все каналы."
 
-#: source/class/feedreader/Application.js:224
-#: source/class/feedreader/Application.js:426
+#: application/feedreader/source/class/feedreader/Application.js:224
+#: application/feedreader/source/class/feedreader/Application.js:426
 msgid "Preferences"
 msgstr ""
 
-#: source/class/feedreader/Application.js:226
+#: application/feedreader/source/class/feedreader/Application.js:226
 msgid "Open preferences window."
 msgstr ""
 
-#: source/class/feedreader/Application.js:234
-#: source/class/feedreader/Application.js:236
+#: application/feedreader/source/class/feedreader/Application.js:234
+#: application/feedreader/source/class/feedreader/Application.js:236
 msgid "English"
 msgstr "Английский"
 
-#: source/class/feedreader/Application.js:235
+#: application/feedreader/source/class/feedreader/Application.js:235
 msgid "German"
 msgstr "Немецкий"
 
-#: source/class/feedreader/Application.js:237
+#: application/feedreader/source/class/feedreader/Application.js:237
 msgid "Turkish"
 msgstr ""
 
-#: source/class/feedreader/Application.js:238
+#: application/feedreader/source/class/feedreader/Application.js:238
 msgid "Italian"
 msgstr ""
 
-#: source/class/feedreader/Application.js:239
+#: application/feedreader/source/class/feedreader/Application.js:239
 msgid "Spanish"
 msgstr ""
 
-#: source/class/feedreader/Application.js:240
+#: application/feedreader/source/class/feedreader/Application.js:240
 msgid "Swedish"
 msgstr ""
 
-#: source/class/feedreader/Application.js:241
+#: application/feedreader/source/class/feedreader/Application.js:241
 msgid "Russian"
 msgstr ""
 
-#: source/class/feedreader/Application.js:271
+#: application/feedreader/source/class/feedreader/Application.js:271
 msgid "Help"
 msgstr "Помощь"
 
-#: source/class/feedreader/Application.js:279
+#: application/feedreader/source/class/feedreader/Application.js:279
 msgid "News feeds"
 msgstr "Новостные каналы"
 
-#: source/class/feedreader/Application.js:313
+#: application/feedreader/source/class/feedreader/Application.js:313
 msgid "Subject"
 msgstr "Тема"
 
-#: source/class/feedreader/Application.js:314
+#: application/feedreader/source/class/feedreader/Application.js:314
 msgid "Sender"
 msgstr "Отправитель"
 
-#: source/class/feedreader/Application.js:315
+#: application/feedreader/source/class/feedreader/Application.js:315
 msgid "Date"
 msgstr "Дата"
 
-#: source/class/feedreader/Application.js:316
+#: application/feedreader/source/class/feedreader/Application.js:316
 msgid "ID"
 msgstr ""
 
-#: source/class/feedreader/Application.js:445
+#: application/feedreader/source/class/feedreader/Application.js:445
 msgid "Theme"
 msgstr ""
 
-#: source/class/feedreader/Application.js:470
+#: application/feedreader/source/class/feedreader/Application.js:470
 msgid "Cancel"
 msgstr ""
 
-#: source/class/feedreader/Application.js:472
+#: application/feedreader/source/class/feedreader/Application.js:472
 msgid "OK"
 msgstr ""
 
-#: source/class/feedreader/ArticleView.js:136
+#: application/feedreader/source/class/feedreader/ArticleView.js:136
 msgid "read more ..."
 msgstr "далее..."
