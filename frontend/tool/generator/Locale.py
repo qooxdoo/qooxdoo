@@ -64,16 +64,16 @@ class Locale:
 
 
     def updatePoFiles(self, namespace, content):
-        self._console.debug("Generating pot file...")
+        self._console.debug("Compiling filter...")
         pot = self.getPotFile(content)
         pot.sort()
 
-        self._console.debug("Process po files...")
+        self._console.debug("Updating translations...")
         self._console.indent()
 
         files = self._translation[namespace]
         for name in files:
-            self._console.debug("Updating: %s" % name)
+            self._console.debug("Processing: %s" % name)
 
             entry = files[name]
             po = polib.pofile(entry["path"])
@@ -183,6 +183,9 @@ class Locale:
     def getPackageStrings(self, content, variants):
         """ combines data from multiple classes into one map """
 
+        self._console.debug("Collecting package strings...")
+        self._console.indent()
+        
         result = {}
         for classId in content:
             strings = self.getStrings(classId, variants)
@@ -204,12 +207,13 @@ class Locale:
                         target["hint"] = source["hint"]
 
                 target["occurrences"].append({
-                    "file" : classId,
+                    "file" : self._classes[classId]["path"],
                     "line" : source["line"],
                     "column" : source["column"]
                 })
 
         self._console.debug("Package contains %s unique strings" % len(result))
+        self._console.outdent()
         return result
 
 

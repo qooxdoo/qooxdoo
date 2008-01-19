@@ -239,23 +239,23 @@ class Generator:
 
     def runUpdateTranslation(self):
         namespaces = self._config.get("translation/update")
-
         if not namespaces:
             return
 
         self._console.info("Updating translation files")
         self._console.indent()
 
+        # Collect all classes which are in the given namespaces
         content = []
         for namespace in namespaces:
-            self._console.debug("Updating: %s" % namespace)
-
             classes = self._classes
             for classId in classes:
                 if classes[classId]["namespace"] == namespace:
                     content.append(classId)
-
+                    
+        # Send the generated list to the locale implementation
         self._locale.updatePoFiles(namespace, content)
+        
         self._console.outdent()
 
 
