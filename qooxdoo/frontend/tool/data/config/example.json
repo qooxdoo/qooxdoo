@@ -1,0 +1,239 @@
+{
+  "common" :
+  {
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path" : "framework/source",
+        "uri" : "../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "application/apiviewer/source",
+        "uri" : "../source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "application/feedreader/source",
+        "uri" : "../source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "application/webmail/source",
+        "uri" : "../source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "application/showcase/source",
+        "uri" : "../source"
+      }
+    ],
+
+    "require" :
+    {
+      "qx.log.Logger" : ["qx.log.appender.Native"]
+    },
+
+    "cache" :
+    {
+      "path" : "cache2"
+    }
+  },
+
+
+
+
+
+
+  "source-all" :
+  {
+    "extend" : ["common"],
+
+    "source" :
+    {
+      "file" : "source-all.js"
+    }
+  },
+
+  "compile-all" :
+  {
+    "extend" : ["common"],
+
+    "compile" :
+    {
+      "file" : "build-all.js"
+    }
+  },
+
+  "localize-all" :
+  {
+    "extend" : ["common"],
+
+    "localize" :
+    {
+      "locales" : ["de","en","fr"]
+    }
+  },
+
+
+
+
+
+
+
+  "api-feedreader" :
+  {
+    "extend" : ["common"],
+    "include" : ["feedreader.Application"],
+
+    "api" :
+    {
+      "path" : "application/apiviewer/source/script"
+    }
+  },
+
+  "source-feedreader" :
+  {
+    "extend" : ["common"],
+    "include" : ["feedreader.*", "qx.theme.Ext"],
+
+    "settings" :
+    {
+      "qx.application" : "feedreader.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
+    "source" :
+    {
+      "file" : "feedreader-source.js",
+      "gzip" : "true"
+    },
+
+    "localize" :
+    {
+      "locales" : ["en", "de", "es", "it"]
+    }
+  },
+
+  "source-feedreader-parts" :
+  {
+    "extend" : ["source-feedreader"],
+
+    "packages" :
+    {
+      "size" : 5,
+
+      "parts" :
+      {
+        "core" : ["feedreader.Application"],
+        "table" : ["feedreader.view.Table"],
+        "tree" : ["feedreader.view.Tree"]
+      }
+    },
+
+    "localize" :
+    {
+      "locales" : ["en", "de", "es", "it"]
+    }
+  },
+
+  "compile-feedreader" :
+  {
+    "extend" : ["common"],
+    "include" : ["feedreader.*", "qx.theme.Ext"],
+
+    "settings" :
+    {
+      "qx.application" : "feedreader.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
+    "compile" :
+    {
+      "file" : "feedreader-build.js",
+      "gzip" : "true",
+      "optimize" : [ "variables", "basecalls" ]
+    }
+  },
+
+  "compile-feedreader-parts" :
+  {
+    "extend" : ["compile-feedreader"],
+
+    "packages" :
+    {
+      "size" : 5,
+
+      "parts" :
+      {
+        "core" : ["feedreader.Application"],
+        "table" : ["feedreader.view.Table"],
+        "tree" : ["feedreader.view.Tree"]
+      }
+    }
+  },
+
+
+
+
+
+
+  "api-apiviewer" :
+  {
+    "extend" : ["common"],
+    "include" : ["apiviewer.Application"],
+
+    "api" :
+    {
+      "path" : "application/apiviewer/source/script"
+    }
+  },
+
+  "source-apiviewer" :
+  {
+    "extend" :["common"],
+    "include" : ["apiviewer.Application", "qx.theme.ClassicRoyale"],
+
+    "settings" :
+    {
+      "qx.theme" : "qx.theme.ClassicRoyale",
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "../../../framework/source/resource",
+      "apiviewer.title" : "API Viewer (g2)"
+    },
+
+    "source" :
+    {
+      "file" : "application/apiviewer/source/script/apiviewer.js"
+    }
+  },
+  
+  "compile-apiviewer" :
+  {
+    "extend" :["common"],
+    "include" : ["apiviewer.Application", "qx.theme.ClassicRoyale"],
+
+    "settings" :
+    {
+      "qx.theme" : "qx.theme.ClassicRoyale",
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "../../../framework/source/resource",
+      "apiviewer.title" : "API Viewer (g2)"
+    },
+
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "application/apiviewer/build/script/apiviewer.js"
+    }
+  }  
+}
