@@ -238,7 +238,7 @@ class Generator:
 
 
     def runUpdateTranslation(self):
-        namespaces = self._config.get("localize/update")
+        namespaces = self._config.get("translation/update")
 
         if not namespaces:
             return
