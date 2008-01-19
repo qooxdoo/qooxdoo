@@ -19,9 +19,11 @@
 #
 ################################################################################
 
-import re, os, sys, zlib
+import re, os, sys, zlib, optparse
 
 from misc import filetool, textutil, idlist
+from ecmascript import treegenerator, tokenizer, compiler
+from ecmascript.optimizer import variableoptimizer
 from generator.ApiLoader import ApiLoader
 from generator.Cache import Cache
 from generator.DependencyLoader import DependencyLoader
@@ -373,7 +375,7 @@ class Generator:
 
         # Read in settings
         settings = self.getSettings()
-
+        
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
@@ -495,7 +497,7 @@ class Generator:
         uriData = "[" + ",\n".join(allUris) + "]"
 
         # Locate and load loader basic script
-        loaderFile = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "loader.js")
+        loaderFile = os.path.join(filetool.root(), "data", "generator", "loader.js")
         result = filetool.read(loaderFile)
 
         # Replace template with computed data
@@ -528,7 +530,7 @@ class Generator:
         uriData = "[" + ",\n".join(allUris) + "]"
 
         # Locate and load loader basic script
-        loaderFile = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "loader.js")
+        loaderFile = os.path.join(filetool.root(), "data", "generator", "loader.js")
         result = filetool.read(loaderFile)
 
         # Replace template with computed data
