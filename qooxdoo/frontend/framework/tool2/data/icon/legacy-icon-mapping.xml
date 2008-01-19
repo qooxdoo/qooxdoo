@@ -1,0 +1,1222 @@
+<?xml version="1.0" standalone="yes" ?>
+<!DOCTYPE mapping SYSTEM "legacy-icon-mapping.dtd">
+
+<mapping>
+    <context dir="actions">
+	<icon name="address-book-new">
+	    <link>stock_new-address-book</link>
+	</icon>
+	<icon name="application-exit">
+	    <link>gtk-quit</link>
+	    <link>exit</link>
+	    <link>xfce-system-exit</link>
+	</icon>
+	<icon name="appointment-new">
+	    <link>stock_new-appointment</link>
+	    <link>appointment</link>
+	</icon>
+	<icon name="bookmark-new">
+	    <link>stock_add-bookmark</link>
+	    <link>stock_help-add-bookmark</link>
+	    <link>bookmark_add</link>
+	    <link>bookmarks_list_add</link>
+	</icon>
+	<icon name="contact-new">
+	    <link>stock_new-bcard</link>
+	</icon>
+	<icon name="dialog-cancel">
+	    <link>gtk-cancel</link>
+	    <link>button_cancel</link>
+	    <link>cancel</link>
+	</icon>
+	<icon name="document-new">
+	    <link>gtk-new</link>
+	    <link>stock_new-text</link>
+	    <link>filenew</link>
+	</icon>
+	<icon name="document-open">
+	    <link>gtk-open</link>
+	    <link>fileopen</link>
+	</icon>
+	<icon name="document-page-setup">
+	    <link>stock_print-setup</link>
+	</icon>
+	<icon name="document-print">
+	    <link>gtk-print</link>
+	    <link>stock_print</link>
+	    <link>fileprint</link>
+	</icon>
+	<icon name="document-print-preview">
+	    <link>gtk-print-preview</link>
+	    <link>stock_print-preview</link>
+	    <link>filequickprint</link>
+	</icon>
+	<icon name="document-properties">
+	    <link>gtk-properties</link>
+	    <link>stock_properties</link>
+	    <link>stock_file-properites</link>
+	</icon>
+	<icon name="document-revert">
+	    <link>gtk-revert-to-saved-ltr</link>
+	    <link>gtk-revert-to-saved-rtl</link>
+	    <link>revert</link>
+	</icon>
+	<icon name="document-save">
+	    <link>gtk-save</link>
+	    <link>stock_save</link>
+	    <link>filesave</link>
+	</icon>
+	<icon name="document-save-as">
+	    <link>gtk-save-as</link>
+	    <link>stock_save-as</link>
+	    <link>filesaveas</link>
+	</icon>
+	<icon name="edit-clear">
+	    <link>gtk-clear</link>
+	    <link>editclear</link>
+	</icon>
+	<icon name="edit-copy">
+	    <link>gtk-copy</link>
+	    <link>stock_copy</link>
+	    <link>editcopy</link>
+	</icon>
+	<icon name="edit-cut">
+	    <link>gtk-cut</link>
+	    <link>stock_cut</link>
+	    <link>editcut</link>
+	</icon>
+	<icon name="edit-delete">
+	    <link>gtk-delete</link>
+	    <link>stock_delete</link>
+	    <link>editdelete</link>
+	</icon>
+	<icon name="edit-find">
+	    <link>gtk-find</link>
+	    <link>stock_search</link>
+	    <link>filefind</link>
+	    <link>find</link>
+	</icon>
+	<icon name="edit-find-replace">
+	    <link>gtk-find-and-replace</link>
+	    <link>stock_search-and-replace</link>
+	</icon>
+	<icon name="edit-paste">
+	    <link>gtk-paste</link>
+	    <link>stock_paste</link>
+	    <link>editpaste</link>
+	</icon>
+	<icon name="edit-redo">
+	    <link>gtk-redo-ltr</link>
+	    <link>stock_redo</link>
+	    <link>redo</link>
+	</icon>
+	<icon name="edit-select-all">
+	    <link>gtk-select-all</link>
+	    <link>stock_select-all</link>
+	</icon>
+	<icon name="edit-undo">
+	    <link>gtk-undo-ltr</link>
+	    <link>stock_undo</link>
+	    <link>undo</link>
+	</icon>
+	<icon name="folder-new">
+	    <link>stock_new-dir</link>
+	    <link>folder_new</link>
+	</icon>
+	<icon name="format-indent-less">
+	    <link>gtk-indent-rtl</link>
+	    <link>gtk-unindent-ltr</link>
+	    <link>stock_text_unindent</link>
+	    <link>gnome-stock-text-unindent</link>
+	</icon>
+	<icon name="format-indent-more">
+	    <link>gtk-indent-ltr</link>
+	    <link>gtk-unindent-rtl</link>
+	    <link>stock_text_indent</link>
+	    <link>gnome-stock-text-indent</link>
+	</icon>
+	<icon name="format-justify-center">
+	    <link>gtk-justify-center</link>
+	    <link>stock_text_center</link>
+	    <link>centrejust</link>
+	</icon>
+	<icon name="format-justify-fill">
+	    <link>gtk-justify-fill</link>
+	    <link>stock_text_justify</link>
+	</icon>
+	<icon name="format-justify-left">
+	    <link>gtk-justify-left</link>
+	    <link>stock_text_left</link>
+	    <link>leftjust</link>
+	</icon>
+	<icon name="format-justify-right">
+	    <link>gtk-justify-right</link>
+	    <link>stock_text_right</link>
+	    <link>rightjust</link>
+	</icon>
+	<icon name="format-text-bold">
+	    <link>gtk-bold</link>
+	    <link>stock_text_bold</link>
+	    <link>text_bold</link>
+	</icon>
+	<icon name="format-text-italic">
+	    <link>gtk-italic</link>
+	    <link>stock_text_italic</link>
+	    <link>text_italic</link>
+	</icon>
+	<icon name="format-text-strikethrough">
+	    <link>gtk-strikethrough</link>
+	    <link>stock_text-strikethrough</link>
+	    <link>text_strike</link>
+	</icon>
+	<icon name="format-text-underline">
+	    <link>gtk-underline</link>
+	    <link>stock_text_underlined</link>
+	    <link>text_under</link>
+	</icon>
+	<icon name="go-bottom">
+	    <link>gtk-goto-bottom</link>
+	    <link>stock_bottom</link>
+	    <link>bottom</link>
+	</icon>
+	<icon name="go-down">
+	    <link>gtk-go-down</link>
+	    <link>stock_down</link>
+	    <link>down</link>
+	</icon>
+	<icon name="go-first">
+	    <link>gtk-goto-first-ltr</link>
+	    <link>gtk-goto-last-rtl</link>
+	    <link>stock_first</link>
+	    <link>start</link>
+	</icon>
+	<icon name="go-home">
+	    <link>gtk-home</link>
+	    <link>stock_home</link>
+	    <link>gohome</link>
+	    <link>kfm_home</link>
+	    <link>redhat-home</link>
+	</icon>
+	<icon name="go-jump">
+	    <link>gtk-jump-to-ltr</link>
+	    <link>gtk-jump-to-rtl</link>
+	</icon>
+	<icon name="go-last">
+	    <link>gtk-goto-last-ltr</link>
+	    <link>gtk-goto-first-rtl</link>
+	    <link>stock_last</link>
+	    <link>finish</link>
+	</icon>
+	<icon name="go-next">
+	    <link>gtk-go-forward-ltr</link>
+	    <link>gtk-go-back-rtl</link>
+	    <link>stock_right</link>
+	    <link>forward</link>
+	    <link>next</link>
+	</icon>
+	<icon name="go-previous">
+	    <link>gtk-go-back-ltr</link>
+	    <link>gtk-go-forward-rtl</link>
+	    <link>stock_left</link>
+	    <link>back</link>
+	    <link>previous</link>
+	</icon>
+	<icon name="go-top">
+	    <link>gtk-goto-top</link>
+	    <link>stock_top</link>
+	    <link>top</link>
+	</icon>
+	<icon name="go-up">
+	    <link>gtk-go-up</link>
+	    <link>stock_up</link>
+	    <link>up</link>
+	</icon>
+	<icon name="help-about">
+	    <link>gtk-about</link>
+	    <link>stock_about</link>
+	</icon>
+	<icon name="list-add">
+	    <link>gtk-add</link>
+	    <link>add</link>
+	</icon>
+	<icon name="list-remove">
+	    <link>gtk-remove</link>
+	    <link>remove</link>
+	</icon>
+	<icon name="mail-forward">
+	    <link>gnome-stock-mail-fwd</link>
+	    <link>stock_mail-forward</link>
+	    <link>mail_forward</link>
+	</icon>
+	<icon name="mail-mark-junk">
+	    <link>stock_spam</link>
+	    <link>mail_spam</link>
+	</icon>
+	<icon name="mail-mark-not-junk">
+	    <link>stock_not-spam</link>
+	</icon>
+	<icon name="mail-message-new">
+	    <link>stock_mail-compose</link>
+	    <link>gnome-stock-mail-new</link>
+	    <link>mail_new</link>
+	</icon>
+	<icon name="mail-reply-all">
+	    <link>stock_mail-reply-to-all</link>
+	    <link>mail_replyall</link>
+	</icon>
+	<icon name="mail-reply-sender">
+	    <link>gnome-stock-mail-rpl</link>
+	    <link>stock_mail-reply</link>
+	    <link>mail_reply</link>
+	</icon>
+	<icon name="mail-send">
+	    <link>gnome-stock-mail-snd</link>
+	    <link>stock_mail-send</link>
+	    <link>mail_send</link>
+	</icon>
+	<icon name="mail-send-receive">
+	    <link>stock_mail-send-receive</link>
+	</icon>
+	<icon name="media-eject">
+	    <link>player_eject</link>
+	</icon>
+	<icon name="media-playback-pause">
+	    <link>gtk-media-pause</link>
+	    <link>stock_media-pause</link>
+	    <link>player_pause</link>
+	</icon>
+	<icon name="media-playback-start">
+	    <link>gtk-media-play-ltr</link>
+	    <link>stock_media-play</link>
+	    <link>player_play</link>
+	</icon>
+	<icon name="media-playback-stop">
+	    <link>gtk-media-stop</link>
+	    <link>stock_media-stop</link>
+	    <link>player_stop</link>
+	</icon>
+	<icon name="media-record">
+	    <link>gtk-media-record</link>
+	    <link>stock_media-rec</link>
+	    <link>player_record</link>
+	</icon>
+	<icon name="media-seek-backward">
+	    <link>gtk-media-rewind-ltr</link>
+	    <link>gtk-media-forward-rtl</link>
+	    <link>stock_media-rew</link>
+	    <link>player_rew</link>
+	</icon>
+	<icon name="media-seek-forward">
+	    <link>gtk-media-forward-ltr</link>
+	    <link>gtk-media-rewind-rtl</link>
+	    <link>stock_media-fwd</link>
+	    <link>player_fwd</link>
+	</icon>
+	<icon name="media-skip-backward">
+	    <link>gtk-media-previous-ltr</link>
+	    <link>gtk-media-next-rtl</link>
+	    <link>stock_media-prev</link>
+	    <link>player_start</link>
+	</icon>
+	<icon name="media-skip-forward">
+	    <link>gtk-media-next-ltr</link>
+	    <link>gtk-media-previous-rtl</link>
+	    <link>stock_media-next</link>
+	    <link>player_end</link>
+	</icon>
+	<icon name="process-stop">
+	    <link>gtk-cancel</link>
+	    <link>gtk-stop</link>
+	    <link>stock_stop</link>
+	    <link>stop</link>
+	</icon>
+	<icon name="system-lock-screen">
+	    <link>gnome-lockscreen</link>
+	    <link>lock</link>
+	    <link>xfce-system-lock</link>
+	</icon>
+	<icon name="system-log-out">
+	    <link>gnome-logout</link>
+	    <link>exit</link>
+	</icon>
+	<icon name="system-run">
+	    <link>gnome-run</link>
+	    <link>gtk-execute</link>
+	</icon>
+	<icon name="system-search">
+	    <link>gnome-searchtool</link>
+	    <link>search</link>
+	    <link>kfind</link>
+	</icon>
+	<icon name="tab-new">
+	    <link>stock_new-tab</link>
+	    <link>tab_new</link>
+	</icon>
+	<icon name="tools-check-spelling">
+	    <link>gtk-spell-check</link>
+	    <link>stock_spellcheck</link>
+	</icon>
+	<icon name="view-fullscreen">
+	    <link>gtk-fullscreen</link>
+	    <link>stock_fullscreen</link>
+	    <link>window_fullscreen</link>
+	</icon>
+	<icon name="view-refresh">
+	    <link>gtk-refresh</link>
+	    <link>stock_refresh</link>
+	    <link>reload</link>
+	    <link>reload_all_tabs</link>
+	    <link>reload_page</link>
+	    <link>reload3</link>
+	</icon>
+	<icon name="view-restore">
+	    <link>gtk-leave-fullscreen</link>
+	    <link>stock_leave-fullscreen</link>
+	    <link>window_nofullscreen</link>
+	</icon>
+	<icon name="view-sort-ascending">
+	    <link>gtk-sort-ascending</link>
+	</icon>
+	<icon name="view-sort-descending">
+	    <link>gtk-sort-descending</link>
+	</icon>
+	<icon name="window-close">
+	    <link>gtk-close</link>
+	    <link>stock_close</link>
+	</icon>
+	<icon name="window-new">
+	    <link>stock_new-window</link>
+	    <link>window_new</link>
+	</icon>
+	<icon name="zoom-best-fit">
+	    <link>gtk-zoom-fit</link>
+	    <link>stock_zoom-page</link>
+	    <link>viewmagfit</link>
+	</icon>
+        <icon name="zoom-in">
+            <link>gtk-zoom-in</link>
+	    <link>stock_zoom-in</link>
+	    <link>viewmag+</link>
+        </icon>
+        <icon name="zoom-original">
+            <link>gtk-zoom-100</link>
+	    <link>stock_zoom-1</link>
+	    <link>viewmag1</link>
+        </icon>
+        <icon name="zoom-out">
+            <link>gtk-zoom-out</link>
+	    <link>stock_zoom-out</link>
+	    <link>viewmag-</link>
+        </icon>
+    </context>
+    <context dir="animations">
+	<icon name="process-idle">
+	    <link>gnome-spinner-rest</link>
+	</icon>
+	<icon name="process-working">
+	    <link>gnome-spinner</link>
+	</icon>
+    </context>
+    <context dir="apps">
+	<icon name="accessories-calculator">
+	    <link>gnome-calculator</link>
+	    <link>kcalc</link>
+	    <link>calc</link>
+	</icon>
+	<icon name="accessories-character-map">
+	    <link>gnome-character-map</link>
+	    <link>gucharmap</link>
+	    <link>kcharselect</link>
+	</icon>
+	<icon name="accessories-text-editor">
+	    <link>text-editor</link>
+	    <link>kedit</link>
+	</icon>
+	<icon name="help-browser">
+	    <link>khelpcenter</link>
+	    <link>susehelpcenter</link>
+	    <link>gnome-help</link>
+	    <link>gtk-help</link>
+	    <link>stock_help</link>
+	    <link>help</link>
+	</icon>
+	<icon name="internet-mail">
+	    <link>email</link>
+	    <link>mail_generic</link>
+	    <link>redhat-email</link>
+	    <link>xfce-mail</link>
+	</icon>
+	<icon name="internet-web-browser">
+	    <link>browser</link>
+	    <link>web-browser</link>
+	    <link>redhat-web-browser</link>
+	</icon>
+	<icon name="multimedia-volume-control">
+	    <link>gnome-mixer</link>
+	    <link>volume-knob</link>
+	    <link>arts</link>
+	    <link>kcmsound</link>
+	    <link>multimedia</link>
+	    <link>xfce4-mixer</link>
+	</icon>
+	<icon name="office-calendar">
+	    <link>ximian-evolution-calendar</link>
+	    <link>date</link>
+	    <link>xfcalendar</link>
+	</icon>
+	<icon name="preferences-desktop-accessibility">
+	    <link>gnome-settings-accessibility-technologies</link>
+	    <link>accessibility-directory</link>
+	    <link>access</link>
+	</icon>
+	<icon name="preferences-desktop-font">
+	    <link>gnome-settings-font</link>
+	    <link>fonts</link>
+	</icon>
+	<icon name="preferences-desktop-keyboard-shortcuts">
+	    <link>gnome-settings-keybindings</link>
+	    <link>key_bindings</link>
+	</icon>
+	<icon name="preferences-desktop-locale">
+	    <link>config-language</link>
+	    <link>locale</link>
+	</icon>
+	<icon name="preferences-desktop-remote-desktop">
+	    <link>gnome-remote-desktop</link>
+	    <link>krfb</link>
+	</icon>
+	<icon name="preferences-desktop-screensaver">
+	    <link>screensaver</link>
+	    <link>kscreensaver</link>
+	    <link>xscreensaver</link>
+	</icon>
+	<icon name="preferences-desktop-sound">
+	    <link>gnome-settings-sound</link>
+	    <link>knotify</link>
+	    <link>xfce4-sound</link>
+	</icon>
+	<icon name="preferences-desktop-theme">
+	    <link>gnome-settings-theme</link>
+	    <link>style</link>
+	</icon>
+	<icon name="preferences-desktop-wallpaper">
+	    <link>gnome-settings-background</link>
+	    <link>wallpaper</link>
+	    <link>background</link>
+	    <link>xfce4-backdrop</link>
+	</icon>
+	<icon name="preferences-system-network-proxy">
+	    <link>stock_proxy</link>
+	    <link>proxy-config</link>
+	    <link>proxy</link>
+	</icon>
+	<icon name="preferences-system-session">
+	    <link>gnome-session</link>
+	    <link>xfce4-session</link>
+	</icon>
+	<icon name="preferences-system-windows">
+	    <link>gnome-window-manager</link>
+	    <link>kcmkwm</link>
+	    <link>kwin</link>
+	    <link>xfwm4</link>
+	</icon>
+	<icon name="system-file-manager">
+	    <link>file-manager</link>
+	    <link>kfm</link>
+	    <link>redhat-filemanager</link>
+	    <link>xfce-filemanager</link>
+	</icon>
+	<icon name="system-software-update">
+	    <link>update-manager</link>
+	    <link>zen-icon</link>
+	</icon>
+	<icon name="system-users">
+	    <link>kuser</link>
+	    <link>config-users</link>
+	    <link>system-config-users</link>
+	</icon>
+	<icon name="utilities-system-monitor">
+	    <link>gnome-monitor</link>
+	    <link>ksysguard</link>
+	</icon>
+	<icon name="utilities-terminal">
+	    <link>gnome-terminal</link>
+	    <link>konsole</link>
+	    <link>openterm</link>
+	    <link>terminal</link>
+	    <link>xfce-terminal</link>
+	</icon>
+    </context>
+    <context dir="categories">
+	<icon name="applications-accessories">
+	    <link>gnome-util</link>
+	    <link>package_utilities</link>
+	    <link>redhat-accessories</link>
+	    <link>xfce-utils</link> 
+	</icon>
+	<icon name="applications-development">
+	    <link>gnome-devel</link>
+	    <link>package_development</link>
+	    <link>redhat-programming</link>
+	</icon>
+	<icon name="applications-games">
+	    <link>gnome-joystick</link>
+	    <link>package_games</link>
+	    <link>redhat-games</link>
+	    <link>xfce-games</link>
+	</icon>
+	<icon name="applications-graphics">
+	    <link>gnome-graphics</link>
+	    <link>package_graphics</link>
+	    <link>redhat-graphics</link>
+	    <link>xfce-graphics</link>
+	</icon>
+	<icon name="applications-internet">
+	    <link>gnome-globe</link>
+	    <link>stock_internet</link>
+	    <link>package_network</link>
+	    <link>redhat-internet</link>
+	    <link>xfce-internet</link>
+	</icon>
+	<icon name="applications-multimedia">
+	    <link>gnome-multimedia</link>
+	    <link>package_multimedia</link>
+	    <link>redhat-sound_video</link>
+	    <link>xfce-multimedia</link>
+	</icon>
+	<icon name="applications-office">
+	    <link>gnome-applications</link>
+	    <link>package_office</link>
+	    <link>redhat-office</link>
+	    <link>xfce-office</link>
+	</icon>
+	<icon name="applications-other">
+	    <link>gnome-other</link>
+	</icon>
+	<icon name="applications-system">
+	    <link>gnome-system</link>
+	    <link>package_system</link>
+	    <link>redhat-system_tools</link>
+	</icon>
+	<icon name="applications-utilities">
+	    <link>package_utilities</link>
+	</icon>
+	<icon name="preferences-desktop">
+	    <link>gnome-control-center</link>
+	    <link>gnome-settings</link>
+	    <link>gtk-preferences</link>
+	    <link>redhat-preferences</link>
+	    <link>kcontrol</link>
+	    <link>xfce4-settings</link>
+	</icon>
+	<icon name="preferences-desktop-peripherals">
+	    <link>input_devices_settings</link>
+	</icon>
+	<icon name="preferences-system">
+	    <link>package_settings</link>
+	    <link>redhat-system_settings</link>
+	    <link>xfce-system-settings</link>
+	</icon>
+    </context>
+    <context dir="devices">
+	<icon name="audio-card">
+	    <link>yast_soundcard</link>
+	</icon>
+	<icon name="audio-input-microphone">
+	    <link>stock_mic</link>
+	    <link>gnome-stock-mic</link>
+	</icon>
+	<icon name="battery">
+	    <link>gnome-dev-battery</link>
+	</icon>
+	<icon name="camera-photo">
+	    <link>camera</link>
+	    <link>camera_unmount</link>
+	</icon>
+	<icon name="computer">
+	    <link>gnome-dev-computer</link>
+	    <link>gnome-fs-client</link>
+	    <link>system</link>
+	</icon>
+	<icon name="drive-harddisk">
+	    <link>gtk-harddisk</link>
+	    <link>gnome-dev-harddisk</link>
+	    <link>gnome-dev-harddisk-usb</link>
+	    <link>gnome-dev-harddisk-1394</link>
+	    <link>harddrive</link>
+	    <link>hdd_unmount</link>
+	    <link>yast_HD</link>
+	    <link>yast_idetude</link>
+	</icon>
+	<icon name="drive-optical">
+	    <link>drive-cdrom</link>
+	    <link>gnome-dev-cdrom</link>
+	    <link>gnome-dev-dvd</link>
+	</icon>
+	<icon name="drive-removable-media">
+	    <link>gnome-dev-removable</link>
+	    <link>gnome-dev-removable-usb</link>
+	    <link>gnome-dev-removable-1394</link>
+	    <link>usbpendrive_unmount</link>
+	</icon>
+	<icon name="input-gaming">
+	    <link>joystick</link>
+	    <link>yast_joystick</link>
+	</icon>
+	<icon name="input-keyboard">
+	    <link>gnome-dev-keyboard</link>
+	    <link>keyboard</link>
+	    <link>kxkb</link>
+	    <link>xfce4-keyboard</link>
+	</icon>
+	<icon name="input-mouse">
+	    <link>gnome-dev-mouse-ball</link>
+	    <link>gnome-dev-mouse-optical</link>
+	    <link>mouse</link>
+	    <link>yast_mouse</link>
+	    <link>xfce4-mouse</link>
+	</icon>
+	<icon name="media-flash">
+	    <link>gnome-dev-media-cf</link>
+	    <link>gnome-dev-media-ms</link>
+	    <link>gnome-dev-media-sdmmc</link>
+	    <link>gnome-dev-media-sm</link>
+	</icon>
+	<icon name="media-floppy">
+	    <link>gnome-dev-floppy</link>
+	    <link>gtk-floppy</link>
+	    <link>system-floppy</link>
+	    <link>3floppy_unmount</link>
+	</icon>
+	<icon name="media-jaz">
+	    <link>gnome-dev-jazdisk</link>
+	</icon>
+	<icon name="media-optical">
+	    <link>media-cdrom</link>
+	    <link>gtk-cdrom</link>
+	    <link>gnome-dev-cdrom-audio</link>
+	    <link>gnome-dev-disc-cdr</link>
+	    <link>gnome-dev-disc-cdrw</link>
+	    <link>gnome-dev-disc-dvdr</link>
+	    <link>gnome-dev-disc-dvdr-plus</link>
+	    <link>gnome-dev-disc-dvdram</link>
+	    <link>gnome-dev-disc-dvdrom</link>
+	    <link>gnome-dev-disc-dvdrw</link>
+	    <link>cdrom_unmount</link>
+	    <link>cdwriter_unmount</link>
+	    <link>dvd_unmount</link>
+	</icon>
+	<icon name="media-zip">
+	    <link>gnome-dev-zipdisk</link>
+	</icon>
+	<icon name="modem">
+	    <link>gnome-modem</link>
+	</icon>
+	<icon name="multimedia-player">
+	    <link>gnome-dev-ipod</link>
+	    <link>ipod_mount</link>
+	</icon>
+	<icon name="network-wired">
+	    <link>gnome-dev-ethernet</link>
+	</icon>
+	<icon name="network-wireless">
+	    <link>gnome-dev-wavelan</link>
+	</icon>
+	<icon name="phone">
+	    <link>stock_cell-phone</link>
+	</icon>
+	<icon name="printer">
+	    <link>gnome-dev-printer</link>
+	    <link>printer-remote</link>
+	    <link>stock_printers</link>
+	    <link>yast_printer</link>
+	    <link>printer1</link>
+	    <link>printmgr</link>
+	    <link>kjobviewer</link>
+	    <link>xfce-printer</link>
+	</icon>
+	<icon name="video-display">
+	    <link>chardevice</link>
+	    <link>display</link>
+	    <link>xfce4-display</link>
+	</icon>
+    </context>
+    <context dir="emblems">
+	<icon name="emblem-important">
+	    <link>stock_mail-priority-high</link>
+	</icon>
+	<icon name="emblem-readonly">
+	    <link>emblem-nowrite</link>
+	</icon>
+	<icon name="emblem-unreadable">
+	    <link>emblem-noread</link>
+	</icon>
+    </context>
+    <context dir="emotes">
+	<icon name="face-angel">
+	    <link>stock_smiley-18</link>
+	</icon>
+	<icon name="face-cool">
+	    <link>stock_smiley-15</link>
+	</icon>
+	<icon name="face-crying">
+	    <link>stock_smiley-11</link>
+	</icon>
+	<icon name="face-embarassed">
+	    <link>stock_smiley-12</link>
+	</icon>
+	<icon name="face-kiss">
+	    <link>stock_smiley-13</link>
+	</icon>
+	<icon name="face-monkey">
+	    <link>stock_smiley-22</link>
+	</icon>
+	<icon name="face-plain">
+	    <link>stock_smiley-8</link>
+	</icon>
+	<icon name="face-raspberry">
+	    <link>stock_smiley-10</link>
+	</icon>
+	<icon name="face-sad">
+	    <link>stock_smiley-4</link>
+	</icon>
+	<icon name="face-smile">
+	    <link>stock_smiley-1</link>
+	    <link>stock_smiley-2</link>
+	    <link>stock_smiley-7</link>
+	</icon>
+	<icon name="face-smile-big">
+	    <link>stock_smiley-6</link>
+	</icon>
+	<icon name="face-surprise">
+	    <link>stock_smiley-5</link>
+	</icon>
+	<icon name="face-wink">
+	    <link>stock_smiley-3</link>
+	</icon>
+    </context>
+    <context dir="mimetypes">
+	<icon name="application-certificate">
+	    <link>stock_certificate</link>
+	</icon>
+	<icon name="application-x-executable">
+	    <link>gnome-fs-executable</link>
+	    <link>gnome-mime-application-x-executable</link>
+	    <link>gnome-mime-application-x-ms-dos-executable</link>
+	    <link>binary</link>
+	    <link>exec</link>
+	</icon>
+	<icon name="audio-x-generic">
+	    <link>gnome-mime-audio</link>
+	    <link>gnome-mime-application-ogg</link>
+	    <link>sound</link>
+	</icon>
+	<icon name="font-x-generic">
+	    <link>gnome-mime-application-x-font-afm</link>
+	    <link>gnome-mime-application-x-font-bdf</link>
+	    <link>gnome-mime-application-x-font-linux-psf</link>
+	    <link>gnome-mime-application-x-font-pcf</link>
+	    <link>gnome-mime-application-x-font-sunos-news</link>
+	    <link>gnome-mime-application-x-font-ttf</link>
+	    <link>gnome-mime-x-font-afm</link>
+	    <link>font</link>
+	    <link>font_bitmap</link>
+	    <link>font_truetype</link>
+	    <link>font_type1</link>
+	</icon>
+	<icon name="image-x-generic">
+	    <link>gnome-mime-image</link>
+	    <link>gnome-mime-application-x-killustrator</link>
+	    <link>image</link>
+	</icon>
+	<icon name="package-x-generic">
+	    <link>gnome-package</link>
+	    <link>gnome-mime-application-zip</link>
+	    <link>gnome-mime-application-x-archive</link>
+	    <link>gnome-mime-application-x-arj</link>
+	    <link>gnome-mime-application-x-bzip</link>
+	    <link>gnome-mime-application-x-bzip-compressed-tar</link>
+	    <link>gnome-mime-application-x-compress</link>
+	    <link>gnome-mime-application-x-compressed-tar</link>
+	    <link>gnome-mime-application-x-cpio</link>
+	    <link>gnome-mime-application-x-cpio-compressed</link>
+	    <link>gnome-mime-application-x-deb</link>
+	    <link>gnome-mime-application-x-gzip</link>
+	    <link>gnome-mime-application-x-jar</link>
+	    <link>gnome-mime-application-x-lha</link>
+	    <link>gnome-mime-application-x-lhz</link>
+	    <link>gnome-mime-application-x-rar</link>
+	    <link>gnome-mime-application-x-rpm</link>
+	    <link>gnome-mime-application-x-stuffit</link>
+	    <link>gnome-mime-application-x-tar</link>
+	    <link>gnome-mime-application-x-tarz</link>
+	    <link>gnome-mime-application-x-7z-compressed</link>
+	    <link>folder_tar</link>
+	    <link>package</link>
+	    <link>deb</link>
+	    <link>rpm</link>
+	    <link>tar</link>
+	    <link>tgz</link>
+	    <link>zip</link>
+	</icon>
+	<icon name="text-html">
+	    <link>gnome-mime-text-html</link>
+	    <link>gnome-mime-text-vnd.wap.wml</link>
+	    <link>gnome-mime-application-vnd.oasis.opendocument.text-web</link>
+	    <link>gnome-mime-application-x-php</link>
+	    <link>gnome-mime-application-xhtml+xml</link>
+	    <link>html</link>
+	    <link>www</link>
+	</icon>
+	<icon name="text-x-generic">
+	    <link>gnome-mime-text</link>
+	    <link>ascii</link>
+	    <link>empty</link>
+	    <link>mime_ascii</link>
+	    <link>misc</link>
+	    <link>txt</link>
+	    <link>txt2</link>
+	    <link>unknown</link>
+	    <link>package_editors</link>
+	</icon>
+	<icon name="text-x-preview">
+	    <link>gnome-fs-regular</link>
+	    <link>gtk-file</link>
+	</icon>
+	<icon name="text-x-generic-template">
+	    <link>template_source</link>
+	</icon>
+	<icon name="text-x-script">
+	    <link>gnome-mime-application-x-perl</link>
+	    <link>gnome-mime-application-x-python-bytecode</link>
+	    <link>gnome-mime-application-x-shellscript</link>
+	    <link>gnome-mime-text-x-csh</link>
+	    <link>gnome-mime-text-x-python</link>
+	    <link>gnome-mime-text-x-sh</link>
+	    <link>gnome-mime-text-x-zsh</link>
+	    <link>stock_script</link>
+	    <link>shellscript</link>
+	</icon>
+	<icon name="video-x-generic">
+	    <link>gnome-mime-application-x-shockwave-flash</link>
+	    <link>gnome-mime-application-vnd.rn-realmedia</link>
+	    <link>gnome-mime-application-vnd.rn-realmedia-secure</link>
+	    <link>gnome-mime-application-vnd.rn-realmedia-vbr</link>
+	    <link>gnome-mime-video</link>
+	    <link>video</link>
+	</icon>
+	<icon name="x-office-address-book">
+	    <link>gnome-mime-text-x-vcard</link>
+	    <link>stock_addressbook</link>
+	    <link>contents2</link>
+	    <link>vcard</link>
+	</icon>
+	<icon name="x-office-calendar">
+	    <link>gnome-mime-text-x-vcalendar</link>
+	    <link>stock_calendar</link>
+	    <link>plan</link>
+	    <link>vcalendar</link>
+	</icon>
+	<icon name="x-office-document">
+	    <link>gnome-mime-application-msword</link>
+	    <link>gnome-mime-application-pdf</link>
+	    <link>gnome-mime-application-postscript</link>
+	    <link>gnome-mime-application-rtf</link>
+	    <link>gnome-mime-application-vnd.oasis.opendocument.text</link>
+	    <link>gnome-mime-application-vnd.stardivision.writer</link>
+	    <link>gnome-mime-application-vnd.sun.xml.writer</link>
+	    <link>gnome-mime-application-wordperfect</link>
+	    <link>gnome-mime-application-x-abiword</link>
+	    <link>gnome-mime-application-x-applix-word</link>
+	    <link>gnome-mime-application-x-dvi</link>
+	    <link>gnome-mime-application-x-gzpostscript</link>
+	    <link>gnome-mime-application-x-kword</link>
+	    <link>gnome-mime-application-x-scribus</link>
+	    <link>gnome-mime-application-x-tex</link>
+	    <link>document</link>
+	    <link>package_wordprocessing</link>
+	    <link>wordprocessing</link>
+	</icon>
+	<icon name="x-office-document-template">
+	    <link>gnome-mime-application-vnd.oasis.opendocument.text-template</link>
+	    <link>gnome-mime-application-vnd.sun.xml.writer.template</link>
+	</icon>
+	<icon name="x-office-drawing">
+	    <link>gnome-mime-application-vnd.oasis.opendocument.graphics</link>
+	    <link>gnome-mime-application-vnd.oasis.opendocument.image</link>
+	    <link>gnome-mime-application-vnd.sun.xml.draw</link>
+	</icon>
+	<icon name="x-office-drawing-template">
+	    <link>gnome-mime-application-vnd.oasis.opendocument.graphics-template</link>
+	    <link>gnome-mime-application-vnd.sun.xml.draw.template</link>
+	</icon>
+	<icon name="x-office-presentation">
+	    <link>gnome-mime-application-magicpoint</link>
+	    <link>gnome-mime-application-vnd.ms-powerpoint</link>
+	    <link>gnome-mime-application-vnd.oasis.opendocument.presentation</link>
+	    <link>gnome-mime-application-vnd.stardivision.impress</link>
+	    <link>gnome-mime-application-vnd.sun.xml.impress</link>
+	    <link>gnome-mime-application-x-kpresenter</link>
+	    <link>kpresenter_kpr</link>
+	</icon>
+	<icon name="x-office-presentation-template">
+	    <link>gnome-mime-application-vnd.oasis.opendocument.presentation-template</link>
+	    <link>gnome-mime-application-vnd.sun.xml.impress.template</link>
+	</icon>
+	<icon name="x-office-spreadsheet">
+	    <link>gnome-mime-application-vnd.lotus-1-2-3</link>
+	    <link>gnome-mime-application-vnd.ms-excel</link>
+	    <link>gnome-mime-application-vnd.oasis.opendocument.spreadsheet</link>
+	    <link>gnome-mime-application-vnd.stardivision.calc</link>
+	    <link>gnome-mime-application-vnd.sun.xml.calc</link>
+	    <link>gnome-mime-application-x-applix-spreadsheet</link>
+	    <link>gnome-mime-application-x-gnumeric</link>
+	    <link>gnome-mime-application-x-kspread</link>
+	    <link>spreadsheet</link>
+	</icon>
+	<icon name="x-office-spreadsheet-template">
+	    <link>gnome-mime-application-vnd.oasis.opendocument.spreadsheet-template</link>
+	    <link>gnome-mime-application-vnd.sun.xml.calc.template</link>
+	</icon>
+    </context>
+    <context dir="places">
+	<icon name="folder">
+	    <link>gnome-fs-directory</link>
+	    <link>gtk-directory</link>
+	    <link>stock_folder</link>
+	</icon>
+	<icon name="folder-remote-ftp">
+	    <link>gnome-fs-ftp</link>
+	</icon>
+	<icon name="folder-remote-nfs">
+	    <link>gnome-fs-nfs</link>
+	</icon>
+	<icon name="folder-remote-smb">
+	    <link>gnome-fs-smb</link>
+	    <link>gnome-mime-x-directory-smb-share</link>
+	</icon>
+	<icon name="folder-remote-ssh">
+	    <link>gnome-fs-ssh</link>
+	</icon>
+	<icon name="folder-remote">
+	    <link>gnome-fs-share</link>
+	    <link>gnome-fs-ftp</link>
+	    <link>gnome-fs-nfs</link>
+	    <link>gnome-fs-smb</link>
+	    <link>gnome-fs-ssh</link>
+	    <link>gnome-mime-x-directory-smb-share</link>
+	    <link>network</link>
+	</icon>
+	<icon name="folder-saved-search">
+	    <link>application-x-gnome-saved-search</link>
+	</icon>
+	<icon name="mail-folder-sent">
+	    <link>stock_sent-mail</link>
+	</icon>
+	<icon name="mail-inbox">
+	    <link>stock_inbox</link>
+	</icon>
+	<icon name="mail-outbox">
+	    <link>stock_outbox</link>
+	</icon>
+	<icon name="network-server">
+	    <link>gnome-fs-server</link>
+	    <link>gnome-mime-x-directory-smb-server</link>
+	    <link>gnome-mime-x-directory-nfs-server</link>
+	    <link>server</link>
+	    <link>redhat-network-server</link>
+	</icon>
+	<icon name="network-workgroup">
+	    <link>gnome-fs-network</link>
+	    <link>gnome-mime-x-directory-smb-workgroup</link>
+	    <link>gtk-network</link>
+	    <link>network_local</link>
+	</icon>
+	<icon name="start-here">
+	    <link>gnome-main-menu</link>
+	    <link>distributor-logo</link>
+	    <link>novell-button</link>
+	</icon>
+	<icon name="user-desktop">
+	    <link>gnome-fs-desktop</link>
+	    <link>desktop</link>
+	</icon>
+	<icon name="user-home">
+	    <link>gnome-fs-home</link>
+	    <link>folder_home</link>
+	</icon>
+	<icon name="user-trash">
+	    <link>gnome-fs-trash-empty</link>
+	    <link>emptytrash</link>
+	    <link>trashcan_empty</link>
+	    <link>gnome-stock-trash</link>
+	    <link>xfce-trash_empty</link>
+	</icon>
+    </context>
+    <context dir="status">
+	<icon name="appointment-missed">
+	    <link>stock_appointment-reminder-excl</link>
+	</icon>
+	<icon name="appointment-soon">
+	    <link>stock_appointment-reminder</link>
+	</icon>
+	<icon name="audio-volume-high">
+	    <link>stock_volume-max</link>
+	    <link>stock_volume</link>
+	</icon>
+	<icon name="audio-volume-low">
+	    <link>stock_volume-0</link>
+	    <link>stock_volume-min</link>
+	</icon>
+	<icon name="audio-volume-medium">
+	    <link>stock_volume-med</link>
+	</icon>
+	<icon name="audio-volume-muted">
+	    <link>stock_volume-mute</link>
+	</icon>
+	<icon name="dialog-error">
+	    <link>gtk-dialog-error</link>
+	    <link>stock_dialog-error</link>
+	    <link>error</link>
+	    <link>messagebox_critical</link>
+	</icon>
+	<icon name="dialog-information">
+	    <link>gtk-dialog-info</link>
+	    <link>stock_dialog-info</link>
+	    <link>info</link>
+	    <link>messagebox_info</link>
+	</icon>
+	<icon name="dialog-password">
+	    <link>gtk-dialog-authentication</link>
+	</icon>
+	<icon name="dialog-question">
+	    <link>gtk-dialog-question</link>
+	    <link>stock_dialog-question</link>
+	</icon>
+	<icon name="dialog-warning">
+	    <link>gtk-dialog-warning</link>
+	    <link>stock_dialog-warning</link>
+	    <link>messagebox_warning</link>
+	    <link>important</link>
+	</icon>
+	<icon name="folder-drag-accept">
+	    <link>gnome-fs-directory-accept</link>
+	</icon>
+	<icon name="folder-open">
+	    <link>stock_open</link>
+	    <link>folder_open</link>
+	</icon>
+	<icon name="folder-visiting">
+	    <link>gnome-fs-directory-visiting</link>
+	</icon>
+	<icon name="image-loading">
+	    <link>gnome-fs-loading-icon</link>
+	</icon>
+	<icon name="image-missing">
+	    <link>gtk-missing-image</link>
+	</icon>
+	<icon name="mail-attachment">
+	    <link>stock_attach</link>
+	</icon>
+	<icon name="mail-read">
+	    <link>stock_mail-open</link>
+	</icon>
+	<icon name="mail-replied">
+	    <link>stock_mail-replied</link>
+	</icon>
+	<icon name="mail-unread">
+	    <link>stock_mail-unread</link>
+	</icon>
+	<icon name="media-playlist-repeat">
+	    <link>stock_repeat</link>
+	</icon>
+	<icon name="media-playlist-shuffle">
+	    <link>stock_shuffle</link>
+	</icon>
+	<icon name="network-error">
+	    <link>gnome-netstatus-error</link>
+	</icon>
+	<icon name="network-idle">
+	    <link>gnome-netstatus-idle</link>
+	    <link>nm-adhoc</link>
+	    <link>nm-device-wired</link>
+	    <link>nm-device-wireless</link>
+	    <link>connect_established</link>
+	</icon>
+	<icon name="network-offline">
+	    <link>gnome-netstatus-disconn</link>
+	    <link>nm-no-connection</link>
+	    <link>connect_no</link>
+	</icon>
+	<icon name="network-receive">
+	    <link>gnome-netstatus-rx</link>
+	</icon>
+	<icon name="network-transmit">
+	    <link>gnome-netstatus-tx</link>
+	</icon>
+	<icon name="network-transmit-receive">
+	    <link>gnome-netstatus-txrx</link>
+	    <link>connect_creating</link>
+	</icon>
+	<icon name="network-wireless-encrypted">
+	    <link>gnome-dev-wavelan-encrypted</link>
+	</icon>
+	<icon name="network-wireless-high">
+	    <link>nm-signal-100</link>
+	    <link>nm-signal-75</link>
+	</icon>
+	<icon name="network-wireless-low">
+	    <link>nm-signal-00</link>
+	    <link>nm-signal-25</link>
+	</icon>
+	<icon name="network-wireless-medium">
+	    <link>nm-signal-50</link>
+	</icon>
+	<icon name="security-high">
+	    <link>stock_lock-ok</link>
+	</icon>
+	<icon name="security-low">
+	    <link>stock_lock-broken</link>
+	    <link>stock_lock-open</link>
+	</icon>
+	<icon name="security-medium">
+	    <link>stock_lock</link>
+	</icon>
+	<icon name="user-trash-full">
+	    <link>gnome-fs-trash-full</link>
+	    <link>edittrash</link>
+	    <link>trashcan_full</link>
+	    <link>gnome-stock-trash-full</link>
+	    <link>stock_trash_full</link>
+	    <link>xfce-trash_full</link>
+	</icon>
+	<icon name="weather-clear">
+	    <link>stock_weather-sunny</link>
+	    <link>sunny</link>
+	</icon>
+	<icon name="weather-clear-night">
+	    <link>stock_weather-night-clear</link>
+	</icon>
+	<icon name="weather-few-clouds">
+	    <link>stock_weather-few-clouds</link>
+	</icon>
+	<icon name="weather-few-clouds-night">
+	    <link>stock_weather-night-few-clouds</link>
+	</icon>
+	<icon name="weather-fog">
+	    <link>stock_weather-fog</link>
+	</icon>
+	<icon name="weather-overcast">
+	    <link>stock_weather-cloudy</link>
+	</icon>
+	<icon name="weather-showers">
+	    <link>stock_weather-showers</link>
+	</icon>
+	<icon name="weather-snow">
+	    <link>stock_weather-snow</link>
+	</icon>
+	<icon name="weather-storm">
+	    <link>stock_weather-storm</link>
+	</icon>
+    </context>
+</mapping>
