@@ -30,7 +30,7 @@ class TreeCompiler:
         variantsId = idlist.toString(variants)
         optimizeId = self.generateOptimizeId(optimize)
 
-        cacheId = "%s-compiled-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
+        cacheId = "compiled-%s-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
 
         compiled = self._cache.read(cacheId, filePath)
         if compiled != None:
@@ -56,7 +56,7 @@ class TreeCompiler:
         filePath = fileEntry["path"]
 
         variantsId = idlist.toString(variants)
-        cacheId = "%s-compiled-size-%s" % (fileId, variantsId)
+        cacheId = "compiledsize-%s-%s" % (fileId, variantsId)
 
         size = self._cache.read(cacheId, filePath)
         if size != None:

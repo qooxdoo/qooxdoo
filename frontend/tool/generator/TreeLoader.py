@@ -16,7 +16,7 @@ class TreeLoader:
         filePath = fileEntry["path"]
         fileEncoding = fileEntry["encoding"]
 
-        cacheId = "%s-tokens" % fileId
+        cacheId = "tokens-%s" % fileId
         tokens = self._cache.read(cacheId, filePath)
         if tokens != None:
             return tokens
@@ -36,7 +36,7 @@ class TreeLoader:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        cacheId = "%s-tree" % fileId
+        cacheId = "tree-%s" % fileId
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
             return tree
@@ -65,7 +65,7 @@ class TreeLoader:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        cacheId = "%s-tree-%s" % (fileId, idlist.toString(variants))
+        cacheId = "varianttree-%s-%s" % (fileId, idlist.toString(variants))
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
             if tree == "unmodified":
