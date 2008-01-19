@@ -21,11 +21,8 @@ class TreeLoader:
         if tokens != None:
             return tokens
 
-
-        self._console.debug("Opening file: %s..." % fileId)
-        fileContent = filetool.read(filePath, fileEncoding)
-
         self._console.debug("Generating tokens: %s..." % fileId)
+        fileContent = filetool.read(filePath, fileEncoding)
         tokens = tokenizer.parseStream(fileContent, fileId)
 
         self._cache.write(cacheId, tokens)
