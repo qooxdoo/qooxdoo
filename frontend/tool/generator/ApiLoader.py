@@ -6,8 +6,9 @@ from ecmascript import api, tree
 
 
 class ApiLoader:
-    def __init__(self, classes, cache, console, treeutil):
+    def __init__(self, classes, docs, cache, console, treeutil):
         self._classes = classes
+        self._docs = docs
         self._cache = cache
         self._console = console
         self._treeLoader = treeutil
@@ -22,7 +23,7 @@ class ApiLoader:
         if data != None:
             return data
 
-        self._console.debug("Generating API data: %s..." % fileId)
+        self._console.debug("Extracting API data: %s..." % fileId)
 
         self._console.indent()
         tree = self._treeLoader.getTree(fileId)
@@ -34,6 +35,20 @@ class ApiLoader:
         return data
 
 
+    def getPackageApi(self, packageId):
+        if not self._docs.has_key(packageId):
+            self._console.warn("Missing package docs: %s" % packageId)
+            return None
+            
+        packageEntry = self._docs[packageId]
+        
+        # self._console.debug("Processing package docs: %s" % packageId)
+
+        text = filetool.read(packageEntry["path"])
+        node = api.createPackageDoc(text, packageId)
+        
+        return node
+        
 
     def storeApi(self, include, apiPath):
         self._console.info("Generating API data:", False)
@@ -45,9 +60,21 @@ class ApiLoader:
         self._console.debug("Loading class data...")
         self._console.indent()
 
+        packages = []
         for pos, fileId in enumerate(include):
             self._console.progress(pos, length)
             self._mergeApiNodes(docTree, self.getApi(fileId))
+            pkgId = self._classes[fileId]["package"]
+            if not pkgId in packages:
+                packages.append(pkgId)
+                
+        self._console.outdent()
+        self._console.debug("Loading package docs...")
+        self._console.indent()
+        
+        packages.sort()
+        for pkgId in packages:
+            self._mergeApiNodes(docTree, self.getPackageApi(pkgId))
 
         self._console.outdent()
 
@@ -76,6 +103,9 @@ class ApiLoader:
 
 
     def _mergeApiNodes(self, target, source):
+        if not target or not source:
+            return
+        
         if source.hasAttributes():
             attr = source.attributes
             for key in attr:
