@@ -242,20 +242,11 @@ class Generator:
         if not namespaces:
             return
 
-        self._console.info("Updating translation files")
+        self._console.info("Updating translations...")
         self._console.indent()
-
-        # Collect all classes which are in the given namespaces
-        content = []
         for namespace in namespaces:
-            classes = self._classes
-            for classId in classes:
-                if classes[classId]["namespace"] == namespace:
-                    content.append(classId)
-                    
-        # Send the generated list to the locale implementation
-        self._locale.updatePoFiles(namespace, content)
-        
+            self._locale.updateTranslations(namespace)
+    
         self._console.outdent()
 
 

@@ -63,7 +63,17 @@ class Locale:
 
 
 
-    def updatePoFiles(self, namespace, content):
+    def updateTranslations(self, namespace):
+        self._console.debug("Updating namespace: %s" % namespace)
+        self._console.indent()
+        
+        self._console.debug("Looking up relevant class files...")
+        content = []
+        classes = self._classes
+        for classId in classes:
+            if classes[classId]["namespace"] == namespace:
+                content.append(classId)
+                    
         self._console.debug("Compiling filter...")
         pot = self.getPotFile(content)
         pot.sort()
@@ -82,7 +92,7 @@ class Locale:
             po.save(entry["path"])
 
         self._console.outdent()
-
+        self._console.outdent()
 
 
 
