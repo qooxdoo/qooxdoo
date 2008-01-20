@@ -217,7 +217,7 @@ class Locale:
                         target["hint"] = source["hint"]
 
                 target["occurrences"].append({
-                    "file" : self._classes[classId]["path"],
+                    "file" : self._classes[classId]["relpath"],
                     "line" : source["line"],
                     "column" : source["column"]
                 })
