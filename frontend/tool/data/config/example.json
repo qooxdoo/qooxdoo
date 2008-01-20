@@ -81,7 +81,7 @@
 
     "localize" :
     {
-      "locales" : ["de","en","fr"]
+      "locales" : ["de", "en", "fr"]
     }
   },
 
