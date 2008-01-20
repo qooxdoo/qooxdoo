@@ -98,7 +98,7 @@ class Generator:
 
             segNamespace = path.getNamespace()
             segClasses = path.getClasses()
-            segTranslation = path.getTranslation()
+            segTranslation = path.getTranslations()
 
             ns.append(segNamespace)
             classes.update(segClasses)

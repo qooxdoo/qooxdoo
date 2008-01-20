@@ -7,75 +7,39 @@ class LibraryPath:
         self._config = config
         self._console = console
         self._classes = {}
-        self._translation = {}
+        self._translations = {}
 
         self.scan()
 
 
-    _implFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-    _localeFile = re.compile('qx.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
-
+    _codeFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+    _ignoredDirectories = [".svn", "CVS"]
+    _classFolder = "class"
+    _translationFolder = "translation"
+    
 
     def getClasses(self):
         return self._classes
 
 
-    def getTranslation(self):
-        return self._translation
+    def getTranslations(self):
+        return self._translations
 
 
     def getNamespace(self):
         return self._namespace
 
 
-    def isDocFile(self, fileName, fileContent):
-        return fileName == "__init__.js"
+    def getContentType(self, fileContent):
+        if self._codeFile.search(fileContent):
+            return "code"
+
+        return "data"
 
 
-
-    def isImplFile(self, fileName, fileContent):
-        if self._implFile.search(fileContent):
-            return True
-
-        return False
-
-
-
-    def isLocaleFile(self, fileName, fileContent):
-        for item in self._localeFile.findall(fileContent):
-            return True
-
-        return False
-
-
-
-    def getContentType(self, fileName, fileContent):
-        if self.isImplFile(fileName, fileContent):
-            return "impl"
-
-        if self.isLocaleFile(fileName, fileContent):
-            return "locale"
-
-        if self.isDocFile(fileName, fileContent):
-            return "doc"
-
-        return None
-
-
-
-    def getContentId(self, fileType, filePathId, fileContent):
-        if fileType == "impl":
-            for item in self._implFile.findall(fileContent):
-                return item[1]
-
-        elif fileType == "locale":
-            return filePathId
-
-        elif fileType == "doc":
-            return filePathId
-
-        return None
-
+    def getCodeId(self, fileContent):
+        for item in self._codeFile.findall(fileContent):
+            return item[1]
 
 
     # Normally there is no need to overwrite this one!
@@ -103,21 +67,12 @@ class LibraryPath:
         self.scanTranslationPath(translationPath)
 
 
-
-
-    _ignoredDirectories = [".svn", "CVS"]
-    _classFolder = "class"
-    _translationFolder = "translation"
-
-
-
     def detectNamespace(self, path):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
 
         ns = None
-
         files = os.listdir(path)
 
         for entry in files:
@@ -149,9 +104,8 @@ class LibraryPath:
         self._console.debug("Scanning class folder: %s" % path)
 
         # Initialize counters
-        implNumber = 0
-        docNumber = 0
-        localeNumber = 0
+        codeNumber = 0
+        dataNumber = 0
 
         # Shorten namespace
         ns = self._namespace
@@ -183,35 +137,28 @@ class LibraryPath:
                 fileContent = filetool.read(filePath, encoding)
 
                 # Extract type
-                fileType = self.getContentType(fileName, fileContent)
+                fileType = self.getContentType(fileContent)
 
                 # Read content identifier (class name)
-                fileContentId = self.getContentId(fileType, filePathId, fileContent)
-
-                # Check return value
-                if fileContentId == None:
-                    self._console.error("Could not extract content ID from %s (%s)!" % (fileRel, fileType))
-                    sys.exit(1)
-
-                # Compare path and content
-                if fileContentId != filePathId:
-                    self._console.error("Detected conflict between filename and classname. Please correct!")
-                    self._console.indent()
-                    self._console.error("Classname: %s" % fileContentId)
-                    self._console.error("Path: %s" % fileRel)
-                    self._console.outdent()
-                    sys.exit(1)
-
-                # Increment counter
-                if fileType == "impl":
-                    implNumber += 1
-                elif fileType == "doc":
-                    docNumber += 1
-                elif fileType == "locale":
-                    localeNumber += 1
+                if fileType == "code":
+                    codeNumber += 1
+                    fileCodeId = self.getCodeId(fileContent)
+                    
+                    # Compare path and content
+                    if fileCodeId != filePathId:
+                        self._console.error("Detected conflict between filename and classname. Please correct!")
+                        self._console.indent()
+                        self._console.error("Classname: %s" % fileCodeId)
+                        self._console.error("Path: %s" % fileRel)
+                        self._console.outdent()
+                        sys.exit(1)
+                
+                else:
+                    dataNumber += 1
 
                 # Store file data
                 self._classes[filePathId] = {
+                    "relpath" : fileRel,
                     "path" : filePath,
                     "uri" : fileUri,
                     "encoding" : encoding,
@@ -221,7 +168,7 @@ class LibraryPath:
                 }
 
         self._console.indent()
-        self._console.debug("Added classes: %s impl, %s doc, %s locale" % (implNumber, docNumber, localeNumber))
+        self._console.debug("Added %s files (+%s data files)" % (codeNumber, dataNumber))
         self._console.outdent()
 
 
@@ -263,7 +210,7 @@ class LibraryPath:
                     variant = ""
 
                 # Store file data
-                self._translation[fileLocale] = {
+                self._translations[fileLocale] = {
                     "path" : filePath,
                     "id" : fileLocale,
                     "parent" : parent,
@@ -272,5 +219,5 @@ class LibraryPath:
                 }
 
         self._console.indent()
-        self._console.debug("Added translation: %s locales" % number)
+        self._console.debug("Added translation for %s locales" % number)
         self._console.outdent()
