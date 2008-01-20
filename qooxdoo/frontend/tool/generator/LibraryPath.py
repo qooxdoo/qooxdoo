@@ -132,14 +132,20 @@ class LibraryPath:
 
                 # Compute identifier from relative path
                 filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
+                
+                # Extract package ID
+                filePackage = filePathId[:filePathId.rfind(".")]
 
                 # Handle doc files
                 if fileName == self._docFilename:
                     fileFor = filePathId[:filePathId.rfind(".")]
-                    self._docs[filePathId] = {
+                    self._docs[filePackage] = {
                         "relpath" : fileRel,
                         "path" : filePath,
-                        "for" : fileFor
+                        "encoding" : encoding,
+                        "namespace" : self._namespace,
+                        "id" : filePathId,                        
+                        "package" : filePackage
                     }
                     
                     # Stop further processing
@@ -175,7 +181,8 @@ class LibraryPath:
                     "uri" : fileUri,
                     "encoding" : encoding,
                     "namespace" : self._namespace,
-                    "id" : filePathId
+                    "id" : filePathId,
+                    "package" : filePackage
                 }
                 
         self._console.indent()
