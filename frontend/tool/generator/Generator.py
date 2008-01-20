@@ -412,7 +412,6 @@ class Generator:
         return settings
 
 
-
     def getVariants(self):
         variants = {}
         variantsConfig = self._config.get("variants", {})
@@ -447,7 +446,6 @@ class Generator:
             result += 'qxsettings["%s"]=%s;' % (key, value)
 
         return result
-
 
 
     def generateVariantsCode(self, variants, format=False):
