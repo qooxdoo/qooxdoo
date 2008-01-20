@@ -8,6 +8,7 @@ class LibraryPath:
         self._console = console
         
         self._classes = {}
+        self._docs = {}
         self._translations = {}
 
         self.scan()
@@ -17,10 +18,15 @@ class LibraryPath:
     _ignoredDirectories = [".svn", "CVS"]
     _classFolder = "class"
     _translationFolder = "translation"
+    _docFilename = "__init__.js"
     
 
     def getClasses(self):
         return self._classes
+        
+        
+    def getDocs(self):
+        return self._docs
         
         
     def getTranslations(self):
@@ -112,19 +118,36 @@ class LibraryPath:
 
             # Searching for files
             for fileName in files:
-                # Ignore non-script and dot files
-                if os.path.splitext(fileName)[-1] != ".js" or fileName.startswith("."):
+                # Ignore dot files
+                if fileName.startswith("."):
                     continue
-
+                
                 # Process path data
                 filePath = os.path.join(root, fileName)
                 fileRel = filePath.replace(path + os.sep, "")
-
+                fileExt = os.path.splitext(fileName)[-1]
+                
                 # Compute full URI from relative path
                 fileUri = uri + "/" + fileRel.replace(os.sep, "/")
 
                 # Compute identifier from relative path
-                filePathId = fileRel.replace(".js", "").replace(os.sep, ".")
+                filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
+
+                # Handle doc files
+                if fileName == self._docFilename:
+                    fileFor = filePathId[:filePathId.rfind(".")]
+                    self._docs[filePathId] = {
+                        "relpath" : fileRel,
+                        "path" : filePath,
+                        "for" : fileFor
+                    }
+                    
+                    # Stop further processing
+                    continue
+            
+                # Ignore non-script
+                if os.path.splitext(fileName)[-1] != ".js":
+                    continue
 
                 # Read content
                 fileContent = filetool.read(filePath, encoding)
@@ -157,6 +180,7 @@ class LibraryPath:
                 
         self._console.indent()
         self._console.debug("Found %s classes" % len(self._classes))
+        self._console.debug("Found %s docs" % len(self._docs))        
         self._console.outdent()
 
 
