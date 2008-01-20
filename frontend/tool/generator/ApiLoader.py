@@ -51,13 +51,13 @@ class ApiLoader:
         
 
     def storeApi(self, include, apiPath):
-        self._console.info("Generating API data:", False)
+        self._console.info("Generating API data...")
         self._console.indent()
 
         docTree = tree.Node("doctree")
         length = len(include)
 
-        self._console.debug("Loading class data...")
+        self._console.info("Loading class data...", False)
         self._console.indent()
 
         packages = []
@@ -69,7 +69,7 @@ class ApiLoader:
                 packages.append(pkgId)
                 
         self._console.outdent()
-        self._console.debug("Loading package docs...")
+        self._console.info("Loading package docs...")
         self._console.indent()
         
         packages.sort()
