@@ -86,6 +86,7 @@ class Generator:
 
         self._namespaces = []
         self._classes = {}
+        self._docs = {}
         self._translations = {}
 
         for entry in library.iter():
@@ -94,6 +95,7 @@ class Generator:
 
             self._namespaces.append(namespace)
             self._classes.update(path.getClasses())
+            self._docs.update(path.getDocs())
             self._translations[namespace] = path.getTranslations()
 
         self._console.outdent()
