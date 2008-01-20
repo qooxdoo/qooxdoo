@@ -6,13 +6,14 @@ class LibraryPath:
     def __init__(self, config, console):
         self._config = config
         self._console = console
+        
         self._classes = {}
         self._translations = {}
 
         self.scan()
 
 
-    _codeFile = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+    _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
     _ignoredDirectories = [".svn", "CVS"]
     _classFolder = "class"
     _translationFolder = "translation"
@@ -20,8 +21,8 @@ class LibraryPath:
 
     def getClasses(self):
         return self._classes
-
-
+        
+        
     def getTranslations(self):
         return self._translations
 
@@ -30,19 +31,6 @@ class LibraryPath:
         return self._namespace
 
 
-    def getContentType(self, fileContent):
-        if self._codeFile.search(fileContent):
-            return "code"
-
-        return "data"
-
-
-    def getCodeId(self, fileContent):
-        for item in self._codeFile.findall(fileContent):
-            return item[1]
-
-
-    # Normally there is no need to overwrite this one!
     def scan(self):
         path = self._config.get("path", "")
 
@@ -54,6 +42,9 @@ class LibraryPath:
             self._console.error("Path does not exist: %s" % path)
             sys.exit(1)
 
+        self._console.info("Scanning %s..." % path)
+        self._console.indent()
+
         uri = self._config.get("uri", path)
         encoding = self._config.get("encoding", "utf-8")
 
@@ -62,12 +53,21 @@ class LibraryPath:
 
         translationPath = os.path.join(path, self._translationFolder)
 
-        self.detectNamespace(classPath)
-        self.scanClassPath(classPath, classUri, encoding)
-        self.scanTranslationPath(translationPath)
+        self._detectNamespace(classPath)
+        self._scanClassPath(classPath, classUri, encoding)
+        self._scanTranslationPath(translationPath)
+
+        self._console.outdent()
+        
+
+    def _getCodeId(self, fileContent):
+        for item in self._codeExpr.findall(fileContent):
+            return item[1]
+            
+        return None
 
 
-    def detectNamespace(self, path):
+    def _detectNamespace(self, path):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
@@ -91,24 +91,17 @@ class LibraryPath:
             self._console.error("Namespace could not be detected!")
             sys.exit(1)
 
-        self._console.debug("Auto detected namespace: %s" % ns)
+        self._console.debug("Detected namespace: %s" % ns)
         self._namespace = ns
 
 
 
-    def scanClassPath(self, path, uri, encoding):
+    def _scanClassPath(self, path, uri, encoding):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a class folder: %s" % path)
             sys.exit(1)
 
-        self._console.debug("Scanning class folder: %s" % path)
-
-        # Initialize counters
-        codeNumber = 0
-        dataNumber = 0
-
-        # Shorten namespace
-        ns = self._namespace
+        self._console.debug("Scanning class folder...")
 
         # Iterate...
         for root, dirs, files in os.walk(path):
@@ -136,25 +129,21 @@ class LibraryPath:
                 # Read content
                 fileContent = filetool.read(filePath, encoding)
 
-                # Extract type
-                fileType = self.getContentType(fileContent)
-
-                # Read content identifier (class name)
-                if fileType == "code":
-                    codeNumber += 1
-                    fileCodeId = self.getCodeId(fileContent)
-                    
-                    # Compare path and content
-                    if fileCodeId != filePathId:
-                        self._console.error("Detected conflict between filename and classname. Please correct!")
-                        self._console.indent()
-                        self._console.error("Classname: %s" % fileCodeId)
-                        self._console.error("Path: %s" % fileRel)
-                        self._console.outdent()
-                        sys.exit(1)
+                # Extract code ID (e.g. class name, mixin name, ...)
+                fileCodeId = self._getCodeId(fileContent)
                 
-                else:
-                    dataNumber += 1
+                # Ignore all data files (e.g. translation, doc files, ...)
+                if fileCodeId == None:
+                    continue
+                
+                # Compare path and content
+                if fileCodeId != filePathId:
+                    self._console.error("Detected conflict between filename and classname!")
+                    self._console.indent()
+                    self._console.error("Classname: %s" % fileCodeId)
+                    self._console.error("Path: %s" % fileRel)
+                    self._console.outdent()
+                    sys.exit(1)
 
                 # Store file data
                 self._classes[filePathId] = {
@@ -162,26 +151,22 @@ class LibraryPath:
                     "path" : filePath,
                     "uri" : fileUri,
                     "encoding" : encoding,
-                    "namespace" : ns,
-                    "type" : fileType,
+                    "namespace" : self._namespace,
                     "id" : filePathId
                 }
-
+                
         self._console.indent()
-        self._console.debug("Added %s files (+%s data files)" % (codeNumber, dataNumber))
+        self._console.debug("Found %s classes" % len(self._classes))
         self._console.outdent()
 
 
 
-    def scanTranslationPath(self, path):
+    def _scanTranslationPath(self, path):
         if not os.path.exists(path):
             self._console.error("The given path does not contains a translation folder: %s" % path)
             sys.exit(1)
 
-        self._console.debug("Scanning translation folder: %s" % path)
-
-        number = 0
-        ns = self._namespace
+        self._console.debug("Scanning translation folder...")
 
         # Iterate...
         for root, dirs, files in os.walk(path):
@@ -198,7 +183,6 @@ class LibraryPath:
 
                 filePath = os.path.join(root, fileName)
                 fileLocale = os.path.splitext(fileName)[0]
-                number += 1
 
                 if "_" in fileLocale:
                     split = fileLocale.index("_")
@@ -215,9 +199,9 @@ class LibraryPath:
                     "id" : fileLocale,
                     "parent" : parent,
                     "variant" : variant,
-                    "namespace" : ns
+                    "namespace" : self._namespace
                 }
 
         self._console.indent()
-        self._console.debug("Added translation for %s locales" % number)
+        self._console.debug("Found %s translations" % len(self._translations))
         self._console.outdent()

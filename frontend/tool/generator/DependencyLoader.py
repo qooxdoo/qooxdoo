@@ -183,7 +183,7 @@ class DependencyLoader:
                 if item in metaOptional:
                     pass
                 elif item in load:
-                    self._console.warn("#require(%s) is auto-detected" % item)
+                    self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
                 else:
                     load.append(item)
 
@@ -194,7 +194,7 @@ class DependencyLoader:
                 elif item in load:
                     pass
                 elif item in run:
-                    self._console.warn("#use(%s) is auto-detected" % item)
+                    self._console.warn("%s: #use(%s) is auto-detected" % (fileId, item))
                 else:
                     run.append(item)
 
@@ -330,20 +330,15 @@ class DependencyLoader:
             return meta
 
         meta = {}
-        category = fileEntry["type"]
 
         self._console.indent()
 
-        if category == "doc":
-            pass
+        content = filetool.read(filePath, fileEntry["encoding"])
 
-        elif category == "impl" or category == "locale":
-            content = filetool.read(filePath, fileEntry["encoding"])
-
-            meta["loadtimeDeps"] = self._extractLoadtimeDeps(content, fileId)
-            meta["runtimeDeps"] = self._extractRuntimeDeps(content, fileId)
-            meta["optionalDeps"] = self._extractOptionalDeps(content)
-            meta["ignoreDeps"] = self._extractIgnoreDeps(content)
+        meta["loadtimeDeps"] = self._extractLoadtimeDeps(content, fileId)
+        meta["runtimeDeps"] = self._extractRuntimeDeps(content, fileId)
+        meta["optionalDeps"] = self._extractOptionalDeps(content)
+        meta["ignoreDeps"] = self._extractIgnoreDeps(content)
 
         self._console.outdent()
 

@@ -53,7 +53,7 @@ class Generator:
         self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._locale = Locale(self._classes, self._translation, self._cache, self._console, self._treeLoader)
+        self._locale = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         self._apiLoader = ApiLoader(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
@@ -84,35 +84,21 @@ class Generator:
         self._console.info("Scanning libraries...")
         self._console.indent()
 
-        classes = {}
-        translation = {}
-        ns = []
+        self._namespaces = []
+        self._classes = {}
+        self._translations = {}
 
-        for segment in library.iter():
-            entryDir = segment.get("path", ".")
+        for entry in library.iter():
+            path = LibraryPath(entry, self._console)
+            namespace = path.getNamespace()
 
-            self._console.debug("Path: %s" % entryDir)
-            self._console.indent()
-
-            path = LibraryPath(segment, self._console)
-
-            segNamespace = path.getNamespace()
-            segClasses = path.getClasses()
-            segTranslation = path.getTranslations()
-
-            ns.append(segNamespace)
-            classes.update(segClasses)
-            translation[segNamespace] = segTranslation
-
-            self._console.outdent()
+            self._namespaces.append(namespace)
+            self._classes.update(path.getClasses())
+            self._translations[namespace] = path.getTranslations()
 
         self._console.outdent()
-        self._console.debug("Loaded %s libraries" % len(ns))
+        self._console.debug("Loaded %s libraries" % len(self._namespaces))
         self._console.debug("")
-
-        self._classes = classes
-        self._translation = translation
-        self._namespaces = ns
 
 
 
