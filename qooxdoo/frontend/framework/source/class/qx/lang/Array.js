@@ -316,6 +316,26 @@ qx.Bootstrap.define("qx.lang.Array",
         }
       }
       return true;
+    },
+
+
+    /**
+     * Returns the sum of all values in the given array. Supports
+     * numeric values only.
+     *
+     * @type static
+     * @param array {Number[]} Array to process
+     * @return {Number} The sum of all values.
+     */
+    sum : function(array)
+    {
+      var result = 0;
+
+      for (var i=0, l=array.length; i<l; i++) {
+        result += array[i];
+      }
+
+      return result;
     }
   }
 });
