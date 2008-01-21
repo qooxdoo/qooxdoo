@@ -34,6 +34,12 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
+      var container = new qx.ui2.core.Widget();
+      var containerLayout = new qx.ui2.layout.VBox();
+      containerLayout.setSpacing(20);
+      container.setLayout(containerLayout);
+      doc.add(container, {left:0, top:0});
+
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
@@ -54,7 +60,7 @@ qx.Class.define("BasicSample",
       layout1.add(w5, "center");
 
       widget1.setLayout(layout1);
-      doc.add(widget1, 10, 10);
+      containerLayout.add(widget1);
 
 
 
@@ -77,7 +83,7 @@ qx.Class.define("BasicSample",
       layout1.add(w5, "center");
 
       widget1.setLayout(layout1);
-      doc.add(widget1, 330, 10);
+      containerLayout.add(widget1);
 
 
 
@@ -101,7 +107,7 @@ qx.Class.define("BasicSample",
       layout1.add(w5, "center");
 
       widget1.setLayout(layout1);
-      doc.add(widget1, 650, 10);
+      containerLayout.add(widget1);
     }
   }
 });

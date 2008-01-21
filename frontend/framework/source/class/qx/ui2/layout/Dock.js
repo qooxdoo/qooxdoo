@@ -103,9 +103,9 @@ qx.Class.define("qx.ui2.layout.Dock",
      */
     add : function(widget, edge, options)
     {
+      options = options || {};
+      options.edge = edge;
       this.base(arguments, widget, options);
-
-      this.setLayoutProperty(widget, "edge", edge)
 
       // Chaining support
       return this;
@@ -153,13 +153,12 @@ qx.Class.define("qx.ui2.layout.Dock",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childEdge = child.getLayoutProperty("dock.edge");
+        var childProps = this.getLayoutProperties(child);
+        childEdge = childProps.edge;
         childHint = child.getSizeHint();
-        childWidthPercent = child.getLayoutProperty("dock.width");
-        childHeightPercent = child.getLayoutProperty("dock.height");
 
-        childWidth = childWidthPercent ? Math.floor(width * parseFloat(childWidthPercent) / 100) : childHint.width;
-        childHeight = childHeightPercent ? Math.floor(height * parseFloat(childHeightPercent) / 100) : childHint.height;
+        childWidth = childWidthPercent ? Math.floor(width * parseFloat(childProps.width) / 100) : childHint.width;
+        childHeight = childHeightPercent ? Math.floor(height * parseFloat(childProps.height) / 100) : childHint.height;
 
         childHints[i] = childHint;
         childWidths[i] = childWidth
@@ -193,13 +192,14 @@ qx.Class.define("qx.ui2.layout.Dock",
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
-          childEdge = child.getLayoutProperty("dock.edge");
+          var childProps = this.getLayoutProperties(child);
+          childEdge = childProps.edge;
 
           if (childEdge === "west" || childEdge === "east" || childEdge === "center")
           {
             if (child.canStretchX())
             {
-              childFlex = child.getLayoutProperty("dock.flexX");
+              childFlex = childProps.flexX;
 
               if (childFlex == null || childFlex > 0)
               {
@@ -239,13 +239,14 @@ qx.Class.define("qx.ui2.layout.Dock",
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
-          childEdge = child.getLayoutProperty("dock.edge");
+          var childProps = this.getLayoutProperties(child);
+          childEdge = childProps.edge;
 
           if (childEdge === "north" || childEdge === "south" || childEdge === "center")
           {
             if (child.canStretchY())
             {
-              childFlex = child.getLayoutProperty("dock.flexY");
+              childFlex = childProps.flexY;
 
               if (childFlex == null || childFlex > 0)
               {
@@ -286,7 +287,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childEdge = child.getLayoutProperty("dock.edge");
+        childEdge = this.getLayoutProperty(child, "edge");
 
 
         // Calculate child layout
@@ -389,7 +390,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childEdge = child.getLayoutProperty("dock.edge");
+        childEdge = this.getLayoutProperty(child, "edge");
         childHint = child.getSizeHint();
 
         // Ok, this part is a bit complicated :)
@@ -516,7 +517,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childEdge = child.getLayoutProperty("dock.edge");
+        childEdge = this.getLayoutProperty(child, "edge");
 
         if (childEdge === "center")
         {
