@@ -105,56 +105,58 @@ qx.Class.define("qx.ui2.layout.VBox",
     */
 
     // overridden
-    renderLayout : function(parentWidth, parentHeight)
+    renderLayout : function(availHeight, availWidth)
     {
-      // Initialize
+      // Cache children
       var children = this._children;
-      var options = this._options;
-      var align = this.getAlign();
-      var child, hint, flex;
-      var grow;
+      var length = children.length;
 
-
-      // Support for reversed children
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
 
 
-      // Creating dimension working data
+      // Initialize variables
+      var child, hint, property, grow;
+
+
+      // Creating caching fields
       var heights = [];
       var widths = [];
       var hints = [];
-      var usedGaps = this._getGaps();
-      var usedHeight = usedGaps;
-      var percentHeight;
+      var props = [];
 
+
+      // First run to cache children data and compute allocatedHeight height
+      var gaps = this._getGaps();
+      var allocatedHeight = gaps;
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         hint = child.getSizeHint();
-        percentHeight = options[i].height;
+        property = this.getLayoutProperties(child);
 
         hints[i] = hint;
-        heights[i] = percentHeight ? Math.floor((parentHeight - usedGaps) * parseFloat(percentHeight) / 100) : hint.height;
+        props[i] = property;
+        heights[i] = property.height ? Math.floor((availHeight - gaps) * parseFloat(property.height) / 100) : hint.height;
 
         if (child.canStretchY()) {
-          widths[i] = Math.max(hint.minWidth, Math.min(parentWidth, hint.width));
+          widths[i] = Math.max(hint.minWidth, Math.min(availWidth, hint.width));
         } else {
           widths[i] = hint.width;
         }
 
-        usedHeight += heights[i];
+        allocatedHeight += heights[i];
       }
 
-      // this.debug("Initial heights: avail=" + parentHeight + ", used=" + usedHeight);
+      // this.debug("Initial heights: avail=" + availHeight + ", allocatedHeight=" + allocatedHeight);
 
 
       // Process heights for flex stretching/shrinking
-      if (usedHeight != parentHeight)
+      if (allocatedHeight != availHeight)
       {
-        var flexCandidates = [];
-        var grow = usedHeight < parentHeight;
+        var flexibles = [];
+        var grow = allocatedHeight < availHeight;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -162,45 +164,45 @@ qx.Class.define("qx.ui2.layout.VBox",
 
           if (child.canStretchX())
           {
-            flex = options[i].flex;
+            layout = props[i];
 
-            if (flex > 0)
+            if (layout.flex > 0)
             {
               hint = hints[i];
 
-              flexCandidates.push({
+              flexibles.push({
                 id : i,
                 potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
-                flex : grow ? flex : 1 / flex
+                flex : grow ? layout.flex : 1 / layout.flex
               });
             }
           }
         }
 
-        if (flexCandidates.length > 0)
+        if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, parentHeight - usedHeight);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
 
           for (var key in flexibleOffsets)
           {
             // this.debug(" - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
 
             heights[key] += flexibleOffsets[key];
-            usedHeight += flexibleOffsets[key];
+            allocatedHeight += flexibleOffsets[key];
           }
         }
       }
 
-      // this.debug("Corrected heights: avail=" + height + ", used=" + usedHeight);
+      // this.debug("Corrected heights: avail=" + height + ", used=" + allocatedHeight);
 
 
       // Calculate vertical alignment offset
       var alignOffset = 0;
-      if (usedHeight < parentHeight && align != "top")
+      if (allocatedHeight < availHeight && this.getAlign() != "top")
       {
-        alignOffset = parentHeight - usedHeight;
+        alignOffset = availHeight - allocatedHeight;
 
-        if (align === "middle") {
+        if (this.getAlign() === "middle") {
           alignOffset = Math.round(alignOffset / 2);
         }
       }
@@ -210,17 +212,17 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var top = alignOffset + (options[0].marginTop || 0);
+      var top = alignOffset + (props[0].marginTop || 0);
       var thisMargin, nextMargin;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
-        if (top < parentHeight)
+        if (top < availHeight)
         {
           // Respect horizontal alignment
-          left = qx.ui2.layout.Util.computeHorizontalAlignOffset(options[i].align || "left", widths[i], parentWidth);
+          left = qx.ui2.layout.Util.computeHorizontalAlignOffset(props[i].align || "left", widths[i], availWidth);
 
           // Layout child
           child.renderLayout(left, top, widths[i], heights[i]);
@@ -240,8 +242,8 @@ qx.Class.define("qx.ui2.layout.VBox",
         }
 
         // Compute top position of next child
-        thisMargin = options[i].marginBottom || 0;
-        nextMargin = options[i+1].marginTop || 0;
+        thisMargin = props[i].marginBottom || 0;
+        nextMargin = props[i+1].marginTop || 0;
         top += heights[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
@@ -257,7 +259,6 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
       // Initialize
-      var options = this._options;
       var gaps = this._getGaps();
       var minHeight=gaps, height=gaps, maxHeight=32000;
       var minWidth=0, width=0, maxWidth=32000;
@@ -270,7 +271,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         var hint = child.getSizeHint();
 
         // Respect percent height (up calculate height by using preferred height)
-        var percentHeight = options[i].height;
+        var percentHeight = this.getLayoutProperty(child, "height");
         if (percentHeight) {
           maxPercentHeight = Math.max(maxPercentHeight, hint.height / parseFloat(percentHeight) * 100);
         } else {
@@ -328,22 +329,18 @@ qx.Class.define("qx.ui2.layout.VBox",
      */
     _getGaps : function()
     {
-      var options = this._options;
-      var length = options.length;
-
-      if (length == 0) {
-        return 0;
+      // Cache children data
+      var children = this._children;
+      var length = children.length;
+      if (this.getReversed()) {
+        children = children.concat().reverse();
       }
 
+      // Initialize gaps
       var gaps = this.getSpacing() * (length - 1);
 
-      // Support for reversed children
-      if (this.getReversed()) {
-        options = options.concat().reverse();
-      }
-
       // Add margin top of first child (no collapsing here)
-      gaps += (options[0].marginTop || 0);
+      gaps += this.getLayoutProperty(children[0], "marginTop", 0);
 
       // Add inner margins (with collapsing support)
       if (length > 0)
@@ -351,15 +348,15 @@ qx.Class.define("qx.ui2.layout.VBox",
         var thisMargin, nextMargin;
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = (options[i].marginBottom || 0);
-          nextMargin = (options[i+1].marginTop || 0);
+          thisMargin = this.getLayoutProperty(children[i], "marginBottom", 0);
+          nextMargin = this.getLayoutProperty(children[i+1], "marginTop", 0);
 
           gaps += this._collapseMargin(thisMargin, nextMargin);
         }
       }
 
       // Add margin bottom of last child (no collapsing here)
-      gaps += (options[length-1].marginBottom || 0);
+      gaps += this.getLayoutProperty(children[length-1], "marginBottom", 0);
 
       return gaps;
     },

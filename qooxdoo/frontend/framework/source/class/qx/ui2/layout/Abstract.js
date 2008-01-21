@@ -314,12 +314,23 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @type member
      * @param child {qx.ui2.core.Widget} Widget to query
      * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @param def {var?} Any value which should be returned as a default
      * @return {var|null} Configured value
      */
-    getLayoutProperty : function(child, name)
+    getLayoutProperty : function(child, name, def)
     {
       var value = this._options[child.toHashCode()][name];
-      return value == null ? null : value;
+
+      if (value == null)
+      {
+        if (def != null) {
+          return def;
+        }
+
+        return null;
+      }
+
+      return value;
     },
 
 
