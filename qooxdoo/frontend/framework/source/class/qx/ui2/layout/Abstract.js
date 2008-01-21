@@ -356,13 +356,16 @@ qx.Class.define("qx.ui2.layout.Abstract",
     */
 
     /**
-     * Invalidate all layout relevant caches
+     * Invalidate all layout relevant caches. Automatically deletes the size hint.
      *
+     * @abstract
      * @internal
      * @type member
      * @return {void}
      */
-    invalidateLayoutCache : function() {
+    invalidateLayoutCache : function()
+    {
+      this._sizeHint = null;
       return;
     },
 
@@ -409,7 +412,28 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *   is required. Can also return <code>null</code> when this detection
      *   is not supported by the layout.
      */
-    getSizeHint : function() {
+    getSizeHint : function()
+    {
+      if (this._sizeHint) {
+        return this._sizeHint;
+      }
+
+      if (this._computeSizeHint) {
+        this._sizeHint = this._computeSizeHint();
+      }
+
+      return this._sizeHint || null;
+    },
+
+
+    /**
+     * This computes the size hint of the layout and returns it.
+     *
+     * @abstract
+     * @type member
+     * @return {Map|null} The size hint or <code>null</code> when the size hint is not supported.
+     */
+    _computeSizeHint : function() {
       return null;
     },
 

@@ -105,30 +105,14 @@ qx.Class.define("qx.ui2.layout.HBox",
     */
 
     // overridden
-    invalidateLayoutCache : function()
-    {
-      if (this._sizeHint) {
-        this._sizeHint = null;
-      }
-    },
-
-
-    // overridden
     renderLayout : function(parentWidth, parentHeight)
     {
       // Initialize
       var children = this._children;
-
-      if (children.length == 0) {
-        return;
-      }
-
       var options = this._options;
       var align = this.getAlign();
-      var child, childHint;
-      var childHeight, childAlign, childTop, childLeft;
-      var childTop, childBottom;
-      var childGrow;
+      var child, hint, flex;
+      var grow;
 
 
       // Support for reversed children
@@ -138,29 +122,29 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
       // Creating dimension working data
-      var childWidths = [];
-      var childHeights = [];
-      var childHints = [];
+      var widths = [];
+      var heights = [];
+      var hints = [];
       var usedGaps = this._getGaps();
       var usedWidth = usedGaps;
-      var childWidthPercent;
+      var percentWidth;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-        childHint = child.getSizeHint();
-        childWidthPercent = options[i].width;
+        hint = child.getSizeHint();
+        percentWidth = options[i].width;
 
-        childHints[i] = childHint;
-        childWidths[i] = childWidthPercent ? Math.floor((parentWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
+        hints[i] = hint;
+        widths[i] = percentWidth ? Math.floor((parentWidth - usedGaps) * parseFloat(percentWidth) / 100) : hint.width;
 
         if (child.canStretchY()) {
-          childHeights[i] = Math.max(childHint.minHeight, Math.min(parentHeight, childHint.height));
+          heights[i] = Math.max(hint.minHeight, Math.min(parentHeight, hint.height));
         } else {
-          childHeights[i] = childHint.height;
+          heights[i] = hint.height;
         }
 
-        usedWidth += childWidths[i];
+        usedWidth += widths[i];
       }
 
       // this.debug("Initial widths: avail=" + parentWidth + ", used=" + usedWidth);
@@ -170,7 +154,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       if (usedWidth != parentWidth)
       {
         var flexCandidates = [];
-        var childGrow = usedWidth < parentWidth;
+        var grow = usedWidth < parentWidth;
 
         for (var i=0, l=children.length; i<l; i++)
         {
@@ -178,16 +162,16 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           if (child.canStretchX())
           {
-            childFlex = options[i].flex;
+            flex = options[i].flex;
 
-            if (childFlex > 0)
+            if (flex > 0)
             {
-              childHint = childHints[i];
+              hint = hints[i];
 
               flexCandidates.push({
                 id : i,
-                potential : childGrow ? childHint.maxWidth - childHint.width : childHint.width - childHint.minWidth,
-                flex : childGrow ? childFlex : 1 / childFlex
+                potential : grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
+                flex : grow ? flex : 1 / flex
               });
             }
           }
@@ -201,7 +185,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           {
             // this.debug(" - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
 
-            childWidths[key] += flexibleOffsets[key];
+            widths[key] += flexibleOffsets[key];
             usedWidth += flexibleOffsets[key];
           }
         }
@@ -211,34 +195,35 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
       // Calculate horizontal alignment offset
-      var childAlignOffset = 0;
+      var alignOffset = 0;
       if (usedWidth < parentWidth && align != "left")
       {
-        childAlignOffset = parentWidth - usedWidth;
+        alignOffset = parentWidth - usedWidth;
 
         if (align === "center") {
-          childAlignOffset = Math.round(childAlignOffset / 2);
+          alignOffset = Math.round(alignOffset / 2);
         }
       }
 
-      // this.debug("Alignment offset: value=" + childAlignOffset);
+      // this.debug("Alignment offset: value=" + alignOffset);
 
 
       // Iterate over children
       var spacing = this.getSpacing();
-      var childLeft = childAlignOffset + (options[0].marginLeft || 0);
+      var left = alignOffset + (options[0].marginLeft || 0);
+      var thisMargin, nextMargin;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
-        if (childLeft < parentWidth)
+        if (left < parentWidth)
         {
           // Respect vertical alignment
-          childTop = qx.ui2.layout.Util.computeVerticalAlignOffset(options[i].align || "top", childHeights[i], parentHeight);
+          top = qx.ui2.layout.Util.computeVerticalAlignOffset(options[i].align || "top", heights[i], parentHeight);
 
           // Layout child
-          child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
+          child.renderLayout(left, top, widths[i], heights[i]);
 
           // Include again (if excluded before)
           child.include();
@@ -257,55 +242,51 @@ qx.Class.define("qx.ui2.layout.HBox",
         // Compute left position of next child
         thisMargin = options[i].marginRight || 0;
         nextMargin = options[i+1].marginLeft || 0;
-        childLeft += childWidths[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
+        left += widths[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
 
 
     // overridden
-    getSizeHint : function()
+    _computeSizeHint : function()
     {
-      if (this._sizeHint) {
-        return this._sizeHint;
+      // Read children
+      var children = this._children;
+      if (this.getReversed()) {
+        children = children.concat().reverse();
       }
 
       // Initialize
-      var children = this._children;
       var options = this._options;
       var gaps = this._getGaps();
       var minWidth=gaps, width=gaps, maxWidth=32000;
       var minHeight=0, height=0, maxHeight=32000;
-
-      // Support for reversed children
-      if (this.getReversed()) {
-        children = children.concat().reverse();
-      }
 
       // Iterate over children
       var maxPercentWidth = 0;
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
-        var childHint = child.getSizeHint();
+        var hint = child.getSizeHint();
 
         // Respect percent width (up calculate width by using preferred width)
-        var childPercentWidth = options[i].width;
-        if (childPercentWidth) {
-          maxPercentWidth = Math.max(maxPercentWidth, childHint.width / parseFloat(childPercentWidth) * 100);
+        var percentWidth = options[i].width;
+        if (percentWidth) {
+          maxPercentWidth = Math.max(maxPercentWidth, hint.width / parseFloat(percentWidth) * 100);
         } else {
-          width += childHint.width;
+          width += hint.width;
         }
 
         // Sum up min/max width
-        minWidth += childHint.minWidth;
-        maxWidth += childHint.maxWidth;
+        minWidth += hint.minWidth;
+        maxWidth += hint.maxWidth;
 
         // Find maximium minHeight and height
-        minHeight = Math.max(0, minHeight, childHint.minHeight);
-        height = Math.max(0, height, childHint.height);
+        minHeight = Math.max(0, minHeight, hint.minHeight);
+        height = Math.max(0, height, hint.height);
 
         // Find minimum maxHeight
-        maxHeight = Math.min(32000, maxHeight, childHint.maxHeight);
+        maxHeight = Math.min(32000, maxHeight, hint.maxHeight);
       }
 
       // Apply max percent width
@@ -316,8 +297,8 @@ qx.Class.define("qx.ui2.layout.HBox",
       width = Math.min(32000, Math.max(0, width));
       maxWidth = Math.min(32000, Math.max(0, maxWidth));
 
-      // Build hint
-      var hint = {
+      // Return hint
+      return {
         minWidth : minWidth,
         width : width,
         maxWidth : maxWidth,
@@ -325,10 +306,6 @@ qx.Class.define("qx.ui2.layout.HBox",
         height : height,
         maxHeight : maxHeight
       };
-
-      this._sizeHint = hint;
-
-      return hint;
     },
 
 
