@@ -223,7 +223,7 @@ qx.Class.define("qx.ui2.layout.VBox",
           left = qx.ui2.layout.Util.computeHorizontalAlignOffset(options[i].align || "left", widths[i], parentWidth);
 
           // Layout child
-          child.renderLayout(top, left, heights[i], widths[i]);
+          child.renderLayout(left, top, widths[i], heights[i]);
 
           // Include again (if excluded before)
           child.include();
