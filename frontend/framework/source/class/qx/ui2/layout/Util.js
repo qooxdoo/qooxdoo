@@ -180,6 +180,30 @@ qx.Class.define("qx.ui2.layout.Util",
       }
 
       return value;
+    },
+
+
+    /**
+     * Collapses two margins.
+     *
+     * @type member
+     * @param end {Integer} End margin (right or bottom)
+     * @param start {Integer} Start margin (left or top)
+     * @return {Integer} The collapsed margin
+     */
+    collapseMargins : function(end, start)
+    {
+      // Math.max detects 'null' as more ('0') than '-1'
+      // we need to work around this
+      if (end && start) {
+        return Math.max(end, start);
+      } else if (start) {
+        return start;
+      } else if (end) {
+        return end;
+      }
+
+      return 0;
     }
   }
 });
