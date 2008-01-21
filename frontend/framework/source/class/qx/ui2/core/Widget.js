@@ -543,7 +543,8 @@ qx.Class.define("qx.ui2.core.Widget",
       {
         if (left == null || top == null || width == null || height == null)
         {
-          this.printStackTrace();
+          this.trace();
+          this.debug("left: " + left + ", top: " + top + ", width: " + width + ", height: " + height);
           throw new Error("Something went wrong with the layout of " + this.toString() + "!");
         }
       }
