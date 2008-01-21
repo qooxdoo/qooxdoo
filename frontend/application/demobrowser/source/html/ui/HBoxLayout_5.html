@@ -45,9 +45,9 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, {width: "50%"});
-      layout1.add(w2);
-      layout1.add(w3);
+      layout1.add(w1, { width: "50%" });
+      layout1.add(w2, { flex : 1 });
+      layout1.add(w3, { flex : 1 });
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 10});
@@ -101,7 +101,7 @@ qx.Class.define("BasicSample",
 
       layout1.add(w1, {width: "33.3%"});
       layout1.add(w2, {width: "33.3%"});
-      layout1.add(w3, {width: "33.3%"});
+      layout1.add(w3, {width: "33.3%", flex : 1});
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 190});
