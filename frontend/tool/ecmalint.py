@@ -6,12 +6,11 @@ import os
 import sys
 from optparse import OptionParser
 
-from modules import treegenerator
-from modules import tokenizer
-from modules import treeutil
-from modules import filetool
-from modules import tree
-
+from ecmascript import treegenerator
+from ecmascript import tokenizer
+from ecmascript import treeutil
+from ecmascript import tree
+from misc import filetool
 
 def getFunctionName(fcnNode):
 
@@ -346,7 +345,9 @@ class ConsoleLogger:
 class Lint:
     def __init__(self, filename, logger=None):
         self.filename = filename
-        self.tree = treegenerator.createSyntaxTree(tokenizer.parseFile(filename))
+        content = filetool.read(filename)
+
+        self.tree = treegenerator.createSyntaxTree(tokenizer.parseStream(content))
         self.script = Script(self.tree, self.filename)
         if not logger:
             self.logger = ConsoleLogger()
