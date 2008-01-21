@@ -37,26 +37,26 @@ qx.Class.define("BasicSample",
       doc.setBackgroundColor("white");
 
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
-/*
+
       // auto size
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.Grid();
       layout1.setVerticalSpacing(20);
+      layout1.setHorizontalSpacing(5);
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150, maxWidth:150}), 1, 0, 1, 2);
+      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150, maxWidth:150}), 1, 0, {rowSpan: 1, colSpan: 2});
 
       box1.setLayout(layout1);
-      doc.add(box1, 20, 10);
-*/
+      doc.add(box1, {left: 20, top: 10});
+
       // flex columns
       var box1 = (new qx.ui2.core.Widget).set({
         decoration: border,
         backgroundColor: "yellow",
-        width:600,
+        width:500,
         minWidth:"pref",
-        height : 300,
         minHeight: "pref"
       });
 
@@ -67,6 +67,7 @@ qx.Class.define("BasicSample",
       layout1.setColumnMinWidth(1,100);
       layout1.setColumnMaxWidth(2,150);
       layout1.setRowMinHeight(0,70);
+      layout1.setSpacing(5);
 
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
@@ -90,6 +91,8 @@ qx.Class.define("BasicSample",
       innerLayout.setColumnAlign(1, "center", "middle");
       innerLayout.setColumnAlign(0, "right", "bottom");
       innerLayout.setColumnMinWidth(1, 40);
+      innerLayout.setSpacing(5);
+      innerLayout.setColumnFlex(1, 1);
 
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150}), 0, 0);
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: "pref", height: 70, maxHeight: "pref"}), 0, 1);//, 2, 1);
