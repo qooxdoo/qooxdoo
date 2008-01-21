@@ -47,12 +47,9 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, null, "top");
-      layout1.add(w2, null, "middle");
-      layout1.add(w3, null, "bottom");
-
-      layout1.addLayoutProperty(w2, "marginLeft", -10);
-      layout1.addLayoutProperty(w3, "marginLeft", -10);
+      layout1.add(w1, { align : "top" });
+      layout1.add(w2, { align : "middle", marginLeft : -10 });
+      layout1.add(w3, { align : "bottom", marginLeft : -10 });
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 10});
@@ -70,13 +67,9 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, null, "top");
-      layout1.add(w2, null, "middle");
-      layout1.add(w3, null, "bottom");
-
-      layout1.addLayoutProperty(w2, "marginLeft", -10);
-      layout1.addLayoutProperty(w2, "marginRight", 20);
-      layout1.addLayoutProperty(w3, "marginLeft", -10);
+      layout1.add(w1, { align : "top" });
+      layout1.add(w2, { align : "middle", marginLeft : -10, marginRight : 20 });
+      layout1.add(w3, { align : "bottom", marginLeft : -10 });
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 100});
@@ -94,12 +87,9 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, 1, "top");
-      layout1.add(w2, 1, "middle");
-      layout1.add(w3, 1, "bottom");
-
-      layout1.addLayoutProperty(w2, "marginLeft", -10);
-      layout1.addLayoutProperty(w3, "marginLeft", -10);
+      layout1.add(w1, { flex : 1, align : "top" });
+      layout1.add(w2, { flex : 1, align : "middle", marginLeft : -10 });
+      layout1.add(w3, { flex : 1, align : "bottom", marginLeft : -10 });
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 190});
@@ -118,16 +108,12 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, 1, "top");
-      layout1.add(w2, 2, "middle");
-      layout1.add(w3, 3, "bottom");
-
-      layout1.addLayoutProperty(w2, "marginLeft", -10);
-      layout1.addLayoutProperty(w3, "marginLeft", -10);
+      layout1.add(w1, { flex : 1, align : "top" });
+      layout1.add(w2, { flex : 2, align : "middle", marginLeft : -10 });
+      layout1.add(w3, { flex : 3, align : "bottom", marginLeft : -10 });
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 280});
-
     }
   }
 });
