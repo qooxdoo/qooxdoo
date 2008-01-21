@@ -39,8 +39,6 @@
  * * Vertical align
  * * Vertical spacing
  * * Reversed children ordering
- *
- * Layout properties: flex, align, marginTop, marginBottom, horizontalAlign
  */
 qx.Class.define("qx.ui2.layout.VBox",
 {
@@ -116,64 +114,59 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
 
-      // Initialize variables
-      var child, hint, property, grow;
 
+      // **************************************
+      //   Caching children data
+      // **************************************
 
-      // Creating caching fields
+      // First run to cache children data and compute allocated height
+      var child;
       var heights = [];
-      var widths = [];
-      var hints = [];
-      var props = [];
-
-
-      // First run to cache children data and compute allocatedHeight height
       var gaps = this._getGaps();
-      var allocatedHeight = gaps;
-      for (var i=0, l=children.length; i<l; i++)
+      var percentHeight;
+
+      for (var i=0; i<length; i++)
       {
         child = children[i];
-        hint = child.getSizeHint();
-        property = this.getLayoutProperties(child);
+        percentHeight = this.getLayoutProperty(child, "height");
 
-        hints[i] = hint;
-        props[i] = property;
-        heights[i] = property.height ? Math.floor((availHeight - gaps) * parseFloat(property.height) / 100) : hint.height;
-
-        if (child.canStretchY()) {
-          widths[i] = Math.max(hint.minWidth, Math.min(availWidth, hint.width));
-        } else {
-          widths[i] = hint.width;
-        }
-
-        allocatedHeight += heights[i];
+        heights[i] = percentHeight ?
+          Math.floor((availHeight - gaps) * parseFloat(percentHeight) / 100) :
+          child.getSizeHint().height;
       }
+
+      var allocatedHeight = qx.lang.Array.sum(heights) + gaps;
 
       // this.debug("Initial heights: avail=" + availHeight + ", allocatedHeight=" + allocatedHeight);
 
 
-      // Process heights for flex stretching/shrinking
+
+
+      // **************************************
+      //   Flex support (growing/shrinking)
+      // **************************************
+
       if (allocatedHeight != availHeight)
       {
         var flexibles = [];
         var grow = allocatedHeight < availHeight;
+        var flex;
 
-        for (var i=0, l=children.length; i<l; i++)
+        for (var i=0; i<length; i++)
         {
           child = children[i];
 
           if (child.canStretchX())
           {
-            layout = props[i];
+            flex = this.getLayoutProperty(child, "flex", 0);
+            hint = child.getSizeHint();
 
-            if (layout.flex > 0)
+            if (flex > 0)
             {
-              hint = hints[i];
-
               flexibles.push({
                 id : i,
                 potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
-                flex : grow ? layout.flex : 1 / layout.flex
+                flex : grow ? flex : 1 / flex
               });
             }
           }
@@ -183,49 +176,76 @@ qx.Class.define("qx.ui2.layout.VBox",
         {
           var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
 
-          for (var key in flexibleOffsets)
-          {
-            // this.debug(" - Correcting child[" + key + "] by: " + flexibleOffsets[key]);
-
+          for (var key in flexibleOffsets) {
             heights[key] += flexibleOffsets[key];
-            allocatedHeight += flexibleOffsets[key];
           }
+
+          // Update allocated height
+          allocatedHeight = qx.lang.Array.sum(heights) + gaps;
         }
       }
 
       // this.debug("Corrected heights: avail=" + height + ", used=" + allocatedHeight);
 
 
-      // Calculate vertical alignment offset
-      var alignOffset = 0;
+
+      // **************************************
+      //   Alignment support
+      // **************************************
+
+      var top = 0;
       if (allocatedHeight < availHeight && this.getAlign() != "top")
       {
-        alignOffset = availHeight - allocatedHeight;
+        top = availHeight - allocatedHeight;
 
         if (this.getAlign() === "middle") {
-          alignOffset = Math.round(alignOffset / 2);
+          top = Math.round(top / 2);
         }
       }
 
-      // this.debug("Alignment offset: value=" + alignOffset);
 
 
-      // Iterate over children
+
+      // **************************************
+      //   Layouting children
+      // **************************************
+
+      var hint, left, width, marginEnd, marginStart;
       var spacing = this.getSpacing();
-      var top = alignOffset + (props[0].marginTop || 0);
-      var thisMargin, nextMargin;
+      var util = qx.ui2.layout.Util;
 
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0; i<length; i++)
       {
         child = children[i];
 
+        // Compute top position of this child
+        if (i === 0)
+        {
+          top += this.getLayoutProperty(child, "marginTop", 0);
+        }
+        else
+        {
+          marginEnd = this.getLayoutProperty(children[i-1], "marginBottom", 0);
+          marginStart = this.getLayoutProperty(child, "marginTop", 0);
+
+          top += heights[i-1] + spacing + util.collapseMargins(marginEnd, marginStart);
+        }
+
+        // Detect if the child is still (partly) visible
         if (top < availHeight)
         {
+          hint = child.getSizeHint();
+          if (child.canStretchY()) {
+            width = Math.max(hint.minWidth, Math.min(availWidth, hint.width));
+          } else {
+            width = hint.width;
+          }
+
           // Respect horizontal alignment
-          left = qx.ui2.layout.Util.computeHorizontalAlignOffset(props[i].align || "left", widths[i], availWidth);
+          left = util.computeHorizontalAlignOffset(this.getLayoutProperty(child, "align", "left"), width, availWidth);
 
           // Layout child
-          child.renderLayout(left, top, widths[i], heights[i]);
+          child.renderLayout(top, left, heights[i], width);
 
           // Include again (if excluded before)
           child.include();
@@ -235,16 +255,6 @@ qx.Class.define("qx.ui2.layout.VBox",
           // Exclude (completely) hidden children
           child.exclude();
         }
-
-        // If this is the last one => exit here
-        if (i==(l-1)) {
-          break;
-        }
-
-        // Compute top position of next child
-        thisMargin = props[i].marginBottom || 0;
-        nextMargin = props[i+1].marginTop || 0;
-        top += heights[i] + spacing + this._collapseMargin(thisMargin, nextMargin);
       }
     },
 
@@ -254,23 +264,23 @@ qx.Class.define("qx.ui2.layout.VBox",
     {
       // Read children
       var children = this._children;
+      var length = children.length;
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
 
       // Initialize
-      var gaps = this._getGaps();
-      var minHeight=gaps, height=gaps, maxHeight=32000;
-      var minWidth=0, width=0, maxWidth=32000;
+      var minHeight=0, height=0;
+      var minWidth=0, width=0;
 
       // Iterate over children
       var maxPercentHeight = 0;
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0; i<length; i++)
       {
         var child = children[i];
         var hint = child.getSizeHint();
 
-        // Respect percent height (up calculate height by using preferred height)
+        // Respect percent height (extrapolate height by using preferred height)
         var percentHeight = this.getLayoutProperty(child, "height");
         if (percentHeight) {
           maxPercentHeight = Math.max(maxPercentHeight, hint.height / parseFloat(percentHeight) * 100);
@@ -280,32 +290,26 @@ qx.Class.define("qx.ui2.layout.VBox",
 
         // Sum up min/max height
         minHeight += hint.minHeight;
-        maxHeight += hint.maxHeight;
 
         // Find maximium minWidth and width
-        minWidth = Math.max(0, minWidth, hint.minWidth);
-        width = Math.max(0, width, hint.width);
-
-        // Find minimum maxWidth
-        maxWidth = Math.min(32000, maxWidth, hint.maxWidth);
+        minWidth = Math.max(minWidth, hint.minWidth);
+        width = Math.max(width, hint.width);
       }
 
       // Apply max percent height
       height += Math.round(maxPercentHeight);
 
-      // Limit height to integer range
-      minHeight = Math.min(32000, Math.max(0, minHeight));
-      height = Math.min(32000, Math.max(0, height));
-      maxHeight = Math.min(32000, Math.max(0, maxHeight));
+      // Respect gaps
+      var gaps = this._getGaps();
 
       // Return hint
       return {
-        minHeight : minHeight,
-        height : height,
-        maxHeight : maxHeight,
+        minHeight : minHeight + gaps,
+        height : height + gaps,
+        maxHeight : Infinity,
         minWidth : minWidth,
         width : width,
-        maxWidth : maxWidth
+        maxWidth : Infinity
       };
     },
 
@@ -329,6 +333,8 @@ qx.Class.define("qx.ui2.layout.VBox",
      */
     _getGaps : function()
     {
+      var util = qx.ui2.layout.Util;
+
       // Cache children data
       var children = this._children;
       var length = children.length;
@@ -345,13 +351,15 @@ qx.Class.define("qx.ui2.layout.VBox",
       // Add inner margins (with collapsing support)
       if (length > 0)
       {
-        var thisMargin, nextMargin;
+        var marginEnd, marginStart;
+
+        // Ignore last child here (will be added later)
         for (var i=0; i<length-1; i++)
         {
-          thisMargin = this.getLayoutProperty(children[i], "marginBottom", 0);
-          nextMargin = this.getLayoutProperty(children[i+1], "marginTop", 0);
+          marginEnd = this.getLayoutProperty(children[i], "marginBottom", 0);
+          marginStart = this.getLayoutProperty(children[i+1], "marginTop", 0);
 
-          gaps += this._collapseMargin(thisMargin, nextMargin);
+          gaps += util.collapseMargins(marginEnd, marginStart);
         }
       }
 
@@ -359,30 +367,6 @@ qx.Class.define("qx.ui2.layout.VBox",
       gaps += this.getLayoutProperty(children[length-1], "marginBottom", 0);
 
       return gaps;
-    },
-
-
-    /**
-     * Collapses a bottom and top margin of two widgets.
-     *
-     * @type member
-     * @param bottom {Integer} Bottom margin
-     * @param top {Integer} Top margin
-     * @return {Integer} The collapsed margin
-     */
-    _collapseMargin : function(bottom, top)
-    {
-      // Math.max detects 'null' as more ('0') than '-1'
-      // we need to work around this
-      if (bottom && top) {
-        return Math.max(bottom, top);
-      } else if (top) {
-        return top;
-      } else if (bottom) {
-        return bottom;
-      }
-
-      return 0;
     }
   }
 });
