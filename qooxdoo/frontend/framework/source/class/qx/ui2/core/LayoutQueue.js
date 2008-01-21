@@ -68,12 +68,14 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         {
           // This is a real root widget. Set its size to its preferred size.
           var rootHint = widget.getSizeHint();
+          qx.core.Log.debug("Relayout of root widget: " + widget);
           widget.renderLayout(0, 0, rootHint.width, rootHint.height);
         }
         else
         {
           // This is an inner item of layout changes. Do a relayout of its
           // children without changing its position and size.
+          qx.core.Log.debug("Relayout of widget: " + widget);
           widget.renderLayout(
             widget._computedLayout.left,
             widget._computedLayout.top,
@@ -99,7 +101,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     __getLevelGroupedWidgets : function()
     {
-       // sparse level array
+      // sparse level array
       var levels = [];
       var widgets = this._layoutQueue;
 
@@ -152,6 +154,11 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
             widget.invalidateLayoutCache();
             continue;
           }
+
+          // ignore widget, which are currently not visible
+          if (!widget.isIncluded()) {
+            continue;
+          };
 
           // compare old size hint to new size hint
           var oldSizeHint = widget.getSizeHint();

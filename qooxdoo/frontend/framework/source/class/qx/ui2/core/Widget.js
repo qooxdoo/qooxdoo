@@ -629,7 +629,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getNestingLevel : function()
     {
-      var level = 0;
+      var level = -1;
       var parent = this;
 
       while (parent)
@@ -1207,6 +1207,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
     include : function() {
       this._containerElement.include();
+    },
+
+    isIncluded : function() {
+      return this._containerElement.isIncluded();
     },
 
 
