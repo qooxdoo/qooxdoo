@@ -81,7 +81,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     horizontalSpacing :
     {
       check : "Integer",
-      init : 5,
+      init : 0,
       apply : "_applyLayoutChange"
     },
 
@@ -92,28 +92,8 @@ qx.Class.define("qx.ui2.layout.Grid",
     verticalSpacing :
     {
       check : "Integer",
-      init : 5,
+      init : 0,
       apply : "_applyLayoutChange"
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    LAYOUT_DEFAULTS :
-    {
-      colSpan : 0,
-      rowSpan : 0,
-      row : null,
-      column : null
     }
   },
 
@@ -299,6 +279,20 @@ qx.Class.define("qx.ui2.layout.Grid",
       {
         colData[key] = value;
       }
+    },
+
+
+    /**
+     * Shortcut to set both horizonatal and vertical spacing between grid cells
+     * to the same value.
+     *
+     * @param spacing {Integer} new horizontal and vertical spacing
+     * @return {qx.ui2.layout.Grid} This object (for chaining support).
+     */
+    setSpacing : function(spacing)
+    {
+      this.setVerticalSpacing(spacing);
+      this.setHorizontalSpacing(spacing);
     },
 
 
