@@ -596,7 +596,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (sizeChange || !this._hasValidLayout)
       {
         var mgr = this.getLayout();
-        if (mgr) {
+        if (mgr && mgr.hasChildren()) {
           mgr.renderLayout(innerWidth, innerHeight);
         }
 
@@ -927,8 +927,23 @@ qx.Class.define("qx.ui2.core.Widget",
     _getContentHint : function()
     {
       var layout = this.getLayout();
-      if (layout) {
-        return layout.getSizeHint();
+      if (layout)
+      {
+        if (layout.hasChildren())
+        {
+          return layout.getSizeHint();
+        }
+        else
+        {
+          return {
+            width : 0,
+            minWidth : 0,
+            maxWidth : 32000,
+            height : 0,
+            minHeight : 0,
+            maxHeight : 32000
+          };
+        }
       }
 
       return {
