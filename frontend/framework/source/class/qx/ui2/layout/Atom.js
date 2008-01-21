@@ -49,7 +49,8 @@ qx.Class.define("qx.ui2.layout.Atom",
     iconPosition :
     {
       check : [ "left", "top", "right", "bottom" ],
-      init : "left"
+      init : "left",
+      apply  : "_applyLayoutChange"
     }
   },
 
