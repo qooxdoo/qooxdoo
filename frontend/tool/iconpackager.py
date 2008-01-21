@@ -22,6 +22,7 @@
 import os, sys, optparse, subprocess, tempfile, shutil
 from misc import filetool
 from generator.Log import Log
+from elementtree import ElementTree
 
 
 # Supported icon sizes
@@ -40,8 +41,8 @@ def main():
     
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
-        console.error("usage: %s [options]" % basename)
-        console.error("Try '%s -h' or '%s --help' to show the help message." % (basename, basename))
+        console.info("Usage: %s [options]" % basename)
+        console.info("Try '%s -h' or '%s --help' to show the help message." % (basename, basename))
         sys.exit(1)
 
     parser = optparse.OptionParser()
@@ -63,19 +64,49 @@ def main():
     console.info("Source folder: %s" % source)
     console.info("Target folder: %s" % target)    
     console.indent()
+
+    # Load legacy alternatives
+    mapping = getMapping()
     
+    # Process entries
     for entry in data:
         name = entry[0]
         
         console.info("Processing entry %s" % name)
         console.indent()
 
+        # Preparing name list
+        name = entry[0]
+        pre = name.split("/")[0]
+        short = name.split("/")[1]
+        names = []
+        names.extend(entry)
+        if mapping.has_key(short):
+            for sub in mapping[short]:
+                names.append(pre + "/" + sub)        
+            
+        # Copy images in different sizes
         for size in SIZES:
             copyFile(source, target, entry, size)
 
         console.outdent()
 
     console.outdent()
+
+
+def getMapping():
+    legacyFile = os.path.join(filetool.root(), "data", "icon", "legacy-icon-mapping.xml")
+    tree = ElementTree.parse(legacyFile)
+    
+    ret = {}
+    for icon in tree.findall("//icon"):
+        altlist = []
+        for alt in icon.findall("link"):
+            altlist.append(alt.text)
+            
+        ret[icon.get("name")] = altlist
+
+    return ret
 
 
 def copyFile(source, target, names, size):
