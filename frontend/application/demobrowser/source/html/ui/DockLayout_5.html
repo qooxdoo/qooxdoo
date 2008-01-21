@@ -34,6 +34,12 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
+      var container = new qx.ui2.core.Widget();
+      var containerLayout = new qx.ui2.layout.HBox();
+      containerLayout.setSpacing(20);
+      container.setLayout(containerLayout);
+      doc.add(container, {left:0, top:0});
+
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
@@ -48,16 +54,13 @@ qx.Class.define("BasicSample",
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
       layout1.add(w1, "north");
-      layout1.add(w2, "west", 0);
-      layout1.add(w3, "south", null, 0);
+      layout1.add(w2, "west", {flexX: 0, width: "50%"});
+      layout1.add(w3, "south", {flexY:0, height: "50%"});
       layout1.add(w4, "east");
       layout1.add(w5, "center");
 
-      layout1.setWidth(w2, "50%");
-      layout1.setHeight(w3, "50%");
-
       widget1.setLayout(layout1);
-      doc.add(widget1, 10, 10);
+      containerLayout.add(widget1);
 
 
 
@@ -76,16 +79,13 @@ qx.Class.define("BasicSample",
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
       layout1.add(w1, "north");
-      layout1.add(w2, "west", 0);
-      layout1.add(w3, "south", null, 0);
+      layout1.add(w2, "west", {flexX: 0, width: "50%"});
+      layout1.add(w3, "south", {flexY: 0, height: "50%"});
       layout1.add(w4, "east");
       layout1.add(w5, "center");
 
-      layout1.setWidth(w2, "50%");
-      layout1.setHeight(w3, "50%");
-
       widget1.setLayout(layout1);
-      doc.add(widget1, 10, 330);
+      containerLayout.add(widget1);
     }
   }
 });
