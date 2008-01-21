@@ -43,7 +43,7 @@ cat framework/source/class/qx/ui2/layout/HBox.js | \
   sed s:_yy9_:Horizontal:g | \
   sed s:_yy10_:Vertical:g | \
 \
-  sed s:"function(height, width)":"function(width, height)":g | \
+  sed s:"function(parentHeight, parentWidth)":"function(parentWidth, parentHeight)":g | \
   sed s:"renderLayout(childTop, childLeft, childHeights\[i\], childWidths\[i\])":"renderLayout(childLeft, childTop, childWidths[i], childHeights[i])":g | \
   sed s:"HBox":"VBox":g | \
   sed s:"hbox":"vbox":g | \

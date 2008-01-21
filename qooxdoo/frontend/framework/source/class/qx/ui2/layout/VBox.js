@@ -114,7 +114,7 @@ qx.Class.define("qx.ui2.layout.VBox",
 
 
     // overridden
-    renderLayout : function(parentHeight, parentWidth)
+    renderLayout : function(parentWidth, parentHeight)
     {
       // Initialize
       var children = this._children;
@@ -236,9 +236,6 @@ qx.Class.define("qx.ui2.layout.VBox",
         {
           // Respect horizontal alignment
           childLeft = qx.ui2.layout.Util.computeHorizontalAlignOffset(options[i].align || "left", childWidths[i], parentWidth);
-
-          console.info("Hooray...");
-          console.info("Left " + childLeft + ", Top: " + childTop);
 
           // Layout child
           child.renderLayout(childLeft, childTop, childWidths[i], childHeights[i]);
