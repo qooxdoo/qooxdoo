@@ -45,14 +45,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2);
-      layout1.add(w3);
-
-      layout1.setHeight(w1, "50%");
+      layout1.add(w1, { height : "50%" });
+      layout1.add(w2, { flex : 1 });
+      layout1.add(w3, { flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      doc.add(box1, { left : 10, top : 10 });
 
 
 
@@ -65,16 +63,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1);
-      layout1.add(w2);
-      layout1.add(w3);
-
-      layout1.setHeight(w1, "30%");
-      layout1.setHeight(w2, "30%");
-      layout1.setHeight(w3, "30%");
+      layout1.add(w1, { height : "30%", flex : 1 });
+      layout1.add(w2, { height : "30%", flex : 1 });
+      layout1.add(w3, { height : "30%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 130, 10);
+      doc.add(box1, { left : 130, top : 10 });
 
 
 
@@ -87,16 +81,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3, 0);
-
-      layout1.setHeight(w1, "33.3%");
-      layout1.setHeight(w2, "33.3%");
-      layout1.setHeight(w3, "33.3%");
+      layout1.add(w1, { height : "33.3%" });
+      layout1.add(w2, { height : "33.3%" });
+      layout1.add(w3, { height : "33.3%" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 250, 10);
+      doc.add(box1, { left : 250, top : 10 });
 
 
 
@@ -109,16 +99,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3);
-
-      layout1.setHeight(w1, "33.3%");
-      layout1.setHeight(w2, "33.3%");
-      layout1.setHeight(w3, "33.3%");
+      layout1.add(w1, { height : "33.3%", flex : 0 });
+      layout1.add(w2, { height : "33.3%", flex : 0 });
+      layout1.add(w3, { height : "33.3%" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 370, 10);
+      doc.add(box1, { left : 370, top : 10 });
 
 
 
@@ -133,14 +119,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2);
-      layout1.add(w3);
-
-			layout1.setHeight(w1, "50%");
+      layout1.add(w1, { height : "50%" });
+      layout1.add(w2, { flex : 1 });
+      layout1.add(w3, { flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 490, 10);
+      doc.add(box1, { left : 490, top : 10 });
 
 
 
@@ -152,16 +136,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3, 0);
-
-      layout1.setHeight(w1, "33%");
-      layout1.setHeight(w2, "33%");
-      layout1.setHeight(w3, "33%");
+      layout1.add(w1, { height : "33%" });
+      layout1.add(w2, { height : "33%" });
+      layout1.add(w3, { height : "33%" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 610, 10);
+      doc.add(box1, { left : 610, top : 10 });
 
 
       // all child in percents + auto sizing + flex enabled
@@ -172,16 +152,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 1);
-      layout1.add(w2, 1);
-      layout1.add(w3, 1);
-
-      layout1.setHeight(w1, "33%");
-      layout1.setHeight(w2, "33%");
-      layout1.setHeight(w3, "33%");
+      layout1.add(w1, { height : "33%", flex : 1 });
+      layout1.add(w2, { height : "33%", flex : 1 });
+      layout1.add(w3, { height : "33%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 730, 10);
+      doc.add(box1, { left : 730, top : 10 });
 
 
 
@@ -194,16 +170,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 1);
-      layout1.add(w2, 1);
-      layout1.add(w3, 1);
-
-      layout1.setHeight(w1, "33%");
-      layout1.setHeight(w2, "33%");
-      layout1.setHeight(w3, "33%");
+      layout1.add(w1, { height : "33%", flex : 1 });
+      layout1.add(w2, { height : "33%", flex : 1 });
+      layout1.add(w3, { height : "33%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 850, 10);
+      doc.add(box1, { left : 850, top : 10 });
 
 
 
@@ -217,16 +189,12 @@ qx.Class.define("BasicSample",
 			var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 			var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
 
-      layout1.add(w1, 1);
-      layout1.add(w2, 1);
-      layout1.add(w3, 1);
-
-      layout1.setHeight(w1, "33%");
-      layout1.setHeight(w2, "33%");
-      layout1.setHeight(w3, "33%");
+      layout1.add(w1, { height : "33%", flex : 1 });
+      layout1.add(w2, { height : "33%", flex : 1 });
+      layout1.add(w3, { height : "33%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 970, 10);
+      doc.add(box1, { left : 970, top : 10 });
 
 
     }
