@@ -77,7 +77,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     _computeSizeHint : function()
     {
       var children = this._children;
-      var size, layout;
+      var child, size, layout;
       var neededWidth=0, neededHeight=0;
 
 
