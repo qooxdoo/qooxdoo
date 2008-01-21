@@ -68,7 +68,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       check : [ "auto", "yfirst", "xfirst" ],
       init : "auto",
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     }
   },
 
@@ -472,21 +472,6 @@ qx.Class.define("qx.ui2.layout.Dock",
     },
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyLayoutProperty : function(value, old)
-    {
-      this.invalidateLayoutCache();
-
-      // Anything else TODO here?
-    },
 
 
 
