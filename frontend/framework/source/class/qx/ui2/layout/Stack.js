@@ -95,7 +95,6 @@ qx.Class.define("qx.ui2.layout.Stack",
       if (!selectedChild) {
         return;
       }
-      console.log(width, height);
       selectedChild.renderLayout(0, 0, width, height);
       this.scheduleLayoutUpdate();
     },
@@ -109,23 +108,6 @@ qx.Class.define("qx.ui2.layout.Stack",
         return this._sizeHint;
       }
 
-      // default size hint
-      var hint = {
-        minWidth : 0,
-        width : 0,
-        maxWidth : 32000,
-        minHeight : 0,
-        height : 0,
-        maxHeight : 32000
-      };
-
-      var selectedChild = this.getSelected();
-      if (!selectedChild) {
-        this._sizeHint = hint;
-        // this.debug("Computed size hint: ", this._sizeHint);
-        return hint;
-      }
-
       if (this.getResizeToSelected())
       {
         // return the size hint of the selected widget
@@ -136,6 +118,17 @@ qx.Class.define("qx.ui2.layout.Stack",
       else
       {
         // compute combined size hint.
+
+        // default size hint
+        var hint = {
+          minWidth : 0,
+          width : 0,
+          maxWidth : 32000,
+          minHeight : 0,
+          height : 0,
+          maxHeight : 32000
+        };
+
         for (var i=0, l=this._children.length; i<l; i++)
         {
           var child = this._children[i];
