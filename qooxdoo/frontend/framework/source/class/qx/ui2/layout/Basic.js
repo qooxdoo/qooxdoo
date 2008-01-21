@@ -24,21 +24,17 @@
  * perform best and is the ideal candidate for all animations and things
  * like this.
  *
+ * The default location of any widget is left=0 and top=0 (top-left corner).
+ *
  * Supports:
  *
- * * Integer dimensions (using widget properties)
- * * Integer locations (using layout properties)
- * * Min and max dimensions (using widget properties)
+ * * Integer dimensions
+ * * Min and max dimensions
+ * * Integer location using <code>top</code> and <code>left</code> properties in this layout
  *
- * Does not:
+ * Does not support:
  *
- * * Shrink or grow children automatically depending on the available space
- * * Support other than integer units
- *
- * Notes:
- *
- * * Does not support flex factors (recommended width/height is used)
- * * The default min size of a basic layout is the same as its preferred size and ensures that all child widgets are visible and have their preferred size.
+ * * Shrink or grow of children depending on the available space
  */
 qx.Class.define("qx.ui2.layout.Basic",
 {
@@ -61,15 +57,6 @@ qx.Class.define("qx.ui2.layout.Basic",
     */
 
     // overridden
-    invalidateLayoutCache : function()
-    {
-      if (this._sizeHint) {
-        this._sizeHint = null;
-      }
-    },
-
-
-    // overridden
     renderLayout : function(parentWidth, parentHeight)
     {
       var children = this._children;
@@ -88,12 +75,8 @@ qx.Class.define("qx.ui2.layout.Basic",
 
 
     // overridden
-    getSizeHint : function()
+    _computeSizeHint : function()
     {
-      if (this._sizeHint) {
-        return this._sizeHint;
-      }
-
       var children = this._children;
       var options = this._options;
       var size, layout;
@@ -111,29 +94,15 @@ qx.Class.define("qx.ui2.layout.Basic",
       }
 
 
-      // Limit needed dimensions
-      if (neededWidth > 32000) {
-        neededWidth = 32000;
-      }
-
-      if (neededHeight > 32000) {
-        neededHeight = 32000;
-      }
-
-
-      // Build hint
-      var hint = {
+      // Return hint
+      return {
         minWidth : 0,
         width : neededWidth,
-        maxWidth : 32000,
+        maxWidth : Infinity,
         minHeight : 0,
         height : neededHeight,
-        maxHeight : 32000
+        maxHeight : Infinity
       };
-
-
-      // Return hint
-      return this._sizeHint = hint;
     }
   }
 });
