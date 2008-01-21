@@ -105,7 +105,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     */
 
     // overridden
-    renderLayout : function(availHeight, availWidth)
+    renderLayout : function(availWidth, availHeight)
     {
       // Cache children
       var children = this._children;
