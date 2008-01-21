@@ -1340,6 +1340,16 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    /**
+     * Whether the element is part of the DOM
+     *
+     * @return {Boolean} Whether the element is part of the DOM.
+     */
+    isIncluded : function() {
+      return this._included === true;
+    },
+
+
 
 
 
