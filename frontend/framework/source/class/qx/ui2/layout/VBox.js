@@ -64,7 +64,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     {
       check : "Integer",
       init : 5,
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     },
 
 
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     {
       check : [ "top", "middle", "bottom" ],
       init : "top",
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     },
 
 
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     }
   },
 
@@ -383,20 +383,6 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
       return 0;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyLayoutProperty : function(value, old) {
-      this.invalidateLayoutCache();
     }
   }
 });

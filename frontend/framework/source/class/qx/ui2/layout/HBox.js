@@ -64,7 +64,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       check : "Integer",
       init : 5,
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     },
 
 
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       check : [ "left", "center", "right" ],
       init : "left",
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     },
 
 
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyLayoutProperty"
+      apply : "_applyLayoutChange"
     }
   },
 
@@ -383,20 +383,6 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       return 0;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyLayoutProperty : function(value, old) {
-      this.invalidateLayoutCache();
     }
   }
 });
