@@ -80,7 +80,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = options[child.toHashCode()];
+        layout = this.getLayoutProperties(child);
 
 
 
