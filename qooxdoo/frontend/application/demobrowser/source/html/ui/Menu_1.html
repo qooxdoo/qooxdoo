@@ -137,7 +137,7 @@ qx.Class.define("Menu",
       }
       else
       {
-        this._layout.add(text, row, 0, 0, 2);
+        this._layout.add(text, row, 0, {colSpan: 2});
       }
     }
   }
@@ -162,7 +162,7 @@ qx.Class.define("BasicSample",
 
       var docLayout = new qx.ui2.layout.Grid();
       docLayout.setColumnFlex(0, 0);
-      doc.setLayout(docLayout);
+      docLayout.setSpacing(20);
 
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
@@ -193,7 +193,7 @@ qx.Class.define("BasicSample",
       var container = new qx.ui2.core.Widget();
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0, 0, 0);
+      doc.add(container, {top: 0, left:0});
 
     }
   }
