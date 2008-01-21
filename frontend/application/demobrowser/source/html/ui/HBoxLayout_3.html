@@ -47,13 +47,12 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:60});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight:60});
 
-      layout1.add(w1, null, "top");
-      layout1.add(w2, null, "middle");
-      layout1.add(w3, null, "bottom");
+      layout1.add(w1, { align : "top" });
+      layout1.add(w2, { align : "middle" });
+      layout1.add(w3, { align : "bottom" });
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 10});
-
     }
   }
 });

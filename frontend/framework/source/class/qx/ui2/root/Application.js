@@ -77,19 +77,11 @@ qx.Class.define("qx.ui2.root.Application",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
-     * @param left {Integer|String?null} Left position of the widget (accepts
-     *   both, integer(pixel) and string(percent) values.
-     * @param top {Integer|String?null} Top position of the widget (accepts
-     *   both, integer(pixel) and string(percent) values.
-     * @param right {Integer|String?null} Right position of the widget (accepts
-     *   both, integer(pixel) and string(percent) values.
-     * @param bottom {Integer|String?null} Bottom position of the widget (accepts
-     *   both, integer(pixel) and string(percent) values.
      * @return {qx.ui2.layout.Canvas} This object (for chaining support)
      */
-    add : function(widget, left, top, right, bottom)
+    add : function(widget, options)
     {
-      this.getLayout().add(widget, left, top, right, bottom);
+      this.getLayout().add(widget, options);
       return this;
     },
 
