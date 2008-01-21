@@ -317,6 +317,5 @@ qx.Bootstrap.define("qx.lang.Array",
       }
       return true;
     }
-
   }
 });
