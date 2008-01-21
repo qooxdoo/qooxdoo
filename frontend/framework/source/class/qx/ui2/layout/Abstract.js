@@ -194,6 +194,17 @@ qx.Class.define("qx.ui2.layout.Abstract",
     },
 
 
+    /**
+     * Whether the layout contains children.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the layout has children.
+     */
+    hasChildren : function() {
+      return !!this._children[0];
+    },
+
+
 
 
 
