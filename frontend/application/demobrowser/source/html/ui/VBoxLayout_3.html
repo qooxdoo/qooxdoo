@@ -29,7 +29,7 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      var doc = new qx.ui2.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
@@ -47,12 +47,12 @@ qx.Class.define("BasicSample",
       var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth:100});
       var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxWidth:100});
 
-      layout1.add(w1, null, "left");
-      layout1.add(w2, null, "center");
-      layout1.add(w3, null, "right");
+      layout1.add(w1, { align : "left" });
+      layout1.add(w2, { align : "center" });
+      layout1.add(w3, { align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      doc.add(box1, { left : 10, top : 10 });
 
     }
   }
