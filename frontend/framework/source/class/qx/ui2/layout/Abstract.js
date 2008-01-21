@@ -287,6 +287,29 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
     /**
+     * Returns all layout properties of a child widget as a map.
+     *
+     * @param child {qx.ui2.core.Widget} Widget to query
+     * @return {Map} a map of all layout properties.
+     */
+    getLayoutProperties : function(child)
+    {
+      var index = this.indexOf(child);
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (index === -1)
+        {
+          this.trace();
+          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
+        }
+      }
+
+      return this._options[index] || {};
+    },
+
+
+    /**
      * Whether the given widget has a specific property.
      *
      * @type member
