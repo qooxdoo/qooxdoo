@@ -149,7 +149,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         child = children[i];
         childHint = child.getSizeHint();
-        childWidthPercent = options[i].percent;
+        childWidthPercent = options[i].width;
 
         childHints[i] = childHint;
         childWidths[i] = childWidthPercent ? Math.floor((parentWidth - usedGaps) * parseFloat(childWidthPercent) / 100) : childHint.width;
