@@ -43,8 +43,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
     // This array contains the children (instances of Widget)
     this._children = [];
 
-    // Contains layout options of widgets (always index identical to the children array)
-    this._options = [];
+    // Contains layout options of widgets (the key is the hashcode of the widget)
+    this._options = {};
   },
 
 
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
   {
     /*
     ---------------------------------------------------------------------------
-      CHILDREN HANDLING
+      CHILDREN HANDLING - PUBLIC API
     ---------------------------------------------------------------------------
     */
 
@@ -95,32 +95,13 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * @type member
      * @param child {qx.ui2.core.Widget} the widget to add.
-     * @param layout {Map?null} Optional layout data for widget.
+     * @param options {Map?null} Optional layout data for widget.
      * @return {qx.ui2.layout.Abstract} This object (for chaining support)
      */
-    add : function(child, layout)
+    add : function(child, options)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!child || !(child instanceof qx.ui2.core.Widget)) {
-          throw new Error("Invalid widget to add: " + child);
-        }
-
-        if (layout != null && typeof layout !== "object") {
-          throw new Error("Invalid layout data: " + layout);
-        }
-      }
-
       this._children.push(child);
-      this._options.push(layout || {});
-
-      this._addToParent(child);
-
-      // mark layout as invalid
-      this.scheduleLayoutUpdate();
-
-      // Chaining support
-      return this;
+      return this._addHelper(child, options);
     },
 
 
@@ -133,25 +114,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     remove : function(child)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!child || !(child instanceof qx.ui2.core.Widget)) {
-          throw new Error("Invalid widget to add: " + child);
-        }
-      }
-
-      var index = this._children.indexOf(child);
-      qx.lang.Array.removeAt(this._children, index);
-      qx.lang.Array.removeAt(this._options, index);
-
-      this._removeFromParent(child);
-
-      // Invalidate layout cache of the layouts of the widget and its old parent
-      child.scheduleLayoutUpdate();
-      this.scheduleLayoutUpdate();
-
-      // Chaining support
-      return this;
+      qx.lang.Array.remove(this._children, child);
+      return this._removeHelper(child);
     },
 
 
@@ -208,6 +172,102 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN HANDLING - IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    _addHelper : function(child, layout)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!child || !(child instanceof qx.ui2.core.Widget)) {
+          throw new Error("Invalid widget to add: " + child);
+        }
+
+        if (layout != null && typeof layout !== "object") {
+          throw new Error("Invalid layout data: " + layout);
+        }
+      }
+
+      this._options[child.toHashCode()] = layout || {};
+
+      this._addToParent(child);
+
+      // mark layout as invalid
+      this.scheduleLayoutUpdate();
+
+      // Chaining support
+      return this;
+    },
+
+
+    _removeHelper : function(child)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!child || !(child instanceof qx.ui2.core.Widget)) {
+          throw new Error("Invalid widget to add: " + child);
+        }
+      }
+
+      delete this._options[child.toHashCode()];
+
+      this._removeFromParent(child);
+
+      // Invalidate layout cache of the layouts of the widget and its old parent
+      child.scheduleLayoutUpdate();
+      this.scheduleLayoutUpdate();
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Helper to manage child insertion.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to insert
+     * @return {void}
+     */
+    _addToParent : function(widget)
+    {
+      var parent = this.getWidget();
+
+      if (parent)
+      {
+        parent._contentElement.add(widget.getElement());
+        widget.setParent(parent);
+      }
+    },
+
+
+    /**
+     * Helper to manage child removal.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} Widget to remove
+     * @return {void}
+     */
+    _removeFromParent : function(widget)
+    {
+      var parent = this.getWidget();
+
+      if (parent) {
+        parent._contentElement.remove(widget.getElement());
+      }
+
+      widget.setParent(null);
+    },
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT PROPERTIES
@@ -228,18 +288,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     addLayoutProperty : function(child, name, value)
     {
-      var index = this.indexOf(child);
-      this._options[index][name] = value;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (index === -1)
-        {
-          this.trace();
-          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
-        }
-      }
-
+      this._options[child.toHashCode()][name] = value;
       this.scheduleLayoutUpdate();
     },
 
@@ -254,19 +303,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     removeLayoutProperty : function(child, name)
     {
-      var index = this.indexOf(child);
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (index === -1)
-        {
-          this.trace();
-          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
-        }
-      }
-
-      delete this._options[index][name];
-
+      delete this._options[child.toHashCode()][name];
       this.scheduleLayoutUpdate();
     },
 
@@ -281,18 +318,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     getLayoutProperty : function(child, name)
     {
-      var index = this.indexOf(child);
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (index === -1)
-        {
-          this.trace();
-          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
-        }
-      }
-
-      var value = this._options[index][name];
+      var value = this._options[child.toHashCode()][name];
       return value == null ? null : value;
     },
 
@@ -303,20 +329,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param child {qx.ui2.core.Widget} Widget to query
      * @return {Map} a map of all layout properties.
      */
-    getLayoutProperties : function(child)
-    {
-      var index = this.indexOf(child);
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (index === -1)
-        {
-          this.trace();
-          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
-        }
-      }
-
-      return this._options[index] || {};
+    getLayoutProperties : function(child) {
+      return this._options[child.toHashCode()] || {};
     },
 
 
@@ -328,20 +342,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {Boolean} <code>true</code> when this hint is defined
      */
-    hasLayoutProperty : function(child, name)
-    {
-      var index = this.indexOf(child);
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (index === -1)
-        {
-          this.trace();
-          throw new Error("Layout properties can only configured on widgets which are children of this layout.");
-        }
-      }
-
-      return this._options[index][name] != null;
+    hasLayoutProperty : function(child, name) {
+      return this._options[child.toHashCode()][name] != null;
     },
 
 
@@ -363,10 +365,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @type member
      * @return {void}
      */
-    invalidateLayoutCache : function()
-    {
+    invalidateLayoutCache : function() {
       this._sizeHint = null;
-      return;
     },
 
 
@@ -443,52 +443,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     /*
     ---------------------------------------------------------------------------
-      PARENT UTILS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Helper to manage child insertion.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to insert
-     * @return {void}
-     */
-    _addToParent : function(widget)
-    {
-      var parent = this.getWidget();
-
-      if (parent)
-      {
-        parent._contentElement.add(widget.getElement());
-        widget.setParent(parent);
-      }
-    },
-
-
-    /**
-     * Helper to manage child removal.
-     *
-     * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to remove
-     * @return {void}
-     */
-    _removeFromParent : function(widget)
-    {
-      var parent = this.getWidget();
-
-      if (parent) {
-        parent._contentElement.remove(widget.getElement());
-      }
-
-      widget.setParent(null);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
@@ -541,7 +495,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeObjectDeep("_children", 2);
+  destruct : function()
+  {
+    this._disposeObjectDeep("_children", 1);
+    this._disposeFields("_options");
   }
 });

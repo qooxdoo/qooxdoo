@@ -67,7 +67,7 @@ qx.Class.define("qx.ui2.layout.Basic",
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = options[i];
+        layout = options[child.toHashCode()];
 
         child.renderLayout(layout.left || 0, layout.top || 0, size.width, size.height);
       }
@@ -86,8 +86,9 @@ qx.Class.define("qx.ui2.layout.Basic",
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)
       {
-        size = children[i].getSizeHint();
-        layout = options[i];
+        child = children[i];
+        size = child.getSizeHint();
+        layout = options[child.toHashCode()];
 
         neededWidth = Math.max(neededWidth, (layout.left || 0) + size.width);
         neededHeight = Math.max(neededHeight, (layout.top || 0) + size.height);
