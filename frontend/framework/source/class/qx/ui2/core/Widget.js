@@ -560,8 +560,10 @@ qx.Class.define("qx.ui2.core.Widget",
         this._computedLayout.left = left;
         this._computedLayout.top = top;
 
-        this._containerElement.setStyle("left", left + "px");
-        this._containerElement.setStyle("top", top + "px");
+        this._containerElement.setStyles({
+          left : left + "px",
+          top : top + "px"
+        });
       }
 
       var sizeChange = (width !== this._computedLayout.width || height !== this._computedLayout.height);
@@ -570,13 +572,17 @@ qx.Class.define("qx.ui2.core.Widget",
         this._computedLayout.width = width;
         this._computedLayout.height = height;
 
-        this._containerElement.setStyle("width", width + "px");
-        this._containerElement.setStyle("height", height + "px");
+        this._containerElement.setStyles({
+          width : width + "px",
+          height : height + "px"
+        });
 
-        this._contentElement.setStyle("left", insets.left + "px");
-        this._contentElement.setStyle("top", insets.top + "px");
-        this._contentElement.setStyle("width", innerWidth + "px");
-        this._contentElement.setStyle("height", innerHeight + "px");
+        this._contentElement.setStyles({
+          left : insets.left + "px",
+          top : insets.top + "px",
+          width : innerWidth + "px",
+          height : innerHeight + "px"
+        });
 
         this.updateDecoration(width, height);
       }
