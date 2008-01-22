@@ -98,7 +98,7 @@ qx.Class.define("BasicSample",
 
 
 
-      // auto size + negative margins + flex
+      // auto size + negative margins + different flex
       var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height:80, width: 500});
       var layout1 = new qx.ui2.layout.HBox();
 
@@ -114,6 +114,26 @@ qx.Class.define("BasicSample",
 
       box1.setLayout(layout1);
       doc.add(box1, {left: 10, top: 280});
+
+
+
+
+      // auto size + negative margins + different flex (using width)
+      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height:80, width: 500});
+      var layout1 = new qx.ui2.layout.HBox();
+
+      layout1.setSpacing(0);
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+
+      layout1.add(w1, { width : "1*", align : "top" });
+      layout1.add(w2, { width : "2*", align : "middle", marginLeft : -10 });
+      layout1.add(w3, { width : "3*", align : "bottom", marginLeft : -10 });
+
+      box1.setLayout(layout1);
+      doc.add(box1, {left: 10, top: 370});
     }
   }
 });
