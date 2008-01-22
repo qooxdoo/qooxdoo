@@ -34,12 +34,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(core)
-
-************************************************************************ */
-
 /**
  * TODO
  */
@@ -84,7 +78,6 @@ qx.Class.define("qx.fx.Appear",
       //effect.element.forceRerendering();
     },
     update: function(position) {
-      //this.element.setOpacity(position);
       qx.bom.element.Opacity.set(this._element, position);
     }
   },

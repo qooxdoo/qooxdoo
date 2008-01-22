@@ -34,12 +34,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(core)
-
-************************************************************************ */
-
 /**
  * TODO
  */
@@ -58,22 +52,18 @@ qx.Class.define("qx.fx.Base",
   {
     this.base(arguments);
 
-
-    if(options && typeof(options.transition) != "function")
-    {
-      options.transition = qx.fx.Effect.Transitions.linear;
+    if(options && typeof(options.transition) != "function"){
+      this._transition = qx.fx.Effect.Transitions.linear;
+    } else {
+      this._transition = options.transition;
     }
-
-    //this._options    = Object.extend(Object.extend({ },qx.fx.Effect.DefaultOptions), options || { });
-    //this._options      = typeof(options) == "object" ? options : qx.fx.Effect.DefaultOptions;
 
     this._options      = qx.fx.Effect.DefaultOptions;
     for(var i in options)
     {
-      console.info(i, options[i])
       this._options[i] = options[i];
     }
-    
+
     this._currentFrame = 0;
     this._state        = qx.fx.Effect.EffectState.idle;
     this._startOn      = this._options.delay * 1000;
@@ -96,6 +86,84 @@ qx.Class.define("qx.fx.Base",
   {
   },
 
+
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+/*
+   properties :
+   {
+    
+    _options :
+    {
+      init : 0,
+      inheritable : true
+    },
+    _currentFrame :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _state :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _startOn :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _finishOn :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _fromToDelta :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _totalTime :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _totalFrames :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _position :
+    {
+      init : 0,
+      inheritable : true
+    },
+
+    _element :
+    {
+      init : 0,
+      inheritable : true
+    },
+    
+    _transition :
+    {
+      init : null,
+      inheritable : true
+    }
+
+   },*/
+  
+  
   /*
    *****************************************************************************
       MEMBERS
@@ -104,17 +172,19 @@ qx.Class.define("qx.fx.Base",
 
    members :
    {
-    _options      : {},
-    _currentFrame : 0,
-    _state        : '',
-    _startOn      : 0,
-    _finishOn     : 0,
-    _fromToDelta  : 0,
-    _totalTime    : 0,
-    _totalFrames  : 0,
-    _position     : 0,
-    _element      : null,
 
+    _options      : null,
+    _currentFrame : null,
+    _state        : null,
+    _startOn      : null,
+    _finishOn     : null,
+    _fromToDelta  : null,
+    _totalTime    : null,
+    _totalFrames  : null,
+    _position     : null,
+    _element      : null,
+    _transition   : null,
+    
     start: function()
     {
 
@@ -132,7 +202,7 @@ qx.Class.define("qx.fx.Base",
         (this.setup ? 'this.setup();':'')+ 
         codeForEvent(this._options,'afterSetup')+
         '};if (this._state==qx.fx.Effect.EffectState.running){'+
-        'pos=this._options.transition(pos)*'+this._fromToDelta+'+'+this._options.from+';'+
+        'pos=this._transition(pos)*'+this._fromToDelta+'+'+this._options.from+';'+
         'this._position=pos;'+
         codeForEvent(this._options,'beforeUpdate')+
         (this.update ? 'this.update(pos);':'')+
