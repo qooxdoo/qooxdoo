@@ -34,12 +34,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(core)
-
-************************************************************************ */
-
 /**
  * TODO
  */
@@ -99,8 +93,10 @@ qx.Class.define("qx.fx.Effect",
       },
       
       pulse: function(pos, pulses)
-      { 
-        pulses = pulses || 5;
+      {
+
+        pulses = (typeof(pulses) == "Number") ? pulses : 5;
+
         return (
           Math.round((pos % (1/pulses)) * pulses) == 0 ? 
                 Math.floor((pos * pulses * 2) - (pos * pulses * 2)) : 
