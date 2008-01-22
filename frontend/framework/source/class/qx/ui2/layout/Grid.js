@@ -461,7 +461,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
     /**
      * Set the maximum width of a grid column.
-     * The default value is <code>32000</code>.
+     * The default value is <code>Infinity</code>.
      *
      * @param column {Integer} The column index
      * @param maxWidth {Integer} The column's maximum width
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
     /**
      * Set the maximum height of a grid row.
-     * The default value is <code>32000</code>.
+     * The default value is <code>Infinity</code>.
      *
      * @param row {Integer} The row index
      * @param maxHeight {Integer} The row's maximum width
@@ -542,7 +542,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     getRowMaxHeight : function(row)
     {
       var rowData = this._rowData[row] || {};
-      return rowData.maxHeight || 32000;
+      return rowData.maxHeight || Infinity;
     },
 
 
@@ -842,7 +842,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       {
         var width = 0;
         var minWidth = 0;
-        var maxWidth = 32000;
+        var maxWidth = Infinity;
 
         for (var row=0; row<=this._maxRowIndex; row++)
         {

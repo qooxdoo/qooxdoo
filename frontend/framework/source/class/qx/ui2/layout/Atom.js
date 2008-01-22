@@ -114,8 +114,8 @@ qx.Class.define("qx.ui2.layout.Atom",
 
         childHint = child.getSizeHint();
 
-        childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth, 32000));
-        childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight, 32000));
+        childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth, Infinity));
+        childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight, Infinity));
 
         childLeft = Math.round((width - childWidth) / 2);
         childTop = Math.round((height - childHeight) / 2);
@@ -170,12 +170,12 @@ qx.Class.define("qx.ui2.layout.Atom",
 
 
         // Limit to integer and min/max range
-        minWidth = Math.min(32000, Math.max(0, minWidth));
-        maxWidth = Math.min(32000, Math.max(0, maxWidth));
-        width = Math.min(32000, minWidth, Math.max(0, width, maxWidth));
-        minHeight = Math.min(32000, Math.max(0, minHeight));
-        maxHeight = Math.min(32000, Math.max(0, maxHeight));
-        height = Math.min(32000, minHeight, Math.max(0, height, maxHeight));
+        minWidth = Math.min(Infinity, Math.max(0, minWidth));
+        maxWidth = Math.min(Infinity, Math.max(0, maxWidth));
+        width = Math.min(Infinity, minWidth, Math.max(0, width, maxWidth));
+        minHeight = Math.min(Infinity, Math.max(0, minHeight));
+        maxHeight = Math.min(Infinity, Math.max(0, maxHeight));
+        height = Math.min(Infinity, minHeight, Math.max(0, height, maxHeight));
 
 
         // Build hint
