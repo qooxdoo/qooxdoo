@@ -336,6 +336,101 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       return result;
+    },
+
+    /**
+     * Returns the highest value in the given array. Supports
+     * numeric values only.
+     *
+     * @type static
+     * @param array {Number[]} Array to process
+     * @return {Number} The highest of all values.
+     */
+    max : function(array)
+    {
+      var result = Number.MIN_VALUE;
+  
+      for (var i=0, l=array.length; i<l; i++) {
+        if(array[i] > result)
+        {
+          result = array[i];
+        }
+      }
+  
+      return result;
+    },
+  
+  
+    /**
+     * Returns the lowest value in the given array. Supports
+     * numeric values only.
+     *
+     * @type static
+     * @param array {Number[]} Array to process
+     * @return {Number} The lowest of all values.
+     */
+    min : function(array)
+    {
+      var result = Number.MAX_VALUE;
+  
+      for (var i=0, l=array.length; i<l; i++) {
+        if(array[i] < result)
+        {
+          result = array[i];
+        }
+      }
+  
+      return result;
+    },
+  
+    /**
+     * Returns all elements which do no apply to given function.
+     * Opposite of {@see #findAll}.
+     *
+     * @type static
+     * @param array {Array} Array to process
+     * @param iterator {Function} Fuction which should be called for every element as parameter.
+     * @return {Array} Array with all elements for which the given function returns false.
+     */
+    reject : function(array, iterator, context)
+    {
+      var results = [];
+      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator; 
+  
+      for (var i=0, l=array.length; i<l; i++) {
+        if(!fnc(array[i]))
+        {
+          results.push(array[i]);
+        }
+      }
+  
+      return results;
+    },
+  
+  
+    /**
+     * Returns all elements which apply to given function.
+     * Opposite of {@see #reject}.
+     *
+     * @type static
+     * @param array {Array} Array to process
+     * @param iterator {Function} Fuction which should be called for every element as parameter.
+     * @return {Array} Array with all elements for which the given function returns true.
+     */
+    findAll : function(array, iterator, context)
+    {
+      var results = [];
+      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator; 
+  
+      for (var i=0, l=array.length; i<l; i++) {
+        if(fnc(array[i]))
+        {
+          results.push(array[i]);
+        }
+      }
+  
+      return results;
     }
+
   }
 });
