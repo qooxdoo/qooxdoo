@@ -302,7 +302,7 @@ qx.Class.define("qx.core.Init",
   *****************************************************************************
   */
 
-  defer : function(statics, proto, properties)
+  defer : function(statics, members, properties)
   {
     // Force direct creation
     statics.getInstance();
