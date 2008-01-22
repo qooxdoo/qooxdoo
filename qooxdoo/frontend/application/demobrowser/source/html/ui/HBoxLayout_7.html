@@ -1,0 +1,139 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      this.test1(doc);
+      this.test2(doc);
+      this.test3(doc);
+    },
+
+    test1 : function(doc)
+    {
+      // interactive reversed
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
+      var layout = new qx.ui2.layout.HBox();
+
+      layout.setSpacing(0);
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+
+      layout.add(w1, { align : "top" });
+      layout.add(w2, { align : "middle", marginLeft : -10 });
+      layout.add(w3, { align : "bottom", marginLeft : -10 });
+
+      box.setLayout(layout);
+      doc.add(box, {left: 10, top: 10});
+
+      reversed = true;
+      box.addListener("mousedown", function(e)
+      {
+        layout.setReversed(reversed);
+        reversed = !reversed;
+      });
+    },
+
+    test2 : function(doc)
+    {
+      // interactive margin 1
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
+      var layout = new qx.ui2.layout.HBox();
+
+      layout.setSpacing(0);
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+
+      layout.add(w1, { align : "top", marginLeft : 10 });
+      layout.add(w2, { align : "middle", marginLeft : 10 });
+      layout.add(w3, { align : "bottom", marginLeft : 10 });
+
+      box.setLayout(layout);
+      doc.add(box, {left: 10, top: 100});
+
+      before = true;
+      box.addListener("mousedown", function(e)
+      {
+        layout.addLayoutProperty(w1, "marginLeft", before ? 20 : 10);
+        layout.addLayoutProperty(w2, "marginLeft", before ? 0 : 10);
+
+        before = !before;
+      });
+    },
+
+    test3 : function(doc)
+    {
+      // interactive margin 2
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
+      var layout = new qx.ui2.layout.HBox();
+
+      layout.setSpacing(0);
+
+      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+
+      layout.add(w1, { align : "top", marginLeft : 10 });
+      layout.add(w2, { align : "middle", marginLeft : 10 });
+      layout.add(w3, { align : "bottom", marginLeft : 10 });
+
+      box.setLayout(layout);
+      doc.add(box, {left: 10, top: 190});
+
+      large = true;
+      box.addListener("mousedown", function(e)
+      {
+        layout.addLayoutProperty(w1, "marginLeft", large ? 30 : 10);
+        layout.addLayoutProperty(w2, "marginLeft", large ? 30 : 10);
+        layout.addLayoutProperty(w3, "marginLeft", large ? 30 : 10);
+
+        large = !large;
+      });
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
