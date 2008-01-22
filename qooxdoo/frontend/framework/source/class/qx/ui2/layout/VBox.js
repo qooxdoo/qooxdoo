@@ -102,6 +102,9 @@ qx.Class.define("qx.ui2.layout.VBox",
     ---------------------------------------------------------------------------
     */
 
+    _percentExpr : /[0-9.]+%/,
+    _flexExpr : /[0-9]+\*/,
+
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
@@ -129,19 +132,35 @@ qx.Class.define("qx.ui2.layout.VBox",
       // **************************************
 
       // First run to cache children data and compute allocated height
-      var child;
+      var child, layoutHeight;
       var heights = [];
       var gaps = this._getGaps();
-      var percentHeight;
 
       for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
-        percentHeight = this.getLayoutProperty(child, "height");
 
-        heights[i] = percentHeight ?
-          Math.floor((availHeight - gaps) * parseFloat(percentHeight) / 100) :
-          child.getSizeHint().height;
+        layoutHeight = this.getLayoutProperty(child, "height");
+        if (layoutHeight)
+        {
+          if (this._percentExpr.test(layoutHeight))
+          {
+            heights[i] = Math.floor((availHeight - gaps) * parseFloat(layoutHeight) / 100);
+          }
+          else if (this._flexExpr.test(layoutHeight))
+          {
+            // Flex values here are a shortcut for height+flex (height should start at 0)
+            heights[i] = 0;
+          }
+          else
+          {
+            throw new Error("Invalid layout height: " + layoutHeight);
+          }
+        }
+        else
+        {
+          heights[i] = child.getSizeHint().height;
+        }
       }
 
       var allocatedHeight = qx.lang.Array.sum(heights) + gaps;
@@ -167,11 +186,20 @@ qx.Class.define("qx.ui2.layout.VBox",
 
           if (child.canStretchY())
           {
-            flex = this.getLayoutProperty(child, "flex", 0);
-            hint = child.getSizeHint();
+            layoutHeight = this.getLayoutProperty(child, "height");
+            if (layoutHeight && this._flexExpr.test(layoutHeight))
+            {
+              flex = parseInt(layoutHeight);
+            }
+            else
+            {
+              flex = this.getLayoutProperty(child, "flex", 0);
+            }
 
             if (flex > 0)
             {
+              hint = child.getSizeHint();
+
               flexibles.push({
                 id : i,
                 potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
@@ -262,7 +290,7 @@ qx.Class.define("qx.ui2.layout.VBox",
           height = heights[i];
 
           // Layout child
-          child.renderLayout(top, left, height, width);
+          child.renderLayout(left, top, width, height);
 
           // Include again (if excluded before)
           child.include();
