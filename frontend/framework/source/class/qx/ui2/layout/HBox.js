@@ -109,8 +109,17 @@ qx.Class.define("qx.ui2.layout.HBox",
       var children = this._children;
       var length = children.length;
 
-      if (this.getReversed()) {
-        children = children.concat().reverse();
+      if (this.getReversed())
+      {
+        var start = length;
+        var end = 0;
+        var increment = -1;
+      }
+      else
+      {
+        var start = 0;
+        var end = length;
+        var increment = 1;
       }
 
 
@@ -125,7 +134,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       var gaps = this._getGaps();
       var percentWidth;
 
-      for (var i=0; i<length; i++)
+      for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
         percentWidth = this.getLayoutProperty(child, "width");
@@ -152,7 +161,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         var grow = allocatedWidth < availWidth;
         var flex;
 
-        for (var i=0; i<length; i++)
+        for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
 
@@ -210,25 +219,30 @@ qx.Class.define("qx.ui2.layout.HBox",
       //   Layouting children
       // **************************************
 
-      var hint, top, height, marginEnd, marginStart;
+      var prev, hint, top, height, width, marginEnd, marginStart;
       var spacing = this.getSpacing();
       var util = qx.ui2.layout.Util;
 
-      for (var i=0; i<length; i++)
+      for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
 
         // Compute left position of this child
-        if (i === 0)
+        if (left < availWidth)
         {
-          left += this.getLayoutProperty(child, "marginLeft", 0);
-        }
-        else
-        {
-          marginEnd = this.getLayoutProperty(children[i-1], "marginRight", 0);
-          marginStart = this.getLayoutProperty(child, "marginLeft", 0);
+          if (i === start)
+          {
+            left += this.getLayoutProperty(child, "marginLeft", 0);
+          }
+          else
+          {
+            // "prev" is the previous child from the previous interation
+            marginEnd = this.getLayoutProperty(prev, "marginRight", 0);
+            marginStart = this.getLayoutProperty(child, "marginLeft", 0);
 
-          left += widths[i-1] + spacing + util.collapseMargins(marginEnd, marginStart);
+            // "width" is still the width of the previous child
+            left += width + spacing + util.collapseMargins(marginEnd, marginStart);
+          }
         }
 
         // Detect if the child is still (partly) visible
@@ -244,11 +258,17 @@ qx.Class.define("qx.ui2.layout.HBox",
           // Respect vertical alignment
           top = util.computeVerticalAlignOffset(this.getLayoutProperty(child, "align", "top"), height, availHeight);
 
+          // Load width
+          width = widths[i];
+
           // Layout child
-          child.renderLayout(left, top, widths[i], height);
+          child.renderLayout(left, top, width, height);
 
           // Include again (if excluded before)
           child.include();
+
+          // Remember previous child
+          prev = child;
         }
         else
         {
@@ -265,39 +285,43 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Read children
       var children = this._children;
       var length = children.length;
-      if (this.getReversed()) {
-        children = children.concat().reverse();
+
+      if (this.getReversed())
+      {
+        var start = length;
+        var end = 0;
+        var increment = -1;
+      }
+      else
+      {
+        var start = 0;
+        var end = length;
+        var increment = 1;
       }
 
       // Initialize
       var minWidth=0, width=0;
       var minHeight=0, height=0;
+      var hint;
 
       // Iterate over children
-      var maxPercentWidth = 0;
-      for (var i=0; i<length; i++)
+      for (var i=0; i!=end; i+=increment)
       {
-        var child = children[i];
-        var hint = child.getSizeHint();
+        hint = children[i].getSizeHint();
 
-        // Respect percent width (extrapolate width by using preferred width)
-        var percentWidth = this.getLayoutProperty(child, "width");
-        if (percentWidth) {
-          maxPercentWidth = Math.max(maxPercentWidth, hint.width / parseFloat(percentWidth) * 100);
-        } else {
-          width += hint.width;
-        }
-
-        // Sum up min/max width
+        // Sum up widths
+        width += hint.width;
         minWidth += hint.minWidth;
 
-        // Find maximium minHeight and height
-        minHeight = Math.max(minHeight, hint.minHeight);
-        height = Math.max(height, hint.height);
-      }
+        // Find maximum heights
+        if (hint.height > height) {
+          height = hint.height;
+        }
 
-      // Apply max percent width
-      width += Math.round(maxPercentWidth);
+        if (hint.minHeight > minHeight) {
+          minHeight = hint.minHeight;
+        }
+      }
 
       // Respect gaps
       var gaps = this._getGaps();
