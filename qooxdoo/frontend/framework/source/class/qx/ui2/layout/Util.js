@@ -68,7 +68,7 @@ qx.Class.define("qx.ui2.layout.Util",
         // qx.core.Log.debug("Flex loop, remaining: " + remaining);
 
         // Find minimum potential for next correction
-        flexStep = 32000;
+        flexStep = Infinity;
         flexSum = 0;
         for (var i=0; i<flexLength; i++)
         {
