@@ -34,6 +34,10 @@
         this.base(arguments);
         var d = qx.ui.core.ClientDocument.getInstance();
 
+        // We want to allow qooxdoo version 0.7.2 compatible padding
+        qx.Class.include(qx.ui.table.cellrenderer.Abstract,
+                         qx.ui.table.cellrenderer.MStyle_0_7_2);
+
         var main = new qx.ui.layout.VerticalBoxLayout();
         main.set({ left:20, top:20, right:20, bottom:20, spacing:5 });
 
