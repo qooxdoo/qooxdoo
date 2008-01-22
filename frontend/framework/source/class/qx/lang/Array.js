@@ -350,9 +350,9 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       var result = Number.MIN_VALUE;
   
-      for (var i=0, l=array.length; i<l; i++) {
-        if(array[i] > result)
-        {
+      for (var i=0, l=array.length; i<l; i++)
+      {
+        if (array[i] > result) {
           result = array[i];
         }
       }
@@ -373,9 +373,9 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       var result = Number.MAX_VALUE;
   
-      for (var i=0, l=array.length; i<l; i++) {
-        if(array[i] < result)
-        {
+      for (var i=0, l=array.length; i<l; i++)
+      {
+        if (array[i] < result) {
           result = array[i];
         }
       }
@@ -397,9 +397,9 @@ qx.Bootstrap.define("qx.lang.Array",
       var results = [];
       var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator; 
   
-      for (var i=0, l=array.length; i<l; i++) {
-        if(!fnc(array[i]))
-        {
+      for (var i=0, l=array.length; i<l; i++)
+      {
+        if (!fnc(array[i])) {
           results.push(array[i]);
         }
       }
@@ -422,9 +422,9 @@ qx.Bootstrap.define("qx.lang.Array",
       var results = [];
       var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator; 
   
-      for (var i=0, l=array.length; i<l; i++) {
-        if(fnc(array[i]))
-        {
+      for (var i=0, l=array.length; i<l; i++)
+      {
+        if (fnc(array[i])) {
           results.push(array[i]);
         }
       }
