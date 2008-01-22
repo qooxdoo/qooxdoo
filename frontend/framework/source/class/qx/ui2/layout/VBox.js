@@ -149,8 +149,8 @@ qx.Class.define("qx.ui2.layout.VBox",
           }
           else if (this._flexExpr.test(layoutHeight))
           {
-            // Flex values here are a shortcut for height+flex (height should start at 0)
-            heights[i] = 0;
+            // Flex values here are a shortcut for height+flex (height should start at the minheight)
+            heights[i] = child.getSizeHint().minHeight;
           }
           else
           {
@@ -223,6 +223,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       }
 
       // this.debug("Corrected heights: avail=" + height + ", used=" + allocatedHeight);
+
 
 
 
@@ -390,33 +391,44 @@ qx.Class.define("qx.ui2.layout.VBox",
       // Cache children data
       var children = this._children;
       var length = children.length;
-      if (this.getReversed()) {
-        children = children.concat().reverse();
+
+      if (this.getReversed())
+      {
+        var start = length;
+        var end = 0;
+        var increment = -1;
+      }
+      else
+      {
+        var start = 0;
+        var end = length;
+        var increment = 1;
       }
 
       // Initialize gaps
       var gaps = this.getSpacing() * (length - 1);
 
-      // Add margin top of first child (no collapsing here)
-      gaps += this.getLayoutProperty(children[0], "marginTop", 0);
-
       // Add inner margins (with collapsing support)
-      if (length > 0)
+      var marginEnd, marginStart;
+
+      // Add margin top of first child (no collapsing here)
+      child = children[start];
+      gaps += this.getLayoutProperty(child, "marginTop", 0);
+
+      // Ignore last child here (will be added later)
+      for (var i=start+increment; i!=length; i+=increment)
       {
-        var marginEnd, marginStart;
+        marginEnd = this.getLayoutProperty(child, "marginBottom", 0);
 
-        // Ignore last child here (will be added later)
-        for (var i=0; i<length-1; i++)
-        {
-          marginEnd = this.getLayoutProperty(children[i], "marginBottom", 0);
-          marginStart = this.getLayoutProperty(children[i+1], "marginTop", 0);
+        child = children[i];
 
-          gaps += util.collapseMargins(marginEnd, marginStart);
-        }
+        marginStart = this.getLayoutProperty(child, "marginTop", 0);
+
+        gaps += util.collapseMargins(marginEnd, marginStart);
       }
 
       // Add margin bottom of last child (no collapsing here)
-      gaps += this.getLayoutProperty(children[length-1], "marginBottom", 0);
+      gaps += this.getLayoutProperty(child, "marginBottom", 0);
 
       return gaps;
     }
