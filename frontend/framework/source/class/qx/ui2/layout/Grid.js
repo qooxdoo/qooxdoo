@@ -1075,14 +1075,8 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    getSizeHint : function()
+    _computeSizeHint : function()
     {
-      if (this._sizeHint != null)
-      {
-        this.debug("Cached size hint: ", this._sizeHint);
-        return this._sizeHint;
-      }
-
       // calculate col widths
       var colWidths = this._getColWidths();
 
@@ -1121,7 +1115,6 @@ qx.Class.define("qx.ui2.layout.Grid",
       };
 
       this.debug("Computed size hint: ", hint);
-      this._sizeHint = hint;
 
       return hint;
     }
