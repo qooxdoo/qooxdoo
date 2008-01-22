@@ -156,6 +156,32 @@
           checkBox);
         buttonBar.add(checkBox);
 
+        var checkBox =
+          new qx.ui.form.CheckBox("0.7.2-style",
+                                  null, null,
+                                  false);
+        checkBox.setToolTip(new qx.ui.popup.ToolTip(
+                              "Use the 0.7.2 style with less padding"));
+        var cellrenderer = qx.ui.table.cellrenderer.Abstract;
+        var origStyle = cellrenderer.getTableCellStyleSheet();
+        checkBox.addEventListener(
+          "changeChecked",
+          function(evt)
+          {
+            if (this.getChecked())
+            {
+              cellrenderer.setTableCellStyleSheet_0_7_2();
+              this.info("Set 0.7.2 style");
+            }
+            else
+            {
+              cellrenderer.setTableCellStyleSheet(origStyle);
+              this.info("Set more padded style");
+            }
+          },
+          checkBox);
+        buttonBar.add(checkBox);
+
         var tcm = table.getTableColumnModel();
 
         var checkBox =

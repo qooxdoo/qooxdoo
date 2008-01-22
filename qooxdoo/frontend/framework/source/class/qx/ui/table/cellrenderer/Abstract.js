@@ -34,11 +34,34 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
   extend : qx.core.Object,
 
   construct : function() {
-    var clazz = this.self(arguments);
-    if (!clazz.stylesheet)
+    var cr = qx.ui.table.cellrenderer.Abstract;
+    if (!cr.__clazz)
     {
-      clazz.stylesheet = qx.html.StyleSheet.createElement(
+      cr.__clazz = this.self(arguments);
+      var stylesheet =
         ".qooxdoo-table-cell {" +
+        cr.__tableCellStyleSheet +
+        "} " +
+        ".qooxdoo-table-cell-right {" +
+        cr.__tableCellRightStyleSheet +
+        "} " +
+        ".qooxdoo-table-cell-italic {" +
+        cr.__tableCellItalicStyleSheet +
+        "} " +
+        ".qooxdoo-table-cell-bold {" +
+        cr.__tableCellBoldStyleSheet +
+        "} ";
+      this.debug(stylesheet);
+      cr.__clazz.stylesheet = qx.html.StyleSheet.createElement(stylesheet);
+    }
+  },
+
+
+  statics :
+  {
+    __clazz : null,
+
+    __tableCellStyleSheet :
         "  position: absolute;" +
         "  top: 0px;" +
         "  height: 100%;" +
@@ -50,28 +73,163 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         "  border-bottom:1px solid #eeeeee;" +
         "  padding : 0px 6px;" +
         "  cursor:default;" +
-        (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;') +
-        "}" +
-        ".qooxdoo-table-cell-right {" +
-        "  text-align:right" +
-        " }" +
-        ".qooxdoo-table-cell-italic {" +
-        "  font-style:italic" +
-        " }" +
-        ".qooxdoo-table-cell-bold {" +
-        "  font-weight:bold" +
-        " }"
-      );
+        (qx.core.Variant.isSet("qx.client", "mshtml")
+         ? ''
+         : ';-moz-user-select:none;'),
+
+    __tableCellStyleSheet_0_7_2 :
+        "  position: absolute;" +
+        "  top: 0px;" +
+        "  height: 100%;" +
+        "  overflow:hidden;" +
+        "  text-overflow:ellipsis;" +
+        "  -o-text-overflow: ellipsis;" +
+        "  white-space:nowrap;" +
+        "  border-right:1px solid #eeeeee;" +
+        "  border-bottom:1px solid #eeeeee;" +
+        "  padding : 0px 2px;" +
+        "  cursor:default;" +
+        (qx.core.Variant.isSet("qx.client", "mshtml")
+         ? ''
+         : ';-moz-user-select:none;'),
+
+    __tableCellRightStyleSheet :
+      "  text-align:right",
+
+    __tableCellItalicStyleSheet :
+      "  font-style:italic",
+
+    __tableCellBoldStyleSheet :
+      "  font-weight:bold",
+      
+
+    /**
+     * Set the current standard cell style settings for table cells to be the
+     * values that were used up through qooxdoo version 0.7.2.
+     */
+    setTableCellStyleSheet_0_7_2 : function()
+    {
+      var cr = qx.ui.table.cellrenderer.Abstract;
+      cr.setTableCellStyleSheet(cr.__tableCellStyleSheet_0_7_2);
+    },
+
+    /**
+     * Get the current standard cell style settings for table cells.
+     */
+    getTableCellStyleSheet : function(style)
+    {
+      return qx.ui.table.cellrenderer.Abstract.__tableCellStyleSheet;
+    },
+
+    /**
+     * Set the standard cell style settings for table cells.
+     */
+    setTableCellStyleSheet : function(style)
+    {
+      var cr = qx.ui.table.cellrenderer.Abstract;
+      if (cr.__clazz)
+      {
+        qx.html.StyleSheet.removeRule(cr.__clazz.stylesheet,
+                                      ".qooxdoo-table-cell");
+        cr.__tableCellStyleSheet = style;
+        qx.html.StyleSheet.addRule(cr.__clazz.stylesheet,
+                                   ".qooxdoo-table-cell",
+                                   cr.__tableCellStyleSheet);
+      }
+      else
+      {
+        cr.__tableCellStyleSheet = style;
+      }
+    },
+
+    /**
+     * Get the current right-align cell style settings for table cells.
+     */
+    getTableCellRightStyleSheet : function(style)
+    {
+      return qx.ui.table.cellrenderer.Abstract.__tableCellRightStyleSheet;
+    },
+
+    /**
+     * Set the right-align cell style settings for table cells.
+     */
+    setTableCellRightStyleSheet : function(style)
+    {
+      var cr = qx.ui.table.cellrenderer.Abstract;
+      if (cr.__clazz)
+      {
+        qx.html.StyleSheet.removeRule(cr.__clazz.stylesheet,
+                                      ".qooxdoo-table-cell-right");
+        cr.__tableCellRightStyleSheet = style;
+        qx.html.StyleSheet.addRule(cr.__clazz.stylesheet,
+                                   ".qooxdoo-table-cell-right",
+                                   cr.__tableCellStyleRightSheet);
+      }
+      else
+      {
+        cr.__tableCellRightStyleSheet = style;
+      }
+    },
+
+    /**
+     * Get the current italic cell style settings for table cells.
+     */
+    getTableCellItalicStyleSheet : function(style)
+    {
+      return qx.ui.table.cellrenderer.Abstract.__tableCellItalicStyleSheet;
+    },
+
+    /**
+     * Set the italic cell style settings for table cells.
+     */
+    setTableCellItalicStyleSheet : function(style)
+    {
+      var cr = qx.ui.table.cellrenderer.Abstract;
+      if (cr.__clazz)
+      {
+        qx.html.StyleSheet.removeRule(cr.__clazz.stylesheet,
+                                      ".qooxdoo-table-cell-italic");
+        cr.__tableCellItalicStyleSheet = style;
+        qx.html.StyleSheet.addRule(cr.__clazz.stylesheet,
+                                   ".qooxdoo-table-cell-italic",
+                                   cr.__tableCellItalicStyleSheet);
+      }
+      else
+      {
+        cr.__tableCellStyleItalicSheet = style;
+      }
+    },
+
+    /**
+     * Get the current bold cell style settings for table cells.
+     */
+    getTableCellBoldStyleSheet : function(style)
+    {
+      return qx.ui.table.cellrenderer.Abstract.__tableCellBoldStyleSheet;
+    },
+
+    /**
+     * Set the standard cell style settings for table cells.
+     */
+    setTableCellBoldStyleSheet : function(style)
+    {
+      var cr = qx.ui.table.cellrenderer.Abstract;
+      if (cr.__clazz)
+      {
+        qx.html.StyleSheet.removeRule(cr.__clazz.stylesheet,
+                                      ".qooxdoo-table-cell-bold");
+        cr.__tableCellBoldStyleSheet = style;
+        qx.html.StyleSheet.addRule(cr.__clazz.stylesheet,
+                                   ".qooxdoo-table-cell-bold",
+                                   cr.__tableCellBoldStyleSheet);
+      }
+      else
+      {
+        cr.__tableCellBoldStyleSheet = style;
+      }
     }
   },
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -91,7 +249,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
 
     /**
-     * Returns the CSS styles that should be applied to the main div of this cell.
+     * Returns the CSS styles that should be applied to the main div of this
+     * cell.
      *
      * This method may be overridden by sub classes.
      *
