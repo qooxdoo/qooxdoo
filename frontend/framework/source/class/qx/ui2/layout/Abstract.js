@@ -193,11 +193,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
       }
 
       this._options[child.toHashCode()] = layout || {};
-
       this._addToParent(child);
 
-      // mark layout as invalid
-      this.scheduleLayoutUpdate();
+      // Invalidate layout cache
+      this.scheduleWidgetLayoutUpdate();
 
       // Chaining support
       return this;
@@ -209,17 +208,15 @@ qx.Class.define("qx.ui2.layout.Abstract",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!child || !(child instanceof qx.ui2.core.Widget)) {
-          throw new Error("Invalid widget to add: " + child);
+          throw new Error("Invalid widget to remove: " + child);
         }
       }
 
       delete this._options[child.toHashCode()];
-
       this._removeFromParent(child);
 
-      // Invalidate layout cache of the layouts of the widget and its old parent
-      child.scheduleLayoutUpdate();
-      this.scheduleLayoutUpdate();
+      // Invalidate layout cache
+      this.scheduleWidgetLayoutUpdate();
 
       // Chaining support
       return this;
@@ -289,7 +286,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     addLayoutProperty : function(child, name, value)
     {
       this._options[child.toHashCode()][name] = value;
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
     },
 
 
@@ -304,7 +301,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     removeLayoutProperty : function(child, name)
     {
       delete this._options[child.toHashCode()][name];
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
     },
 
 
@@ -385,11 +382,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Indicate that the layout has layout changes and propagate this information
      * up the widget hierarchy.
      *
-     * @internal
      * @type member
      * @return {void}
      */
-    scheduleLayoutUpdate : function()
+    scheduleWidgetLayoutUpdate : function()
     {
       var widget = this.getWidget();
       if (widget) {
@@ -416,7 +412,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Computes the layout dimensions and possible ranges of these.
      *
-     * @internal
      * @type member
      * @return {Map|null} The map with the preferred width/height and the allowed
      *   minimum and maximum values in cases where shrinking or growing
@@ -474,10 +469,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-
           this._removeFromParent(child);
-          child.scheduleLayoutUpdate();
         }
+
+        old.scheduleLayoutUpdate();
       }
 
       if (value)
@@ -485,10 +480,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-
           this._addToParent(child);
-          child.scheduleLayoutUpdate();
         }
+
+        value.scheduleLayoutUpdate();
       }
     },
 
@@ -497,7 +492,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Generic property apply method for all layout relevant properties.
      */
     _applyLayoutChange : function() {
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
     }
   },
 

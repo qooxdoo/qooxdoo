@@ -315,7 +315,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._setColumnData(column, "hAlign", hAlign);
       this._setColumnData(column, "vAlign", vAlign);
 
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
 
       return this;
     },
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._setCellData(column, "hAlign", hAlign);
       this._setCellData(column, "vAlign", vAlign);
 
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
 
       return this;
     },
@@ -411,7 +411,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnFlex : function(column, flex)
     {
       this._setColumnData(column, "flex", flex);
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
       return this;
     },
 
@@ -440,7 +440,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowFlex : function(row, flex)
     {
       this._setRowData(row, "flex", flex);
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
       return this;
     },
 
@@ -470,7 +470,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnMaxWidth : function(column, maxWidth)
     {
       this._setColumnData(column, "maxWidth", maxWidth);
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
       return this;
     },
 
@@ -499,7 +499,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setColumnMinWidth : function(column, minWidth)
     {
       this._setColumnData(column, "minWidth", minWidth);
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
       return this;
     },
 
@@ -528,7 +528,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowMaxHeight : function(row, maxHeight)
     {
       this._setRowData(row, "maxHeight", maxHeight);
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
       return this;
     },
 
@@ -557,7 +557,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     setRowMinHeight : function(row, minHeight)
     {
       this._setRowData(row, "minHeight", minHeight);
-      this.scheduleLayoutUpdate();
+      this.scheduleWidgetLayoutUpdate();
       return this;
     },
 
