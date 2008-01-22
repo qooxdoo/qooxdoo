@@ -9,6 +9,8 @@ cat framework/source/class/qx/ui2/layout/HBox.js | \
   sed s:middle:_xx8_:g | \
   sed s:vertical:_xx9_:g | \
   sed s:horizontal:_xx10_:g | \
+  sed s:canStretchX:_xx11_g | \
+  sed s:canStretchY:_xx12_g | \
 \
   sed s:Width:_yy1_:g | \
   sed s:Height:_yy2_:g | \
@@ -31,6 +33,8 @@ cat framework/source/class/qx/ui2/layout/HBox.js | \
   sed s:_xx8_:center:g | \
   sed s:_xx9_:horizontal:g | \
   sed s:_xx10_:vertical:g | \
+  sed s:_xx11_:canStretchY:g | \
+  sed s:_xx12_:canStretchX:g | \
 \
   sed s:_yy1_:Height:g | \
   sed s:_yy2_:Width:g | \
