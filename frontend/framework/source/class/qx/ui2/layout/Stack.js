@@ -83,7 +83,7 @@ qx.Class.define("qx.ui2.layout.Stack",
     {
       if (this._sizeHint)
       {
-        this.debug("Clear layout cache");
+        // this.debug("Clear layout cache");
         this._sizeHint = null;
       }
     },
@@ -99,21 +99,14 @@ qx.Class.define("qx.ui2.layout.Stack",
       this.scheduleLayoutUpdate();
     },
 
-    // overridden
-    getSizeHint : function()
-    {
-      if (this._sizeHint)
-      {
-        // this.debug("Cached size hint: ", this._sizeHint);
-        return this._sizeHint;
-      }
 
+    // overridden
+    _computeSizeHint : function()
+    {
       if (this.getResizeToSelected())
       {
         // return the size hint of the selected widget
-        this._sizeHint = selectedChild.getSizeHint();
-        // this.debug("Computed size hint: ", this._sizeHint);
-        return this._sizeHint;
+        return this.getSelected().getSizeHint();
       }
       else
       {
@@ -123,10 +116,10 @@ qx.Class.define("qx.ui2.layout.Stack",
         var hint = {
           minWidth : 0,
           width : 0,
-          maxWidth : 32000,
+          maxWidth : Infinity,
           minHeight : 0,
           height : 0,
-          maxHeight : 32000
+          maxHeight : Infinity
         };
 
         for (var i=0, l=this._children.length; i<l; i++)
@@ -140,7 +133,6 @@ qx.Class.define("qx.ui2.layout.Stack",
           hint.height = Math.max(hint.height, childHint.height);
           hint.maxHeight = Math.min(hint.maxHeight, childHint.maxHeight);
         }
-        this._sizeHint = hint;
         // this.debug("Computed size hint: ", this._sizeHint);
         return hint;
       }
