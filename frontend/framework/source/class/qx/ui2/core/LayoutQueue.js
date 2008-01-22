@@ -84,6 +84,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           );
         }
       }
+      this._layoutQueue = {};
     },
 
 

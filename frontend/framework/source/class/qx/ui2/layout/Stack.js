@@ -133,7 +133,6 @@ qx.Class.define("qx.ui2.layout.Stack",
           hint.height = Math.max(hint.height, childHint.height);
           hint.maxHeight = Math.min(hint.maxHeight, childHint.maxHeight);
         }
-        // this.debug("Computed size hint: ", this._sizeHint);
         return hint;
       }
     }
