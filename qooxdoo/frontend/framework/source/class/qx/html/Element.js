@@ -91,7 +91,7 @@ qx.Class.define("qx.html.Element",
 
     // Add hashcode (temporary, while development)
     if (qx.core.Variant.isSet("qx.debug", "on")) {
-      this.setAttribute("hashCode", this.toHashCode());
+      this.setAttribute("id", this.toHashCode());
     }
   },
 
@@ -607,6 +607,7 @@ qx.Class.define("qx.html.Element",
       var jobs = this.__attribJobs;
       if (jobs)
       {
+        // qx.core.Log.debug("Attribute Jobs: ", jobs);
         var data = this.__attribValues;
 
         if (data)
@@ -631,6 +632,7 @@ qx.Class.define("qx.html.Element",
       var jobs = this.__styleJobs;
       if (jobs)
       {
+        // qx.core.Log.debug("Style Jobs: ", jobs);
         var data = this.__styleValues;
 
         if (data)
@@ -1435,6 +1437,10 @@ qx.Class.define("qx.html.Element",
         this.__styleValues = {};
       }
 
+      if (this.__styleValues[key] == value) {
+        return;
+      }
+
       if (value == null) {
         delete this.__styleValues[key];
       } else {
@@ -1496,7 +1502,19 @@ qx.Class.define("qx.html.Element",
         this.__styleValues = {};
       }
 
-      for (var key in map) {
+      var modified = {};
+      for (var key in map)
+      {
+        if (this.__styleValues[key] != map[key]) {
+          modified[key] = true;
+        }
+      }
+
+      if (qx.lang.Object.isEmpty(modified)) {
+        return;
+      }
+
+      for (var key in modified) {
         this.__styleValues[key] = map[key];
       }
 
@@ -1514,7 +1532,7 @@ qx.Class.define("qx.html.Element",
         }
 
         // Copy to jobs map
-        for (var key in map) {
+        for (var key in modified) {
           this.__styleJobs[key] = true;
         }
 
@@ -1565,6 +1583,10 @@ qx.Class.define("qx.html.Element",
     {
       if (!this.__attribValues) {
         this.__attribValues = {};
+      }
+
+      if (this.__attribValues[key] == value) {
+        return;
       }
 
       if (value == null) {
@@ -1628,7 +1650,19 @@ qx.Class.define("qx.html.Element",
         this.__attribValues = {};
       }
 
-      for (var key in map) {
+      var modified = {};
+      for (var key in map)
+      {
+        if (this.__attribValues[key] != map[key]) {
+          modified[key] = true;
+        }
+      }
+
+      if (qx.lang.Object.isEmpty(modified)) {
+        return;
+      }
+
+      for (var key in modified) {
         this.__attribValues[key] = map[key];
       }
 
@@ -1646,7 +1680,7 @@ qx.Class.define("qx.html.Element",
         }
 
         // Copy to jobs map
-        for (var key in map) {
+        for (var key in modified) {
           this.__attribJobs[key] = true;
         }
 
