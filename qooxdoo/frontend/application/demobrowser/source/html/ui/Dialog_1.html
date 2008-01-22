@@ -54,10 +54,12 @@ qx.Class.define("BasicSample",
       layout.setSpacing(10);
       dialog.setLayout(layout);
 
-      var pane = new qx.ui2.core.Widget().set({
+      var pane = new qx.ui2.core.Label("Click here to resize ...").set({
         backgroundColor : "green",
-        width: 300,
-        height: 200
+        width: 600,
+        height: 300,
+        decoration: border,
+        padding: 10
       });
 
       layout.add(pane, 0, 0, { colSpan: 3});
@@ -76,22 +78,23 @@ qx.Class.define("BasicSample",
       });
       layout.add(cancel, 1, 2);
 
-      var grow = true;
+      var grow = false;
       pane.addListener("click", function(e)
       {
         if (grow) {
           pane.set({
-            height: 300,
-            width: 600
+            width: 600,
+            height: 300
           });
         }
         else
         {
           pane.set({
-            height: 200,
-            width: 300
+            width: 300,
+            height: 200
           });
         }
+        console.log(pane);
         grow = !grow;
       });
     }

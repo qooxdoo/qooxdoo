@@ -1063,13 +1063,13 @@ qx.Class.define("qx.ui2.layout.Grid",
     // overridden
     invalidateLayoutCache : function()
     {
-      if (this._sizeHint || this._rowHeights || this._colHeights)
+      if (this._sizeHint || this._rowHeights || this._colWidths)
       {
-        // this.debug("Clear layout cache");
+        this.debug("Clear layout cache");
 
         this._sizeHint = null;
         this._rowHeights = null;
-        this._colHeights = null;
+        this._colWidths = null;
       }
     },
 
@@ -1113,8 +1113,6 @@ qx.Class.define("qx.ui2.layout.Grid",
         height : height + spacingY,
         maxHeight : maxHeight + spacingY
       };
-
-      this.debug("Computed size hint: ", hint);
 
       return hint;
     }
