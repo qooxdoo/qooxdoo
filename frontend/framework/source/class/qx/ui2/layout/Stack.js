@@ -69,8 +69,14 @@ qx.Class.define("qx.ui2.layout.Stack",
       if (old) {
         old.exclude();
       }
+
       value.include();
+
+      this.scheduleWidgetLayoutUpdate();
     },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -96,7 +102,6 @@ qx.Class.define("qx.ui2.layout.Stack",
         return;
       }
       selectedChild.renderLayout(0, 0, width, height);
-      this.scheduleLayoutUpdate();
     },
 
 
