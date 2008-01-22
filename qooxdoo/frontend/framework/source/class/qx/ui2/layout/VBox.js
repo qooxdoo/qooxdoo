@@ -109,8 +109,17 @@ qx.Class.define("qx.ui2.layout.VBox",
       var children = this._children;
       var length = children.length;
 
-      if (this.getReversed()) {
-        children = children.concat().reverse();
+      if (this.getReversed())
+      {
+        var start = length;
+        var end = 0;
+        var increment = -1;
+      }
+      else
+      {
+        var start = 0;
+        var end = length;
+        var increment = 1;
       }
 
 
@@ -125,7 +134,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       var gaps = this._getGaps();
       var percentHeight;
 
-      for (var i=0; i<length; i++)
+      for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
         percentHeight = this.getLayoutProperty(child, "height");
@@ -152,11 +161,11 @@ qx.Class.define("qx.ui2.layout.VBox",
         var grow = allocatedHeight < availHeight;
         var flex;
 
-        for (var i=0; i<length; i++)
+        for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
 
-          if (child.canStretchX())
+          if (child.canStretchY())
           {
             flex = this.getLayoutProperty(child, "flex", 0);
             hint = child.getSizeHint();
@@ -210,32 +219,37 @@ qx.Class.define("qx.ui2.layout.VBox",
       //   Layouting children
       // **************************************
 
-      var hint, left, width, marginEnd, marginStart;
+      var prev, hint, left, width, height, marginEnd, marginStart;
       var spacing = this.getSpacing();
       var util = qx.ui2.layout.Util;
 
-      for (var i=0; i<length; i++)
+      for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
 
         // Compute top position of this child
-        if (i === 0)
+        if (top < availHeight)
         {
-          top += this.getLayoutProperty(child, "marginTop", 0);
-        }
-        else
-        {
-          marginEnd = this.getLayoutProperty(children[i-1], "marginBottom", 0);
-          marginStart = this.getLayoutProperty(child, "marginTop", 0);
+          if (i === start)
+          {
+            top += this.getLayoutProperty(child, "marginTop", 0);
+          }
+          else
+          {
+            // "prev" is the previous child from the previous interation
+            marginEnd = this.getLayoutProperty(prev, "marginBottom", 0);
+            marginStart = this.getLayoutProperty(child, "marginTop", 0);
 
-          top += heights[i-1] + spacing + util.collapseMargins(marginEnd, marginStart);
+            // "height" is still the height of the previous child
+            top += height + spacing + util.collapseMargins(marginEnd, marginStart);
+          }
         }
 
         // Detect if the child is still (partly) visible
         if (top < availHeight)
         {
           hint = child.getSizeHint();
-          if (child.canStretchY()) {
+          if (child.canStretchX()) {
             width = Math.max(hint.minWidth, Math.min(availWidth, hint.width));
           } else {
             width = hint.width;
@@ -244,11 +258,17 @@ qx.Class.define("qx.ui2.layout.VBox",
           // Respect horizontal alignment
           left = util.computeHorizontalAlignOffset(this.getLayoutProperty(child, "align", "left"), width, availWidth);
 
+          // Load height
+          height = heights[i];
+
           // Layout child
-          child.renderLayout(top, left, heights[i], width);
+          child.renderLayout(top, left, height, width);
 
           // Include again (if excluded before)
           child.include();
+
+          // Remember previous child
+          prev = child;
         }
         else
         {
@@ -265,39 +285,43 @@ qx.Class.define("qx.ui2.layout.VBox",
       // Read children
       var children = this._children;
       var length = children.length;
-      if (this.getReversed()) {
-        children = children.concat().reverse();
+
+      if (this.getReversed())
+      {
+        var start = length;
+        var end = 0;
+        var increment = -1;
+      }
+      else
+      {
+        var start = 0;
+        var end = length;
+        var increment = 1;
       }
 
       // Initialize
       var minHeight=0, height=0;
       var minWidth=0, width=0;
+      var hint;
 
       // Iterate over children
-      var maxPercentHeight = 0;
-      for (var i=0; i<length; i++)
+      for (var i=0; i!=end; i+=increment)
       {
-        var child = children[i];
-        var hint = child.getSizeHint();
+        hint = children[i].getSizeHint();
 
-        // Respect percent height (extrapolate height by using preferred height)
-        var percentHeight = this.getLayoutProperty(child, "height");
-        if (percentHeight) {
-          maxPercentHeight = Math.max(maxPercentHeight, hint.height / parseFloat(percentHeight) * 100);
-        } else {
-          height += hint.height;
-        }
-
-        // Sum up min/max height
+        // Sum up heights
+        height += hint.height;
         minHeight += hint.minHeight;
 
-        // Find maximium minWidth and width
-        minWidth = Math.max(minWidth, hint.minWidth);
-        width = Math.max(width, hint.width);
-      }
+        // Find maximum widths
+        if (hint.width > width) {
+          width = hint.width;
+        }
 
-      // Apply max percent height
-      height += Math.round(maxPercentHeight);
+        if (hint.minWidth > minWidth) {
+          minWidth = hint.minWidth;
+        }
+      }
 
       // Respect gaps
       var gaps = this._getGaps();

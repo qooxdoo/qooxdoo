@@ -9,8 +9,8 @@ cat framework/source/class/qx/ui2/layout/HBox.js | \
   sed s:middle:_xx8_:g | \
   sed s:vertical:_xx9_:g | \
   sed s:horizontal:_xx10_:g | \
-  sed s:canStretchX:_xx11_g | \
-  sed s:canStretchY:_xx12_g | \
+  sed s:canStretchX:_xx11_:g | \
+  sed s:canStretchY:_xx12_:g | \
 \
   sed s:Width:_yy1_:g | \
   sed s:Height:_yy2_:g | \
