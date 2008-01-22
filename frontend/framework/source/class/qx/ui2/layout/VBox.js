@@ -114,8 +114,8 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       if (this.getReversed())
       {
-        var start = length;
-        var end = 0;
+        var start = length-1;
+        var end = -1;
         var increment = -1;
       }
       else
@@ -317,8 +317,8 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       if (this.getReversed())
       {
-        var start = length;
-        var end = 0;
+        var start = length-1;
+        var end = -1;
         var increment = -1;
       }
       else
@@ -334,7 +334,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       var hint;
 
       // Iterate over children
-      for (var i=0; i!=end; i+=increment)
+      for (var i=start; i!=end; i+=increment)
       {
         hint = children[i].getSizeHint();
 
@@ -394,8 +394,8 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       if (this.getReversed())
       {
-        var start = length;
-        var end = 0;
+        var start = length-1;
+        var end = -1;
         var increment = -1;
       }
       else
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       gaps += this.getLayoutProperty(child, "marginTop", 0);
 
       // Ignore last child here (will be added later)
-      for (var i=start+increment; i!=length; i+=increment)
+      for (var i=start+increment; i!=end; i+=increment)
       {
         marginEnd = this.getLayoutProperty(child, "marginBottom", 0);
 
