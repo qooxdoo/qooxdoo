@@ -48,7 +48,7 @@ cat framework/source/class/qx/ui2/layout/HBox.js | \
   sed s:_yy10_:Vertical:g | \
 \
   sed s:"function(availHeight, availWidth)":"function(availWidth, availHeight)":g | \
-  sed s:"renderLayout(top, left, heights\[i\], widths\[i\])":"renderLayout(left, top, widths[i], heights[i])":g | \
+  sed s:"renderLayout(top, left, height, width)":"renderLayout(left, top, width, height)":g | \
   sed s:"HBox":"VBox":g | \
   sed s:"hbox":"vbox":g | \
   sed s:"vertical row":"vertical column":g \

@@ -102,6 +102,9 @@ qx.Class.define("qx.ui2.layout.HBox",
     ---------------------------------------------------------------------------
     */
 
+    _percentExpr : /[0-9.]+%/,
+    _flexExpr : /[0-9]+\*/,
+
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
@@ -129,19 +132,35 @@ qx.Class.define("qx.ui2.layout.HBox",
       // **************************************
 
       // First run to cache children data and compute allocated width
-      var child;
+      var child, layoutWidth;
       var widths = [];
       var gaps = this._getGaps();
-      var percentWidth;
 
       for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
-        percentWidth = this.getLayoutProperty(child, "width");
 
-        widths[i] = percentWidth ?
-          Math.floor((availWidth - gaps) * parseFloat(percentWidth) / 100) :
-          child.getSizeHint().width;
+        layoutWidth = this.getLayoutProperty(child, "width");
+        if (layoutWidth)
+        {
+          if (this._percentExpr.test(layoutWidth))
+          {
+            widths[i] = Math.floor((availWidth - gaps) * parseFloat(layoutWidth) / 100);
+          }
+          else if (this._flexExpr.test(layoutWidth))
+          {
+            // Flex values here are a shortcut for width+flex (width should start at 0)
+            widths[i] = 0;
+          }
+          else
+          {
+            throw new Error("Invalid layout width: " + layoutWidth);
+          }
+        }
+        else
+        {
+          widths[i] = child.getSizeHint().width;
+        }
       }
 
       var allocatedWidth = qx.lang.Array.sum(widths) + gaps;
@@ -167,11 +186,20 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           if (child.canStretchX())
           {
-            flex = this.getLayoutProperty(child, "flex", 0);
-            hint = child.getSizeHint();
+            layoutWidth = this.getLayoutProperty(child, "width");
+            if (layoutWidth && this._flexExpr.test(layoutWidth))
+            {
+              flex = parseInt(layoutWidth);
+            }
+            else
+            {
+              flex = this.getLayoutProperty(child, "flex", 0);
+            }
 
             if (flex > 0)
             {
+              hint = child.getSizeHint();
+
               flexibles.push({
                 id : i,
                 potential : grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
