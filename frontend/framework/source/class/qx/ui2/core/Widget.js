@@ -437,6 +437,43 @@ qx.Class.define("qx.ui2.core.Widget",
       event : "changeFont",
       themeable : true,
       inheritable : true
+    },
+
+
+    /**
+     * Controls the widget's visibility. Valid values are:
+     *
+     * <ul>
+     *   <li><b>show</b>: Render the widget</li>
+     *   <li><b>hide</b>: Hide the widget but don't relayout the widget's parent.</li>
+     *   <li>
+     *     <b>exclude</b>: Hide the widget and relayout the parent as if the
+     *       widget was not a child of its parent.
+     *   </li>
+     * </ul>
+     */
+    visibility :
+    {
+      check : ["show", "hide", "exclude"],
+      init : "show",
+      apply : "_applyVisibility",
+      event : "changeVisibility",
+      nullable : false
+    },
+
+
+    /**
+     * If the layout manager decides not ot render the widget it should turn
+     * if its visibility using this property.
+     *
+     * @internal
+     */
+    layoutVisible :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyLayoutVisible",
+      nullable : false
     }
   },
 
@@ -1207,25 +1244,88 @@ qx.Class.define("qx.ui2.core.Widget",
       this._containerElement.getAttribute("id");
     },
 
-    exclude : function() {
-      this._containerElement.exclude();
-    },
-
-    include : function() {
-      this._containerElement.include();
-    },
-
-    isIncluded : function() {
-      return this._containerElement.isIncluded();
-    },
-
-
-
-
-
-
     _applyBackgroundColor : function(value) {
       this._containerElement.setStyle("backgroundColor", value);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyVisibility : function(value, old)
+    {
+      var isLayoutVisible = this.isLayoutVisible();
+
+      if (value == "show")
+      {
+        if (isLayoutVisible) {
+          //this._containerElement.removeStyle("display");
+          this._containerElement.include();
+          //this._containerElement.setStyle("block");
+        }
+      }
+      else
+      {
+        this._containerElement.exclude();
+        // this._containerElement.setStyle("display", "none");
+      }
+
+      // only force a layout update if visibility change from/to "exclude"
+      if (old == "exclude" || value == "exclude")
+      {
+        var parent = this.getParent();
+        if (parent) {
+          parent.scheduleLayoutUpdate();
+        }
+      } else {
+        qx.ui2.core.QueueManager.scheduleFlush();
+      }
+    },
+
+
+    // property apply
+    _applyLayoutVisible : function(value, old)
+    {
+      var userVisibility = this.getVisibility();
+      if (value && userVisibility == "show") {
+        this._containerElement.include();
+        //this._containerElement.removeStyle("display");
+      } else {
+        this._containerElement.exclude();
+        //this._containerElement.setStyle("display", "none");
+      }
+      qx.ui2.core.QueueManager.scheduleFlush();
+    },
+
+
+    /**
+     * Check recursively whether the widget and all of its parent widgets
+     * are visible.
+     *
+     * @return {Boolean} Whether the widget and all of its parent widgets are visible.
+     */
+    isVisible : function()
+    {
+      var parent = this;
+
+      while (parent)
+      {
+        if (
+          !parent._containerElement.isIncluded() ||
+          parent.getVisibility() !== "show"
+        ) {
+          return false;
+        }
+        parent = parent._parent;
+      }
+
+      return true;
     },
 
 

@@ -84,7 +84,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           );
         }
       }
-      this._layoutQueue = {};
     },
 
 
@@ -109,13 +108,19 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       for (var widgetHash in widgets)
       {
         var widget = widgets[widgetHash];
-        var level = widget.getNestingLevel();
+        if (widget.isVisible())
+        {
+          var level = widget.getNestingLevel();
 
-        if (!levels[level]) {
-          levels[level] = {};
+          if (!levels[level]) {
+            levels[level] = {};
+          }
+
+          levels[level][widgetHash] = widget;
+
+          // remove widget from layout queue
+          delete widgets[widgetHash];
         }
-
-        levels[level][widgetHash] = widget;
       }
 
       return levels;
@@ -155,11 +160,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
             widget.invalidateLayoutCache();
             continue;
           }
-
-          // ignore widget, which are currently not visible
-          if (!widget.isIncluded()) {
-            continue;
-          };
 
           // compare old size hint to new size hint
           var oldSizeHint = widget.getSizeHint();

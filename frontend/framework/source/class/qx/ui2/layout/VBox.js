@@ -109,7 +109,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     renderLayout : function(availWidth, availHeight)
     {
       // Cache children
-      var children = this._children;
+      var children = this.getLayoutChildren();
       var length = children.length;
 
       if (this.getReversed())
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui2.layout.VBox",
           child.renderLayout(left, top, width, height);
 
           // Include again (if excluded before)
-          child.include();
+          child.setLayoutVisible(true);
 
           // Remember previous child
           prev = child;
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         else
         {
           // Exclude (completely) hidden children
-          child.exclude();
+          child.setLayoutVisible(false);
         }
       }
     },
@@ -312,7 +312,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     _computeSizeHint : function()
     {
       // Read children
-      var children = this._children;
+      var children = this.getLayoutChildren();
       var length = children.length;
 
       if (this.getReversed())
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui2.layout.VBox",
       var util = qx.ui2.layout.Util;
 
       // Cache children data
-      var children = this._children;
+      var children = this.getLayoutChildren();
       var length = children.length;
 
       if (this.getReversed())
