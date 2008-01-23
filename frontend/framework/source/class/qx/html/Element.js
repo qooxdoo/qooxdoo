@@ -113,7 +113,7 @@ qx.Class.define("qx.html.Element",
     */
 
     /** {Boolean} If debugging should be enabled */
-    _debug : false,
+    _debug : true,
 
 
     /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
@@ -121,7 +121,7 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Map} Map of post actions for elements */
-    _post : {},
+    _actions : {},
 
 
 
@@ -149,24 +149,6 @@ qx.Class.define("qx.html.Element",
         return;
       }
 
-      // var start = new Date;
-
-
-
-
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this._debug)
-        {
-          qx.core.Log.debug("Processing " + qx.lang.Object.getLength(modified) + " scheduled modifications...");
-
-          for (var hc in modified) {
-            qx.core.Log.debug("  - " + modified[hc].getAttribute("id"));
-          }
-        }
-      }
-
 
 
 
@@ -180,7 +162,7 @@ qx.Class.define("qx.html.Element",
       {
         entry = modified[hc];
 
-        if (entry.__hasIncludedRoot())
+        if (entry.__hasVisibleRoot())
         {
           // Add self to modified
           if (entry._element && qx.dom.Hierarchy.isRendered(entry._element)) {
@@ -189,11 +171,8 @@ qx.Class.define("qx.html.Element",
             domInvisible[hc] = entry;
           }
 
-          // Add children on all newly created elements or
-          // elements with new children
-          if (!entry._element || entry._new || entry._modifiedChildren) {
-            entry.__addDirtyChildren(domRendered, domInvisible);
-          }
+          // Cleanup modification list
+          delete modified[hc];
         }
       }
 
@@ -206,12 +185,12 @@ qx.Class.define("qx.html.Element",
         {
           qx.core.Log.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " DOM invisible elements");
           for (var hc in domInvisible) {
-            qx.core.Log.debug("  - " + domInvisible[hc].getAttribute("id"));
+            qx.core.Log.debug("  - " + domInvisible[hc].getAttribute("id") + " [" + domInvisible[hc].toHashCode() + "]");
           }
 
           qx.core.Log.debug("Updating " + qx.lang.Object.getLength(domRendered) + " DOM rendered elements");
           for (var hc in domRendered) {
-            qx.core.Log.debug("  - " + domRendered[hc].getAttribute("id"));
+            qx.core.Log.debug("  - " + domRendered[hc].getAttribute("id") + " [" + domRendered[hc].toHashCode() + "]");
           }
         }
       }
@@ -231,18 +210,8 @@ qx.Class.define("qx.html.Element",
 
 
 
-      // Complete delete of modified data
-      // Even not processed elements could be removed
-      // With the next event they become visible they
-      // will dynamically readded to the queue.
-      // This action keep the modified data small even
-      // after some unsynced elements are invisible.
-      this._modified = {};
-
-
-
-      // Process post flush list
-      var post = this._post;
+      // Process action list
+      var post = this._actions;
       var actions = [ "deactivate", "blur", "activate", "focus" ];
       var action;
 
@@ -259,9 +228,6 @@ qx.Class.define("qx.html.Element",
           delete post[action];
         }
       }
-
-      // var stop = new Date;
-      // qx.core.Log.debug("Element Flush Runtime: " + (stop-start) + "ms");
     }
   },
 
@@ -288,10 +254,6 @@ qx.Class.define("qx.html.Element",
     _element : null,
 
 
-    /** {Boolean} Temporary marker for just created elements */
-    _new : false,
-
-
     /** {Boolean} Marker for always visible root nodes (often the body node) */
     _root : false,
 
@@ -300,8 +262,8 @@ qx.Class.define("qx.html.Element",
     _included : true,
 
 
-    /** {Boolean} If the element is dirty (changes have applied to it or to one of its children) */
-    _dirty : false,
+    /** {Boolean} Whether the element should be visible in the render result */
+    _visible : true,
 
 
     /**
@@ -316,34 +278,6 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Removed the element from the global modification list.
-     *
-     * @type static
-     * @return {void}
-     */
-    _unscheduleSync : function() {
-      delete qx.html.Element._modified[this.toHashCode()];
-    },
-
-
-    /**
-     * Marks the element as dirty
-     *
-     * @type static
-     * @return {void}
-     */
-    _makeDirty : function()
-    {
-      var pa = this;
-      while (pa && !pa._dirty)
-      {
-        pa._dirty = true;
-        pa = pa._parent;
-      }
-    },
-
-
-    /**
      * Internal helper to generate the DOM element
      *
      * @type member
@@ -352,6 +286,55 @@ qx.Class.define("qx.html.Element",
     {
       this._element = qx.bom.Element.create(this._nodeName);
       this._element.QxElement = this;
+    },
+
+    _flushSelf : function()
+    {
+      if (!this._visible || !this._included) {
+        return;
+      }
+
+      this.debug("Flush self...");
+
+      var initial = !this._element;
+      var recursive = initial || this._modifiedChildren;
+
+      if (initial)
+      {
+        this._createDomElement();
+        this._copyData();
+      }
+      else
+      {
+        this._syncData();
+      }
+
+      var children = this._children;
+      var length = children.length;
+
+      if (length > 0)
+      {
+        var child;
+        for (var i=0; i<length; i++)
+        {
+          child = children[i];
+
+          // this.debug("Process child: " + child.toHashCode());
+          if (!child._element) {
+            child._flushSelf();
+          }
+        }
+
+        if (initial) {
+          this._insertChildren();
+        } else if (recursive) {
+          this._syncChildren();
+        }
+      }
+      else if (!initial)
+      {
+        this._syncChildren();
+      }
     },
 
 
@@ -376,37 +359,14 @@ qx.Class.define("qx.html.Element",
      */
     _flush : function()
     {
-      if (this._new)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (this._debug) {
-            this.debug("Flush: " + this.getAttribute("id") + " [new]");
-          }
-        }
-
-        this._copyData();
-        this._insertChildren(this);
-
-        delete this._new;
-      }
-      else
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (this._debug) {
-            this.debug("Flush: " + this.getAttribute("id") + " [existing]");
-          }
-        }
-
-        this._syncData();
-
-        if (this._modifiedChildren)
-        {
-          this._syncChildren(this);
-          this._modifiedChildren = false;
+        if (this._debug) {
+          this.debug("Flush: " + this.getAttribute("id"));
         }
       }
+
+      this._flushSelf();
     },
 
 
@@ -452,6 +412,13 @@ qx.Class.define("qx.html.Element",
      */
     _syncChildren : function()
     {
+      if (!this._modifiedChildren) {
+        return;
+      }
+
+      delete this._modifiedChildren;
+
+
       var dataChildren = this._children;
       var dataLength = dataChildren.length
       var dataChild;
@@ -670,73 +637,10 @@ qx.Class.define("qx.html.Element",
     */
 
     /**
-     * Finds all children (recursivly) of this element which are included
-     * and marked as dirty.
-     *
-     * @type static
-     * @param domRendered {Map} Map of all rendered elements
-     * @param domInvisible {Map} Map of all invisible elements
-     * @return {void}
-     */
-    __addDirtyChildren : function(domRendered, domInvisible)
-    {
-      var children = this._children;
-      var child, hc;
-      var Map = qx.lang.Object;
-
-      if (children)
-      {
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          child = children[i];
-
-          // All elements which are not included are ignored (including their children)
-          if (child._included)
-          {
-            hc = child.toHashCode();
-
-            // Differ between created and new elements
-            if (child._element)
-            {
-              // All elements which are not dirty are ignored (including their children)
-              if (!child._dirty)
-              {
-                // qx.core.Log.info("OPTIMIZE: " + child.getAttribute("id"));
-                continue;
-              }
-              else if (child._modifiedChildren || !Map.isEmpty(child.__styleJobs) || !Map.isEmpty(this.__attribJobs) || !Map.isEmpty(child.__eventJobs))
-              {
-                if (qx.dom.Hierarchy.isRendered(child._element)) {
-                  domRendered[hc] = child;
-                } else {
-                  domInvisible[hc] = child;
-                }
-              }
-            }
-            else
-            {
-              child._createDomElement();
-              child._new = true;
-
-              domInvisible[hc] = child;
-            }
-
-            // Remove dirty flag
-            delete child._dirty;
-
-            // Add children, too
-            child.__addDirtyChildren(domRendered, domInvisible);
-          }
-        }
-      }
-    },
-
-
-    /**
      * Walk up the internal children hierarchy and
      * look if one of the children is marked as root
      */
-    __hasIncludedRoot : function()
+    __hasVisibleRoot : function()
     {
       var pa = this;
 
@@ -747,7 +651,7 @@ qx.Class.define("qx.html.Element",
           return true;
         }
 
-        if (!pa._included) {
+        if (!pa._included || !pa._visible) {
           return false;
         }
 
@@ -815,15 +719,9 @@ qx.Class.define("qx.html.Element",
       // Register job and add to queue for existing elements
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Store job hint
         this._modifiedChildren = true;
-
-        if (this._included && child._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
     },
 
@@ -845,22 +743,13 @@ qx.Class.define("qx.html.Element",
       // Register job and add to queue for existing elements
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Store job hint
         this._modifiedChildren = true;
-
-        if (this._included && child._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
 
       // Remove reference to old parent
       delete child._parent;
-
-      // Remove from scheduler
-      child._unscheduleSync();
     },
 
 
@@ -881,50 +770,13 @@ qx.Class.define("qx.html.Element",
       // Register job and add to queue for existing elements
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Store job hint
         this._modifiedChildren = true;
-
-        if (this._included && child._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
     },
 
 
-    /**
-     * Internal helper to manage children include/exclude changes
-     *
-     * @type member
-     * @return {void}
-     */
-    __includeExcludeHelper : function()
-    {
-      // If the parent element is created, schedule
-      // the modification for it
-      var pa = this._parent;
-      if (pa && pa._element)
-      {
-        // Remember job
-        pa._modifiedChildren = true;
-
-        if (pa._included)
-        {
-          // Mark as dirty
-          pa._makeDirty();
-
-          // Add to scheduler
-          pa._scheduleSync();
-        }
-      }
-
-      // Remove from scheduler
-      if (!this._included) {
-        this._unscheduleSync();
-      }
-    },
 
 
 
@@ -1298,29 +1150,9 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      VISIBILITY SUPPORT
+      EXCLUDE SUPPORT
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Marks the element as excluded which means it will be removed
-     * from the DOM and ignored for updates until it gets included again.
-     *
-     * @type member
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    exclude : function()
-    {
-      if (!this._included) {
-        return;
-      }
-
-      this._included = false;
-      this.__includeExcludeHelper();
-
-      return this;
-    },
-
 
     /**
      * Marks the element as included which means it will be moved into
@@ -1336,7 +1168,39 @@ qx.Class.define("qx.html.Element",
       }
 
       delete this._included;
-      this.__includeExcludeHelper();
+
+      var pa = this._parent;
+      if (pa)
+      {
+        pa._modifiedChildren = true;
+        pa._scheduleSync();
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Marks the element as excluded which means it will be removed
+     * from the DOM and ignored for updates until it gets included again.
+     *
+     * @type member
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    exclude : function()
+    {
+      if (!this._included) {
+        return;
+      }
+
+      this._included = false;
+
+      var pa = this._parent;
+      if (pa)
+      {
+        pa._modifiedChildren = true;
+        pa._scheduleSync();
+      }
 
       return this;
     },
@@ -1355,6 +1219,42 @@ qx.Class.define("qx.html.Element",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    show : function()
+    {
+      if (this._visible) {
+        return;
+      }
+
+      this.resetStyle("display");
+      delete this._visible;
+    },
+
+    hide : function()
+    {
+      if (!this._visible) {
+        return;
+      }
+
+      this.setStyle("display", "none");
+      this._visible = false;
+    },
+
+    isVisible : function() {
+      return this._visible === true;
+    },
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       FOCUS/ACTIVATE SUPPORT
@@ -1367,10 +1267,8 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    focus : function()
-    {
-      qx.html.Element._post.focus = this;
-      this._scheduleSync();
+    focus : function() {
+      qx.html.Element._scheduleAction("focus", this);
     },
 
 
@@ -1380,10 +1278,8 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    blur : function()
-    {
-      qx.html.Element._post.blur = this;
-      this._scheduleSync();
+    blur : function() {
+      qx.html.Element._scheduleAction("blur", this);
     },
 
 
@@ -1393,10 +1289,8 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    activate : function()
-    {
-      qx.html.Element._post.activate = this;
-      this._scheduleSync();
+    activate : function() {
+      qx.html.Element._scheduleAction("activate", this);
     },
 
 
@@ -1406,10 +1300,8 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    deactivate : function()
-    {
-      qx.html.Element._post.deactivate = this;
-      this._scheduleSync();
+    deactivate : function() {
+      qx.html.Element._scheduleAction("deactivate", this);
     },
 
 
@@ -1452,9 +1344,6 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Dynamically create if needed
         if (!this.__styleJobs) {
           this.__styleJobs = {};
@@ -1462,15 +1351,7 @@ qx.Class.define("qx.html.Element",
 
         // Store job info
         this.__styleJobs[key] = true;
-
-        // Normally we need to do a deep lookup here (go parents up)
-        // but this is too slow. To just have a look at this element
-        // itself is fast and also could save the function call at all.
-        // The real control visible/inRoot will be done when the element
-        // is scheduled and should be flushed.
-        if (this._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
 
       return this;
@@ -1523,9 +1404,6 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Dynamically create if needed
         if (!this.__styleJobs) {
           this.__styleJobs = {};
@@ -1536,14 +1414,7 @@ qx.Class.define("qx.html.Element",
           this.__styleJobs[key] = true;
         }
 
-        // Normally we need to do a deep lookup here (go parents up)
-        // but this is too slow. To just have a look at this element
-        // itself is fast and also could save the function call at all.
-        // The real control visible/inRoot will be done when the element
-        // is scheduled and should be flushed.
-        if (this._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
 
       return this;
@@ -1600,9 +1471,6 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Dynamically create if needed
         if (!this.__attribJobs) {
           this.__attribJobs = {};
@@ -1610,15 +1478,7 @@ qx.Class.define("qx.html.Element",
 
         // Store job info
         this.__attribJobs[key] = true;
-
-        // Normally we need to do a deep lookup here (go parents up)
-        // but this is too slow. To just have a look at this element
-        // itself is fast and also could save the function call at all.
-        // The real control visible/inRoot will be done when the element
-        // is scheduled and should be flushed.
-        if (this._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
 
       return this;
@@ -1671,9 +1531,6 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this._element)
       {
-        // Mark as dirty
-        this._makeDirty();
-
         // Dynamically create if needed
         if (!this.__attribJobs) {
           this.__attribJobs = {};
@@ -1684,14 +1541,7 @@ qx.Class.define("qx.html.Element",
           this.__attribJobs[key] = true;
         }
 
-        // Normally we need to do a deep lookup here (go parents up)
-        // but this is too slow. To just have a look at this element
-        // itself is fast and also could save the function call at all.
-        // The real control visible/inRoot will be done when the element
-        // is scheduled and should be flushed.
-        if (this._included) {
-          this._scheduleSync();
-        }
+        this._scheduleSync();
       }
 
       return this;
