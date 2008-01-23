@@ -65,17 +65,17 @@ qx.Class.define("qx.html.Element",
   {
     this.base(arguments);
 
-    // set tag name
+    // {String} Set tag name
     this._nodeName = tagName || "div";
 
-    // All added children (each one is a qx.html.Element itself)
+    // {Array} Stores the children (each one is a qx.html.Element itself)
     this._children = [];
 
-    // Add hashcode (temporary, while development)
+    // Store hashcode as ID in debug mode
     if (qx.core.Variant.isSet("qx.debug", "on"))
     {
-      if (qx.html.Element.debug) {
-        this.setAttribute("id", this.toHashCode());
+      if (qx.html.Element._debug) {
+        this.setAttribute("id", "hc" + this.toHashCode());
       }
     }
   },
@@ -126,19 +126,11 @@ qx.Class.define("qx.html.Element",
      */
     flush : function()
     {
-      var modified = this._modified;
-
-      if (qx.lang.Object.isEmpty(modified))
-      {
-        qx.core.Log.warn("Flush with no modificiations!");
-        return;
-      }
-
-
-
-
       // {Map} Contains all rendered elements which should be flushed afterwards.
       var later = [];
+
+
+      var modified = this._modified;
       var entry;
 
       qx.core.Log.debug("Flushing elements...");
@@ -146,7 +138,7 @@ qx.Class.define("qx.html.Element",
       {
         entry = modified[hc];
 
-        if (entry.__hasVisibleRoot())
+        if (entry.__willBeSeeable())
         {
           // Separately queue rendered elements
           if (entry._element && qx.dom.Hierarchy.isRendered(entry._element))
@@ -164,7 +156,7 @@ qx.Class.define("qx.html.Element",
               }
             }
 
-            entry._flush();
+            entry.__flush();
           }
 
           // Cleanup modification list
@@ -181,7 +173,7 @@ qx.Class.define("qx.html.Element",
           }
         }
 
-        later[i]._flush();
+        later[i].__flush();
       }
 
 
@@ -258,6 +250,23 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Add the element to the global modification list.
+     *
+     * @type static
+     * @return {void}
+     */
+    _scheduleChildrenUpdate : function()
+    {
+      if (this._modifiedChildren) {
+        return;
+      }
+
+      this._modifiedChildren = true;
+      qx.html.Element._modified[this.toHashCode()] = this;
+    },
+
+
+    /**
      * Internal helper to generate the DOM element
      *
      * @type member
@@ -267,64 +276,6 @@ qx.Class.define("qx.html.Element",
       this._element = qx.bom.Element.create(this._nodeName);
       this._element.QxElement = this;
     },
-
-
-    /**
-     *
-     *
-     */
-    _flushSelf : function()
-    {
-      if (!this._visible || !this._included) {
-        return;
-      }
-
-      this.debug("Flushing...");
-
-      var initial = !this._element;
-      var recursive = initial || this._modifiedChildren;
-
-      if (initial)
-      {
-        this._createDomElement();
-        this._copyData();
-      }
-      else
-      {
-        this._syncData();
-      }
-
-      var children = this._children;
-      var length = children.length;
-
-      if (length > 0)
-      {
-        var child;
-        for (var i=0; i<length; i++)
-        {
-          child = children[i];
-
-          // this.debug("Process child: " + child.toHashCode());
-          if (!child._element) {
-            child._flushSelf();
-          }
-        }
-
-        if (initial) {
-          this._insertChildren();
-        } else if (recursive) {
-          this._syncChildren();
-        }
-      }
-      else if (!initial)
-      {
-        this._syncChildren();
-      }
-    },
-
-
-
-
 
 
 
@@ -342,7 +293,7 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    _flush : function()
+    __flush : function()
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -351,7 +302,36 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-      this._flushSelf();
+      var children = this._children;
+      var length = children.length;
+
+      var child;
+      for (var i=0; i<length; i++)
+      {
+        child = children[i];
+
+        if (!child._element) {
+          child.__flush();
+        }
+      }
+
+      if (!this._element)
+      {
+        this._createDomElement();
+        this._copyData();
+
+        if (length > 0) {
+          this._insertChildren();
+        }
+      }
+      else
+      {
+        this._syncData();
+
+        if (this._modifiedChildren) {
+          this._syncChildren();
+        }
+      }
     },
 
 
@@ -397,12 +377,7 @@ qx.Class.define("qx.html.Element",
      */
     _syncChildren : function()
     {
-      if (!this._modifiedChildren) {
-        return;
-      }
-
       delete this._modifiedChildren;
-
 
       var dataChildren = this._children;
       var dataLength = dataChildren.length
@@ -565,9 +540,7 @@ qx.Class.define("qx.html.Element",
       var jobs = this.__attribJobs;
       if (jobs)
       {
-        // qx.core.Log.debug("Attribute Jobs: ", jobs);
         var data = this.__attribValues;
-
         if (data)
         {
           var value;
@@ -590,9 +563,7 @@ qx.Class.define("qx.html.Element",
       var jobs = this.__styleJobs;
       if (jobs)
       {
-        // qx.core.Log.debug("Style Jobs: ", jobs);
         var data = this.__styleValues;
-
         if (data)
         {
           var value;
@@ -611,7 +582,7 @@ qx.Class.define("qx.html.Element",
         this.__styleJobs = null;
       }
 
-      // Events are directly kept in sync
+      // Note: Events are directly kept in sync
     },
 
 
@@ -629,9 +600,12 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Walk up the internal children hierarchy and
-     * look if one of the children is marked as root
+     * look if one of the children is marked as root.
+     *
+     * This method is quite performance hungry as it
+     * really walks up recursively.
      */
-    __hasVisibleRoot : function()
+    __willBeSeeable : function()
     {
       var pa = this;
 
@@ -707,12 +681,9 @@ qx.Class.define("qx.html.Element",
       // Convert to child of this object
       child._parent = this;
 
-      // Register job and add to queue for existing elements
-      if (this._element)
-      {
-        // Store job hint
-        this._modifiedChildren = true;
-        this._scheduleSync();
+      // Schedule children update
+      if (this._element) {
+        this._scheduleChildrenUpdate();
       }
     },
 
@@ -731,12 +702,9 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
-      // Register job and add to queue for existing elements
-      if (this._element)
-      {
-        // Store job hint
-        this._modifiedChildren = true;
-        this._scheduleSync();
+      // Schedule children update
+      if (this._element) {
+        this._scheduleChildrenUpdate();
       }
 
       // Remove reference to old parent
@@ -758,12 +726,9 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
-      // Register job and add to queue for existing elements
-      if (this._element)
-      {
-        // Store job hint
-        this._modifiedChildren = true;
-        this._scheduleSync();
+      // Schedule children update
+      if (this._element) {
+        this._scheduleChildrenUpdate();
       }
     },
 
@@ -829,18 +794,20 @@ qx.Class.define("qx.html.Element",
      */
     add : function(childs)
     {
+      var children = this._children;
+
       if (arguments[1])
       {
         for (var i=0, l=arguments.length; i<l; i++) {
           this.__addChildHelper(arguments[i]);
         }
 
-        this._children.push.apply(this._children, arguments);
+        children.push.apply(children, arguments);
       }
       else
       {
         this.__addChildHelper(childs);
-        this._children.push(childs);
+        children.push(childs);
       }
 
       // Chaining support
@@ -967,8 +934,8 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Insert self into the given parent. Normally appends self to the end,
-     * but optionally a position can be defined. <code>0</code> will insert
-     * at the begin.
+     * but optionally a position can be defined. With index <code>0</code> it
+     * will be inserted at the begin.
      *
      * @type member
      * @param parent {qx.html.Element} The new parent of this element
@@ -1120,7 +1087,6 @@ qx.Class.define("qx.html.Element",
      * API rather than to the underlying DOM element.
      *
      * @type member
-     * @internal
      * @return {Element} the DOM element node
      * @throws an error if the element was not yet created
      */
@@ -1217,6 +1183,15 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Marks the element as included which means it will be moved into
+     * the DOM again and synced with the internal data representation.
+     *
+     * Please note: This does not control the visibility or parent inclusion recursively.
+     *
+     * @type member
+     * @return {qx.html.Element} this object (for chaining support)
+     */
     show : function()
     {
       if (this._visible) {
@@ -1236,6 +1211,16 @@ qx.Class.define("qx.html.Element",
       delete this._visible;
     },
 
+
+    /**
+     * Marks the element as excluded which means it will be removed
+     * from the DOM and ignored for updates until it gets included again.
+     *
+     * Please note: This does not control the visibility or parent inclusion recursively.
+     *
+     * @type member
+     * @return {qx.html.Element} this object (for chaining support)
+     */
     hide : function()
     {
       if (!this._visible) {
@@ -1249,6 +1234,15 @@ qx.Class.define("qx.html.Element",
       this._visible = false;
     },
 
+
+    /**
+     * Whether the element is visible.
+     *
+     * Please note: This does not control the visibility or parent inclusion recursively.
+     *
+     * @return {Boolean} Returns <code>true</code> when the element is configured
+     *   to be visible.
+     */
     isVisible : function() {
       return this._visible === true;
     },
@@ -1362,6 +1356,24 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Convenience method to modify a set of styles at once.
+     *
+     * @type member
+     * @param map {Map} a map where the key is the name of the property
+     *    and the value is the value to use.
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setStyles : function(map)
+    {
+      for (var key in map) {
+        this.setStyle(key, map[key]);
+      }
+
+      return this;
+    },
+
+
+    /**
      * Removes the given style attribute
      *
      * @type member
@@ -1431,6 +1443,24 @@ qx.Class.define("qx.html.Element",
         // Store job info
         this.__attribJobs[key] = true;
         this._scheduleSync();
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Convenience method to modify a set of attributes at once.
+     *
+     * @type member
+     * @param map {Map} a map where the key is the name of the property
+     *    and the value is the value to use.
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setAttributes : function(map)
+    {
+      for (var key in map) {
+        this.setAttribute(key, map[key]);
       }
 
       return this;

@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+  </div>
+
+  <div id="test"></div>
+
+  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    this.info("Create document");
+
+    var doc = new qx.html.Root(document.getElementById("test"));
+    doc.setAttribute("id", "doc");
+
+
+
+    this.info("Create five elements (2 hidden)");
+
+    var el1 = new qx.html.Element;
+    el1.setAttribute("id", "el1");
+
+    var el2 = new qx.html.Element;
+    el2.setAttribute("id", "el2");
+
+    var el3 = new qx.html.Element;
+    el3.setAttribute("id", "el3");
+
+    var el4 = new qx.html.Element;
+    el4.setAttribute("id", "el4");
+
+    var el5 = new qx.html.Element;
+    el5.setAttribute("id", "el5");
+
+
+    doc.add(el1, el2, el3, el4, el5);
+
+    el2.hide();
+    el4.hide();
+
+    qx.html.Element.flush();
+
+
+
+
+    this.info("Show one of the two hidden elements");
+
+    el2.show();
+
+    qx.html.Element.flush();
+
+
+
+
+    this.info("Hide a rendered element");
+
+    el3.hide();
+
+    qx.html.Element.flush();
+
+
+  });
+  </script>
+</body>
+</html>
