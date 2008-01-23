@@ -98,14 +98,18 @@ qx.Class.define("qx.html.Element",
     */
 
     /** {Boolean} If debugging should be enabled */
-    _debug : true,
+    _debug : false,
 
 
     /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
     _modified : {},
 
 
-    /** {Map} Map of post actions for elements */
+    /** {Map} Contains the {@link qx.html.Element}s which should get hidden or visible at the next flush. The key is the hash code. */
+    _visibility : {},
+
+
+    /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : {},
 
 
@@ -126,24 +130,30 @@ qx.Class.define("qx.html.Element",
      */
     flush : function()
     {
-      // {Map} Contains all rendered elements which should be flushed afterwards.
+      var obj;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this._debug) {
+          qx.core.Log.debug("Flushing elements...");
+        }
+      }
+
       var later = [];
-
-
       var modified = this._modified;
-      var entry;
 
-      qx.core.Log.debug("Flushing elements...");
       for (var hc in modified)
       {
-        entry = modified[hc];
+        obj = modified[hc];
 
-        if (entry.__willBeSeeable())
+        // Ignore all hidden elements
+        // but keep them until they get visible (again)
+        if (obj.__willBeSeeable())
         {
           // Separately queue rendered elements
-          if (entry._element && qx.dom.Hierarchy.isRendered(entry._element))
+          if (obj._element && qx.dom.Hierarchy.isRendered(obj._element))
           {
-            later.push(entry);
+            later.push(obj);
           }
 
           // Flush invisible elements first
@@ -152,11 +162,11 @@ qx.Class.define("qx.html.Element",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (this._debug) {
-                qx.core.Log.debug("Flush invisible element: " + entry.getAttribute("id") + " [" + entry.toHashCode() + "]");
+                obj.debug("Flush invisible element");
               }
             }
 
-            entry.__flush();
+            obj.__flush();
           }
 
           // Cleanup modification list
@@ -166,16 +176,35 @@ qx.Class.define("qx.html.Element",
 
       for (var i=0, l=later.length; i<l; i++)
       {
+        obj = later[i];
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this._debug) {
-            qx.core.Log.debug("Flush rendered element: " + entry.getAttribute("id") + " [" + entry.toHashCode() + "]");
+            obj.debug("Flush rendered element");
           }
         }
 
-        later[i].__flush();
+        obj.__flush();
       }
 
+
+
+      // Process visibility list
+      var visibility = this._visibility;
+      for (var hc in visibility)
+      {
+        obj = visibility[hc];
+
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (this._debug) {
+            qx.core.Log.debug("Switching visibility to: " + obj._visible);
+          }
+        }
+
+        obj._element.style.display = obj._visible ? "" : "none";
+      }
 
 
 
@@ -1200,7 +1229,7 @@ qx.Class.define("qx.html.Element",
 
       if (this._element)
       {
-        this.removeStyle("display");
+        qx.html.Element._visibility[this.toHashCode()] = this;
       }
       else if (this._parent)
       {
@@ -1228,7 +1257,7 @@ qx.Class.define("qx.html.Element",
       }
 
       if (this._element) {
-        this.setStyle("display", "none");
+        qx.html.Element._visibility[this.toHashCode()] = this;
       }
 
       this._visible = false;
