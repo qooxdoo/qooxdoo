@@ -77,6 +77,22 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
          ? ''
          : ';-moz-user-select:none;'),
 
+    __tableCellStyleSheet_0_7_2 :
+        "  position: absolute;" +
+        "  top: 0px;" +
+        "  height: 100%;" +
+        "  overflow:hidden;" +
+        "  text-overflow:ellipsis;" +
+        "  -o-text-overflow: ellipsis;" +
+        "  white-space:nowrap;" +
+        "  border-right:1px solid #eeeeee;" +
+        "  border-bottom:1px solid #eeeeee;" +
+        "  padding : 0px 2px;" +
+        "  cursor:default;" +
+        (qx.core.Variant.isSet("qx.client", "mshtml")
+         ? ''
+         : ';-moz-user-select:none;'),
+
     __tableCellRightStyleSheet :
       "  text-align:right",
 
@@ -86,6 +102,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     __tableCellBoldStyleSheet :
       "  font-weight:bold",
       
+
+    /**
+     * Set the current standard cell style settings for table cells to be the
+     * values that were used up through qooxdoo version 0.7.2.
+     */
+    setTableCellStyleSheet_0_7_2 : function()
+    {
+      var cr = qx.ui.table.cellrenderer.Abstract;
+      cr.setTableCellStyleSheet(cr.__tableCellStyleSheet_0_7_2);
+    },
 
     /**
      * Get the current standard cell style settings for table cells.

@@ -1408,30 +1408,6 @@ qx.Class.define("qx.Class",
         if (entry.$$members) {
           this.__addMembers(clazz, entry.$$members, patch, false);
         }
-
-        // Attach statics.  Ignore patch setting, as statics may be set at any
-        // time anyway.
-        for (key in entry)
-        {
-          // Ignore keys that start with '$$'; they're handled elsewhere.
-          if (key.substr(2,0) == "$$")
-          {
-            continue;
-          }
-          
-          if (qx.core.Variant.isSet("qx.aspects", "on"))
-          {
-            var staticValue = entry[key];
-            if (staticValue instanceof Function) {
-              staticValue = qx.core.Aspect.wrap(name + "." + key, staticValue, "static");
-            }
-            clazz[key] = staticValue;
-          }
-          else
-          {
-            clazz[key] = entry[key];
-          }
-        }
       }
 
       // Store mixin reference
