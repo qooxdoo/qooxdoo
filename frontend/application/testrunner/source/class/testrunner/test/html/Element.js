@@ -360,7 +360,7 @@ qx.Class.define("testrunner.test.html.Element",
 
 
 
-    testVisibility : function()
+    testExclude : function()
     {
       this.info("Create document");
 
@@ -585,6 +585,12 @@ qx.Class.define("testrunner.test.html.Element",
        *   - el4_1
        * - el5
        */
+    },
+
+
+    testVisibility : function()
+    {
+
     }
   }
 });
