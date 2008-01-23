@@ -385,11 +385,13 @@ qx.Bootstrap.define("qx.lang.Array",
   
     /**
      * Returns all elements which do no apply to given function.
-     * Opposite of {@see #findAll}.
+     * 
+     * Opposite of {@link qx.lang.Array#findAll}
      *
      * @type static
      * @param array {Array} Array to process
      * @param iterator {Function} Fuction which should be called for every element as parameter.
+     * @param context {Object} Context in which the iterator should be called.
      * @return {Array} Array with all elements for which the given function returns false.
      */
     reject : function(array, iterator, context)
@@ -410,11 +412,13 @@ qx.Bootstrap.define("qx.lang.Array",
   
     /**
      * Returns all elements which apply to given function.
-     * Opposite of {@see #reject}.
+     * 
+     * Opposite of {@link qx.lang.Array#reject}
      *
      * @type static
      * @param array {Array} Array to process
      * @param iterator {Function} Fuction which should be called for every element as parameter.
+     * @param context {Object} Context in which the iterator should be called.
      * @return {Array} Array with all elements for which the given function returns true.
      */
     findAll : function(array, iterator, context)
