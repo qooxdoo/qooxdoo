@@ -69,7 +69,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
     // overridden
     renderLayout : function(parentWidth, parentHeight)
     {
-      var children = this._children;
+      var children = this.getLayoutChildren();
       var percent = /[0-9.]+%/;
 
       var child, size, layout;

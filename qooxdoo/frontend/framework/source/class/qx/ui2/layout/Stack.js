@@ -67,10 +67,10 @@ qx.Class.define("qx.ui2.layout.Stack",
     _applySelected : function(value, old)
     {
       if (old) {
-        old.exclude();
+        old.setLayoutVisible(false);
       }
 
-      value.include();
+      value.setLayoutVisible(true);
 
       this.scheduleWidgetLayoutUpdate();
     },
@@ -127,9 +127,10 @@ qx.Class.define("qx.ui2.layout.Stack",
           maxHeight : Infinity
         };
 
-        for (var i=0, l=this._children.length; i<l; i++)
+        var children = this.getLayoutChildren();
+        for (var i=0, l=children.length; i<l; i++)
         {
-          var child = this._children[i];
+          var child = children[i];
           var childHint = child.getSizeHint();
           hint.minWidth = Math.max(hint.minWidth, childHint.minWidth);
           hint.width = Math.max(hint.width, childHint.width);

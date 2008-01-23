@@ -340,7 +340,9 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
-     * Get the widget located in the cell. If a the cell
+     * Get the widget located in the cell. If a the cell is empty or the widget
+     * has a {@link qx.ui2.core.Widget#visibility} value of <code>exclude</code>,
+     * <code>null</code> is returned.
      *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
@@ -349,7 +351,13 @@ qx.Class.define("qx.ui2.layout.Grid",
     getCellWidget : function(row, column)
     {
       var gridData = this._grid[row] ? this._grid[row][column] || {} : {};
-      return gridData.widget;
+      var widget = gridData.widget;
+
+      if (widget && widget.getVisibility() !== "exclude") {
+        return widget;
+      } else {
+        return null;
+      }
     },
 
 
