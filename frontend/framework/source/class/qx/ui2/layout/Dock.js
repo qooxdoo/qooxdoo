@@ -491,7 +491,7 @@ qx.Class.define("qx.ui2.layout.Dock",
      */
     _getSortedChildren : function()
     {
-      var children = this._children;
+      var children = this.getLayoutChildren();
 
       var high = [];
       var low = [];
