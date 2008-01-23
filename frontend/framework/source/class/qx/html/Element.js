@@ -310,7 +310,7 @@ qx.Class.define("qx.html.Element",
       {
         child = children[i];
 
-        if (!child._element) {
+        if (!child._element && child._visible && child._included) {
           child.__flush();
         }
       }
