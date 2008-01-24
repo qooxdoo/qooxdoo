@@ -47,7 +47,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, { left : 10, top : 10 });
+      doc.add(box1, 10, 10);
 
 
 
@@ -62,7 +62,7 @@ qx.Class.define("BasicSample",
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 2 });
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:100}), { flex : 3 });
       box2.setLayout(layout2);
-      doc.add(box2, { left : 130, top : 10 });
+      doc.add(box2, 130, 10);
 
 
       // different flex dimensions + rounding issues
@@ -76,7 +76,7 @@ qx.Class.define("BasicSample",
       }
 
       box2.setLayout(layout2);
-      doc.add(box2, { left : 250, top : 10 });
+      doc.add(box2, 250, 10);
 
 
 
@@ -90,7 +90,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, { left : 370, top : 10 });
+      doc.add(box1, 370, 10);
 
 
       // container height < layout min height
@@ -103,7 +103,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, { left : 490, top : 10 });
+      doc.add(box1, 490, 10);
 
 
 
@@ -117,7 +117,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, { left : 610, top : 10 });
+      doc.add(box1, 610, 10);
     }
   }
 });
