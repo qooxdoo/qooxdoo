@@ -316,6 +316,15 @@ qx.Class.define("qx.ui.table.Table",
       event : "changeRowHeight"
     },
 
+    /** The height of the header cells. */
+    headerCellHeight :
+    {
+      check : "Integer",
+      init : 16,
+      apply : "_applyHeaderCellHeight",
+      event : "changeHeaderCellHeight"
+    },
+
     /** Whether to show the status bar */
     statusBarVisible :
     {
@@ -550,6 +559,27 @@ qx.Class.define("qx.ui.table.Table",
       value.addEventListener("changeSelection", this._onSelectionChanged, this);
     },
 
+
+    // property modifier
+    /**
+     * Property modifier called when the headerCellHeight property value is
+     * changed.  We loop through each scroller and set its height to the
+     * newly-requested value.
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyHeaderCellHeight : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].getHeader().setHeight(value);
+      }
+    },
+
+
     // property modifier
     /**
      * TODOC
@@ -691,6 +721,9 @@ qx.Class.define("qx.ui.table.Table",
       {
         var paneScroller = scrollerArr[i];
         var isLast = (i == (scrollerArr.length - 1));
+
+        // Set the right header height
+        paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
 
         // Put the _columnVisibilityBt in the top right corner of the last meta column
         paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);

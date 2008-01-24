@@ -156,6 +156,7 @@
           checkBox);
         buttonBar.add(checkBox);
 
+/* Demonstrate how to revert to the 0.7.2 style:
         var checkBox =
           new qx.ui.form.CheckBox("0.7.2-style",
                                   null, null,
@@ -181,6 +182,34 @@
           },
           checkBox);
         buttonBar.add(checkBox);
+*/
+
+/* Demonstrate how to change the header size
+        var checkBox =
+          new qx.ui.form.CheckBox("header",
+                                  null, null,
+                                  false);
+        checkBox.setToolTip(new qx.ui.popup.ToolTip(
+                              "Show an expanded header"));
+        var origHeaderSize = table.getHeaderCellHeight();
+        checkBox.addEventListener(
+          "changeChecked",
+          function(evt)
+          {
+            if (this.getChecked())
+            {
+              table.setHeaderCellHeight(origHeaderSize * 2);
+              this.info("Expanded header");
+            }
+            else
+            {
+              table.setHeaderCellHeight(origHeaderSize);
+              this.info("Normal header");
+            }
+          },
+          checkBox);
+        buttonBar.add(checkBox);
+*/
 
         var tcm = table.getTableColumnModel();
 
