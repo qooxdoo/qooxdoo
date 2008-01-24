@@ -22,23 +22,24 @@
  * A full featured horizontal box layout. It lays out widgets in a
  * horizontal row, from left to right.
  *
- * Other names (for comparable layouts in other systems):
+ * Supports the following features:
+ *
+ * * Integer dimensions
+ * * Percent and flex widths
+ * * Minimum and maximum dimensions
+ * * Priorized growing/shrinking (flex)
+ * * Left and right margins
+ * * Horizontal align
+ * * Horizontal spacing
+ * * Reversed children layout
+ * * Vertical children stretching
+ * * Auto sizing (ignoring percent and flex widths)
+ *
+ * Names used by other toolkits:
  *
  * * QHBoxLayout (Qt)
  * * StackPanel (XAML)
  * * RowLayout (SWT) (with wrapping support like a FlowLayout)
- *
- * Supports:
- *
- * * Integer dimensions (using widget properties)
- * * Additional percent width (using layout property)
- * * Min and max dimensions (using widget properties)
- * * Priorized growing/shrinking (flex) (using layout properties)
- * * Left and right margins (even negative ones) with margin collapsing support (using layout properties)
- * * Auto sizing
- * * Horizontal align
- * * Horizontal spacing
- * * Reversed children ordering
  */
 qx.Class.define("qx.ui2.layout.HBox",
 {
@@ -102,15 +103,13 @@ qx.Class.define("qx.ui2.layout.HBox",
     ---------------------------------------------------------------------------
     */
 
-    _percentExpr : /[0-9.]+%/,
-    _flexExpr : /[0-9]+\*/,
-
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
       // Cache children
       var children = this.getLayoutChildren();
       var length = children.length;
+      var util = qx.ui2.layout.Util;
 
       if (this.getReversed())
       {
@@ -143,11 +142,11 @@ qx.Class.define("qx.ui2.layout.HBox",
         layoutWidth = this.getLayoutProperty(child, "width");
         if (layoutWidth)
         {
-          if (this._percentExpr.test(layoutWidth))
+          if (util.PERCENT_VALUE.test(layoutWidth))
           {
             widths[i] = Math.floor((availWidth - gaps) * parseFloat(layoutWidth) / 100);
           }
-          else if (this._flexExpr.test(layoutWidth))
+          else if (util.FLEX_VALUE.test(layoutWidth))
           {
             // Flex values here are a shortcut for width+flex (width should start at the minwidth)
             widths[i] = child.getSizeHint().minWidth;
@@ -187,7 +186,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           if (child.canStretchX())
           {
             layoutWidth = this.getLayoutProperty(child, "width");
-            if (layoutWidth && this._flexExpr.test(layoutWidth))
+            if (layoutWidth && util.FLEX_VALUE.test(layoutWidth))
             {
               flex = parseInt(layoutWidth);
             }
@@ -250,7 +249,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       var prev, hint, top, height, width, marginEnd, marginStart;
       var spacing = this.getSpacing();
-      var util = qx.ui2.layout.Util;
 
       for (var i=start; i!=end; i+=increment)
       {
@@ -379,10 +377,10 @@ qx.Class.define("qx.ui2.layout.HBox",
     */
 
     /**
-     * Computes the spacing sum plus margin. Supports margin collapsing.
+     * Computes the area occopied by spacing and margin.
      *
      * @type member
-     * @return {void}
+     * @return {Integer} The computed sum
      */
     _getGaps : function()
     {

@@ -22,23 +22,24 @@
  * A full featured vertical box layout. It lays out widgets in a
  * vertical column, from top to bottom.
  *
- * Other names (for comparable layouts in other systems):
+ * Supports the following features:
+ *
+ * * Integer dimensions
+ * * Percent and flex heights
+ * * Minimum and maximum dimensions
+ * * Priorized growing/shrinking (flex)
+ * * Top and bottom margins
+ * * Vertical align
+ * * Vertical spacing
+ * * Reversed children layout
+ * * Horizontal children stretching
+ * * Auto sizing (ignoring percent and flex heights)
+ *
+ * Names used by other toolkits:
  *
  * * QVBoxLayout (Qt)
  * * StackPanel (XAML)
  * * RowLayout (SWT) (with wrapping support like a FlowLayout)
- *
- * Supports:
- *
- * * Integer dimensions (using widget properties)
- * * Additional percent height (using layout property)
- * * Min and max dimensions (using widget properties)
- * * Priorized growing/shrinking (flex) (using layout properties)
- * * Top and bottom margins (even negative ones) with margin collapsing support (using layout properties)
- * * Auto sizing
- * * Vertical align
- * * Vertical spacing
- * * Reversed children ordering
  */
 qx.Class.define("qx.ui2.layout.VBox",
 {
@@ -102,15 +103,13 @@ qx.Class.define("qx.ui2.layout.VBox",
     ---------------------------------------------------------------------------
     */
 
-    _percentExpr : /[0-9.]+%/,
-    _flexExpr : /[0-9]+\*/,
-
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
       // Cache children
       var children = this.getLayoutChildren();
       var length = children.length;
+      var util = qx.ui2.layout.Util;
 
       if (this.getReversed())
       {
@@ -143,11 +142,11 @@ qx.Class.define("qx.ui2.layout.VBox",
         layoutHeight = this.getLayoutProperty(child, "height");
         if (layoutHeight)
         {
-          if (this._percentExpr.test(layoutHeight))
+          if (util.PERCENT_VALUE.test(layoutHeight))
           {
             heights[i] = Math.floor((availHeight - gaps) * parseFloat(layoutHeight) / 100);
           }
-          else if (this._flexExpr.test(layoutHeight))
+          else if (util.FLEX_VALUE.test(layoutHeight))
           {
             // Flex values here are a shortcut for height+flex (height should start at the minheight)
             heights[i] = child.getSizeHint().minHeight;
@@ -187,7 +186,7 @@ qx.Class.define("qx.ui2.layout.VBox",
           if (child.canStretchY())
           {
             layoutHeight = this.getLayoutProperty(child, "height");
-            if (layoutHeight && this._flexExpr.test(layoutHeight))
+            if (layoutHeight && util.FLEX_VALUE.test(layoutHeight))
             {
               flex = parseInt(layoutHeight);
             }
@@ -250,7 +249,6 @@ qx.Class.define("qx.ui2.layout.VBox",
 
       var prev, hint, left, width, height, marginEnd, marginStart;
       var spacing = this.getSpacing();
-      var util = qx.ui2.layout.Util;
 
       for (var i=start; i!=end; i+=increment)
       {
@@ -379,10 +377,10 @@ qx.Class.define("qx.ui2.layout.VBox",
     */
 
     /**
-     * Computes the spacing sum plus margin. Supports margin collapsing.
+     * Computes the area occopied by spacing and margin.
      *
      * @type member
-     * @return {void}
+     * @return {Integer} The computed sum
      */
     _getGaps : function()
     {
