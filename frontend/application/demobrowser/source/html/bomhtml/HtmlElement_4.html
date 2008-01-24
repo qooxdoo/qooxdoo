@@ -51,6 +51,15 @@
     qx.html.Element.flush();
 
 
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el3
+     * - el5
+     */
+
 
 
     this.info("Show one of the two hidden elements");
@@ -58,6 +67,17 @@
     el2.show();
 
     qx.html.Element.flush();
+
+
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3
+     * - el5
+     */
 
 
 
@@ -68,6 +88,55 @@
 
     qx.html.Element.flush();
 
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3 (hidden)
+     * - el5
+     */
+
+
+
+
+
+    this.info("Exclude & show together");
+
+    el3.exclude();
+    el3.show();
+
+    qx.html.Element.flush();
+
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el5
+     */
+
+
+
+
+    this.info("Include one and hide another element");
+
+    el3.include();
+    el2.hide();
+
+    qx.html.Element.flush();
+
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2 (hidden)
+     * - el3
+     * - el5
+     */
 
   });
   </script>

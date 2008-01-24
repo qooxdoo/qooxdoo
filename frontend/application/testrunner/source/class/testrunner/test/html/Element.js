@@ -590,7 +590,157 @@ qx.Class.define("testrunner.test.html.Element",
 
     testVisibility : function()
     {
+      this.info("Create document");
 
+      var helper = document.createElement("div");
+      document.body.appendChild(helper);
+
+      var doc = new qx.html.Root(helper);
+      doc.setAttribute("id", "doc");
+
+
+      this.info("Create five elements (2 hidden)");
+
+      var el1 = new qx.html.Element;
+      el1.setAttribute("id", "el1");
+
+      var el2 = new qx.html.Element;
+      el2.setAttribute("id", "el2");
+
+      var el3 = new qx.html.Element;
+      el3.setAttribute("id", "el3");
+
+      var el4 = new qx.html.Element;
+      el4.setAttribute("id", "el4");
+
+      var el5 = new qx.html.Element;
+      el5.setAttribute("id", "el5");
+
+
+      doc.add(el1, el2, el3, el4, el5);
+
+      el2.hide();
+      el4.hide();
+
+      qx.html.Element.flush();
+
+      this.assertIdentical(doc.getDomElement().childNodes[0], el1.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[1], el3.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[2], el5.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[3], undefined);
+
+      /**
+       * Current:
+       *
+       * doc
+       * - el1
+       * - el3
+       * - el5
+       */
+
+
+
+      this.info("Show one of the two hidden elements");
+
+      el2.show();
+
+      qx.html.Element.flush();
+
+      this.assertIdentical(doc.getDomElement().childNodes[0], el1.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[1], el2.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[2], el3.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[3], el5.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[4], undefined);
+
+      /**
+       * Current:
+       *
+       * doc
+       * - el1
+       * - el2
+       * - el3
+       * - el5
+       */
+
+
+
+
+      this.info("Hide a rendered element");
+
+      el3.hide();
+
+      qx.html.Element.flush();
+
+      this.assertIdentical(doc.getDomElement().childNodes[0], el1.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[1], el2.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[2], el3.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[3], el5.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[4], undefined);
+      this.assertIdentical(el3.getDomElement().style.display, "none");
+
+      /**
+       * Current:
+       *
+       * doc
+       * - el1
+       * - el2
+       * - el3 (hidden)
+       * - el5
+       */
+
+
+
+
+
+      this.info("Exclude & show together");
+
+      el3.exclude();
+      el3.show();
+
+      qx.html.Element.flush();
+
+      this.assertIdentical(doc.getDomElement().childNodes[0], el1.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[1], el2.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[2], el5.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[3], undefined);
+      this.assertIdentical(el3.getDomElement().style.display, "");
+
+      /**
+       * Current:
+       *
+       * doc
+       * - el1
+       * - el2
+       * - el5
+       */
+
+
+
+
+      this.info("Include one and hide another element");
+
+      el3.include();
+      el2.hide();
+
+      qx.html.Element.flush();
+
+      this.assertIdentical(doc.getDomElement().childNodes[0], el1.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[1], el2.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[2], el3.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[3], el5.getDomElement());
+      this.assertIdentical(doc.getDomElement().childNodes[4], undefined);
+      this.assertIdentical(el2.getDomElement().style.display, "none");
+      this.assertIdentical(el3.getDomElement().style.display, "");
+
+      /**
+       * Current:
+       *
+       * doc
+       * - el1
+       * - el2 (hidden)
+       * - el3
+       * - el5
+       */
     }
   }
 });
