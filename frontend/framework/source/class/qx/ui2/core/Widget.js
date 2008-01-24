@@ -1265,15 +1265,12 @@ qx.Class.define("qx.ui2.core.Widget",
       if (value == "show")
       {
         if (isLayoutVisible) {
-          //this._containerElement.removeStyle("display");
-          this._containerElement.include();
-          //this._containerElement.setStyle("block");
+          this._containerElement.show();
         }
       }
       else
       {
-        this._containerElement.exclude();
-        // this._containerElement.setStyle("display", "none");
+        this._containerElement.hide();
       }
 
       // only force a layout update if visibility change from/to "exclude"
@@ -1294,11 +1291,9 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var userVisibility = this.getVisibility();
       if (value && userVisibility == "show") {
-        this._containerElement.include();
-        //this._containerElement.removeStyle("display");
+        this._containerElement.show();
       } else {
-        this._containerElement.exclude();
-        //this._containerElement.setStyle("display", "none");
+        this._containerElement.hide();
       }
       qx.ui2.core.QueueManager.scheduleFlush();
     },

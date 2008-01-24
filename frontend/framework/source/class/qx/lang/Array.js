@@ -269,7 +269,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @type static
      * @param arr {Array} the array
      * @param obj {var} element to be removed from the array
-     * @return {Array} the removed element
+     * @return {var} the removed element
      */
     remove : function(arr, obj)
     {
@@ -349,18 +349,18 @@ qx.Bootstrap.define("qx.lang.Array",
     max : function(array)
     {
       var result = Number.MIN_VALUE;
-  
+
       for (var i=0, l=array.length; i<l; i++)
       {
         if (array[i] > result) {
           result = array[i];
         }
       }
-  
+
       return result;
     },
-  
-  
+
+
     /**
      * Returns the lowest value in the given array. Supports
      * numeric values only.
@@ -372,20 +372,20 @@ qx.Bootstrap.define("qx.lang.Array",
     min : function(array)
     {
       var result = Number.MAX_VALUE;
-  
+
       for (var i=0, l=array.length; i<l; i++)
       {
         if (array[i] < result) {
           result = array[i];
         }
       }
-  
+
       return result;
     },
-  
+
     /**
      * Returns all elements which do no apply to given function.
-     * 
+     *
      * Opposite of {@link qx.lang.Array#findAll}
      *
      * @type static
@@ -397,22 +397,22 @@ qx.Bootstrap.define("qx.lang.Array",
     reject : function(array, iterator, context)
     {
       var results = [];
-      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator; 
-  
+      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator;
+
       for (var i=0, l=array.length; i<l; i++)
       {
         if (!fnc(array[i])) {
           results.push(array[i]);
         }
       }
-  
+
       return results;
     },
-  
-  
+
+
     /**
      * Returns all elements which apply to given function.
-     * 
+     *
      * Opposite of {@link qx.lang.Array#reject}
      *
      * @type static
@@ -424,15 +424,15 @@ qx.Bootstrap.define("qx.lang.Array",
     findAll : function(array, iterator, context)
     {
       var results = [];
-      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator; 
-  
+      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator;
+
       for (var i=0, l=array.length; i<l; i++)
       {
         if (fnc(array[i])) {
           results.push(array[i]);
         }
       }
-  
+
       return results;
     }
 
