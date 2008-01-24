@@ -306,8 +306,18 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     addLayoutProperty : function(child, name, value)
     {
-      if (value == null) {
-        throw new Error("Invalid value for layout property " + name + ": " + value);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        switch(typeof value)
+        {
+          case "string":
+          case "number":
+          case "boolean":
+            break;
+
+          default:
+            throw new Error("Invalid value for layout property " + name + ": " + value);
+        }
       }
 
       this._options[child.toHashCode()][name] = value;
