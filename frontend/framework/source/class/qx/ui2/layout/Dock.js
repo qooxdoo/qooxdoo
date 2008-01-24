@@ -123,11 +123,8 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       var children = this._getSortedChildren();
       var length = children.length;
+      var child, hint, props, flex, width, height;
 
-      var child, edge, hint, flex;
-      var width, height;
-
-      var hints = [];
       var widths = [];
       var heights = [];
 
@@ -142,25 +139,23 @@ qx.Class.define("qx.ui2.layout.Dock",
       //   Caching children data
       // **************************************
 
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0; i<length; i++)
       {
         child = children[i];
-        var childProps = this.getLayoutProperties(child);
-        edge = childProps.edge;
+        props = this.getLayoutProperties(child);
         hint = child.getSizeHint();
 
-        width = childProps.width ? Math.floor(availWidth * parseFloat(childProps.width) / 100) : hint.width;
-        height = childProps.height ? Math.floor(availHeight * parseFloat(childProps.height) / 100) : hint.height;
+        width = props.width ? Math.floor(availWidth * parseFloat(props.width) / 100) : hint.width;
+        height = props.height ? Math.floor(availHeight * parseFloat(props.height) / 100) : hint.height;
 
-        hints[i] = hint;
         widths[i] = width
         heights[i] = height;
 
-        if (edge === "north" || edge === "south")
+        if (props.edge === "north" || props.edge === "south")
         {
           allocatedHeight += height;
         }
-        else if (edge === "west" || edge === "east")
+        else if (props.edge === "west" || props.edge === "east")
         {
           allocatedWidth += width;
         }
@@ -176,6 +171,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
 
 
+
       // **************************************
       //   Horizontal flex support
       // **************************************
@@ -185,21 +181,20 @@ qx.Class.define("qx.ui2.layout.Dock",
         var flexCandidates = [];
         var childGrow = allocatedWidth < availWidth;
 
-        for (var i=0, l=children.length; i<l; i++)
+        for (var i=0; i<length; i++)
         {
           child = children[i];
-          var childProps = this.getLayoutProperties(child);
-          edge = childProps.edge;
+          var props = this.getLayoutProperties(child);
 
-          if (edge === "west" || edge === "east" || edge === "center")
+          if (props.edge === "west" || props.edge === "east" || props.edge === "center")
           {
             if (child.canStretchX())
             {
-              flex = childProps.flexX;
+              flex = props.flexX;
 
               if (flex == null || flex > 0)
               {
-                hint = hints[i];
+                hint = child.getSizeHint();
 
                 flexCandidates.push({
                   id : i,
@@ -238,21 +233,20 @@ qx.Class.define("qx.ui2.layout.Dock",
         var flexCandidates = [];
         var childGrow = allocatedHeight < availHeight;
 
-        for (var i=0, l=children.length; i<l; i++)
+        for (var i=0; i<length; i++)
         {
           child = children[i];
-          var childProps = this.getLayoutProperties(child);
-          edge = childProps.edge;
+          var props = this.getLayoutProperties(child);
 
-          if (edge === "north" || edge === "south" || edge === "center")
+          if (props.edge === "north" || props.edge === "south" || props.edge === "center")
           {
             if (child.canStretchY())
             {
-              flex = childProps.flexY;
+              flex = props.flexY;
 
               if (flex == null || flex > 0)
               {
-                hint = hints[i];
+                hint = child.getSizeHint();
 
                 flexCandidates.push({
                   id : i,
@@ -288,90 +282,90 @@ qx.Class.define("qx.ui2.layout.Dock",
       //   Layout children
       // **************************************
 
-      // Apply children layout
       var nextTop=0, nextLeft=0, nextBottom=0, nextRight=0;
       var left, top, width, height;
 
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0; i<length; i++)
       {
-        child = children[i];
-        edge = this.getLayoutProperty(child, "edge");
-
-
         // Calculate child layout
-        if (edge === "west")
+        switch(this.getLayoutProperty(children[i], "edge"))
         {
-          // Simple top/left coordinates
-          left = nextLeft;
-          top = nextTop;
+          case "west":
+            // Simple top/left coordinates
+            left = nextLeft;
+            top = nextTop;
 
-          // Child preferred width
-          width = widths[i];
+            // Child preferred width
+            width = widths[i];
 
-          // Full available height
-          height = availHeight - nextTop - nextBottom;
+            // Full available height
+            height = availHeight - nextTop - nextBottom;
 
-          // Update coordinates, for next children
-          nextLeft += width;
-        }
-        else if (edge === "north")
-        {
-          // Simple top/left coordinates
-          left = nextLeft;
-          top = nextTop;
+            // Update coordinates, for next children
+            nextLeft += width;
 
-          // Full available width
-          width = availWidth - nextLeft - nextRight;
+            break;
 
-          // Child preferred height
-          height = heights[i];
+          case "north":
+            // Simple top/left coordinates
+            left = nextLeft;
+            top = nextTop;
 
-          // Update coordinates, for next children
-          nextTop += height;
-        }
-        else if (edge === "east")
-        {
-          // Simple top coordinate + calculated left position
-          left = availWidth - nextRight - widths[i];
-          top = nextTop;
+            // Full available width
+            width = availWidth - nextLeft - nextRight;
 
-          // Child preferred width
-          width = widths[i];
+            // Child preferred height
+            height = heights[i];
 
-          // Full available height
-          height = availHeight - nextTop - nextBottom;
+            // Update coordinates, for next children
+            nextTop += height;
 
-          // Update coordinates, for next children
-          nextRight += width;
-        }
-        else if (edge === "south")
-        {
-          // Simple left coordinate + calculated top position
-          left = nextLeft;
-          top = availHeight - nextBottom - heights[i];
+            break;
 
-          // Full available width
-          width = availWidth - nextLeft - nextRight;
+          case "east":
+            // Simple top coordinate + calculated left position
+            left = availWidth - nextRight - widths[i];
+            top = nextTop;
 
-          // Child preferred height
-          height = heights[i];
+            // Child preferred width
+            width = widths[i];
 
-          // Update coordinates, for next children
-          nextBottom += height;
-        }
-        else if (edge === "center")
-        {
-          // Simple top/left coordinates
-          left = nextLeft;
-          top = nextTop;
+            // Full available height
+            height = availHeight - nextTop - nextBottom;
 
-          // Calculated width/height
-          width = availWidth - nextLeft - nextRight;
-          height = availHeight - nextTop - nextBottom;
+            // Update coordinates, for next children
+            nextRight += width;
+
+            break;
+
+          case "south":
+            // Simple left coordinate + calculated top position
+            left = nextLeft;
+            top = availHeight - nextBottom - heights[i];
+
+            // Full available width
+            width = availWidth - nextLeft - nextRight;
+
+            // Child preferred height
+            height = heights[i];
+
+            // Update coordinates, for next children
+            nextBottom += height;
+
+            break;
+
+          case "center":
+            // Simple top/left coordinates
+            left = nextLeft;
+            top = nextTop;
+
+            // Calculated width/height
+            width = availWidth - nextLeft - nextRight;
+            height = availHeight - nextTop - nextBottom;
         }
 
         // Apply layout
-        child.renderLayout(left, top, width, height);
+        children[i].renderLayout(left, top, width, height);
       }
     },
 
@@ -381,7 +375,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       var children = this._getSortedChildren();
       var length = children.length;
-      var child, hint, edge;
+      var hint, edge;
 
       var widthX=0, minWidthX=0;
       var heightX=0, minHeightX=0;
@@ -390,11 +384,10 @@ qx.Class.define("qx.ui2.layout.Dock",
 
 
       // Detect children sizes
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0; i<length; i++)
       {
-        child = children[i];
-        edge = this.getLayoutProperty(child, "edge");
-        hint = child.getSizeHint();
+        edge = this.getLayoutProperty(children[i], "edge");
+        hint = children[i].getSizeHint();
 
         // Ok, this part is a bit complicated :)
         if (edge === "north" || edge === "south")
@@ -466,6 +459,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     _getSortedChildren : function()
     {
       var children = this.getLayoutChildren();
+      var length = children.length;
 
       var high = [];
       var low = [];
@@ -473,7 +467,7 @@ qx.Class.define("qx.ui2.layout.Dock",
       var yfirst = this.getSort() === "y";
       var xfirst = this.getSort() === "x";
 
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0; i<length; i++)
       {
         child = children[i];
         edge = this.getLayoutProperty(child, "edge");
