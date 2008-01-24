@@ -50,7 +50,7 @@ qx.Class.define("qx.fx.Scale",
 
   construct : function(element, percent, options)
   {
-    var newOptions = {
+    var effectSpecificOptions = {
       scaleX : true,
       scaleY : true,
       scaleContent : true,
@@ -60,13 +60,15 @@ qx.Class.define("qx.fx.Scale",
       scaleTo :   percent
     };
 
-    for(var i in options)
+    for(var i in effectSpecificOptions)
     {
-      newOptions[i] = options[i];
+      if (!options[i]) {
+        options[i] = effectSpecificOptions[i];
+      }
     }
 
     
-    this.base(arguments, element, newOptions);
+    this.base(arguments, element, options);
 
   },
 
@@ -162,13 +164,13 @@ qx.Class.define("qx.fx.Scale",
 
     update : function(position)
     {
-      var currentScale = (this._options.scaleFrom/100.0) + (this._factor * position);
+      var currentScale = (this._options.scaleFrom / 100.0) + (this._factor * position);
 
       if (this._options.scaleContent && this._fontSize) {
         qx.bom.element.Style.set(this._element, "fontSize", this._fontSize * currentScale + this._fontSizeType);
       }
 
-      this.setDimensions(this._dims[0] * currentScale, this._dims[1] * currentScale);
+      this._setDimensions(this._dims[0] * currentScale, this._dims[1] * currentScale);
     },
     
    finish : function(position)
@@ -181,7 +183,7 @@ qx.Class.define("qx.fx.Scale",
      }
    },
 
-   setDimensions : function(height, width)
+   _setDimensions : function(height, width)
    {
 
      var d = { };

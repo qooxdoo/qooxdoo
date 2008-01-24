@@ -146,10 +146,11 @@ qx.Class.define("qx.fx.ScopedQueue",
 	  loop: function()
 	  {
   		var timePos = new Date().getTime();
-  		for(var i=0, len=this._effects.length;i<len;i++)
-  		{
+
+  		for(var i=0, len=this._effects.length; i<len; i++) {
   		  this._effects[i] && this._effects[i].loop(timePos);
   	  }
+
 	  }
 
    },

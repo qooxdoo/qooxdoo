@@ -58,7 +58,7 @@ qx.Class.define("qx.fx.Base",
       this._transition = options.transition;
     }
 
-    this._options      = qx.fx.Effect.DefaultOptions;
+    this._options = qx.fx.Effect.DefaultOptions;
     for(var i in options)
     {
       this._options[i] = options[i];
@@ -89,83 +89,6 @@ qx.Class.define("qx.fx.Base",
 
   /*
    *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
-/*
-   properties :
-   {
-    
-    _options :
-    {
-      init : 0,
-      inheritable : true
-    },
-    _currentFrame :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _state :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _startOn :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _finishOn :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _fromToDelta :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _totalTime :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _totalFrames :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _position :
-    {
-      init : 0,
-      inheritable : true
-    },
-
-    _element :
-    {
-      init : 0,
-      inheritable : true
-    },
-    
-    _transition :
-    {
-      init : null,
-      inheritable : true
-    }
-
-   },*/
-  
-  
-  /*
-   *****************************************************************************
       MEMBERS
    *****************************************************************************
    */
@@ -187,115 +110,77 @@ qx.Class.define("qx.fx.Base",
     
     start: function()
     {
+      if (this.beforeStartInternal) {
+        this.beforeStartInternal();
+      }
 
-      function codeForEvent(options,eventName)
-      { // TODO: wtf?
-        return (
-          (options[eventName+'Internal'] ? 'this._options.'+eventName+'Internal(this);' : '') +
-          (options[eventName] ? 'this._options.'+eventName+'(this);' : '')
-        );
+      if (this.beforeStart) {
+        this.beforeStart();
       }
-  
-      eval('this.render = function(pos){ '+
-        'if (this._state==qx.fx.Effect.EffectState.idle){this._state=qx.fx.Effect.EffectState.running;'+
-        codeForEvent(this._options,'beforeSetup')+
-        (this.setup ? 'this.setup();':'')+ 
-        codeForEvent(this._options,'afterSetup')+
-        '};if (this._state==qx.fx.Effect.EffectState.running){'+
-        'pos=this._transition(pos)*'+this._fromToDelta+'+'+this._options.from+';'+
-        'this._position=pos;'+
-        codeForEvent(this._options,'beforeUpdate')+
-        (this.update ? 'this.update(pos);':'')+
-        codeForEvent(this._options,'afterUpdate')+
-        '}}');
-  
-  
-  
-      ///////////////////////////////////////////
-  /*
-      this.render = function(pos)
-      {
-        if(this.state == "idle")
-        {
-          this.state="running";
-          codeForEvent(this.options, "beforeSetup");
-          if(this.setup){
-            this.setup();
-          }
-          codeForEvent(this.options, "afterSetup");
-        }
-  
-        if(this.state == "running")
-        {
-          pos=this.options.transition(pos)*+this.fromToDelta+this.options.from;
-          this.position=pos;
-          codeForEvent(this.options,"beforeUpdate");
-          if(this.update){
-            this.update(pos);
-          }
-          codeForEvent(this.options,"afterUpdate");
-        }
-      }
-  */
-      ///////////////////////////////////////////
-  
-/*
-     ///////////////////////////////////////////
-      this.render = function(pos)
-      {
-        if(this.state == "idle")
-        {
-          this.state="running";
-  
-          codeForEvent(this.options, "beforeSetup");
-          //this.options.beforeSetupInternal(this);
-          //this.options.beforeSetup(this);
-  
-          if(this.setup){
-            this.setup();
-          }
-  
-          codeForEvent(this.options, "afterSetup");
-          //this.options.afterSetupInternal(this);
-          //this.options.afterSetup(this);
-  
-        }
-  
-        if(this.state == "running")
-        {
-          pos=this.options.transition(pos)*+this.fromToDelta+this.options.from;
-          this.position=pos;
-  
-          codeForEvent(this.options,"beforeUpdate");
-          //this.options.beforeUpdateInternal(this);
-          //this.options.beforeUpdate(this);
-  
-          if(this.update){
-            this.update(pos);
-          }
-  
-          codeForEvent(this.options,"afterUpdate");
-          //this.options.afterUpdateInternal(this);
-          //this.options.afterUpdate(this);
-  
-        }
-      }
-      ///////////////////////////////////////////
-*/
-  
-      this.event('beforeStart');
-      
-/*      
-    if (!this.options.sync)
-      Effect.Queues.get(Object.isString(this.options.queue) ? 
-        'global' : this.options.queue.scope).add(this);
-*/      
+
       if (!this._options.sync)
       {
         var queue = this._getQueue();
         qx.fx.Effect.Queues.get(queue).add(this);
       }
     },
+
+    render : function(pos)
+    {
+      if(this._state == qx.fx.Effect.EffectState.idle)
+      {
+        this._state = qx.fx.Effect.EffectState.running
+
+        if (this.beforeSetupInternal) {
+          this.beforeSetupInternal();
+        }
+
+        if (this.beforeSetup) {
+          this.beforeSetup();
+        }
+
+        if (this.setup) {
+          this.setup();
+        }
+
+        if (this.afterSetupInternal) {
+          this.afterSetupInternal();
+        }
+
+        if (this.afterSetup) {
+          this.afertSetup();
+        }
+
+      }
+
+      if(this._state == qx.fx.Effect.EffectState.running)
+      {
+
+        this._position = this._transition(pos) * this._fromToDelta + this._options.from;
+
+        if (this.beforeUpdateInternal) {
+          this.beforeUpdateInternal();
+        }
+        
+        if (this.beforeUpdate) {
+          this.beforeUpdate();
+        }
+
+        if (this.update) {
+          this.update(this._position);
+        }
+
+        if (this.afterUpdateInternal) {
+          this.afterUpdateInternal();
+        }
+
+        if (this.afterUpdate) {
+          this.afterUpdate();
+        }
+        
+      }
+    },
+
     
     loop : function(timePos)
     {
@@ -304,11 +189,30 @@ qx.Class.define("qx.fx.Base",
 
         if (timePos >= this._finishOn)
         {
+
           this.render(1.0);
           this.cancel();
-          this.event('beforeFinish');
-          if (this.finish) this.finish(); 
-          this.event('afterFinish');
+
+          if (this.beforeFinishInternal) {
+            this.beforeFinishInternal();
+          }
+
+          if (this.beforeFinish) {
+            this.beforeFinish();
+          }
+
+          if (this.finish) {
+            this.finish();
+          }
+
+          if (this.afterFinishInternal) {
+            this.afterFinishInternal();
+          }
+
+          if (this.afterFinish) {
+            this.afterFinish();
+          }
+
           return;  
         }
 
@@ -326,11 +230,6 @@ qx.Class.define("qx.fx.Base",
 
     cancel : function()
     {
-/*
-    if (!this.options.sync)
-      Effect.Queues.get(Object.isString(this.options.queue) ? 
-        'global' : this.options.queue.scope).remove(this);
-*/
       if (!this._options.sync)
       {
         var queue = this._getQueue();
@@ -344,12 +243,6 @@ qx.Class.define("qx.fx.Base",
     {
       return (typeof(this._options.queue) == "string") ?
           'global' : this._options.queue.scope;
-    },
-    
-    event : function(eventName)
-    {
-      if (this._options[eventName + 'Internal']) this._options[eventName + 'Internal'](this);
-      if (this._options[eventName]) this._options[eventName](this);
     }
 
   },
