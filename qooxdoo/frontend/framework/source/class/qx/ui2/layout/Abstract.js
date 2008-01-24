@@ -306,7 +306,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     addLayoutProperty : function(child, name, value)
     {
-      if (!value) {
+      if (value == null) {
         throw new Error("Invalid value for layout property " + name + ": " + value);
       }
 
