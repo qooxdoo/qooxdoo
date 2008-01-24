@@ -50,9 +50,7 @@ qx.Class.define("qx.ui2.core.QueueManager",
       qx.ui2.core.DecorationQueue.flush();
       qx.html.Element.flush();
 
-      var stop = new Date;
-      var since = stop - qx.Bootstrap.LOADSTART
-      qx.core.Log.debug(since + ": Queue runtime: " + (stop - start) + "ms");
+      qx.core.Log.debug("Queue runtime: " + (new Date - start) + "ms");
     }
   }
 });

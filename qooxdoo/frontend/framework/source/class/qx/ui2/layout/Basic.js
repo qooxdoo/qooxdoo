@@ -56,6 +56,27 @@ qx.Class.define("qx.ui2.layout.Basic",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Adds a new widget to this layout.
+     *
+     * @type member
+     * @param child {qx.ui2.core.Widget} the widget to add.
+     * @param left {Integer} Left position of the child.
+     * @param top {Integer} Top position of the child.
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
+     */
+    add : function(child, left, top, options)
+    {
+      this.base(arguments, child, options);
+      this.addLayoutProperty(child, "left", left);
+      this.addLayoutProperty(child, "top", top);
+
+      // Chaining support
+      return this;
+    },
+
+
     // overridden
     renderLayout : function(parentWidth, parentHeight)
     {
