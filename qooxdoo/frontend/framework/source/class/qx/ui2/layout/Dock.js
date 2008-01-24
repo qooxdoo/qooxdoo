@@ -131,14 +131,17 @@ qx.Class.define("qx.ui2.layout.Dock",
       var widths = [];
       var heights = [];
 
-      // Sum of width used by all left/right attached widgets
       var allocatedWidth = 0;
-
-      // Sum of height used by all top/bottom attached widgets
       var allocatedHeight = 0;
 
 
-      // Analyse children
+
+
+
+      // **************************************
+      //   Caching children data
+      // **************************************
+
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -172,7 +175,11 @@ qx.Class.define("qx.ui2.layout.Dock",
       // console.debug("Used height: " + allocatedHeight + "/" + availHeight);
 
 
-      // Process widths for flex stretching/shrinking
+
+      // **************************************
+      //   Horizontal flex support
+      // **************************************
+
       if (allocatedWidth != availWidth)
       {
         var flexCandidates = [];
@@ -218,6 +225,12 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
+
+
+
+      // **************************************
+      //   Vertical flex support
+      // **************************************
 
       // Process height for flex stretching/shrinking
       if (allocatedHeight != availHeight)
@@ -269,9 +282,15 @@ qx.Class.define("qx.ui2.layout.Dock",
       // console.debug("Used height: " + allocatedHeight + "/" + availHeight);
 
 
+
+
+      // **************************************
+      //   Layout children
+      // **************************************
+
       // Apply children layout
       var nextTop=0, nextLeft=0, nextBottom=0, nextRight=0;
-      var childLeft, childTop, width, height;
+      var left, top, width, height;
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -283,8 +302,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         if (edge === "west")
         {
           // Simple top/left coordinates
-          childLeft = nextLeft;
-          childTop = nextTop;
+          left = nextLeft;
+          top = nextTop;
 
           // Child preferred width
           width = widths[i];
@@ -298,8 +317,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         else if (edge === "north")
         {
           // Simple top/left coordinates
-          childLeft = nextLeft;
-          childTop = nextTop;
+          left = nextLeft;
+          top = nextTop;
 
           // Full available width
           width = availWidth - nextLeft - nextRight;
@@ -313,8 +332,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         else if (edge === "east")
         {
           // Simple top coordinate + calculated left position
-          childLeft = availWidth - nextRight - widths[i];
-          childTop = nextTop;
+          left = availWidth - nextRight - widths[i];
+          top = nextTop;
 
           // Child preferred width
           width = widths[i];
@@ -328,8 +347,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         else if (edge === "south")
         {
           // Simple left coordinate + calculated top position
-          childLeft = nextLeft;
-          childTop = availHeight - nextBottom - heights[i];
+          left = nextLeft;
+          top = availHeight - nextBottom - heights[i];
 
           // Full available width
           width = availWidth - nextLeft - nextRight;
@@ -343,8 +362,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         else if (edge === "center")
         {
           // Simple top/left coordinates
-          childLeft = nextLeft;
-          childTop = nextTop;
+          left = nextLeft;
+          top = nextTop;
 
           // Calculated width/height
           width = availWidth - nextLeft - nextRight;
@@ -352,7 +371,7 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
 
         // Apply layout
-        child.renderLayout(childLeft, childTop, width, height);
+        child.renderLayout(left, top, width, height);
       }
     },
 
@@ -360,15 +379,12 @@ qx.Class.define("qx.ui2.layout.Dock",
     // overridden
     _computeSizeHint : function()
     {
-      // Initialize
       var children = this._getSortedChildren();
       var length = children.length;
-
       var child, hint, edge;
 
       var widthX=0, minWidthX=0;
       var heightX=0, minHeightX=0;
-
       var widthY=0, minWidthY=0;
       var heightY=0, minHeightY=0;
 
@@ -418,27 +434,13 @@ qx.Class.define("qx.ui2.layout.Dock",
       }
 
 
-      // Sum up and limit to integer region
-      var width = Math.max(widthX, widthY, 0);
-      var minWidth = Math.max(minWidthX, minWidthY, 0);
-      var height = Math.max(heightX, heightY, 0);
-      var minHeight = Math.max(minHeightX, minHeightY, 0);
-
-
-      // Limit dimensions to integer range
-      minWidth = Math.max(0, minWidth);
-      width = Math.max(0, width);
-      minHeight = Math.max(0, minHeight);
-      height = Math.max(0, height);
-
-
       // Return hint
       return {
-        minWidth : minWidth,
-        width : width,
+        minWidth : Math.max(minWidthX, minWidthY),
+        width : Math.max(widthX, widthY),
         maxWidth : Infinity,
-        minHeight : minHeight,
-        height : height,
+        minHeight : Math.max(minHeightX, minHeightY),
+        height : Math.max(heightX, heightY),
         maxHeight : Infinity
       };
     },
