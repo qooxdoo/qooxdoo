@@ -19,6 +19,10 @@
 
 ************************************************************************ */
 
+/*
+#require(qx.event.dispatch.Direct)
+*/
+
 /**
  * Create a new instance of qx.locale.Manager
  */
