@@ -123,7 +123,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       var children = this._getSortedChildren();
       var length = children.length;
-      var child, hint, props, flex, width, height;
+      var flexibles, child, hint, props, flex, grow, width, height;
 
       var widths = [];
       var heights = [];
@@ -178,13 +178,13 @@ qx.Class.define("qx.ui2.layout.Dock",
 
       if (allocatedWidth != availWidth)
       {
-        var flexibles = [];
-        var grow = allocatedWidth < availWidth;
+        flexibles = [];
+        grow = allocatedWidth < availWidth;
 
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          var props = this.getLayoutProperties(child);
+          props = this.getLayoutProperties(child);
 
           if (props.edge === "west" || props.edge === "east" || props.edge === "center")
           {
@@ -228,13 +228,13 @@ qx.Class.define("qx.ui2.layout.Dock",
       // Process height for flex stretching/shrinking
       if (allocatedHeight != availHeight)
       {
-        var flexibles = [];
-        var grow = allocatedHeight < availHeight;
+        flexibles = [];
+        grow = allocatedHeight < availHeight;
 
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          var props = this.getLayoutProperties(child);
+          props = this.getLayoutProperties(child);
 
           if (props.edge === "north" || props.edge === "south" || props.edge === "center")
           {
@@ -350,7 +350,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
             break;
 
-          case "center":
+          default:
             // Simple top/left coordinates
             left = nextLeft;
             top = nextTop;
@@ -371,21 +371,21 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       var children = this._getSortedChildren();
       var length = children.length;
-      var hint;
+      var hint, child;
 
       var widthX=0, minWidthX=0;
       var heightX=0, minHeightX=0;
       var widthY=0, minWidthY=0;
       var heightY=0, minHeightY=0;
 
-
       // Detect children sizes
       for (var i=0; i<length; i++)
       {
-        hint = children[i].getSizeHint();
+        child = children[i];
+        hint = child.getSizeHint();
 
         // Ok, this part is a bit complicated :)
-        switch(this.getLayoutProperty(children[i], "edge"))
+        switch(this.getLayoutProperty(child, "edge"))
         {
           case "north":
           case "south":
@@ -426,7 +426,6 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
-
       // Return hint
       return {
         minWidth : Math.max(minWidthX, minWidthY),
@@ -459,6 +458,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     _getSortedChildren : function()
     {
       var children = this.getLayoutChildren();
+      var child, edge, center;
       var length = children.length;
 
       var high = [];
