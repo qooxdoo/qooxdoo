@@ -29,21 +29,18 @@
  *
  * Supports:
  *
- * * Integer dimensions (using widget properties)
- * * Additional percent width for left/right/center attached widgets (using layout properties)
- * * Additional percent height for top/bottom/center attached widgets (using layout properties)
- * * Min and max dimensions (using widget properties)
- * * Priorized growing/shrinking (flex) (using layout properties)
- * * Auto sizing (not together with percent dimensions for the children)
- * * Different sort options (to priorize x- or y-axis in layout)
+ * * Percent width for left/right/center attached children
+ * * Percent height for top/bottom/center attached children
+ * * Minimum and maximum dimensions
+ * * Priorized growing/shrinking (flex)
+ * * Auto sizing
+ * * Different sort options for children
  *
  * Notes:
  *
  * * For left/right attached childs the height is ignored.
  * * For top/bottom attached childs the width is ignored.
  * * However: In both cases the min/max dimensions are respected.
- *
- * Layout Properties: width, height, flexX, flexY, dock/edge
  */
 qx.Class.define("qx.ui2.layout.Dock",
 {

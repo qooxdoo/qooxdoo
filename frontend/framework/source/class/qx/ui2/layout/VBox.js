@@ -24,7 +24,6 @@
  *
  * Supports the following features:
  *
- * * Integer dimensions
  * * Percent and flex heights
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
@@ -33,13 +32,13 @@
  * * Vertical spacing
  * * Reversed children layout
  * * Horizontal children stretching
- * * Auto sizing (ignoring percent and flex heights)
+ * * Auto sizing
  *
  * Names used by other toolkits:
  *
  * * QVBoxLayout (Qt)
  * * StackPanel (XAML)
- * * RowLayout (SWT) (with wrapping support like a FlowLayout)
+ * * RowLayout (SWT)
  */
 qx.Class.define("qx.ui2.layout.VBox",
 {
