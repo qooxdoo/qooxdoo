@@ -70,15 +70,20 @@ qx.Class.define("qx.fx.Appear",
         from : fromValue,
         to   : 1.0
     };
-
+/*
     for(var i in effectSpecificOptions)
     {
       if (!options[i]) {
         options[i] = effectSpecificOptions[i];
       }
     }
-
+*/
+    //console.info(options)
+    
     this.base(arguments, element, options);
+
+    //console.info(this._options)
+  
   },
 
   
@@ -114,6 +119,7 @@ qx.Class.define("qx.fx.Appear",
 
     beforeSetup : function(effect)
     {
+      console.warn("beforeSETUP!", this._options.from)
       qx.bom.element.Style.set(this._element, "opacity", this._options.from);
       qx.bom.element.Style.set(this._element, "display", "block");
     }
