@@ -178,8 +178,8 @@ qx.Class.define("qx.ui2.layout.Dock",
 
       if (allocatedWidth != availWidth)
       {
-        var flexCandidates = [];
-        var childGrow = allocatedWidth < availWidth;
+        var flexibles = [];
+        var grow = allocatedWidth < availWidth;
 
         for (var i=0; i<length; i++)
         {
@@ -196,24 +196,22 @@ qx.Class.define("qx.ui2.layout.Dock",
               {
                 hint = child.getSizeHint();
 
-                flexCandidates.push({
+                flexibles.push({
                   id : i,
-                  potential : childGrow ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
-                  flex : childGrow ? (flex || 1) : 1 / (flex || 1)
+                  potential : grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
+                  flex : grow ? (flex || 1) : 1 / (flex || 1)
                 });
               }
             }
           }
         }
 
-        if (flexCandidates.length > 0)
+        if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availWidth - allocatedWidth);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
 
           for (var key in flexibleOffsets)
           {
-            // this.debug(" - Correcting child[" + key + "] width by: " + flexibleOffsets[key]);
-
             widths[key] += flexibleOffsets[key];
             allocatedWidth += flexibleOffsets[key];
           }
@@ -230,8 +228,8 @@ qx.Class.define("qx.ui2.layout.Dock",
       // Process height for flex stretching/shrinking
       if (allocatedHeight != availHeight)
       {
-        var flexCandidates = [];
-        var childGrow = allocatedHeight < availHeight;
+        var flexibles = [];
+        var grow = allocatedHeight < availHeight;
 
         for (var i=0; i<length; i++)
         {
@@ -248,24 +246,22 @@ qx.Class.define("qx.ui2.layout.Dock",
               {
                 hint = child.getSizeHint();
 
-                flexCandidates.push({
+                flexibles.push({
                   id : i,
-                  potential : childGrow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
-                  flex : childGrow ? (flex || 1) : 1 / (flex || 1)
+                  potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
+                  flex : grow ? (flex || 1) : 1 / (flex || 1)
                 });
               }
             }
           }
         }
 
-        if (flexCandidates.length > 0)
+        if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexCandidates, availHeight - allocatedHeight);
+          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
 
           for (var key in flexibleOffsets)
           {
-            // this.debug(" - Correcting child[" + key + "] height by: " + flexibleOffsets[key]);
-
             heights[key] += flexibleOffsets[key];
             allocatedHeight += flexibleOffsets[key];
           }
@@ -375,7 +371,7 @@ qx.Class.define("qx.ui2.layout.Dock",
     {
       var children = this._getSortedChildren();
       var length = children.length;
-      var hint, edge;
+      var hint;
 
       var widthX=0, minWidthX=0;
       var heightX=0, minHeightX=0;
@@ -386,43 +382,47 @@ qx.Class.define("qx.ui2.layout.Dock",
       // Detect children sizes
       for (var i=0; i<length; i++)
       {
-        edge = this.getLayoutProperty(children[i], "edge");
         hint = children[i].getSizeHint();
 
         // Ok, this part is a bit complicated :)
-        if (edge === "north" || edge === "south")
+        switch(this.getLayoutProperty(children[i], "edge"))
         {
-          // Find the maximum width used by these fully stretched items
-          // The recommended width used by these must add the currently
-          // occupied width by the ortogonal ordered children.
-          widthY = Math.max(widthY, hint.width + widthX);
-          minWidthY = Math.max(minWidthY, hint.minWidth + minWidthX);
+          case "north":
+          case "south":
+            // Find the maximum width used by these fully stretched items
+            // The recommended width used by these must add the currently
+            // occupied width by the ortogonal ordered children.
+            widthY = Math.max(widthY, hint.width + widthX);
+            minWidthY = Math.max(minWidthY, hint.minWidth + minWidthX);
 
-          // Add the needed heights of this widget
-          heightY += hint.height;
-          minHeightY += hint.minHeight;
-        }
-        else if (edge === "west" || edge === "east")
-        {
-          // Find the maximum height used by these fully stretched items
-          // The recommended height used by these must add the currently
-          // occupied height by the ortogonal ordered children.
-          heightX = Math.max(heightX, hint.height + heightY);
-          minHeightX = Math.max(minHeightX, hint.minHeight + minHeightY);
+            // Add the needed heights of this widget
+            heightY += hint.height;
+            minHeightY += hint.minHeight;
 
-          // Add the needed widths of this widget
-          widthX += hint.width;
-          minWidthX += hint.minWidth;
-        }
-        else if (edge === "center")
-        {
-          // A centered widget must be added to both sums as
-          // it stretches into the remaining available space.
-          widthX += hint.width;
-          minWidthX += hint.minWidth;
+            break;
 
-          heightY += hint.height;
-          minHeightY += hint.minHeight;
+          case "west":
+          case "east":
+            // Find the maximum height used by these fully stretched items
+            // The recommended height used by these must add the currently
+            // occupied height by the ortogonal ordered children.
+            heightX = Math.max(heightX, hint.height + heightY);
+            minHeightX = Math.max(minHeightX, hint.minHeight + minHeightY);
+
+            // Add the needed widths of this widget
+            widthX += hint.width;
+            minWidthX += hint.minWidth;
+
+            break;
+
+          default:
+            // A centered widget must be added to both sums as
+            // it stretches into the remaining available space.
+            widthX += hint.width;
+            minWidthX += hint.minWidth;
+
+            heightY += hint.height;
+            minHeightY += hint.minHeight;
         }
       }
 
