@@ -289,10 +289,7 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // this.trace();
-        // throw new Error("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
@@ -400,10 +397,7 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // this.trace();
-        // throw new Error("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
@@ -464,8 +458,10 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      if (!dispatched) {
-        throw new Error("No dispatcher can handle event of type " + type + " on " + target);
+      if (!dispatched)
+      {
+        qx.core.Log.error("No dispatcher can handle event of type " + type + " on " + target);
+        return;
       }
 
       // The event handler may have disposed the app.
