@@ -957,6 +957,17 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
+     * Returns the lasted computed size hint. If no size hint has been computed
+     * yet, null is returned.
+     *
+     * @return {Map|null} The last computed size hint or null.
+     */
+    getCachedSizeHint : function() {
+      return this._sizeHint || null;
+    },
+
+
+    /**
      * Returns the recommended/natural dimensions of the widget's content.
      *
      * For labels and images this may be their natural size when defined without

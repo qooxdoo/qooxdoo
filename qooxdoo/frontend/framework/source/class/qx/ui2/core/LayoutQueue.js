@@ -162,11 +162,12 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           }
 
           // compare old size hint to new size hint
-          var oldSizeHint = widget.getSizeHint();
+          var oldSizeHint = widget.getCachedSizeHint();
           widget.invalidateLayoutCache();
           var newSizeHint = widget.getSizeHint();
 
           var hintChanged = (
+            !oldSizeHint ||
             oldSizeHint.minWidth !== newSizeHint.minWidth ||
             oldSizeHint.width !== newSizeHint.width ||
             oldSizeHint.maxWidth !== newSizeHint.maxWidth ||
