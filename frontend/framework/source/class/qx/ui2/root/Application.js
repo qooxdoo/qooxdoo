@@ -77,7 +77,7 @@ qx.Class.define("qx.ui2.root.Application",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
-     * @return {qx.ui2.layout.Canvas} This object (for chaining support)
+     * @return {qx.ui2.root.Application} This object (for chaining support)
      */
     add : function(widget, options)
     {
@@ -88,6 +88,7 @@ qx.Class.define("qx.ui2.root.Application",
 
     // overridden
     _isRootWidget : true,
+
 
     // overridden
     isLayoutRoot : function() {
@@ -136,6 +137,7 @@ qx.Class.define("qx.ui2.root.Application",
       if (old) {
         throw new Error("You cannot change the layout of qx.ui2.root.Application!");
       }
+
       this.base(arguments, value, old);
     },
 

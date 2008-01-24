@@ -76,11 +76,14 @@ qx.Class.define("qx.ui2.root.Page",
      *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param left {Integer} left position on the page
+     * @param top {Integer} top position on the page
      * @return {qx.ui2.root.Page} This object (for chaining support)
      */
-    add : function(widget, options)
+    add : function(widget, left, top, options)
     {
       this.getLayout().add(widget, options);
+
       // Chaining support
       return this;
     },

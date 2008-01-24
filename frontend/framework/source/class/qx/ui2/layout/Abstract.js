@@ -101,7 +101,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
     add : function(child, options)
     {
       this._children.push(child);
-      return this._addHelper(child, options);
+      this._addHelper(child, options);
+
+      // Chaining support
+      return this;
     },
 
 
@@ -115,7 +118,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
     remove : function(child)
     {
       qx.lang.Array.remove(this._children, child);
-      return this._removeHelper(child);
+      this._removeHelper(child);
+
+      // Chaining support
+      return this;
     },
 
 
@@ -218,9 +224,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
       // Invalidate layout cache
       this.scheduleWidgetLayoutUpdate();
-
-      // Chaining support
-      return this;
     },
 
 
@@ -238,9 +241,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
       // Invalidate layout cache
       this.scheduleWidgetLayoutUpdate();
-
-      // Chaining support
-      return this;
     },
 
 
@@ -306,6 +306,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     addLayoutProperty : function(child, name, value)
     {
+      if (!value) {
+        throw new Error("Invalid value for layout property " + name + ": " + value);
+      }
+
       this._options[child.toHashCode()][name] = value;
       this.scheduleWidgetLayoutUpdate();
     },

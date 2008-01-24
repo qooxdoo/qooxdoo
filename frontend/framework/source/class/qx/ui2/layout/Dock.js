@@ -66,7 +66,7 @@ qx.Class.define("qx.ui2.layout.Dock",
      */
     sort :
     {
-      check : [ "auto", "yfirst", "xfirst" ],
+      check : [ "auto", "y", "x" ],
       init : "auto",
       apply : "_applyLayoutChange"
     }
@@ -95,17 +95,17 @@ qx.Class.define("qx.ui2.layout.Dock",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to add
-     * @param edge {String?null} Edge to attach. Could be anyone of
+     * @param child {qx.ui2.core.Widget} Widget to add
+     * @param edge {String} Edge to attach. Could be anyone of
      *   <code>north</code>, <code>west</code>, <code>south</code>,
      *   <code>east</code> or <code>center</code>.
+     * @param options {Map?null} Optional layout data for widget.
      * @return {qx.ui2.layout.HBox} This object (for chaining support)
      */
-    add : function(widget, edge, options)
+    add : function(child, edge, options)
     {
-      options = options || {};
-      options.edge = edge;
-      this.base(arguments, widget, options);
+      this.base(arguments, child, options);
+      this.addLayoutProperty(child, "edge", edge);
 
       // Chaining support
       return this;
@@ -496,8 +496,8 @@ qx.Class.define("qx.ui2.layout.Dock",
       var high = [];
       var low = [];
       var center;
-      var yfirst = this.getSort() === "yfirst";
-      var xfirst = this.getSort() === "xfirst";
+      var yfirst = this.getSort() === "y";
+      var xfirst = this.getSort() === "x";
 
       for (var i=0, l=children.length; i<l; i++)
       {
