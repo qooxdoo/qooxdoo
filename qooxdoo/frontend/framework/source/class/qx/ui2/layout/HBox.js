@@ -24,7 +24,6 @@
  *
  * Supports the following features:
  *
- * * Integer dimensions
  * * Percent and flex widths
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
@@ -33,13 +32,13 @@
  * * Horizontal spacing
  * * Reversed children layout
  * * Vertical children stretching
- * * Auto sizing (ignoring percent and flex widths)
+ * * Auto sizing
  *
  * Names used by other toolkits:
  *
  * * QHBoxLayout (Qt)
  * * StackPanel (XAML)
- * * RowLayout (SWT) (with wrapping support like a FlowLayout)
+ * * RowLayout (SWT)
  */
 qx.Class.define("qx.ui2.layout.HBox",
 {
