@@ -74,7 +74,7 @@ qx.Class.define("testrunner.test.ui2.Layout",
 
 
     /**
-     * Test whether flex distributes the vlue fair concerning the flex factors
+     * Test whether flex distributes the value fair concerning the flex factors
      */
     testFlexFairness : function()
     {
