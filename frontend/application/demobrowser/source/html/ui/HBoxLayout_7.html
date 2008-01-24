@@ -56,7 +56,7 @@ qx.Class.define("BasicSample",
       layout.add(w3, { align : "bottom" });
 
       box.setLayout(layout);
-      doc.add(box, {left: 10, top: 10});
+      doc.add(box, 10, 10);
 
       reversed = true;
       box.addListener("mousedown", function(e)
@@ -83,7 +83,7 @@ qx.Class.define("BasicSample",
       layout.add(w3, { align : "bottom", marginLeft : 10 });
 
       box.setLayout(layout);
-      doc.add(box, {left: 10, top: 100});
+      doc.add(box, 10, 100);
 
       before = true;
       box.addListener("mousedown", function(e)
@@ -112,7 +112,7 @@ qx.Class.define("BasicSample",
       layout.add(w3, { align : "bottom", marginLeft : 10 });
 
       box.setLayout(layout);
-      doc.add(box, {left: 10, top: 190});
+      doc.add(box, 10, 190);
 
       large = true;
       box.addListener("mousedown", function(e)
