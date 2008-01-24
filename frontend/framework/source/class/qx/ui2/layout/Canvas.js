@@ -70,7 +70,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
     renderLayout : function(parentWidth, parentHeight)
     {
       var children = this.getLayoutChildren();
-      var percent = /[0-9.]+%/;
+      var percent = qx.ui2.layout.Util.PERCENT_VALUE;
 
       var child, size, layout;
       var left, top, right, bottom, width, height;
