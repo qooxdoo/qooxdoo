@@ -28,6 +28,7 @@ qx.Class.define("BasicSample",
 
   members :
   {
+
     main : function()
     {
       this.base(arguments);
@@ -36,6 +37,13 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
+      doc.add(this.getGrid1(), {left: 20, top: 10});
+      doc.add(this.getGrid2(), {left: 260, top: 10});
+    },
+
+
+    getGrid1 : function()
+    {
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
       // auto size
@@ -49,7 +57,14 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150, maxWidth:150}), 1, 0, {rowSpan: 1, colSpan: 2});
 
       box1.setLayout(layout1);
-      doc.add(box1, {left: 20, top: 10});
+
+      return box1;
+    },
+
+
+    getGrid2 : function()
+    {
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
       // flex columns
       var box1 = (new qx.ui2.core.Widget).set({
@@ -99,8 +114,7 @@ qx.Class.define("BasicSample",
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:170}), 2, 0);//, 1, 2);
 
-
-      doc.add(box1, {left: 260, top: 10});
+      return box1;
     }
   }
 });
