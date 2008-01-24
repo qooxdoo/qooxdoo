@@ -60,8 +60,7 @@ qx.Class.define("qx.ui2.layout.Grid",
     this._colSpans = [];
     this._rowSpans = [];
 
-    this._maxRowIndex = 0;
-    this._maxColIndex = 0;
+    this._resetMaxIndices();
   },
 
 
@@ -153,8 +152,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         this._colSpans.push(widget);
       }
 
-      this._maxRowIndex = Math.max(this._maxRowIndex, row + options.rowSpan - 1);
-      this._maxColIndex = Math.max(this._maxColIndex, column + options.colSpan - 1);
+      this._updateMaxIndices(options);
 
       return this.base(arguments, widget, options);
     },
@@ -180,7 +178,93 @@ qx.Class.define("qx.ui2.layout.Grid",
         qx.lang.Array.remove(this._colSpans, widget);
       }
 
+      this._resetMaxIndices();
+
       return this.base(arguments, widget);
+    },
+
+
+    // overridden
+    changeChildVisibility : function(child, visibility)
+    {
+      this._resetMaxIndices();
+    },
+
+
+    /**
+     * Resets the cached values for the max row and column indices used by
+     * {@link #getMaxRowIndex} and {@link getMaxColIndex}.
+     */
+    _resetMaxIndices : function()
+    {
+      this._maxRowIndex = null;
+      this._maxColIndex = null;
+    },
+
+
+    /**
+     * Updates the max row and column indices, with the data of a newly added
+     * widget.
+     *
+     * @param widgetProperties {Map} the widge's properties as returned by
+     *     {@link #getLayoutProperties}.
+     */
+    _updateMaxIndices : function(widgetProperties)
+    {
+      this._maxRowIndex = Math.max(this._maxRowIndex, widgetProperties.row + widgetProperties.rowSpan - 1);
+      this._maxColIndex = Math.max(this._maxColIndex, widgetProperties.column + widgetProperties.colSpan - 1);
+    },
+
+
+    /**
+     * Computes and returns the maximum row index.
+     *
+     * @return {Integer} the maximum row index
+     */
+    getMaxRowIndex : function()
+    {
+      if (this._maxRowIndex !== null) {
+        return this._maxRowIndex;
+      }
+
+      this._maxRowIndex = 0;
+
+      var children = this.getLayoutChildren();
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        var childProps = this.getLayoutProperties(child);
+
+        this._maxRowIndex = Math.max(this._maxRowIndex, childProps.row + childProps.rowSpan - 1);
+      }
+
+      return this._maxRowIndex;
+    },
+
+
+    /**
+     * Computes and returns the maximum column index.
+     *
+     * @return {Integer} the maximum column index
+     */
+    getMaxColIndex : function()
+    {
+      if (this._maxColIndex !== null) {
+        return this._maxColIndex;
+      }
+
+      this._maxColIndex = 0;
+
+      var children = this.getLayoutChildren();
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        var childProps = this.getLayoutProperties(child);
+
+        this._maxColIndex = Math.max(this._maxColIndex, childProps.col + childProps.colSpan - 1);
+      }
+
+      return this._maxColIndex;
     },
 
 
@@ -805,13 +889,16 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       var rowHeights = [];
 
-      for (var row=0; row<=this._maxRowIndex; row++)
+      var maxRowIndex=this.getMaxRowIndex();
+      var maxColIndex=this.getMaxColIndex();
+
+      for (var row=0; row<=maxRowIndex; row++)
       {
         var minHeight = 0;
         var height = 0;
         var maxHeight = 0;
 
-        for (var col=0; col<=this._maxColIndex; col++)
+        for (var col=0; col<=maxColIndex; col++)
         {
           var widget = this.getCellWidget(row, col);
           if (!widget) {
@@ -863,13 +950,16 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       var colWidths = [];
 
-      for (var col=0; col<=this._maxColIndex; col++)
+      var maxColIndex=this.getMaxColIndex();
+      var maxRowIndex=this.getMaxRowIndex();
+
+      for (var col=0; col<=maxColIndex; col++)
       {
         var width = 0;
         var minWidth = 0;
         var maxWidth = Infinity;
 
-        for (var row=0; row<=this._maxRowIndex; row++)
+        for (var row=0; row<=maxRowIndex; row++)
         {
           var widget = this.getCellWidget(row, col);
           if (!widget) {
@@ -1010,7 +1100,11 @@ qx.Class.define("qx.ui2.layout.Grid",
       var prefWidths = this._getColWidths();
       var colStretchOffsets = this._getColumnFlexOffsets(width);
       var colWidths = [];
-      for (var col=0; col<=this._maxColIndex; col++) {
+
+      var maxColIndex=this.getMaxColIndex();
+      var maxRowIndex=this.getMaxRowIndex();
+
+      for (var col=0; col<=maxColIndex; col++) {
         colWidths[col] = prefWidths[col].width + (colStretchOffsets[col] || 0);
       }
 
@@ -1019,17 +1113,18 @@ qx.Class.define("qx.ui2.layout.Grid",
       var rowStretchOffsets = this._getRowFlexOffsets(height);
 
       var rowHeights = [];
-      for (var row=0; row<=this._maxRowIndex; row++) {
+
+      for (var row=0; row<=maxRowIndex; row++) {
         rowHeights[row] = prefHeights[row].height + (rowStretchOffsets[row] || 0);
       }
 
       // do the layout
       var left = 0;
-      for (var col=0; col<=this._maxColIndex; col++)
+      for (var col=0; col<=maxColIndex; col++)
       {
         var top = 0;
 
-        for (var row=0; row<=this._maxRowIndex; row++)
+        for (var row=0; row<=maxRowIndex; row++)
         {
           var widget = this.getCellWidget(row, col);
 
