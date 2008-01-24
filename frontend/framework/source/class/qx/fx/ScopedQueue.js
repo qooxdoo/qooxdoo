@@ -76,17 +76,10 @@ qx.Class.define("qx.fx.ScopedQueue",
 		_effects  : [],
 		_interval : null,
 
-	  _each: function(iterator)
-	  {
-		  //this.effects._each(iterator);
-	  },
-	  
 	  add: function(effect)
 	  {
   		var timestamp = new Date().getTime();
-  		
-  		var position = (typeof(effect._options.queue) == "string") ? 
-  		  effect._options.queue : effect._options.queue.position;
+  		var position = (typeof(effect._options.queue) == "string") ?  effect._options.queue : effect._options.queue.position;
 
   		switch(position)
   		{
@@ -99,6 +92,7 @@ qx.Class.define("qx.fx.ScopedQueue",
     			  });
     			*/
   		    var idleEffects = qx.lang.Array.findAll(this._effects, function(e){ return e.state == qx.fx.EffectState.idle });
+
   		    for(var i in idleEffects)
   		    {
   		      idleEffects[i]._startOn  += effect._finishOn;
@@ -122,22 +116,23 @@ qx.Class.define("qx.fx.ScopedQueue",
   		effect._startOn  += timestamp;
   		effect._finishOn += timestamp;
   	
-  		if (!effect._options.queue.limit || (this._effects.length < effect._options.queue.limit))
+  		if (!effect._options.queue.limit || (this._effects.length < effect._options.queue.limit)) {
   		  this._effects.push(effect);
+  		}
   		
-  		if (!this._interval)
-  		{
-  		  ///this.interval = setInterval(this.loop.bind(this), 15);
-  		  this._interval = qx.lang.Function.periodical(this.loop, 15, this); // second "this" needed?
+  		if (!this._interval) {
+  		  this._interval = qx.lang.Function.periodical(this.loop, 15, this);
   		}
 	  },
 
 	  remove : function(effect)
 	  {
   		//this.effects = this.effects.reject(function(e) { return e==effect });
-	    this._effects = qx.lang.Array.reject(this._effects, function(e) { return e==effect });
-	    
-  		if (this._effects.length == 0) {
+
+	    this._effects = qx.lang.Array.reject(this._effects, function(e) { return e == effect });
+
+	    if (this._effects.length == 0)
+  		{
   		  window.clearInterval(this._interval);
   		  this._interval = null;
   		}
@@ -147,7 +142,7 @@ qx.Class.define("qx.fx.ScopedQueue",
 	  {
   		var timePos = new Date().getTime();
 
-  		for(var i=0, len=this._effects.length; i<len; i++) {
+  		for (var i=0, len=this._effects.length; i<len; i++) {
   		  this._effects[i] && this._effects[i].loop(timePos);
   	  }
 
