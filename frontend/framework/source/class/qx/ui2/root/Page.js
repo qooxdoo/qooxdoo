@@ -28,12 +28,12 @@
  *
  * Note: This widget does not support decorations!
  *
- * If you want to place widgets inside the page flow use {@link qx.ui2.root.Inline}.
+ * If you want to place widgets inside existing DOM elements
+ * use {@link qx.ui2.root.Inline}.
  */
 qx.Class.define("qx.ui2.root.Page",
 {
   extend : qx.ui2.core.Widget,
-
 
 
 
@@ -74,6 +74,9 @@ qx.Class.define("qx.ui2.root.Page",
     /**
      * Adds a widget to the page using the page's basic layout.
      *
+     * Please have a look at the {@link qx.ui2.layout.Basic#add} for further
+     * argument details.
+     *
      * @type member
      * @param widget {qx.ui2.core.Widget} the widget to add
      * @param left {Integer} left position on the page
@@ -82,7 +85,7 @@ qx.Class.define("qx.ui2.root.Page",
      */
     add : function(widget, left, top, options)
     {
-      this.getLayout().add(widget, options);
+      this.getLayout().add(widget, left, top, options);
 
       // Chaining support
       return this;
@@ -117,6 +120,7 @@ qx.Class.define("qx.ui2.root.Page",
     {
       var elem = new qx.html.Element();
       elem.setStyle("position", "absolute");
+
       return elem;
     },
 
@@ -127,12 +131,14 @@ qx.Class.define("qx.ui2.root.Page",
       if (old) {
         throw new Error("You cannot change the layout of qx.ui2.root.Page!");
       }
+
       this.base(arguments, value, old);
     },
 
 
     // overridden
-    getSizeHint : function() {
+    getSizeHint : function()
+    {
       // the size hint is 0 so make the content element invisible
       // this works because the content element has overflow "show"
       return {
