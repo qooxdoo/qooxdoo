@@ -50,6 +50,34 @@ qx.Class.define("qx.fx.Appear",
 
   construct : function(element, options)
   {
+    var fromValue;
+    var opacity = qx.bom.element.Style.get(element, "opacity");
+
+    if (qx.bom.element.Style.get(element, "display") == "none"){
+      fromValue = 0.0;
+    }
+    else
+    {
+      if (typeof(opacity) == "number") {
+        fromValue = opacity;
+      } else {
+        fromValue = 0.0;
+      }
+    }
+
+    var effectSpecificOptions =
+    {
+        from : fromValue,
+        to   : 1.0
+    };
+
+    for(var i in effectSpecificOptions)
+    {
+      if (!options[i]) {
+        options[i] = effectSpecificOptions[i];
+      }
+    }
+
     this.base(arguments, element, options);
   },
 
@@ -73,13 +101,24 @@ qx.Class.define("qx.fx.Appear",
    members :
    {
 
-    afterFinishInternal: function()
+    afterFinishInternal : function()
     {
       //effect.element.forceRerendering();
     },
-    update: function(position) {
+
+
+    update : function(position) {
       qx.bom.element.Opacity.set(this._element, position);
+    },
+
+
+    beforeSetup : function(effect)
+    {
+      qx.bom.element.Style.set(this._element, "opacity", this._options.from);
+      qx.bom.element.Style.set(this._element, "display", "block");
     }
+    
+    
   },
 
   /*
@@ -92,17 +131,3 @@ qx.Class.define("qx.fx.Appear",
     
   }
 });
-/*
-element = $(element);
-  var options = Object.extend({
-  from: (element.getStyle('display') == 'none' ? 0.0 : element.getOpacity() || 0.0),
-  to:   1.0,
-  // force Safari to render floated elements properly
-  afterFinishInternal: function(effect) {
-    effect.element.forceRerendering();
-  },
-  beforeSetup: function(effect) {
-    effect.element.setOpacity(effect.options.from).show(); 
-  }}, arguments[1] || { });
-  return new Effect.Opacity(element,options);
-*/
