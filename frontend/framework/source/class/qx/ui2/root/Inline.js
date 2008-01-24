@@ -18,6 +18,16 @@
 
 ************************************************************************ */
 
+/**
+ * This classes could be used to insert qooxdoo islands into existing
+ * web pages. You can use the isles to place any qooxdoo powered widgets
+ * inside a layout made using traditional HTML markup and CSS.
+ *
+ * This class uses a {@link qx.ui2.layout.Basic} as fixed layout. The layout
+ * cannot be changed.
+ *
+ * To position popups and tooltips please have a look at {@link qx.ui2.layout.Page}.
+ */
 qx.Class.define("qx.ui2.root.Inline",
 {
   extend : qx.ui2.core.Widget,
@@ -33,6 +43,10 @@ qx.Class.define("qx.ui2.root.Inline",
   *****************************************************************************
   */
 
+  /**
+   * @param el {Element} DOM element to use as isle for qooxdoo content. Please
+   *   note that existing content gets removed on the first layout flush.
+   */
   construct : function(el)
   {
     // Symbolic links
@@ -44,6 +58,7 @@ qx.Class.define("qx.ui2.root.Inline",
     // Make relative
     el.style.position = "relative";
 
+    this.setLayout(new qx.ui2.layout.Basic());
     this.scheduleLayoutUpdate();
   },
 
@@ -59,19 +74,43 @@ qx.Class.define("qx.ui2.root.Inline",
 
   members :
   {
+    /**
+     * Adds a widget to the isle using a basic layout.
+     *
+     * Please have a look at the {@link qx.ui2.layout.Basic#add} for further
+     * argument details.
+     *
+     * @type member
+     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param left {Integer} left position on the page
+     * @param top {Integer} top position on the page
+     * @return {qx.ui2.root.Page} This object (for chaining support)
+     */
+    add : function(widget, left, top, options)
+    {
+      this.getLayout().add(widget, left, top, options);
+
+      // Chaining support
+      return this;
+    },
+
+
     // overridden
     _isRootWidget : true,
+
 
     // overridden
     isLayoutRoot : function() {
       return true;
     },
 
+
     // overridden
     _createContainerElement : function()
     {
       var root = new qx.html.Root(this._elem);
       delete this._elem;
+
       return root;
     }
   },

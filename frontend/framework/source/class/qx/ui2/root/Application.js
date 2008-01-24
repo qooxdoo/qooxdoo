@@ -19,13 +19,13 @@
 ************************************************************************ */
 
 /**
- * This class is the root widget for qooxdoo applications with an
+ * This is the root widget for qooxdoo applications with an
  * "application" like behaviour. The widget will span the whole viewport
  * and the document body will have no scrollbars.
  *
  * If you want to enhance HTML pages with qooxdoo widgets please use
- * {@link qx.ui2.root.Page} in combination with {@link qx.ui2.root.Inline}
- * widgets.
+ * {@link qx.ui2.root.Page} eventually in combination with
+ * {@link qx.ui2.root.Inline} widgets.
  *
  * This class uses a {@link qx.ui2.layout.Canvas} as fixed layout. The layout
  * cannot be changed.
@@ -75,13 +75,23 @@ qx.Class.define("qx.ui2.root.Application",
     /**
      * Adds a widget to the application using the application's canvas layout.
      *
+     * Please have a look at the {@link qx.ui2.layout.Canvas#add} for further
+     * argument details.
+     *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param child {qx.ui2.core.Widget} the widget to add
+     * @param left {Integer?null} Left position of the child.
+     * @param top {Integer?null} Top position of the child.
+     * @param right {Integer?null} Right position of the child.
+     * @param bottom {Integer?null} Bottom position of the child.
+     * @param options {Map?null} Optional layout data for widget.
      * @return {qx.ui2.root.Application} This object (for chaining support)
      */
-    add : function(widget, options)
+    add : function(widget, left, top, right, bottom, options)
     {
-      this.getLayout().add(widget, options);
+      this.getLayout().add(widget, left, top, right, bottom, options);
+
+      // Chaining support
       return this;
     },
 
