@@ -61,7 +61,7 @@ qx.Class.define("qx.ui2.layout.VBox",
     spacing :
     {
       check : "Integer",
-      init : 5,
+      init : 0,
       apply : "_applyLayoutChange"
     },
 

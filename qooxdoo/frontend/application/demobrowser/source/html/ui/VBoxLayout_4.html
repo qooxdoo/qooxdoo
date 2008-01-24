@@ -41,6 +41,8 @@ qx.Class.define("BasicSample",
       var box1 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.VBox();
 
+      layout1.setSpacing(5);
+
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 1 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 3 });
@@ -54,6 +56,8 @@ qx.Class.define("BasicSample",
       var box2 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
       var layout2 = new qx.ui2.layout.VBox();
 
+      layout2.setSpacing(5);
+
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:30}), { flex : 1 });
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 2 });
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:100}), { flex : 3 });
@@ -64,6 +68,8 @@ qx.Class.define("BasicSample",
       // different flex dimensions + rounding issues
       var box2 = (new qx.ui2.core.Widget).set({height: 300, decoration: border, backgroundColor: "yellow"});
       var layout2 = new qx.ui2.layout.VBox();
+
+      layout2.setSpacing(5);
 
       for (var i=0; i<25; i++) {
         layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", height:5}), { flex : 1 });
@@ -78,6 +84,8 @@ qx.Class.define("BasicSample",
       var box1 = (new qx.ui2.core.Widget).set({height: 300, minHeight: 300, decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.VBox();
 
+      layout1.setSpacing(5);
+
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60}), { flex : 1 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60}), { flex : 3 });
@@ -88,6 +96,8 @@ qx.Class.define("BasicSample",
       // container height < layout min height
       var box1 = (new qx.ui2.core.Widget).set({height: 150, minHeight : 0, decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.VBox();
+
+      layout1.setSpacing(5);
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 1 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 2 });
@@ -100,6 +110,8 @@ qx.Class.define("BasicSample",
       // container height < layout min height, but minHeight = auto
       var box1 = (new qx.ui2.core.Widget).set({height: 150, minHeight : "auto", decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.VBox();
+
+      layout1.setSpacing(5);
 
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 1 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minHeight: 60}), { flex : 2 });
