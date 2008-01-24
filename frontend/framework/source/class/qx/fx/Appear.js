@@ -119,7 +119,6 @@ qx.Class.define("qx.fx.Appear",
 
     beforeSetup : function(effect)
     {
-      console.warn("beforeSETUP!", this._options.from)
       qx.bom.element.Style.set(this._element, "opacity", this._options.from);
       qx.bom.element.Style.set(this._element, "display", "block");
     }

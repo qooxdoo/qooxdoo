@@ -53,12 +53,12 @@ qx.Class.define("qx.fx.Base",
     this.base(arguments);
 
     if(options && typeof(options.transition) != "function"){
-      this._transition = qx.fx.Effect.Transitions.linear;
+      this._transition = qx.fx.Transitions.linear;
     } else {
       this._transition = options.transition;
     }
 
-    this._options = qx.lang.Object.copy(qx.fx.Effect.DefaultOptions);
+    this._options = qx.lang.Object.copy(qx.fx.Base.DefaultOptions);
     for (var i in options) {
       this._options[i] = options[i];
     }
@@ -78,6 +78,30 @@ qx.Class.define("qx.fx.Base",
 
   statics :
   {
+    DefaultOptions :
+    {
+      duration:   1.0,   // seconds
+      fps:        100,   // 100 = assume 66fps max.
+      sync:       false, // true for combining
+      from:       0.0,
+      to:         1.0,
+      delay:      0.0,
+      queue:      'parallel'
+    },
+    
+    EffectPosition :
+    {
+      front    : 'front',
+      end      : 'end',
+      withLast : 'with-last'
+    },
+    
+    EffectState :
+    {
+      idle     : 'idle',
+      finished : 'finished',
+      running  : 'running'
+    }
   },
 
 
@@ -93,7 +117,7 @@ qx.Class.define("qx.fx.Base",
     init : function()
     {
       this._currentFrame = 0;
-      this._state        = qx.fx.Effect.EffectState.idle;
+      this._state        = qx.fx.Base.EffectState.idle;
       this._startOn      = this._options.delay * 1000;
       this._finishOn     = this._startOn + (this._options.duration * 1000);
       this._fromToDelta  = this._options.to - this._options.from;
@@ -104,7 +128,7 @@ qx.Class.define("qx.fx.Base",
     start : function()
     {
 
-      if (this._state == qx.fx.Effect.EffectState.finished) {
+      if (this._state == qx.fx.Base.EffectState.finished) {
         this.init();
       }
       
@@ -119,15 +143,15 @@ qx.Class.define("qx.fx.Base",
       if (!this._options.sync)
       {
         var queue = this._getQueue();
-        qx.fx.Effect.Queues.get(queue).add(this);
+        qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
       }
     },
 
     render : function(pos)
     {
-      if(this._state == qx.fx.Effect.EffectState.idle)
+      if(this._state == qx.fx.Base.EffectState.idle)
       {
-        this._state = qx.fx.Effect.EffectState.running
+        this._state = qx.fx.Base.EffectState.running
 
         if (this.beforeSetupInternal) {
           this.beforeSetupInternal();
@@ -151,7 +175,7 @@ qx.Class.define("qx.fx.Base",
 
       }
 
-      if(this._state == qx.fx.Effect.EffectState.running)
+      if(this._state == qx.fx.Base.EffectState.running)
       {
 
         this._position = this._transition(pos) * this._fromToDelta + this._options.from;
@@ -231,11 +255,12 @@ qx.Class.define("qx.fx.Base",
       if (!this._options.sync)
       {
         var queue = this._getQueue();
-        console.warn("q: ",queue)
-        qx.fx.Effect.Queues.get(queue).remove(this);
+        //qx.fx.Effect.Queues.get(queue).remove(this);
+        qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
+        
       }
 
-      this._state = qx.fx.Effect.EffectState.finished;
+      this._state = qx.fx.Base.EffectState.finished;
     },
 
     _getQueue : function()
