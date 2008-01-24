@@ -151,22 +151,17 @@ qx.Class.define("qx.fx.Effect",
       instances : {},
       get : function(queueName)
       {
-        if (typeof(queueName) != "string")
-        {
+
+        if (typeof(queueName) != "string") {
           return queueName;
         }
-/*
-      return this.instances.get(queueName) ||
-        this.instances.set(queueName, new qx.fx.ScopedQueue());
-*/
-       if(typeof(this.instances[queueName]) == "object")
-       {
+
+       if(typeof(this.instances[queueName]) == "object") {
          return this.instances[queueName];
-       }
-       else
-       {
+       } else {
          return this.instances[queueName] = new qx.fx.ScopedQueue();
        }
+
      }
 
     }

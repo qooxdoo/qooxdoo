@@ -58,20 +58,14 @@ qx.Class.define("qx.fx.Base",
       this._transition = options.transition;
     }
 
-    this._options = qx.fx.Effect.DefaultOptions;
-    for(var i in options)
-    {
+    this._options = qx.lang.Object.copy(qx.fx.Effect.DefaultOptions);
+    for (var i in options) {
       this._options[i] = options[i];
     }
 
-    this._currentFrame = 0;
-    this._state        = qx.fx.Effect.EffectState.idle;
-    this._startOn      = this._options.delay * 1000;
-    this._finishOn     = this._startOn + (this._options.duration * 1000);
-    this._fromToDelta  = this._options.to - this._options.from;
-    this._totalTime    = this._finishOn - this._startOn;
-    this._totalFrames  = this._options.fps * this._options.duration;
-    this._element      = element;
+
+    this.init();
+    this._element = element;
 
   },
 
@@ -96,20 +90,24 @@ qx.Class.define("qx.fx.Base",
    members :
    {
 
-    _options      : null,
-    _currentFrame : null,
-    _state        : null,
-    _startOn      : null,
-    _finishOn     : null,
-    _fromToDelta  : null,
-    _totalTime    : null,
-    _totalFrames  : null,
-    _position     : null,
-    _element      : null,
-    _transition   : null,
-    
-    start: function()
+    init : function()
     {
+      this._currentFrame = 0;
+      this._state        = qx.fx.Effect.EffectState.idle;
+      this._startOn      = this._options.delay * 1000;
+      this._finishOn     = this._startOn + (this._options.duration * 1000);
+      this._fromToDelta  = this._options.to - this._options.from;
+      this._totalTime    = this._finishOn - this._startOn;
+      this._totalFrames  = this._options.fps * this._options.duration;
+    },    
+    
+    start : function()
+    {
+
+      if (this._state == qx.fx.Effect.EffectState.finished) {
+        this.init();
+      }
+      
       if (this.beforeStartInternal) {
         this.beforeStartInternal();
       }
@@ -233,6 +231,7 @@ qx.Class.define("qx.fx.Base",
       if (!this._options.sync)
       {
         var queue = this._getQueue();
+        console.warn("q: ",queue)
         qx.fx.Effect.Queues.get(queue).remove(this);
       }
 
