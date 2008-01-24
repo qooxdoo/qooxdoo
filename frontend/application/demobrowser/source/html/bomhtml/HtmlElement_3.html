@@ -24,21 +24,23 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      var body = new qx.html.Root(document.body);
+      var body = new qx.html.Root(document.getElementById("test"));
 
       var inp1 = new qx.html.Element("input");
       inp1.setAttribute("type", "text");
       inp1.focus();
 
       qx.bom.Element.addListener(inp1, "focus", function(e) {
-        this.debug("Element focussed");
-      }, inp1);
+        qx.core.Log.debug("Element focussed");
+      });
 
       qx.bom.Element.addListener(document.documentElement, "focusin", function(e) {
-        this.debug("FocusIn: " + e.getTarget());
-      }, inp1);
+        qx.core.Log.debug("FocusIn: ", e.getTarget());
+      });
 
       body.add(inp1);
+
+      qx.html.Element.flush();
     }
   }
 });
