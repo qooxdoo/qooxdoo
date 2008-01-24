@@ -261,7 +261,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         var child = children[i];
         var childProps = this.getLayoutProperties(child);
 
-        this._maxColIndex = Math.max(this._maxColIndex, childProps.col + childProps.colSpan - 1);
+        this._maxColIndex = Math.max(this._maxColIndex, childProps.column + childProps.colSpan - 1);
       }
 
       return this._maxColIndex;
