@@ -113,6 +113,10 @@ qx.Class.define("qx.html.Element",
     _actions : {},
 
 
+    /** {Array} A list of all supported (post) actions */
+    _supportedActions : [ "deactivate", "blur", "activate", "focus" ],
+
+
 
 
 
@@ -210,9 +214,8 @@ qx.Class.define("qx.html.Element",
 
       // Process action list
       var post = this._actions;
-      var actions = [ "deactivate", "blur", "activate", "focus" ];
-      var action;
-      var element;
+      var actions = this._supportedActions;
+      var action, element;
 
       for (var i=0, l=actions.length; i<l; i++)
       {
@@ -265,17 +268,6 @@ qx.Class.define("qx.html.Element",
 
     /** {Boolean} Whether the element should be visible in the render result */
     _visible : true,
-
-
-    /**
-     * Add the element to the global modification list.
-     *
-     * @type static
-     * @return {void}
-     */
-    _scheduleSync : function() {
-      qx.html.Element._modified[this.toHashCode()] = this;
-    },
 
 
     /**
@@ -339,7 +331,7 @@ qx.Class.define("qx.html.Element",
       {
         child = children[i];
 
-        if (!child._element && child._visible && child._included) {
+        if (child._visible && child._included && !child._element) {
           child.__flush();
         }
       }
@@ -361,6 +353,8 @@ qx.Class.define("qx.html.Element",
           this._syncChildren();
         }
       }
+
+      delete this._modifiedChildren;
     },
 
 
@@ -406,8 +400,6 @@ qx.Class.define("qx.html.Element",
      */
     _syncChildren : function()
     {
-      delete this._modifiedChildren;
-
       var dataChildren = this._children;
       var dataLength = dataChildren.length
       var dataChild;
@@ -1155,11 +1147,8 @@ qx.Class.define("qx.html.Element",
 
       delete this._included;
 
-      var pa = this._parent;
-      if (pa)
-      {
-        pa._modifiedChildren = true;
-        pa._scheduleSync();
+      if (this._parent) {
+        this._parent._scheduleChildrenUpdate();
       }
 
       return this;
@@ -1181,11 +1170,8 @@ qx.Class.define("qx.html.Element",
 
       this._included = false;
 
-      var pa = this._parent;
-      if (pa)
-      {
-        pa._modifiedChildren = true;
-        pa._scheduleSync();
+      if (this._parent) {
+        this._parent._scheduleChildrenUpdate();
       }
 
       return this;
@@ -1231,10 +1217,8 @@ qx.Class.define("qx.html.Element",
       {
         qx.html.Element._visibility[this.toHashCode()] = this;
       }
-      else if (this._parent)
-      {
-        this._parent._modifiedChildren = true;
-        this._parent._scheduleSync();
+      else if (this._parent) {
+        this._parent._scheduleChildrenUpdate();
       }
 
       delete this._visible;
@@ -1294,7 +1278,7 @@ qx.Class.define("qx.html.Element",
      * @return {void}
      */
     focus : function() {
-      qx.html.Element._scheduleAction("focus", this);
+      qx.html.Element._actions.focus = this;
     },
 
 
@@ -1305,7 +1289,7 @@ qx.Class.define("qx.html.Element",
      * @return {void}
      */
     blur : function() {
-      qx.html.Element._scheduleAction("blur", this);
+      qx.html.Element._actions.blur = this;
     },
 
 
@@ -1316,7 +1300,7 @@ qx.Class.define("qx.html.Element",
      * @return {void}
      */
     activate : function() {
-      qx.html.Element._scheduleAction("activate", this);
+      qx.html.Element._actions.activate = this;
     },
 
 
@@ -1327,7 +1311,7 @@ qx.Class.define("qx.html.Element",
      * @return {void}
      */
     deactivate : function() {
-      qx.html.Element._scheduleAction("deactivate", this);
+      qx.html.Element._actions.deactivate = this;
     },
 
 
@@ -1377,7 +1361,9 @@ qx.Class.define("qx.html.Element",
 
         // Store job info
         this.__styleJobs[key] = true;
-        this._scheduleSync();
+
+        // Register modification
+        qx.html.Element._modified[this.toHashCode()] = this;
       }
 
       return this;
@@ -1471,7 +1457,9 @@ qx.Class.define("qx.html.Element",
 
         // Store job info
         this.__attribJobs[key] = true;
-        this._scheduleSync();
+
+        // Register modification
+        qx.html.Element._modified[this.toHashCode()] = this;
       }
 
       return this;

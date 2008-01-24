@@ -79,13 +79,8 @@ qx.Class.define("qx.html.Root",
       // Mark as root
       this._root = true;
 
-      // Mark as new
-      this._new = true;
-
       // Register for syncronization
-      if (this._included) {
-        this._scheduleSync();
-      }
+      qx.html.Element._modified[this.toHashCode()] = this;
     }
   }
 });
