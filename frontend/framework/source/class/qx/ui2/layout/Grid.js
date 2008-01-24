@@ -156,10 +156,31 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._maxRowIndex = Math.max(this._maxRowIndex, row + options.rowSpan - 1);
       this._maxColIndex = Math.max(this._maxColIndex, column + options.colSpan - 1);
 
-      this.base(arguments, widget, options);
+      return this.base(arguments, widget, options);
+    },
 
-      // Chaining support
-      return this;
+
+    // overridden
+    remove : function(widget)
+    {
+      var childProps = this.getLayoutProperties(widget);
+
+      for (var x=0; x<childProps.colSpan; x++)
+      {
+        for (var y=0; y<childProps.rowSpan; y++) {
+          this._clearCellData(childProps.row + y, childProps.column + x);
+        }
+      }
+
+      if (childProps.rowSpan > 1) {
+        qx.lang.Array.remove(this._rowSpans, widget);
+      }
+
+      if (childProps.colSpan > 1) {
+        qx.lang.Array.remove(this._colSpans, widget);
+      }
+
+      return this.base(arguments, widget);
     },
 
 
@@ -583,22 +604,6 @@ qx.Class.define("qx.ui2.layout.Grid",
     },
 
 
-    // overridden
-    remove : function(widget)
-    {
-      var childProps = this.getLayoutProperties(widget);
-
-      for (var x=0; x<childProps.colSpan; x++)
-      {
-        for (var y=0; y<childProps.rowSpan; y++) {
-          this._clearCellData(childProps.row + y, childProps.column + x);
-        }
-      }
-
-      return this.base(arguments, widget);
-    },
-
-
     /**
      * Check whether all row spans fit with their preferred height into the
      * preferred row heights. If there is not enough space, the preferred
@@ -619,6 +624,12 @@ qx.Class.define("qx.ui2.layout.Grid",
       for (var i=0, l=this._rowSpans.length; i<l; i++)
       {
         var widget = this._rowSpans[i];
+
+        // ignore excluded widgets
+        if (widget.getVisibility() == "exclude") {
+          continue;
+        }
+
         var hint = widget.getSizeHint();
 
         var widgetProps = this.getLayoutProperties(widget);
@@ -706,6 +717,12 @@ qx.Class.define("qx.ui2.layout.Grid",
       for (var i=0, l=this._colSpans.length; i<l; i++)
       {
         var widget = this._colSpans[i];
+
+        // ignore excluded widgets
+        if (widget.getVisibility() == "exclude") {
+          continue;
+        }
+
         var hint = widget.getSizeHint();
 
         var widgetProps = this.getLayoutProperties(widget);
