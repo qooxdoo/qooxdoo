@@ -61,7 +61,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     spacing :
     {
       check : "Integer",
-      init : 5,
+      init : 0,
       apply : "_applyLayoutChange"
     },
 
@@ -295,7 +295,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           // Include again (if excluded before)
           child.setLayoutVisible(true);
-
 
           // Remember previous child
           prev = child;
