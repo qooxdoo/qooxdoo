@@ -47,7 +47,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, {left: 10, top: 70});
+      doc.add(box1, 10, 70);
 
 
 
@@ -62,7 +62,7 @@ qx.Class.define("BasicSample",
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), { flex : 2 });
       layout2.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth:150}), { flex : 3 });
       box2.setLayout(layout2);
-      doc.add(box2, {left: 10, top: 130});
+      doc.add(box2, 10, 130);
 
 
       // different flex dimensions + rounding issues
@@ -79,7 +79,7 @@ qx.Class.define("BasicSample",
       }
 
       box2.setLayout(layout2);
-      doc.add(box2, {left: 10, top: 190});
+      doc.add(box2, 10, 190);
 
 
 
@@ -93,7 +93,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 120}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth: 120}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, {left: 10, top: 250});
+      doc.add(box1, 10, 250);
 
 
       // container width < layout min width
@@ -106,7 +106,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, {left: 10, top: 310});
+      doc.add(box1, 10, 310);
 
 
 
@@ -120,7 +120,7 @@ qx.Class.define("BasicSample",
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), { flex : 2 });
       layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth: 120}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, {left: 10, top: 370});
+      doc.add(box1, 10, 370);
     }
   }
 });
