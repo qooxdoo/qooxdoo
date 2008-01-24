@@ -1277,7 +1277,12 @@ qx.Class.define("qx.ui2.core.Widget",
       if (old == "exclude" || value == "exclude")
       {
         var parent = this.getParent();
-        if (parent) {
+        if (parent)
+        {
+          var parentLayout = parent.getLayout();
+          if (parentLayout) {
+            parentLayout.changeChildVisibility(this, value);
+          }
           parent.scheduleLayoutUpdate();
         }
       } else {

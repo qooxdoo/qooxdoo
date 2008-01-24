@@ -459,6 +459,21 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
     /**
+     * If one of the layout'S children changes its visibility from or to the
+     * value <code>exclude</code> the layout is infomed about this event using
+     * this function.
+     *
+     * Concrete layout implementations may override this function.
+     *
+     * @param child {qx.ui2.core.Widget} The changed widget
+     * @param visibility {String} The widget's new visibility value
+     */
+    changeChildVisibility : function(child, visibility) {
+      // empty implementation
+    },
+
+
+    /**
      * This computes the size hint of the layout and returns it.
      *
      * @abstract
