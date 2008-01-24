@@ -620,6 +620,14 @@ qx.Class.define("testrunner.test.Class",
       var funcName = new testrunner.FuncName();
       funcName.sayFooBar();
       this.assertNull(qx.dev.Debug.getFunctionName(function() {}));
+    },
+
+
+    testSubClassOf : function()
+    {
+      this.assertTrue(qx.Class.isSubClassOf(qx.ui2.core.Widget, qx.core.Object));
+      this.assertTrue(qx.Class.isSubClassOf(qx.ui2.core.Label, qx.core.Object));
+      this.assertFalse(qx.Class.isSubClassOf(qx.ui2.core.Label, qx.core.Image));
     }
   }
 });
