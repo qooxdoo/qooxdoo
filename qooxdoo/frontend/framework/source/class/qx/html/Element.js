@@ -378,11 +378,13 @@ qx.Class.define("qx.html.Element",
     _insertChildren : function()
     {
       var domElement = document.createDocumentFragment();
+      var dataEl;
 
       for (var i=0, children=this._children, l=children.length; i<l; i++)
       {
-        if (children[i]._included) {
-          domElement.appendChild(children[i]._element);
+        dataEl = children[i]._element;
+        if (dataEl && children[i]._included) {
+          domElement.appendChild(dataEl);
         }
       }
 
