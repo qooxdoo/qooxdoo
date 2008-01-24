@@ -61,7 +61,7 @@ qx.Class.define("qx.fx.SwitchOff",
 
     this._options.duration = 0.4;
     this._options.from = 0;
-    this._options.transition = Effect.Transitions.flicker;
+    this._options.transition = qx.fx.Transition.flicker;
   },
 
   

@@ -133,7 +133,7 @@ qx.Class.define("qx.fx.Scale",
 
       var fontSize = qx.bom.element.Style.get(this._element, "font-size");
       if(typeof(fontSize) != "string") {
-        fontSize = "12px";
+        fontSize = "100%";
       }
       
       for(var type in this._fontTypes)
