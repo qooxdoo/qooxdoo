@@ -67,6 +67,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Layout data
     this._computedLayout = {};
+
+    this._isVisible = true;
   },
 
 
@@ -1257,6 +1259,36 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Shows the widget by resetting the display (CSS) properts of the widget's
+     * container element.
+     */
+    _show : function()
+    {
+      if (!this._isVisible)
+      {
+        this._isVisible = true;
+        this._containerElement.show();
+        qx.ui2.core.QueueManager.scheduleFlush();
+      }
+    },
+
+
+    /**
+     * Hides the widget by setting the display (CSS) properts of the widget's
+     * container element to <code>none</code>.
+     */
+    _hide : function()
+    {
+      if (this._isVisible)
+      {
+        this._isVisible = false;
+        this._containerElement.hide();
+        qx.ui2.core.QueueManager.scheduleFlush();
+      }
+    },
+
+
     // property apply
     _applyVisibility : function(value, old)
     {
@@ -1265,12 +1297,12 @@ qx.Class.define("qx.ui2.core.Widget",
       if (value == "show")
       {
         if (isLayoutVisible) {
-          this._containerElement.show();
+          this._show();
         }
       }
       else
       {
-        this._containerElement.hide();
+        this._hide();
       }
 
       // only force a layout update if visibility change from/to "exclude"
@@ -1285,8 +1317,6 @@ qx.Class.define("qx.ui2.core.Widget",
           }
           parent.scheduleLayoutUpdate();
         }
-      } else {
-        qx.ui2.core.QueueManager.scheduleFlush();
       }
     },
 
@@ -1296,11 +1326,10 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var userVisibility = this.getVisibility();
       if (value && userVisibility == "show") {
-        this._containerElement.show();
+        this._show();
       } else {
-        this._containerElement.hide();
+        this._hide();
       }
-      qx.ui2.core.QueueManager.scheduleFlush();
     },
 
 
@@ -1318,7 +1347,7 @@ qx.Class.define("qx.ui2.core.Widget",
       {
         if (
           !parent._containerElement.isIncluded() ||
-          parent.getVisibility() !== "show"
+          !this._isVisible
         ) {
           return false;
         }
