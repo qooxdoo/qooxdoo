@@ -151,18 +151,21 @@ qx.Class.define("qx.ui2.layout.Dock",
         widths[i] = width
         heights[i] = height;
 
-        if (props.edge === "north" || props.edge === "south")
+        switch(props.edge)
         {
-          allocatedHeight += height;
-        }
-        else if (props.edge === "west" || props.edge === "east")
-        {
-          allocatedWidth += width;
-        }
-        else
-        {
-          allocatedWidth += width;
-          allocatedHeight += height;
+          case "north":
+          case "south":
+            allocatedHeight += height;
+            break;
+
+          case "west":
+          case "east":
+            allocatedWidth += width;
+            break;
+
+          default:
+            allocatedWidth += width;
+            allocatedHeight += height;
         }
       }
 
