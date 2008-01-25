@@ -52,8 +52,8 @@ qx.Class.define("qx.fx.Base",
   {
     this.base(arguments);
 
-    if(options && typeof(options.transition) != "function"){
-      this._transition = qx.fx.Transitions.linear;
+    if (options && typeof(options.transition) != "function") {
+      this._transition = qx.fx.Transition.linear;
     } else {
       this._transition = options.transition;
     }
@@ -125,11 +125,39 @@ qx.Class.define("qx.fx.Base",
       this._totalFrames  = this._options.fps * this._options.duration;
     },    
     
+    end : function()
+    {
+      this.render(1.0);
+      this.cancel();
+
+      if (this.beforeFinishInternal) {
+        this.beforeFinishInternal();
+      }
+
+      if (this.beforeFinish) {
+        this.beforeFinish();
+      }
+
+      if (this.finish) {
+        this.finish();
+      }
+
+      if (this.afterFinishInternal) {
+        this.afterFinishInternal();
+      }
+
+      if (this.afterFinish) {
+        this.afterFinish();
+      }
+    },
+    
     start : function()
     {
 
       if (this._state == qx.fx.Base.EffectState.finished) {
         this.init();
+      } else if (this._state == qx.fx.Base.EffectState.finished) {
+        this.end();
       }
       
       if (this.beforeStartInternal) {
@@ -211,35 +239,12 @@ qx.Class.define("qx.fx.Base",
 
         if (timePos >= this._finishOn)
         {
-
-          this.render(1.0);
-          this.cancel();
-
-          if (this.beforeFinishInternal) {
-            this.beforeFinishInternal();
-          }
-
-          if (this.beforeFinish) {
-            this.beforeFinish();
-          }
-
-          if (this.finish) {
-            this.finish();
-          }
-
-          if (this.afterFinishInternal) {
-            this.afterFinishInternal();
-          }
-
-          if (this.afterFinish) {
-            this.afterFinish();
-          }
-
+          this.end();
           return;  
         }
 
-        var pos   = (timePos - this._startOn) / this._totalTime,
-            frame = Math.round(pos * this._totalFrames);
+        var pos   = (timePos - this._startOn) / this._totalTime;
+        var frame = Math.round(pos * this._totalFrames);
 
         if (frame > this._currentFrame)
         {
@@ -255,9 +260,9 @@ qx.Class.define("qx.fx.Base",
       if (!this._options.sync)
       {
         var queue = this._getQueue();
-        //qx.fx.Effect.Queues.get(queue).remove(this);
+        console.info(qx.fx.queue.Manager.getInstance().instances.global._effects.length)
         qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
-        
+        console.warn(qx.fx.queue.Manager.getInstance().instances.global._effects.length)
       }
 
       this._state = qx.fx.Base.EffectState.finished;

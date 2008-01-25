@@ -124,14 +124,14 @@ qx.Class.define("qx.fx.Scale",
       this._restoreAfterFinish = (this._options.restoreAfterFinish == true) ? true : false;
       this._elementPositioning = qx.bom.element.Style.get(this._element, "position");
 
-      for(var property in this._originalStyle) {
+      for (var property in this._originalStyle) {
         this._originalStyle[property] = this._element.style[property];
       }
         
       this._originalTop  = this._element.offsetTop;
       this._originalLeft = this._element.offsetLeft;
 
-      var fontSize = qx.bom.element.Style.get(this._element, "font-size");
+      var fontSize = qx.bom.element.Style.get(this._element, "fontSize");
       if(typeof(fontSize) != "string") {
         fontSize = "100%";
       }
