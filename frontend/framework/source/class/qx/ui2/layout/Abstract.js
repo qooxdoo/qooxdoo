@@ -435,11 +435,11 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @internal
      * @abstract
      * @type member
-     * @param width {Integer} Final (content) width (in pixel) of the parent widget
-     * @param height {Integer} Final (content) height (in pixel) of the parent widget
+     * @param availWidth {Integer} Final width available for the content (in pixel)
+     * @param availHeight {Integer} Final height available for the content (in pixel)
      * @return {void}
      */
-    renderLayout : function(width, height) {
+    renderLayout : function(availWidth, availHeight) {
       this.warn("Missing renderLayout() implementation!");
     },
 
