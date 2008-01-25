@@ -114,6 +114,7 @@ qx.Class.define("qx.fx.Base",
    members :
    {
 
+    
     init : function()
     {
       this._currentFrame = 0;
@@ -124,6 +125,36 @@ qx.Class.define("qx.fx.Base",
       this._totalTime    = this._finishOn - this._startOn;
       this._totalFrames  = this._options.fps * this._options.duration;
     },    
+    
+    
+    start : function()
+    {
+      
+      switch (this._state)
+      {
+        case qx.fx.Base.EffectState.finished :
+          this.init();
+        break;
+        case qx.fx.Base.EffectState.running :
+          this.end();
+        break;
+      }
+
+      if (this.beforeStartInternal) {
+        this.beforeStartInternal();
+      }
+
+      if (this.beforeStart) {
+        this.beforeStart();
+      }
+
+      if (!this._options.sync)
+      {
+        var queue = this._getQueue();
+        qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
+      }
+    },
+
     
     end : function()
     {
@@ -150,31 +181,8 @@ qx.Class.define("qx.fx.Base",
         this.afterFinish();
       }
     },
+
     
-    start : function()
-    {
-
-      if (this._state == qx.fx.Base.EffectState.finished) {
-        this.init();
-      } else if (this._state == qx.fx.Base.EffectState.finished) {
-        this.end();
-      }
-      
-      if (this.beforeStartInternal) {
-        this.beforeStartInternal();
-      }
-
-      if (this.beforeStart) {
-        this.beforeStart();
-      }
-
-      if (!this._options.sync)
-      {
-        var queue = this._getQueue();
-        qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
-      }
-    },
-
     render : function(pos)
     {
       if(this._state == qx.fx.Base.EffectState.idle)
@@ -255,19 +263,19 @@ qx.Class.define("qx.fx.Base",
       }
     },
 
+    
     cancel : function()
     {
       if (!this._options.sync)
       {
         var queue = this._getQueue();
-        console.info(qx.fx.queue.Manager.getInstance().instances.global._effects.length)
         qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
-        console.warn(qx.fx.queue.Manager.getInstance().instances.global._effects.length)
       }
 
       this._state = qx.fx.Base.EffectState.finished;
     },
 
+    
     _getQueue : function()
     {
       return (typeof(this._options.queue) == "string") ?
