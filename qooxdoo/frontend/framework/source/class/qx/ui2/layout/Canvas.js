@@ -110,7 +110,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
 
 
     // overridden
-    renderLayout : function(parentWidth, parentHeight)
+    renderLayout : function(availWidth, availHeight)
     {
       var children = this.getLayoutChildren();
       var percent = qx.ui2.layout.Util.PERCENT_VALUE;
@@ -137,7 +137,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             throw new Error("Invalid percent value for left position: " + left);
           }
 
-          left = Math.round(parseFloat(left) * parentWidth / 100);
+          left = Math.round(parseFloat(left) * availWidth / 100);
         }
 
         right = layout.right;
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             throw new Error("Invalid percent value for right position: " + right);
           }
 
-          right = Math.round(parseFloat(right) * parentWidth / 100);
+          right = Math.round(parseFloat(right) * availWidth / 100);
         }
 
         top = layout.top;
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             throw new Error("Invalid percent value for top position: " + top);
           }
 
-          top = Math.round(parseFloat(top) * parentWidth / 100);
+          top = Math.round(parseFloat(top) * availWidth / 100);
         }
 
         bottom = layout.bottom;
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
             throw new Error("Invalid percent value for bottom position: " + bottom);
           }
 
-          bottom = Math.round(parseFloat(bottom) * parentWidth / 100);
+          bottom = Math.round(parseFloat(bottom) * availWidth / 100);
         }
 
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
         // Stretching has higher priority than dimension data
         if (left != null && right != null)
         {
-          width = parentWidth - left - right;
+          width = availWidth - left - right;
 
           // Limit computed value
           width = Math.max(Math.min(width, size.maxWidth), size.minWidth);
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
               throw new Error("Invalid percent value for width: " + width);
             }
 
-            width = Math.round(parseFloat(width) * parentWidth / 100);
+            width = Math.round(parseFloat(width) * availWidth / 100);
 
             // (Re-)Limit resolved percent value
             width = Math.max(Math.min(width, size.maxWidth), size.minWidth);
@@ -210,7 +210,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
           }
 
           if (right != null) {
-            left = parentWidth - width - right;
+            left = availWidth - width - right;
           } else if (left == null) {
             left = 0;
           }
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
         // Stretching has higher priority than dimension data
         if (top != null && bottom != null)
         {
-          height = parentHeight - top - bottom;
+          height = availHeight - top - bottom;
 
           // Limit computed value
           height = Math.max(Math.min(height, size.maxHeight), size.minHeight);
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
               throw new Error("Invalid percent value for height: " + height);
             }
 
-            height = Math.round(parseFloat(height) * parentHeight / 100);
+            height = Math.round(parseFloat(height) * availHeight / 100);
 
             // (Re-)Limit resolved percent value
             height = Math.max(Math.min(height, size.maxHeight), size.minHeight);
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
           }
 
           if (bottom != null) {
-            top = parentHeight - height - bottom;
+            top = availHeight - height - bottom;
           } else if (top == null) {
             top = 0;
           }
