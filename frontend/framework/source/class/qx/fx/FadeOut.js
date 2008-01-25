@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.FadeIn",
+qx.Class.define("qx.fx.FadeOut",
 {
 
   extend : qx.fx.Base,
@@ -53,22 +53,22 @@ qx.Class.define("qx.fx.FadeIn",
     var fromValue;
     var opacity = qx.bom.element.Style.get(element, "opacity");
 
-    if (qx.bom.element.Style.get(element, "display") == "none"){
-      fromValue = 0.0;
+    if (qx.bom.element.Style.get(element, "display") == "block"){
+      fromValue = 1.0;
     }
     else
     {
       if (typeof(opacity) == "number") {
         fromValue = opacity;
       } else {
-        fromValue = 0.0;
+        fromValue = 1.0;
       }
     }
 
     var effectSpecificOptions =
     {
         from : fromValue,
-        to   : 1.0
+        to   : 0.0
     };
 
     for(var i in effectSpecificOptions)
