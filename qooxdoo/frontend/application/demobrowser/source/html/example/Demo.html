@@ -1,0 +1,87 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>qx.fx offers low level animation capabilites for dom elements.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+  	var doc = qx.ui.core.ClientDocument.getInstance();
+      var myElement = qx.bom.Element.create('div', { style : 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:30px;top:72px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;padding:5px;' });
+
+      myElement.id = "testDiv";
+      myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
+
+      var btnShow = new qx.ui.form.Button("Fade in");
+      var btnHide = new qx.ui.form.Button("Fade out");
+      var btnEnlarge = new qx.ui.form.Button("Enlarge");
+      var btnShrink = new qx.ui.form.Button("Shrink");
+
+      animShow = new qx.fx.Appear(myElement, {
+        position : qx.fx.Base.EffectPosition.end,
+        from : 0,
+        to : 1,
+        duration : 2
+      });
+
+      animHide = new qx.fx.Appear(myElement, {
+        position : qx.fx.Base.EffectPosition.front,
+        from : 1,
+        to : 0,
+        duration : 1
+      });
+
+      animEnlarge = new qx.fx.Scale(myElement, 200, {
+        duration : 2,
+        scaleMode : "contents"
+        //scaleMode : { originalHeight : 200, originalWidth : 55}
+      });
+
+
+      animShrink = new qx.fx.Scale(myElement, 50, {
+        duration : 2,
+        scaleMode : "contents"
+      });
+
+      var doc = qx.ui.core.ClientDocument.getInstance();
+      
+      document.body.appendChild(myElement);
+
+      btnShow.setLocation(25, 25);
+      btnHide.setLocation(85, 25)
+      btnEnlarge.setLocation(150, 25);
+      btnShrink.setLocation(210, 25);
+
+      btnShow.addListener("execute", function(){
+        animShow.start();
+      });
+      
+      btnShow.addListener("appear", function(){
+      	btnShow.focus();
+      });
+
+      btnHide.addListener("execute", function(){
+        animHide.start();
+      });
+
+      btnEnlarge.addListener("execute", function(){
+        animEnlarge.start();
+      });
+
+      btnShrink.addListener("execute", function(){
+        animShrink.start();
+      });
+
+      doc.add(btnShow, btnHide, btnEnlarge, btnShrink);
+    
+  });
+  </script>
+</body>
+</html>
