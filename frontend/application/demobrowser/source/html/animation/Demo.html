@@ -33,7 +33,7 @@
 	/*
 	 * Effect for fading in the div container
 	 */
-	animShow = new qx.fx.Appear(myElement, {
+	animShow = new qx.fx.FadeIn(myElement, {
 	  position : qx.fx.Base.EffectPosition.end,
 	  from : 0,
 	  to : 1,
@@ -43,7 +43,7 @@
 	/*
 	 * Effect for fading out the div container
 	 */
-	animHide = new qx.fx.Appear(myElement, {
+	animHide = new qx.fx.FadeOut(myElement, {
 	  position : qx.fx.Base.EffectPosition.front,
 	  from : 1,
 	  to : 0,
