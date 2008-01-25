@@ -95,13 +95,14 @@ qx.Class.define("qx.ui2.layout.Stack",
     },
 
     // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(availWidth, availHeight)
     {
       var selectedChild = this.getSelected();
       if (!selectedChild) {
         return;
       }
-      selectedChild.renderLayout(0, 0, width, height);
+
+      selectedChild.renderLayout(0, 0, availWidth, availHeight);
     },
 
 
@@ -132,6 +133,7 @@ qx.Class.define("qx.ui2.layout.Stack",
         {
           var child = children[i];
           var childHint = child.getSizeHint();
+
           hint.minWidth = Math.max(hint.minWidth, childHint.minWidth);
           hint.width = Math.max(hint.width, childHint.width);
           hint.maxWidth = Math.min(hint.maxWidth, childHint.maxWidth);
@@ -139,6 +141,7 @@ qx.Class.define("qx.ui2.layout.Stack",
           hint.height = Math.max(hint.height, childHint.height);
           hint.maxHeight = Math.min(hint.maxHeight, childHint.maxHeight);
         }
+
         return hint;
       }
     }
