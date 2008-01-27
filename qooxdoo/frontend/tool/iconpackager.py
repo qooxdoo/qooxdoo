@@ -26,7 +26,7 @@ from elementtree import ElementTree
 
 
 # Supported icon sizes
-SIZES = [ 8, 16, 22, 32, 48, 64, 128 ]
+SIZES = [ 16, 22, 32, 48, 64, 128 ]
 
 # Temporary file names
 TMPSVG = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.svg")
