@@ -43,17 +43,14 @@
 	/*
 	 * Effect for fading out the div container
 	 */
-	animHide = new qx.fx.FadeOut(myElement, {
-	  position : qx.fx.Base.EffectPosition.front,
-	  from : 1,
-	  to : 0,
+	 var animHide = new qx.fx.FadeOut(myElement, {
 	  duration : 1
 	});
 	
 	/*
 	 * Effect for increasing the dimensions of the div container
 	 */
-	animIncrease = new qx.fx.Scale(myElement, 200, {
+	 var animIncrease = new qx.fx.Scale(myElement, 200, {
 	  duration : 2,
 	  scaleMode : "contents"
 	});
@@ -61,22 +58,40 @@
 	/*
 	 * Effect for reduce the dimensions of the div container
 	 */
-	animShrink = new qx.fx.Scale(myElement, 50, {
+	 var animShrink = new qx.fx.Scale(myElement, 50, {
 	  duration : 2,
 	  scaleMode : "contents"
 	});
 
+	 var animFadeInWobble = new qx.fx.FadeIn(myElement, {
+	  position : qx.fx.Base.EffectPosition.front,
+	  from : 0,
+	  to : 1,
+	  duration : 6,
+	  transition : qx.fx.Transition.wobble
+	});
 
+	 var animIncreaseSinoidal = new qx.fx.Scale(myElement, 200, {
+	  duration : 4,
+	  delay : 2,
+	  scaleMode : "contents",
+	  transition : qx.fx.Transition.sinoidal
+	}); 
+	
 	/* Buttons */
 	var btnShow = new qx.ui.form.Button("Fade in");
 	var btnHide = new qx.ui.form.Button("Fade out");
 	var btnIncrease = new qx.ui.form.Button("Increase");
 	var btnShrink = new qx.ui.form.Button("Shrink");
-	
+
+	var btnCombination = new qx.ui.form.Button("Fade in & increase");
+
+
 	btnShow.setLocation(25, 25);
 	btnHide.setLocation(85, 25)
 	btnIncrease.setLocation(150, 25);
 	btnShrink.setLocation(210, 25);
+	btnCombination.setLocation(260, 25);
 
 	/* Events */
 	btnShow.addListener("execute", function(){
@@ -98,8 +113,13 @@
 	btnShrink.addListener("execute", function(){
 	  animShrink.start();
 	});
+
+	btnCombination.addListener("execute", function(){
+	  	animFadeInWobble.start();
+		animIncreaseSinoidal.start();
+	});
 	
-	doc.add(btnShow, btnHide, btnIncrease, btnShrink);
+	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination);
    
   });
   </script>
