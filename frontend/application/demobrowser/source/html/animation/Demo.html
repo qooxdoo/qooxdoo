@@ -14,7 +14,7 @@
   qx.core.Init.getInstance().defineMain(function()
   {
    	var doc = qx.ui.core.ClientDocument.getInstance();
-	var myElement = qx.bom.Element.create('div', { style : 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:30px;top:72px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;padding:5px;' });
+	var myElement = qx.bom.Element.create('div', { style : 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:100px;top:72px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;padding:5px;' });
 	var doc = qx.ui.core.ClientDocument.getInstance();
 
 	document.body.appendChild(myElement);
@@ -63,6 +63,12 @@
 	  scaleMode : "contents"
 	});
 
+
+     /*
+     * This FadeIn effect demonstrates a different transition: wobble
+     * In opposite to the linear transition, this one differs between the values
+     * Just take a look at this transition behavior to get the idea. ;-)
+     */
 	 var animFadeInWobble = new qx.fx.FadeIn(myElement, {
 	  position : qx.fx.Base.EffectPosition.front,
 	  from : 0,
@@ -71,6 +77,9 @@
 	  transition : qx.fx.Transition.wobble
 	});
 
+     /*
+     * This Scale effect shows the sinoidal transition.
+     */
 	 var animIncreaseSinoidal = new qx.fx.Scale(myElement, 200, {
 	  duration : 4,
 	  delay : 2,
@@ -78,13 +87,20 @@
 	  transition : qx.fx.Transition.sinoidal
 	}); 
 	
+     /*
+     * This is one of the combination effect.
+     * Puff will scale and fade out the given element and looks
+     * as if it the element explodes.
+     */
+	var animPuff = new qx.fx.Puff(myElement);
+	
 	/* Buttons */
 	var btnShow = new qx.ui.form.Button("Fade in");
 	var btnHide = new qx.ui.form.Button("Fade out");
 	var btnIncrease = new qx.ui.form.Button("Increase");
 	var btnShrink = new qx.ui.form.Button("Shrink");
-
 	var btnCombination = new qx.ui.form.Button("Fade in & increase");
+	var btnPuff = new qx.ui.form.Button("Puff");
 
 
 	btnShow.setLocation(25, 25);
@@ -92,6 +108,7 @@
 	btnIncrease.setLocation(150, 25);
 	btnShrink.setLocation(210, 25);
 	btnCombination.setLocation(260, 25);
+	btnPuff.setLocation(375, 25);
 
 	/* Events */
 	btnShow.addListener("execute", function(){
@@ -99,7 +116,7 @@
 	});
 	
 	btnShow.addListener("appear", function(){
-		btnShow.focus();
+	  btnShow.focus();
 	});
 	
 	btnHide.addListener("execute", function(){
@@ -115,11 +132,15 @@
 	});
 
 	btnCombination.addListener("execute", function(){
-	  	animFadeInWobble.start();
-		animIncreaseSinoidal.start();
+	  animFadeInWobble.start();
+	  animIncreaseSinoidal.start();
 	});
 	
-	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination);
+	btnPuff.addListener("execute", function(){
+	  animPuff.start();
+	});
+	
+	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff);
    
   });
   </script>
