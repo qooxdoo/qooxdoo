@@ -121,7 +121,7 @@ qx.Class.define("qx.fx.Grow",
     }
 
     this.base(arguments, element, options);
-    
+    /*
     this._effect = new qx.fx.Move(
         element,
         {
@@ -157,6 +157,7 @@ qx.Class.define("qx.fx.Grow",
              }, options)
         )
       }
+		*/
   },
 
   
