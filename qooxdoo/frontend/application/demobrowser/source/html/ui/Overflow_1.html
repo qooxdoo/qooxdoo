@@ -22,6 +22,7 @@
 
   <script type="text/javascript">
 
+
 qx.Class.define("BasicSample",
 {
   extend : qx.application.Gui2,
@@ -40,7 +41,7 @@ qx.Class.define("BasicSample",
       var blue = (new qx.ui2.core.Widget).set({backgroundColor: "blue"});
 
       doc.add(red, 10, 10);
-      doc.add(blue, 10, 200);
+      doc.add(blue, 10, 110);
 
       red.addListener("resize", function(e) {
         this.debug("Resize red");
@@ -49,12 +50,9 @@ qx.Class.define("BasicSample",
 
       red.addListener("click", function() {
         red.setWidth(red.getWidth() + 10);
-      })
+      });
 
-
-    },
-
-
+    }
 
   }
 });

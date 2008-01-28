@@ -79,8 +79,8 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           var widget = queue[i];
 
           // continue if a relayout of one of the root's parents has made the
-          // layout valid of the widget is not connected to a root widget
-          if (widget.hasValidLayout() || widget.getRoot() == null) {
+          // layout valid
+          if (widget.hasValidLayout()) {
             continue;
           }
 
