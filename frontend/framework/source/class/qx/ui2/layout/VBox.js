@@ -276,7 +276,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         {
           hint = child.getSizeHint();
           if (child.canStretchX()) {
-            width = Math.max(hint.minWidth, Math.min(availWidth, hint.width));
+            width = Math.max(hint.minWidth, Math.min(availWidth, hint.maxWidth));
           } else {
             width = hint.width;
           }

@@ -276,7 +276,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         {
           hint = child.getSizeHint();
           if (child.canStretchY()) {
-            height = Math.max(hint.minHeight, Math.min(availHeight, hint.height));
+            height = Math.max(hint.minHeight, Math.min(availHeight, hint.maxHeight));
           } else {
             height = hint.height;
           }

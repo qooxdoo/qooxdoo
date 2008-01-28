@@ -983,7 +983,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *    <code>top</code>.
      */
     getComputedLayout : function() {
-      return this._hasValidLayout ? this._computedLayout : null;
+      return this._computedLayout || null;
     },
 
 
