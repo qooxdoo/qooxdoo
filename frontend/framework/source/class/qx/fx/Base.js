@@ -115,10 +115,9 @@ qx.Class.define("qx.fx.Base",
    *****************************************************************************
    */
 
-   members :
-   {
-
-    
+  members :
+  {
+      
     init : function()
     {
       this._currentFrame = 0;
@@ -129,19 +128,19 @@ qx.Class.define("qx.fx.Base",
       this._totalTime    = this._finishOn - this._startOn;
       this._totalFrames  = this._options.fps * this._options.duration;
     },
-
+    
     beforeFinishInternal : function(){},
     beforeFinish : function(){},
     finish  : function(){},
     afterFinishInternal : function(){},
     afterFinish : function(){},
-
+    
     beforeSetupInternal : function(){},
     beforeSetup : function(){},
     setup : function(){},
     afterSetupInternal : function(){},
     afertSetup : function(){},
-
+    
     beforeUpdateInternal : function(){},
     beforeUpdate : function(){},
     update : function(){},
@@ -150,7 +149,7 @@ qx.Class.define("qx.fx.Base",
     
     beforeStartInternal : function(){},
     beforeStart : function(){},
-
+    
     start : function()
     {
       
@@ -159,85 +158,85 @@ qx.Class.define("qx.fx.Base",
         case qx.fx.Base.EffectState.finished :
           this.init();
         break;
-
+    
         case qx.fx.Base.EffectState.running :
           this.end();
         break;
       }
-
+    
       this.beforeStartInternal();
       this.beforeStart();
-
+    
       if (!this._options.sync)
       {
         var queue = this._getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
       }
     },
-
+    
     
     end : function()
     {
       this.render(1.0);
       this.cancel();
-
+    
       this.beforeFinishInternal();
       this.beforeFinish();
-
+    
       this.finish();
-
+    
       this.afterFinishInternal();
       this.afterFinish();
     },
-
+    
     
     render : function(pos)
     {
       if(this._state == qx.fx.Base.EffectState.idle)
       {
         this._state = qx.fx.Base.EffectState.running
-
+    
         this.beforeSetupInternal();
         this.beforeSetup();
-
+    
         this.setup();
-
+    
         this.afterSetupInternal();
         this.afertSetup();
-
+    
       }
-
+    
       if(this._state == qx.fx.Base.EffectState.running)
       {
-
+    
         this._position = this._transition(pos) * this._fromToDelta + this._options.from;
-
+    
         this.beforeUpdateInternal();
         this.beforeUpdate();
-
+    
         this.update(this._position);
-
+    
         this.afterUpdateInternal();
         this.afterUpdate();
-
+    
       }
     },
-
+    
     
     loop : function(timePos)
     {
       if (timePos >= this._startOn)
       {
-
+    
         if (timePos >= this._finishOn)
         {
           this.end();
           return;  
         }
-
+    
         var pos   = (timePos - this._startOn) / this._totalTime;
         var frame = Math.round(pos * this._totalFrames);
-
+    
         if (frame > this._currentFrame)
         {
           this.render(pos);
@@ -246,8 +245,8 @@ qx.Class.define("qx.fx.Base",
       
       }
     },
-
-
+    
+    
     cancel : function()
     {
       if (!this._options.sync)
@@ -255,15 +254,15 @@ qx.Class.define("qx.fx.Base",
         var queue = this._getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
       }
-
+    
       this._state = qx.fx.Base.EffectState.finished;
     },
-
-
+    
+    
     _getQueue : function() {
       return (typeof(this._options.queue) == "string") ? 'global' : this._options.queue.scope;
     }
-
+  
   },
 
   /*
