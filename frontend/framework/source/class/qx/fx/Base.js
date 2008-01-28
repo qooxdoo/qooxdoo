@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.Base",
 {
 
   extend : qx.core.Object,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -124,9 +124,29 @@ qx.Class.define("qx.fx.Base",
       this._fromToDelta  = this._options.to - this._options.from;
       this._totalTime    = this._finishOn - this._startOn;
       this._totalFrames  = this._options.fps * this._options.duration;
-    },    
+    },
+
+    beforeFinishInternal : function(){},
+    beforeFinish : function(){},
+    finish  : function(){},
+    afterFinishInternal : function(){},
+    afterFinish : function(){},
+
+    beforeSetupInternal : function(){},
+    beforeSetup : function(){},
+    setup : function(){},
+    afterSetupInternal : function(){},
+    afertSetup : function(){},
+
+    beforeUpdateInternal : function(){},
+    beforeUpdate : function(){},
+    update : function(){},
+    afterUpdateInternal : function(){},
+    afterUpdate : function(){},
     
-    
+    beforeStartInternal : function(){},
+    beforeStart : function(){},
+
     start : function()
     {
       
@@ -140,13 +160,8 @@ qx.Class.define("qx.fx.Base",
         break;
       }
 
-      if (this.beforeStartInternal) {
-        this.beforeStartInternal();
-      }
-
-      if (this.beforeStart) {
-        this.beforeStart();
-      }
+      this.beforeStartInternal();
+      this.beforeStart();
 
       if (!this._options.sync)
       {
@@ -161,25 +176,13 @@ qx.Class.define("qx.fx.Base",
       this.render(1.0);
       this.cancel();
 
-      if (this.beforeFinishInternal) {
-        this.beforeFinishInternal();
-      }
+      this.beforeFinishInternal();
+      this.beforeFinish();
 
-      if (this.beforeFinish) {
-        this.beforeFinish();
-      }
+      this.finish();
 
-      if (this.finish) {
-        this.finish();
-      }
-
-      if (this.afterFinishInternal) {
-        this.afterFinishInternal();
-      }
-
-      if (this.afterFinish) {
-        this.afterFinish();
-      }
+      this.afterFinishInternal();
+      this.afterFinish();
     },
 
     
@@ -189,25 +192,13 @@ qx.Class.define("qx.fx.Base",
       {
         this._state = qx.fx.Base.EffectState.running
 
-        if (this.beforeSetupInternal) {
-          this.beforeSetupInternal();
-        }
+        this.beforeSetupInternal();
+        this.beforeSetup();
 
-        if (this.beforeSetup) {
-          this.beforeSetup();
-        }
+        this.setup();
 
-        if (this.setup) {
-          this.setup();
-        }
-
-        if (this.afterSetupInternal) {
-          this.afterSetupInternal();
-        }
-
-        if (this.afterSetup) {
-          this.afertSetup();
-        }
+        this.afterSetupInternal();
+        this.afertSetup();
 
       }
 
@@ -216,25 +207,13 @@ qx.Class.define("qx.fx.Base",
 
         this._position = this._transition(pos) * this._fromToDelta + this._options.from;
 
-        if (this.beforeUpdateInternal) {
-          this.beforeUpdateInternal();
-        }
-        
-        if (this.beforeUpdate) {
-          this.beforeUpdate();
-        }
+        this.beforeUpdateInternal();
+        this.beforeUpdate();
 
-        if (this.update) {
-          this.update(this._position);
-        }
+        this.update(this._position);
 
-        if (this.afterUpdateInternal) {
-          this.afterUpdateInternal();
-        }
-
-        if (this.afterUpdate) {
-          this.afterUpdate();
-        }
+        this.afterUpdateInternal();
+        this.afterUpdate();
         
       }
     },
@@ -263,7 +242,7 @@ qx.Class.define("qx.fx.Base",
       }
     },
 
-    
+
     cancel : function()
     {
       if (!this._options.sync)
@@ -275,11 +254,9 @@ qx.Class.define("qx.fx.Base",
       this._state = qx.fx.Base.EffectState.finished;
     },
 
-    
-    _getQueue : function()
-    {
-      return (typeof(this._options.queue) == "string") ?
-          'global' : this._options.queue.scope;
+
+    _getQueue : function() {
+      return (typeof(this._options.queue) == "string") ? 'global' : this._options.queue.scope;
     }
 
   },
