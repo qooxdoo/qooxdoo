@@ -387,6 +387,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       // Cache children data
       var children = this.getLayoutChildren();
+      var child;
       var length = children.length;
 
       if (this.getReversed())
