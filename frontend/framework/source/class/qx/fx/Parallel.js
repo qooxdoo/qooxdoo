@@ -89,12 +89,25 @@ qx.Class.define("qx.fx.Parallel",
         this._effects[i].afterFinish();
       }
     },
-    
+
+
     update : function(position)
     {
       for (var i in this._effects) {
         this._effects[i].render(position);
       }
+    },
+
+
+    start : function()
+    {
+
+      this.base(arguments);
+
+      for (var i in this._effects) {
+        this._effects[i].start();
+      }
+
     }
 
    },

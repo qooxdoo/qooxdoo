@@ -56,11 +56,7 @@ qx.Class.define("qx.fx.queue.Manager",
   
     getQueue : function(queueName)
     {
-  
-      if (typeof(queueName) != "string") {
-        return queueName;
-      }
-      
+
       if (typeof(queueName) != "string") {
         return queueName;
       }
