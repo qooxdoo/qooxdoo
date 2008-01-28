@@ -189,20 +189,25 @@ qx.Class.define("qx.ui2.layout.Dock",
           child = children[i];
           props = this.getLayoutProperties(child);
 
-          if (props.edge === "west" || props.edge === "east" || props.edge === "center")
+          if (child.canStretchX())
           {
-            if (child.canStretchX())
+            if (props.edge === "west" || props.edge === "east" || props.edge === "center")
             {
-              flex = props.flexX;
+              flex = props.flex;
 
-              if (flex == null || flex > 0)
+              // Default flex for centered children is '1'
+              if (flex == null && props.edge == "center") {
+                flex = 1;
+              }
+
+              if (flex > 0)
               {
                 hint = child.getSizeHint();
 
                 flexibles.push({
                   id : i,
                   potential : grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
-                  flex : grow ? (flex || 1) : 1 / (flex || 1)
+                  flex : grow ? flex : 1 / flex
                 });
               }
             }
@@ -211,12 +216,12 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
+          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
 
-          for (var key in flexibleOffsets)
+          for (var key in offsets)
           {
-            widths[key] += flexibleOffsets[key];
-            allocatedWidth += flexibleOffsets[key];
+            widths[key] += offsets[key];
+            allocatedWidth += offsets[key];
           }
         }
       }
@@ -239,20 +244,25 @@ qx.Class.define("qx.ui2.layout.Dock",
           child = children[i];
           props = this.getLayoutProperties(child);
 
-          if (props.edge === "north" || props.edge === "south" || props.edge === "center")
+          if (child.canStretchY())
           {
-            if (child.canStretchY())
+            if (props.edge === "north" || props.edge === "south" || props.edge === "center")
             {
-              flex = props.flexY;
+              flex = props.flex;
 
-              if (flex == null || flex > 0)
+              // Default flex for centered children is '1'
+              if (flex == null && props.edge == "center") {
+                flex = 1;
+              }
+
+              if (flex > 0)
               {
                 hint = child.getSizeHint();
 
                 flexibles.push({
                   id : i,
                   potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
-                  flex : grow ? (flex || 1) : 1 / (flex || 1)
+                  flex : grow ? flex : 1 / flex
                 });
               }
             }
@@ -261,18 +271,18 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
+          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
 
-          for (var key in flexibleOffsets)
+          for (var key in offsets)
           {
-            heights[key] += flexibleOffsets[key];
-            allocatedHeight += flexibleOffsets[key];
+            heights[key] += offsets[key];
+            allocatedHeight += offsets[key];
           }
         }
       }
 
-      // console.debug("Used width: " + allocatedWidth + "/" + availWidth);
-      // console.debug("Used height: " + allocatedHeight + "/" + availHeight);
+      console.debug("Used width: " + allocatedWidth + "/" + availWidth);
+      console.debug("Used height: " + allocatedHeight + "/" + availHeight);
 
 
 
