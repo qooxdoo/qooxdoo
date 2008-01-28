@@ -47,18 +47,18 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
       // auto size
-      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
-      var layout1 = new qx.ui2.layout.Grid();
-      layout1.setVerticalSpacing(20);
-      layout1.setHorizontalSpacing(5);
+      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var layout = new qx.ui2.layout.Grid();
+      layout.setVerticalSpacing(20);
+      layout.setHorizontalSpacing(5);
 
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150, maxWidth:150}), 1, 0, {rowSpan: 1, colSpan: 2});
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", width:150, maxWidth:150}), 1, 0, {rowSpan: 1, colSpan: 2});
 
-      box1.setLayout(layout1);
+      box.setLayout(layout);
 
-      return box1;
+      return box;
     },
 
 
@@ -67,7 +67,7 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
       // flex columns
-      var box1 = (new qx.ui2.core.Widget).set({
+      var box = (new qx.ui2.core.Widget).set({
         decoration: border,
         backgroundColor: "yellow",
         width:500,
@@ -75,28 +75,28 @@ qx.Class.define("BasicSample",
         minHeight: "pref"
       });
 
-      var layout1 = new qx.ui2.layout.Grid();
-      layout1.setColumnFlex(1, 2);
-      layout1.setRowFlex(1, 3);
-      layout1.setColumnMinWidth(0,70);
-      layout1.setColumnMinWidth(1,100);
-      layout1.setColumnMaxWidth(2,150);
-      layout1.setRowMinHeight(0,70);
-      layout1.setSpacing(5);
+      var layout = new qx.ui2.layout.Grid();
+      layout.setColumnFlex(1, 2);
+      layout.setRowFlex(1, 3);
+      layout.setColumnMinWidth(0,70);
+      layout.setColumnMinWidth(1,100);
+      layout.setColumnMaxWidth(2,150);
+      layout.setRowMinHeight(0,70);
+      layout.setSpacing(5);
 
 
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1, {rowSpan: 1, colSpan: 2});
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 1, 0);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1, {rowSpan: 1, colSpan: 2});
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 1, 0);
 
       var container = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange", width:400, padding: 5});
-      layout1.add(container, 1, 1, {rowSpan: 2, colSpan: 2});
+      layout.add(container, 1, 1, {rowSpan: 2, colSpan: 2});
 
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2, 0);
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 0, {rowSpan: 1, colSpan: 2});
-      layout1.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 2);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 2, 0);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 0, {rowSpan: 1, colSpan: 2});
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 3, 2);
 
-      box1.setLayout(layout1);
+      box.setLayout(layout);
 
 
       // set inner layout
@@ -114,7 +114,7 @@ qx.Class.define("BasicSample",
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
       innerLayout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", minWidth:170}), 2, 0);//, 1, 2);
 
-      return box1;
+      return box;
     }
   }
 });
