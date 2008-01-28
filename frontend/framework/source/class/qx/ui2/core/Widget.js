@@ -67,8 +67,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Layout data
     this._computedLayout = {};
-
-    this._isVisible = true;
   },
 
 
@@ -555,6 +553,9 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
+    _isVisible : true,
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -612,16 +613,6 @@ qx.Class.define("qx.ui2.core.Widget",
         this.updateDecoration(width, height);
       }
 
-      /*
-      if (locationChange) {
-        this.debug("Location change: " + left +", " + top + " " + this);
-      }
-
-      if (sizeChange) {
-        this.debug("Size change: " + width + ", " + height + " " + this);
-      }
-      */
-
       // if the current layout is invalid force a relayout even if
       // the size has not changed
       if (sizeChange || !this._hasValidLayout)
@@ -634,7 +625,14 @@ qx.Class.define("qx.ui2.core.Widget",
         this._hasValidLayout = true;
       }
 
-      // TODO: after doing the layout fire change events
+      // after doing the layout fire change events
+      if (sizeChange) {
+        this.fireDataEvent("resize", this._computedLayout);
+      }
+
+      if (locationChange) {
+        this.fireDataEvent("move", this._computedLayout);
+      }
     },
 
 
@@ -1081,7 +1079,9 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       if (!this._isVisible)
       {
-        this._isVisible = true;
+        // fallback to prototype value 'true'
+        delete(this._isVisible);
+
         this._containerElement.show();
         qx.ui2.core.QueueManager.scheduleFlush();
       }
