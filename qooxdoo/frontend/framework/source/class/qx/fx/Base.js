@@ -156,7 +156,6 @@ qx.Class.define("qx.fx.Base",
       
       switch (this._state)
       {
-
         case qx.fx.Base.EffectState.finished :
           this.init();
         break;
@@ -164,7 +163,6 @@ qx.Class.define("qx.fx.Base",
         case qx.fx.Base.EffectState.running :
           this.end();
         break;
-
       }
 
       this.beforeStartInternal();
