@@ -67,7 +67,7 @@ qx.Class.define("qx.fx.Scale",
       }
     }
 
-    
+
     this.base(arguments, element, options);
 
   },
