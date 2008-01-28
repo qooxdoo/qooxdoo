@@ -71,7 +71,6 @@ qx.Class.define("qx.ui2.layout.Stack",
       }
 
       value.setLayoutVisible(true);
-
       this.scheduleWidgetLayoutUpdate();
     },
 
@@ -83,16 +82,6 @@ qx.Class.define("qx.ui2.layout.Stack",
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
-
-    // overridden
-    invalidateLayoutCache : function()
-    {
-      if (this._sizeHint)
-      {
-        // this.debug("Clear layout cache");
-        this._sizeHint = null;
-      }
-    },
 
     // overridden
     renderLayout : function(availWidth, availHeight)
@@ -116,33 +105,28 @@ qx.Class.define("qx.ui2.layout.Stack",
       }
       else
       {
-        // compute combined size hint.
-
-        // default size hint
-        var hint = {
-          minWidth : 0,
-          width : 0,
-          maxWidth : Infinity,
-          minHeight : 0,
-          height : 0,
-          maxHeight : Infinity
-        };
-
         var children = this.getLayoutChildren();
+        var hint;
+        var minWidth=0, width=0, minHeight=0, height=0;
+
         for (var i=0, l=children.length; i<l; i++)
         {
-          var child = children[i];
-          var childHint = child.getSizeHint();
+          hint = children[i].getSizeHint();
 
-          hint.minWidth = Math.max(hint.minWidth, childHint.minWidth);
-          hint.width = Math.max(hint.width, childHint.width);
-          hint.maxWidth = Math.min(hint.maxWidth, childHint.maxWidth);
-          hint.minHeight = Math.max(hint.minHeight, childHint.minHeight);
-          hint.height = Math.max(hint.height, childHint.height);
-          hint.maxHeight = Math.min(hint.maxHeight, childHint.maxHeight);
+          minWidth = Math.max(minWidth, hint.minWidth);
+          width = Math.max(width, hint.width);
+          minHeight = Math.max(minHeight, hint.minHeight);
+          height = Math.max(height, hint.height);
         }
 
-        return hint;
+        return {
+          minWidth : minWidth,
+          width : width,
+          maxWidth : Infinity,
+          minHeight : minHeight,
+          height : height,
+          maxHeight : Infinity
+        };
       }
     }
   }
