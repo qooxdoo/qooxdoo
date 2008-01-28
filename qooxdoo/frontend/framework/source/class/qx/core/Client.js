@@ -271,6 +271,16 @@ qx.Class.define("qx.core.Client",
       this._supportsXPath = !!document.evaluate;
       this._supportsElementExtensions = !!window.HTMLElement;
     },
+    
+    
+    _deprecated : function() 
+    {
+      if (qx.core.Log) 
+      {
+        qx.core.Log.warn("Usage of old style qx.core.Client. Call trace follows:")
+        qx.core.Log.trace();
+      }
+    },
 
 
     /**
@@ -280,6 +290,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if the client runs locally
      */
     getRunsLocally : function() {
+      this._deprecated();
       return this._runsLocally;
     },
 
@@ -291,6 +302,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} the engine identifier
      */
     getEngine : function() {
+      this._deprecated();
       return this._engineName;
     },
 
@@ -302,6 +314,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} the name of the browser
      */
     getBrowser : function() {
+      this._deprecated();
       return this._browserName;
     },
 
@@ -313,6 +326,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} full qualified engine version
      */
     getVersion : function() {
+      this._deprecated();
       return this._engineVersion;
     },
 
@@ -324,6 +338,7 @@ qx.Class.define("qx.core.Client",
      * @return {Number} major engine version
      */
     getMajor : function() {
+      this._deprecated();
       return this._engineVersionMajor;
     },
 
@@ -335,6 +350,7 @@ qx.Class.define("qx.core.Client",
      * @return {Number} minor engine version
      */
     getMinor : function() {
+      this._deprecated();
       return this._engineVersionMinor;
     },
 
@@ -346,6 +362,7 @@ qx.Class.define("qx.core.Client",
      * @return {Number} revision number of engine version
      */
     getRevision : function() {
+      this._deprecated();
       return this._engineVersionRevision;
     },
 
@@ -357,6 +374,7 @@ qx.Class.define("qx.core.Client",
      * @return {Number} build number of engine version
      */
     getBuild : function() {
+      this._deprecated();
       return this._engineVersionBuild;
     },
 
@@ -368,6 +386,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} detects Opera's engine emulation
      */
     getEmulation : function() {
+      this._deprecated();
       return this._engineEmulation;
     },
 
@@ -379,6 +398,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is mshtml
      */
     isMshtml : function() {
+      this._deprecated();
       return this._engineNameMshtml;
     },
 
@@ -390,6 +410,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is gecko
      */
     isGecko : function() {
+      this._deprecated();
       return this._engineNameGecko;
     },
 
@@ -401,6 +422,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is opera
      */
     isOpera : function() {
+      this._deprecated();
       return this._engineNameOpera;
     },
 
@@ -412,6 +434,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is khtml
      */
     isKhtml : function() {
+      this._deprecated();
       return this._engineNameKhtml;
     },
 
@@ -423,6 +446,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is webkit
      */
     isWebkit : function() {
+      this._deprecated();
       return this._engineNameWebkit;
     },
 
@@ -434,6 +458,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is safari version 2
      */
     isSafari2 : function() {
+      this._deprecated();
       return this._engineNameWebkit && (this._engineVersion < 420);
     },
 
@@ -445,6 +470,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is in quirksmode
      */
     isInQuirksMode : function() {
+      this._deprecated();
       return this._engineQuirksMode;
     },
 
@@ -456,6 +482,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} locale setting
      */
     getLocale : function() {
+      this._deprecated();
       return this._browserLocale;
     },
 
@@ -467,6 +494,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} locale variant setting
      */
     getLocaleVariant : function() {
+      this._deprecated();
       return this._browserLocaleVariant;
     },
 
@@ -478,6 +506,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} default locale of qooxdoo
      */
     getDefaultLocale : function() {
+      this._deprecated();
       return this._defaultLocale;
     },
 
@@ -489,6 +518,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if browsers use default locale of qooxdoo
      */
     usesDefaultLocale : function() {
+      this._deprecated();
       return this._browserLocale === this._defaultLocale;
     },
 
@@ -500,6 +530,7 @@ qx.Class.define("qx.core.Client",
      * @return {String[]} the attribute names.
      */
     getEngineBoxSizingAttributes : function() {
+      this._deprecated();
       return this._engineBoxSizingAttributes;
     },
 
@@ -511,6 +542,7 @@ qx.Class.define("qx.core.Client",
      * @return {String} browser platform
      */
     getPlatform : function() {
+      this._deprecated();
       return this._browserPlatform;
     },
 
@@ -522,6 +554,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client platform is a Windows.
      */
     runsOnWindows : function() {
+      this._deprecated();
       return this._browserPlatformWindows;
     },
 
@@ -533,6 +566,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client platform is a Macintosh.
      */
     runsOnMacintosh : function() {
+      this._deprecated();
       return this._browserPlatformMacintosh;
     },
 
@@ -544,6 +578,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client platform is a X11 powered machine.
      */
     runsOnUnix : function() {
+      this._deprecated();
       return this._browserPlatformUnix;
     },
 
@@ -555,6 +590,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client supports VML
      */
     supportsVml : function() {
+      this._deprecated();
       return this._gfxVml;
     },
 
@@ -566,6 +602,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client supports SVG
      */
     supportsSvg : function() {
+      this._deprecated();
       return this._gfxSvg;
     },
 
@@ -577,6 +614,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether SVG support is builtin
      */
     usesSvgBuiltin : function() {
+      this._deprecated();
       return this._gfxSvgBuiltin;
     },
 
@@ -588,6 +626,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether client uses a SVG plugin
      */
     usesSvgPlugin : function() {
+      this._deprecated();
       return this._gfxSvgPlugin;
     },
 
@@ -600,6 +639,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether FireBug is active
      */
     isFireBugActive : function() {
+      this._deprecated();
       return this._fireBugActive;
     },
 
@@ -611,6 +651,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client supports textContent.
      */
     supportsTextContent : function() {
+      this._deprecated();
       return this._supportsTextContent;
     },
 
@@ -622,6 +663,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} whether the client supports innerText.
      */
     supportsInnerText : function() {
+      this._deprecated();
       return this._supportsInnerText;
     },
 
