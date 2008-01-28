@@ -209,10 +209,10 @@ qx.Class.define("qx.ui2.layout.VBox",
 
         if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
+          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
 
-          for (var key in flexibleOffsets) {
-            heights[key] += flexibleOffsets[key];
+          for (var key in offsets) {
+            heights[key] += offsets[key];
           }
 
           // Update allocated height

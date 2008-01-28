@@ -209,10 +209,10 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (flexibles.length > 0)
         {
-          var flexibleOffsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
+          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
 
-          for (var key in flexibleOffsets) {
-            widths[key] += flexibleOffsets[key];
+          for (var key in offsets) {
+            widths[key] += offsets[key];
           }
 
           // Update allocated width
