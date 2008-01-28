@@ -117,9 +117,25 @@ qx.Class.define("qx.fx.FadeIn",
     {
       qx.bom.element.Style.set(this._element, "opacity", this._options.from);
       qx.bom.element.Style.set(this._element, "display", "block");
-    }
-    
-    
+    },
+
+    render : function(pos)
+    {
+      if(this._state == qx.fx.Base.EffectState.idle)
+      {
+        this._state = qx.fx.Base.EffectState.running
+        if (this.beforeSetup) {
+          this.beforeSetup();
+        }
+      }
+
+      if(this._state == qx.fx.Base.EffectState.running)
+      {
+        this._position = this._transition(pos) * this._fromToDelta + this._options.from;
+        this.update(this._position);
+      }
+    },
+
   },
 
   /*
