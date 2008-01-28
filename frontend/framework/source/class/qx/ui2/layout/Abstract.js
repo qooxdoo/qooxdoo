@@ -65,7 +65,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     widget :
     {
-      check : "qx.ui2.core.Widget",
+      check : "qx.ui2.core.LayoutItem",
       init : null,
       nullable : true,
       apply : "_applyWidget"
