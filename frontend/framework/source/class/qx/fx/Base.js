@@ -52,7 +52,11 @@ qx.Class.define("qx.fx.Base",
   {
     this.base(arguments);
 
-    if (options && typeof(options.transition) != "function") {
+    if (qx.util.Validation.isInvalidObject(options)) {
+      options = qx.lang.Object.copy(qx.fx.Base.DefaultOptions);
+    }
+
+    if (typeof(options.transition) != "function") {
       this._transition = qx.fx.Transition.linear;
     } else {
       this._transition = options.transition;
@@ -152,12 +156,15 @@ qx.Class.define("qx.fx.Base",
       
       switch (this._state)
       {
+
         case qx.fx.Base.EffectState.finished :
           this.init();
         break;
+
         case qx.fx.Base.EffectState.running :
           this.end();
         break;
+
       }
 
       this.beforeStartInternal();
@@ -214,7 +221,7 @@ qx.Class.define("qx.fx.Base",
 
         this.afterUpdateInternal();
         this.afterUpdate();
-        
+
       }
     },
 
