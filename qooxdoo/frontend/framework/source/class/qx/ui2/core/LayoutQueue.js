@@ -25,6 +25,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
     _layoutQueue : {},
 
+    _isInFlush : false,
+
+    _modifiedDuringFlush : false,
+
     /**
      * Mark a widget's layout as invalid and add its layout root to
      * the queue.
@@ -36,7 +40,12 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     add : function(widget)
     {
       this._layoutQueue[widget.toHashCode()] = widget;
-      qx.ui2.core.QueueManager.scheduleFlush();
+
+      if (this._isInFlush) {
+        this._modifiedDuringFlush = true;
+      } else {
+        qx.ui2.core.QueueManager.scheduleFlush();
+      }
     },
 
 
@@ -48,42 +57,57 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     flush : function()
     {
-      // get sorted widgets to (re-)layout
-      var queue = this.__getSortedQueue();
-
-      // iterate in reversed order to process widgets with the smalles nesting
-      // level first because these may affect the inner lying children
-      for (var i=queue.length-1; i>=0; i--)
-      {
-        var widget = queue[i];
-
-        // continue if a relayout of one of the root's parents has made the
-        // layout valid of the widget is not connected to a root widget
-        if (widget.hasValidLayout() || widget.getRoot() == null) {
-          continue;
-        }
-
-        // overflow areas or qx.ui2.root.*
-        if (widget.isLayoutRoot())
-        {
-          // This is a real root widget. Set its size to its preferred size.
-          var rootHint = widget.getSizeHint();
-          qx.core.Log.debug("Relayout of root widget: " + widget);
-          widget.renderLayout(0, 0, rootHint.width, rootHint.height);
-        }
-        else
-        {
-          // This is an inner item of layout changes. Do a relayout of its
-          // children without changing its position and size.
-          qx.core.Log.debug("Relayout of widget: " + widget);
-          widget.renderLayout(
-            widget._computedLayout.left,
-            widget._computedLayout.top,
-            widget._computedLayout.width,
-            widget._computedLayout.height
-          );
-        }
+      if (this._isInFlush) {
+        return;
       }
+
+      this._isInFlush = true;
+
+      // do flush while the layouts change during flush
+      do
+      {
+        qx.core.Log.debug("Layout queue flush");
+        this._modifiedDuringFlush = false;
+
+        // get sorted widgets to (re-)layout
+        var queue = this.__getSortedQueue();
+
+        // iterate in reversed order to process widgets with the smalles nesting
+        // level first because these may affect the inner lying children
+        for (var i=queue.length-1; i>=0; i--)
+        {
+          var widget = queue[i];
+
+          // continue if a relayout of one of the root's parents has made the
+          // layout valid of the widget is not connected to a root widget
+          if (widget.hasValidLayout() || widget.getRoot() == null) {
+            continue;
+          }
+
+          // overflow areas or qx.ui2.root.*
+          if (widget.isLayoutRoot())
+          {
+            // This is a real root widget. Set its size to its preferred size.
+            var rootHint = widget.getSizeHint();
+            qx.core.Log.debug("Relayout of root widget: " + widget);
+            widget.renderLayout(0, 0, rootHint.width, rootHint.height);
+          }
+          else
+          {
+            // This is an inner item of layout changes. Do a relayout of its
+            // children without changing its position and size.
+            qx.core.Log.debug("Relayout of widget: " + widget);
+            widget.renderLayout(
+              widget._computedLayout.left,
+              widget._computedLayout.top,
+              widget._computedLayout.width,
+              widget._computedLayout.height
+            );
+          }
+        }
+      } while (this._modifiedDuringFlush);
+
+      this._isInFlush = false;
     },
 
 
