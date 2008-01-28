@@ -97,7 +97,9 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    _isRootWidget : true,
+    isRootWidget : function() {
+      return true;
+    },
 
 
     // overridden
