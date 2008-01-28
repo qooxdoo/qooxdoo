@@ -483,8 +483,8 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._validateArgument(hAlign, ["left", "center", "right"]);
       this._validateArgument(vAlign, ["top", "middle", "bottom"]);
 
-      this._setCellData(column, "hAlign", hAlign);
-      this._setCellData(column, "vAlign", vAlign);
+      this._setCellData(row, column, "hAlign", hAlign);
+      this._setCellData(row, column, "vAlign", vAlign);
 
       this.scheduleWidgetLayoutUpdate();
 

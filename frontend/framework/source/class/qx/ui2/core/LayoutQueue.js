@@ -163,18 +163,24 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
           // compare old size hint to new size hint
           var oldSizeHint = widget.getCachedSizeHint();
-          widget.invalidateLayoutCache();
-          var newSizeHint = widget.getSizeHint();
 
-          var hintChanged = (
-            !oldSizeHint ||
-            oldSizeHint.minWidth !== newSizeHint.minWidth ||
-            oldSizeHint.width !== newSizeHint.width ||
-            oldSizeHint.maxWidth !== newSizeHint.maxWidth ||
-            oldSizeHint.minHeight !== newSizeHint.minHeight ||
-            oldSizeHint.height !== newSizeHint.height ||
-            oldSizeHint.maxHeight !== newSizeHint.maxHeight
-          );
+          if (oldSizeHint)
+          {
+            widget.invalidateLayoutCache();
+            var newSizeHint = widget.getSizeHint();
+
+            var hintChanged = (
+              oldSizeHint.minWidth !== newSizeHint.minWidth ||
+              oldSizeHint.width !== newSizeHint.width ||
+              oldSizeHint.maxWidth !== newSizeHint.maxWidth ||
+              oldSizeHint.minHeight !== newSizeHint.minHeight ||
+              oldSizeHint.height !== newSizeHint.height ||
+              oldSizeHint.maxHeight !== newSizeHint.maxHeight
+            );
+          }
+          else {
+            hintChanged = true;
+          }
 
           if (hintChanged)
           {

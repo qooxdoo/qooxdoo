@@ -96,7 +96,9 @@ qx.Class.define("qx.ui2.root.Inline",
 
 
     // overridden
-    _isRootWidget : true,
+    isRootWidget : function() {
+      return true;
+    },
 
 
     // overridden

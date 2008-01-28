@@ -93,7 +93,9 @@ qx.Class.define("qx.ui2.root.Page",
 
 
     // overridden
-    _isRootWidget : true,
+    isRootWidget : function() {
+      return true;
+    },
 
 
     // overridden
