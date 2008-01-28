@@ -281,8 +281,8 @@ qx.Class.define("qx.ui2.layout.Dock",
         }
       }
 
-      console.debug("Used width: " + allocatedWidth + "/" + availWidth);
-      console.debug("Used height: " + allocatedHeight + "/" + availHeight);
+      // console.debug("Used width: " + allocatedWidth + "/" + availWidth);
+      // console.debug("Used height: " + allocatedHeight + "/" + availHeight);
 
 
 
