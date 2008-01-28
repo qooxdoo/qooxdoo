@@ -43,8 +43,8 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
 
-      // default layout
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:150, height:100});
+      // default layout, flex growing
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
       var layout1 = new qx.ui2.layout.Dock();
 
       var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
@@ -53,11 +53,11 @@ qx.Class.define("BasicSample",
       var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north", {flexX: 1, flexY: 3});
-      layout1.add(w2, "west", {flexX: 3, flexY: 1});
-      layout1.add(w3, "south", {flexX: 1, flexY: 2});
-      layout1.add(w4, "east", {flexX: 2, flexY: 1});
-      layout1.add(w5, "center", {flexX: 1, flexY: 1});
+      layout1.add(w1, "north", {flex:1});
+      layout1.add(w2, "west", {flex:1});
+      layout1.add(w3, "south", {flex:1});
+      layout1.add(w4, "east", {flex:1});
+      layout1.add(w5, "center");
 
       widget1.setLayout(layout1);
       containerLayout.add(widget1);
@@ -65,8 +65,8 @@ qx.Class.define("BasicSample",
 
 
 
-      // y-axis first
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:150, height:100});
+      // y-axis first, flex growing
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
       var layout1 = new qx.ui2.layout.Dock();
       layout1.setSort("y");
 
@@ -76,11 +76,11 @@ qx.Class.define("BasicSample",
       var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north", {flexX: 1, flexY: 3});
-      layout1.add(w2, "west", {flexX: 3, flexY: 1});
-      layout1.add(w3, "south", {flexX: 1, flexY: 2});
-      layout1.add(w4, "east", {flexX: 2, flexY: 1});
-      layout1.add(w5, "center", {flexX: 1, flexY: 1});
+      layout1.add(w1, "north", {flex:1});
+      layout1.add(w2, "west", {flex:1});
+      layout1.add(w3, "south", {flex:1});
+      layout1.add(w4, "east", {flex:1});
+      layout1.add(w5, "center");
 
       widget1.setLayout(layout1);
       containerLayout.add(widget1);
@@ -89,8 +89,8 @@ qx.Class.define("BasicSample",
 
 
 
-      // x-axis first
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:150, height:100});
+      // x-axis first, flex growing
+      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
       var layout1 = new qx.ui2.layout.Dock();
       layout1.setSort("x");
 
@@ -100,15 +100,14 @@ qx.Class.define("BasicSample",
       var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north", {flexX: 1, flexY: 3});
-      layout1.add(w2, "west", {flexX: 3, flexY: 1});
-      layout1.add(w3, "south", {flexX: 1, flexY: 2});
-      layout1.add(w4, "east", {flexX: 2, flexY: 1});
-      layout1.add(w5, "center", {flexX: 1, flexY: 1});
+      layout1.add(w1, "north", {flex:1});
+      layout1.add(w2, "west", {flex:1});
+      layout1.add(w3, "south", {flex:1});
+      layout1.add(w4, "east", {flex:1});
+      layout1.add(w5, "center");
 
       widget1.setLayout(layout1);
       containerLayout.add(widget1);
-
     }
   }
 });
