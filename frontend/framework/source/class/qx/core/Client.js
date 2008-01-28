@@ -271,14 +271,14 @@ qx.Class.define("qx.core.Client",
       this._supportsXPath = !!document.evaluate;
       this._supportsElementExtensions = !!window.HTMLElement;
     },
-    
-    
-    _deprecated : function() 
+
+
+    _deprecated : function()
     {
-      if (qx.core.Log) 
+      if (qx.core.Log)
       {
-        qx.core.Log.warn("Usage of old style qx.core.Client. Call trace follows:")
-        qx.core.Log.trace();
+        //qx.core.Log.warn("Usage of old style qx.core.Client. Call trace follows:")
+        //qx.core.Log.trace();
       }
     },
 
