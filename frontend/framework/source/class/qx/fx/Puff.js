@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.FadeIn",
+qx.Class.define("qx.fx.Puff",
 {
 
   extend : qx.fx.Base,
@@ -50,34 +50,47 @@ qx.Class.define("qx.fx.FadeIn",
 
   construct : function(element, options)
   {
-    var fromValue;
+  
     var opacity = qx.bom.element.Style.get(element, "opacity");
 
-    if (qx.bom.element.Style.get(element, "display") == "none"){
-      fromValue = 0.0;
-    }
-    else
-    {
-      if (typeof(opacity) == "number") {
-        fromValue = opacity;
-      } else {
-        fromValue = 0.0;
-      }
-    }
-
-    var effectSpecificOptions =
-    {
-        from : fromValue,
-        to   : 1.0
+    this._oldStyle = {
+      opacity  : qx.util.Validation.isValidNumber(opacity) ? opacity : "",
+      position : qx.bom.element.Style.get(element, "position"),
+      top      : qx.bom.element.Location.getTop(element, "scroll"),
+      left     : qx.bom.element.Location.getLeft(element, "scroll"),
+      width    : qx.bom.element.Dimension.getWidth(element),
+      height   : qx.bom.element.Dimension.getHeight(element)
     };
 
-    for(var i in effectSpecificOptions)
-    {
-      if (!options[i]) {
-        options[i] = effectSpecificOptions[i];
+    if (qx.util.Validation.isValidObject(options)) {
+      options.duration = 1.0;
+    } else {
+      options = {
+        duration : 1.0
       }
     }
 
+    this._effect = new qx.fx.Parallel({
+      0 : new qx.fx.Scale(
+          element,
+          200,
+          {
+            sync : true,
+            scaleFromCenter : true,
+            scaleContent : true,
+            restoreAfterFinish : true
+          }
+      ),
+      1 : new qx.fx.FadeOut(
+          element,
+          {
+            sync: true,
+            to: 0.0
+          }
+      )
+    }); 
+
+    this.element = element;
     this.base(arguments, element, options);
 
   },
@@ -102,37 +115,28 @@ qx.Class.define("qx.fx.FadeIn",
    members :
    {
 
-    afterFinishInternal : function()
-    {
-      //effect.element.forceRerendering();
-    },
-
-
-    update : function(position) {
-      qx.bom.element.Opacity.set(this._element, position);
-    },
-
-
-    beforeSetup : function(effect)
-    {
-      qx.bom.element.Style.set(this._element, "opacity", this._options.from);
-      qx.bom.element.Style.set(this._element, "display", "block");
-    },
-
-    render : function(pos)
-    {
-      if(this._state == qx.fx.Base.EffectState.idle)
+      beforeSetupInternal : function(effect)
       {
-        this._state = qx.fx.Base.EffectState.running
-        this.beforeSetup();
-      }
+        //Position.absolutize(effect.effects[0].element)
+      },
 
-      if(this._state == qx.fx.Base.EffectState.running)
+
+      afterFinishInternal : function(effect)
       {
-        this._position = this._transition(pos) * this._fromToDelta + this._options.from;
-        this.update(this._position);
-      }
-    }
+        for(var property in this._oldStyle)
+        {
+          qx.bom.element.Style.set(this._element, property, this._oldStyle[property])
+          qx.bom.element.Style.set(this._element, "display", "none");
+        }
+     },
+     
+     start : function()
+     {
+       this._effect.start();
+
+       var queue = this._getQueue();
+       qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
+     }
 
   },
 
