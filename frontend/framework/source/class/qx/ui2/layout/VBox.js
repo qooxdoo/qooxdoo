@@ -185,12 +185,9 @@ qx.Class.define("qx.ui2.layout.VBox",
           if (child.canStretchY())
           {
             layoutHeight = this.getLayoutProperty(child, "height");
-            if (layoutHeight && util.FLEX_VALUE.test(layoutHeight))
-            {
+            if (layoutHeight && util.FLEX_VALUE.test(layoutHeight)) {
               flex = parseInt(layoutHeight);
-            }
-            else
-            {
+            } else {
               flex = this.getLayoutProperty(child, "flex", 0);
             }
 
@@ -328,16 +325,33 @@ qx.Class.define("qx.ui2.layout.VBox",
       // Initialize
       var minHeight=0, height=0;
       var minWidth=0, width=0;
-      var hint;
+      var hint, flex, child;
 
       // Iterate over children
       for (var i=start; i!=end; i+=increment)
       {
-        hint = children[i].getSizeHint();
+        child = children[i];
+        hint = child.getSizeHint();
 
         // Sum up heights
         height += hint.height;
-        minHeight += hint.minHeight;
+
+        // Detect if child is shrinkable and update minHeight
+        if (child.canStretchY())
+        {
+          layoutHeight = this.getLayoutProperty(child, "height");
+          if (layoutHeight && util.FLEX_VALUE.test(layoutHeight)) {
+            flex = parseInt(layoutHeight);
+          } else {
+            flex = this.getLayoutProperty(child, "flex", 0);
+          }
+
+          minHeight += flex > 0 ? hint.minHeight : hint.height;
+        }
+        else
+        {
+          minHeight += hint.height;
+        }
 
         // Find maximum widths
         if (hint.width > width) {

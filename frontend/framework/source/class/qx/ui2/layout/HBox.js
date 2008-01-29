@@ -185,12 +185,9 @@ qx.Class.define("qx.ui2.layout.HBox",
           if (child.canStretchX())
           {
             layoutWidth = this.getLayoutProperty(child, "width");
-            if (layoutWidth && util.FLEX_VALUE.test(layoutWidth))
-            {
+            if (layoutWidth && util.FLEX_VALUE.test(layoutWidth)) {
               flex = parseInt(layoutWidth);
-            }
-            else
-            {
+            } else {
               flex = this.getLayoutProperty(child, "flex", 0);
             }
 
@@ -328,16 +325,33 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Initialize
       var minWidth=0, width=0;
       var minHeight=0, height=0;
-      var hint;
+      var hint, flex, child;
 
       // Iterate over children
       for (var i=start; i!=end; i+=increment)
       {
-        hint = children[i].getSizeHint();
+        child = children[i];
+        hint = child.getSizeHint();
 
         // Sum up widths
         width += hint.width;
-        minWidth += hint.minWidth;
+
+        // Detect if child is shrinkable and update minWidth
+        if (child.canStretchX())
+        {
+          layoutWidth = this.getLayoutProperty(child, "width");
+          if (layoutWidth && util.FLEX_VALUE.test(layoutWidth)) {
+            flex = parseInt(layoutWidth);
+          } else {
+            flex = this.getLayoutProperty(child, "flex", 0);
+          }
+
+          minWidth += flex > 0 ? hint.minWidth : hint.width;
+        }
+        else
+        {
+          minWidth += hint.width;
+        }
 
         // Find maximum heights
         if (hint.height > height) {
