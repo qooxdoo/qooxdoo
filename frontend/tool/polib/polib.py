@@ -875,8 +875,8 @@ class POEntry(_BaseEntry):
                 # what we want for filenames, so the dirty hack is to 
                 # temporally replace hyphens with a char that a file cannot 
                 # contain, like "*"
-                lines = _strreplace(filestr, '-', '*')
-                lines = _textwrap(filestr, wrapwidth,
+                lines = _textwrap(_strreplace(filestr, '-', '*'),
+                                  wrapwidth,
                                   initial_indent='#: ',
                                   subsequent_indent='#: ',
                                   break_long_words=False)
