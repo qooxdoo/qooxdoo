@@ -98,7 +98,9 @@ qx.Class.define("qx.bom.element.Attribute",
         innerHTML   : true,
         innerText   : true,
         textContent : true,
-        htmlFor     : true
+        htmlFor     : true,
+        scrollLeft  : true,
+        scrollTop   : true
       },
 
       // Interpreted as property and attribute
