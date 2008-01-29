@@ -181,6 +181,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
           layoutChildren.push(child);
         }
       }
+
       return layoutChildren;
     },
 

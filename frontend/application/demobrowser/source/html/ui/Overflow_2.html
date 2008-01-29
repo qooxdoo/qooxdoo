@@ -35,7 +35,8 @@ qx.Class.define("BasicSample",
       scrollArea = new qx.ui2.core.ScrollArea();
       scrollArea.set({
         width: 300,
-        backgroundColor : "yellow"
+        backgroundColor : "yellow",
+        padding : 10
       });
 
       scrollArea.setContent(this.generateBoxes());
@@ -52,7 +53,7 @@ qx.Class.define("BasicSample",
         grow = !grow;
       });
 
-      doc.add(toggle, 10, 80);
+      doc.add(toggle, 10, 100);
       doc.add(scrollArea, 10, 10);
     },
 
