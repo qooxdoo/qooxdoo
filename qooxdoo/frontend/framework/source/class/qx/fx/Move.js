@@ -95,9 +95,7 @@ qx.Class.define("qx.fx.Move",
       this._originalLeft = parseFloat(this.element.getStyle('left') || '0');
       this._originalTop  = parseFloat(this.element.getStyle('top')  || '0');
       */
-    
-      this.base(arguments);
-    
+
       this._originalLeft = qx.bom.element.Style.get(this._element, "left"); 
       this._originalTop  = qx.bom.element.Style.get(this._element, "top"); 
 
