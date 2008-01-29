@@ -42,15 +42,15 @@ qx.Class.define("BasicSample",
 
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
-      // "normal" size, auto-sized
+      // "normal" size, auto-sized, one limited child
       var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       var layout1 = new qx.ui2.layout.Stack();
 
       var widgets1 = [];
       widgets1[0] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red", height: 300});
-      widgets1[1] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      widgets1[1] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", minWidth: 150});
       widgets1[2] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange", width: 200});
-      widgets1[3] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+      widgets1[3] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxWidth : 50});
       widgets1[4] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
       for (var i=0; i<widgets1.length; i++)
@@ -66,14 +66,14 @@ qx.Class.define("BasicSample",
       containerLayout.add(widget1);
 
 
-      // resize to selected, auto-sized
-      var widget2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", maxHeight:"pref"});
+      // resize to selected, auto-sized, one limited child
+      var widget2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
       layout2 = new qx.ui2.layout.Stack();
       layout2.setResizeToSelected(true);
 
       var widgets2 = [];
       widgets2[0] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red", height: 300});
-      widgets2[1] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      widgets2[1] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight : 20});
       widgets2[2] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange", width: 200});
       widgets2[3] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
       widgets2[4] = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
