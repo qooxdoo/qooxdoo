@@ -13,13 +13,10 @@ qx.Class.define("qx.ui2.core.ScrollArea",
   {
     this.base(arguments);
 
-    this.set({
-      backgroundColor: "yellow"
-    })
-
     var layout = new qx.ui2.layout.HBox();
     this.setLayout(layout);
 
+    // TODO: Real buttons are needed here.
     this._lButton = new qx.ui2.core.Label("<").set({
       backgroundColor : "gray",
       visibility :"exclude"
@@ -33,10 +30,10 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     this._lButton.addListener("click", this._scrollRight, this);
     this._rButton.addListener("click", this._scrollLeft, this);
 
-    this._pane = new qx.ui2.core.Widget();
-    this._pane.setLayout(new qx.ui2.layout.Basic());
+    this._pane = new qx.ui2.core.ScrollPane();
     this._pane.addListener("resize", this._onResize, this);
 
+    // Add children to layout
     layout.add(this._lButton);
     layout.add(this._pane, {flex: 1});
     layout.add(this._rButton);
@@ -87,17 +84,12 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       this._pane._contentElement.setAttribute("scrollLeft", 0);
     },
 
-    _scrollLeft : function()
-    {
-
-      var old = this._pane._contentElement.getAttribute("scrollLeft");
-      this._pane._contentElement.setAttribute("scrollLeft", old + 10, true);
+    _scrollLeft : function() {
+      this._pane.scrollLeftBy(20, true);
     },
 
-    _scrollRight : function()
-    {
-      var old = this._pane._contentElement.getAttribute("scrollLeft");
-      this._pane._contentElement.setAttribute("scrollLeft", old - 10, true);
+    _scrollRight : function() {
+      this._pane.scrollLeftBy(-20, true);
     }
   }
-})
+});
