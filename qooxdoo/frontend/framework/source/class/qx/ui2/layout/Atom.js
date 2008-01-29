@@ -84,16 +84,6 @@ qx.Class.define("qx.ui2.layout.Atom",
     */
 
     // overridden
-    invalidateLayoutCache : function()
-    {
-      if (this._sizeHint)
-      {
-        this.debug("Clear layout cache");
-        this._sizeHint = null;
-      }
-    },
-
-    // overridden
     renderLayout : function(width, height)
     {
       var child, childHint;
@@ -114,8 +104,8 @@ qx.Class.define("qx.ui2.layout.Atom",
 
         childHint = child.getSizeHint();
 
-        childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth, Infinity));
-        childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight, Infinity));
+        childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth));
+        childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight));
 
         childLeft = Math.round((width - childWidth) / 2);
         childTop = Math.round((height - childHeight) / 2);
@@ -148,44 +138,38 @@ qx.Class.define("qx.ui2.layout.Atom",
           // Max of text and icon
           width = Math.max(iconHint.width, textHint.width);
           minWidth = Math.max(iconHint.minWidth, textHint.minWidth);
-          maxWidth = Math.min(iconHint.maxWidth, textHint.maxWidth);
 
           // Sum of text, icon and gap
           height = iconHint.height + textHint.height + gap;
           minHeight = iconHint.minHeight + textHint.minHeight + gap;
-          maxHeight = iconHint.maxHeight + textHint.maxHeight + gap;
         }
         else
         {
           // Max of text and icon
           height = Math.max(iconHint.height, textHint.height);
           minHeight = Math.max(iconHint.minHeight, textHint.minHeight);
-          maxHeight = Math.min(iconHint.maxHeight, textHint.maxHeight);
 
           // Sum of text, icon and gap
           width = iconHint.width + textHint.width + gap;
           minWidth = iconHint.minWidth + textHint.minWidth + gap;
-          maxWidth = iconHint.maxWidth + textHint.maxWidth + gap;
         }
 
 
         // Limit to integer and min/max range
-        minWidth = Math.min(Infinity, Math.max(0, minWidth));
-        maxWidth = Math.min(Infinity, Math.max(0, maxWidth));
-        width = Math.min(Infinity, minWidth, Math.max(0, width, maxWidth));
-        minHeight = Math.min(Infinity, Math.max(0, minHeight));
-        maxHeight = Math.min(Infinity, Math.max(0, maxHeight));
-        height = Math.min(Infinity, minHeight, Math.max(0, height, maxHeight));
+        minWidth = Math.min(Math.max(0, minWidth));
+        width = Math.min(minWidth, Math.max(0, width, maxWidth));
+        minHeight = Math.min(Math.max(0, minHeight));
+        height = Math.min(minHeight, Math.max(0, height, maxHeight));
 
 
         // Build hint
         hint = {
           minWidth : minWidth,
           width : width,
-          maxWidth : maxWidth,
+          maxWidth : Infinity,
           minHeight : minHeight,
           height : height,
-          maxHeight : maxHeight
+          maxHeight : Infinity
         };
       }
       else if (this._icon)
