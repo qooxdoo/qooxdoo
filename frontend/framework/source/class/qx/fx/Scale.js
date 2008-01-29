@@ -131,9 +131,12 @@ qx.Class.define("qx.fx.Scale",
       this._originalTop  = this._element.offsetTop;
       this._originalLeft = this._element.offsetLeft;
 
-      var fontSize = qx.bom.element.Style.get(this._element, "fontSize");
-      if(typeof(fontSize) != "string") {
-        fontSize = "100%";
+      try {
+        var fontSize = qx.bom.element.Style.get(this._element, "fontSize");
+      } catch(e) {
+        if(typeof(fontSize) != "string") {
+          fontSize = (qx.bom.client.Engine.MSHTML) ? "12px" : "100%";
+        }
       }
       
       for(var type in this._fontTypes)
