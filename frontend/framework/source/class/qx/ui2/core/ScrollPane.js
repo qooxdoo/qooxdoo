@@ -13,7 +13,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
   {
     this.base(arguments);
 
-    this.setLayout(new qx.ui2.layout.Basic());
+    this.setLayout(new qx.ui2.layout.Scroll());
   },
 
 

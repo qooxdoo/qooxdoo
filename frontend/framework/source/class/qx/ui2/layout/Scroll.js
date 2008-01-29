@@ -14,31 +14,38 @@ qx.Class.define("qx.ui2.layout.Scroll",
 
   members :
   {
-     _applyContent : function(value, old)
-     {
-       if (old) {
-         this.remove(old);
-       }
-       this.add(value);
-     },
+    _applyContent : function(value, old)
+    {
+      if (old) {
+        this.remove(old);
+      }
 
-     getSizeHint : function() {
-       return this.getContent().getSizeHint();
-     },
+      this.add(value);
+    },
 
-     renderLayout : function(availWidth, availHeight)
-     {
-       var content = this.getContent();
-       if (!content) {
-         return;
-       }
+    _computeSizeHint : function()
+    {
+      var hint = this.getContent().getSizeHint();
 
-       var hint = content.getSizeHint();
+      return {
+        minWidth : 0,
+        width : hint.width,
+        maxWidth : Infinity,
+        minHeight : 0,
+        height : hint.height,
+        maxHeight : Infinity
+      };
+    },
 
-       var width = Math.min(hint.width, Math.max(availWidth, hint.minWidth));
-       var height = Math.min(hint.height, Math.max(availHeight, hint.minWidth));
+    renderLayout : function(availWidth, availHeight)
+    {
+      var content = this.getContent();
+      var hint = content.getSizeHint();
 
-       content.renderLayout(0, 0, width, height);
-     }
+      var width = Math.min(hint.width, Math.max(availWidth, hint.minWidth));
+      var height = Math.min(hint.height, Math.max(availHeight, hint.minWidth));
+
+      content.renderLayout(0, 0, width, height);
+    }
   }
 });
