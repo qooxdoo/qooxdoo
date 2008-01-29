@@ -53,8 +53,7 @@ qx.Class.define("qx.fx.Move",
  
     var effectSpecificOptions = {
         x    : 0,
-        y    : 0,
-        mode : 'relative'
+        y    : 0
     };
 
     for(var i in effectSpecificOptions)
@@ -90,33 +89,16 @@ qx.Class.define("qx.fx.Move",
 
     setup : function()
     {
-      /*
-      this.element.makePositioned();
-      this._originalLeft = parseFloat(this.element.getStyle('left') || '0');
-      this._originalTop  = parseFloat(this.element.getStyle('top')  || '0');
-      */
+      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "scroll"); 
+      this._originalTop = qx.bom.element.Location.getTop(this._element, "scroll");
 
-      this._originalLeft = qx.bom.element.Style.get(this._element, "left"); 
-      this._originalTop  = qx.bom.element.Style.get(this._element, "top"); 
-
-      if (this._options.mode == 'absolute')
-      {
-        this._options.x = this._options.x - this._originalLeft;
-        this._options.y = this._options.y - this._originalTop;
-      }
+      this._options.x = this._options.x - this._originalLeft;
+      this._options.y = this._options.y - this._originalTop;
     },
 
 
     update : function(position)
     {
-      console.warn(position, this._element)
-      /*
-      this.element.setStyle({
-        left: (this._options.x  * position + this._originalLeft).round() + 'px',
-        top:  (this._options.y  * position + this._originalTop).round()  + 'px'
-      });
-      */
-
       qx.bom.element.Style.set(this._element, "left", Math.round(this._options.x  * position + this._originalLeft));
       qx.bom.element.Style.set(this._element, "top", Math.round(this._options.y  * position + this._originalTop));
     }
@@ -132,4 +114,5 @@ qx.Class.define("qx.fx.Move",
   defer : function(statics) {
     
   }
+
 });
