@@ -54,31 +54,35 @@ qx.Class.define("qx.ui2.core.QueueManager",
     {
       var clazz = qx.ui2.core.QueueManager;
 
-      clazz.__scheduled = false;
-
-      var start = new Date;
-
+      // no else blocks here because each flush can influence the following
+      // flushes!
       var jobs = clazz.__jobs;
 
       if (jobs.layout)
       {
+        var start = new Date;
         qx.ui2.core.LayoutQueue.flush();
         jobs.layout = false;
+        qx.core.Log.debug("Layout queue runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.decoration)
       {
+        var start = new Date;
         qx.ui2.core.DecorationQueue.flush();
         jobs.decoration = false;
+        qx.core.Log.debug("Decoration queue runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.element)
       {
+        var start = new Date;
         qx.html.Element.flush();
         jobs.element = false;
+        qx.core.Log.debug("Element queue runtime: " + (new Date - start) + "ms");
       }
 
-      qx.core.Log.debug("Queue runtime: " + (new Date - start) + "ms");
+      clazz.__scheduled = false;
     }
   },
 
