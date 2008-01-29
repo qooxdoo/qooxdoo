@@ -444,17 +444,17 @@ qx.Class.define("qx.ui2.core.Widget",
      * Controls the widget's visibility. Valid values are:
      *
      * <ul>
-     *   <li><b>show</b>: Render the widget</li>
-     *   <li><b>hide</b>: Hide the widget but don't relayout the widget's parent.</li>
+     *   <li><b>visible</b>: Render the widget</li>
+     *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
      *   <li>
-     *     <b>exclude</b>: Hide the widget and relayout the parent as if the
+     *     <b>excluded</b>: Hide the widget and relayout the parent as if the
      *       widget was not a child of its parent.
      *   </li>
      * </ul>
      */
     visibility :
     {
-      check : ["show", "hide", "exclude"],
+      check : ["visible", "hidden", "excluded"],
       init : "show",
       apply : "_applyVisibility",
       event : "changeVisibility",
@@ -1082,7 +1082,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (!this._isVisible)
       {
         // fallback to prototype value 'true'
-        delete(this._isVisible);
+        delete this._isVisible;
 
         this._containerElement.show();
       }
@@ -1154,17 +1154,50 @@ qx.Class.define("qx.ui2.core.Widget",
 
       while (parent)
       {
-        if (
-          !parent._containerElement.isIncluded() ||
-          !this._isVisible
-        ) {
+        if (!parent._containerElement.isIncluded() || !this._isVisible) {
           return false;
         }
+
         parent = parent._parent;
       }
 
       return true;
     },
+
+
+    /**
+     * Make this widget visible.
+     *
+     * @type member
+     * @return {void}
+     */
+    show : function() {
+      this.setVisibility("visible");
+    },
+
+
+    /**
+     * Hide this widget.
+     *
+     * @type member
+     * @return {void}
+     */
+    hide : function() {
+      this.setVisibility("hidden");
+    },
+
+
+    /**
+     * Hide this widget and exclude it from the underlying layout.
+     *
+     * @type member
+     * @return {void}
+     */
+    exclude : function() {
+      this.setVisibility("excluded");
+    },
+
+
 
 
 
