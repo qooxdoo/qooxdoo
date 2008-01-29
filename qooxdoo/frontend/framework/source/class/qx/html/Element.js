@@ -212,6 +212,9 @@ qx.Class.define("qx.html.Element",
 
 
 
+      // Process scrolls
+
+
       // Process action list
       var post = this._actions;
       var actions = this._supportedActions;
@@ -1333,9 +1336,11 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @param key {String} the name of the style attribute
      * @param value {var} the value
+     * @param direct {Boolean?false} Whether the value should be applied
+     *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    setStyle : function(key, value)
+    setStyle : function(key, value, direct)
     {
       if (!this.__styleValues) {
         this.__styleValues = {};
@@ -1356,6 +1361,13 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this._element)
       {
+        // Omit queuing in direct mode
+        if (direct)
+        {
+          qx.bom.element.Style.set(this._element, key, value);
+          return this;
+        }
+
         // Dynamically create if needed
         if (!this.__styleJobs) {
           this.__styleJobs = {};
@@ -1378,12 +1390,14 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @param map {Map} a map where the key is the name of the property
      *    and the value is the value to use.
+     * @param direct {Boolean?false} Whether the values should be applied
+     *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    setStyles : function(map)
+    setStyles : function(map, direct)
     {
       for (var key in map) {
-        this.setStyle(key, map[key]);
+        this.setStyle(key, map[key], direct);
       }
 
       return this;
@@ -1395,10 +1409,12 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      * @param key {String} the name of the style attribute
+     * @param direct {Boolean?false} Whether the value should be removed
+     *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeStyle : function(key) {
-      this.setStyle(key, null);
+    removeStyle : function(key, direct) {
+      this.setStyle(key, null, direct);
     },
 
 
@@ -1429,9 +1445,11 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @param key {String} the name of the attribute
      * @param value {var} the value
+     * @param direct {Boolean?false} Whether the value should be applied
+     *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    setAttribute : function(key, value)
+    setAttribute : function(key, value, direct)
     {
       if (!this.__attribValues) {
         this.__attribValues = {};
@@ -1452,6 +1470,13 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this._element)
       {
+        // Omit queuing in direct mode
+        if (direct)
+        {
+          qx.bom.element.Style.set(this._element, key, value);
+          return this;
+        }
+
         // Dynamically create if needed
         if (!this.__attribJobs) {
           this.__attribJobs = {};
@@ -1474,12 +1499,14 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @param map {Map} a map where the key is the name of the property
      *    and the value is the value to use.
+     * @param direct {Boolean?false} Whether the values should be applied
+     *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    setAttributes : function(map)
+    setAttributes : function(map, direct)
     {
       for (var key in map) {
-        this.setAttribute(key, map[key]);
+        this.setAttribute(key, map[key], direct);
       }
 
       return this;
@@ -1491,9 +1518,11 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      * @param key {String} the name of the attribute
+     * @param direct {Boolean?false} Whether the value should be removed
+     *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeAttribute : function(key, value) {
+    removeAttribute : function(key, value, direct) {
       this.setAttribute(key, null);
     },
 
