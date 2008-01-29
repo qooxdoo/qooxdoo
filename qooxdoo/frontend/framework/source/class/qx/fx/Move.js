@@ -52,8 +52,8 @@ qx.Class.define("qx.fx.Move",
   {
  
     var effectSpecificOptions = {
-        x    : 0,
-        y    : 0
+      x : 0,
+      y : 0
     };
 
     for(var i in effectSpecificOptions)
@@ -86,21 +86,20 @@ qx.Class.define("qx.fx.Move",
    members :
    {
 
-
     setup : function()
     {
-      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "scroll"); 
-      this._originalTop = qx.bom.element.Location.getTop(this._element, "scroll");
+      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box"); 
+      this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
 
-      this._options.x = this._options.x - this._originalLeft;
-      this._options.y = this._options.y - this._originalTop;
+      this._x = this._options.x - this._originalLeft;
+      this._y = this._options.y - this._originalTop;
     },
 
 
     update : function(position)
     {
-      qx.bom.element.Style.set(this._element, "left", Math.round(this._options.x  * position + this._originalLeft));
-      qx.bom.element.Style.set(this._element, "top", Math.round(this._options.y  * position + this._originalTop));
+      qx.bom.element.Style.set(this._element, "left", Math.round(this._x  * position + this._originalLeft));
+      qx.bom.element.Style.set(this._element, "top", Math.round(this._y  * position + this._originalTop));
     }
 
    },
