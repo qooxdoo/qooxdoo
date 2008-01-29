@@ -11,17 +11,23 @@
   </div>
 
   <script type="text/javascript">
+
+  var elementStyle = 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:110px;top:82px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;padding:5px;';
+  function resetElement(el)
+  {
+    qx.bom.element.Style.setCss(el,  elementStyle);
+  }
+  
   qx.core.Init.getInstance().defineMain(function()
   {
    	var doc = qx.ui.core.ClientDocument.getInstance();
-	var myElement = qx.bom.Element.create('div', { style : 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:100px;top:72px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;padding:5px;' });
+	var myElement = qx.bom.Element.create('div', { style : elementStyle });
 	var doc = qx.ui.core.ClientDocument.getInstance();
 
 	document.body.appendChild(myElement);
 
 	myElement.id = "testDiv";
 	myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
-
 
 	/*
 	 * Each effect needs
@@ -93,7 +99,19 @@
      * as if it the element explodes.
      */
 	var animPuff = new qx.fx.Puff(myElement);
-	
+
+	var animMoveAway = new qx.fx.Move(myElement, {
+	  x : 600,
+	  y : 300,
+	  transition : qx.fx.Transition.spring 
+	});
+
+	var animMoveBack = new qx.fx.Move(myElement, {
+	  x : 110,
+	  y : 82,
+	  transition : qx.fx.Transition.sinoidal 
+	});
+
 	/* Buttons */
 	var btnShow = new qx.ui.form.Button("Fade in");
 	var btnHide = new qx.ui.form.Button("Fade out");
@@ -101,6 +119,9 @@
 	var btnShrink = new qx.ui.form.Button("Shrink");
 	var btnCombination = new qx.ui.form.Button("Fade in & increase");
 	var btnPuff = new qx.ui.form.Button("Puff");
+	var btnMoveAway = new qx.ui.form.Button("Move away");
+	var btnMoveBack = new qx.ui.form.Button("Move back");
+	var btnReset = new qx.ui.form.Button("Reset element");
 
 
 	btnShow.setLocation(25, 25);
@@ -108,7 +129,10 @@
 	btnIncrease.setLocation(150, 25);
 	btnShrink.setLocation(210, 25);
 	btnCombination.setLocation(260, 25);
-	btnPuff.setLocation(375, 25);
+	btnPuff.setLocation(370, 25);
+	btnMoveAway.setLocation(410, 25);
+	btnMoveBack.setLocation(485, 25);
+	btnReset.setLocation(25, 57);
 
 	/* Events */
 	btnShow.addListener("execute", function(){
@@ -139,8 +163,20 @@
 	btnPuff.addListener("execute", function(){
 	  animPuff.start();
 	});
+
+	btnMoveAway.addListener("execute", function(){
+	  animMoveAway.start();
+	});
+
+	btnMoveBack.addListener("execute", function(){
+	  animMoveBack.start();
+	});
+
+	btnReset.addListener("execute", function(){
+	  resetElement(myElement);
+	});
 	
-	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff);
+	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnReset);
    
   });
   </script>
