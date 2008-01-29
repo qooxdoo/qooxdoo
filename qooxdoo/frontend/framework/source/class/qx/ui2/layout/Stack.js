@@ -91,7 +91,11 @@ qx.Class.define("qx.ui2.layout.Stack",
         return;
       }
 
-      selectedChild.renderLayout(0, 0, availWidth, availHeight);
+      var hint = selectedChild.getSizeHint();
+      var width = Math.min(hint.maxWidth, Math.max(hint.minWidth, availWidth));
+      var height = Math.min(hint.maxHeight, Math.max(hint.minHeight, availHeight));
+
+      selectedChild.renderLayout(0, 0, width, height);
     },
 
 
