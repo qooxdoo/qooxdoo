@@ -65,8 +65,9 @@ qx.Class.define("BasicSample",
       {
         layout.add((new qx.ui2.core.Widget()).set({
           backgroundColor : (i % 2 == 0) ? "red" : "blue",
-          width : 60
-        }));
+          width : 60,
+          minWidth : 40
+        }), {flex: 1});
       }
 
       box.setLayout(layout);

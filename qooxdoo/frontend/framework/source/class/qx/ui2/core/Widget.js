@@ -645,7 +645,7 @@ qx.Class.define("qx.ui2.core.Widget",
     // overridden
     invalidateLayoutCache : function()
     {
-      this.debug("Mark widget layout invalid: " + this);
+      // this.debug("Mark widget layout invalid: " + this);
       this._hasValidLayout = false;
 
       // invalidateLayoutCache cached size hint
