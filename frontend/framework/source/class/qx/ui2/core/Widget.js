@@ -80,6 +80,12 @@ qx.Class.define("qx.ui2.core.Widget",
 
   events :
   {
+    /** Fired on resize (after layouting) of the widget. */
+    resize : "qx.event.type.Data",
+
+    /** Fired on move (after layouting) of the widget. */
+    move : "qx.event.type.Data",
+
     /** Fired if the mouse curser moves over the widget. */
     mousemove : "qx.event.type.Mouse",
 
