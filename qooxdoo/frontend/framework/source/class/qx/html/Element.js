@@ -117,6 +117,19 @@ qx.Class.define("qx.html.Element",
     _supportedActions : [ "deactivate", "blur", "activate", "focus" ],
 
 
+    /** {Map} Map of attributes where the computed value should be preferred over the configured value */
+    _computedAttributes : {
+      scrollLeft : true,
+      scrollTop : true,
+      offsetWidth : true,
+      offsetHeight : true,
+      scrollWidth : true,
+      scrollHeight : true,
+      clientWidth : true,
+      clientHeight : true
+    },
+
+
 
 
 
@@ -1556,7 +1569,12 @@ qx.Class.define("qx.html.Element",
      * @param key {String} name of the attribute
      * @return {var} the value of the attribute
      */
-    getAttribute : function(key) {
+    getAttribute : function(key)
+    {
+      if (this._element && qx.html.Element._computedAttributes[key]) {
+        return qx.bom.element.Attribute.get(this._element, key);
+      }
+
       return this.__attribValues ? this.__attribValues[key] : null;
     },
 
