@@ -1,46 +1,26 @@
-qooxdoo Licensing Information
-=============================
-
 qooxdoo may be used under the terms of either the
 
-  * GNU Lesser General Public License (LGPL)
-    http://www.gnu.org/licenses/lgpl.html
+* GNU Lesser General Public License 2.1 (LGPL)
+  http://www.gnu.org/licenses/lgpl.html
 
 or the
 
-  * Eclipse Public License (EPL)
-    http://www.eclipse.org/org/documents/epl-v10.php
+* Eclipse Public License 1.0 (EPL)
+  http://www.eclipse.org/org/documents/epl-v10.php
 
-As a recipient of qooxdoo, you may choose which license to receive the code 
-under. Certain files or entire directories may not be covered by this 
+As a recipient of qooxdoo, you may choose which license to receive the code
+under. Certain files or entire directories may not be covered by this
 dual license, but are subject to licenses compatible to both LGPL and EPL.
-License exceptions are explicitly declared in all relevant files or in a 
-LICENSE file in the relevant directories.
+License exceptions are explicitly declared in all relevant files or in a
+LICENSE file in the relevant directories. No external contributions are allowed
+under licenses which are fundamentally incompatible with the LGPL or EPL
+licenses that qooxdoo is distributed under.
 
-________________________________________________________________________________
-
-Important Note For Projects That Need To Comply With EPL:
----------------------------------------------------------
-
-The qooxdoo default icon theme ("Nuvola") is available only under the LGPL. 
-Therefore, you have to select another icon theme that is compatible to EPL. 
-
-You may do so by switching to another default icon theme:
-in default meta theme qx.theme.ClassicRoyale, which is declared in file 
-frontend/framework/source/class/qx/theme/ClassicRoyale.js, change 
-the following line:
-  icon : qx.theme.icon.Nuvola
-to either
-  icon : qx.theme.icon.NuoveXT
-or
-  icon : qx.theme.icon.VistaInspirate
-or to a custom icon theme that is license-compatible.
-________________________________________________________________________________
+The text of the LGPL and EPL licenses is reproduced below.
 
 
-The full text of the LGPL and EPL licenses is attached below. 
+-------------------------------------------------------------------------------
 
-********************************************************************************
 
 		  GNU LESSER GENERAL PUBLIC LICENSE
 		       Version 2.1, February 1999
@@ -99,8 +79,8 @@ modified by someone else and passed on, the recipients should know
 that what they have is not the original version, so that the original
 author's reputation will not be affected by problems that might be
 introduced by others.
-
-  Finally, software patents pose a constant threat to the existence of
+
+Finally, software patents pose a constant threat to the existence of
 any free program.  We wish to make sure that a company cannot
 effectively restrict the users of a free program by obtaining a
 restrictive license from a patent holder.  Therefore, we insist that
@@ -155,7 +135,8 @@ modification follow.  Pay close attention to the difference between a
 "work based on the library" and a "work that uses the library".  The
 former contains code derived from the library, whereas the latter must
 be combined with the library in order to run.
-
+
+
 		  GNU LESSER GENERAL PUBLIC LICENSE
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
@@ -190,7 +171,7 @@ such a program is covered only if its contents constitute a work based
 on the Library (independent of the use of the Library in a tool for
 writing it).  Whether that is true depends on what the Library does
 and what the program that uses the Library does.
-  
+
   1. You may copy and distribute verbatim copies of the Library's
 complete source code as you receive it, in any medium, provided that
 you conspicuously and appropriately publish on each copy an
@@ -545,7 +526,10 @@ necessary.  Here is a sample; alter the names:
 
 That's all there is to it!
 
-********************************************************************************
+
+-------------------------------------------------------------------------------
+
+
 Eclipse Public License - v 1.0
 
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE
@@ -774,5 +758,3 @@ party to this Agreement will bring a legal action under this Agreement
 more than one year after the cause of action arose. Each party waives
 its rights to a jury trial in any resulting litigation.
 
-********************************************************************************
-END OF FILE
