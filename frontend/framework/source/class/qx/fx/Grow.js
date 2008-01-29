@@ -52,32 +52,31 @@ qx.Class.define("qx.fx.Grow",
   {
 
     var opacity = qx.bom.element.Style.get(element, "opacity");
-
-    var effectSpecificOptions = {
-        direction         : 'center',
-        moveTransition    : qx.fx.Transition.sinoidal,
-        scaleTransition   : qx.fx.Transition.sinoidal,
-        opacityTransition : qx.fx.Transition.full
-    };
-
-    var dims =
-    {
-        widht  : qx.bom.element.Dimension.getWidth(element),
-        height : qx.bom.element.Dimension.getHeight(element)
-    };
-
     var initialMoveX, initialMoveY;
     var moveX, moveY;
 
+    var effectSpecificOptions = {
+      direction         : 'center',
+      moveTransition    : qx.fx.Transition.sinoidal,
+      scaleTransition   : qx.fx.Transition.sinoidal,
+      opacityTransition : qx.fx.Transition.full
+    };
+
+    var dims = {
+      widht  : qx.bom.element.Dimension.getWidth(element),
+      height : qx.bom.element.Dimension.getHeight(element)
+    };
+
     this._oldStyle = {
       opacity  : qx.util.Validation.isValidNumber(opacity) ? opacity : 1.0,
-      position : qx.bom.element.Style.get(element, "position"),
       top      : qx.bom.element.Location.getTop(element, "scroll"),
       left     : qx.bom.element.Location.getLeft(element, "scroll"),
       width    : qx.bom.element.Dimension.getWidth(element),
       height   : qx.bom.element.Dimension.getHeight(element)
     };
 
+    this.element = element;
+    
     for(var i in effectSpecificOptions)
     {
       if (!options[i]) {
@@ -120,44 +119,72 @@ qx.Class.define("qx.fx.Grow",
 
     }
 
+
     this.base(arguments, element, options);
-    /*
-    this._effect = new qx.fx.Move(
-        element,
-        {
-          x : initialMoveX,
-          y : initialMoveY,
-          duration: 0.01, 
-          beforeSetup: function(effect) {
-            //effect.element.hide().makeClipping().makePositioned();
-          },
-          afterFinishInternal : function(effect)
-          {
-            new Effect.Parallel([
-              new Effect.Opacity(
-                  effect.element,
-                  {
-                    sync: true,
-                    to: 1.0,
-                    from: 0.0,
-                    transition: options.opacityTransition
-                   }
-                 ),
-            new Effect.Move(effect.element, { x: moveX, y: moveY, sync: true, transition: options.moveTransition }),
-            new Effect.Scale(effect.element, 100, {
-              scaleMode: { originalHeight: dims.height, originalWidth: dims.width }, 
-              sync: true, scaleFrom: window.opera ? 1 : 0, transition: options.scaleTransition, restoreAfterFinish: true})
-          ], Object.extend({
-               beforeSetup: function(effect) {
-                 effect.effects[0].element.setStyle({height: '0px'}).show(); 
-               },
-               afterFinishInternal: function(effect) {
-                 effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle); 
-               }
-             }, options)
-        )
+
+
+    var fadeInEffect = new qx.fx.FadeIn(
+      element,
+      {
+        sync: true,
+        transition: options.opacityTransition
       }
-		*/
+    );
+
+    var moveEffect = new qx.fx.Move(
+      element,
+      {
+        x: moveX,
+        y: moveY,
+        sync: true,
+        transition: options.moveTransition
+      }
+    );
+
+    var scaleEffect = new qx.fx.Scale(
+      element,
+      100,
+      {
+      scaleMode: {
+        originalHeight: dims.height,
+        originalWidth: dims.width
+      }, 
+      sync: true,
+      //scaleFrom: window.opera ? 1 : 0,
+      transition: options.scaleTransition,
+      restoreAfterFinish: true
+      }
+    );
+
+    this._effect = new qx.fx.Move(
+      element,
+      {
+        x : initialMoveX,
+        y : initialMoveY,
+        duration: 0.01, 
+        beforeSetup: function(effect) {
+          //effect.element.hide().makeClipping().makePositioned();
+          qx.bom.element.Style.set(element, "display", "none");
+        },
+        afterFinishInternal : function(effect)
+        {
+          new Effect.Parallel(
+            [fadeInEffect, moveEffect, scaleEffect]
+          )
+        }
+      }
+    );
+
+/*
+, Object.extend({
+             beforeSetup: function(effect) {
+               effect.effects[0].element.setStyle({height: '0px'}).show(); 
+             },
+             afterFinishInternal: function(effect) {
+               effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle); 
+             }
+           }, options) 
+ */
   },
 
   
@@ -179,9 +206,40 @@ qx.Class.define("qx.fx.Grow",
 
    members :
    {
-    
+
+    beforeSetup : function(effect)
+    {
+      //effect.effects[0].element.setStyle({height: '0px'}).show();
+      //effect.element.hide().makeClipping().makePositioned();
+
+      qx.bom.element.Style.set(this.element, "height", "0px");
+      qx.bom.element.Style.set(this.element, "display", "block");
+      qx.bom.element.Style.set(this.element, "overflow", "hidden");
+    },
+
+
+    afterFinishInternal: function(effect)
+    {
+      qx.bom.element.Style.set(this.element, "overflow", "auto");
+      //effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
+      for(var property in this._oldStyle) {
+        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
+        {
+          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+        }
+      }
+    },
+
+
+    start : function()
+    {
+      this.base(arguments);
+      this._effect.start();
+    }
+
    },
 
+   
   /*
   *****************************************************************************
      DEFER
