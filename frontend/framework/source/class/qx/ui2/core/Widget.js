@@ -970,15 +970,14 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /**
      * Get the widget's computed location and dimension as computed by
-     * the layout manager. This function will return <code>null</code> if the
-     * layout is invalid.
+     * the layout manager.
      *
-     * This function is guaranteed to return a non <code>null</code> value
+     * This function is guaranteed to return a correct value
      * during a {@link #changeSize} or {@link #changePosition} event dispatch.
      *
      * @type member
-     * @return {Map|null} The widget location and dimensions in pixel (or
-     *    <code>null</code> if the layout is invalid). Contains the keys
+     * @return {Map} The widget location and dimensions in pixel
+     *    if the layout is invalid). Contains the keys
      *    <code>width</code>, <code>height</code>, <code>left</code> and
      *    <code>top</code>.
      */
@@ -1086,7 +1085,6 @@ qx.Class.define("qx.ui2.core.Widget",
         delete(this._isVisible);
 
         this._containerElement.show();
-        qx.ui2.core.QueueManager.scheduleFlush();
       }
     },
 
@@ -1101,7 +1099,6 @@ qx.Class.define("qx.ui2.core.Widget",
       {
         this._isVisible = false;
         this._containerElement.hide();
-        qx.ui2.core.QueueManager.scheduleFlush();
       }
     },
 

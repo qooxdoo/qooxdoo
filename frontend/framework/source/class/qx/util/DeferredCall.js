@@ -48,7 +48,8 @@ qx.Class.define("qx.util.DeferredCall",
   {
     this.base(arguments);
 
-    this.__callback = context != null ? qx.lang.Function.bind(callback, context) : callback;
+    this.__callback = callback;
+    this.__context = context || null;
     this.__timeoutWrapper = qx.lang.Function.bind(this.__timeout, this);
   },
 
@@ -95,7 +96,7 @@ qx.Class.define("qx.util.DeferredCall",
     __timeout : function()
     {
       this.__timeoutId = null;
-      this.__callback();
+      this.__context ? this.__callback.apply(this.__context) : this.__callback();
     }
   },
 

@@ -38,7 +38,7 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
     add : function(widget)
     {
       this._decorationQueue[widget.toHashCode()] = widget;
-      qx.ui2.core.QueueManager.scheduleFlush();
+      qx.ui2.core.QueueManager.scheduleFlush("decoration");
     },
 
 

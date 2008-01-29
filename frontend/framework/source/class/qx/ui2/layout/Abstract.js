@@ -285,7 +285,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT PROPERTIES

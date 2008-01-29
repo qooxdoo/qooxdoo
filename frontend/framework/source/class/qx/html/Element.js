@@ -128,6 +128,17 @@ qx.Class.define("qx.html.Element",
     */
 
     /**
+     * Schedule a deferred element queue flush. If the widget subsystem is used
+     * this method gets overwritten by {@link qx.ui2.core.QueueManager}.
+     *
+     * @param job {String} The job descriptor. Should always be <code>"element"</code>.
+     */
+    _scheduleFlush : function(job) {
+      qx.html.Element.__deferredCall.schedule();
+    },
+
+
+    /**
      * Flush the global modified list
      *
      * @type static
@@ -212,9 +223,6 @@ qx.Class.define("qx.html.Element",
 
 
 
-      // Process scrolls
-
-
       // Process action list
       var post = this._actions;
       var actions = this._supportedActions;
@@ -287,6 +295,7 @@ qx.Class.define("qx.html.Element",
 
       this._modifiedChildren = true;
       qx.html.Element._modified[this.toHashCode()] = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
 
@@ -1221,6 +1230,7 @@ qx.Class.define("qx.html.Element",
       if (this._element)
       {
         qx.html.Element._visibility[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
       }
       else if (this._parent) {
         this._parent._scheduleChildrenUpdate();
@@ -1245,8 +1255,10 @@ qx.Class.define("qx.html.Element",
         return;
       }
 
-      if (this._element) {
+      if (this._element)
+      {
         qx.html.Element._visibility[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
       }
 
       this._visible = false;
@@ -1282,8 +1294,10 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    focus : function() {
+    focus : function()
+    {
       qx.html.Element._actions.focus = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
 
@@ -1293,8 +1307,10 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    blur : function() {
+    blur : function()
+    {
       qx.html.Element._actions.blur = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
 
@@ -1304,8 +1320,10 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    activate : function() {
+    activate : function()
+    {
       qx.html.Element._actions.activate = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
 
@@ -1315,8 +1333,10 @@ qx.Class.define("qx.html.Element",
      * @type member
      * @return {void}
      */
-    deactivate : function() {
+    deactivate : function()
+    {
       qx.html.Element._actions.deactivate = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
 
@@ -1378,6 +1398,7 @@ qx.Class.define("qx.html.Element",
 
         // Register modification
         qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
       }
 
       return this;
@@ -1487,6 +1508,7 @@ qx.Class.define("qx.html.Element",
 
         // Register modification
         qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
       }
 
       return this;
@@ -1643,6 +1665,20 @@ qx.Class.define("qx.html.Element",
         return (this.__eventValues && this.__eventValues[key]);
       }
     }
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCT
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    statics.__deferredCall = new qx.util.DeferredCall(statics.flush, statics);
   },
 
 
