@@ -1473,7 +1473,7 @@ qx.Class.define("qx.html.Element",
         // Omit queuing in direct mode
         if (direct)
         {
-          qx.bom.element.Style.set(this._element, key, value);
+          qx.bom.element.Attribute.set(this._element, key, value);
           return this;
         }
 
