@@ -17,100 +17,7 @@
   </style>
 </head>
 <body>
-  <div id="description">
-  </div>
-
   <script type="text/javascript">
-
-qx.Class.define("ScrollArea",
-{
-  extend : qx.ui2.core.Widget,
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this.set({
-      backgroundColor: "yellow"
-    })
-
-    var layout = new qx.ui2.layout.HBox();
-    this.setLayout(layout);
-
-    this._lButton = new qx.ui2.core.Label("<").set({
-      backgroundColor : "gray",
-      visibility :"exclude"
-    });
-
-    this._rButton = new qx.ui2.core.Label(">").set({
-      backgroundColor : "gray",
-      visibility : "exclude"
-    });
-
-    this._lButton.addListener("click", this._scrollRight, this);
-    this._rButton.addListener("click", this._scrollLeft, this);
-
-    this._pane = new qx.ui2.core.Widget();
-    this._pane.setLayout(new qx.ui2.layout.Basic());
-    this._pane.addListener("resize", this._onResize, this);
-
-    layout.add(this._lButton);
-    layout.add(this._pane, {flex: 1});
-    layout.add(this._rButton);
-  },
-
-  members :
-  {
-    setContent : function(content)
-    {
-      var layout = this._pane.getLayout();
-      layout.add(content, 0, 0);
-      this._content = content;
-
-      content.addListener("resize", this._onResize, this);
-    },
-
-    _onResize : function(e)
-    {
-      var paneSize = this.getComputedLayout();
-      var contentSize = this._content.getComputedLayout();
-
-      if (contentSize.width > paneSize.width) {
-        this._showArrows();
-      } else {
-        this._hideArrows();
-      }
-    },
-
-    _showArrows: function()
-    {
-      this._lButton.setVisibility("show");
-      this._rButton.setVisibility("show");
-    },
-
-    _hideArrows: function()
-    {
-      this._lButton.setVisibility("exclude");
-      this._rButton.setVisibility("exclude");
-      this._pane._contentElement.setAttribute("scrollLeft", 0);
-    },
-
-    _scrollLeft : function()
-    {
-
-      var old = this._pane._contentElement.getAttribute("scrollLeft");
-      this._pane._contentElement.setAttribute("scrollLeft", old + 10, true);
-    },
-
-    _scrollRight : function()
-    {
-      var old = this._pane._contentElement.getAttribute("scrollLeft");
-      this._pane._contentElement.setAttribute("scrollLeft", old - 10, true);
-    }
-
-  }
-})
-
 qx.Class.define("BasicSample",
 {
   extend : qx.application.Gui2,
@@ -125,7 +32,7 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      scrollArea = new ScrollArea();
+      scrollArea = new qx.ui2.core.ScrollArea();
       scrollArea.set({
         width: 500
       });
@@ -165,8 +72,6 @@ qx.Class.define("BasicSample",
       box.setLayout(layout);
       return box;
     }
-
-
   }
 });
 
