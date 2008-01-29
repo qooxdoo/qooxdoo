@@ -114,25 +114,18 @@ qx.Class.define("qx.fx.Puff",
 
    members :
    {
-
-      beforeSetupInternal : function(effect)
-      {
-        //Position.absolutize(effect.effects[0].element)
-      },
-
-
-      afterFinishInternal : function(effect)
-      {
-        for(var property in this._oldStyle) {
-          qx.bom.element.Style.set(this._element, property, this._oldStyle[property])
-        }
-     },
-
-     start : function()
-     {
-       this.base(arguments);
-       this._effect.start();
-     }
+    afterFinishInternal : function()
+    {
+      for(var property in this._oldStyle) {
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property])
+      }
+    },
+    
+    start : function()
+    {
+      this.base(arguments);
+      this._effect.start();
+    }
 
   },
 
