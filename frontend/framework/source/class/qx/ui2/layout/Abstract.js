@@ -177,7 +177,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        if (child.getVisibility() !== "exclude") {
+        if (child.getVisibility() !== "excluded") {
           layoutChildren.push(child);
         }
       }
