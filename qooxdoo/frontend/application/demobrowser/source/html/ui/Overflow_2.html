@@ -92,15 +92,20 @@ qx.Class.define("ScrollArea",
     {
       this._lButton.setVisibility("exclude");
       this._rButton.setVisibility("exclude");
-      this._pane._contentElement.getDomElement().scrollLeft = 0;
+      this._pane._contentElement.setAttribute("scrollLeft", 0);
     },
 
-    _scrollLeft : function() {
-      this._pane._contentElement.getDomElement().scrollLeft += 10;
+    _scrollLeft : function()
+    {
+
+      var old = this._pane._contentElement.getAttribute("scrollLeft");
+      this._pane._contentElement.setAttribute("scrollLeft", old + 10, true);
     },
 
-    _scrollRight : function() {
-      this._pane._contentElement.getDomElement().scrollLeft -= 10;
+    _scrollRight : function()
+    {
+      var old = this._pane._contentElement.getAttribute("scrollLeft");
+      this._pane._contentElement.setAttribute("scrollLeft", old - 10, true);
     }
 
   }
