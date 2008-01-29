@@ -181,7 +181,7 @@ qx.Class.define("qx.fx.Scale",
      if (this._restoreAfterFinish)
      {
        for(var property in this._originalStyle) {
-         qx.bom.element.Style.set(this._element, property, this._originalStyle[property]);
+         this.debug("Scale: " + property + ": " + this._originalStyle[property])
        }
      }
    },

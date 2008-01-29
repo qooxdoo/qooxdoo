@@ -55,7 +55,6 @@ qx.Class.define("qx.fx.Puff",
 
     this._oldStyle = {
       opacity  : qx.util.Validation.isValidNumber(opacity) ? opacity : 1.0,
-      position : qx.bom.element.Style.get(element, "position"),
       top      : qx.bom.element.Location.getTop(element, "scroll"),
       left     : qx.bom.element.Location.getLeft(element, "scroll"),
       width    : qx.bom.element.Dimension.getWidth(element),
@@ -117,7 +116,10 @@ qx.Class.define("qx.fx.Puff",
     afterFinishInternal : function()
     {
       for(var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property])
+        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
+        {
+          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+        }
       }
     },
     
