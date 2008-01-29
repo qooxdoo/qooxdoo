@@ -34,10 +34,11 @@ qx.Class.define("BasicSample",
 
       scrollArea = new qx.ui2.core.ScrollArea();
       scrollArea.set({
-        width: 500
+        width: 300,
+        backgroundColor : "yellow"
       });
 
-      scrollArea.setContent(this.getContent());
+      scrollArea.setContent(this.generateBoxes());
 
       var toggle = new qx.ui2.core.Label("Toggle size").set({
         padding : 5,
@@ -47,16 +48,15 @@ qx.Class.define("BasicSample",
       var grow = true;
       toggle.addListener("click", function()
       {
-        scrollArea.setWidth(grow ? 800 : 500);
+        scrollArea.setWidth(grow ? 800 : 300);
         grow = !grow;
       });
 
       doc.add(toggle, 10, 80);
-
       doc.add(scrollArea, 10, 10);
     },
 
-    getContent : function()
+    generateBoxes : function()
     {
       var box = new qx.ui2.core.Widget();
       var layout = new qx.ui2.layout.HBox();
@@ -65,10 +65,10 @@ qx.Class.define("BasicSample",
       {
         layout.add((new qx.ui2.core.Widget()).set({
           backgroundColor : (i % 2 == 0) ? "red" : "blue",
-          width : 60,
-          height: 20
+          width : 60
         }));
       }
+
       box.setLayout(layout);
       return box;
     }
