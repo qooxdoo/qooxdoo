@@ -18,14 +18,15 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
     // TODO: Real buttons are needed here.
     this._leftButton = new qx.ui2.core.Label("<").set({
-      backgroundColor : "gray",
-      visibility :"exclude"
+      backgroundColor : "gray"
     });
 
     this._rightButton = new qx.ui2.core.Label(">").set({
-      backgroundColor : "gray",
-      visibility : "exclude"
+      backgroundColor : "gray"
     });
+
+    this._leftButton.exclude();
+    this._rightButton.exclude();
 
     this._leftButton.addListener("click", this._scrollRight, this);
     this._rightButton.addListener("click", this._scrollLeft, this);

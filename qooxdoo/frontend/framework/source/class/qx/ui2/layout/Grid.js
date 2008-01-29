@@ -458,7 +458,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       var gridData = this._grid[row] ? this._grid[row][column] || {} : {};
       var widget = gridData.widget;
 
-      if (widget && widget.getVisibility() !== "exclude") {
+      if (widget && widget.getVisibility() !== "excluded") {
         return widget;
       } else {
         return null;
@@ -710,7 +710,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         var widget = this._rowSpans[i];
 
         // ignore excluded widgets
-        if (widget.getVisibility() == "exclude") {
+        if (widget.getVisibility() == "excluded") {
           continue;
         }
 
@@ -803,7 +803,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         var widget = this._colSpans[i];
 
         // ignore excluded widgets
-        if (widget.getVisibility() == "exclude") {
+        if (widget.getVisibility() == "excluded") {
           continue;
         }
 

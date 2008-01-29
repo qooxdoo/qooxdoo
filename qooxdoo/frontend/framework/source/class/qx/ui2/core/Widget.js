@@ -455,7 +455,7 @@ qx.Class.define("qx.ui2.core.Widget",
     visibility :
     {
       check : ["visible", "hidden", "excluded"],
-      init : "show",
+      init : "visible",
       apply : "_applyVisibility",
       event : "changeVisibility",
       nullable : false
@@ -1108,7 +1108,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var isLayoutVisible = this.isLayoutVisible();
 
-      if (value == "show")
+      if (value == "visible")
       {
         if (isLayoutVisible) {
           this._show();
@@ -1120,7 +1120,7 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       // only force a layout update if visibility change from/to "exclude"
-      if (old == "exclude" || value == "exclude")
+      if (old == "excluded" || value == "excluded")
       {
         var parent = this.getParent();
         if (parent)
@@ -1139,7 +1139,7 @@ qx.Class.define("qx.ui2.core.Widget",
     _applyLayoutVisible : function(value, old)
     {
       var userVisibility = this.getVisibility();
-      if (value && userVisibility == "show") {
+      if (value && userVisibility == "visible") {
         this._show();
       } else {
         this._hide();
