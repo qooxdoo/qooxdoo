@@ -1523,7 +1523,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     removeAttribute : function(key, value, direct) {
-      this.setAttribute(key, null);
+      this.setAttribute(key, null, direct);
     },
 
 
