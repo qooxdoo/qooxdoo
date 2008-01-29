@@ -44,7 +44,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       if (this._isInFlush) {
         this._modifiedDuringFlush = true;
       } else {
-        qx.ui2.core.QueueManager.scheduleFlush();
+        qx.ui2.core.QueueManager.scheduleFlush("layout");
       }
     },
 
