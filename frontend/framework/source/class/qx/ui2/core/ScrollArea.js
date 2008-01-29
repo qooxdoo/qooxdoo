@@ -53,7 +53,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     setContent : function(content)
     {
       var layout = this._pane.getLayout();
-      layout.add(content, 0, 0);
+      layout.setContent(content);
       this._content = content;
 
       content.addListener("resize", this._onResize, this);
