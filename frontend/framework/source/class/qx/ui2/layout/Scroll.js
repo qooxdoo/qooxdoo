@@ -8,7 +8,7 @@ qx.Class.define("qx.ui2.layout.Scroll",
     {
       check : "qx.ui2.core.Widget",
       apply : "_applyContent",
-      nullable : false
+      nullable : true
     }
   },
 
@@ -16,11 +16,17 @@ qx.Class.define("qx.ui2.layout.Scroll",
   {
     _applyContent : function(value, old)
     {
-      if (old) {
-        this.remove(old);
+      if (old)
+      {
+        qx.lang.Array.remove(this._children, old);
+        this._removeHelper(old);
       }
 
-      this.add(value);
+      if (value)
+      {
+        this._children.push(value);
+        this._addHelper(value);
+      }
     },
 
     _computeSizeHint : function()

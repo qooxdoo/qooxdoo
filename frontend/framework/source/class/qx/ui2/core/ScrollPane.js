@@ -28,6 +28,36 @@ qx.Class.define("qx.ui2.core.ScrollPane",
 
   members :
   {
+    setContent : function(value)
+    {
+      var old = this.getLayout().getContent();
+      if (old)
+      {
+        this.getLayout().resetContent();
+        value.removeListener("resize", this._onContentResize, this);
+      }
+
+      if (value)
+      {
+        this.getLayout().setContent(value);
+        value.addListener("resize", this._onContentResize, this);
+      }
+
+      return value;
+    },
+
+    getContent : function() {
+      return this.getLayout().getContent();
+    },
+
+    _onContentResize : function(e) {
+      this.fireDataEvent("resizeContent", e.getData());
+    },
+
+    getContent : function() {
+      return this.getLayout().getContent() || null;
+    },
+
     setScrollLeft : function(value, direct) {
       this._contentElement.setAttribute("scrollLeft", value, direct);
     },
