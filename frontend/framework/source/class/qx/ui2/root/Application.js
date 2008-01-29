@@ -174,8 +174,6 @@ qx.Class.define("qx.ui2.root.Application",
       };
 
       this._sizeHint = hint;
-      this.debug("Compute size hint: ", hint);
-
       return hint;
     }
   },
