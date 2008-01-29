@@ -1,3 +1,29 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ * This class represents a scrollable pane. This means that this widget
+ * may contains content which is bigger than the available (inner)
+ * dimensions of this widget. The widget also offer methods to control
+ * the scrolling position. This widget can only have excactly one child.
+ */
 qx.Class.define("qx.ui2.core.ScrollPane",
 {
   extend : qx.ui2.core.Widget,
@@ -13,6 +39,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
   {
     this.base(arguments);
 
+    // Automatically configure a "fixed" scroll layout.
     this.setLayout(new qx.ui2.layout.Scroll());
   },
 
@@ -28,6 +55,39 @@ qx.Class.define("qx.ui2.core.ScrollPane",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _applyLayout : function(value, old)
+    {
+      if (old) {
+        throw new Error("You cannot change the layout of qx.ui2.core.ScrollPane!");
+      }
+
+      this.base(arguments, value, old);
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CONTENT MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Configures the content of the scroll pane.
+     *
+     * @type member
+     * @param value {qx.ui2.core.Widget?null}
+     * @return {qx.ui2.core.Widget|null} The current layout content
+     */
     setContent : function(value)
     {
       var old = this.getLayout().getContent();
@@ -43,37 +103,101 @@ qx.Class.define("qx.ui2.core.ScrollPane",
         value.addListener("resize", this._onContentResize, this);
       }
 
-      return value;
+      return value || null;
     },
 
+
+    /**
+     * Returns the current content.
+     *
+     * @type member
+     * @return {qx.ui2.core.Widget|null} The current layout content
+     */
     getContent : function() {
       return this.getLayout().getContent();
     },
 
+
+    /**
+     * Event listener for resize event of content
+     *
+     * @type member
+     * @param e {Event} Resize event object
+     */
     _onContentResize : function(e) {
       this.fireDataEvent("resizeContent", e.getData());
     },
 
-    getContent : function() {
-      return this.getLayout().getContent() || null;
-    },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Scrolls the element's content to the given left coordinate
+     *
+     * @type member
+     * @param value {Integer} The vertical position to scroll to.
+     * @param direct {Boolean?false} Whether the value should be applied
+     *   directly (without queueing).
+     * @return {void}
+     */
     setScrollLeft : function(value, direct) {
       this._contentElement.setAttribute("scrollLeft", value, direct);
     },
 
+
+    /**
+     * Returns the scroll left position of the content
+     *
+     * @type member
+     * @return {Integer} Horizontal scroll position
+     */
     getScrollLeft : function() {
       return this._contentElement.getAttribute("scrollLeft") || 0;
     },
 
+
+    /**
+     * Scrolls the element's content to the given top coordinate
+     *
+     * @type member
+     * @param value {Integer} The horizontal position to scroll to.
+     * @param direct {Boolean?false} Whether the value should be applied
+     *   directly (without queueing).
+     * @return {void}
+     */
     setScrollTop : function(value, direct) {
       this._contentElement.setAttribute("scrollTop", value, direct);
     },
 
+
+    /**
+     * Returns the scroll top position of the content
+     *
+     * @type member
+     * @return {Integer} Vertical scroll position
+     */
     getScrollTop : function() {
       return this._contentElement.getAttribute("scrollTop") || 0;
     },
 
+
+    /**
+     * Scrolls the element's content horizontally by the given amount.
+     *
+     * @type member
+     * @param top {Integer?0} Amount to scroll
+     * @param direct {Boolean?false} Whether the value should be applied
+     *   directly (without queueing).
+     * @return {void}
+     */
     scrollLeftBy : function(left, direct)
     {
       if (!left) {
@@ -84,6 +208,16 @@ qx.Class.define("qx.ui2.core.ScrollPane",
       this.setScrollLeft(oldLeft + left, direct);
     },
 
+
+    /**
+     * Scrolls the element's content vertically by the given amount.
+     *
+     * @type member
+     * @param top {Integer?0} Amount to scroll
+     * @param direct {Boolean?false} Whether the value should be applied
+     *   directly (without queueing).
+     * @return {void}
+     */
     scrollTopBy : function(top, direct)
     {
       if (!top) {
