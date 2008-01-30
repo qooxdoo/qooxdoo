@@ -79,7 +79,7 @@ qx.Class.define("qx.fx.Grow",
     
     for(var i in effectSpecificOptions)
     {
-      if (!options[i]) {
+      if (typeof(options[i]) == "undefined") {
         options[i] = effectSpecificOptions[i];
       }
     }
@@ -152,8 +152,8 @@ qx.Class.define("qx.fx.Grow",
       sync: true,
       //scaleFrom: window.opera ? 1 : 0,
       scaleFrom : 0,
-      transition: options.scaleTransition,
-      restoreAfterFinish: true
+      transition: options.scaleTransition
+      //restoreAfterFinish: true
       }
     );
 
@@ -221,22 +221,20 @@ qx.Class.define("qx.fx.Grow",
       //effect.effects[0].element.setStyle({height: '0px'}).show();
       //effect.element.hide().makeClipping().makePositioned();
       qx.bom.element.Style.set(this._element, "height", "0px");
-      //qx.bom.element.Style.set(this._element, "width", "0px");
+      qx.bom.element.Style.set(this._element, "width", "0px");
       qx.bom.element.Style.set(this._element, "display", "block");
-      console.warn("ddd", this._element.style.height, this._element.style.width)
     },
 
 
     afterFinishInternal: function(effect)
     {
-      console.info("cccc", this._oldStyle)
       qx.bom.element.Style.set(this._element, "overflow", "visible");
       //effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
-      for(var property in this._oldStyle) {
+      for(var property in this._oldStyle)
+      {
         //if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
         //{
           qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-          console.info(property, this._oldStyle[property])
           //}
       }
     },
