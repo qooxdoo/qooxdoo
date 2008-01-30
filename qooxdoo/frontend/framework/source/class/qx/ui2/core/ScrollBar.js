@@ -128,7 +128,11 @@ qx.Class.define("qx.ui2.core.ScrollBar",
     },
 
     canStretchX : function() {
-      return this.getOrientation() == "horizontal";
+      return this.getOrientation() === "horizontal";
+    },
+
+    canStretchY : function() {
+      return this.getOrientation() !== "horizontal";
     }
   }
 });
