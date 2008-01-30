@@ -1,4 +1,4 @@
-qx.Class.define("qx.ui2.core.ScrollArea",
+qx.Class.define("qx.ui2.view.HSlideBar",
 {
   extend : qx.ui2.core.Widget,
 
