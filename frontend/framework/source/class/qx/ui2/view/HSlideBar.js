@@ -31,13 +31,13 @@ qx.Class.define("qx.ui2.view.HSlideBar",
     this._leftButton.addListener("click", this._scrollRight, this);
     this._rightButton.addListener("click", this._scrollLeft, this);
 
-    this._pane = new qx.ui2.core.ScrollPane();
-    this._pane.addListener("resize", this._onResize, this);
-    this._pane.addListener("resizeContent", this._onResize, this);
+    this._scrollPane = new qx.ui2.core.ScrollPane();
+    this._scrollPane.addListener("resize", this._onResize, this);
+    this._scrollPane.addListener("resizeContent", this._onResize, this);
 
     // Add children to layout
     layout.add(this._leftButton);
-    layout.add(this._pane, {flex: 1});
+    layout.add(this._scrollPane, {flex: 1});
     layout.add(this._rightButton);
   },
 
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      * @return {void}
      */
     setContent : function(value) {
-      this._pane.setContent(value);
+      this._scrollPane.setContent(value);
     },
 
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      * @return {qx.ui2.core.Widget}
      */
     getContent : function() {
-      return this._pane.getContent() || null;
+      return this._scrollPane.getContent() || null;
     },
 
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      */
     _onResize : function(e)
     {
-      var content = this._pane.getContent();
+      var content = this._scrollPane.getContent();
       if (!content) {
         return;
       }
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
       this._leftButton.exclude();
       this._rightButton.exclude();
 
-      this._pane.setScrollLeft(0);
+      this._scrollPane.setScrollLeft(0);
     },
 
 
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      * @return {void}
      */
     _scrollLeft : function() {
-      this._pane.scrollLeftBy(20, true);
+      this._scrollPane.scrollLeftBy(20, true);
     },
 
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      * @return {void}
      */
     _scrollRight : function() {
-      this._pane.scrollLeftBy(-20, true);
+      this._scrollPane.scrollLeftBy(-20, true);
     }
   }
 });
