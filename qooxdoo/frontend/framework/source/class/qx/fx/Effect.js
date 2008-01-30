@@ -40,12 +40,12 @@
 qx.Class.define("qx.fx.Effect",
 {
 
-	extend : qx.core.Object,
-	
+  extend : qx.core.Object,
+
   /*
-	  *****************************************************************************
-	     CONSTRUCTOR
-	  *****************************************************************************
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
   */
 
   construct : function(element, options)
@@ -54,7 +54,7 @@ qx.Class.define("qx.fx.Effect",
 
   },
 
-	
+
   /*
   *****************************************************************************
      STATICS
@@ -65,60 +65,60 @@ qx.Class.define("qx.fx.Effect",
   {
     Transitions :
     {
-    
+
       linear: function(pos)
       {
         return pos;
       },
-      
+
       sinoidal: function(pos)
       {
         return ( -Math.cos(pos * Math.PI) / 2 ) + 0.5;
       },
-      
+
       reverse: function(pos)
       {
         return 1 - pos;
       },
-      
+
       flicker: function(pos)
       {
         var pos = ( (-Math.cos(pos * Math.PI) / 4) + 0.75) + Math.random() / 4;
         return pos > 1 ? 1 : pos;
       },
-      
+
       wobble: function(pos)
       {
         return ( -Math.cos(pos * Math.PI * (9 * pos)) / 2) + 0.5;
       },
-      
+
       pulse: function(pos, pulses)
       {
 
         pulses = (typeof(pulses) == "Number") ? pulses : 5;
 
         return (
-          Math.round((pos % (1/pulses)) * pulses) == 0 ? 
-                Math.floor((pos * pulses * 2) - (pos * pulses * 2)) : 
+          Math.round((pos % (1/pulses)) * pulses) == 0 ?
+                Math.floor((pos * pulses * 2) - (pos * pulses * 2)) :
             1 - Math.floor((pos * pulses * 2) - (pos * pulses * 2))
           );
       },
-      
+
       spring: function(pos)
       {
-        return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6)); 
+        return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6));
       },
-      
+
       none: function(pos)
       {
         return 0;
       },
-      
+
       full: function(pos)
       {
         return 1;
       }
-      
+
     },
 
     DefaultOptions :
@@ -131,21 +131,21 @@ qx.Class.define("qx.fx.Effect",
       delay:      0.0,
       queue:      'parallel'
     },
-    
+
     EffectPosition :
     {
       front    : 'front',
       end      : 'end',
       withLast : 'with-last'
     },
-    
+
     EffectState :
     {
       idle     : 'idle',
       finished : 'finished',
       running  : 'running'
     },
-    
+
     Queues :
     {
       instances : {},
@@ -165,7 +165,7 @@ qx.Class.define("qx.fx.Effect",
      }
 
     }
-    
+
   },
 
   /*
@@ -186,6 +186,6 @@ qx.Class.define("qx.fx.Effect",
   */
 
   defer : function(statics) {
-    
+
   }
 });

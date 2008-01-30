@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.Scale",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -72,7 +72,7 @@ qx.Class.define("qx.fx.Scale",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -91,7 +91,7 @@ qx.Class.define("qx.fx.Scale",
 
    members :
    {
-    
+
     _originalStyle :
     {
       'top'      : null,
@@ -100,7 +100,7 @@ qx.Class.define("qx.fx.Scale",
       'height'   : null,
       'fontSize' : null
     },
-    
+
     _fontTypes :
     {
       'em' : 'em',
@@ -120,14 +120,14 @@ qx.Class.define("qx.fx.Scale",
 
     setup : function()
     {
-    
+
       this._restoreAfterFinish = (this._options.restoreAfterFinish == true) ? true : false;
       this._elementPositioning = qx.bom.element.Style.get(this._element, "position");
 
       for (var property in this._originalStyle) {
         this._originalStyle[property] = this._element.style[property];
       }
-        
+
       this._originalTop  = this._element.offsetTop;
       this._originalLeft = this._element.offsetLeft;
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.fx.Scale",
           fontSize = (qx.bom.client.Engine.MSHTML) ? "12px" : "100%";
         }
       }
-      
+
       for(var type in this._fontTypes)
       {
         if (fontSize.indexOf(type) > 0)
@@ -151,7 +151,7 @@ qx.Class.define("qx.fx.Scale",
       }
 
       this._factor = (this._options.scaleTo - this._options.scaleFrom) / 100;
-      
+
       if (this._options.scaleMode == "box") {
         this._dims = [this._element.offsetHeight, this._element.offsetWidth];
       }else if (this._options.scaleMode == "contents") {
@@ -161,7 +161,7 @@ qx.Class.define("qx.fx.Scale",
       if (!this._dims) {
         this._dims = [this._options.scaleMode.originalHeight, this._options.scaleMode.originalWidth];
       }
-      
+
     },
 
 
@@ -175,7 +175,7 @@ qx.Class.define("qx.fx.Scale",
 
       this._setDimensions(this._dims[0] * currentScale, this._dims[1] * currentScale);
     },
-    
+
    finish : function(position)
    {
      if (this._restoreAfterFinish)
@@ -235,13 +235,13 @@ qx.Class.define("qx.fx.Scale",
      {
        qx.bom.element.Style.set(this._element, property, d[property])
      }
-     
+
    }
 
   },
-   
-   
-   
+
+
+
   /*
   *****************************************************************************
      DEFER
@@ -249,6 +249,6 @@ qx.Class.define("qx.fx.Scale",
   */
 
   defer : function(statics) {
-    
+
   }
 });

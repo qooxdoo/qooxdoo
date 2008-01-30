@@ -41,9 +41,9 @@ qx.Class.define("qx.fx.queue.Manager",
 {
 
   extend : qx.core.Object,
-  
-	type : "singleton",
-		
+
+  type : "singleton",
+
   /*
   *****************************************************************************
      MEMBERS
@@ -53,7 +53,7 @@ qx.Class.define("qx.fx.queue.Manager",
   members :
   {
     instances : {},
-  
+
     getQueue : function(queueName)
     {
 

@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.Grow",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -76,7 +76,7 @@ qx.Class.define("qx.fx.Grow",
     };
 
     this.element = element;
-    
+
     for(var i in effectSpecificOptions)
     {
       if (!options[i]) {
@@ -88,7 +88,7 @@ qx.Class.define("qx.fx.Grow",
     {
 
       case 'top-left':
-        initialMoveX = initialMoveY = moveX = moveY = 0; 
+        initialMoveX = initialMoveY = moveX = moveY = 0;
       break;
 
       case 'top-right':
@@ -148,7 +148,7 @@ qx.Class.define("qx.fx.Grow",
       scaleMode: {
         originalHeight: dims.height,
         originalWidth: dims.width
-      }, 
+      },
       sync: true,
       //scaleFrom: window.opera ? 1 : 0,
       transition: options.scaleTransition,
@@ -161,7 +161,7 @@ qx.Class.define("qx.fx.Grow",
       {
         x : initialMoveX,
         y : initialMoveY,
-        duration: 0.01, 
+        duration: 0.01,
         beforeSetup: function(effect) {
           //effect.element.hide().makeClipping().makePositioned();
           qx.bom.element.Style.set(element, "display", "none");
@@ -178,16 +178,16 @@ qx.Class.define("qx.fx.Grow",
 /*
 , Object.extend({
              beforeSetup: function(effect) {
-               effect.effects[0].element.setStyle({height: '0px'}).show(); 
+               effect.effects[0].element.setStyle({height: '0px'}).show();
              },
              afterFinishInternal: function(effect) {
-               effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle); 
+               effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
              }
-           }, options) 
+           }, options)
  */
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -223,7 +223,7 @@ qx.Class.define("qx.fx.Grow",
       qx.bom.element.Style.set(this.element, "overflow", "auto");
       //effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
       for(var property in this._oldStyle) {
-        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
+        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") )
         {
           qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
         }
@@ -239,7 +239,7 @@ qx.Class.define("qx.fx.Grow",
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -247,7 +247,7 @@ qx.Class.define("qx.fx.Grow",
   */
 
   defer : function(statics) {
-    
+
   }
 });
 

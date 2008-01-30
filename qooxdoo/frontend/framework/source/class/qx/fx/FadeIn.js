@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.FadeIn",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -82,7 +82,7 @@ qx.Class.define("qx.fx.FadeIn",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -143,6 +143,6 @@ qx.Class.define("qx.fx.FadeIn",
   */
 
   defer : function(statics) {
-    
+
   }
 });

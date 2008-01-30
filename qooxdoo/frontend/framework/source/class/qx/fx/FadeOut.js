@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.FadeOut",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -82,7 +82,7 @@ qx.Class.define("qx.fx.FadeOut",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -118,8 +118,8 @@ qx.Class.define("qx.fx.FadeOut",
       qx.bom.element.Style.set(this._element, "opacity", this._options.from);
       qx.bom.element.Style.set(this._element, "display", "block");
     }
-    
-    
+
+
   },
 
   /*
@@ -129,6 +129,6 @@ qx.Class.define("qx.fx.FadeOut",
   */
 
   defer : function(statics) {
-    
+
   }
 });
