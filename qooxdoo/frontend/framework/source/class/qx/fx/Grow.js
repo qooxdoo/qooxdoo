@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.Grow",
 {
 
   extend : qx.fx.Base,
-
+  
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -63,20 +63,20 @@ qx.Class.define("qx.fx.Grow",
     };
 
     var dims = {
-      widht  : qx.bom.element.Dimension.getWidth(element),
+      width  : qx.bom.element.Dimension.getWidth(element),
       height : qx.bom.element.Dimension.getHeight(element)
     };
 
     this._oldStyle = {
-      opacity  : qx.util.Validation.isValidNumber(opacity) ? opacity : 1.0,
-      top      : qx.bom.element.Location.getTop(element, "scroll"),
-      left     : qx.bom.element.Location.getLeft(element, "scroll"),
-      width    : qx.bom.element.Dimension.getWidth(element),
-      height   : qx.bom.element.Dimension.getHeight(element)
+      opacity : qx.util.Validation.isValidNumber(opacity) ? opacity : 1.0,
+      top     : qx.bom.element.Location.getTop(element, "scroll"),
+      left    : qx.bom.element.Location.getLeft(element, "scroll"),
+      width   : qx.bom.element.Dimension.getWidth(element),
+      height  : qx.bom.element.Dimension.getHeight(element)
     };
 
-    this.element = element;
-
+    this._element = element;
+    
     for(var i in effectSpecificOptions)
     {
       if (!options[i]) {
@@ -88,7 +88,7 @@ qx.Class.define("qx.fx.Grow",
     {
 
       case 'top-left':
-        initialMoveX = initialMoveY = moveX = moveY = 0;
+        initialMoveX = initialMoveY = moveX = moveY = 0; 
       break;
 
       case 'top-right':
@@ -148,9 +148,10 @@ qx.Class.define("qx.fx.Grow",
       scaleMode: {
         originalHeight: dims.height,
         originalWidth: dims.width
-      },
+      }, 
       sync: true,
       //scaleFrom: window.opera ? 1 : 0,
+      scaleFrom : 0,
       transition: options.scaleTransition,
       restoreAfterFinish: true
       }
@@ -161,33 +162,41 @@ qx.Class.define("qx.fx.Grow",
       {
         x : initialMoveX,
         y : initialMoveY,
-        duration: 0.01,
-        beforeSetup: function(effect) {
+        duration: 0.01, 
+        beforeSetup : function(effect)
+        {
           //effect.element.hide().makeClipping().makePositioned();
           qx.bom.element.Style.set(element, "display", "none");
-        },
-        afterFinishInternal : function(effect)
-        {
-          new Effect.Parallel(
-            [fadeInEffect, moveEffect, scaleEffect]
-          )
+          qx.bom.element.Style.set(element, "overflow", "auto");
         }
       }
     );
 
+    this._effect.afterFinishInternal = function(effect)
+    {
+      new qx.fx.Parallel(
+        {
+          1 : fadeInEffect,
+          2 : moveEffect,
+          3 : scaleEffect
+        }
+      ).start();
+    };
+
+
 /*
 , Object.extend({
              beforeSetup: function(effect) {
-               effect.effects[0].element.setStyle({height: '0px'}).show();
+               effect.effects[0].element.setStyle({height: '0px'}).show(); 
              },
              afterFinishInternal: function(effect) {
-               effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
+               effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle); 
              }
-           }, options)
+           }, options) 
  */
   },
 
-
+  
   /*
   *****************************************************************************
      STATICS
@@ -211,22 +220,24 @@ qx.Class.define("qx.fx.Grow",
     {
       //effect.effects[0].element.setStyle({height: '0px'}).show();
       //effect.element.hide().makeClipping().makePositioned();
-
-      qx.bom.element.Style.set(this.element, "height", "0px");
-      qx.bom.element.Style.set(this.element, "display", "block");
-      qx.bom.element.Style.set(this.element, "overflow", "hidden");
+      qx.bom.element.Style.set(this._element, "height", "0px");
+      //qx.bom.element.Style.set(this._element, "width", "0px");
+      qx.bom.element.Style.set(this._element, "display", "block");
+      console.warn("ddd", this._element.style.height, this._element.style.width)
     },
 
 
     afterFinishInternal: function(effect)
     {
-      qx.bom.element.Style.set(this.element, "overflow", "auto");
+      console.info("cccc", this._oldStyle)
+      qx.bom.element.Style.set(this._element, "overflow", "visible");
       //effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
       for(var property in this._oldStyle) {
-        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") )
-        {
+        //if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
+        //{
           qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-        }
+          console.info(property, this._oldStyle[property])
+          //}
       }
     },
 
@@ -239,7 +250,7 @@ qx.Class.define("qx.fx.Grow",
 
    },
 
-
+   
   /*
   *****************************************************************************
      DEFER
@@ -247,7 +258,7 @@ qx.Class.define("qx.fx.Grow",
   */
 
   defer : function(statics) {
-
+    
   }
 });
 

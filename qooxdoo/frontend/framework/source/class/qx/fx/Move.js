@@ -91,8 +91,13 @@ qx.Class.define("qx.fx.Move",
       this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box");
       this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
 
-      this._x = this._options.x - this._originalLeft;
-      this._y = this._options.y - this._originalTop;
+      if (this._options.mode == 'absolute') {
+        this._x = this._options.x - this._originalLeft;
+        this._y = this._options.y - this._originalTop;
+      }else{
+        this._x = this._options.x;
+        this._y = this._options.y;
+      }
     },
 
 
