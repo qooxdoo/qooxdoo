@@ -1,0 +1,80 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      scrollArea = new qx.ui2.core.ScrollArea();
+      scrollArea.set({
+        width: 200,
+        height: 200,
+        backgroundColor : "yellow"
+      });
+
+      scrollArea.setContent(this.generateBoxes());
+      doc.add(scrollArea, 10, 10);
+
+      var toggle = new qx.ui2.core.Label("Toggle size").set({
+        padding : 5,
+        backgroundColor: "orange"
+      });
+
+      var grow = true;
+      toggle.addListener("click", function()
+      {
+        scrollArea.setWidth(grow ? 300 : 200);
+        scrollArea.setHeight(grow ? 300 : 200);
+        grow = !grow;
+      });
+
+      doc.add(toggle, 10, 400);
+    },
+
+    generateBoxes : function()
+    {
+      var box = new qx.ui2.core.Label("Content size: 300x300").set({
+        width: 300,
+        minWidth: "pref",
+        height: 300,
+        minHeight: "pref",
+        backgroundColor: "brown",
+        textColor: "white",
+        padding: 10
+      });
+      return box;
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
