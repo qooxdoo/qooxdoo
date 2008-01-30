@@ -60,15 +60,21 @@ qx.Class.define("BasicSample",
     generateBoxes : function()
     {
       var box = new qx.ui2.core.Widget();
-      var layout = new qx.ui2.layout.HBox();
+      var layout = new qx.ui2.layout.Grid();
 
-      for (var i=0; i<10; i++)
+      for (var y=0; y<10; y++)
       {
-        layout.add((new qx.ui2.core.Widget()).set({
-          backgroundColor : (i % 2 == 0) ? "red" : "blue",
-          width : 60,
-          minWidth : 40
-        }), {flex: 1});
+        for (var x=0; x<10; x++)
+        {
+          layout.add((new qx.ui2.core.Widget()).set({
+            backgroundColor : ((x+y) % 2 == 0) ? "red" : "blue",
+            width : 60,
+            minWidth : "pref",
+
+            height : 60,
+            minHeight : "pref"
+          }), x, y);
+        }
       }
 
       box.setLayout(layout);
