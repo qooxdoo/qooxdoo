@@ -225,10 +225,11 @@ qx.Class.define("qx.legacy.Window",
       init : true
     },
 
-    /** Location (left, right) of the window */
+    /** Location (left, top) of the window */
     location : {
-      group : [ "left", "right" ]
+      group : [ "left", "top" ]
     },
+    
 
     /** Dimension (width, height) of the window */
     dimension : {
