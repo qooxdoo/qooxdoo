@@ -97,7 +97,6 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
 
     _onHorizontalScroll : function(e) {
-      console.log("scroll", e);
       this._scrollPane.setScrollLeft(e.getValue());
     },
 
@@ -124,20 +123,34 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
 
       // Compute the rendered inner width of this widget.
-      var areaInsets = this.getInsets();
-      var areaSize = this.getComputedLayout();
+      var areaInsets = this._scrollPane.getInsets();
+      var areaSize = this._scrollPane.getComputedLayout();
       var areaWidth = areaSize.width - areaInsets.left - areaInsets.right;
-      var areaHeight = areaSize.heught - areaInsets.top - areaInsets.bottom;
+      var areaHeight = areaSize.height - areaInsets.top - areaInsets.bottom;
 
       // The final rendered width of the content
       var contentSize = content.getComputedLayout();
 
-      if (contentSize.width > areaWidth) {
-        this._setScrollBarVisibility("horizontal", true);
-        this._hScrollBar.setMaximum(contentSize.width - areaWidth);
-      } else {
-        this._setScrollBarVisibility("horizontal", false);
+      if (this.getOverflowX() == "auto")
+      {
+        if (contentSize.width > areaWidth) {
+          this._setScrollBarVisibility("horizontal", true);
+        } else {
+          this._setScrollBarVisibility("horizontal", false);
+        }
       }
+
+      if (this.getOverflowY() == "auto")
+      {
+        if (contentSize.height > areaHeight) {
+          this._setScrollBarVisibility("vertical", true);
+        } else {
+          this._setScrollBarVisibility("vertical", false);
+        }
+      }
+
+      this._hScrollBar.setMaximum(Math.max(0, contentSize.width - areaWidth));
+      this._vScrollBar.setMaximum(Math.max(0, contentSize.height - areaHeight));
     },
 
 
@@ -165,6 +178,43 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       {
         scrollBar.exclude();
         this._cornerWidget.exclude();
+      }
+    },
+
+
+    _applyOverflowX : function(value, old)
+    {
+      switch (value)
+      {
+        case "on":
+          this._setScrollBarVisibility("horizontal", true);
+          break;
+
+        case "off":
+          this._setScrollBarVisibility("horizontal", false);
+          break;
+
+        case "auto":
+          this._onResize();
+          break;
+      }
+    },
+
+
+    _applyOverflowY : function(value, old)
+    {
+      switch (value)
+      {
+        case "on":
+          this._setScrollBarVisibility("vertical", true);
+          break;
+
+        case "off":
+          this._setScrollBarVisibility("vertical", false);
+          break;
+
+        case "auto":
+          break;
       }
     }
 

@@ -73,8 +73,14 @@ qx.Class.define("qx.ui2.core.ScrollBar",
       var layout = hori ? new qx.ui2.layout.HBox : new qx.ui2.layout.VBox;
       this.setLayout(layout);
 
-      this._barPane = new qx.ui2.core.Widget;
+      this._barPane = new qx.ui2.core.Widget();
       this._barPane.setBackgroundColor("#EEE");
+
+      if (hori) {
+        this._barPane.setHeight(18);
+      } else {
+        this._barPane.setWidth(18);
+      }
 
       this._btnBegin = new qx.ui2.core.Label(hori ? "<" : "U").set({
         backgroundColor : "gray",
