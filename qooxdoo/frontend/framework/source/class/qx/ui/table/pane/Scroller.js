@@ -350,7 +350,24 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._verScrollBar.setWidth(0);
       }
 
-      this._verScrollBar.setVisibility(value);
+      /*
+       * ***GECKO***
+       * Hide the scrollbar component. It is NOT sufficient to do a "setWidth(0)".
+       * 
+       * ***MSHTML***
+       * On the other hand mshtml has a serious problem with displaying 
+       * the scrollbar correctly (precisely: the scrollbar is shown but inactive).
+       * This root of this problem is the nested Terminator widget inside the ScrollBar
+       * widget. If the ScrollBar itself is hidden mshtml is actually not able to
+       * layout this Terminator widget correctly even if he is applying the right value 
+       * for the height property. The wrong height of the Terminator screws up the overflow
+       * handling of the ScrollBar widget and the virtual scrollbar (which is part of the 
+       * Scrollbar widget) is not shown. 
+       */
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        this._verScrollBar.setVisibility(value);
+      }
 
       var scrollBarWidth = value ? this._verScrollBar.getPreferredBoxWidth() : 0;
       this._horScrollBar.setPaddingRight(scrollBarWidth);
