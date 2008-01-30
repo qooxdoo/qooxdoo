@@ -41,8 +41,8 @@ qx.Class.define("BasicSample",
 
       scrollArea = new qx.ui2.core.ScrollArea();
       scrollArea.set({
-        width: 300,
-        height: 200,
+        width: 200,
+        height: 300,
         backgroundColor : "yellow"
       });
 
@@ -58,7 +58,6 @@ qx.Class.define("BasicSample",
       toggle.addListener("click", function()
       {
         scrollArea.setWidth(grow ? 300 : 200);
-        scrollArea.setHeight(grow ? 300 : 200);
         grow = !grow;
       });
 
