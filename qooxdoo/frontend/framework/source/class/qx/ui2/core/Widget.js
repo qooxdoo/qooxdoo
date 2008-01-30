@@ -532,7 +532,7 @@ qx.Class.define("qx.ui2.core.Widget",
         blur : 1,
 
         // all elements
-        scroll : 1,
+        // scroll : 1,
         select : 1,
 
         // input elements
