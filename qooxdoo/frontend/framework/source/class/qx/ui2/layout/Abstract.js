@@ -477,7 +477,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * value <code>exclude</code> the layout is infomed about this event using
      * this function.
      *
-     * Concrete layout implementations may override this function.
+     * Concrete layout implementations may override this function to get notified.
      *
      * @param child {qx.ui2.core.Widget} The changed widget
      * @param visibility {String} The widget's new visibility value
