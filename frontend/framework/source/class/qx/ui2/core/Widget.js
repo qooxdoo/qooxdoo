@@ -1159,14 +1159,18 @@ qx.Class.define("qx.ui2.core.Widget",
 
       while (parent)
       {
-        if (!parent._containerElement.isIncluded() || !this._isVisible) {
+        if (!parent._isVisible) {
           return false;
+        }
+
+        if (parent.isRootWidget()) {
+          return true;
         }
 
         parent = parent._parent;
       }
 
-      return true;
+      return false;
     },
 
 
