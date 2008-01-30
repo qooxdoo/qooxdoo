@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.Puff",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -50,7 +50,7 @@ qx.Class.define("qx.fx.Puff",
 
   construct : function(element, options)
   {
-  
+
     var opacity = qx.bom.element.Style.get(element, "opacity");
 
     this._oldStyle = {
@@ -87,14 +87,14 @@ qx.Class.define("qx.fx.Puff",
             to: 0.0
           }
       )
-    }); 
+    });
 
     this.element = element;
     this.base(arguments, element, options);
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -116,13 +116,13 @@ qx.Class.define("qx.fx.Puff",
     afterFinishInternal : function()
     {
       for(var property in this._oldStyle) {
-        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
+        if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") )
         {
           qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
         }
       }
     },
-    
+
     start : function()
     {
       this.base(arguments);
@@ -138,6 +138,6 @@ qx.Class.define("qx.fx.Puff",
   */
 
   defer : function(statics) {
-    
+
   }
 });

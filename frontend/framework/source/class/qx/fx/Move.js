@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.Move",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -50,7 +50,7 @@ qx.Class.define("qx.fx.Move",
 
   construct : function(element, options)
   {
- 
+
     var effectSpecificOptions = {
       x : 0,
       y : 0
@@ -66,7 +66,7 @@ qx.Class.define("qx.fx.Move",
     this.base(arguments, element, options);
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -88,7 +88,7 @@ qx.Class.define("qx.fx.Move",
 
     setup : function()
     {
-      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box"); 
+      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box");
       this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
 
       this._x = this._options.x - this._originalLeft;
@@ -111,7 +111,7 @@ qx.Class.define("qx.fx.Move",
   */
 
   defer : function(statics) {
-    
+
   }
 
 });

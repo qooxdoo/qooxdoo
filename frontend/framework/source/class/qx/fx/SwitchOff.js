@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.SwitchOff",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -64,7 +64,7 @@ qx.Class.define("qx.fx.SwitchOff",
     this._options.transition = qx.fx.Transition.flicker;
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -88,7 +88,7 @@ qx.Class.define("qx.fx.SwitchOff",
     afterFinishInternal: function(effect)
     {
       var scaleEffect = new qx.fx.Effect.Scale(effect.element, 1,
-      { 
+      {
 
           duration: 0.3,
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.fx.SwitchOff",
 
           restoreAfterFinish: true,
 
-          beforeSetup: function(effect) { 
+          beforeSetup: function(effect) {
             effect.element.makePositioned().makeClipping();
           },
 
@@ -110,7 +110,7 @@ qx.Class.define("qx.fx.SwitchOff",
       };
     }
       */
-      
+
     //Effect.run();
   },
 
@@ -121,6 +121,6 @@ qx.Class.define("qx.fx.SwitchOff",
   */
 
   defer : function(statics) {
-    
+
   }
 });
