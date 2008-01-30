@@ -40,12 +40,12 @@
 qx.Class.define("qx.fx.queue.Queue",
 {
 
-	extend : qx.core.Object,
-	
+  extend : qx.core.Object,
+
   /*
-	  *****************************************************************************
-	     CONSTRUCTOR
-	  *****************************************************************************
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
   */
 
   construct : function()
@@ -53,7 +53,7 @@ qx.Class.define("qx.fx.queue.Queue",
     this.base(arguments);
   },
 
-	
+
   /*
   *****************************************************************************
      STATICS
@@ -73,80 +73,80 @@ qx.Class.define("qx.fx.queue.Queue",
    members :
    {
 
-		_effects  : [],
-		_interval : null,
+    _effects  : [],
+    _interval : null,
 
-	  add: function(effect)
-	  {
-  		var timestamp = new Date().getTime();
-  		var position = (typeof(effect._options.queue) == "string") ?  effect._options.queue : effect._options.queue.position;
+    add: function(effect)
+    {
+      var timestamp = new Date().getTime();
+      var position = (typeof(effect._options.queue) == "string") ?  effect._options.queue : effect._options.queue.position;
 
-  		switch(position)
-  		{
-  		  case qx.fx.Base.EffectPosition.front:
-    			// move unstarted effects after this effect
-    		  /*
-    			this.effects.findAll(function(e){ return e.state=='idle' }).each( function(e) {
-    				e.startOn  += effect.finishOn;
-    				e.finishOn += effect.finishOn;
-    			  });
-    			*/
-  		    var idleEffects = qx.lang.Array.findAll(this._effects, function(e){ return e.state == qx.fx.EffectState.idle });
+      switch(position)
+      {
+        case qx.fx.Base.EffectPosition.front:
+          // move unstarted effects after this effect
+          /*
+          this.effects.findAll(function(e){ return e.state=='idle' }).each( function(e) {
+            e.startOn  += effect.finishOn;
+            e.finishOn += effect.finishOn;
+            });
+          */
+          var idleEffects = qx.lang.Array.findAll(this._effects, function(e){ return e.state == qx.fx.EffectState.idle });
 
-  		    for(var i in idleEffects)
-  		    {
-  		      idleEffects[i]._startOn  += effect._finishOn;
-  		      idleEffects[i]._finishOn += effect._finishOn;
-  		    }
-  			break;
+          for(var i in idleEffects)
+          {
+            idleEffects[i]._startOn  += effect._finishOn;
+            idleEffects[i]._finishOn += effect._finishOn;
+          }
+        break;
 
-  		  case qx.fx.Base.EffectPosition.withLast:
-  		    //timestamp = this.effects.pluck('startOn').max() || timestamp;
-  		    timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'startOn'))  || timestamp;
-  			break;
+        case qx.fx.Base.EffectPosition.withLast:
+          //timestamp = this.effects.pluck('startOn').max() || timestamp;
+          timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'startOn'))  || timestamp;
+        break;
 
-  		  case qx.fx.Base.EffectPosition.end:
-    			// start effect after last queued effect has finished
-    			//timestamp = this.effects.pluck('finishOn').max() || timestamp;
+        case qx.fx.Base.EffectPosition.end:
+          // start effect after last queued effect has finished
+          //timestamp = this.effects.pluck('finishOn').max() || timestamp;
           timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'finishOn')) || timestamp;
-  			break;
+        break;
 
-  		}
+      }
 
-  		effect._startOn  += timestamp;
-  		effect._finishOn += timestamp;
-  	
-  		if (!effect._options.queue.limit || (this._effects.length < effect._options.queue.limit)) {
-  		  this._effects.push(effect);
-  		}
-  		
-  		if (!this._interval) {
-  		  this._interval = qx.lang.Function.periodical(this.loop, 15, this);
-  		}
-	  },
+      effect._startOn  += timestamp;
+      effect._finishOn += timestamp;
 
-	  remove : function(effect)
-	  {
-  		//this.effects = this.effects.reject(function(e) { return e==effect });
+      if (!effect._options.queue.limit || (this._effects.length < effect._options.queue.limit)) {
+        this._effects.push(effect);
+      }
 
-	    this._effects = qx.lang.Array.reject(this._effects, function(e) { return e == effect });
+      if (!this._interval) {
+        this._interval = qx.lang.Function.periodical(this.loop, 15, this);
+      }
+    },
 
-	    if (this._effects.length == 0)
-  		{
-  		  window.clearInterval(this._interval);
-  		  this._interval = null;
-  		}
-	  },
+    remove : function(effect)
+    {
+      //this.effects = this.effects.reject(function(e) { return e==effect });
 
-	  loop: function()
-	  {
-  		var timePos = new Date().getTime();
+      this._effects = qx.lang.Array.reject(this._effects, function(e) { return e == effect });
 
-  		for (var i=0, len=this._effects.length; i<len; i++) {
-  		  this._effects[i] && this._effects[i].loop(timePos);
-  	  }
+      if (this._effects.length == 0)
+      {
+        window.clearInterval(this._interval);
+        this._interval = null;
+      }
+    },
 
-	  }
+    loop: function()
+    {
+      var timePos = new Date().getTime();
+
+      for (var i=0, len=this._effects.length; i<len; i++) {
+        this._effects[i] && this._effects[i].loop(timePos);
+      }
+
+    }
 
    },
 
@@ -157,6 +157,6 @@ qx.Class.define("qx.fx.queue.Queue",
   */
 
   defer : function(statics) {
-    
+
   }
 });

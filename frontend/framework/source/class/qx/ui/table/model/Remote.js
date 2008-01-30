@@ -709,7 +709,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       {
         var columnId = this.getColumnId(columnIndex);
         rowData[columnId] = value;
-        
+
         // Inform the listeners
         if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
         {
