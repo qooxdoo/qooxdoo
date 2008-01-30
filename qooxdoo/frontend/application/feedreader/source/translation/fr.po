@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-03 18:36+0200\n"
+"POT-Creation-Date: 2008-01-30 08:59+0100\n"
 "PO-Revision-Date: 2007-04-07 11:30+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,104 +16,106 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: feedreader/Application.js:201
+#: source/class/feedreader/Application.js:201
 msgid "reloading ..."
 msgstr ""
 
-#: feedreader/Application.js:208
+#: source/class/feedreader/Application.js:208
 msgid "qooxdoo feed reader."
 msgstr ""
 
-#: feedreader/Application.js:214
+#: source/class/feedreader/Application.js:214
 msgid "Add feed"
 msgid_plural "Add feeds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: feedreader/Application.js:215
+#: source/class/feedreader/Application.js:215
 msgid "Remove feed"
 msgstr ""
 
-#: feedreader/Application.js:218
+#: source/class/feedreader/Application.js:218
 msgid "Reload"
 msgstr ""
 
-#: feedreader/Application.js:220
+#: source/class/feedreader/Application.js:220
 msgid "(%1) Reload the feeds."
 msgstr ""
 
-#: feedreader/Application.js:224 feedreader/Application.js:426
+#: source/class/feedreader/Application.js:224
+#: source/class/feedreader/Application.js:426
 msgid "Preferences"
 msgstr ""
 
-#: feedreader/Application.js:226
+#: source/class/feedreader/Application.js:226
 msgid "Open preferences window."
 msgstr ""
 
-#: feedreader/Application.js:234 feedreader/Application.js:236
+#: source/class/feedreader/Application.js:234
+#: source/class/feedreader/Application.js:236
 msgid "English"
 msgstr ""
 
-#: feedreader/Application.js:235
+#: source/class/feedreader/Application.js:235
 msgid "German"
 msgstr ""
 
-#: feedreader/Application.js:237
+#: source/class/feedreader/Application.js:237
 msgid "Turkish"
 msgstr ""
 
-#: feedreader/Application.js:238
+#: source/class/feedreader/Application.js:238
 msgid "Italian"
 msgstr ""
 
-#: feedreader/Application.js:239
+#: source/class/feedreader/Application.js:239
 msgid "Spanish"
 msgstr ""
 
-#: feedreader/Application.js:240
+#: source/class/feedreader/Application.js:240
 msgid "Swedish"
 msgstr ""
 
-#: feedreader/Application.js:241
+#: source/class/feedreader/Application.js:241
 msgid "Russian"
 msgstr ""
 
-#: feedreader/Application.js:271
+#: source/class/feedreader/Application.js:271
 msgid "Help"
 msgstr ""
 
-#: feedreader/Application.js:279
+#: source/class/feedreader/Application.js:279
 msgid "News feeds"
 msgstr ""
 
-#: feedreader/Application.js:313
+#: source/class/feedreader/Application.js:313
 msgid "Subject"
 msgstr ""
 
-#: feedreader/Application.js:314
+#: source/class/feedreader/Application.js:314
 msgid "Sender"
 msgstr ""
 
-#: feedreader/Application.js:315
+#: source/class/feedreader/Application.js:315
 msgid "Date"
 msgstr ""
 
-#: feedreader/Application.js:316
+#: source/class/feedreader/Application.js:316
 msgid "ID"
 msgstr ""
 
-#: feedreader/Application.js:445
+#: source/class/feedreader/Application.js:445
 msgid "Theme"
 msgstr ""
 
-#: feedreader/Application.js:470
+#: source/class/feedreader/Application.js:470
 msgid "Cancel"
 msgstr ""
 
-#: feedreader/Application.js:472
+#: source/class/feedreader/Application.js:472
 msgid "OK"
 msgstr ""
 
-#: feedreader/ArticleView.js:136
+#: source/class/feedreader/ArticleView.js:136
 msgid "read more ..."
 msgstr ""
