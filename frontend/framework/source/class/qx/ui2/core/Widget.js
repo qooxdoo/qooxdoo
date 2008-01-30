@@ -21,9 +21,8 @@
 /**
  * This is the base class for all widgets.
  *
- * TODOC: give a high level overview over widget.
- *
- * A widget consits of at least three DOM elements. The container element, which is
+ * A widget consists of at least three DOM elements. The container element,
+ * which is
  * added to the parent widget has two child Element: The "decoration" and the
  * "content" element. The decoration element has a lower z-Index and contains
  * markup to render the widget's backround and border using an implementation
