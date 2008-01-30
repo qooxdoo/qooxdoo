@@ -214,14 +214,16 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       // The final rendered width of the content
       var contentSize = content.getComputedLayout();
 
-      if (this.getOverflowY() == "auto")
+      // Read auto values
+      var autoX = this.getOverflowX() === "auto";
+      var autoY = this.getOverflowY() === "auto";
+
+      if (autoY)
       {
-        if (
-          this.getOverflowX() == "auto" &&
-          this._hScrollBar.getVisibility() == "visible"
-        ) {
+        if (autoX && this._hScrollBar.getVisibility() == "visible") {
           areaHeight += this._hBarHeight;
         }
+
         if (contentSize.height > areaHeight) {
           this._setScrollBarVisibility("vertical", true);
         } else {
@@ -229,14 +231,12 @@ qx.Class.define("qx.ui2.core.ScrollArea",
         }
       }
 
-      if (this.getOverflowX() == "auto")
+      if (autoX)
       {
-        if (
-          this.getOverflowY() == "auto" &&
-          this._vScrollBar.getVisibility() == "visible"
-        ) {
+        if (autoY && this._vScrollBar.getVisibility() == "visible") {
           areaWidth += this._vBarWidth;
         }
+
         if (contentSize.width > areaWidth) {
           this._setScrollBarVisibility("horizontal", true);
         } else {
