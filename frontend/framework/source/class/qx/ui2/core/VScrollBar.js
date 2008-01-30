@@ -19,47 +19,37 @@
 ************************************************************************ */
 
 /**
- * A vertical scroll bar
+ * A scroll bar
  */
-qx.Class.define("qx.ui2.core.VScrollBar",
+qx.Class.define("qx.ui2.core.ScrollBar",
 {
   extend : qx.ui2.core.Widget,
 
-  construct : function()
+  construct : function(orientation)
   {
     this.base(arguments);
 
-    var layout = new qx.ui2.layout.VBox;
-    this.setLayout(layout);
-
-    this._barPane = new qx.ui2.core.Widget;
-    this._barPane.setBackgroundColor("#DDD");
-
-    this._upButton = new qx.ui2.core.Label("U").set({
-      backgroundColor : "gray"
-    });
-
-    this._downButton = new qx.ui2.core.Label("D").set({
-      backgroundColor : "gray"
-    });
-
-    this._upButton.addListener("click", this._scrollUp, this);
-    this._downButton.addListener("click", this._scrollDown, this);
-
-    // Add children to layout
-    layout.add(this._upButton);
-    layout.add(this._barPane, {flex: 1});
-    layout.add(this._downButton);
+    if (orientation != null) {
+      this.setOrientation(orientation);
+    }
   },
 
 
   properties :
   {
+    orientation :
+    {
+      check : [ "horizontal", "vertical" ],
+      init : "horizontal",
+      apply : "_applyOrientation"
+    },
+
     value :
     {
       check : "Integer",
       init : 0,
-      apply : "_applyValue"
+      apply : "_applyValue",
+      event : "scroll"
     },
 
     maximum :
@@ -72,11 +62,44 @@ qx.Class.define("qx.ui2.core.VScrollBar",
 
   members :
   {
-    _scrollUp : function() {
+    _applyOrientation : function(value, old)
+    {
+      if (old) {
+        throw new Error("Modification of orientation is not allowed!");
+      }
+
+      var hori = value === "horizontal";
+
+      var layout = hori ? new qx.ui2.layout.HBox : new qx.ui2.layout.VBox;
+      this.setLayout(layout);
+
+      this._barPane = new qx.ui2.core.Widget;
+      this._barPane.setBackgroundColor("#EEE");
+
+      this._btnBegin = new qx.ui2.core.Label(hori ? "<" : "U").set({
+        backgroundColor : "gray",
+        padding : 3
+      });
+
+      this._btnEnd = new qx.ui2.core.Label(hori ? ">" : "D").set({
+        backgroundColor : "gray",
+        padding : 3
+      });
+
+      this._btnBegin.addListener("click", this._scrollToBegin, this);
+      this._btnEnd.addListener("click", this._scrollToEnd, this);
+
+      // Add children to layout
+      layout.add(this._btnBegin);
+      layout.add(this._barPane, {flex: 1});
+      layout.add(this._btnEnd);
+    },
+
+    _scrollToBegin : function() {
       this.scrollBy(-10);
     },
 
-    _scrollDown : function() {
+    _scrollToEnd : function() {
       this.scrollBy(10);
     },
 
@@ -102,6 +125,10 @@ qx.Class.define("qx.ui2.core.VScrollBar",
     _applyValue : function(value, old)
     {
       this.debug("Value: " + value);
+    },
+
+    canStretchX : function() {
+      return this.getOrientation() == "horizontal";
     }
   }
 });
