@@ -4,7 +4,7 @@
 
    http://qooxdoo.org
 
-   Copybottom:
+   Copyright:
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:

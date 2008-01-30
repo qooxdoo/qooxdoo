@@ -38,13 +38,11 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     this.base(arguments);
 
 
-    this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal").set({
-      visibility: "excluded"
-    });
+    this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal");
+    this._vScrollBar = new qx.ui2.core.ScrollBar("vertical");
 
-    this._vScrollBar = new qx.ui2.core.ScrollBar("vertical").set({
-      visibility: "excluded"
-    });
+    this._hScrollBar.exclude();
+    this._vScrollBar.exclude();
 
     this._hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
     this._vScrollBar.addListener("scroll", this._onVerticalScroll, this);
@@ -163,20 +161,22 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     /**
      * Event handler for the scroll event of the horizontal scroll bar
      *
+     * @type member
      * @param e {qx.event.type.Change} The scroll event object
      */
     _onHorizontalScroll : function(e) {
-      this._scrollPane.setScrollLeft(e.getValue());
+      this._scrollPane.setScrollLeft(e.getValue(), true);
     },
 
 
     /**
      * Event handler for the scroll event of the vertical scroll bar
      *
+     * @type member
      * @param e {qx.event.type.Change} The scroll event object
      */
     _onVerticalScroll : function(e) {
-      this._scrollPane.setScrollTop(e.getValue());
+      this._scrollPane.setScrollTop(e.getValue(), true);
     },
 
 
@@ -196,6 +196,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
     /**
      * Computes whether the content overflows and updates the scroll bars
+     * @type member
      */
     _computeOverflow : function()
     {
@@ -257,8 +258,9 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     /**
      * Set the visibility of the scroll bars.
      *
+     * @type member
      * @param orientation {String} The scrollbar to change. Possible values are
-     *     <code>"horizontal"</code> and <code>"vertical"</code>.
+     *     <code>horizontal</code> and <code>vertical</code>.
      * @param visibility {Boolean} Whether to show or the hide the scroll bar.
      */
     _setScrollBarVisibility : function(orientation, visibility)
@@ -279,6 +281,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       if (visibility)
       {
         scrollBar.show();
+
         if (otherScrollBar.getVisibility() == "visible") {
           this._cornerWidget.show();
         }
@@ -300,19 +303,10 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     // property apply
     _applyOverflowX : function(value, old)
     {
-      switch (value)
-      {
-        case "on":
-          this._setScrollBarVisibility("horizontal", true);
-          break;
-
-        case "off":
-          this._setScrollBarVisibility("horizontal", false);
-          break;
-
-        case "auto":
-          this._computeOverflow();
-          break;
+      if (value === "auto") {
+        this._computeOverflow();
+      } else {
+        this._setScrollBarVisibility("horizontal", value == "on");
       }
     },
 
@@ -320,22 +314,11 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     // property apply
     _applyOverflowY : function(value, old)
     {
-      switch (value)
-      {
-        case "on":
-          this._setScrollBarVisibility("vertical", true);
-          break;
-
-        case "off":
-          this._setScrollBarVisibility("vertical", false);
-          break;
-
-        case "auto":
-          this._computeOverflow();
-          break;
+      if (value === "auto") {
+        this._computeOverflow();
+      } else {
+        this._setScrollBarVisibility("vertical", value == "on");
       }
     }
-
-
   }
 });
