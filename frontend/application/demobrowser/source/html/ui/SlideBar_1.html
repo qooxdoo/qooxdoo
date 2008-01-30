@@ -32,14 +32,14 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      scrollArea = new qx.ui2.view.HSlideBar();
-      scrollArea.set({
+      slideBar = new qx.ui2.view.HSlideBar();
+      slideBar.set({
         width: 300,
         backgroundColor : "yellow",
         padding : 10
       });
 
-      scrollArea.setContent(this.generateBoxes());
+      slideBar.setContent(this.generateBoxes());
 
       var toggle = new qx.ui2.core.Label("Toggle size").set({
         padding : 5,
@@ -49,12 +49,12 @@ qx.Class.define("BasicSample",
       var grow = true;
       toggle.addListener("click", function()
       {
-        scrollArea.setWidth(grow ? 800 : 300);
+        slideBar.setWidth(grow ? 800 : 300);
         grow = !grow;
       });
 
       doc.add(toggle, 10, 100);
-      doc.add(scrollArea, 10, 10);
+      doc.add(slideBar, 10, 10);
     },
 
     generateBoxes : function()
