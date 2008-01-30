@@ -1,6 +1,37 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copybottom:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's left-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ * The ScrollArea provides a container widget with on demand scroll bars
+ * if the content size exceeds the size of the container.
+ */
 qx.Class.define("qx.ui2.core.ScrollArea",
 {
   extend : qx.ui2.core.Widget,
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
   construct : function()
   {
@@ -46,8 +77,22 @@ qx.Class.define("qx.ui2.core.ScrollArea",
   },
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
+    /**
+     * The policy, when the horizontal scroll bar should be shown.
+     * <ul>
+     *   <li><b>auto</b>: Show scroll bar on demand</li>
+     *   <li><b>on</b>: Always show the scroll bar</li>
+     *   <li><b>off</b>: Never show the scroll bar</li>
+     * </ul>
+     */
     overflowX :
     {
       check : ["auto", "on", "off"],
@@ -56,6 +101,15 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       event : "changeOverflowX"
     },
 
+
+    /**
+     * The policy, when the horizontal scroll bar should be shown.
+     * <ul>
+     *   <li><b>auto</b>: Show scroll bar on demand</li>
+     *   <li><b>on</b>: Always show the scroll bar</li>
+     *   <li><b>off</b>: Never show the scroll bar</li>
+     * </ul>
+     */
     overflowY :
     {
       check : ["auto", "on", "off"],
@@ -64,12 +118,22 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       event : "changeOverflowY"
     },
 
+
+    /**
+     * Group property, to set the overflow of both scroll bars.
+     */
     overflow : {
       group : [ "overflowX", "overflowY" ]
     }
 
   },
 
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -96,11 +160,21 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     },
 
 
+    /**
+     * Event handler for the scroll event of the horizontal scroll bar
+     *
+     * @param e {qx.event.type.Change} The scroll event object
+     */
     _onHorizontalScroll : function(e) {
       this._scrollPane.setScrollLeft(e.getValue());
     },
 
 
+    /**
+     * Event handler for the scroll event of the vertical scroll bar
+     *
+     * @param e {qx.event.type.Change} The scroll event object
+     */
     _onVerticalScroll : function(e) {
       this._scrollPane.setScrollTop(e.getValue());
     },
@@ -112,10 +186,18 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      * when the changes modify the visibility of the scroll buttons.
      *
      * @type member
-     * @param e {Event} Event object
+     * @param e {qx.event.type.Change} Event object
      * @return {void}
      */
-    _onResize : function(e)
+    _onResize : function(e) {
+      this._computeOverflow();
+    },
+
+
+    /**
+     * Computes whether the content overflows and updates the scroll bars
+     */
+    _computeOverflow : function()
     {
       var content = this._scrollPane.getContent();
       if (!content) {
@@ -131,17 +213,14 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       // The final rendered width of the content
       var contentSize = content.getComputedLayout();
 
-      if (this.getOverflowX() == "auto")
-      {
-        if (contentSize.width > areaWidth) {
-          this._setScrollBarVisibility("horizontal", true);
-        } else {
-          this._setScrollBarVisibility("horizontal", false);
-        }
-      }
-
       if (this.getOverflowY() == "auto")
       {
+        if (
+          this.getOverflowX() == "auto" &&
+          this._hScrollBar.getVisibility() == "visible"
+        ) {
+          areaHeight += this._hBarHeight;
+        }
         if (contentSize.height > areaHeight) {
           this._setScrollBarVisibility("vertical", true);
         } else {
@@ -149,14 +228,44 @@ qx.Class.define("qx.ui2.core.ScrollArea",
         }
       }
 
-      this._hScrollBar.setMaximum(Math.max(0, contentSize.width - areaWidth));
-      this._vScrollBar.setMaximum(Math.max(0, contentSize.height - areaHeight));
+      if (this.getOverflowX() == "auto")
+      {
+        if (
+          this.getOverflowY() == "auto" &&
+          this._vScrollBar.getVisibility() == "visible"
+        ) {
+          areaWidth += this._vBarWidth;
+        }
+        if (contentSize.width > areaWidth) {
+          this._setScrollBarVisibility("horizontal", true);
+        } else {
+          this._setScrollBarVisibility("horizontal", false);
+        }
+      }
+
+      // Update scrollbar maximum for visible scrollbars
+      if (this._hScrollBar.getVisibility() == "visible") {
+        this._hScrollBar.setMaximum(Math.max(0, contentSize.width - areaWidth));
+      }
+
+      if (this._vScrollBar.getVisibility() == "visible") {
+        this._vScrollBar.setMaximum(Math.max(0, contentSize.height - areaHeight));
+      }
     },
 
 
+    /**
+     * Set the visibility of the scroll bars.
+     *
+     * @param orientation {String} The scrollbar to change. Possible values are
+     *     <code>"horizontal"</code> and <code>"vertical"</code>.
+     * @param visibility {Boolean} Whether to show or the hide the scroll bar.
+     */
     _setScrollBarVisibility : function(orientation, visibility)
     {
-      if (orientation == "horizontal")
+      var isHorizontal = orientation == "horizontal";
+
+      if (isHorizontal)
       {
         var scrollBar = this._hScrollBar;
         var otherScrollBar = this._vScrollBar;
@@ -178,10 +287,17 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       {
         scrollBar.exclude();
         this._cornerWidget.exclude();
+
+        if (isHorizontal) {
+          this._scrollPane.setScrollLeft(0);
+        } else {
+          this._scrollPane.setScrollTop(0);
+        }
       }
     },
 
 
+    // property apply
     _applyOverflowX : function(value, old)
     {
       switch (value)
@@ -195,12 +311,13 @@ qx.Class.define("qx.ui2.core.ScrollArea",
           break;
 
         case "auto":
-          this._onResize();
+          this._computeOverflow();
           break;
       }
     },
 
 
+    // property apply
     _applyOverflowY : function(value, old)
     {
       switch (value)
@@ -214,6 +331,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
           break;
 
         case "auto":
+          this._computeOverflow();
           break;
       }
     }

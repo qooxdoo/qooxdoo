@@ -128,10 +128,7 @@ qx.Class.define("qx.ui2.core.ScrollBar",
       this.setValue(value);
     },
 
-    _applyValue : function(value, old)
-    {
-      this.debug("Value: " + value);
-    },
+    _applyValue : function(value, old) {},
 
     canStretchX : function() {
       return this.getOrientation() === "horizontal";
