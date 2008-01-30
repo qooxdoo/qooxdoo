@@ -73,7 +73,7 @@ qx.Class.define("qx.fx.FadeOut",
 
     for(var i in effectSpecificOptions)
     {
-      if (!options[i]) {
+      if (typeof(options[i]) == "undefined") {
         options[i] = effectSpecificOptions[i];
       }
     }
