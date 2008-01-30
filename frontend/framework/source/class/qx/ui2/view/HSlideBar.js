@@ -4,7 +4,7 @@
 
    http://qooxdoo.org
 
-   Copybottom:
+   Copyright:
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * Preliminary test class for overflow handling. Could be used
+ * for scrolling tab panes etc. in the future.
+ */
 qx.Class.define("qx.ui2.view.HSlideBar",
 {
   extend : qx.ui2.core.Widget,
