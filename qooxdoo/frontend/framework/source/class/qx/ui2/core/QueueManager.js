@@ -25,12 +25,19 @@ qx.Class.define("qx.ui2.core.QueueManager",
 {
   statics :
   {
+    /** {Boolean} TODOC */
     __scheduled : false,
 
+
+    /** {Map} TODOC */
     __jobs : {},
+
 
     /**
      * Schedule a deferred flush of all queues.
+     *
+     * @type static
+     * @return {void}
      */
     scheduleFlush : function(job)
     {
@@ -49,6 +56,9 @@ qx.Class.define("qx.ui2.core.QueueManager",
     /**
      * Flush all layout queues in the correct order. This function is called
      * deferred if {@link scheduleFlush} is called.
+     *
+     * @type static
+     * @return {void}
      */
     flush : function()
     {
@@ -97,7 +107,12 @@ qx.Class.define("qx.ui2.core.QueueManager",
 
   defer : function(statics)
   {
+    // Initialize deferred call
     statics.__deferredCall = new qx.util.DeferredCall(statics.flush);
+
+    // Replace default scheduler for HTML element with local one.
+    // This is quite a hack, but allows us to force other flushes
+    // before the HTML element flush.
     qx.html.Element._scheduleFlush = statics.scheduleFlush;
   }
 });
