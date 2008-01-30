@@ -121,11 +121,11 @@ qx.Class.define("qx.ui2.layout.Grid",
     add : function(widget, row, column, options)
     {
       // validate arguments
-      var cell = this.getCellWidget(row, column);
-
       if (row == null || column == null) {
         throw new Error("The arguments 'row' and 'column' must be defined!");
       }
+
+      var cell = this.getCellWidget(row, column);
 
       if (cell != null) {
         throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         this._colSpans.push(widget);
       }
 
-      this._updateMaxIndices(options);
+      this._resetMaxIndices();
 
       return this.base(arguments, widget, options);
     },
@@ -199,20 +199,6 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       this._maxRowIndex = null;
       this._maxColIndex = null;
-    },
-
-
-    /**
-     * Updates the max row and column indices, with the data of a newly added
-     * widget.
-     *
-     * @param widgetProperties {Map} the widge's properties as returned by
-     *     {@link #getLayoutProperties}.
-     */
-    _updateMaxIndices : function(widgetProperties)
-    {
-      this._maxRowIndex = Math.max(this._maxRowIndex, widgetProperties.row + widgetProperties.rowSpan - 1);
-      this._maxColIndex = Math.max(this._maxColIndex, widgetProperties.column + widgetProperties.colSpan - 1);
     },
 
 
