@@ -140,7 +140,8 @@ qx.Class.define("qx.util.range.Range",
       if (precision != null)
         var mover = Math.pow(10, precision);
 
-      if (this.getWrap()) {
+      if (this.getWrap())
+      {
         if (precision != null) {
           // round to the precision'th digit
           var value = Math.round(value * mover) / mover;
