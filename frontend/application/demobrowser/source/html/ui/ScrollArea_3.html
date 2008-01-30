@@ -18,6 +18,13 @@
 </head>
 <body>
   <script type="text/javascript">
+
+  /*
+  Test the edge case were the available width is normally enough. The content
+  however requires a higher height than the available height. This means it creates
+  a vertical scrollbar and this way stoles the width the required size.
+  */
+
 qx.Class.define("BasicSample",
 {
   extend : qx.application.Gui2,
@@ -34,7 +41,7 @@ qx.Class.define("BasicSample",
 
       scrollArea = new qx.ui2.core.ScrollArea();
       scrollArea.set({
-        width: 200,
+        width: 300,
         height: 200,
         backgroundColor : "yellow"
       });
@@ -65,10 +72,11 @@ qx.Class.define("BasicSample",
         minWidth: "pref",
         height: 300,
         minHeight: "pref",
-        backgroundColor: "brown",
+        backgroundColor: "blue",
         textColor: "white",
         padding: 10
       });
+      box.setDecoration(new qx.ui2.decoration.Basic(4, "solid", "black"));
       return box;
     }
   }
