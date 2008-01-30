@@ -62,11 +62,10 @@ qx.Class.define("qx.fx.Scale",
 
     for(var i in effectSpecificOptions)
     {
-      if (!options[i]) {
+      if (typeof(options[i]) == "undefined") {
         options[i] = effectSpecificOptions[i];
       }
     }
-
 
     this.base(arguments, element, options);
 
@@ -128,6 +127,7 @@ qx.Class.define("qx.fx.Scale",
         this._originalStyle[property] = this._element.style[property];
       }
         
+      // TODO
       this._originalTop  = this._element.offsetTop;
       this._originalLeft = this._element.offsetLeft;
 
@@ -151,7 +151,7 @@ qx.Class.define("qx.fx.Scale",
       }
 
       this._factor = (this._options.scaleTo - this._options.scaleFrom) / 100;
-      
+
       if (this._options.scaleMode == "box") {
         this._dims = [this._element.offsetHeight, this._element.offsetWidth];
       }else if (this._options.scaleMode == "contents") {
@@ -160,7 +160,6 @@ qx.Class.define("qx.fx.Scale",
         this._dims = [this._options.scaleMode.originalHeight, this._options.scaleMode.originalWidth];
       }
       
-        console.warn(this._dims);
       
     },
 
