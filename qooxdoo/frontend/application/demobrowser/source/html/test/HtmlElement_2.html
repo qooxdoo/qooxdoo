@@ -1,0 +1,50 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>  
+  <div id="description">
+  </div>
+
+  <div id="test"></div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var btn = new qx.ui.form.Button("Run test");
+    btn.setLocation(100, 100);
+    btn.addToDocument();
+    btn.addEventListener("execute", function(e)
+    {
+      var doc = new qx.html2.Element(document.getElementById("test"));
+
+      var large = new qx.html2.Element;
+      doc.add(large);
+
+      var parent, child;
+
+      for (var i=0; i<10; i++)
+      {
+        parent = new qx.html2.Element;
+        parent.setAttribute("id", "#" + i);
+        large.add(parent);
+
+        for (var j=0; j<100; j++)
+        {
+          child = new qx.html2.Element;
+          child.setAttribute("id", "#" + i + "_" + j);
+          parent.add(child);
+        }
+      };
+
+      var s = new Date;
+      qx.html2.Element.flushQueue();
+      this.debug("Time to create 1000 elements: " + (new Date - s) + "ms");
+    });
+  });
+  </script>
+</body>
+</html>

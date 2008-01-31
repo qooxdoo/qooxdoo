@@ -5,7 +5,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#    2006-2007 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -56,23 +56,24 @@ error:
 # EXTENSIONS
 ################################################################################
 
-source-data:
+
+source:
 	@$(CMD_GENERATOR) \
+		--disable-internal-check \
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --add-new-lines \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
+	  --api-documentation-index-file $(APPLICATION_SOURCE_PATH)/script/apiindex.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
-build-data:
+build:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --api-documentation-json-file $(APPLICATION_BUILD_PATH)/script/apidata.js \
+	  --api-documentation-index-file $(APPLICATION_BUILD_PATH)/script/apiindex.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
-
-build-addon: build-data
-source-addon: source-data
 
 clean:
 	@$(CMD_REMOVE) source/script

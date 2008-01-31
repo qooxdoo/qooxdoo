@@ -49,9 +49,9 @@ qx.Class.define("apiviewer.ClassLoader",
       req.setAsynchronous(async);
       req.setTimeout(30000); // 30 sec
       req.setProhibitCaching(false);
-      req.addListener("completed", function(evt)
+      req.addEventListener("completed", function(evt)
       {
-        var content = eval("(" + evt.getData().getContent() + ")");
+        var content = eval("(" + evt.getContent() + ")");
 
         var packageName = className.substring(0, className.lastIndexOf("."));
         var pkg = apiviewer.dao.Class.getClassByName(packageName);
@@ -62,7 +62,7 @@ qx.Class.define("apiviewer.ClassLoader",
         this.__runCallback(cls, callback, self);
       }, this);
 
-      req.addListener("failed", function(evt) {
+      req.addEventListener("failed", function(evt) {
         alert("Couldn't load file: " + url);
       }, this);
 

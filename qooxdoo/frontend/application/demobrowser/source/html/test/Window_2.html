@@ -30,7 +30,7 @@
     var chk1 = new qx.ui.form.CheckBox("Show Statusbar");
     chk1.set({ top: 45, left: 0 });
 
-    chk1.addListener("changeChecked", function(e) {
+    chk1.addEventListener("changeChecked", function(e) {
       w1.setShowStatusbar(e.getData());
     });
 

@@ -5,7 +5,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#    2006-2007 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -25,8 +25,7 @@
 
 QOOXDOO_PATH = ../../..
 APPLICATION_NAMESPACE = webmail
-APPLICATION_API_TITLE = Webmail
-APPLICATION_AIR_TITLE = Webmail
+APPLICATION_API_TITLE = WebMail
 APPLICATION_THEME_ICON = qx.theme.icon.CrystalClear
 APPLICATION_RESOURCE_FILTER = true
 APPLICATION_COMPLETE_SOURCE = false
@@ -35,6 +34,8 @@ APPLICATION_FILES = index.html
 APPLICATION_TEMPLATE_INPUT = index.xhtml.tmpl
 APPLICATION_TEMPLATE_OUTPUT = index.xhtml
 APPLICATION_OBFUSCATE_ACCESSORS = true
+
+
 
 
 ################################################################################

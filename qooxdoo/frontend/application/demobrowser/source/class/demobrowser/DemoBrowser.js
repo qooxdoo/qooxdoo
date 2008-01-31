@@ -53,11 +53,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.widgets = {};
     this.tests = {};
     this._useProfile = false;
-    this.__states = {};
-    this.__states.transientStack = [];
-    this.__states.isLoading = false;
-    this.__states.isFirstSample = false;
-    this.__states.isLastSample  = false;
 
     this.__makeCommands();
 
@@ -113,10 +108,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__setStateInitialized();
 
     // back button and bookmark support
-    this._history = qx.bom.History.getInstance();
+    this._history = qx.client.History.getInstance();
 
     // listen for state changes
-    this._history.addListener("request", function(e)
+    this._history.addEventListener("request", function(e)
     {
       var newSample = e.getData().replace("~", "/");
 
@@ -126,8 +121,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     this);
 
-    //construct
-  },
+    this.__states = {};
+    this.__states.isLoading = false;
+    this.__states.isFirstSample = false;
+    this.__states.isLastSample  = false;
+
+  }, //construct
 
 
   /*
@@ -191,8 +190,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __makeCommands : function()
     {
-      this._cmdObjectSummary = new qx.event.Command("Ctrl-O");
-      this._cmdObjectSummary.addListener("execute", function() {
+      this._cmdObjectSummary = new qx.client.Command("Ctrl-O");
+      this._cmdObjectSummary.addEventListener("execute", function() {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           alert(cw.qx.dev.ObjectSummary.getInfo());
@@ -201,36 +200,36 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }, this);
 
-      this._cmdRunSample = new qx.event.Command("F5");
-      this._cmdRunSample.addListener("execute", this.runSample, this);
+      this._cmdRunSample = new qx.client.Command("F5");
+      this._cmdRunSample.addEventListener("execute", this.runSample, this);
 
-      this._cmdPrevSample = new qx.event.Command("Ctrl-Left");
-      this._cmdPrevSample.addListener("execute", this.playPrev, this);
+      this._cmdPrevSample = new qx.client.Command("Ctrl-Left");
+      this._cmdPrevSample.addEventListener("execute", this.playPrev, this);
 
-      this._cmdNextSample = new qx.event.Command("Ctrl-Right");
-      this._cmdNextSample.addListener("execute", this.playNext, this);
+      this._cmdNextSample = new qx.client.Command("Ctrl-Right");
+      this._cmdNextSample.addEventListener("execute", this.playNext, this);
 
-      this._cmdSampleInOwnWindow = new qx.event.Command();
-      this._cmdSampleInOwnWindow.addListener("execute", function(e)
+      this._cmdSampleInOwnWindow = new qx.client.Command();
+      this._cmdSampleInOwnWindow.addEventListener("execute", function(e)
       {
         var sampUrl = this.f1.getContentWindow().location.href;
-        var nw = new qx.legacy.Window(sampUrl, "Sample");
+        var nw = new qx.client.NativeWindow(sampUrl, "Sample");
         this.widgets["nativewindow"] = nw;
         nw.setDimension(700, 550);
         nw.open();
         return;
       }, this);
 
-      this._cmdLoadProfile = new qx.event.Command();
-      this._cmdLoadProfile.addListener("execute", function(e)
+      this._cmdLoadProfile = new qx.client.Command();
+      this._cmdLoadProfile.addEventListener("execute", function(e)
       {
         var checked = e.getData().getChecked();
         this._useProfile = checked;
         this.runSample();
       }, this);
 
-      this._cmdProfile = new qx.event.Command("Ctrl-Shift-P");
-      this._cmdProfile.addListener("execute", function(e)
+      this._cmdProfile = new qx.client.Command("Ctrl-Shift-P");
+      this._cmdProfile.addEventListener("execute", function(e)
       {
         var checked = e.getData().getChecked();
         var cw = this.f1.getContentWindow();
@@ -251,8 +250,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
       this._cmdProfile.setUserData("checked", true);
 
-      this._cmdShowLastProfile = new qx.event.Command();
-      this._cmdShowLastProfile.addListener("execute", function() {
+      this._cmdShowLastProfile = new qx.client.Command();
+      this._cmdShowLastProfile.addEventListener("execute", function() {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           cw.qx.dev.Profile.normalizeProfileData();
@@ -260,8 +259,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }, this);
 
-      this._cmdDisposeSample = new qx.event.Command();
-      this._cmdDisposeSample.addListener("execute", function(e) {
+      this._cmdDisposeSample = new qx.client.Command();
+      this._cmdDisposeSample.addEventListener("execute", function(e) {
         var cw = this.f1.getContentWindow();
 
         if (cw && cw.qx)
@@ -276,8 +275,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         this._cmdDisposeSample.setEnabled(false);
       }, this);
 
-      this._cmdNamespacePollution = new qx.event.Command();
-      this._cmdNamespacePollution.addListener("execute", function(e)
+      this._cmdNamespacePollution = new qx.client.Command();
+      this._cmdNamespacePollution.addEventListener("execute", function(e)
       {
         var cw = this.f1.getContentWindow();
 
@@ -291,40 +290,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     }, //makeCommands
 
 
-    /** call setEnabledM for a list of items and keep array of old values for later restore
-     */
-    __setEnabledA : function (target_list)
-    {
-      var transient_state = []; // will be: [[widget1, false],[widget2, true],...[widgetN, false]]
-      for (var i=0; i< target_list.length; i++)
-      {
-        this.__setEnabledM(target_list[i][0], target_list[i][1], transient_state);
-      }
-      this.__states.transientStack.push(transient_state);
-      /*
-      // to restore, use:
-      var oldstates = this.__states.transientStack.pop();
-      for (var i=0; i<oldstates.length; i++)
-      {
-        oldstates[i][0].setEnabled(oldstates[i][1]);
-      }
-      */
-    },
-
-
-    /** call setEnabled and memorize old value
-     */
-    __setEnabledM : function (widget, target, list)
-    {
-      var oldstate = widget.getEnabled(); //!this doesn't quite produce the expected result
-      widget.setEnabled(target);
-      list.push([widget, oldstate]);
-    },
-
-
     __setStateInitialized : function()
     {
-      /*
       this._cmdObjectSummary.setEnabled(false);
       this._cmdRunSample.setEnabled(false);
       this._cmdPrevSample.setEnabled(false);
@@ -336,22 +303,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["menu.appearance"].setEnabled(false);
       this.widgets["toolbar.playall"].setEnabled(true);
-      */
-
-      // this is just to test the state memoizing infrastructure
-      this.__setEnabledA([
-        [this._cmdObjectSummary, false],
-        [this._cmdRunSample, false],
-        [this._cmdPrevSample, false],
-        [this._cmdNextSample, false],
-        [this._cmdSampleInOwnWindow, false],
-        [this._cmdProfile, false],
-        [this._cmdShowLastProfile, false],
-        [this._cmdDisposeSample, false],
-        [this._cmdNamespacePollution, false],
-        [this.widgets["menu.appearance"], false],
-        [this.widgets["toolbar.playall"], true]
-      ]);
     },
 
 
@@ -418,7 +369,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var radioMgr = new qx.ui.selection.RadioManager();
         for (var i=0, l=themes.length; i<l; i++)
         {
-          theme = themes[i];
+          var theme = themes[i];
 
           if (theme.type === "abstract") {
             continue;
@@ -427,7 +378,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var checked = (theme == mgr.getTheme());
           var item = new qx.ui.menu.RadioButton(theme.title, null, checked);
           item.setUserData("theme", theme);
-          item.addListener("execute", function(e) {
+          item.addEventListener("execute", function(e) {
             mgr.setTheme(e.getTarget().getUserData("theme"));
           })
           radioMgr.add(item);
@@ -525,7 +476,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           self.widgets[widgetData.id] = widget;
         }
         if (widgetData.command !== undefined) {
-          widgetData.command.addListener("changeEnabled", function(e) {
+          widgetData.command.addEventListener("changeEnabled", function(e) {
             widget.setEnabled(e.getValue());
           });
         }
@@ -578,7 +529,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __bindCommand: function(widget, command) {
       widget.setCommand(command);
-      command.addListener("changeEnabled", function(e) {
+      command.addEventListener("changeEnabled", function(e) {
         widget.setEnabled(e.getValue());
       });
     },
@@ -611,7 +562,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var playallb = new qx.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
       this.widgets["toolbar.playall"] = playallb;
       mb.add(playallb);
-      playallb.addListener("execute", this.__ehPlayAll, this);
+      playallb.addEventListener("execute", this.__ehPlayAll, this);
       playallb.setToolTip(new qx.ui.popup.ToolTip("Run all examples"));
 
       // -- previous navigation
@@ -786,7 +737,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         border   : "dark-shadow"
       });
 
-      f1.addListener("load", this.__ehIframeLoaded, this);
+      f1.addEventListener("load", this.__ehIframeLoaded, this);
 
 
       // Second Page
@@ -823,7 +774,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.logger = new qx.log.Logger("Demo Browser");
       this.logger.addAppender(this.logappender);
 
-      this.f2.addListener("appear", function(e) {
+      this.f2.addEventListener("appear", function(e) {
         this.logappender.setElement(this.f2.getElement());
       }, this);
 
@@ -913,14 +864,14 @@ qx.Class.define("demobrowser.DemoBrowser",
         overflow : "auto"
       });
 
-      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
-      tree.addListener("dblclick", function(e)
+      tree.addEventListener("dblclick", function(e)
       {
         if (e.getTarget() instanceof qx.ui.tree.TreeFile)
         {
           // allow treeGetSelection to run first
-          qx.event.Timer.once(this.runSample, this, 50);
+          qx.client.Timer.once(this.runSample, this, 50);
         }
         else
         {
@@ -954,7 +905,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         overflow : "auto"
       });
 
-      tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      tree1.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
       // fake unique tree for selection (better to have a selection on the model)
       this.tree = {};
@@ -1068,7 +1019,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             t.setUserData("node", currNode);
             t.setAlwaysShowPlusMinusSymbol(true);
 
-            t.addListener("changeOpen", function(e)
+            t.addEventListener("changeOpen", function(e)
             {
               if (!this.getUserData("filled"))
               {
@@ -1118,53 +1069,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-      function buildSubTreeFlat(widgetR, modelR)
-      {
-        var iter = modelR.getIterator("depth");
-        var currNode;
-
-        while (currNode = iter())
-        {
-          // it's a container
-          if (!(currNode.type && currNode.type == "test"))
-          {
-            if (handler.hasTests(currNode))
-            {
-              var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(that.polish(fullName), "demobrowser/image/package18.gif");
-              widgetR.add(t);
-              t.setUserData("modelLink", currNode);
-              currNode.widgetLinkFlat = t;
-
-              if (that.tests.handler.getFullName(currNode) == that.tests.selected) {
-                selectedElement = currNode;
-              }
-
-              var children = currNode.getChildren();
-
-              for (var i=0; i<children.length; i++)
-              {
-                if (children[i].type && children[i].type == "test")
-                {
-                  var c = new qx.ui.tree.TreeFile(that.polish(children[i].label), "demobrowser/image/class18.gif");
-                  c.setToolTip(new qx.ui.popup.ToolTip(children[i].desc));
-                  t.add(c);
-                  c.setUserData("modelLink", children[i]);
-                  children[i].widgetLinkFlat = c;
-
-                  if (that.tests.handler.getFullName(children[i]) == that.tests.selected) {
-                    selectedElement = children[i];
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-
       // -- Main --------------------------------
       var ttree = this.tests.handler.ttree;
-      var handler = this.tests.handler;
       var that = this;
 
       /*
@@ -1180,7 +1086,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       var fulltree = this.widgets["treeview.full"];
       var flattree = this.widgets["treeview.flat"];
       var trees = [ fulltree, flattree ];
-      var stree = this.widgets["treeview"].getBar().getManager().getSelected();
 
       for (var i=0; i<trees.length; i++)
       {
@@ -1199,7 +1104,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Build the widget trees
       buildSubTree(this.widgets["treeview.full"], ttree);
 
-      // buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
 
@@ -1335,8 +1239,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       var path = fpath.split("/");
 
+      var furl = this.f1.getSource();
       //if (this._currentSampleUrl != this.defaultUrl)
-      if (this.f1.getSource() != null && this.f1.getSource() != this.defaultUrl)
+      if (furl != null && 
+          furl != this.defaultUrl && 
+          fwindow.qx && 
+          fwindow.qx.log)
       {
         // set logger
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
@@ -1385,7 +1293,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (this.widgets["toolbar.nextbutt"].isEnabled())
         {
           // give some time before proceeding
-          qx.event.Timer.once(function ()
+          qx.client.Timer.once(function ()
           {
             this.widgets["toolbar.nextbutt"].execute();
           }, this, 1500);
@@ -1429,6 +1337,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     // ------------------------------------------------------------------------
     //   MISC HELPERS
     // ------------------------------------------------------------------------
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {String} TODOC
+     */
     __applyPlayAll : function(value, old)
     {
       if (value == true )
@@ -1451,17 +1366,22 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __getPageSource : function(url)
     {
+
+      if( typeof(url) != "string" ){
+        return ;
+      }
+
       var req = new qx.io.remote.Request(url);
 
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addListener("completed", function(evt)
+      req.addEventListener("completed", function(evt)
       {
         var loadEnd = new Date();
         this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
-        var content = evt.getData().getContent();
+        var content = evt.getContent();
 
         if (content) {
           //this.widgets["outputviews.sourcepage.page"].setValue(content);
@@ -1471,7 +1391,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       },
       this);
 
-      req.addListener("failed", function(evt) {
+      req.addEventListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
@@ -1494,12 +1414,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addListener("completed", function(evt)
+      req.addEventListener("completed", function(evt)
       {
         var loadEnd = new Date();
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
-        var content = evt.getData().getContent();
+        var content = evt.getContent();
 
         var start = new Date();
         var treeData = eval(content);
@@ -1508,7 +1428,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
 
         // give the browser a chance to update its UI before doing more
-        qx.event.Timer.once(function()
+        qx.client.Timer.once(function()
         {
           this.tests.handler = new demobrowser.TreeDataHandler(treeData);
 
@@ -1531,7 +1451,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       },
       this);
 
-      req.addListener("failed", function(evt) {
+      req.addEventListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
@@ -1605,7 +1525,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (PScriptStart.exec(lines[i])) // start of inline script
           {
             // add this line to 'normal' code
-            bsrc += this.__beautyHtml(qx.legacy.html.String.escape(currBlock + lines[i]));
+            bsrc += this.__beautyHtml(qx.html.String.escape(currBlock + lines[i]));
             currBlock = "";  // start new block
           }
           else if (PScriptEnd.exec(lines[i])) // end of inline script
@@ -1623,7 +1543,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // collect rest of page
-      bsrc += this.__beautyHtml(qx.legacy.html.String.escape(currBlock)) + "</pre>";
+      bsrc += this.__beautyHtml(qx.html.String.escape(currBlock)) + "</pre>";
 
       return bsrc;
 
@@ -1633,14 +1553,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     __beautyHtml : function (str)
     {
       var res = str;
-      var PTagStart = '&lt;\/?'
 
       // This match function might be a bit of overkill right now, but provides
       // for later extensions (cf. Flanagan(5th), 703)
       function matchfunc (vargs)
       {
         var s = arguments[1]+'<span class="html-tag-name">'+arguments[2]+'</span>';
-        var pair, curr;
+        var curr;
         var endT = false;
 
         // handle rest of submatches

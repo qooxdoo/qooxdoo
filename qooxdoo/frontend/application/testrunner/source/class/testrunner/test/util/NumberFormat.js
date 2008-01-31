@@ -23,7 +23,7 @@
 
 qx.Class.define("testrunner.test.util.NumberFormat",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {

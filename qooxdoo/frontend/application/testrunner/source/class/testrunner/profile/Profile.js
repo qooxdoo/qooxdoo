@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.profile.Profile",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
 
 
@@ -104,10 +104,10 @@ qx.Class.define("testrunner.profile.Profile",
 
           properties :
           {
-            prop1 : { },
-            prop2 : { },
-            prop3 : { },
-            prop4 : { }
+            prop1 : { _legacy : true },
+            prop2 : { _legacy : true },
+            prop3 : { _legacy : true },
+            prop4 : { _legacy : true }
           }
         });
       }

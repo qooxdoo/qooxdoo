@@ -9,7 +9,7 @@
   <div id="description">
     <p>Some tests for some of the most used properties of qx.ui.basic.Terminator (coordinates, dimensions, backgroundColor, opacity, ...).</p>
     <p>Also here are the first test of some widgets which extend qx.ui.basic.Terminator: qx.ui.form.TextField and qx.ui.form.PasswordField. These extended
-    widgets also interacts like the basic QxTerminators with the qx.legacy.event.handler.FocusHandler.</p>
+    widgets also interacts like the basic QxTerminators with the qx.event.handler.FocusHandler.</p>
   </div>
 
   <script type="text/javascript">
@@ -28,7 +28,7 @@
     c1.setBackgroundColor("blue");
     c1.setOpacity(0.5);
 
-    c1.addListener("keydown", function(e){
+    c1.addEventListener("keydown", function(e){
       if (e.getKeyIdentifier() != "Space") {
         return;
       };
@@ -48,7 +48,7 @@
     c2.setBackgroundColor("orange");
     c2.setOpacity(0.5);
 
-    c2.addListener("keydown", function(e){
+    c2.addEventListener("keydown", function(e){
       if (e.getKeyIdentifier() != "Space") {
         return;
       };

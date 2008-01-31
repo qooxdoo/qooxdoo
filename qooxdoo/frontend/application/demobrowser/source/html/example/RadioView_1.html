@@ -11,65 +11,76 @@
   </div>
 
   <script type="text/javascript">
-    qx.core.Init.getInstance().defineMain(function()
+    qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
-
-      var bs = new qx.ui.pageview.radioview.RadioView;
-
-      bs.setEdge(20);
-
-      var bar = bs.getBar();
-
-      var question = new qx.ui.basic.Label("What type of device is used?");
-      question.setPaddingBottom(6);
-      bar.add(question);
-
-      var bsb1 = new qx.ui.pageview.radioview.Button("Optical Media", "icon/16/devices/media-optical.png");
-      bsb1.setChecked(true);
-      bar.add(bsb1);
-
-      var bsb2 = new qx.ui.pageview.radioview.Button("Hard Drive", "icon/16/devices/drive-harddisk.png");
-      bar.add(bsb2);
-
-      var p1 = new qx.ui.pageview.radioview.Page(bsb1);
-      var p2 = new qx.ui.pageview.radioview.Page(bsb2);
-
-      bs.getPane().add(p1, p2);
-
-      var f1 = new qx.ui.form.TextField("Hello world.");
-      f1.set(
+      main : function()
       {
-        top: 20,
-        left: 20
-      });
-
-      var f2 = new qx.ui.form.TextField("HELLO WORLD!");
-      f2.set(
-      {
-        top: 20,
-        left: 20
-      });
-
-      p1.add(f1);
-      p2.add(f2);
-
-      var r1 = new qx.ui.form.RadioButton("Top", "top", null, true);
-      var r2 = new qx.ui.form.RadioButton("Bottom", "bottom");
-
-      r1.setTop(50);
-      r2.setTop(70);
-
-      p1.add(r1, r2);
-
-      var rm = new qx.ui.selection.RadioManager(null, [r1, r2]);
-
-      rm.addListener("changeSelected", function(e) {
-        bs.setBarPosition(e.getData().getValue());
-      });
-
-      d.add(bs);
-    });
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+  
+        var bs = new qx.ui.pageview.radioview.RadioView;
+  
+        bs.setEdge(20);
+  
+        var bar = bs.getBar();
+  
+        var question = new qx.ui.basic.Label("What type of device is used?");
+        question.setPaddingBottom(6);
+        bar.add(question);
+  
+        var bsb1 = new qx.ui.pageview.radioview.Button("Optical Media", "icon/16/devices/media-optical.png");
+        bsb1.setChecked(true);
+        bar.add(bsb1);
+  
+        var bsb2 = new qx.ui.pageview.radioview.Button("Hard Drive", "icon/16/devices/drive-harddisk.png");
+        bar.add(bsb2);
+  
+        var p1 = new qx.ui.pageview.radioview.Page(bsb1);
+        var p2 = new qx.ui.pageview.radioview.Page(bsb2);
+  
+        bs.getPane().add(p1, p2);
+  
+        var f1 = new qx.ui.form.TextField("Hello world.");
+        f1.set(
+        {
+          top: 20,
+          left: 20
+        });
+  
+        var f2 = new qx.ui.form.TextField("HELLO WORLD!");
+        f2.set(
+        {
+          top: 20,
+          left: 20
+        });
+  
+        p1.add(f1);
+        p2.add(f2);
+  
+        var r1 = new qx.ui.form.RadioButton("Top", "top", null, true);
+        var r2 = new qx.ui.form.RadioButton("Bottom", "bottom");
+  
+        r1.setTop(50);
+        r2.setTop(70);
+  
+        p1.add(r1, r2);
+  
+        var rm = new qx.ui.selection.RadioManager(null, [r1, r2]);
+  
+        rm.addEventListener("changeSelected", function(e) {
+          bs.setBarPosition(e.getData().getValue());
+        });
+  
+        d.add(bs);
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

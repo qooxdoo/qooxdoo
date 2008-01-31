@@ -11,35 +11,46 @@
   </div>
 
   <script type="text/javascript">
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-
-    // Try no version required
-    var fo1 = new qx.ui.embed.Flash("./image/flash/fo_tester.swf");
-
-    // Try version 7 required
-    // var fo1 = new qx.ui.embed.Flash("image/flash/fo_tester.swf", "7");
-
-    // Try version 9 required
-    // var fo1 = new qx.ui.embed.Flash("image/flash/fo_tester.swf", "9");
-
-    // Error handling methods:
-    // #1: Enable Express Install: Available in Flash Players >= 6.0.65
-    // fo1.setEnableExpressInstall(true);
-    // #2: Enable Redirect URL: Jump to an installer page
-    // fo1.setRedirectUrl("http://www.google.de");
-
-    fo1.setVariable("flashVarText", "this is passed in via FlashVars");
-    fo1.setScale("noscale");
-
-    fo1.setEdge(20);
-
-    fo1.setBorder("inset");
-    fo1.setBackgroundColor("#FF6600");
-
-    d.add(fo1);
+    extend : qx.application.Gui,
+  
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+    
+        // Try no version required
+        var fo1 = new qx.ui.embed.Flash("./image/flash/fo_tester.swf");
+    
+        // Try version 7 required
+        // var fo1 = new qx.ui.embed.Flash("image/flash/fo_tester.swf", "7");
+    
+        // Try version 9 required
+        // var fo1 = new qx.ui.embed.Flash("image/flash/fo_tester.swf", "9");
+    
+        // Error handling methods:
+        // #1: Enable Express Install: Available in Flash Players >= 6.0.65
+        // fo1.setEnableExpressInstall(true);
+        // #2: Enable Redirect URL: Jump to an installer page
+        // fo1.setRedirectUrl("http://www.google.de");
+    
+        fo1.setVariable("flashVarText", "this is passed in via FlashVars");
+        fo1.setScale("noscale");
+    
+        fo1.setEdge(20);
+    
+        fo1.setBorder("inset");
+        fo1.setBackgroundColor("#FF6600");
+    
+        d.add(fo1);
+      }
+    }
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

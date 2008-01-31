@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>
+<body>  
   <div id="description">
     <p>qx.ui.menu.Menu Implementation</p>
   </div>
@@ -81,7 +81,7 @@
       w1.setTop(48);
       w1.setLeft(20);
 
-      w1.addListener("click", function(e)
+      w1.addEventListener("click", function(e)
       {
         if (m1.isSeeable())
         {
@@ -91,18 +91,18 @@
         {
           var el = this.getElement();
 
-          m1.setLeft(qx.legacy.html.Location.getPageBoxLeft(el));
-          m1.setTop(qx.legacy.html.Location.getPageBoxBottom(el));
+          m1.setLeft(qx.html.Location.getPageBoxLeft(el));
+          m1.setTop(qx.html.Location.getPageBoxBottom(el));
 
           m1.show();
         };
 
-        e.stopPropagation();
+        e.setPropagationStopped(true);
       });
 
-      w1.addListener("mousedown", function(e)
+      w1.addEventListener("mousedown", function(e)
       {
-        e.stopPropagation();
+        e.setPropagationStopped(true);
       });
 
 

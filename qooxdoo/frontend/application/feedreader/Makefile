@@ -5,7 +5,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#    2006-2007 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -33,14 +33,9 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VE
 APPLICATION_BUILD_LOG_LEVEL = error
 
 APPLICATION_THEME=qx.theme.Ext
-APPLICATION_THEME_ICON=qx.theme.icon.VistaInspirate
 
-APPLICATION_LOCALES = en de tr it es sv ru fr
-#APPLICATION_LOCALES = de es en
-
-
-APPLICATION_PROFILE_SOURCE = false
-APPLICATION_PROFILE_BUILD = false
+#APPLICATION_LOCALES = en de tr it es sv ru fr
+APPLICATION_LOCALES = de es en
 
 
 

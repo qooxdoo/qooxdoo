@@ -24,11 +24,21 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.ui.core.ClientDocument.getInstance();
 
       var inlineWidget = new qx.ui.basic.Inline("qxframe");
       inlineWidget.setHeight("100%");
       inlineWidget.setWidth("auto");
+
+      var wnd = new qx.ui.window.Window("Test window");
+      wnd.set({
+          left : 200,
+          top : 200,
+          width : 400,
+          height : 300
+      });
+      inlineWidget.add(wnd);
+      wnd.show();
 
       var vbx = new qx.ui.layout.VerticalBoxLayout();
       vbx.set(
@@ -39,6 +49,13 @@
       	spacing : 5,
         width   : 500
       });
+
+      // blocker
+      var button = new qx.ui.form.Button("block");
+      button.addEventListener("execute", function() {
+        d.block();
+      });
+      vbx.add(button);
 
       // menu
       var menu = new qx.ui.menu.Menu;
@@ -59,7 +76,7 @@
 
       // color popup
       var mybtn = new qx.ui.form.Button("Open Popup");
-      mybtn.addListener("execute", function()
+      mybtn.addEventListener("execute", function()
       {
         mypop.positionRelativeTo(mybtn.getElement(), 0, 20);
         mypop.show();
@@ -88,8 +105,6 @@
 
       var mypop = new qx.ui.component.ColorPopup(mytables);
       mypop.addToDocument();
-
-
 
       // combo box
       var combo = new qx.ui.form.ComboBox();
@@ -140,7 +155,7 @@
       table.set(
     	{
     		width  : "100%",
-    		height : "1*",
+    		height : 500,
     		border : "inset-thin",
     		rowHeight : 63
       });
@@ -149,17 +164,9 @@
 
       var rowData = [];
       for (var row = 0; row < 1000; row++) {
-        rowData.push([ row, "xxxx", "xxxx" ]);
+        rowData.push([ "xxxx", "xxxx", "xxxx" ]);
       }
       tableModel.setData(rowData);
-
-      table.getPaneScroller(0).addListener("rowdblclick", function (e) {
-        var row = e.getData();
-        var data = table.getTableModel().getRowData(row);
-        this.debug(row + ": " + data);
-
-      });
-
       vbx.add(table);
 
 

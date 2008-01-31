@@ -4,117 +4,113 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-30 08:59+0100\n"
+"POT-Creation-Date: 2007-11-09 22:22+0100\n"
 "PO-Revision-Date: 2006-12-22 09:59+0100\n"
 "Last-Translator: Fabian Jakobs <fabian dot jakobs at 1und1 dot de>\n"
 "Language-Team: <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: source/class/feedreader/Application.js:201
-#, fuzzy
-msgid "reloading ..."
-msgstr "aktualisieren ..."
-
-#: source/class/feedreader/Application.js:208
-msgid "qooxdoo feed reader."
-msgstr "qooxdoo feed reader"
-
-#: source/class/feedreader/Application.js:214
-msgid "Add feed"
-msgid_plural "Add feeds"
-msgstr[0] "Feed hinzufügen"
-msgstr[1] "Feeds hinzufügen"
-
-#: source/class/feedreader/Application.js:215
-msgid "Remove feed"
-msgstr "Feed löschen"
-
-#: source/class/feedreader/Application.js:218
-msgid "Reload"
-msgstr "Aktualisieren"
-
-#: source/class/feedreader/Application.js:220
-msgid "(%1) Reload the feeds."
-msgstr "(%1) Feeds aktualisieren."
-
-#: source/class/feedreader/Application.js:224
-#: source/class/feedreader/Application.js:426
+#: source/class/feedreader/PreferenceWindow.js:34
+#: source/class/feedreader/view/ToolBar.js:69
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: source/class/feedreader/Application.js:226
-msgid "Open preferences window."
-msgstr "Einstellungen öffnen"
-
-#: source/class/feedreader/Application.js:234
-#: source/class/feedreader/Application.js:236
-msgid "English"
-msgstr "Englisch"
-
-#: source/class/feedreader/Application.js:235
-msgid "German"
-msgstr "Deutsch"
-
-#: source/class/feedreader/Application.js:237
-msgid "Turkish"
-msgstr "Türkisch"
-
-#: source/class/feedreader/Application.js:238
-msgid "Italian"
-msgstr "Italienisch"
-
-#: source/class/feedreader/Application.js:239
-msgid "Spanish"
-msgstr "Spanisch"
-
-#: source/class/feedreader/Application.js:240
-msgid "Swedish"
-msgstr "Schwedisch"
-
-#: source/class/feedreader/Application.js:241
-msgid "Russian"
-msgstr "Russisch"
-
-#: source/class/feedreader/Application.js:271
-msgid "Help"
-msgstr "Hilfe"
-
-#: source/class/feedreader/Application.js:279
-msgid "News feeds"
-msgstr "Nachrichtenkanäle"
-
-#: source/class/feedreader/Application.js:313
-msgid "Subject"
-msgstr "Betreff"
-
-#: source/class/feedreader/Application.js:314
-msgid "Sender"
-msgstr "Absender"
-
-#: source/class/feedreader/Application.js:315
-msgid "Date"
-msgstr "Datum"
-
-#: source/class/feedreader/Application.js:316
-msgid "ID"
-msgstr ""
-
-#: source/class/feedreader/Application.js:445
+#: source/class/feedreader/PreferenceWindow.js:71
 msgid "Theme"
 msgstr ""
 
-#: source/class/feedreader/Application.js:470
+#: source/class/feedreader/PreferenceWindow.js:101
 msgid "Cancel"
 msgstr "Abbruch"
 
-#: source/class/feedreader/Application.js:472
+#: source/class/feedreader/PreferenceWindow.js:103
 msgid "OK"
 msgstr "OK"
 
-#: source/class/feedreader/ArticleView.js:136
+#: source/class/feedreader/view/Article.js:133
 msgid "read more ..."
 msgstr "weitere Informationen ..."
+
+#: source/class/feedreader/view/Table.js:36
+msgid "Subject"
+msgstr "Betreff"
+
+#: source/class/feedreader/view/Table.js:37
+msgid "Date"
+msgstr "Datum"
+
+#: source/class/feedreader/view/Table.js:38
+msgid "ID"
+msgstr ""
+
+#: source/class/feedreader/view/ToolBar.js:52
+#, fuzzy
+msgid "Add feed"
+msgstr "Feed hinzufügen"
+
+#: source/class/feedreader/view/ToolBar.js:56
+msgid "Remove feed"
+msgstr "Feed löschen"
+
+#: source/class/feedreader/view/ToolBar.js:62
+msgid "Reload"
+msgstr "Aktualisieren"
+
+#: source/class/feedreader/view/ToolBar.js:64
+msgid "(%1) Reload the feeds."
+msgstr "(%1) Feeds aktualisieren."
+
+#: source/class/feedreader/view/ToolBar.js:71
+msgid "Open preferences window."
+msgstr "Einstellungen öffnen"
+
+#: source/class/feedreader/view/ToolBar.js:79
+#: source/class/feedreader/view/ToolBar.js:81
+msgid "English"
+msgstr "Englisch"
+
+#: source/class/feedreader/view/ToolBar.js:80
+msgid "German"
+msgstr "Deutsch"
+
+#: source/class/feedreader/view/ToolBar.js:82
+msgid "Turkish"
+msgstr "Türkisch"
+
+#: source/class/feedreader/view/ToolBar.js:83
+msgid "Italian"
+msgstr "Italienisch"
+
+#: source/class/feedreader/view/ToolBar.js:84
+msgid "Spanish"
+msgstr "Spanisch"
+
+#: source/class/feedreader/view/ToolBar.js:85
+msgid "Swedish"
+msgstr "Schwedisch"
+
+#: source/class/feedreader/view/ToolBar.js:86
+msgid "Russian"
+msgstr "Russisch"
+
+#: source/class/feedreader/view/ToolBar.js:115
+msgid "Help"
+msgstr "Hilfe"
+
+#: source/class/feedreader/view/Tree.js:27
+msgid "News feeds"
+msgstr "Nachrichtenkanäle"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#, fuzzy
+#~ msgid "reloading ..."
+#~ msgstr "aktualisieren ..."
+
+#~ msgid "qooxdoo feed reader."
+#~ msgstr "qooxdoo feed reader"

@@ -74,42 +74,53 @@
   </div>
 
   <script type="text/javascript">
-    qx.core.Init.getInstance().defineMain(function()
+    qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
     {
-      var imgPath = qx.io.Alias.getInstance().resolve("icon/64/apps/office-organizer.png");
-
-      var galleryList = [];
-
-      for (var i=0; i<100; i++)
+      main : function()
       {
-        galleryList.push({
-          display : "bmzN9ci5",
-          width : 350,
-          height : 350,
-          thumbWidth : 64,
-          thumbHeight : 64,
-          title : "gohome.png",
-          timestamp : Math.random().toString(),
-          comment : "Cool Comment",
-          id : i,
-          src : imgPath
+        this.base(arguments);
+        var imgPath = qx.io.Alias.getInstance().resolve("icon/64/apps/office-organizer.png");
+  
+        var galleryList = [];
+  
+        for (var i=0; i<100; i++)
+        {
+          galleryList.push({
+            display : "bmzN9ci5",
+            width : 350,
+            height : 350,
+            thumbWidth : 64,
+            thumbHeight : 64,
+            title : "gohome.png",
+            timestamp : Math.random().toString(),
+            comment : "Cool Comment",
+            id : i,
+            src : imgPath
+          });
+        };
+  
+        var gallery = new qx.ui.embed.Gallery(galleryList);
+  
+        gallery.setLeft(20);
+        gallery.setRight(20);
+        gallery.setTop(20);
+        gallery.setBottom(20);
+        gallery.setBorder("inset");
+        gallery.addEventListener("beforeToolTipAppear", function(e) {
+  				var entry = gallery.getEntryByNode(e.getData());
+        	gallery.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.timestamp));
         });
-      };
-
-      var gallery = new qx.ui.embed.Gallery(galleryList);
-
-      gallery.setLeft(20);
-      gallery.setRight(20);
-      gallery.setTop(20);
-      gallery.setBottom(20);
-      gallery.setBorder("inset");
-      gallery.addListener("beforeToolTipAppear", function(e) {
-				var entry = gallery.getEntryByNode(e.getData());
-      	gallery.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.timestamp));
-      });
-
-      qx.ui.core.ClientDocument.getInstance().add(gallery);
-    });
+  
+        qx.ui.core.ClientDocument.getInstance().add(gallery);
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

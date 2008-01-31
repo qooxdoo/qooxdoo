@@ -12,54 +12,65 @@
 
   <script type="text/javascript">
 
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var frame = new qx.ui.layout.CanvasLayout;
-    frame.setEdge(20);
-    frame.addToDocument();
-
-    // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
-    splitpane.setEdge(0);
-    splitpane.setLiveResize(true);
-    splitpane.setShowKnob(false);
-    frame.add(splitpane);
-
-    // left Widget
-    var leftWidget = new qx.ui.form.TextArea("LeftWidget");
-    leftWidget.setWrap(true);
-    leftWidget.setBackgroundColor("white");
-    leftWidget.setWidth("100%");
-    leftWidget.setHeight("100%");
-
-    // rightWidget (another splitpane)
-    var rightWidget = new qx.ui.splitpane.VerticalSplitPane;
-    rightWidget.setHeight("100%");
-    rightWidget.setWidth("100%");
-    rightWidget.setLiveResize(true);
-    rightWidget.setShowKnob(false);
-
-    // add widgets to splitpane
-    splitpane.addLeft(leftWidget);
-    splitpane.addRight(rightWidget);
-
-
-
-    // right top widget
-    var topWidget = new qx.ui.form.TextArea("Right Top Widget");
-    topWidget.setBackgroundColor("white");
-    topWidget.setHeight("100%");
-    topWidget.setWidth("100%");
-
-    // right bottom widget
-    var bottomWidget = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
-    bottomWidget.setHeight("100%");
-    bottomWidget.setWidth("100%");
-
-    // add widgets to right splitpane
-    rightWidget.addTop(topWidget);
-    rightWidget.addBottom(bottomWidget);
+    extend : qx.application.Gui,
+  
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var frame = new qx.ui.layout.CanvasLayout;
+        frame.setEdge(20);
+        frame.addToDocument();
+    
+        // the splitpane itself
+        var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
+        splitpane.setEdge(0);
+        splitpane.setLiveResize(true);
+        splitpane.setShowKnob(false);
+        frame.add(splitpane);
+    
+        // left Widget
+        var leftWidget = new qx.ui.form.TextArea("LeftWidget");
+        leftWidget.setWrap(true);
+        leftWidget.setBackgroundColor("white");
+        leftWidget.setWidth("100%");
+        leftWidget.setHeight("100%");
+    
+        // rightWidget (another splitpane)
+        var rightWidget = new qx.ui.splitpane.VerticalSplitPane;
+        rightWidget.setHeight("100%");
+        rightWidget.setWidth("100%");
+        rightWidget.setLiveResize(true);
+        rightWidget.setShowKnob(false);
+    
+        // add widgets to splitpane
+        splitpane.addLeft(leftWidget);
+        splitpane.addRight(rightWidget);
+    
+    
+    
+        // right top widget
+        var topWidget = new qx.ui.form.TextArea("Right Top Widget");
+        topWidget.setBackgroundColor("white");
+        topWidget.setHeight("100%");
+        topWidget.setWidth("100%");
+    
+        // right bottom widget
+        var bottomWidget = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
+        bottomWidget.setHeight("100%");
+        bottomWidget.setWidth("100%");
+    
+        // add widgets to right splitpane
+        rightWidget.addTop(topWidget);
+        rightWidget.addBottom(bottomWidget);
+      }
+    }
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

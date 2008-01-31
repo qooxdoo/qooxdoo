@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.Lang",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {
@@ -180,31 +180,31 @@ qx.Class.define("testrunner.test.Lang",
     testEscape : function()
     {
       // escape HTML
-      this.assertEquals("\n", qx.legacy.html.String.escape("\n"));
+      this.assertEquals("\n", qx.html.String.escape("\n"));
 
-      this.assertEquals("Hello", qx.legacy.html.String.escape("Hello"));
-      this.assertEquals("juhu &lt;&gt;", qx.legacy.html.String.escape("juhu <>"));
+      this.assertEquals("Hello", qx.html.String.escape("Hello"));
+      this.assertEquals("juhu &lt;&gt;", qx.html.String.escape("juhu <>"));
 
-      this.assertEquals("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;", qx.legacy.html.String.escape("<div id='1'>&nbsp; €</div>"));
+      this.assertEquals("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;", qx.html.String.escape("<div id='1'>&nbsp; €</div>"));
 
       // textToHtml
-      this.assertEquals("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp; &euro;&lt;/div&gt;", qx.legacy.html.String.fromText("<div id='1'>\n  &nbsp; €</div>"));
+      this.assertEquals("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp; &euro;&lt;/div&gt;", qx.html.String.fromText("<div id='1'>\n  &nbsp; €</div>"));
 
       // htmlToText
-      this.assertEquals("<div id='1'>\n \u00A0&nbsp; €</div>", qx.legacy.html.String.toText("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp;  \n   &euro;&lt;/div&gt;"));
+      this.assertEquals("<div id='1'>\n \u00A0&nbsp; €</div>", qx.html.String.toText("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp;  \n   &euro;&lt;/div&gt;"));
 
       // unescape HTML
-      this.assertEquals("\n", qx.legacy.html.String.unescape("\n"));
-      this.assertEquals("Hello", qx.legacy.html.String.unescape("Hello"));
-      this.assertEquals("juhu <>", qx.legacy.html.String.unescape("juhu &lt;&gt;"));
+      this.assertEquals("\n", qx.html.String.unescape("\n"));
+      this.assertEquals("Hello", qx.html.String.unescape("Hello"));
+      this.assertEquals("juhu <>", qx.html.String.unescape("juhu &lt;&gt;"));
 
-      this.assertEquals("<div id='1'>&nbsp; €</div>", qx.legacy.html.String.unescape("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;"));
+      this.assertEquals("<div id='1'>&nbsp; €</div>", qx.html.String.unescape("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;"));
 
-      this.assertEquals(">&zzzz;x", qx.legacy.html.String.unescape("&gt;&zzzz;x"));
+      this.assertEquals(">&zzzz;x", qx.html.String.unescape("&gt;&zzzz;x"));
 
-      this.assertEquals("€", qx.legacy.html.String.unescape("&#x20AC;"));
+      this.assertEquals("€", qx.html.String.unescape("&#x20AC;"));
 
-      this.assertEquals("€", qx.legacy.html.String.unescape("&#X20AC;"));
+      this.assertEquals("€", qx.html.String.unescape("&#X20AC;"));
 
       // escape XML
       this.assertEquals("\n", qx.xml.String.escape("\n"));
@@ -255,7 +255,7 @@ qx.Class.define("testrunner.test.Lang",
       this.assertEquals(4, result);
 
       context = null;
-      var addOne = qx.lang.Function.bind(add, this, false, [1]);
+      var addOne = qx.lang.Function.bind(add, this, 1);
       result = addOne(4);
       this.assertEquals(context, this);
       this.assertEquals(5, result);

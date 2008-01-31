@@ -11,14 +11,25 @@
   </div>
 
   <script type="text/javascript">
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-
-    var chooser = new qx.ui.component.DateChooser;
-    chooser.setLocation(20, 20);
-    d.add(chooser);
+    extend : qx.application.Gui,
+  
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+    
+        var chooser = new qx.ui.component.DateChooser;
+        chooser.setLocation(20, 20);
+        d.add(chooser);
+      }
+    }
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

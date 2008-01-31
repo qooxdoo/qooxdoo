@@ -49,11 +49,17 @@ qx.Class.define("testrunner.TestFunction",
           cls.setUp();
         }
 
-        cls[methodName]();
-
-        if (typeof (cls.tearDown) == "function") {
-          cls.tearDown();
+        try {
+            cls[methodName]();
+        } catch (e) {
+            throw e;
+        } finally {
+            // tearDown should always be called.
+            if (typeof (cls.tearDown) == "function") {
+              cls.tearDown();
+            }
         }
+
       });
     }
 

@@ -1,59 +1,43 @@
 <?php
 
-$ALLOWED_URL_PREFIXES = array(
-    "http://feeds.feedburner.com",
-    "http://blog.dojotoolkit.org/feed",
-    "http://www.jackslocum.com/blog/feed/",
-    "http://portlets.blogspot.com",
-    "http://www.go-mono.com/monologue/index.rss",
-    "http://feeds.yuiblog.com/YahooUserInterfaceBlog",
-);
+$url = isset($_GET['proxy']) ? $_GET['proxy'] : false;
+$mode = isset($_GET['mode']) ? $_GET['mode'] : false;
 
-$ALLOWED_URL_SUFFIXES = array(
-    ".rdf",
-    ".rss",
-    "atom.xml",
-    "rss2",
-    "rss.xml",
-    "feed/atom/",
-);
-
-$proxy_url = isset($_GET['proxy']) ? $_GET['proxy'] : false;
-
-if (!$proxy_url) {
+if (!$url or !$mode) {
     header("HTTP/1.0 400 Bad Request");
-    echo "proxy.php failed because proxy parameter is missing";
+    echo "proxy.php failed because proxy or mode parameter is missing";
     exit();
 }
 
-$is_url_valid = false;
-foreach ($ALLOWED_URL_PREFIXES as $prefix) {
-    if (strpos($proxy_url, $prefix) === 0) {
-        $is_url_valid = true;
-        break;
-    }
-}
-
-foreach ($ALLOWED_URL_SUFFIXES as $suffix) {
-    if (strpos($proxy_url, $suffix) === strlen($proxy_url)-strlen($suffix)) {
-        $is_url_valid = true;
-        break;
-    }
-}
-
-if (!$is_url_valid) {
-    header("HTTP/1.0 400 Bad Request");
-    echo "Address is not allowed!";        
-    exit();
-}
-
-$session = curl_init($proxy_url);
+$session = curl_init($url);
 
 curl_setopt($session, CURLOPT_HEADER, false);
 curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 
-header("Content-Type: application/xml");
-echo(curl_exec($session));
+$xmlContent = curl_exec($session);
+
+if ($mode == "json")
+{
+    $jsonContent = json_encode(simplexml_load_string($xmlContent, 'SimpleXMLElement', LIBXML_NOCDATA));
+		header("Content-Type: text/plain");
+		echo($jsonContent);
+}
+else if ($mode == "jsonp")
+{
+  	$scriptId = isset($_GET['_ScriptTransport_id']) ? $_GET['_ScriptTransport_id'] : "none";
+		$scriptBegin = "try{qx.io.remote.ScriptTransport._requestFinished('".$scriptId."', ";
+		$scriptEnd = ");}catch(ex){};";
+
+		$jsonContent = json_encode(simplexml_load_string($xmlContent, 'SimpleXMLElement', LIBXML_NOCDATA));
+		$jsonpContent = $scriptBegin."".$jsonContent.$scriptEnd;
+		header("Content-Type: text/plain");
+		echo($jsonpContent);
+}
+else
+{
+		header("Content-Type: application/xml");
+		echo($xmlContent);
+}
 
 curl_close($session);
 

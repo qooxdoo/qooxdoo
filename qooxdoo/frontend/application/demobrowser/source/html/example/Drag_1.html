@@ -11,42 +11,53 @@
   </div>
 
   <script type="text/javascript">
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-    
-    var a1 = new qx.ui.basic.Atom("Drag Me");
-    a1.set({ backgroundColor: "white", border: "groove" });
-    a1.setPadding(10);
-    a1.setLocation(20, 48); 
-    d.add(a1);
-
-    
-    a1.addListener("mousedown", handleMouseDown);
-    a1.addListener("mousemove", handleMouseMove);
-    a1.addListener("mouseup", handleMouseUp);
-    
-    function handleMouseDown(e)
+    extend : qx.application.Gui,
+  
+    members :
     {
-      this.setCapture(true);
-      a1._offsetX = e.getPageX() - a1.getLeft();
-      a1._offsetY = e.getPageY() - a1.getTop();
-    }
-    
-    function handleMouseMove(e)
-    {
-      if (this.getCapture())
+      main : function()
       {
-        a1.setLeft(e.getPageX() - a1._offsetX);
-        a1.setTop(e.getPageY() - a1._offsetY);
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+        
+        var a1 = new qx.ui.basic.Atom("Drag Me");
+        a1.set({ backgroundColor: "white", border: "groove" });
+        a1.setPadding(10);
+        a1.setLocation(20, 48); 
+        d.add(a1);
+    
+        
+        a1.addEventListener("mousedown", handleMouseDown);
+        a1.addEventListener("mousemove", handleMouseMove);
+        a1.addEventListener("mouseup", handleMouseUp);
+        
+        function handleMouseDown(e)
+        {
+          this.setCapture(true);
+          a1._offsetX = e.getPageX() - a1.getLeft();
+          a1._offsetY = e.getPageY() - a1.getTop();
+        }
+        
+        function handleMouseMove(e)
+        {
+          if (this.getCapture())
+          {
+            a1.setLeft(e.getPageX() - a1._offsetX);
+            a1.setTop(e.getPageY() - a1._offsetY);
+          }
+        }
+              
+        function handleMouseUp(e)
+        {
+          this.setCapture(false);
+        }
       }
     }
-          
-    function handleMouseUp(e)
-    {
-      this.setCapture(false);
-    }
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>
