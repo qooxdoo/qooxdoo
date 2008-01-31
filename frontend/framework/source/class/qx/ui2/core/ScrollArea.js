@@ -37,42 +37,41 @@ qx.Class.define("qx.ui2.core.ScrollArea",
   {
     this.base(arguments);
 
+    var hScrollBar = this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal");
+    var vScrollBar = this._vScrollBar = new qx.ui2.core.ScrollBar("vertical");
 
-    this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal");
-    this._vScrollBar = new qx.ui2.core.ScrollBar("vertical");
+    hScrollBar.exclude();
+    hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
 
-    this._hScrollBar.exclude();
-    this._vScrollBar.exclude();
+    vScrollBar.exclude();
+    vScrollBar.addListener("scroll", this._onVerticalScroll, this);
 
-    this._hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
-    this._vScrollBar.addListener("scroll", this._onVerticalScroll, this);
+    var scrollPane = this._scrollPane = new qx.ui2.core.ScrollPane();
+    scrollPane.addListener("resize", this._onResize, this);
+    scrollPane.addListener("resizeContent", this._onResize, this);
 
-    this._hBarHeight = this._hScrollBar.getSizeHint().height;
-    this._vBarWidth = this._vScrollBar.getSizeHint().width;
-
-    this._scrollPane = new qx.ui2.core.ScrollPane();
-
-    this._scrollPane.addListener("resize", this._onResize, this);
-    this._scrollPane.addListener("resizeContent", this._onResize, this);
-
-    this._cornerWidget = new qx.ui2.core.Widget().set({
-      width: this._vBarWidth,
-      height: this._hBarHeight,
+    var corner = this._corner = new qx.ui2.core.Widget().set({
       backgroundColor: "green",
-      visibility: "excluded"
+      width : 0,
+      height : 0
     });
 
+    corner.exclude();
 
     var grid = new qx.ui2.layout.Grid();
-    this.setLayout(grid);
     grid.setColumnFlex(0, 1);
     grid.setRowFlex(0, 1);
 
-    grid.add(this._scrollPane, 0, 0);
-    grid.add(this._vScrollBar, 0, 1);
-    grid.add(this._hScrollBar, 1, 0);
-    grid.add(this._cornerWidget, 1, 1);
+    grid.add(scrollPane, 0, 0);
+    grid.add(vScrollBar, 0, 1);
+    grid.add(hScrollBar, 1, 0);
+    grid.add(corner, 1, 1);
+
+    this.setLayout(grid);
   },
+
+
+
 
 
   /*
@@ -123,8 +122,11 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     overflow : {
       group : [ "overflowX", "overflowY" ]
     }
-
   },
+
+
+
+
 
 
   /*
@@ -218,13 +220,13 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var autoX = this.getOverflowX() === "auto";
       var autoY = this.getOverflowY() === "auto";
 
-      var horiScroll = this._hScrollBar;
-      var vertScroll = this._vScrollBar;
+      var hScrollBar = this._hScrollBar;
+      var vScrollBar = this._vScrollBar;
 
       if (autoY)
       {
-        if (autoX && horiScroll.getVisibility() == "visible") {
-          areaHeight += this._hBarHeight;
+        if (autoX && hScrollBar.getVisibility() == "visible") {
+          areaHeight += hScrollBar.getSizeHint().height;
         }
 
         if (contentSize.height > areaHeight) {
@@ -237,7 +239,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       if (autoX)
       {
         if (autoY && this._vScrollBar.getVisibility() == "visible") {
-          areaWidth += this._vBarWidth;
+          areaWidth += vScrollBar.getSizeHint().width;
         }
 
         if (contentSize.width > areaWidth) {
@@ -248,12 +250,12 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
 
       // Update scrollbar maximum for visible scrollbars
-      if (horiScroll.getVisibility() == "visible") {
-        horiScroll.setMaximum(Math.max(0, contentSize.width - areaWidth));
+      if (hScrollBar.getVisibility() == "visible") {
+        hScrollBar.setMaximum(Math.max(0, contentSize.width - areaWidth));
       }
 
-      if (vertScroll.getVisibility() == "visible") {
-        vertScroll.setMaximum(Math.max(0, contentSize.height - areaHeight));
+      if (vScrollBar.getVisibility() == "visible") {
+        vScrollBar.setMaximum(Math.max(0, contentSize.height - areaHeight));
       }
     },
 
@@ -286,13 +288,13 @@ qx.Class.define("qx.ui2.core.ScrollArea",
         scrollBar.show();
 
         if (otherScrollBar.getVisibility() == "visible") {
-          this._cornerWidget.show();
+          this._corner.show();
         }
       }
       else
       {
         scrollBar.exclude();
-        this._cornerWidget.exclude();
+        this._corner.exclude();
 
         if (isHorizontal) {
           this._scrollPane.setScrollLeft(0);
