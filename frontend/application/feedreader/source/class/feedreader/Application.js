@@ -14,21 +14,16 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#resource(feedreader.feeds:feeds)
 #resource(feedreader.css:css)
-#resource(feedreader.proxy:proxy)
 #resource(feedreader.images:images)
-#embed(feedreader.proxy/*)
-#embed(feedreader.feeds/*)
 #embed(feedreader.css/*)
 #embed(feedreader.images/*)
-#embed(qx.icontheme/16/actions/dialog-ok.png)
-#embed(qx.icontheme/16/actions/dialog-cancel.png)
 #embed(qx.icontheme/16/actions/help-about.png)
 #embed(qx.icontheme/16/actions/view-refresh.png)
 #embed(qx.icontheme/16/apps/preferences.png)
@@ -47,86 +42,25 @@ qx.Class.define("feedreader.Application",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // this.fetchFeedDesc();
-    this.setFeeds([]);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    _feedDesc : qx.lang.Object.select(qx.core.Client.getInstance().getRunsLocally() ? "local" : "remote",
-    {
-      "local" :
-      [
-        {
-          url  : "feedreader/feeds/qooxdoo-news.xml",
-          name : "qooxdoo-blog"
-        },
-        {
-          url  : "feedreader/feeds/qooxdoo-blog.xml",
-          name : "qooxdoo-news"
-        },
-        {
-          url  : "feedreader/feeds/ajaxian.xml",
-          name : "ajaxian"
-        },
-        {
-          url  : "feedreader/feeds/safari.xml",
-          name : "Surfin' Safari"
-        }
-      ],
-
-      "remote" :
-      [
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
-          name : "qooxdoo-blog"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
-          name : "qooxdoo-news"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
-          name : "ajaxian"
-        },
-        {
-          url  : "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
-          name : "Surfin' Safari"
-        }
-      ]
-    })
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
   properties :
   {
-    feeds        : { },
-    selectedFeed : { }
+    selectedFeed :
+    {
+      check    : "Object",
+      nullable : true,
+      apply    : "_applySelectedFeed"
+    },
+
+    selectedArticle :
+    {
+      check    : "Object",
+      nullable : true,
+      apply    : "_applySelectedArticle"
+    }
   },
 
 
@@ -142,27 +76,13 @@ qx.Class.define("feedreader.Application",
   {
     /*
     ---------------------------------------------------------------------------
-      METHODS
+      APPLICATION METHODS
     ---------------------------------------------------------------------------
     */
 
-
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    close : function()
-    {
-      this.base(arguments);
-
-      // return "Do you really want to quit?";
-    },
-
-
-    /**
-     * TODOC
+     * Application initialization which happens when
+     * all library files are loaded and ready
      *
      * @type member
      * @return {void}
@@ -171,320 +91,261 @@ qx.Class.define("feedreader.Application",
     {
       this.base(arguments);
 
+      // Initialize data field
+      this._feeds = {};
+
+      // Initialialize date format
+      this._dateFormat = new qx.util.format.DateFormat;
+
+      // Add some static feeds
+      this.addFeed("qooxdoo Blog", "http://feeds.feedburner.com/qooxdoo/blog/content");
+      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
+      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
+      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
+      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
+      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
+      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
+      this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
+
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
 
       // Include CSS file
-      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
+      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
 
-      // create main layout
+      // Increase parallel requests
+      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
+
+      // Create Application Layout
+      this._createLayout();
+
+      // React on theme selection changes
+      qx.theme.manager.Meta.getInstance().addEventListener("changeTheme", this._applyCssTheme, this);
+      this._applyCssTheme();
+    },
+
+
+    /**
+     * Executes after the preloading of images and initial layout rendering is done.
+     * It is always a good idea to load data in the next step because the GUI feels better then (Outlook effect).
+     *
+     * @type member
+     * @return {void}
+     */
+    _postload : function()
+    {
+      this.base(arguments);
+
+      // Fetch feed data
+      this._fetchData();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FEED MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getFeeds : function() {
+      return this._feeds;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {var} TODOC
+     */
+    getFeedDataByUrl : function(url)
+    {
+      var db = this._feeds;
+      return db[url] || null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param title {var} TODOC
+     * @return {var | null} TODOC
+     */
+    getFeedDataByTitle : function(title)
+    {
+      var db = this._feeds;
+      var entry;
+
+      for (var url in db)
+      {
+        entry = db[url];
+
+        if (entry.title == title) {
+          return db[url];
+        }
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Adds a new feed
+     *
+     * @type member
+     * @param title {var} TODOC
+     * @param url {var} TODOC
+     * @return {void}
+     */
+    addFeed : function(title, url)
+    {
+      var db = this._feeds;
+
+      if (db[url])
+      {
+        alert("The feed " + title + " is already in your subscription list.");
+        return;
+      }
+
+      db[url] =
+      {
+        title  : title,
+        items  : [],
+        loader : qx.lang.Function.bind(this._loadJsonFeed, this, url),
+        added  : new Date
+      };
+
+      if (this._tree) {
+        this._tree.refreshView(url);
+      }
+    },
+
+
+    /**
+     * Removes a feed by given URL or title
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {void}
+     * @throws TODOC
+     */
+    removeFeed : function(url)
+    {
+      var db = this._feeds;
+
+      if (db[url])
+      {
+        delete db[url];
+
+        if (this._tree) {
+          this._tree.refreshView(url);
+        }
+
+        return;
+      }
+
+      throw new Error("The feed could not be found!");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {void}
+     */
+    selectFeed : function(url)
+    {
+      var value = this._feeds[url];
+      value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      GUI RELATED INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Creates the core layout
+     *
+     * @type member
+     * @return {void}
+     */
+    _createLayout : function()
+    {
+      // Create main layout
       var dockLayout = new qx.ui.layout.DockLayout();
-
-      dockLayout.set(
-      {
-        height : "100%",
-        width  : "100%"
-      });
-
-      // create header
-      this._header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
-      this._header.setHtmlProperty("className", "header");
-      this._header.setHeight(50);
-      dockLayout.addTop(this._header);
-
-      // define commands
-      var reload_cmd = new qx.event.Command("Control+R");
-
-      reload_cmd.addListener("execute", function(e)
-      {
-        this.fetchFeeds();
-        this.debug(this.tr("reloading ...").toString());
-      },
-      this);
-
-      var about_cmd = new qx.event.Command("F1");
-
-      about_cmd.addListener("execute", function(e) {
-        alert(this.tr("qooxdoo feed reader."));
-      }, this);
-
-      // create toolbar
-      var toolBar = new qx.ui.toolbar.ToolBar();
-      toolBar.setBorder("line-bottom");
-      toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/actions/dialog-ok.png"));
-      toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/actions/dialog-cancel.png"));
-      toolBar.add(new qx.ui.toolbar.Separator());
-
-      var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/actions/view-refresh.png");
-      reload_btn.setCommand(reload_cmd);
-      reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
-      toolBar.add(reload_btn);
-      toolBar.add(new qx.ui.toolbar.Separator());
-
-      var pref_btn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/16/apps/preferences.png");
-      pref_btn.addListener("execute", this.showPreferences, this);
-      pref_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
-      toolBar.add(pref_btn);
-
-      toolBar.add(new qx.ui.basic.HorizontalSpacer());
-
-      // poulate languages menu and add it to the toolbar
-      var locales =
-      {
-        en : this.tr("English"),
-        de : this.tr("German"),
-        en : this.tr("English"),
-        tr : this.tr("Turkish"),
-        it : this.tr("Italian"),
-        es : this.tr("Spanish"),
-        sv : this.tr("Swedish"),
-        ru : this.tr("Russian")
-      };
-
-      var availableLocales = qx.locale.Manager.getInstance().getAvailableLocales();
-      var locale = qx.locale.Manager.getInstance().getLocale();
-      var lang_menu = new qx.ui.menu.Menu();
-      var radioManager = new qx.ui.selection.RadioManager("lang");
-
-      for (var lang in locales)
-      {
-        if (availableLocales.indexOf(lang) == -1) {
-          continue;
-        }
-
-        var menuButton = new qx.ui.menu.RadioButton(locales[lang], null, locale == lang);
-        menuButton.setUserData("locale", lang);
-        lang_menu.add(menuButton);
-        radioManager.add(menuButton);
-      }
-
-      radioManager.addListener("changeSelected", function(e)
-      {
-        var lang = e.getData().getUserData("locale");
-        this.debug("lang:" + lang);
-        qx.locale.Manager.getInstance().setLocale(lang);
-      });
-
-      lang_menu.addToDocument();
-      toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "feedreader/images/locale.png"));
-
-      var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
-      about_btn.setCommand(about_cmd);
-      about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + about_cmd.toString() + ")"));
-      toolBar.add(about_btn);
-
-      dockLayout.addTop(toolBar);
-
-      // add tree
-      var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
-
-      tree.set(
-      {
-        height : "100%",
-        width  : "100%",
-        padding : 5,
-        border : "line-right",
-        overflow : "auto"
-      });
-
-      var feedDesc = feedreader.Application._feedDesc;
-
-      for (var i=0; i<feedDesc.length; i++)
-      {
-        var folder = new qx.ui.tree.TreeFolder(feedDesc[i].name);
-
-        tree.getManager().addListener("changeSelection", function(e)
-        {
-          if (e.getData()[0].getParentFolder()) {
-            this.displayFeed(e.getData()[0].getLabel());
-          }
-        },
-        this);
-
-        tree.add(folder);
-      }
-
-      // create table model
-      this._tableModel = new qx.ui.table.model.Simple();
-      this._tableModel.setColumnIds([ "title", "author", "date", "id" ]);
-
-      this._tableModel.setColumnNamesById(
-      {
-        title  : this.tr("Subject"),
-        author : this.tr("Sender"),
-        date   : this.tr("Date"),
-        id     : this.tr("ID")
-      });
-
-
-      // add table
-
-      // Customize the table column model.  We want one that automatically
-      // resizes columns.
-      var custom = {
-        tableColumnModel : function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-
-      var table = new qx.ui.table.Table(this._tableModel, custom);
-      //table.setBorder("inset");
-
-      table.set(
-      {
-        height : "100%",
-        width  : "100%",
-        border : "line-bottom"
-      });
-
-      table.setStatusBarVisible(false);
-      table.getDataRowRenderer().setHighlightFocusRow(false);
-      table.getTableColumnModel().setColumnWidth(0, 350);
-      table.getTableColumnModel().setColumnWidth(1, 200);
-      table.getTableColumnModel().setColumnWidth(2, 200);
-      table.getTableColumnModel().setColumnVisible(3, false);
-
-
-      table.getSelectionModel().addListener("changeSelection", function(e)
-      {
-        var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
-        var feedName = this.getSelectedFeed()
-        if (selectedEntry >= 0) {
-          var feeds = this.getFeeds();
-          var itemId = this._tableModel.getRowData(selectedEntry)[3];
-          feeds[feedName].selected = itemId;
-          var item = feeds[feedName].items[itemId];
-          this.displayArticle(item);
-        }
-      },
-      this);
-
-      this._table = table;
-
-      // add blog entry
-      this._blogEntry = new feedreader.ArticleView();
-
-      this._blogEntry.set(
-      {
-        height : "100%",
-        width  : "100%",
-        border : "line-top"
-      });
-
-      //this._blogEntry.setBorder("inset");
-
-      // create splitpane for the right hand content area
-      var contentSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
-
-      contentSplitPane.set(
-      {
-        height : "100%",
-        width  : "100%",
-        border : "line-left"
-      });
-
-      contentSplitPane.setLiveResize(true);
-      contentSplitPane.addTop(table);
-      contentSplitPane.addBottom(this._blogEntry);
-
-      // create vertival splitter
-      var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
-      mainSplitPane.setLiveResize(true);
-      mainSplitPane.addLeft(tree);
-      mainSplitPane.addRight(contentSplitPane);
-
-      dockLayout.add(mainSplitPane);
-
+      dockLayout.setEdge(0);
       dockLayout.addToDocument();
 
-      qx.theme.manager.Meta.getInstance().addListener("changeTheme", this.onChangeTheme, this);
-      this.onChangeTheme();
+      // Create header
+      this._headerView = new feedreader.view.Header;
+      dockLayout.addTop(this._headerView);
 
-      // load and display feed data
-      this.setSelectedFeed(feedDesc[0].name);
-      this.fetchFeeds();
+      // Create toolbar
+      this._toolBarView = new feedreader.view.ToolBar(this);
+      dockLayout.addTop(this._toolBarView);
+
+      // Create horizontal split pane
+      var horSplitPane = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
+      dockLayout.add(horSplitPane);
+
+      // Create tree view
+      this._treeView = new feedreader.view.Tree(this);
+      horSplitPane.addLeft(this._treeView);
+
+      // Create vertical split pane
+      var vertSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
+      vertSplitPane.setEdge(0);
+      vertSplitPane.setBorder("line-left");
+      horSplitPane.addRight(vertSplitPane);
+
+      // Create table view
+      this._tableView = new feedreader.view.Table(this);
+      vertSplitPane.addTop(this._tableView);
+
+      // Create article view
+      this._articleView = new feedreader.view.Article;
+      vertSplitPane.addBottom(this._articleView);
     },
 
 
-    onChangeTheme : function()
-    {
-      if (qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext)
-      {
-        document.body.className = "Ext";
-      }
-      else
-      {
-        document.body.className = "Classic";
-      }
+    /**
+     * Syncs CSS theme to selected meta theme
+     *
+     * @type member
+     * @return {void}
+     */
+    _applyCssTheme : function() {
+      document.body.className = qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext ? "Ext" : "Classic";
     },
 
 
+    /**
+     * Opens the preferences window
+     *
+     * @type member
+     * @return {void}
+     */
     showPreferences : function()
     {
-      if (!this._prefWindow)
-      {
-        var win = new qx.ui.window.Window(this.tr("Preferences"), "icon/16/apps/preferences.png");
-        win.set({
-          modal : true,
-          showMinimize: false,
-          showMaximize: false,
-          allowMaximize: false,
-          width: 150
-        });
-        win.addToDocument();
-
-        var winLayout = new qx.ui.layout.VerticalBoxLayout();
-        winLayout.set({
-          width: "100%",
-          height: "auto",
-          spacing: 5,
-          padding: 5
-        });
-        win.add(winLayout);
-
-        var gb = new qx.ui.groupbox.GroupBox(this.tr("Theme"));
-        gb.set({
-          height: "auto",
-          width: "100%"
-        });
-        winLayout.add(gb);
-
-        var vb = new qx.ui.layout.VerticalBoxLayout();
-        gb.add(vb);
-
-        var btn_classic = new qx.ui.form.RadioButton("Classic");
-        var btn_ext = new qx.ui.form.RadioButton("Ext");
-        btn_ext.setChecked(true);
-        var rm = new qx.ui.selection.RadioManager();
-        rm.add(btn_classic, btn_ext);
-        vb.add(btn_classic, btn_ext);
-
-        var hb = new qx.ui.layout.HorizontalBoxLayout();
-        hb.set({
-          width: "100%",
-          horizontalChildrenAlign: "right",
-          spacing: 5,
-          paddingRight: 3
-        });
-
-        var btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
-        btn_cancel.addListener("execute", win.close, win);
-        var btn_ok = new qx.ui.form.Button(this.tr("OK"));
-        btn_ok.addListener("execute", function() {
-          if (btn_ext.getChecked()) {
-            qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
-          } else {
-            qx.theme.manager.Meta.getInstance().setTheme(qx.theme.ClassicRoyale);
-          }
-          win.close();
-        }, this);
-        hb.add(btn_cancel);
-        hb.add(btn_ok);
-
-        winLayout.add(hb);
-
-        this._prefWindow = win;
-        win.addListener("appear", win.centerToBrowser, win);
+      if (!this._prefWindow) {
+        this._prefWindow = new feedreader.PreferenceWindow;
       }
 
       this._prefWindow.open();
@@ -497,31 +358,8 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @return {void}
      */
-    fetchFeedDesc : function()
-    {
-      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
-      feedreader.Application._feedDesc = [];
-
-      req.addListener("completed", function(e)
-      {
-        var xml = e.getContent();
-        var eItems = xml.getElementsByTagName("outline");
-
-        for (var i=0; i<eItems.length; i++)
-        {
-          var eDesc = eItems[i];
-
-          feedreader.Application._feedDesc.push(
-          {
-            name : eDesc.getAttribute("title"),
-            url  : qx.io.Alias.getInstance().resolve("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
-          });
-        }
-      },
-      this);
-
-      req.setAsynchronous(false);
-      req.send();
+    showAbout : function() {
+      alert("qooxdoo based feed reader");
     },
 
 
@@ -531,163 +369,176 @@ qx.Class.define("feedreader.Application",
      * @type member
      * @return {void}
      */
-    fetchFeeds : function()
+    showAddFeed : function() {
+      alert("Missing implementation");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    showRemoveFeed : function() {
+      alert("Missing implementation");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} TODOC
+     * @param old {var} TODOC
+     * @return {void}
+     */
+    _applySelectedFeed : function(value, old)
     {
-      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(2);
-      var feedDesc = feedreader.Application._feedDesc;
-      var that = this;
-
-      var getCallback = function(feedName)
+      if (old)
       {
-        return function(e)
+        // Store old selection
+        old.selection = this._tableView.getSelectionModel().getAnchorSelectionIndex();
+      }
+
+      if (value)
+      {
+        // Update model with new data
+        this._tableView.getTableModel().setDataAsMapArray(value.items);
+
+        if (value.selection != null)
         {
-          that.debug("loading " + feedName + " complete!");
-          that.parseXmlFeed(feedName, e.getContent());
-        };
-      };
-
-      for (var i=0; i<feedDesc.length; i++)
+          // If a selection was stored, recover it
+          this._tableView.getSelectionModel().setSelectionInterval(value.selection, value.selection);
+          delete value.selection;
+        }
+        else
+        {
+          // Initially select first article
+          this._tableView.getSelectionModel().setSelectionInterval(0, 0);
+        }
+      }
+      else
       {
-        var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve(feedDesc[i].url), "GET", qx.util.Mime.XML);
-        req.addListener("completed", getCallback(feedDesc[i].name));
+        // Clean up model
+        this._tableView.getTableModel().setDataAsMapArray([]);
+
+        // Clean up article
+        this._articleView.resetArticle();
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} TODOC
+     * @param old {var} TODOC
+     * @return {void}
+     */
+    _applySelectedArticle : function(value, old) {
+      this._articleView.setArticle(value);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DATA RELATED INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    reload : function() {
+      this._fetchData();
+    },
+
+
+    /**
+     * Load feed data from remote servers
+     *
+     * @type member
+     * @return {void}
+     */
+    _fetchData : function()
+    {
+      var db = this._feeds;
+      var proxy, entry, req;
+
+      for (var url in db)
+      {
+        entry = db[url];
+
+        // Redirect request through proxy (required for cross-domain loading)
+        // The proxy also translates the data from XML to JSON
+        proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(url);
+
+        // Create request object
+        req = new qx.io.remote.Request(proxy, "GET", qx.util.Mime.TEXT);
+
+        // Json data is useable cross-domain (in fact it is jsonp in this case)
+        req.setCrossDomain(true);
+
+        // Wait longer on slow connections (normally always a lot of data)
+        req.setTimeout(30000);
+
+        // Add the listener
+        req.addEventListener("completed", entry.loader);
+
+        // And finally send the request
         req.send();
       }
     },
 
 
     /**
-     * TODOC
+     * This is used as a callback from {@link _fetchFeeds} to handle
+     * JSON processing a display updates after specific feed data
+     * arrives.
      *
      * @type member
-     * @param feedName {var} TODOC
-     * @param xml {var} TODOC
+     * @param url {String} The URL which was loaded
+     * @param response {qx.io.remote.Response} Response object
      * @return {void}
      */
-    parseXmlFeed : function(feedName, xml)
+    _loadJsonFeed : function(url, response)
     {
-      var items = [];
+      // Link to feed entry
+      var feed = this._feeds[url];
 
-      if (xml.documentElement.tagName == "rss") {
-        items = this.parseRSSFeed(xml);
-      } else if (xml.documentElement.tagName == "feed") {
-        items = this.parseAtomFeed(xml);
+      // Read content
+      var json = response.getContent();
+
+      // Normalize json feed data to item list
+      var items = feedreader.FeedParser.parseFeed(json);
+
+      // Post processing items
+      for (var i=0, l=items.length; i<l; i++) {
+        items[i].date = this._dateFormat.format(items[i].date);
       }
 
-      this.getFeeds()[feedName] =
-      {
-        selected : 0,
-        items    : items
-      };
+      // Store items
+      feed.items = items;
 
-      if (feedName == this.getSelectedFeed()) {
-        this.displayFeed(feedName);
+      // Update display
+      if (this.getSelectedFeed() == feed) {
+        this._applySelectedFeed(feed);
       }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param xml {var} TODOC
-     * @return {var} TODOC
-     */
-    parseAtomFeed : function(xml)
-    {
-      var eItems = xml.getElementsByTagName("entry");
-      var empty = xml.createElement("empty");
-      var items = [];
-
-      for (var i=0; i<eItems.length; i++)
-      {
-        var eItem = eItems[i];
-        var item = {};
-        item.title = qx.dom.Node.getText(eItem.getElementsByTagName("title")[0]);
-
-        if (eItem.getElementsByTagName("author").length > 0) {
-          item.author = qx.dom.Node.getText(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
-        } else {
-          item.author = "";
-        }
-
-        item.date = qx.dom.Node.getText(eItem.getElementsByTagName("created")[0] || eItem.getElementsByTagName("published")[0] || eItem.getElementsByTagName("updated")[0] || empty);
-        item.content = qx.dom.Node.getText(eItem.getElementsByTagName("content")[0] || empty);
-        item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
-        item.id = i;
-        items.push(item);
-      }
-
-      return items;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param xml {var} TODOC
-     * @return {var} TODOC
-     */
-    parseRSSFeed : function(xml)
-    {
-      var eItems = xml.getElementsByTagName("item");
-      var empty = xml.createElement("empty");
-      var items = [];
-
-      for (var i=0; i<eItems.length; i++)
-      {
-        var eItem = eItems[i];
-        var item = {};
-        item.title = qx.dom.Node.getText(eItem.getElementsByTagName("title")[0]);
-        item.author = qx.dom.Node.getText(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
-        item.date = qx.dom.Node.getText(eItem.getElementsByTagName("pubDate")[0]);
-        item.content = qx.dom.Node.getText(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
-        item.link = qx.dom.Node.getText(eItem.getElementsByTagName("link")[0]);
-        item.id = i;
-        items.push(item);
-      }
-
-      return items;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param feedName {var} TODOC
-     * @return {void}
-     */
-    displayFeed : function(feedName)
-    {
-      if (this.getSelectedFeed() != feedName) {
-        this.getFeeds()[this.getSelectedFeed()].selected = this._table.getSelectionModel().getAnchorSelectionIndex();
-      }
-
-      this.setSelectedFeed(feedName);
-
-      if (this.getFeeds()[feedName])
-      {
-        var items = this.getFeeds()[feedName].items;
-        var selection = this.getFeeds()[feedName].selected;
-
-        this._tableModel.setDataAsMapArray(items);
-        this._table.getSelectionModel().setSelectionInterval(selection, selection);
-        this._table.setFocusedCell(0, selection, true);
-        this.displayArticle(items[selection]);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param item {var} TODOC
-     * @return {void}
-     */
-    displayArticle : function(item) {
-      this._blogEntry.setArticle(item);
     }
   },
 
@@ -700,9 +551,7 @@ qx.Class.define("feedreader.Application",
   *****************************************************************************
   */
 
-  settings : {
-    "feedreader.resourceUri" : "./resource"
-  },
+  settings : { "feedreader.resourceUri" : "./resource" },
 
 
 
@@ -713,7 +562,9 @@ qx.Class.define("feedreader.Application",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeObjects("_blogEntry", "_table", "_tableModel", "_header");
+  destruct : function()
+  {
+    this._disposeFields("_feeds");
+    this._disposeObjects("_toolbarView", "_headerView", "_tableView", "_articleView", "_treeView");
   }
 });

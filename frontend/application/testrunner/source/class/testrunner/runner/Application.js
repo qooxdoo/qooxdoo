@@ -61,7 +61,7 @@ qx.Class.define("testrunner.runner.Application",
       qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
 
       // Include CSS file
-      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("testrunner/css/testrunner.css"));
+      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("testrunner/css/testrunner.css"));
 
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;
@@ -70,7 +70,7 @@ qx.Class.define("testrunner.runner.Application",
       this.viewer.addToDocument();
 
       // Load iframe file
-      qx.event.Timer.once(this._load, this, 0);
+      qx.client.Timer.once(this._load, this, 0);
     },
 
     _load : function()

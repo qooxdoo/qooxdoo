@@ -80,7 +80,7 @@ function tokenizeDemo() {
 
 		document.getElementById("btn").onclick = function() {
 			var tokens = qx.dev.Tokenizer.tokenizeJavaScript(input.value);
-			output.innerHTML = qx.legacy.html.String.escape(qx.io.Json.stringify(tokens, true));
+			output.innerHTML = qx.html.String.escape(qx.io.Json.stringify(tokens, true));
 		}
 
 		var toJavascript = function() {
@@ -89,7 +89,7 @@ function tokenizeDemo() {
 			for (var i=0; i<tokens.length; i++) {
 				js[i] = tokens[i].value;
 			}
-			output.innerHTML = "<pre>" + qx.legacy.html.String.escape(js.join("")) + "</pre>";
+			output.innerHTML = "<pre>" + qx.html.String.escape(js.join("")) + "</pre>";
 		}
 		document.getElementById("js").onclick = toJavascript;
 

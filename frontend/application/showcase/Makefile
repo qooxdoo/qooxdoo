@@ -5,7 +5,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#    2006-2007 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -32,8 +32,8 @@ APPLICATION_COMPLETE_SOURCE = false
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 APPLICATION_BUILD_LOG_LEVEL = error
 
-#APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
-APPLICATION_LOCALES = ar de de_AT de_DE en en_US en_GB es es_ES fr fr_FR it ru sv tr zh
+APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
+#APPLICATION_LOCALES = ar de de_AT de_DE en en_US en_GB es es_ES fr fr_FR it ru sv tr zh
 
 
 

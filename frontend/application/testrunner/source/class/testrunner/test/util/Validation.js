@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.util.Validation",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {

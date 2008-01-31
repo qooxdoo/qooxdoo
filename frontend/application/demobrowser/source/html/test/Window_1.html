@@ -87,14 +87,14 @@
     var chk1 = new qx.ui.form.CheckBox("Show Icon");
     chk1.setLocation(0, 0);
     chk1.setChecked(true);
-    chk1.addListener("changeChecked", function(e) {
+    chk1.addEventListener("changeChecked", function(e) {
       w2.setShowIcon(e.getData());
     });
 
     var chk2 = new qx.ui.form.CheckBox("Show Caption");
     chk2.setLocation(0, 20);
     chk2.setChecked(true);
-    chk2.addListener("changeChecked", function(e) {
+    chk2.addEventListener("changeChecked", function(e) {
       w2.setShowCaption(e.getData());
     });
 
@@ -103,14 +103,14 @@
     var chk3 = new qx.ui.form.CheckBox("Resizeable");
     chk3.setLocation(0, 50);
     chk3.setChecked(true);
-    chk3.addListener("changeChecked", function(e) {
+    chk3.addEventListener("changeChecked", function(e) {
       w2.setResizable(e.getData());
     });
 
     var chk4 = new qx.ui.form.CheckBox("Moveable");
     chk4.setLocation(0, 70);
     chk4.setChecked(true);
-    chk4.addListener("changeChecked", function(e) {
+    chk4.addEventListener("changeChecked", function(e) {
       w2.setMoveable(e.getData());
     });
 
@@ -119,21 +119,21 @@
     var chk5 = new qx.ui.form.CheckBox("Show Close");
     chk5.setLocation(0, 100);
     chk5.setChecked(true);
-    chk5.addListener("changeChecked", function(e) {
+    chk5.addEventListener("changeChecked", function(e) {
       w2.setShowClose(e.getData());
     });
 
     var chk6 = new qx.ui.form.CheckBox("Show Maximize/Restore");
     chk6.setLocation(0, 120);
     chk6.setChecked(true);
-    chk6.addListener("changeChecked", function(e) {
+    chk6.addEventListener("changeChecked", function(e) {
       w2.setShowMaximize(e.getData());
     });
 
     var chk7 = new qx.ui.form.CheckBox("Show Minimize");
     chk7.setLocation(0, 140);
     chk7.setChecked(true);
-    chk7.addListener("changeChecked", function(e) {
+    chk7.addEventListener("changeChecked", function(e) {
       w2.setShowMinimize(e.getData());
     });
 
@@ -142,21 +142,21 @@
     var chk8 = new qx.ui.form.CheckBox("Allow Close");
     chk8.setLocation(0, 170);
     chk8.setChecked(true);
-    chk8.addListener("changeChecked", function(e) {
+    chk8.addEventListener("changeChecked", function(e) {
       w2.setAllowClose(e.getData());
     });
 
     var chk9 = new qx.ui.form.CheckBox("Allow Maximize");
     chk9.setLocation(0, 190);
     chk9.setChecked(true);
-    chk9.addListener("changeChecked", function(e) {
+    chk9.addEventListener("changeChecked", function(e) {
       w2.setAllowMaximize(e.getData());
     });
 
     var chk10 = new qx.ui.form.CheckBox("Allow Minimize");
     chk10.setLocation(0, 210);
     chk10.setChecked(true);
-    chk10.addListener("changeChecked", function(e) {
+    chk10.addEventListener("changeChecked", function(e) {
       w2.setAllowMinimize(e.getData());
     });
 

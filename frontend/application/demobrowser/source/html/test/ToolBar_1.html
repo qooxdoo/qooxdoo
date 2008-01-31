@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>
+<body>  
   <div id="description">
     <p>Introduce qx.ui.menu.Menu which opens on qx.ui.toolbar.ToolBarMenuButtons.</p>
   </div>
@@ -96,7 +96,7 @@
 
               // uncomment this to omit changes on one button
               // if (btn.icon != "upload")
-              d.addListener("changeLayout", changeLayout, o );
+              d.addEventListener("changeLayout", changeLayout, o );
               break;
 
             case "button":
@@ -106,7 +106,7 @@
 
               // uncomment this to omit changes on one button
               // if (btn.icon != "upload")
-              d.addListener("changeLayout", changeLayout, o );
+              d.addEventListener("changeLayout", changeLayout, o );
               break;
           };
 
@@ -160,8 +160,8 @@
 
 
       // beautiful decoupling: radio boxes don't know about toolbar buttons
-      rbm.addListener("changeSelected", function(e) {
-        d.fireDataEvent("changeLayout", e.getData().getValue() );
+      rbm.addEventListener("changeSelected", function(e) {
+        d.dispatchEvent( new qx.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
       });
 
       d.add(rd1, rd2, rd3);
@@ -203,7 +203,7 @@
 
       d.add(ra1, ra2, ra3);
 
-      ram.addListener("changeSelected", function(e) {
+      ram.addEventListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getData().getValue());
       });
 

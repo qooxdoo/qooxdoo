@@ -55,7 +55,7 @@
       var mycall = null;
       var test;
 
-      start.addListener("execute", function() {
+      start.addEventListener("execute", function() {
         try
         {
           var rpc = new qx.io.remote.Rpc(url.getValue(), service.getValue());

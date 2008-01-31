@@ -65,24 +65,24 @@
       var rpc = new qx.io.remote.Rpc();
       rpc.setTimeout(60000);
 
-      rpc.addListener("completed",
-                           function(e) {
+      rpc.addEventListener("completed",
+                           function(e) {                             
                              var response = e.getData();
                              var seqnum = response.id;
                              var result = response.result;
                              mycalls[seqnum] = null;
                              t = new Date().getTime() - t0;
-                             layout1.warn(t + ": response " + seqnum +
+                             layout1.debug(t + ": response " + seqnum +
                                           ": " + result);
                            });
 
-      rpc.addListener("failed",
+      rpc.addEventListener("failed",
                            function(e) {
                              var response = e.getData();
                              var seqnum = response.id;
                              mycalls[seqnum] = null;
                              t = new Date().getTime() - t0;
-                             layout1.warn(t + ": exception " + seqnum +
+                             layout1.debug(t + ": exception " + seqnum +
                                           ": origin=" + response.origin +
                                           ", code=" + response.code +
                                           ", message=" + response.message);
@@ -91,7 +91,7 @@
       var mycall;
       var mycalls;
 
-      start.addListener("execute", function() {
+      start.addEventListener("execute", function() {
         t0 = new Date().getTime();
 
         mycalls = [ ];
@@ -117,11 +117,11 @@
           t = new Date().getTime() - t0;
           seqnum = mycall.getSequenceNumber();
           mycalls[seqnum] = mycall;
-          layout1.warn(t + ": request " + seqnum + " = " + i.toString());
+          layout1.debug(t + ": request " + seqnum + " = " + i.toString());
         }
       });
 
-      abort.addListener("execute", function() {
+      abort.addEventListener("execute", function() {
         for (var seqnum in mycalls) {
           if (mycalls[seqnum] !== null) {
             rpc.abort(mycalls[seqnum]);

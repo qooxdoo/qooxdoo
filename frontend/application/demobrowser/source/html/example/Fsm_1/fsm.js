@@ -280,10 +280,10 @@ function initFsm()
   // Allocate an RPC object
   var o = new qx.io.remote.Rpc();
   o.setTimeout(10000);
-  o.addListener("completed", fsm.eventListener, fsm);
-  o.addListener("failed", fsm.eventListener, fsm);
-  o.addListener("timeout", fsm.eventListener, fsm);
-  o.addListener("aborted", fsm.eventListener, fsm);
+  o.addEventListener("completed", fsm.eventListener, fsm);
+  o.addEventListener("failed", fsm.eventListener, fsm);
+  o.addEventListener("timeout", fsm.eventListener, fsm);
+  o.addEventListener("aborted", fsm.eventListener, fsm);
   fsm.addObject("rpc", o);
 
   return fsm;

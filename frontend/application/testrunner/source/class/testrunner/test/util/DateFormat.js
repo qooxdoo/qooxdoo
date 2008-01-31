@@ -24,7 +24,7 @@
 
 qx.Class.define("testrunner.test.util.DateFormat",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {

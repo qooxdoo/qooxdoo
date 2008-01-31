@@ -100,13 +100,13 @@
 
     qx.ui.core.ClientDocument.getInstance().add(c1, c2);
 
-    c1.addListener("execute", function(e) {
+    c1.addEventListener("execute", function(e) {
       gl.setColumnWidth(2, 100);
       gl.setColumnWidth(3, 100);
       gl.setColumnWidth(4, 100);
     });
 
-    c2.addListener("execute", function(e) {
+    c2.addEventListener("execute", function(e) {
       gl.setColumnWidth(2, 75);
       gl.setColumnWidth(3, 75);
       gl.setColumnWidth(4, 75);

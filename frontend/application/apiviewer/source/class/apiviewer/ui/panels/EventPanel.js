@@ -75,7 +75,7 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
     getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
       // Add the description
-      textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), showDetails));
+      var textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), showDetails));
 
       if (showDetails)
       {

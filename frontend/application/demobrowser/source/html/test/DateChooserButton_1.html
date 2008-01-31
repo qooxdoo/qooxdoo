@@ -29,7 +29,7 @@
 		d.add(l1);
 
     var tf1 = new qx.ui.form.TextField; tf1.set({top:48,left:90,width:150});
-    tf1.addListener("changeValue", changeValue);
+    tf1.addEventListener("changeValue", changeValue);
     d.add(tf1);
 
 
@@ -48,7 +48,7 @@
 		d.add(l2);
 
     var tf2 = new qx.ui.form.TextField; tf2.set({top:88,left:90,width:150});
-    tf2.addListener("changeValue", changeValue);
+    tf2.addEventListener("changeValue", changeValue);
     d.add(tf2);
 
     var dcb2 = new qx.ui.component.DateChooserButton(tf2);
@@ -70,7 +70,7 @@
     item = new qx.ui.form.ListItem("long"); c1.add(item);
     item = new qx.ui.form.ListItem("full"); c1.add(item);
 
-    c1.addListener("changeValue", function(e) {
+    c1.addEventListener("changeValue", function(e) {
       dcb1.setDateFormatSize(e.getData());
       dcb2.setDateFormatSize(e.getData());
     });
@@ -91,7 +91,7 @@
     item = new qx.ui.form.ListItem("de_DE"); c2.add(item);
     item = new qx.ui.form.ListItem("fr_FR"); c2.add(item);
 
-    c2.addListener("changeValue", function(e) {
+    c2.addEventListener("changeValue", function(e) {
 			qx.locale.Manager.getInstance().setLocale(e.getData());
     });
 

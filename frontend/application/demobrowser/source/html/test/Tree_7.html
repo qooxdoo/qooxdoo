@@ -108,7 +108,7 @@
 
       commandFrame.add(tCurrentInput);
 
-      t.getManager().addListener("changeSelection", function(e) {
+      t.getManager().addEventListener("changeSelection", function(e) {
         if(e.getData()[0]) {
           tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
           this.debug('classname: ' + e.getData()[0].classname);
@@ -129,7 +129,7 @@
 
       commandFrame.add(tDoubleClick);
 
-      tDoubleClick.addListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
+      tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
 
 
 
@@ -143,7 +143,7 @@
 
       commandFrame.add(tTreeLines);
 
-      tTreeLines.addListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
+      tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
 
 
 
@@ -157,7 +157,7 @@
 
       commandFrame.add(vShowItems);
 
-      vShowItems.addListener("execute", function(e) {
+      vShowItems.addEventListener("execute", function(e) {
         alert(t.getItems());
       });
 
@@ -171,7 +171,7 @@
 
       commandFrame.add(vDestroyTreeContent);
 
-      vDestroyTreeContent.addListener("execute", function(e) {
+      vDestroyTreeContent.addEventListener("execute", function(e) {
          t.destroyContent();
       });
 
@@ -185,7 +185,7 @@
 
       commandFrame.add(vCreateItems);
 
-      vCreateItems.addListener("execute", function(e) {
+      vCreateItems.addEventListener("execute", function(e) {
         createItems(t);
       });
 
@@ -198,7 +198,7 @@
 
       commandFrame.add(vDestroySelectedItem);
 
-      vDestroySelectedItem.addListener("execute", function(e) {
+      vDestroySelectedItem.addEventListener("execute", function(e) {
         var vItem = t.getManager().getSelectedItem();
         if(vItem) {
           vItem.destroy();
@@ -215,7 +215,7 @@
 
       commandFrame.add(vDestroyContenSelectedItem);
 
-      vDestroyContenSelectedItem.addListener("execute", function(e) {
+      vDestroyContenSelectedItem.addEventListener("execute", function(e) {
         var vItem = t.getManager().getSelectedItem();
         if(vItem && vItem instanceof qx.ui.tree.TreeFolder) {
           vItem.destroyContent();

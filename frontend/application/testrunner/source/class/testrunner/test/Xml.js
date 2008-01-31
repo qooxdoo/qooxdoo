@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.Xml",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {
@@ -51,7 +51,7 @@ qx.Class.define("testrunner.test.Xml",
     testParseSerializeXml : function()
     {
       var doc = qx.xml.Document.create();
-      this.assertTrue(qx.dom.Node.isDocument(doc));
+      this.assertTrue(qx.xml.Document.isDocument(doc));
 
       var div = doc.createElement("div");
       this.assertEquals("div", div.tagName);
@@ -59,7 +59,7 @@ qx.Class.define("testrunner.test.Xml",
       var xmlStr = '<html>' + '<body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body>' + '</html>';
 
       var doc2 = qx.xml.Document.fromString(xmlStr);
-      this.assertTrue(qx.dom.Node.isDocument(doc2));
+      this.assertTrue(qx.xml.Document.isDocument(doc2));
 
       this.assertEquals(xmlStr, qx.xml.Element.serialize(doc2));
     },
@@ -138,22 +138,22 @@ qx.Class.define("testrunner.test.Xml",
         };
       }
 
-      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("testrunner/data/qooxdoo-blog.xml"), qx.util.Http.METHOD_GET, qx.util.Mime.XML);
+      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("testrunner/data/qooxdoo-blog.xml"), qx.net.Http.METHOD_GET, qx.util.Mime.XML);
       req.setAsynchronous(false);
       var failed = "";
       var xmlDocument;
-      req.addListener("aborted", error("aborted"));
-      req.addListener("failed", error("failed"));
-      req.addListener("timeout", error("timeout"));
+      req.addEventListener("aborted", error("aborted"));
+      req.addEventListener("failed", error("failed"));
+      req.addEventListener("timeout", error("timeout"));
 
-      req.addListener("completed", function(e) {
+      req.addEventListener("completed", function(e) {
         xmlDocument = e.getData().getContent();
       });
 
       req.send();
 
       this.assertEquals("", failed);
-      this.assertTrue(qx.dom.Node.isDocument(xmlDocument));
+      this.assertTrue(qx.xml.Document.isDocument(xmlDocument));
       this.assertEquals("rss", xmlDocument.documentElement.tagName);
     },
 
@@ -166,12 +166,7 @@ qx.Class.define("testrunner.test.Xml",
      */
     testGetElementsByTagNameNS : function()
     {
-      var xmlStr =
-        "<?xml version='1.0' encoding='UTF-8'?>" +
-        "<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>" +
-        "<xsl:output method='xml' version='1.0' encoding='UTF-8' indent='yes'/>" +
-        "<xsl:template match='*'></xsl:template><xsl:template match='@*'>" +
-        "</xsl:template></xsl:stylesheet>";
+      var xmlStr = "<?xml version='1.0' encoding='UTF-8'?>" + "<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>" + "<xsl:output method='xml' version='1.0' encoding='UTF-8' indent='yes'/>" + "<xsl:template match='*'></xsl:template><xsl:template match='@*'>" + "</xsl:template></xsl:stylesheet>";
 
       var nsDoc = qx.xml.Document.fromString(xmlStr);
 

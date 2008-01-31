@@ -90,17 +90,17 @@
 
       btnClear.setLocation(550, 328);
 
-      btnAdd10.addListener("execute", function(e) { add(10); });
-      btnAdd50.addListener("execute", function(e) { add(50); });
-      btnAdd100.addListener("execute", function(e) { add(100); });
-      btnAdd1000.addListener("execute", function(e) { add(1000); });
+      btnAdd10.addEventListener("execute", function(e) { add(10); });
+      btnAdd50.addEventListener("execute", function(e) { add(50); });
+      btnAdd100.addEventListener("execute", function(e) { add(100); });
+      btnAdd1000.addEventListener("execute", function(e) { add(1000); });
 
-      btnRemove10.addListener("execute", function(e) { remove(10); });
-      btnRemove50.addListener("execute", function(e) { remove(50); });
-      btnRemove100.addListener("execute", function(e) { remove(100); });
-      btnRemove1000.addListener("execute", function(e) { remove(1000); });
+      btnRemove10.addEventListener("execute", function(e) { remove(10); });
+      btnRemove50.addEventListener("execute", function(e) { remove(50); });
+      btnRemove100.addEventListener("execute", function(e) { remove(100); });
+      btnRemove1000.addEventListener("execute", function(e) { remove(1000); });
 
-      btnClear.addListener("execute", function(e) { clear(); });
+      btnClear.addEventListener("execute", function(e) { clear(); });
 
       qx.ui.core.ClientDocument.getInstance().add(btnAdd10, btnAdd50, btnAdd100, btnAdd1000, btnRemove10, btnRemove50, btnRemove100, btnRemove1000, btnClear);
     });

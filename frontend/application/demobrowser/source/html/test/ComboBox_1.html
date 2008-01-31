@@ -5,12 +5,10 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>
+<body>  
   <div id="description">
     <p>Testing qx.ui.form.ComboBox implementation.</p>
     <p>Testing object creation (the list content will be filled then) on first open.</p>
-    <p>Added Color Theme Buttons</p>
-    <p>Now with image inside the popup.</p>
   </div>
 
   <select style="position:absolute; left:300px; top:48px; width: 120px;">
@@ -56,34 +54,27 @@
       var c1 = new qx.ui.form.ComboBox;
       c1.setLocation(20, 48);
 
-      // this example seems to be buggy with auto-height
-      // c1.getPopup().setHeight(150);
-
-      c1.addListener("beforeInitialOpen", function(e)
+      c1.addEventListener("beforeInitialOpen", function(e)
       {
         var item;
-        var list = [ "package-x-generic", "video-x-generic", "x-office-spreadsheet", "text-html", "image-x-generic", "application-quicktime", "application-pdf" ];
 
-        for(var i=0; i<list.length; i++)
+        for(var i=1; i<=30; i++)
         {
-          item = new qx.ui.form.ListItem(list[i], "icon/48/mimetypes/" + list[i] + ".png");
-          item.setShow("icon");
-
+          item = new qx.ui.form.ListItem("Item No " + i);
+          !(i % 10) && (item.setEnabled(false));
           c1.add(item);
         };
-
-    c1.setSelected(c1.getList().getFirstChild());
       });
 
       // this does not work here (if there is no content)
       c1.setSelected(c1.getList().getFirstChild());
 
-      c1.addListener("changeValue", function(e) {
-        this.debug("New value: " + e.getValue());
+      c1.addEventListener("changeValue", function(e) {
+        this.debug("New value: " + e.getData());
       });
 
-      c1.addListener("changeSelected", function(e) {
-        this.debug("New selected: " + e.getValue());
+      c1.addEventListener("changeSelected", function(e) {
+        this.debug("New selected: " + e.getData());
       });
 
 
@@ -93,25 +84,13 @@
 
       b1.set({ top: 50, left: 150 });
 
-      b1.addListener("changeChecked", function(e) {
-        c1.setEditable(e.getValue());
+      b1.addEventListener("changeChecked", function(e) {
+        c1.setEditable(e.getData());
       });
 
 
 
       d.add(c1, b1);
-
-
-
-
-
-
-
-    // Color Themes
-    qx.util.ThemeList.createMetaButtons(d, 20, 248);
-
-
-
     });
   </script>
 </body>

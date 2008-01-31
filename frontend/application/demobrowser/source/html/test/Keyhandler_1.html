@@ -93,17 +93,17 @@
 		initializeLogger();
 
 		var d = qx.ui.core.ClientDocument.getInstance();
-		d.addListener("keydown", logKeyEvent);
-		d.addListener("keypress", logKeyEvent);
-		d.addListener("keyinput", logKeyEvent);
-		d.addListener("keyup", logKeyEvent);
+		d.addEventListener("keydown", logKeyEvent);
+		d.addEventListener("keypress", logKeyEvent);
+		d.addEventListener("keyinput", logKeyEvent);
+		d.addEventListener("keyup", logKeyEvent);
 
 		var button = new qx.ui.form.Button("clear");
 		button.set({
 			left: 550,
 			top: 40
 		});
-		button.addListener("execute", initializeLogger);
+		button.addEventListener("execute", initializeLogger);
 		button.addToDocument();
 
   });

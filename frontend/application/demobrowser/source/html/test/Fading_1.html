@@ -36,7 +36,7 @@
 
 		var action = qx.ui.animation.MAnimation.FADE_OUT;
 
-		la1.addListener("FADE_FINISHED", function(e) {
+		la1.addEventListener("FADE_FINISHED", function(e) {
 			if (e.getData() == qx.ui.animation.MAnimation.FADE_OUT) {
 				action = qx.ui.animation.MAnimation.FADE_IN;
 				btn1.setLabel("Fade in")
@@ -52,7 +52,7 @@
 			top : 48,
 			left: 150
 		});
-		btn1.addListener("execute", function(e) {
+		btn1.addEventListener("execute", function(e) {
 			var time = duration.getValue();
 			var step = steps.getValue();
 			if (action == qx.ui.animation.MAnimation.FADE_IN) {

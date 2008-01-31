@@ -89,8 +89,7 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     _getDescriptionHtml : function(classNode)
     {
       var descHtml = new qx.util.StringBuilder();
-      //desc = "TODO: put the package description here...";
-      desc = classNode.getDescription();
+      var desc = classNode.getDescription();
       if (desc != "") {
         descHtml.add(
           '<div class="class-description">',

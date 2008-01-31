@@ -11,14 +11,25 @@
   </div>
 
   <script type="text/javascript">
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var mycolor = new qx.ui.component.ColorSelector;
-
-    mycolor.setLocation(20, 20);
-
-    qx.ui.core.ClientDocument.getInstance().add(mycolor);
+    extend : qx.application.Gui,
+  
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var mycolor = new qx.ui.component.ColorSelector;
+    
+        mycolor.setLocation(20, 20);
+    
+        qx.ui.core.ClientDocument.getInstance().add(mycolor);
+      }
+    }      
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

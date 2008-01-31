@@ -29,6 +29,8 @@
       var layout1 = new qx.ui.layout.VerticalBoxLayout();
       layout1.setTop(40);
       layout1.setLeft(20);
+      layout1.setRight(0);
+      layout1.setBottom(0);
       layout1.setSpacing(4);
 
       var async = new qx.ui.form.CheckBox("Asynchronous (must be checked if cross-domain is selected)");
@@ -55,6 +57,7 @@
 
       var layout2 = new qx.ui.layout.HorizontalBoxLayout();
       layout2.setHeight("auto");
+      layout2.setWidth("auto");
       layout2.setVerticalChildrenAlign("middle");
       layout2.setSpacing(4);
       var message = new qx.ui.form.TextField("Hello");
@@ -72,7 +75,7 @@
       rpc.setTimeout(10000);
       var mycall = null;
 
-      send.addListener("execute", function() {
+      send.addEventListener("execute", function() {
         // Allow the user to reset the URL and Service on each call
         rpc.setUrl(url.getValue());
         rpc.setServiceName(service.getValue());
@@ -101,7 +104,7 @@
         }
       });
 
-      abort.addListener("execute", function() {
+      abort.addEventListener("execute", function() {
         rpc.abort(mycall);
       });
 

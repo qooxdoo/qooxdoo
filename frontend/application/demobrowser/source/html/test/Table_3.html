@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>
+<body>  
   <div id="description">
     <p>A table using table elements and nodeValue.</p>
   </div>
@@ -23,7 +23,7 @@
     var rowData = [];
     var now = new Date().getTime();
     var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
-    for (var row = 0; row < 1000; row++) {
+    for (var row = 0; row < 100; row++) {
       var date = new Date(now + Math.random() * dateRange - dateRange / 2);
       rowData.push([ row, Math.random() * 10000, date, (Math.random() > 0.5) ]);
     }

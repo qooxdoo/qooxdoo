@@ -64,9 +64,9 @@
         setWidth(200);
         setBottom(48);
         
-        addListener("dragdrop", handleDragDrop); 
-        addListener("dragover", handleDragOver);
-        addListener("dragout", handleDragOut);
+        addEventListener("dragdrop", handleDragDrop); 
+        addEventListener("dragover", handleDragOver);
+        addEventListener("dragout", handleDragOut);
 
         setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };
@@ -77,10 +77,10 @@
       {
         f = new qx.ui.tree.TreeFolder("Folder " + i);
         
-        f.addListener("dragstart", handleDragStart);
-        f.addListener("dragdrop", handleDragDrop); 
-        f.addListener("dragover", handleDragOver);
-        f.addListener("dragout", handleDragOut);
+        f.addEventListener("dragstart", handleDragStart);
+        f.addEventListener("dragdrop", handleDragDrop); 
+        f.addEventListener("dragover", handleDragOver);
+        f.addEventListener("dragout", handleDragOut);
         
         f.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
         f.supportsDrop = supportsDrop;
@@ -91,10 +91,10 @@
         {
           g = new qx.ui.tree.TreeFolder("Subfolder " + j);
           
-          g.addListener("dragstart", handleDragStart);
-          g.addListener("dragdrop", handleDragDrop); 
-          g.addListener("dragover", handleDragOver);
-          g.addListener("dragout", handleDragOut);
+          g.addEventListener("dragstart", handleDragStart);
+          g.addEventListener("dragdrop", handleDragDrop); 
+          g.addEventListener("dragover", handleDragOver);
+          g.addEventListener("dragout", handleDragOut);
           
           g.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
           g.supportsDrop = supportsDrop;
@@ -105,7 +105,7 @@
           {
             h = new qx.ui.tree.TreeFile("File " + k);
             
-            h.addListener("dragstart", handleDragStart);
+            h.addEventListener("dragstart", handleDragStart);
             
             g.add(h);
           };
@@ -129,9 +129,9 @@
         setWidth(200);
         setBottom(48);
         
-        addListener("dragdrop", handleDragDrop); 
-        addListener("dragover", handleDragOver);
-        addListener("dragout", handleDragOut);
+        addEventListener("dragdrop", handleDragDrop); 
+        addEventListener("dragover", handleDragOver);
+        addEventListener("dragout", handleDragOut);
 
         setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
       };

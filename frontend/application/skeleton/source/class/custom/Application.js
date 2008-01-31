@@ -63,7 +63,7 @@ qx.Class.define("custom.Application",
       button1.setToolTip(new qx.ui.popup.ToolTip("A nice tooltip", "icon/32/status/dialog-information.png"));
 
       // Add an event listener
-      button1.addListener("execute", function(e) {
+      button1.addEventListener("execute", function(e) {
         alert("Hello World!");
       });
     },

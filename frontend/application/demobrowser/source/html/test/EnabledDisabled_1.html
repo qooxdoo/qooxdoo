@@ -9,7 +9,7 @@
   <div id="description">
     <p>Some test for the enable property in QxObject which will be extended from qx.ui.core.Widget and any other
     widget which need additional handling on a change of this property. Keep in mind: Disabled QxWidgets will be ignored
-    from the QxEventManager and the qx.legacy.event.handler.FocusHandler.</p>
+    from the QxEventManager and the qx.event.handler.FocusHandler.</p>
   </div>
 
   <script type="text/javascript">
@@ -36,13 +36,13 @@
 
     d.add(w1);
 
-    w1.addListener("mouseover", function(e)
+    w1.addEventListener("mouseover", function(e)
     {
       if( this.getEnabled() )
         this.getElement().style.color = "red";
     });
 
-    w1.addListener("mouseout", function(e)
+    w1.addEventListener("mouseout", function(e)
     {
       if( this.getEnabled() )
         this.getElement().style.color = "blue";
@@ -53,7 +53,7 @@
     {
       setTop(60);
       setLeft(220);
-      addListener("changeChecked", function(e) { w1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { w1.setEnabled(this.getChecked()); });
     };
 
     d.add(c1t);
@@ -80,7 +80,7 @@
     {
       setTop(196);
       setLeft(220);
-      addListener("changeChecked", function(e) { a1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { a1.setEnabled(this.getChecked()); });
     };
 
     d.add(swa1);
@@ -104,7 +104,7 @@
     {
       setTop(244);
       setLeft(220);
-      addListener("changeChecked", function(e) { btn1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { btn1.setEnabled(this.getChecked()); });
     };
 
     d.add(swbtn1);
@@ -128,7 +128,7 @@
     {
       setTop(292);
       setLeft(220);
-      addListener("changeChecked", function(e) { rb1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { rb1.setEnabled(this.getChecked()); });
     };
 
     d.add(swrb1);
@@ -152,7 +152,7 @@
     {
       setTop(340);
       setLeft(220);
-      addListener("changeChecked", function(e) { cb1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { cb1.setEnabled(this.getChecked()); });
     };
 
     d.add(swcb1);
@@ -176,7 +176,7 @@
     {
       setTop(388);
       setLeft(220);
-      addListener("changeChecked", function(e) { tf1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { tf1.setEnabled(this.getChecked()); });
     };
 
     d.add(swtf1);
@@ -196,7 +196,7 @@
 
     d.add(com1);
 
-    com1.addListener("beforeInitialOpen", function(e)
+    com1.addEventListener("beforeInitialOpen", function(e)
     {
       var item;
 
@@ -213,7 +213,7 @@
     {
       setTop(436);
       setLeft(220);
-      addListener("changeChecked", function(e) { com1.setEnabled(this.getChecked()); });
+      addEventListener("changeChecked", function(e) { com1.setEnabled(this.getChecked()); });
     };
 
     d.add(swcb1c);

@@ -129,9 +129,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     rightSub.add(buttview);
 
     // add eventhandler now, after objects are created
-    this.widgets["treeview"].getBar().getManager().addListener("changeSelected", function(e)
+    this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", function(e)
     {
-      if (e.getValue().getUserData('tree').getSelectedElement() == null) {
+      if (e.getData().getUserData('tree').getSelectedElement() == null) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
       }
     },
@@ -151,7 +151,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.setZIndex(5);
 
     // Get the TestLoader from the Iframe (in the event handler)
-    iframe.addListener("load", this.ehIframeOnLoad, this);
+    iframe.addEventListener("load", this.ehIframeOnLoad, this);
   },
 
 
@@ -230,7 +230,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
       toolbar.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
-      this.runbutton.addListener("execute", this.runTest, this);
+      this.runbutton.addEventListener("execute", this.runTest, this);
       this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run selected test(s)"));
 
       toolbar.add(new qx.ui.toolbar.Separator);
@@ -249,7 +249,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         marginTop : 2
       });
 
-      this.testSuiteUrl.addListener("keydown", function(e)
+      this.testSuiteUrl.addEventListener("keydown", function(e)
       {
         if (e.getKeyIdentifier() == "Enter") {
           this.reloadTestSuite();
@@ -261,7 +261,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
       toolbar.add(this.reloadbutton);
       this.reloadbutton.setToolTip(new qx.ui.popup.ToolTip("Reload test backend application"));
-      this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
+      this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
 
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
 
@@ -274,7 +274,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
 
-      this.reloadswitch.addListener("changeChecked", function(e)
+      this.reloadswitch.addEventListener("changeChecked", function(e)
       {
         if (this.reloadswitch.getChecked()) {
           this.reloadswitch.setIcon("testrunner/image/yellow_diamond_full18.gif");
@@ -357,7 +357,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       pp2.add(ff1_b1);
 
       // width : "auto"
-      ff1_b1.addListener("execute", function(e) {
+      ff1_b1.addEventListener("execute", function(e) {
         this.f2.setHtml("");
       }, this);
 
@@ -367,7 +367,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.logappender = new testrunner.runner.TestAppender(this.f2);
 
       // this.getLogger().addAppender(this.logappender);
-      // this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
+      this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
 
       // testrunner.getLogger().addAppender(this.logappender);
       // this.getParent().getParent().getLogger().addAppender(this.logappender);
@@ -433,7 +433,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         padding: 5
       });
 
-      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
       // flat view
       var bsb2 = new qx.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
@@ -459,7 +459,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         padding: 5
       });
 
-      tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      tree1.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
       // fake unique tree for selection (better to have a selection on the model)
       this.tree = {};
@@ -888,7 +888,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         var testResult = new that.frameWindow.testrunner.TestResult();
 
         // set up event listeners
-        testResult.addListener("startTest", function(e)
+        testResult.addEventListener("startTest", function(e)
         {
           var test = e.getData();
           that.currentTestData = new testrunner.runner.TestResultData(test.getFullName());
@@ -897,7 +897,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         },
         that);
 
-        testResult.addListener("failure", function(e)
+        testResult.addEventListener("failure", function(e)
         {
           var ex = e.getData().exception;
           var test = e.getData().test;
@@ -912,7 +912,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         },
         that);
 
-        testResult.addListener("error", function(e)
+        testResult.addEventListener("error", function(e)
         {
           var ex = e.getData().exception;
           that.currentTestData.setException(ex);
@@ -926,7 +926,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         },
         that);
 
-        testResult.addListener("endTest", function(e)
+        testResult.addEventListener("endTest", function(e)
         {
           var state = that.currentTestData.getState();
 
@@ -963,7 +963,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var test = tlist[0];
           that.loader.runTests(testResult, test[0], test[1]);
           tlist = tlist.slice(1, tlist.length);  // recurse with rest of list
-          qx.event.Timer.once(runtest, this, 100);
+          qx.client.Timer.once(runtest, this, 100);
         }
         else
         {  // no more tests -> re-enable toolbar
@@ -1073,7 +1073,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // reset status information
       this.resetGui();
 
-      qx.event.Timer.once(function()
+      qx.client.Timer.once(function()
       {
         if (curr == neu) {
           this.iframe.reload();
@@ -1099,7 +1099,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.frameWindow = iframe.getContentWindow();
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
-      // this.loader.getLogger().getParentLogger().addAppender(this.logappender);
+      this.loader.getLogger().getParentLogger().addAppender(this.logappender);
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
       this.tests.firstrun = true;

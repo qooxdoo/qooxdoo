@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.core.Property",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {
@@ -33,7 +33,7 @@ qx.Class.define("testrunner.test.core.Property",
     {
       qx.Class.define("testrunner.Node",
       {
-        extend : qx.core.Object,
+        extend : qx.core.Target,
 
         construct : function() {
           this._children = [];
