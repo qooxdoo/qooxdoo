@@ -12,40 +12,51 @@
   </div>
 
   <script type="text/javascript">
-    qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
     {
-      var ld = [];
-      var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
-
-      for (var i=0, t; i<1000; i++)
+      main : function()
       {
-        t=Math.round(Math.random()*4);
-        ld.push({ name : { text : "File " + i }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }});
-      };
-
-      var lc =
-      {
-        name : { label : "Name", width : 100, type : "text", sortable : true, sortProp : "text" },
-        size: { label : "Size", width : 50, type : "text", sortable : true, sortProp : "text", sortMethod : qx.util.Compare.byIntegerString, align : "right" },
-        type : { label : "Type", width : 80, type : "text", sortable : true, sortProp : "text" },
-        modified : { label : "Last Modified", width : 150, type : "text" },
-        rights : { label : "Rights", width: 80, type : "text" }
-      };
-
-      var lv = new qx.ui.listview.ListView(ld, lc);
-
-      lv.setWidth(600);
-      lv.setHeight(350);
-      lv.setLocation(20, 20);
-
-      qx.ui.core.ClientDocument.getInstance().add(lv);
-
-
-
-
-      // Color Themes
-      qx.util.ThemeList.createMetaButtons(qx.ui.core.ClientDocument.getInstance(), 20, 448);
-    });
+        this.base(arguments);
+        var ld = [];
+        var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
+  
+        for (var i=0, t; i<1000; i++)
+        {
+          t=Math.round(Math.random()*4);
+          ld.push({ name : { text : "File " + i }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }});
+        };
+  
+        var lc =
+        {
+          name : { label : "Name", width : 100, type : "text", sortable : true, sortProp : "text" },
+          size: { label : "Size", width : 50, type : "text", sortable : true, sortProp : "text", sortMethod : qx.util.Compare.byIntegerString, align : "right" },
+          type : { label : "Type", width : 80, type : "text", sortable : true, sortProp : "text" },
+          modified : { label : "Last Modified", width : 150, type : "text" },
+          rights : { label : "Rights", width: 80, type : "text" }
+        };
+  
+        var lv = new qx.ui.listview.ListView(ld, lc);
+  
+        lv.setWidth(600);
+        lv.setHeight(350);
+        lv.setLocation(20, 20);
+  
+        qx.ui.core.ClientDocument.getInstance().add(lv);
+  
+  
+  
+  
+        // Color Themes
+        qx.util.ThemeList.createMetaButtons(qx.ui.core.ClientDocument.getInstance(), 20, 448);
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

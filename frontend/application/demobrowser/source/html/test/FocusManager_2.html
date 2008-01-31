@@ -29,7 +29,7 @@
 
         var button = new qx.ui.form.Button( "focus textfield 1" );
         button.set({ left : 20, top : 110 });
-        button.addListener("execute", function() {
+        button.addEventListener("execute", function() {
           text1.focus();
         } );
         doc.add( button );

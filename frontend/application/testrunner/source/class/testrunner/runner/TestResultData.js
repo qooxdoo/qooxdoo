@@ -26,7 +26,7 @@
  */
 qx.Class.define("testrunner.runner.TestResultData",
 {
-  extend : qx.core.Object,
+  extend : qx.core.Target,
 
 
 
@@ -130,7 +130,7 @@ qx.Class.define("testrunner.runner.TestResultData",
       {
         var first = trace[0];
 
-        if (first.indexOf("qx.dev.unit.AssertionError") == 0 || first.indexOf("qx.Class") == 0 || first.indexOf("qx.dev.unit.MAssert") == 0 || first.indexOf("script") == 0) {
+        if (first.indexOf("testrunner.AssertionError") == 0 || first.indexOf("qx.Class") == 0 || first.indexOf("testrunner.MAssert") == 0 || first.indexOf("script") == 0) {
           trace.shift();
         } else {
           break;

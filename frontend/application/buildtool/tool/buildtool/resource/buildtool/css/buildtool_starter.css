@@ -1,0 +1,69 @@
+#header{
+  margin: 0;
+  padding: 0;
+  background: rgb(19, 66, 117) url(../image/colorstrip.gif) repeat-x scroll left top; 
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  height: 70;
+  top: 0px; 
+  left: 0px; 
+  right: 0px;
+  position: absolute; 
+  -moz-background-clip: initial; 
+  -moz-background-origin: initial; 
+  -moz-background-inline-policy: initial; 
+}
+
+#header *{
+  padding: 0;
+  margin: 0
+}
+
+#header h1{
+  font-size: 18px;
+  font-weight: bold;
+  color: #DEFF83;
+  position: relative;
+  left: 20px;
+  top: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+#header .version{
+  font-size: 11px;
+  text-transform: lowercase;
+  color: #F3FFD1;
+  margin-top: -14px;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+#body {
+  background-color: #F9FFE9;
+  top: 70;
+  left: 0;
+  right: 0;
+  padding: 20;
+  position: absolute; 
+}
+
+.error,
+.failure{
+	background-color: #FEF4F4;
+	border-left: 3px solid #9D1111;
+}
+
+.success{
+	background-color: #FAFFED;
+	border-left: 3px solid #DEFF83;
+}
+
+#sessionlog{
+  font-family: "Consolas", "Courier New", monospace;
+	font-size: 11px;
+}

@@ -59,7 +59,7 @@
     {
       var elem = document.createElement("div")
       document.body.appendChild(elem);
-      var clazz = qx.html.Element;
+      var clazz = qx.html2.Element;
 
       for (var i=0; i<loops; i++) {
         elem.setAttribute("style", styleCompiler(i%2 ? data1 : data2));
@@ -70,7 +70,7 @@
     {
       var elem = document.createElement("div")
       document.body.appendChild(elem);
-      var clazz = qx.html.Element;
+      var clazz = qx.html2.Element;
       var data, key;
       var style = elem.style;
 

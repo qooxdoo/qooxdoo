@@ -97,7 +97,7 @@ qx.Class.define("testrunner.TestSuite",
     {
       if (typeof (namespace) == "function" && namespace.classname)
       {
-        if (qx.Class.isSubClassOf(namespace, qx.dev.unit.TestCase))
+        if (qx.Class.isSubClassOf(namespace, testrunner.TestCase))
         {
           this.addTestClass(namespace);
           return;
@@ -260,7 +260,7 @@ qx.Class.define("testrunner.TestSuite",
       qx.lang.Array.append(qx.dev.Pollution.ignore.window, [ "exposeTestFunctionNames" ]);
 
       var pollution = qx.dev.Pollution.extract("window");
-      new qx.dev.unit.TestCase().assertJsonEquals([], pollution);
+      new testrunner.TestCase().assertJsonEquals([], pollution);
     }
   }
 });

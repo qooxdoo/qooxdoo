@@ -11,36 +11,47 @@
   </div>
 
   <script type="text/javascript">
-    qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
     {
-      var ld = [];
-      var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
-      var li = [ "apps/preferences-desktop-theme.png", "actions/edit.png", "apps/graphics-image-viewer.png", "apps/preferences-desktop-wallpaper.png", "actions/document-new.png" ];
-
-      for (var i=0, t; i<1000; i++)
+      main : function()
       {
-        t=Math.round(Math.random()*4);
-        ld.push({ icon : { source : "icon/16/" + li[t] }, name : { text : "File " + i }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }});
-      };
-
-      var lc =
-      {
-        icon : { label : "", width: 24, type : "image" },
-        name : { label : "Name", width : 100, type : "text" },
-        size: { label : "Size", width : 50, type : "text", align : "right" },
-        type : { label : "Type", width : 80, type : "text" },
-        modified : { label : "Last Modified", width : 150, type : "text" },
-        rights : { label : "Rights", width: 80, type : "text" }
-      };
-
-      var lv = new qx.ui.listview.ListView(ld, lc);
-
-      lv.setWidth(600);
-      lv.setHeight(350);
-      lv.setLocation(20, 20);
-
-      qx.ui.core.ClientDocument.getInstance().add(lv);
-    });
+        this.base(arguments);
+        var ld = [];
+        var lt = [ "Image", "Text", "PDF", "Illustration", "Document" ];
+        var li = [ "apps/preferences-desktop-theme.png", "actions/edit.png", "apps/graphics-image-viewer.png", "apps/preferences-desktop-wallpaper.png", "actions/document-new.png" ];
+  
+        for (var i=0, t; i<1000; i++)
+        {
+          t=Math.round(Math.random()*4);
+          ld.push({ icon : { source : "icon/16/" + li[t] }, name : { text : "File " + i }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }});
+        };
+  
+        var lc =
+        {
+          icon : { label : "", width: 24, type : "image" },
+          name : { label : "Name", width : 100, type : "text" },
+          size: { label : "Size", width : 50, type : "text", align : "right" },
+          type : { label : "Type", width : 80, type : "text" },
+          modified : { label : "Last Modified", width : 150, type : "text" },
+          rights : { label : "Rights", width: 80, type : "text" }
+        };
+  
+        var lv = new qx.ui.listview.ListView(ld, lc);
+  
+        lv.setWidth(600);
+        lv.setHeight(350);
+        lv.setLocation(20, 20);
+  
+        qx.ui.core.ClientDocument.getInstance().add(lv);
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

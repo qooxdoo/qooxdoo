@@ -84,48 +84,59 @@
   </div>
 
   <script type="text/javascript">
-    qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
     {
-      var imgPath = qx.io.Alias.getInstance().resolve("icon/48/apps/graphics-snapshot.png");
-
-      var galleryData = [];
-
-      for (var i=0; i<100; i++)
+      main : function()
       {
-        galleryData.push({
-          display : "bmzN9ci5",
-          width : 350,
-          height : 350,
-          thumbWidth : 48,
-          thumbHeight : 48,
-          title : "gohome.png",
-          timestamp : Math.random().toString(),
-          comment : "Cool Comment sadas asd dsa asdas dasd asd asdas dasdasdasd sadasdas dsds as",
-          id : i,
-          src : imgPath,
-          number : "#" + i
+        this.base(arguments);
+        var imgPath = qx.io.Alias.getInstance().resolve("icon/48/apps/graphics-snapshot.png");
+  
+        var galleryData = [];
+  
+        for (var i=0; i<100; i++)
+        {
+          galleryData.push({
+            display : "bmzN9ci5",
+            width : 350,
+            height : 350,
+            thumbWidth : 48,
+            thumbHeight : 48,
+            title : "gohome.png",
+            timestamp : Math.random().toString(),
+            comment : "Cool Comment sadas asd dsa asdas dasd asd asdas dasdasdasd sadasdas dsds as",
+            id : i,
+            src : imgPath,
+            number : "#" + i
+          });
+        };
+  
+        var galleryList = new qx.ui.embed.GalleryList(galleryData);
+  
+        galleryList.setWidth(400);
+        galleryList.setTop(20);
+        galleryList.setBottom(20);
+        galleryList.setLeft(250);
+        galleryList.setThumbMaxHeight(75);
+  
+  
+        galleryList.setBorder("inset");
+        galleryList.setBackgroundColor("white");
+        galleryList.addEventListener("beforeToolTipAppear", function(e) {
+  				var entry = galleryList.getEntryByNode(e.getData());
+        	galleryList.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.number));
         });
-      };
-
-      var galleryList = new qx.ui.embed.GalleryList(galleryData);
-
-      galleryList.setWidth(400);
-      galleryList.setTop(20);
-      galleryList.setBottom(20);
-      galleryList.setLeft(250);
-      galleryList.setThumbMaxHeight(75);
-
-
-      galleryList.setBorder("inset");
-      galleryList.setBackgroundColor("white");
-      galleryList.addListener("beforeToolTipAppear", function(e) {
-				var entry = galleryList.getEntryByNode(e.getData());
-      	galleryList.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.number));
-      });
-
-
-      qx.ui.core.ClientDocument.getInstance().add(galleryList);
-    });
+  
+  
+        qx.ui.core.ClientDocument.getInstance().add(galleryList);
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

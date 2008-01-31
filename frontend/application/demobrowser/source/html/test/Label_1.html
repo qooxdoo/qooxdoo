@@ -50,7 +50,7 @@
     c3.setBackgroundColor("white");
     c3.addToDocument();
 
-    c3.addListener("click", function() {
+    c3.addEventListener("click", function() {
       this.getText() == "Delete temporary data" ? this.setText("Thank you") : this.setText("Delete temporary data");
     });
 
@@ -73,7 +73,7 @@
     c5.setPadding(4, 6);
     c5.setBackgroundColor("white");
 
-    c5.addListener("click", function() {
+    c5.addEventListener("click", function() {
       this.getText() == "Delete temporary data" ? this.setText("Thank you<br/>All your personal data was just deleted.<br/>Have Fun!") : this.setText("Delete temporary data");
     });
 
@@ -119,7 +119,7 @@
     var modes = ["auto", "html", "text"];
     var modeIndex = 0;
 	  var labelText = textLabel.getText();
-    textLabel.addListener("click", function() {
+    textLabel.addEventListener("click", function() {
       this.debug("New text mode : " + modes[modeIndex]);
 			this.setText(labelText + " - text mode: " + modes[modeIndex]);
       this.setMode(modes[modeIndex]);
@@ -127,7 +127,7 @@
     });
 
 
-    c7.addListener("click", function(e)
+    c7.addEventListener("click", function(e)
     {
       switch(this.getWidth())
       {
@@ -159,7 +159,7 @@
         border:"inset-thin" });
     parent8.setPadding(5);
     parent8.addToDocument();
-    parent8.addListener("click", function() {
+    parent8.addEventListener("click", function() {
       this.setWidth((this.getWidth() == 150) ? 200 : 150);
     });
 

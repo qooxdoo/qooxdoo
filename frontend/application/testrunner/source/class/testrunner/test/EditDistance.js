@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.EditDistance",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {

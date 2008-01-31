@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.legacy.html.Form</p>
+    <p>Testing qx.html.Form</p>
   </div>
 
   <form id="mainform" style="position: absolute; left:300px; top: 48px">
@@ -68,12 +68,12 @@
     area.setDimension(200, 100);
     qx.ui.core.ClientDocument.getInstance().add(area);
 
-    qx.legacy.html.Form.bind(document.getElementById("mainform"), function() {
+    qx.html.Form.bind(document.getElementById("mainform"), function() {
       alert("Submitting Form Replacement...");
     });
 
-    btn.addListener("execute", function() {
-      area.setValue(qx.legacy.html.Form.encodeForm(document.getElementById("mainform")));
+    btn.addEventListener("execute", function() {
+      area.setValue(qx.html.Form.encodeForm(document.getElementById("mainform")));
     });
   });
   </script>

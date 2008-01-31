@@ -71,7 +71,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   events :
   {
     /** This event if dispatched if one of the internal links is clicked */
-    "classLinkClicked" : "qx.event.type.Data"
+    "classLinkClicked" : "qx.event.type.DataEvent"
   },
 
 
@@ -375,8 +375,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __getDependentClassesHtml : function(dependentClasses, title)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
       if (dependentClasses.length > 0)
       {
         var result = new qx.util.StringBuilder("<h2>", title, "</h2>");
@@ -555,8 +553,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       elem.className = "marked";
       this._markedElement = elem;
 
-      qx.legacy.html.ScrollIntoView.scrollX(elem, true);
-      qx.legacy.html.ScrollIntoView.scrollY(elem, true);
+      qx.html.ScrollIntoView.scrollX(elem, true);
+      qx.html.ScrollIntoView.scrollY(elem, true);
       return true;
     },
 
@@ -572,7 +570,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     _onSelectItem : function(itemName)
     {
-      this.fireDataEvent("classLinkClicked", itemName);
+      this.createDispatchDataEvent("classLinkClicked", itemName);
     },
 
 

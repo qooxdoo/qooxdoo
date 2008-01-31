@@ -27,7 +27,7 @@
     aler.setOpacity(0.5);
     qx.ui.core.ClientDocument.getInstance().add(aler);
 
-    btnaler.addListener("execute", function(e)
+    btnaler.addEventListener("execute", function(e)
     {
       aler.show();
     });
@@ -170,11 +170,11 @@
     btn2.setLocation(190, 70);
     w1.add(btn2);
 
-    btn1.addListener("execute", function(e) {
+    btn1.addEventListener("execute", function(e) {
       p1.show();
     });
 
-    btn2.addListener("execute", function(e) {
+    btn2.addEventListener("execute", function(e) {
       p1.hide();
     });
 
@@ -188,11 +188,11 @@
     btn4.setLocation(300, 70);
     w1.add(btn4);
 
-    btn3.addListener("execute", function(e) {
+    btn3.addEventListener("execute", function(e) {
       p2.show();
     });
 
-    btn4.addListener("execute", function(e) {
+    btn4.addEventListener("execute", function(e) {
       p2.hide();
     });
 

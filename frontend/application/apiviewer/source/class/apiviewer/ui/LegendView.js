@@ -49,7 +49,7 @@ qx.Class.define("apiviewer.ui.LegendView",
     this.setBackgroundColor("white");
     this.setHtmlProperty("id", "legend");
 
-    this.addListener("appear", this._showHtml, this);
+    this.addEventListener("appear", this._showHtml, this);
   },
 
 
@@ -69,7 +69,10 @@ qx.Class.define("apiviewer.ui.LegendView",
      */
     _showHtml : function()
     {
-      var TreeUtil = apiviewer.TreeUtil;
+      if (this.getHtml() !== "") {
+        return;
+      }
+
       var legend = [
         {
           icon: "ICON_PACKAGE",

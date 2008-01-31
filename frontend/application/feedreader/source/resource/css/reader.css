@@ -19,20 +19,34 @@
 
 .blogEntry {
   font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
-  font-size: 11px;
-  line-height: 150%;
-  padding: 5px;
-  background: #FBFFEF;
+  font-size: 14px;
+  line-height: 180%;
+  padding: 30px;
+  background: #FFF;
 }
 
-.Ext .blogEntry {
-  background: #FDFDFF;
+.blogEntry *{
+  margin: 0;
+  padding: 0;
 }
 
 .blogEntry h1.blog {
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
   color: #134275;
   line-height: 120%;
+  font-size: 18px;
+  margin: 0;
+}
+
+.blogEntry p,
+.blogEntry ul,
+.blogEntry ol{
+  margin: 8px 0 20px;
+}
+
+.blogEntry ul,
+.blogEntry ol{
+  margin-left: 24px;
 }
 
 .blogEntry {
@@ -42,7 +56,8 @@
 .blogEntry div.date {
   font-weight: bold;
   color: #1D65B3;
-  padding: 5px;
+  text-align: right;
+  font-size: 12px;
 }
 
 .blogEntry a:link,
@@ -58,5 +73,5 @@
 
 .blogEntry .description {
 	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }

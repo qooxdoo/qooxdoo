@@ -82,7 +82,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
       var classNodes = currentClassDocNode.getClassHierarchy();
       for (var i=0; i<classNodes.length; i++)
       {
-        classNode = classNodes[i];
+        var classNode = classNodes[i];
         var classAppearance = classNode.getClassAppearance();
         if (classAppearance) {
           if (classAppearance.getType() != currentClassDocNode) {
@@ -123,8 +123,6 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
      */
     getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
       var textHtml = new qx.util.StringBuilder();
       textHtml.add(
         '<div class="item-desc">',

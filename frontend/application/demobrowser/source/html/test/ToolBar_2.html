@@ -80,8 +80,8 @@
   
                 // beautiful decoupling: toolbar buttons don't know about radio boxes
   
-                d.addListener("changeLayout", changeLayout, o);
-                d.addListener("changeSize", changeSize, o);
+                d.addEventListener("changeLayout", changeLayout, o);
+                d.addEventListener("changeSize", changeSize, o);
                 break;
             };
   

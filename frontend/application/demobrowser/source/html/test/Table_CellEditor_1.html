@@ -200,8 +200,8 @@ qx.Class.define("Sample",
 
       // create event listener for data change event. this would normally
       // send the data back to the server etc.
-      propertyEditor.getTableModel().addListener("dataChanged",function(event){
-  			if ( ! event instanceof qx.event.type.Data ) return;
+      propertyEditor.getTableModel().addEventListener("dataChanged",function(event){
+  			if ( ! event instanceof qx.event.type.DataEvent ) return;
   			var changedData = event.getData();
 
   		  // get changed data

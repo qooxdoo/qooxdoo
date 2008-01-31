@@ -5,48 +5,106 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>
+<body>  
   <div id="description">
-    <p>Testing qx.ui.form.ComboBox behaviour when inside a container with scroll bars and the popup list goes off the screen.</p>
+    <p>Testing qx.ui.form.ComboBox implementation.</p>
+    <p>Testing object creation (the list content will be filled then) on first open.</p>
+    <p>Added Color Theme Buttons</p>
   </div>
+
+  <select style="position:absolute; left:300px; top:48px; width: 120px;">
+    <option>Item No 1</option>
+    <option>Item No 2</option>
+    <option>Item No 3</option>
+    <option>Item No 4</option>
+    <option>Item No 5</option>
+    <option>Item No 6</option>
+    <option>Item No 7</option>
+    <option>Item No 8</option>
+    <option>Item No 9</option>
+    <option disabled="true">Item No 10</option>
+    <option>Item No 11</option>
+    <option>Item No 12</option>
+    <option>Item No 13</option>
+    <option>Item No 14</option>
+    <option>Item No 15</option>
+    <option>Item No 16</option>
+    <option>Item No 17</option>
+    <option>Item No 18</option>
+    <option>Item No 19</option>
+    <option disabled="true">Item No 20</option>
+    <option>Item No 21</option>
+    <option>Item No 22</option>
+    <option>Item No 23</option>
+    <option>Item No 24</option>
+    <option>Item No 23</option>
+    <option>Item No 24</option>
+    <option>Item No 25</option>
+    <option>Item No 26</option>
+    <option>Item No 27</option>
+    <option>Item No 28</option>
+    <option>Item No 29</option>
+    <option disabled="true">Item No 30</option>
+  </select>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var box = new qx.ui.layout.BoxLayout('vertical');
+      var d = qx.ui.core.ClientDocument.getInstance();
 
-      box.set({
-        left: 5,
-        right: 300,
-        top: 30,
-        bottom: 20,
-        overflow: 'scroll',
-        backgroundColor: '#FFE'
+      var c1 = new qx.ui.form.ComboBox;
+      c1.setLocation(20, 48);
+
+      c1.addEventListener("beforeInitialOpen", function(e)
+      {
+        var item;
+
+        for(var i=1; i<=30; i++)
+        {
+          item = new qx.ui.form.ListItem("Item No " + i);
+          !(i % 10) && (item.setEnabled(false));
+          c1.add(item);
+        };
       });
 
-      for (var row = 0; row < 8; row++)
-      {
-        var rowBox = new qx.ui.layout.BoxLayout;
-        rowBox.set({
-          marginBottom: 100,
-          width: 'auto',
-          height: 'auto'
-        });
+      // this does not work here (if there is no content)
+      c1.setSelected(c1.getList().getFirstChild());
 
-        for (var col = 0; col < 8; col++)
-        {
-          var cb = new qx.ui.form.ComboBox;
-          for (var i = 0; i < 15; i++) {
-            cb.add(new qx.ui.form.ListItem('Item '+i));
-          }
-          cb.setEditable(true);
-          cb.setValue('Row '+row+', col '+col);
-          cb.setMarginRight(100);
-          rowBox.add(cb);
-        }
-        box.add(rowBox);
-      }
-      box.addToDocument();
+      c1.addEventListener("changeValue", function(e) {
+        this.debug("New value: " + e.getData());
+      });
+
+      c1.addEventListener("changeSelected", function(e) {
+        this.debug("New selected: " + e.getData());
+      });
+
+
+
+
+      var b1 = new qx.ui.form.CheckBox("Editable");
+
+      b1.set({ top: 50, left: 150 });
+
+      b1.addEventListener("changeChecked", function(e) {
+        c1.setEditable(e.getData());
+      });
+
+
+
+      d.add(c1, b1);
+
+
+
+
+
+
+
+
+    // Color Themes
+    qx.util.ThemeList.createMetaButtons(d, 20, 248);
+
+
+
     });
   </script>
 </body>

@@ -589,7 +589,7 @@ qx.Class.define("apiviewer.dao.Class",
         var classNode = classNodes[classIndex];
 
         var ifaceRecurser = function(ifaceName) {
-          ifaceNode = apiviewer.dao.Class.getClassByName(ifaceName);
+          var ifaceNode = apiviewer.dao.Class.getClassByName(ifaceName);
           interfaceNodes.push(ifaceNode);
 
           var superIfaces = ifaceNode.getSuperInterfaces();
@@ -620,8 +620,6 @@ qx.Class.define("apiviewer.dao.Class",
       var classItems = []
       for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
       {
-
-        var self = this;
         var mixinRecurser = function(mixinNode)
         {
           var items = mixinNode.getItemList(itemName);

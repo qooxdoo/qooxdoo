@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Simple test for qooxdoo's transport implementation using some data for an addressbook.</p>
     <p>Using javascript/json content in this case.</p>
@@ -43,7 +43,7 @@
     cm1.add(new qx.ui.form.ListItem("data/persons/paul.js"));
     cm1.setSelected(cm1.getList().getFirstChild());
     cm1.setWidth(200);
-    cm1.addListener("changeSelected", upd);
+    cm1.addEventListener("changeSelected", upd);
 
     hlay.add(cm1);
 
@@ -60,7 +60,7 @@
 
 
     var btn = new qx.ui.form.Button("Send", "icon/16/actions/dialog-ok.png");
-    btn.addListener("execute", upd);
+    btn.addEventListener("execute", upd);
     hlay.add(btn);
 
 
@@ -92,7 +92,7 @@
     checken.setChecked(true);
     hlay.add(checken);
 
-    checken.addListener("changeChecked", function(e) {
+    checken.addEventListener("changeChecked", function(e) {
       qx.io.remote.RequestQueue.getInstance().setEnabled(e.getValue());
     });
 
@@ -155,15 +155,15 @@
         // req.setCrossDomain(true);
         // req.setAsynchronous(false);
 
-        req.addListener("sending", function(e) {
+        req.addEventListener("sending", function(e) {
           inf.setValue("Sending");
         });
 
-        req.addListener("receiving", function(e) {
+        req.addEventListener("receiving", function(e) {
           inf.setValue("Receiving");
         });
 
-        req.addListener("completed", function(e)
+        req.addEventListener("completed", function(e)
         {
           inf.setValue("Completed");
           typ.setValue(e.getResponseHeader("Content-Type"));
@@ -184,7 +184,7 @@
           qx.ui.core.Widget.flushGlobalQueues();
         });
 
-        req.addListener("failed", function(e)
+        req.addEventListener("failed", function(e)
         {
           inf.setValue("Failed");
           typ.setValue(e.getResponseHeader("Content-Type"));
@@ -192,7 +192,7 @@
           code.setValue(e.getStatusCode().toString());
         });
 
-        req.addListener("timeout", function(e)
+        req.addEventListener("timeout", function(e)
         {
           inf.setValue("Timeout");
           typ.setValue(e.getResponseHeader("Content-Type"));
@@ -200,7 +200,7 @@
           code.setValue(e.getStatusCode().toString());
         });
 
-        req.addListener("aborted", function(e)
+        req.addEventListener("aborted", function(e)
         {
           inf.setValue("Aborted");
           typ.setValue(e.getResponseHeader("Content-Type"));

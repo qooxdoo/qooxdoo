@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.Mixin",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {
@@ -59,7 +59,7 @@ qx.Class.define("testrunner.test.Mixin",
           }
         },
 
-        properties : { color : { } }
+        properties : { color : { _legacy : true } }
       });
 
       qx.Mixin.define("testrunner.MMix2",
@@ -154,7 +154,7 @@ qx.Class.define("testrunner.test.Mixin",
           extend     : Object,
           include    : testrunner.MMix1,
           construct  : function() {},
-          properties : { color : { } }
+          properties : { color : { _legacy : true } }
         });
       },
       Error, "already has a property", "t3");

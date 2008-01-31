@@ -62,14 +62,14 @@
         btnCancel.set({ bottom : 10, left : 10 });
         btnSetText.set({ bottom : 10, left : 100 });
 
-        btnCancel.addListener("execute", function(e) {
+        btnCancel.addEventListener("execute", function(e) {
           dialogEditFrage.close();
         });
-        btnOK.addListener("execute", function(e) {
+        btnOK.addEventListener("execute", function(e) {
           dialogEditFrage.close();
         });
 
-        btnSetText.addListener("execute", function(e) {
+        btnSetText.addEventListener("execute", function(e) {
           txtfld.setValue("Some Text here!");
           txtfld.setFocused(true);
         });
@@ -80,13 +80,13 @@
 
       var btnOpen = new qx.ui.form.Button("Open the dialog");
       btnOpen.set({ top : 50, left : 20 });
-      btnOpen.addListener("click", function(e) {
+      btnOpen.addEventListener("click", function(e) {
         dialogEditFrage.open();
       });
 
       var btnRestore = new qx.ui.form.Button("Restore the dialog");
       btnRestore.set({ top : 80, left : 20 });
-      btnRestore.addListener("click", function(e) {
+      btnRestore.addEventListener("click", function(e) {
         dialogEditFrage.restore();
       });
 

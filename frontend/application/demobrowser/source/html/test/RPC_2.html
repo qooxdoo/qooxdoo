@@ -81,7 +81,7 @@
       var mycall;
       var mycalls = [];
 
-      start.addListener("execute", function() {
+      start.addEventListener("execute", function() {
         t0 = new Date().getTime();
 
         rpc.setCrossDomain(crossDomain.isChecked());
@@ -100,20 +100,20 @@
               mycalls[seqnum] = null;
               t = new Date().getTime() - t0;
               if (ex == null) {
-                layout1.warn(t + ": response " + seqnum + ": " + result);
+                layout1.debug(t + ": response " + seqnum + ": " + result);
               } else {
-                layout1.warn(t + ": exception " + seqnum + ": " + ex);
+                layout1.debug(t + ": exception " + seqnum + ": " + ex);
               }
             }, "sleep", i.toString());  // FIXME: Why is this sent as a string?
 
           t = new Date().getTime() - t0;
           seqnum = mycall.getSequenceNumber();
           mycalls[seqnum] = mycall;
-          layout1.warn(t + ": request " + seqnum + " = " + i.toString());
+          layout1.debug(t + ": request " + seqnum + " = " + i.toString());
         }
       });
 
-      abort.addListener("execute", function() {
+      abort.addEventListener("execute", function() {
         for (seqnum in mycalls) {
           if (mycalls[seqnum] !== null) {
             rpc.abort(mycalls[seqnum]);

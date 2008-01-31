@@ -172,8 +172,8 @@
 
   if (_b.attachEvent)
     _b.attachEvent("onclick", save);
-  else if (_b.addListener)
-    _b.addListener("click", save, false);
+  else if (_b.addEventListener)
+    _b.addEventListener("click", save, false);
 
 
   function test1()

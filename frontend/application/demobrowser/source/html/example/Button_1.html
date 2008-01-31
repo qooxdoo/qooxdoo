@@ -11,58 +11,48 @@
   </div>
 
   <script type="text/javascript">
-  qx.core.Init.getInstance().defineMain(function()
+   qx.Class.define("BasicSample",
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-
-    function buttonExecute() { this.debug("Executed: " + this.getLabel()); };
-
-    var btn1 = new qx.ui.form.Button("Button No #1");
-    with(btn1)
+    extend : qx.application.Gui,
+  
+    members :
     {
-      setTop(48);
-      setLeft(20);
-      addListener("execute", buttonExecute);
-    };
-
-    d.add(btn1);
-
-
-
-    var btn2 = new qx.ui.form.Button("Button No #2");
-    with(btn2)
-    {
-      setTop(48);
-      setLeft(120);
-      addListener("execute", buttonExecute);
-      setEnabled(false);
-    };
-
-    d.add(btn2);
-
-
-
-    var btn3 = new qx.ui.form.Button("Button No #3");
-    with(btn3)
-    {
-      setTop(48);
-      setLeft(220);
-      addListener("execute", buttonExecute);
-    };
-
-    d.add(btn3);
-
-
-    var btn4 = new qx.ui.form.Button("Button No #4", "icon/16/actions/go-next.png");
-    with(btn4)
-    {
-      setTop(48);
-      setLeft(320);
-      addListener("execute", buttonExecute);
-    };
-
-    d.add(btn4);
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+    
+        function buttonExecute() { this.debug("Executed: " + this.getLabel()); };
+    
+        var btn1 = new qx.ui.form.Button("Button No #1");
+        btn1.set({ top : 48, left : 20 });
+        btn1.addEventListener("execute", buttonExecute);
+        d.add(btn1);
+    
+    
+    
+        var btn2 = new qx.ui.form.Button("Button No #2")
+        btn2.set({ top : 48, left : 120, enabled : false });
+        btn2.addEventListener("execute", buttonExecute);
+        d.add(btn2);
+    
+    
+    
+        var btn3 = new qx.ui.form.Button("Button No #3");
+        btn3.set({ top : 48, left : 220 });
+        btn3.addEventListener("execute", buttonExecute);
+        d.add(btn3);
+    
+    
+        var btn4 = new qx.ui.form.Button("Button No #4", "icon/16/actions/go-next.png");
+        btn4.set({ top : 48, left : 320 });
+        btn4.addEventListener("execute", buttonExecute);
+        d.add(btn4);
+      }
+    }
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

@@ -184,7 +184,7 @@ qx.Class.define("testrunner.TestLoader",
 
       var testResult = new testrunner.TestResult();
 
-      testResult.addListener("failure", function(e)
+      testResult.addEventListener("failure", function(e)
       {
         var ex = e.getData().exception;
         var test = e.getData().test;
@@ -192,7 +192,7 @@ qx.Class.define("testrunner.TestLoader",
         this.error("Stack trace: " + ex.getStackTrace().join("\n"));
       });
 
-      testResult.addListener("error", function(e)
+      testResult.addEventListener("error", function(e)
       {
         var ex = e.getData().exception;
         this.error("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);

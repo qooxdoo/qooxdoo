@@ -21,7 +21,7 @@
     i1.setLeft(20);
     i1.setTop(48);
     
-    i1.addListener("load", function() {
+    i1.addEventListener("load", function() {
       this.debug("Image 1: " + this.getPreferredBoxWidth() + "x" + this.getPreferredBoxHeight());
     });
     
@@ -34,7 +34,7 @@
     i2.setBorder("black");
     i2.setPadding(2, 4);    
     
-    i2.addListener("load", function() {
+    i2.addEventListener("load", function() {
       this.debug("Image 2: " + this.getPreferredBoxWidth() + "x" + this.getPreferredBoxHeight());
     });
 
@@ -48,7 +48,7 @@
     i3.setPadding(8);    
     i3.setOpacity(0.5);
     
-    i3.addListener("load", function() {
+    i3.addEventListener("load", function() {
       this.debug("Image 3: " + this.getPreferredBoxWidth() + "x" + this.getPreferredBoxHeight());
     });
 
@@ -61,11 +61,11 @@
     i4.setBorder("black");
     i4.setPadding(2, 4);     
     
-    i4.addListener("load", function() {
+    i4.addEventListener("load", function() {
       this.debug("Image 4: " + this.getPreferredBoxWidth() + "x" + this.getPreferredBoxHeight());
     });    
 
-    i4.addListener("click", function() {
+    i4.addEventListener("click", function() {
       this.setSource(this.getSource() == "icon/64/places/folder.png" ? "icon/32/actions/system-run.png" : "icon/64/places/folder.png");
     });    
     
@@ -102,11 +102,11 @@
     i5.setBorder("black");
     i5.setPadding(2, 4);     
     
-    i5.addListener("load", function() {
+    i5.addEventListener("load", function() {
       this.debug("Image 4: " + this.getPreferredBoxWidth() + "x" + this.getPreferredBoxHeight());
     });    
 
-    i5.addListener("click", function() {
+    i5.addEventListener("click", function() {
       this.setSource(this.getSource() == "icon/64/places/folder.png" ? "icon/32/actions/system-run.png" : "icon/64/places/folder.png");
     });    
 

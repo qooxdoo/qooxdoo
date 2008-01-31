@@ -22,9 +22,16 @@
   </div>
 
 <script type="text/javascript">
-qx.core.Init.getInstance().defineMain(
-    function()
+qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
     {
+      main : function()
+      {
+        this.base(arguments);
+
         var addChildren = function(parent, children)
         {
             var t;
@@ -154,7 +161,7 @@ qx.core.Init.getInstance().defineMain(
          * All subtrees will use this root node's event listeners.  Create an
          * event listener for an open while empty.
          */
-        t.addListener(
+        t.addEventListener(
             "treeOpenWhileEmpty",
             function(e)
             {
@@ -188,7 +195,11 @@ qx.core.Init.getInstance().defineMain(
         var trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Sandbox");
         var tf = new qx.ui.tree.TreeFolder(trs);
         t.add(tf);
-    });
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
 /*
  * Local Variables:
  * mode: java
