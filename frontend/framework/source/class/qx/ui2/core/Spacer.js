@@ -45,11 +45,16 @@ qx.Class.define("qx.ui2.core.Spacer",
   {
     this.base(arguments);
 
-    this.set({
-      width: width,
-      height: height
-    });
+    if (width != null) {
+      this.setWidth(width);
+    }
+
+    if (height != null) {
+      this.setHeight(height);
+    }
   },
+
+
 
 
 
@@ -66,56 +71,62 @@ qx.Class.define("qx.ui2.core.Spacer",
     {
       check : "Number",
       init : 0,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyLayoutChange",
       nullable : false
     },
+
 
     /** The spacer's preferred height */
     height :
     {
       check : "Number",
       init : 50,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyLayoutChange",
       nullable : false
     },
+
 
     /** The spacer's maximum height */
     maxHeight :
     {
       check : "Number",
       init : Infinity,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyLayoutChange",
       nullable : false
     },
+
 
     /** The spacer's minimum width */
     minWidth :
     {
       check : "Number",
       init : 0,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyLayoutChange",
       nullable : false
     },
+
 
     /** The spacer's preferred width */
     width :
     {
       check : "Number",
       init : 100,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyLayoutChange",
       nullable : false
     },
+
 
     /** The spacer's maximum width */
     maxWidth :
     {
       check : "Number",
       init : Infinity,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyLayoutChange",
       nullable : false
     }
-
   },
+
+
 
 
 
@@ -139,26 +150,43 @@ qx.Class.define("qx.ui2.core.Spacer",
 
     // overrridden
     invalidateLayoutCache : function() {
-      // nothing to do
+      this._sizeHint = null;
     },
+
+
+    /**
+     * generic property apply method for layout relevant properties
+     */
+    _applyLayoutChange : function() {
+      this.scheduleLayoutUpdate();
+    },
+
 
     // overridden
     getSizeHint : function()
     {
-      return {
+      if (this._sizeHint) {
+        return this._sizeHint;
+      }
+
+      this._sizeHint = {
         minWidth : this.getMinWidth(),
         width : this.getWidth(),
         maxWidth : this.getMaxWidth(),
         minHeight : this.getMinHeight(),
         height : this.getHeight(),
         maxHeight : this.getMaxHeight()
-      }
+      };
+
+      return this._sizeHint;
     },
+
 
     // overridden
     getCachedSizeHint : function() {
-      return this.getSizeHint();
+      return this._sizeHint;
     },
+
 
     // overridden
     isVisible : function() {
