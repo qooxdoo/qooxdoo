@@ -139,6 +139,12 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Sets the content of the scroll area.
      *
@@ -146,10 +152,8 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      * @param value {qx.ui2.core.Widget} Widget to insert
      * @return {void}
      */
-    setContent : function(value)
-    {
+    setContent : function(value) {
       this._scrollPane.setContent(value);
-      this._computeOverflow();
     },
 
 
@@ -163,6 +167,15 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       return this._scrollPane.getContent() || null;
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Event handler for the scroll event of the horizontal scroll bar
@@ -202,28 +215,6 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     },
 
 
-    _syncScrollBars : function()
-    {
-      // Update scrollbar maximum for visible scrollbars
-      var content = this._scrollPane.getContent();
-
-      if (!content) {
-        return;
-      }
-
-      var paneSize = this._scrollPane.getComputedLayout();
-      var contentSize = content.getComputedLayout();
-
-      if (this._hScrollBar.isShown()) {
-        this._hScrollBar.setMaximum(Math.max(0, contentSize.width - paneSize.width));
-      }
-
-      if (this._vScrollBar.isShown()) {
-        this._vScrollBar.setMaximum(Math.max(0, contentSize.height - paneSize.height));
-      }
-    },
-
-
     /**
      * Listener for scrollbar visibility changes of the scrollbars.
      * Controls the scroll offset and the visibility of the corner
@@ -254,8 +245,46 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Updates the maximum property for all scrollbars. This is required
+     * after any resize event to keep the range up-to-date.
+     *
+     * @type member
+     */
+    _syncScrollBars : function()
+    {
+      // Update scrollbar maximum for visible scrollbars
+      var content = this._scrollPane.getContent();
+
+      if (!content) {
+        return;
+      }
+
+      var paneSize = this._scrollPane.getComputedLayout();
+      var contentSize = content.getComputedLayout();
+
+      if (this._hScrollBar.isShown()) {
+        this._hScrollBar.setMaximum(Math.max(0, contentSize.width - paneSize.width));
+      }
+
+      if (this._vScrollBar.isShown()) {
+        this._vScrollBar.setMaximum(Math.max(0, contentSize.height - paneSize.height));
+      }
+    },
+
+
     /**
      * Computes whether the content overflows and updates the scroll bars
+     *
      * @type member
      */
     _computeOverflow : function()
@@ -279,11 +308,11 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var autoX = this.getOverflowX() === "auto";
       var autoY = this.getOverflowY() === "auto";
 
-      var scrollX = true;
-      var scrollY = true;
-
       if (autoX && autoY)
       {
+        var scrollX = true;
+        var scrollY = true;
+
         var moreWidth = contentSize.width > innerSize.width;
         var moreHeight = contentSize.height > innerSize.height;
 
@@ -326,6 +355,15 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
     // property apply
     _applyOverflowX : function(value, old)
