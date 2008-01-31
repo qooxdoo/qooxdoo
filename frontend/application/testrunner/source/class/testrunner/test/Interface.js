@@ -86,7 +86,7 @@ qx.Class.define("testrunner.test.Interface",
           }
         },
 
-        properties : { color : { _legacy : true } }
+        properties : { color : { } }
       });
 
       var audi = new testrunner.Audi("audi");
@@ -125,7 +125,7 @@ qx.Class.define("testrunner.test.Interface",
             }
           },
 
-          properties : { color : { _legacy : true } }
+          properties : { color : { } }
         });
       },
       Error, 'Implementation of method "startEngine" is missing');
@@ -397,8 +397,8 @@ qx.Class.define("testrunner.test.Interface",
 
         properties :
         {
-          "color" : { _legacy : true },
-          "name"  : { _legacy : true }
+          "color" : { },
+          "name"  : { }
         }
       };
 
