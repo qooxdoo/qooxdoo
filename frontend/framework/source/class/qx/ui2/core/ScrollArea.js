@@ -218,9 +218,12 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var autoX = this.getOverflowX() === "auto";
       var autoY = this.getOverflowY() === "auto";
 
+      var horiScroll = this._hScrollBar;
+      var vertScroll = this._vScrollBar;
+
       if (autoY)
       {
-        if (autoX && this._hScrollBar.getVisibility() == "visible") {
+        if (autoX && horiScroll.getVisibility() == "visible") {
           areaHeight += this._hBarHeight;
         }
 
@@ -245,12 +248,12 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
 
       // Update scrollbar maximum for visible scrollbars
-      if (this._hScrollBar.getVisibility() == "visible") {
-        this._hScrollBar.setMaximum(Math.max(0, contentSize.width - areaWidth));
+      if (horiScroll.getVisibility() == "visible") {
+        horiScroll.setMaximum(Math.max(0, contentSize.width - areaWidth));
       }
 
-      if (this._vScrollBar.getVisibility() == "visible") {
-        this._vScrollBar.setMaximum(Math.max(0, contentSize.height - areaHeight));
+      if (vertScroll.getVisibility() == "visible") {
+        vertScroll.setMaximum(Math.max(0, contentSize.height - areaHeight));
       }
     },
 
