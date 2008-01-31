@@ -75,11 +75,11 @@
   
         c1.setSelected(c1.getList().getFirstChild());
   
-        c1.addEventListener("changeValue", function(e) {
+        c1.addListener("changeValue", function(e) {
           this.debug("New value: " + e.getValue());
         });
   
-        c1.addEventListener("changeSelected", function(e) {
+        c1.addListener("changeSelected", function(e) {
           this.debug("New selected: " + e.getValue());
         });
   
@@ -90,7 +90,7 @@
   
         b1.set({ top: 20, left: 150 });
   
-        b1.addEventListener("changeChecked", function(e) {
+        b1.addListener("changeChecked", function(e) {
           c1.setEditable(e.getData());
         });
   

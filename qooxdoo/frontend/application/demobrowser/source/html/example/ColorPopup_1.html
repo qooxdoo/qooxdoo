@@ -22,9 +22,9 @@
         this.base(arguments);
         var mybtn = new qx.ui.form.Button("Open Popup");
         mybtn.setLocation(20, 20);
-        mybtn.addEventListener("execute", function() {
-          mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
-          mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
+        mybtn.addListener("execute", function() {
+          mypop.setTop(qx.legacy.html.Location.getPageBoxBottom(this.getElement()));
+          mypop.setLeft(qx.legacy.html.Location.getPageBoxLeft(this.getElement()));
           mypop.show();
         });
     
@@ -62,21 +62,21 @@
         mybtn.addToDocument();
         mypop.addToDocument();
     
-        mypop.addEventListener("changeValue", function(e) {
+        mypop.addListener("changeValue", function(e) {
           this.debug("Value Listener: " + e.getData());
           myview.setBackgroundColor(e.getData());
           myview.setBackgroundImage(e.getData() ? null : "static/image/dotted_white.gif");
         });
     
-        mypop.addEventListener("changeRed", function(e) {
+        mypop.addListener("changeRed", function(e) {
           this.debug("Red Listener: " + e.getData());
         });
     
-        mypop.addEventListener("changeGreen", function(e) {
+        mypop.addListener("changeGreen", function(e) {
           this.debug("Green Listener: " + e.getData());
         });
     
-        mypop.addEventListener("changeBlue", function(e) {
+        mypop.addListener("changeBlue", function(e) {
           this.debug("Blue Listener: " + e.getData());
         });
       }

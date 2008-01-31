@@ -86,7 +86,7 @@
          * Each time we get a treeOpenWithContent event, add yet another leaf node
          * to the node being opened.
          */
-        tree.addEventListener("treeOpenWithContent",
+        tree.addListener("treeOpenWithContent",
                               function(e)
                               {
                                 tree.debug('treeOpenWithContent ');
@@ -95,7 +95,7 @@
                                 newItem++;
                               });
     
-        tree.addEventListener("treeClose",
+        tree.addListener("treeClose",
                               function(e)
                               {
                                 tree.debug('treeClose ');
@@ -108,7 +108,7 @@
          * the folder, and if nothing is available, indicate it by removing the
          * open/close symbol.
          */
-        tree.addEventListener("treeOpenWhileEmpty",
+        tree.addListener("treeOpenWhileEmpty",
                               function(e)
                               {
                                 tree.debug('treeOpenWhileEmpty');
@@ -117,7 +117,7 @@
                               });
     
     
-        tree.addEventListener("changeSelection",
+        tree.addListener("changeSelection",
                               function(e)
                               {
                                 var text = "Selected labels:";
@@ -157,7 +157,7 @@
         o.setSelected(item);
     
         // We want to be notified if the selection changes
-        o.addEventListener(
+        o.addListener(
           "changeSelected",
           function()
           {

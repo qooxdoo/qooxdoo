@@ -14,7 +14,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = new qx.html2.Element(document.getElementById("test"));
+    var doc = new qx.dom.Element(document.getElementById("test"));
 
 
 
@@ -22,11 +22,11 @@
 
     this.info("Basics");
 
-    var el1 = new qx.html2.Element;
-    var el2a = new qx.html2.Element;
-    var el2b = new qx.html2.Element;
-    var el3a = new qx.html2.Element;
-    var el3b = new qx.html2.Element;
+    var el1 = new qx.dom.Element;
+    var el2a = new qx.dom.Element;
+    var el2b = new qx.dom.Element;
+    var el3a = new qx.dom.Element;
+    var el3b = new qx.dom.Element;
 
     el1.setAttribute("id", "el1");
     el2a.setAttribute("id", "el2a");
@@ -43,7 +43,7 @@
     el1.setStyle("color", "blue");
     el1.setStyle("width", "100px").setStyle("height", "100px");
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -53,15 +53,15 @@
 
     this.info("Positioned Insert #1");
 
-    var before1 = new qx.html2.Element;
+    var before1 = new qx.dom.Element;
     before1.setAttribute("id", "before1");
     doc.insertBefore(before1, el1);
 
-    var after1 = new qx.html2.Element;
+    var after1 = new qx.dom.Element;
     after1.setAttribute("id", "after1");
     doc.insertAfter(after1, el1);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -71,15 +71,15 @@
 
     this.info("Positioned Insert #2");
 
-    var before2 = new qx.html2.Element;
+    var before2 = new qx.dom.Element;
     before2.setAttribute("id", "before2");
     doc.insertAt(before2, 0);
 
-    var after2 = new qx.html2.Element;
+    var after2 = new qx.dom.Element;
     after2.setAttribute("id", "after2");
     doc.insertAt(after2, 10);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -89,10 +89,10 @@
     this.info("Move");
 
     doc.moveAfter(before2, before1);
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
     doc.moveBefore(after2, after1);
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -107,7 +107,7 @@
     doc.moveTo(before2, in2);
     doc.moveTo(after2, in1);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -120,7 +120,7 @@
     doc.remove(before2);
     doc.remove(after2);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -130,7 +130,7 @@
 
     doc.addList(before2, after2);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -143,7 +143,7 @@
     doc.removeList(before2, after2);
     doc.addList(before2, after2);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
 
 
@@ -156,7 +156,7 @@
     doc.moveAfter(before1, after1);
     doc.insertBefore(before2, before1);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
     /*
     BEFORE:        AFTER1:        AFTER2:        AFTER3:
@@ -184,7 +184,7 @@
       doc.moveTo(a[i], 0);
     }
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
     // AFTER: after2, before1, before2, after1, el1
 
@@ -199,7 +199,7 @@
 
     doc.moveAfter(before1, before2);
 
-    qx.html2.Element.flushQueue();
+    qx.dom.Element.flushQueue();
 
     // AFTER: after2, before2, before1, after1, el1
   });

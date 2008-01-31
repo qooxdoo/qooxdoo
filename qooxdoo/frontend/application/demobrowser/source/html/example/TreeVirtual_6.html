@@ -93,13 +93,13 @@
         ]);  
         
         // move node on drop
-        tree1.addEventListener("dragdrop",function(event){  
+        tree1.addListener("dragdrop",function(event){  
           // move node to new place
           this.moveNode(this.getDropData(event));
         },tree1);
         
         // auto-select node on hover timout
-        tree1.addEventListener("draghover",function(event){
+        tree1.addListener("draghover",function(event){
           var row= event.getData().row;
           this.getSelectionModel().setSelectionInterval(row,row);
         },tree1);
@@ -152,7 +152,7 @@
         });
        
         // on drop, move node and sort parent (this is done automatically through setSortAfterDrop(true)
-        tree2.addEventListener("dragdrop",function(event){  
+        tree2.addListener("dragdrop",function(event){  
           this.moveNode(this.getDropData(event));
         },tree2);
     
@@ -173,7 +173,7 @@
         o = new qx.ui.form.TextField();
         o.set({ left: 4, right: 0, top: 20, readOnly: true });
         commandFrame.add(o);
-        tree1.addEventListener("changeSelection",function(e){
+        tree1.addListener("changeSelection",function(e){
           // Get the list of selected nodes.  We're in single-selection mode, so
           // there will be only one of them.
           var nodes = e.getData();
@@ -185,7 +185,7 @@
         var buttonRemove = new qx.ui.form.Button("Remove");
         buttonRemove.set({ top: 42, left: 0, enabled: false });
         commandFrame.add(buttonRemove);
-        buttonRemove.addEventListener("execute",function(e){
+        buttonRemove.addListener("execute",function(e){
           selectedNodes = tree1.getSelectedNodes();
           for (var i = 0; i < selectedNodes.length; i++)
           {
@@ -197,28 +197,28 @@
         o = new qx.ui.form.CheckBox("Tree 1: Allow drop between nodes?");
         o.set({ top: 80, left: 0, checked: true });
         commandFrame.add(o);
-        o.addEventListener("changeChecked",function(e){
+        o.addListener("changeChecked",function(e){
            tree1.setAllowDropBetweenNodes(e.getData());
          });
     
         o = new qx.ui.form.CheckBox("Tree 1: Autoselect after timeout?");
         o.set({ top: 100, left: 0, checked: true });
         commandFrame.add(o);
-        o.addEventListener("changeChecked",function(e){
+        o.addListener("changeChecked",function(e){
          tree1.setDragHoverTimeout(e.getData()?1000:null);
         });
     
         o = new qx.ui.form.CheckBox("Tree2: Sort after Drop?");
         o.set({ top: 120, left: 0, checked: true });
         commandFrame.add(o);
-        o.addEventListener("changeChecked", function(e){
+        o.addListener("changeChecked", function(e){
          tree2.setSortAfterDrop(e.getData());
         });
     
         o = new qx.ui.form.CheckBox("Display a row focus indicator?");
         o.set({ top: 140, left: 0, checked: true });
         commandFrame.add(o);
-        o.addEventListener("changeChecked",function(e){
+        o.addListener("changeChecked",function(e){
          tree1.setShowRowFocusIndicator(e.getData());
          tree2.setShowRowFocusIndicator(e.getData());
         });
@@ -226,7 +226,7 @@
         o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
         o.set({ top: 160, left: 0, checked: true });
         commandFrame.add(o);
-        o.addEventListener("changeChecked", function(e){
+        o.addListener("changeChecked", function(e){
           tree1.setShowCellFocusIndicator(e.getData());
           tree2.setShowRowFocusIndicator(e.getData());      
         });

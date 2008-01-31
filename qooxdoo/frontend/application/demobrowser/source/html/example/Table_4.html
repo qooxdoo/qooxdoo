@@ -56,7 +56,7 @@
         button1.setTop(400);
         button1.setLeft(450);
         button1.addToDocument();
-        button1.addEventListener("execute",
+        button1.addListener("execute",
                                  function(e)
                                  {
                                    tableModel.addNumericFilter("==", 1, "Boolean test");
@@ -67,7 +67,7 @@
         button2.setTop(400);
         button2.setLeft(550);
         button2.addToDocument();
-        button2.addEventListener("execute",
+        button2.addListener("execute",
                                  function(e)
                                  {
                                    tableModel.addNumericFilter("!=", 1, "Boolean test");
@@ -78,7 +78,7 @@
         button3.setTop(500);
         button3.setLeft(450);
         button3.addToDocument();
-        button3.addEventListener("execute",
+        button3.addListener("execute",
                                  function(e)
                                  {
                                    tableModel.addBetweenFilter("between", 1000, 5000, "A number");
@@ -89,7 +89,7 @@
         button4.setTop(500);
         button4.setLeft(550);
         button4.addToDocument();
-        button4.addEventListener("execute",
+        button4.addListener("execute",
                                  function(e)
                                  {
                                    tableModel.resetHiddenRows();

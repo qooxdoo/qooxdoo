@@ -8,7 +8,7 @@
 <body>  
   <div id="description">
     <p>qx.ui.menu.Menu Implementation.</p>
-    <p>Added qx.client.Command support tests.</p>
+    <p>Added qx.event.Command support tests.</p>
   </div>
 
   <script type="text/javascript">
@@ -23,63 +23,63 @@
         this.base(arguments);
         var d = qx.ui.core.ClientDocument.getInstance();
   
-        var q1 = new qx.client.Command("Ctrl+Z");
-        q1.addEventListener("execute", function(e) {
+        var q1 = new qx.event.Command("Ctrl+Z");
+        q1.addListener("execute", function(e) {
           alert("Undo");
         });
   
-        var q2 = new qx.client.Command("Ctrl+Y");
-        q2.addEventListener("execute", function(e) {
+        var q2 = new qx.event.Command("Ctrl+Y");
+        q2.addListener("execute", function(e) {
           alert("Redo");
         });
   
-        var q3 = new qx.client.Command("Ctrl+X");
-        q3.addEventListener("execute", function(e) {
+        var q3 = new qx.event.Command("Ctrl+X");
+        q3.addListener("execute", function(e) {
           alert("Cut");
         });
   
-        var q4 = new qx.client.Command("Ctrl+C");
-        q4.addEventListener("execute", function(e) {
+        var q4 = new qx.event.Command("Ctrl+C");
+        q4.addListener("execute", function(e) {
           alert("Copy");
         });
   
-        var q5 = new qx.client.Command("Ctrl+V");
-        q5.addEventListener("execute", function(e) {
+        var q5 = new qx.event.Command("Ctrl+V");
+        q5.addListener("execute", function(e) {
           alert("Paste");
         });
   
-        var q6 = new qx.client.Command("Del");
-        q6.addEventListener("execute", function(e) {
+        var q6 = new qx.event.Command("Del");
+        q6.addListener("execute", function(e) {
           alert("Delete");
         });
   
-        var q7 = new qx.client.Command("Ctrl+A");
-        q7.addEventListener("execute", function(e) {
+        var q7 = new qx.event.Command("Ctrl+A");
+        q7.addListener("execute", function(e) {
           alert("Select All");
         });
   
-        var q8 = new qx.client.Command("Ctrl+F");
-        q8.addEventListener("execute", function(e) {
+        var q8 = new qx.event.Command("Ctrl+F");
+        q8.addListener("execute", function(e) {
           alert("Search");
         });
   
-        var q9 = new qx.client.Command("Ctrl+G");
-        q9.addEventListener("execute", function(e) {
+        var q9 = new qx.event.Command("Ctrl+G");
+        q9.addListener("execute", function(e) {
           alert("Search Again");
         });
   
-        var q10 = new qx.client.Command();
-        q10.addEventListener("execute", function(e) {
+        var q10 = new qx.event.Command();
+        q10.addListener("execute", function(e) {
           alert("Syntax Highlighting");
         });
   
-        var q11 = new qx.client.Command("Esc");
-        q11.addEventListener("execute", function(e) {
+        var q11 = new qx.event.Command("Esc");
+        q11.addListener("execute", function(e) {
           alert("Escape");
         });
   
-        var q12 = new qx.client.Command("Space");
-        q12.addEventListener("execute", function(e) {
+        var q12 = new qx.event.Command("Space");
+        q12.addListener("execute", function(e) {
           alert("Space");
         });
   
@@ -151,7 +151,7 @@
         w1.setTop(20);
         w1.setLeft(20);
   
-        w1.addEventListener("click", function(e)
+        w1.addListener("click", function(e)
         {
           if (m1.isSeeable())
           {
@@ -161,18 +161,18 @@
           {
             var el = this.getElement();
   
-            m1.setLeft(qx.html.Location.getPageBoxLeft(el));
-            m1.setTop(qx.html.Location.getPageBoxBottom(el));
+            m1.setLeft(qx.legacy.html.Location.getPageBoxLeft(el));
+            m1.setTop(qx.legacy.html.Location.getPageBoxBottom(el));
   
             m1.show();
           };
   
-          e.setPropagationStopped(true);
+          estopPropagation();
         });
   
-        w1.addEventListener("mousedown", function(e)
+        w1.addListener("mousedown", function(e)
         {
-          e.setPropagationStopped(true);
+          estopPropagation();
         });
   
   

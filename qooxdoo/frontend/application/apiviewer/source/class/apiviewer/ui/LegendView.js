@@ -49,7 +49,7 @@ qx.Class.define("apiviewer.ui.LegendView",
     this.setBackgroundColor("white");
     this.setHtmlProperty("id", "legend");
 
-    this.addEventListener("appear", this._showHtml, this);
+    this.addListener("appear", this._showHtml, this);
   },
 
 

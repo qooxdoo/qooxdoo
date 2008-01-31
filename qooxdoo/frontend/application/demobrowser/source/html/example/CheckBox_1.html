@@ -97,7 +97,7 @@
         };
         d.add(c8);
     
-        c8.addEventListener("changeChecked", function(e) {
+        c8.addListener("changeChecked", function(e) {
           this.setBackgroundColor(this.getChecked() ? "green" : "red");
         });
       }

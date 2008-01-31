@@ -52,7 +52,7 @@
 
       // blocker
       var button = new qx.ui.form.Button("block");
-      button.addEventListener("execute", function() {
+      button.addListener("execute", function() {
         d.block();
       });
       vbx.add(button);
@@ -76,7 +76,7 @@
 
       // color popup
       var mybtn = new qx.ui.form.Button("Open Popup");
-      mybtn.addEventListener("execute", function()
+      mybtn.addListener("execute", function()
       {
         mypop.positionRelativeTo(mybtn.getElement(), 0, 20);
         mypop.show();

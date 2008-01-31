@@ -71,7 +71,7 @@
   
         var rm = new qx.ui.selection.RadioManager(null, [r1, r2]);
   
-        rm.addEventListener("changeSelected", function(e) {
+        rm.addListener("changeSelected", function(e) {
           bs.setBarPosition(e.getData().getValue());
         });
   

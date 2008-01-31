@@ -17,7 +17,7 @@
   
     events :
     {
-      "surfTo" : "qx.event.type.DataEvent"
+      "surfTo" : "qx.event.type.Data"
     },
     
     members :
@@ -33,7 +33,7 @@
   
         w1 = new qx.ui.embed.Iframe();
   
-        w1.addEventListener("load", function(e) {
+        w1.addListener("load", function(e) {
           this.debug("Loaded: " + this.getSource());
         });
   
@@ -50,7 +50,7 @@
         };
   
         // make qx.ui.embed.Iframe react to event "surfTo" via function changeURL()
-        this.addEventListener("surfTo", changeURL, w1);
+        this.addListener("surfTo", changeURL, w1);
   
   
         //-------------
@@ -66,9 +66,9 @@
         var rbm = new qx.ui.selection.RadioManager( name, [rd1, rd2]);
   
         // elements of radio group fire event "surfTo"
-        rbm.addEventListener("changeSelected", function(e)
+        rbm.addListener("changeSelected", function(e)
         {
-          this.dispatchEvent( new qx.event.type.DataEvent("surfTo", e.getValue().getValue() ) );
+          this.dispatchEvent( new qx.event.type.Data("surfTo", e.getValue().getValue() ) );
         }, this);
   
         d.add(rd1, rd2);

@@ -24,8 +24,8 @@
         this.base(arguments);
         var d = qx.ui.core.ClientDocument.getInstance();
   
-        var c1 = new qx.client.Command();
-        c1.addEventListener("execute", function(e) {
+        var c1 = new qx.event.Command();
+        c1.addListener("execute", function(e) {
           this.debug("Execute: " + e.getData().getLabel());
         });
   

@@ -59,7 +59,7 @@
       // this example seems to be buggy with auto-height
       // c1.getPopup().setHeight(150);
 
-      c1.addEventListener("beforeInitialOpen", function(e)
+      c1.addListener("beforeInitialOpen", function(e)
       {
         var item;
         var list = [ "package-x-generic", "video-x-generic", "x-office-spreadsheet", "text-html", "image-x-generic", "application-quicktime", "application-pdf" ];
@@ -78,11 +78,11 @@
       // this does not work here (if there is no content)
       c1.setSelected(c1.getList().getFirstChild());
 
-      c1.addEventListener("changeValue", function(e) {
+      c1.addListener("changeValue", function(e) {
         this.debug("New value: " + e.getData());
       });
 
-      c1.addEventListener("changeSelected", function(e) {
+      c1.addListener("changeSelected", function(e) {
         this.debug("New selected: " + e.getData());
       });
 
@@ -93,7 +93,7 @@
 
       b1.set({ top: 50, left: 150 });
 
-      b1.addEventListener("changeChecked", function(e) {
+      b1.addListener("changeChecked", function(e) {
         c1.setEditable(e.getData());
       });
 

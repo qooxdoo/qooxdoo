@@ -72,20 +72,20 @@ qx.Class.define("BasicSample",
         //###1st row: combo
       
         combo = new form.ComboBoxEx;
-        combo.addEventListener('changeValue', function(ev) {
+        combo.addListener('changeValue', function(ev) {
           this.debug('Changed value: '+ev.getOldValue()+' --> '+ev.getValue());
         });
         var butSize = new form.Button('Size text field to content');
-        butSize.addEventListener('execute', function() {
+        butSize.addListener('execute', function() {
           combo.sizeTextFieldToContent();
         });
         var butIncr = new form.Button('Increase width');
-        butIncr.addEventListener('execute', function() {
+        butIncr.addListener('execute', function() {
           var f = combo.getField();
           f.setWidth(f.getWidthValue()+10);
         });
         var butDecr = new form.Button('Decrease width');
-        butDecr.addEventListener('execute', function() {
+        butDecr.addListener('execute', function() {
           var f = combo.getField();
           f.setWidth(f.getWidthValue()-10);
         });
@@ -101,30 +101,30 @@ qx.Class.define("BasicSample",
         //###2nd row: Test of simple properties
         var cEd = new form.CheckBox('Editable');
         cEd.setChecked(combo.getEditable());
-        cEd.addEventListener('changeChecked', function() {
+        cEd.addListener('changeChecked', function() {
           combo.setEditable(cEd.isChecked());
         });
       
         var cEnsure = new form.CheckBox('Ensure something selected');
         cEnsure.setChecked(combo.getEnsureSomethingSelected());
-        cEnsure.addEventListener('changeChecked', function() {
+        cEnsure.addListener('changeChecked', function() {
           combo.setEnsureSomethingSelected(cEnsure.isChecked());
         });
       
         var cAllowSearch = new form.CheckBox('Allow searching');
         cAllowSearch.setChecked(combo.getAllowSearch());
-        cAllowSearch.addEventListener('changeChecked', function() {
+        cAllowSearch.addListener('changeChecked', function() {
           combo.setAllowSearch(cAllowSearch.isChecked());
         });
       
         var cIdCol = new form.CheckBox('ID column visible');
         cIdCol.setChecked(combo.isIdColumnVisible());
-        cIdCol.addEventListener('changeChecked', function() {
+        cIdCol.addListener('changeChecked', function() {
           combo.setIdColumnVisible(cIdCol.isChecked());
         });
       
         var fieldItems = new form.Spinner(0, 0, testData.length);
-        fieldItems.getManager().addEventListener('change', function() {
+        fieldItems.getManager().addListener('change', function() {
           var sel = [], count = fieldItems.getValue();
           for (var i = 0; i < count; i++) {
             sel.push(testData[i]);
@@ -150,7 +150,7 @@ qx.Class.define("BasicSample",
         var rb4 = new form.RadioButton('4', '4');
       
         var fieldHeaders = new qx.ui.selection.RadioManager('headers', [ rb1, rb2, rb3, rb4 ]);
-        fieldHeaders.addEventListener("changeSelected", function(e) {
+        fieldHeaders.addListener("changeSelected", function(e) {
           var headers = [], count = Number(e.getData().getValue());
           for (var i = 0; i < count; i++) {
             headers.push(allHeaders[i]);
@@ -160,7 +160,7 @@ qx.Class.define("BasicSample",
       
           var butChangeHeaders = new form.Button('Add * to headers');
           // This tests changing the headers, but not the number of columns
-          butChangeHeaders.addEventListener('execute', function() {
+          butChangeHeaders.addListener('execute', function() {
           var headers = combo.getColumnHeaders();
           for (var i = 0; i < headers.length; i++) {
             headers[i] += '*';
@@ -180,7 +180,7 @@ qx.Class.define("BasicSample",
           boxShowHeaders.add(items[i]);
         }
         fieldShowHeaders.setSelected(fieldShowHeaders.getItems()[0]);
-        fieldShowHeaders.addEventListener("changeSelected", function(e) {
+        fieldShowHeaders.addListener("changeSelected", function(e) {
           combo.setShowColumnHeaders(e.getData().getValue());
           });
       
@@ -197,7 +197,7 @@ qx.Class.define("BasicSample",
         boxRow3.add(boxHeaders);
       
         var fieldMaxRows = new form.Spinner(2, combo.getMaxVisibleRows(), 20);
-        fieldMaxRows.getManager().addEventListener('change', function() {
+        fieldMaxRows.getManager().addListener('change', function() {
           combo.setMaxVisibleRows(fieldMaxRows.getValue());
         });
         var boxMaxRows = new GroupBox('Max. number of visible rows');
@@ -212,14 +212,14 @@ qx.Class.define("BasicSample",
         var rbIdAndDesc = new form.RadioButton('ID and description', 'idAndDescription');
         var rbId = new form.RadioButton('ID', 'id');
         var fieldShowOn = new qx.ui.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc, rbId ]);
-        fieldShowOn.addEventListener("changeSelected", function(e) {
+        fieldShowOn.addListener("changeSelected", function(e) {
           combo.setShowOnTextField(e.getData().getValue());
           });
       
         var fieldSeparator = new form.TextField;
         fieldSeparator.setValue(combo.getIdDescriptionSeparator());
         fieldSeparator.setWidth(50);
-        fieldSeparator.addEventListener('changeValue', function() {
+        fieldSeparator.addListener('changeValue', function() {
           combo.setIdDescriptionSeparator(fieldSeparator.getValue());
         });
         var boxShowOn2 = new Box;
@@ -233,11 +233,11 @@ qx.Class.define("BasicSample",
         //###Test of get/setValue
         var fieldValue = new form.TextField;
         var butSetValue = new form.Button('Set');
-        butSetValue.addEventListener('execute', function() {
+        butSetValue.addListener('execute', function() {
           combo.setValue(fieldValue.getValue());
         });
         var butGetValue = new form.Button('Get');
-        butGetValue.addEventListener('execute', function() {
+        butGetValue.addListener('execute', function() {
           fieldValue.setValue(combo.getValue());
         });
         var boxVal2 = new Box;

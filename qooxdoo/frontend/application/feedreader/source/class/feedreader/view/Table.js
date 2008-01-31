@@ -64,7 +64,7 @@ qx.Class.define("feedreader.view.Table",
     this.getTableColumnModel().setColumnVisible(2, false);
 
     // Add selection listener
-    this.getSelectionModel().addEventListener("changeSelection", this._onChangeSelection, this);
+    this.getSelectionModel().addListener("changeSelection", this._onChangeSelection, this);
   },
 
   members :

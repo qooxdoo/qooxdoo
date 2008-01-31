@@ -125,7 +125,7 @@
   
         galleryList.setBorder("inset");
         galleryList.setBackgroundColor("white");
-        galleryList.addEventListener("beforeToolTipAppear", function(e) {
+        galleryList.addListener("beforeToolTipAppear", function(e) {
   				var entry = galleryList.getEntryByNode(e.getData());
         	galleryList.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.number));
         });

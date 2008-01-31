@@ -43,7 +43,7 @@
     cm1.add(new qx.ui.form.ListItem("data/persons/paul.txt"));
     cm1.setSelected(cm1.getList().getFirstChild());
     cm1.setWidth(200);
-    cm1.addEventListener("changeSelected", upd);
+    cm1.addListener("changeSelected", upd);
 
     hlay.add(cm1);
 
@@ -60,7 +60,7 @@
 
 
     var btn = new qx.ui.form.Button("Send", "icon/16/actions/dialog-ok.png");
-    btn.addEventListener("execute", upd);
+    btn.addListener("execute", upd);
     hlay.add(btn);
 
 
@@ -92,7 +92,7 @@
     checken.setChecked(true);
     hlay.add(checken);
 
-    checken.addEventListener("changeChecked", function(e) {
+    checken.addListener("changeChecked", function(e) {
       qx.io.remote.RequestQueue.getInstance().setEnabled(e.getValue());
     });
 
@@ -140,15 +140,15 @@
         // Force to testing iframe implementation
         // req.setCrossDomain(true);
 
-        req.addEventListener("sending", function(e) {
+        req.addListener("sending", function(e) {
           inf.setValue("Sending");
         });
 
-        req.addEventListener("receiving", function(e) {
+        req.addListener("receiving", function(e) {
           inf.setValue("Receiving");
         });
 
-        req.addEventListener("completed", function(e)
+        req.addListener("completed", function(e)
         {
           inf.setValue("Completed");
           typ.setValue(e.getResponseHeader("Content-Type"));
@@ -157,7 +157,7 @@
           area.setValue(e.getContent());
         });
 
-        req.addEventListener("failed", function(e)
+        req.addListener("failed", function(e)
         {
           inf.setValue("Failed");
           typ.setValue(e.getResponseHeader("Content-Type"));
@@ -166,7 +166,7 @@
           area.setValue(e.getContent());
         });
 
-        req.addEventListener("timeout", function(e)
+        req.addListener("timeout", function(e)
         {
           inf.setValue("Timeout");
           typ.setValue(e.getResponseHeader("Content-Type"));
@@ -175,7 +175,7 @@
           area.setValue(e.getContent());
         });
 
-        req.addEventListener("aborted", function(e)
+        req.addListener("aborted", function(e)
         {
           inf.setValue("Aborted");
           typ.setValue(e.getResponseHeader("Content-Type"));

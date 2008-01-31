@@ -26,27 +26,27 @@
     
         var btn1 = new qx.ui.form.Button("Button No #1");
         btn1.set({ top : 48, left : 20 });
-        btn1.addEventListener("execute", buttonExecute);
+        btn1.addListener("execute", buttonExecute);
         d.add(btn1);
     
     
     
         var btn2 = new qx.ui.form.Button("Button No #2")
         btn2.set({ top : 48, left : 120, enabled : false });
-        btn2.addEventListener("execute", buttonExecute);
+        btn2.addListener("execute", buttonExecute);
         d.add(btn2);
     
     
     
         var btn3 = new qx.ui.form.Button("Button No #3");
         btn3.set({ top : 48, left : 220 });
-        btn3.addEventListener("execute", buttonExecute);
+        btn3.addListener("execute", buttonExecute);
         d.add(btn3);
     
     
         var btn4 = new qx.ui.form.Button("Button No #4", "icon/16/actions/go-next.png");
         btn4.set({ top : 48, left : 320 });
-        btn4.addEventListener("execute", buttonExecute);
+        btn4.addListener("execute", buttonExecute);
         d.add(btn4);
       }
     }

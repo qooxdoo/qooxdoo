@@ -41,8 +41,8 @@ qx.Class.define("showcase.Application",
 
   events :
   {
-    "changeSize" : "qx.event.type.DataEvent",
-    "changeLayout" : "qx.event.type.DataEvent"
+    "changeSize" : "qx.event.type.Data",
+    "changeLayout" : "qx.event.type.Data"
   },
 
 
@@ -90,16 +90,16 @@ qx.Class.define("showcase.Application",
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
 
       // back button and bookmark support
-      this._history = qx.client.History.getInstance();
+      this._history = qx.bom.History.getInstance();
 
       // listen for state changes
-      this._history.addEventListener("request", function(e) {
+      this._history.addListener("request", function(e) {
         var stateData = this._states[e.getData() || "Form"];
         stateData.widget.setChecked(true);
       }, this);
 
       // update state on selection change
-      barView.getBar().getManager().addEventListener("changeSelected", function(e) {
+      barView.getBar().getManager().addListener("changeSelected", function(e) {
         var stateData = e.getValue().getUserData("state");
         this._history.addToHistory(stateData.state, "qooxdoo » Showcase - " + stateData.title);
       }, this);
@@ -144,7 +144,7 @@ qx.Class.define("showcase.Application",
       var page = new qx.ui.pageview.buttonview.Page(bt);
       barView.getPane().add(page);
 
-      bt.addEventListener("changeChecked", function(e)
+      bt.addListener("changeChecked", function(e)
       {
         if (page.getFirstChild()) {
           return;
@@ -473,8 +473,8 @@ qx.Class.define("showcase.Application",
         }
 
         var button = new clazz(text, "icon/22/actions/" + icon + ".png");
-        app.addEventListener("changeLayout", changeLayout, button);
-        app.addEventListener("changeSize", changeSize, button);
+        app.addListener("changeLayout", changeLayout, button);
+        app.addListener("changeSize", changeSize, button);
 
         if (checked) {
           button.setChecked(true);
@@ -529,8 +529,8 @@ qx.Class.define("showcase.Application",
       vert.add(radio1, radio2, radio3);
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
-      rbm.addEventListener("changeSelected", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getValue().getValue()));
+      rbm.addListener("changeSelected", function(e) {
+        this.dispatchEvent(new qx.event.type.Data("changeLayout", e.getValue().getValue()));
       }, this);
 
       // Alignment
@@ -545,7 +545,7 @@ qx.Class.define("showcase.Application",
       vert.add(radio1, radio2, radio3);
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
-      rbm.addEventListener("changeSelected", function(e) {
+      rbm.addListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getValue().getValue());
       });
 
@@ -557,8 +557,8 @@ qx.Class.define("showcase.Application",
       var button = new qx.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
       button.setHorizontalAlign("center");
 
-      button.addEventListener("execute", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
+      button.addListener("execute", function(e) {
+        this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
       }, this);
 
       vert.add(button);
@@ -566,8 +566,8 @@ qx.Class.define("showcase.Application",
       var button = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
       button.setHorizontalAlign("center");
 
-      button.addEventListener("execute", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
+      button.addListener("execute", function(e) {
+        this.dispatchEvent(new qx.event.type.Data("changeSize", 32));
       }, this);
 
       vert.add(button);
@@ -624,11 +624,11 @@ qx.Class.define("showcase.Application",
 
       p1_1.add(c1, c2);
 
-      c1.addEventListener("changeChecked", function(e) {
+      c1.addListener("changeChecked", function(e) {
         tf1.setPlaceBarOnTop(e.getValue());
       });
 
-      c2.addEventListener("changeChecked", function(e) {
+      c2.addListener("changeChecked", function(e) {
         tf1.setAlignTabsToLeft(e.getValue());
       });
 
@@ -715,9 +715,9 @@ qx.Class.define("showcase.Application",
         alert("Searching...");
       }
 
-      b2_1.addEventListener("click", dosearch);
-      b2_2.addEventListener("click", dosearch);
-      b2_3.addEventListener("click", dosearch);
+      b2_1.addListener("click", dosearch);
+      b2_2.addListener("click", dosearch);
+      b2_3.addListener("click", dosearch);
 
       // Bar view
       var bs = new qx.ui.pageview.buttonview.ButtonView;
@@ -799,7 +799,7 @@ qx.Class.define("showcase.Application",
 
       var rm = new qx.ui.selection.RadioManager(null, [ r1, r2, r3, r4 ]);
 
-      rm.addEventListener("changeSelected", function(e) {
+      rm.addListener("changeSelected", function(e) {
         bs.setBarPosition(e.getValue().getValue());
       });
 
@@ -942,13 +942,13 @@ qx.Class.define("showcase.Application",
 
       command.add(tCurrentInput);
 
-      t.getManager().addEventListener("changeSelection", function(e) {
+      t.getManager().addListener("changeSelection", function(e) {
         tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
       });
 
       var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
 
-      tDoubleClick.addEventListener("changeChecked", function(e) {
+      tDoubleClick.addListener("changeChecked", function(e) {
         t.setUseDoubleClick(e.getValue());
       });
 
@@ -957,7 +957,7 @@ qx.Class.define("showcase.Application",
       var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
       tTreeLines.setChecked(true);
 
-      tTreeLines.addEventListener("changeChecked", function(e) {
+      tTreeLines.addListener("changeChecked", function(e) {
         t.setUseTreeLines(e.getValue());
       });
 
@@ -1055,19 +1055,19 @@ qx.Class.define("showcase.Application",
       c3.setChecked(true);
       c4.setChecked(true);
 
-      c1.addEventListener("changeChecked", function(e) {
+      c1.addListener("changeChecked", function(e) {
         list.getManager().setMultiSelection(e.getValue());
       });
 
-      c2.addEventListener("changeChecked", function(e) {
+      c2.addListener("changeChecked", function(e) {
         list.getManager().setDragSelection(e.getValue());
       });
 
-      c3.addEventListener("changeChecked", function(e) {
+      c3.addListener("changeChecked", function(e) {
         list.getManager().setCanDeselect(e.getValue());
       });
 
-      c4.addEventListener("changeChecked", function(e) {
+      c4.addListener("changeChecked", function(e) {
         list.setEnableInlineFind(e.getValue());
       });
 
@@ -1078,7 +1078,7 @@ qx.Class.define("showcase.Application",
       control.add(rd1, rd2, rd3);
       var rbm = new qx.ui.selection.RadioManager(name, [ rd1, rd2, rd3 ]);
 
-      rbm.addEventListener("changeSelected", function(e)
+      rbm.addListener("changeSelected", function(e)
       {
         for (var i=0; i<list.getChildrenLength(); i++) {
           list.getChildren()[i].setShow(e.getValue().getValue());
@@ -1280,12 +1280,12 @@ qx.Class.define("showcase.Application",
           height       : "auto"
        });
 
-       list.getManager().addEventListener("changeSelection", function(e){
+       list.getManager().addListener("changeSelection", function(e){
           var urlToLoad = e.getData()[0].getValue();
           iframe.setSource(urlToLoad);
        });
 
-       list.addEventListener("appear", function(e){
+       list.addListener("appear", function(e){
          this.getManager().setSelectedItem(this.getManager().getFirst());
        });
 
@@ -1365,7 +1365,7 @@ qx.Class.define("showcase.Application",
         select.add(new qx.ui.form.ListItem(locales[i]));
       }
 
-      select.addEventListener("changeSelected", function(e)
+      select.addListener("changeSelected", function(e)
       {
         var locale = e.getValue().getLabel();
         qx.locale.Manager.getInstance().setLocale(locale);
@@ -1431,15 +1431,15 @@ qx.Class.define("showcase.Application",
       controls.add(chooser);
 
       // Commands
-      var undo_cmd = new qx.client.Command("Ctrl+Z");
-      var redo_cmd = new qx.client.Command("Ctrl+Y");
-      var cut_cmd = new qx.client.Command("Ctrl+X");
-      var copy_cmd = new qx.client.Command("Ctrl+C");
-      var paste_cmd = new qx.client.Command("Ctrl+V");
-      var delete_cmd = new qx.client.Command("Del");
-      var select_all_cmd = new qx.client.Command("Ctrl+A");
-      var search_cmd = new qx.client.Command("Ctrl+F");
-      var search_again_cmd = new qx.client.Command("F3");
+      var undo_cmd = new qx.event.Command("Ctrl+Z");
+      var redo_cmd = new qx.event.Command("Ctrl+Y");
+      var cut_cmd = new qx.event.Command("Ctrl+X");
+      var copy_cmd = new qx.event.Command("Ctrl+C");
+      var paste_cmd = new qx.event.Command("Ctrl+V");
+      var delete_cmd = new qx.event.Command("Del");
+      var select_all_cmd = new qx.event.Command("Ctrl+A");
+      var search_cmd = new qx.event.Command("Ctrl+F");
+      var search_again_cmd = new qx.event.Command("F3");
 
       var m1 = new qx.ui.menu.Menu;
       m1.add(new qx.ui.menu.Button(this.tr("Undo"), null, undo_cmd));
@@ -1457,7 +1457,7 @@ qx.Class.define("showcase.Application",
 
       var w1 = new qx.ui.form.Button(this.tr("Command Menu (keyboard shortcuts)"));
 
-      w1.addEventListener("click", function(e)
+      w1.addListener("click", function(e)
       {
         if (m1.isSeeable()) {
           m1.hide();
@@ -1465,16 +1465,16 @@ qx.Class.define("showcase.Application",
         else
         {
           var el = this.getElement();
-          m1.setLeft(qx.html.Location.getPageBoxLeft(el));
-          m1.setTop(qx.html.Location.getPageBoxBottom(el));
+          m1.setLeft(qx.legacy.html.Location.getPageBoxLeft(el));
+          m1.setTop(qx.legacy.html.Location.getPageBoxBottom(el));
           m1.show();
         }
 
-        e.setPropagationStopped(true);
+        estopPropagation();
       });
 
-      w1.addEventListener("mousedown", function(e) {
-        e.setPropagationStopped(true);
+      w1.addListener("mousedown", function(e) {
+        estopPropagation();
       });
 
       controls.add(w1);
@@ -1482,10 +1482,10 @@ qx.Class.define("showcase.Application",
       // ColorPopup
       var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
 
-      mybtn.addEventListener("execute", function()
+      mybtn.addListener("execute", function()
       {
-        mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
-        mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
+        mypop.setTop(qx.legacy.html.Location.getPageBoxBottom(this.getElement()));
+        mypop.setLeft(qx.legacy.html.Location.getPageBoxLeft(this.getElement()));
         mypop.show();
       });
 
@@ -1612,7 +1612,7 @@ qx.Class.define("showcase.Application",
       };
 
       // update info box
-      qx.locale.Manager.getInstance().addEventListener("changeLocale", this.updateLocaleInformation, this);
+      qx.locale.Manager.getInstance().addListener("changeLocale", this.updateLocaleInformation, this);
       this.updateLocaleInformation();
 
       return main;
@@ -1637,12 +1637,12 @@ qx.Class.define("showcase.Application",
         spacing : 5
       });
 
-      var win = new qx.client.NativeWindow("http://qooxdoo.org");
+      var win = new qx.legacy.Window("http://qooxdoo.org");
       win.setDimension(600, 400);
 
       var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
 
-      openBt.addEventListener("click", function() {
+      openBt.addListener("click", function() {
         win.open();
       });
 
@@ -1672,56 +1672,56 @@ qx.Class.define("showcase.Application",
       var chk1 = new qx.ui.form.CheckBox("Resizeable");
       chk1.setChecked(true);
 
-      chk1.addEventListener("changeChecked", function(e) {
+      chk1.addListener("changeChecked", function(e) {
         win.setResizable(e.getValue());
       });
 
       var chk2 = new qx.ui.form.CheckBox("Show Statusbar");
       chk2.setChecked(false);
 
-      chk2.addEventListener("changeChecked", function(e) {
+      chk2.addListener("changeChecked", function(e) {
         win.setShowStatusbar(e.getValue());
       });
 
       var chk3 = new qx.ui.form.CheckBox("Show Menubar");
       chk3.setChecked(false);
 
-      chk3.addEventListener("changeChecked", function(e) {
+      chk3.addListener("changeChecked", function(e) {
         win.setShowMenubar(e.getValue());
       });
 
       var chk4 = new qx.ui.form.CheckBox("Show Location");
       chk4.setChecked(false);
 
-      chk4.addEventListener("changeChecked", function(e) {
+      chk4.addListener("changeChecked", function(e) {
         win.setShowLocation(e.getValue());
       });
 
       var chk5 = new qx.ui.form.CheckBox("Show Toolbar");
       chk5.setChecked(false);
 
-      chk5.addEventListener("changeChecked", function(e) {
+      chk5.addListener("changeChecked", function(e) {
         win.setShowToolbar(e.getValue());
       });
 
       var chk6 = new qx.ui.form.CheckBox("Allow Scrollbars");
       chk6.setChecked(true);
 
-      chk6.addEventListener("changeChecked", function(e) {
+      chk6.addListener("changeChecked", function(e) {
         win.setAllowScrollbars(e.getValue());
       });
 
       var chk7 = new qx.ui.form.CheckBox("Modal");
       chk7.setChecked(false);
 
-      chk7.addEventListener("changeChecked", function(e) {
+      chk7.addListener("changeChecked", function(e) {
         win.setModal(e.getValue());
       });
 
       var chk8 = new qx.ui.form.CheckBox("Dependent");
       chk8.setChecked(true);
 
-      chk8.addEventListener("changeChecked", function(e) {
+      chk8.addListener("changeChecked", function(e) {
         win.setDependent(e.getValue());
       });
 
@@ -1754,7 +1754,7 @@ qx.Class.define("showcase.Application",
 
       var setUrlBt = new qx.ui.form.Button("Set Url", "icon/16/actions/dialog-ok.png");
 
-      setUrlBt.addEventListener("click", function() {
+      setUrlBt.addListener("click", function() {
         win.setUrl(tf1.getValue());
       });
 
@@ -1777,7 +1777,7 @@ qx.Class.define("showcase.Application",
 
       var btn2 = new qx.ui.form.Button("Set Width", "icon/16/actions/dialog-ok.png");
 
-      btn2.addEventListener("click", function() {
+      btn2.addListener("click", function() {
         win.setWidth(parseInt(tf2.getValue()));
       });
 
@@ -1799,7 +1799,7 @@ qx.Class.define("showcase.Application",
 
       var btn3 = new qx.ui.form.Button("Set Height", "icon/16/actions/dialog-ok.png");
 
-      btn3.addEventListener("click", function() {
+      btn3.addListener("click", function() {
         win.setHeight(parseInt(tf3.getValue()));
       });
 
@@ -1820,21 +1820,21 @@ qx.Class.define("showcase.Application",
       var btn4 = new qx.ui.form.Button("Center to screen", "icon/16/devices/video-display.png");
       btn4.setWidth("100%");
 
-      btn4.addEventListener("click", function() {
+      btn4.addListener("click", function() {
         win.centerToScreen();
       });
 
       var btn5 = new qx.ui.form.Button("Center to screen area", "icon/16/devices/video-display.png");
       btn5.setWidth("100%");
 
-      btn5.addEventListener("click", function() {
+      btn5.addListener("click", function() {
         win.centerToScreenArea();
       });
 
       var btn6 = new qx.ui.form.Button("Center to opener", "icon/16/devices/video-display.png");
       btn6.setWidth("100%");
 
-      btn6.addEventListener("click", function() {
+      btn6.addListener("click", function() {
         win.centerToOpener();
       });
 
@@ -1954,7 +1954,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk1.addEventListener("changeChecked", function(e) {
+      chk1.addListener("changeChecked", function(e) {
         w2.setShowIcon(e.getValue());
       });
 
@@ -1967,7 +1967,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk2.addEventListener("changeChecked", function(e) {
+      chk2.addListener("changeChecked", function(e) {
         w2.setShowCaption(e.getValue());
       });
 
@@ -1980,7 +1980,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk3.addEventListener("changeChecked", function(e) {
+      chk3.addListener("changeChecked", function(e) {
         w2.setResizable(e.getValue());
       });
 
@@ -1993,7 +1993,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk4.addEventListener("changeChecked", function(e) {
+      chk4.addListener("changeChecked", function(e) {
         w2.setMoveable(e.getValue());
       });
 
@@ -2006,7 +2006,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk5.addEventListener("changeChecked", function(e) {
+      chk5.addListener("changeChecked", function(e) {
         w2.setShowClose(e.getValue());
       });
 
@@ -2019,7 +2019,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk6.addEventListener("changeChecked", function(e) {
+      chk6.addListener("changeChecked", function(e) {
         w2.setShowMaximize(e.getValue());
       });
 
@@ -2032,7 +2032,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk7.addEventListener("changeChecked", function(e) {
+      chk7.addListener("changeChecked", function(e) {
         w2.setShowMinimize(e.getValue());
       });
 
@@ -2045,7 +2045,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk8.addEventListener("changeChecked", function(e) {
+      chk8.addListener("changeChecked", function(e) {
         w2.setAllowClose(e.getValue());
       });
 
@@ -2058,7 +2058,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk9.addEventListener("changeChecked", function(e) {
+      chk9.addListener("changeChecked", function(e) {
         w2.setAllowMaximize(e.getValue());
       });
 
@@ -2071,7 +2071,7 @@ qx.Class.define("showcase.Application",
         checked : true
       });
 
-      chk10.addEventListener("changeChecked", function(e) {
+      chk10.addListener("changeChecked", function(e) {
         w2.setAllowMinimize(e.getValue());
       });
 
@@ -2090,7 +2090,7 @@ qx.Class.define("showcase.Application",
 
       var rbm1 = new qx.ui.selection.RadioManager("move", [ rb1, rb2, rb3 ]);
 
-      rbm1.addEventListener("changeSelected", function(e) {
+      rbm1.addListener("changeSelected", function(e) {
         w2.setMoveMethod(e.getValue().getValue());
       });
 
@@ -2112,7 +2112,7 @@ qx.Class.define("showcase.Application",
 
       var rbm2 = new qx.ui.selection.RadioManager("resize", [ rb4, rb5, rb6, rb7 ]);
 
-      rbm2.addEventListener("changeSelected", function(e) {
+      rbm2.addListener("changeSelected", function(e) {
         w2.setResizeMethod(e.getValue().getValue());
       });
 
@@ -2120,14 +2120,14 @@ qx.Class.define("showcase.Application",
       chk11.setLocation(140, 140);
       chk11.setChecked(false);
 
-      chk11.addEventListener("changeChecked", function(e) {
+      chk11.addListener("changeChecked", function(e) {
         w2.setShowStatusbar(e.getValue());
       });
 
       var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/devices/media-optical.png");
       btnpack.setLocation(140, 170);
 
-      btnpack.addEventListener("execute", function(e) {
+      btnpack.addListener("execute", function(e) {
         w2.pack();
       });
 
@@ -2139,7 +2139,7 @@ qx.Class.define("showcase.Application",
       btn1.setLocation(4, 4);
       w3.add(btn1);
 
-      btn1.addEventListener("execute", function(e) {
+      btn1.addListener("execute", function(e) {
         wm1.open();
       });
 
@@ -2148,7 +2148,7 @@ qx.Class.define("showcase.Application",
       btn2.setLocation(4, 4);
       wm1.add(btn2);
 
-      btn2.addEventListener("execute", function(e) {
+      btn2.addListener("execute", function(e) {
         wm2.open();
       });
 
@@ -2156,7 +2156,7 @@ qx.Class.define("showcase.Application",
       chkm1.setLocation(4, 50);
       wm1.add(chkm1);
 
-      chkm1.addEventListener("changeChecked", function(e) {
+      chkm1.addListener("changeChecked", function(e) {
         wm1.setModal(e.getValue());
       });
 
@@ -2173,13 +2173,13 @@ qx.Class.define("showcase.Application",
       var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
       var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
 
-      btn3.addEventListener("execute", function(e)
+      btn3.addListener("execute", function(e)
       {
         alert("Thank you!");
         wm2.close();
       });
 
-      btn4.addEventListener("execute", function(e) {
+      btn4.addListener("execute", function(e) {
         alert("Sorry, please click 'Yes'!");
       });
 
@@ -2255,7 +2255,7 @@ qx.Class.define("showcase.Application",
 
       var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
 
-      openThemeWinBt.addEventListener("execute", function(e) {
+      openThemeWinBt.addListener("execute", function(e) {
         win.open();
       });
 

@@ -17,31 +17,31 @@
     var btn = new qx.ui.form.Button("Run test");
     btn.setLocation(100, 100);
     btn.addToDocument();
-    btn.addEventListener("execute", function(e)
+    btn.addListener("execute", function(e)
     {
-      var doc = new qx.html2.Element(document.getElementById("test"));
+      var doc = new qx.dom.Element(document.getElementById("test"));
 
-      var large = new qx.html2.Element;
+      var large = new qx.dom.Element;
       doc.add(large);
 
       var parent, child;
 
       for (var i=0; i<10; i++)
       {
-        parent = new qx.html2.Element;
+        parent = new qx.dom.Element;
         parent.setAttribute("id", "#" + i);
         large.add(parent);
 
         for (var j=0; j<100; j++)
         {
-          child = new qx.html2.Element;
+          child = new qx.dom.Element;
           child.setAttribute("id", "#" + i + "_" + j);
           parent.add(child);
         }
       };
 
       var s = new Date;
-      qx.html2.Element.flushQueue();
+      qx.dom.Element.flushQueue();
       this.debug("Time to create 1000 elements: " + (new Date - s) + "ms");
     });
   });
