@@ -982,12 +982,40 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @type member
      * @return {Map} The widget location and dimensions in pixel
-     *    if the layout is invalid). Contains the keys
+     *    (if the layout is valid). Contains the keys
      *    <code>width</code>, <code>height</code>, <code>left</code> and
      *    <code>top</code>.
      */
     getComputedLayout : function() {
       return this._computedLayout || null;
+    },
+
+
+    /**
+     * Returns the widget's computed inner dimension as available
+     * through the layout process.
+     *
+     * This function is guaranteed to return a correct value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     * @type member
+     * @return {Map} The widget inner dimension in pixel (if the layout is
+     *    valid). Contains the keys <code>width</code> and <code>height</code>.
+     */
+    getComputedInnerSize : function()
+    {
+      var computed = this._computedLayout;
+      if (!computed) {
+        return null;
+      }
+
+      var insets = this.getInsets();
+
+      // Return map data
+      return {
+        width : computed.width - insets.left - insets.right,
+        height : computed.height - insets.top - insets.bottom
+      };
     },
 
 
@@ -1204,6 +1232,45 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     exclude : function() {
       this.setVisibility("excluded");
+    },
+
+
+    /**
+     * Whether the widget is locally visible.
+     *
+     * This method does not respect the hierarchy.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the widget is visible
+     */
+    isShown : function() {
+      return this.getVisibility() == "show";
+    },
+
+
+    /**
+     * Whether the widget is locally hidden.
+     *
+     * This method does not respect the hierarchy.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the widget is hidden
+     */
+    isHidden : function() {
+      return this.getVisibility() == "hidden";
+    },
+
+
+    /**
+     * Whether the widget is locally excluded.
+     *
+     * This method does not respect the hierarchy.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the widget is excluded
+     */
+    isExcluded : function() {
+      return this.getVisibility() == "excluded";
     },
 
 

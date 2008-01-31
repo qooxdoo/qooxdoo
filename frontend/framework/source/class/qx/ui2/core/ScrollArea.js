@@ -144,8 +144,10 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      * @param value {qx.ui2.core.Widget} Widget to insert
      * @return {void}
      */
-    setContent : function(value) {
+    setContent : function(value)
+    {
       this._scrollPane.setContent(value);
+      this._computeOverflow();
     },
 
 
@@ -203,17 +205,15 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     _computeOverflow : function()
     {
       var content = this._scrollPane.getContent();
-      if (!content) {
+      if (!content)
+      {
+        this._setScrollBarVisibility("horizontal", false);
+        this._setScrollBarVisibility("vertical", false);
         return;
       }
 
-      // Compute the rendered inner width of this widget.
-      var areaInsets = this.getInsets();
-      var areaSize = this.getComputedLayout();
-      var areaWidth = areaSize.width - areaInsets.left - areaInsets.right;
-      var areaHeight = areaSize.height - areaInsets.top - areaInsets.bottom;
-
-      // The final rendered width of the content
+      // Read dimension data
+      var innerSize = this.getComputedInnerSize();
       var contentSize = content.getComputedLayout();
 
       // Read auto values
@@ -222,59 +222,44 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
       if (autoX && autoY)
       {
-        moreWidth = contentSize.width > areaWidth;
-        moreHeight = contentSize.height > areaHeight;
+        var moreWidth = contentSize.width > innerSize.width;
+        var moreHeight = contentSize.height > innerSize.height;
 
-        if (moreWidth && moreHeight)
-        {
-          this.debug("Two more");
-          this._setScrollBarVisibility("horizontal", true);
-          this._setScrollBarVisibility("vertical", true);
-        }
-        else if (moreWidth)
-        {
-          this.debug("More width");
-          this._setScrollBarVisibility("horizontal", true);
+        var scrollX = true;
+        var scrollY = true;
 
-          if (contentSize.height > (areaHeight - this._hScrollBar.getSizeHint().height)) {
-            this._setScrollBarVisibility("vertical", true);
-          } else {
-            this._setScrollBarVisibility("vertical", false);
-          }
+        // If both axes have more content than free space, switch
+        // both scrollbars to the same visibility
+        if (moreWidth === moreHeight) {
+          scrollX = scrollY = moreWidth;
         }
-        else if (moreHeight)
-        {
-          this.debug("More height");
-          this._setScrollBarVisibility("vertical", true);
 
-          if (contentSize.width > (areaWidth - this._vScrollBar.getSizeHint().width)) {
-            this._setScrollBarVisibility("horizontal", true);
-          } else {
-            this._setScrollBarVisibility("horizontal", false);
-          }
+        // More content on x-axis than available width
+        // Note: scrollX is already true
+        else if (moreWidth) {
+          scrollY = contentSize.height > (innerSize.height - this._hScrollBar.getSizeHint().height);
         }
-        else
-        {
-          this.debug("No more");
-          this._setScrollBarVisibility("horizontal", false);
-          this._setScrollBarVisibility("vertical", false);
+
+        // More content on y-axis than available height
+        // Note: scrollY is already true
+        else {
+          scrollX = contentSize.width > (innerSize.width - this._vScrollBar.getSizeHint().width);
         }
+
+        this._setScrollBarVisibility("horizontal", scrollX);
+        this._setScrollBarVisibility("vertical", scrollY);
       }
       else if (autoX)
       {
-        if (this._vScrollBar.getVisibility() === "visible") {
-          areaWidth -= this._vScrollBar.getSizeHint().width;
-        }
-
-        this._setScrollBarVisibility("horizontal", contentSize.width > areaWidth);
+        // We need to respect the scrollbar of the orthogonal axis when visible
+        var scrollBarWidth = this._vScrollBar.isShown() ? this._vScrollBar.getSizeHint().width : 0;
+        this._setScrollBarVisibility("horizontal", contentSize.width > (innerSize.width - scrollBarWidth));
       }
       else if (autoY)
       {
-        if (this._hScrollBar.getVisibility() === "visible") {
-          areaHeight -= this._hScrollBar.getSizeHint().height;
-        }
-
-        this._setScrollBarVisibility("vertical", contentSize.height > areaHeight);
+        // We need to respect the scrollbar of the orthogonal axis when visible
+        var scrollBarHeight = this._hScrollBar.isShown() ? this._hScrollBar.getSizeHint().height : 0;
+        this._setScrollBarVisibility("vertical", contentSize.height > (innerSize.height - scrollBarHeight));
       }
     },
 
@@ -341,7 +326,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       if (value === "auto") {
         this._computeOverflow();
       } else {
-        this._setScrollBarVisibility("horizontal", value == "on");
+        this._setScrollBarVisibility("horizontal", value === "on");
       }
     },
 
@@ -352,7 +337,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       if (value === "auto") {
         this._computeOverflow();
       } else {
-        this._setScrollBarVisibility("vertical", value == "on");
+        this._setScrollBarVisibility("vertical", value === "on");
       }
     }
   }
