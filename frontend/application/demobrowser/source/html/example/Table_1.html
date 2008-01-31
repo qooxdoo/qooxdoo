@@ -113,7 +113,7 @@
         main.add(buttonBar);
 
         var button = new qx.ui.form.Button("Change row with ID 10");
-        button.addEventListener("execute", function(evt) {
+        button.addListener("execute", function(evt) {
           var rowData = createRandomRows(1);
           for (var i = 1; i < tableModel.getColumnCount(); i++) {
             tableModel.setValue(i, 10, rowData[0][i]);
@@ -123,7 +123,7 @@
         buttonBar.add(button);
 
         var button = new qx.ui.form.Button("Add 10 rows");
-        button.addEventListener("execute", function(evt) {
+        button.addListener("execute", function(evt) {
           var rowData = createRandomRows(10);
           tableModel.addRows(rowData);
           this.info("10 rows added");
@@ -131,7 +131,7 @@
         buttonBar.add(button);
 
         var button = new qx.ui.form.Button("Remove 5 rows");
-        button.addEventListener("execute", function(evt) {
+        button.addListener("execute", function(evt) {
           var rowCount = tableModel.getRowCount();
           tableModel.removeRows(rowCount-5, 5);
           this.info("5 rows removed");
@@ -145,7 +145,7 @@
         checkBox.setToolTip(new qx.ui.popup.ToolTip(
                               "Whether the the first visible row should " +
                               "be rendered completely when scrolling."));
-        checkBox.addEventListener(
+        checkBox.addListener(
           "changeChecked",
           function(evt)
           {
@@ -165,7 +165,7 @@
                               "Use the 0.7.2 style with less padding"));
         var cellrenderer = qx.ui.table.cellrenderer.Abstract;
         var origStyle = cellrenderer.getTableCellStyleSheet();
-        checkBox.addEventListener(
+        checkBox.addListener(
           "changeChecked",
           function(evt)
           {
@@ -192,7 +192,7 @@
         checkBox.setToolTip(new qx.ui.popup.ToolTip(
                               "Show an expanded header"));
         var origHeaderSize = table.getHeaderCellHeight();
-        checkBox.addEventListener(
+        checkBox.addListener(
           "changeChecked",
           function(evt)
           {
@@ -219,7 +219,7 @@
                                   false);
         checkBox.setToolTip(new qx.ui.popup.ToolTip(
                               "Demonstrate use of alternate sorting algorithm."));
-        checkBox.addEventListener(
+        checkBox.addListener(
           "changeChecked",
           function(evt)
           {

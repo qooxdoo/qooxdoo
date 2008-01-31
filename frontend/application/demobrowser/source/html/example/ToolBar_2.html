@@ -17,8 +17,8 @@
     
     events :
     {
-      "changeLayout" : "qx.event.type.DataEvent",
-      "changeSize"   : "qx.event.type.DataEvent"
+      "changeLayout" : "qx.event.type.Data",
+      "changeSize"   : "qx.event.type.Data"
     },
   
     members :
@@ -66,8 +66,8 @@
         // Default
         var tbd1 = new qx.ui.toolbar.Button("Default", "icon/22/actions/document-new.png");
         tbp1.add(tbd1);
-        this.addEventListener("changeLayout", changeLayout, tbd1);
-        this.addEventListener("changeSize", changeSize, tbd1);
+        this.addListener("changeLayout", changeLayout, tbd1);
+        this.addListener("changeSize", changeSize, tbd1);
   
         tbd1._marker = true;
   
@@ -79,26 +79,26 @@
         // Checkbox
         var tbc1 = new qx.ui.toolbar.CheckBox("Check", "icon/22/apps/preferences.png", true);
         tbp2.add(tbc1);
-        this.addEventListener("changeLayout", changeLayout, tbc1);
-        this.addEventListener("changeSize", changeSize, tbc1);
+        this.addListener("changeLayout", changeLayout, tbc1);
+        this.addListener("changeSize", changeSize, tbc1);
   
   
   
         // Radio
         var tbr1 = new qx.ui.toolbar.RadioButton("Radio1", "icon/22/actions/system-run.png");
         tbp3.add(tbr1);
-        this.addEventListener("changeLayout", changeLayout, tbr1);
-        this.addEventListener("changeSize", changeSize, tbr1);
+        this.addListener("changeLayout", changeLayout, tbr1);
+        this.addListener("changeSize", changeSize, tbr1);
   
         var tbr2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
         tbp3.add(tbr2);
-        this.addEventListener("changeLayout", changeLayout, tbr2);
-        this.addEventListener("changeSize", changeSize, tbr2);
+        this.addListener("changeLayout", changeLayout, tbr2);
+        this.addListener("changeSize", changeSize, tbr2);
   
         var tbr3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
         tbp3.add(tbr3);
-        this.addEventListener("changeLayout", changeLayout, tbr3);
-        this.addEventListener("changeSize", changeSize, tbr3);
+        this.addListener("changeLayout", changeLayout, tbr3);
+        this.addListener("changeSize", changeSize, tbr3);
   
         // Radio Mananger
         var tbr_manager = new qx.ui.selection.RadioManager(null, [tbr1, tbr2, tbr3]);
@@ -110,20 +110,20 @@
         var tbs1 = new qx.ui.toolbar.RadioButton("Radio1", "icon/22/actions/view-pane-tree.png");
         tbp4.add(tbs1);
         tbs1.setDisableUncheck(true);
-        this.addEventListener("changeLayout", changeLayout, tbs1);
-        this.addEventListener("changeSize", changeSize, tbs1);
+        this.addListener("changeLayout", changeLayout, tbs1);
+        this.addListener("changeSize", changeSize, tbs1);
   
         var tbs2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
         tbp4.add(tbs2);
         tbs2.setDisableUncheck(true);
-        this.addEventListener("changeLayout", changeLayout, tbs2);
-        this.addEventListener("changeSize", changeSize, tbs2);
+        this.addListener("changeLayout", changeLayout, tbs2);
+        this.addListener("changeSize", changeSize, tbs2);
   
         var tbs3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
         tbp4.add(tbs3);
         tbs3.setDisableUncheck(true);
-        this.addEventListener("changeLayout", changeLayout, tbs3);
-        this.addEventListener("changeSize", changeSize, tbs3);
+        this.addListener("changeLayout", changeLayout, tbs3);
+        this.addListener("changeSize", changeSize, tbs3);
   
         // Radio Mananger
         var tbs_manager = new qx.ui.selection.RadioManager(null, [tbs1, tbs2, tbs3]);
@@ -161,9 +161,9 @@
         rbm.add(rd3);
   
         // beautiful decoupling: radio boxes don't know about toolbar buttons
-        rbm.addEventListener("changeSelected", function(e)
+        rbm.addListener("changeSelected", function(e)
         {
-          this.dispatchEvent( new qx.event.type.DataEvent("changeLayout", e.getValue().getValue() ) );
+          this.dispatchEvent( new qx.event.type.Data("changeLayout", e.getValue().getValue() ) );
         }, this);
   
         d.add(rd1, rd2, rd3);
@@ -209,7 +209,7 @@
   
         d.add(ra1, ra2, ra3);
   
-        ram.addEventListener("changeSelected", function(e) {
+        ram.addListener("changeSelected", function(e) {
           tb.setHorizontalChildrenAlign(e.getValue().getValue());
         });
   
@@ -226,8 +226,8 @@
           setHorizontalAlign("center");
         };
   
-        b3.addEventListener("execute", function(e) {
-          this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
+        b3.addListener("execute", function(e) {
+          this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
         }, this);
   
         var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
@@ -239,8 +239,8 @@
           setHorizontalAlign("center");
         };
   
-        b4.addEventListener("execute", function(e) {
-          this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
+        b4.addListener("execute", function(e) {
+          this.dispatchEvent(new qx.event.type.Data("changeSize", 32));
         }, this);
   
         d.add(b3, b4);
@@ -253,14 +253,14 @@
         var chkShowBtn1 = new qx.ui.form.CheckBox("Show First Button");
   
         chkShowBtn1.setLocation(20, 500);
-        chkShowBtn1.addEventListener("changeChecked", function(e) {
+        chkShowBtn1.addListener("changeChecked", function(e) {
           tbd1.setDisplay(e.getValue());
         });
   
         var chkShowPart1 = new qx.ui.form.CheckBox("Show First Part");
   
         chkShowPart1.setLocation(220, 500);
-        chkShowPart1.addEventListener("changeChecked", function(e) {
+        chkShowPart1.addListener("changeChecked", function(e) {
           tbp1.setDisplay(e.getValue());
         });
   

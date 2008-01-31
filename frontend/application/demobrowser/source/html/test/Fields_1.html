@@ -45,8 +45,8 @@
     t1.setTop(48);
     t1.setLeft(20);
 
-    t1.addEventListener("changeText", textChange);
-    t1.addEventListener("input", function(e) {
+    t1.addListener("changeText", textChange);
+    t1.addListener("input", function(e) {
       this.debug("Input: " + e.getData());
     });
 
@@ -60,7 +60,7 @@
     t2.setTop(80);
     t2.setLeft(20);
 
-    t2.addEventListener("changeText", textChange);
+    t2.addListener("changeText", textChange);
 
     d.add(t2);
 
@@ -72,7 +72,7 @@
     t3.setWidth(300);
     t3.setHeight(60);
 
-    t3.addEventListener("changeText", textChange);
+    t3.addListener("changeText", textChange);
 
     d.add(t3);
 
@@ -85,7 +85,7 @@
     t4.setMaxLength(100);
     t4.setReadOnly(true);
 
-    t4.addEventListener("changeText", textChange);
+    t4.addListener("changeText", textChange);
 
     d.add(t4);
 
@@ -95,7 +95,7 @@
     t5.setTop(240);
     t5.setLeft(20);
 
-    t5.addEventListener("changeText", textChange);
+    t5.addListener("changeText", textChange);
 
     d.add(t5);
 
@@ -103,7 +103,7 @@
     c1.setTop(280);
     c1.setLeft(20);
 
-    c1.addEventListener("beforeInitialOpen", function(e)
+    c1.addListener("beforeInitialOpen", function(e)
     {
       var item;
 
@@ -118,11 +118,11 @@
     // this does not work here (if there is no content)
     c1.setSelected(c1.getList().getFirstChild());
 
-    c1.addEventListener("changeValue", function(e) {
+    c1.addListener("changeValue", function(e) {
       this.debug("New value: " + e.getData());
     });
 
-    c1.addEventListener("changeSelected", function(e) {
+    c1.addListener("changeSelected", function(e) {
       this.debug("New selected: " + e.getData());
     });
 
@@ -133,7 +133,7 @@
 
     b1.set({ top: 282, left: 150 });
 
-    b1.addEventListener("changeChecked", function(e) {
+    b1.addListener("changeChecked", function(e) {
       c1.setEditable(e.getData());
     });
 
@@ -142,9 +142,9 @@
     var b3 = new qx.ui.form.Button("green", "icon/16/actions/format-color.png"); b3.set({left:10,top:40});
     var b4 = new qx.ui.form.Button("white", "icon/16/actions/format-color.png"); b4.set({left:10,top:70});
 
-    b2.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
-    b3.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
-    b4.addEventListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
+    b2.addListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
+    b3.addListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
+    b4.addListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
 
     var fs = new qx.ui.groupbox.GroupBox("BackgroundColor");
     fs.set({left:400,top:50,width:150,height:"auto"});

@@ -54,8 +54,8 @@ qx.Class.define("apiviewer.ui.SearchView",
       height : "100%"
     });
 
-    this.addEventListener("appear", function() {
-      qx.client.Timer.once(this._showSearchForm, this, 0);
+    this.addListener("appear", function() {
+      qx.event.Timer.once(this._showSearchForm, this, 0);
     }, this);
   },
 
@@ -115,7 +115,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.optTooltipHide = new qx.ui.popup.ToolTip("Hide options");
       this.optLabel.setToolTip(this.optTooltipShow);
 
-      this.optLabel.addEventListener("click", function() {
+      this.optLabel.addListener("click", function() {
         this.__toggleOptions(options);
       }, this);
 
@@ -137,32 +137,32 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       this.add(options.add(optCheckboxLivesearch));
 
-      optCheckboxLivesearch.addEventListener("changeChecked", function(e)
+      optCheckboxLivesearch.addListener("changeChecked", function(e)
       {
         this.__toggleLivesearch();
       }, this);
 
       // Load index file
-      qx.client.Timer.once(this._load, this, 0);
+      qx.event.Timer.once(this._load, this, 0);
 
       // Give keyboard focus to the search field
-      this.sinput.addEventListener("appear", function(e)
+      this.sinput.addListener("appear", function(e)
       {
         this.sinput.getInputElement().focus();
       }, this);
 
       // Submit events
-      this.sinput.addEventListener("keydown", function(e) {
+      this.sinput.addListener("keydown", function(e) {
         if (e.getKeyIdentifier() == "Enter") {
           this._searchResult(this.sinput.getValue());
         }
       }, this);
 
-      this.__button.addEventListener("execute", function(e) {
+      this.__button.addListener("execute", function(e) {
         this._searchResult(this.sinput.getValue());
       }, this);
 
-      this.sinput.addEventListener("changeValue", function(e) {
+      this.sinput.addListener("changeValue", function(e) {
         this._searchResult(this.sinput.getValue(), e);
       }, this);
 
@@ -266,11 +266,11 @@ qx.Class.define("apiviewer.ui.SearchView",
           rlvpane.getManager().setMultiSelection(false);
 
 
-          rlvpane.addEventListener("click", function(e) {
+          rlvpane.addListener("click", function(e) {
             this._callDetailFrame(e.getCurrentTarget().getManager());
           }, this);
 
-          rlvpane.addEventListener("keydown", function(e) {
+          rlvpane.addListener("keydown", function(e) {
             if (e.getKeyIdentifier() == "Enter") {
               this._callDetailFrame(e.getCurrentTarget().getManager());
             }
@@ -472,13 +472,13 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.setAsynchronous(true);
       req.setTimeout(30000); // 30 sec
       req.setProhibitCaching(false);
-      req.addEventListener("completed", function(evt) {
+      req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
         var loadEnd = new Date();
         this.info("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);
 
-      req.addEventListener("failed", function(evt) {
+      req.addListener("failed", function(evt) {
         alert("Couldn't load file: " + url);
       }, this);
 

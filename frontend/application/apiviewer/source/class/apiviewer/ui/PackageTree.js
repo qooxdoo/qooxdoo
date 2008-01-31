@@ -127,7 +127,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       if (treeNode.isMaterialized()) {
         treeNode.scrollIntoView();
       } else {
-        qx.client.Timer.once(function() {
+        qx.event.Timer.once(function() {
           treeNode.scrollIntoView();
         }, this, 100);
       }
@@ -181,7 +181,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         treeNode.add(packageTreeNode);
 
         // defer adding of child nodes
-        packageTreeNode.addEventListener("changeOpen", this.__getPackageNodeOpener(packageTreeNode, packageDoc, depth + 1), this);
+        packageTreeNode.addListener("changeOpen", this.__getPackageNodeOpener(packageTreeNode, packageDoc, depth + 1), this);
 
         // Open the package node if it has child packages
         if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {

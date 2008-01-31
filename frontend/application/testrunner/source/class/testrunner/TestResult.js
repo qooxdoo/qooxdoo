@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.TestResult",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 
@@ -31,10 +31,10 @@ qx.Class.define("testrunner.TestResult",
 
   events :
   {
-    startTest : "qx.event.type.DataEvent",
-    endTest   : "qx.event.type.DataEvent",
-    error     : "qx.event.type.DataEvent",
-    failure   : "qx.event.type.DataEvent"
+    startTest : "qx.event.type.Data",
+    endTest   : "qx.event.type.Data",
+    error     : "qx.event.type.Data",
+    failure   : "qx.event.type.Data"
   },
 
 
@@ -82,7 +82,7 @@ qx.Class.define("testrunner.TestResult",
      */
     run : function(test, testFunction)
     {
-      this.createDispatchDataEvent("startTest", test);
+      this.fireDataEvent("startTest", test);
 
       try {
         testFunction();
@@ -91,7 +91,7 @@ qx.Class.define("testrunner.TestResult",
       {
         var error = true;
 
-        if (e.classname == "testrunner.AssertionError") {
+        if (e.classname == "qx.dev.unit.AssertionError") {
           this.__createError("failure", e, test);
         } else {
           this.__createError("error", e, test);
@@ -99,7 +99,7 @@ qx.Class.define("testrunner.TestResult",
       }
 
       if (!error) {
-        this.createDispatchDataEvent("endTest", test);
+        this.fireDataEvent("endTest", test);
       }
     },
 
@@ -122,8 +122,8 @@ qx.Class.define("testrunner.TestResult",
         test      : test
       };
 
-      this.createDispatchDataEvent(eventName, error);
-      this.createDispatchDataEvent("endTest", test);
+      this.fireDataEvent(eventName, error);
+      this.fireDataEvent("endTest", test);
     }
   }
 });

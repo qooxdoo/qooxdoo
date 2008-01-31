@@ -11,7 +11,7 @@
     qx.ui.toolbar.ToolBarParts, qx.ui.toolbar.Separator and qx.ui.toolbar.ToolBarButtons.</p>
 
     <p>The qx.ui.toolbar.ToolBarButtons and QxRadioButtons in this example are beautifully
-    decoupled by "global" qx.event.type.DataEvent.</p>
+    decoupled by "global" qx.event.type.Data.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,8 +21,8 @@
     
     events :
     {
-      "changeLayout" : "qx.event.type.DataEvent",
-      "changeSize"   : "qx.event.type.DataEvent"
+      "changeLayout" : "qx.event.type.Data",
+      "changeSize"   : "qx.event.type.Data"
     },
   
     members :
@@ -98,10 +98,10 @@
   
                 // beautiful decoupling: toolbar buttons don't know about radio boxes
   
-                this.addEventListener("changeLayout", changeLayout, o);
-                this.addEventListener("changeSize", changeSize, o);
+                this.addListener("changeLayout", changeLayout, o);
+                this.addListener("changeSize", changeSize, o);
   
-                o.addEventListener("execute", buttonExecute);
+                o.addListener("execute", buttonExecute);
                 break;
             };
   
@@ -159,8 +159,8 @@
   
   
         // beautiful decoupling: radio boxes don't know about toolbar buttons
-        rbm.addEventListener("changeSelected", function(e) {
-          this.dispatchEvent( new qx.event.type.DataEvent("changeLayout", e.getValue().getValue() ) );
+        rbm.addListener("changeSelected", function(e) {
+          this.dispatchEvent( new qx.event.type.Data("changeLayout", e.getValue().getValue() ) );
         }, this);
   
         d.add(rd1, rd2, rd3);
@@ -200,7 +200,7 @@
   
         d.add(ra1, ra2, ra3);
   
-        ram.addEventListener("changeSelected", function(e) {
+        ram.addListener("changeSelected", function(e) {
           tb.setHorizontalChildrenAlign(e.getValue().getValue());
         });
   
@@ -217,8 +217,8 @@
           setHorizontalAlign("center");
         };
   
-        b3.addEventListener("execute", function(e) {
-          this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
+        b3.addListener("execute", function(e) {
+          this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
         }, this);
   
         var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
@@ -230,8 +230,8 @@
           setHorizontalAlign("center");
         };
   
-        b4.addEventListener("execute", function(e) {
-          this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
+        b4.addListener("execute", function(e) {
+          this.dispatchEvent(new qx.event.type.Data("changeSize", 32));
         }, this);
   
         d.add(b3, b4);

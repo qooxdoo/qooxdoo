@@ -49,7 +49,7 @@ qx.Class.define("apiviewer.ClassLoader",
       req.setAsynchronous(async);
       req.setTimeout(30000); // 30 sec
       req.setProhibitCaching(false);
-      req.addEventListener("completed", function(evt)
+      req.addListener("completed", function(evt)
       {
         var content = eval("(" + evt.getContent() + ")");
 
@@ -62,7 +62,7 @@ qx.Class.define("apiviewer.ClassLoader",
         this.__runCallback(cls, callback, self);
       }, this);
 
-      req.addEventListener("failed", function(evt) {
+      req.addListener("failed", function(evt) {
         alert("Couldn't load file: " + url);
       }, this);
 

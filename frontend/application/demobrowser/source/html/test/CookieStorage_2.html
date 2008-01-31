@@ -38,7 +38,7 @@
 
 
 
-    b1.addEventListener("execute", function(e)
+    b1.addListener("execute", function(e)
     {
       for (var i=0; i<vAll.length; i++) {
         var vIn = qx.io.local.CookieTransport.get("fieldContent" + i);
@@ -46,14 +46,14 @@
       };
     });
 
-    b2.addEventListener("execute", function(e)
+    b2.addListener("execute", function(e)
     {
       for (var i=0; i<vAll.length; i++) {
         qx.io.local.CookieTransport.set("fieldContent" + i, vAll[i].getValue());
       };
     });
 
-    b3.addEventListener("execute", function(e) {
+    b3.addListener("execute", function(e) {
       qx.io.local.CookieTransport.delAll();
     });
   });

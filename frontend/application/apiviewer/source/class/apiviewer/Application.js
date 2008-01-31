@@ -48,7 +48,7 @@ qx.Class.define("apiviewer.Application",
       qx.io.Alias.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("api/css/apiviewer.css"));
+      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("api/css/apiviewer.css"));
 
       // preload images
       var preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
@@ -60,7 +60,7 @@ qx.Class.define("apiviewer.Application",
       this.viewer.addToDocument();
 
       // Load data file
-      qx.client.Timer.once(this._load, this, 0);
+      qx.event.Timer.once(this._load, this, 0);
     },
 
     _load : function()

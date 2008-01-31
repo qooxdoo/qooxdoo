@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.Property",
 {
-  extend : testrunner.TestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
@@ -266,7 +266,7 @@ qx.Class.define("testrunner.test.Property",
 
 qx.Class.define("testrunner.test.PropertyHelper",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
   properties :
   {

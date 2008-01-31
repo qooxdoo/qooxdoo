@@ -57,11 +57,11 @@
     
         p1_1.add(c1, c2);
     
-        c1.addEventListener("changeChecked", function(e) {
+        c1.addListener("changeChecked", function(e) {
           tf1.setPlaceBarOnTop(e.getData());
         });
     
-        c2.addEventListener("changeChecked", function(e) {
+        c2.addListener("changeChecked", function(e) {
           tf1.setAlignTabsToLeft(e.getData());
         });
     
@@ -132,11 +132,11 @@
           alert("Searching...");
         };
     
-        b2_1.addEventListener("click", dosearch);
-        b2_2.addEventListener("click", dosearch);
-        b2_3.addEventListener("click", dosearch);
-        b2_4.addEventListener("click", dosearch);
-        b2_5.addEventListener("click", dosearch);
+        b2_1.addListener("click", dosearch);
+        b2_2.addListener("click", dosearch);
+        b2_3.addListener("click", dosearch);
+        b2_4.addListener("click", dosearch);
+        b2_5.addListener("click", dosearch);
     
     
     

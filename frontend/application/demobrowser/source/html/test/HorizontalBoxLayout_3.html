@@ -68,7 +68,7 @@
     t1_1.setBackgroundColor("green");
     hbl1.add(t1_1);
 
-    t1_1.addEventListener("click", function() {
+    t1_1.addListener("click", function() {
       this.setWidth(this.getWidth() == 20 ? 100 : 20);
     });
 
@@ -437,7 +437,7 @@
     t10_1.setWidth("1*");
     t10_1.setHeight(10);
     t10_1.setBackgroundColor("green");
-    t10_1.addEventListener("click", function(e) { this.setWidth(this.getWidth() == "1*" ? "4*" : "1*"); });
+    t10_1.addListener("click", function(e) { this.setWidth(this.getWidth() == "1*" ? "4*" : "1*"); });
     hbl10.add(t10_1);
 
     var t10_2 = new qx.ui.basic.Terminator;
@@ -445,7 +445,7 @@
     t10_2.setWidth("2*");
     t10_2.setHeight(10);
     t10_2.setBackgroundColor("blue");
-    t10_2.addEventListener("click", function(e) { this.setWidth(this.getWidth() == "2*" ? "1*" : "2*"); });
+    t10_2.addListener("click", function(e) { this.setWidth(this.getWidth() == "2*" ? "1*" : "2*"); });
     hbl10.add(t10_2);
 
     var t10_3 = new qx.ui.basic.Terminator;
@@ -453,7 +453,7 @@
     t10_3.setWidth("3*");
     t10_3.setHeight(10);
     t10_3.setBackgroundColor("red");
-    t10_3.addEventListener("click", function(e) { this.setWidth(this.getWidth() == "3*" ? "6*" : "3*"); });
+    t10_3.addListener("click", function(e) { this.setWidth(this.getWidth() == "3*" ? "6*" : "3*"); });
     hbl10.add(t10_3);
 
 

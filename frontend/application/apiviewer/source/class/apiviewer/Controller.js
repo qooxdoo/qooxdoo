@@ -68,7 +68,7 @@ qx.Class.define("apiviewer.Controller",
 
     this.__bindToolbar();
 
-    this._history = qx.client.History.getInstance();
+    this._history = qx.bom.History.getInstance();
     this.__bindHistory();
   },
 
@@ -90,7 +90,7 @@ qx.Class.define("apiviewer.Controller",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addEventListener("completed", function(evt)
+      req.addListener("completed", function(evt)
       {
         var loadEnd = new Date();
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
@@ -103,14 +103,14 @@ qx.Class.define("apiviewer.Controller",
         this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
 
         // give the browser a chance to update its UI before doing more
-        qx.client.Timer.once(function() {
+        qx.event.Timer.once(function() {
           this.__setDocTree(treeData);
 
           // Handle bookmarks
           var state = this._history.getState();
           if (state)
           {
-            qx.client.Timer.once(function() {
+            qx.event.Timer.once(function() {
               this.__selectItem(this.__decodeState(state));
             }, this, 0);
           }
@@ -124,7 +124,7 @@ qx.Class.define("apiviewer.Controller",
         }, this, 0);
       }, this);
 
-      req.addEventListener("failed", function(evt) {
+      req.addListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
@@ -138,7 +138,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindClassViewer : function()
     {
-      this._classViewer.addEventListener("classLinkClicked", function(e) {
+      this._classViewer.addListener("classLinkClicked", function(e) {
           this.__selectItem(e.getData());
       }, this);
     },
@@ -149,7 +149,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindTree : function()
     {
-      this._tree.getManager().addEventListener("changeSelection", function(evt) {
+      this._tree.getManager().addListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
         if (treeNode && treeNode.getUserData("nodeName") && !this._ignoreTreeSelection)
         {
@@ -160,7 +160,7 @@ qx.Class.define("apiviewer.Controller",
         }
       }, this);
 
-      this._tree.addEventListener("appear", function(e) {
+      this._tree.addListener("appear", function(e) {
         var item =  this._tree.getManager().getSelectedItem();
         if (item) {
           this._tree.getManager().scrollItemIntoView(item);
@@ -175,17 +175,17 @@ qx.Class.define("apiviewer.Controller",
     __bindToolbar : function()
     {
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
-      btn_inherited.addEventListener("changeChecked", function(e) {
+      btn_inherited.addListener("changeChecked", function(e) {
         this._classViewer.setShowInherited(e.getData());
       }, this);
 
       var btn_protected = this._widgetRegistry.getWidgetById("btn_protected");
-      btn_protected.addEventListener("changeChecked", function(e) {
+      btn_protected.addListener("changeChecked", function(e) {
         this._classViewer.setShowProtected(e.getData());
       }, this);
 
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
-      btn_private.addEventListener("changeChecked", function(e) {
+      btn_private.addListener("changeChecked", function(e) {
         this._classViewer.setShowPrivate(e.getData());
       }, this);
     },
@@ -196,7 +196,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindHistory : function()
     {
-      this._history.addEventListener("request", function(evt) {
+      this._history.addListener("request", function(evt) {
         var item = this.__decodeState(evt.getData());
         if (item) {
           this.__selectItem(item);
@@ -234,7 +234,7 @@ qx.Class.define("apiviewer.Controller",
     __updateHistory : function(className)
     {
       var newTitle = this._titlePrefix + " - class " + className;
-      qx.client.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
+      qx.bom.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
     },
 
 

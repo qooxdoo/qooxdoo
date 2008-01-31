@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-09 22:22+0100\n"
+"POT-Creation-Date: 2008-01-31 15:34+0100\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -13,6 +13,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
+
+#: source/class/feedreader/ArticleView.js:136
+#: source/class/feedreader/view/Article.js:133
+msgid "read more ..."
+msgstr "leer más ..."
 
 #: source/class/feedreader/PreferenceWindow.js:34
 #: source/class/feedreader/view/ToolBar.js:69
@@ -30,10 +35,6 @@ msgstr ""
 #: source/class/feedreader/PreferenceWindow.js:103
 msgid "OK"
 msgstr ""
-
-#: source/class/feedreader/view/Article.js:133
-msgid "read more ..."
-msgstr "leer más ..."
 
 #: source/class/feedreader/view/Table.js:36
 msgid "Subject"
@@ -69,7 +70,6 @@ msgid "Open preferences window."
 msgstr ""
 
 #: source/class/feedreader/view/ToolBar.js:79
-#: source/class/feedreader/view/ToolBar.js:81
 msgid "English"
 msgstr "Inglés"
 
@@ -77,27 +77,27 @@ msgstr "Inglés"
 msgid "German"
 msgstr "Alemán"
 
-#: source/class/feedreader/view/ToolBar.js:82
+#: source/class/feedreader/view/ToolBar.js:81
 msgid "Turkish"
 msgstr "Turco"
 
-#: source/class/feedreader/view/ToolBar.js:83
+#: source/class/feedreader/view/ToolBar.js:82
 msgid "Italian"
 msgstr "Italiano"
 
-#: source/class/feedreader/view/ToolBar.js:84
+#: source/class/feedreader/view/ToolBar.js:83
 msgid "Spanish"
 msgstr "Español"
 
-#: source/class/feedreader/view/ToolBar.js:85
+#: source/class/feedreader/view/ToolBar.js:84
 msgid "Swedish"
 msgstr "Sueco"
 
-#: source/class/feedreader/view/ToolBar.js:86
+#: source/class/feedreader/view/ToolBar.js:85
 msgid "Russian"
 msgstr "Ruso"
 
-#: source/class/feedreader/view/ToolBar.js:115
+#: source/class/feedreader/view/ToolBar.js:114
 msgid "Help"
 msgstr "Ayuda"
 

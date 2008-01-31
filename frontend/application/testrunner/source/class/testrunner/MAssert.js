@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Mixin.define("testrunner.MAssert",
+qx.Mixin.define("qx.dev.unit.MAssert",
 {
   /*
   *****************************************************************************
@@ -105,7 +105,7 @@ qx.Mixin.define("testrunner.MAssert",
     __assert : function(condition, comment, failMsg)
     {
       if (!condition) {
-        throw new testrunner.AssertionError(comment, failMsg);
+        throw new qx.dev.unit.AssertionError(comment, failMsg);
       }
     },
 

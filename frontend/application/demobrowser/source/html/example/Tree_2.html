@@ -199,7 +199,7 @@
   
         commandFrame.add(tCurrentInput);
   
-        t.getManager().addEventListener("changeSelection", function(e) {
+        t.getManager().addListener("changeSelection", function(e) {
           currentItem = e.getData()[ 0 ];
           if( currentItem != null ) {
             tCurrentInput.setValue(currentItem._labelObject.getText());
@@ -217,7 +217,7 @@
   
         commandFrame.add(tDoubleClick);
   
-        tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
+        tDoubleClick.addListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
   
   
   
@@ -229,13 +229,13 @@
           setLeft(0);
           setChecked(true);
         };
-        tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
+        tTreeLines.addListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
   
         commandFrame.add(tTreeLines);
   
         var testButton = new qx.ui.form.Button( "Dispose selected node" );
         testButton.setTop(100);
-        testButton.addEventListener( "execute", function( e ) {
+        testButton.addListener( "execute", function( e ) {
           if (currentItem != null) {
               currentItem.destroy();
               currentItem = null;

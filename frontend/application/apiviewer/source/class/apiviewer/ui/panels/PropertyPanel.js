@@ -47,7 +47,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
           access = "";
           name = node.getName();
         }
-        name = qx.lang.String.toFirstUp(name);
+        name = qx.lang.String.firstUp(name);
 
         var generatedMethods = [];
 
