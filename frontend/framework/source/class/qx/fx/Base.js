@@ -95,16 +95,16 @@ qx.Class.define("qx.fx.Base",
 
     EffectPosition :
     {
-      front    : 'front',
-      end      : 'end',
-      withLast : 'with-last'
+      FRONT    : 'front',
+      END      : 'end',
+      WITHLAST : 'with-last'
     },
 
     EffectState :
     {
-      idle     : 'idle',
-      finished : 'finished',
-      running  : 'running'
+      IDLE     : 'idle',
+      FINISHED : 'finished',
+      RUNNING  : 'running'
     }
   },
 
@@ -121,7 +121,7 @@ qx.Class.define("qx.fx.Base",
     init : function()
     {
       this._currentFrame = 0;
-      this._state        = qx.fx.Base.EffectState.idle;
+      this._state        = qx.fx.Base.EffectState.IDLE;
       this._startOn      = this._options.delay * 1000;
       this._finishOn     = this._startOn + (this._options.duration * 1000);
       this._fromToDelta  = this._options.to - this._options.from;
@@ -155,11 +155,11 @@ qx.Class.define("qx.fx.Base",
 
       switch (this._state)
       {
-        case qx.fx.Base.EffectState.finished :
+        case qx.fx.Base.EffectState.FINISHED :
           this.init();
         break;
 
-        case qx.fx.Base.EffectState.running :
+        case qx.fx.Base.EffectState.RUNNING :
           this.end();
         break;
       }
@@ -192,9 +192,9 @@ qx.Class.define("qx.fx.Base",
 
     render : function(pos)
     {
-      if(this._state == qx.fx.Base.EffectState.idle)
+      if(this._state == qx.fx.Base.EffectState.IDLE)
       {
-        this._state = qx.fx.Base.EffectState.running
+        this._state = qx.fx.Base.EffectState.RUNNING
 
         this.beforeSetupInternal();
         this.beforeSetup();
@@ -206,7 +206,7 @@ qx.Class.define("qx.fx.Base",
 
       }
 
-      if(this._state == qx.fx.Base.EffectState.running)
+      if(this._state == qx.fx.Base.EffectState.RUNNING)
       {
 
         this._position = this._transition(pos) * this._fromToDelta + this._options.from;
@@ -255,7 +255,7 @@ qx.Class.define("qx.fx.Base",
         qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
       }
 
-      this._state = qx.fx.Base.EffectState.finished;
+      this._state = qx.fx.Base.EffectState.FINISHED;
     },
 
 

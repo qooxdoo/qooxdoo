@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.FadeIn",
+qx.Class.define("qx.fx.effect.core.FadeIn",
 {
 
   extend : qx.fx.Base,
@@ -121,13 +121,13 @@ qx.Class.define("qx.fx.FadeIn",
 
     render : function(pos)
     {
-      if(this._state == qx.fx.Base.EffectState.idle)
+      if(this._state == qx.fx.Base.EffectState.IDLE)
       {
-        this._state = qx.fx.Base.EffectState.running
+        this._state = qx.fx.Base.EffectState.RUNNING
         this.beforeSetup();
       }
 
-      if(this._state == qx.fx.Base.EffectState.running)
+      if(this._state == qx.fx.Base.EffectState.RUNNING)
       {
         this._position = this._transition(pos) * this._fromToDelta + this._options.from;
         this.update(this._position);

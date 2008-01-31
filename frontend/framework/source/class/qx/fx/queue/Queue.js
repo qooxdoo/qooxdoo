@@ -83,7 +83,7 @@ qx.Class.define("qx.fx.queue.Queue",
 
       switch(position)
       {
-        case qx.fx.Base.EffectPosition.front:
+        case qx.fx.Base.EffectPosition.FRONT:
           // move unstarted effects after this effect
           /*
           this.effects.findAll(function(e){ return e.state=='idle' }).each( function(e) {
@@ -100,12 +100,12 @@ qx.Class.define("qx.fx.queue.Queue",
           }
         break;
 
-        case qx.fx.Base.EffectPosition.withLast:
+        case qx.fx.Base.EffectPosition.WITHLAST:
           //timestamp = this.effects.pluck('startOn').max() || timestamp;
           timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'startOn'))  || timestamp;
         break;
 
-        case qx.fx.Base.EffectPosition.end:
+        case qx.fx.Base.EffectPosition.END:
           // start effect after last queued effect has finished
           //timestamp = this.effects.pluck('finishOn').max() || timestamp;
           timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'finishOn')) || timestamp;

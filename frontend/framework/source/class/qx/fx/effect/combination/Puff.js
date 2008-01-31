@@ -34,10 +34,18 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.fx.Base)
+#require(qx.fx.Transition)
+
+************************************************************************ */
+
+
 /**
  * TODO
  */
-qx.Class.define("qx.fx.Puff",
+qx.Class.define("qx.fx.effect.combination.Puff",
 {
 
   extend : qx.fx.Base,
@@ -69,8 +77,8 @@ qx.Class.define("qx.fx.Puff",
       }
     }
 
-    this._effect = new qx.fx.Parallel({
-      0 : new qx.fx.Scale(
+    this._effect = new qx.fx.effect.core.Parallel({
+      0 : new qx.fx.effect.core.Scale(
           element,
           200,
           {
@@ -80,7 +88,7 @@ qx.Class.define("qx.fx.Puff",
             restoreAfterFinish : true
           }
       ),
-      1 : new qx.fx.FadeOut(
+      1 : new qx.fx.effect.core.FadeOut(
           element,
           {
             sync: true,
