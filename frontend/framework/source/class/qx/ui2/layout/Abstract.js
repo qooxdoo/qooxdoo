@@ -211,7 +211,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!child || !(child instanceof qx.ui2.core.Widget)) {
+        if (!child || !(child instanceof qx.ui2.core.LayoutItem)) {
           throw new Error("Invalid widget to add: " + child);
         }
 
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!child || !(child instanceof qx.ui2.core.Widget)) {
+        if (!child || !(child instanceof qx.ui2.core.LayoutItem)) {
           throw new Error("Invalid widget to remove: " + child);
         }
       }
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       var parent = this.getWidget();
 
-      if (parent)
+      if (parent && widget instanceof qx.ui2.core.Widget)
       {
         parent._contentElement.add(widget.getElement());
         widget.setParent(parent);
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       var parent = this.getWidget();
 
-      if (parent) {
+      if (parent && widget instanceof qx.ui2.core.Widget) {
         parent._contentElement.remove(widget.getElement());
       }
 
