@@ -135,7 +135,6 @@ qx.Class.define("qx.ui2.core.Widget",
     deactivate : "qx.event.type.Event",
 
     // inline events
-    scroll : "qx.event.type.Dom",
     change : "qx.event.type.Data",
     input : "qx.event.type.Data",
     load : "qx.event.type.Event",
@@ -502,7 +501,6 @@ qx.Class.define("qx.ui2.core.Widget",
         blur : 1,
 
         // all elements
-        // scroll : 1,
         select : 1,
 
         // input elements
@@ -1019,9 +1017,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
-      HTML ELEMENT ACCESS
+      PRELIMINARY ELEMENT INTERFACES
     ---------------------------------------------------------------------------
     */
 
@@ -1033,16 +1032,6 @@ qx.Class.define("qx.ui2.core.Widget",
     getElement : function() {
       return this._containerElement;
     },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PRELIMINARY ELEMENT INTERFACES
-    ---------------------------------------------------------------------------
-    */
 
     setHtml : function(value) {
       this._contentElement.setAttribute("html", value);
