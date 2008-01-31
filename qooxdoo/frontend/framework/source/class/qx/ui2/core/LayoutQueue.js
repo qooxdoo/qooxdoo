@@ -66,7 +66,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       // do flush while the layouts change during flush
       do
       {
-        qx.core.Log.debug("Flush layout queue");
+        // qx.core.Log.debug("Flush layout queue");
 
         this._modifiedDuringFlush = false;
 
