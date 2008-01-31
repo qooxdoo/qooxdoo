@@ -89,7 +89,7 @@
         btn1.setLocation(4, 4);
         w3.add(btn1);
     
-        btn1.addEventListener("execute", function(e) {
+        btn1.addListener("execute", function(e) {
           wm1.open();
         });
     
@@ -98,7 +98,7 @@
         btn2.setLocation(4, 4);
         wm1.add(btn2);
     
-        btn2.addEventListener("execute", function(e) {
+        btn2.addListener("execute", function(e) {
           wm2.open();
         });
     
@@ -107,7 +107,7 @@
         chkm1.setLocation(4, 50);
         wm1.add(chkm1);
     
-        chkm1.addEventListener("changeChecked", function(e) {
+        chkm1.addListener("changeChecked", function(e) {
           wm1.setModal(e.getData());
         });
     
@@ -122,14 +122,14 @@
         var chk1 = new qx.ui.form.CheckBox("Show Icon");
         chk1.setLocation(0, 0);
         chk1.setChecked(true);
-        chk1.addEventListener("changeChecked", function(e) {
+        chk1.addListener("changeChecked", function(e) {
           w2.setShowIcon(e.getData());
         });
     
         var chk2 = new qx.ui.form.CheckBox("Show Caption");
         chk2.setLocation(0, 20);
         chk2.setChecked(true);
-        chk2.addEventListener("changeChecked", function(e) {
+        chk2.addListener("changeChecked", function(e) {
           w2.setShowCaption(e.getData());
         });
     
@@ -138,14 +138,14 @@
         var chk3 = new qx.ui.form.CheckBox("Resizeable");
         chk3.setLocation(0, 50);
         chk3.setChecked(true);
-        chk3.addEventListener("changeChecked", function(e) {
+        chk3.addListener("changeChecked", function(e) {
           w2.setResizable(e.getData());
         });
     
         var chk4 = new qx.ui.form.CheckBox("Moveable");
         chk4.setLocation(0, 70);
         chk4.setChecked(true);
-        chk4.addEventListener("changeChecked", function(e) {
+        chk4.addListener("changeChecked", function(e) {
           w2.setMoveable(e.getData());
         });
     
@@ -154,21 +154,21 @@
         var chk5 = new qx.ui.form.CheckBox("Show Close");
         chk5.setLocation(140, 0);
         chk5.setChecked(true);
-        chk5.addEventListener("changeChecked", function(e) {
+        chk5.addListener("changeChecked", function(e) {
           w2.setShowClose(e.getData());
         });
     
         var chk6 = new qx.ui.form.CheckBox("Show Maximize/Restore");
         chk6.setLocation(140, 20);
         chk6.setChecked(true);
-        chk6.addEventListener("changeChecked", function(e) {
+        chk6.addListener("changeChecked", function(e) {
           w2.setShowMaximize(e.getData());
         });
     
         var chk7 = new qx.ui.form.CheckBox("Show Minimize");
         chk7.setLocation(140, 40);
         chk7.setChecked(true);
-        chk7.addEventListener("changeChecked", function(e) {
+        chk7.addListener("changeChecked", function(e) {
           w2.setShowMinimize(e.getData());
         });
     
@@ -177,21 +177,21 @@
         var chk8 = new qx.ui.form.CheckBox("Allow Close");
         chk8.setLocation(140, 70);
         chk8.setChecked(true);
-        chk8.addEventListener("changeChecked", function(e) {
+        chk8.addListener("changeChecked", function(e) {
           w2.setAllowClose(e.getData());
         });
     
         var chk9 = new qx.ui.form.CheckBox("Allow Maximize");
         chk9.setLocation(140, 90);
         chk9.setChecked(true);
-        chk9.addEventListener("changeChecked", function(e) {
+        chk9.addListener("changeChecked", function(e) {
           w2.setAllowMaximize(e.getData());
         });
     
         var chk10 = new qx.ui.form.CheckBox("Allow Minimize");
         chk10.setLocation(140, 110);
         chk10.setChecked(true);
-        chk10.addEventListener("changeChecked", function(e) {
+        chk10.addListener("changeChecked", function(e) {
           w2.setAllowMinimize(e.getData());
         });
     
@@ -213,7 +213,7 @@
     
         var rbm1 = new qx.ui.selection.RadioManager("move", [rb1, rb2, rb3]);
     
-        rbm1.addEventListener("changeSelected", function(e) {
+        rbm1.addListener("changeSelected", function(e) {
           w2.setMoveMethod(e.getData().getValue());
         });
     
@@ -238,7 +238,7 @@
     
         var rbm2 = new qx.ui.selection.RadioManager("resize", [rb4, rb5, rb6, rb7]);
     
-        rbm2.addEventListener("changeSelected", function(e) {
+        rbm2.addListener("changeSelected", function(e) {
           w2.setResizeMethod(e.getData().getValue());
         });
     
@@ -248,7 +248,7 @@
         var chk11 = new qx.ui.form.CheckBox("Show Statusbar");
         chk11.setLocation(140, 140);
         chk11.setChecked(false);
-        chk11.addEventListener("changeChecked", function(e) {
+        chk11.addListener("changeChecked", function(e) {
           w2.setShowStatusbar(e.getData());
         });
     
@@ -257,7 +257,7 @@
     
         var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/devices/media-optical.png");
         btnpack.setLocation(140, 170);
-        btnpack.addEventListener("execute", function(e) {
+        btnpack.addListener("execute", function(e) {
           w2.pack();
         });
     
@@ -278,12 +278,12 @@
         var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
         var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
     
-        btn3.addEventListener("execute", function(e) {
+        btn3.addListener("execute", function(e) {
           alert("Thank you!");
           wm2.close();
         });
     
-        btn4.addEventListener("execute", function(e) {
+        btn4.addListener("execute", function(e) {
           alert("Sorry, please click 'Yes'!");
         });
     

@@ -128,7 +128,7 @@
       buildTableHtml(Math.floor(scroller.scrollTop/rowHeight), rowCount);
     };
 
-    qx.html.EventRegistration.addEventListener(scroller, "scroll", doscroll);
+    qx.legacy.html.EventRegistration.addListener(scroller, "scroll", doscroll);
     doscroll();
 
     document.getElementById("button").onclick = doscroll;

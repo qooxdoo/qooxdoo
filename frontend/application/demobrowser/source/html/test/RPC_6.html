@@ -65,7 +65,7 @@
       var rpc = new qx.io.remote.Rpc();
       rpc.setTimeout(60000);
 
-      rpc.addEventListener("completed",
+      rpc.addListener("completed",
                            function(e) {                             
                              var response = e.getData();
                              var seqnum = response.id;
@@ -76,7 +76,7 @@
                                           ": " + result);
                            });
 
-      rpc.addEventListener("failed",
+      rpc.addListener("failed",
                            function(e) {
                              var response = e.getData();
                              var seqnum = response.id;
@@ -91,7 +91,7 @@
       var mycall;
       var mycalls;
 
-      start.addEventListener("execute", function() {
+      start.addListener("execute", function() {
         t0 = new Date().getTime();
 
         mycalls = [ ];
@@ -121,7 +121,7 @@
         }
       });
 
-      abort.addEventListener("execute", function() {
+      abort.addListener("execute", function() {
         for (var seqnum in mycalls) {
           if (mycalls[seqnum] !== null) {
             rpc.abort(mycalls[seqnum]);

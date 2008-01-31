@@ -96,7 +96,7 @@
 
               // uncomment this to omit changes on one button
               // if (btn.icon != "upload")
-              d.addEventListener("changeLayout", changeLayout, o );
+              d.addListener("changeLayout", changeLayout, o );
               break;
 
             case "button":
@@ -106,7 +106,7 @@
 
               // uncomment this to omit changes on one button
               // if (btn.icon != "upload")
-              d.addEventListener("changeLayout", changeLayout, o );
+              d.addListener("changeLayout", changeLayout, o );
               break;
           };
 
@@ -160,8 +160,8 @@
 
 
       // beautiful decoupling: radio boxes don't know about toolbar buttons
-      rbm.addEventListener("changeSelected", function(e) {
-        d.dispatchEvent( new qx.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
+      rbm.addListener("changeSelected", function(e) {
+        d.dispatchEvent( new qx.event.type.Data("changeLayout", e.getData().getValue() ) );
       });
 
       d.add(rd1, rd2, rd3);
@@ -203,7 +203,7 @@
 
       d.add(ra1, ra2, ra3);
 
-      ram.addEventListener("changeSelected", function(e) {
+      ram.addListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getData().getValue());
       });
 

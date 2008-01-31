@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.profile.Profile",
 {
-  extend : testrunner.TestCase,
+  extend : qx.dev.unit.TestCase,
 
 
 

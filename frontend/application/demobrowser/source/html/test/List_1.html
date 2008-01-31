@@ -67,19 +67,19 @@
       c3.setChecked(true);
       c4.setChecked(true);
       
-      c1.addEventListener("changeChecked", function(e) {
+      c1.addListener("changeChecked", function(e) {
         l1.getManager().setMultiSelection(e.getData());
       });
       
-      c2.addEventListener("changeChecked", function(e) {
+      c2.addListener("changeChecked", function(e) {
         l1.getManager().setDragSelection(e.getData());
       });
 
-      c3.addEventListener("changeChecked", function(e) {
+      c3.addListener("changeChecked", function(e) {
         l1.getManager().setCanDeselect(e.getData());
       });
       
-      c4.addEventListener("changeChecked", function(e) {
+      c4.addListener("changeChecked", function(e) {
         l1.setEnableInlineFind(e.getData());
       });
       
@@ -101,7 +101,7 @@
 
       var rbm = new qx.ui.selection.RadioManager( name, [rd1, rd2, rd3]);
 
-      rbm.addEventListener("changeSelected", function(e)
+      rbm.addListener("changeSelected", function(e)
       {
         for( var i=0; i<l1.getChildrenLength(); i++ ) {
           l1.getChildren()[i].setShow(e.getData().getValue());

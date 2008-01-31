@@ -105,7 +105,7 @@
           setLeft(20);
         };
     
-        rg1.addEventListener("changeSelected", function(e) {
+        rg1.addListener("changeSelected", function(e) {
           linfo.setLabel("Current Value: \"" + e.getData().getLabel() + "\" (" + e.getData().getValue() + ")");
         });
     

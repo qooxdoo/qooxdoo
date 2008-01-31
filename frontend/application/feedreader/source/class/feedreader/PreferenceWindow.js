@@ -99,10 +99,10 @@ qx.Class.define("feedreader.PreferenceWindow",
       });
 
       var btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
-      btn_cancel.addEventListener("execute", this.close, this);
+      btn_cancel.addListener("execute", this.close, this);
       var btn_ok = new qx.ui.form.Button(this.tr("OK"));
 
-      btn_ok.addEventListener("execute", function()
+      btn_ok.addListener("execute", function()
       {
         if (btn_ext.getChecked()) {
           qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
@@ -120,7 +120,7 @@ qx.Class.define("feedreader.PreferenceWindow",
       winLayout.add(hb);
 
       this._prefWindow = this;
-      this.addEventListener("appear", this.centerToBrowser, this);
+      this.addListener("appear", this.centerToBrowser, this);
     }
   }
 });

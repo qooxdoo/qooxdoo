@@ -37,7 +37,7 @@ qx.Class.define("feedreader.view.Tree",
       overflow : "auto"
     });
 
-    this.getManager().addEventListener("changeSelection", this._onChangeSelection, this);
+    this.getManager().addListener("changeSelection", this._onChangeSelection, this);
     this.refresh();
   },
 

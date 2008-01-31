@@ -64,7 +64,7 @@
 
 
 
-    btn.addEventListener("execute", function(e)
+    btn.addListener("execute", function(e)
     {
       var s1 = parseInt(spin1.getValue());
       var s2 = parseInt(spin2.getValue());
@@ -89,15 +89,15 @@
     {
       var req = new qx.io.remote.Request("data/filesize/" + size + "kb.xml", "GET", qx.util.Mime.XML);
 
-      req.addEventListener("completed", function(e) {
+      req.addListener("completed", function(e) {
         area.setValue(area.getValue() + "Request " + size + "kb: completed\n");
       });
 
-      req.addEventListener("failed", function(e) {
+      req.addListener("failed", function(e) {
         area.setValue(area.getValue() + "Request " + size + "kb: failed\n");
       });
 
-      req.addEventListener("timeout", function(e) {
+      req.addListener("timeout", function(e) {
         area.setValue(area.getValue() + "Request " + size + "kb: timeout\n");
       });
 

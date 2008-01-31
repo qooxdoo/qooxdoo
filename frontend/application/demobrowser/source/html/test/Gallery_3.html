@@ -133,7 +133,7 @@
       var toolTip = new qx.ui.popup.ToolTip("Photo Details", "icon/32/actions/format-color.png");
     gallery.setToolTip(toolTip);
 
-      gallery.addEventListener("beforeToolTipAppear", function(e)
+      gallery.addListener("beforeToolTipAppear", function(e)
     {
       var vNode = e.getData();
       var vEntry = this.getEntryByNode(vNode);

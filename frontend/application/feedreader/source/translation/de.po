@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-09 22:22+0100\n"
+"POT-Creation-Date: 2008-01-31 15:34+0100\n"
 "PO-Revision-Date: 2006-12-22 09:59+0100\n"
 "Last-Translator: Fabian Jakobs <fabian dot jakobs at 1und1 dot de>\n"
 "Language-Team: <en@li.org>\n"
@@ -13,6 +13,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: source/class/feedreader/ArticleView.js:136
+#: source/class/feedreader/view/Article.js:133
+msgid "read more ..."
+msgstr "weitere Informationen ..."
 
 #: source/class/feedreader/PreferenceWindow.js:34
 #: source/class/feedreader/view/ToolBar.js:69
@@ -30,10 +35,6 @@ msgstr "Abbruch"
 #: source/class/feedreader/PreferenceWindow.js:103
 msgid "OK"
 msgstr "OK"
-
-#: source/class/feedreader/view/Article.js:133
-msgid "read more ..."
-msgstr "weitere Informationen ..."
 
 #: source/class/feedreader/view/Table.js:36
 msgid "Subject"
@@ -69,7 +70,6 @@ msgid "Open preferences window."
 msgstr "Einstellungen öffnen"
 
 #: source/class/feedreader/view/ToolBar.js:79
-#: source/class/feedreader/view/ToolBar.js:81
 msgid "English"
 msgstr "Englisch"
 
@@ -77,27 +77,27 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
-#: source/class/feedreader/view/ToolBar.js:82
+#: source/class/feedreader/view/ToolBar.js:81
 msgid "Turkish"
 msgstr "Türkisch"
 
-#: source/class/feedreader/view/ToolBar.js:83
+#: source/class/feedreader/view/ToolBar.js:82
 msgid "Italian"
 msgstr "Italienisch"
 
-#: source/class/feedreader/view/ToolBar.js:84
+#: source/class/feedreader/view/ToolBar.js:83
 msgid "Spanish"
 msgstr "Spanisch"
 
-#: source/class/feedreader/view/ToolBar.js:85
+#: source/class/feedreader/view/ToolBar.js:84
 msgid "Swedish"
 msgstr "Schwedisch"
 
-#: source/class/feedreader/view/ToolBar.js:86
+#: source/class/feedreader/view/ToolBar.js:85
 msgid "Russian"
 msgstr "Russisch"
 
-#: source/class/feedreader/view/ToolBar.js:115
+#: source/class/feedreader/view/ToolBar.js:114
 msgid "Help"
 msgstr "Hilfe"
 

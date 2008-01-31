@@ -81,7 +81,7 @@
       var mycall;
       var mycalls = [];
 
-      start.addEventListener("execute", function() {
+      start.addListener("execute", function() {
         t0 = new Date().getTime();
 
         rpc.setCrossDomain(crossDomain.isChecked());
@@ -113,7 +113,7 @@
         }
       });
 
-      abort.addEventListener("execute", function() {
+      abort.addListener("execute", function() {
         for (seqnum in mycalls) {
           if (mycalls[seqnum] !== null) {
             rpc.abort(mycalls[seqnum]);

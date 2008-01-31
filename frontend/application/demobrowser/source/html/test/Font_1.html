@@ -22,19 +22,19 @@
     var b3 = new qx.ui.form.Button("Sans Serif, 16px");
     var b4 = new qx.ui.form.Button("Sans Serif, 24px");
 
-    b1.addEventListener("execute", function() {
+    b1.addListener("execute", function() {
       a1.getLabelObject().setFont(qx.ui.core.Font.fromString("16px serif"));
     });
 
-    b2.addEventListener("execute", function() {
+    b2.addListener("execute", function() {
       a1.getLabelObject().setFont(qx.ui.core.Font.fromString("24px serif"));
     });
 
-    b3.addEventListener("execute", function() {
+    b3.addListener("execute", function() {
       a1.getLabelObject().setFont(qx.ui.core.Font.fromString("16px sans-serif"));
     });
 
-    b4.addEventListener("execute", function() {
+    b4.addListener("execute", function() {
       a1.getLabelObject().setFont(qx.ui.core.Font.fromString("24px sans-serif"));
     });
 

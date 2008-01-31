@@ -55,7 +55,7 @@
         chk1.setTop(20);
         qx.ui.core.ClientDocument.getInstance().add(chk1);
   
-        chk1.addEventListener("changeChecked", function(e) {
+        chk1.addListener("changeChecked", function(e) {
           lv.setLiveResize(e.getData());
         });
   
@@ -64,7 +64,7 @@
         chk2.setTop(50);
         qx.ui.core.ClientDocument.getInstance().add(chk2);
   
-        chk2.addEventListener("changeChecked", function(e) {
+        chk2.addListener("changeChecked", function(e) {
           lv.setEnabled(!e.getData())
         });
   

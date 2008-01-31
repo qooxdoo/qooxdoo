@@ -33,20 +33,20 @@ qx.Class.define("feedreader.view.ToolBar",
     this._controller = controller;
 
     // Define commands
-    var reloadCmd = new qx.client.Command("Control+R");
-    reloadCmd.addEventListener("execute", this._controller.reload, this._controller);
+    var reloadCmd = new qx.event.Command("Control+R");
+    reloadCmd.addListener("execute", this._controller.reload, this._controller);
 
-    var aboutCmd = new qx.client.Command("F1");
-    aboutCmd.addEventListener("execute", this._controller.showAbout, this._controller);
+    var aboutCmd = new qx.event.Command("F1");
+    aboutCmd.addListener("execute", this._controller.showAbout, this._controller);
 
-    var prefCmd = new qx.client.Command("Control+P");
-    prefCmd.addEventListener("execute", this._controller.showPreferences, this._controller);
+    var prefCmd = new qx.event.Command("Control+P");
+    prefCmd.addListener("execute", this._controller.showPreferences, this._controller);
 
-    var addFeedCmd = new qx.client.Command("Control+A");
-    addFeedCmd.addEventListener("execute", this._controller.showAddFeed, this._controller);
+    var addFeedCmd = new qx.event.Command("Control+A");
+    addFeedCmd.addListener("execute", this._controller.showAddFeed, this._controller);
 
-    var removeFeedCmd = new qx.client.Command("Control+D");
-    removeFeedCmd.addEventListener("execute", this._controller.showRemoveFeed, this._controller);
+    var removeFeedCmd = new qx.event.Command("Control+D");
+    removeFeedCmd.addListener("execute", this._controller.showRemoveFeed, this._controller);
 
     // Add buttons
     var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/16/actions/dialog-ok.png");
@@ -102,7 +102,7 @@ qx.Class.define("feedreader.view.ToolBar",
       radioManager.add(menuButton);
     }
 
-    radioManager.addEventListener("changeSelected", function(e)
+    radioManager.addListener("changeSelected", function(e)
     {
       var lang = e.getValue().getUserData("locale");
       qx.locale.Manager.getInstance().setLocale(lang);

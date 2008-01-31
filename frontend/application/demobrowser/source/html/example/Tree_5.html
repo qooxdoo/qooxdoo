@@ -180,7 +180,7 @@
         tCurrentInput.set({ left : 0, right : 0, top : 20, readOnly : true });
         commandFrame.add(tCurrentInput);
   
-        t.getManager().addEventListener("changeSelection", function(e) {
+        t.getManager().addListener("changeSelection", function(e) {
           tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
         });
   
@@ -195,7 +195,7 @@
   
         commandFrame.add(tDoubleClick);
   
-        tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
+        tDoubleClick.addListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
   
   
   
@@ -210,7 +210,7 @@
   
         commandFrame.add(tTreeLines);
   
-        tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
+        tTreeLines.addListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
   
   
         var tHideNode = new qx.ui.form.CheckBox("Hide the root node?");
@@ -223,7 +223,7 @@
   
         commandFrame.add(tHideNode);
   
-        tHideNode.addEventListener("changeChecked", function(e) { t.setHideNode(e.getData()); });
+        tHideNode.addListener("changeChecked", function(e) { t.setHideNode(e.getData()); });
   
         var tIncludeRootOpenClose =
           new qx.ui.form.CheckBox("Include root open/close button?");
@@ -236,7 +236,7 @@
   
         commandFrame.add(tIncludeRootOpenClose);
   
-        tIncludeRootOpenClose.addEventListener("changeChecked", function(e) { t.setRootOpenClose(e.getData()); });
+        tIncludeRootOpenClose.addListener("changeChecked", function(e) { t.setRootOpenClose(e.getData()); });
   
         tExcludeTreeLines0 =
           new qx.ui.form.CheckBox("Exclude tree lines at level 0?");
@@ -249,7 +249,7 @@
   
         commandFrame.add(tExcludeTreeLines0);
   
-        tExcludeTreeLines0.addEventListener(
+        tExcludeTreeLines0.addListener(
             "changeChecked",
             function(e)
             {
@@ -273,7 +273,7 @@
   
         commandFrame.add(tExcludeTreeLines1);
   
-        tExcludeTreeLines1.addEventListener(
+        tExcludeTreeLines1.addListener(
             "changeChecked",
             function(e)
             {
@@ -297,7 +297,7 @@
   
         commandFrame.add(tExcludeTreeLines2);
   
-        tExcludeTreeLines2.addEventListener(
+        tExcludeTreeLines2.addListener(
             "changeChecked",
             function(e)
             {
@@ -321,7 +321,7 @@
   
         commandFrame.add(tExcludeTreeLines3);
   
-        tExcludeTreeLines3.addEventListener(
+        tExcludeTreeLines3.addListener(
             "changeChecked",
             function(e)
             {
@@ -345,7 +345,7 @@
   
         commandFrame.add(tExcludeTreeLines4);
   
-        tExcludeTreeLines4.addEventListener(
+        tExcludeTreeLines4.addListener(
             "changeChecked",
             function(e)
             {
@@ -365,7 +365,7 @@
           left: 0
         });
         var iconFlag = true;
-        btnHideIcon.addEventListener("execute", function(e) {
+        btnHideIcon.addListener("execute", function(e) {
           if (iconFlag) {
             t.setIcon("icon/16/devices/drive-harddisk.png");
           } else {

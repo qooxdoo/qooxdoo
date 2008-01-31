@@ -9,7 +9,7 @@
   <div id="description">
     <p>Some tests for some of the most used properties of qx.ui.core.Widget (coordinates, dimensions, backgroundColor, opacity, ...).</p>
     <p>Also here are the first test of some widgets which extend qx.ui.core.Widget: qx.ui.form.TextField and qx.ui.form.PasswordField. These extended
-    widgets also interacts like the basic QxWidgets with the qx.event.handler.FocusHandler.</p>
+    widgets also interacts like the basic QxWidgets with the qx.legacy.event.handler.FocusHandler.</p>
   </div>
 
   <script type="text/javascript">
@@ -34,8 +34,8 @@
         t1.setLeft(20);
         t1.setTextColor("blue");
     
-        t1.addEventListener("changeValue", textChange);
-        t1.addEventListener("input", function(e) {
+        t1.addListener("changeValue", textChange);
+        t1.addListener("input", function(e) {
           this.debug("Input: " + e.getData());
         });
     
@@ -49,7 +49,7 @@
         t2.setTop(80);
         t2.setLeft(20);
     
-        t2.addEventListener("changeValue", textChange);
+        t2.addListener("changeValue", textChange);
     
         d.add(t2);
     
@@ -66,11 +66,11 @@
         	left : 400,
         	top : 110
         });
-        btn.addEventListener("execute", t3.selectAll, t3);
+        btn.addListener("execute", t3.selectAll, t3);
         d.add(btn);
         //t3.selectAll();
     
-        t3.addEventListener("changeValue", textChange);
+        t3.addListener("changeValue", textChange);
     
         d.add(t3);
     
@@ -83,7 +83,7 @@
         t4.setMaxLength(100);
         t4.setReadOnly(true);
     
-        t4.addEventListener("changeValue", textChange);
+        t4.addListener("changeValue", textChange);
     
         d.add(t4);
     
@@ -95,7 +95,7 @@
         t5.setLeft(20);
         t5.setSpellCheck(true);
     
-        t5.addEventListener("changeValue", textChange);
+        t5.addListener("changeValue", textChange);
     
         d.add(t5);
     
@@ -105,12 +105,12 @@
         t6.setTop(270);
         t6.setLeft(20);
     
-        t6.addEventListener("changeValue", textChange);
-        t6.addEventListener("input", function(e) {
+        t6.addListener("changeValue", textChange);
+        t6.addListener("input", function(e) {
           this.debug("Input: " + e.getData());
         });
     
-        t6.addEventListener("keydown", function(e) {
+        t6.addListener("keydown", function(e) {
           this.debug("Keypress: " + e.getKeyIdentifier());
         });
     

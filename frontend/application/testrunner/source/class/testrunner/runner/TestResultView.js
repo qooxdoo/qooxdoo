@@ -41,7 +41,7 @@ qx.Class.define("testrunner.runner.TestResultView",
     this.base(arguments);
     this._testResults = [];
 
-    this.addEventListener("appear", function() {
+    this.addListener("appear", function() {
       this.setHtml(this.__createHtml());
     }, this);
   },
@@ -116,7 +116,7 @@ qx.Class.define("testrunner.runner.TestResultView",
     {
       this._testResults.push(testResult);
 
-      testResult.addEventListener("changeState", function() {
+      testResult.addListener("changeState", function() {
         this.__onStateChange(testResult);
       }, this);
 

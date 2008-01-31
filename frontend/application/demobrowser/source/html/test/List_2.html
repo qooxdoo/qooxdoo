@@ -37,7 +37,7 @@
       for (var i = 1; i <= 10; i++) 
       {
         var item = new qx.ui.form.ListItem("Item " + i);
-        item.addEventListener("dragstart", handleStartDrag);
+        item.addListener("dragstart", handleStartDrag);
         sourceList.add(item);
       };
 
@@ -99,7 +99,7 @@
       // Set event properties for destination list
 
       destList.setDropDataTypes(["ListItems"]);
-      destList.addEventListener("dragdrop", handleListDrop);
+      destList.addListener("dragdrop", handleListDrop);
     });
   </script>
 </body>

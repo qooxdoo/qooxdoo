@@ -111,7 +111,7 @@ qx.Class.define("feedreader.Application",
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
+      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
 
       // Increase parallel requests
       qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
@@ -120,7 +120,7 @@ qx.Class.define("feedreader.Application",
       this._createLayout();
 
       // React on theme selection changes
-      qx.theme.manager.Meta.getInstance().addEventListener("changeTheme", this._applyCssTheme, this);
+      qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._applyCssTheme, this);
       this._applyCssTheme();
     },
 
@@ -498,7 +498,7 @@ qx.Class.define("feedreader.Application",
         req.setTimeout(30000);
 
         // Add the listener
-        req.addEventListener("completed", entry.loader);
+        req.addListener("completed", entry.loader);
 
         // And finally send the request
         req.send();

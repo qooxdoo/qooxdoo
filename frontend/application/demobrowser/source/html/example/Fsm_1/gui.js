@@ -41,13 +41,13 @@ function initGui(fsm)
   fsm.addObject("text_message", o);
 
   o = new qx.ui.form.Button("Send to server");
-  o.addEventListener("execute", fsm.eventListener, fsm);
+  o.addListener("execute", fsm.eventListener, fsm);
   hLayout.add(o);
   fsm.addObject("button_send", o);
 
   o = new qx.ui.form.Button("Abort");
   o.setEnabled(false);
-  o.addEventListener("execute", fsm.eventListener, fsm);
+  o.addListener("execute", fsm.eventListener, fsm);
   hLayout.add(o);
   fsm.addObject("button_abort", o);
 

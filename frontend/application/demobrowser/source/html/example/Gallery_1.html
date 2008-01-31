@@ -110,7 +110,7 @@
         gallery.setTop(20);
         gallery.setBottom(20);
         gallery.setBorder("inset");
-        gallery.addEventListener("beforeToolTipAppear", function(e) {
+        gallery.addListener("beforeToolTipAppear", function(e) {
   				var entry = gallery.getEntryByNode(e.getData());
         	gallery.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.timestamp));
         });

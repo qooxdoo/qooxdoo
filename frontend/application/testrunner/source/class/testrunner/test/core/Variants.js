@@ -25,7 +25,7 @@
 
 qx.Class.define("testrunner.test.core.Variants",
 {
-  extend : testrunner.TestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {

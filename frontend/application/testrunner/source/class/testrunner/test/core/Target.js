@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.core.Target",
 {
-  extend : testrunner.TestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
@@ -33,12 +33,12 @@ qx.Class.define("testrunner.test.core.Target",
     {
       qx.Class.define("testrunner.Event",
       {
-        extend : qx.core.Target,
+        extend : qx.core.Object,
         events : { "click" : "qx.event.type.Event" }
       });
 
       var target = new testrunner.Event();
-      target.addEventListener("click", function() {});
+      target.addListener("click", function() {});
     }
   }
 });
