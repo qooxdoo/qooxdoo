@@ -62,11 +62,10 @@ qx.Class.define("qx.ui2.core.QueueManager",
      */
     flush : function()
     {
-      var clazz = qx.ui2.core.QueueManager;
+      var jobs = qx.ui2.core.QueueManager.__jobs;
 
-      // no else blocks here because each flush can influence the following
-      // flushes!
-      var jobs = clazz.__jobs;
+      // No else blocks here because each flush can influence the
+      // following flushes!
 
       if (jobs.layout)
       {
@@ -94,7 +93,15 @@ qx.Class.define("qx.ui2.core.QueueManager",
         qx.core.Log.debug("Element queue runtime: " + (new Date - start) + "ms");
       }
 
-      clazz.__scheduled = false;
+      if (jobs.display)
+      {
+        var start = new Date;
+        qx.ui2.core.DisplayQueue.flush();
+        jobs.display = false;
+        qx.core.Log.debug("Display queue runtime: " + (new Date - start) + "ms");
+      }
+
+      qx.ui2.core.QueueManager.__scheduled = false;
     }
   },
 
