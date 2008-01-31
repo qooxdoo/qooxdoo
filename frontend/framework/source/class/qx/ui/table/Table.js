@@ -1582,7 +1582,7 @@ qx.Class.define("qx.ui.table.Table",
           if (isLast && verNeeded != bHadVerticalScrollBar)
           {
             // ... then dispatch an event to any awaiting listeners
-            this.createDispatchDataEvent("verticalScrollBarChanged", verNeeded);
+            this.fireDataEvent("verticalScrollBarChanged", verNeeded);
           }
         }
       }
@@ -1634,7 +1634,7 @@ qx.Class.define("qx.ui.table.Table",
         table : this,
         menu  : menu
       };
-      this.createDispatchDataEvent("columnVisibilityMenuCreateStart", data, true);
+      this.fireDataEvent("columnVisibilityMenuCreateStart", data, true);
 
       for (var x=0; x<columnModel.getOverallColumnCount(); x++)
       {
@@ -1655,7 +1655,7 @@ qx.Class.define("qx.ui.table.Table",
         table : this,
         menu  : menu
       };
-      this.createDispatchDataEvent("columnVisibilityMenuCreateEnd", data, true);
+      this.fireDataEvent("columnVisibilityMenuCreateEnd", data, true);
 
       menu.setParent(this.getTopLevelWidget());
 
@@ -1747,7 +1747,7 @@ qx.Class.define("qx.ui.table.Table",
           return;
         }
 
-        self.createDispatchEvent("tableWidthChanged");
+        self.fireEvent("tableWidthChanged");
         self._updateScrollerWidths();
         self._updateScrollBarVisibility();
         qx.ui.core.Widget.flushGlobalQueues();
