@@ -121,10 +121,10 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       var moveX, moveY;
 
       this._oldStyle = {
-        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width   : qx.bom.element.Dimension.getWidth(this._element),
-        height  : qx.bom.element.Dimension.getHeight(this._element)
+        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width  : qx.bom.element.Dimension.getWidth(this._element),
+        height : qx.bom.element.Dimension.getHeight(this._element)
       };
 
 
