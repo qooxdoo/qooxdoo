@@ -522,7 +522,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
-    _isVisible : true,
+    _isLocallyVisible : true,
 
 
     /*
@@ -1076,10 +1076,10 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _show : function()
     {
-      if (!this._isVisible)
+      if (!this._isLocallyVisible)
       {
         // fallback to prototype value 'true'
-        delete this._isVisible;
+        delete this._isLocallyVisible;
 
         this._containerElement.show();
       }
@@ -1092,9 +1092,9 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _hide : function()
     {
-      if (this._isVisible)
+      if (this._isLocallyVisible)
       {
-        this._isVisible = false;
+        this._isLocallyVisible = false;
         this._containerElement.hide();
       }
     },
@@ -1151,7 +1151,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
       while (parent)
       {
-        if (!parent._isVisible) {
+        if (!parent._isLocallyVisible) {
           return false;
         }
 
