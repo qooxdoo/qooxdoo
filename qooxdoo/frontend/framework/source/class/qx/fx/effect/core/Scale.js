@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.Scale",
+qx.Class.define("qx.fx.effect.core.Scale",
 {
 
   extend : qx.fx.Base,
