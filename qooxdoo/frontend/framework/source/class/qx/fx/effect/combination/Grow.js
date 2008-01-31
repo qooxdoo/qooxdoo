@@ -58,7 +58,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
   construct : function(element, options)
   {
 
-    var opacity = qx.bom.element.Style.get(element, "opacity");
     var initialMoveX, initialMoveY;
     var moveX, moveY;
 
@@ -75,9 +74,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     };
 
     this._oldStyle = {
-      opacity : qx.util.Validation.isValidNumber(opacity) ? opacity : 1.0,
-      top     : qx.bom.element.Location.getTop(element, "scroll"),
-      left    : qx.bom.element.Location.getLeft(element, "scroll"),
+      top     : qx.bom.element.Location.getTop(element),
+      left    : qx.bom.element.Location.getLeft(element),
       width   : qx.bom.element.Dimension.getWidth(element),
       height  : qx.bom.element.Dimension.getHeight(element)
     };
@@ -118,10 +116,10 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       break;
 
       case 'center':
-        initialMoveX = dims.width / 2;
-        initialMoveY = dims.height / 2;
-        moveX = -dims.width / 2;
-        moveY = -dims.height / 2;
+        initialMoveX = Math.round(dims.width / 2);
+        initialMoveY = Math.round(dims.height / 2);
+        moveX = -Math.round(dims.width / 2);
+        moveY = -Math.round(dims.height / 2);
       break;
 
     }
@@ -129,7 +127,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     this.base(arguments, element, options);
 
 
-    var fadeInEffect = new qx.fx.FadeIn(
+    var fadeInEffect = new qx.fx.effect.core.FadeIn(
       element,
       {
         sync: true,
@@ -137,7 +135,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       }
     );
 
-    var moveEffect = new qx.fx.Move(
+    var moveEffect = new qx.fx.effect.core.Move(
       element,
       {
         x: moveX,
@@ -147,7 +145,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       }
     );
 
-    var scaleEffect = new qx.fx.Scale(
+    var scaleEffect = new qx.fx.effect.core.Scale(
       element,
       100,
       {
@@ -156,13 +154,12 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         originalWidth: dims.width
       }, 
       sync: true,
-      //scaleFrom: window.opera ? 1 : 0,
       scaleFrom : 0,
       transition: options.scaleTransition
       }
     );
 
-    this._effect = new qx.fx.Move(
+    this._effect = new qx.fx.effect.core.Move(
       element,
       {
         x : initialMoveX,
@@ -173,7 +170,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     this._effect.afterFinishInternal = function(effect)
     {
-      new qx.fx.Parallel(
+      new qx.fx.effect.core.Parallel(
         {
           1 : fadeInEffect,
           2 : moveEffect,
@@ -206,14 +203,19 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     beforeSetup : function(effect)
     {
+      console.info(
+        "start: ",
+        qx.bom.element.Location.getTop(this._element),
+        qx.bom.element.Location.getLeft(this._element)
+      );
+
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
       qx.bom.element.Style.set(this._element, "height", "0px");
       qx.bom.element.Style.set(this._element, "width", "0px");
-      //qx.bom.element.Style.set(this._element, "display", "block");
     },
 
 
-    afterFinishInternal: function(effect)
+    afterFinishInternal : function(effect)
     {
       qx.bom.element.Style.set(this._element, "overflow", "visible");
 
@@ -225,7 +227,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
           //}
       }
     },
-
 
     start : function()
     {
