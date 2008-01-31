@@ -116,11 +116,11 @@ qx.Class.define("qx.fx.Puff",
     afterFinishInternal : function()
     {
       for(var property in this._oldStyle) {
-        //if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
-        //{
+        if(!( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (parseInt(this._oldStyle[property]) == 0) )) 
+        {
           qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-          console.info(property, this._oldStyle[property])
-          //}
+          this.debug(property + " " +  this._oldStyle[property] + " " +  parseInt(this._oldStyle[property]))
+        }
       }
     },
     

@@ -105,7 +105,6 @@ qx.Class.define("qx.fx.Parallel",
       this.base(arguments);
 
       for (var i in this._effects) {
-        console.info("Starting effect #" + i + "  " + this._effects)
         this._effects[i].start();
       }
 
