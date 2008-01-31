@@ -132,6 +132,11 @@
       position : "center"
     });
 
+    /*
+    * Shake is a combination effect without options
+    */    
+    var animShake = new qx.fx.effect.combination.Shake(myElement, {});
+
   	/* Buttons */
   	var btnShow = new qx.ui.form.Button("Fade in");
   	var btnHide = new qx.ui.form.Button("Fade out");
@@ -142,6 +147,7 @@
   	var btnMoveAway = new qx.ui.form.Button("Move away");
   	var btnMoveBack = new qx.ui.form.Button("Move back");
   	var btnGrow = new qx.ui.form.Button("Grow");
+  	var btnShake = new qx.ui.form.Button("Shake");
 
   	var btnReset = new qx.ui.form.Button("Reset element");
   
@@ -154,7 +160,8 @@
   	btnPuff.setLocation(370, 25);
   	btnMoveAway.setLocation(410, 25);
   	btnMoveBack.setLocation(485, 25);
-  	btnGrow.setLocation(554, 25);
+  	btnGrow.setLocation(557, 25);
+  	btnShake.setLocation(600, 25);
   	
   	btnReset.setLocation(25, 57);
   
@@ -200,6 +207,10 @@
   	  animGrow.start();
     });
   	
+  	btnShake.addListener("execute", function(){
+  	  animShake.start();
+    });
+  	
   	
   
   	btnReset.addListener("execute", function(){
@@ -208,7 +219,7 @@
   
   	btnReset.setBackgroundColor("#B22222");
   
-  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnReset);
+  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnReset);
      
   });
   </script>
