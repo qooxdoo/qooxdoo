@@ -96,6 +96,14 @@ qx.Class.define("qx.ui2.layout.VBox",
 
   members :
   {
+    addSpacer : function()
+    {
+      var spacer = new qx.ui2.core.Spacer(0,0);
+      this.add(spacer, {flex: 1});
+      return spacer;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE

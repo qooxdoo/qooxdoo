@@ -31,6 +31,54 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    /**
+     * Controls the widget's visibility. Valid values are:
+     *
+     * <ul>
+     *   <li><b>visible</b>: Render the widget</li>
+     *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
+     *   <li>
+     *     <b>excluded</b>: Hide the widget and relayout the parent as if the
+     *       widget was not a child of its parent.
+     *   </li>
+     * </ul>
+     */
+    visibility :
+    {
+      check : ["visible", "hidden", "excluded"],
+      init : "visible",
+      apply : "_applyVisibility",
+      event : "changeVisibility",
+      nullable : false
+    },
+
+
+    /**
+     * If the layout manager decides not ot render the widget it should turn
+     * if its visibility using this property.
+     *
+     * @internal
+     */
+    layoutVisible :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyLayoutVisible",
+      nullable : false
+    }
+  },
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -272,6 +320,17 @@ qx.Class.define("qx.ui2.core.LayoutItem",
       }
 
       return null;
+    },
+
+    // property apply
+    _applyVisibility : function(value, old) {
+      // empty implementation. Should be overridden by sub classes
+    },
+
+    // property apply
+    _applyLayoutVisible : function(value, old) {
+      // empty implementation. Should be overridden by sub classes
     }
+
   }
 });
