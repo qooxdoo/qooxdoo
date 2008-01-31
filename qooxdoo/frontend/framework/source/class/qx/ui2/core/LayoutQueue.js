@@ -22,12 +22,11 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 {
   statics :
   {
+    __queue : {},
 
-    _layoutQueue : {},
+    __inFlush : false,
+    __modifiedDuringFlush : false,
 
-    _isInFlush : false,
-
-    _modifiedDuringFlush : false,
 
     /**
      * Mark a widget's layout as invalid and add its layout root to
@@ -39,10 +38,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     add : function(widget)
     {
-      this._layoutQueue[widget.toHashCode()] = widget;
+      this.__queue[widget.toHashCode()] = widget;
 
-      if (this._isInFlush) {
-        this._modifiedDuringFlush = true;
+      if (this.__inFlush) {
+        this.__modifiedDuringFlush = true;
       } else {
         qx.ui2.core.QueueManager.scheduleFlush("layout");
       }
@@ -57,18 +56,18 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     flush : function()
     {
-      if (this._isInFlush) {
+      if (this.__inFlush) {
         return;
       }
 
-      this._isInFlush = true;
+      this.__inFlush = true;
 
       // do flush while the layouts change during flush
       do
       {
         // qx.core.Log.debug("Flush layout queue");
 
-        this._modifiedDuringFlush = false;
+        this.__modifiedDuringFlush = false;
 
         // get sorted widgets to (re-)layout
         var queue = this.__getSortedQueue();
@@ -106,16 +105,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
             );
           }
         }
-      } while (this._modifiedDuringFlush);
+      } while (this.__modifiedDuringFlush);
 
-      this._isInFlush = false;
+      this.__inFlush = false;
     },
-
-
-
-
-
-
 
 
     /**
@@ -128,7 +121,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     {
       // sparse level array
       var levels = [];
-      var widgets = this._layoutQueue;
+      var widgets = this.__queue;
 
       for (var widgetHash in widgets)
       {

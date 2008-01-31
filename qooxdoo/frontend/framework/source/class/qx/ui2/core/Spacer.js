@@ -38,8 +38,8 @@ qx.Class.define("qx.ui2.core.Spacer",
   */
 
  /**
-  * @param width {Integer} the spacer's initial width
-  * @param height {Integer} the spacer's initial height
+  * @param width {Integer?0} the spacer's initial width
+  * @param height {Integer?0} the spacer's initial height
   */
   construct : function(width, height)
   {
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui2.core.Spacer",
     height :
     {
       check : "Number",
-      init : 50,
+      init : 0,
       apply : "_applyLayoutChange",
       nullable : false
     },
@@ -110,7 +110,7 @@ qx.Class.define("qx.ui2.core.Spacer",
     width :
     {
       check : "Number",
-      init : 100,
+      init : 0,
       apply : "_applyLayoutChange",
       nullable : false
     },
@@ -143,22 +143,16 @@ qx.Class.define("qx.ui2.core.Spacer",
       // nothing to do
     },
 
+
     // overrridden
     hasValidLayout : function() {
       return true;
     },
 
+
     // overrridden
     invalidateLayoutCache : function() {
       this._sizeHint = null;
-    },
-
-
-    /**
-     * generic property apply method for layout relevant properties
-     */
-    _applyLayoutChange : function() {
-      this.scheduleLayoutUpdate();
     },
 
 
@@ -191,6 +185,17 @@ qx.Class.define("qx.ui2.core.Spacer",
     // overridden
     isVisible : function() {
       return true;
+    },
+
+
+    /**
+     * generic property apply method for layout relevant properties
+     *
+     * @type member
+     * @return {void}
+     */
+    _applyLayoutChange : function() {
+      this.scheduleLayoutUpdate();
     }
   }
 });

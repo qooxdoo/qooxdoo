@@ -60,6 +60,14 @@ qx.Class.define("BasicSample",
         widget.addListener("click", qx.lang.Function.bind(function(index) {
           layout1.setSelected(widgets1[(index+1) % widgets1.length]);
         }, this, false, [i]));
+
+        widget.addListener("appear", qx.lang.Function.bind(function(index) {
+          this.debug("Appear of widget: " + index);
+        }, this, false, [i]));
+
+        widget.addListener("disappear", qx.lang.Function.bind(function(index) {
+          this.debug("Disappear of widget: " + index);
+        }, this, false, [i]));
       }
       widget1.setLayout(layout1);
 
