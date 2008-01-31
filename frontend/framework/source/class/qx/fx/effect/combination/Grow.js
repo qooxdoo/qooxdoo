@@ -58,9 +58,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
   construct : function(element, options)
   {
 
-    var initialMoveX, initialMoveY;
-    var moveX, moveY;
-
     var effectSpecificOptions = {
       direction         : 'center',
       moveTransition    : qx.fx.Transition.sinoidal,
@@ -68,20 +65,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       opacityTransition : qx.fx.Transition.full
     };
 
-    var dims = {
-      width  : qx.bom.element.Dimension.getWidth(element),
-      height : qx.bom.element.Dimension.getHeight(element)
-    };
-
-    this._oldStyle = {
-      top     : qx.bom.element.Location.getTop(element),
-      left    : qx.bom.element.Location.getLeft(element),
-      width   : qx.bom.element.Dimension.getWidth(element),
-      height  : qx.bom.element.Dimension.getHeight(element)
-    };
-
-    this._element = element;
-    
     for(var i in effectSpecificOptions)
     {
       if (typeof(options[i]) == "undefined") {
@@ -89,95 +72,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       }
     }
 
-    switch (options.direction)
-    {
-
-      case 'top-left':
-        initialMoveX = initialMoveY = moveX = moveY = 0; 
-      break;
-
-      case 'top-right':
-        initialMoveX = dims.width;
-        initialMoveY = moveY = 0;
-        moveX = -dims.width;
-      break;
-
-      case 'bottom-left':
-        initialMoveX = moveX = 0;
-        initialMoveY = dims.height;
-        moveY = -dims.height;
-      break;
-
-      case 'bottom-right':
-        initialMoveX = dims.width;
-        initialMoveY = dims.height;
-        moveX = -dims.width;
-        moveY = -dims.height;
-      break;
-
-      case 'center':
-        initialMoveX = Math.round(dims.width / 2);
-        initialMoveY = Math.round(dims.height / 2);
-        moveX = -Math.round(dims.width / 2);
-        moveY = -Math.round(dims.height / 2);
-      break;
-
-    }
-
     this.base(arguments, element, options);
-
-
-    var fadeInEffect = new qx.fx.effect.core.FadeIn(
-      element,
-      {
-        sync: true,
-        transition: options.opacityTransition
-      }
-    );
-
-    var moveEffect = new qx.fx.effect.core.Move(
-      element,
-      {
-        x: moveX,
-        y: moveY,
-        sync: true,
-        transition: options.moveTransition
-      }
-    );
-
-    var scaleEffect = new qx.fx.effect.core.Scale(
-      element,
-      100,
-      {
-      scaleMode: {
-        originalHeight: dims.height,
-        originalWidth: dims.width
-      }, 
-      sync: true,
-      scaleFrom : 0,
-      transition: options.scaleTransition
-      }
-    );
-
-    this._effect = new qx.fx.effect.core.Move(
-      element,
-      {
-        x : initialMoveX,
-        y : initialMoveY,
-        duration: 0.01
-      }
-    );
-
-    this._effect.afterFinishInternal = function(effect)
-    {
-      new qx.fx.effect.core.Parallel(
-        {
-          1 : fadeInEffect,
-          2 : moveEffect,
-          3 : scaleEffect
-        }
-      ).start();
-    };
+    this._element = element;
 
   },
 
@@ -201,36 +97,122 @@ qx.Class.define("qx.fx.effect.combination.Grow",
    members :
    {
 
-    beforeSetup : function(effect)
+    setup : function()
     {
-      console.info(
-        "start: ",
-        qx.bom.element.Location.getTop(this._element),
-        qx.bom.element.Location.getLeft(this._element)
-      );
-
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
       qx.bom.element.Style.set(this._element, "height", "0px");
       qx.bom.element.Style.set(this._element, "width", "0px");
     },
 
-
     afterFinishInternal : function(effect)
     {
       qx.bom.element.Style.set(this._element, "overflow", "visible");
 
-      for(var property in this._oldStyle)
-      {
-        //if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
-        //{
-          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-          //}
+      for (var property in this._oldStyle) {
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
       }
     },
 
     start : function()
     {
       this.base(arguments);
+
+      var initialMoveX, initialMoveY;
+      var moveX, moveY;
+
+      this._oldStyle = {
+        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width   : qx.bom.element.Dimension.getWidth(this._element),
+        height  : qx.bom.element.Dimension.getHeight(this._element)
+      };
+
+
+      switch (this._options.direction)
+      {
+        case 'top-left':
+          initialMoveX = initialMoveY = moveX = moveY = 0; 
+        break;
+
+        case 'top-right':
+          initialMoveX = this._oldStyle.width;
+          initialMoveY = moveY = 0;
+          moveX = -this._oldStyle.width;
+        break;
+
+        case 'bottom-left':
+          initialMoveX = moveX = 0;
+          initialMoveY = this._oldStyle.height;
+          moveY = -this._oldStyle.height;
+        break;
+
+        case 'bottom-right':
+          initialMoveX = this._oldStyle.width;
+          initialMoveY = this._oldStyle.height;
+          moveX = -this._oldStyle.width;
+          moveY = -this._oldStyle.height;
+        break;
+
+        case 'center':
+          initialMoveX = Math.round(this._oldStyle.width / 2);
+          initialMoveY = Math.round(this._oldStyle.height / 2);
+          moveX = -Math.round(this._oldStyle.width / 2);
+          moveY = -Math.round(this._oldStyle.height / 2);
+        break;
+      }
+
+      var fadeInEffect = new qx.fx.effect.core.FadeIn(
+        this._element,
+        {
+          sync: true,
+          transition: this._options.opacityTransition
+        }
+      );
+
+      var moveEffect = new qx.fx.effect.core.Move(
+        this._element,
+        {
+          x: moveX,
+          y: moveY,
+          sync: true,
+          transition: this._options.moveTransition
+        }
+      );
+
+      var scaleEffect = new qx.fx.effect.core.Scale(
+        this._element,
+        100,
+        {
+          scaleMode: {
+            originalHeight: this._oldStyle.height,
+            originalWidth: this._oldStyle.width
+          }, 
+          sync: true,
+          scaleFrom : 0,
+          transition: this._options.scaleTransition
+        }
+      );
+
+      this._effect = new qx.fx.effect.core.Move(
+        this._element,
+        {
+          x : initialMoveX,
+          y : initialMoveY,
+          duration: 0.01
+        }
+      );
+
+      this._effect.afterFinishInternal = function(effect)
+      {
+        new qx.fx.effect.core.Parallel(
+          {
+            1 : fadeInEffect,
+            2 : moveEffect,
+            3 : scaleEffect
+          }
+        ).start();
+      };
+
       this._effect.start();
     }
 

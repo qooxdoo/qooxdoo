@@ -58,17 +58,6 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
   construct : function(element, options)
   {
-  
-    var opacity = qx.bom.element.Style.get(element, "opacity");
-
-    this._oldStyle = {
-      opacity  : qx.util.Validation.isValidNumber(opacity) ? opacity : 1.0,
-      top      : qx.bom.element.Location.getTop(element, "scroll"),
-      left     : qx.bom.element.Location.getLeft(element, "scroll"),
-      width    : qx.bom.element.Dimension.getWidth(element),
-      height   : qx.bom.element.Dimension.getHeight(element)
-    };
-
     if (qx.util.Validation.isValidObject(options)) {
       options.duration = 1.0;
     } else {
@@ -97,7 +86,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
       )
     }); 
 
-    this.element = element;
+    this._element = element;
     this.base(arguments, element, options);
 
   },
@@ -121,24 +110,33 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
    members :
    {
+
+    setup : function()
+    {
+      this._oldStyle = {
+        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width  : qx.bom.element.Dimension.getWidth(this._element),
+        height : qx.bom.element.Dimension.getHeight(this._element)
+      };
+    },
+
+
     afterFinishInternal : function()
     {
       for(var property in this._oldStyle) {
-        if(!( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (parseInt(this._oldStyle[property]) == 0) )) 
-        {
-          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-          this.debug(property + " " +  this._oldStyle[property] + " " +  parseInt(this._oldStyle[property]))
-        }
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
       }
     },
-    
+
+
     start : function()
     {
       this.base(arguments);
       this._effect.start();
     }
 
-  },
+   },
 
   /*
   *****************************************************************************
