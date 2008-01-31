@@ -96,9 +96,16 @@ qx.Class.define("qx.ui2.layout.VBox",
 
   members :
   {
+    /**
+     * Add a spacer at the current position to the layout. The spacer has a flex
+     * value of one and will stretch to the available space.
+     *
+     * @return {qx.ui2.core.Spacer} The newly added spacer object. A reference
+     *   to the spacer is needed to remove ths spacer from the layout.
+     */
     addSpacer : function()
     {
-      var spacer = new qx.ui2.core.Spacer(0,0);
+      var spacer = new qx.ui2.core.Spacer(0, 0);
       this.add(spacer, {flex: 1});
       return spacer;
     },
