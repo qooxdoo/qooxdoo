@@ -208,8 +208,8 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
 
       // Compute the rendered inner width of this widget.
-      var areaInsets = this._scrollPane.getInsets();
-      var areaSize = this._scrollPane.getComputedLayout();
+      var areaInsets = this.getInsets();
+      var areaSize = this.getComputedLayout();
       var areaWidth = areaSize.width - areaInsets.left - areaInsets.right;
       var areaHeight = areaSize.height - areaInsets.top - areaInsets.bottom;
 
@@ -220,57 +220,61 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var autoX = this.getOverflowX() === "auto";
       var autoY = this.getOverflowY() === "auto";
 
-      var hScrollBar = this._hScrollBar;
-      var vScrollBar = this._vScrollBar;
-
-      console.debug("Computing overflow...");
-      var modified;
-      var ret;
-      do
+      if (autoX && autoY)
       {
-        modified = false;
+        moreWidth = contentSize.width > areaWidth;
+        moreHeight = contentSize.height > areaHeight;
 
-        if (autoY)
+        if (moreWidth && moreHeight)
         {
-          if (autoX && hScrollBar.getVisibility() == "visible") {
-            areaHeight += hScrollBar.getSizeHint().height;
-          }
+          this.debug("Two more");
+          this._setScrollBarVisibility("horizontal", true);
+          this._setScrollBarVisibility("vertical", true);
+        }
+        else if (moreWidth)
+        {
+          this.debug("More width");
+          this._setScrollBarVisibility("horizontal", true);
 
-          if (contentSize.height > areaHeight) {
-            ret = this._setScrollBarVisibility("vertical", true);
+          if (contentSize.height > (areaHeight - this._hScrollBar.getSizeHint().height)) {
+            this._setScrollBarVisibility("vertical", true);
           } else {
-            ret = this._setScrollBarVisibility("vertical", false);
+            this._setScrollBarVisibility("vertical", false);
           }
+        }
+        else if (moreHeight)
+        {
+          this.debug("More height");
+          this._setScrollBarVisibility("vertical", true);
 
-          modified = modified || ret;
+          if (contentSize.width > (areaWidth - this._vScrollBar.getSizeHint().width)) {
+            this._setScrollBarVisibility("horizontal", true);
+          } else {
+            this._setScrollBarVisibility("horizontal", false);
+          }
+        }
+        else
+        {
+          this.debug("No more");
+          this._setScrollBarVisibility("horizontal", false);
+          this._setScrollBarVisibility("vertical", false);
+        }
+      }
+      else if (autoX)
+      {
+        if (this._vScrollBar.getVisibility() === "visible") {
+          areaWidth -= this._vScrollBar.getSizeHint().width;
         }
 
-        if (autoX)
-        {
-          if (autoY && this._vScrollBar.getVisibility() == "visible") {
-            areaWidth += vScrollBar.getSizeHint().width;
-          }
-
-          if (contentSize.width > areaWidth) {
-            ret = this._setScrollBarVisibility("horizontal", true);
-          } else {
-            ret = this._setScrollBarVisibility("horizontal", false);
-          }
-
-          modified = modified || ret;
+        this._setScrollBarVisibility("horizontal", contentSize.width > areaWidth);
+      }
+      else if (autoY)
+      {
+        if (this._hScrollBar.getVisibility() === "visible") {
+          areaHeight -= this._hScrollBar.getSizeHint().height;
         }
 
-        console.debug("Modified: " + modified);
-      }
-      while(modified);
-
-      // Update scrollbar maximum for visible scrollbars
-      if (hScrollBar.getVisibility() == "visible") {
-        hScrollBar.setMaximum(Math.max(0, contentSize.width - areaWidth));
-      }
-
-      if (vScrollBar.getVisibility() == "visible") {
-        vScrollBar.setMaximum(Math.max(0, contentSize.height - areaHeight));
+        this._setScrollBarVisibility("vertical", contentSize.height > areaHeight);
       }
     },
 
@@ -285,6 +289,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      */
     _setScrollBarVisibility : function(orientation, visibility)
     {
+      this.debug("SET: " + orientation + ": " + visibility);
       var isHorizontal = orientation == "horizontal";
 
       if (isHorizontal)
