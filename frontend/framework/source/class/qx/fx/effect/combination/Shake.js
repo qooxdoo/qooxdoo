@@ -124,10 +124,11 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       for(var effect in moveEffects)
       {
         counter++;
+        moveEffects[effect].id = counter;
         if (counter < 6)
         {
           moveEffects[effect].afterFinishInternal = function(){
-            //moveEffects[next].start();
+            moveEffects[this.id + 1].start();
           };
         }
         else
