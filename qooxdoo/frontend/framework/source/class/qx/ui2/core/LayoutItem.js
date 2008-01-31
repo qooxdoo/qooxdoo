@@ -61,7 +61,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
 
     /**
-     * If the layout manager decides not ot render the widget it should turn
+     * If the layout manager decides not to render the widget it should turn
      * if its visibility using this property.
      *
      * @internal
@@ -100,8 +100,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      *   always in pixels
      * @return {void}
      */
-    renderLayout : function(left, top, width, height)
-    {
+    renderLayout : function(left, top, width, height) {
       throw new Error("Abstract method call");
     },
 
@@ -235,6 +234,9 @@ qx.Class.define("qx.ui2.core.LayoutItem",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       HIERARCHY SUPPORT
@@ -322,15 +324,16 @@ qx.Class.define("qx.ui2.core.LayoutItem",
       return null;
     },
 
+
     // property apply
     _applyVisibility : function(value, old) {
       // empty implementation. Should be overridden by sub classes
     },
 
+
     // property apply
     _applyLayoutVisible : function(value, old) {
       // empty implementation. Should be overridden by sub classes
     }
-
   }
 });
