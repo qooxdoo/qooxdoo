@@ -119,7 +119,6 @@ qx.Class.define("qx.fx.Grow",
 
     }
 
-
     this.base(arguments, element, options);
 
 
@@ -153,7 +152,6 @@ qx.Class.define("qx.fx.Grow",
       //scaleFrom: window.opera ? 1 : 0,
       scaleFrom : 0,
       transition: options.scaleTransition
-      //restoreAfterFinish: true
       }
     );
 
@@ -162,13 +160,7 @@ qx.Class.define("qx.fx.Grow",
       {
         x : initialMoveX,
         y : initialMoveY,
-        duration: 0.01, 
-        beforeSetup : function(effect)
-        {
-          //effect.element.hide().makeClipping().makePositioned();
-          qx.bom.element.Style.set(element, "display", "none");
-          qx.bom.element.Style.set(element, "overflow", "auto");
-        }
+        duration: 0.01
       }
     );
 
@@ -183,17 +175,6 @@ qx.Class.define("qx.fx.Grow",
       ).start();
     };
 
-
-/*
-, Object.extend({
-             beforeSetup: function(effect) {
-               effect.effects[0].element.setStyle({height: '0px'}).show(); 
-             },
-             afterFinishInternal: function(effect) {
-               effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle); 
-             }
-           }, options) 
- */
   },
 
   
@@ -218,18 +199,17 @@ qx.Class.define("qx.fx.Grow",
 
     beforeSetup : function(effect)
     {
-      //effect.effects[0].element.setStyle({height: '0px'}).show();
-      //effect.element.hide().makeClipping().makePositioned();
+      qx.bom.element.Style.set(this._element, "overflow", "hidden");
       qx.bom.element.Style.set(this._element, "height", "0px");
       qx.bom.element.Style.set(this._element, "width", "0px");
-      qx.bom.element.Style.set(this._element, "display", "block");
+      //qx.bom.element.Style.set(this._element, "display", "block");
     },
 
 
     afterFinishInternal: function(effect)
     {
       qx.bom.element.Style.set(this._element, "overflow", "visible");
-      //effect.effects[0].element.undoClipping().undoPositioned().setStyle(oldStyle);
+
       for(var property in this._oldStyle)
       {
         //if( (qx.bom.client.Engine.MSHTML) && ( (property == "left") || (property == "top") ) && (this._oldStyle[property] != "0") ) 
