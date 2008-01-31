@@ -55,7 +55,8 @@ qx.Class.define("qx.ui2.core.ScrollBar",
     maximum :
     {
       check : "Integer",
-      init : 100
+      init : 100,
+      apply : "_applyMaximum"
     }
   },
 
@@ -128,7 +129,11 @@ qx.Class.define("qx.ui2.core.ScrollBar",
       this.setValue(value);
     },
 
-    _applyValue : function(value, old) {},
+    _applyValue : function(value, old) {
+    },
+
+    _applyMaximum : function(value, old) {
+    },
 
     canStretchX : function() {
       return this.getOrientation() === "horizontal";
