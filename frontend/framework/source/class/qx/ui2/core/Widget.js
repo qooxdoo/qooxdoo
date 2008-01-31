@@ -1346,8 +1346,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * generic property apply method for layout relevant properties
      */
-    _applyLayoutChange : function()
-    {
+    _applyLayoutChange : function() {
       this.scheduleLayoutUpdate();
     },
 
