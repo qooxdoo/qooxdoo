@@ -223,31 +223,46 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var hScrollBar = this._hScrollBar;
       var vScrollBar = this._vScrollBar;
 
-      if (autoY)
+      console.debug("Computing overflow...");
+      var modified;
+      var ret;
+      do
       {
-        if (autoX && hScrollBar.getVisibility() == "visible") {
-          areaHeight += hScrollBar.getSizeHint().height;
+        modified = false;
+
+        if (autoY)
+        {
+          if (autoX && hScrollBar.getVisibility() == "visible") {
+            areaHeight += hScrollBar.getSizeHint().height;
+          }
+
+          if (contentSize.height > areaHeight) {
+            ret = this._setScrollBarVisibility("vertical", true);
+          } else {
+            ret = this._setScrollBarVisibility("vertical", false);
+          }
+
+          modified = modified || ret;
         }
 
-        if (contentSize.height > areaHeight) {
-          this._setScrollBarVisibility("vertical", true);
-        } else {
-          this._setScrollBarVisibility("vertical", false);
+        if (autoX)
+        {
+          if (autoY && this._vScrollBar.getVisibility() == "visible") {
+            areaWidth += vScrollBar.getSizeHint().width;
+          }
+
+          if (contentSize.width > areaWidth) {
+            ret = this._setScrollBarVisibility("horizontal", true);
+          } else {
+            ret = this._setScrollBarVisibility("horizontal", false);
+          }
+
+          modified = modified || ret;
         }
+
+        console.debug("Modified: " + modified);
       }
-
-      if (autoX)
-      {
-        if (autoY && this._vScrollBar.getVisibility() == "visible") {
-          areaWidth += vScrollBar.getSizeHint().width;
-        }
-
-        if (contentSize.width > areaWidth) {
-          this._setScrollBarVisibility("horizontal", true);
-        } else {
-          this._setScrollBarVisibility("horizontal", false);
-        }
-      }
+      while(modified);
 
       // Update scrollbar maximum for visible scrollbars
       if (hScrollBar.getVisibility() == "visible") {
@@ -285,6 +300,10 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
       if (visibility)
       {
+        if (scrollBar.getVisibility() == "visible") {
+          return false;
+        }
+
         scrollBar.show();
 
         if (otherScrollBar.getVisibility() == "visible") {
@@ -293,6 +312,10 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
       else
       {
+        if (scrollBar.getVisibility() == "excluded") {
+          return false;
+        }
+
         scrollBar.exclude();
         this._corner.exclude();
 
@@ -302,6 +325,8 @@ qx.Class.define("qx.ui2.core.ScrollArea",
           this._scrollPane.setScrollTop(0);
         }
       }
+
+      return true;
     },
 
 
