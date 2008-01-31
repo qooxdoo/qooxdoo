@@ -140,7 +140,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       for (var x=0; x<options.colSpan; x++)
       {
         for (var y=0; y<options.rowSpan; y++) {
-          this._setCellData(row + y, column + x, "widget", widget);
+          this._setCellWidget(row + y, column + x, widget);
         }
       }
 
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui2.layout.Grid",
       for (var x=0; x<childProps.colSpan; x++)
       {
         for (var y=0; y<childProps.rowSpan; y++) {
-          this._clearCellData(childProps.row + y, childProps.column + x);
+          this._clearCellWidget(childProps.row + y, childProps.column + x);
         }
       }
 
@@ -274,14 +274,13 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
-     * Stores data for a grid cell
+     * Stores widget at the givencoordinate in the grid cell
      *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
-     * @param key {String} The key under which the data should be stored
-     * @param value {var} data to store
+     * @param widget {qx.ui2.core.LayoutItem} The widget to add.
      */
-    _setCellData : function(row, column, key, value)
+    _setCellWidget : function(row, column, widget)
     {
       var grid = this._grid;
 
@@ -289,17 +288,7 @@ qx.Class.define("qx.ui2.layout.Grid",
          grid[row] = [];
       }
 
-      var gridData = grid[row][column];
-
-      if (!gridData)
-      {
-        grid[row][column] = {}
-        grid[row][column][key] = value;
-      }
-      else
-      {
-        gridData[key] = value;
-      }
+      grid[row][column] = widget;
     },
 
 
@@ -309,7 +298,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
      */
-    _clearCellData : function(row, column)
+    _clearCellWidget : function(row, column)
     {
       var grid = this._grid;
 
@@ -317,12 +306,12 @@ qx.Class.define("qx.ui2.layout.Grid",
          return;
       }
 
-      var gridData = grid[row][column];
+      var widget = grid[row][column];
 
-      if (!gridData) {
+      if (!widget) {
         return;
       } else {
-        grid[row][column] = {};
+        delete grid[row][column];
       }
     },
 
@@ -389,7 +378,12 @@ qx.Class.define("qx.ui2.layout.Grid",
 
     /**
      * Set the default cell alignment for a column. This alignmnet can be
-     * overridden on a per cell basis by using {@link #setCellAlign}.
+     * overridden on a per cell basis by using the layout properties
+     * <code>hAlign</code> and <code>vAlign</code>.
+     *
+     * If on a grid cell both row and a column alignmnet is set, the horizontal
+     * alignmnet is taken from the column and the vertical alignment is taken
+     * from the row.
      *
      * @param column {Integer} Column index
      * @param hAlign {String} The horizontal alignment. Valid values are
@@ -431,6 +425,54 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
+     * Set the default cell alignment for a row. This alignmnet can be
+     * overridden on a per cell basis by using the layout properties
+     * <code>hAlign</code> and <code>vAlign</code>.
+     *
+     * If on a grid cell both row and a column alignmnet is set, the horizontal
+     * alignmnet is taken from the column and the vertical alignment is taken
+     * from the row.
+     *
+     * @param row {Integer} Row index
+     * @param hAlign {String} The horizontal alignment. Valid values are
+     *    "left", "center" and "right".
+     * @param vAlign {String} The vertical alignment. Valid values are
+     *    "top", "middle", "bottom"
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     */
+    setRowAlign : function(row, hAlign, vAlign)
+    {
+      this._validateArgument(hAlign, ["left", "center", "right"]);
+      this._validateArgument(vAlign, ["top", "middle", "bottom"]);
+
+      this._setRowData(row, "hAlign", hAlign);
+      this._setRowData(row, "vAlign", vAlign);
+
+      this.scheduleWidgetLayoutUpdate();
+
+      return this;
+    },
+
+
+    /**
+     * Get a map of the column's alignment.
+     *
+     * @param row {Integer} The Row index
+     * @return {Map} A map with the keys <code>vAlign</code> and <code>hAlign</code>
+     *     containing the vertical and horizontal row alignment.
+     */
+    getColumnAlign : function(row)
+    {
+      var rowData = this._rowData[row] || {};
+
+      return {
+        vAlign : rowData.vAlign || "top",
+        hAlign : rowData.hAlign || "left"
+      };
+    },
+
+
+    /**
      * Get the widget located in the cell. If a the cell is empty or the widget
      * has a {@link qx.ui2.core.Widget#visibility} value of <code>exclude</code>,
      * <code>null</code> is returned.
@@ -441,8 +483,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      */
     getCellWidget : function(row, column)
     {
-      var gridData = this._grid[row] ? this._grid[row][column] || {} : {};
-      var widget = gridData.widget;
+      var widget = this._grid[row] ? this._grid[row][column]: null;
 
       if (widget && widget.getVisibility() !== "excluded") {
         return widget;
@@ -453,33 +494,11 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
-     * Set the cell's alignment. This alignmnet overrides the default
-     * alignmnet set unsing {@link #setColumnAlign}.
-     *
-     * @param row {Integer} The cell's row index
-     * @param column {Integer} The cell's column index
-     * @param hAlign {String} The horizontal alignment. Valid values are
-     *    "left", "center" and "right".
-     * @param vAlign {String} The vertical alignment. Valid values are
-     *    "top", "middle", "bottom"
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
-     */
-    setCellAlign : function(row, column, hAlign, vAlign)
-    {
-      this._validateArgument(hAlign, ["left", "center", "right"]);
-      this._validateArgument(vAlign, ["top", "middle", "bottom"]);
-
-      this._setCellData(row, column, "hAlign", hAlign);
-      this._setCellData(row, column, "vAlign", vAlign);
-
-      this.scheduleWidgetLayoutUpdate();
-
-      return this;
-    },
-
-
-    /**
-     * Get a map of the cell's alignment.
+     * Get a map of the cell's alignment. For vertical alignment the row alignment
+     * takes precedence over the column alignmnet. For horizontal alignment it is
+     * the over way round. If an alignment is set on the cell widget using
+     * {@link qx.ui2.layout.Abstract#setLayoutProperty}, this alignment takes
+     * always precedence over row or column alignment.
      *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
@@ -488,13 +507,38 @@ qx.Class.define("qx.ui2.layout.Grid",
      */
     getCellAlign : function(row, column)
     {
-      var rowData = this._rowData[row] || {};
-      var colData = this._colData[column] || {};
-      var gridData = this._grid[row] ? this._grid[row][column] || {} : {};
+      var vAlign = "top";
+      var hAlign = "left";
+
+      var rowData = this._rowData[row];
+      var colData = this._colData[column];
+
+      var widget = this.getCellWidget(row, column);
+      var widgetProps = widget ? this.getLayoutProperties(widget): {};
+
+      // compute vAlign
+      // precedence : widget -> row -> column
+      if (widgetProps.vAlign) {
+        vAlign = widgetProps.vAlign;
+      } else if (rowData && rowData.vAlign) {
+        vAlign = rowData.vAlign;
+      } else if (colData && colData.vAlign) {
+        vAlign = colData.vAlign;
+      }
+
+      // compute hAlign
+      // precedence : widget -> column -> row
+      if (widgetProps.hAlign) {
+        hAlign = widgetProps.hAlign;
+      } else if (colData && colData.hAlign) {
+        hAlign = colData.hAlign;
+      } else if (rowData && rowData.hAlign) {
+        hAlign = rowData.hAlign;
+      }
 
       return {
-        vAlign : gridData.vAlign || colData.vAlign || "top",
-        hAlign : gridData.hAlign || colData.hAlign || "left"
+        vAlign : vAlign,
+        hAlign : hAlign
       }
     },
 
@@ -914,7 +958,9 @@ qx.Class.define("qx.ui2.layout.Grid",
         };
       }
 
-      this._fixHeightsRowSpan(rowHeights);
+      if (this._rowSpans.length > 0) {
+        this._fixHeightsRowSpan(rowHeights);
+      }
 
       this._rowHeights = rowHeights;
       return rowHeights;
@@ -975,7 +1021,9 @@ qx.Class.define("qx.ui2.layout.Grid",
         };
       }
 
-      this._fixWidthsColSpan(colWidths);
+      if (this._colSpans.length > 0) {
+        this._fixWidthsColSpan(colWidths);
+      }
 
       this._colWidths = colWidths;
       return colWidths;

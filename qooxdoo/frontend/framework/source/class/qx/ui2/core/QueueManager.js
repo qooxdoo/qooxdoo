@@ -71,7 +71,9 @@ qx.Class.define("qx.ui2.core.QueueManager",
       if (jobs.layout)
       {
         var start = new Date;
+        // console.profile("layout");
         qx.ui2.core.LayoutQueue.flush();
+        // console.profileEnd();
         jobs.layout = false;
         qx.core.Log.debug("Layout queue runtime: " + (new Date - start) + "ms");
       }
