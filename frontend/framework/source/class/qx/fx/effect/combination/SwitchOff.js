@@ -36,7 +36,8 @@
 
 /* ************************************************************************
 
-#module(core)
+#require(qx.fx.Base)
+#require(qx.fx.Transition)
 
 ************************************************************************ */
 
@@ -44,7 +45,7 @@
  * TODO
  */
 
-qx.Class.define("qx.fx.SwitchOff",
+qx.Class.define("qx.fx.effect.combination.SwitchOff",
 {
 
   extend : qx.fx.Base,

@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.Parallel",
+qx.Class.define("qx.fx.effect.core.Parallel",
 {
 
   extend : qx.fx.Base,

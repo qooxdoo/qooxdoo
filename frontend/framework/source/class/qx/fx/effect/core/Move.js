@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.Move",
+qx.Class.define("qx.fx.effect.core.Move",
 {
 
   extend : qx.fx.Base,

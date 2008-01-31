@@ -37,7 +37,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.FadeOut",
+qx.Class.define("qx.fx.effect.core.FadeOut",
 {
 
   extend : qx.fx.Base,
