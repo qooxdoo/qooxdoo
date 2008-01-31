@@ -195,8 +195,32 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      * @param e {qx.event.type.Change} Event object
      * @return {void}
      */
-    _onResize : function(e) {
+    _onResize : function(e)
+    {
       this._computeOverflow();
+      this._syncScrollBars();
+    },
+
+
+    _syncScrollBars : function()
+    {
+      // Update scrollbar maximum for visible scrollbars
+      var content = this._scrollPane.getContent();
+
+      if (!content) {
+        return;
+      }
+
+      var paneSize = this._scrollPane.getComputedLayout();
+      var contentSize = content.getComputedLayout();
+
+      if (this._hScrollBar.isShown()) {
+        this._hScrollBar.setMaximum(Math.max(0, contentSize.width - paneSize.width));
+      }
+
+      if (this._vScrollBar.isShown()) {
+        this._vScrollBar.setMaximum(Math.max(0, contentSize.height - paneSize.height));
+      }
     },
 
 
@@ -223,9 +247,9 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       }
 
       if (hVisible && vVisible) {
-        this._corner.exclude();
-      } else {
         this._corner.show();
+      } else {
+        this._corner.exclude();
       }
     },
 
@@ -255,13 +279,13 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var autoX = this.getOverflowX() === "auto";
       var autoY = this.getOverflowY() === "auto";
 
+      var scrollX = true;
+      var scrollY = true;
+
       if (autoX && autoY)
       {
         var moreWidth = contentSize.width > innerSize.width;
         var moreHeight = contentSize.height > innerSize.height;
-
-        var scrollX = true;
-        var scrollY = true;
 
         // If both axes have more content than free space, switch
         // both scrollbars to the same visibility
@@ -309,7 +333,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       if (value === "auto") {
         this._computeOverflow();
       } else {
-        this._setScrollBarVisibility("horizontal", value === "on");
+        this._hScrollBar.setVisibility(value === "on" ? "visible" : "excluded");
       }
     },
 
@@ -320,7 +344,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       if (value === "auto") {
         this._computeOverflow();
       } else {
-        this._setScrollBarVisibility("vertical", value === "on");
+        this._vScrollBar.setVisibility(value === "on" ? "visible" : "excluded");
       }
     }
   }

@@ -1244,7 +1244,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * @return {Boolean} Returns <code>true</code> when the widget is visible
      */
     isShown : function() {
-      return this.getVisibility() == "show";
+      return this.getVisibility() == "visible";
     },
 
 
