@@ -37,15 +37,6 @@ qx.Class.define("qx.ui2.core.ScrollArea",
   {
     this.base(arguments);
 
-    var hScrollBar = this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal");
-    var vScrollBar = this._vScrollBar = new qx.ui2.core.ScrollBar("vertical");
-
-    hScrollBar.exclude();
-    hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
-
-    vScrollBar.exclude();
-    vScrollBar.addListener("scroll", this._onVerticalScroll, this);
-
     var scrollPane = this._scrollPane = new qx.ui2.core.ScrollPane();
     scrollPane.addListener("resize", this._onResize, this);
     scrollPane.addListener("resizeContent", this._onResize, this);
@@ -57,6 +48,17 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     });
 
     corner.exclude();
+
+    var hScrollBar = this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal");
+    var vScrollBar = this._vScrollBar = new qx.ui2.core.ScrollBar("vertical");
+
+    hScrollBar.exclude();
+    hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
+    hScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
+
+    vScrollBar.exclude();
+    vScrollBar.addListener("scroll", this._onVerticalScroll, this);
+    vScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
 
     var grid = new qx.ui2.layout.Grid();
     grid.setColumnFlex(0, 1);
@@ -199,16 +201,49 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
 
     /**
+     * Listener for scrollbar visibility changes of the scrollbars.
+     * Controls the scroll offset and the visibility of the corner
+     * widget.
+     *
+     * @type member
+     * @param e {qx.event.type.Change} Event object
+     * @return {void}
+     */
+    _onChangeScrollBarVisibility : function(e)
+    {
+      var target = e.getTarget();
+
+      var hVisible = this._hScrollBar.isShown();
+      var vVisible = this._vScrollBar.isShown();
+
+      if (target == this._hScrollBar && !hVisible) {
+        this._scrollPane.setScrollLeft(0);
+      } else if (target == this._vScrollBar && !vVisible) {
+        this._scrollPane.setScrollTop(0);
+      }
+
+      if (hVisible && vVisible) {
+        this._corner.exclude();
+      } else {
+        this._corner.show();
+      }
+    },
+
+
+    /**
      * Computes whether the content overflows and updates the scroll bars
      * @type member
      */
     _computeOverflow : function()
     {
+      var hScrollBar = this._hScrollBar;
+      var vScrollBar = this._vScrollBar;
+
       var content = this._scrollPane.getContent();
       if (!content)
       {
-        this._setScrollBarVisibility("horizontal", false);
-        this._setScrollBarVisibility("vertical", false);
+        hScrollBar.exclude();
+        vScrollBar.exclude();
         return;
       }
 
@@ -237,86 +272,34 @@ qx.Class.define("qx.ui2.core.ScrollArea",
         // More content on x-axis than available width
         // Note: scrollX is already true
         else if (moreWidth) {
-          scrollY = contentSize.height > (innerSize.height - this._hScrollBar.getSizeHint().height);
+          scrollY = contentSize.height > (innerSize.height - hScrollBar.getSizeHint().height);
         }
 
         // More content on y-axis than available height
         // Note: scrollY is already true
         else {
-          scrollX = contentSize.width > (innerSize.width - this._vScrollBar.getSizeHint().width);
+          scrollX = contentSize.width > (innerSize.width - vScrollBar.getSizeHint().width);
         }
 
-        this._setScrollBarVisibility("horizontal", scrollX);
-        this._setScrollBarVisibility("vertical", scrollY);
+        hScrollBar.setVisibility(scrollX ? "visible" : "excluded");
+        vScrollBar.setVisibility(scrollY ? "visible" : "excluded");
       }
       else if (autoX)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarWidth = this._vScrollBar.isShown() ? this._vScrollBar.getSizeHint().width : 0;
-        this._setScrollBarVisibility("horizontal", contentSize.width > (innerSize.width - scrollBarWidth));
+        var scrollBarWidth = vScrollBar.isShown() ? vScrollBar.getSizeHint().width : 0;
+        var scrollX = contentSize.width > (innerSize.width - scrollBarWidth);
+
+        hScrollBar.setVisibility(scrollX ? "visible" : "excluded");
       }
       else if (autoY)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarHeight = this._hScrollBar.isShown() ? this._hScrollBar.getSizeHint().height : 0;
-        this._setScrollBarVisibility("vertical", contentSize.height > (innerSize.height - scrollBarHeight));
+        var scrollBarHeight = hScrollBar.isShown() ? hScrollBar.getSizeHint().height : 0;
+        var scrollY = contentSize.height > (innerSize.height - scrollBarHeight);
+
+        vScrollBar.setVisibility(scrollY ? "visible" : "excluded");
       }
-    },
-
-
-    /**
-     * Set the visibility of the scroll bars.
-     *
-     * @type member
-     * @param orientation {String} The scrollbar to change. Possible values are
-     *     <code>horizontal</code> and <code>vertical</code>.
-     * @param visibility {Boolean} Whether to show or the hide the scroll bar.
-     */
-    _setScrollBarVisibility : function(orientation, visibility)
-    {
-      this.debug("SET: " + orientation + ": " + visibility);
-      var isHorizontal = orientation == "horizontal";
-
-      if (isHorizontal)
-      {
-        var scrollBar = this._hScrollBar;
-        var otherScrollBar = this._vScrollBar;
-      }
-      else
-      {
-        var scrollBar = this._vScrollBar;
-        var otherScrollBar = this._hScrollBar;
-      }
-
-      if (visibility)
-      {
-        if (scrollBar.getVisibility() == "visible") {
-          return false;
-        }
-
-        scrollBar.show();
-
-        if (otherScrollBar.getVisibility() == "visible") {
-          this._corner.show();
-        }
-      }
-      else
-      {
-        if (scrollBar.getVisibility() == "excluded") {
-          return false;
-        }
-
-        scrollBar.exclude();
-        this._corner.exclude();
-
-        if (isHorizontal) {
-          this._scrollPane.setScrollLeft(0);
-        } else {
-          this._scrollPane.setScrollTop(0);
-        }
-      }
-
-      return true;
     },
 
 
