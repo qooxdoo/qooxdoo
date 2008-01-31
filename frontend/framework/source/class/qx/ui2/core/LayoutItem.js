@@ -37,7 +37,6 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
   properties :
   {
-
     /**
      * Controls the widget's visibility. Valid values are:
      *
@@ -77,6 +76,9 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
 
 
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -85,6 +87,12 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Used by the layouters to apply coordinates and dimensions.
      *
@@ -223,16 +231,6 @@ qx.Class.define("qx.ui2.core.LayoutItem",
     },
 
 
-    /**
-     * Check recursively whether the widget and all of its parent widgets
-     * are visible.
-     *
-     * @return {Boolean} Whether the widget and all of its parent widgets are visible.
-     */
-    isVisible : function() {
-      throw new Error("Abstract method call");
-    },
-
 
 
 
@@ -251,7 +249,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      * @return {qx.ui2.core.Widget|null} The widget's parent.
      */
     getParent : function() {
-      return this._parent;
+      return this._parent || null;
     },
 
 
@@ -325,15 +323,35 @@ qx.Class.define("qx.ui2.core.LayoutItem",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Check recursively whether the widget and all of its parent widgets
+     * are visible.
+     *
+     * @return {Boolean} Whether the widget and all of its parent widgets are visible.
+     */
+    isVisible : function() {
+      throw new Error("Abstract method call");
+    },
+
+
     // property apply
     _applyVisibility : function(value, old) {
-      // empty implementation. Should be overridden by sub classes
+      // nothing to be done here
     },
 
 
     // property apply
     _applyLayoutVisible : function(value, old) {
-      // empty implementation. Should be overridden by sub classes
+      // nothing to be done here
     }
   }
 });

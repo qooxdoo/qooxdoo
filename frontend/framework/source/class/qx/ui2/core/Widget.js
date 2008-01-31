@@ -79,6 +79,12 @@ qx.Class.define("qx.ui2.core.Widget",
 
   events :
   {
+    /** Fired after a visibility/parent change when the widget finally appears on the screen. */
+    appear : "qx.event.type.Event",
+
+    /** Fired after a visibility/parent change when the widget finally disappears on the screen. */
+    disappear : "qx.event.type.Event",
+
     /** Fired on resize (after layouting) of the widget. */
     resize : "qx.event.type.Data",
 
@@ -1058,6 +1064,13 @@ qx.Class.define("qx.ui2.core.Widget",
       this._containerElement.setStyle("backgroundColor", value);
     },
 
+    // overridden
+    setParent : function(parent)
+    {
+      this.base(arguments, parent);
+      qx.ui2.core.DisplayQueue.add(this);
+    },
+
 
 
 
@@ -1070,8 +1083,12 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /** {Boolean} Whether the child is displayed currently */
+    _displayed : false,
+
+
     /**
-     * Shows the widget by resetting the display (CSS) properts of the widget's
+     * Shows the widget by resetting the display (CSS) properties of the widget's
      * container element.
      */
     _show : function()
@@ -1087,7 +1104,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Hides the widget by setting the display (CSS) properts of the widget's
+     * Hides the widget by setting the display (CSS) properties of the widget's
      * container element to <code>none</code>.
      */
     _hide : function()
@@ -1119,16 +1136,20 @@ qx.Class.define("qx.ui2.core.Widget",
       // only force a layout update if visibility change from/to "exclude"
       if (old == "excluded" || value == "excluded")
       {
-        var parent = this.getParent();
+        var parent = this._parent;
+
         if (parent)
         {
           var parentLayout = parent.getLayout();
           if (parentLayout) {
             parentLayout.changeChildVisibility(this, value);
           }
+
           parent.scheduleLayoutUpdate();
         }
       }
+
+      qx.ui2.core.DisplayQueue.add(this);
     },
 
 
@@ -1141,6 +1162,8 @@ qx.Class.define("qx.ui2.core.Widget",
       } else {
         this._hide();
       }
+
+      qx.ui2.core.DisplayQueue.add(this);
     },
 
 
