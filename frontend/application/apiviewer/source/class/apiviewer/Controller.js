@@ -176,17 +176,17 @@ qx.Class.define("apiviewer.Controller",
     {
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
       btn_inherited.addListener("changeChecked", function(e) {
-        this._classViewer.setShowInherited(e.getData());
+        this._classViewer.setShowInherited(e.getValue());
       }, this);
 
       var btn_protected = this._widgetRegistry.getWidgetById("btn_protected");
       btn_protected.addListener("changeChecked", function(e) {
-        this._classViewer.setShowProtected(e.getData());
+        this._classViewer.setShowProtected(e.getValue());
       }, this);
 
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
       btn_private.addListener("changeChecked", function(e) {
-        this._classViewer.setShowPrivate(e.getData());
+        this._classViewer.setShowPrivate(e.getValue());
       }, this);
     },
 
