@@ -46,7 +46,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     add : function(widget)
     {
-      this.__queue[widget.toHashCode()] = widget;
+      this.__queue[widget.$$hash] = widget;
 
       if (this.__inFlush) {
         this.__modifiedDuringFlush = true;
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           {
             // This is an inner item of layout changes. Do a relayout of its
             // children without changing its position and size.
-            // qx.core.Log.debug("Relayout of widget: " + widget);
+            qx.core.Log.debug("Relayout of widget: " + widget);
             widget.renderLayout(
               widget._computedLayout.left,
               widget._computedLayout.top,
@@ -127,16 +127,35 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * @type static
      * @return {Integer} The widgets nesting level.
      */
-    __getNestingLevel : function(widget)
+    getNestingLevel : function(widget)
     {
       var cache = this.__nesting;
-      var level = -1;
+      var level = 0;
       var parent = widget;
 
-      while (parent)
+      // Detecting level
+      while (true)
       {
-        level += 1;
+        if (cache[parent.$$hash] != null)
+        {
+          level += cache[parent.$$hash];
+          break;
+        }
+
+        if (!parent._parent) {
+          break;
+        }
+
         parent = parent._parent;
+        level += 1;
+      }
+
+      // Update the processed hierarchy (runs from inner to outer)
+      var leveldown = level;
+      while (widget && widget !== parent)
+      {
+        cache[widget.$$hash] = leveldown--;
+        widget = widget._parent;
       }
 
       return level;
@@ -150,23 +169,19 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * @param widget {qx.ui2.core.Widget} The widget to test
      * @return {Boolean} <code>true</code> when the widget is visible.
      */
-    __isWidgetVisible : function(widget)
+    isWidgetVisible : function(widget)
     {
       var cache = this.__visibility;
       var parent = widget;
       var value = false;
-      var hc;
 
       // Detecting visibility
       while (parent)
       {
-        hc = parent.toHashCode();
-
         // Try to read value from cache
-        if (cache[hc] != null)
+        if (cache[parent.$$hash] != null)
         {
-          value = cache[hc];
-          // console.debug("Read cache: " + hc + "=" + value);
+          value = cache[parent.$$hash];
           break;
         }
 
@@ -188,11 +203,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       // Update the processed hierarchy
       while (widget && widget !== parent)
       {
-        hc = widget.toHashCode();
-        cache[hc] = value;
-
-        // console.debug("Store cache: " + widget.toHashCode() + "=" + value);
-
+        cache[widget.$$hash] = value;
         widget = widget._parent;
       }
 
@@ -208,28 +219,33 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     __getLevelGroupedWidgets : function()
     {
+      // clear caches
       this.__visibility = {};
       this.__nesting = {};
 
       // sparse level array
       var levels = [];
-      var widgets = this.__queue;
+      var queue = this.__queue;
+      var widget;
 
-      for (var widgetHash in widgets)
+      for (var hash in queue)
       {
-        var widget = widgets[widgetHash];
-        if (this.__isWidgetVisible(widget))
-        {
-          var level = this.__getNestingLevel(widget);
+        widget = queue[hash];
 
+        if (this.isWidgetVisible(widget))
+        {
+          var level = this.getNestingLevel(widget);
+
+          // create hierarchy
           if (!levels[level]) {
             levels[level] = {};
           }
 
-          levels[level][widgetHash] = widget;
+          // store widget in level map
+          levels[level][hash] = widget;
 
           // remove widget from layout queue
-          delete widgets[widgetHash];
+          delete queue[hash];
         }
       }
 
@@ -259,9 +275,9 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           continue;
         }
 
-        for (var widgetHash in levels[level])
+        for (var hash in levels[level])
         {
-          var widget = levels[level][widgetHash];
+          var widget = levels[level][hash];
 
           // This is a real layout root. Add it directly to the list
           if (level == 0 || widget.isLayoutRoot())
@@ -301,7 +317,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
               levels[level-1] = {};
             }
 
-            levels[level-1][parent.toHashCode()] = parent;
+            levels[level-1][parent.$$hash] = parent;
           }
           else
           {

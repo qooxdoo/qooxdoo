@@ -41,7 +41,7 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
      */
     add : function(widget)
     {
-      this.__queue[widget.toHashCode()] = widget;
+      this.__queue[widget.$$hash] = widget;
       qx.ui2.core.QueueManager.scheduleFlush("decoration");
     },
 
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
      * @return {void}
      */
     remove : function(widget) {
-      this.__queue[widget.toHashCode()] = null;
+      delete this.__queue[widget.$$hash];
     },
 
 
