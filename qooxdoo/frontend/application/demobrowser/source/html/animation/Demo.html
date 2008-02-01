@@ -40,8 +40,8 @@
   
   	/*
   	 * Effect for fading in the div container
-  	 */
-  	animShow = new qx.fx.effect.core.FadeIn(myElement, {
+  	*/
+  	var animShow = new qx.fx.effect.core.FadeIn(myElement, {
   	  position : qx.fx.Base.EffectPosition.end,
   	  from : 0,
   	  to : 1,
@@ -50,34 +50,33 @@
   	
   	/*
   	 * Effect for fading out the div container
-  	 */
-  	 var animHide = new qx.fx.effect.core.FadeOut(myElement, {
+  	*/
+  	var animHide = new qx.fx.effect.core.FadeOut(myElement, {
   	  duration : 1
   	});
   	
   	/*
   	 * Effect for increasing the dimensions of the div container
-  	 */
-  	 var animIncrease = new qx.fx.effect.core.Scale(myElement, 200, {
+  	*/
+  	var animIncrease = new qx.fx.effect.core.Scale(myElement, 200, {
   	  duration : 2,
   	  scaleMode : "contents"
   	});
   	
   	/*
   	 * Effect for reduce the dimensions of the div container
-  	 */
-  	 var animShrink = new qx.fx.effect.core.Scale(myElement, 50, {
+  	*/
+  	var animShrink = new qx.fx.effect.core.Scale(myElement, 50, {
   	  duration : 2,
   	  scaleMode : "contents"
   	});
-  
   
     /*
     * This FadeIn effect demonstrates a different transition: wobble
     * In opposite to the linear transition, this one differs between the values
     * Just take a look at this transition behavior to get the idea. ;-)
     */
-  	 var animFadeInWobble = new qx.fx.effect.core.FadeIn(myElement, {
+    var animFadeInWobble = new qx.fx.effect.core.FadeIn(myElement, {
   	  position : qx.fx.Base.EffectPosition.front,
   	  from : 0,
   	  to : 1,
@@ -88,7 +87,7 @@
     /*
     * This Scale effect shows the sinoidal transition.
     */
-  	 var animIncreaseSinoidal = new qx.fx.effect.core.Scale(myElement, 200, {
+    var animIncreaseSinoidal = new qx.fx.effect.core.Scale(myElement, 200, {
   	  duration : 4,
   	  delay : 2,
   	  scaleMode : "contents",
@@ -131,13 +130,16 @@
     var animGrow = new qx.fx.effect.combination.Grow(myElement, {
       position : "center"
     });
+    
+    var animShake = new qx.fx.effect.combination.Shake(myElement, {});
+
+    var animPulsate = new qx.fx.effect.combination.Pulsate(myElement, {});
 
     /*
     * Shake is a combination effect without options
     */    
     var animShake = new qx.fx.effect.combination.Shake(myElement, {});
-
-	var animSwitchOff = new qx.fx.effect.combination.SwitchOff(myElement, {});
+    var animSwitchOff = new qx.fx.effect.combination.SwitchOff(myElement, {});
 
   	/* Buttons */
   	var btnShow = new qx.ui.form.Button("Fade in");
@@ -151,6 +153,7 @@
   	var btnGrow = new qx.ui.form.Button("Grow");
   	var btnShake = new qx.ui.form.Button("Shake");
   	var btnSwitchOff = new qx.ui.form.Button("Switch off");
+  	var btnPulste = new qx.ui.form.Button("Pulsate");
 
   	var btnReset = new qx.ui.form.Button("Reset element");
   
@@ -166,6 +169,7 @@
   	btnGrow.setLocation(557, 25);
   	btnShake.setLocation(600, 25);
   	btnSwitchOff.setLocation(650, 25);
+  	btnPulste.setLocation(720, 25);
   	
   	btnReset.setLocation(25, 57);
   
@@ -219,14 +223,19 @@
   	btnSwitchOff.addListener("execute", function(){
   	  animSwitchOff.start();
     });
-  
+
+    btnPulste.addListener("execute", function(){
+  	  animPulsate.start();
+    });
+
+
   	btnReset.addListener("execute", function(){
   	  resetElement(myElement);
   	});
   
   	btnReset.setBackgroundColor("#B22222");
   
-  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnReset);
+  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulste, btnReset);
      
   });
   </script>
