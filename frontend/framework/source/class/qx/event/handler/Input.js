@@ -74,10 +74,10 @@ qx.Class.define("qx.event.handler.Input",
   {
     this.base(arguments);
 
-    this._onChangeCheckedWrapper = qx.lang.Function.bind(this._onChangeChecked, this, true);
-    this._onChangeValueWrapper = qx.lang.Function.bind(this._onChangeValue, this, true);
-    this._onInputWrapper = qx.lang.Function.bind(this._onInput, this, true);
-    this._onPropertyWrapper = qx.lang.Function.bind(this._onProperty, this, true);
+    this._onChangeCheckedWrapper = qx.lang.Function.bind(this._onChangeChecked, this, null, true);
+    this._onChangeValueWrapper = qx.lang.Function.bind(this._onChangeValue, this, null, true);
+    this._onInputWrapper = qx.lang.Function.bind(this._onInput, this, null, true);
+    this._onPropertyWrapper = qx.lang.Function.bind(this._onProperty, this, null, true);
   },
 
 

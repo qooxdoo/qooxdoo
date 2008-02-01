@@ -309,7 +309,7 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * *Syntax*
      *
-     * <pre class='javascript'>qx.lang.Function.bind(myFunction, [bind[, args[, evt]]]);</pre>
+     * <pre class='javascript'>qx.lang.Function.bind(myFunction[, obj[, args[, evt]]]);</pre>
      *
      * *Example*
      *
@@ -327,16 +327,16 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * @type static
      * @param func {Function} Original function to wrap
-     * @param bind {Object ? null} The object that the "this" of the function will refer to.
-     * @param evt {Boolean ? false} Used to signifiy that the function is an Event Listener. See <Function.create> Options section for more information.
+     * @param obj {Object ? null} The object that the "this" of the function will refer to.
      * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
+     * @param evt {Boolean ? false} Used to signifiy that the function is an Event Listener. See <Function.create> Options section for more information.
      * @return {var} The binded function.
      */
-    bind : function(func, bind, evt, args)
+    bind : function(func, obj, args, evt)
     {
       return this.create(func,
       {
-        bind  : bind,
+        bind  : obj,
         args  : args,
         event : evt
       });
