@@ -60,8 +60,7 @@ qx.Class.define("qx.core.Object",
    */
   construct : function()
   {
-
-    this._hashCode = qx.core.Object.__availableHashCode++;
+    this.$$hash = qx.core.Object.__availableHashCode++;
 
     if (this._autoDispose)
     {
@@ -107,11 +106,11 @@ qx.Class.define("qx.core.Object",
      */
     toHashCode : function(obj)
     {
-      if (obj._hashCode != null) {
-        return obj._hashCode;
+      if (obj.$$hash != null) {
+        return obj.$$hash;
       }
 
-      return obj._hashCode = this.__availableHashCode++;
+      return obj.$$hash = this.__availableHashCode++;
     },
 
 
@@ -279,7 +278,7 @@ qx.Class.define("qx.core.Object",
      * @return {Integer} unique hash code of the object
      */
     toHashCode : function() {
-      return this._hashCode;
+      return this.$$hash;
     },
 
 
