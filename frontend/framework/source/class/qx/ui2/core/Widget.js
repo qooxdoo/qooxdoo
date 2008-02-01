@@ -1033,19 +1033,42 @@ qx.Class.define("qx.ui2.core.Widget",
       return this._containerElement;
     },
 
-    setHtml : function(value) {
-      this._contentElement.setAttribute("html", value);
+    /**
+     * Sets the inner HTML of the content element.
+     *
+     * @param html {String} The new inner HTML string.
+     */
+    setHtml : function(html) {
+      this._contentElement.setAttribute("html", html);
     },
 
-    getHtml : function(value) {
+
+    /**
+     * Get the content element's inner HTML.
+     *
+     * @return {String} The inner HTML string
+     */
+    getHtml : function() {
       return this._contentElement.getAttribute("html");
     },
 
-    setId : function(value) {
-      this._containerElement.setAttribute("id", value);
+
+    /**
+     * Sets the DOM element id of the widget's container element.
+     *
+     * @param id {String} The new id.
+     */
+    setId : function(id) {
+      this._containerElement.setAttribute("id", id);
     },
 
-    getId : function(value) {
+
+    /**
+     * Gets the DOM element id of the widget's container element.
+     *
+     * @return {String} The id.
+     */
+    getId : function() {
       this._containerElement.getAttribute("id");
     },
 

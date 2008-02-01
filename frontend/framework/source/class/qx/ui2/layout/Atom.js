@@ -41,7 +41,8 @@ qx.Class.define("qx.ui2.layout.Atom",
     gap :
     {
       check : "Integer",
-      init : 4
+      init : 4,
+      apply : "_applyLayoutChange"
     },
 
 
@@ -65,11 +66,24 @@ qx.Class.define("qx.ui2.layout.Atom",
 
   members :
   {
-    setIcon : function(icon) {
+    setIcon : function(icon)
+    {
+      if (this._icon) {
+        this._removeHelper(icon);
+      }
+      this._addHelper(icon);
+
       this._icon = icon;
     },
 
-    setText : function(text) {
+
+    setText : function(text)
+    {
+      if (this._text) {
+        this._removeHelper(_text);
+      }
+      this._addHelper(text);
+
       this._text = text;
     },
 
@@ -84,7 +98,7 @@ qx.Class.define("qx.ui2.layout.Atom",
     */
 
     // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(availWidth, availHeight)
     {
       var child, childHint;
       var childWidth, childHeight, childLeft, childTop;
@@ -107,13 +121,15 @@ qx.Class.define("qx.ui2.layout.Atom",
         childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth));
         childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight));
 
-        childLeft = Math.round((width - childWidth) / 2);
-        childTop = Math.round((height - childHeight) / 2);
+        childLeft = Math.round((availWidth - childWidth) / 2);
+        childTop = Math.round((availHeight - childHeight) / 2);
 
         child.renderLayout(childLeft, childTop, childWidth, childHeight);
       }
     },
 
+
+    // overridden
     getSizeHint : function()
     {
       if (this._sizeHint) {

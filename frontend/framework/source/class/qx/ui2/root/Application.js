@@ -79,7 +79,7 @@ qx.Class.define("qx.ui2.root.Application",
      * argument details.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to add
+     * @param widget {qx.ui2.core.Widget} the widget to add
      * @param left {Integer?null} Left position of the child.
      * @param top {Integer?null} Top position of the child.
      * @param right {Integer?null} Right position of the child.

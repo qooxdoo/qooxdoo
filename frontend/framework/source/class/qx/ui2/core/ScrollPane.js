@@ -99,25 +99,25 @@ qx.Class.define("qx.ui2.core.ScrollPane",
      * Configures the content of the scroll pane.
      *
      * @type member
-     * @param value {qx.ui2.core.Widget?null}
+     * @param content {qx.ui2.core.Widget?null} The content widget of the pane
      * @return {qx.ui2.core.Widget|null} The current layout content
      */
-    setContent : function(value)
+    setContent : function(content)
     {
       var old = this.getLayout().getContent();
       if (old)
       {
         this.getLayout().resetContent();
-        value.removeListener("resize", this._onContentResize, this);
+        content.removeListener("resize", this._onContentResize, this);
       }
 
-      if (value)
+      if (content)
       {
-        this.getLayout().setContent(value);
-        value.addListener("resize", this._onContentResize, this);
+        this.getLayout().setContent(content);
+        content.addListener("resize", this._onContentResize, this);
       }
 
-      return value || null;
+      return content || null;
     },
 
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
      * Scrolls the element's content horizontally by the given amount.
      *
      * @type member
-     * @param top {Integer?0} Amount to scroll
+     * @param left {Integer?0} Amount to scroll
      * @param direct {Boolean?false} Whether the value should be applied
      *   directly (without queueing).
      * @return {void}
