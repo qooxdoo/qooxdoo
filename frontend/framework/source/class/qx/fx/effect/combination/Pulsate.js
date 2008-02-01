@@ -44,12 +44,11 @@
 /**
  * TODO
  */
-
-qx.Class.define("qx.fx.effect.combination.SwitchOff",
+qx.Class.define("qx.fx.effect.combination.Pulsate",
 {
 
   extend : qx.fx.Base,
-
+  
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -58,25 +57,33 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
   construct : function(element, options)
   {
-
     var effectSpecificOptions = {
-      duration   : 0.4,
-      from       : 0,
-      transition : qx.fx.Transition.flicker
+        duration : 2
     };
-
+  
     for(var i in effectSpecificOptions)
     {
       if (typeof(options[i]) == "undefined") {
         options[i] = effectSpecificOptions[i];
       }
     }
-
     this.base(arguments, element, options);
     this._element = element;
+
+    var duration = this._options.duration / 6;
+
+    this._fadeEffects = {
+      1 : new qx.fx.effect.core.FadeOut(this._element, {duration : duration, transition: qx.fx.Transition.sinoidal}),
+      2 : new qx.fx.effect.core.FadeIn(this._element,  {duration : duration, transition: qx.fx.Transition.sinoidal}),
+      3 : new qx.fx.effect.core.FadeOut(this._element, {duration : duration, transition: qx.fx.Transition.sinoidal}),
+      4 : new qx.fx.effect.core.FadeIn(this._element,  {duration : duration, transition: qx.fx.Transition.sinoidal}),
+      5 : new qx.fx.effect.core.FadeOut(this._element, {duration : duration, transition: qx.fx.Transition.sinoidal}),
+      6 : new qx.fx.effect.core.FadeIn(this._element,  {duration : duration, transition: qx.fx.Transition.sinoidal})
+    };
+
   },
 
-
+  
   /*
   *****************************************************************************
      STATICS
@@ -96,46 +103,30 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
    members :
    {
 
-    setup : function()
-    {
-      this._oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
-    },
-
     start : function()
     {
-      var scaleEffect = new qx.fx.effect.core.Scale(
-        this._element,
-        1,
+      var counter = 0;
+      var fadeEffectsReference = this._fadeEffects;
+
+      for(var effect in this._fadeEffects)
+      {
+        counter++;
+        this._fadeEffects[effect].id = counter;
+        if (counter < 6)
         {
-          duration           : 0.3,
-          scaleFromCenter    : true,
-          scaleX             : false,
-          scaleContent       : false,
-          restoreAfterFinish : true
+          this._fadeEffects[effect].afterFinishInternal = function(){
+            fadeEffectsReference[this.id + 1].start();
+          };
         }
-      );
-
-      scaleEffect.beforeSetup = function() { 
-        qx.bom.element.Style.set(this._element, "overflow", "hidden");
-      },
-
-      scaleEffect.afterFinishInternal = function() {
-        qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
-        qx.bom.element.Style.set(this._element, "display", "none");
       }
+      this._fadeEffects[1].start();      
 
-
-      this._appearEffect = new qx.fx.effect.core.FadeOut(this._element, this._options);
-
-      this._appearEffect.afterFinishInternal = function() {
-        scaleEffect.start();
-      };
-
-      this._appearEffect.start();
+      this.base(arguments);
     }
-    
+
    },
 
+   
   /*
   *****************************************************************************
      DEFER
@@ -143,6 +134,6 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
   */
 
   defer : function(statics) {
-
+    
   }
 });
