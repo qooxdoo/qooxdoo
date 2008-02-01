@@ -26,14 +26,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     __queue : {},
 
 
-    /** {Boolean} Whether the queue is currently flushing. */
-    __inFlush : false,
-
-
-    /** {Boolean} Whether the queue has been modified during the flush. */
-    __modifiedDuringFlush : false,
-
-
     /**
      * Mark a widget's layout as invalid and add its layout root to
      * the queue.
@@ -76,7 +68,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       do
       {
         // qx.core.Log.debug("Flush layout queue");
-        this.__modifiedDuringFlush = false;
+        delete this.__modifiedDuringFlush;
 
         // get sorted widgets to (re-)layout
         var queue = this.__getSortedQueue();
@@ -116,7 +108,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         }
       } while (this.__modifiedDuringFlush);
 
-      this.__inFlush = false;
+      delete this.__inFlush;
     },
 
 
