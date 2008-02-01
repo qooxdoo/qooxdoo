@@ -316,7 +316,8 @@ qx.Class.define("qx.ui2.core.Widget",
       apply : "_applyLayoutChange",
       init : 32000,
       themeable : true
-   },
+    },
+
 
 
 
@@ -462,7 +463,6 @@ qx.Class.define("qx.ui2.core.Widget",
       apply : "_applyEnabled",
       event : "changeEnabled"
     }
-
   },
 
 
@@ -486,6 +486,14 @@ qx.Class.define("qx.ui2.core.Widget",
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    setParent : function(parent)
+    {
+      this.base(arguments, parent);
+      qx.ui2.core.DisplayQueue.add(this);
+    },
+
 
     // overridden
     renderLayout : function(left, top, width, height)
@@ -889,7 +897,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      COMPUTED LAYOUT
+      COMPUTED LAYOUT SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -942,33 +950,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DECORATION SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Update the decoration (background, border, ...)
-     *
-     * @internal Mainly for decoration queue
-     * @param width {Integer} The widget's current width
-     * @param height {Integer} The widget's current height
-     */
-    updateDecoration : function(width, height)
-    {
-      var decoration = this.getDecoration();
-      if (decoration) {
-        decoration.update(this, this._decorationElement, width, height);
-      }
-
-      qx.ui2.core.DecorationQueue.remove(this);
-    },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -979,6 +960,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Returns the (container) HTML element.
      *
+     * @deprecated
      * @return {qx.html.Element} The container HTML element
      */
     getElement : function() {
@@ -988,6 +970,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Sets the inner HTML of the content element.
      *
+     * @deprecated
      * @param html {String} The new inner HTML string.
      */
     setHtml : function(html) {
@@ -998,6 +981,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Get the content element's inner HTML.
      *
+     * @deprecated
      * @return {String} The inner HTML string
      */
     getHtml : function() {
@@ -1008,6 +992,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Sets the DOM element id of the widget's container element.
      *
+     * @deprecated
      * @param id {String} The new id.
      */
     setId : function(id) {
@@ -1018,23 +1003,12 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Gets the DOM element id of the widget's container element.
      *
+     * @deprecated
      * @return {String} The id.
      */
     getId : function() {
       this._containerElement.getAttribute("id");
     },
-
-    _applyBackgroundColor : function(value) {
-      this._containerElement.setStyle("backgroundColor", value);
-    },
-
-    // overridden
-    setParent : function(parent)
-    {
-      this.base(arguments, parent);
-      qx.ui2.core.DisplayQueue.add(this);
-    },
-
 
 
 
@@ -1043,7 +1017,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      VISIBILITY
+      VISIBILITY SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -1209,7 +1183,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      HTML ELEMENT MANAGEMENT
+      CREATION OF HTML ELEMENTS
     ---------------------------------------------------------------------------
     */
 
@@ -1317,6 +1291,7 @@ qx.Class.define("qx.ui2.core.Widget",
       }
     },
 
+
     // overridden
     addListener : function(type, func, obj)
     {
@@ -1353,15 +1328,25 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      PROPERTIES
+      DECORATION SUPPORT
     ---------------------------------------------------------------------------
     */
 
     /**
-     * generic property apply method for layout relevant properties
+     * Update the decoration (background, border, ...)
+     *
+     * @internal Mainly for decoration queue
+     * @param width {Integer} The widget's current width
+     * @param height {Integer} The widget's current height
      */
-    _applyLayoutChange : function() {
-      this.scheduleLayoutUpdate();
+    updateDecoration : function(width, height)
+    {
+      var decoration = this.getDecoration();
+      if (decoration) {
+        decoration.update(this, this._decorationElement, width, height);
+      }
+
+      qx.ui2.core.DecorationQueue.remove(this);
     },
 
 
@@ -1402,6 +1387,14 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXT COLOR SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
     // property apply
     _applyTextColor : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
@@ -1418,6 +1411,24 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OTHER PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * generic property apply method for layout relevant properties
+     */
+    _applyLayoutChange : function() {
+      this.scheduleLayoutUpdate();
+    },
+
+
     // property apply
     _applyLayout : function(value, old)
     {
@@ -1431,6 +1442,12 @@ qx.Class.define("qx.ui2.core.Widget",
     _applyEnabled : function(value, old)
     {
       // TODO: implement me!
+    },
+
+
+    // property apply
+    _applyBackgroundColor : function(value) {
+      this._containerElement.setStyle("backgroundColor", value);
     }
   },
 
@@ -1447,7 +1464,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
   destruct : function()
   {
-
+    // TODO
 
   }
 });
