@@ -58,11 +58,22 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
   construct : function(element, options)
   {
-    this.base(arguments, element, options);
 
-    this._options.duration = 0.4;
-    this._options.from = 0;
-    this._options.transition = qx.fx.Transition.flicker;
+    var effectSpecificOptions = {
+      duration: 0.4,
+      from: 0,
+      transition: qx.fx.Transition.flicker
+    };
+
+    for(var i in effectSpecificOptions)
+    {
+      if (typeof(options[i]) == "undefined") {
+        options[i] = effectSpecificOptions[i];
+      }
+    }
+
+    this.base(arguments, element, options);
+    this._element = element;
   },
 
 
@@ -84,36 +95,45 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
    members :
    {
-    /*
 
-    afterFinishInternal: function(effect)
+    setup : function()
     {
-      var scaleEffect = new qx.fx.Effect.Scale(effect.element, 1,
-      {
+      this._oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
+    },
 
+    start : function()
+    {
+      var scaleEffect = new qx.fx.effect.core.Scale(
+        this._element,
+        1,
+        { 
           duration: 0.3,
-
           scaleFromCenter: true,
-
           scaleX: false,
-
           scaleContent: false,
+          restoreAfterFinish: true
+        }
+      );
 
-          restoreAfterFinish: true,
+      scaleEffect.beforeSetup = function() { 
+        qx.bom.element.Style.set(this._element, "overflow", "hidden");
+      },
 
-          beforeSetup: function(effect) {
-            effect.element.makePositioned().makeClipping();
-          },
+      scaleEffect.afterFinishInternal = function() {
+        qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
+      }
 
-          afterFinishInternal: function(effect) {
-            effect.element.hide().undoClipping().undoPositioned().setStyle({opacity: oldOpacity});
-          }
+
+      this._appearEffect = new qx.fx.effect.core.FadeOut(this._element, this._options);
+
+      this._appearEffect.afterFinishInternal = function() {
+        scaleEffect.start();
       };
-    }
-      */
 
-    //Effect.run();
-  },
+      this._appearEffect.start();
+    }
+    
+   },
 
   /*
   *****************************************************************************
