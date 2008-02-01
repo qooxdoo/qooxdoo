@@ -76,7 +76,6 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       do
       {
         // qx.core.Log.debug("Flush layout queue");
-
         this.__modifiedDuringFlush = false;
 
         // get sorted widgets to (re-)layout
@@ -122,6 +121,86 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
 
     /**
+     * Get the widget's nesting level. Top level widgets have a nesting level
+     * of <code>0</code>.
+     *
+     * @type static
+     * @return {Integer} The widgets nesting level.
+     */
+    __getNestingLevel : function(widget)
+    {
+      var cache = this.__nesting;
+      var level = -1;
+      var parent = widget;
+
+      while (parent)
+      {
+        level += 1;
+        parent = parent._parent;
+      }
+
+      return level;
+    },
+
+
+    /**
+     * Whether the given widget is visible.
+     *
+     * @type static
+     * @param widget {qx.ui2.core.Widget} The widget to test
+     * @return {Boolean} <code>true</code> when the widget is visible.
+     */
+    __isWidgetVisible : function(widget)
+    {
+      var cache = this.__visibility;
+      var parent = widget;
+      var value = false;
+      var hc;
+
+      // Detecting visibility
+      while (parent)
+      {
+        hc = parent.toHashCode();
+
+        // Try to read value from cache
+        if (cache[hc] != null)
+        {
+          value = cache[hc];
+          // console.debug("Read cache: " + hc + "=" + value);
+          break;
+        }
+
+        // Detection using local value
+        if (!parent._isLocallyVisible) {
+          break;
+        }
+
+        // Root widgets are always visible
+        if (parent.isRootWidget())
+        {
+          value = true;
+          break;
+        }
+
+        parent = parent._parent;
+      }
+
+      // Update the processed hierarchy
+      while (widget && widget !== parent)
+      {
+        hc = widget.toHashCode();
+        cache[hc] = value;
+
+        // console.debug("Store cache: " + widget.toHashCode() + "=" + value);
+
+        widget = widget._parent;
+      }
+
+      return value;
+    },
+
+
+    /**
      * Group widget by their nesting level.
      *
      * @return {Map[]} A sparse array. Each entry of the array contains a widget
@@ -129,6 +208,9 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      */
     __getLevelGroupedWidgets : function()
     {
+      this.__visibility = {};
+      this.__nesting = {};
+
       // sparse level array
       var levels = [];
       var widgets = this.__queue;
@@ -136,9 +218,9 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       for (var widgetHash in widgets)
       {
         var widget = widgets[widgetHash];
-        if (widget.isVisible())
+        if (this.__isWidgetVisible(widget))
         {
-          var level = widget.getNestingLevel();
+          var level = this.__getNestingLevel(widget);
 
           if (!levels[level]) {
             levels[level] = {};

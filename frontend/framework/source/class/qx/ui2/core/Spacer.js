@@ -182,12 +182,6 @@ qx.Class.define("qx.ui2.core.Spacer",
     },
 
 
-    // overridden
-    isVisible : function() {
-      return true;
-    },
-
-
     /**
      * generic property apply method for layout relevant properties
      *
