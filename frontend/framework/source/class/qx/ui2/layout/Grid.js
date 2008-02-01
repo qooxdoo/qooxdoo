@@ -455,13 +455,13 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
-     * Get a map of the column's alignment.
+     * Get a map of the row's alignment.
      *
      * @param row {Integer} The Row index
      * @return {Map} A map with the keys <code>vAlign</code> and <code>hAlign</code>
      *     containing the vertical and horizontal row alignment.
      */
-    getColumnAlign : function(row)
+    getRowAlign : function(row)
     {
       var rowData = this._rowData[row] || {};
 
