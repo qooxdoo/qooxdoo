@@ -1041,7 +1041,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       ) {
         this._lastMouseDownCell = {};
 
-        var cellEvent = qx.event.Registration.createEvent(qx.ui.table.pane.CellEvent, [this, evt, "cellContextmenu"]);
+        var cellEvent = qx.event.Registration.createEvent(qx.ui.table.pane.CellEvent, [this, evt, "cellClick"]);
         this.dispatchEvent(cellEvent, true);
       }
       this._focusIndicator.setAnonymous(true);
@@ -1297,8 +1297,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.startEditing();
 
       var row = this._getRowForPagePos(pageX, pageY);
-      if (row != -1 && row != null) {
-        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellDblClick"), true);
+      if (row != -1 && row != null)
+      {
+        var cellEvent = qx.event.Registration.createEvent(qx.ui.table.pane.CellEvent, [this, evt, "cellDblClick"]);
+        this.dispatchEvent(cellEvent, true);
       }
     },
 
