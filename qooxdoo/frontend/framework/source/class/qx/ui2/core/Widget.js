@@ -469,68 +469,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /** {Map} Event which are dispatched on the outer/content element */
-    _eventHints :
-    {
-      outer :
-      {
-        // mouse events
-        mousemove : 1,
-        mouseover : 1,
-        mouseout : 1,
-        mousedown : 1,
-        mouseup : 1,
-        click : 1,
-        dblclick : 1,
-        contextmenu : 1,
-        mousewheel : 1,
-
-        // key events
-        keyup : 1,
-        keydown : 1,
-        keypress : 1,
-        keyinput : 1,
-
-        // focus events (do bubble)
-        focusin : 1,
-        focusout : 1,
-        beforedeactivate : 1,
-        beforeactivate : 1,
-        activate : 1,
-        deactivate : 1
-      },
-
-      content :
-      {
-        // focus, blur events (do not bubble)
-        focus : 1,
-        blur : 1,
-
-        // all elements
-        select : 1,
-
-        // input elements
-        change : 1,
-        input : 1,
-
-        // iframe elements
-        load : 1
-      }
-    }
-  },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -914,7 +852,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /**
      * Return the insets of the widget's inner element relative to its
-     * outer element. The inset is the sum of the padding and border width.
+     * container element. The inset is the sum of the padding and border width.
      *
      * @return {Map} Contains the keys <code>top</code>, <code>right</code>,
      *   <code>bottom</code> and <code>left</code>. All values are integers.
@@ -1039,9 +977,9 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * Returns the (outer) HTML element.
+     * Returns the (container) HTML element.
      *
-     * @return {qx.html.Element} The outer HTML element
+     * @return {qx.html.Element} The container HTML element
      */
     getElement : function() {
       return this._containerElement;
@@ -1276,9 +1214,9 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * Create the widget's outer HTML element.
+     * Create the widget's container HTML element.
      *
-     * @return {qx.html.Element} The outer HTML element
+     * @return {qx.html.Element} The container HTML element
      */
     _createContainerElement : function()
     {
@@ -1291,9 +1229,9 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Create the widget's outer HTML element.
+     * Create the widget's content HTML element.
      *
-     * @return {qx.html.Element} The outer HTML element
+     * @return {qx.html.Element} The content HTML element
      */
     _createContentElement : function()
     {
@@ -1330,14 +1268,63 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /** {Map} Event which are dispatched on the container/content element */
+    _eventTarget :
+    {
+      container :
+      {
+        // mouse events
+        mousemove : 1,
+        mouseover : 1,
+        mouseout : 1,
+        mousedown : 1,
+        mouseup : 1,
+        click : 1,
+        dblclick : 1,
+        contextmenu : 1,
+        mousewheel : 1,
+
+        // key events
+        keyup : 1,
+        keydown : 1,
+        keypress : 1,
+        keyinput : 1,
+
+        // focus events (do bubble)
+        focusin : 1,
+        focusout : 1,
+        beforedeactivate : 1,
+        beforeactivate : 1,
+        activate : 1,
+        deactivate : 1
+      },
+
+      content :
+      {
+        // focus, blur events (do not bubble)
+        focus : 1,
+        blur : 1,
+
+        // all elements
+        select : 1,
+
+        // input elements
+        change : 1,
+        input : 1,
+
+        // iframe elements
+        load : 1
+      }
+    },
+
     // overridden
     addListener : function(type, func, obj)
     {
-      var hints = this.self(arguments)._eventHints;
+      var target = this._eventTarget;
 
-      if (hints.content[type]) {
+      if (target.content[type]) {
         this._contentElement.addListener(type, func, obj);
-      } else if (hints.outer[type]) {
+      } else if (target.container[type]) {
         this._containerElement.addListener(type, func, obj);
       } else {
         this.base(arguments, type, func, obj);
@@ -1348,11 +1335,11 @@ qx.Class.define("qx.ui2.core.Widget",
     // overridden
     removeListener : function(type, func, obj)
     {
-      var hints = this.self(arguments)._eventHints;
+      var target = this._eventTarget;
 
-      if (hints.content[type]) {
+      if (target.content[type]) {
         this._contentElement.removeListener(type, func, obj);
-      } else if (hints.outer[type]) {
+      } else if (target.container[type]) {
         this._containerElement.removeListener(type, func, obj);
       } else {
         this.base(arguments, type, func, obj);
