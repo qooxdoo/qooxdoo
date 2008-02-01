@@ -1,0 +1,173 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="description">
+  This example demonstrates how alignment is supported in the grid.
+  </div>
+
+  <script type="text/javascript">
+
+
+qx.Class.define("AnimProperty",
+{
+  extend : qx.fx.Base,
+
+  construct : function(element, property, options)
+  {
+    this._propName = property
+    this.base(arguments, element, options);
+  },
+
+  members :
+  {
+    update : function(value) {
+      var properties = {};
+      properties[this._propName] = value;
+      this._element.set(properties);
+    }
+  }
+});
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui2.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var docLayout = new qx.ui2.layout.Grid();
+      docLayout.setSpacing(20);
+
+      var container = new qx.ui2.core.Widget();
+      container.setPadding(20);
+      container.setLayout(docLayout);
+
+      doc.add(container, 0, 0);
+
+      this._border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+      docLayout.add(this.getAnimGrid(), 0, 0);
+    },
+
+
+    getNewWidget : function()
+    {
+      var widget = new qx.ui2.core.Widget().set({
+        width: 50,
+        height: 50,
+        backgroundColor: "green"
+      });
+
+      widget.addListener("click", function(e)
+      {
+        if (this._active == widget) {
+          return;
+        }
+
+        var effects = {};
+        var duration = 0.5
+
+        if (this._active) {
+          this._active.set({
+            backgroundColor : "green",
+            width: 50,
+            height: 50
+          });
+
+          /*
+          effects.shrinkX = new AnimProperty(this._active, "width", {
+            from: 200,
+            to: 50,
+            duration: duration
+          });
+          effects.shrinkY = new AnimProperty(this._active, "height", {
+            from: 200,
+            to: 50,
+            duration: duration
+          });
+          */
+
+        }
+
+        widget.set({
+            backgroundColor : "orange"
+            //width: 200,
+            //height: 200
+        });
+
+        effects.growX = new AnimProperty(widget, "width", {
+          from: 50,
+          to: 200,
+          duration: duration,
+          transition: qx.fx.Transition.spring
+        });
+        effects.growY = new AnimProperty(widget, "height", {
+          from: 50,
+          to: 200,
+          duration: duration,
+          transition: qx.fx.Transition.spring
+        });
+
+        var effect = new qx.fx.effect.core.Parallel(effects);
+        effect.start();
+
+        this._active = widget;
+      }, this);
+
+      return widget;
+    },
+
+
+    getAnimGrid : function()
+    {
+      var box = (new qx.ui2.core.Widget).set({decoration: this._border, backgroundColor: "yellow", width: 500, height: 500});
+      var layout = new qx.ui2.layout.Grid();
+      layout.setSpacing(3);
+
+      this._active = null;
+
+      for (var x=0; x<7; x++)
+      {
+        layout.setColumnFlex(x, 1);
+        layout.setRowFlex(x, 1);
+
+        for (var y=0; y<7; y++) {
+          layout.add(this.getNewWidget(), y, x);
+        }
+      }
+
+      box.setLayout(layout);
+
+      return box;
+    }
+
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
