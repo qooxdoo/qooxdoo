@@ -38,6 +38,8 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * Mark a widget's layout as invalid and add its layout root to
      * the queue.
      *
+     * Should only be used by {@link qx.ui2.core.Widget}.
+     *
      * @type static
      * @param widget {qx.ui2.core.Widget} Widget to add.
      * @return {void}
@@ -56,6 +58,8 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
     /**
      * Update the layout of all widgets, which layout is marked as invalid.
+     *
+     * This is used exclusively by the {@link qx.ui2.core.QueueManager}.
      *
      * @type static
      * @return {void}

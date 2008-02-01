@@ -35,7 +35,6 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
      *
      * Should only be used by {@link qx.ui2.core.Widget}.
      *
-     * @internal
      * @type static
      * @param widget {qx.ui2.core.Widget} Widget to add.
      * @return {void}
@@ -52,7 +51,6 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
      *
      * Should only be used by {@link qx.ui2.core.Widget}.
      *
-     * @internal
      * @type static
      * @param widget {qx.ui2.core.Widget} Widget to add.
      * @return {void}
@@ -65,9 +63,8 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
     /**
      * Update the decoration of all widgets from the decoration queue.
      *
-     * This is normally done exclusively by the {@link qx.ui2.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui2.core.QueueManager}.
      *
-     * @internal
      * @type static
      * @return {void}
      */
