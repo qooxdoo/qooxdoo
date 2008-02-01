@@ -22,9 +22,15 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 {
   statics :
   {
+    /** {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
 
+
+    /** {Boolean} Whether the queue is currently flushing. */
     __inFlush : false,
+
+
+    /** {Boolean} Whether the queue has been modified during the flush. */
     __modifiedDuringFlush : false,
 
 
