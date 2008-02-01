@@ -13,6 +13,7 @@
   <script type="text/javascript">
 
   var elementStyle = 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:110px;top:82px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
+  var myElement;
 
   function resetElement(el)
   {
@@ -23,7 +24,7 @@
   {
 
     var doc = qx.ui.core.ClientDocument.getInstance();
-  	var myElement = qx.bom.Element.create('div', { style : elementStyle });
+  	myElement = qx.bom.Element.create('div', { style : elementStyle });
   	var doc = qx.ui.core.ClientDocument.getInstance();
   
   	document.body.appendChild(myElement);
@@ -140,6 +141,8 @@
     */    
     var animShake = new qx.fx.effect.combination.Shake(myElement, {});
     var animSwitchOff = new qx.fx.effect.combination.SwitchOff(myElement, {});
+    var animFold = new qx.fx.effect.combination.Fold(myElement, {});
+
 
   	/* Buttons */
   	var btnShow = new qx.ui.form.Button("Fade in");
@@ -152,8 +155,9 @@
   	var btnMoveBack = new qx.ui.form.Button("Move back");
   	var btnGrow = new qx.ui.form.Button("Grow");
   	var btnShake = new qx.ui.form.Button("Shake");
+  	var btnPulsate = new qx.ui.form.Button("Pulsate");
   	var btnSwitchOff = new qx.ui.form.Button("Switch off");
-  	var btnPulste = new qx.ui.form.Button("Pulsate");
+  	var btnFold = new qx.ui.form.Button("Fold");
 
   	var btnReset = new qx.ui.form.Button("Reset element");
   
@@ -169,7 +173,8 @@
   	btnGrow.setLocation(557, 25);
   	btnShake.setLocation(600, 25);
   	btnSwitchOff.setLocation(650, 25);
-  	btnPulste.setLocation(720, 25);
+  	btnPulsate.setLocation(720, 25);
+  	btnFold.setLocation(770, 25);
   	
   	btnReset.setLocation(25, 57);
   
@@ -219,13 +224,16 @@
   	  animShake.start();
     });
   	
-  	
   	btnSwitchOff.addListener("execute", function(){
   	  animSwitchOff.start();
     });
 
-    btnPulste.addListener("execute", function(){
+    btnPulsate.addListener("execute", function(){
   	  animPulsate.start();
+    });
+
+    btnFold.addListener("execute", function(){
+  	  animFold.start();
     });
 
 
@@ -235,7 +243,7 @@
   
   	btnReset.setBackgroundColor("#B22222");
   
-  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulste, btnReset);
+  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnReset);
      
   });
   </script>
