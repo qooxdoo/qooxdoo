@@ -221,7 +221,7 @@ qx.Class.define("feedreader.Application",
       {
         title  : title,
         items  : [],
-        loader : qx.lang.Function.bind(this._loadJsonFeed, this, url),
+        loader : qx.lang.Function.bind(this._loadJsonFeed, this, false, [url]),
         added  : new Date
       };
 
