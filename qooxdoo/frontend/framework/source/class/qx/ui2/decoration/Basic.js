@@ -304,18 +304,22 @@ qx.Class.define("qx.ui2.decoration.Basic",
     ---------------------------------------------------------------------------
     */
 
+    /** Property group to configure the left border */
     left : {
       group : [ "widthLeft", "styleLeft", "colorLeft" ]
     },
 
+    /** Property group to configure the right border */
     right : {
       group : [ "widthRight", "styleRight", "colorRight" ]
     },
 
+    /** Property group to configure the top border */
     top : {
       group : [ "widthTop", "styleTop", "colorTop" ]
     },
 
+    /** Property group to configure the bottom border */
     bottom : {
       group : [ "widthBottom", "styleBottom", "colorBottom" ]
     },
@@ -328,18 +332,21 @@ qx.Class.define("qx.ui2.decoration.Basic",
     ---------------------------------------------------------------------------
     */
 
+    /** Property group to set the border width of all sides */
     width :
     {
       group : [ "widthTop", "widthRight", "widthBottom", "widthLeft" ],
       mode : "shorthand"
     },
 
+    /** Property group to set the border style of all sides */
     style :
     {
       group : [ "styleTop", "styleRight", "styleBottom", "styleLeft" ],
       mode : "shorthand"
     },
 
+    /** Property group to set the border color of all sides */
     color :
     {
       group : [ "colorTop", "colorRight", "colorBottom", "colorLeft" ],
@@ -358,7 +365,13 @@ qx.Class.define("qx.ui2.decoration.Basic",
 
   members :
   {
-
+    /**
+     * Get the CSS style string for the decoration
+     *
+     * @param widget {qx.ui2.core.Widget} The widget to style widget
+     * @param width {Integer} The widget's width
+     * @param height {Integer} The widget's height
+     */
     _getStyle : function(widget, width, height)
     {
       var template = qx.ui2.decoration.Basic.__styleTemplate;

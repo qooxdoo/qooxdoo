@@ -111,11 +111,10 @@ qx.Class.define("qx.ui2.layout.Grid",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} The widget to add
+     * @param widget {qx.ui2.core.LayoutItem} The widget or spacer to add
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
-     * @param rowSpan {Integer?1} How many rows the widget should span
-     * @param colSpan {Integer?1} How many columns the widget should span
+     * @param options {Map?null} Optional layout data for the widget.
      * @return {qx.ui2.layout.Grid} This object (for chaining support)
      */
     add : function(widget, row, column, options)
@@ -159,9 +158,9 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    remove : function(widget)
+    remove : function(child)
     {
-      var childProps = this.getLayoutProperties(widget);
+      var childProps = this.getLayoutProperties(child);
 
       for (var x=0; x<childProps.colSpan; x++)
       {
@@ -171,16 +170,16 @@ qx.Class.define("qx.ui2.layout.Grid",
       }
 
       if (childProps.rowSpan > 1) {
-        qx.lang.Array.remove(this._rowSpans, widget);
+        qx.lang.Array.remove(this._rowSpans, child);
       }
 
       if (childProps.colSpan > 1) {
-        qx.lang.Array.remove(this._colSpans, widget);
+        qx.lang.Array.remove(this._colSpans, child);
       }
 
       this._resetMaxIndices();
 
-      return this.base(arguments, widget);
+      return this.base(arguments, child);
     },
 
 
@@ -1124,7 +1123,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    renderLayout : function(width, height)
+    renderLayout : function(availWidth, availHeight)
     {
       var Util = qx.ui2.layout.Util;
       var hSpacing = this.getHorizontalSpacing();
@@ -1132,7 +1131,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       // calculate column widths
       var prefWidths = this._getColWidths();
-      var colStretchOffsets = this._getColumnFlexOffsets(width);
+      var colStretchOffsets = this._getColumnFlexOffsets(availWidth);
       var colWidths = [];
 
       var maxColIndex=this.getMaxColIndex();
@@ -1144,7 +1143,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
       // calculate row heights
       var prefHeights = this._getRowHeights();
-      var rowStretchOffsets = this._getRowFlexOffsets(height);
+      var rowStretchOffsets = this._getRowFlexOffsets(availHeight);
 
       var rowHeights = [];
 

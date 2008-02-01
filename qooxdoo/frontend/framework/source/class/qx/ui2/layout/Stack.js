@@ -56,15 +56,15 @@ qx.Class.define("qx.ui2.layout.Stack",
   members :
   {
     // overridden
-    add : function(widget, options)
+    add : function(child, options)
     {
-      this.base(arguments, widget, options);
+      this.base(arguments, child, options);
 
       // Select first incoming child
       if (!this.getSelected()) {
-        this.setSelected(widget);
+        this.setSelected(child);
       } else {
-        widget.setLayoutVisible(false);
+        child.setLayoutVisible(false);
       }
     },
 
