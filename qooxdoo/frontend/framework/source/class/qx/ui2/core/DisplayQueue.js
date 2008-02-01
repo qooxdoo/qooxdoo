@@ -64,16 +64,19 @@ qx.Class.define("qx.ui2.core.DisplayQueue",
       for (var hash in queue)
       {
         widget = queue[hash];
-        displayed = !!(widget.getParent() && widget.getVisibility() === "visible" && widget.getLayoutVisible());
+        displayed = widget.$$visible;
 
-        if (widget._displayed !== displayed)
+        if ((!!widget.$$displayed) !== displayed)
         {
           type = displayed ? "appear" : "disappear";
-
-          if (widget.hasListeners(type))
-          {
+          if (widget.hasListeners(type)) {
             widget.fireEvent(type);
-            widget._displayed = displayed;
+          }
+
+          if (displayed) {
+            widget.$$displayed = true;
+          } else {
+            delete widget.$$displayed;
           }
         }
       }
