@@ -1041,7 +1041,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       ) {
         this._lastMouseDownCell = {};
 
-        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", e), true);
+        var cellEvent = qx.event.Registration.createEvent(qx.ui.table.pane.CellEvent, [this, evt, "cellContextmenu"]);
+        this.dispatchEvent(cellEvent, true);
       }
       this._focusIndicator.setAnonymous(true);
     },
@@ -1247,7 +1248,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._lastMouseDownCell = {};
 
           table._getSelectionManager().handleClick(row, evt);
-          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick"));
+          var cellEvent = qx.event.Registration.createEvent(qx.ui.table.pane.CellEvent, [this, evt, "cellClick"]);
+          this.dispatchEvent(cellEvent);
         }
       }
     },
@@ -1273,7 +1275,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         col == this._lastMouseDownCell.col
       ) {
         this._lastMouseDownCell = {};
-        this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu"), true);
+        var cellEvent = qx.event.Registration.createEvent(qx.ui.table.pane.CellEvent, [this, evt, "cellContextmenu"]);
+        this.dispatchEvent(cellEvent, true);
       }
     },
 
