@@ -143,12 +143,12 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Whether the widget is a child of this layout
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param widget {qx.ui2.core.Widget} child widget to check
      * @return {Boolean} <code>true</code> when the given widget is a child
      *    of this layout.
      */
-    contains : function(child) {
-      return this._children.indexOf(child) !== -1;
+    contains : function(widget) {
+      return this._children.indexOf(widget) !== -1;
     },
 
 
@@ -207,7 +207,15 @@ qx.Class.define("qx.ui2.layout.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    _addHelper : function(child, layout)
+    /**
+     * Convenience function to add a widget to a layout. It will initialize the
+     * layout options for the widget, insert it to the parent widget and schedules
+     * a layout update.
+     *
+     * @param child {qx.ui2.core.LayoutItem} The child to add.
+     * @param options {Map|null} Optional layout data for the widget.
+     */
+    _addHelper : function(child, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -215,12 +223,12 @@ qx.Class.define("qx.ui2.layout.Abstract",
           throw new Error("Invalid widget to add: " + child);
         }
 
-        if (layout != null && typeof layout !== "object") {
+        if (options != null && typeof options !== "object") {
           throw new Error("Invalid layout data: " + layout);
         }
       }
 
-      this._options[child.toHashCode()] = layout || {};
+      this._options[child.toHashCode()] = options || {};
       this._addToParent(child);
 
       // Invalidate layout cache
@@ -228,6 +236,13 @@ qx.Class.define("qx.ui2.layout.Abstract",
     },
 
 
+    /**
+     * Convenience function to remove a widget from a layout. It will clear the
+     * widget's layout data, remove it from the parent widget and schedule a
+     * layout update.
+     *
+     * @param child {qx.ui2.core.LayoutItem} The child to remove.
+     */
     _removeHelper : function(child)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))

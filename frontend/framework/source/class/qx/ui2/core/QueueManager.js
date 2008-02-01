@@ -37,6 +37,8 @@ qx.Class.define("qx.ui2.core.QueueManager",
      * Schedule a deferred flush of all queues.
      *
      * @type static
+     * @param job {String} The job, which should be performed. Valid values are
+     *     <code>layout</code>, <code>decoration</code> and <code>element</code>.
      * @return {void}
      */
     scheduleFlush : function(job)

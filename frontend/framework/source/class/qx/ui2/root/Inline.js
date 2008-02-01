@@ -84,7 +84,8 @@ qx.Class.define("qx.ui2.root.Inline",
      * @param widget {qx.ui2.core.Widget} the widget to add
      * @param left {Integer} left position on the page
      * @param top {Integer} top position on the page
-     * @return {qx.ui2.root.Page} This object (for chaining support)
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {qx.ui2.root.Inline} This object (for chaining support)
      */
     add : function(widget, left, top, options)
     {
