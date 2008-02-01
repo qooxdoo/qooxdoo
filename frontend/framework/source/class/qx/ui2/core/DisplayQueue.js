@@ -41,7 +41,7 @@ qx.Class.define("qx.ui2.core.DisplayQueue",
      */
     add : function(widget)
     {
-      this.__queue[widget.toHashCode()] = widget;
+      this.__queue[widget.$$hash] = widget;
       qx.ui2.core.QueueManager.scheduleFlush("display");
     },
 
@@ -61,9 +61,9 @@ qx.Class.define("qx.ui2.core.DisplayQueue",
       var widget, visible, type;
 
       // Process children...
-      for (var hc in queue)
+      for (var hash in queue)
       {
-        widget = queue[hc];
+        widget = queue[hash];
         displayed = !!(widget.getParent() && widget.getVisibility() === "visible" && widget.getLayoutVisible());
 
         if (widget._displayed !== displayed)

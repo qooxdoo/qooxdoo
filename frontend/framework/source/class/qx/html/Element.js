@@ -75,7 +75,7 @@ qx.Class.define("qx.html.Element",
     if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       if (qx.html.Element._debug) {
-        this.setAttribute("id", "hc" + this.toHashCode());
+        this.setAttribute("id", "hc" + this.$$hash);
       }
     }
   },
@@ -307,7 +307,7 @@ qx.Class.define("qx.html.Element",
       }
 
       this._modifiedChildren = true;
-      qx.html.Element._modified[this.toHashCode()] = this;
+      qx.html.Element._modified[this.$$hash] = this;
       qx.html.Element._scheduleFlush("element");
     },
 
@@ -1242,7 +1242,7 @@ qx.Class.define("qx.html.Element",
 
       if (this._element)
       {
-        qx.html.Element._visibility[this.toHashCode()] = this;
+        qx.html.Element._visibility[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
       else if (this._parent) {
@@ -1270,7 +1270,7 @@ qx.Class.define("qx.html.Element",
 
       if (this._element)
       {
-        qx.html.Element._visibility[this.toHashCode()] = this;
+        qx.html.Element._visibility[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1410,7 +1410,7 @@ qx.Class.define("qx.html.Element",
         this.__styleJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._modified[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1520,7 +1520,7 @@ qx.Class.define("qx.html.Element",
         this.__attribJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._modified[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
