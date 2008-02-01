@@ -71,36 +71,36 @@ qx.Class.define("qx.ui2.core.QueueManager",
 
       if (jobs.layout)
       {
-        var start = new Date;
+        //var start = new Date;
         // console.profile("layout");
         qx.ui2.core.LayoutQueue.flush();
         // console.profileEnd();
         jobs.layout = false;
-        qx.core.Log.debug("Layout queue runtime: " + (new Date - start) + "ms");
+        //qx.core.Log.debug("Layout queue runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.decoration)
       {
-        var start = new Date;
+        //var start = new Date;
         qx.ui2.core.DecorationQueue.flush();
         jobs.decoration = false;
-        qx.core.Log.debug("Decoration queue runtime: " + (new Date - start) + "ms");
+        //qx.core.Log.debug("Decoration queue runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.element)
       {
-        var start = new Date;
+        //var start = new Date;
         qx.html.Element.flush();
         jobs.element = false;
-        qx.core.Log.debug("Element queue runtime: " + (new Date - start) + "ms");
+        //qx.core.Log.debug("Element queue runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.display)
       {
-        var start = new Date;
+        //var start = new Date;
         qx.ui2.core.DisplayQueue.flush();
         jobs.display = false;
-        qx.core.Log.debug("Display queue runtime: " + (new Date - start) + "ms");
+        //qx.core.Log.debug("Display queue runtime: " + (new Date - start) + "ms");
       }
 
       qx.ui2.core.QueueManager.__scheduled = false;
