@@ -59,15 +59,23 @@ qx.Class.define("BasicSample",
         layout1.add(widget);
         widget.addListener("click", qx.lang.Function.bind(function(index) {
           layout1.setSelected(widgets1[(index+1) % widgets1.length]);
-        }, this, false, [i]));
+        }, this, [i]));
 
         widget.addListener("appear", qx.lang.Function.bind(function(index) {
           this.debug("Appear of widget: " + index);
-        }, this, false, [i]));
+        }, this, [i]));
 
         widget.addListener("disappear", qx.lang.Function.bind(function(index) {
           this.debug("Disappear of widget: " + index);
-        }, this, false, [i]));
+        }, this, [i]));
+
+        widget.addListener("show", qx.lang.Function.bind(function(index) {
+          this.debug("Show widget: " + index);
+        }, this, [i]));
+
+        widget.addListener("hide", qx.lang.Function.bind(function(index) {
+          this.debug("Hide widget: " + index);
+        }, this, [i]));
       }
       widget1.setLayout(layout1);
 
@@ -92,7 +100,7 @@ qx.Class.define("BasicSample",
         layout2.add(widget);
         widget.addListener("click", qx.lang.Function.bind(function(index) {
           layout2.setSelected(widgets2[(index+1) % widgets2.length]);
-        }, this, false, [i]));
+        }, this, [i]));
       }
       widget2.setLayout(layout2);
 
