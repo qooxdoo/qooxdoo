@@ -22,9 +22,18 @@ qx.Class.define("qx.ui2.core.DisplayQueue",
 {
   statics :
   {
+    /** {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
 
 
+    /**
+     * Adds a widget to the queue.
+     *
+     * @internal
+     * @type member
+     * @param widget {qx.ui2.core.Widget}
+     * @return {void}
+     */
     add : function(widget)
     {
       this.__queue[widget.toHashCode()] = widget;
@@ -32,6 +41,15 @@ qx.Class.define("qx.ui2.core.DisplayQueue",
     },
 
 
+    /**
+     * Flushes the display queue. This queue fires <code>appear</code> and
+     * <code>disappear</code> events.
+     *
+     * This is normally done exclusively by the {@link qx.ui2.core.QueueManager}.
+     *
+     * @internal
+     * @return {void}
+     */
     flush : function()
     {
       var queue = this.__queue;
