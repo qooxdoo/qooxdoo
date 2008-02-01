@@ -54,6 +54,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.tests = {};
     this._useProfile = false;
 
+    // Commands
+    qx.Class.include(qx.event.Command, qx.core.MUserData);
     this.__makeCommands();
 
     // Header Pane
@@ -125,7 +127,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__states.isLoading = false;
     this.__states.isFirstSample = false;
     this.__states.isLastSample  = false;
-
+    
   }, //construct
 
 
