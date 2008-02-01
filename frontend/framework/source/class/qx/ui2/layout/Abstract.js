@@ -228,7 +228,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         }
       }
 
-      this._options[child.toHashCode()] = options || {};
+      this._options[child.$$hash] = options || {};
       this._addToParent(child);
 
       // Invalidate layout cache
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         }
       }
 
-      delete this._options[child.toHashCode()];
+      delete this._options[child.$$hash];
       this._removeFromParent(child);
 
       // Invalidate layout cache
@@ -335,7 +335,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
         }
       }
 
-      this._options[child.toHashCode()][name] = value;
+      this._options[child.$$hash][name] = value;
       this.scheduleWidgetLayoutUpdate();
     },
 
@@ -350,7 +350,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     removeLayoutProperty : function(child, name)
     {
-      delete this._options[child.toHashCode()][name];
+      delete this._options[child.$$hash][name];
       this.scheduleWidgetLayoutUpdate();
     },
 
@@ -366,7 +366,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     getLayoutProperty : function(child, name, def)
     {
-      var value = this._options[child.toHashCode()][name];
+      var value = this._options[child.$$hash][name];
 
       if (value == null)
       {
@@ -388,7 +388,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {Map} a map of all layout properties.
      */
     getLayoutProperties : function(child) {
-      return this._options[child.toHashCode()] || {};
+      return this._options[child.$$hash] || {};
     },
 
 
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * @return {Boolean} <code>true</code> when this hint is defined
      */
     hasLayoutProperty : function(child, name) {
-      return this._options[child.toHashCode()][name] != null;
+      return this._options[child.$$hash][name] != null;
     },
 
 
