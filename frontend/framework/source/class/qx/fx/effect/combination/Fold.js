@@ -57,23 +57,35 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
   construct : function(element, options)
   {
-
-    var effectSpecificOptions = {
-    };
-
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-
     this.base(arguments, element, options);
     this._element = element;
 
+    this._outerScaleEffect = new qx.fx.effect.core.Scale(
+      this._element,
+      5,
+      {   
+        scaleContent: false,
+        scaleX: false
+      }
+    );
+    
+    this._innerScaleEffect = new qx.fx.effect.core.Scale(
+      this._element,
+      5,
+      {   
+        scaleContent: false,
+        scaleY: false
+      }
+    );
+    
+    var innerScaleEffectReference = this._innerScaleEffect;
+
+    this._outerScaleEffect.afterFinishInternal = function(effect) {
+      innerScaleEffectReference.start();
+    };
+
   },
 
-  
   /*
   *****************************************************************************
      STATICS
@@ -95,12 +107,33 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
     setup : function()
     {
+      this._oldStyle = {
+        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width  : qx.bom.element.Dimension.getWidth(this._element),
+        height : qx.bom.element.Dimension.getHeight(this._element)
+      };
+      qx.bom.element.Style.set(this._element, "overflow", "hidden");
+      
+      var oldStyleReference = this._oldStyle;
+
+      this._innerScaleEffect.afterFinishInternal = function(effect)
+      {
+        qx.bom.element.Style.set(this._element, "overflow", "visible");
+        qx.bom.element.Style.set(this._element, "display", "none");
+        for (var property in oldStyleReference) {
+          qx.bom.element.Style.set(this._element, property, oldStyleReference[property]);
+        }
+      };
+
     },
     
     start : function()
     {
+      this._outerScaleEffect.start();
       this.base(arguments);
     }
+    
 
    },
 
@@ -115,3 +148,5 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     
   }
 });
+
+
