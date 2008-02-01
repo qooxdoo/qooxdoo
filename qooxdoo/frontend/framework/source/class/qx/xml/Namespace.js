@@ -28,7 +28,7 @@
        Copyright (c) 2005-2006, The Dojo Foundation
 
      License:
-       Academic Free License v2.1
+       The "New" BSD License
        http://dojotoolkit.org/about/license
 
 ************************************************************************ */
