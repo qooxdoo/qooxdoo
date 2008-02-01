@@ -115,15 +115,14 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
         }
       );
 
-      scaleEffect.beforeSetup = function() { 
+      scaleEffect.beforeSetup = function() {
         qx.bom.element.Style.set(this._element, "overflow", "hidden");
-      },
+      };
 
       scaleEffect.afterFinishInternal = function() {
         qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
         qx.bom.element.Style.set(this._element, "display", "none");
-      }
-
+      };
 
       this._appearEffect = new qx.fx.effect.core.FadeOut(this._element, this._options);
 
@@ -133,7 +132,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
       this._appearEffect.start();
     }
-    
+
    },
 
   /*
