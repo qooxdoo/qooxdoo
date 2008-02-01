@@ -1234,8 +1234,8 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is visible
      */
-    isShown : function() {
-      return this.getVisibility() == "visible";
+    isVisible : function() {
+      return this.getVisibility() === "visible";
     },
 
 
@@ -1248,7 +1248,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * @return {Boolean} Returns <code>true</code> when the widget is hidden
      */
     isHidden : function() {
-      return this.getVisibility() == "hidden";
+      return this.getVisibility() === "hidden";
     },
 
 
@@ -1261,7 +1261,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * @return {Boolean} Returns <code>true</code> when the widget is excluded
      */
     isExcluded : function() {
-      return this.getVisibility() == "excluded";
+      return this.getVisibility() === "excluded";
     },
 
 

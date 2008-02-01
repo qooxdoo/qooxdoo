@@ -228,8 +228,8 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     {
       var target = e.getTarget();
 
-      var hVisible = this._hScrollBar.isShown();
-      var vVisible = this._vScrollBar.isShown();
+      var hVisible = this._hScrollBar.isVisible();
+      var vVisible = this._vScrollBar.isVisible();
 
       if (target == this._hScrollBar && !hVisible) {
         this._scrollPane.setScrollLeft(0);
@@ -272,11 +272,11 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       var paneSize = this._scrollPane.getComputedLayout();
       var contentSize = content.getComputedLayout();
 
-      if (this._hScrollBar.isShown()) {
+      if (this._hScrollBar.isVisible()) {
         this._hScrollBar.setMaximum(Math.max(0, contentSize.width - paneSize.width));
       }
 
-      if (this._vScrollBar.isShown()) {
+      if (this._vScrollBar.isVisible()) {
         this._vScrollBar.setMaximum(Math.max(0, contentSize.height - paneSize.height));
       }
     },
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       else if (autoX)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarWidth = vScrollBar.isShown() ? vScrollBar.getSizeHint().width : 0;
+        var scrollBarWidth = vScrollBar.isVisible() ? vScrollBar.getSizeHint().width : 0;
         var scrollX = contentSize.width > (innerSize.width - scrollBarWidth);
 
         hScrollBar.setVisibility(scrollX ? "visible" : "excluded");
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
       else if (autoY)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarHeight = hScrollBar.isShown() ? hScrollBar.getSizeHint().height : 0;
+        var scrollBarHeight = hScrollBar.isVisible() ? hScrollBar.getSizeHint().height : 0;
         var scrollY = contentSize.height > (innerSize.height - scrollBarHeight);
 
         vScrollBar.setVisibility(scrollY ? "visible" : "excluded");
