@@ -1179,28 +1179,6 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    // overridden
-    isVisible : function()
-    {
-      var parent = this;
-
-      while (parent)
-      {
-        if (!parent._isLocallyVisible) {
-          return false;
-        }
-
-        if (parent.isRootWidget()) {
-          return true;
-        }
-
-        parent = parent._parent;
-      }
-
-      return false;
-    },
-
-
     /**
      * Make this widget visible.
      *

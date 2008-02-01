@@ -265,28 +265,6 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
 
     /**
-     * Get the widget's nesting level. Top level widgets have a nesting level
-     * of <code>0</code>.
-     *
-     * @internal
-     * @return {Integer} The widgets nesting level.
-     */
-    getNestingLevel : function()
-    {
-      var level = -1;
-      var parent = this;
-
-      while (parent)
-      {
-        level += 1;
-        parent = parent._parent;
-      }
-
-      return level;
-    },
-
-
-    /**
      * Whether the widget is a root widget and directly connected to
      * the DOM.
      *
@@ -331,17 +309,6 @@ qx.Class.define("qx.ui2.core.LayoutItem",
       VISIBILITY SUPPORT
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Check recursively whether the widget and all of its parent widgets
-     * are visible.
-     *
-     * @return {Boolean} Whether the widget and all of its parent widgets are visible.
-     */
-    isVisible : function() {
-      throw new Error("Abstract method call");
-    },
-
 
     // property apply
     _applyVisibility : function(value, old) {
