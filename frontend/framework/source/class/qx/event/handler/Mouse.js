@@ -174,7 +174,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _initButtonObserver : function()
     {
-      this._onButtonEventWrapper = qx.lang.Function.bind(this._onButtonEvent, this, true);
+      this._onButtonEventWrapper = qx.lang.Function.bind(this._onButtonEvent, this, null, true);
 
       var Registration = qx.event.Registration;
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _initMoveObserver : function()
     {
-      this._onMoveEventWrapper = qx.lang.Function.bind(this._onMoveEvent, this, true);
+      this._onMoveEventWrapper = qx.lang.Function.bind(this._onMoveEvent, this, null, true);
 
       var Registration = qx.event.Registration;
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _initWheelObserver : function()
     {
-      this._onWheelEventWrapper = qx.lang.Function.bind(this._onWheelEvent, this, true);
+      this._onWheelEventWrapper = qx.lang.Function.bind(this._onWheelEvent, this, null, true);
 
       var Registration = qx.event.Registration;
       var name = qx.bom.client.Engine.MSHTML ? "mousewheel" : "DOMMouseScroll";

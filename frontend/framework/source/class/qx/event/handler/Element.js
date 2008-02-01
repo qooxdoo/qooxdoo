@@ -98,7 +98,7 @@ qx.Class.define("qx.event.handler.Element",
     registerEvent : function(target, type)
     {
       var elementId = qx.core.Object.toHashCode(target);
-      var listener = qx.lang.Function.bind(this._onNative, this, false, [elementId]);
+      var listener = qx.lang.Function.bind(this._onNative, this, [elementId], false);
 
       qx.event.Registration.addNativeListener(target, type, listener);
 
