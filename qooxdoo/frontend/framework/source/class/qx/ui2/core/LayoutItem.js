@@ -56,21 +56,6 @@ qx.Class.define("qx.ui2.core.LayoutItem",
       apply : "_applyVisibility",
       event : "changeVisibility",
       nullable : false
-    },
-
-
-    /**
-     * If the layout manager decides not to render the widget it should turn
-     * if its visibility using this property.
-     *
-     * @internal
-     */
-    layoutVisible :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyLayoutVisible",
-      nullable : false
     }
   },
 
@@ -231,6 +216,17 @@ qx.Class.define("qx.ui2.core.LayoutItem",
     },
 
 
+    /**
+     * This method is called from the layout when the layout excludes or
+     * includes this layout item.
+     *
+     * @type member
+     * @param value {Boolean} <code>true</code> when the element gets included.
+     *    Otherwise <code>false</code>.
+     */
+    layoutVisibilityModified : function(value) {
+      // nothing to do here
+    },
 
 
 
@@ -312,12 +308,6 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
     // property apply
     _applyVisibility : function(value, old) {
-      // nothing to be done here
-    },
-
-
-    // property apply
-    _applyLayoutVisible : function(value, old) {
       // nothing to be done here
     }
   }
