@@ -79,6 +79,9 @@ qx.Class.define("qx.ui2.core.Widget",
 
   events :
   {
+    show : "qx.event.type.Event",
+    hide : "qx.event.type.Event",
+
     /** Fired after a visibility/parent change when the widget finally appears on the screen. */
     appear : "qx.event.type.Event",
 
@@ -478,22 +481,11 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
-    _isLocallyVisible : true,
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
-
-    // overridden
-    setParent : function(parent)
-    {
-      this.base(arguments, parent);
-      qx.ui2.core.DisplayQueue.add(this);
-    },
-
 
     // overridden
     renderLayout : function(left, top, width, height)
@@ -1011,93 +1003,87 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      VISIBILITY SUPPORT
+      VISIBILITY SUPPORT: IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
 
-    /** {Boolean} Whether the child is displayed currently */
-    _displayed : false,
-
-
-    /**
-     * Shows the widget by resetting the display (CSS) properties of the widget's
-     * container element.
-     */
-    _show : function()
+    // overridden
+    setParent : function(parent)
     {
-      if (!this._isLocallyVisible)
-      {
-        // fallback to prototype value 'true'
-        delete this._isLocallyVisible;
-
-        this._containerElement.show();
-      }
-    },
-
-
-    /**
-     * Hides the widget by setting the display (CSS) properties of the widget's
-     * container element to <code>none</code>.
-     */
-    _hide : function()
-    {
-      if (this._isLocallyVisible)
-      {
-        this._isLocallyVisible = false;
-        this._containerElement.hide();
-      }
+      this.base(arguments, parent);
+      this._toggleDisplay();
     },
 
 
     // property apply
     _applyVisibility : function(value, old)
     {
-      var isLayoutVisible = this.isLayoutVisible();
-
-      if (value == "visible")
-      {
-        if (isLayoutVisible) {
-          this._show();
-        }
-      }
-      else
-      {
-        this._hide();
-      }
+      this._toggleDisplay();
 
       // only force a layout update if visibility change from/to "exclude"
-      if (old == "excluded" || value == "excluded")
+      var parent = this._parent;
+      if (parent && (old == "excluded" || value == "excluded"))
       {
-        var parent = this._parent;
-
-        if (parent)
-        {
-          var parentLayout = parent.getLayout();
-          if (parentLayout) {
-            parentLayout.changeChildVisibility(this, value);
-          }
-
-          parent.scheduleLayoutUpdate();
+        var parentLayout = parent.getLayout();
+        if (parentLayout) {
+          parentLayout.changeChildVisibility(this, value);
         }
-      }
 
-      qx.ui2.core.DisplayQueue.add(this);
+        parent.scheduleLayoutUpdate();
+      }
     },
 
 
     // property apply
-    _applyLayoutVisible : function(value, old)
-    {
-      var userVisibility = this.getVisibility();
-      if (value && userVisibility == "visible") {
-        this._show();
-      } else {
-        this._hide();
-      }
-
-      qx.ui2.core.DisplayQueue.add(this);
+    _applyLayoutVisible : function(value, old) {
+      this._toggleDisplay();
     },
 
+
+    /**
+     * Helper method
+     */
+    _toggleDisplay : function()
+    {
+      if (this.getParent() && this.getLayoutVisible() && this.getVisibility() === "visible")
+      {
+        this.$$visible = true;
+        this._containerElement.show();
+        qx.ui2.core.DisplayQueue.add(this);
+
+        if (this.hasListeners("show")) {
+          this.fireEvent("show");
+        }
+      }
+      else if (this.$$visible)
+      {
+        delete this.$$visible;
+
+        // On parent removal it gets completely removed from DOM
+        // which means we do not need to apply any display styles
+        // on it.
+        if (this.getParent()) {
+          this._containerElement.hide();
+        }
+
+        qx.ui2.core.DisplayQueue.add(this);
+
+        if (this.hasListeners("hide")) {
+          this.fireEvent("hide");
+        }
+      }
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY SUPPORT: USER API
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Make this widget visible.

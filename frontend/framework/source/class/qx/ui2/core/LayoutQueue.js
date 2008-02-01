@@ -97,7 +97,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           {
             // This is an inner item of layout changes. Do a relayout of its
             // children without changing its position and size.
-            qx.core.Log.debug("Relayout of widget: " + widget);
+            // qx.core.Log.debug("Relayout of widget: " + widget);
             widget.renderLayout(
               widget._computedLayout.left,
               widget._computedLayout.top,
@@ -177,15 +177,15 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           break;
         }
 
-        // Detection using local value
-        if (!parent._isLocallyVisible) {
-          break;
-        }
-
         // Root widgets are always visible
         if (parent.isRootWidget())
         {
           value = true;
+          break;
+        }
+
+        // Detection using local value
+        if (!parent.$$visible) {
           break;
         }
 
