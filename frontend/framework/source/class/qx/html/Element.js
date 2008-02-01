@@ -1226,10 +1226,9 @@ qx.Class.define("qx.html.Element",
     */
 
     /**
-     * Marks the element as included which means it will be moved into
-     * the DOM again and synced with the internal data representation.
-     *
-     * Please note: This does not control the visibility or parent inclusion recursively.
+     * Marks the element as visible which means that a previously applied
+     * CSS style of display=none gets removed and the element will inserted
+     * into the DOM, when this had not already happend before.
      *
      * @type member
      * @return {qx.html.Element} this object (for chaining support)
@@ -1245,7 +1244,9 @@ qx.Class.define("qx.html.Element",
         qx.html.Element._visibility[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
-      else if (this._parent) {
+
+      // Must be sure that the element gets included into the DOM.
+      if (this._parent) {
         this._parent._scheduleChildrenUpdate();
       }
 
@@ -1254,10 +1255,8 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Marks the element as excluded which means it will be removed
-     * from the DOM and ignored for updates until it gets included again.
-     *
-     * Please note: This does not control the visibility or parent inclusion recursively.
+     * Marks the element as hidden which means it will kept in DOM (if it
+     * is already there, but configured hidden using a CSS style of display=none).
      *
      * @type member
      * @return {qx.html.Element} this object (for chaining support)
