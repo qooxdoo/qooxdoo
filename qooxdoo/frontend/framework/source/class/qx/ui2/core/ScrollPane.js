@@ -108,7 +108,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
       if (old)
       {
         this.getLayout().resetContent();
-        content.removeListener("resize", this._onContentResize, this);
+        old.removeListener("resize", this._onContentResize, this);
       }
 
       if (content)
