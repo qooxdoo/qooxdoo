@@ -184,8 +184,7 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     // overridden
-    changeChildVisibility : function(child, visibility)
-    {
+    childExcludeModified : function(child) {
       this._resetMaxIndices();
     },
 

@@ -1022,11 +1022,11 @@ qx.Class.define("qx.ui2.core.Widget",
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this._parent;
-      if (parent && (old == "excluded" || value == "excluded"))
+      if (parent && (old === "excluded" || value === "excluded"))
       {
         var parentLayout = parent.getLayout();
         if (parentLayout) {
-          parentLayout.changeChildVisibility(this, value);
+          parentLayout.childExcludeModified(this);
         }
 
         parent.scheduleLayoutUpdate();
@@ -1034,9 +1034,20 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    // property apply
-    _applyLayoutVisible : function(value, old) {
-      this._toggleDisplay();
+    _layoutVisible : true,
+
+    layoutVisibilityModified : function(value)
+    {
+      if (value !== this._layoutVisible)
+      {
+        if (value) {
+          delete this._layoutVisible;
+        } else {
+          this._layoutVisible = false;
+        }
+
+        this._toggleDisplay();
+      }
     },
 
 
@@ -1045,12 +1056,17 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _toggleDisplay : function()
     {
-      if (this.getParent() && this.getLayoutVisible() && this.getVisibility() === "visible")
+      if (this.getParent() && this._layoutVisible && this.getVisibility() === "visible")
       {
         this.$$visible = true;
+
+        // Make the element visible (again)
         this._containerElement.show();
+
+        // Prepare for "appear" event
         qx.ui2.core.DisplayQueue.add(this);
 
+        // Fire "show" event
         if (this.hasListeners("show")) {
           this.fireEvent("show");
         }
@@ -1066,8 +1082,10 @@ qx.Class.define("qx.ui2.core.Widget",
           this._containerElement.hide();
         }
 
+        // Prepare for "disappear" event
         qx.ui2.core.DisplayQueue.add(this);
 
+        // Fire "hide" event
         if (this.hasListeners("hide")) {
           this.fireEvent("hide");
         }
@@ -1121,33 +1139,33 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Whether the widget is locally visible.
      *
-     * This method does not respect the hierarchy.
+     * Note: This method does not respect the hierarchy.
      *
      * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is visible
      */
     isVisible : function() {
-      return this.getVisibility() === "visible";
+      return !!this.$$visible;
     },
 
 
     /**
      * Whether the widget is locally hidden.
      *
-     * This method does not respect the hierarchy.
+     * Note: This method does not respect the hierarchy.
      *
      * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is hidden
      */
     isHidden : function() {
-      return this.getVisibility() === "hidden";
+      return !this.$$visible;
     },
 
 
     /**
      * Whether the widget is locally excluded.
      *
-     * This method does not respect the hierarchy.
+     * Note: This method does not respect the hierarchy.
      *
      * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is excluded
