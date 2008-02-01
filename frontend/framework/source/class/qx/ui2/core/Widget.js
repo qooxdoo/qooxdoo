@@ -447,6 +447,20 @@ qx.Class.define("qx.ui2.core.Widget",
       event : "changeFont",
       themeable : true,
       inheritable : true
+    },
+
+
+    /**
+     * Whether the widget is enabled. Disabled widgets are usually grayed out
+     * and don't receive user input events.
+     */
+    enabled :
+    {
+      init : "inherit",
+      check : "Boolean",
+      inheritable : true,
+      apply : "_applyEnabled",
+      event : "changeEnabled"
     }
 
   },
@@ -1423,6 +1437,13 @@ qx.Class.define("qx.ui2.core.Widget",
       if (value) {
         value.setWidget(this);
       }
+    },
+
+
+    // property apply
+    _applyEnabled : function(value, old)
+    {
+      // TODO: implement me!
     }
   },
 

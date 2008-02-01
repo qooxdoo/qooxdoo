@@ -43,7 +43,7 @@ qx.Class.define("BasicSample",
       container.setPadding(20);
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0, 0, 0);
+      doc.add(container, 0, 0);
 
       docLayout.add(this.getGrid1());
       docLayout.add(this.getGrid2());
@@ -80,7 +80,7 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(1, "solid", "black");
 
       // auto size
-      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", maxHeight: "pref"});
       var layout = new qx.ui2.layout.Grid();
 
       layout.setColumnAlign(1, "center", "top");

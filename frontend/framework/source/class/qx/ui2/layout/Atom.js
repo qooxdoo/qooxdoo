@@ -66,23 +66,41 @@ qx.Class.define("qx.ui2.layout.Atom",
 
   members :
   {
+    /**
+     * Sets the icon widget of the atom layout. If the icon is <code>null</code>,
+     * the icon is removed from the layout.
+     *
+     * @param icon {qx.ui2.core.Widget|null} The icon widget.
+     */
     setIcon : function(icon)
     {
       if (this._icon) {
-        this._removeHelper(icon);
+        this._removeHelper(this._icon);
       }
-      this._addHelper(icon);
+
+      if (icon) {
+        this.add(icon);
+      }
 
       this._icon = icon;
     },
 
 
+    /**
+     * Sets the text widget of the atom layout. If the icon is <code>null</code>,
+     * the icon is removed from the layout.
+     *
+     * @param icon {qx.ui2.core.Widget|null} The icon widget.
+     */
     setText : function(text)
     {
       if (this._text) {
-        this._removeHelper(_text);
+        this._removeHelper(this._text);
       }
-      this._addHelper(text);
+
+      if (text) {
+        this.add(text);
+      }
 
       this._text = text;
     },
@@ -100,42 +118,74 @@ qx.Class.define("qx.ui2.layout.Atom",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var child, childHint;
-      var childWidth, childHeight, childLeft, childTop;
+      var Util = qx.ui2.layout.Util;
 
-      if (this._icon && this._text)
-      {
-        child = this._icon;
-        child.renderLayout(childLeft, childTop, childWidth, childHeight);
+      var iconPosition = this.getIconPosition();
+      var children;
 
-
-        child = this._text;
-        child.renderLayout(childLeft, childTop, childWidth, childHeight);
+      if (iconPosition == "top" || iconPosition == "left") {
+        children = [this._icon, this._text];
       }
-      else if (this._text || this._icon)
+
+      if (iconPosition == "bottom" || iconPosition == "right") {
+        children = [this._text, this._icon];
+      }
+
+      if (iconPosition == "top" || iconPosition == "bottom")
       {
-        child = this._text || this._icon;
+        // vertical
+        var top = 0;
+        for (var i=0,l=children.length; i<l; i++)
+        {
+          var child = children[i];
+          if (!child) {
+            continue;
+          }
+          var childHint = child.getSizeHint();
 
-        childHint = child.getSizeHint();
+          if (child == this._text) {
+            var childWidth = Math.max(childHint.minWidth, Math.min(childHint.width, availWidth));
+          } else {
+            childWidth = childHint.width;
+          }
+          var childHeight = childHint.height;
+          var childLeft = Util.computeHorizontalAlignOffset("center", childWidth, availWidth);
 
-        childWidth = Math.max(0, childHint.minWidth, Math.min(childHint.width, childHint.maxWidth));
-        childHeight = Math.max(0, childHint.minHeight, Math.min(childHint.height, childHint.maxHeight));
+          child.renderLayout(childLeft, top, childWidth, childHeight);
 
-        childLeft = Math.round((availWidth - childWidth) / 2);
-        childTop = Math.round((availHeight - childHeight) / 2);
+          top += this.getGap() + childHeight;
+        }
+      }
+      else
+      {
+        // horizontal
+        var left = 0;
+        for (var i=0,l=children.length; i<l; i++)
+        {
+          var child = children[i];
+          if (!child) {
+            continue;
+          }
+          var childHint = child.getSizeHint();
 
-        child.renderLayout(childLeft, childTop, childWidth, childHeight);
+          if (child == this._text) {
+            var childWidth = Math.max(childHint.minWidth, Math.min(childHint.width, availWidth));
+          } else {
+            childWidth = childHint.width;
+          }
+          var childTop = Util.computeVerticalAlignOffset("middle", childHint.height, availHeight);
+
+          child.renderLayout(left, childTop, childWidth, childHint.height);
+
+          left += this.getGap() + childWidth;
+        }
       }
     },
 
 
     // overridden
-    getSizeHint : function()
+    _computeSizeHint : function()
     {
-      if (this._sizeHint) {
-        return this._sizeHint;
-      }
-
       var hint;
 
       if (this._icon && this._text)
@@ -172,10 +222,12 @@ qx.Class.define("qx.ui2.layout.Atom",
 
 
         // Limit to integer and min/max range
+        /*
         minWidth = Math.min(Math.max(0, minWidth));
         width = Math.min(minWidth, Math.max(0, width, maxWidth));
         minHeight = Math.min(Math.max(0, minHeight));
         height = Math.min(minHeight, Math.max(0, height, maxHeight));
+        */
 
 
         // Build hint
@@ -196,9 +248,17 @@ qx.Class.define("qx.ui2.layout.Atom",
       {
         hint = this._text.getSizeHint();
       }
-
-      this.debug("Compute size hint: ", hint);
-      this._sizeHint = hint;
+      else
+      {
+        hint = {
+          minWidth : 0,
+          width : 0,
+          maxWidth : Infinity,
+          minHeight : 0,
+          height : 0,
+          maxHeight : Infinity
+        };
+      }
 
       return hint;
     }
