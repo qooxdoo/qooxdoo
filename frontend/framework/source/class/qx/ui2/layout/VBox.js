@@ -303,7 +303,7 @@ qx.Class.define("qx.ui2.layout.VBox",
           child.renderLayout(left, top, width, height);
 
           // Include again (if excluded before)
-          child.setLayoutVisible(true);
+          child.layoutVisibilityModified(true);
 
           // Remember previous child
           prev = child;
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui2.layout.VBox",
         else
         {
           // Exclude (completely) hidden children
-          child.setLayoutVisible(false);
+          child.layoutVisibilityModified(false);
         }
       }
     },

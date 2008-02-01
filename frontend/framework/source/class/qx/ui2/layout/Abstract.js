@@ -495,9 +495,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Concrete layout implementations may override this function to get notified.
      *
      * @param child {qx.ui2.core.Widget} The changed widget
-     * @param visibility {String} The widget's new visibility value
      */
-    changeChildVisibility : function(child, visibility) {
+    childExcludeModified : function(child) {
       // empty implementation
     },
 

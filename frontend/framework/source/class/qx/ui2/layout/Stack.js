@@ -64,7 +64,7 @@ qx.Class.define("qx.ui2.layout.Stack",
       if (!this.getSelected()) {
         this.setSelected(child);
       } else {
-        child.setLayoutVisible(false);
+        child.layoutVisibilityModified(false);
       }
     },
 
@@ -73,10 +73,10 @@ qx.Class.define("qx.ui2.layout.Stack",
     _applySelected : function(value, old)
     {
       if (old) {
-        old.setLayoutVisible(false);
+        old.layoutVisibilityModified(false);
       }
 
-      value.setLayoutVisible(true);
+      value.layoutVisibilityModified(true);
       this.scheduleWidgetLayoutUpdate();
     },
 
