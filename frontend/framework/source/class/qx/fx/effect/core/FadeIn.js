@@ -51,20 +51,29 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
   construct : function(element, options)
   {
     var fromValue;
-    var opacity = qx.bom.element.Style.get(element, "opacity");
 
-    if (qx.bom.element.Style.get(element, "display") == "none"){
-      fromValue = 0.0;
+    if (typeof(options.from) == "undefined")
+    {
+      if (qx.bom.element.Style.get(element, "display") == "none"){
+        fromValue = 0.0;
+      }
+      else
+      {
+        var opacity = qx.bom.element.Style.get(element, "opacity");
+
+        if (typeof(opacity) == "number") {
+          fromValue = opacity;
+        } else {
+          fromValue = 0.0;
+        }
+
+      }
     }
     else
     {
-      if (typeof(opacity) == "number") {
-        fromValue = opacity;
-      } else {
-        fromValue = 0.0;
-      }
+      fromValue = options.from;
     }
-
+    
     var effectSpecificOptions =
     {
         from : fromValue,
@@ -73,7 +82,7 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
 
     for(var i in effectSpecificOptions)
     {
-      if (!options[i]) {
+      if (typeof(options[i]) == "undefined") {
         options[i] = effectSpecificOptions[i];
       }
     }
@@ -101,12 +110,6 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
 
    members :
    {
-
-    afterFinishInternal : function()
-    {
-      //effect.element.forceRerendering();
-    },
-
 
     update : function(position) {
       qx.bom.element.Opacity.set(this._element, position);

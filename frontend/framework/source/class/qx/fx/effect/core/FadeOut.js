@@ -51,24 +51,33 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
   construct : function(element, options)
   {
     var fromValue;
-    var opacity = qx.bom.element.Style.get(element, "opacity");
 
-    if (qx.bom.element.Style.get(element, "display") == "block"){
-      fromValue = 1.0;
+    if (typeof(options.from) == "undefined")
+    {
+      if (qx.bom.element.Style.get(element, "display") == "block"){
+        fromValue = 1.0;
+      }
+      else
+      {
+        var opacity = qx.bom.element.Style.get(element, "opacity");
+
+        if (typeof(opacity) == "number") {
+          fromValue = opacity;
+        } else {
+          fromValue = 1.0;
+        }
+
+      }
     }
     else
     {
-      if (typeof(opacity) == "number") {
-        fromValue = opacity;
-      } else {
-        fromValue = 1.0;
-      }
+      fromValue = options.from;
     }
-
+    
     var effectSpecificOptions =
     {
         from : fromValue,
-        to   : 0.0
+        to   : 0
     };
 
     for(var i in effectSpecificOptions)
@@ -102,12 +111,6 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
    members :
    {
 
-    afterFinishInternal : function()
-    {
-      //effect.element.forceRerendering();
-    },
-
-
     update : function(position) {
       qx.bom.element.Opacity.set(this._element, position);
     },
@@ -118,7 +121,6 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
       qx.bom.element.Style.set(this._element, "opacity", this._options.from);
       qx.bom.element.Style.set(this._element, "display", "block");
     }
-
 
   },
 
