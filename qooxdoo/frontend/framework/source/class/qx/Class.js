@@ -945,6 +945,9 @@ qx.Bootstrap.define("qx.Class",
       // Store names in constructor/object
       clazz.name = clazz.classname = name;
       clazz.basename = basename;
+      
+      // Store type info
+      clazz.$$type = "Class";
 
       // Attach toString
       if (!clazz.hasOwnProperty("toString")) {
