@@ -9,7 +9,9 @@ qx.Bootstrap.define("qx.log2.Logger",
     
     // INTERNAL DATA
     __buffer : [],
-    __appender : [],
+    __appender : {},
+    __id : 0,
+    
     __start : new Date,
     
     __levels : 
@@ -20,6 +22,40 @@ qx.Bootstrap.define("qx.log2.Logger",
       error : 3
     },
     
+    
+    
+    
+    register : function(appender)
+    {
+      if (appender.$$id) {
+        return;  
+      }
+      
+      this.debug("Registering appender: ", appender);
+      
+      // Register appender
+      var id = this.__id++;
+      this.__appender[id] = appender;
+      appender.$$id = id;
+
+      // Insert previous messages
+      var buffer = this.__buffer;
+      for (var i=0, l=buffer.length; i<l; i++) {
+        appender.process(buffer[i]);
+      }
+    },
+    
+    unregister : function(appender)
+    {
+      var id = appender.$$id;
+      if (id == null) {
+        return;
+      }
+
+      this.debug("Unregistering appender: ", appender);
+      delete this.__appender[id];
+      delete appender.$$id;
+    },
     
     
     
@@ -72,7 +108,7 @@ qx.Bootstrap.define("qx.log2.Logger",
       }
       
       // Serialize and cache
-      var result = [];
+      var msgs = [];
       var item, type, msg, time;
       for (var i=0, l=data.length; i<l; i++) 
       {
@@ -81,7 +117,7 @@ qx.Bootstrap.define("qx.log2.Logger",
         msg = this.__serialize(item, type)
         time = new Date;
 
-        result.push({
+        msgs.push({
           time : time,
           offset : time-this.__start,
           type : type,
@@ -89,88 +125,39 @@ qx.Bootstrap.define("qx.log2.Logger",
         });
       }
       
+      // Build entry
+      var entry = {level:level, msgs:msgs};
+      
       // Update buffer
       var buffer = this.__buffer;
-      buffer.push(result);
+      buffer.push(entry);
       buffer.splice(this.treshold);
       
-      // Send to appenders      
-      if (window.console) 
-      {
-        window.console[level].apply(window.console, this.__toArguments(result));
-        window.console[level](this.__toString(result));
-        window.console[level](this.__toHtml(result));
+      // Send to appenders
+      var appender = this.__appender;
+      for (var id in appender) {
+        appender[id].process(entry);
+      }
+      
+      // Firebug support
+      if (window.console && window.console[entry.level]) {
+        window.console[entry.level].apply(window.console, this.__toArguments(entry.msgs));
       }
     },  
     
     
-    __toArguments : function(result)
+    __toArguments : function(msgs)
     {
       var output = [];
-      var entry;
       
-      for (var i=0, l=result.length; i<l; i++) 
-      {
-        entry = result[i];
-        output.push(entry.msg);
+      for (var i=0, l=msgs.length; i<l; i++) {
+        output.push(msgs[i].msg);
       }
       
       return output; 
     },
 
 
-    __toString : function(result) 
-    {
-      var output = [];
-      var entry;
-      
-      for (var i=0, l=result.length; i<l; i++) 
-      {
-        entry = result[i];
-        
-        if (entry.type=="qx"||entry.type=="stringify") {
-          output.push(entry.msg + "(~" + entry.type + ")");
-        } else {
-          output.push(entry.msg);
-        }
-      }
-      
-      var offset = this.__formatOffset(entry.offset) + ": ";
-      return offset + output.join(" ");      
-    },
-    
-    
-    __toHtml : function(result)
-    {
-      var output = [];
-      var entry;
-      
-      for (var i=0, l=result.length; i<l; i++) 
-      {
-        entry = result[i];
-        output.push("<span class='" + entry.type + "'>" + entry.msg + "</span>");
-      }
-      
-      offset = "<span class='offset'>" + this.__formatOffset(entry.offset) + "</span>: ";
-      
-      return offset + output.join(" ");
-    },
-    
-    
-    __formatOffset : function(offset, length)
-    {
-      var str = offset.toString();
-      var diff = (length||8) - str.length;
-      var pad = "";
-      
-      for (var i=0; i<diff; i++) {
-        pad += "0";
-      }
-      
-      return pad+str;
-    },
-    
-    
     __escapeHtml : function(html) {
       return html ? html.replace(/&/g, "&#38;").replace(/</g, "&#60;").replace(/>/g, "&#62;") : "";
     },
