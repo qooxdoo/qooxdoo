@@ -567,6 +567,10 @@ qx.Class.define("qx.core.Object",
     __dbg : function() {
       return this.classname + "[" + this.toHashCode() + "]: ";
     },
+    
+    
+    __logger : qx.core.Log,
+    //__logger : qx.log2.Logger,
 
 
     /**
@@ -579,7 +583,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     debug : function(msg, exc) {
-      qx.core.Log.debug(this.__dbg(), msg, exc||"");
+      this.__logger.debug(this.__dbg(), msg, exc||"");
     },
 
 
@@ -593,7 +597,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     info : function(msg, exc) {
-      qx.core.Log.info(this.__dbg(), msg, exc||"");
+      this.__logger.info(this.__dbg(), msg, exc||"");
     },
 
 
@@ -607,7 +611,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     warn : function(msg, exc) {
-      qx.core.Log.warn(this.__dbg(), msg, exc||"");
+      this.__logger.warn(this.__dbg(), msg, exc||"");
     },
 
 
@@ -621,7 +625,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     error : function(msg, exc) {
-      qx.core.Log.error(this.__dbg(), msg, exc||"");
+      this.__logger.error(this.__dbg(), msg, exc||"");
     },
 
 
