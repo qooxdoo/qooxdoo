@@ -1,5 +1,5 @@
 
-qx.Bootstrap.define("qx.core.Log2", 
+qx.Bootstrap.define("qx.log2.Logger", 
 {
   statics :
   {
