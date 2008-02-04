@@ -705,3 +705,7 @@ endif
 
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/compute.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+UseJson =
+ifeq ($(UseJson), 1)
+  include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl2.mk
+endif
