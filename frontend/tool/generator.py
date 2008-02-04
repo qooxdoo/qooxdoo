@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, optparse
+import sys, os, optparse, string, types
 import simplejson
 from optparseext.ExtendAction import ExtendAction
 from generator.Log import Log
@@ -76,6 +76,9 @@ def main():
     # Resolve "extend"-Keys
     _resolveExtends(console, config, options.jobs)
 
+    # Resolve "let"-Keys
+    _resolveMacros(console, config, options.jobs)
+
     # Convert into Config class instance
     config = Config(config)
 
@@ -92,6 +95,9 @@ def main():
 def _resolveExtends(console, config, jobs):
     def _mergeEntry(target, source):
         for key in source:
+            # merge 'let' key rather than shadowing
+            if key == 'let'and target.has_key(key):
+                target[key].update(source[key])
             if not target.has_key(key):
                 target[key] = source[key]
 
@@ -122,6 +128,47 @@ def _resolveExtends(console, config, jobs):
 
     console.outdent()
 
+
+def _resolveMacros(console, config, jobs):
+
+    def _expandString(s, map):
+        console.debug("expanding: %s" % str(s))
+        templ = string.Template(s)
+        return templ.substitute(map)
+
+    def _expandMacrosInValues(configElem, macroMap):
+        """ apply macro expansion in strings recursively """
+        # arrays
+        if isinstance(configElem, types.ListType):
+            for e in range(len(configElem)):
+                if isinstance(configElem[e], types.StringTypes):
+                    configElem[e] = _expandString(configElem[e], macroMap)
+                elif isinstance(configElem[e], (types.DictType, types.ListType)):
+                    _expandMacrosInValues(configElem[e], macroMap)
+        # dicts
+        elif isinstance(configElem, types.DictType):
+            for e in configElem:
+                if isinstance(configElem[e], types.StringTypes):
+                    configElem[e] = _expandString(configElem[e], macroMap)
+                elif isinstance(configElem[e], (types.DictType, types.ListType)):
+                    _expandMacrosInValues(configElem[e], macroMap)
+        # leave everything else alone
+        else:
+            pass
+    
+    console.info("Resolving macros...")
+    console.indent()
+
+    for job in jobs:
+        if not config.has_key(job):
+            console.warn("No such job: %s" % job)
+            sys.exit(1)
+        else:
+            if config[job].has_key('let'):
+                _expandMacrosInValues(config[job], config[job]['let'])
+            #print simplejson.dumps(config[job], separators=(',',':'))
+
+    console.outdent()
 
 
 def _executeFeatureSets(console, options):

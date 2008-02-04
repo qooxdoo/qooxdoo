@@ -1,0 +1,42 @@
+{
+  "source" : 
+  {
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path"     : "../../framework/source",
+        "uri"      : "../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path"     : "./source",
+        "uri"      : "../source"
+      }
+    ],
+
+    "include" : ["feedreader.*", "qx.theme.Ext"],
+
+    "source" :
+    {
+      "file" : "./source/script/feedreader_from_json.js"
+    },
+
+    "require" :
+    {
+      "qx.log.Logger" : ["qx.log.appender.Native"]
+    },
+
+    "settings" : 
+    {
+      "qx.application" : "feedreader.Application",
+      "qx.resourceUri" : "../../../framework/source/resource"
+    },
+
+    "cache" :
+    {
+      "path" : "../../cache2"
+    }
+  }
+}
