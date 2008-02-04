@@ -474,7 +474,6 @@ qx.Class.define("qx.ui2.layout.Abstract",
       {
         // this.debug("Cached size hint: ", this._sizeHint);
         return this._sizeHint;
-
       }
 
       if (this._computeSizeHint)
