@@ -515,6 +515,29 @@ qx.Class.define("qx.ui2.core.Widget",
         this._containerElement.setStyle("top", top + "px");
       }
 
+      if (this.hasHeightForWidth())
+      {
+        if (this.__heightForWidth != null)
+        {
+          delete this.__heightForWidth;
+        }
+        else
+        {
+          var compHeight = this.getHeightForWidth(width);
+          // this.debug("Computed height for width: " + width + " = " + compHeight);
+          // this.debug("Original height: " + height);
+
+          if (height !== compHeight)
+          {
+            this.__heightForWidth = compHeight;
+            this.scheduleLayoutUpdate();
+
+            // Fabian thinks this works flawlessly
+            return;
+          }
+        }
+      }
+
       var sizeChange = (width !== this._computedLayout.width || height !== this._computedLayout.height);
       if (sizeChange)
       {
@@ -637,6 +660,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
       // X-AXIS
       // ----------------------------------------
 
@@ -727,6 +752,17 @@ qx.Class.define("qx.ui2.core.Widget",
       // Always respect technical limitations
       minHeight = Math.max(insetY, minHeight, technicalLimits.minWidth);
       maxHeight = Math.min(32000, maxHeight, technicalLimits.maxWidth);
+
+
+
+
+      // HEIGHT FOR WIDTH
+      // ----------------------------------------
+      if (this.__heightForWidth)
+      {
+        // this.debug("Use HeightForWidth: " + this.__heightForWidth);
+        height = this.__heightForWidth;
+      }
 
 
 
