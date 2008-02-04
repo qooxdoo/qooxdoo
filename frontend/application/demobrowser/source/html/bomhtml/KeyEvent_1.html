@@ -61,7 +61,16 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Event</th><th>key identifier</th><th>key code</th><th>char code</th><th>Shift</th><th>Ctrl</th><th>Alt</th></tr>";
+      this.tableHead =
+        "<table><tr>" +
+        "<th>Event</th>" +
+        "<th>key identifier</th>" +
+        //"<th>key code</th>" +
+        //"<th>char code</th>" +
+        "<th>Shift</th>" +
+        "<th>Ctrl</th>" +
+        "<th>Alt</th>" +
+        "</tr>";
   		this.keyEvents = [];
   		this.maxLogSize = 50;
   		this.logDiv = document.getElementById("keylogger");
@@ -96,11 +105,12 @@ qx.Class.define("BasicSample",
 
     logKeyEvent: function(keyEvent)
     {
+      var type = keyEvent.getType();
       var eventCopy = {
 				type: keyEvent.getType(),
 				iden: keyEvent.getKeyIdentifier(),
-				keyCode: keyEvent._keyCode,
-				charCode: keyEvent.getCharCode(),
+				//keyCode: keyEvent._keyCode,
+				//charCode: type == "keypress" ? "" : keyEvent.getCharCode(),
 				shift: keyEvent.isShiftPressed(),
 				alt: keyEvent.isAltPressed(),
 				ctrl: keyEvent.isCtrlPressed()
@@ -115,10 +125,10 @@ qx.Class.define("BasicSample",
 				str.push("</td><td>");
 				str.push(e.iden);
 				str.push("</td><td>");
-				str.push(e.keyCode);
-				str.push("</td><td>");
-				str.push(e.charCode);
-				str.push("</td><td>");
+				//str.push(e.keyCode);
+				//str.push("</td><td>");
+				//str.push(e.charCode);
+				//str.push("</td><td>");
 				str.push(e.shift);
 				str.push("</td><td>");
 				str.push(e.ctrl);
