@@ -122,6 +122,7 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
       qx.bom.element.Style.set(this._element, "display", "block");
     },
 
+
     render : function(pos)
     {
       if(this._state == qx.fx.Base.EffectState.IDLE)
