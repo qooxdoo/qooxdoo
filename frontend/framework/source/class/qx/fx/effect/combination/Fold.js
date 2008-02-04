@@ -119,8 +119,8 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
       this._innerScaleEffect.afterFinishInternal = function(effect)
       {
-        qx.bom.element.Style.set(this._element, "overflow", "visible");
         qx.bom.element.Style.set(this._element, "display", "none");
+        qx.bom.element.Style.set(this._element, "overflow", "visible");
         for (var property in oldStyleReference) {
           qx.bom.element.Style.set(this._element, property, oldStyleReference[property]);
         }

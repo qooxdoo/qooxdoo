@@ -40,7 +40,7 @@
 qx.Class.define("qx.fx.effect.core.Highlight",
 {
 
-  extend : qx.core.Object,
+  extend : qx.fx.Base,
 
   /*
     *****************************************************************************
@@ -52,7 +52,9 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   {
 
     var effectSpecificOptions = {
-      startcolor: '#ffff99'
+      startColor   : "#ffff99",
+      endColor     : "#ffffff",
+      restoreColor : true
     };
 
     for(var i in effectSpecificOptions)
@@ -87,44 +89,48 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   {
     setup : function()
     {
-      this._oldStyle = {
-        backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage")
-      };
-      qxbom.element.Style.set(this._element, "backgroundImage", "none");
 
-/*
-      if (!this.options.endcolor)
-        this.options.endcolor = this.element.getStyle('background-color').parseColor('#ffffff');
-      if (!this.options.restorecolor)
-        this.options.restorecolor = this.element.getStyle('background-color');
-      // init color calculations
-      this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));
-      this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
-*/
+      this._oldStyle = {
+        backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
+        backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
+      };
+      qx.bom.element.Style.set(this._element, "backgroundImage", "none");
+
+      this._startColor = qx.util.ColorUtil.cssStringToRgb(this._options.startColor);
+      this._endColor = qx.util.ColorUtil.cssStringToRgb(this._options.endColor);
+
+      this._deltaColor = [
+        this._endColor[0] - this._startColor[0],
+        this._endColor[1] - this._startColor[1],
+        this._endColor[2] - this._startColor[2]
+      ];
 
     },
 
 
+    update : function(position)
+    {
+      var color = [
+        this._startColor[0] + Math.round(this._deltaColor[0] * position),
+        this._startColor[1] + Math.round(this._deltaColor[1] * position),
+        this._startColor[2] + Math.round(this._deltaColor[2] * position)
+      ];
+
+      var hexColor = "#" + color[0].toString(16) + color[1].toString(16) + color[2].toString(16);
+
+      qx.bom.element.Style.set(this._element, "backgroundColor", hexColor);
+
+    },
 
 
-  update : function(position)
-  {
-    /*
-    this.element.setStyle({backgroundColor: $R(0,2).inject('#',function(m,v,i){
-      return m+((this._base[i]+(this._delta[i]*position)).round().toColorPart()); }.bind(this)) });
-    */
+    finish : function()
+    {
+      for(var property in this._oldStyle) {
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      }
+    }
+
   },
-
-
-  finish : function()
-  {
-    /*
-    this.element.setStyle(Object.extend(this.oldStyle, {
-      backgroundColor: this.options.restorecolor
-      */
-  }
-},
-
 
   /*
   *****************************************************************************
