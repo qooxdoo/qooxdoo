@@ -130,6 +130,17 @@ qx.Class.define("apiviewer.dao.Node", {
     {
       return this._docNode.attributes.access == "protected";
     },
+    
+    
+    /**
+     * Get whether the node is property generated.
+     *
+     * @return {Boolean} whether the node is property generated.
+     */    
+    isPropertyGenerated : function()
+    {
+      return this._docNode.attributes.fromProperty != null;
+    },
 
 
     /**

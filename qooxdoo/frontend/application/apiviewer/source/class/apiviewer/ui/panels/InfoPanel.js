@@ -953,7 +953,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param showPrivate {Boolean} whether to show private items
      * @return {apiviewer.dao.ClassItem[]} filtered list of items
      */
-    __filterItems : function(nodeArr, showProtected, showPrivate)
+    __filterItems : function(nodeArr, expandProperties, showProtected, showPrivate, showInternal)
     {
       if (showProtected && showPrivate) {
         return nodeArr;
@@ -963,17 +963,18 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       for (var i=nodeArr.length-1; i>=0; i--)
       {
         var node = nodeArr[i];
-        if (node.isPrivate() && !showPrivate) {
+        if (node.isPropertyGenerated() && !expandProperties) {
           qx.lang.Array.removeAt(copyArr, i);
         }
-
-        if (node.isProtected() && !showProtected) {
+        else if (node.isPrivate() && !showPrivate) {
           qx.lang.Array.removeAt(copyArr, i);
         }
-
-        if (node.isInternal() && !showPrivate) {
-            qx.lang.Array.removeAt(copyArr, i);
+        else if (node.isProtected() && !showProtected) {
+          qx.lang.Array.removeAt(copyArr, i);
         }
+        else if (node.isInternal() && !showInternal) {
+          qx.lang.Array.removeAt(copyArr, i);
+        }        
       }
 
       return copyArr;
@@ -1076,15 +1077,17 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     {
       this.setDocNode(currentClassDocNode);
 
-      var showProtected = classViewer.getShowProtected();
       var showInherited = classViewer.getShowInherited();
-      var showPrivate = classViewer.getShowPrivate();
-
       var nodeArr = this._getPanelItems(showInherited, currentClassDocNode);
 
       if (nodeArr && nodeArr.length > 0)
       {
-        nodeArr = this.__filterItems(nodeArr, showProtected, showPrivate);
+        var expandProperties = classViewer.getExpandProperties();
+        var showProtected = classViewer.getShowProtected();
+        var showPrivate = classViewer.getShowPrivate();
+        var showInternal = showPrivate;
+
+        nodeArr = this.__filterItems(nodeArr, expandProperties, showProtected, showPrivate, showInternal);
         this._sortItems(nodeArr);
       }
 

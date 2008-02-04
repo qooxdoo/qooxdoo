@@ -23,6 +23,10 @@
 /* ************************************************************************
 
 #module(apiviewer)
+#embed(qx.icontheme/22/apps/accessories-archiver.png)
+#embed(qx.icontheme/22/apps/system-users.png)
+#embed(qx.icontheme/22/actions/stop.png)
+#embed(qx.icontheme/22/actions/decrypt.png)
 
 ************************************************************************ */
 
@@ -65,12 +69,8 @@ qx.Class.define("apiviewer.Viewer",
       this.__createDetailFrame()
     );
 
-    this.add(
-      this.__createVerticalSplitter(
-        buttonView,
-        mainFrame
-      )
-    );
+    this.add(this.__createVerticalSplitter(
+      buttonView, mainFrame));
   },
 
 
@@ -189,28 +189,41 @@ qx.Class.define("apiviewer.Viewer",
 
       var part = new qx.ui.toolbar.Part;
       toolbar.add(part);
-
+      
+      part.add(createButton(
+        "Expand",
+        qx.ui.toolbar.CheckBox,
+        "icon/22/apps/accessories-archiver.png",
+        //apiviewer.TreeUtil.iconNameToIconPath("ICON_PROPERTY_PUB"),
+        "Expand properties",
+        false,
+        "btn_expand"
+      ));  
       part.add(createButton(
         "Inherited",
         qx.ui.toolbar.CheckBox,
-        apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PUB_INHERITED"),
-        "Show inherited items.",
+        "icon/22/apps/system-users.png",
+        //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PUB_INHERITED"),
+        "Show inherited items",
         false,
         "btn_inherited"
       ));
+      part.add(new qx.ui.toolbar.Separator);
       part.add(createButton(
         "Protected",
         qx.ui.toolbar.CheckBox,
-        apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PROT"),
-        "Show protected items.",
+        "icon/22/actions/stop.png",
+        //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PROT"),
+        "Show protected items",
         false,
         "btn_protected"
       ));
       part.add(createButton(
         "Private",
         qx.ui.toolbar.CheckBox,
-        apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PRIV"),
-        "Show private and internal items.",
+        "icon/22/actions/decrypt.png",
+        //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PRIV"),
+        "Show private/internal items",
         false,
         "btn_private"
       ));
