@@ -91,6 +91,13 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
     /** whether to display protected items */
+    expandProperties :  {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
+
+    /** whether to display protected items */
     showProtected :  {
       check: "Boolean",
       init: false,

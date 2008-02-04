@@ -583,7 +583,7 @@ def handleProperties(item, classNode):
         #print propName, propDefinition
 
         # handle old style properties
-        if propDefinition.has_key("_legacy") or propDefinition.has_key("_cached") or propDefinition.has_key("_fast"):
+        if propDefinition.has_key("_cached") or propDefinition.has_key("_fast"):
             continue
 
         if propDefinition.has_key("group"):

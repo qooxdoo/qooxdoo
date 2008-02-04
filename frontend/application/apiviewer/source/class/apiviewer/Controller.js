@@ -179,6 +179,11 @@ qx.Class.define("apiviewer.Controller",
         this._classViewer.setShowInherited(e.getValue());
       }, this);
 
+      var btn_expand = this._widgetRegistry.getWidgetById("btn_expand");
+      btn_expand.addListener("changeChecked", function(e) {
+        this._classViewer.setExpandProperties(e.getValue());
+      }, this);
+
       var btn_protected = this._widgetRegistry.getWidgetById("btn_protected");
       btn_protected.addListener("changeChecked", function(e) {
         this._classViewer.setShowProtected(e.getValue());
