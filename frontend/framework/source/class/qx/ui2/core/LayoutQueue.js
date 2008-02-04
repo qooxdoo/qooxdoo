@@ -211,7 +211,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       // sparse level array
       var levels = [];
       var queue = this.__queue;
-      var widget;
+      var widget, level;
 
       for (var hash in queue)
       {
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
         if (this.isWidgetVisible(widget))
         {
-          var level = this.getNestingLevel(widget);
+          level = this.getNestingLevel(widget);
 
           // create hierarchy
           if (!levels[level]) {
