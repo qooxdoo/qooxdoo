@@ -52,8 +52,8 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   {
 
     var effectSpecificOptions = {
-      startColor   : "#ffff99",
-      endColor     : "#ffffff",
+      startColor   : "#ffffff",
+      endColor     : "#ffffaa",
       restoreColor : true
     };
 
@@ -119,11 +119,16 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       var hexColor = "#" + color[0].toString(16) + color[1].toString(16) + color[2].toString(16);
 
       qx.bom.element.Style.set(this._element, "backgroundColor", hexColor);
-
     },
 
 
     finish : function()
+    {
+      qx.lang.Function.delay(this._restore, 1000, this);
+    },
+
+
+    _restore : function()
     {
       for(var property in this._oldStyle) {
         qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
