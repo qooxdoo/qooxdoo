@@ -2,10 +2,11 @@
   "source" : 
   {
     "let" :
-    {
-      "QOOXDOO_PATH" : "../..",
-      "QOOXDOO_URI"  : "../../.."
-    },
+    [
+      [ "QOOXDOO_PATH" , "../.." ],
+      [ "QOOXDOO_URI"  , "${QOOXDOO_PATH}/.." ],
+      [ "APPLICATION_NAMESPACE" , "custom" ]
+    ],
 
     "library" :
     [
@@ -24,7 +25,7 @@
 
     "source" :
     {
-      "file" : "./source/script/custom.js"
+      "file" : "./source/script/${APPLICATION_NAMESPACE}.js"
     },
 
     "require" :
@@ -34,7 +35,7 @@
 
     "settings" : 
     {
-      "qx.application" : "custom.Application",
+      "qx.application" : "${APPLICATION_NAMESPACE}.Application",
       "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
     },
 
