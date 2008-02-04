@@ -175,6 +175,30 @@ qx.Class.define("qx.ui2.core.LayoutItem",
 
 
     /**
+     * Whether the widget supports height for width.
+     *
+     * @return {Boolean} Whether the widget supports height for width
+     */
+    hasHeightForWidth : function() {
+      return false;
+    },
+
+
+    /**
+     * If a widget want's to trade height for width it has to implenet this
+     * method and return the preferred height of the widget if it is resized to
+     * the given width. This function returns <code>null</code> if the widget
+     * doe not support height for width.
+     *
+     * @param width {Integer} The widgets new width
+     * @return {Integer} The desired widget height
+     */
+    getHeightForWidth : function(width) {
+      return null;
+    },
+
+
+    /**
      * Whether a widget is able to stretch on the x-axis. Some specific y-axis
      * oriented widgets may overwrite this e.g. ToolBarSeparator, ...
      *
