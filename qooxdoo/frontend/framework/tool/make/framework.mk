@@ -33,6 +33,7 @@ FRAMEWORK_NAMESPACE_PATH := $(shell echo $(FRAMEWORK_NAMESPACE) | sed s:\\.:/:g)
 FRAMEWORK_SOURCE_PATH = $(FRAMEWORK_PATH)/source
 FRAMEWORK_CACHE_PATH = $(FRAMEWORK_PATH)/.cache
 FRAMEWORK_TOOL_PATH = $(FRAMEWORK_PATH)/tool
+TOOL2_PATH = $(QOOXDOO_PATH)/frontend/tool
 
 
 #
@@ -64,6 +65,7 @@ CMD_LINE = echo "---------------------------------------------------------------
 CMD_NICE = nice -n 10
 CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_GENERATOR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH) --version "$(FRAMEWORK_FULL_VERSION)"
+CMD_GENERATOR2 = $(CMD_PYTHON) $(TOOL2_PATH)/generator.py
 CMD_CONTRIB = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/manifest.py
 CMD_DOWNLOAD_CONTRIB = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/download-contrib.py
 CMD_LINT = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/ecmalint.py
