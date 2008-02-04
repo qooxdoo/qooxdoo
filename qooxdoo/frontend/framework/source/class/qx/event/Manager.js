@@ -479,7 +479,7 @@ qx.Class.define("qx.event.Manager",
      *
      * @type member
      * @param target {Object} Any valid event target
-     * @param clazz {qx.event.type.Event} The even class
+     * @param clazz {qx.event.type.Event} The event class
      * @param args {Array} Array or arguments, which will be passed to
      *       the event's init method.
      * @return {void}
