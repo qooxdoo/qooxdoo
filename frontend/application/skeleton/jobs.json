@@ -1,0 +1,46 @@
+{
+  "source" : 
+  {
+    "let" :
+    {
+      "QOOXDOO_PATH" : "../..",
+      "QOOXDOO_URI"  : "../../.."
+    },
+
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path"     : "${QOOXDOO_PATH}/framework/source",
+        "uri"      : "${QOOXDOO_URI}/framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path"     : "./source",
+        "uri"      : "../source"
+      }
+    ],
+
+    "source" :
+    {
+      "file" : "./source/script/custom.js"
+    },
+
+    "require" :
+    {
+      "qx.log.Logger" : ["qx.log.appender.Native"]
+    },
+
+    "settings" : 
+    {
+      "qx.application" : "custom.Application",
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
+    },
+
+    "cache" :
+    {
+      "path" : "../../cache2"
+    }
+  }
+}
