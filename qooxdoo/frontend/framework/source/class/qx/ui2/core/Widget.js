@@ -242,7 +242,7 @@ qx.Class.define("qx.ui2.core.Widget",
     maxWidth :
     {
       apply : "_applyLayoutChange",
-      init : 32000,
+      init : Infinity,
       themeable : true
     },
 
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui2.core.Widget",
     maxHeight :
     {
       apply : "_applyLayoutChange",
-      init : 32000,
+      init : Infinity,
       themeable : true
     },
 
@@ -484,6 +484,14 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     // overridden
+    updateLayout : function()
+    {
+      var computed = this.__computedLayout;
+      this.renderLayout(computed.left, computed.top, computed.width, computed.height);
+    },
+
+
+    // overridden
     renderLayout : function(left, top, width, height)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -496,23 +504,26 @@ qx.Class.define("qx.ui2.core.Widget",
         }
       }
 
-      var insets = this.getInsets();
+      // Cache some often used stuff in local variables
+      var computed = this.__computedLayout;
+      var container = this._containerElement;
+      var content = this._contentElement;
+      var pixel = "px";
 
-      var innerWidth = width - insets.left - insets.right;
-      var innerHeight = height - insets.top - insets.bottom;
-
-      if (!this._computedLayout) {
-        this._computedLayout = {};
+      // Create data structure for computed layout
+      if (!computed) {
+        computed = this.__computedLayout = {};
       }
 
-      var locationChange = (left !== this._computedLayout.left || top !== this._computedLayout.top);
+      // Detect location changes
+      var locationChange = (left !== computed.left || top !== computed.top);
       if (locationChange)
       {
-        this._computedLayout.left = left;
-        this._computedLayout.top = top;
+        computed.left = left;
+        computed.top = top;
 
-        this._containerElement.setStyle("left", left + "px");
-        this._containerElement.setStyle("top", top + "px");
+        container.setStyle("left", left + pixel);
+        container.setStyle("top", top + pixel);
       }
 
       if (this.hasHeightForWidth())
@@ -523,13 +534,12 @@ qx.Class.define("qx.ui2.core.Widget",
         }
         else
         {
-          var compHeight = this.getHeightForWidth(width);
-          // this.debug("Computed height for width: " + width + " = " + compHeight);
-          // this.debug("Original height: " + height);
+          var flowHeight = this.getHeightForWidth(width);
+          this.debug("Computed height for width: " + width + " = " + flowHeight + " (orig:" + height + ")");
 
-          if (height !== compHeight)
+          if (height !== flowHeight)
           {
-            this.__heightForWidth = compHeight;
+            this.__heightForWidth = flowHeight;
             this.scheduleLayoutUpdate();
 
             // Fabian thinks this works flawlessly
@@ -538,49 +548,60 @@ qx.Class.define("qx.ui2.core.Widget",
         }
       }
 
-      var sizeChange = (width !== this._computedLayout.width || height !== this._computedLayout.height);
-      if (sizeChange)
-      {
-        this._computedLayout.width = width;
-        this._computedLayout.height = height;
+      var sizeChange = (width !== computed.width || height !== computed.height);
 
-        this._containerElement.setStyle("width", width + "px");
-        this._containerElement.setStyle("height", height + "px");
-
-        this._contentElement.setStyle("left", insets.left + "px");
-        this._contentElement.setStyle("top", insets.top + "px");
-        this._contentElement.setStyle("width", innerWidth + "px");
-        this._contentElement.setStyle("height", innerHeight + "px");
-
-        this.updateDecoration(width, height);
-      }
-
-      // if the current layout is invalid force a relayout even if
-      // the size has not changed
       if (sizeChange || !this._hasValidLayout)
       {
-        var mgr = this.getLayout();
-        if (mgr && mgr.hasChildren()) {
-          mgr.renderLayout(innerWidth, innerHeight);
+        // Compute inner width
+        var insets = this.getInsets();
+
+        var innerWidth = width - insets.left - insets.right;
+        var innerHeight = height - insets.top - insets.bottom;
+
+        // React on size change
+        if (sizeChange)
+        {
+          computed.width = width;
+          computed.height = height;
+
+          container.setStyle("width", width + pixel);
+          container.setStyle("height", height + pixel);
+
+          content.setStyle("left", insets.left + pixel);
+          content.setStyle("top", insets.top + pixel);
+          content.setStyle("width", innerWidth + pixel);
+          content.setStyle("height", innerHeight + pixel);
+
+          this.updateDecoration(width, height);
         }
 
-        this._hasValidLayout = true;
+        // If the current layout is invalid force a relayout even if
+        // the size has not changed
+        if (sizeChange || !this._hasValidLayout)
+        {
+          var layout = this.getLayout();
+          if (layout && layout.hasChildren()) {
+            layout.renderLayout(innerWidth, innerHeight);
+          }
+
+          this._hasValidLayout = true;
+        }
       }
 
-      // after doing the layout fire change events
+      // After doing the layout fire change events
       if (sizeChange && this.hasListeners("resize")) {
-        this.fireDataEvent("resize", this._computedLayout);
+        this.fireDataEvent("resize", computed);
       }
 
       if (locationChange && this.hasListeners("move")) {
-        this.fireDataEvent("move", this._computedLayout);
+        this.fireDataEvent("move", computed);
       }
     },
 
 
     // overridden
     hasValidLayout : function() {
-      return this._hasValidLayout == true;
+      return this._hasValidLayout === true;
     },
 
 
@@ -594,9 +615,9 @@ qx.Class.define("qx.ui2.core.Widget",
       this._sizeHint = null;
 
       // invalidateLayoutCache layout manager
-      var mgr = this.getLayout();
-      if (mgr) {
-        mgr.invalidateLayoutCache();
+      var layout = this.getLayout();
+      if (layout) {
+        layout.invalidateLayoutCache();
       }
     },
 
@@ -961,7 +982,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *    <code>top</code>.
      */
     getComputedLayout : function() {
-      return this._computedLayout || null;
+      return this.__computedLayout || null;
     },
 
 
@@ -978,7 +999,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getComputedInnerSize : function()
     {
-      var computed = this._computedLayout;
+      var computed = this.__computedLayout;
       if (!computed) {
         return null;
       }
