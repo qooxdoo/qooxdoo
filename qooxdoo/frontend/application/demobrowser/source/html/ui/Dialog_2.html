@@ -68,14 +68,14 @@ qx.Class.define("BasicSample",
       var ok = new qx.ui2.basic.TextLabel("OK").set({
         backgroundColor : "#CCC",
         decoration: border,
-        padding: [2, 5]
+        padding: [4, 8]
       });
       layout.add(ok, 1, 1);
 
       var cancel = new qx.ui2.basic.TextLabel("Cancel").set({
         backgroundColor : "#CCC",
         decoration: border,
-        padding: [2, 5]
+        padding: [4, 8]
       });
       layout.add(cancel, 1, 2);
 
@@ -94,15 +94,15 @@ qx.Class.define("BasicSample",
     getPaneLayout : function()
     {
       var vbox = new qx.ui2.layout.VBox;
-      vbox.setSpacing(20);
+      vbox.setSpacing(14);
 
-      var label1 = new qx.ui2.basic.HtmlLabel("Screenshots #1 and #2 show that the label can be reduced in size to 102 pixels horizontally or to 55 pixels vertically, so long as there is enough space in the other direction. Screenshot #3 shows what happens when the label is squeezed down to its minimum height and minimum width.");
+      var label1 = new qx.ui2.basic.HtmlLabel("qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed.");
       vbox.add(label1);
 
-      var label2 = new qx.ui2.basic.HtmlLabel("We would like QLabel to tell the layout that screenshot #1 and screenshot #2 are acceptable but that screenshot #3 is not. The sizeHint() and minimumSizeHint() functions cannot do this, so Qt provides a complementary mechanism: height-for-width.");
+      var label2 = new qx.ui2.basic.HtmlLabel("It includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license.");
       vbox.add(label2);
 
-      var label3 = new qx.ui2.basic.HtmlLabel("Every widget's QSizePolicy contains a boolean height-for-width flag that indicates whether or not the widget is able to trade width for height and height for width. The layout will call the virtual function QWidget::heightForWidth() as necessary to determine the desired height for a height-for-width widget with a given width.");
+      var label3 = new qx.ui2.basic.HtmlLabel("qooxdoo (pronounced [’ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license.");
       vbox.add(label3);
 
       return vbox;
