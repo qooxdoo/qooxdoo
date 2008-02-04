@@ -143,6 +143,7 @@
     var animSwitchOff = new qx.fx.effect.combination.SwitchOff(myElement, {});
     var animFold = new qx.fx.effect.combination.Fold(myElement, {});
 
+    var animHigh = new qx.fx.effect.core.Highlight(myElement, { startColor : "#134275"});
 
   	/* Buttons */
   	var btnShow = new qx.ui.form.Button("Fade in");
@@ -158,6 +159,7 @@
   	var btnPulsate = new qx.ui.form.Button("Pulsate");
   	var btnSwitchOff = new qx.ui.form.Button("Switch off");
   	var btnFold = new qx.ui.form.Button("Fold");
+  	var btnHigh = new qx.ui.form.Button("Highlight");
 
   	var btnReset = new qx.ui.form.Button("Reset element");
   
@@ -175,6 +177,7 @@
   	btnSwitchOff.setLocation(650, 25);
   	btnPulsate.setLocation(720, 25);
   	btnFold.setLocation(770, 25);
+  	btnHigh.setLocation(810, 25);
   	
   	btnReset.setLocation(25, 57);
   
@@ -236,6 +239,10 @@
   	  animFold.start();
     });
 
+    btnHigh.addListener("execute", function(){
+  	  animHigh.start();
+    });
+
 
   	btnReset.addListener("execute", function(){
   	  resetElement(myElement);
@@ -243,7 +250,7 @@
   
   	btnReset.setBackgroundColor("#B22222");
   
-  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnReset);
+  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnHigh, btnReset);
      
   });
   </script>
