@@ -56,16 +56,12 @@ qx.Class.define("qx.ui2.core.Widget",
   {
     this.base(arguments);
 
-    // Create content element
     this._containerElement = this._createContainerElement();
     this._decorationElement = this._createDecorationElement();
     this._contentElement = this._createContentElement();
 
     this._containerElement.add(this._decorationElement);
     this._containerElement.add(this._contentElement);
-
-    // Layout data
-    this._computedLayout = {};
   },
 
 
@@ -504,6 +500,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
       var innerWidth = width - insets.left - insets.right;
       var innerHeight = height - insets.top - insets.bottom;
+
+      if (!this._computedLayout) {
+        this._computedLayout = {};
+      }
 
       var locationChange = (left !== this._computedLayout.left || top !== this._computedLayout.top);
       if (locationChange)
