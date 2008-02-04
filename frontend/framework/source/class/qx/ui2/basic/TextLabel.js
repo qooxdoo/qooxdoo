@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.core.Label",
+qx.Class.define("qx.ui2.basic.TextLabel",
 {
   extend : qx.ui2.core.Widget,
 
