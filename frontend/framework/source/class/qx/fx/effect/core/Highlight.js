@@ -92,7 +92,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       };
       qxbom.element.Style.set(this._element, "backgroundImage", "none");
 
-/*    
+/*
       if (!this.options.endcolor)
         this.options.endcolor = this.element.getStyle('background-color').parseColor('#ffffff');
       if (!this.options.restorecolor)
@@ -101,10 +101,10 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       this._base  = $R(0,2).map(function(i){ return parseInt(this.options.startcolor.slice(i*2+1,i*2+3),16) }.bind(this));
       this._delta = $R(0,2).map(function(i){ return parseInt(this.options.endcolor.slice(i*2+1,i*2+3),16)-this._base[i] }.bind(this));
 */
-    
-    }
 
-  },
+    },
+
+
 
 
   update : function(position)
@@ -123,8 +123,9 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       backgroundColor: this.options.restorecolor
       */
   }
-  
-  
+},
+
+
   /*
   *****************************************************************************
      DEFER
