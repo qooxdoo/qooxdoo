@@ -32,14 +32,24 @@ qx.Class.define("BasicSample",
 
       var decor = new qx.ui2.decoration.Basic(1, "solid", "black");
 
-      var label1 = new qx.ui2.core.Label("Hello World");
+      var label1 = new qx.ui2.basic.TextLabel("Hello World");
       label1.setDecoration(decor);
       doc.add(label1, 20, 20);
 
-      var label2 = new qx.ui2.core.Label("Hello World");
+      var label2 = new qx.ui2.basic.TextLabel("Hello World");
       label2.setDecoration(decor);
       label2.setWidth(50);
       doc.add(label2, 20, 60);
+
+      var label3 = new qx.ui2.basic.HtmlLabel("Returns the preferred height for this layout item, given the width w.");
+      label3.setDecoration(decor);
+      label3.setWidth(100);
+      doc.add(label3, 20, 100);
+
+      this.debug("Height for Width (100): " + label3.getHeightForWidth(100));
+      this.debug("Height for Width (150): " + label3.getHeightForWidth(150));
+      this.debug("Height for Width (200): " + label3.getHeightForWidth(200));
+
     }
   }
 });

@@ -809,6 +809,30 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+
+    getHeightForWidth : function(width)
+    {
+      // Prepare insets
+      var insets = this.getInsets();
+
+      var insetX = insets.left + insets.right;
+      var insetY = insets.top + insets.bottom;
+
+      // Compute content width
+      var contentWidth = width - insetX;
+
+      // Compute height
+      var contentHeight = this._getContentHeightForWidth(contentWidth);
+
+      // Computed box height
+      var height = contentHeight + insetY;
+
+      return height;
+    },
+
+
+
+
     /**
      * Returns the technical size limits of this widget.
      *
