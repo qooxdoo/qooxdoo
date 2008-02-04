@@ -630,6 +630,35 @@ qx.Class.define("qx.ui2.layout.Grid",
 
 
     /**
+     * Set the preferred width of a grid column.
+     * The default value is <code>Infinity</code>.
+     *
+     * @param column {Integer} The column index
+     * @param maxWidth {Integer} The column's width
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     */
+    setColumnWidth : function(column, width)
+    {
+      this._setColumnData(column, "width", width);
+      this.scheduleWidgetLayoutUpdate();
+      return this;
+    },
+
+
+    /**
+     * Get the preferred width of a grid column.
+     *
+     * @param column {Integer} The column index
+     * @return {Integer} The column's width
+     */
+    getColumnWidth : function(column)
+    {
+      var colData = this._colData[column] || {};
+      return colData.width !== undefined ? colData.width : null;
+    },
+
+
+    /**
      * Set the minimum width of a grid column.
      * The default value is <code>0</code>.
      *
@@ -684,6 +713,35 @@ qx.Class.define("qx.ui2.layout.Grid",
     {
       var rowData = this._rowData[row] || {};
       return rowData.maxHeight || Infinity;
+    },
+
+
+    /**
+     * Set the preferred height of a grid row.
+     * The default value is <code>Infinity</code>.
+     *
+     * @param row {Integer} The row index
+     * @param maxHeight {Integer} The row's width
+     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     */
+    setRowHeight : function(row, height)
+    {
+      this._setRowData(row, "height", height);
+      this.scheduleWidgetLayoutUpdate();
+      return this;
+    },
+
+
+    /**
+     * Get the preferred height of a grid row.
+     *
+     * @param row {Integer} The row index
+     * @return {Integer} The row's width
+     */
+    getRowHeight : function(row)
+    {
+      var rowData = this._rowData[row] || {};
+      return rowData.height !== undefined ? rowData.height : null;
     },
 
 
@@ -947,7 +1005,12 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         var minHeight = Math.max(minHeight, this.getRowMinHeight(row));
         var maxHeight = Math.min(maxHeight, this.getRowMaxHeight(row));
-        var height = Math.max(minHeight, Math.min(height, maxHeight));
+
+        if (this.getRowHeight() !== null) {
+          var height = this.getRowHeight();
+        } else {
+          var height = Math.max(minHeight, Math.min(height, maxHeight));
+        }
 
         rowHeights[row] = {
           minHeight : minHeight,
@@ -1010,7 +1073,12 @@ qx.Class.define("qx.ui2.layout.Grid",
 
         var minWidth = Math.max(minWidth, this.getColumnMinWidth(col));
         var maxWidth = Math.min(maxWidth, this.getColumnMaxWidth(col));
-        var width = Math.max(minWidth, Math.min(width, maxWidth));
+
+        if (this.getColumnWidth() !== null) {
+          var width = this.getColumnWidth();
+        } else {
+          var width = Math.max(minWidth, Math.min(width, maxWidth));
+        }
 
         colWidths[col] = {
           minWidth: minWidth,
