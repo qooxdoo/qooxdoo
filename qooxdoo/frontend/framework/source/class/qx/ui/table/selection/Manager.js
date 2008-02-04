@@ -235,10 +235,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
       else
       {
         // only set the selection interval if there is really a change of the selection
-        if (
-          !(anchorIndex == leadIndex && anchorIndex == index) ||
-          selectionModel.isSelectionEmpty()
-        ) {
+        if (!(anchorIndex == leadIndex && anchorIndex == index && selectionModel.getSelectedCount() == 1)) {
           selectionModel.setSelectionInterval(index, index);
         }
       }
