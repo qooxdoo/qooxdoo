@@ -109,6 +109,12 @@ qx.Class.define("qx.ui2.basic.HtmlLabel",
     },
 
 
+    hasHeightForWidth : function()
+    {
+      return true;
+    },
+
+
 
 
     /*

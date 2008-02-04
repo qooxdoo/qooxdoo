@@ -87,7 +87,7 @@ qx.Class.define("qx.bom.Label",
       style.visibility = "hidden";
       style.position = "absolute";
       style.overflow = "visible";
-      style.whiteSpace = "normal";
+      style.whiteSpace = "wrap";
 
       document.body.insertBefore(el, document.body.firstChild);
 
