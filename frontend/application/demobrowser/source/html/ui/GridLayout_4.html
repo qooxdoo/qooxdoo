@@ -88,7 +88,7 @@ qx.Class.define("BasicSample",
         }
 
         var effects = {};
-        var duration = 0.5
+        var duration = 1;
 
         if (this._active) {
           this._active.set({
@@ -122,13 +122,13 @@ qx.Class.define("BasicSample",
           from: 50,
           to: 200,
           duration: duration,
-          transition: qx.fx.Transition.spring
+          transition: qx.fx.Transition.sinoidal
         });
         effects.growY = new AnimProperty(widget, "height", {
           from: 50,
           to: 200,
           duration: duration,
-          transition: qx.fx.Transition.spring
+          transition: qx.fx.Transition.sinoidal
         });
 
         var effect = new qx.fx.effect.core.Parallel(effects);
