@@ -80,10 +80,10 @@ qx.Class.define("qx.ui2.core.Label",
       return {
         width : text.width,
         minWidth : 0,
-        maxWidth : 32000,
+        maxWidth : Infinity,
         height : text.height,
         minHeight : 0,
-        maxHeight : 32000
+        maxHeight : Infinity
       };
     },
 

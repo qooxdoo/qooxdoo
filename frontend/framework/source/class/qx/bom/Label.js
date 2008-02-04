@@ -36,98 +36,8 @@ qx.Class.define("qx.bom.Label",
 
   statics :
   {
-    /**
-     * Creates a label.
-     *
-     * The default mode is 'text' which means that the overlapping text is cutted of
-     * using the ellipsis sign automatically. Text wrapping is disabled in this mode
-     * as well. Spaces are normalized. Umlauts and other special symbols are only
-     * allowed in unicode mode as normal characters.
-     *
-     * In the HTML mode you can insert any HTML, but loose the capability to cut
-     * of overlapping text. Automatic text wrapping is enabled by default.
-     *
-     * The mode is not for a created element anymore.
-     *
-     * @type static
-     * @param content {String} Content of the label
-     * @param html {Boolean?false} Whether HTML markup should be used.
-     * @param win {Window?null} Window to create the element for
-     * @return {Element} The created iframe node
-     */
-    create : function(content, html, win)
-    {
-      if (!win) {
-        win = window;
-      }
-
-      if (html)
-      {
-        var el = win.document.createElement("div");
-        el.style.whiteSpace = "normal";
-      }
-      else if (qx.core.Variant.isSet("qx.client", "gecko"))
-      {
-        var el = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
-
-        el.style.display = "block";
-        el.setAttribute("crop", "end");
-      }
-      else
-      {
-        var el = win.document.createElement("div");
-
-        var prop = qx.core.Variant.isSet("qx.client", "opera") ? "OTextOverflow" : "textOverflow";
-        el.style[prop] = "ellipsis";
-
-        el.style.overflow = "hidden";
-        el.style.whiteSpace = "nowrap";
-      }
-
-      el.useHtml = !!html;
-
-      if (content) {
-        this.setContent(el, content);
-      }
-
-      return el;
-    },
-
-    setContent : function(element, value)
-    {
-      if (element.useHtml)
-      {
-        element.innerHTML = value;
-      }
-      else if (qx.core.Variant.isSet("qx.client", "gecko"))
-      {
-        element.setAttribute("value", value);
-      }
-      else
-      {
-        qx.bom.element.Attribute.set(element, "text", value);
-      }
-    },
-
-    getContent : function(element)
-    {
-      if (element.useHtml)
-      {
-        return element.innerHTML;
-      }
-      else if (qx.core.Variant.isSet("qx.client", "gecko"))
-      {
-        return element.getAttribute("value") || "";
-      }
-      else
-      {
-        return qx.bom.element.Attribute.get(element, "text");
-      }
-    },
-
-
     /** {Map} Contains all supported styles */
-    _styles :
+    __styles :
     {
       fontFamily : 1,
       fontSize : 1,
@@ -143,7 +53,7 @@ qx.Class.define("qx.bom.Label",
      * @type static
      * @return {Element} Helper DOM element
      */
-    _prepareText : function()
+    __prepareText : function()
     {
       var el = qx.bom.Element.create("div");
       var style = el.style;
@@ -167,7 +77,7 @@ qx.Class.define("qx.bom.Label",
      * @type static
      * @return {Element} Helper DOM element
      */
-    _prepareHtml : function()
+    __prepareHtml : function()
     {
       var el = qx.bom.Element.create("div");
       var style = el.style;
@@ -186,6 +96,125 @@ qx.Class.define("qx.bom.Label",
 
 
     /**
+     * Creates a label.
+     *
+     * The default mode is 'text' which means that the overlapping text is cutted of
+     * using the ellipsis sign automatically. Text wrapping is disabled in this mode
+     * as well. Spaces are normalized. Umlauts and other special symbols are only
+     * allowed in unicode mode as normal characters.
+     *
+     * In the HTML mode you can insert any HTML, but loose the capability to cut
+     * of overlapping text. Automatic text wrapping is enabled by default.
+     *
+     * It is not possible to modify the mode afterwards.
+     *
+     * @type static
+     * @param content {String} Content of the label
+     * @param html {Boolean?false} Whether HTML markup should be used.
+     * @param win {Window?null} Window to create the element for
+     * @return {Element} The created iframe node
+     */
+    create : function(content, html, win)
+    {
+      if (!win) {
+        win = window;
+      }
+
+      if (html)
+      {
+        var el = win.document.createElement("div");
+        el.style.whiteSpace = "normal";
+      }
+
+      // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
+      // for text overflow. We use this feature from XUL instead.
+      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        var el = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+
+        el.style.display = "block";
+        el.setAttribute("crop", "end");
+      }
+      else
+      {
+        var el = win.document.createElement("div");
+
+        el.style.textOverflow = "ellipsis";
+
+        // Opera as of 9.2.x only supports -o-text-overflow
+        if (qx.core.Variant.isSet("qx.client", "opera")) {
+          el.style.OTextOverflow = "ellipsis";
+        }
+
+        el.style.overflow = "hidden";
+        el.style.whiteSpace = "nowrap";
+      }
+
+      if (html) {
+        el.useHtml = true;
+      }
+
+      if (content) {
+        this.setContent(el, content);
+      }
+
+      return el;
+    },
+
+
+    /**
+     * Sets the content of the element.
+     *
+     * The possibilities of the value depends on the mode
+     * defined using {@see #create}.
+     *
+     * @type static
+     * @param element {Element} DOM element to modify.
+     * @param value {String} Content to insert.
+     * @return {void}
+     */
+    setContent : function(element, value)
+    {
+      if (element.useHtml)
+      {
+        element.innerHTML = value;
+      }
+      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        element.setAttribute("value", value);
+      }
+      else
+      {
+        qx.bom.element.Attribute.set(element, "text", value);
+      }
+    },
+
+
+    /**
+     * Returns the content of the element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query.
+     * @return {String} Content stored in the element.
+     */
+    getContent : function(element)
+    {
+      if (element.useHtml)
+      {
+        return element.innerHTML;
+      }
+      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        return element.getAttribute("value") || "";
+      }
+      else
+      {
+        return qx.bom.element.Attribute.get(element, "text");
+      }
+    },
+
+
+    /**
      * Returns the preferred dimensions of the given HTML content.
      *
      * @type static
@@ -196,10 +225,10 @@ qx.Class.define("qx.bom.Label",
      */
     getHtmlSize : function(content, styles, width)
     {
-      var element = this._htmlElement || this._prepareHtml();
+      var element = this._htmlElement || this.__prepareHtml();
 
       // sync styles
-      var keys = this._styles;
+      var keys = this.__styles;
 
       if (!styles) {
         styles = {};
@@ -217,8 +246,8 @@ qx.Class.define("qx.bom.Label",
 
       // compute size and return
       return {
-        width : element.scrollWidth,
-        height : element.scrollHeight
+        width : element.clientWidth,
+        height : element.clientHeight
       };
     },
 
@@ -233,10 +262,10 @@ qx.Class.define("qx.bom.Label",
      */
     getTextSize : function(text, styles)
     {
-      var element = this._textElement || this._prepareText();
+      var element = this._textElement || this.__prepareText();
 
       // sync styles
-      var keys = this._styles;
+      var keys = this.__styles;
 
       if (!styles) {
         styles = {};
@@ -255,8 +284,8 @@ qx.Class.define("qx.bom.Label",
 
       // compute size and return
       return {
-        width : element.offsetWidth,
-        height : element.offsetHeight
+        width : element.clientWidth,
+        height : element.clientHeight
       };
     }
   }
