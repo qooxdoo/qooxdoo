@@ -89,21 +89,14 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
           if (widget.isLayoutRoot())
           {
             // This is a real root widget. Set its size to its preferred size.
-            var rootHint = widget.getSizeHint();
-            // qx.core.Log.debug("Relayout of root widget: " + widget);
-            widget.renderLayout(0, 0, rootHint.width, rootHint.height);
+            var hint = widget.getSizeHint();
+            widget.renderLayout(0, 0, hint.width, hint.height);
           }
           else
           {
             // This is an inner item of layout changes. Do a relayout of its
             // children without changing its position and size.
-            // qx.core.Log.debug("Relayout of widget: " + widget);
-            widget.renderLayout(
-              widget._computedLayout.left,
-              widget._computedLayout.top,
-              widget._computedLayout.width,
-              widget._computedLayout.height
-            );
+            widget.updateLayout();
           }
         }
       } while (this.__modifiedDuringFlush);

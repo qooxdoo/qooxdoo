@@ -38,15 +38,13 @@ qx.Class.define("qx.ui2.core.LayoutItem",
   properties :
   {
     /**
-     * Controls the widget's visibility. Valid values are:
+     * Controls the visibility. Valid values are:
      *
      * <ul>
      *   <li><b>visible</b>: Render the widget</li>
      *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
-     *   <li>
-     *     <b>excluded</b>: Hide the widget and relayout the parent as if the
-     *       widget was not a child of its parent.
-     *   </li>
+     *   <li><b>excluded</b>: Hide the widget and relayout the parent as if the
+     *     widget was not a child of its parent.</li>
      * </ul>
      */
     visibility :
@@ -79,10 +77,22 @@ qx.Class.define("qx.ui2.core.LayoutItem",
     */
 
     /**
+     * Used by the layouters to re-apply coordinates and dimensions.
+     *
+     * @type member
+     * @internal Only for layout system
+     * @return {void}
+     */
+    updateLayout : function() {
+      throw new Error("Abstract method call");
+    },
+
+
+    /**
      * Used by the layouters to apply coordinates and dimensions.
      *
      * @type member
-     * @internal Only for layout managers
+     * @internal Only for layout system and managers
      * @param left {Integer} Any integer value for the left position,
      *   always in pixels
      * @param top {Integer} Any integer value for the top position,
