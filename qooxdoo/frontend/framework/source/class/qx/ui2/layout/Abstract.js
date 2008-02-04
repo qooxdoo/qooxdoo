@@ -273,7 +273,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
       if (parent && widget instanceof qx.ui2.core.Widget)
       {
-        parent._contentElement.add(widget.getElement());
+        parent._contentElement.add(widget._containerElement);
         widget.setParent(parent);
       }
     },
@@ -291,7 +291,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
       var parent = this.getWidget();
 
       if (parent && widget instanceof qx.ui2.core.Widget) {
-        parent._contentElement.remove(widget.getElement());
+        parent._contentElement.remove(widget._containerElement);
       }
 
       widget.setParent(null);

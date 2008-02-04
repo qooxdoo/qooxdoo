@@ -484,6 +484,14 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     // overridden
+    setParent : function(parent)
+    {
+      this._parent = parent;
+      this.__toggleDisplay();
+    },
+
+
+    // overridden
     updateLayout : function()
     {
       var computed = this.__computedLayout;
@@ -528,6 +536,13 @@ qx.Class.define("qx.ui2.core.Widget",
 
       if (this.hasHeightForWidth())
       {
+        // Note: What when other stuff reproduces a reflow here.
+        // Is this really correct to just check for null here?
+        // Wouldn't it be more stable to re-calculate the
+        // heightForWidth and compare it e.g. ignore it when
+        // it has the same value than before?
+
+        // Only try once for each layout iteration
         if (this.__heightForWidth != null)
         {
           delete this.__heightForWidth;
@@ -535,7 +550,7 @@ qx.Class.define("qx.ui2.core.Widget",
         else
         {
           var flowHeight = this.getHeightForWidth(width);
-          this.debug("Computed height for width: " + width + " = " + flowHeight + " (orig:" + height + ")");
+          // this.debug("Height for width " + width + "px: " + height + "px => " + flowHeight + "px");
 
           if (height !== flowHeight)
           {
@@ -601,7 +616,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // overridden
     hasValidLayout : function() {
-      return this._hasValidLayout === true;
+      return !!this._hasValidLayout;
     },
 
 
@@ -677,8 +692,6 @@ qx.Class.define("qx.ui2.core.Widget",
           height = 0;
         }
       }
-
-
 
 
 
@@ -847,10 +860,10 @@ qx.Class.define("qx.ui2.core.Widget",
           return {
             width : 0,
             minWidth : 0,
-            maxWidth : 32000,
+            maxWidth : Infinity,
             height : 0,
             minHeight : 0,
-            maxHeight : 32000
+            maxHeight : Infinity
           };
         }
       }
@@ -858,15 +871,16 @@ qx.Class.define("qx.ui2.core.Widget",
       return {
         width : 100,
         minWidth : 0,
-        maxWidth : 32000,
+        maxWidth : Infinity,
         height : 50,
         minHeight : 0,
-        maxHeight : 32000
+        maxHeight : Infinity
       };
     },
 
 
 
+    // overridden
     getHeightForWidth : function(width)
     {
       // Prepare insets
@@ -886,8 +900,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
       return height;
     },
-
-
 
 
     /**
@@ -1017,89 +1029,20 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      PRELIMINARY ELEMENT INTERFACES
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the (container) HTML element.
-     *
-     * @deprecated
-     * @return {qx.html.Element} The container HTML element
-     */
-    getElement : function() {
-      return this._containerElement;
-    },
-
-    /**
-     * Sets the inner HTML of the content element.
-     *
-     * @deprecated
-     * @param html {String} The new inner HTML string.
-     */
-    setHtml : function(html) {
-      this._contentElement.setAttribute("html", html);
-    },
-
-
-    /**
-     * Get the content element's inner HTML.
-     *
-     * @deprecated
-     * @return {String} The inner HTML string
-     */
-    getHtml : function() {
-      return this._contentElement.getAttribute("html");
-    },
-
-
-    /**
-     * Sets the DOM element id of the widget's container element.
-     *
-     * @deprecated
-     * @param id {String} The new id.
-     */
-    setId : function(id) {
-      this._containerElement.setAttribute("id", id);
-    },
-
-
-    /**
-     * Gets the DOM element id of the widget's container element.
-     *
-     * @deprecated
-     * @return {String} The id.
-     */
-    getId : function() {
-      this._containerElement.getAttribute("id");
-    },
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       VISIBILITY SUPPORT: IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
 
-    // overridden
-    setParent : function(parent)
-    {
-      this.base(arguments, parent);
-      this._toggleDisplay();
-    },
+    // {Boolean} Whether the layout defined that the widget is visible or not.
+    __layoutVisible : true,
 
 
     // property apply
     _applyVisibility : function(value, old)
     {
-      this._toggleDisplay();
+      this.__toggleDisplay();
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this._parent;
@@ -1115,29 +1058,30 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    _layoutVisible : true,
-
     layoutVisibilityModified : function(value)
     {
-      if (value !== this._layoutVisible)
+      if (value !== this.__layoutVisible)
       {
         if (value) {
-          delete this._layoutVisible;
+          delete this.__layoutVisible;
         } else {
-          this._layoutVisible = false;
+          this.__layoutVisible = false;
         }
 
-        this._toggleDisplay();
+        this.__toggleDisplay();
       }
     },
 
 
     /**
-     * Helper method
+     * Helper method to handle visibility changes.
+     *
+     * @type member
+     * @return {void}
      */
-    _toggleDisplay : function()
+    __toggleDisplay : function()
     {
-      if (this.getParent() && this._layoutVisible && this.getVisibility() === "visible")
+      if (this.getParent() && this.__layoutVisible && this.getVisibility() === "visible")
       {
         this.$$visible = true;
 
@@ -1434,6 +1378,10 @@ qx.Class.define("qx.ui2.core.Widget",
       qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
 
+
+    /**
+     * {Map} Default zero values for all insets
+     */
     _defaultDecorationInsets : {
       top : 0, right : 0, bottom : 0, left : 0
     },
@@ -1442,7 +1390,9 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Callback for decoration manager connection
      *
+     * @type member
      * @param decoration {qx.ui2.decoration.IDecoration} the decoration object
+     * @return {void}
      */
     _styleDecoration : function(decoration)
     {
@@ -1480,10 +1430,17 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    _styleTextColor : function(value)
+    /**
+     * Callback for color manager connection
+     *
+     * @type member
+     * @param color {Color} any CSS acceptable color value
+     * @return {void}
+     */
+    _styleTextColor : function(color)
     {
-      if (value) {
-        this._containerElement.setStyle("color", value);
+      if (color) {
+        this._containerElement.setStyle("color", color);
       } else {
         this._containerElement.resetStyle("color");
       }
@@ -1518,9 +1475,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     // property apply
-    _applyEnabled : function(value, old)
-    {
-      // TODO: implement me!
+    _applyEnabled : function(value, old) {
+      // Nothing to do here, may be overridden
     },
 
 
