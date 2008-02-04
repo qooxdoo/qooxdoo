@@ -545,11 +545,11 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       // after doing the layout fire change events
-      if (sizeChange) {
+      if (sizeChange && this.hasListeners("resize")) {
         this.fireDataEvent("resize", this._computedLayout);
       }
 
-      if (locationChange) {
+      if (locationChange && this.hasListeners("move")) {
         this.fireDataEvent("move", this._computedLayout);
       }
     },
