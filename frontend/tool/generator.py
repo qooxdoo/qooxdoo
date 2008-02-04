@@ -93,11 +93,18 @@ def main():
 
 
 def _resolveExtends(console, config, jobs):
+    def _listPrepend(source, target):
+        """returns new list with source prepended to target"""
+        l = target[:]
+        for i in range(len(source)-1,-1,-1):
+            l.insert(0,source[i])
+        return l
+
     def _mergeEntry(target, source):
         for key in source:
             # merge 'let' key rather than shadowing
             if key == 'let'and target.has_key(key):
-                target[key].update(source[key])
+                target[key] = _listPrepend(source[key],target[key])
             if not target.has_key(key):
                 target[key] = source[key]
 
@@ -132,23 +139,26 @@ def _resolveExtends(console, config, jobs):
 def _resolveMacros(console, config, jobs):
 
     def _expandString(s, map):
-        console.debug("expanding: %s" % str(s))
         templ = string.Template(s)
-        return templ.substitute(map)
+        sub = templ.substitute(map)
+        console.debug("expanding: %s ==> %s" % (str(s),sub))
+        return sub
 
     def _expandMacrosInValues(configElem, macroMap):
         """ apply macro expansion in strings recursively """
         # arrays
         if isinstance(configElem, types.ListType):
             for e in range(len(configElem)):
-                if isinstance(configElem[e], types.StringTypes):
+                if (isinstance(configElem[e], types.StringTypes) and
+                    configElem[e].find(r'${')>-1):
                     configElem[e] = _expandString(configElem[e], macroMap)
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
         # dicts
         elif isinstance(configElem, types.DictType):
             for e in configElem:
-                if isinstance(configElem[e], types.StringTypes):
+                if (isinstance(configElem[e], types.StringTypes) and
+                    configElem[e].find(r'${')>-1):
                     configElem[e] = _expandString(configElem[e], macroMap)
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
@@ -156,6 +166,18 @@ def _resolveMacros(console, config, jobs):
         else:
             pass
     
+    def _expandMacrosInLet(letList):
+        """ takes array of pairs and returns dict with pair[0]:pair[1] entries
+            with macros expanded along the way"""
+
+        dict = {}
+        for pair in letList:
+            v = pair[1]
+            if (v.find(r'${')>-1):
+                v = _expandString(pair[1], dict)  # apply what we have so far
+            dict[pair[0]] = v
+        return dict
+
     console.info("Resolving macros...")
     console.indent()
 
@@ -165,7 +187,10 @@ def _resolveMacros(console, config, jobs):
             sys.exit(1)
         else:
             if config[job].has_key('let'):
-                _expandMacrosInValues(config[job], config[job]['let'])
+                # exand macros in the let and convert to dict
+                config[job]['_letmap_'] = _expandMacrosInLet(config[job]['let'])
+                # apply dict to other values
+                _expandMacrosInValues(config[job], config[job]['_letmap_'])
             #print simplejson.dumps(config[job], separators=(',',':'))
 
     console.outdent()
