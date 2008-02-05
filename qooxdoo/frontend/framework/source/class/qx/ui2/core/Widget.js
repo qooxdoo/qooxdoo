@@ -1256,6 +1256,28 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      NATIVE CHILDREN HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    nativeAddToParent : function(parent)
+    {
+      if (parent instanceof qx.ui2.core.Widget) {
+        parent._contentElement.add(this.getElement());
+      }
+    },
+
+
+    // overridden
+    nativeRemoveFromParent : function()
+    {
+      if (parent instanceof qx.ui2.core.Widget) {
+        parent._contentElement.add(this.getElement());
+      }
+    },
 
 
 
