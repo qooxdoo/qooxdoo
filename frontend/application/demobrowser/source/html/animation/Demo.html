@@ -67,7 +67,7 @@
   	/*
   	 * Effect for reduce the dimensions of the div container
   	*/
-  	var animShrink = new qx.fx.effect.core.Scale(myElement, 50, {
+  	var animDecrease = new qx.fx.effect.core.Scale(myElement, 50, {
   	  duration : 2,
   	  scaleMode : "contents"
   	});
@@ -153,11 +153,16 @@
       }
     );
 
+    var animShrink = new qx.fx.effect.combination.Shrink(myElement, {
+      position : "center"
+    });
+
+
   	/* Buttons */
   	var btnShow = new qx.ui.form.Button("Fade in");
   	var btnHide = new qx.ui.form.Button("Fade out");
   	var btnIncrease = new qx.ui.form.Button("Increase");
-  	var btnShrink = new qx.ui.form.Button("Shrink");
+  	var btnDecrease = new qx.ui.form.Button("Decrease");
   	var btnCombination = new qx.ui.form.Button("Fade in & increase");
   	var btnPuff = new qx.ui.form.Button("Puff");
   	var btnMoveAway = new qx.ui.form.Button("Move away");
@@ -170,6 +175,7 @@
   	var btnHigh = new qx.ui.form.Button("Highlight");
   	var btnAHigh = new qx.ui.form.Button("Annoying Highlight ;-)");
   	var btnColorFlow = new qx.ui.form.Button("ColorFlow");
+  	var btnShrink = new qx.ui.form.Button("Shrink");
 
   	var btnReset = new qx.ui.form.Button("Reset element");
   
@@ -177,7 +183,7 @@
   	btnShow.setLocation(25, 25);
   	btnHide.setLocation(85, 25)
   	btnIncrease.setLocation(150, 25);
-  	btnShrink.setLocation(210, 25);
+  	btnDecrease.setLocation(210, 25);
   	btnCombination.setLocation(260, 25);
   	btnPuff.setLocation(370, 25);
   	btnMoveAway.setLocation(410, 25);
@@ -188,8 +194,9 @@
   	btnPulsate.setLocation(720, 25);
   	btnFold.setLocation(770, 25);
   	btnHigh.setLocation(810, 25);
-  	btnAHigh.setLocation(870, 25);
-  	btnColorFlow.setLocation(25, 60);
+  	btnAHigh.setLocation(25, 60);
+  	btnColorFlow.setLocation(145, 60);
+  	btnShrink.setLocation(205, 60);
   	
   	btnReset.setLocation(25, 87);
   
@@ -210,8 +217,8 @@
   	  animIncrease.start();
   	});
   	
-  	btnShrink.addListener("execute", function(){
-  	  animShrink.start();
+  	btnDecrease.addListener("execute", function(){
+  	  animDecrease.start();
   	});
   
   	btnCombination.addListener("execute", function(){
@@ -263,6 +270,10 @@
   	  animColorFlow.start();
     });
 
+    btnShrink.addListener("execute", function(){
+  	  animShrink.start();
+    });
+
 
   	btnReset.addListener("execute", function(){
   	  resetElement(myElement);
@@ -270,7 +281,7 @@
   
   	btnReset.setBackgroundColor("#B22222");
   
-  	doc.add(btnShow, btnHide, btnIncrease, btnShrink, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnReset);
+  	doc.add(btnShow, btnHide, btnIncrease, btnDecrease, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnReset);
      
   });
   </script>
