@@ -55,15 +55,17 @@ qx.Class.define("qx.ui2.basic.Label",
     text :
     {
       check : "String",
-      apply : "_applyContent",
-      event : "changeText"
+      apply : "_applyText",
+      event : "changeText",
+      nullable : true
     },
 
     html :
     {
       check : "String",
-      apply : "_applyContent",
-      event : "changeHtml"
+      apply : "_applyHtml",
+      event : "changeHtml",
+      nullable : true
     }
   },
 
@@ -89,8 +91,8 @@ qx.Class.define("qx.ui2.basic.Label",
     _getContentHint : function()
     {
       var measured = this._htmlMode ?
-        qx.bom.Label.getHtmlSize(this.getHtml()) :
-        qx.bom.Label.getTextSize(this.getText());
+        qx.bom.Label.getHtmlSize(this.getHtml() || "") :
+        qx.bom.Label.getTextSize(this.getText() || "");
 
       return {
         width : measured.width,
@@ -108,7 +110,7 @@ qx.Class.define("qx.ui2.basic.Label",
 
     _getContentHeightForWidth : function(width)
     {
-      if (this._htmlMode) {
+      if (!this._htmlMode) {
         return null;
       }
 
@@ -121,7 +123,7 @@ qx.Class.define("qx.ui2.basic.Label",
     {
       var el = new qx.html.Label;
 
-      el.setUseHtml();
+      el.setHtmlMode(!!this._htmlMode);
 
       el.setStyle("position", "relative");
       el.setStyle("zIndex", 10);
@@ -149,7 +151,7 @@ qx.Class.define("qx.ui2.basic.Label",
         delete this._htmlMode;
       }
 
-      this.__applyContent();
+      this._applyContent();
     },
 
     _applyText : function(value, old)
@@ -158,7 +160,7 @@ qx.Class.define("qx.ui2.basic.Label",
         delete this._htmlMode;
       }
 
-      this.__applyContent();
+      this._applyContent();
     },
 
     _applyContent : function()
