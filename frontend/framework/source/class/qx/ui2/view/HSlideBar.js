@@ -41,11 +41,11 @@ qx.Class.define("qx.ui2.view.HSlideBar",
     this.setLayout(layout);
 
     // TODO: Real buttons are needed here.
-    this._leftButton = new qx.ui2.core.Label("<").set({
+    this._leftButton = new qx.ui2.basic.Label("<").set({
       backgroundColor : "gray"
     });
 
-    this._rightButton = new qx.ui2.core.Label(">").set({
+    this._rightButton = new qx.ui2.basic.Label(">").set({
       backgroundColor : "gray"
     });
 

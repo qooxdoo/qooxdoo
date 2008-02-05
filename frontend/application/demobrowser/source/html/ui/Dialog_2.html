@@ -65,29 +65,42 @@ qx.Class.define("BasicSample",
 
       layout.add(pane, 0, 0, { colSpan: 3});
 
-      var ok = new qx.ui2.basic.TextLabel("OK").set({
+      var btn_toggle = new qx.ui2.basic.TextLabel("Toggle first paragraph").set({
         backgroundColor : "#CCC",
         decoration: border,
         padding: [4, 8]
       });
-      layout.add(ok, 1, 1);
+      layout.add(btn_toggle, 1, 1);
 
-      var cancel = new qx.ui2.basic.TextLabel("Cancel").set({
-        backgroundColor : "#CCC",
-        decoration: border,
-        padding: [4, 8]
-      });
-      layout.add(cancel, 1, 2);
-
-      var grow = false;
-      pane.addListener("click", function(e)
+      var growText = false;
+      btn_toggle.addListener("click", function()
       {
-        if (grow) {
+        var label = pane.getLayout().getChildren()[0];
+        label.setContent(
+          growText ?
+            "qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed."
+          :
+            "<b>qooxdoo is cool.</b>"
+        );
+        growText = !growText;
+      });
+
+      var btn_resize = new qx.ui2.basic.TextLabel("Resize Pane").set({
+        backgroundColor : "#CCC",
+        decoration: border,
+        padding: [4, 8]
+      });
+      layout.add(btn_resize, 1, 2);
+
+      var growPane = false;
+      btn_resize.addListener("click", function(e)
+      {
+        if (growPane) {
           pane.setWidth(600);
         } else {
           pane.setWidth(300);
         }
-        grow = !grow;
+        growPane = !growPane;
       });
     },
 
