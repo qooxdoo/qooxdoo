@@ -33,9 +33,15 @@
     "settings" : 
     {
       "qx.application" : "feedreader.Application",
-      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
+      "qx.theme"       : "qx.theme.Ext"
     },
 
+    "localize" :
+    {
+      "locales" : ["en", "de", "es", "it"]
+    },
+ 
     "cache" :
     {
       "path" : "../../cache2"
@@ -47,6 +53,11 @@
   {
     "extend" : ["common"],
 
+    "settings" :
+    {
+      "feedreader.resourceUri" : "./resource"
+    },
+
     "source" :
     {
       "file" : "./source/script/feedreader.js"
@@ -57,6 +68,11 @@
   "build" : 
   {
     "extend" : ["common"],
+
+    "settings" :
+    {
+      "feedreader.resourceUri" : "./resource/feedreader"
+    },
 
     "compile" :
     {
