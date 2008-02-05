@@ -1266,7 +1266,7 @@ qx.Class.define("qx.ui2.core.Widget",
     nativeAddToParent : function(parent)
     {
       if (parent instanceof qx.ui2.core.Widget) {
-        parent._contentElement.add(this.getElement());
+        parent._contentElement.add(this._containerElement);
       }
     },
 
@@ -1275,7 +1275,7 @@ qx.Class.define("qx.ui2.core.Widget",
     nativeRemoveFromParent : function()
     {
       if (parent instanceof qx.ui2.core.Widget) {
-        parent._contentElement.add(this.getElement());
+        parent._contentElement.add(this._containerElement);
       }
     },
 

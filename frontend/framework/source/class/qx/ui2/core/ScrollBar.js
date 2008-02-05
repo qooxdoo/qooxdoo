@@ -84,12 +84,12 @@ qx.Class.define("qx.ui2.core.ScrollBar",
         this._barPane.setWidth(18);
       }
 
-      this._btnBegin = new qx.ui2.core.Label(hori ? "<" : "U").set({
+      this._btnBegin = new qx.ui2.basic.Label(hori ? "<" : "U").set({
         backgroundColor : "gray",
         padding : 3
       });
 
-      this._btnEnd = new qx.ui2.core.Label(hori ? ">" : "D").set({
+      this._btnEnd = new qx.ui2.basic.Label(hori ? ">" : "D").set({
         backgroundColor : "gray",
         padding : 3
       });
