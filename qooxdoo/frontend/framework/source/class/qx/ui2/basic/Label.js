@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.basic.TextLabel",
+qx.Class.define("qx.ui2.basic.Label",
 {
   extend : qx.ui2.core.Widget,
 
@@ -31,14 +31,16 @@ qx.Class.define("qx.ui2.basic.TextLabel",
   *****************************************************************************
   */
 
-  construct : function(content)
+  construct : function(text)
   {
     this.base(arguments);
 
-    if (content != null) {
-      this.setContent(content);
+    if (text != null) {
+      this.setText(text);
     }
   },
+
+
 
 
 
@@ -50,12 +52,22 @@ qx.Class.define("qx.ui2.basic.TextLabel",
 
   properties :
   {
-    content :
+    text :
     {
       check : "String",
-      apply : "_applyContent"
+      apply : "_applyContent",
+      event : "changeText"
+    },
+
+    html :
+    {
+      check : "String",
+      apply : "_applyContent",
+      event : "changeHtml"
     }
   },
+
+
 
 
 
@@ -76,15 +88,31 @@ qx.Class.define("qx.ui2.basic.TextLabel",
     // overridden
     _getContentHint : function()
     {
-      var text = qx.bom.Label.getTextSize(this.getContent());
+      var measured = this._htmlMode ?
+        qx.bom.Label.getHtmlSize(this.getHtml()) :
+        qx.bom.Label.getTextSize(this.getText());
+
       return {
-        width : text.width,
+        width : measured.width,
         minWidth : 0,
         maxWidth : Infinity,
-        height : text.height,
+        height : measured.height,
         minHeight : 0,
         maxHeight : Infinity
       };
+    },
+
+    hasHeightForWidth : function() {
+      return !!this._htmlMode;
+    },
+
+    _getContentHeightForWidth : function(width)
+    {
+      if (this._htmlMode) {
+        return null;
+      }
+
+      return qx.bom.Label.getHtmlSize(this.getHtml(), null, width).height;
     },
 
 
@@ -92,6 +120,8 @@ qx.Class.define("qx.ui2.basic.TextLabel",
     _createContentElement : function()
     {
       var el = new qx.html.Label;
+
+      el.setUseHtml();
 
       el.setStyle("position", "relative");
       el.setStyle("zIndex", 10);
@@ -102,15 +132,43 @@ qx.Class.define("qx.ui2.basic.TextLabel",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLIER
     ---------------------------------------------------------------------------
     */
 
-    _applyContent : function(value, old)
+    _applyHtml : function(value, old)
     {
+      if (value) {
+        this._htmlMode = true;
+      } else {
+        delete this._htmlMode;
+      }
+
+      this.__applyContent();
+    },
+
+    _applyText : function(value, old)
+    {
+      if (value) {
+        delete this._htmlMode;
+      }
+
+      this.__applyContent();
+    },
+
+    _applyContent : function()
+    {
+      var html = !!this._htmlMode;
+      var value = html ? this.getHtml() : this.getText();
+
+      this._contentElement.setHtmlMode(html);
       this._contentElement.setContent(value);
+
       this.scheduleLayoutUpdate();
     }
   },
