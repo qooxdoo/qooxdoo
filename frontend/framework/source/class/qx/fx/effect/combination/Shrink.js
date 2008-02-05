@@ -44,7 +44,7 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.effect.combination.Grow",
+qx.Class.define("qx.fx.effect.combination.Shrink",
 {
 
   extend : qx.fx.Base,
@@ -62,7 +62,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       direction         : 'center',
       moveTransition    : qx.fx.Transition.sinoidal,
       scaleTransition   : qx.fx.Transition.sinoidal,
-      opacityTransition : qx.fx.Transition.full
+      opacityTransition : qx.fx.Transition.sinoidal
     };
 
     for(var i in effectSpecificOptions)
@@ -100,8 +100,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       this.base(arguments);
 
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
-      qx.bom.element.Style.set(this._element, "height", "0px");
-      qx.bom.element.Style.set(this._element, "width", "0px");
     },
 
     afterFinishInternal : function(effect)
@@ -117,7 +115,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     {
       this.base(arguments);
 
-      var initialMoveX, initialMoveY;
       var moveX, moveY;
 
       this._oldStyle = {
@@ -127,38 +124,35 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         height : qx.bom.element.Dimension.getHeight(this._element)
       };
 
+      console.info(this._oldStyle)
 
       switch (this._options.direction)
       {
+
         case 'top-left':
-          initialMoveX = initialMoveY = moveX = moveY = 0; 
+          moveX = moveY = 0;
         break;
 
         case 'top-right':
-          initialMoveX = this._oldStyle.width;
-          initialMoveY = moveY = 0;
-          moveX = -this._oldStyle.width;
+          moveX = this._oldStyle.width;
+          moveY = 0;
         break;
 
         case 'bottom-left':
-          initialMoveX = moveX = 0;
-          initialMoveY = this._oldStyle.height;
-          moveY = -this._oldStyle.height;
+          moveX = 0;
+          moveY = this._oldStyle.height;
         break;
 
         case 'bottom-right':
-          initialMoveX = this._oldStyle.width;
-          initialMoveY = this._oldStyle.height;
-          moveX = -this._oldStyle.width;
-          moveY = -this._oldStyle.height;
+          moveX = this._oldStyle.width;
+          moveY = this._oldStyle.height;
         break;
 
-        case 'center':
-          initialMoveX = Math.round(this._oldStyle.width / 2);
-          initialMoveY = Math.round(this._oldStyle.height / 2);
-          moveX = -Math.round(this._oldStyle.width / 2);
-          moveY = -Math.round(this._oldStyle.height / 2);
+        case 'center':  
+          moveX = this._oldStyle.width / 2;
+          moveY = this._oldStyle.height / 2;
         break;
+
       }
 
       var moveEffect = new qx.fx.effect.core.Move(
@@ -173,38 +167,25 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       var scaleEffect = new qx.fx.effect.core.Scale(
         this._element,
-        100,
+        0,
         {
           scaleMode: {
             originalHeight: this._oldStyle.height,
             originalWidth: this._oldStyle.width
           }, 
           sync: true,
-          scaleFrom : 0,
-          transition: this._options.scaleTransition
+          transition: this._options.scaleTransition,
+          restoreAfterFinish: true
         }
       );
 
-      this._effect = new qx.fx.effect.core.Move(
-        this._element,
+      this._effect = new qx.fx.effect.core.Parallel(
         {
-          x : initialMoveX,
-          y : initialMoveY,
-          duration: 0.01
+          1 : moveEffect,
+          2 : scaleEffect
         }
-      );
+      ).start();
 
-      this._effect.afterFinishInternal = function(effect)
-      {
-        new qx.fx.effect.core.Parallel(
-          {
-            1 : moveEffect,
-            2 : scaleEffect
-          }
-        ).start();
-      };
-
-      this._effect.start();
     }
 
    },
