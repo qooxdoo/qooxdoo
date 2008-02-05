@@ -57,10 +57,7 @@ qx.Class.define("qx.ui2.core.Widget",
     this.base(arguments);
 
     this._containerElement = this._createContainerElement();
-    this._decorationElement = this._createDecorationElement();
     this._contentElement = this._createContentElement();
-
-    this._containerElement.add(this._decorationElement);
     this._containerElement.add(this._contentElement);
   },
 
@@ -1387,8 +1384,14 @@ qx.Class.define("qx.ui2.core.Widget",
     updateDecoration : function(width, height)
     {
       var decoration = this.getDecoration();
-      if (decoration) {
-        decoration.update(this, this._decorationElement, width, height);
+      if (decoration)
+      {
+        if (!this._decorationElement)
+        {
+          this._decorationElement = this._createDecorationElement();
+          this._containerElement.add(this._decorationElement);
+        }
+        decoration.update(this._decorationElement, width, height);
       }
 
       qx.ui2.core.DecorationQueue.remove(this);
@@ -1504,7 +1507,19 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // property apply
     _applyBackgroundColor : function(value) {
-      this._containerElement.setStyle("backgroundColor", value);
+      qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
+    },
+
+
+    /**
+     * Callback for color manager connection
+     *
+     * @type member
+     * @param color {Color} any CSS acceptable color value
+     * @return {void}
+     */
+    _styleBackgroundColor : function(color) {
+      this._containerElement.setStyle("backgroundColor", color);
     }
   },
 

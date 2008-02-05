@@ -88,9 +88,9 @@ qx.Class.define("qx.ui2.decoration.CssRoundedBorder",
 
   members :
   {
-    _getStyle : function(widget, width, height)
+    _getStyle : function(width, height)
     {
-      var style = [this.base(arguments, widget, width, height), ";"];
+      var style = [this.base(arguments, width, height), ";"];
 
       var topLeft = this.getRadiusTopLeft();
       if (topLeft !== 0)
