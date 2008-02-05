@@ -272,6 +272,28 @@ qx.Class.define("qx.ui2.core.LayoutItem",
     */
 
     /**
+     * Adds this widget to its parent on widget implementation level (e.g. DOM).
+     * Derived classes, which can have children, must implement this method.
+     *
+     * @internal
+     * @param parent {qx.ui2.core.LayoutItem} The new parent
+     */
+    nativeAddToParent : function(parent) {
+    },
+
+
+    /**
+     * Removes this widget from its parent on widget implementation level (e.g. DOM).
+     * Derived classes, which can have children, must implement this method.
+     *
+     * @internal
+     * @param child {qx.ui2.core.LayoutItem} the child to add
+     */
+    nativeRemoveFromParent : function() {
+    },
+
+
+    /**
      * Get the widget's parent widget. Even if the widget has been added to a
      * layout, the parent is always a child of the containing widget. The parent
      * widget may be <code>null</code>.

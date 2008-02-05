@@ -270,10 +270,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
     _addToParent : function(widget)
     {
       var parent = this.getWidget();
-
-      if (parent && widget instanceof qx.ui2.core.Widget)
-      {
-        parent._contentElement.add(widget._containerElement);
+      if (parent) {
+        widget.nativeAddToParent(parent);
         widget.setParent(parent);
       }
     },
@@ -289,12 +287,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
     _removeFromParent : function(widget)
     {
       var parent = this.getWidget();
-
-      if (parent && widget instanceof qx.ui2.core.Widget) {
-        parent._contentElement.remove(widget._containerElement);
+      if (parent) {
+        widget.nativeRemoveFromParent();
       }
-
-      widget.setParent(null);
+      this.setParent(null);
     },
 
 
