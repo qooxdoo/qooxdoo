@@ -75,6 +75,20 @@ qx.Class.define("qx.fx.Base",
 
 
   /*
+   *****************************************************************************
+      EVENTS
+   *****************************************************************************
+   */
+
+   events:
+   {
+     "finish" : "qx.event.type.Event",
+     "setup"  : "qx.event.type.Event",
+     "update" : "qx.event.type.Event"
+   },
+
+
+  /*
   *****************************************************************************
      STATICS
   *****************************************************************************
@@ -131,24 +145,39 @@ qx.Class.define("qx.fx.Base",
 
     beforeFinishInternal : function(){},
     beforeFinish : function(){},
-    finish  : function(){},
     afterFinishInternal : function(){},
     afterFinish : function(){},
 
     beforeSetupInternal : function(){},
     beforeSetup : function(){},
-    setup : function(){},
     afterSetupInternal : function(){},
     afertSetup : function(){},
 
     beforeUpdateInternal : function(){},
     beforeUpdate : function(){},
-    update : function(){},
     afterUpdateInternal : function(){},
     afterUpdate : function(){},
 
     beforeStartInternal : function(){},
     beforeStart : function(){},
+
+    
+    setup : function()
+    {
+      this.fireEvent("setup");
+    },
+
+
+    update : function()
+    {
+      this.fireEvent("update");
+    },
+
+
+    finish  : function(){
+      this.fireEvent("finish");
+    },
+
 
     start : function()
     {

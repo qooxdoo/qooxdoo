@@ -51,6 +51,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
   construct : function(effects)
   {
     this.base(arguments);
+
     this._effects = (qx.util.Validation.isValidObject(effects)) ? effects : [];
   },
 
@@ -75,6 +76,8 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    {
     finish : function(position)
     {
+      this.base(arguments);
+
       for(var i in this._effects)
       {
         this._effects[i].render(1.0);
@@ -93,6 +96,8 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
     update : function(position)
     {
+      this.base(arguments);
+
       for (var i in this._effects) {
         this._effects[i].render(position);
       }
@@ -101,13 +106,11 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
     start : function()
     {
-
       this.base(arguments);
 
       for (var i in this._effects) {
         this._effects[i].start();
       }
-
     }
 
    },

@@ -119,17 +119,17 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     setup : function()
     {
-    
+      this.base(arguments);
+
       this._restoreAfterFinish = (this._options.restoreAfterFinish == true) ? true : false;
       this._elementPositioning = qx.bom.element.Style.get(this._element, "position");
 
       for (var property in this._originalStyle) {
         this._originalStyle[property] = this._element.style[property];
       }
-        
-      // TODO
-      this._originalTop  = this._element.offsetTop;
-      this._originalLeft = this._element.offsetLeft;
+
+      this._originalTop = qx.bom.element.Location.getTop(this._element, "scroll"),
+      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "scroll")
 
       try {
         var fontSize = qx.bom.element.Style.get(this._element, "fontSize");
@@ -160,12 +160,13 @@ qx.Class.define("qx.fx.effect.core.Scale",
         this._dims = [this._options.scaleMode.originalHeight, this._options.scaleMode.originalWidth];
       }
       
-      
     },
 
 
     update : function(position)
     {
+      this.base(arguments);
+
       var currentScale = (this._options.scaleFrom / 100.0) + (this._factor * position);
 
       if (this._options.scaleContent && this._fontSize) {
@@ -177,6 +178,8 @@ qx.Class.define("qx.fx.effect.core.Scale",
     
    finish : function(position)
    {
+     this.base(arguments);
+
      if (this._restoreAfterFinish)
      {
        for(var property in this._originalStyle) {

@@ -71,7 +71,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
     }
 
     this.base(arguments, element, options);
-    this._element = element;
 
   },
 
@@ -97,6 +96,8 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
     setup : function()
     {
+      this.base(arguments);
+
       this._oldStyle = {
         top    : qx.bom.element.Location.getTop(this._element, "scroll"),
         left   : qx.bom.element.Location.getLeft(this._element, "scroll")
@@ -105,6 +106,8 @@ qx.Class.define("qx.fx.effect.combination.Shake",
     
     start : function()
     {
+      this.base(arguments);
+
       var distance = parseFloat(this._options.distance);
       var split = parseFloat(this._options.duration) / 10.0;
       var counter = 0;
@@ -142,7 +145,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       }
       moveEffects[1].start();
 
-      this.base(arguments);
     }
 
    },
