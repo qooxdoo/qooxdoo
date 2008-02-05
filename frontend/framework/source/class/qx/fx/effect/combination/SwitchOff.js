@@ -73,7 +73,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     }
 
     this.base(arguments, element, options);
-    this._element = element;
+
   },
 
 
@@ -98,11 +98,15 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
     setup : function()
     {
+      this.base(arguments);
+
       this._oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
     },
 
     start : function()
     {
+      this.base(arguments);
+
       var scaleEffect = new qx.fx.effect.core.Scale(
         this._element,
         1,

@@ -89,6 +89,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   {
     setup : function()
     {
+      this.base(arguments);
 
       this._oldStyle = {
         backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
@@ -110,6 +111,8 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
     update : function(position)
     {
+      this.base(arguments);
+
       var color = [
         this._startColor[0] + Math.round(this._deltaColor[0] * position),
         this._startColor[1] + Math.round(this._deltaColor[1] * position),
@@ -119,11 +122,14 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       var hexColor = "#" + color[0].toString(16) + color[1].toString(16) + color[2].toString(16);
 
       qx.bom.element.Style.set(this._element, "backgroundColor", hexColor);
+
     },
 
 
     finish : function()
     {
+      this.base(arguments);
+
       qx.lang.Function.delay(this._restore, 1000, this);
     },
 
