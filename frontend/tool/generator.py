@@ -100,11 +100,23 @@ def _resolveExtends(console, config, jobs):
             l.insert(0,source[i])
         return l
 
+    def _mapMerge(source, target):
+        """merge source map into target, but don't overwrite existing
+           keys in target (unlike .update())"""
+        t = target.copy()
+        for (k,v) in source.items():
+            if not t.has_key(k):
+                t[k] = v
+        return t
+
     def _mergeEntry(target, source):
         for key in source:
             # merge 'let' key rather than shadowing
             if key == 'let'and target.has_key(key):
                 target[key] = _listPrepend(source[key],target[key])
+            # merge 'settings' key rather than shadowing
+            if key == 'settings'and target.has_key(key):
+                target[key] = _mapMerge(source[key],target[key])
             if not target.has_key(key):
                 target[key] = source[key]
 
