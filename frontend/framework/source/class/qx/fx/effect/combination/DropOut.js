@@ -44,11 +44,12 @@
 /**
  * TODO
  */
-qx.Class.define("qx.fx.effect.combination.Shrink",
+
+qx.Class.define("qx.fx.effect.combination.DropOut",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -57,25 +58,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
   construct : function(element, options)
   {
-
-    var effectSpecificOptions = {
-      direction         : 'center',
-      moveTransition    : qx.fx.Transition.sinoidal,
-      scaleTransition   : qx.fx.Transition.sinoidal,
-      opacityTransition : qx.fx.Transition.sinoidal
-    };
-
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-
     this.base(arguments, element, options);
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -95,100 +81,63 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
    members :
    {
 
-    setup : function()
+    afterFinishInternal : function()
     {
-      this.base(arguments);
-
-      qx.bom.element.Style.set(this._element, "overflow", "hidden");
-    },
-
-    afterFinishInternal : function(effect)
-    {
-      qx.bom.element.Style.set(this._element, "overflow", "visible");
-
+    console.info(this._element.style.top, this._element.style.left)
       for (var property in this._oldStyle) {
         qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
       }
+      console.warn(this._element.style.top, this._element.style.left)
     },
+
 
     start : function()
     {
       this.base(arguments);
 
-      var moveX, moveY;
-
       this._oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width  : qx.bom.element.Dimension.getWidth(this._element),
-        height : qx.bom.element.Dimension.getHeight(this._element)
+        top  : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left : qx.bom.element.Location.getLeft(this._element, "scroll")
       };
-
-      switch (this._options.direction)
-      {
-
-        case 'top-left':
-          moveX = moveY = 0;
-        break;
-
-        case 'top-right':
-          moveX = this._oldStyle.width;
-          moveY = 0;
-        break;
-
-        case 'bottom-left':
-          moveX = 0;
-          moveY = this._oldStyle.height;
-        break;
-
-        case 'bottom-right':
-          moveX = this._oldStyle.width;
-          moveY = this._oldStyle.height;
-        break;
-
-        case 'center':  
-          moveX = this._oldStyle.width / 2;
-          moveY = this._oldStyle.height / 2;
-        break;
-
-      }
 
       var moveEffect = new qx.fx.effect.core.Move(
         this._element,
         {
-          x: moveX,
-          y: moveY,
-          sync: true,
-          transition: this._options.moveTransition
+          x : 0,
+          y : 100,
+          sync : true
         }
       );
 
-      var scaleEffect = new qx.fx.effect.core.Scale(
+      var fadeEffect = new qx.fx.effect.core.FadeOut(
         this._element,
-        0,
         {
-          scaleMode: {
-            originalHeight: this._oldStyle.height,
-            originalWidth: this._oldStyle.width
-          }, 
-          sync: true,
-          transition: this._options.scaleTransition,
-          restoreAfterFinish: true
+          duration : 0.5,
+          sync : true
         }
       );
 
       this._effect = new qx.fx.effect.core.Parallel(
         {
           1 : moveEffect,
-          2 : scaleEffect
+          2 : fadeEffect
         }
       ).start();
+      
+      
+      moveEffect.addListener("finish", function(){
+        console.info(this._element.style.top, this._element.style.left)
+        for (var property in this._oldStyle) {
+          console.info(this._oldstyle)
+          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+        }
+        console.error(this._element.style.top, this._element.style.left)
+      });
 
     }
 
    },
 
-   
   /*
   *****************************************************************************
      DEFER
@@ -196,7 +145,6 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
   */
 
   defer : function(statics) {
-    
+
   }
 });
-
