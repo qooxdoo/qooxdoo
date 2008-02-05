@@ -722,7 +722,12 @@ qx.Class.define("qx.ui.table.pane.Pane",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    if (this._layoutPending) {
+      window.clearTimeout(this._layoutPending);
+    }
+
     this._disposeObjects("_paneScroller");
   }
 });
