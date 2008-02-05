@@ -1,5 +1,5 @@
 {
-  "source" : 
+  "common" : 
   {
     "let" :
     [
@@ -23,11 +23,6 @@
       }
     ],
 
-    "source" :
-    {
-      "file" : "./source/script/${APPLICATION_NAMESPACE}.js"
-    },
-
     "require" :
     {
       "qx.log.Logger" : ["qx.log.appender.Native"]
@@ -42,6 +37,16 @@
     "cache" :
     {
       "path" : "../../cache2"
+    }
+  },
+
+  "source" : 
+  {
+    "extend" : ["common"],
+
+    "source" :
+    {
+      "file" : "./source/script/${APPLICATION_NAMESPACE}.js"
     }
   }
 }
