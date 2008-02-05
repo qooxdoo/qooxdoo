@@ -1,6 +1,12 @@
 {
-  "source" : 
+  "common" : 
   {
+    "let" :
+    [
+      ["APPLICATION_NAMESPACE", "feedreader"],
+      ["QOOXDOO_PATH", "../.."]
+    ],
+
     "library" :
     [
       {
@@ -18,11 +24,6 @@
 
     "include" : ["feedreader.*", "qx.theme.Ext"],
 
-    "source" :
-    {
-      "file" : "./source/script/feedreader_from_json.js"
-    },
-
     "require" :
     {
       "qx.log.Logger" : ["qx.log.appender.Native"]
@@ -37,6 +38,82 @@
     "cache" :
     {
       "path" : "../../cache2"
+    }
+  },
+
+
+  "source" : 
+  {
+    "extend" : ["common"],
+
+    "source" :
+    {
+      "file" : "./source/script/feedreader.js"
+    }
+  },
+
+
+  "build" : 
+  {
+    "extend" : ["common"],
+
+    "compile" :
+    {
+      "file" : "./build/script/${APPLICATION_NAMESPACE}.js"
+    }
+  },
+
+
+  "api-data" : 
+  {
+    "extend" : ["common"],
+
+    "api" :
+    {
+      "path" : "./api/script"
+    }
+ 
+  },
+
+
+  "api-build" : 
+  {
+    "extend" : ["common"],
+
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path"     : "../../framework/source",
+        "uri"      : "../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path"     : "${QOOXDOO_PATH}/application/apiviewer/source",
+        "uri"      : "../${QOOXDOO_PATH}/application/apiviewer/source"
+      }
+    ],
+
+    "include" : ["apiviewer.Application", "qx.theme.ClassicRoyale"],
+
+    "settings" : 
+    {
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "${QOOXDOO_PATH}/framework/source/resource",
+      "qx.minLogLevel" : "700",
+      "qx.theme" : "qx.theme.ClassicRoyale",
+      "apiviewer.title" : "Generator2 API Viewer"
+     },
+
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "./api/script/apiviewer.js"
     }
   }
 }
