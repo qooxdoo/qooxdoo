@@ -32,14 +32,13 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
     /**
      * Initialize the decoration for the given widget and decoration element.
      *
-     * @param widget {qx.ui2.core.Widget} widget to initialize the decoration for.
      * @param decorationElement {qx.html.Element} The widget's decoration element.
      */
-    init : function(widget, decorationElement) {
+    init : function(decorationElement) {
       return true;
     },
 
-    update : function(widget, decorationElement, height, width) {
+    update : function(decorationElement, height, width) {
       return true;
     },
 
@@ -47,10 +46,9 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
      * Reset all properties set by the decoration on the widget's decoration
      * element.
      *
-     * @param widget {qx.ui2.core.Widget} widget to reset the decoration for.
      * @param decorationElement {qx.html.Element} The widget's decoration element.
      */
-    reset : function(widget, decorationElement) {
+    reset : function(decorationElement) {
       return true;
     },
 

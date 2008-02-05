@@ -368,11 +368,10 @@ qx.Class.define("qx.ui2.decoration.Basic",
     /**
      * Get the CSS style string for the decoration
      *
-     * @param widget {qx.ui2.core.Widget} The widget to style widget
      * @param width {Integer} The widget's width
      * @param height {Integer} The widget's height
      */
-    _getStyle : function(widget, width, height)
+    _getStyle : function(width, height)
     {
       var template = qx.ui2.decoration.Basic.__styleTemplate;
 
@@ -407,27 +406,27 @@ qx.Class.define("qx.ui2.decoration.Basic",
         template[27] = height - borderHeight;
       }
 
-      template[29] = widget.getBackgroundColor();
+      template[29] = "''"; // backgroundColor
 
       return template.join("");
     },
 
 
     // interface implementation
-    init : function(widget, decorationElement) {
+    init : function(decorationElement) {
     },
 
 
     // interface implementation
-    update : function(widget, decorationElement, width, height)
+    update : function(decorationElement, width, height)
     {
-      var decorationHtml = "<div style='" + this._getStyle(widget, width, height) + "'></div>";
+      var decorationHtml = "<div style='" + this._getStyle(width, height) + "'></div>";
       decorationElement.setAttribute("html", decorationHtml);
     },
 
 
     // interface implementation
-    reset : function(widget, decorationElement) {
+    reset : function(decorationElement) {
       decorationElement.setAttribute("html", "");
     },
 
