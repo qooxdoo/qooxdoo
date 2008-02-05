@@ -113,6 +113,8 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
     setup : function()
     {
+      this.base(arguments);
+
       this._oldStyle = {
         top    : qx.bom.element.Location.getTop(this._element, "scroll"),
         left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
@@ -133,6 +135,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
     start : function()
     {
       this.base(arguments);
+
       this._effect.start();
     }
 

@@ -88,6 +88,8 @@ qx.Class.define("qx.fx.effect.core.Move",
 
     setup : function()
     {
+      this.base(arguments);
+
       this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box");
       this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
 
@@ -103,6 +105,8 @@ qx.Class.define("qx.fx.effect.core.Move",
 
     update : function(position)
     {
+      this.base(arguments);
+
       qx.bom.element.Style.set(this._element, "left", Math.round(this._x  * position + this._originalLeft));
       qx.bom.element.Style.set(this._element, "top", Math.round(this._y  * position + this._originalTop));
     }

@@ -111,7 +111,10 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
    members :
    {
 
-    update : function(position) {
+    update : function(position)
+    {
+      this.base(arguments);
+
       qx.bom.element.Opacity.set(this._element, position);
     },
 

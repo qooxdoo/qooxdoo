@@ -111,7 +111,10 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
    members :
    {
 
-    update : function(position) {
+    update : function(position)
+    {
+      this.base(arguments);
+
       qx.bom.element.Opacity.set(this._element, position);
     },
 
@@ -120,22 +123,6 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
     {
       qx.bom.element.Style.set(this._element, "opacity", this._options.from);
       qx.bom.element.Style.set(this._element, "display", "block");
-    },
-
-
-    render : function(pos)
-    {
-      if(this._state == qx.fx.Base.EffectState.IDLE)
-      {
-        this._state = qx.fx.Base.EffectState.RUNNING
-        this.beforeSetup();
-      }
-
-      if(this._state == qx.fx.Base.EffectState.RUNNING)
-      {
-        this._position = this._transition(pos) * this._fromToDelta + this._options.from;
-        this.update(this._position);
-      }
     }
 
   },

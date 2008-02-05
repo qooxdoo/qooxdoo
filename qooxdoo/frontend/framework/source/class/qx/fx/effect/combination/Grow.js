@@ -73,8 +73,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     }
 
     this.base(arguments, element, options);
-    this._element = element;
-
   },
 
   
@@ -99,6 +97,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     setup : function()
     {
+      this.base(arguments);
+
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
       qx.bom.element.Style.set(this._element, "height", "0px");
       qx.bom.element.Style.set(this._element, "width", "0px");

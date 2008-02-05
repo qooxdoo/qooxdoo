@@ -68,7 +68,6 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       }
     }
     this.base(arguments, element, options);
-    this._element = element;
 
     var duration = this._options.duration / 6;
 
@@ -105,6 +104,8 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     start : function()
     {
+      this.base(arguments);
+
       var counter = 0;
       var fadeEffectsReference = this._fadeEffects;
 
@@ -120,8 +121,6 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
         }
       }
       this._fadeEffects[1].start();      
-
-      this.base(arguments);
     }
 
    },
