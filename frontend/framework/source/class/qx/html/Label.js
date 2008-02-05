@@ -4,17 +4,17 @@ qx.Class.define("qx.html.Label",
 
   members :
   {
-    _useHtml : false,
-
-    setUseHtml : function()
+    setHtmlMode : function(value)
     {
-      this._useHtml = true;
-      return this;
-    },
+      if (!!this._htmlMode == value) {
+        return;
+      }
 
-    getUseHtml : function()
-    {
-      delete this._useHtml;
+      if (this._element) {
+        throw new Error("The label HTML mode cannot be modified after initial creation");
+      }
+
+      this._htmlMode = value;
       return this;
     },
 
@@ -38,7 +38,7 @@ qx.Class.define("qx.html.Label",
      */
     _createDomElement : function()
     {
-      this._element = qx.bom.Label.create(this._content, this._useHtml);
+      this._element = qx.bom.Label.create(this._content, this._htmlMode);
       this._element.QxElement = this;
     },
 
