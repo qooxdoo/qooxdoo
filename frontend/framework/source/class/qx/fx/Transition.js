@@ -43,12 +43,22 @@ qx.Class.define("qx.fx.Transition",
 
   statics :
   {
-    linear: function(pos)
+    linear : function(pos)
     {
       return pos;
     },
 
-    sinoidal: function(pos)
+    easeInQuad : function (pos)
+    {
+      return Math.pow(2, 10 * (pos - 1));
+    },
+
+    easeOutQuad : function (pos)
+    {
+      return (-Math.pow(2, -10 * pos) + 1);
+    },
+
+    sinoidal : function(pos)
     {
       return ( -Math.cos(pos * Math.PI) / 2 ) + 0.5;
     },
@@ -58,18 +68,18 @@ qx.Class.define("qx.fx.Transition",
       return 1 - pos;
     },
 
-    flicker: function(pos)
+    flicker : function(pos)
     {
       var pos = ( (-Math.cos(pos * Math.PI) / 4) + 0.75) + Math.random() / 4;
       return pos > 1 ? 1 : pos;
     },
 
-    wobble: function(pos)
+    wobble : function(pos)
     {
       return ( -Math.cos(pos * Math.PI * (9 * pos)) / 2) + 0.5;
     },
 
-    pulse: function(pos, pulses)
+    pulse : function(pos, pulses)
     {
 
       pulses = (typeof(pulses) == "Number") ? pulses : 5;
@@ -81,17 +91,17 @@ qx.Class.define("qx.fx.Transition",
         );
     },
 
-    spring: function(pos)
+    spring : function(pos)
     {
       return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6));
     },
 
-    none: function(pos)
+    none : function(pos)
     {
       return 0;
     },
 
-    full: function(pos)
+    full : function(pos)
     {
       return 1;
     }
