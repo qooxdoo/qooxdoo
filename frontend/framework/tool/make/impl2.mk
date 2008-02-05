@@ -30,3 +30,14 @@
 
 exec-script-source:
 	$(SILENCE) $(CMD_GENERATOR2) -c jobs.json -j source
+
+exec-script-build:
+	@echo "ALERT: Be sure to do an initial \"make build\" first!"
+	$(SILENCE) $(CMD_GENERATOR2) -c jobs.json -j build
+
+exec-api-build:
+	@echo "ALERT: Be sure to do an initial \"make api\" first!"
+	$(SILENCE) $(CMD_GENERATOR2) -c jobs.json -j api-build,api-data
+
+exec-api-data:
+	@echo
