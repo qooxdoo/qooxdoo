@@ -4,15 +4,16 @@
     "let" :
     [
       ["APPLICATION_NAMESPACE", "feedreader"],
-      ["QOOXDOO_PATH", "../.."]
+      ["QOOXDOO_PATH", "../.."],
+      ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
     ],
 
     "library" :
     [
       {
         "encoding" : "utf-8",
-        "path"     : "../../framework/source",
-        "uri"      : "../../../framework/source"
+        "path"     : "${QOOXDOO_PATH}/framework/source",
+        "uri"      : "${QOOXDOO_URI}/framework/source"
       },
 
       {
@@ -32,7 +33,7 @@
     "settings" : 
     {
       "qx.application" : "feedreader.Application",
-      "qx.resourceUri" : "../../../framework/source/resource"
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
     },
 
     "cache" :
@@ -59,7 +60,8 @@
 
     "compile" :
     {
-      "file" : "./build/script/${APPLICATION_NAMESPACE}.js"
+      "file" : "./build/script/${APPLICATION_NAMESPACE}.js",
+      "uri"  : "script/${APPLICATION_NAMESPACE}.js"
     }
   },
 
@@ -100,10 +102,11 @@
     "settings" : 
     {
       "qx.application" : "apiviewer.Application",
-      "qx.resourceUri" : "${QOOXDOO_PATH}/framework/source/resource",
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
       "qx.minLogLevel" : "700",
-      "qx.theme" : "qx.theme.ClassicRoyale",
-      "apiviewer.title" : "Generator2 API Viewer"
+      "qx.theme"       : "qx.theme.ClassicRoyale",
+      "apiviewer.resourceUri" : "./resource/apiviewer",
+      "apiviewer.title": "Generator2 API Viewer"
      },
 
     "variants" :
@@ -113,7 +116,8 @@
 
     "compile" :
     {
-      "file" : "./api/script/apiviewer.js"
+      "file" : "./api/script/apiviewer.js",
+      "uri"  : "script/apiviewer.js"
     }
   }
 }
