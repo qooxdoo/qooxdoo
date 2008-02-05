@@ -98,7 +98,6 @@ qx.Class.define("feedreader.Application",
       this._dateFormat = new qx.util.format.DateFormat;
 
       // Add some static feeds
-      this.addFeed("qooxdoo Blog", "http://feeds.feedburner.com/qooxdoo/blog/content");
       this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
       this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
       this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
