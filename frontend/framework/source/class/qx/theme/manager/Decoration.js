@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.theme.manager.Border",
+qx.Class.define("qx.theme.manager.Decoration",
 {
   type : "singleton",
   extend : qx.util.manager.Value,
@@ -40,13 +40,13 @@ qx.Class.define("qx.theme.manager.Border",
 
   properties :
   {
-    /** the currently selected border theme */
-    borderTheme :
+    /** the currently selected decoration theme */
+    decorationTheme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyBorderTheme",
-      event : "changeBorderTheme"
+      apply : "_applyDecorationTheme",
+      event : "changeDecorationTheme"
     }
   },
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.theme.manager.Border",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return value instanceof qx.legacy.ui.core.Border ? value : this._dynamic[value];
+      return value instanceof qx.ui.core.Decoration ? value : this._dynamic[value];
     },
 
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.theme.manager.Border",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return value && (value instanceof qx.legacy.ui.core.Border || this._dynamic[value] !== undefined);
+      return value && (value instanceof qx.ui.core.Decoration || this._dynamic[value] !== undefined);
     },
 
 
