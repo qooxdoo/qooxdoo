@@ -105,7 +105,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       crossDomain           : false,
       fileUpload            : true,
       programaticFormFields : true,
-      responseTypes         : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ]
+      responseTypes         : [ qx.legacy.util.Mime.TEXT, qx.legacy.util.Mime.JAVASCRIPT, qx.legacy.util.Mime.JSON, qx.legacy.util.Mime.XML, qx.legacy.util.Mime.HTML ]
     },
 
 
@@ -495,7 +495,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
       switch(this.getResponseType())
       {
-        case qx.util.Mime.TEXT:
+        case qx.legacy.util.Mime.TEXT:
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.ioRemoteDebugData"))
@@ -506,7 +506,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           return vText;
           break;
 
-        case qx.util.Mime.HTML:
+        case qx.legacy.util.Mime.HTML:
           vText = this.getIframeHtmlContent();
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
@@ -518,7 +518,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           return vText;
           break;
 
-        case qx.util.Mime.JSON:
+        case qx.legacy.util.Mime.JSON:
           vText = this.getIframeHtmlContent();
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
@@ -534,7 +534,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
             return this.error("Could not execute json: (" + vText + ")", ex);
           }
 
-        case qx.util.Mime.JAVASCRIPT:
+        case qx.legacy.util.Mime.JAVASCRIPT:
           vText = this.getIframeHtmlContent();
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
@@ -550,7 +550,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
             return this.error("Could not execute javascript: (" + vText + ")", ex);
           }
 
-        case qx.util.Mime.XML:
+        case qx.legacy.util.Mime.XML:
           vText = this.getIframeDocument();
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {

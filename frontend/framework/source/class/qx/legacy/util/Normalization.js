@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.util.Normalization",
+qx.Class.define("qx.legacy.util.Normalization",
 {
   statics :
   {
@@ -44,7 +44,7 @@ qx.Class.define("qx.util.Normalization",
      * @return {String} TODOC
      */
     __umlautsShort : function(vChar) {
-      return qx.util.Normalization.__umlautsShortData[vChar];
+      return qx.legacy.util.Normalization.__umlautsShortData[vChar];
     },
 
 
@@ -58,7 +58,7 @@ qx.Class.define("qx.util.Normalization",
      */
     umlautsShort : function(vString) {
       return vString.replace(
-        qx.util.Normalization.__umlautsRegExp,
+        qx.legacy.util.Normalization.__umlautsRegExp,
         qx.lang.Function.bind(this.__umlautsShort, this)
       );
     },
@@ -83,7 +83,7 @@ qx.Class.define("qx.util.Normalization",
      * @return {String} TODOC
      */
     __umlautsLong : function(vChar) {
-      return qx.util.Normalization.__umlautsLongData[vChar];
+      return qx.legacy.util.Normalization.__umlautsLongData[vChar];
     },
 
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.util.Normalization",
      */
     umlautsLong : function(vString) {
       return vString.replace(
-        qx.util.Normalization.__umlautsRegExp,
+        qx.legacy.util.Normalization.__umlautsRegExp,
         qx.lang.Function.bind(this.__umlautsLong, this)
       );
     }

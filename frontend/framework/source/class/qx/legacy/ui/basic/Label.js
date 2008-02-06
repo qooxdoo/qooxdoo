@@ -400,7 +400,7 @@ qx.Class.define("qx.legacy.ui.basic.Label",
       var mode = this.getMode();
 
       if (mode === "auto") {
-        mode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? "html" : "text";
+        mode = qx.legacy.util.Validation.isValidString(text) && text.match(/<.*>/) ? "html" : "text";
       }
 
       switch (mode)
