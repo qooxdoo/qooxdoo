@@ -67,13 +67,11 @@
     combo.addListener("changeValue", function(){
       textDesc.setText(transitionData[this.getSelected().getLabel()]);
     });
-    combo.addListener("appear", function(){
-      this.setSelected(this.getList().getChildren()[0]);
-    });
 
     spDuration.set({
-      max : 10,
-      min : 1
+      max   : 10.0,
+      min   :  0.1,
+      value :  1.0
     });
 
     var nf = new qx.util.format.NumberFormat();
