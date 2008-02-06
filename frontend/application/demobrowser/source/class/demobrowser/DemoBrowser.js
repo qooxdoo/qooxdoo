@@ -994,6 +994,15 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this._sampleToTreeNodeMap = {};
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
+      var _initialSection    = "example";
+
+      // set a section to open initially
+      var state   = this._history.getState();
+      var section =  state.match(/([^~]+)~/);
+      if (section) 
+      {
+        _initialSection = section[1];
+      }
 
       // use tree struct
       /**
@@ -1030,8 +1039,7 @@ qx.Class.define("demobrowser.DemoBrowser",
               }
             });
 
-            if (currNode.label == "example")
-            {  // TODO: hard-wired
+            if (currNode.label == _initialSection) {
               t.setOpen(true);
             }
           }
