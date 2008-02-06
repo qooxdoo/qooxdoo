@@ -58,6 +58,20 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
 
   construct : function(element, options)
   {
+    var effectSpecificOptions = {
+      direction : 'south',
+      xAmount   : 100,
+      yAmount   : 100
+    };
+
+    for(var i in effectSpecificOptions)
+    {
+      if (typeof(options[i]) == "undefined") {
+        options[i] = effectSpecificOptions[i];
+      }
+    }
+
+  
     this.base(arguments, element, options);
   },
 
@@ -81,33 +95,76 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
    members :
    {
 
-    afterFinishInternal : function()
-    {
-    console.info(this._element.style.top, this._element.style.left)
-      for (var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-      }
-      console.warn(this._element.style.top, this._element.style.left)
-    },
-
-
     start : function()
     {
       this.base(arguments);
 
-      this._oldStyle = {
+      var oldStyle = {
         top  : qx.bom.element.Location.getTop(this._element, "scroll"),
         left : qx.bom.element.Location.getLeft(this._element, "scroll")
       };
 
+      var moveEffectOptions = {
+        x    : 0,
+        y    : this._options.xAmount,
+        sync : true
+      };
+
+      switch(this._options.direction)
+      {
+        case "south":
+          moveEffectOptions.x = 0;
+          moveEffectOptions.y = this._options.yAmount;
+        break;
+          
+        case "north":
+          moveEffectOptions.x = 0;
+          moveEffectOptions.y = -this._options.yAmount;
+        break;
+          
+        case "west":
+          moveEffectOptions.x = -this._options.xAmount;
+          moveEffectOptions.y = 0;
+        break;
+          
+        case "east":
+          moveEffectOptions.x = this._options.xAmount;
+          moveEffectOptions.y = 0;
+        break;
+          
+        case "south-west":
+          moveEffectOptions.x = -this._options.xAmount;
+          moveEffectOptions.y = this._options.yAmount;
+        break;
+          
+        case "south-east":
+          moveEffectOptions.x = this._options.xAmount;
+          moveEffectOptions.y = this._options.yAmount;
+        break;
+          
+        case "north-east":
+          moveEffectOptions.x = this._options.xAmount;
+          moveEffectOptions.y = -this._options.yAmount;
+        break;
+          
+        case "north-west":
+          moveEffectOptions.x = -this._options.xAmount;
+          moveEffectOptions.y = -this._options.yAmount;
+        break;
+
+      }
+
       var moveEffect = new qx.fx.effect.core.Move(
         this._element,
-        {
-          x : 0,
-          y : 100,
-          sync : true
-        }
+        moveEffectOptions
       );
+
+      moveEffect.afterFinishInternal = function()
+      {
+        for (var property in oldStyle) {
+          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+        }
+      };
 
       var fadeEffect = new qx.fx.effect.core.FadeOut(
         this._element,
@@ -123,16 +180,6 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
           2 : fadeEffect
         }
       ).start();
-      
-      
-      moveEffect.addListener("finish", function(){
-        console.info(this._element.style.top, this._element.style.left)
-        for (var property in this._oldStyle) {
-          console.info(this._oldstyle)
-          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-        }
-        console.error(this._element.style.top, this._element.style.left)
-      });
 
     }
 
