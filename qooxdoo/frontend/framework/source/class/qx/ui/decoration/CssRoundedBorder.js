@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.decoration.CssRoundedBorder",
+qx.Class.define("qx.ui.decoration.CssRoundedBorder",
 {
-  extend : qx.ui2.decoration.Basic,
+  extend : qx.ui.decoration.Basic,
 
 
 

@@ -22,9 +22,9 @@
  * A atom layout. Used to place an Image/Flash and label in relation
  * to each other. Useful to create buttons etc.
  */
-qx.Class.define("qx.ui2.layout.Atom",
+qx.Class.define("qx.ui.layout.Atom",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
 
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.ui2.layout.Atom",
      * Sets the icon widget of the atom layout. If the icon is <code>null</code>,
      * the icon is removed from the layout.
      *
-     * @param icon {qx.ui2.core.Widget|null} The icon widget.
+     * @param icon {qx.ui.core.Widget|null} The icon widget.
      */
     setIcon : function(icon)
     {
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui2.layout.Atom",
      * Sets the text widget of the atom layout. If the icon is <code>null</code>,
      * the icon is removed from the layout.
      *
-     * @param icon {qx.ui2.core.Widget|null} The icon widget.
+     * @param icon {qx.ui.core.Widget|null} The icon widget.
      */
     setText : function(text)
     {
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui2.layout.Atom",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var Util = qx.ui2.layout.Util;
+      var Util = qx.ui.layout.Util;
 
       var iconPosition = this.getIconPosition();
       var children;

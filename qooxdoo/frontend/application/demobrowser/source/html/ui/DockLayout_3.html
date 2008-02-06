@@ -29,29 +29,29 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var container = new qx.ui2.core.Widget();
-      var containerLayout = new qx.ui2.layout.VBox();
+      var container = new qx.ui.core.Widget();
+      var containerLayout = new qx.ui.layout.VBox();
       containerLayout.setSpacing(20);
       container.setLayout(containerLayout);
       doc.add(container, 20, 20);
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
 
       // default layout, flex growing
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
-      var layout1 = new qx.ui2.layout.Dock();
+      var widget1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
+      var layout1 = new qx.ui.layout.Dock();
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
-      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
-      var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w5 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
       layout1.add(w1, "north", {flex:1});
       layout1.add(w2, "west", {flex:1});
@@ -66,15 +66,15 @@ qx.Class.define("BasicSample",
 
 
       // y-axis first, flex growing
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
-      var layout1 = new qx.ui2.layout.Dock();
+      var widget1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
+      var layout1 = new qx.ui.layout.Dock();
       layout1.setSort("y");
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
-      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
-      var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w5 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
       layout1.add(w1, "north", {flex:1});
       layout1.add(w2, "west", {flex:1});
@@ -90,15 +90,15 @@ qx.Class.define("BasicSample",
 
 
       // x-axis first, flex growing
-      var widget1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
-      var layout1 = new qx.ui2.layout.Dock();
+      var widget1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", width:450, height:250});
+      var layout1 = new qx.ui.layout.Dock();
       layout1.setSort("x");
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "red"});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue"});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "orange"});
-      var w4 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
-      var w5 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "red"});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue"});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "orange"});
+      var w4 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w5 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "fuchsia"});
 
       layout1.add(w1, "north", {flex:1});
       layout1.add(w2, "west", {flex:1});

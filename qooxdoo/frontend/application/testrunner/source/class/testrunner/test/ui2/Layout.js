@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.ui2.Layout",
+qx.Class.define("testrunner.test.ui.Layout",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -48,7 +48,7 @@ qx.Class.define("testrunner.test.ui2.Layout",
 
         var sum = Math.round(Math.random() * 500);
 
-        var partitions = qx.ui2.layout.Util.computeFlexOffsets(flexibles, sum);
+        var partitions = qx.ui.layout.Util.computeFlexOffsets(flexibles, sum);
 
         var partSum = 0;
         for (var j=0; j<len; j++) {
@@ -99,7 +99,7 @@ qx.Class.define("testrunner.test.ui2.Layout",
         }
 
         var sum = Math.round(Math.random() * 500);
-        var partitions = qx.ui2.layout.Util.computeFlexOffsets(flexibles, sum);
+        var partitions = qx.ui.layout.Util.computeFlexOffsets(flexibles, sum);
 
         var partSum = 0;
         for (var j=0; j<len; j++) {

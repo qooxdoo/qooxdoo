@@ -22,10 +22,10 @@
  * A basic decoration featuring background colors and simple borders based on
  * CSS styles.
  */
-qx.Class.define("qx.ui2.decoration.Basic",
+qx.Class.define("qx.ui.decoration.Basic",
 {
   extend : qx.core.Object,
-  implement : qx.ui2.decoration.IDecoration,
+  implement : qx.ui.decoration.IDecoration,
 
 
 
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
      */
     fromString : function(str)
     {
-      var border = new qx.ui2.decoration.Basic;
+      var border = new qx.ui.decoration.Basic;
       var parts = str.split(/\s+/);
       var part, temp;
 
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
      */
     fromConfig : function(config)
     {
-      var border = new qx.ui2.decoration.Basic;
+      var border = new qx.ui.decoration.Basic;
       border.set(config);
       return border;
     },
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
      */
     _getStyle : function(width, height)
     {
-      var template = qx.ui2.decoration.Basic.__styleTemplate;
+      var template = qx.ui.decoration.Basic.__styleTemplate;
 
       template[1] = this.getWidthTop() || "0";
       template[3] = this.getStyleTop() || "none";
@@ -547,7 +547,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
      * @type member
      */
     __informManager : function() {
-      qx.ui2.decoration.DecorationManager.getInstance().updateObjects(this);
+      qx.ui.decoration.DecorationManager.getInstance().updateObjects(this);
     }
 
   },

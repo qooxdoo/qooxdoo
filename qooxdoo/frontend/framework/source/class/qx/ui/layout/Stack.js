@@ -23,9 +23,9 @@
  * one is visible. The sizing policy is determined by the properts
  * {@link #resizeToSelected}.
  */
-qx.Class.define("qx.ui2.layout.Stack",
+qx.Class.define("qx.ui.layout.Stack",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
   properties :
   {
@@ -34,7 +34,7 @@ qx.Class.define("qx.ui2.layout.Stack",
      */
     selected :
     {
-      check : "qx.ui2.core.Widget",
+      check : "qx.ui.core.Widget",
       nullable : true,
       apply : "_applySelected"
     },

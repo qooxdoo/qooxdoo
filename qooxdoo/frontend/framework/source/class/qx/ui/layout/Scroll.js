@@ -1,13 +1,13 @@
 /**
  * The scroll layout is used internally by the scroll pane. Is is similar to
- * the {@link qx.ui2.layout.Basic} layout with only one child and the possibility
+ * the {@link qx.ui.layout.Basic} layout with only one child and the possibility
  * to shrink the content to its min size.
  *
  * @internal
  */
-qx.Class.define("qx.ui2.layout.Scroll",
+qx.Class.define("qx.ui.layout.Scroll",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
   properties :
   {
@@ -16,7 +16,7 @@ qx.Class.define("qx.ui2.layout.Scroll",
      */
     content :
     {
-      check : "qx.ui2.core.Widget",
+      check : "qx.ui.core.Widget",
       apply : "_applyContent",
       nullable : true
     }

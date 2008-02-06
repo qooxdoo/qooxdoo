@@ -32,11 +32,11 @@ qx.Class.define("MenuItem",
   {
     this.base(arguments);
 
-    this._text = new qx.ui2.core.Label(text);
+    this._text = new qx.ui.core.Label(text);
     this._text.setPadding(4);
 
     if (!MenuItem.menuDecoration) {
-      MenuItem.menuDecoration = new qx.ui2.decoration.Basic();
+      MenuItem.menuDecoration = new qx.ui.decoration.Basic();
     }
 
     this._text.setDecoration(MenuItem.menuDecoration);
@@ -45,7 +45,7 @@ qx.Class.define("MenuItem",
     this._text.addListener("mouseout", this._onMouseOut, this);
 
     if (shortcut) {
-      this._shortcut = new qx.ui2.core.Label(shortcut);
+      this._shortcut = new qx.ui.core.Label(shortcut);
       this._shortcut.setPadding(4, 4, 4, 20);
 
       this._shortcut.setDecoration(MenuItem.menuDecoration);
@@ -92,19 +92,19 @@ qx.Class.define("MenuItem",
 
 qx.Class.define("Menu",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
   construct : function()
   {
     this.base(arguments);
 
-    this._layout = new qx.ui2.layout.Grid();
+    this._layout = new qx.ui.layout.Grid();
     this._layout.setColumnFlex(1, 0);
     this._layout.setVerticalSpacing(2);
     this._layout.setHorizontalSpacing(0);
     this.setLayout(this._layout);
 
-    var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+    var border = new qx.ui.decoration.Basic(1, "solid", "black");
     this.setDecoration(border);
 
     this._menuItems = [];
@@ -155,16 +155,16 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
       doc.setPadding(20);
 
-      var docLayout = new qx.ui2.layout.Grid();
+      var docLayout = new qx.ui.layout.Grid();
       docLayout.setColumnFlex(0, 0);
       docLayout.setSpacing(20);
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
 
       var menu = new Menu();
@@ -190,7 +190,7 @@ qx.Class.define("BasicSample",
       menu.add(new MenuItem("Close ...", "Ctrl-W"));
       docLayout.add(menu, 1, 0);
 
-      var container = new qx.ui2.core.Widget();
+      var container = new qx.ui.core.Widget();
       container.setLayout(docLayout);
 
       doc.add(container, 0, 0);

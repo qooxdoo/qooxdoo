@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.core.LayoutQueue",
+qx.Class.define("qx.ui.core.LayoutQueue",
 {
   statics :
   {
@@ -30,10 +30,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * Mark a widget's layout as invalid and add its layout root to
      * the queue.
      *
-     * Should only be used by {@link qx.ui2.core.Widget}.
+     * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @type static
-     * @param widget {qx.ui2.core.Widget} Widget to add.
+     * @param widget {qx.ui.core.Widget} Widget to add.
      * @return {void}
      */
     add : function(widget)
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       if (this.__inFlush) {
         this.__modifiedDuringFlush = true;
       } else {
-        qx.ui2.core.QueueManager.scheduleFlush("layout");
+        qx.ui.core.QueueManager.scheduleFlush("layout");
       }
     },
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     /**
      * Update the layout of all widgets, which layout is marked as invalid.
      *
-     * This is used exclusively by the {@link qx.ui2.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
      *
      * @type static
      * @return {void}
@@ -85,7 +85,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
             continue;
           }
 
-          // overflow areas or qx.ui2.root.*
+          // overflow areas or qx.ui.root.*
           if (widget.isLayoutRoot())
           {
             // This is a real root widget. Set its size to its preferred size.
@@ -151,7 +151,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * Whether the given widget is visible.
      *
      * @type static
-     * @param widget {qx.ui2.core.Widget} The widget to test
+     * @param widget {qx.ui.core.Widget} The widget to test
      * @return {Boolean} <code>true</code> when the widget is visible.
      */
     isWidgetVisible : function(widget)
@@ -246,7 +246,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
      * This function returns the roots ordered by their nesting factors. The
      * layout with the largest nesting level comes first.
      *
-     * @return {qx.ui2.core.Widget[]} Ordered list or layout roots.
+     * @return {qx.ui.core.Widget[]} Ordered list or layout roots.
      */
     __getSortedQueue : function()
     {

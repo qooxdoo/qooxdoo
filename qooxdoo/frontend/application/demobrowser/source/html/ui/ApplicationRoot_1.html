@@ -30,21 +30,21 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      var doc = new qx.ui2.root.Application(document);
+      var doc = new qx.ui.root.Application(document);
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black")
+      var border = new qx.ui.decoration.Basic(1, "solid", "black")
 
       doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
       doc.setDecoration(border);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var layout = new qx.ui2.layout.HBox();
+      var layout = new qx.ui.layout.HBox();
 
-      var w1 = new qx.ui2.core.Widget;
-      var w2 = new qx.ui2.core.Widget;
-      var w3 = new qx.ui2.core.Widget;
-      var w4 = new qx.ui2.core.Widget;
+      var w1 = new qx.ui.core.Widget;
+      var w2 = new qx.ui.core.Widget;
+      var w3 = new qx.ui.core.Widget;
+      var w4 = new qx.ui.core.Widget;
 
       w1.setDecoration(border);
       w2.setDecoration(border);
@@ -68,7 +68,7 @@ qx.Class.define("BasicSample",
       layout.add(w3);
       layout.add(w4);
 
-      var container = new qx.ui2.core.Widget();
+      var container = new qx.ui.core.Widget();
       container.setLayout(layout);
 
       doc.add(container, 0, 0, 0, 0);

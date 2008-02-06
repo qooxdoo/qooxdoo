@@ -24,15 +24,15 @@
  * and the document body will have no scrollbars.
  *
  * If you want to enhance HTML pages with qooxdoo widgets please use
- * {@link qx.ui2.root.Page} eventually in combination with
- * {@link qx.ui2.root.Inline} widgets.
+ * {@link qx.ui.root.Page} eventually in combination with
+ * {@link qx.ui.root.Inline} widgets.
  *
- * This class uses a {@link qx.ui2.layout.Canvas} as fixed layout. The layout
+ * This class uses a {@link qx.ui.layout.Canvas} as fixed layout. The layout
  * cannot be changed.
  */
-qx.Class.define("qx.ui2.root.Application",
+qx.Class.define("qx.ui.root.Application",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -57,7 +57,7 @@ qx.Class.define("qx.ui2.root.Application",
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
-    this.setLayout(new qx.ui2.layout.Canvas());
+    this.setLayout(new qx.ui.layout.Canvas());
     this.scheduleLayoutUpdate();
   },
 
@@ -75,17 +75,17 @@ qx.Class.define("qx.ui2.root.Application",
     /**
      * Adds a widget to the application using the application's canvas layout.
      *
-     * Please have a look at the {@link qx.ui2.layout.Canvas#add} for further
+     * Please have a look at the {@link qx.ui.layout.Canvas#add} for further
      * argument details.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param widget {qx.ui.core.Widget} the widget to add
      * @param left {Integer?null} Left position of the child.
      * @param top {Integer?null} Top position of the child.
      * @param right {Integer?null} Right position of the child.
      * @param bottom {Integer?null} Bottom position of the child.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.root.Application} This object (for chaining support)
+     * @return {qx.ui.root.Application} This object (for chaining support)
      */
     add : function(widget, left, top, right, bottom, options)
     {
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui2.root.Application",
     _applyLayout : function(value, old)
     {
       if (old) {
-        throw new Error("You cannot change the layout of qx.ui2.root.Application!");
+        throw new Error("You cannot change the layout of qx.ui.root.Application!");
       }
 
       this.base(arguments, value, old);

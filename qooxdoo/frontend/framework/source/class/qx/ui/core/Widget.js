@@ -26,7 +26,7 @@
  * added to the parent widget has two child Element: The "decoration" and the
  * "content" element. The decoration element has a lower z-Index and contains
  * markup to render the widget's backround and border using an implementation
- * of {@link qx.ui2.decoration.IDecoration}.The cntent element is positioned
+ * of {@link qx.ui.decoration.IDecoration}.The cntent element is positioned
  * inside the "container" element to respect paddings and contains the "real"
  * widget element.
  *
@@ -42,9 +42,9 @@
  * ----------------------
  *  </pre>
  */
-qx.Class.define("qx.ui2.core.Widget",
+qx.Class.define("qx.ui.core.Widget",
 {
-  extend : qx.ui2.core.LayoutItem,
+  extend : qx.ui.core.LayoutItem,
 
   /*
   *****************************************************************************
@@ -154,10 +154,10 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** Selected layout of instance {@link qx.ui2.layout.Abstract} */
+    /** Selected layout of instance {@link qx.ui.layout.Abstract} */
     layout :
     {
-      check : "qx.ui2.layout.Abstract",
+      check : "qx.ui.layout.Abstract",
       nullable : true,
       init : null,
       apply : "_applyLayout"
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui2.core.Widget",
       init : null,
       apply : "_applyDecoration",
       event : "changeDecoration",
-      check : "qx.ui2.decoration.IDecoration",
+      check : "qx.ui.decoration.IDecoration",
       themeable : true
     },
 
@@ -1086,7 +1086,7 @@ qx.Class.define("qx.ui2.core.Widget",
         this._containerElement.show();
 
         // Prepare for "appear" event
-        qx.ui2.core.DisplayQueue.add(this);
+        qx.ui.core.DisplayQueue.add(this);
 
         // Fire "show" event
         if (this.hasListeners("show")) {
@@ -1105,7 +1105,7 @@ qx.Class.define("qx.ui2.core.Widget",
         }
 
         // Prepare for "disappear" event
-        qx.ui2.core.DisplayQueue.add(this);
+        qx.ui.core.DisplayQueue.add(this);
 
         // Fire "hide" event
         if (this.hasListeners("hide")) {
@@ -1265,7 +1265,7 @@ qx.Class.define("qx.ui2.core.Widget",
     // overridden
     nativeAddToParent : function(parent)
     {
-      if (parent instanceof qx.ui2.core.Widget) {
+      if (parent instanceof qx.ui.core.Widget) {
         parent._contentElement.add(this._containerElement);
       }
     },
@@ -1274,7 +1274,7 @@ qx.Class.define("qx.ui2.core.Widget",
     // overridden
     nativeRemoveFromParent : function()
     {
-      if (parent instanceof qx.ui2.core.Widget) {
+      if (parent instanceof qx.ui.core.Widget) {
         parent._contentElement.add(this._containerElement);
       }
     },
@@ -1397,13 +1397,13 @@ qx.Class.define("qx.ui2.core.Widget",
         decoration.update(this._decorationElement, width, height);
       }
 
-      qx.ui2.core.DecorationQueue.remove(this);
+      qx.ui.core.DecorationQueue.remove(this);
     },
 
 
     // property apply
     _applyDecoration : function(value, old) {
-      qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
+      qx.ui.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
 
 
@@ -1419,7 +1419,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * Callback for decoration manager connection
      *
      * @type member
-     * @param decoration {qx.ui2.decoration.IDecoration} the decoration object
+     * @param decoration {qx.ui.decoration.IDecoration} the decoration object
      * @return {void}
      */
     _styleDecoration : function(decoration)
@@ -1434,12 +1434,12 @@ qx.Class.define("qx.ui2.core.Widget",
         this._lastDecorationInsets = qx.lang.Object.copy(current);
 
         // Inset changes requires a layout update
-        qx.ui2.core.LayoutQueue.add(this);
+        qx.ui.core.LayoutQueue.add(this);
       }
       else
       {
         // Style changes are happy with a simple decoration update
-        qx.ui2.core.DecorationQueue.add(this);
+        qx.ui.core.DecorationQueue.add(this);
       }
     },
 

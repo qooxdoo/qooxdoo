@@ -24,16 +24,16 @@
  * HTML content.
  *
  * For this reason the widget's layout is initialized with an instance of
- * {@link qx.ui2.layout.Basic}. The widget's layout cannot be changed.
+ * {@link qx.ui.layout.Basic}. The widget's layout cannot be changed.
  *
  * Note: This widget does not support decorations!
  *
  * If you want to place widgets inside existing DOM elements
- * use {@link qx.ui2.root.Inline}.
+ * use {@link qx.ui.root.Inline}.
  */
-qx.Class.define("qx.ui2.root.Page",
+qx.Class.define("qx.ui.root.Page",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.ui2.root.Page",
 
     this.base(arguments);
 
-    this.setLayout(new qx.ui2.layout.Basic());
+    this.setLayout(new qx.ui.layout.Basic());
     this.scheduleLayoutUpdate();
   },
 
@@ -74,15 +74,15 @@ qx.Class.define("qx.ui2.root.Page",
     /**
      * Adds a widget to the page using the page's basic layout.
      *
-     * Please have a look at the {@link qx.ui2.layout.Basic#add} for further
+     * Please have a look at the {@link qx.ui.layout.Basic#add} for further
      * argument details.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param widget {qx.ui.core.Widget} the widget to add
      * @param left {Integer} left position on the page
      * @param top {Integer} top position on the page
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.root.Page} This object (for chaining support)
+     * @return {qx.ui.root.Page} This object (for chaining support)
      */
     add : function(widget, left, top, options)
     {
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui2.root.Page",
     _applyLayout : function(value, old)
     {
       if (old) {
-        throw new Error("You cannot change the layout of qx.ui2.root.Page!");
+        throw new Error("You cannot change the layout of qx.ui.root.Page!");
       }
 
       this.base(arguments, value, old);

@@ -17,17 +17,17 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.ui2.Grid",
+qx.Class.define("testrunner.test.ui.Grid",
 {
-  extend : testrunner.test.ui2.LayoutTestCase,
+  extend : testrunner.test.ui.LayoutTestCase,
 
   members :
   {
 
     setUp : function()
     {
-      this._gridWidget = new qx.ui2.core.Widget();
-      this._gridLayout = new qx.ui2.layout.Grid();
+      this._gridWidget = new qx.ui.core.Widget();
+      this._gridLayout = new qx.ui.layout.Grid();
 
       this._gridWidget.setLayout(this._gridLayout);
       this.getRoot().getLayout().add(this._gridWidget);
@@ -42,7 +42,7 @@ qx.Class.define("testrunner.test.ui2.Grid",
 
     _getFixedWidget : function()
     {
-      var widget = new qx.ui2.core.Widget();
+      var widget = new qx.ui.core.Widget();
       widget.set({
         width: 200,
         height: 100,
