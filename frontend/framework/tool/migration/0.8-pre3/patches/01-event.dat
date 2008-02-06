@@ -1,3 +1,0 @@
-\bfireEvent\b=fireCustomEvent
-\bcreateDispatchEvent\b=fireEvent
-\bcreateDispatchDataEvent\b=fireDataEvent

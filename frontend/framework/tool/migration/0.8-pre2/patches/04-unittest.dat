@@ -1,5 +1,0 @@
-# unit test interface moved to qx.dev.unit
-
-\btestrunner\.AssertionError\b=qx.dev.unit.AssertionError
-\btestrunner\.MAssert\b=qx.dev.unit.MAssert
-\btestrunner\.TestCase\b=qx.dev.unit.TestCase

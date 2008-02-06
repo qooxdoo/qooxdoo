@@ -1,3 +1,0 @@
-\bqx\.event\.handler\.MouseViewportLeave\b=qx.event.handler.ViewportLeave
-\bcreateDispatchDataEvent\b=fireDataEvent
-\bcreateDispatchEvent\b=fireEvent
