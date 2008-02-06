@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.theme.manager.Font",
+qx.Class.define("qx.legacy.theme.manager.Font",
 {
   type : "singleton",
   extend : qx.util.manager.Value,
@@ -123,7 +123,7 @@ qx.Class.define("qx.theme.manager.Font",
         }
       }
 
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
+      if (qx.legacy.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncFontTheme();
       }
     }
