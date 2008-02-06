@@ -28,7 +28,7 @@
 
 
 #
-# Remove qx.xml namespace
+# Restructure qx.xml namespace
 #
 
 \bqx\.xml\.Node\b=qx.dom.Node

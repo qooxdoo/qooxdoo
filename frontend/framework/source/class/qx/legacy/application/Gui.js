@@ -75,6 +75,8 @@ qx.Class.define("qx.legacy.application.Gui",
      */
     main : function()
     {
+      this.warn("Using legacy application class!");
+
       // this is needed to verify that the application developer has called the
       // overridden main method.
       this._initializedMain = true;

@@ -34,7 +34,7 @@
  */
 qx.Class.define("apiviewer.Application",
 {
-  extend : qx.application.Gui,
+  extend : qx.legacy.application.Gui,
 
   members :
   {
