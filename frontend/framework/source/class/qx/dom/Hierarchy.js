@@ -268,7 +268,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @return {Array} list of all parents
      */
     getAncestors : function(element) {
-      return element.recursivelyCollect("parentNode");
+      return this._recursivelyCollect(element, "parentNode");
     },
 
 
