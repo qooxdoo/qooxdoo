@@ -13,7 +13,7 @@
  <script type="text/javascript">
    qx.core.Init.getInstance().defineMain(function()
    {
-     var t = new qx.ui.tree.Tree("Root");
+     var t = new qx.legacy.ui.tree.Tree("Root");
 
      with(t)
      {
@@ -28,7 +28,7 @@
        setBottom(48);
      };
 
-     qx.ui.core.ClientDocument.getInstance().add(t);
+     qx.legacy.ui.core.ClientDocument.getInstance().add(t);
    });
  </script>
 </body>

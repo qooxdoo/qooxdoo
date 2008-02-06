@@ -26,7 +26,7 @@
  */
 qx.Class.define("testrunner.runner.TestResultView",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : qx.legacy.ui.embed.HtmlEmbed,
 
 
 

@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Some more complex tests for qx.ui.basic.Atom.</p>
+    <p>Some more complex tests for qx.legacy.ui.basic.Atom.</p>
     <p>You can change all the properties before "really creating" the object or any time after this was done.</p>
   </div>
 
@@ -97,10 +97,10 @@
     <p>
       Border:
       <a href="javascript://" onclick="void(at1.setBorder(null))">null</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new qx.ui.core.Border(1, 'solid', 'black')))">1</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new qx.ui.core.Border(5, 'solid', 'black')))">5</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new qx.ui.core.Border(10, 'solid', 'black')))">10</a> |
-      <a href="javascript://" onclick="void(at1.setBorder(new qx.ui.core.Border(25, 'solid', 'black')))">25</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.legacy.ui.core.Border(1, 'solid', 'black')))">1</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.legacy.ui.core.Border(5, 'solid', 'black')))">5</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.legacy.ui.core.Border(10, 'solid', 'black')))">10</a> |
+      <a href="javascript://" onclick="void(at1.setBorder(new qx.legacy.ui.core.Border(25, 'solid', 'black')))">25</a> |
       <a href="javascript://" onclick="void(at1.setBorder('outset'))">outset</a> |
       <a href="javascript://" onclick="void(at1.setBorder('inset'))">inset</a>
     </p>
@@ -133,9 +133,9 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
-        at1 = new qx.ui.basic.Atom("My first qx.ui.basic.Atom", "icon/32/actions/format-color.png");
+        at1 = new qx.legacy.ui.basic.Atom("My first qx.legacy.ui.basic.Atom", "icon/32/actions/format-color.png");
     
         with(at1)
         {
@@ -149,7 +149,7 @@
           setPadding(2, 4);
         };
     
-        var ct1 = new qx.ui.basic.Label(document.getElementById("control").innerHTML);
+        var ct1 = new qx.legacy.ui.basic.Label(document.getElementById("control").innerHTML);
     
         with(ct1)
         {

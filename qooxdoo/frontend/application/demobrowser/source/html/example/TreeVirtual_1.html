@@ -23,13 +23,13 @@
         // We want to use some of the high-level node operation convenience
         // methods rather than manually digging into the TreeVirtual helper
         // classes.  Include the mixin that provides them.
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MNode);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MNode);
         
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
         // tree
-        var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+        var tree = new qx.legacy.ui.treevirtual.TreeVirtual("Tree");
         tree.set({
                 left   : 10,
                 top    : 30,

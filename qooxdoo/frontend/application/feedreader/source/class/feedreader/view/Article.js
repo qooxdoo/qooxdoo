@@ -20,7 +20,7 @@
 
 qx.Class.define("feedreader.view.Article",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -33,7 +33,7 @@ qx.Class.define("feedreader.view.Article",
 
   construct : function(article)
   {
-    qx.ui.basic.Terminator.call(this);
+    qx.legacy.ui.basic.Terminator.call(this);
 
     this.setHtmlProperty("className", "blogEntry");
     this.setDimension("100%", "100%");

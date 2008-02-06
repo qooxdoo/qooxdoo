@@ -38,7 +38,7 @@
  */
 qx.Class.define("apiviewer.Viewer",
 {
-  extend : qx.ui.layout.DockLayout,
+  extend : qx.legacy.ui.layout.DockLayout,
 
 
 
@@ -86,11 +86,11 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Create the header widget
      *
-     * @return {qx.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
      */
     __createHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed(
+      var header = new qx.legacy.ui.embed.HtmlEmbed(
         "<h1>" +
         "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>" +
         " API Documentation" +
@@ -112,35 +112,35 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Creates the button view widget on the left
      *
-     * @param treeWidget {qx.ui.core.Widget} The widget for the "tree" pane
-     * @param infoWidget {qx.ui.core.Widget} The widget for the "legend" pane
-     * @return {qx.ui.pageview.buttonview.ButtonView} The configured button view widget
+     * @param treeWidget {qx.legacy.ui.core.Widget} The widget for the "tree" pane
+     * @param infoWidget {qx.legacy.ui.core.Widget} The widget for the "legend" pane
+     * @return {qx.legacy.ui.pageview.buttonview.ButtonView} The configured button view widget
      */
     __createButtonView : function(treeWidget, searchWidget, infoWidget)
     {
-      var buttonView = new qx.ui.pageview.buttonview.ButtonView();
+      var buttonView = new qx.legacy.ui.pageview.buttonview.ButtonView();
       buttonView.set({
         width : "100%",
         height : "100%",
         border : "line-right"
       });
 
-      var treeButton = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
+      var treeButton = new qx.legacy.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
       treeButton.setShow("icon");
-      treeButton.setToolTip( new qx.ui.popup.ToolTip("Packages"));
-      var searchButton = new qx.ui.pageview.buttonview.Button("Search", apiviewer.TreeUtil.ICON_SEARCH);
+      treeButton.setToolTip( new qx.legacy.ui.popup.ToolTip("Packages"));
+      var searchButton = new qx.legacy.ui.pageview.buttonview.Button("Search", apiviewer.TreeUtil.ICON_SEARCH);
       searchButton.setShow("icon");
-      searchButton.setToolTip( new qx.ui.popup.ToolTip("Search"));
-      var infoButton = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
+      searchButton.setToolTip( new qx.legacy.ui.popup.ToolTip("Search"));
+      var infoButton = new qx.legacy.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
       infoButton.setShow("icon");
-      infoButton.setToolTip( new qx.ui.popup.ToolTip("Information"));
+      infoButton.setToolTip( new qx.legacy.ui.popup.ToolTip("Information"));
 
       treeButton.setChecked(true);
       buttonView.getBar().add(treeButton, searchButton, infoButton);
 
-      var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
-      var searchPane = new qx.ui.pageview.buttonview.Page(searchButton);
-      var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
+      var treePane = new qx.legacy.ui.pageview.buttonview.Page(treeButton);
+      var searchPane = new qx.legacy.ui.pageview.buttonview.Page(searchButton);
+      var infoPane = new qx.legacy.ui.pageview.buttonview.Page(infoButton);
 
       var pane = buttonView.getPane();
       pane.add(treePane, searchPane, infoPane);
@@ -157,14 +157,14 @@ qx.Class.define("apiviewer.Viewer",
    /**
      * Creates the tool bar
      *
-     * @return {qx.ui.toolbar.ToolBar} The configured tool bar
+     * @return {qx.legacy.ui.toolbar.ToolBar} The configured tool bar
      */
     __createToolbar : function()
     {
       function createButton(text, clazz, icon, tooltip, checked, id)
       {
         if (!clazz) {
-          clazz = qx.ui.toolbar.Button;
+          clazz = qx.legacy.ui.toolbar.Button;
         }
         var button = new clazz(text, icon);
         if (checked) {
@@ -172,14 +172,14 @@ qx.Class.define("apiviewer.Viewer",
         }
 
         if (tooltip) {
-          button.setToolTip( new qx.ui.popup.ToolTip(tooltip));
+          button.setToolTip( new qx.legacy.ui.popup.ToolTip(tooltip));
         }
 
         button.setId(id);
         return button;
       }
 
-      var toolbar = new qx.ui.toolbar.ToolBar;
+      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
       toolbar.set({
         horizontalChildrenAlign : "right",
         backgroundColor : "background",
@@ -187,12 +187,12 @@ qx.Class.define("apiviewer.Viewer",
         border : "line-bottom"
       });
 
-      var part = new qx.ui.toolbar.Part;
+      var part = new qx.legacy.ui.toolbar.Part;
       toolbar.add(part);
       
       part.add(createButton(
         "Expand",
-        qx.ui.toolbar.CheckBox,
+        qx.legacy.ui.toolbar.CheckBox,
         "icon/22/apps/accessories-archiver.png",
         //apiviewer.TreeUtil.iconNameToIconPath("ICON_PROPERTY_PUB"),
         "Expand properties",
@@ -201,17 +201,17 @@ qx.Class.define("apiviewer.Viewer",
       ));  
       part.add(createButton(
         "Inherited",
-        qx.ui.toolbar.CheckBox,
+        qx.legacy.ui.toolbar.CheckBox,
         "icon/22/apps/system-users.png",
         //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PUB_INHERITED"),
         "Show inherited items",
         false,
         "btn_inherited"
       ));
-      part.add(new qx.ui.toolbar.Separator);
+      part.add(new qx.legacy.ui.toolbar.Separator);
       part.add(createButton(
         "Protected",
-        qx.ui.toolbar.CheckBox,
+        qx.legacy.ui.toolbar.CheckBox,
         "icon/22/actions/stop.png",
         //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PROT"),
         "Show protected items",
@@ -220,7 +220,7 @@ qx.Class.define("apiviewer.Viewer",
       ));
       part.add(createButton(
         "Private",
-        qx.ui.toolbar.CheckBox,
+        qx.legacy.ui.toolbar.CheckBox,
         "icon/22/actions/decrypt.png",
         //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PRIV"),
         "Show private/internal items",
@@ -235,11 +235,11 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Create the detail Frame and adds the Class-, Package and Loader-views to it.
      *
-     * @return {qx.ui.layout.CanvasLayout} The detail Frame
+     * @return {qx.legacy.ui.layout.CanvasLayout} The detail Frame
      */
     __createDetailFrame : function()
     {
-      var detailFrame = new qx.ui.layout.CanvasLayout;
+      var detailFrame = new qx.legacy.ui.layout.CanvasLayout;
       detailFrame.set(
       {
         width           : "100%",
@@ -250,7 +250,7 @@ qx.Class.define("apiviewer.Viewer",
 
       detailFrame.setHtmlProperty("id", "content");
 
-      this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><small>please wait</small>Loading data...</h1>');
+      this._detailLoader = new qx.legacy.ui.embed.HtmlEmbed('<h1><small>please wait</small>Loading data...</h1>');
       this._detailLoader.setHtmlProperty("id", "SplashScreen");
       this._detailLoader.setMarginLeft(20);
       this._detailLoader.setMarginTop(20);
@@ -272,13 +272,13 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Creates the main frame at the right
      *
-     * @param toolbar {qx.ui.toolbar.ToolBar} Toolbar of the main frame
-     * @param detailFrame {qx.ui.core.Widget} the detail widget
-     * @return {qx.ui.layout.VerticalBoxLayout} the main frame
+     * @param toolbar {qx.legacy.ui.toolbar.ToolBar} Toolbar of the main frame
+     * @param detailFrame {qx.legacy.ui.core.Widget} the detail widget
+     * @return {qx.legacy.ui.layout.VerticalBoxLayout} the main frame
      */
     __createMainFrame : function(toolbar, detailFrame)
     {
-      var mainFrame = new qx.ui.layout.VerticalBoxLayout();
+      var mainFrame = new qx.legacy.ui.layout.VerticalBoxLayout();
       mainFrame.set({
         width  : "100%",
         height : "100%",
@@ -293,13 +293,13 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Creates the vertival splitter and populates the split panes
      *
-     * @param leftWidget {qx.ui.core.Widget} the widget on the left of the splitter
-     * @param rightWidget {qx.ui.core.Widget} the widget on the right of the splitter
-     * @return {qx.ui.splitpane.HorizontalSplitPane} the split pane
+     * @param leftWidget {qx.legacy.ui.core.Widget} the widget on the left of the splitter
+     * @param rightWidget {qx.legacy.ui.core.Widget} the widget on the right of the splitter
+     * @return {qx.legacy.ui.splitpane.HorizontalSplitPane} the split pane
      */
     __createVerticalSplitter : function(leftWidget, rightWidget)
     {
-      var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane("1*", "4*");
+      var mainSplitPane = new qx.legacy.ui.splitpane.HorizontalSplitPane("1*", "4*");
       mainSplitPane.setLiveResize(false);
       mainSplitPane.addLeft(leftWidget);
       mainSplitPane.addRight(rightWidget);

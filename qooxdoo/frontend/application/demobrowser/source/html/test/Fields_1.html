@@ -22,10 +22,10 @@
 
       switch(child.classname)
       {
-        case 'qx.ui.form.TextArea':
-        case 'qx.ui.form.TextField':
-        case 'qx.ui.form.ComboBox':
-        case 'qx.ui.form.PasswordField':
+        case 'qx.legacy.ui.form.TextArea':
+        case 'qx.legacy.ui.form.TextField':
+        case 'qx.legacy.ui.form.ComboBox':
+        case 'qx.legacy.ui.form.PasswordField':
           child.setBackgroundColor(color);
           break;
       };
@@ -34,13 +34,13 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     function textChange(e) {
       this.debug("Text changed: " + e.getData());
     }
 
-    var t1 = new qx.ui.form.TextField;
+    var t1 = new qx.legacy.ui.form.TextField;
     t1.setValue("textfield");
     t1.setTop(48);
     t1.setLeft(20);
@@ -55,7 +55,7 @@
 
 
 
-    var t2 = new qx.ui.form.PasswordField;
+    var t2 = new qx.legacy.ui.form.PasswordField;
     t2.setValue("passwordfield");
     t2.setTop(80);
     t2.setLeft(20);
@@ -65,7 +65,7 @@
     d.add(t2);
 
 
-    var t3 = new qx.ui.form.TextArea;
+    var t3 = new qx.legacy.ui.form.TextArea;
     t3.setValue("textarea");
     t3.setTop(110);
     t3.setLeft(20);
@@ -77,7 +77,7 @@
     d.add(t3);
 
 
-    var t4 = new qx.ui.form.TextField;
+    var t4 = new qx.legacy.ui.form.TextField;
     t4.setValue("textfield");
     t4.setTop(200);
     t4.setLeft(20);
@@ -90,7 +90,7 @@
     d.add(t4);
 
 
-    var t5 = new qx.ui.form.TextField;
+    var t5 = new qx.legacy.ui.form.TextField;
     t5.setValue("You are foo!");
     t5.setTop(240);
     t5.setLeft(20);
@@ -99,7 +99,7 @@
 
     d.add(t5);
 
-    var c1 = new qx.ui.form.ComboBox;
+    var c1 = new qx.legacy.ui.form.ComboBox;
     c1.setTop(280);
     c1.setLeft(20);
 
@@ -109,7 +109,7 @@
 
       for(var i=1; i<=30; i++)
       {
-        item = new qx.ui.form.ListItem("Item No " + i);
+        item = new qx.legacy.ui.form.ListItem("Item No " + i);
         !(i % 10) && (item.setEnabled(false));
         c1.add(item);
       };
@@ -129,7 +129,7 @@
 
 
 
-    var b1 = new qx.ui.form.CheckBox("Editable");
+    var b1 = new qx.legacy.ui.form.CheckBox("Editable");
 
     b1.set({ top: 282, left: 150 });
 
@@ -138,15 +138,15 @@
     });
 
 
-    var b2 = new qx.ui.form.Button("red", "icon/16/actions/format-color.png");   b2.set({left:10,top:10});
-    var b3 = new qx.ui.form.Button("green", "icon/16/actions/format-color.png"); b3.set({left:10,top:40});
-    var b4 = new qx.ui.form.Button("white", "icon/16/actions/format-color.png"); b4.set({left:10,top:70});
+    var b2 = new qx.legacy.ui.form.Button("red", "icon/16/actions/format-color.png");   b2.set({left:10,top:10});
+    var b3 = new qx.legacy.ui.form.Button("green", "icon/16/actions/format-color.png"); b3.set({left:10,top:40});
+    var b4 = new qx.legacy.ui.form.Button("white", "icon/16/actions/format-color.png"); b4.set({left:10,top:70});
 
     b2.addListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
     b3.addListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
     b4.addListener("click", function(e) { changeBackgrounds(d,this.getLabel()); });
 
-    var fs = new qx.ui.groupbox.GroupBox("BackgroundColor");
+    var fs = new qx.legacy.ui.groupbox.GroupBox("BackgroundColor");
     fs.set({left:400,top:50,width:150,height:"auto"});
     fs.add(b2,b3,b4);
 

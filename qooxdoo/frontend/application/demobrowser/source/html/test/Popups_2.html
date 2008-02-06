@@ -7,20 +7,20 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for the qx.ui.popup.Popup widget. qx.ui.popup.Popups are planned as the source constructor for tooltips, menus, ...</p>
-    <p>There is also a qx.ui.popup.PopupManager which hides all registered qx.ui.popup.Popup instances which are configured to auto hide.
-    This is a nice method to omit to show more than one qx.ui.popup.Popup together (omit multiple QxTooltips, ...).</p>
-    <p>In this example we use a qx.ui.popup.PopupAtom. This is a popup with an automatically included qx.ui.basic.Atom, which
+    <p>Test for the qx.legacy.ui.popup.Popup widget. qx.legacy.ui.popup.Popups are planned as the source constructor for tooltips, menus, ...</p>
+    <p>There is also a qx.legacy.ui.popup.PopupManager which hides all registered qx.legacy.ui.popup.Popup instances which are configured to auto hide.
+    This is a nice method to omit to show more than one qx.legacy.ui.popup.Popup together (omit multiple QxTooltips, ...).</p>
+    <p>In this example we use a qx.legacy.ui.popup.PopupAtom. This is a popup with an automatically included qx.legacy.ui.basic.Atom, which
     allowes you to easily use it for messages to the user or something like this.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
-    var w1 = new qx.ui.form.Button("Press");
+    var w1 = new qx.legacy.ui.form.Button("Press");
     with(w1)
     {
       setTop(48);
@@ -34,7 +34,7 @@
     d.add(w1);
 
 
-    var w2 = new qx.ui.form.Button("Press");
+    var w2 = new qx.legacy.ui.form.Button("Press");
     with(w2)
     {
       setTop(48);
@@ -54,7 +54,7 @@
 
 
 
-    var p1 = new qx.ui.popup.PopupAtom("Hello World #1", "icon/16/apps/graphics-image-viewer.png");
+    var p1 = new qx.legacy.ui.popup.PopupAtom("Hello World #1", "icon/16/apps/graphics-image-viewer.png");
     d.add(p1);
 
     with(p1)
@@ -74,7 +74,7 @@
 
 
 
-    var p2 = new qx.ui.popup.PopupAtom("Hello World #2", "icon/32/apps/accessories-clock.png");
+    var p2 = new qx.legacy.ui.popup.PopupAtom("Hello World #2", "icon/32/apps/accessories-clock.png");
     d.add(p2);
 
     with(p2)

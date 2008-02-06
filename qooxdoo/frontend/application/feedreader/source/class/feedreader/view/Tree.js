@@ -20,7 +20,7 @@
 
 qx.Class.define("feedreader.view.Tree",
 {
-  extend : qx.ui.tree.Tree,
+  extend : qx.legacy.ui.tree.Tree,
 
   construct : function(controller)
   {
@@ -55,7 +55,7 @@ qx.Class.define("feedreader.view.Tree",
 
       for (var url in db)
       {
-        var folder = new qx.ui.tree.TreeFolder(db[url].title);
+        var folder = new qx.legacy.ui.tree.TreeFolder(db[url].title);
         folder.setUserData("url", url);
         this.add(folder);
       }

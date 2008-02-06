@@ -27,18 +27,18 @@
         //---------------------------------------------------------------------------
         
         // Provide convenience methods
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MNode);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MNode);
                          
         // Provide Drag and Drop support
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MDragAndDropSupport);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MDragAndDropSupport);
         
         //---------------------------------------------------------------------------
         // First tree
         //---------------------------------------------------------------------------
     
-        var tree1 = new qx.ui.treevirtual.TreeVirtual(["Tree 1"]);
+        var tree1 = new qx.legacy.ui.treevirtual.TreeVirtual(["Tree 1"]);
         tree1.set({
                 left   : 10,
                 width  : "30%",
@@ -110,7 +110,7 @@
         // Second tree
         //---------------------------------------------------------------------------
         
-        var tree2 = new qx.ui.treevirtual.TreeVirtual(["Tree 2"]);
+        var tree2 = new qx.legacy.ui.treevirtual.TreeVirtual(["Tree 2"]);
         tree2.set({
                 left   : "32%",
                 width  : "30%",
@@ -162,15 +162,15 @@
         // Command Frame
         //---------------------------------------------------------------------------
         
-        var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+        var commandFrame = new qx.legacy.ui.groupbox.GroupBox("Control");
         commandFrame.set({ top: 5, right: 5, left: "70%", bottom: 5 });
         commandFrame.addToDocument();
     
-        var o = new qx.ui.basic.Atom("Current Selection: ");
+        var o = new qx.legacy.ui.basic.Atom("Current Selection: ");
         o.set({ left: 0, top: 6 });
         commandFrame.add(o);
     
-        o = new qx.ui.form.TextField();
+        o = new qx.legacy.ui.form.TextField();
         o.set({ left: 4, right: 0, top: 20, readOnly: true });
         commandFrame.add(o);
         tree1.addListener("changeSelection",function(e){
@@ -182,7 +182,7 @@
           buttonRemove.setEnabled(true);
         },o);
     
-        var buttonRemove = new qx.ui.form.Button("Remove");
+        var buttonRemove = new qx.legacy.ui.form.Button("Remove");
         buttonRemove.set({ top: 42, left: 0, enabled: false });
         commandFrame.add(buttonRemove);
         buttonRemove.addListener("execute",function(e){
@@ -194,28 +194,28 @@
           }
         });
     
-        o = new qx.ui.form.CheckBox("Tree 1: Allow drop between nodes?");
+        o = new qx.legacy.ui.form.CheckBox("Tree 1: Allow drop between nodes?");
         o.set({ top: 80, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked",function(e){
            tree1.setAllowDropBetweenNodes(e.getData());
          });
     
-        o = new qx.ui.form.CheckBox("Tree 1: Autoselect after timeout?");
+        o = new qx.legacy.ui.form.CheckBox("Tree 1: Autoselect after timeout?");
         o.set({ top: 100, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked",function(e){
          tree1.setDragHoverTimeout(e.getData()?1000:null);
         });
     
-        o = new qx.ui.form.CheckBox("Tree2: Sort after Drop?");
+        o = new qx.legacy.ui.form.CheckBox("Tree2: Sort after Drop?");
         o.set({ top: 120, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked", function(e){
          tree2.setSortAfterDrop(e.getData());
         });
     
-        o = new qx.ui.form.CheckBox("Display a row focus indicator?");
+        o = new qx.legacy.ui.form.CheckBox("Display a row focus indicator?");
         o.set({ top: 140, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked",function(e){
@@ -223,7 +223,7 @@
          tree2.setShowRowFocusIndicator(e.getData());
         });
     
-        o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
+        o = new qx.legacy.ui.form.CheckBox("Display a cell focus indicator?");
         o.set({ top: 160, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked", function(e){

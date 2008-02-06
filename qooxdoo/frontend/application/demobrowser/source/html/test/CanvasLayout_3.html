@@ -7,13 +7,13 @@
 </head>
 <body>  
   <div id="description">
-    <p>This test is using multiple qx.ui.basic.Terminator</p>
+    <p>This test is using multiple qx.legacy.ui.basic.Terminator</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
     var w, s;
 
 
@@ -24,7 +24,7 @@
 
       for (var j=1; j<=20; j++)
       {
-        var w = new qx.ui.basic.Terminator;
+        var w = new qx.legacy.ui.basic.Terminator;
 
         w.setWidth(12);
         w.setHeight(12);

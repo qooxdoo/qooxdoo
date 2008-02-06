@@ -14,9 +14,9 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
-    var a1 = new qx.ui.basic.Atom("Drag Me");
+    var a1 = new qx.legacy.ui.basic.Atom("Drag Me");
     a1.set({ backgroundColor: "white", border: "groove" });
     a1.setPadding(10);
     a1.setLocation(20, 48); 
@@ -71,28 +71,28 @@
     
     
     
-    var w1 = new qx.ui.basic.Atom("Drop to me");
+    var w1 = new qx.legacy.ui.basic.Atom("Drop to me");
     w1.set({ backgroundColor: "white", border: "groove", width: 100, height: 100, top: 100, left: 20, horizontalAlign: "center" });
     w1.setDropDataTypes([qx.util.Mime.HTML, qx.util.Mime.TEXT]);
     w1.addListener("dragdrop", handleDragDrop);
     w1.addListener("dragover", handleDragOver);
     w1.addListener("dragout", handleDragOut);    
     
-    var w2 = new qx.ui.basic.Atom("Drop to me");
+    var w2 = new qx.legacy.ui.basic.Atom("Drop to me");
     w2.set({ backgroundColor: "white", border: "groove", width: 100, height: 100, top: 230, left: 20, horizontalAlign: "center" });
     w2.setDropDataTypes([qx.util.Mime.HTML, qx.util.Mime.TEXT]);
     w2.addListener("dragdrop", handleDragDrop);
     w2.addListener("dragover", handleDragOver);
     w2.addListener("dragout", handleDragOut);    
 
-    var w3 = new qx.ui.basic.Atom("Drop to me");
+    var w3 = new qx.legacy.ui.basic.Atom("Drop to me");
     w3.set({ backgroundColor: "white", border: "groove", width: 100, height: 100, top: 100, left: 150, horizontalAlign: "center" });
     w3.setDropDataTypes([qx.util.Mime.HTML, qx.util.Mime.TEXT]);
     w3.addListener("dragdrop", handleDragDrop);
     w3.addListener("dragover", handleDragOver);
     w3.addListener("dragout", handleDragOut);    
     
-    var w4 = new qx.ui.basic.Atom("Drop to me");
+    var w4 = new qx.legacy.ui.basic.Atom("Drop to me");
     w4.set({ backgroundColor: "white", border: "groove", width: 100, height: 100, top: 230, left: 150, horizontalAlign: "center" });
     w4.setDropDataTypes([qx.util.Mime.HTML, qx.util.Mime.TEXT]);
     w4.addListener("dragdrop", handleDragDrop);
@@ -101,17 +101,17 @@
     
     
     
-    var f1 = new qx.ui.layout.CanvasLayout;
+    var f1 = new qx.legacy.ui.layout.CanvasLayout;
     f1.set({ backgroundColor: "orange", width: 230, height: 120, top: 350, left: 20 });
   
-    var w5 = new qx.ui.basic.Atom("Drop to me");
+    var w5 = new qx.legacy.ui.basic.Atom("Drop to me");
     w5.set({ backgroundColor: "white", border: "groove", width: 100, height: 100, top: 10, horizontalAlign: "center" });
     w5.setDropDataTypes([qx.util.Mime.HTML, qx.util.Mime.TEXT]);
     w5.addListener("dragdrop", handleDragDrop);
     w5.addListener("dragover", handleDragOver);
     w5.addListener("dragout", handleDragOut);     
     
-    var w6 = new qx.ui.basic.Atom("Drop to me");
+    var w6 = new qx.legacy.ui.basic.Atom("Drop to me");
     w6.set({ backgroundColor: "white", border: "groove", width: 100, height: 100, top: 10, right: 0, horizontalAlign: "center" });
     w6.setDropDataTypes([qx.util.Mime.HTML, qx.util.Mime.TEXT]);
     w6.addListener("dragdrop", handleDragDrop);

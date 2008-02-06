@@ -24,13 +24,13 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var inlineWidget = new qx.ui.basic.Inline("qxframe");
+      var inlineWidget = new qx.legacy.ui.basic.Inline("qxframe");
       inlineWidget.setHeight("100%");
       inlineWidget.setWidth("auto");
 
-      var wnd = new qx.ui.window.Window("Test window");
+      var wnd = new qx.legacy.ui.window.Window("Test window");
       wnd.set({
           left : 200,
           top : 200,
@@ -40,7 +40,7 @@
       inlineWidget.add(wnd);
       wnd.show();
 
-      var vbx = new qx.ui.layout.VerticalBoxLayout();
+      var vbx = new qx.legacy.ui.layout.VerticalBoxLayout();
       vbx.set(
       {
       	left    : 5,
@@ -51,20 +51,20 @@
       });
 
       // blocker
-      var button = new qx.ui.form.Button("block");
+      var button = new qx.legacy.ui.form.Button("block");
       button.addListener("execute", function() {
         d.block();
       });
       vbx.add(button);
 
       // menu
-      var menu = new qx.ui.menu.Menu;
+      var menu = new qx.legacy.ui.menu.Menu;
       for (var i=0; i<4; i++) {
-        menu.add(new qx.ui.menu.Button("test1", null));
+        menu.add(new qx.legacy.ui.menu.Button("test1", null));
       };
       menu.addToDocument();
 
-      menuButton = new qx.ui.toolbar.MenuButton("Menu", menu);
+      menuButton = new qx.legacy.ui.toolbar.MenuButton("Menu", menu);
       menuButton.set({
         height: 20,
         width: 50,
@@ -75,7 +75,7 @@
 
 
       // color popup
-      var mybtn = new qx.ui.form.Button("Open Popup");
+      var mybtn = new qx.legacy.ui.form.Button("Open Popup");
       mybtn.addListener("execute", function()
       {
         mypop.positionRelativeTo(mybtn.getElement(), 0, 20);
@@ -103,14 +103,14 @@
         }
       }
 
-      var mypop = new qx.ui.component.ColorPopup(mytables);
+      var mypop = new qx.legacy.ui.component.ColorPopup(mytables);
       mypop.addToDocument();
 
       // combo box
-      var combo = new qx.ui.form.ComboBox();
+      var combo = new qx.legacy.ui.form.ComboBox();
       for(var i=1; i<=30; i++)
       {
-        var item = new qx.ui.form.ListItem("Item No " + i);
+        var item = new qx.legacy.ui.form.ListItem("Item No " + i);
         if (!(i % 10)) {
           item.setEnabled(false);
         }
@@ -120,7 +120,7 @@
 
 
       // tree
-      var tree = new qx.ui.tree.Tree("Root");
+      var tree = new qx.legacy.ui.tree.Tree("Root");
 
       tree.set({
         backgroundColor : "white",
@@ -130,28 +130,28 @@
       });
 
       // One icon for selected and one for unselected states
-      var te1 = new qx.ui.tree.TreeFolder("Desktop", "icon/16/places/user-desktop.png", "icon/16/apps/accessories-dictionary.png");
+      var te1 = new qx.legacy.ui.tree.TreeFolder("Desktop", "icon/16/places/user-desktop.png", "icon/16/apps/accessories-dictionary.png");
       tree.add(te1);
 
-      var te1_1 = new qx.ui.tree.TreeFolder("Files");
-      var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
-      var te1_3 = new qx.ui.tree.TreeFolder("Network");
-      var te1_4 = new qx.ui.tree.TreeFolder("Trash");
+      var te1_1 = new qx.legacy.ui.tree.TreeFolder("Files");
+      var te1_2 = new qx.legacy.ui.tree.TreeFolder("Workspace");
+      var te1_3 = new qx.legacy.ui.tree.TreeFolder("Network");
+      var te1_4 = new qx.legacy.ui.tree.TreeFolder("Trash");
 
       te1.add(te1_1, te1_2, te1_3, te1_4);
 
       // One icon specified, and used for both selected unselected states
-      var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)", "icon/16/devices/drive-harddisk.png");
-      var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)", "icon/16/devices/drive-harddisk.png");
+      var te1_2_1 = new qx.legacy.ui.tree.TreeFile("Windows (C:)", "icon/16/devices/drive-harddisk.png");
+      var te1_2_2 = new qx.legacy.ui.tree.TreeFile("Documents (D:)", "icon/16/devices/drive-harddisk.png");
 
       te1_2.add(te1_2_1, te1_2_2);
       vbx.add(tree);
 
 
       // table
-      var tableModel = new qx.ui.table.model.Simple();
+      var tableModel = new qx.legacy.ui.table.model.Simple();
       tableModel.setColumns([ "1", "2", "3" ]);
-      var table = new qx.ui.table.Table(tableModel);
+      var table = new qx.legacy.ui.table.Table(tableModel);
       table.set(
     	{
     		width  : "100%",
@@ -160,7 +160,7 @@
     		rowHeight : 63
       });
 
-      table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
+      table.getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.SINGLE_SELECTION);
 
       var rowData = [];
       for (var row = 0; row < 1000; row++) {

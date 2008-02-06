@@ -63,7 +63,7 @@ qx.Class.define("showcase.Application",
     {
       this.base(arguments);
 
-      var barView = new qx.ui.pageview.buttonview.ButtonView;
+      var barView = new qx.legacy.ui.pageview.buttonview.ButtonView;
 
       barView.setLocation(10, 10);
       barView.setRight(10);
@@ -128,7 +128,7 @@ qx.Class.define("showcase.Application",
      */
     _createPage : function(barView, title, iconUrl, callback, scrolls)
     {
-      var bt = new qx.ui.pageview.buttonview.Button(title, iconUrl);
+      var bt = new qx.legacy.ui.pageview.buttonview.Button(title, iconUrl);
       barView.getBar().add(bt);
 
       // store state information
@@ -141,7 +141,7 @@ qx.Class.define("showcase.Application",
       this._states[state] = stateData;
       bt.setUserData("state", stateData);
 
-      var page = new qx.ui.pageview.buttonview.Page(bt);
+      var page = new qx.legacy.ui.pageview.buttonview.Page(bt);
       barView.getPane().add(page);
 
       bt.addListener("changeChecked", function(e)
@@ -187,17 +187,17 @@ qx.Class.define("showcase.Application",
      */
     _createFormDemo : function()
     {
-      var main = new qx.ui.layout.VerticalBoxLayout;
+      var main = new qx.legacy.ui.layout.VerticalBoxLayout;
       main.setPadding(10);
 
       var groupWidth = 285;
 
       // fields
-      var group1 = new qx.ui.groupbox.GroupBox("Some controls", "icon/16/apps/preferences.png");
+      var group1 = new qx.legacy.ui.groupbox.GroupBox("Some controls", "icon/16/apps/preferences.png");
       group1.setDimension("auto", "auto");
       main.add(group1);
 
-      var gl = new qx.ui.layout.GridLayout;
+      var gl = new qx.legacy.ui.layout.GridLayout;
       group1.add(gl);
 
       gl.setDimension(groupWidth - 26, "auto");
@@ -219,66 +219,66 @@ qx.Class.define("showcase.Application",
       gl.setRowHeight(4, 70);
       gl.setRowHeight(5, 26);
 
-      gl.add(new qx.ui.basic.Label("Name"), 0, 0);
-      gl.add(new qx.ui.form.TextField, 1, 0);
-      gl.add(new qx.ui.basic.Label("Amount"), 0, 1);
-      gl.add(new qx.ui.form.Spinner, 1, 1);
-      gl.add(new qx.ui.basic.Label("Type"), 0, 2);
+      gl.add(new qx.legacy.ui.basic.Label("Name"), 0, 0);
+      gl.add(new qx.legacy.ui.form.TextField, 1, 0);
+      gl.add(new qx.legacy.ui.basic.Label("Amount"), 0, 1);
+      gl.add(new qx.legacy.ui.form.Spinner, 1, 1);
+      gl.add(new qx.legacy.ui.basic.Label("Type"), 0, 2);
 
-      var combo = new qx.ui.form.ComboBox;
-      combo.add(new qx.ui.form.ListItem("CD")); // , "icon/16/cd.png"));
-      combo.add(new qx.ui.form.ListItem("Clock")); // , "icon/16/apps/accessories-clock.png"));
-      combo.add(new qx.ui.form.ListItem("Modem")); // , "icon/16/apps/internet-download-manager.png"));
-      combo.add(new qx.ui.form.ListItem("Network")); // , "icon/16/categories/applications-internet.png"));
-      combo.add(new qx.ui.form.ListItem("Sound")); // , "icon/16/apps/multimedia-volume-control.png"));
-      combo.add(new qx.ui.form.ListItem("PDA")); // , "icon/16/pda.png"));
-      combo.add(new qx.ui.form.ListItem("Printer")); // , "icon/16/devices/printer.png"));
-      combo.add(new qx.ui.form.ListItem("Scanner")); // , "icon/16/devices/scanner.png"));
-      combo.add(new qx.ui.form.ListItem("TV")); // , "icon/16/devices/video-display.png"));
+      var combo = new qx.legacy.ui.form.ComboBox;
+      combo.add(new qx.legacy.ui.form.ListItem("CD")); // , "icon/16/cd.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("Clock")); // , "icon/16/apps/accessories-clock.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("Modem")); // , "icon/16/apps/internet-download-manager.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("Network")); // , "icon/16/categories/applications-internet.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("Sound")); // , "icon/16/apps/multimedia-volume-control.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("PDA")); // , "icon/16/pda.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("Printer")); // , "icon/16/devices/printer.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("Scanner")); // , "icon/16/devices/scanner.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("TV")); // , "icon/16/devices/video-display.png"));
       gl.add(combo, 1, 2);
 
-      gl.add(new qx.ui.basic.Label("E-Mail"), 0, 3);
-      gl.add(new qx.ui.form.TextField, 1, 3);
+      gl.add(new qx.legacy.ui.basic.Label("E-Mail"), 0, 3);
+      gl.add(new qx.legacy.ui.form.TextField, 1, 3);
 
-      var label6 = new qx.ui.basic.Label("Comment");
+      var label6 = new qx.legacy.ui.basic.Label("Comment");
       label6.setVerticalAlign("top");
       label6.setVerticalAlign("top");
       gl.add(label6, 0, 4);
 
-      gl.add(new qx.ui.form.TextArea, 1, 4);
+      gl.add(new qx.legacy.ui.form.TextArea, 1, 4);
 
-      var input7 = new qx.ui.form.Button("Submit", "icon/16/actions/dialog-ok.png");
+      var input7 = new qx.legacy.ui.form.Button("Submit", "icon/16/actions/dialog-ok.png");
       input7.setHorizontalAlign("right");
       gl.add(input7, 1, 5);
 
       // Checkboxes
-      var group2 = new qx.ui.groupbox.GroupBox("Some settings");
+      var group2 = new qx.legacy.ui.groupbox.GroupBox("Some settings");
       group2.setDimension(groupWidth, "auto");
       main.add(group2);
 
-      var bl = new qx.ui.layout.VerticalBoxLayout;
+      var bl = new qx.legacy.ui.layout.VerticalBoxLayout;
       group2.add(bl);
 
-      bl.add(new qx.ui.form.CheckBox("Permit others to view my favorites"));
+      bl.add(new qx.legacy.ui.form.CheckBox("Permit others to view my favorites"));
 
-      var chb = new qx.ui.form.CheckBox("Use the very high bitrate");
+      var chb = new qx.legacy.ui.form.CheckBox("Use the very high bitrate");
       chb.setChecked(true);
       bl.add(chb);
 
       // Radio buttons
-      var group3 = new qx.ui.groupbox.GroupBox("Network speed", "icon/16/categories/applications-internet.png");
+      var group3 = new qx.legacy.ui.groupbox.GroupBox("Network speed", "icon/16/categories/applications-internet.png");
       group3.setDimension(groupWidth, "auto");
       main.add(group3);
 
-      var bl = new qx.ui.layout.VerticalBoxLayout;
+      var bl = new qx.legacy.ui.layout.VerticalBoxLayout;
       group3.add(bl);
 
-      var radio1 = new qx.ui.form.RadioButton("Modem");
-      var radio2 = new qx.ui.form.RadioButton("DSL");
-      var radio3 = new qx.ui.form.RadioButton("Direct link");
+      var radio1 = new qx.legacy.ui.form.RadioButton("Modem");
+      var radio2 = new qx.legacy.ui.form.RadioButton("DSL");
+      var radio3 = new qx.legacy.ui.form.RadioButton("Direct link");
       radio2.setChecked(true);
       bl.add(radio1, radio2, radio3);
-      new qx.ui.selection.RadioManager("network", [ radio1, radio2, radio3 ]);
+      new qx.legacy.ui.selection.RadioManager("network", [ radio1, radio2, radio3 ]);
 
       return main;
     },
@@ -292,29 +292,29 @@ qx.Class.define("showcase.Application",
      */
     _createTooltipDemo : function()
     {
-      var main = new qx.ui.layout.HorizontalBoxLayout;
+      var main = new qx.legacy.ui.layout.HorizontalBoxLayout;
       main.setPadding(10);
       main.setSpacing(10);
 
-      var c1 = new qx.ui.basic.Atom("Hover me", "icon/32/actions/system-run.png");
+      var c1 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/actions/system-run.png");
       c1.setPadding(5);
       c1.setBorder("outset");
       c1.setBackgroundColor("#BDD2EF");
-      c1.setToolTip(new qx.ui.popup.ToolTip("Look at this"));
+      c1.setToolTip(new qx.legacy.ui.popup.ToolTip("Look at this"));
       main.add(c1);
 
-      var c2 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
+      var c2 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
       c2.setPadding(5);
       c2.setBorder("outset");
       c2.setBackgroundColor("#D1DFAD");
-      c2.setToolTip(new qx.ui.popup.ToolTip("Images are also possible", "icon/16/actions/help-about.png"));
+      c2.setToolTip(new qx.legacy.ui.popup.ToolTip("Images are also possible", "icon/16/actions/help-about.png"));
       main.add(c2);
 
-      var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-disk-usage.png");
+      var c3 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/apps/accessories-disk-usage.png");
       c3.setPadding(5);
       c3.setBorder("outset");
       c3.setBackgroundColor("#D1A4AD");
-      var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/apps/accessories-disk-usage.png");
+      var tip3 = new qx.legacy.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/apps/accessories-disk-usage.png");
       tip3.setShowInterval(50);
       c3.setToolTip(tip3);
       main.add(c3);
@@ -331,125 +331,125 @@ qx.Class.define("showcase.Application",
      */
     _createToolbarDemo : function()
     {
-      var doc = qx.ui.core.ClientDocument.getInstance();
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var main = new qx.ui.layout.VerticalBoxLayout;
+      var main = new qx.legacy.ui.layout.VerticalBoxLayout;
       main.setPadding(10);
 
       // Menu
-      var m1 = new qx.ui.menu.Menu;
-      var mb1_01 = new qx.ui.menu.Button("New", "icon/16/actions/document-new.png");
-      var mb1_02 = new qx.ui.menu.Button("Open", "icon/16/actions/document-open.png");
-      var mb1_03 = new qx.ui.menu.Button("Save", "icon/16/actions/document-save.png");
-      var mb1_04 = new qx.ui.menu.Button("Save as", "icon/16/actions/document-save-as.png");
-      var mb1_05 = new qx.ui.menu.Button("Close", "icon/16/actions/stop.png");
-      var mb1_06 = new qx.ui.menu.Button("Restore last saved", "icon/16/actions/view-refresh.png");
+      var m1 = new qx.legacy.ui.menu.Menu;
+      var mb1_01 = new qx.legacy.ui.menu.Button("New", "icon/16/actions/document-new.png");
+      var mb1_02 = new qx.legacy.ui.menu.Button("Open", "icon/16/actions/document-open.png");
+      var mb1_03 = new qx.legacy.ui.menu.Button("Save", "icon/16/actions/document-save.png");
+      var mb1_04 = new qx.legacy.ui.menu.Button("Save as", "icon/16/actions/document-save-as.png");
+      var mb1_05 = new qx.legacy.ui.menu.Button("Close", "icon/16/actions/stop.png");
+      var mb1_06 = new qx.legacy.ui.menu.Button("Restore last saved", "icon/16/actions/view-refresh.png");
       m1.add(mb1_01, mb1_02, mb1_03, mb1_04, mb1_05, mb1_06);
 
-      var m2 = new qx.ui.menu.Menu;
-      var mb2_01 = new qx.ui.menu.Button("Undo", "icon/16/actions/edit-undo.png");
-      var mb2_02 = new qx.ui.menu.Button("Redo", "icon/16/actions/edit-redo.png");
-      var mb2_b1 = new qx.ui.menu.Separator();
-      var mb2_03 = new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png");
-      var mb2_04 = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png");
-      var mb2_05 = new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png");
-      var mb2_06 = new qx.ui.menu.Button("Delete", "icon/16/actions/edit-delete.png");
-      var mb2_b2 = new qx.ui.menu.Separator();
-      var mb2_07 = new qx.ui.menu.Button("Select All");
-      var mb2_08 = new qx.ui.menu.Button("Find", "icon/16/actions/edit-find.png");
-      var mb2_09 = new qx.ui.menu.Button("Find Again");
+      var m2 = new qx.legacy.ui.menu.Menu;
+      var mb2_01 = new qx.legacy.ui.menu.Button("Undo", "icon/16/actions/edit-undo.png");
+      var mb2_02 = new qx.legacy.ui.menu.Button("Redo", "icon/16/actions/edit-redo.png");
+      var mb2_b1 = new qx.legacy.ui.menu.Separator();
+      var mb2_03 = new qx.legacy.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png");
+      var mb2_04 = new qx.legacy.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png");
+      var mb2_05 = new qx.legacy.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png");
+      var mb2_06 = new qx.legacy.ui.menu.Button("Delete", "icon/16/actions/edit-delete.png");
+      var mb2_b2 = new qx.legacy.ui.menu.Separator();
+      var mb2_07 = new qx.legacy.ui.menu.Button("Select All");
+      var mb2_08 = new qx.legacy.ui.menu.Button("Find", "icon/16/actions/edit-find.png");
+      var mb2_09 = new qx.legacy.ui.menu.Button("Find Again");
       mb2_05.setEnabled(false);
       mb2_06.setEnabled(false);
       mb2_09.setEnabled(false);
       m2.add(mb2_01, mb2_02, mb2_b1, mb2_03, mb2_04, mb2_05, mb2_06, mb2_b2, mb2_07, mb2_08, mb2_09);
 
-      var m3 = new qx.ui.menu.Menu;
-      var m3_suba = new qx.ui.menu.Menu;
-      var m3_subb = new qx.ui.menu.Menu;
-      var m3_subc = new qx.ui.menu.Menu;
-      var m3_subd = new qx.ui.menu.Menu;
+      var m3 = new qx.legacy.ui.menu.Menu;
+      var m3_suba = new qx.legacy.ui.menu.Menu;
+      var m3_subb = new qx.legacy.ui.menu.Menu;
+      var m3_subc = new qx.legacy.ui.menu.Menu;
+      var m3_subd = new qx.legacy.ui.menu.Menu;
 
-      var mb3_01 = new qx.ui.menu.CheckBox("File List", null, false);
-      var mb3_02 = new qx.ui.menu.CheckBox("Syntax Highlighting", null, true);
-      var mb3_03 = new qx.ui.menu.CheckBox("Statusbar", null, true);
-      var mb3_b1 = new qx.ui.menu.Separator();
-      var mb3_04 = new qx.ui.menu.Button("Printer Font", null, null, m3_suba);
-      var mb3_05 = new qx.ui.menu.Button("Editor Font", null, null, m3_subb);
-      var mb3_06 = new qx.ui.menu.Button("Export Font", null, null, m3_subc);
-      var mb3_b2 = new qx.ui.menu.Separator();
-      var mb3_07 = new qx.ui.menu.Button("Advanced", null, null, m3_subd);
+      var mb3_01 = new qx.legacy.ui.menu.CheckBox("File List", null, false);
+      var mb3_02 = new qx.legacy.ui.menu.CheckBox("Syntax Highlighting", null, true);
+      var mb3_03 = new qx.legacy.ui.menu.CheckBox("Statusbar", null, true);
+      var mb3_b1 = new qx.legacy.ui.menu.Separator();
+      var mb3_04 = new qx.legacy.ui.menu.Button("Printer Font", null, null, m3_suba);
+      var mb3_05 = new qx.legacy.ui.menu.Button("Editor Font", null, null, m3_subb);
+      var mb3_06 = new qx.legacy.ui.menu.Button("Export Font", null, null, m3_subc);
+      var mb3_b2 = new qx.legacy.ui.menu.Separator();
+      var mb3_07 = new qx.legacy.ui.menu.Button("Advanced", null, null, m3_subd);
       m3.add(mb3_01, mb3_02, mb3_03, mb3_b1, mb3_04, mb3_05, mb3_06, mb3_b2, mb3_07);
 
-      var mb3_suba_01 = new qx.ui.menu.Button("Tahoma, 11pt");
-      var mb3_suba_02 = new qx.ui.menu.Button("Tahoma, 12pt");
-      var mb3_suba_03 = new qx.ui.menu.Button("Tahoma, 13pt");
-      var mb3_suba_04 = new qx.ui.menu.Button("Tahoma, 14pt");
-      var mb3_suba_05 = new qx.ui.menu.Button("Tahoma, 15pt");
+      var mb3_suba_01 = new qx.legacy.ui.menu.Button("Tahoma, 11pt");
+      var mb3_suba_02 = new qx.legacy.ui.menu.Button("Tahoma, 12pt");
+      var mb3_suba_03 = new qx.legacy.ui.menu.Button("Tahoma, 13pt");
+      var mb3_suba_04 = new qx.legacy.ui.menu.Button("Tahoma, 14pt");
+      var mb3_suba_05 = new qx.legacy.ui.menu.Button("Tahoma, 15pt");
       m3_suba.add(mb3_suba_01, mb3_suba_02, mb3_suba_03, mb3_suba_04, mb3_suba_05);
 
-      var mb3_subb_01 = new qx.ui.menu.Button("Verdana, 11pt");
-      var mb3_subb_02 = new qx.ui.menu.Button("Verdana, 12pt");
-      var mb3_subb_03 = new qx.ui.menu.Button("Verdana, 13pt");
-      var mb3_subb_04 = new qx.ui.menu.Button("Verdana, 14pt");
-      var mb3_subb_05 = new qx.ui.menu.Button("Verdana, 15pt");
+      var mb3_subb_01 = new qx.legacy.ui.menu.Button("Verdana, 11pt");
+      var mb3_subb_02 = new qx.legacy.ui.menu.Button("Verdana, 12pt");
+      var mb3_subb_03 = new qx.legacy.ui.menu.Button("Verdana, 13pt");
+      var mb3_subb_04 = new qx.legacy.ui.menu.Button("Verdana, 14pt");
+      var mb3_subb_05 = new qx.legacy.ui.menu.Button("Verdana, 15pt");
       m3_subb.add(mb3_subb_01, mb3_subb_02, mb3_subb_03, mb3_subb_04, mb3_subb_05);
 
-      var mb3_subc_01 = new qx.ui.menu.Button("Courier, 11pt");
-      var mb3_subc_02 = new qx.ui.menu.Button("Courier, 12pt");
-      var mb3_subc_03 = new qx.ui.menu.Button("Courier, 13pt");
-      var mb3_subc_04 = new qx.ui.menu.Button("Courier, 14pt");
-      var mb3_subc_05 = new qx.ui.menu.Button("Courier, 15pt");
+      var mb3_subc_01 = new qx.legacy.ui.menu.Button("Courier, 11pt");
+      var mb3_subc_02 = new qx.legacy.ui.menu.Button("Courier, 12pt");
+      var mb3_subc_03 = new qx.legacy.ui.menu.Button("Courier, 13pt");
+      var mb3_subc_04 = new qx.legacy.ui.menu.Button("Courier, 14pt");
+      var mb3_subc_05 = new qx.legacy.ui.menu.Button("Courier, 15pt");
       m3_subc.add(mb3_subc_01, mb3_subc_02, mb3_subc_03, mb3_subc_04, mb3_subc_05);
 
-      var mb3_subd_02_suba = new qx.ui.menu.Menu();
-      var mb3_subd_02_suba_01 = new qx.ui.menu.Button("First");
-      var mb3_subd_02_suba_02 = new qx.ui.menu.Button("Second");
-      var mb3_subd_02_suba_03 = new qx.ui.menu.Button("Third");
+      var mb3_subd_02_suba = new qx.legacy.ui.menu.Menu();
+      var mb3_subd_02_suba_01 = new qx.legacy.ui.menu.Button("First");
+      var mb3_subd_02_suba_02 = new qx.legacy.ui.menu.Button("Second");
+      var mb3_subd_02_suba_03 = new qx.legacy.ui.menu.Button("Third");
       mb3_subd_02_suba.add(mb3_subd_02_suba_01, mb3_subd_02_suba_02, mb3_subd_02_suba_03);
 
-      var mb3_subd_01 = new qx.ui.menu.Button("First");
-      var mb3_subd_02 = new qx.ui.menu.Button("Second", null, null, mb3_subd_02_suba);
-      var mb3_subd_03 = new qx.ui.menu.Button("Third");
+      var mb3_subd_01 = new qx.legacy.ui.menu.Button("First");
+      var mb3_subd_02 = new qx.legacy.ui.menu.Button("Second", null, null, mb3_subd_02_suba);
+      var mb3_subd_03 = new qx.legacy.ui.menu.Button("Third");
 
       m3_subd.add(mb3_subd_01, mb3_subd_02, mb3_subd_03);
 
-      var m4 = new qx.ui.menu.Menu;
-      var m4_suba = new qx.ui.menu.Menu;
+      var m4 = new qx.legacy.ui.menu.Menu;
+      var m4_suba = new qx.legacy.ui.menu.Menu;
 
-      var mb4_01 = new qx.ui.menu.Button("View", null, null, m4_suba);
-      var mb4_b1 = new qx.ui.menu.Separator();
-      var mb4_02 = new qx.ui.menu.Button("Editor Preferences...", "icon/16/apps/preferences.png");
-      var mb4_03 = new qx.ui.menu.Button("Editor Extensions", "icon/16/apps/accessories-disk-usage.png");
-      var mb4_04 = new qx.ui.menu.Button("Framework Preferences");
+      var mb4_01 = new qx.legacy.ui.menu.Button("View", null, null, m4_suba);
+      var mb4_b1 = new qx.legacy.ui.menu.Separator();
+      var mb4_02 = new qx.legacy.ui.menu.Button("Editor Preferences...", "icon/16/apps/preferences.png");
+      var mb4_03 = new qx.legacy.ui.menu.Button("Editor Extensions", "icon/16/apps/accessories-disk-usage.png");
+      var mb4_04 = new qx.legacy.ui.menu.Button("Framework Preferences");
 
       m4.add(mb4_01, mb4_b1, mb4_02, mb4_03, mb4_04);
 
-      var mb4_suba_01 = new qx.ui.menu.Button("New Window");
-      var mb4_suba_b1 = new qx.ui.menu.Separator();
-      var mb4_suba_02 = new qx.ui.menu.RadioButton("Overlapping", null, true);
-      var mb4_suba_03 = new qx.ui.menu.RadioButton("Split Horizontally");
-      var mb4_suba_04 = new qx.ui.menu.RadioButton("Split Vertically");
-      var mb4_suba_b2 = new qx.ui.menu.Separator();
-      var mb4_suba_05 = new qx.ui.menu.Button("Next Window");
-      var mb4_suba_06 = new qx.ui.menu.Button("Previous Window");
+      var mb4_suba_01 = new qx.legacy.ui.menu.Button("New Window");
+      var mb4_suba_b1 = new qx.legacy.ui.menu.Separator();
+      var mb4_suba_02 = new qx.legacy.ui.menu.RadioButton("Overlapping", null, true);
+      var mb4_suba_03 = new qx.legacy.ui.menu.RadioButton("Split Horizontally");
+      var mb4_suba_04 = new qx.legacy.ui.menu.RadioButton("Split Vertically");
+      var mb4_suba_b2 = new qx.legacy.ui.menu.Separator();
+      var mb4_suba_05 = new qx.legacy.ui.menu.Button("Next Window");
+      var mb4_suba_06 = new qx.legacy.ui.menu.Button("Previous Window");
 
       m4_suba.add(mb4_suba_01, mb4_suba_b1, mb4_suba_02, mb4_suba_03, mb4_suba_04, mb4_suba_b2, mb4_suba_05, mb4_suba_06);
 
-      var mb4_manager = new qx.ui.selection.RadioManager("windowMode", [ mb4_suba_02, mb4_suba_03, mb4_suba_04 ]);
+      var mb4_manager = new qx.legacy.ui.selection.RadioManager("windowMode", [ mb4_suba_02, mb4_suba_03, mb4_suba_04 ]);
 
-      var m5 = new qx.ui.menu.Menu;
-      var mb5_01 = new qx.ui.menu.Button("Help", "icon/16/actions/help-about.png");
-      var mb5_02 = new qx.ui.menu.Button("About", "icon/16/actions/system-run.png");
+      var m5 = new qx.legacy.ui.menu.Menu;
+      var mb5_01 = new qx.legacy.ui.menu.Button("Help", "icon/16/actions/help-about.png");
+      var mb5_02 = new qx.legacy.ui.menu.Button("About", "icon/16/actions/system-run.png");
       m5.add(mb5_01, mb5_02);
 
       doc.add(m1, m2, m3, m3_suba, m3_subb, m3_subc, m3_subd, mb3_subd_02_suba, m4, m4_suba, m5);
 
-      var mb1 = new qx.ui.toolbar.ToolBar;
-      var mbb1 = new qx.ui.toolbar.MenuButton("File", m1);
-      var mbb2 = new qx.ui.toolbar.MenuButton("Edit", m2);
-      var mbb3 = new qx.ui.toolbar.MenuButton("View", m3);
-      var mbb4 = new qx.ui.toolbar.MenuButton("Options", m4);
-      var mbb5 = new qx.ui.toolbar.MenuButton("Help", m5);
+      var mb1 = new qx.legacy.ui.toolbar.ToolBar;
+      var mbb1 = new qx.legacy.ui.toolbar.MenuButton("File", m1);
+      var mbb2 = new qx.legacy.ui.toolbar.MenuButton("Edit", m2);
+      var mbb3 = new qx.legacy.ui.toolbar.MenuButton("View", m3);
+      var mbb4 = new qx.legacy.ui.toolbar.MenuButton("Options", m4);
+      var mbb5 = new qx.legacy.ui.toolbar.MenuButton("Help", m5);
       mb1.add(mbb1, mbb2, mbb3, mbb4, mbb5);
       main.add(mb1);
 
@@ -469,7 +469,7 @@ qx.Class.define("showcase.Application",
       function createButton(app, text, icon, clazz, checked)
       {
         if (!clazz) {
-          clazz = qx.ui.toolbar.Button;
+          clazz = qx.legacy.ui.toolbar.Button;
         }
 
         var button = new clazz(text, "icon/22/actions/" + icon + ".png");
@@ -483,31 +483,31 @@ qx.Class.define("showcase.Application",
         return button;
       }
 
-      var tb = new qx.ui.toolbar.ToolBar;
+      var tb = new qx.legacy.ui.toolbar.ToolBar;
       main.add(tb);
 
-      var part = new qx.ui.toolbar.Part;
+      var part = new qx.legacy.ui.toolbar.Part;
       tb.add(part);
       part.add(createButton(this, "New", "document-new"));
-      part.add(new qx.ui.toolbar.Separator);
+      part.add(new qx.legacy.ui.toolbar.Separator);
       part.add(createButton(this, "Copy", "edit-copy"));
       part.add(createButton(this, "Cut", "edit-cut"));
       part.add(createButton(this, "Paste", "edit-paste"));
 
-      var part = new qx.ui.toolbar.Part;
+      var part = new qx.legacy.ui.toolbar.Part;
       tb.add(part);
-      part.add(createButton(this, "Check", "edit-add", qx.ui.toolbar.CheckBox, true));
+      part.add(createButton(this, "Check", "edit-add", qx.legacy.ui.toolbar.CheckBox, true));
 
-      var part = new qx.ui.toolbar.Part;
+      var part = new qx.legacy.ui.toolbar.Part;
       tb.add(part);
-      var radio1 = createButton(this, "Radio1", "view-pane-column", qx.ui.toolbar.RadioButton);
-      var radio2 = createButton(this, "Radio2", "view-pane-detailed", qx.ui.toolbar.RadioButton, true);
-      var radio3 = createButton(this, "Radio3", "view-pane-icon", qx.ui.toolbar.RadioButton);
+      var radio1 = createButton(this, "Radio1", "view-pane-column", qx.legacy.ui.toolbar.RadioButton);
+      var radio2 = createButton(this, "Radio2", "view-pane-detailed", qx.legacy.ui.toolbar.RadioButton, true);
+      var radio3 = createButton(this, "Radio3", "view-pane-icon", qx.legacy.ui.toolbar.RadioButton);
       part.add(radio1, radio2, radio3);
-      new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
+      new qx.legacy.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       // Toolbar manipulation
-      var hor = new qx.ui.layout.HorizontalBoxLayout;
+      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
       hor.setDimension("auto", "auto");
 
       hor.set(
@@ -518,43 +518,43 @@ qx.Class.define("showcase.Application",
 
       main.add(hor);
 
-      var vert = new qx.ui.layout.VerticalBoxLayout;
+      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
       vert.setDimension("auto", "auto");
       hor.add(vert);
 
-      var radio1 = new qx.ui.form.RadioButton("Show Icons and Label", "both");
-      var radio2 = new qx.ui.form.RadioButton("Show Icons", "icon");
-      var radio3 = new qx.ui.form.RadioButton("Show Label", "label");
+      var radio1 = new qx.legacy.ui.form.RadioButton("Show Icons and Label", "both");
+      var radio2 = new qx.legacy.ui.form.RadioButton("Show Icons", "icon");
+      var radio3 = new qx.legacy.ui.form.RadioButton("Show Label", "label");
       radio1.setChecked(true);
       vert.add(radio1, radio2, radio3);
-      var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
+      var rbm = new qx.legacy.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addListener("changeSelected", function(e) {
         this.dispatchEvent(new qx.event.type.Data("changeLayout", e.getValue().getValue()));
       }, this);
 
       // Alignment
-      var vert = new qx.ui.layout.VerticalBoxLayout;
+      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
       vert.setDimension("auto", "auto");
       hor.add(vert);
 
-      var radio1 = new qx.ui.form.RadioButton("Left Aligned", "left");
-      var radio2 = new qx.ui.form.RadioButton("Centered", "center");
-      var radio3 = new qx.ui.form.RadioButton("Right Aligned", "right");
+      var radio1 = new qx.legacy.ui.form.RadioButton("Left Aligned", "left");
+      var radio2 = new qx.legacy.ui.form.RadioButton("Centered", "center");
+      var radio3 = new qx.legacy.ui.form.RadioButton("Right Aligned", "right");
       radio1.setChecked(true);
       vert.add(radio1, radio2, radio3);
-      var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
+      var rbm = new qx.legacy.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getValue().getValue());
       });
 
       // Icon Sizes
-      var vert = new qx.ui.layout.VerticalBoxLayout;
+      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
       vert.setDimension("auto", "auto");
       hor.add(vert);
 
-      var button = new qx.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
+      var button = new qx.legacy.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
@@ -563,7 +563,7 @@ qx.Class.define("showcase.Application",
 
       vert.add(button);
 
-      var button = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
+      var button = new qx.legacy.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
@@ -584,7 +584,7 @@ qx.Class.define("showcase.Application",
      */
     _createTabDemo : function()
     {
-      var main = new qx.ui.layout.HorizontalBoxLayout;
+      var main = new qx.legacy.ui.layout.HorizontalBoxLayout;
       main.setPadding(10);
 
       main.set(
@@ -595,26 +595,26 @@ qx.Class.define("showcase.Application",
       });
 
       // Tab view
-      var tf1 = new qx.ui.pageview.tabview.TabView;
+      var tf1 = new qx.legacy.ui.pageview.tabview.TabView;
       tf1.set({ width : "1*" });
       main.add(tf1);
 
-      var t1_1 = new qx.ui.pageview.tabview.Button("Edit");
-      var t1_2 = new qx.ui.pageview.tabview.Button("Find");
-      var t1_3 = new qx.ui.pageview.tabview.Button("Backup");
+      var t1_1 = new qx.legacy.ui.pageview.tabview.Button("Edit");
+      var t1_2 = new qx.legacy.ui.pageview.tabview.Button("Find");
+      var t1_3 = new qx.legacy.ui.pageview.tabview.Button("Backup");
       t1_1.setChecked(true);
       tf1.getBar().add(t1_1, t1_2, t1_3);
 
-      var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
-      var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
-      var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
+      var p1_1 = new qx.legacy.ui.pageview.tabview.Page(t1_1);
+      var p1_2 = new qx.legacy.ui.pageview.tabview.Page(t1_2);
+      var p1_3 = new qx.legacy.ui.pageview.tabview.Page(t1_3);
       tf1.getPane().add(p1_1, p1_2, p1_3);
 
-      p1_2.add(new qx.ui.form.TextField("Find Anywhere"));
-      p1_3.add(new qx.ui.form.TextField("Backup Input"));
+      p1_2.add(new qx.legacy.ui.form.TextField("Find Anywhere"));
+      p1_3.add(new qx.legacy.ui.form.TextField("Backup Input"));
 
-      var c1 = new qx.ui.form.CheckBox("Place bar on top");
-      var c2 = new qx.ui.form.CheckBox("Align tabs to left");
+      var c1 = new qx.legacy.ui.form.CheckBox("Place bar on top");
+      var c2 = new qx.legacy.ui.form.CheckBox("Align tabs to left");
 
       c1.setTop(0);
       c1.setChecked(true);
@@ -633,7 +633,7 @@ qx.Class.define("showcase.Application",
       });
 
       // Inner tab view
-      var tf2 = new qx.ui.pageview.tabview.TabView;
+      var tf2 = new qx.legacy.ui.pageview.tabview.TabView;
 
       tf2.set(
       {
@@ -645,20 +645,20 @@ qx.Class.define("showcase.Application",
 
       p1_2.add(tf2);
 
-      var t2_1 = new qx.ui.pageview.tabview.Button("Search for Files", "icon/16/actions/document-open.png");
-      var t2_2 = new qx.ui.pageview.tabview.Button("Search the Web", "icon/16/categories/applications-internet.png");
-      var t2_3 = new qx.ui.pageview.tabview.Button("Search in Mails", "icon/16/apps/internet-email-client.png");
+      var t2_1 = new qx.legacy.ui.pageview.tabview.Button("Search for Files", "icon/16/actions/document-open.png");
+      var t2_2 = new qx.legacy.ui.pageview.tabview.Button("Search the Web", "icon/16/categories/applications-internet.png");
+      var t2_3 = new qx.legacy.ui.pageview.tabview.Button("Search in Mails", "icon/16/apps/internet-email-client.png");
       t2_1.setChecked(true);
       tf2.getBar().add(t2_1, t2_2, t2_3);
 
-      var p2_1 = new qx.ui.pageview.tabview.Page(t2_1);
-      var p2_2 = new qx.ui.pageview.tabview.Page(t2_2);
-      var p2_3 = new qx.ui.pageview.tabview.Page(t2_3);
+      var p2_1 = new qx.legacy.ui.pageview.tabview.Page(t2_1);
+      var p2_2 = new qx.legacy.ui.pageview.tabview.Page(t2_2);
+      var p2_3 = new qx.legacy.ui.pageview.tabview.Page(t2_3);
       tf2.getPane().add(p2_1, p2_2, p2_3);
 
-      var t2_1 = new qx.ui.form.TextField("Files...");
-      var t2_2 = new qx.ui.form.TextField("Web...");
-      var t2_3 = new qx.ui.form.TextField("Mails...");
+      var t2_1 = new qx.legacy.ui.form.TextField("Files...");
+      var t2_2 = new qx.legacy.ui.form.TextField("Web...");
+      var t2_3 = new qx.legacy.ui.form.TextField("Mails...");
 
       t2_1.set(
       {
@@ -685,9 +685,9 @@ qx.Class.define("showcase.Application",
       p2_2.add(t2_2);
       p2_3.add(t2_3);
 
-      var b2_1 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
-      var b2_2 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
-      var b2_3 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+      var b2_1 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+      var b2_2 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+      var b2_3 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
 
       b2_1.set(
       {
@@ -720,7 +720,7 @@ qx.Class.define("showcase.Application",
       b2_3.addListener("click", dosearch);
 
       // Bar view
-      var bs = new qx.ui.pageview.buttonview.ButtonView;
+      var bs = new qx.legacy.ui.pageview.buttonview.ButtonView;
 
       bs.set(
       {
@@ -730,11 +730,11 @@ qx.Class.define("showcase.Application",
 
       main.add(bs);
 
-      var bsb1 = new qx.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
-      var bsb2 = new qx.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
-      var bsb3 = new qx.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
-      var bsb4 = new qx.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
-      var bsb5 = new qx.ui.pageview.buttonview.Button("System", "icon/16/devices/video-display.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
+      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
+      var bsb3 = new qx.legacy.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
+      var bsb4 = new qx.legacy.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
+      var bsb5 = new qx.legacy.ui.pageview.buttonview.Button("System", "icon/16/devices/video-display.png");
 
       bsb1.setChecked(true);
 
@@ -772,23 +772,23 @@ qx.Class.define("showcase.Application",
       bs.getBar().setHorizontalChildrenAlign("center");
       bs.getBar().setVerticalChildrenAlign("bottom");
 
-      var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
-      var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
-      var p3 = new qx.ui.pageview.buttonview.Page(bsb3);
-      var p4 = new qx.ui.pageview.buttonview.Page(bsb4);
-      var p5 = new qx.ui.pageview.buttonview.Page(bsb5);
+      var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
+      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
+      var p3 = new qx.legacy.ui.pageview.buttonview.Page(bsb3);
+      var p4 = new qx.legacy.ui.pageview.buttonview.Page(bsb4);
+      var p5 = new qx.legacy.ui.pageview.buttonview.Page(bsb5);
       bs.getPane().add(p1, p2, p3, p4, p5);
 
-      p1.add(new qx.ui.form.TextField("Display Input"));
-      p2.add(new qx.ui.form.TextField("Paint Input"));
-      p3.add(new qx.ui.form.TextField("Icons Input"));
-      p4.add(new qx.ui.form.TextField("Applications Input"));
-      p5.add(new qx.ui.form.TextField("System Input"));
+      p1.add(new qx.legacy.ui.form.TextField("Display Input"));
+      p2.add(new qx.legacy.ui.form.TextField("Paint Input"));
+      p3.add(new qx.legacy.ui.form.TextField("Icons Input"));
+      p4.add(new qx.legacy.ui.form.TextField("Applications Input"));
+      p5.add(new qx.legacy.ui.form.TextField("System Input"));
 
-      var r1 = new qx.ui.form.RadioButton("Top", "top");
-      var r2 = new qx.ui.form.RadioButton("Right", "right");
-      var r3 = new qx.ui.form.RadioButton("Bottom", "bottom");
-      var r4 = new qx.ui.form.RadioButton("Left", "left", null, true);
+      var r1 = new qx.legacy.ui.form.RadioButton("Top", "top");
+      var r2 = new qx.legacy.ui.form.RadioButton("Right", "right");
+      var r3 = new qx.legacy.ui.form.RadioButton("Bottom", "bottom");
+      var r4 = new qx.legacy.ui.form.RadioButton("Left", "left", null, true);
 
       r1.setTop(50);
       r2.setTop(70);
@@ -797,7 +797,7 @@ qx.Class.define("showcase.Application",
 
       p1.add(r1, r2, r3, r4);
 
-      var rm = new qx.ui.selection.RadioManager(null, [ r1, r2, r3, r4 ]);
+      var rm = new qx.legacy.ui.selection.RadioManager(null, [ r1, r2, r3, r4 ]);
 
       rm.addListener("changeSelected", function(e) {
         bs.setBarPosition(e.getValue().getValue());
@@ -815,7 +815,7 @@ qx.Class.define("showcase.Application",
      */
     _createTreeDemo : function()
     {
-      var main = new qx.ui.layout.HorizontalBoxLayout;
+      var main = new qx.legacy.ui.layout.HorizontalBoxLayout;
       main.setPadding(10);
 
       main.set(
@@ -825,12 +825,12 @@ qx.Class.define("showcase.Application",
         spacing : 10
       });
 
-      // Workaround: qx.ui.tree.Tree causes an exception when added to a qx.ui.core.Parent that
-      //       has no qx.ui.core.Parent. -> So we give the parent a pseudo parent
-      var workaround = new qx.ui.layout.HorizontalBoxLayout;
+      // Workaround: qx.legacy.ui.tree.Tree causes an exception when added to a qx.legacy.ui.core.Parent that
+      //       has no qx.legacy.ui.core.Parent. -> So we give the parent a pseudo parent
+      var workaround = new qx.legacy.ui.layout.HorizontalBoxLayout;
       workaround.add(main);
 
-      var t = new qx.ui.tree.Tree("Root");
+      var t = new qx.legacy.ui.tree.Tree("Root");
 
       t.set(
       {
@@ -845,70 +845,70 @@ qx.Class.define("showcase.Application",
 
       main.add(t);
 
-      var te1 = new qx.ui.tree.TreeFolder("Desktop", "icon/16/actions/go-home.png", "icon/16/actions/go-home.png");
+      var te1 = new qx.legacy.ui.tree.TreeFolder("Desktop", "icon/16/actions/go-home.png", "icon/16/actions/go-home.png");
       t.add(te1);
 
-      var te1_1 = new qx.ui.tree.TreeFolder("Files");
-      var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
-      var te1_3 = new qx.ui.tree.TreeFolder("Network");
-      var te1_4 = new qx.ui.tree.TreeFolder("Trash");
+      var te1_1 = new qx.legacy.ui.tree.TreeFolder("Files");
+      var te1_2 = new qx.legacy.ui.tree.TreeFolder("Workspace");
+      var te1_3 = new qx.legacy.ui.tree.TreeFolder("Network");
+      var te1_4 = new qx.legacy.ui.tree.TreeFolder("Trash");
       te1.add(te1_1, te1_2, te1_3, te1_4);
-      var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)", "icon/16/devices/drive-harddisk.png");
-      var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)", "icon/16/devices/drive-harddisk.png");
+      var te1_2_1 = new qx.legacy.ui.tree.TreeFile("Windows (C:)", "icon/16/devices/drive-harddisk.png");
+      var te1_2_2 = new qx.legacy.ui.tree.TreeFile("Documents (D:)", "icon/16/devices/drive-harddisk.png");
       te1_2.add(te1_2_1, te1_2_2);
 
-      var te2 = new qx.ui.tree.TreeFolder("Inbox");
+      var te2 = new qx.legacy.ui.tree.TreeFolder("Inbox");
       t.add(te2);
 
-      var te2_1 = new qx.ui.tree.TreeFolder("Presets");
-      var te2_2 = new qx.ui.tree.TreeFolder("Sent");
-      var te2_3 = new qx.ui.tree.TreeFolder("Trash", "icon/16/places/user-trash.png", "icon/16/places/user-trash.png");
-      var te2_4 = new qx.ui.tree.TreeFolder("Data");
-      var te2_5 = new qx.ui.tree.TreeFolder("Edit");
+      var te2_1 = new qx.legacy.ui.tree.TreeFolder("Presets");
+      var te2_2 = new qx.legacy.ui.tree.TreeFolder("Sent");
+      var te2_3 = new qx.legacy.ui.tree.TreeFolder("Trash", "icon/16/places/user-trash.png", "icon/16/places/user-trash.png");
+      var te2_4 = new qx.legacy.ui.tree.TreeFolder("Data");
+      var te2_5 = new qx.legacy.ui.tree.TreeFolder("Edit");
 
-      var te2_5_1 = new qx.ui.tree.TreeFolder("Chat");
-      var te2_5_2 = new qx.ui.tree.TreeFolder("Pustefix");
-      var te2_5_3 = new qx.ui.tree.TreeFolder("TINC");
+      var te2_5_1 = new qx.legacy.ui.tree.TreeFolder("Chat");
+      var te2_5_2 = new qx.legacy.ui.tree.TreeFolder("Pustefix");
+      var te2_5_3 = new qx.legacy.ui.tree.TreeFolder("TINC");
       te2_5.add(te2_5_1, te2_5_2, te2_5_3);
 
-      var te2_5_3_1 = new qx.ui.tree.TreeFolder("Announce");
-      var te2_5_3_2 = new qx.ui.tree.TreeFolder("Devel");
+      var te2_5_3_1 = new qx.legacy.ui.tree.TreeFolder("Announce");
+      var te2_5_3_2 = new qx.legacy.ui.tree.TreeFolder("Devel");
       te2_5_3.add(te2_5_3_1, te2_5_3_2);
 
-      var te2_6 = new qx.ui.tree.TreeFolder("Lists");
+      var te2_6 = new qx.legacy.ui.tree.TreeFolder("Lists");
 
-      var te2_6_1 = new qx.ui.tree.TreeFolder("Relations");
-      var te2_6_2 = new qx.ui.tree.TreeFolder("Company");
-      var te2_6_3 = new qx.ui.tree.TreeFolder("Questions");
-      var te2_6_4 = new qx.ui.tree.TreeFolder("Internal");
-      var te2_6_5 = new qx.ui.tree.TreeFolder("Products");
-      var te2_6_6 = new qx.ui.tree.TreeFolder("Press");
-      var te2_6_7 = new qx.ui.tree.TreeFolder("Development");
-      var te2_6_8 = new qx.ui.tree.TreeFolder("Competition");
+      var te2_6_1 = new qx.legacy.ui.tree.TreeFolder("Relations");
+      var te2_6_2 = new qx.legacy.ui.tree.TreeFolder("Company");
+      var te2_6_3 = new qx.legacy.ui.tree.TreeFolder("Questions");
+      var te2_6_4 = new qx.legacy.ui.tree.TreeFolder("Internal");
+      var te2_6_5 = new qx.legacy.ui.tree.TreeFolder("Products");
+      var te2_6_6 = new qx.legacy.ui.tree.TreeFolder("Press");
+      var te2_6_7 = new qx.legacy.ui.tree.TreeFolder("Development");
+      var te2_6_8 = new qx.legacy.ui.tree.TreeFolder("Competition");
 
       te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
 
-      var te2_7 = new qx.ui.tree.TreeFolder("Personal");
+      var te2_7 = new qx.legacy.ui.tree.TreeFolder("Personal");
 
-      var te2_7_1 = new qx.ui.tree.TreeFolder("Bugs");
-      var te2_7_2 = new qx.ui.tree.TreeFolder("Family");
-      var te2_7_3 = new qx.ui.tree.TreeFolder("Projects");
-      var te2_7_4 = new qx.ui.tree.TreeFolder("Holiday");
+      var te2_7_1 = new qx.legacy.ui.tree.TreeFolder("Bugs");
+      var te2_7_2 = new qx.legacy.ui.tree.TreeFolder("Family");
+      var te2_7_3 = new qx.legacy.ui.tree.TreeFolder("Projects");
+      var te2_7_4 = new qx.legacy.ui.tree.TreeFolder("Holiday");
 
       te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
 
-      var te2_8 = new qx.ui.tree.TreeFolder("Big");
+      var te2_8 = new qx.legacy.ui.tree.TreeFolder("Big");
 
       for (var i=0; i<50; i++) {
-        te2_8.add(new qx.ui.tree.TreeFolder("Item " + i));
+        te2_8.add(new qx.legacy.ui.tree.TreeFolder("Item " + i));
       }
 
-      var te2_9 = new qx.ui.tree.TreeFolder("Spam");
+      var te2_9 = new qx.legacy.ui.tree.TreeFolder("Spam");
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
 
       // Command frame
-      var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+      var commandFrame = new qx.legacy.ui.groupbox.GroupBox("Control");
 
       commandFrame.set(
       {
@@ -918,7 +918,7 @@ qx.Class.define("showcase.Application",
 
       main.add(commandFrame);
 
-      var command = new qx.ui.layout.VerticalBoxLayout;
+      var command = new qx.legacy.ui.layout.VerticalBoxLayout;
 
       command.set(
       {
@@ -929,10 +929,10 @@ qx.Class.define("showcase.Application",
 
       commandFrame.add(command);
 
-      var tCurrentLabel = new qx.ui.basic.Atom("Current Folder: ");
+      var tCurrentLabel = new qx.legacy.ui.basic.Atom("Current Folder: ");
       command.add(tCurrentLabel);
 
-      var tCurrentInput = new qx.ui.form.TextField;
+      var tCurrentInput = new qx.legacy.ui.form.TextField;
 
       tCurrentInput.set(
       {
@@ -946,7 +946,7 @@ qx.Class.define("showcase.Application",
         tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
       });
 
-      var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
+      var tDoubleClick = new qx.legacy.ui.form.CheckBox("Use double click?");
 
       tDoubleClick.addListener("changeChecked", function(e) {
         t.setUseDoubleClick(e.getValue());
@@ -954,7 +954,7 @@ qx.Class.define("showcase.Application",
 
       command.add(tDoubleClick);
 
-      var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
+      var tTreeLines = new qx.legacy.ui.form.CheckBox("Use tree lines?");
       tTreeLines.setChecked(true);
 
       tTreeLines.addListener("changeChecked", function(e) {
@@ -975,7 +975,7 @@ qx.Class.define("showcase.Application",
      */
     _createListDemo : function()
     {
-      var main = new qx.ui.layout.HorizontalBoxLayout;
+      var main = new qx.legacy.ui.layout.HorizontalBoxLayout;
       main.setPadding(10);
 
       main.set(
@@ -986,7 +986,7 @@ qx.Class.define("showcase.Application",
       });
 
       // List
-      var list = new qx.ui.form.List;
+      var list = new qx.legacy.ui.form.List;
 
       list.set(
       {
@@ -1026,7 +1026,7 @@ qx.Class.define("showcase.Application",
             break;
         }
 
-        item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/" + iconName);
+        item = new qx.legacy.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/" + iconName);
 
         if (!(i % 9)) (item.setEnabled(false));
 
@@ -1034,7 +1034,7 @@ qx.Class.define("showcase.Application",
       }
 
       // Control
-      var control = new qx.ui.layout.VerticalBoxLayout;
+      var control = new qx.legacy.ui.layout.VerticalBoxLayout;
 
       control.set(
       {
@@ -1044,10 +1044,10 @@ qx.Class.define("showcase.Application",
 
       main.add(control);
 
-      var c1 = new qx.ui.form.CheckBox("Enable Multi-Selection");
-      var c2 = new qx.ui.form.CheckBox("Enable Drag-Selection");
-      var c3 = new qx.ui.form.CheckBox("Allow Deselection");
-      var c4 = new qx.ui.form.CheckBox("Enable Inline Find");
+      var c1 = new qx.legacy.ui.form.CheckBox("Enable Multi-Selection");
+      var c2 = new qx.legacy.ui.form.CheckBox("Enable Drag-Selection");
+      var c3 = new qx.legacy.ui.form.CheckBox("Allow Deselection");
+      var c4 = new qx.legacy.ui.form.CheckBox("Enable Inline Find");
       control.add(c1, c2, c3, c4);
 
       c1.setChecked(true);
@@ -1071,12 +1071,12 @@ qx.Class.define("showcase.Application",
         list.setEnableInlineFind(e.getValue());
       });
 
-      var rd1 = new qx.ui.form.RadioButton("Show Label", "label");
-      var rd2 = new qx.ui.form.RadioButton("Show Icon", "icon");
-      var rd3 = new qx.ui.form.RadioButton("Show Both", "both");
+      var rd1 = new qx.legacy.ui.form.RadioButton("Show Label", "label");
+      var rd2 = new qx.legacy.ui.form.RadioButton("Show Icon", "icon");
+      var rd3 = new qx.legacy.ui.form.RadioButton("Show Both", "both");
       rd3.setChecked(true);
       control.add(rd1, rd2, rd3);
-      var rbm = new qx.ui.selection.RadioManager(name, [ rd1, rd2, rd3 ]);
+      var rbm = new qx.legacy.ui.selection.RadioManager(name, [ rd1, rd2, rd3 ]);
 
       rbm.addListener("changeSelected", function(e)
       {
@@ -1097,7 +1097,7 @@ qx.Class.define("showcase.Application",
      */
     _createListViewDemo : function()
     {
-      var main = new qx.ui.layout.HorizontalBoxLayout;
+      var main = new qx.legacy.ui.layout.HorizontalBoxLayout;
       main.setPadding(10);
 
       main.set(
@@ -1176,7 +1176,7 @@ qx.Class.define("showcase.Application",
         }
       };
 
-      var lv = new qx.ui.listview.ListView(ld, lc);
+      var lv = new qx.legacy.ui.listview.ListView(ld, lc);
       main.add(lv);
 
       lv.setWidth(600);
@@ -1195,7 +1195,7 @@ qx.Class.define("showcase.Application",
     _createTableDemo : function()
     {
       // table model
-      var tableModel = new qx.ui.table.model.Simple();
+      var tableModel = new qx.legacy.ui.table.model.Simple();
       tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
       var rowData = [];
       var now = new Date().getTime();
@@ -1212,7 +1212,7 @@ qx.Class.define("showcase.Application",
       tableModel.setColumnEditable(2, true);
 
       // table
-      var table = new qx.ui.table.Table(tableModel);
+      var table = new qx.legacy.ui.table.Table(tableModel);
 
       with (table)
       {
@@ -1223,8 +1223,8 @@ qx.Class.define("showcase.Application",
         });
 
         setMetaColumnCounts([ 1, -1 ]);
-        getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
-        getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+        getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+        getTableColumnModel().setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
       }
 
       return table;
@@ -1239,7 +1239,7 @@ qx.Class.define("showcase.Application",
      */
      _createSplitPaneDemo : function()
      {
-       var main = new qx.ui.layout.CanvasLayout();
+       var main = new qx.legacy.ui.layout.CanvasLayout();
 
        main.set(
        {
@@ -1252,7 +1252,7 @@ qx.Class.define("showcase.Application",
        });
 
        /* setup the splitpane */
-       var splitpane = new qx.ui.splitpane.HorizontalSplitPane(150, "1*");
+       var splitpane = new qx.legacy.ui.splitpane.HorizontalSplitPane(150, "1*");
        splitpane.set(
        {
           top           : 0,
@@ -1271,7 +1271,7 @@ qx.Class.define("showcase.Application",
 
 
        /* setup the list of urls - left widget */
-       var list = new qx.ui.form.List();
+       var list = new qx.legacy.ui.form.List();
        list.set(
        {
           top          : 0,
@@ -1297,12 +1297,12 @@ qx.Class.define("showcase.Application",
 
        for (var i=0, j=listItems.length; i<j; i++)
        {
-         var newListItem = new qx.ui.form.ListItem(listItems[i].text, null, listItems[i].value);
+         var newListItem = new qx.legacy.ui.form.ListItem(listItems[i].text, null, listItems[i].value);
          list.add(newListItem);
        };
 
        /* setup the iframe - right widget */
-       var iframe = new qx.ui.embed.Iframe(listItems[0].value);
+       var iframe = new qx.legacy.ui.embed.Iframe(listItems[0].value);
        iframe.set({
           top         : 0,
           left        : 0,
@@ -1325,7 +1325,7 @@ qx.Class.define("showcase.Application",
      */
     _createLocalizationDemo : function()
     {
-      var main = new qx.ui.layout.CanvasLayout();
+      var main = new qx.legacy.ui.layout.CanvasLayout();
 
       main.set(
       {
@@ -1337,7 +1337,7 @@ qx.Class.define("showcase.Application",
         paddingRight  : 10
       });
 
-      var controls = new qx.ui.layout.VerticalBoxLayout();
+      var controls = new qx.legacy.ui.layout.VerticalBoxLayout();
 
       controls.set(
       {
@@ -1350,7 +1350,7 @@ qx.Class.define("showcase.Application",
       var locales = qx.locale.Manager.getInstance().getAvailableLocales().sort();
 
       // locale selection
-      var hb2 = new qx.ui.layout.HorizontalBoxLayout();
+      var hb2 = new qx.legacy.ui.layout.HorizontalBoxLayout();
 
       hb2.set(
       {
@@ -1358,11 +1358,11 @@ qx.Class.define("showcase.Application",
         verticalChildrenAlign : "middle"
       });
 
-      var l2 = new qx.ui.basic.Label(this.tr("Choose a locale: "));
-      var select = new qx.ui.form.ComboBox();
+      var l2 = new qx.legacy.ui.basic.Label(this.tr("Choose a locale: "));
+      var select = new qx.legacy.ui.form.ComboBox();
 
       for (var i=0; i<locales.length; i++) {
-        select.add(new qx.ui.form.ListItem(locales[i]));
+        select.add(new qx.legacy.ui.form.ListItem(locales[i]));
       }
 
       select.addListener("changeSelected", function(e)
@@ -1381,7 +1381,7 @@ qx.Class.define("showcase.Application",
       controls.add(hb2);
 
 
-      var hb3 = new qx.ui.layout.HorizontalBoxLayout();
+      var hb3 = new qx.legacy.ui.layout.HorizontalBoxLayout();
 
       hb3.set(
       {
@@ -1390,17 +1390,17 @@ qx.Class.define("showcase.Application",
         verticalChildrenAlign : "middle"
       });
 
-      var s2 = new qx.ui.form.ComboBox();
-      s2.add(new qx.ui.form.ListItem(this.tr("Cut")));
-      s2.add(new qx.ui.form.ListItem(this.tr("Paste")));
-      s2.add(new qx.ui.form.ListItem(this.tr("Copy")));
+      var s2 = new qx.legacy.ui.form.ComboBox();
+      s2.add(new qx.legacy.ui.form.ListItem(this.tr("Cut")));
+      s2.add(new qx.legacy.ui.form.ListItem(this.tr("Paste")));
+      s2.add(new qx.legacy.ui.form.ListItem(this.tr("Copy")));
 
-      hb3.add(new qx.ui.basic.Label(this.tr("Localized ComboBox:")), s2);
+      hb3.add(new qx.legacy.ui.basic.Label(this.tr("Localized ComboBox:")), s2);
       controls.add(hb3);
 
 
       // DateChooserButton
-      var hb1 = new qx.ui.layout.HorizontalBoxLayout();
+      var hb1 = new qx.legacy.ui.layout.HorizontalBoxLayout();
 
       hb1.set(
       {
@@ -1409,8 +1409,8 @@ qx.Class.define("showcase.Application",
         verticalChildrenAlign : "middle"
       });
 
-      var l1 = new qx.ui.basic.Label(this.tr("A date: "));
-      var tf1 = new qx.ui.form.TextField();
+      var l1 = new qx.legacy.ui.basic.Label(this.tr("A date: "));
+      var tf1 = new qx.legacy.ui.form.TextField();
 
       tf1.set(
       {
@@ -1418,14 +1418,14 @@ qx.Class.define("showcase.Application",
         height : 20
       });
 
-      var dcb1 = new qx.ui.component.DateChooserButton();
+      var dcb1 = new qx.legacy.ui.component.DateChooserButton();
       dcb1.set({ width : 20 });
       dcb1.setTargetWidget(tf1);
       hb1.add(l1, tf1, dcb1);
       controls.add(hb1);
 
       // DateChooser
-      var chooser = new qx.ui.component.DateChooser;
+      var chooser = new qx.legacy.ui.component.DateChooser;
       chooser.setWidth("auto");
       chooser.setHeight("auto");
       controls.add(chooser);
@@ -1441,21 +1441,21 @@ qx.Class.define("showcase.Application",
       var search_cmd = new qx.event.Command("Ctrl+F");
       var search_again_cmd = new qx.event.Command("F3");
 
-      var m1 = new qx.ui.menu.Menu;
-      m1.add(new qx.ui.menu.Button(this.tr("Undo"), null, undo_cmd));
-      m1.add(new qx.ui.menu.Button(this.tr("Redo"), null, redo_cmd));
-      m1.add(new qx.ui.menu.Separator());
-      m1.add(new qx.ui.menu.Button(this.tr("Cut"), "icon/16/actions/edit-cut.png", cut_cmd));
-      m1.add(new qx.ui.menu.Button(this.tr("Copy"), "icon/16/actions/edit-copy.png", copy_cmd));
-      m1.add(new qx.ui.menu.Button(this.tr("Paste"), "icon/16/actions/edit-paste.png", paste_cmd));
-      m1.add(new qx.ui.menu.Button(this.tr("Delete"), "icon/16/actions/edit-delete.png", delete_cmd));
-      m1.add(new qx.ui.menu.Button(this.tr("Select All"), null, select_all_cmd));
-      m1.add(new qx.ui.menu.Separator());
-      m1.add(new qx.ui.menu.Button(this.tr("Search"), null, search_cmd));
-      m1.add(new qx.ui.menu.Button(this.tr("Search Again"), null, search_again_cmd));
+      var m1 = new qx.legacy.ui.menu.Menu;
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Undo"), null, undo_cmd));
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Redo"), null, redo_cmd));
+      m1.add(new qx.legacy.ui.menu.Separator());
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Cut"), "icon/16/actions/edit-cut.png", cut_cmd));
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Copy"), "icon/16/actions/edit-copy.png", copy_cmd));
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Paste"), "icon/16/actions/edit-paste.png", paste_cmd));
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Delete"), "icon/16/actions/edit-delete.png", delete_cmd));
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Select All"), null, select_all_cmd));
+      m1.add(new qx.legacy.ui.menu.Separator());
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Search"), null, search_cmd));
+      m1.add(new qx.legacy.ui.menu.Button(this.tr("Search Again"), null, search_again_cmd));
       m1.addToDocument();
 
-      var w1 = new qx.ui.form.Button(this.tr("Command Menu (keyboard shortcuts)"));
+      var w1 = new qx.legacy.ui.form.Button(this.tr("Command Menu (keyboard shortcuts)"));
 
       w1.addListener("click", function(e)
       {
@@ -1480,7 +1480,7 @@ qx.Class.define("showcase.Application",
       controls.add(w1);
 
       // ColorPopup
-      var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
+      var mybtn = new qx.legacy.ui.form.Button(this.tr("Open Color Popup"));
 
       mybtn.addListener("execute", function()
       {
@@ -1515,24 +1515,24 @@ qx.Class.define("showcase.Application",
         }
       };
 
-      var mypop = new qx.ui.component.ColorPopup(mytables);
+      var mypop = new qx.legacy.ui.component.ColorPopup(mytables);
       mypop.setValue("#23F3C1");
       mypop.addToDocument();
 
       // ColorSelector
-      var mycolor = new qx.ui.component.ColorSelector;
+      var mycolor = new qx.legacy.ui.component.ColorSelector;
       controls.add(mycolor);
 
       main.add(controls);
 
       // Info Box
-      var w2 = new qx.ui.window.Window("Locale Information", "icon/16/actions/edit-find.png");
+      var w2 = new qx.legacy.ui.window.Window("Locale Information", "icon/16/actions/edit-find.png");
       w2.setSpace(300, 0, "auto", "auto");
       w2.set({ allowClose : false, allowMinimize : false });
       main.add(w2);
       w2.open();
 
-      var fs = new qx.ui.groupbox.GroupBox(this.tr("Locale information"));
+      var fs = new qx.legacy.ui.groupbox.GroupBox(this.tr("Locale information"));
 
       fs.set(
       {
@@ -1543,7 +1543,7 @@ qx.Class.define("showcase.Application",
       });
       fs.setMargin(4);
 
-      var infoLabel = new qx.ui.basic.Label("", null, "html");
+      var infoLabel = new qx.legacy.ui.basic.Label("", null, "html");
       fs.add(infoLabel);
       w2.add(fs);
 
@@ -1627,7 +1627,7 @@ qx.Class.define("showcase.Application",
      */
     _createNativeWindowDemo : function()
     {
-      var main = new qx.ui.layout.VerticalBoxLayout;
+      var main = new qx.legacy.ui.layout.VerticalBoxLayout;
       main.setPadding(10);
 
       main.set(
@@ -1640,7 +1640,7 @@ qx.Class.define("showcase.Application",
       var win = new qx.legacy.Window("http://qooxdoo.org");
       win.setDimension(600, 400);
 
-      var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
+      var openBt = new qx.legacy.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
 
       openBt.addListener("click", function() {
         win.open();
@@ -1649,7 +1649,7 @@ qx.Class.define("showcase.Application",
       main.add(openBt);
 
       // Initial Settings
-      var fs1 = new qx.ui.groupbox.GroupBox("Initial Settings");
+      var fs1 = new qx.legacy.ui.groupbox.GroupBox("Initial Settings");
 
       fs1.set(
       {
@@ -1659,7 +1659,7 @@ qx.Class.define("showcase.Application",
 
       main.add(fs1);
 
-      var vert = new qx.ui.layout.VerticalBoxLayout;
+      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
 
       vert.set(
       {
@@ -1669,56 +1669,56 @@ qx.Class.define("showcase.Application",
 
       fs1.add(vert);
 
-      var chk1 = new qx.ui.form.CheckBox("Resizeable");
+      var chk1 = new qx.legacy.ui.form.CheckBox("Resizeable");
       chk1.setChecked(true);
 
       chk1.addListener("changeChecked", function(e) {
         win.setResizable(e.getValue());
       });
 
-      var chk2 = new qx.ui.form.CheckBox("Show Statusbar");
+      var chk2 = new qx.legacy.ui.form.CheckBox("Show Statusbar");
       chk2.setChecked(false);
 
       chk2.addListener("changeChecked", function(e) {
         win.setShowStatusbar(e.getValue());
       });
 
-      var chk3 = new qx.ui.form.CheckBox("Show Menubar");
+      var chk3 = new qx.legacy.ui.form.CheckBox("Show Menubar");
       chk3.setChecked(false);
 
       chk3.addListener("changeChecked", function(e) {
         win.setShowMenubar(e.getValue());
       });
 
-      var chk4 = new qx.ui.form.CheckBox("Show Location");
+      var chk4 = new qx.legacy.ui.form.CheckBox("Show Location");
       chk4.setChecked(false);
 
       chk4.addListener("changeChecked", function(e) {
         win.setShowLocation(e.getValue());
       });
 
-      var chk5 = new qx.ui.form.CheckBox("Show Toolbar");
+      var chk5 = new qx.legacy.ui.form.CheckBox("Show Toolbar");
       chk5.setChecked(false);
 
       chk5.addListener("changeChecked", function(e) {
         win.setShowToolbar(e.getValue());
       });
 
-      var chk6 = new qx.ui.form.CheckBox("Allow Scrollbars");
+      var chk6 = new qx.legacy.ui.form.CheckBox("Allow Scrollbars");
       chk6.setChecked(true);
 
       chk6.addListener("changeChecked", function(e) {
         win.setAllowScrollbars(e.getValue());
       });
 
-      var chk7 = new qx.ui.form.CheckBox("Modal");
+      var chk7 = new qx.legacy.ui.form.CheckBox("Modal");
       chk7.setChecked(false);
 
       chk7.addListener("changeChecked", function(e) {
         win.setModal(e.getValue());
       });
 
-      var chk8 = new qx.ui.form.CheckBox("Dependent");
+      var chk8 = new qx.legacy.ui.form.CheckBox("Dependent");
       chk8.setChecked(true);
 
       chk8.addListener("changeChecked", function(e) {
@@ -1728,7 +1728,7 @@ qx.Class.define("showcase.Application",
       vert.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8);
 
       // Runtime Settings
-      var fs2 = new qx.ui.groupbox.GroupBox("Runtime Settings");
+      var fs2 = new qx.legacy.ui.groupbox.GroupBox("Runtime Settings");
 
       fs2.set(
       {
@@ -1738,7 +1738,7 @@ qx.Class.define("showcase.Application",
 
       main.add(fs2);
 
-      var vert = new qx.ui.layout.VerticalBoxLayout;
+      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
 
       vert.set(
       {
@@ -1749,16 +1749,16 @@ qx.Class.define("showcase.Application",
 
       fs2.add(vert);
 
-      var tf1 = new qx.ui.form.TextField("http://qooxdoo.org");
+      var tf1 = new qx.legacy.ui.form.TextField("http://qooxdoo.org");
       tf1.setWidth(150);
 
-      var setUrlBt = new qx.ui.form.Button("Set Url", "icon/16/actions/dialog-ok.png");
+      var setUrlBt = new qx.legacy.ui.form.Button("Set Url", "icon/16/actions/dialog-ok.png");
 
       setUrlBt.addListener("click", function() {
         win.setUrl(tf1.getValue());
       });
 
-      var hor = new qx.ui.layout.HorizontalBoxLayout;
+      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
       hor.set(
       {
@@ -1772,16 +1772,16 @@ qx.Class.define("showcase.Application",
       vert.add(hor);
       hor.add(tf1, setUrlBt);
 
-      var tf2 = new qx.ui.form.TextField("600");
+      var tf2 = new qx.legacy.ui.form.TextField("600");
       tf2.setWidth(50);
 
-      var btn2 = new qx.ui.form.Button("Set Width", "icon/16/actions/dialog-ok.png");
+      var btn2 = new qx.legacy.ui.form.Button("Set Width", "icon/16/actions/dialog-ok.png");
 
       btn2.addListener("click", function() {
         win.setWidth(parseInt(tf2.getValue()));
       });
 
-      var hor = new qx.ui.layout.HorizontalBoxLayout;
+      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
       hor.set(
       {
@@ -1794,16 +1794,16 @@ qx.Class.define("showcase.Application",
       vert.add(hor);
       hor.add(tf2, btn2);
 
-      var tf3 = new qx.ui.form.TextField("400");
+      var tf3 = new qx.legacy.ui.form.TextField("400");
       tf3.setWidth(50);
 
-      var btn3 = new qx.ui.form.Button("Set Height", "icon/16/actions/dialog-ok.png");
+      var btn3 = new qx.legacy.ui.form.Button("Set Height", "icon/16/actions/dialog-ok.png");
 
       btn3.addListener("click", function() {
         win.setHeight(parseInt(tf3.getValue()));
       });
 
-      var hor = new qx.ui.layout.HorizontalBoxLayout;
+      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
       hor.set(
       {
@@ -1817,21 +1817,21 @@ qx.Class.define("showcase.Application",
       vert.add(hor);
       hor.add(tf3, btn3);
 
-      var btn4 = new qx.ui.form.Button("Center to screen", "icon/16/devices/video-display.png");
+      var btn4 = new qx.legacy.ui.form.Button("Center to screen", "icon/16/devices/video-display.png");
       btn4.setWidth("100%");
 
       btn4.addListener("click", function() {
         win.centerToScreen();
       });
 
-      var btn5 = new qx.ui.form.Button("Center to screen area", "icon/16/devices/video-display.png");
+      var btn5 = new qx.legacy.ui.form.Button("Center to screen area", "icon/16/devices/video-display.png");
       btn5.setWidth("100%");
 
       btn5.addListener("click", function() {
         win.centerToScreenArea();
       });
 
-      var btn6 = new qx.ui.form.Button("Center to opener", "icon/16/devices/video-display.png");
+      var btn6 = new qx.legacy.ui.form.Button("Center to opener", "icon/16/devices/video-display.png");
       btn6.setWidth("100%");
 
       btn6.addListener("click", function() {
@@ -1852,21 +1852,21 @@ qx.Class.define("showcase.Application",
      */
     _createInternalWindowDemo : function()
     {
-      var doc = qx.ui.core.ClientDocument.getInstance();
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var main = new qx.ui.layout.CanvasLayout;
+      var main = new qx.legacy.ui.layout.CanvasLayout;
       main.setOverflow("hidden");
 
       // Create the windows
-      var w1 = new qx.ui.window.Window("First Window", "icon/16/apps/preferences-desktop-multimedia.png");
+      var w1 = new qx.legacy.ui.window.Window("First Window", "icon/16/apps/preferences-desktop-multimedia.png");
       w1.setSpace(20, 400, 48, 250);
       main.add(w1);
 
-      var w2 = new qx.ui.window.Window("Second Window", "icon/16/actions/format-color.png");
+      var w2 = new qx.legacy.ui.window.Window("Second Window", "icon/16/actions/format-color.png");
       w2.setSpace(250, "auto", 120, "auto");
       main.add(w2);
 
-      var w3 = new qx.ui.window.Window("Third Window", "icon/16/categories/applications-internet.png");
+      var w3 = new qx.legacy.ui.window.Window("Third Window", "icon/16/categories/applications-internet.png");
       w3.setSpace(100, "auto", 200, "auto");
 
       w3.set(
@@ -1877,12 +1877,12 @@ qx.Class.define("showcase.Application",
 
       main.add(w3);
 
-      var wm1 = new qx.ui.window.Window("First Modal Dialog");
+      var wm1 = new qx.legacy.ui.window.Window("First Modal Dialog");
       wm1.setSpace(150, 200, 150, 200);
       wm1.setModal(true);
       doc.add(wm1);
 
-      var wm2 = new qx.ui.window.Window("Second Modal Dialog");
+      var wm2 = new qx.legacy.ui.window.Window("Second Modal Dialog");
       wm2.setSpace(100, 200, 100, 150);
 
       wm2.set(
@@ -1894,7 +1894,7 @@ qx.Class.define("showcase.Application",
       doc.add(wm2);
 
       // Fill window 1
-      var a1 = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/office-organizer.png");
+      var a1 = new qx.legacy.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/office-organizer.png");
 
       a1.set(
       {
@@ -1904,7 +1904,7 @@ qx.Class.define("showcase.Application",
 
       w1.add(a1);
 
-      var tf1 = new qx.ui.pageview.tabview.TabView;
+      var tf1 = new qx.legacy.ui.pageview.tabview.TabView;
 
       tf1.set(
       {
@@ -1914,28 +1914,28 @@ qx.Class.define("showcase.Application",
         bottom : 10
       });
 
-      var t1_1 = new qx.ui.pageview.tabview.Button("Explore");
-      var t1_2 = new qx.ui.pageview.tabview.Button("Internet");
-      var t1_3 = new qx.ui.pageview.tabview.Button("Future");
+      var t1_1 = new qx.legacy.ui.pageview.tabview.Button("Explore");
+      var t1_2 = new qx.legacy.ui.pageview.tabview.Button("Internet");
+      var t1_3 = new qx.legacy.ui.pageview.tabview.Button("Future");
 
       t1_1.setChecked(true);
 
       tf1.getBar().add(t1_1, t1_2, t1_3);
 
-      var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
-      var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
-      var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
+      var p1_1 = new qx.legacy.ui.pageview.tabview.Page(t1_1);
+      var p1_2 = new qx.legacy.ui.pageview.tabview.Page(t1_2);
+      var p1_3 = new qx.legacy.ui.pageview.tabview.Page(t1_3);
 
       tf1.getPane().add(p1_1, p1_2, p1_3);
 
       w1.add(tf1);
 
       // Fill window 2
-      var at1 = new qx.ui.basic.Atom("Your second window", "icon/22/actions/edit-find.png");
+      var at1 = new qx.legacy.ui.basic.Atom("Your second window", "icon/22/actions/edit-find.png");
       at1.setLocation(8, 8);
       w2.add(at1);
 
-      var fs1 = new qx.ui.groupbox.GroupBox("Settings");
+      var fs1 = new qx.legacy.ui.groupbox.GroupBox("Settings");
 
       fs1.set(
       {
@@ -1945,7 +1945,7 @@ qx.Class.define("showcase.Application",
         bottom : 4
       });
 
-      var chk1 = new qx.ui.form.CheckBox("Show Icon");
+      var chk1 = new qx.legacy.ui.form.CheckBox("Show Icon");
 
       chk1.set(
       {
@@ -1958,7 +1958,7 @@ qx.Class.define("showcase.Application",
         w2.setShowIcon(e.getValue());
       });
 
-      var chk2 = new qx.ui.form.CheckBox("Show Caption");
+      var chk2 = new qx.legacy.ui.form.CheckBox("Show Caption");
 
       chk2.set(
       {
@@ -1971,7 +1971,7 @@ qx.Class.define("showcase.Application",
         w2.setShowCaption(e.getValue());
       });
 
-      var chk3 = new qx.ui.form.CheckBox("Resizeable");
+      var chk3 = new qx.legacy.ui.form.CheckBox("Resizeable");
 
       chk3.set(
       {
@@ -1984,7 +1984,7 @@ qx.Class.define("showcase.Application",
         w2.setResizable(e.getValue());
       });
 
-      var chk4 = new qx.ui.form.CheckBox("Moveable");
+      var chk4 = new qx.legacy.ui.form.CheckBox("Moveable");
 
       chk4.set(
       {
@@ -1997,7 +1997,7 @@ qx.Class.define("showcase.Application",
         w2.setMoveable(e.getValue());
       });
 
-      var chk5 = new qx.ui.form.CheckBox("Show Close");
+      var chk5 = new qx.legacy.ui.form.CheckBox("Show Close");
 
       chk5.set(
       {
@@ -2010,7 +2010,7 @@ qx.Class.define("showcase.Application",
         w2.setShowClose(e.getValue());
       });
 
-      var chk6 = new qx.ui.form.CheckBox("Show Maximize/Restore");
+      var chk6 = new qx.legacy.ui.form.CheckBox("Show Maximize/Restore");
 
       chk6.set(
       {
@@ -2023,7 +2023,7 @@ qx.Class.define("showcase.Application",
         w2.setShowMaximize(e.getValue());
       });
 
-      var chk7 = new qx.ui.form.CheckBox("Show Minimize");
+      var chk7 = new qx.legacy.ui.form.CheckBox("Show Minimize");
 
       chk7.set(
       {
@@ -2036,7 +2036,7 @@ qx.Class.define("showcase.Application",
         w2.setShowMinimize(e.getValue());
       });
 
-      var chk8 = new qx.ui.form.CheckBox("Allow Close");
+      var chk8 = new qx.legacy.ui.form.CheckBox("Allow Close");
 
       chk8.set(
       {
@@ -2049,7 +2049,7 @@ qx.Class.define("showcase.Application",
         w2.setAllowClose(e.getValue());
       });
 
-      var chk9 = new qx.ui.form.CheckBox("Allow Maximize");
+      var chk9 = new qx.legacy.ui.form.CheckBox("Allow Maximize");
 
       chk9.set(
       {
@@ -2062,7 +2062,7 @@ qx.Class.define("showcase.Application",
         w2.setAllowMaximize(e.getValue());
       });
 
-      var chk10 = new qx.ui.form.CheckBox("Allow Minimize");
+      var chk10 = new qx.legacy.ui.form.CheckBox("Allow Minimize");
 
       chk10.set(
       {
@@ -2075,48 +2075,48 @@ qx.Class.define("showcase.Application",
         w2.setAllowMinimize(e.getValue());
       });
 
-      var l1 = new qx.ui.basic.Atom("Move Method", "icon/16/apps/preferences-desktop-wallpaper.png");
+      var l1 = new qx.legacy.ui.basic.Atom("Move Method", "icon/16/apps/preferences-desktop-wallpaper.png");
       l1.setLocation(0, 100);
 
-      var rb1 = new qx.ui.form.RadioButton("Frame", "frame");
+      var rb1 = new qx.legacy.ui.form.RadioButton("Frame", "frame");
       rb1.setLocation(0, 120);
 
-      var rb2 = new qx.ui.form.RadioButton("Opaque", "opaque");
+      var rb2 = new qx.legacy.ui.form.RadioButton("Opaque", "opaque");
       rb2.setLocation(0, 140);
       rb2.setChecked(true);
 
-      var rb3 = new qx.ui.form.RadioButton("Translucent", "translucent");
+      var rb3 = new qx.legacy.ui.form.RadioButton("Translucent", "translucent");
       rb3.setLocation(0, 160);
 
-      var rbm1 = new qx.ui.selection.RadioManager("move", [ rb1, rb2, rb3 ]);
+      var rbm1 = new qx.legacy.ui.selection.RadioManager("move", [ rb1, rb2, rb3 ]);
 
       rbm1.addListener("changeSelected", function(e) {
         w2.setMoveMethod(e.getValue().getValue());
       });
 
-      var l2 = new qx.ui.basic.Atom("Resize Method", "icon/16/apps/preferences-desktop-wallpaper.png");
+      var l2 = new qx.legacy.ui.basic.Atom("Resize Method", "icon/16/apps/preferences-desktop-wallpaper.png");
       l2.setLocation(0, 190);
 
-      var rb4 = new qx.ui.form.RadioButton("Frame", "frame");
+      var rb4 = new qx.legacy.ui.form.RadioButton("Frame", "frame");
       rb4.setLocation(0, 210);
       rb4.setChecked(true);
 
-      var rb5 = new qx.ui.form.RadioButton("Opaque", "opaque");
+      var rb5 = new qx.legacy.ui.form.RadioButton("Opaque", "opaque");
       rb5.setLocation(0, 230);
 
-      var rb6 = new qx.ui.form.RadioButton("Lazy Opaque", "lazyopaque");
+      var rb6 = new qx.legacy.ui.form.RadioButton("Lazy Opaque", "lazyopaque");
       rb6.setLocation(0, 250);
 
-      var rb7 = new qx.ui.form.RadioButton("Translucent", "translucent");
+      var rb7 = new qx.legacy.ui.form.RadioButton("Translucent", "translucent");
       rb7.setLocation(0, 270);
 
-      var rbm2 = new qx.ui.selection.RadioManager("resize", [ rb4, rb5, rb6, rb7 ]);
+      var rbm2 = new qx.legacy.ui.selection.RadioManager("resize", [ rb4, rb5, rb6, rb7 ]);
 
       rbm2.addListener("changeSelected", function(e) {
         w2.setResizeMethod(e.getValue().getValue());
       });
 
-      var chk11 = new qx.ui.form.CheckBox("Show Statusbar");
+      var chk11 = new qx.legacy.ui.form.CheckBox("Show Statusbar");
       chk11.setLocation(140, 140);
       chk11.setChecked(false);
 
@@ -2124,7 +2124,7 @@ qx.Class.define("showcase.Application",
         w2.setShowStatusbar(e.getValue());
       });
 
-      var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/devices/media-optical.png");
+      var btnpack = new qx.legacy.ui.form.Button("Pack Window", "icon/16/devices/media-optical.png");
       btnpack.setLocation(140, 170);
 
       btnpack.addListener("execute", function(e) {
@@ -2135,7 +2135,7 @@ qx.Class.define("showcase.Application",
       w2.add(fs1);
 
       // Fill window 3
-      var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/actions/edit-find.png");
+      var btn1 = new qx.legacy.ui.form.Button("Open Modal Dialog 1", "icon/16/actions/edit-find.png");
       btn1.setLocation(4, 4);
       w3.add(btn1);
 
@@ -2144,7 +2144,7 @@ qx.Class.define("showcase.Application",
       });
 
       // Fill modal window 1
-      var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/actions/edit-find.png");
+      var btn2 = new qx.legacy.ui.form.Button("Open Modal Dialog 2", "icon/16/actions/edit-find.png");
       btn2.setLocation(4, 4);
       wm1.add(btn2);
 
@@ -2152,7 +2152,7 @@ qx.Class.define("showcase.Application",
         wm2.open();
       });
 
-      var chkm1 = new qx.ui.form.CheckBox("Modal", null, null, true);
+      var chkm1 = new qx.legacy.ui.form.CheckBox("Modal", null, null, true);
       chkm1.setLocation(4, 50);
       wm1.add(chkm1);
 
@@ -2161,8 +2161,8 @@ qx.Class.define("showcase.Application",
       });
 
       // Fill modal window 2
-      var icon1 = new qx.ui.basic.Image("icon/32/status/dialog-error.png");
-      var warn1 = new qx.ui.basic.Label("Do you want to fly to Rio?");
+      var icon1 = new qx.legacy.ui.basic.Image("icon/32/status/dialog-error.png");
+      var warn1 = new qx.legacy.ui.basic.Label("Do you want to fly to Rio?");
 
       icon1.setTop(10);
       icon1.setLeft(10);
@@ -2170,8 +2170,8 @@ qx.Class.define("showcase.Application",
       warn1.setTop(10);
       warn1.setLeft(48);
 
-      var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
-      var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
+      var btn3 = new qx.legacy.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
+      var btn4 = new qx.legacy.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
 
       btn3.addListener("execute", function(e)
       {
@@ -2216,17 +2216,17 @@ qx.Class.define("showcase.Application",
      */
     _createThemesDemo : function()
     {
-      var doc = qx.ui.core.ClientDocument.getInstance();
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
       // Theming window
-      var win = new qx.ui.window.Window("Theming window", "icon/16/apps/preferences-desktop-wallpaper.png");
+      var win = new qx.legacy.ui.window.Window("Theming window", "icon/16/apps/preferences-desktop-wallpaper.png");
 
       // win.set({ width:"auto", height:"auto" });
       doc.add(win);
 
       win.getPane().setPadding(20);
 
-      var info = new qx.ui.basic.Atom("Click on one of the buttons and then view the " + "other tabs to see the changes", "icon/32/actions/system-run.png");
+      var info = new qx.legacy.ui.basic.Atom("Click on one of the buttons and then view the " + "other tabs to see the changes", "icon/32/actions/system-run.png");
       info.setLocation(0, 0);
       win.add(info);
 
@@ -2244,7 +2244,7 @@ qx.Class.define("showcase.Application",
       });
 
       // Open button
-      var main = new qx.ui.layout.VerticalBoxLayout;
+      var main = new qx.legacy.ui.layout.VerticalBoxLayout;
       main.setPadding(10);
 
       main.set(
@@ -2253,7 +2253,7 @@ qx.Class.define("showcase.Application",
         height : "auto"
       });
 
-      var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
+      var openThemeWinBt = new qx.legacy.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
 
       openThemeWinBt.addListener("execute", function(e) {
         win.open();

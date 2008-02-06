@@ -23,9 +23,9 @@
   qx.core.Init.getInstance().defineMain(function()
   {
 
-    var doc = qx.ui.core.ClientDocument.getInstance();
+    var doc = qx.legacy.ui.core.ClientDocument.getInstance();
   	myElement = qx.bom.Element.create('div', { style : elementStyle });
-  	var doc = qx.ui.core.ClientDocument.getInstance();
+  	var doc = qx.legacy.ui.core.ClientDocument.getInstance();
   
   	document.body.appendChild(myElement);
   
@@ -160,26 +160,26 @@
 		var animDropOut = new qx.fx.effect.combination.DropOut(myElement, {});
 
   	/* Buttons */
-  	var btnShow = new qx.ui.form.Button("Fade in");
-  	var btnHide = new qx.ui.form.Button("Fade out");
-  	var btnIncrease = new qx.ui.form.Button("Increase");
-  	var btnDecrease = new qx.ui.form.Button("Decrease");
-  	var btnCombination = new qx.ui.form.Button("Fade in & increase");
-  	var btnPuff = new qx.ui.form.Button("Puff");
-  	var btnMoveAway = new qx.ui.form.Button("Move away");
-  	var btnMoveBack = new qx.ui.form.Button("Move back");
-  	var btnGrow = new qx.ui.form.Button("Grow");
-  	var btnShake = new qx.ui.form.Button("Shake");
-  	var btnPulsate = new qx.ui.form.Button("Pulsate");
-  	var btnSwitchOff = new qx.ui.form.Button("Switch off");
-  	var btnFold = new qx.ui.form.Button("Fold");
-  	var btnHigh = new qx.ui.form.Button("Highlight");
-  	var btnAHigh = new qx.ui.form.Button("Annoying Highlight ;-)");
-  	var btnColorFlow = new qx.ui.form.Button("ColorFlow");
-  	var btnShrink = new qx.ui.form.Button("Shrink");
-  	var btnDropOut = new qx.ui.form.Button("DropOut");
+  	var btnShow = new qx.legacy.ui.form.Button("Fade in");
+  	var btnHide = new qx.legacy.ui.form.Button("Fade out");
+  	var btnIncrease = new qx.legacy.ui.form.Button("Increase");
+  	var btnDecrease = new qx.legacy.ui.form.Button("Decrease");
+  	var btnCombination = new qx.legacy.ui.form.Button("Fade in & increase");
+  	var btnPuff = new qx.legacy.ui.form.Button("Puff");
+  	var btnMoveAway = new qx.legacy.ui.form.Button("Move away");
+  	var btnMoveBack = new qx.legacy.ui.form.Button("Move back");
+  	var btnGrow = new qx.legacy.ui.form.Button("Grow");
+  	var btnShake = new qx.legacy.ui.form.Button("Shake");
+  	var btnPulsate = new qx.legacy.ui.form.Button("Pulsate");
+  	var btnSwitchOff = new qx.legacy.ui.form.Button("Switch off");
+  	var btnFold = new qx.legacy.ui.form.Button("Fold");
+  	var btnHigh = new qx.legacy.ui.form.Button("Highlight");
+  	var btnAHigh = new qx.legacy.ui.form.Button("Annoying Highlight ;-)");
+  	var btnColorFlow = new qx.legacy.ui.form.Button("ColorFlow");
+  	var btnShrink = new qx.legacy.ui.form.Button("Shrink");
+  	var btnDropOut = new qx.legacy.ui.form.Button("DropOut");
 
-  	var btnReset = new qx.ui.form.Button("Reset element");
+  	var btnReset = new qx.legacy.ui.form.Button("Reset element");
   
   
   	btnShow.setLocation(25, 25);

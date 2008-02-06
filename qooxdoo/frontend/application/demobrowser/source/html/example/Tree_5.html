@@ -24,8 +24,8 @@
       main : function()
       {
         this.base(arguments);
-        var trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Root");
-        var t = new qx.ui.tree.Tree(trs);
+        var trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Root");
+        var t = new qx.legacy.ui.tree.Tree(trs);
   
         t.set({ backgroundColor: "white",
                 border         : "inset",
@@ -36,146 +36,146 @@
                 width          : 200,
                 bottom         : 48 });
   
-        qx.ui.core.ClientDocument.getInstance().add(t);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(t);
         // One icon for selected and one for unselected states
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Desktop", "icon/16/places/user-desktop.png", "icon/16/apps/accessories-dictionary.png");
-        var te1 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Desktop", "icon/16/places/user-desktop.png", "icon/16/apps/accessories-dictionary.png");
+        var te1 = new qx.legacy.ui.tree.TreeFolder(trs);
         t.add(te1);
   
         desktop = te1;
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Files");
-        var te1_1 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Workspace");
-        var te1_2 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Network");
-        var te1_3 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Trash");
-        var te1_4 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Files");
+        var te1_1 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Workspace");
+        var te1_2 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Network");
+        var te1_3 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Trash");
+        var te1_4 = new qx.legacy.ui.tree.TreeFolder(trs);
   
         te1.add(te1_1, te1_2, te1_3, te1_4);
   
         // One icon specified, and used for both selected unselected states
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Windows (C:)", "icon/16/devices/drive-harddisk.png");
-        var te1_2_1 = new qx.ui.tree.TreeFile(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Documents (D:)", "icon/16/devices/drive-harddisk.png");
-        var te1_2_2 = new qx.ui.tree.TreeFile(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Windows (C:)", "icon/16/devices/drive-harddisk.png");
+        var te1_2_1 = new qx.legacy.ui.tree.TreeFile(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Documents (D:)", "icon/16/devices/drive-harddisk.png");
+        var te1_2_2 = new qx.legacy.ui.tree.TreeFile(trs);
   
         te1_2.add(te1_2_1, te1_2_2);
   
         arbeitsplatz = te1_2;
   
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Inbox");
-        var te2 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Inbox");
+        var te2 = new qx.legacy.ui.tree.TreeFolder(trs);
         posteingang = te2;
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Presets");
-        var te2_1 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Presets");
+        var te2_1 = new qx.legacy.ui.tree.TreeFolder(trs);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow();
         trs.addLabel("Sent (no icon)");
-        var te2_2 = new qx.ui.tree.TreeFolder(trs);
+        var te2_2 = new qx.legacy.ui.tree.TreeFolder(trs);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Trash", "icon/16/places/user-trash.png");
-        var te2_3 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Data");
-        var te2_4 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Edit");
-        var te2_5 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Trash", "icon/16/places/user-trash.png");
+        var te2_3 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Data");
+        var te2_4 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Edit");
+        var te2_5 = new qx.legacy.ui.tree.TreeFolder(trs);
   
         editieren = te2_5;
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Chat");
-        var te2_5_1 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Pustefix");
-        var te2_5_2 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("TINC");
-        var te2_5_3 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Chat");
+        var te2_5_1 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Pustefix");
+        var te2_5_2 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("TINC");
+        var te2_5_3 = new qx.legacy.ui.tree.TreeFolder(trs);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Announce");
-        var te2_5_3_1 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Devel");
-        var te2_5_3_2 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Announce");
+        var te2_5_3_1 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Devel");
+        var te2_5_3_2 = new qx.legacy.ui.tree.TreeFolder(trs);
   
         te2_5_3.add(te2_5_3_1, te2_5_3_2);
   
         te2_5.add(te2_5_1, te2_5_2, te2_5_3);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Lists");
-        var te2_6 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Lists");
+        var te2_6 = new qx.legacy.ui.tree.TreeFolder(trs);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Relations");
-        var te2_6_1 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Company");
-        var te2_6_2 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Questions");
-        var te2_6_3 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Internal");
-        var te2_6_4 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Products");
-        var te2_6_5 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Press");
-        var te2_6_6 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Development");
-        var te2_6_7 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Competition");
-        var te2_6_8 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Relations");
+        var te2_6_1 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Company");
+        var te2_6_2 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Questions");
+        var te2_6_3 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Internal");
+        var te2_6_4 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Products");
+        var te2_6_5 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Press");
+        var te2_6_6 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Development");
+        var te2_6_7 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Competition");
+        var te2_6_8 = new qx.legacy.ui.tree.TreeFolder(trs);
   
         te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Personal");
-        var te2_7 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Personal");
+        var te2_7 = new qx.legacy.ui.tree.TreeFolder(trs);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Bugs");
-        var te2_7_1 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Family");
-        var te2_7_2 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Projects");
-        var te2_7_3 = new qx.ui.tree.TreeFolder(trs);
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Holiday");
-        var te2_7_4 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Bugs");
+        var te2_7_1 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Family");
+        var te2_7_2 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Projects");
+        var te2_7_3 = new qx.legacy.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Holiday");
+        var te2_7_4 = new qx.legacy.ui.tree.TreeFolder(trs);
   
         te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Big");
-        var te2_8 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Big");
+        var te2_8 = new qx.legacy.ui.tree.TreeFolder(trs);
   
         for (var i=0;i<50; i++) {
-          trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Item " + i);
-          te2_8.add(new qx.ui.tree.TreeFolder(trs));
+          trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Item " + i);
+          te2_8.add(new qx.legacy.ui.tree.TreeFolder(trs));
         };
   
-        trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Spam");
-        var te2_9 = new qx.ui.tree.TreeFolder(trs);
+        trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Spam");
+        var te2_9 = new qx.legacy.ui.tree.TreeFolder(trs);
         spam = te2_9;
   
         te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
   
         t.add(te2);
-        qx.ui.core.ClientDocument.getInstance().add(t);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(t);
   
   
   
   
   
   
-        var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+        var commandFrame = new qx.legacy.ui.groupbox.GroupBox("Control");
   
         commandFrame.set({ top : 48, left : 250, width : "auto", height : "auto" });
-        qx.ui.core.ClientDocument.getInstance().add(commandFrame);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(commandFrame);
   
   
   
   
-        var tCurrentLabel = new qx.ui.basic.Atom("Current Folder: ");
+        var tCurrentLabel = new qx.legacy.ui.basic.Atom("Current Folder: ");
   
         tCurrentLabel.set({ left : 0, top : 0 });
         commandFrame.add(tCurrentLabel);
   
   
   
-        var tCurrentInput = new qx.ui.form.TextField;
+        var tCurrentInput = new qx.legacy.ui.form.TextField;
   
         tCurrentInput.set({ left : 0, right : 0, top : 20, readOnly : true });
         commandFrame.add(tCurrentInput);
@@ -186,7 +186,7 @@
   
   
   
-        var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
+        var tDoubleClick = new qx.legacy.ui.form.CheckBox("Use double click?");
   
         with(tDoubleClick) {
           setTop(60);
@@ -200,7 +200,7 @@
   
   
   
-        var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
+        var tTreeLines = new qx.legacy.ui.form.CheckBox("Use tree lines?");
   
         with(tTreeLines) {
           setTop(80);
@@ -213,7 +213,7 @@
         tTreeLines.addListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
   
   
-        var tHideNode = new qx.ui.form.CheckBox("Hide the root node?");
+        var tHideNode = new qx.legacy.ui.form.CheckBox("Hide the root node?");
   
         with(tHideNode) {
           setTop(100);
@@ -226,7 +226,7 @@
         tHideNode.addListener("changeChecked", function(e) { t.setHideNode(e.getData()); });
   
         var tIncludeRootOpenClose =
-          new qx.ui.form.CheckBox("Include root open/close button?");
+          new qx.legacy.ui.form.CheckBox("Include root open/close button?");
   
         with(tIncludeRootOpenClose) {
           setTop(120);
@@ -239,7 +239,7 @@
         tIncludeRootOpenClose.addListener("changeChecked", function(e) { t.setRootOpenClose(e.getData()); });
   
         tExcludeTreeLines0 =
-          new qx.ui.form.CheckBox("Exclude tree lines at level 0?");
+          new qx.legacy.ui.form.CheckBox("Exclude tree lines at level 0?");
   
         with(tExcludeTreeLines0) {
           setTop(140);
@@ -263,7 +263,7 @@
             });
   
         tExcludeTreeLines1 =
-          new qx.ui.form.CheckBox("Exclude tree lines at level 1?");
+          new qx.legacy.ui.form.CheckBox("Exclude tree lines at level 1?");
   
         with(tExcludeTreeLines1) {
           setTop(160);
@@ -287,7 +287,7 @@
             });
   
         tExcludeTreeLines2 =
-          new qx.ui.form.CheckBox("Exclude tree lines at level 2?");
+          new qx.legacy.ui.form.CheckBox("Exclude tree lines at level 2?");
   
         with(tExcludeTreeLines2) {
           setTop(180);
@@ -311,7 +311,7 @@
             });
   
         tExcludeTreeLines3 =
-          new qx.ui.form.CheckBox("Exclude tree lines at level 3?");
+          new qx.legacy.ui.form.CheckBox("Exclude tree lines at level 3?");
   
         with(tExcludeTreeLines3) {
           setTop(200);
@@ -335,7 +335,7 @@
             });
   
         tExcludeTreeLines4 =
-          new qx.ui.form.CheckBox("Exclude tree lines at level 4?");
+          new qx.legacy.ui.form.CheckBox("Exclude tree lines at level 4?");
   
         with(tExcludeTreeLines4) {
           setTop(220);
@@ -359,7 +359,7 @@
             }
         );
   
-        var btnHideIcon = new qx.ui.form.Button("Toggle root icon");
+        var btnHideIcon = new qx.legacy.ui.form.Button("Toggle root icon");
         btnHideIcon.set({
           top: 250,
           left: 0

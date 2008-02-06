@@ -70,7 +70,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test file for qx.ui.embed.Gallery</p>
+    <p>Test file for qx.legacy.ui.embed.Gallery</p>
   </div>
 
   <script type="text/javascript">
@@ -103,7 +103,7 @@
           });
         };
   
-        var gallery = new qx.ui.embed.Gallery(galleryList);
+        var gallery = new qx.legacy.ui.embed.Gallery(galleryList);
   
         gallery.setLeft(20);
         gallery.setRight(20);
@@ -112,10 +112,10 @@
         gallery.setBorder("inset");
         gallery.addListener("beforeToolTipAppear", function(e) {
   				var entry = gallery.getEntryByNode(e.getData());
-        	gallery.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.timestamp));
+        	gallery.setToolTip(new qx.legacy.ui.popup.ToolTip(entry.comment + ": " + entry.timestamp));
         });
   
-        qx.ui.core.ClientDocument.getInstance().add(gallery);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(gallery);
       }
     }
   });

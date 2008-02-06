@@ -50,9 +50,9 @@ qx.Class.define("webmail.Application",
     {
       this.base(arguments);
 
-      var doc = qx.ui.core.ClientDocument.getInstance();
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var dockLayout = new qx.ui.layout.DockLayout;
+      var dockLayout = new qx.legacy.ui.layout.DockLayout;
 
       dockLayout.setLocation(0, 0);
       //dockLayout.setDimension(800, 600);
@@ -62,19 +62,19 @@ qx.Class.define("webmail.Application",
 
       doc.add(dockLayout);
 
-      var menubar = new qx.ui.menubar.MenuBar;
-      var toolbar = new qx.ui.toolbar.ToolBar;
-      var tree = new qx.ui.tree.Tree("Inbox");
-      var status = new qx.ui.basic.Atom("Status", "icon/16/categories/applications-internet.png");
+      var menubar = new qx.legacy.ui.menubar.MenuBar;
+      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
+      var tree = new qx.legacy.ui.tree.Tree("Inbox");
+      var status = new qx.legacy.ui.basic.Atom("Status", "icon/16/categories/applications-internet.png");
 
       tree.setWidth(200);
       tree.setHeight(null);
       tree.setPadding(5);
       tree.setBorder("inset");
-      tree.add(new qx.ui.tree.TreeFolder("Drafts"));
-      tree.add(new qx.ui.tree.TreeFolder("Sent"));
-      tree.add(new qx.ui.tree.TreeFolder("Trash"));
-      tree.add(new qx.ui.tree.TreeFolder("Junk"));
+      tree.add(new qx.legacy.ui.tree.TreeFolder("Drafts"));
+      tree.add(new qx.legacy.ui.tree.TreeFolder("Sent"));
+      tree.add(new qx.legacy.ui.tree.TreeFolder("Trash"));
+      tree.add(new qx.legacy.ui.tree.TreeFolder("Junk"));
 
       status.setWidth(null);
       status.setBorder("inset-thin");
@@ -102,33 +102,33 @@ qx.Class.define("webmail.Application",
       } ];
 
       for (var i=0; i<btns.length; i++) {
-        toolbar.add(new qx.ui.toolbar.Button(btns[i].text, btns[i].icon));
+        toolbar.add(new qx.legacy.ui.toolbar.Button(btns[i].text, btns[i].icon));
       }
 
-      var filemnu = new qx.ui.menu.Menu;
-      var editmnu = new qx.ui.menu.Menu;
-      var optimnu = new qx.ui.menu.Menu;
-      var helpmnu = new qx.ui.menu.Menu;
+      var filemnu = new qx.legacy.ui.menu.Menu;
+      var editmnu = new qx.legacy.ui.menu.Menu;
+      var optimnu = new qx.legacy.ui.menu.Menu;
+      var helpmnu = new qx.legacy.ui.menu.Menu;
 
-      filemnu.add(new qx.ui.menu.Button("New Mail"));
-      filemnu.add(new qx.ui.menu.Button("Exit"));
+      filemnu.add(new qx.legacy.ui.menu.Button("New Mail"));
+      filemnu.add(new qx.legacy.ui.menu.Button("Exit"));
 
-      editmnu.add(new qx.ui.menu.Button("Cut"));
-      editmnu.add(new qx.ui.menu.Button("Copy"));
-      editmnu.add(new qx.ui.menu.Button("Paste"));
+      editmnu.add(new qx.legacy.ui.menu.Button("Cut"));
+      editmnu.add(new qx.legacy.ui.menu.Button("Copy"));
+      editmnu.add(new qx.legacy.ui.menu.Button("Paste"));
 
-      optimnu.add(new qx.ui.menu.Button("View"));
-      optimnu.add(new qx.ui.menu.Button("Settings"));
+      optimnu.add(new qx.legacy.ui.menu.Button("View"));
+      optimnu.add(new qx.legacy.ui.menu.Button("Settings"));
 
-      helpmnu.add(new qx.ui.menu.Button("Help"));
-      helpmnu.add(new qx.ui.menu.Button("About"));
+      helpmnu.add(new qx.legacy.ui.menu.Button("Help"));
+      helpmnu.add(new qx.legacy.ui.menu.Button("About"));
 
-      var filemn = new qx.ui.menubar.Button("File", filemnu);
-      var editmn = new qx.ui.menubar.Button("Edit", editmnu);
-      var optimn = new qx.ui.menubar.Button("Options", optimnu);
-      var helpmn = new qx.ui.menubar.Button("Help", helpmnu);
+      var filemn = new qx.legacy.ui.menubar.Button("File", filemnu);
+      var editmn = new qx.legacy.ui.menubar.Button("Edit", editmnu);
+      var optimn = new qx.legacy.ui.menubar.Button("Options", optimnu);
+      var helpmn = new qx.legacy.ui.menubar.Button("Help", helpmnu);
 
-      menubar.add(filemn, editmn, optimn, new qx.ui.basic.HorizontalSpacer, helpmn);
+      menubar.add(filemn, editmn, optimn, new qx.legacy.ui.basic.HorizontalSpacer, helpmn);
       doc.add(filemnu, editmnu, optimnu, helpmnu);
 
       var ld = [];
@@ -170,7 +170,7 @@ qx.Class.define("webmail.Application",
         }
       };
 
-      var view = new qx.ui.listview.ListView(ld, lc);
+      var view = new qx.legacy.ui.listview.ListView(ld, lc);
       view.setBorder("inset");
       dockLayout.add(view);
     }

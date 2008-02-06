@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.listview.ListView with text cells.</p>
+    <p>Testing qx.legacy.ui.listview.ListView with text cells.</p>
     <p>Added some buttons to fill/clear the list dynamically.</p>
   </div>
 
@@ -26,7 +26,7 @@
         rights : { label : "Rights", width: 80, type : "text" }
       };
 
-      var lv = new qx.ui.listview.ListView(ld, lc);
+      var lv = new qx.legacy.ui.listview.ListView(ld, lc);
 
       lv.setBorder("dark-shadow");
       lv.setBackgroundColor("white");
@@ -34,7 +34,7 @@
       lv.setHeight(350);
       lv.setLocation(20, 48);
 
-      qx.ui.core.ClientDocument.getInstance().add(lv);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(lv);
 
       function add(nu)
       {
@@ -66,17 +66,17 @@
         lv.update();
       };
 
-      var btnAdd10 = new qx.ui.form.Button("Add 10", "icon/16/actions/dialog-ok.png");
-      var btnAdd50 = new qx.ui.form.Button("Add 50", "icon/16/actions/dialog-ok.png");
-      var btnAdd100 = new qx.ui.form.Button("Add 100", "icon/16/actions/dialog-ok.png");
-      var btnAdd1000 = new qx.ui.form.Button("Add 1000", "icon/16/actions/dialog-ok.png");
+      var btnAdd10 = new qx.legacy.ui.form.Button("Add 10", "icon/16/actions/dialog-ok.png");
+      var btnAdd50 = new qx.legacy.ui.form.Button("Add 50", "icon/16/actions/dialog-ok.png");
+      var btnAdd100 = new qx.legacy.ui.form.Button("Add 100", "icon/16/actions/dialog-ok.png");
+      var btnAdd1000 = new qx.legacy.ui.form.Button("Add 1000", "icon/16/actions/dialog-ok.png");
 
-      var btnRemove10 = new qx.ui.form.Button("Remove 10", "icon/16/actions/dialog-ok.png");
-      var btnRemove50 = new qx.ui.form.Button("Remove 50", "icon/16/actions/dialog-ok.png");
-      var btnRemove100 = new qx.ui.form.Button("Remove 100", "icon/16/actions/dialog-ok.png");
-      var btnRemove1000 = new qx.ui.form.Button("Remove 1000", "icon/16/actions/dialog-ok.png");
+      var btnRemove10 = new qx.legacy.ui.form.Button("Remove 10", "icon/16/actions/dialog-ok.png");
+      var btnRemove50 = new qx.legacy.ui.form.Button("Remove 50", "icon/16/actions/dialog-ok.png");
+      var btnRemove100 = new qx.legacy.ui.form.Button("Remove 100", "icon/16/actions/dialog-ok.png");
+      var btnRemove1000 = new qx.legacy.ui.form.Button("Remove 1000", "icon/16/actions/dialog-ok.png");
 
-      var btnClear = new qx.ui.form.Button("Clear", "icon/16/actions/dialog-ok.png");
+      var btnClear = new qx.legacy.ui.form.Button("Clear", "icon/16/actions/dialog-ok.png");
 
       btnAdd10.setLocation(550, 48);
       btnAdd50.setLocation(550, 78);
@@ -102,7 +102,7 @@
 
       btnClear.addListener("execute", function(e) { clear(); });
 
-      qx.ui.core.ClientDocument.getInstance().add(btnAdd10, btnAdd50, btnAdd100, btnAdd1000, btnRemove10, btnRemove50, btnRemove100, btnRemove1000, btnClear);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(btnAdd10, btnAdd50, btnAdd100, btnAdd1000, btnRemove10, btnRemove50, btnRemove100, btnRemove1000, btnClear);
     });
   </script>
 </body>

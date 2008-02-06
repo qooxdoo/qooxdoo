@@ -28,7 +28,7 @@
 
 
         // table model
-        var tableModel = new qx.ui.table.model.Filtered();
+        var tableModel = new qx.legacy.ui.table.model.Filtered();
         tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
         var rowData = [];
         var now = new Date().getTime();
@@ -45,14 +45,14 @@
         tableModel.setColumnEditable(2, true);
 
         // table
-        var table = new qx.ui.table.Table(tableModel);
+        var table = new qx.legacy.ui.table.Table(tableModel);
         table.set({ width: "100%", height: "100%" });
         table.setMetaColumnCounts([ 1, -1 ]);
-        table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
-        table.getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+        table.getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+        table.getTableColumnModel().setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
         table.addToDocument();
 
-        var button1 = new qx.ui.form.Button("Hide True");
+        var button1 = new qx.legacy.ui.form.Button("Hide True");
         button1.setTop(400);
         button1.setLeft(450);
         button1.addToDocument();
@@ -63,7 +63,7 @@
                                    tableModel.applyFilters();
                                  });
 
-        var button2 = new qx.ui.form.Button("Hide False");
+        var button2 = new qx.legacy.ui.form.Button("Hide False");
         button2.setTop(400);
         button2.setLeft(550);
         button2.addToDocument();
@@ -74,7 +74,7 @@
                                    tableModel.applyFilters();
                                  });
 
-        var button3 = new qx.ui.form.Button("Hide 1k-5k");
+        var button3 = new qx.legacy.ui.form.Button("Hide 1k-5k");
         button3.setTop(500);
         button3.setLeft(450);
         button3.addToDocument();
@@ -85,7 +85,7 @@
                                    tableModel.applyFilters();
                                  });
 
-        var button4 = new qx.ui.form.Button("Show All");
+        var button4 = new qx.legacy.ui.form.Button("Show All");
         button4.setTop(500);
         button4.setLeft(550);
         button4.addToDocument();

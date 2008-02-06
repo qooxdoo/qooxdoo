@@ -7,15 +7,15 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing the new flash support for qx.ui.toolbar.ToolBarButtons (inherited from qx.ui.basic.Atom).</p>
+    <p>Testing the new flash support for qx.legacy.ui.toolbar.ToolBarButtons (inherited from qx.legacy.ui.basic.Atom).</p>
   </div>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
       
-      var tb = new qx.ui.toolbar.ToolBar;
+      var tb = new qx.legacy.ui.toolbar.ToolBar;
       
       tb.setTop(48);
       tb.setLeft(20);
@@ -25,7 +25,7 @@
       
       for (var i=1; i<8; i++)
       {
-        var tbb = new qx.ui.toolbar.Button("Flash #" + i, "icon/22/actions/view-refresh.png", 22, 22, "./image/flash/color/file" + i + ".swf");        
+        var tbb = new qx.legacy.ui.toolbar.Button("Flash #" + i, "icon/22/actions/view-refresh.png", 22, 22, "./image/flash/color/file" + i + ".swf");        
         tb.add(tbb);
       };    
     });

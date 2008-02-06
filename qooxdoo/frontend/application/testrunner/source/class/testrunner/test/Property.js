@@ -416,7 +416,7 @@ qx.Class.define("testrunner.test.PropertyHelper",
 
 qx.Class.define("testrunner.test.Layout",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
   properties :
   {

@@ -7,21 +7,21 @@
 </head>
 <body>  
   <div id="description">
-    <p>Example to show correct calculations of qx.ui.basic.Atom sizes. Normally a qx.ui.basic.Atom has only the size of its content.</p>
+    <p>Example to show correct calculations of qx.legacy.ui.basic.Atom sizes. Normally a qx.legacy.ui.basic.Atom has only the size of its content.</p>
   </div>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var w = qx.ui.core.ClientDocument.getInstance();
+      var w = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
       function alertoff() {
         alert(this.getElement().offsetWidth + "x" + this.getElement().offsetHeight);
       };
 
-      var l1 = new qx.ui.layout.CanvasLayout();
-      var l2 = new qx.ui.layout.CanvasLayout();
+      var l1 = new qx.legacy.ui.layout.CanvasLayout();
+      var l2 = new qx.legacy.ui.layout.CanvasLayout();
 
       with(l1)
       {
@@ -48,17 +48,17 @@
 
 
 
-      var a1 = new qx.ui.basic.Atom("Pure Text", "icon/22/places/folder.png");
-      var a2 = new qx.ui.basic.Atom(null, "icon/22/places/folder.png");
+      var a1 = new qx.legacy.ui.basic.Atom("Pure Text", "icon/22/places/folder.png");
+      var a2 = new qx.legacy.ui.basic.Atom(null, "icon/22/places/folder.png");
 
       with(a1) {
-        setBorder(new qx.ui.core.Border(1, "solid", "black"));
+        setBorder(new qx.legacy.ui.core.Border(1, "solid", "black"));
         setTop(100);
         setLeft(120);
       };
 
       with(a2) {
-        setBorder(new qx.ui.core.Border(1, "solid", "black"));
+        setBorder(new qx.legacy.ui.core.Border(1, "solid", "black"));
         setTop(100);
         setLeft(300);
       };
@@ -71,8 +71,8 @@
 
 
 
-      var l3 = new qx.ui.layout.CanvasLayout();
-      var l4 = new qx.ui.layout.CanvasLayout();
+      var l3 = new qx.legacy.ui.layout.CanvasLayout();
+      var l4 = new qx.legacy.ui.layout.CanvasLayout();
 
       with(l3)
       {
@@ -98,17 +98,17 @@
       w.add(l4);
 
 
-      var b1 = new qx.ui.basic.Atom("Pure Text", "icon/32/categories/applications-internet.png");
-      var b2 = new qx.ui.basic.Atom(null, "icon/32/categories/applications-internet.png");
+      var b1 = new qx.legacy.ui.basic.Atom("Pure Text", "icon/32/categories/applications-internet.png");
+      var b2 = new qx.legacy.ui.basic.Atom(null, "icon/32/categories/applications-internet.png");
 
       with(b1) {
-        setBorder(new qx.ui.core.Border(1, "solid", "black"));
+        setBorder(new qx.legacy.ui.core.Border(1, "solid", "black"));
         setTop(200);
         setLeft(120);
       };
 
       with(b2) {
-        setBorder(new qx.ui.core.Border(1, "solid", "black"));
+        setBorder(new qx.legacy.ui.core.Border(1, "solid", "black"));
         setTop(200);
         setLeft(300);
       };
@@ -124,8 +124,8 @@
 
 
 
-      var l5 = new qx.ui.layout.CanvasLayout();
-      var l6 = new qx.ui.layout.CanvasLayout();
+      var l5 = new qx.legacy.ui.layout.CanvasLayout();
+      var l6 = new qx.legacy.ui.layout.CanvasLayout();
 
       with(l5)
       {
@@ -151,17 +151,17 @@
       w.add(l6);
 
 
-      var c1 = new qx.ui.basic.Atom("Pure Text", "icon/16/categories/applications-internet.png");
-      var c2 = new qx.ui.basic.Atom(null, "icon/16/categories/applications-internet.png");
+      var c1 = new qx.legacy.ui.basic.Atom("Pure Text", "icon/16/categories/applications-internet.png");
+      var c2 = new qx.legacy.ui.basic.Atom(null, "icon/16/categories/applications-internet.png");
 
       with(c1) {
-        setBorder(new qx.ui.core.Border(1, "solid", "black"));
+        setBorder(new qx.legacy.ui.core.Border(1, "solid", "black"));
         setTop(300);
         setLeft(120);
       };
 
       with(c2) {
-        setBorder(new qx.ui.core.Border(1, "solid", "black"));
+        setBorder(new qx.legacy.ui.core.Border(1, "solid", "black"));
         setTop(300);
         setLeft(300);
       };

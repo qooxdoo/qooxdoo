@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.runner.BasicRunner",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -39,7 +39,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       width  : "100%"
     });
 
-    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
+    var iframe = new qx.legacy.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
 
     iframe.set(
     {
@@ -91,7 +91,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
 
     this.add(iframe);
 
-    var gb = new qx.ui.groupbox.GroupBox();
+    var gb = new qx.legacy.ui.groupbox.GroupBox();
 
     gb.set(
     {
@@ -100,7 +100,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       enabled : false
     });
 
-    var hb = new qx.ui.layout.HorizontalBoxLayout();
+    var hb = new qx.legacy.ui.layout.HorizontalBoxLayout();
 
     hb.set(
     {
@@ -109,9 +109,9 @@ qx.Class.define("testrunner.runner.BasicRunner",
       verticalChildrenAlign : "middle"
     });
 
-    hb.add(new qx.ui.basic.Label("Test class: "));
-    this.input = new qx.ui.form.TextField();
-    this.run = new qx.ui.form.Button("run");
+    hb.add(new qx.legacy.ui.basic.Label("Test class: "));
+    this.input = new qx.legacy.ui.form.TextField();
+    this.run = new qx.legacy.ui.form.Button("run");
     hb.add(this.input, this.run);
     gb.add(hb);
     this.add(gb);

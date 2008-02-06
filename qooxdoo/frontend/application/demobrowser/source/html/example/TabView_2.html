@@ -20,17 +20,17 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
-        var tf1 = new qx.ui.pageview.tabview.TabView;
+        var tf1 = new qx.legacy.ui.pageview.tabview.TabView;
         tf1.setEdge(20);
     
-        var t1_1 = new qx.ui.pageview.tabview.Button("Edit");
-        var t1_2 = new qx.ui.pageview.tabview.Button("Find");
-        var t1_3 = new qx.ui.pageview.tabview.Button("Backup");
-        var t1_4 = new qx.ui.pageview.tabview.Button("System");
-        var t1_5 = new qx.ui.pageview.tabview.Button("Tools");
-        var t1_6 = new qx.ui.pageview.tabview.Button("Infos");
+        var t1_1 = new qx.legacy.ui.pageview.tabview.Button("Edit");
+        var t1_2 = new qx.legacy.ui.pageview.tabview.Button("Find");
+        var t1_3 = new qx.legacy.ui.pageview.tabview.Button("Backup");
+        var t1_4 = new qx.legacy.ui.pageview.tabview.Button("System");
+        var t1_5 = new qx.legacy.ui.pageview.tabview.Button("Tools");
+        var t1_6 = new qx.legacy.ui.pageview.tabview.Button("Infos");
     
         // set tab 1 active
         t1_1.setChecked(true);
@@ -105,12 +105,12 @@
     
         tf1.getBar().add(t1_1, t1_2, t1_3, t1_4, t1_5, t1_6);
     
-        var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
-        var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
-        var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
-        var p1_4 = new qx.ui.pageview.tabview.Page(t1_4);
-        var p1_5 = new qx.ui.pageview.tabview.Page(t1_5);
-        var p1_6 = new qx.ui.pageview.tabview.Page(t1_6);
+        var p1_1 = new qx.legacy.ui.pageview.tabview.Page(t1_1);
+        var p1_2 = new qx.legacy.ui.pageview.tabview.Page(t1_2);
+        var p1_3 = new qx.legacy.ui.pageview.tabview.Page(t1_3);
+        var p1_4 = new qx.legacy.ui.pageview.tabview.Page(t1_4);
+        var p1_5 = new qx.legacy.ui.pageview.tabview.Page(t1_5);
+        var p1_6 = new qx.legacy.ui.pageview.tabview.Page(t1_6);
     
         p1_1.setBackgroundColor("green");
         p1_2.setBackgroundColor("red");

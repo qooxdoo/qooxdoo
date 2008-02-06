@@ -17,9 +17,9 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var dl1 = new qx.ui.layout.DockLayout;
+    var dl1 = new qx.legacy.ui.layout.DockLayout;
 
     dl1.setTop(48);
     dl1.setLeft(20);
@@ -35,14 +35,14 @@
 
 
 
-    var t1 = new qx.ui.basic.Terminator;
+    var t1 = new qx.legacy.ui.basic.Terminator;
     t1.setHeight(50);
     t1.setBackgroundColor("red");
     t1.setVerticalAlign("top");
     t1.setBorder("black");
     t1.addListener("click", selfRemove);
 
-    var t2 = new qx.ui.basic.Terminator;
+    var t2 = new qx.legacy.ui.basic.Terminator;
     // t2.setWidth(150);
     t2.setWidth("20%");
     t2.setBackgroundColor("gray");
@@ -50,28 +50,28 @@
     t2.setBorder("black");
     t2.addListener("click", selfRemove);
 
-    var t3 = new qx.ui.basic.Terminator;
+    var t3 = new qx.legacy.ui.basic.Terminator;
     t3.setHeight(100);
     t3.setBackgroundColor("yellow");
     t3.setVerticalAlign("top");
     t3.setBorder("black");
     t3.addListener("click", selfRemove);
 
-    var t4 = new qx.ui.basic.Terminator;
+    var t4 = new qx.legacy.ui.basic.Terminator;
     t4.setWidth(40);
     t4.setBackgroundColor("orange");
     t4.setHorizontalAlign("right");
     t4.setBorder("black");
     t4.addListener("click", selfRemove);
 
-    var t5 = new qx.ui.basic.Terminator;
+    var t5 = new qx.legacy.ui.basic.Terminator;
     t5.setHeight(80);
     t5.setBackgroundColor("blue");
     t5.setVerticalAlign("bottom");
     t5.setBorder("black");
     t5.addListener("click", selfRemove);
 
-    var t6 = new qx.ui.basic.Terminator;
+    var t6 = new qx.legacy.ui.basic.Terminator;
     t6.setBackgroundColor("green");
     t6.setBorder("black");
     t6.addListener("click", selfRemove);
@@ -86,12 +86,12 @@
 
 
 
-    var l1 = new qx.ui.basic.Label("Mode:");
+    var l1 = new qx.legacy.ui.basic.Label("Mode:");
     l1.setWidth(50);
 
-    var btn1_1 = new qx.ui.form.Button("Vertical", "icon/16/actions/dialog-ok.png");
-    var btn1_2 = new qx.ui.form.Button("Horizontal", "icon/16/actions/dialog-ok.png");
-    var btn1_3 = new qx.ui.form.Button("Ordered", "icon/16/actions/dialog-ok.png");
+    var btn1_1 = new qx.legacy.ui.form.Button("Vertical", "icon/16/actions/dialog-ok.png");
+    var btn1_2 = new qx.legacy.ui.form.Button("Horizontal", "icon/16/actions/dialog-ok.png");
+    var btn1_3 = new qx.legacy.ui.form.Button("Ordered", "icon/16/actions/dialog-ok.png");
 
     btn1_1.addListener("click", function(e) {
       dl1.setMode("vertical");
@@ -105,7 +105,7 @@
       dl1.setMode("ordered");
     });
 
-    var h1 = new qx.ui.layout.HorizontalBoxLayout;
+    var h1 = new qx.legacy.ui.layout.HorizontalBoxLayout;
     h1.setVerticalChildrenAlign("middle");
     h1.add(l1, btn1_1, btn1_2, btn1_3);
     h1.setBottom(78);
@@ -120,16 +120,16 @@
 
 
 
-    var l2 = new qx.ui.basic.Label("Children:");
+    var l2 = new qx.legacy.ui.basic.Label("Children:");
     l2.setWidth(50);
 
-    var btn2_1 = new qx.ui.form.Button("Remove First", "icon/16/actions/dialog-ok.png");
-    var btn2_2 = new qx.ui.form.Button("Remove Last", "icon/16/actions/dialog-ok.png");
-    var btn2_3 = new qx.ui.form.Button("Add Top", "icon/16/actions/dialog-ok.png");
-    var btn2_4 = new qx.ui.form.Button("Add Right", "icon/16/actions/dialog-ok.png");
-    var btn2_5 = new qx.ui.form.Button("Add Bottom", "icon/16/actions/dialog-ok.png");
-    var btn2_6 = new qx.ui.form.Button("Add Left", "icon/16/actions/dialog-ok.png");
-    var btn2_7 = new qx.ui.form.Button("Add Auto", "icon/16/actions/dialog-ok.png");
+    var btn2_1 = new qx.legacy.ui.form.Button("Remove First", "icon/16/actions/dialog-ok.png");
+    var btn2_2 = new qx.legacy.ui.form.Button("Remove Last", "icon/16/actions/dialog-ok.png");
+    var btn2_3 = new qx.legacy.ui.form.Button("Add Top", "icon/16/actions/dialog-ok.png");
+    var btn2_4 = new qx.legacy.ui.form.Button("Add Right", "icon/16/actions/dialog-ok.png");
+    var btn2_5 = new qx.legacy.ui.form.Button("Add Bottom", "icon/16/actions/dialog-ok.png");
+    var btn2_6 = new qx.legacy.ui.form.Button("Add Left", "icon/16/actions/dialog-ok.png");
+    var btn2_7 = new qx.legacy.ui.form.Button("Add Auto", "icon/16/actions/dialog-ok.png");
 
     btn2_1.addListener("execute", function(e)
     {
@@ -149,7 +149,7 @@
 
     btn2_3.addListener("execute", function(e)
     {
-      var t = new qx.ui.basic.Terminator();
+      var t = new qx.legacy.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setHeight(2+Math.round(Math.random()*50));
@@ -161,7 +161,7 @@
 
     btn2_4.addListener("execute", function(e)
     {
-      var t = new qx.ui.basic.Terminator();
+      var t = new qx.legacy.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setWidth(2+Math.round(Math.random()*50));
@@ -173,7 +173,7 @@
 
     btn2_5.addListener("execute", function(e)
     {
-      var t = new qx.ui.basic.Terminator();
+      var t = new qx.legacy.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setHeight(2+Math.round(Math.random()*50));
@@ -185,7 +185,7 @@
 
     btn2_6.addListener("execute", function(e)
     {
-      var t = new qx.ui.basic.Terminator();
+      var t = new qx.legacy.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setWidth(2+Math.round(Math.random()*50));
@@ -197,7 +197,7 @@
 
     btn2_7.addListener("execute", function(e)
     {
-      var t = new qx.ui.basic.Terminator();
+      var t = new qx.legacy.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setBorder("black");
@@ -207,7 +207,7 @@
     });
 
 
-    var h2 = new qx.ui.layout.HorizontalBoxLayout;
+    var h2 = new qx.legacy.ui.layout.HorizontalBoxLayout;
     h2.setVerticalChildrenAlign("middle");
     h2.add(l2, btn2_1, btn2_2, btn2_3, btn2_4, btn2_5, btn2_6, btn2_7);
     h2.setBottom(48);

@@ -24,10 +24,10 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
         // table model
-        var tableModel = new qx.ui.table.model.Simple();
+        var tableModel = new qx.legacy.ui.table.model.Simple();
         tableModel.setColumns([ "ID", "Number 1", "Number 2", "Image" ]);
     
         var image = [
@@ -45,7 +45,7 @@
         tableModel.setColumnEditable(2, true);
     
         // table
-        var table = new qx.ui.table.Table(tableModel);
+        var table = new qx.legacy.ui.table.Table(tableModel);
         with (table) {
           set({
                 left:20,
@@ -56,10 +56,10 @@
               });
           setMetaColumnCounts([1, -1]);
           var selectionMode =
-            qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION;
+            qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION;
           getSelectionModel().setSelectionMode(selectionMode);
           var newRenderer =
-            new qx.ui.table.cellrenderer.Conditional("right", "", "", "");
+            new qx.legacy.ui.table.cellrenderer.Conditional("right", "", "", "");
     
           try {
             newRenderer.addNumericCondition(">", 0,   null,
@@ -108,7 +108,7 @@
     
           getTableColumnModel().setDataCellRenderer(2, newRenderer);
     
-          var renderer = new qx.ui.table.cellrenderer.Image(19, 16);
+          var renderer = new qx.legacy.ui.table.cellrenderer.Image(19, 16);
           getTableColumnModel().setDataCellRenderer(3, renderer);
         };
     

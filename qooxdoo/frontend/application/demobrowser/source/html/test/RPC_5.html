@@ -28,30 +28,30 @@
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      var layout1 = new qx.ui.layout.VerticalBoxLayout();
+      var layout1 = new qx.legacy.ui.layout.VerticalBoxLayout();
       layout1.setTop(40);
       layout1.setLeft(20);
       layout1.setSpacing(4);
 
-      var encodeUndefined = new qx.ui.form.CheckBox("Encode 'undefined' as null");
+      var encodeUndefined = new qx.legacy.ui.form.CheckBox("Encode 'undefined' as null");
       layout1.add(encodeUndefined);
 
-      var sendServerData = new qx.ui.form.CheckBox("Send server data");
+      var sendServerData = new qx.legacy.ui.form.CheckBox("Send server data");
       layout1.add(sendServerData);
 
-      layout1.add(new qx.ui.basic.Label("URL:"));
+      layout1.add(new qx.legacy.ui.basic.Label("URL:"));
       var defaultURL = qx.io.remote.Rpc.makeServerURL();
       if (defaultURL == null) {
         defaultURL = "/services/";
       }
-      var url = new qx.ui.form.TextField(defaultURL);
+      var url = new qx.legacy.ui.form.TextField(defaultURL);
       layout1.add(url);
 
-      layout1.add(new qx.ui.basic.Label("Service:"));
-      var service = new qx.ui.form.TextField("qooxdoo.test");
+      layout1.add(new qx.legacy.ui.basic.Label("Service:"));
+      var service = new qx.legacy.ui.form.TextField("qooxdoo.test");
       layout1.add(service);
 
-      var start = new qx.ui.form.Button("Start test");
+      var start = new qx.legacy.ui.form.Button("Start test");
       layout1.add(start);
 
       // We'll be setting url and service upon execute; no need to do it now.
@@ -84,7 +84,7 @@
         }
       });
 
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
       d.add(layout1);
     });
   </script>

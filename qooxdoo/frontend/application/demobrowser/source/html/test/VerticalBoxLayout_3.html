@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    Tests for the new implementation of the qx.ui.layout.VerticalBoxLayout widget.<br/>
+    Tests for the new implementation of the qx.legacy.ui.layout.VerticalBoxLayout widget.<br/>
     <br/>
     1. Simple testing, one static and one flex child<br/>
     2. Two flex children with the same priority<br/>
@@ -34,7 +34,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
     /* ***********************************************
@@ -43,11 +43,11 @@
 
     *********************************************** */
 
-    var te1 = new qx.ui.basic.Label("#1");
+    var te1 = new qx.legacy.ui.basic.Label("#1");
     te1.setLocation(20, 48);
     d.add(te1);
 
-    var hbl1 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl1 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl1.setTop(78);
     hbl1.setLeft(20);
     hbl1.setBottom(48);
@@ -58,7 +58,7 @@
     hbl1.setPadding(2);
     d.add(hbl1);
 
-    var t1_1 = new qx.ui.basic.Terminator;
+    var t1_1 = new qx.legacy.ui.basic.Terminator;
     t1_1.setBorder("black");
     t1_1.setHeight(20);
     t1_1.setWidth(10);
@@ -69,7 +69,7 @@
       this.setHeight(this.getHeight() == 20 ? 100 : 20);
     });
 
-    var t1_2 = new qx.ui.basic.Terminator;
+    var t1_2 = new qx.legacy.ui.basic.Terminator;
     t1_2.setBorder("black");
     t1_2.setHeight("1*");
     t1_2.setWidth(10);
@@ -85,11 +85,11 @@
 
     *********************************************** */
 
-    var te2 = new qx.ui.basic.Label("#2");
+    var te2 = new qx.legacy.ui.basic.Label("#2");
     te2.setLocation(40, 48);
     d.add(te2);
 
-    var hbl2 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl2 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl2.setTop(78);
     hbl2.setLeft(40);
     hbl2.setBottom(48);
@@ -100,14 +100,14 @@
     hbl2.setPadding(2);
     d.add(hbl2);
 
-    var t2_1 = new qx.ui.basic.Terminator;
+    var t2_1 = new qx.legacy.ui.basic.Terminator;
     t2_1.setBorder("black");
     t2_1.setHeight("1*");
     t2_1.setWidth(10);
     t2_1.setBackgroundColor("green");
     hbl2.add(t2_1);
 
-    var t2_2 = new qx.ui.basic.Terminator;
+    var t2_2 = new qx.legacy.ui.basic.Terminator;
     t2_2.setBorder("black");
     t2_2.setHeight("1*");
     t2_2.setWidth(10);
@@ -125,11 +125,11 @@
 
     *********************************************** */
 
-    var te3 = new qx.ui.basic.Label("#3");
+    var te3 = new qx.legacy.ui.basic.Label("#3");
     te3.setLocation(60, 48);
     d.add(te3);
 
-    var hbl3 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl3 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl3.setTop(78);
     hbl3.setLeft(60);
     hbl3.setBottom(48);
@@ -140,14 +140,14 @@
     hbl3.setPadding(2);
     d.add(hbl3);
 
-    var t3_1 = new qx.ui.basic.Terminator;
+    var t3_1 = new qx.legacy.ui.basic.Terminator;
     t3_1.setBorder("black");
     t3_1.setHeight("1*");
     t3_1.setWidth(10);
     t3_1.setBackgroundColor("green");
     hbl3.add(t3_1);
 
-    var t3_2 = new qx.ui.basic.Terminator;
+    var t3_2 = new qx.legacy.ui.basic.Terminator;
     t3_2.setBorder("black");
     t3_2.setHeight("2*");
     t3_2.setWidth(10);
@@ -163,11 +163,11 @@
 
     *********************************************** */
 
-    var te4 = new qx.ui.basic.Label("#4");
+    var te4 = new qx.legacy.ui.basic.Label("#4");
     te4.setLocation(100, 48);
     d.add(te4);
 
-    var hbl4 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl4 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl4.setTop(78);
     hbl4.setLeft(100);
     hbl4.setBottom(48);
@@ -178,14 +178,14 @@
     hbl4.setPadding(2);
     d.add(hbl4);
 
-    var t4_1 = new qx.ui.basic.Terminator;
+    var t4_1 = new qx.legacy.ui.basic.Terminator;
     t4_1.setBorder("black");
     t4_1.setHeight("1*");
     t4_1.setWidth(10);
     t4_1.setBackgroundColor("green");
     hbl4.add(t4_1);
 
-    var t4_2 = new qx.ui.basic.Terminator;
+    var t4_2 = new qx.legacy.ui.basic.Terminator;
     t4_2.setBorder("black");
     t4_2.setHeight("2*");
     t4_2.setWidth(10);
@@ -202,11 +202,11 @@
 
     *********************************************** */
 
-    var te5 = new qx.ui.basic.Label("#5");
+    var te5 = new qx.legacy.ui.basic.Label("#5");
     te5.setLocation(120, 48);
     d.add(te5);
 
-    var hbl5 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl5 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl5.setTop(78);
     hbl5.setLeft(120);
     hbl5.setBottom(48);
@@ -218,14 +218,14 @@
     hbl5.setUseAdvancedFlexAllocation(true);
     d.add(hbl5);
 
-    var t5_1 = new qx.ui.basic.Terminator;
+    var t5_1 = new qx.legacy.ui.basic.Terminator;
     t5_1.setBorder("black");
     t5_1.setHeight("1*");
     t5_1.setWidth(10);
     t5_1.setBackgroundColor("green");
     hbl5.add(t5_1);
 
-    var t5_2 = new qx.ui.basic.Terminator;
+    var t5_2 = new qx.legacy.ui.basic.Terminator;
     t5_2.setBorder("black");
     t5_2.setHeight("2*");
     t5_2.setWidth(10);
@@ -242,11 +242,11 @@
 
     *********************************************** */
 
-    var te6 = new qx.ui.basic.Label("#6");
+    var te6 = new qx.legacy.ui.basic.Label("#6");
     te6.setLocation(160, 48);
     d.add(te6);
 
-    var hbl6 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl6 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl6.setTop(78);
     hbl6.setLeft(160);
     hbl6.setBottom(48);
@@ -257,14 +257,14 @@
     hbl6.setPadding(2);
     d.add(hbl6);
 
-    var t6_1 = new qx.ui.basic.Terminator;
+    var t6_1 = new qx.legacy.ui.basic.Terminator;
     t6_1.setBorder("black");
     t6_1.setHeight("1*");
     t6_1.setWidth(10);
     t6_1.setBackgroundColor("green");
     hbl6.add(t6_1);
 
-    var t6_2 = new qx.ui.basic.Terminator;
+    var t6_2 = new qx.legacy.ui.basic.Terminator;
     t6_2.setBorder("black");
     t6_2.setHeight("2*");
     t6_2.setWidth(10);
@@ -281,11 +281,11 @@
 
     *********************************************** */
 
-    var te7 = new qx.ui.basic.Label("#7");
+    var te7 = new qx.legacy.ui.basic.Label("#7");
     te7.setLocation(180, 48);
     d.add(te7);
 
-    var hbl7 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl7 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl7.setTop(78);
     hbl7.setLeft(180);
     hbl7.setBottom(48);
@@ -297,14 +297,14 @@
     hbl7.setUseAdvancedFlexAllocation(true);
     d.add(hbl7);
 
-    var t7_1 = new qx.ui.basic.Terminator;
+    var t7_1 = new qx.legacy.ui.basic.Terminator;
     t7_1.setBorder("black");
     t7_1.setHeight("1*");
     t7_1.setWidth(10);
     t7_1.setBackgroundColor("green");
     hbl7.add(t7_1);
 
-    var t7_2 = new qx.ui.basic.Terminator;
+    var t7_2 = new qx.legacy.ui.basic.Terminator;
     t7_2.setBorder("black");
     t7_2.setHeight("2*");
     t7_2.setWidth(10);
@@ -321,11 +321,11 @@
 
     *********************************************** */
 
-    var te8 = new qx.ui.basic.Label("#8");
+    var te8 = new qx.legacy.ui.basic.Label("#8");
     te8.setLocation(220, 48);
     d.add(te8);
 
-    var hbl8 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl8 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl8.setTop(78);
     hbl8.setLeft(220);
     hbl8.setBottom(48);
@@ -336,14 +336,14 @@
     hbl8.setPadding(2);
     d.add(hbl8);
 
-    var t8_1 = new qx.ui.basic.Terminator;
+    var t8_1 = new qx.legacy.ui.basic.Terminator;
     t8_1.setBorder("black");
     t8_1.setHeight("1*");
     t8_1.setWidth(10);
     t8_1.setBackgroundColor("green");
     hbl8.add(t8_1);
 
-    var t8_2 = new qx.ui.basic.Terminator;
+    var t8_2 = new qx.legacy.ui.basic.Terminator;
     t8_2.setBorder("black");
     t8_2.setHeight("2*");
     t8_2.setWidth(10);
@@ -351,7 +351,7 @@
     t8_2.setMaxHeight(50);
     hbl8.add(t8_2);
 
-    var t8_3 = new qx.ui.basic.Terminator;
+    var t8_3 = new qx.legacy.ui.basic.Terminator;
     t8_3.setBorder("black");
     t8_3.setHeight("3*");
     t8_3.setWidth(10);
@@ -366,11 +366,11 @@
 
     *********************************************** */
 
-    var te9 = new qx.ui.basic.Label("#9");
+    var te9 = new qx.legacy.ui.basic.Label("#9");
     te9.setLocation(240, 48);
     d.add(te9);
 
-    var hbl9 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl9 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl9.setTop(78);
     hbl9.setLeft(240);
     hbl9.setBottom(48);
@@ -382,14 +382,14 @@
     hbl9.setUseAdvancedFlexAllocation(true);
     d.add(hbl9);
 
-    var t9_1 = new qx.ui.basic.Terminator;
+    var t9_1 = new qx.legacy.ui.basic.Terminator;
     t9_1.setBorder("black");
     t9_1.setHeight("1*");
     t9_1.setWidth(10);
     t9_1.setBackgroundColor("green");
     hbl9.add(t9_1);
 
-    var t9_2 = new qx.ui.basic.Terminator;
+    var t9_2 = new qx.legacy.ui.basic.Terminator;
     t9_2.setBorder("black");
     t9_2.setHeight("2*");
     t9_2.setWidth(10);
@@ -397,7 +397,7 @@
     t9_2.setMaxHeight(50);
     hbl9.add(t9_2);
 
-    var t9_3 = new qx.ui.basic.Terminator;
+    var t9_3 = new qx.legacy.ui.basic.Terminator;
     t9_3.setBorder("black");
     t9_3.setHeight("3*");
     t9_3.setWidth(10);
@@ -413,11 +413,11 @@
 
     *********************************************** */
 
-    var te10 = new qx.ui.basic.Label("#10");
+    var te10 = new qx.legacy.ui.basic.Label("#10");
     te10.setLocation(280, 48);
     d.add(te10);
 
-    var hbl10 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl10 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl10.setTop(78);
     hbl10.setLeft(280);
     hbl10.setBottom(48);
@@ -429,7 +429,7 @@
     hbl10.setUseAdvancedFlexAllocation(true);
     d.add(hbl10);
 
-    var t10_1 = new qx.ui.basic.Terminator;
+    var t10_1 = new qx.legacy.ui.basic.Terminator;
     t10_1.setBorder("black");
     t10_1.setHeight("1*");
     t10_1.setWidth(10);
@@ -437,7 +437,7 @@
     t10_1.addListener("click", function(e) { this.setHeight(this.getHeight() == "1*" ? "4*" : "1*"); });
     hbl10.add(t10_1);
 
-    var t10_2 = new qx.ui.basic.Terminator;
+    var t10_2 = new qx.legacy.ui.basic.Terminator;
     t10_2.setBorder("black");
     t10_2.setHeight("2*");
     t10_2.setWidth(10);
@@ -445,7 +445,7 @@
     t10_2.addListener("click", function(e) { this.setHeight(this.getHeight() == "2*" ? "1*" : "2*"); });
     hbl10.add(t10_2);
 
-    var t10_3 = new qx.ui.basic.Terminator;
+    var t10_3 = new qx.legacy.ui.basic.Terminator;
     t10_3.setBorder("black");
     t10_3.setHeight("3*");
     t10_3.setWidth(10);
@@ -462,11 +462,11 @@
 
     *********************************************** */
 
-    var te11 = new qx.ui.basic.Label("#11");
+    var te11 = new qx.legacy.ui.basic.Label("#11");
     te11.setLocation(300, 48);
     d.add(te11);
 
-    var hbl11 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl11 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl11.setTop(78);
     hbl11.setLeft(300);
     hbl11.setBottom(48);
@@ -477,21 +477,21 @@
     hbl11.setPadding(2);
     d.add(hbl11);
 
-    var t11_1 = new qx.ui.basic.Terminator;
+    var t11_1 = new qx.legacy.ui.basic.Terminator;
     t11_1.setBorder("black");
     t11_1.setHeight("1*");
     t11_1.setWidth(10);
     t11_1.setBackgroundColor("green");
     hbl11.add(t11_1);
 
-    var t11_2 = new qx.ui.basic.Terminator;
+    var t11_2 = new qx.legacy.ui.basic.Terminator;
     t11_2.setBorder("black");
     t11_2.setHeight(80);
     t11_2.setWidth(10);
     t11_2.setBackgroundColor("blue");
     hbl11.add(t11_2);
 
-    var t11_3 = new qx.ui.basic.Terminator;
+    var t11_3 = new qx.legacy.ui.basic.Terminator;
     t11_3.setBorder("black");
     t11_3.setHeight("3*");
     t11_3.setWidth(10);
@@ -507,11 +507,11 @@
 
     *********************************************** */
 
-    var te12 = new qx.ui.basic.Label("#13");
+    var te12 = new qx.legacy.ui.basic.Label("#13");
     te12.setLocation(320, 48);
     d.add(te12);
 
-    var hbl12 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl12 = new qx.legacy.ui.layout.VerticalBoxLayout;
     hbl12.setTop(78);
     hbl12.setLeft(320);
     hbl12.setWidth("auto");
@@ -521,21 +521,21 @@
     hbl12.setPadding(2);
     d.add(hbl12);
 
-    var t12_1 = new qx.ui.basic.Terminator;
+    var t12_1 = new qx.legacy.ui.basic.Terminator;
     t12_1.setBorder("black");
     t12_1.setHeight("1*");
     t12_1.setWidth(10);
     t12_1.setBackgroundColor("green");
     hbl12.add(t12_1);
 
-    var t12_2 = new qx.ui.basic.Terminator;
+    var t12_2 = new qx.legacy.ui.basic.Terminator;
     t12_2.setBorder("black");
     t12_2.setHeight(80);
     t12_2.setWidth(10);
     t12_2.setBackgroundColor("blue");
     hbl12.add(t12_2);
 
-    var t12_3 = new qx.ui.basic.Terminator;
+    var t12_3 = new qx.legacy.ui.basic.Terminator;
     t12_3.setBorder("black");
     t12_3.setHeight("3*");
     t12_3.setWidth(10);

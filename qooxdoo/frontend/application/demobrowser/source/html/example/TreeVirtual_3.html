@@ -27,11 +27,11 @@
         // We want to use some of the high-level node operation convenience
         // methods rather than manually digging into the TreeVirtual helper
         // classes.  Include the mixin that provides them.
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MNode);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MNode);
     
         // tree
-        var tree = new qx.ui.treevirtual.TreeVirtual(
+        var tree = new qx.legacy.ui.treevirtual.TreeVirtual(
             [
               "Tree",
               "Permissions",
@@ -96,15 +96,15 @@
     
         dataModel.setData();
     
-        var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+        var commandFrame = new qx.legacy.ui.groupbox.GroupBox("Control");
         commandFrame.set({ top: 48, left: 520, width: "auto", height: "auto" });
         commandFrame.addToDocument();
     
-        var o = new qx.ui.basic.Atom("Current Selection: ");
+        var o = new qx.legacy.ui.basic.Atom("Current Selection: ");
         o.set({ left: 0, top: 6 });
         commandFrame.add(o);
     
-        o = new qx.ui.form.TextField();
+        o = new qx.legacy.ui.form.TextField();
         o.set({ left: 4, right: 0, top: 20, readOnly: true });
         commandFrame.add(o);
         tree.addListener(
@@ -119,7 +119,7 @@
           },
           o);
     
-        var buttonRemove = new qx.ui.form.Button("Remove");
+        var buttonRemove = new qx.legacy.ui.form.Button("Remove");
         buttonRemove.set({ top: 42, left: 0, enabled: false });
         commandFrame.add(buttonRemove);
         buttonRemove.addListener(
@@ -134,7 +134,7 @@
             }
           });
     
-        o = new qx.ui.form.CheckBox("Use tree lines?");
+        o = new qx.legacy.ui.form.CheckBox("Use tree lines?");
         o.set({ top: 80, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked",
@@ -143,7 +143,7 @@
                              tree.setUseTreeLines(e.getData());
                            });
     
-        o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
+        o = new qx.legacy.ui.form.CheckBox("Exclude first-level tree lines?");
         o.set({ top: 100, left: 0, checked: false });
         commandFrame.add(o);
         o.addListener("changeChecked",
@@ -152,7 +152,7 @@
                              tree.setExcludeFirstLevelTreeLines(e.getData());
                            });
     
-        o = new qx.ui.form.CheckBox("Always show open/close symbol?");
+        o = new qx.legacy.ui.form.CheckBox("Always show open/close symbol?");
         o.set({ top: 120, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked",
@@ -161,7 +161,7 @@
                              tree.setAlwaysShowOpenCloseSymbol(e.getData());
                            });
     
-        o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
+        o = new qx.legacy.ui.form.CheckBox("Remove open/close if found empty?");
         o.set({ top: 140, left: 0, checked: true });
         commandFrame.add(o);
         tree.addListener("treeOpenWhileEmpty",
@@ -175,7 +175,7 @@
                               },
                               o);
     
-        o = new qx.ui.form.CheckBox("Open/close click selects row?");
+        o = new qx.legacy.ui.form.CheckBox("Open/close click selects row?");
         o.set({ top: 160, left: 0, checked: false });
         commandFrame.add(o);
         o.addListener("changeChecked",
@@ -184,7 +184,7 @@
                              tree.setOpenCloseClickSelectsRow(e.getData());
                            });
     
-        o = new qx.ui.form.CheckBox("Disable the tree?");
+        o = new qx.legacy.ui.form.CheckBox("Disable the tree?");
         o.set({ top: 180, left: 0, checked: false });
         commandFrame.add(o);
         o.addListener("changeChecked",
@@ -193,7 +193,7 @@
                              tree.setEnabled(! e.getData());
                            });
     
-        o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
+        o = new qx.legacy.ui.form.CheckBox("Display a cell focus indicator?");
         o.set({ top: 200, left: 0, checked: true });
         commandFrame.add(o);
         o.addListener("changeChecked",

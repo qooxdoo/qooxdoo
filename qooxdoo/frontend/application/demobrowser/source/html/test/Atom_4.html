@@ -13,7 +13,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     var icons = [
       "apps/accessories-clock",
@@ -32,7 +32,7 @@
     {
       for (var i=0; i<icons.length; i++)
       {
-        atom = new qx.ui.basic.Atom("Atom " + (i+1) + "." + (j+1), "icon/" + sizes[j] + "/" + icons[i] + ".png");
+        atom = new qx.legacy.ui.basic.Atom("Atom " + (i+1) + "." + (j+1), "icon/" + sizes[j] + "/" + icons[i] + ".png");
 
         atom.setTop(toppos);
         atom.setLeft(20 + (120 *i));

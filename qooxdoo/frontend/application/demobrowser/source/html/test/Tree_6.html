@@ -18,7 +18,7 @@
       
       function handleDragStart(e) 
       {
-        e.addData("qx.ui.tree.AbstractTreeElement", e.getCurrentTarget());
+        e.addData("qx.legacy.ui.tree.AbstractTreeElement", e.getCurrentTarget());
         e.addAction("move");
         e.startDrag();
       };
@@ -68,7 +68,7 @@
         
         var vTarget = e.getTarget();
         
-        if (!vTarget || !(vTarget instanceof qx.ui.tree.TreeFolder)) 
+        if (!vTarget || !(vTarget instanceof qx.legacy.ui.tree.TreeFolder)) 
         {
           treeMarkerLine.setStyleProperty("display", "none");
           return;
@@ -114,7 +114,7 @@
 
 
 
-      var treeMarkerLine = new qx.ui.basic.Terminator;
+      var treeMarkerLine = new qx.legacy.ui.basic.Terminator;
       
       treeMarkerLine.setHeight(2);
       treeMarkerLine.setBackgroundColor("#335EA8");
@@ -123,11 +123,11 @@
       treeMarkerLine.setAnonymous(true);
       treeMarkerLine.setStyleProperty("display", "none");
       
-      qx.ui.core.ClientDocument.getInstance().add(treeMarkerLine);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(treeMarkerLine);
       
 
 
-      var treeSource = new qx.ui.tree.Tree("Source");
+      var treeSource = new qx.legacy.ui.tree.Tree("Source");
 
       with(treeSource)
       {
@@ -146,14 +146,14 @@
         addListener("dragout", handleDragOut);
         addListener("dragmove", handleDragMove);
 
-        setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
+        setDropDataTypes(["qx.legacy.ui.tree.AbstractTreeElement"]);
       };
 
-      qx.ui.core.ClientDocument.getInstance().add(treeSource);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(treeSource);
       
       for (var i=1, f; i<3; i++)
       {
-        f = new qx.ui.tree.TreeFolder("Folder " + i);
+        f = new qx.legacy.ui.tree.TreeFolder("Folder " + i);
         
         f.addListener("dragstart", handleDragStart);
         f.addListener("dragdrop", handleDragDrop); 
@@ -161,14 +161,14 @@
         f.addListener("dragout", handleDragOut);
         f.addListener("dragend", handleDragEnd);
         
-        f.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
+        f.setDropDataTypes(["qx.legacy.ui.tree.AbstractTreeElement"]);
         f.supportsDrop = supportsDrop;
         
         treeSource.add(f);
         
         for (var j=1, g; j<6; j++)
         {
-          g = new qx.ui.tree.TreeFolder("Subfolder " + j);
+          g = new qx.legacy.ui.tree.TreeFolder("Subfolder " + j);
           
           g.addListener("dragstart", handleDragStart);
           g.addListener("dragdrop", handleDragDrop); 
@@ -176,14 +176,14 @@
           g.addListener("dragout", handleDragOut);
           g.addListener("dragend", handleDragEnd);
           
-          g.setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
+          g.setDropDataTypes(["qx.legacy.ui.tree.AbstractTreeElement"]);
           g.supportsDrop = supportsDrop;
           
           f.add(g);
           
           for (var k=1, h; k<9; k++)
           {
-            h = new qx.ui.tree.TreeFile("File " + k);
+            h = new qx.legacy.ui.tree.TreeFile("File " + k);
             
             h.addListener("dragstart", handleDragStart);
             
@@ -197,7 +197,7 @@
 
 
 
-      var treeDest = new qx.ui.tree.Tree("Dest");
+      var treeDest = new qx.legacy.ui.tree.Tree("Dest");
 
       with(treeDest)
       {
@@ -216,10 +216,10 @@
         addListener("dragout", handleDragOut);
         addListener("dragmove", handleDragMove);
 
-        setDropDataTypes(["qx.ui.tree.AbstractTreeElement"]);
+        setDropDataTypes(["qx.legacy.ui.tree.AbstractTreeElement"]);
       };
 
-      qx.ui.core.ClientDocument.getInstance().add(treeDest);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(treeDest);
     });
   </script>
 </body>

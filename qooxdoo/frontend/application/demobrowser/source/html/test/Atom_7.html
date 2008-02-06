@@ -13,7 +13,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     var atom;
     var toppos = 48;
@@ -22,7 +22,7 @@
     {
       for (var j=0; j<10; j++)
       {
-        atom = new qx.ui.basic.Atom(null, "icon/16/apps/accessories-date.png", 16, 16);
+        atom = new qx.legacy.ui.basic.Atom(null, "icon/16/apps/accessories-date.png", 16, 16);
 
         atom.setTop(toppos);
         atom.setLeft(20 + (j*50));

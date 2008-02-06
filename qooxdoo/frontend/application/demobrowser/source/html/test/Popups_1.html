@@ -7,18 +7,18 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for the qx.ui.popup.Popup widget. qx.ui.popup.Popups are planned as the source constructor for tooltips, menus, ...</p>
-    <p>There is also a qx.ui.popup.PopupManager which hides all registered qx.ui.popup.Popup instances which are configured to auto hide.
-    This is a nice method to omit to show more than one qx.ui.popup.Popup together (omit multiple QxTooltips, ...).</p>
+    <p>Test for the qx.legacy.ui.popup.Popup widget. qx.legacy.ui.popup.Popups are planned as the source constructor for tooltips, menus, ...</p>
+    <p>There is also a qx.legacy.ui.popup.PopupManager which hides all registered qx.legacy.ui.popup.Popup instances which are configured to auto hide.
+    This is a nice method to omit to show more than one qx.legacy.ui.popup.Popup together (omit multiple QxTooltips, ...).</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
-    var w1 = new qx.ui.form.Button("Press");
+    var w1 = new qx.legacy.ui.form.Button("Press");
     with(w1)
     {
       setTop(48);
@@ -32,7 +32,7 @@
     d.add(w1);
 
 
-    var w2 = new qx.ui.form.Button("Press");
+    var w2 = new qx.legacy.ui.form.Button("Press");
     with(w2)
     {
       setTop(48);
@@ -52,10 +52,10 @@
 
 
 
-    var p1 = new qx.ui.popup.Popup;
+    var p1 = new qx.legacy.ui.popup.Popup;
     d.add(p1);
 
-    var a1 = new qx.ui.basic.Atom("Hello World #1", "icon/16/apps/graphics-image-viewer.png");
+    var a1 = new qx.legacy.ui.basic.Atom("Hello World #1", "icon/16/apps/graphics-image-viewer.png");
     p1.add(a1);
 
     with(p1)
@@ -75,10 +75,10 @@
 
 
 
-    var p2 = new qx.ui.popup.Popup;
+    var p2 = new qx.legacy.ui.popup.Popup;
     d.add(p2);
 
-    var a2 = new qx.ui.basic.Atom("Hello World #2", "icon/32/apps/accessories-clock.png");
+    var a2 = new qx.legacy.ui.basic.Atom("Hello World #2", "icon/32/apps/accessories-clock.png");
     p2.add(a2);
 
     with(p2)
