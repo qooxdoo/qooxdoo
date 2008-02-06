@@ -1,0 +1,124 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+  This example embeds a top level dialog based on the 0.8 ui widgets into a
+  legacy qooxdoo application.
+  </div>
+
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  extend : qx.legacy.application.Gui,
+
+  members :
+  {
+
+    main : function()
+    {
+      this.base(arguments);
+
+      // Create button
+      var button = new qx.legacy.ui.form.Button("Open 0.8 widget dialog", "icon/32/status/dialog-information.png").set({
+        top: 10,
+        left: 10
+      });
+      button.addToDocument();
+
+      var doc = new qx.ui2.root.Page(document);
+      var dlg = this.getDialog();
+      doc.add(dlg, 100, 100);
+      dlg.hide();
+
+      // Add an event listener
+      button.addListener("execute", function(e) {
+        dlg.show();
+      }, this);
+
+    },
+
+
+    getDialog : function()
+    {
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+      var dialog = new qx.ui2.core.Widget().set({
+         backgroundColor: "yellow",
+         decoration: border,
+         padding: 10
+      });
+
+      var layout = new qx.ui2.layout.Grid();
+      layout.setColumnFlex(0, 1);
+      layout.setRowFlex(0, 1);
+      layout.setSpacing(10);
+      dialog.setLayout(layout);
+
+      var pane = new qx.ui2.basic.Label("Click here to resize ...").set({
+        backgroundColor : "green",
+        width: 600,
+        height: 300,
+        decoration: border,
+        padding: 10
+      });
+
+      layout.add(pane, 0, 0, { colSpan: 3});
+
+      var ok = new qx.ui2.basic.Label("OK").set({
+        backgroundColor : "green",
+        decoration: border,
+        padding: [2, 5]
+      });
+      layout.add(ok, 1, 1);
+
+      ok.addListener("click", dialog.hide, dialog);
+
+      var cancel = new qx.ui2.basic.Label("Cancel").set({
+        backgroundColor : "green",
+        decoration: border,
+        padding: [2, 5]
+      });
+      layout.add(cancel, 1, 2);
+
+      cancel.addListener("click", dialog.hide, dialog);
+
+      var grow = false;
+      pane.addListener("click", function(e)
+      {
+        if (grow) {
+          pane.set({
+            width: 600,
+            height: 300
+          });
+        }
+        else
+        {
+          pane.set({
+            width: 300,
+            height: 200
+          });
+        }
+        console.log(pane);
+        grow = !grow;
+      });
+
+      return dialog;
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
