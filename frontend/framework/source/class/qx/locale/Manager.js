@@ -24,8 +24,10 @@
 */
 
 /**
- * Create a new instance of qx.locale.Manager
+ * The qx.locale.Manager provides static translation methods (like tr()) and
+ * general locale information.
  */
+
 qx.Class.define("qx.locale.Manager",
 {
   type : "singleton",
