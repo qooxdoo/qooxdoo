@@ -1,0 +1,80 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>qx.fx.Transition contains mathematical functions for non-linear transitions in effects.</p>
+  </div>
+
+  <script type="text/javascript">
+
+  var elementStyle = 'text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:110px;top:50px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
+  var myElement;
+
+  function resetElement()
+  {
+    qx.bom.element.Style.setCss(myElement, elementStyle);
+  }
+  
+  qx.core.Init.getInstance().defineMain(function()
+  {
+
+		var transitionData = {
+			linear : "Simple linear transition."
+		};
+
+    var doc = qx.ui.core.ClientDocument.getInstance();
+  	myElement = qx.bom.Element.create('div', { style : elementStyle });
+  	var doc = qx.ui.core.ClientDocument.getInstance();
+
+  	document.body.appendChild(myElement);
+  
+  	myElement.id = "testDiv";
+  	myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
+
+
+		var combo = new qx.ui.form.ComboBox;
+		combo.setLocation(25, 25);
+		for(var transition in transitionData)
+		{
+			combo.add(new qx.ui.form.ListItem(transition));
+		}
+		
+
+
+
+
+    /*
+    * This move effect moves the element to the given coordinates
+    * Note that you these coordinates can be absolute to the document or relative to the element's position.
+    */
+  	var animMove = new qx.fx.effect.core.Move(myElement, {
+  	  x : 600,
+  	  y : 300,
+  	  transition : qx.fx.Transition.sinoidal,
+      mode : "absolute"
+  	});
+  	animMove.addListener("finish", resetElement);
+
+  	/* Buttons */
+  	var btnShow = new qx.ui.form.Button("Move");
+
+  
+  
+  	btnShow.setLocation(325, 25);
+
+  	/* Events */
+  	btnShow.addListener("execute", function(){
+  	  animMove.start();  	  
+  	});
+  
+  	doc.add(btnShow, combo);
+     
+  });
+  </script>
+</body>
+</html>
