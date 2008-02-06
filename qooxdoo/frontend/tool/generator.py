@@ -79,6 +79,8 @@ def main():
     # Resolve "let"-Keys
     _resolveMacros(console, config, options.jobs)
 
+    console.debug(simplejson.dumps(config, separators=(',',':')))
+
     # Convert into Config class instance
     config = Config(config)
 
@@ -169,14 +171,22 @@ def _resolveMacros(console, config, jobs):
         # dicts
         elif isinstance(configElem, types.DictType):
             for e in configElem:
+                # expand in values
                 if (isinstance(configElem[e], types.StringTypes) and
                     configElem[e].find(r'${')>-1):
                     configElem[e] = _expandString(configElem[e], macroMap)
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
+                # expand in keys
+                if (isinstance(e, types.StringTypes) and 
+                    e.find(r'${')>-1):
+                    enew = _expandString(e, macroMap)
+                    configElem[enew] = configElem[e]
+                    del configElem[e]
         # leave everything else alone
         else:
             pass
+
     
     def _expandMacrosInLet(letList):
         """ takes array of pairs and returns dict with pair[0]:pair[1] entries

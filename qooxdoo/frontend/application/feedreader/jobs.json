@@ -23,7 +23,7 @@
       }
     ],
 
-    "include" : ["feedreader.*", "qx.theme.Ext"],
+    "include" : ["feedreader.*", "qx.theme.Ext", "qx.locale.*"],
 
     "require" :
     {
