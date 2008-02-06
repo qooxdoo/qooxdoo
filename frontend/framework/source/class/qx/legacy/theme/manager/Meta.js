@@ -96,9 +96,9 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
         this.setAutoSync(false);
       }
 
-      var colorMgr = qx.legacy.theme.manager.Color.getInstance();
+      var colorMgr = qx.theme.manager.Color.getInstance();
       var borderMgr = qx.legacy.theme.manager.Border.getInstance();
-      var fontMgr = qx.legacy.theme.manager.Font.getInstance();
+      var fontMgr = qx.theme.manager.Font.getInstance();
       var iconMgr = qx.legacy.theme.manager.Icon.getInstance();
       var widgetMgr = qx.legacy.theme.manager.Widget.getInstance();
       var appearanceMgr = qx.legacy.theme.manager.Appearance.getInstance();
@@ -123,9 +123,9 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
         qx.legacy.theme.manager.Appearance.getInstance().syncAppearanceTheme();
         qx.legacy.theme.manager.Icon.getInstance().syncIconTheme();
         qx.legacy.theme.manager.Widget.getInstance().syncWidgetTheme();
-        qx.legacy.theme.manager.Font.getInstance().syncFontTheme();
+        qx.theme.manager.Font.getInstance().syncFontTheme();
         qx.legacy.theme.manager.Border.getInstance().syncBorderTheme();
-        qx.legacy.theme.manager.Color.getInstance().syncColorTheme();
+        qx.theme.manager.Color.getInstance().syncColorTheme();
       }
     },
 
@@ -160,7 +160,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
           throw new Error("The color theme to use is not available: " + theme);
         }
 
-        qx.legacy.theme.manager.Color.getInstance().setColorTheme(obj);
+        qx.theme.manager.Color.getInstance().setColorTheme(obj);
       }
 
       theme = setting.get("qx.legacy.borderTheme");
@@ -182,7 +182,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
           throw new Error("The font theme to use is not available: " + theme);
         }
 
-        qx.legacy.theme.manager.Font.getInstance().setFontTheme(obj);
+        qx.theme.manager.Font.getInstance().setFontTheme(obj);
       }
 
       theme = setting.get("qx.legacy.widgetTheme");
