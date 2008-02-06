@@ -1,68 +1,36 @@
 #
-# PART 1
+# Renamed DOM methods
 #
 
-# Renamed methods
 \bisElementNode\b=isElement
 \bisDocumentNode\b=isDocument
 \bisTextNode\b=isText
 \bgetDefaultView\b=getWindow
 
-# Renamed classes
-\bqx\.html2\.node\.Util\b=qx.html2.Node
-\bqx\.html2\.node\.Tree\b=qx.html2.Hierarchy
-\bqx\.html2\.element\.Generic\b=qx.html2.Element
-#\bqx\.html2\.Element\b=qx.html2.element.Object
 
+#
 # Merged Entity and String classes
+#
+
 \bqx\.html2\.Entity\b=qx.html2.String
 \bqx\.html\.Entity\b=qx.html.String
 \bqx\.xml\.Entity\b=qx.xml.String
 
-# Migration from qx.dom.Element to qx.html2
-\bqx\.dom\.Element\.cleanWhitespace\b=qx.html2.Hierarchy.cleanWhitespace
-\bqx\.dom\.Element\.isEmpty\b=qx.html2.Hierarchy.isEmpty
-\bqx\.dom\.Element\.setTextContent\(=qx.html2.Attribute.set("text",
 
+#
 # Migration from qx.dom.String to StringEscape and lang.String
+#
+
 \bqx\.dom\.String\.escapeEntities\b=qx.util.StringEscape.escape
 \bqx\.dom\.String\.unescapeEntities\b=qx.util.StringEscape.unescape
 \bqx\.dom\.String\.stripTags\b=qx.lang.String.stripTags
 \bqx\.dom\.String\b=qx.lang.String
 
-# Migration from qx.dom to qx.xml
-\bqx\.dom\.Node\b=qx.xml.Node
-
-# Fix above error
-\bqx\.html2\.Attribute\b=qx.html2.element.Attribute
-
-# Splitted qx.html2.element.Util
-\bqx\.html2\.element\.Util\.setBoxSizing\b=qx.html2.element.Util.setBoxSizing
-\bqx\.html2\.element\.Util\.getBoxSizing\b=qx.html2.element.Util.getBoxSizing
-\bqx\.html2\.element\.Util\b=qx.html2.element.Visibility
-
-# Moved qx.html2.client
-\bqx\.html2\.client\b=qx.client2.detail
-\bqx\.html2\.Client\b=qx.client2.Client
-
-# Minor name correction
-\bqx\.client2\.detail\.Features\b=qx.client2.detail.Feature
-
 
 
 #
-# PART 2
+# Remove qx.xml namespace
 #
-
-\bqx\.html2\b=qx.bom
-
-\bqx\.bom\.Node\b=qx.dom.Node
-\bqx\.bom\.Hierarchy\b=qx.dom.Hierarchy
-\bqx\.bom\.Element\b=qx.dom.Element
-
-\bqx\.dom\.Element\.create\b=qx.bom.Element.create
-\bqx\.dom\.Element\.set\b=qx.bom.Element.set
-\bqx\.dom\.Element\.get\b=qx.bom.Element.get
 
 \bqx\.xml\.Node\b=qx.dom.Node
 \bqx\.xml\.Element\.getText\b=qx.dom.Element.getText
@@ -71,38 +39,16 @@
 
 
 #
-# PART 3
+# Remove qx.client namespace
 #
 
 \bqx\.client\.Command\b=qx.event2.Command
 \bqx\.client\.History\b=qx.bom.History
-\bqx\.client\.NativeWindow\b=qx.bom.Window
 \bqx\.client\.Timer\b=qx.bom.Timer
 
-\bqx\.event\b=qx.legacy.event
-\bqx\.event2\b=qx.event
-
-\bqx\.html\b=qx.legacy.html
-
-\bqx\.bom\.element\.Iframe\b=qx.bom.Iframe
-\bqx\.bom\.element\.Flash\b=qx.bom.Flash
-
-
-
 
 #
-# PART 4
-#
-
-\bqx\.bom\.element\.Object\b=qx.html.Element
-\bqx\.bom\.Timer\b=qx.event.Timer
-\bqx\.client2\.Client\b=qx.bom.Client
-\bqx\.client2\.detail\b=qx.bom.client
-
-
-
-#
-# PART 5
+# Remove qx.net namespace
 #
 
 \bqx\.net\.HttpRequest=qx.bom.HttpRequest
@@ -112,10 +58,96 @@
 
 
 #
-# PART 6
+# Move transports into separate folder
 #
 
 \bqx\.io\.remote\.AbstractRemoteTransport\b=qx.io.remote.transport.Abstract
 \bqx\.io\.remote\.IframeTransport\b=qx.io.remote.transport.Iframe
 \bqx\.io\.remote\.ScriptTransport\b=qx.io.remote.transport.Script
 \bqx\.io\.remote\.XmlHttpTransport\b=qx.io.remote.transport.XmlHttp
+
+
+
+#
+# Introduce legacy namespace (0.7 COMPAT)
+#
+
+\bqx\.client\.NativeWindow\b=qx.legacy.Window
+\bqx\.event\b=qx.legacy.event
+\bqx\.html\b=qx.legacy.html
+\bqx\.ui\b=qx.legacy.ui
+\bqx\.io\.image\b=qx.legacy.io.image
+
+
+
+#
+# Unit test interface moved to qx.dev.unit
+#
+
+\btestrunner\.AssertionError\b=qx.dev.unit.AssertionError
+\btestrunner\.MAssert\b=qx.dev.unit.MAssert
+\btestrunner\.TestCase\b=qx.dev.unit.TestCase
+
+
+
+#
+# New event system
+#
+
+\bqx\.legacy\.event\.type\.Event\b=qx.event.type.Event
+\bqx\.legacy\.event\.type\.DataEvent\b=qx.event.type.DataEvent
+\bqx\.legacy\.event\.type\.ChangeEvent\b=qx.event.type.ChangeEvent
+
+\b\.setPropagationStopped\(true\)=stopPropagation()
+
+\bqx\.legacy\.event\.message\b=qx.event.message
+
+\bqx\.event\.type\.EventPool\b=qx.event.Pool
+
+\bqx\.event\.type\.ChangeEvent\b=qx.event.type.Change
+\bqx\.event\.type\.DataEvent\b=qx.event.type.Data
+\bqx\.event\.type\.DomEvent\b=qx.event.type.Dom
+\bqx\.event\.type\.KeyInputEvent\b=qx.event.type.KeyInput
+\bqx\.event\.type\.KeySequenceEvent\b=qx.event.type.KeySequence
+\bqx\.event\.type\.MouseEvent\b=qx.event.type.Mouse
+\bqx\.event\.type\.NativeEvent\b=qx.event.type.Native
+
+\bqx\.event\.handler\.AbstractEventHandler\b=qx.event.handler.Abstract
+\bqx\.event\.handler\.FocusHandler\b=qx.event.handler.Focus
+\bqx\.event\.handler\.IEventHandler\b=qx.event.handler.IHandler
+\bqx\.event\.handler\.IframeEventHandler\b=qx.event.handler.Iframe
+\bqx\.event\.handler\.InlineEventHandler\b=qx.event.handler.Inline
+\bqx\.event\.handler\.KeyEventHandler\b=qx.event.handler.Keyboard
+\bqx\.event\.handler\.MouseEventHandler\b=qx.event.handler.Mouse
+\bqx\.event\.handler\.ObjectEventHandler\b=qx.event.handler.Object
+
+\bcreateDispatchEvent\b=fireEvent
+\bcreateDispatchDataEvent\b=fireDataEvent
+
+\bqx\.core\.Target\b=qx.core.Object
+\baddEventListener\b=addListener
+\bremoveEventListener\b=removeListener
+\bhasEventListeners\b=hasListeners
+
+
+
+
+#
+# Moved Locale.define and Bootstrap define
+#
+
+qx\.core\.Bootstrap=qx.Bootstrap
+qx\.locale\.Locale=qx.Locale
+
+
+
+
+#
+# Misc changes
+#
+
+\bqx\.dom\.Element\.getTextContent\b=qx.dom.Node.getText
+
+\btoFirstUp\b=firstUp
+\btoFirstLower\b=firstLow
+
