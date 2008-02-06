@@ -105,9 +105,9 @@ qx.Class.define("feedreader.PreferenceWindow",
       btn_ok.addListener("execute", function()
       {
         if (btn_ext.getChecked()) {
-          qx.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.Ext);
+          qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.Ext);
         } else {
-          qx.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
+          qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
         }
 
         this.close();
