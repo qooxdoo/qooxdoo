@@ -1216,7 +1216,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     {
       nullable : true,
       init : null,
-      check : "Color",
       apply : "_applyBackgroundColor",
       event : "changeBackgroundColor",
       themeable : true
@@ -1230,7 +1229,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     {
       nullable : true,
       init : "inherit",
-      check : "Color",
       apply : "_applyTextColor",
       event : "changeTextColor",
       themeable : true,
@@ -1247,7 +1245,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       init : null,
       apply : "_applyBorder",
       event : "changeBorder",
-      check : "Border",
+      check : "Object",
       themeable : true
     },
 
@@ -1258,7 +1256,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       nullable : true,
       init : "inherit",
       apply : "_applyFont",
-      check : "Font",
+      check : "Object",
       event : "changeFont",
       themeable : true,
       inheritable : true
