@@ -20,8 +20,10 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.locale.String
+ * Provides information about locale-dependend string formatting (like quotation
+ * signs).
  */
+
 qx.Class.define("qx.locale.String",
 {
   statics :
