@@ -25,9 +25,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.toolbar.MenuButton",
+qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
 {
-  extend : qx.ui.toolbar.Button,
+  extend : qx.legacy.ui.toolbar.Button,
 
 
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   {
     menu :
     {
-      check : "qx.ui.menu.Menu",
+      check : "qx.legacy.ui.menu.Menu",
       nullable : true,
       apply : "_applyMenu",
       event : "changeMenu"
@@ -101,11 +101,11 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     {
       var vParent = this.getParent();
 
-      if (vParent instanceof qx.ui.toolbar.Part) {
+      if (vParent instanceof qx.legacy.ui.toolbar.Part) {
         vParent = vParent.getParent();
       }
 
-      return vParent instanceof qx.ui.toolbar.ToolBar ? vParent : null;
+      return vParent instanceof qx.legacy.ui.toolbar.ToolBar ? vParent : null;
     },
 
 
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
           default:
             // hide other menus
-            qx.ui.menu.Manager.getInstance().update();
+            qx.legacy.ui.menu.Manager.getInstance().update();
 
             // show this menu
             this._showMenu();

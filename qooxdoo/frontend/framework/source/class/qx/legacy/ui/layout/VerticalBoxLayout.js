@@ -25,9 +25,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.VerticalBoxLayout",
+qx.Class.define("qx.legacy.ui.layout.VerticalBoxLayout",
 {
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.legacy.ui.layout.BoxLayout,
 
   properties :
   {

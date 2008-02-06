@@ -27,17 +27,17 @@
 
 /**
  * This class acts as a wrapper for other child, and allows it to be resized (not moved), normally in
- * the right and/or bottom directions.  Child can be e.g. a qx.ui.form.TextArea,
- * qx.ui.table.Table or qx.ui.form.List.  It is an alternative to splitters.
+ * the right and/or bottom directions.  Child can be e.g. a qx.legacy.ui.form.TextArea,
+ * qx.legacy.ui.table.Table or qx.legacy.ui.form.List.  It is an alternative to splitters.
  *
  * @appearance resizer
- * @appearance resizer-frame {qx.ui.basic.Terminator}
+ * @appearance resizer-frame {qx.legacy.ui.basic.Terminator}
  */
-qx.Class.define("qx.ui.resizer.Resizer",
+qx.Class.define("qx.legacy.ui.resizer.Resizer",
 {
-  extend    : qx.ui.layout.CanvasLayout,
-  include   : qx.ui.resizer.MResizable,
-  implement : qx.ui.resizer.IResizable,
+  extend    : qx.legacy.ui.layout.CanvasLayout,
+  include   : qx.legacy.ui.resizer.MResizable,
+  implement : qx.legacy.ui.resizer.IResizable,
 
 
 

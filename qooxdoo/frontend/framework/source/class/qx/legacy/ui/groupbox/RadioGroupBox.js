@@ -25,11 +25,11 @@
 ************************************************************************ */
 
 /**
- * @appearance radio-button-group-box-legend {qx.ui.form.RadioButton}
+ * @appearance radio-button-group-box-legend {qx.legacy.ui.form.RadioButton}
  */
-qx.Class.define("qx.ui.groupbox.RadioGroupBox",
+qx.Class.define("qx.legacy.ui.groupbox.RadioGroupBox",
 {
-  extend : qx.ui.groupbox.GroupBox,
+  extend : qx.legacy.ui.groupbox.GroupBox,
 
 
 
@@ -44,15 +44,15 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
   members :
   {
     /**
-     * Creates the legend sub widget. Instead of the normal <code>qx.ui.basic.Atom</code>
-     * a <code>qx.ui.form.RadioButton</code> is used.
+     * Creates the legend sub widget. Instead of the normal <code>qx.legacy.ui.basic.Atom</code>
+     * a <code>qx.legacy.ui.form.RadioButton</code> is used.
      *
      * @type member
      * @return {void}
      */
     _createLegendObject : function()
     {
-      this._legendObject = new qx.ui.form.RadioButton;
+      this._legendObject = new qx.legacy.ui.form.RadioButton;
       this._legendObject.setAppearance("radio-button-group-box-legend");
       this._legendObject.setChecked(true);
 

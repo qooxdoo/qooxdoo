@@ -28,9 +28,9 @@
 /**
  * Abstact base class of all layout implementations
  *
- * @param vWidget {qx.ui.core.Parent} reference to the associated widget
+ * @param vWidget {qx.legacy.ui.core.Parent} reference to the associated widget
  */
-qx.Class.define("qx.ui.layout.impl.LayoutImpl",
+qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
 {
   extend : qx.core.Object,
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Returns the associated widget
      *
      * @type member
-     * @return {qx.ui.core.Parent} reference to the associated widget
+     * @return {qx.legacy.ui.core.Parent} reference to the associated widget
      */
     getWidget : function() {
       return this._widget;
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Compute and return the box width of the given child
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} TODOC
+     * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} box width of the given child
      */
     computeChildBoxWidth : function(vChild) {
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Compute and return the box height of the given child
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} TODOC
+     * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} box height of the given child
      */
     computeChildBoxHeight : function(vChild) {
@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Compute and return the needed width of the given child
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} TODOC
+     * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} needed width
      */
     computeChildNeededWidth : function(vChild)
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Compute and return the needed height of the given child
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} TODOC
+     * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} needed height
      */
     computeChildNeededHeight : function(vChild)
@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} changed child widget
+     * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {void}
      */
     updateSelfOnChildOuterWidthChange : function(vChild) {},
@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} changed child widget
+     * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {void}
      */
     updateSelfOnChildOuterHeightChange : function(vChild) {},
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} changed child widget
+     * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {boolean}
      */
     updateChildOnInnerWidthChange : function(vChild) {},
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} changed child widget
+     * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {void}
      */
     updateChildOnInnerHeightChange : function(vChild) {},
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} newly added child
+     * @param vChild {qx.legacy.ui.core.Widget} newly added child
      * @param vIndex {Integer} index of the child
      * @return {void}
      */
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      *  Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} newly added child
+     * @param vChild {qx.legacy.ui.core.Widget} newly added child
      * @param vIndex {Integer} index of the child
      * @return {void}
      */
@@ -403,7 +403,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Subclasses might implement this method
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} newly added child
+     * @param vChild {qx.legacy.ui.core.Widget} newly added child
      * @param vIndex {Integer} new index of the child
      * @param vOldIndex {Integer} old index of the child
      * @return {void}
@@ -446,11 +446,11 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
     */
 
     /**
-     * Called from qx.ui.core.Parent. Its task is to apply the layout
+     * Called from qx.legacy.ui.core.Parent. Its task is to apply the layout
      * (excluding border and padding) to the child.
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} child to layout
+     * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
      */
@@ -463,7 +463,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      *  versions of Internet Explorer)
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} child to layout
+     * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
      * @signature function(vChild, vJobs)
@@ -495,7 +495,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      *  versions of Internet Explorer)
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} child to layout
+     * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
      * @signature function(vChild, vJobs)
@@ -525,7 +525,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Apply the X margin values as pure stylesheet equivalent.
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} child to layout
+     * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
      */
@@ -549,7 +549,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      * Apply the Y margin values as pure stylesheet equivalent.
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} child to layout
+     * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
      */

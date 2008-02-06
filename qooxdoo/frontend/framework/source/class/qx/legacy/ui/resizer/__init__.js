@@ -1,3 +1,3 @@
 /**
- * The qx.ui.resizer package.
+ * The qx.legacy.ui.resizer package.
  */

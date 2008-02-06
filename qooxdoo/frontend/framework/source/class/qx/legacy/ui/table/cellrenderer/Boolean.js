@@ -30,9 +30,9 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Boolean",
+qx.Class.define("qx.legacy.ui.table.cellrenderer.Boolean",
 {
-  extend : qx.ui.table.cellrenderer.Icon,
+  extend : qx.legacy.ui.table.cellrenderer.Icon,
 
 
 

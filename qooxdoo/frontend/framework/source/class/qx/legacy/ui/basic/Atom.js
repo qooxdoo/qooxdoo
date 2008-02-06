@@ -27,16 +27,16 @@
 /**
  * A multi-purpose widget used by many more complex widgets.
  *
- * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text
+ * The intended purpose of qx.legacy.ui.basic.Atom is to easily align the common icon-text
  * combination in different ways.
  *
  * This is useful for all types of buttons, menuentries, tooltips, ...
  *
  * @appearance atom
  */
-qx.Class.define("qx.ui.basic.Atom",
+qx.Class.define("qx.legacy.ui.basic.Atom",
 {
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.legacy.ui.layout.BoxLayout,
 
 
 
@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.basic.Atom",
    * @param vIcon {String?null} Icon URL of the atom
    * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
    * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
-   * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
+   * @param vFlash {qx.legacy.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
    */
   construct : function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   {
@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.basic.Atom",
     }
 
     // Simple flash wrapper
-    if (qx.Class.isDefined("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
+    if (qx.Class.isDefined("qx.legacy.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.legacy.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
     {
       this._flashMode = true;
 
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.basic.Atom",
     ---------------------------------------------------------------------------
     */
 
-    /** The label/caption/text of the qx.ui.basic.Atom instance */
+    /** The label/caption/text of the qx.legacy.ui.basic.Atom instance */
     label :
     {
       apply : "_applyLabel",
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.basic.Atom",
     },
 
 
-    /** Any URI String supported by qx.ui.basic.Image to display a icon */
+    /** Any URI String supported by qx.legacy.ui.basic.Image to display a icon */
     icon :
     {
       check : "String",
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * Any URI String supported by qx.ui.basic.Image to display a disabled icon.
+     * Any URI String supported by qx.legacy.ui.basic.Image to display a disabled icon.
      * <p>
      * If not set the normal icon is shown transparently.
      */
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * The width of the icon.
-     *  If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
+     *  If configured, this makes qx.legacy.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
      */
     iconWidth :
     {
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * The height of the icon
-     *  If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
+     *  If configured, this makes qx.legacy.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
      */
     iconHeight :
     {
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     _createLabel : function()
     {
-      var l = this._labelObject = new qx.ui.basic.Label(this.getLabel());
+      var l = this._labelObject = new qx.legacy.ui.basic.Label(this.getLabel());
 
       l.setAnonymous(true);
       l.setCursor("default");
@@ -318,10 +318,10 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     _createIcon : function()
     {
-      if (this._flashMode && qx.Class.isDefined("qx.ui.embed.Flash")) {
-        var i = this._iconObject = new qx.ui.embed.Flash(this.getIcon());
+      if (this._flashMode && qx.Class.isDefined("qx.legacy.ui.embed.Flash")) {
+        var i = this._iconObject = new qx.legacy.ui.embed.Flash(this.getIcon());
       } else {
-        var i = this._iconObject = new qx.ui.basic.Image();
+        var i = this._iconObject = new qx.legacy.ui.basic.Image();
       }
 
       i.setAnonymous(true);
@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * Get the label widget of the atom.
      *
      * @type member
-     * @return {qx.ui.basic.Label} The label widget of the atom.
+     * @return {qx.legacy.ui.basic.Label} The label widget of the atom.
      */
     getLabelObject : function() {
       return this._labelObject;
@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * Get the icon widget of the atom.
      *
      * @type member
-     * @return {qx.ui.basic.Image|qx.ui.embed.Flash} The icon widget of the atom.
+     * @return {qx.legacy.ui.basic.Image|qx.legacy.ui.embed.Flash} The icon widget of the atom.
      */
     getIconObject : function() {
       return this._iconObject;

@@ -19,9 +19,9 @@
 ************************************************************************ */
 
 /** A color popup */
-qx.Class.define("qx.ui.component.ColorPopup",
+qx.Class.define("qx.legacy.ui.component.ColorPopup",
 {
-  extend : qx.ui.popup.Popup,
+  extend : qx.legacy.ui.popup.Popup,
 
 
 
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
      */
     _createLayout : function()
     {
-      this._layout = new qx.ui.layout.VerticalBoxLayout;
+      this._layout = new qx.legacy.ui.layout.VerticalBoxLayout;
       this._layout.setLocation(0, 0);
       this._layout.auto();
       this._layout.setSpacing(2);
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
      */
     _createAutoBtn : function()
     {
-      this._automaticBtn = new qx.ui.form.Button(this.tr("Automatic"));
+      this._automaticBtn = new qx.legacy.ui.form.Button(this.tr("Automatic"));
       this._automaticBtn.setWidth(null);
       this._automaticBtn.setAllowStretchX(true);
       this._automaticBtn.addListener("execute", this._onAutomaticBtnExecute, this);
@@ -189,13 +189,13 @@ qx.Class.define("qx.ui.component.ColorPopup",
       {
         table = tables[tableId];
 
-        box = new qx.ui.groupbox.GroupBox(table.label);
+        box = new qx.legacy.ui.groupbox.GroupBox(table.label);
         box.setHeight("auto");
 
         this._boxes[tableId] = box;
         this._layout.add(box);
 
-        boxLayout = new qx.ui.layout.HorizontalBoxLayout;
+        boxLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
         boxLayout.setLocation(0, 0);
         boxLayout.setSpacing(1);
         boxLayout.auto();
@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
 
         for (var i=0; i<this._fieldNumber; i++)
         {
-          field = new qx.ui.basic.Terminator;
+          field = new qx.legacy.ui.basic.Terminator;
 
           field.setBorder("inset-thin");
           field.setBackgroundColor(table.values[i] || null);
@@ -226,10 +226,10 @@ qx.Class.define("qx.ui.component.ColorPopup",
      */
     _createPreview : function()
     {
-      this._previewBox = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
-      this._previewLayout = new qx.ui.layout.HorizontalBoxLayout;
-      this._selectedPreview = new qx.ui.basic.Terminator;
-      this._currentPreview = new qx.ui.basic.Terminator;
+      this._previewBox = new qx.legacy.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
+      this._previewLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
+      this._selectedPreview = new qx.legacy.ui.basic.Terminator;
+      this._currentPreview = new qx.legacy.ui.basic.Terminator;
 
       this._previewLayout.setHeight("auto");
       this._previewLayout.setWidth("100%");
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
      */
     _createSelectorBtn : function()
     {
-      this._selectorButton = new qx.ui.form.Button(this.tr("Open ColorSelector"));
+      this._selectorButton = new qx.legacy.ui.form.Button(this.tr("Open ColorSelector"));
       this._selectorButton.setWidth(null);
       this._selectorButton.setAllowStretchX(true);
       this._selectorButton.addListener("execute", this._onSelectorButtonExecute, this);
@@ -280,13 +280,13 @@ qx.Class.define("qx.ui.component.ColorPopup",
         return;
       }
 
-      this._colorSelectorWindow = new qx.ui.window.Window(this.tr("Color Selector"));
+      this._colorSelectorWindow = new qx.legacy.ui.window.Window(this.tr("Color Selector"));
       this._colorSelectorWindow.setMinWidth(null);
       this._colorSelectorWindow.setMinHeight(null);
       this._colorSelectorWindow.setResizable(false);
       this._colorSelectorWindow.auto();
 
-      this._colorSelector = new qx.ui.component.ColorSelector;
+      this._colorSelector = new qx.legacy.ui.component.ColorSelector;
       this._colorSelector.setBorder(null);
       this._colorSelector.setLocation(0, 0);
       this._colorSelector.addListener("dialogok", this._onColorSelectorOk, this);

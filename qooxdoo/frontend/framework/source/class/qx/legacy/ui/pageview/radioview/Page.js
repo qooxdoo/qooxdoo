@@ -27,9 +27,9 @@
 /**
  * @appearance radio-view-page
  */
-qx.Class.define("qx.ui.pageview.radioview.Page",
+qx.Class.define("qx.legacy.ui.pageview.radioview.Page",
 {
-  extend : qx.ui.pageview.AbstractPage,
+  extend : qx.legacy.ui.pageview.AbstractPage,
 
   properties :
   {

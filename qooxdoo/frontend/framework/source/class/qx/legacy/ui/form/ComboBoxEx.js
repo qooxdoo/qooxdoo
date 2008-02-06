@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * David Perez Carmona (david-perez), based on qx.ui.form.ComboBox
+     * David Perez Carmona (david-perez), based on qx.legacy.ui.form.ComboBox
 
 ************************************************************************ */
 
@@ -52,15 +52,15 @@
  * <li>Autocomplete on key input</li>
  * </ul>
  *
- * @appearance combo-box-ex-list {qx.ui.table.Table}
- * @appearance combo-box-ex-popup {qx.ui.popup.Popup}
- * @appearance combo-box-ex-text-field {qx.ui.form.TextField}
- * @appearance combo-box-ex-button {qx.ui.basic.Atom}
+ * @appearance combo-box-ex-list {qx.legacy.ui.table.Table}
+ * @appearance combo-box-ex-popup {qx.legacy.ui.popup.Popup}
+ * @appearance combo-box-ex-text-field {qx.legacy.ui.form.TextField}
+ * @appearance combo-box-ex-button {qx.legacy.ui.basic.Atom}
  * @state pressed {combo-box-ex-button}
  */
-qx.Class.define("qx.ui.form.ComboBoxEx",
+qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     this.base(arguments);
 
     // Textfield
-    var f = this._field = new qx.ui.form.TextField;
+    var f = this._field = new qx.legacy.ui.form.TextField;
     f.set({
       tabIndex: -1,
       appearance : 'combo-box-ex-text-field'
@@ -87,9 +87,9 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     this.setEditable(false);
 
     // Button
-    // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
+    // Use qx.legacy.ui.basic.Atom instead of qx.legacy.ui.form.Button here to omit the registration
     // of the unneeded and complex button events.
-    var b = this._button = new qx.ui.basic.Atom();
+    var b = this._button = new qx.legacy.ui.basic.Atom();
 
     b.set(
     {
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Returns a reference to the popup list.
      *
      * @type member
-     * @return {qx.ui.table.Table} undefined if hasn't been created yet.  The list is lazy created when displayed.
+     * @return {qx.legacy.ui.table.Table} undefined if hasn't been created yet.  The list is lazy created when displayed.
      */
     getList : function() {
       return this._list;
@@ -316,7 +316,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Returns a reference to the field.
      *
      * @type member
-     * @return {qx.ui.core.Widget} label or textbox, depending if the combo is editable or not.
+     * @return {qx.legacy.ui.core.Widget} label or textbox, depending if the combo is editable or not.
      */
     getField : function() {
       return this._field;
@@ -360,13 +360,13 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       {
         return;
       }
-      var model = new qx.ui.table.model.Simple;
+      var model = new qx.legacy.ui.table.model.Simple;
 
       // Default column titles
       model.setColumns(this.getColumnHeaders());
-      var l = this._list = new qx.ui.table.Table(model, {
+      var l = this._list = new qx.legacy.ui.table.Table(model, {
         tableColumnModel : function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
+          return new qx.legacy.ui.table.columnmodel.Resize(obj);
         }
       });
       l.setFocusedCell = function() {};
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       // Avoid deselection from user
       this._manager.removeSelectionInterval = function() {};
-      this._manager.setSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
+      this._manager.setSelectionMode(qx.legacy.ui.table.selection.Model.SINGLE_SELECTION);
       this._popup.add(l);
 
       this._invalidateDimensions();
@@ -719,7 +719,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var p = this._popup;
       if (!p)
       {
-        var p = this._popup = new qx.ui.resizer.ResizablePopup;
+        var p = this._popup = new qx.legacy.ui.resizer.ResizablePopup;
         p.set({
           resizableNorth: false,
           resizableWest : false
@@ -879,7 +879,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var maxRows = this.getMaxVisibleRows(),
 
       // Only assign room for the vertical scrollbar when needed
-      width = data.length > maxRows ? (new qx.ui.basic.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
+      width = data.length > maxRows ? (new qx.legacy.ui.basic.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
 
       this._applyShowColumnHeaders(this.getShowColumnHeaders());
       var beh = this._list.getTableColumnModel().getBehavior();
@@ -930,7 +930,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _getTextWidth : function(text)
     {
-      var lab = new qx.ui.basic.Label(text);
+      var lab = new qx.legacy.ui.basic.Label(text);
       lab.setFont('default');
       var res = lab.getPreferredBoxWidth();
       lab.dispose();
@@ -948,10 +948,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
     _onContextMenu: function(ev) {
       if (this.getAllowSearch()) {
-        var menu = new qx.ui.menu.Menu;
+        var menu = new qx.legacy.ui.menu.Menu;
         var cmd = new qx.event.Command();
         cmd.addListener('execute', this.openSearchDialog, this);
-        menu.add(new qx.ui.menu.Button(this.tr("Search"), 'icon/16/actions/edit-find.png', cmd));
+        menu.add(new qx.legacy.ui.menu.Button(this.tr("Search"), 'icon/16/actions/edit-find.png', cmd));
         menu.addToDocument();
         menu.setLocation(ev.getPageX(), ev.getPageY());
         menu.show();
@@ -1054,7 +1054,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         me._search(startIndex, searchField.getComputedValue(), checkCase.isChecked());
       }
 
-      var searchField = new qx.ui.form.TextField;
+      var searchField = new qx.legacy.ui.form.TextField;
 
       searchField.set(
       {
@@ -1067,7 +1067,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       });
 
       // ###checkCase
-      var checkCase = new qx.ui.form.CheckBox(this.tr("Case sensitive"));
+      var checkCase = new qx.legacy.ui.form.CheckBox(this.tr("Case sensitive"));
 
       checkCase.set(
       {
@@ -1076,7 +1076,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       });
 
       // ###vbox
-      var vbox = new qx.ui.layout.VerticalBoxLayout;
+      var vbox = new qx.legacy.ui.layout.VerticalBoxLayout;
 
       vbox.set(
       {
@@ -1108,8 +1108,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._list.set(newListSettings);
 
       // ###buttons
-      var butNext = new qx.ui.form.Button('', 'icon/16/actions/edit-find.png');
-      butNext.set({ toolTip : new qx.ui.popup.ToolTip(this.tr("Search next occurrence")) });
+      var butNext = new qx.legacy.ui.form.Button('', 'icon/16/actions/edit-find.png');
+      butNext.set({ toolTip : new qx.legacy.ui.popup.ToolTip(this.tr("Search next occurrence")) });
 
       butNext.addListener("execute", function()
       {
@@ -1118,7 +1118,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       },
       this);
 
-      var butOk = new qx.ui.form.Button('', 'icon/16/actions/dialog-ok.png');
+      var butOk = new qx.legacy.ui.form.Button('', 'icon/16/actions/dialog-ok.png');
 
       butOk.addListener('execute', function()
       {
@@ -1127,19 +1127,19 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       },
       this);
 
-      var butCancel = new qx.ui.form.Button('', 'icon/16/actions/dialog-cancel.png');
+      var butCancel = new qx.legacy.ui.form.Button('', 'icon/16/actions/dialog-cancel.png');
 
       butCancel.addListener('execute', function() {
         win.close();
       }, this);
 
-      var butBox = new qx.ui.layout.VerticalBoxLayout;
+      var butBox = new qx.legacy.ui.layout.VerticalBoxLayout;
       butBox.auto();
       butBox.set({ spacing : 10 });
       butBox.add(butNext, butOk, butCancel);
 
       // ###hbox
-      var hbox = new qx.ui.layout.BoxLayout;
+      var hbox = new qx.legacy.ui.layout.BoxLayout;
       hbox.auto();
       hbox.setPadding(10);
 
@@ -1153,7 +1153,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       hbox.add(vbox, butBox);
 
       // ###Window
-      var win = new qx.ui.window.Window(this.tr("Search items in list"), 'icon/16/actions/edit-find.png');
+      var win = new qx.legacy.ui.window.Window(this.tr("Search items in list"), 'icon/16/actions/edit-find.png');
       win.add(hbox);
       win.positionRelativeTo(this);
 

@@ -41,19 +41,19 @@
  *
  * The handling of <b>selections</b> within a tree is somewhat distributed
  * between the root Tree object and the attached {@link
- * qx.ui.tree.SelectionManager TreeSelectionManager}. To get the
+ * qx.legacy.ui.tree.SelectionManager TreeSelectionManager}. To get the
  * currently selected element of a tree use the Tree{@link #getSelectedElement
  * getSelectedElement} method and Tree{@link #setSelectedElement
  * setSelectedElement} to set it. The TreeSelectionManager handles more
  * coars-grained issues like providing selectAll()/deselectAll() methods.
  *
- * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
- * @appearance tree-icon {qx.ui.basic.Image}
- * @appearance tree-label {qx.ui.basic.Label}
+ * @appearance tree {qx.legacy.ui.layout.HorizontalBoxLayout}
+ * @appearance tree-icon {qx.legacy.ui.basic.Image}
+ * @appearance tree-label {qx.legacy.ui.basic.Label}
  */
-qx.Class.define("qx.ui.tree.Tree",
+qx.Class.define("qx.legacy.ui.tree.Tree",
 {
-  extend : qx.ui.tree.TreeFolder,
+  extend : qx.legacy.ui.tree.TreeFolder,
 
 
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // ************************************************************************
     //   INITILISIZE MANAGER
     // ************************************************************************
-    this._manager = new qx.ui.tree.SelectionManager(this);
+    this._manager = new qx.legacy.ui.tree.SelectionManager(this);
 
     this._iconObject.setAppearance("tree-icon");
     this._labelObject.setAppearance("tree-label");
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param vObject {Object} an object
      */
     isTreeFolder : function(vObject) {
-      return (vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree));
+      return (vObject && vObject instanceof qx.legacy.ui.tree.TreeFolder && !(vObject instanceof qx.legacy.ui.tree.Tree));
     },
 
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param vObject {Object} an object
      */
     isOpenTreeFolder : function(vObject) {
-      return (vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent());
+      return (vObject instanceof qx.legacy.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent());
     }
   },
 
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
       if (!vChild._isInTreeQueue && vChild._isDisplayable)
       {
-        qx.ui.core.Widget.addToGlobalWidgetQueue(this);
+        qx.legacy.ui.core.Widget.addToGlobalWidgetQueue(this);
 
         if (!this._treeQueue) {
           this._treeQueue = {};
@@ -552,7 +552,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * and therefore has no parent.
      *
      * @type member
-     * @return {qx.ui.tree.TreeFolder} returns null
+     * @return {qx.legacy.ui.tree.TreeFolder} returns null
      */
     getParentFolder : function() {
       return null;
@@ -610,7 +610,7 @@ qx.Class.define("qx.ui.tree.Tree",
         case "Enter":
           e.preventDefault();
 
-          if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
+          if (qx.legacy.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
             return vSelectedItem.toggle();
           }
           break;
@@ -618,20 +618,20 @@ qx.Class.define("qx.ui.tree.Tree",
         case "Left":
           e.preventDefault();
 
-          if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
+          if (qx.legacy.ui.tree.Tree.isTreeFolder(vSelectedItem))
           {
             if (!vSelectedItem.getOpen())
             {
               var vParent = vSelectedItem.getParentFolder();
 
-              if (vParent instanceof qx.ui.tree.TreeFolder)
+              if (vParent instanceof qx.legacy.ui.tree.TreeFolder)
               {
                 // The first node (if hidden) should be ignored for selection
-                if (vParent instanceof qx.ui.tree.Tree && vParent.getHideNode()) {
+                if (vParent instanceof qx.legacy.ui.tree.Tree && vParent.getHideNode()) {
                   return;
                 }
 
-                if (!(vParent instanceof qx.ui.tree.Tree)) {
+                if (!(vParent instanceof qx.legacy.ui.tree.Tree)) {
                   vParent.close();
                 }
 
@@ -643,13 +643,13 @@ qx.Class.define("qx.ui.tree.Tree",
               return vSelectedItem.close();
             }
           }
-          else if (vSelectedItem instanceof qx.ui.tree.TreeFile)
+          else if (vSelectedItem instanceof qx.legacy.ui.tree.TreeFile)
           {
             var vParent = vSelectedItem.getParentFolder();
 
-            if (vParent instanceof qx.ui.tree.TreeFolder)
+            if (vParent instanceof qx.legacy.ui.tree.TreeFolder)
             {
-              if (!(vParent instanceof qx.ui.tree.Tree)) {
+              if (!(vParent instanceof qx.legacy.ui.tree.Tree)) {
                 vParent.close();
               }
 
@@ -662,7 +662,7 @@ qx.Class.define("qx.ui.tree.Tree",
         case "Right":
           e.preventDefault();
 
-          if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
+          if (qx.legacy.ui.tree.Tree.isTreeFolder(vSelectedItem))
           {
             if (!vSelectedItem.getOpen()) {
               return vSelectedItem.open();
@@ -672,7 +672,7 @@ qx.Class.define("qx.ui.tree.Tree",
               var vFirst = vSelectedItem.getFirstVisibleChildOfFolder();
               this.setSelectedElement(vFirst);
 
-              if (vFirst instanceof qx.ui.tree.TreeFolder) {
+              if (vFirst instanceof qx.legacy.ui.tree.TreeFolder) {
                 vFirst.open();
               }
 
@@ -729,9 +729,9 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       var vLast = this;
 
-      while (vLast instanceof qx.ui.tree.AbstractTreeElement)
+      while (vLast instanceof qx.legacy.ui.tree.AbstractTreeElement)
       {
-        if (!(vLast instanceof qx.ui.tree.TreeFolder) || !vLast.getOpen()) {
+        if (!(vLast instanceof qx.legacy.ui.tree.TreeFolder) || !vLast.getOpen()) {
           return vLast;
         }
 

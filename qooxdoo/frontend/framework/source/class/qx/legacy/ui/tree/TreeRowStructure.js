@@ -29,14 +29,14 @@
  * This is a singleton class.  The constructor is not accessed by users;
  * instead, to obtain the one and only TreeRowStructure object, call either
  *
- * <pre class='javascript'>qx.ui.tree.TreeRowStructure.getInstance().newRow()</pre>
+ * <pre class='javascript'>qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow()</pre>
  *
  * or
  *
- * <pre class='javascript'>qx.ui.tree.TreeRowStructure.getInstance().standard().</pre>
+ * <pre class='javascript'>qx.legacy.ui.tree.TreeRowStructure.getInstance().standard().</pre>
  *
  * The structure of a tree row is provided by a
- * qx.ui.tree.TreeRowStructure.  The order of elements added to
+ * qx.legacy.ui.tree.TreeRowStructure.  The order of elements added to
  * this object is the order in which they will be presented in a tree row.
  *
  * The three standard parts of a tree: the indentation (and its associated
@@ -49,7 +49,7 @@
  * add*() methods on this object.  If indentation is to be at the beginning of
  * the tree row, simply do not call addIndent().
  *
- * Any other object which is valid within a qx.ui.layout.HorizontalBoxLayout
+ * Any other object which is valid within a qx.legacy.ui.layout.HorizontalBoxLayout
  * may be added to the structure using addObject().  If the object has no
  * special treatment, it may be made anonymous with obj.SetAnonymous(true).
  * Otherwise, all handling for the object should be done by the application.
@@ -57,13 +57,13 @@
  * A "standard" (traditional) tree row would be generated like this:
  *
  * <pre class='javascript'>
- * treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().standard("Trash");
+ * treeRowStructure = qx.legacy.ui.tree.TreeRowStructure.getInstance().standard("Trash");
  * </pre>
  *
  * which equates to issuing these commands:
  *
  * <pre class='javascript'>
- * treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+ * treeRowStructure = qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow();
  *
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
  * treeRowStructure.addIcon();
@@ -75,10 +75,10 @@
  * An example of a more sophisticated structure:
  *
  * <pre class='javascript'>
- * treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+ * treeRowStructure = qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow();
  *
  * // A left-justified icon
- * obj = new qx.ui.basic.Image("icon/16/apps/accessories-alarm.png");
+ * obj = new qx.legacy.ui.basic.Image("icon/16/apps/accessories-alarm.png");
  * treeRowStructure.addObject(obj, true);
  *
  * // Here's our indentation and tree-lines
@@ -88,7 +88,7 @@
  * treeRowStructure.addIcon("icon/16/places/user-desktop.png","icon/16/apps/accessories-dictionary.png");
  *
  * // Right after the tree icon is a checkbox
- * obj = new qx.ui.form.CheckBox(null, 23, null, false);
+ * obj = new qx.legacy.ui.form.CheckBox(null, 23, null, false);
  * obj.setPadding(0, 0);
  * treeRowStructure.addObject(obj, true);
  *
@@ -96,22 +96,22 @@
  * treeRowStructure.addLabel("Trash");
  *
  * // All else should be right justified
- * obj = new qx.ui.basic.HorizontalSpacer;
+ * obj = new qx.legacy.ui.basic.HorizontalSpacer;
  * treeRowStructure.addObject(obj, true);
  *
  * // Add a file size, date and mode
- * obj = new qx.ui.basic.Label("23kb");
+ * obj = new qx.legacy.ui.basic.Label("23kb");
  * obj.setWidth(50);
  * treeRowStructure.addObject(obj, true);
- * obj = new qx.ui.basic.Label("11 Sept 1959");
+ * obj = new qx.legacy.ui.basic.Label("11 Sept 1959");
  * obj.setWidth(150);
  * treeRowStructure.addObject(obj, true);
- * obj = new qx.ui.basic.Label("-rw-r--r--");
+ * obj = new qx.legacy.ui.basic.Label("-rw-r--r--");
  * obj.setWidth(80);
  * treeRowStructure.addObject(obj, true);
  * </pre>
  */
-qx.Class.define("qx.ui.tree.TreeRowStructure",
+qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -154,9 +154,9 @@ qx.Class.define("qx.ui.tree.TreeRowStructure",
 
       /* Create the indent, icon, and label objects */
 
-      this._indentObject = new qx.ui.embed.HtmlEmbed;
-      this._iconObject = new qx.ui.basic.Image;
-      this._labelObject = new qx.ui.basic.Label;
+      this._indentObject = new qx.legacy.ui.embed.HtmlEmbed;
+      this._iconObject = new qx.legacy.ui.basic.Image;
+      this._labelObject = new qx.legacy.ui.basic.Label;
 
       /* Create an object to hold the ordering of row objects */
 
@@ -307,13 +307,13 @@ qx.Class.define("qx.ui.tree.TreeRowStructure",
 
     /**
      * Add an object to the tree row structure.  For convenience, vAnonymous can
-     * be provided, and if a boolean value is provided, vObj.setAnonymous() {@link qx.ui.core.Widget#anonymous} is
+     * be provided, and if a boolean value is provided, vObj.setAnonymous() {@link qx.legacy.ui.core.Widget#anonymous} is
      * called with the provided value.  If the object has already been
      * setAnonymous or if there is no need to do so, then provide no value for
      * vAnonymous or pass 'null'.
      *
      * @type member
-     * @param vObj {qx.ui.core.Widget} Widget to add
+     * @param vObj {qx.legacy.ui.core.Widget} Widget to add
      * @param vAnonymous {Boolean} Whether the widget should be set to be anonymous
      */
     addObject : function(vObj, vAnonymous)

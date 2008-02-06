@@ -27,9 +27,9 @@
  * A "virtual" tree intended to use multiple selection.
  * The selected state is shown by means of checkboxes to the left of the icon, instead of the row background color
  */
-qx.Class.define("qx.ui.treevirtual.CheckBoxTree",
+qx.Class.define("qx.legacy.ui.treevirtual.CheckBoxTree",
 {
-  extend : qx.ui.treevirtual.TreeVirtual,
+  extend : qx.legacy.ui.treevirtual.TreeVirtual,
 
 
 
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxTree",
   */
 
   /**
-   * @see qx.ui.treevirtual.TreeVirtual
+   * @see qx.legacy.ui.treevirtual.TreeVirtual
    */
   construct : function(headings, custom)
   {
@@ -53,12 +53,12 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxTree",
     if (! custom.treeDataCellRenderer)
     {
       custom.treeDataCellRenderer =
-        new qx.ui.treevirtual.CheckBoxDataCellRenderer();
+        new qx.legacy.ui.treevirtual.CheckBoxDataCellRenderer();
     }
     if (! custom.dataRowRenderer)
     {
       custom.dataRowRenderer =
-        new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
+        new qx.legacy.ui.treevirtual.SimpleTreeDataRowRenderer();
 
       // Disable highlight of selected rows with background colors.
       custom.dataRowRenderer.setRowColors({
@@ -76,6 +76,6 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxTree",
     }
 
     this.base(arguments, headings, custom);
-    this.setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE);
+    this.setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE);
   }
 });

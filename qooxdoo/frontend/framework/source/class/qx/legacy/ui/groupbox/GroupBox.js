@@ -26,12 +26,12 @@
 
 /**
  * @appearance group-box
- * @appearance group-box-legend {qx.ui.basic.Atom}
- * @appearance group-box-frame {qx.ui.layout.CanvasLayout}
+ * @appearance group-box-legend {qx.legacy.ui.basic.Atom}
+ * @appearance group-box-frame {qx.legacy.ui.layout.CanvasLayout}
  */
-qx.Class.define("qx.ui.groupbox.GroupBox",
+qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _createLegendObject : function()
     {
-      this._legendObject = new qx.ui.basic.Atom;
+      this._legendObject = new qx.legacy.ui.basic.Atom;
       this._legendObject.setAppearance("group-box-legend");
 
       this.add(this._legendObject);
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _createFrameObject : function()
     {
-      this._frameObject = new qx.ui.layout.CanvasLayout;
+      this._frameObject = new qx.legacy.ui.layout.CanvasLayout;
       this._frameObject.setAppearance("group-box-frame");
 
       this.add(this._frameObject);
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Accessor method for the frame sub widget
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} frame sub widget
+     * @return {qx.legacy.ui.layout.CanvasLayout} frame sub widget
      */
     getFrameObject : function() {
       return this._frameObject;
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Accessor method for the legend sub widget
      *
      * @type member
-     * @return {qx.ui.basic.Atom} legend sub widget
+     * @return {qx.legacy.ui.basic.Atom} legend sub widget
      */
     getLegendObject : function() {
       return this._legendObject;

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This manages ToolTip instances */
-qx.Class.define("qx.ui.popup.ToolTipManager",
+qx.Class.define("qx.legacy.ui.popup.ToolTipManager",
 {
   type : "singleton",
   extend : qx.util.manager.Object,
@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     /** Holds the current ToolTip instance */
     currentToolTip :
     {
-      check : "qx.ui.popup.ToolTip",
+      check : "qx.legacy.ui.popup.ToolTip",
       nullable : true,
       apply : "_applyCurrentToolTip"
     }
@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       var vToolTip;
 
       // Allows us to use DOM Nodes as tooltip target :)
-      if (!(vTarget instanceof qx.ui.core.Widget) && vTarget.nodeType == 1) {
+      if (!(vTarget instanceof qx.legacy.ui.core.Widget) && vTarget.nodeType == 1) {
         vTarget = qx.legacy.event.handler.EventHandler.getTargetObject(vTarget);
       }
 

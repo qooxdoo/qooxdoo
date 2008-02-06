@@ -26,12 +26,12 @@
 /**
  * A cell editor factory creating text fields.
  *
- * @appearance table-editor-textfield {qx.ui.form.TextField}
+ * @appearance table-editor-textfield {qx.legacy.ui.form.TextField}
  */
-qx.Class.define("qx.ui.table.celleditor.TextField",
+qx.Class.define("qx.legacy.ui.table.celleditor.TextField",
 {
   extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table.ICellEditorFactory,
 
 
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
     // interface implementation
     createCellEditor : function(cellInfo)
     {
-      var cellEditor = new qx.ui.form.TextField;
+      var cellEditor = new qx.legacy.ui.form.TextField;
       cellEditor.setAppearance("table-editor-textfield");
       cellEditor.setLiveUpdate(true);
       cellEditor.originalValue = cellInfo.value;

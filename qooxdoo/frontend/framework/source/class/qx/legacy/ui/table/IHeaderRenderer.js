@@ -26,7 +26,7 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Interface.define("qx.ui.table.IHeaderRenderer",
+qx.Interface.define("qx.legacy.ui.table.IHeaderRenderer",
 {
 
   members :
@@ -48,7 +48,7 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
-     * @return {qx.ui.core.Widget} the widget that renders the header cell.
+     * @return {qx.legacy.ui.core.Widget} the widget that renders the header cell.
      */
     createHeaderCell : function(cellInfo) {
       return true;
@@ -62,7 +62,7 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create. This map has the same structure as in {@link #createHeaderCell}.
-     * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
+     * @param cellWidget {qx.legacy.ui.core.Widget} the widget that renders the header cell. This is
      *      the same widget formally created by {@link #createHeaderCell}.
      * @return {void}
      */

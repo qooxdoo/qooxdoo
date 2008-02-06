@@ -27,9 +27,9 @@
 /**
  * Adds the capability of render checboxes just before the text.
  */
-qx.Class.define("qx.ui.treevirtual.CheckBoxDataCellRenderer",
+qx.Class.define("qx.legacy.ui.treevirtual.CheckBoxDataCellRenderer",
 {
-  extend : qx.ui.treevirtual.SimpleTreeDataCellRenderer,
+  extend : qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer,
 
 
   /*

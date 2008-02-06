@@ -30,9 +30,9 @@
  * @state checked Set by {@link #checked}
  * @state over
  */
-qx.Class.define("qx.ui.pageview.tabview.Button",
+qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
 {
-  extend : qx.ui.pageview.AbstractButton,
+  extend : qx.legacy.ui.pageview.AbstractButton,
 
 
 
@@ -211,7 +211,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     {
       // if no image exists, then create one
       if (!this._closeButtonImage) {
-        this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
+        this._closeButtonImage = new qx.legacy.ui.basic.Image(this.getCloseButtonImage());
       }
 
       if (value)

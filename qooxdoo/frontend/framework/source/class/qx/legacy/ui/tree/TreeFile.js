@@ -27,12 +27,12 @@
 ************************************************************************ */
 
 /**
- * qx.ui.tree.TreeFile objects are terminal tree rows (i.e. no
+ * qx.legacy.ui.tree.TreeFile objects are terminal tree rows (i.e. no
  * sub-trees)
  */
-qx.Class.define("qx.ui.tree.TreeFile",
+qx.Class.define("qx.legacy.ui.tree.TreeFile",
 {
-  extend : qx.ui.tree.AbstractTreeElement,
+  extend : qx.legacy.ui.tree.AbstractTreeElement,
 
 
 

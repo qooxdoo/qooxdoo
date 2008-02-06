@@ -32,9 +32,9 @@
  * @state over
  * @state pressed
  */
-qx.Class.define("qx.ui.form.Button",
+qx.Class.define("qx.legacy.ui.form.Button",
 {
-  extend : qx.ui.basic.Atom,
+  extend : qx.legacy.ui.basic.Atom,
 
 
 

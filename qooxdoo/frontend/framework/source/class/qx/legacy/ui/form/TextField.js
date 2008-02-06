@@ -31,9 +31,9 @@
  *
  * @appearance text-field
  */
-qx.Class.define("qx.ui.form.TextField",
+qx.Class.define("qx.legacy.ui.form.TextField",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -621,7 +621,7 @@ qx.Class.define("qx.ui.form.TextField",
      * {@link #_renderFont} method.
      *
      * @type member
-     * @param value {qx.ui.core.Font} new font value to render
+     * @param value {qx.legacy.ui.core.Font} new font value to render
      * @return {void}
      */
     _styleFont : function(value)
@@ -643,7 +643,7 @@ qx.Class.define("qx.ui.form.TextField",
       if (inp)
       {
         var value = this.__font;
-        value ? value.renderElement(inp) : qx.ui.core.Font.resetElement(inp);
+        value ? value.renderElement(inp) : qx.legacy.ui.core.Font.resetElement(inp);
       }
     },
 
@@ -662,7 +662,7 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
+     * Overridden from {@link qx.legacy.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
      * and not to the parent div.
      *
      * @type member
@@ -681,7 +681,7 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
+     * Overridden from {@link qx.legacy.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
      * and not to the parent div.
      *
      * @type member

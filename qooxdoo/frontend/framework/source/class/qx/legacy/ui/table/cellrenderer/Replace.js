@@ -24,9 +24,9 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.ui.table.cellrenderer.Replace",
+qx.Class.define("qx.legacy.ui.table.cellrenderer.Replace",
 {
-  extend : qx.ui.table.cellrenderer.Default,
+  extend : qx.legacy.ui.table.cellrenderer.Default,
 
   /*
   *****************************************************************************
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
      *
      * You can use the addReversedReplaceMap() method to do this for you:
      * <pre class='javascript'>
-     * var propertyCellRenderer = new qx.ui.table.cellrenderer.Replace;
+     * var propertyCellRenderer = new qx.legacy.ui.table.cellrenderer.Replace;
      * propertyCellRenderer.setReplaceMap({
      *   1 : "Active",
      *   0 : "Inactive",

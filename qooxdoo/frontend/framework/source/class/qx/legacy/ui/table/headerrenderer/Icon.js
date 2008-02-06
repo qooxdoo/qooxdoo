@@ -28,9 +28,9 @@
  * A header cell renderer which renders an icon (only). The icon cannot be combined
  * with text.
  */
-qx.Class.define("qx.ui.table.headerrenderer.Icon",
+qx.Class.define("qx.legacy.ui.table.headerrenderer.Icon",
 {
-  extend : qx.ui.table.headerrenderer.Default,
+  extend : qx.legacy.ui.table.headerrenderer.Default,
 
 
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
 
       if (img == null)
       {
-        img = new qx.ui.basic.Image();
+        img = new qx.legacy.ui.basic.Image();
         cellWidget.setUserData("qx_ui_table_IconHeaderCellRenderer_icon", img);
         cellWidget.addAtBegin(img);
       }

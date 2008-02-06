@@ -33,9 +33,9 @@
 /**
  * A data cell renderer for the tree column of a simple tree
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
+qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
 {
-  extend : qx.ui.table.cellrenderer.Abstract,
+  extend : qx.legacy.ui.table.cellrenderer.Abstract,
 
 
 
@@ -170,14 +170,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // style information provided, append it.
       var html =
         this.base(arguments, cellInfo) +
-        qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
+        qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
         (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
     },
 
     __addImage : function(urlAndToolTip)
     {
-      var Stdcr = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
+      var Stdcr = qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer;
       var html = Stdcr.IMG_START;
       var Am = qx.io.Alias;
 
@@ -226,7 +226,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     /**
      * Adds extra content just before the icon.
      * @param cellInfo {Map} The information about the cell.
-     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *          See {@link qx.legacy.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Map} with the HTML and width in pixels of the rendered content.
      */
     _addExtraContentBeforeIcon : function(cellInfo)
@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       if (!imageUrl)
       {
-        if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+        if (node.type == qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
         {
           imageUrl =
             (node.bSelected
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      *
      * @param node {Node}
      *   The node being displayed in the row.  The properties of a node are
-     *   described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *   described in {@link qx.legacy.ui.treevirtual.SimpleTreeDataModel}
      *
      * @param bUseTreeLines {Boolean}
      *   Whether to find an appropriate tree line icon, or simply provide
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var bLastChild = node.lastChild[node.lastChild.length - 1];
 
       // Is this a branch node that does not have the open/close button hidden?
-      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
+      if (node.type == qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
           ! node.bHideOpenClose)
       {
         // Does this node have any children, or do we always want the

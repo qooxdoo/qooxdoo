@@ -96,29 +96,29 @@ qx.Class.define("qx.dev.TimeTracker",
      */
     buttonSets : function()
     {
-      var btnLayout = new qx.ui.layout.HorizontalBoxLayout;
+      var btnLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
       btnLayout.setLocation(20, 48);
       btnLayout.setSpacing(5);
 
-      var loopLabel = new qx.ui.basic.Atom("Method Loops: ");
+      var loopLabel = new qx.legacy.ui.basic.Atom("Method Loops: ");
       loopLabel.setAllowStretchY(false);
       loopLabel.setVerticalAlign("middle");
 
-      var loopInput = new qx.ui.form.TextField("100");
+      var loopInput = new qx.legacy.ui.form.TextField("100");
       loopInput.setAllowStretchY(false);
       loopInput.setWidth(50);
       loopInput.setVerticalAlign("middle");
 
-      var repeatLabel = new qx.ui.basic.Atom("Repeat Number: ");
+      var repeatLabel = new qx.legacy.ui.basic.Atom("Repeat Number: ");
       repeatLabel.setAllowStretchY(false);
       repeatLabel.setVerticalAlign("middle");
       repeatLabel.setMarginLeft(30);
 
-      var btnStart1 = new qx.ui.form.Button("Start 3x", "icon/16/actions/dialog-ok.png");
-      var btnStart2 = new qx.ui.form.Button("Start 7x", "icon/16/actions/dialog-ok.png");
-      var btnStart3 = new qx.ui.form.Button("Start 15x", "icon/16/actions/dialog-ok.png");
-      var btnStart4 = new qx.ui.form.Button("Start 25x", "icon/16/actions/dialog-ok.png");
+      var btnStart1 = new qx.legacy.ui.form.Button("Start 3x", "icon/16/actions/dialog-ok.png");
+      var btnStart2 = new qx.legacy.ui.form.Button("Start 7x", "icon/16/actions/dialog-ok.png");
+      var btnStart3 = new qx.legacy.ui.form.Button("Start 15x", "icon/16/actions/dialog-ok.png");
+      var btnStart4 = new qx.legacy.ui.form.Button("Start 25x", "icon/16/actions/dialog-ok.png");
 
       btnStart1.addListener("execute", function() {
         this.start(3, parseInt(loopInput.getValue()));
@@ -136,7 +136,7 @@ qx.Class.define("qx.dev.TimeTracker",
         this.start(25, parseInt(loopInput.getValue()));
       }, this);
 
-      var htmlOutput = this._output = new qx.ui.embed.HtmlEmbed();
+      var htmlOutput = this._output = new qx.legacy.ui.embed.HtmlEmbed();
 
       htmlOutput.setHtml("");
       htmlOutput.setLocation(20, 78);

@@ -27,9 +27,9 @@
 /**
  * @appearance text-area
  */
-qx.Class.define("qx.ui.form.TextArea",
+qx.Class.define("qx.legacy.ui.form.TextArea",
 {
-  extend : qx.ui.form.TextField,
+  extend : qx.legacy.ui.form.TextField,
 
 
 

@@ -29,12 +29,12 @@
  *
  * This widget displays data like text, images or links in a table.
  *
- * @deprecated Please use {@see qx.ui.table.Table} instead.
+ * @deprecated Please use {@see qx.legacy.ui.table.Table} instead.
  * @appearance list-view
  */
-qx.Class.define("qx.ui.listview.ListView",
+qx.Class.define("qx.legacy.ui.listview.ListView",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -61,13 +61,13 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   HEADER
     // ************************************************************************
-    this._header = new qx.ui.listview.Header(vColumns);
+    this._header = new qx.legacy.ui.listview.Header(vColumns);
     this._header.setParent(this);
 
     // ************************************************************************
     //   FRAME
     // ************************************************************************
-    this._frame = new qx.ui.layout.HorizontalBoxLayout;
+    this._frame = new qx.legacy.ui.layout.HorizontalBoxLayout;
     this._frame.setParent(this);
     this._frame.setHeight("1*");
     this._frame.setWidth(null);
@@ -75,13 +75,13 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   PANE
     // ************************************************************************
-    this._pane = new qx.ui.listview.ListViewPane(vData, vColumns);
+    this._pane = new qx.legacy.ui.listview.ListViewPane(vData, vColumns);
     this._pane.setParent(this._frame);
 
     // ************************************************************************
     //   SCROLL AREA
     // ************************************************************************
-    this._scroll = new qx.ui.basic.ScrollBar(false);
+    this._scroll = new qx.legacy.ui.basic.ScrollBar(false);
     this._scroll.setWidth("auto");
     this._scroll.setParent(this._frame);
     this._scroll.addListener("changeValue", this._onscroll, this);
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   RESIZE LINE
     // ************************************************************************
-    this._resizeLine = new qx.ui.basic.Terminator;
+    this._resizeLine = new qx.legacy.ui.basic.Terminator;
     this._resizeLine.setBackgroundColor("#D6D5D9");
     this._resizeLine.setWidth(1);
     this._resizeLine.setParent(this);
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.listview.ListView",
         var vNewCell = this._getHeaderCell(value);
 
         if (vNewCell && vNewCell.getSortOrder() == null) {
-          vNewCell.setSortOrder(qx.ui.listview.HeaderCell.C_SORT_ASCENDING);
+          vNewCell.setSortOrder(qx.legacy.ui.listview.HeaderCell.C_SORT_ASCENDING);
         }
       }
     },

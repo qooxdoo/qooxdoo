@@ -26,11 +26,11 @@
 
 /**
  * @appearance toolbar-part-handle
- * @appearance toolbar-part-handle-line {qx.ui.basic.Terminator}
+ * @appearance toolbar-part-handle-line {qx.legacy.ui.basic.Terminator}
  */
-qx.Class.define("qx.ui.toolbar.PartHandle",
+qx.Class.define("qx.legacy.ui.toolbar.PartHandle",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
   {
     this.base(arguments);
 
-    var l = new qx.ui.basic.Terminator;
+    var l = new qx.legacy.ui.basic.Terminator;
     l.setAppearance("toolbar-part-handle-line");
     this.add(l);
   },

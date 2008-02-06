@@ -31,15 +31,15 @@
  * <li>One a node is deselected, its child nodes are also deselected.
  * <li>It is flaged visually when the child nodes are partially selected (<tt>node.bSelected=='p'</tt>).
  * </ul>
- * <p><b>Implementation note</b>: it is derived from {@link qx.ui.table.selection.Model}
+ * <p><b>Implementation note</b>: it is derived from {@link qx.legacy.ui.table.selection.Model}
  * although no functionality of this class is needed, as several Table and TreeVirtual properties
  * require a selection model be derived from this class.
  * </p>
  */
-qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
+qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
 {
   //extend : qx.core.Object,
-  extend : qx.ui.table.selection.Model,
+  extend : qx.legacy.ui.table.selection.Model,
 
 
 
@@ -88,19 +88,19 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
     _selectionChanged: false,
 
     /**
-     * Compatibility with {@link qx.ui.table.selection.Model}.
+     * Compatibility with {@link qx.legacy.ui.table.selection.Model}.
      */
     setSelectionMode: function()
     {
     },
 
     /**
-     * Compatibility with {@link qx.ui.table.selection.Model}.
+     * Compatibility with {@link qx.legacy.ui.table.selection.Model}.
      * @return {Object}
      */
     getSelectionMode: function()
     {
-      return qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE;
+      return qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE;
     },
 
     /**
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
     },
 
     /**
-     * This is called by {@link qx.ui.treevirtual.SimpleTreeDataRowRenderer#updateDataRowElement()}
+     * This is called by {@link qx.legacy.ui.treevirtual.SimpleTreeDataRowRenderer#updateDataRowElement()}
      * Do nothing.
      * @type member
      * @param fromIndex {Integer} the first index of the selection (including).

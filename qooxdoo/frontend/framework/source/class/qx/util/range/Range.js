@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
+ * This manager is used by all objects which needs ranges like qx.legacy.ui.form.Spinner, ...
  */
 qx.Class.define("qx.util.range.Range",
 {

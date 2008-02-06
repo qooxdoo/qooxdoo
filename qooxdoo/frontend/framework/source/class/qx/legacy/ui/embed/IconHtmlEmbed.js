@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.embed.IconHtmlEmbed",
+qx.Class.define("qx.legacy.ui.embed.IconHtmlEmbed",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : qx.legacy.ui.embed.HtmlEmbed,
 
 
 
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     ---------------------------------------------------------------------------
     */
 
-    /** Any URI String supported by qx.ui.basic.Image to display a icon */
+    /** Any URI String supported by qx.legacy.ui.basic.Image to display a icon */
     icon :
     {
       check : "String",
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
 
     /**
      * The width of the icon.
-     *  If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
+     *  If configured, this makes qx.legacy.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
      */
     iconWidth :
     {
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
 
     /**
      * The height of the icon
-     *  If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
+     *  If configured, this makes qx.legacy.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
      */
     iconHeight :
     {

@@ -21,20 +21,20 @@
 /* ************************************************************************
 
 #module(ui_listview)
-#use(qx.ui.listview.ContentCellHtml)
-#use(qx.ui.listview.ContentCellIconHtml)
-#use(qx.ui.listview.ContentCellImage)
-#use(qx.ui.listview.ContentCellLink)
-#use(qx.ui.listview.ContentCellText)
+#use(qx.legacy.ui.listview.ContentCellHtml)
+#use(qx.legacy.ui.listview.ContentCellIconHtml)
+#use(qx.legacy.ui.listview.ContentCellImage)
+#use(qx.legacy.ui.listview.ContentCellLink)
+#use(qx.legacy.ui.listview.ContentCellText)
 
 ************************************************************************ */
 
 /**
  * @appearance list-view-pane
  */
-qx.Class.define("qx.ui.listview.ListViewPane",
+qx.Class.define("qx.legacy.ui.listview.ListViewPane",
 {
-  extend : qx.ui.layout.GridLayout,
+  extend : qx.legacy.ui.layout.GridLayout,
 
 
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     // ************************************************************************
     //   INITIALIZE MANAGER
     // ************************************************************************
-    this._manager = new qx.ui.listview.SelectionManager(this);
+    this._manager = new qx.legacy.ui.listview.SelectionManager(this);
 
     // ************************************************************************
     //   MOUSE EVENT LISTENER
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
 
     _updateLayout : function(vUpdate)
     {
-      if (qx.ui.core.Widget._inFlushGlobalQueues)
+      if (qx.legacy.ui.core.Widget._inFlushGlobalQueues)
       {
         qx.event.Timer.once(function()
         {
@@ -702,7 +702,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      */
     scrollItemIntoViewX : function(vItem, vAlignLeft) {},
 
-    // this.error("Not implemented in qx.ui.listview.ListViewPane!");
+    // this.error("Not implemented in qx.legacy.ui.listview.ListViewPane!");
     /**
      * TODOC
      *
@@ -771,7 +771,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      * @return {void}
      */
     setScrollLeft : function() {
-      this.error("Not implemented in qx.ui.listview.ListViewPane!");
+      this.error("Not implemented in qx.legacy.ui.listview.ListViewPane!");
     },
 
 

@@ -27,9 +27,9 @@
 /**
  * @appearance toolbar-button
  */
-qx.Class.define("qx.ui.toolbar.Button",
+qx.Class.define("qx.legacy.ui.toolbar.Button",
 {
-  extend : qx.ui.form.Button,
+  extend : qx.legacy.ui.form.Button,
 
 
 

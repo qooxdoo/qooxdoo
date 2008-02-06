@@ -25,14 +25,14 @@
 ************************************************************************ */
 
 /**
- * qx.ui.core.ClientDocumentBlocker blocks the inputs from the user.
+ * qx.legacy.ui.core.ClientDocumentBlocker blocks the inputs from the user.
  * This will be used internally to allow better modal dialogs for example.
  *
  * @appearance blocker
  */
-qx.Class.define("qx.ui.core.ClientDocumentBlocker",
+qx.Class.define("qx.legacy.ui.core.ClientDocumentBlocker",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 

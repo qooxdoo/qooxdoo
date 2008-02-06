@@ -1,3 +1,3 @@
 /**
- * The qx.ui.menu package.
+ * The qx.legacy.ui.menu package.
  */

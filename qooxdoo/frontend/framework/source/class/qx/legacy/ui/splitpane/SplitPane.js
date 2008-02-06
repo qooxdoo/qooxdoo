@@ -25,9 +25,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.splitpane.SplitPane",
+qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -45,21 +45,21 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
    * Please note that the usage of percents may be problematic because you must respect the
    * divider, too. To create a typical 50,50 split please use flex units instead e.g. "1*", "1*"
    *
-   * new qx.ui.splitpane.SplitPane(orientation)
-   * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
+   * new qx.legacy.ui.splitpane.SplitPane(orientation)
+   * new qx.legacy.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
    *
    * @appearance splitpane
    *
-   * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
-   * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
-   * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+   * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.legacy.ui.layout.BoxLayout#orientation}.
+   * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.legacy.ui.core.Widget} supported unit.
+   * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.legacy.ui.core.Widget} supported unit.
    */
   construct : function(orientation, firstSize, secondSize)
   {
     this.base(arguments);
 
     // CREATE INNER BOX LAYOUT
-    var box = this._box = new qx.ui.layout.BoxLayout;
+    var box = this._box = new qx.legacy.ui.layout.BoxLayout;
     box.setEdge(0);
     this.add(box);
 
@@ -87,19 +87,19 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
 
     // CREATE SLIDER
-    this._slider = new qx.ui.splitpane.SplitPaneSlider(this);
+    this._slider = new qx.legacy.ui.splitpane.SplitPaneSlider(this);
     this.add(this._slider);
 
     // CREATE SPLITTER
-    this._splitter = new qx.ui.splitpane.SplitPaneSplitter(this);
+    this._splitter = new qx.legacy.ui.splitpane.SplitPaneSplitter(this);
 
     // CREATE KNOB
-    this._knob = new qx.ui.splitpane.SplitPaneKnob;
+    this._knob = new qx.legacy.ui.splitpane.SplitPaneKnob;
     this._splitter.add(this._knob);
 
     // CREATE AREAS
-    this._firstArea = new qx.ui.layout.CanvasLayout;
-    this._secondArea = new qx.ui.layout.CanvasLayout;
+    this._firstArea = new qx.legacy.ui.layout.CanvasLayout;
+    this._secondArea = new qx.legacy.ui.layout.CanvasLayout;
 
     // FILL BOX
     box.add(this._firstArea, this._splitter, this._secondArea);
@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the splitter.
      *
      * @type member
-     * @return {qx.ui.core.Widget} The splitter.
+     * @return {qx.legacy.ui.core.Widget} The splitter.
      */
     getSplitter : function() {
       return this._splitter;
@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the knob.
      *
      * @type member
-     * @return {qx.ui.core.Widget} The knob.
+     * @return {qx.legacy.ui.core.Widget} The knob.
      */
     getKnob : function() {
       return this._knob;
@@ -307,7 +307,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the left area (CanvasLayout)
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} TODOC
+     * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getLeftArea : function() {
       return this.getFirstArea();
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the top area (CanvasLayout)
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} TODOC
+     * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getTopArea : function() {
       return this.getFirstArea();
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the right area (CanvasLayout)
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} TODOC
+     * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getRightArea : function() {
       return this.getSecondArea();
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the bottom area (CanvasLayout)
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} TODOC
+     * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getBottomArea : function() {
       return this.getSecondArea();
@@ -351,7 +351,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the first area (CanvasLayout)
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} TODOC
+     * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getFirstArea : function() {
       return this._firstArea;
@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Returns the second area (CanvasLayout)
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} TODOC
+     * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getSecondArea : function() {
       return this._secondArea;

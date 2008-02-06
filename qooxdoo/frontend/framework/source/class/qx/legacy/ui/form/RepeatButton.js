@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.form.RepeatButton",
+qx.Class.define("qx.legacy.ui.form.RepeatButton",
 {
-  extend : qx.ui.form.Button,
+  extend : qx.legacy.ui.form.Button,
 
 
 

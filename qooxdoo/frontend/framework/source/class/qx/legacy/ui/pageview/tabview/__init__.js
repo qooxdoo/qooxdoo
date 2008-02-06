@@ -1,3 +1,3 @@
 /**
- * The qx.ui.pageview.tabview package.
+ * The qx.legacy.ui.pageview.tabview package.
  */

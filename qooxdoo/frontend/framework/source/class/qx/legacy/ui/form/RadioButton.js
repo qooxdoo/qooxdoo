@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.form.RadioButton",
+qx.Class.define("qx.legacy.ui.form.RadioButton",
 {
-  extend : qx.ui.form.CheckBox,
+  extend : qx.legacy.ui.form.CheckBox,
 
 
 
@@ -61,10 +61,10 @@ qx.Class.define("qx.ui.form.RadioButton",
       init : "radio-button"
     },
 
-    /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.legacy.ui.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      check  : "qx.ui.selection.RadioManager",
+      check  : "qx.legacy.ui.selection.RadioManager",
       nullable : true,
       apply : "_applyManager"
     }

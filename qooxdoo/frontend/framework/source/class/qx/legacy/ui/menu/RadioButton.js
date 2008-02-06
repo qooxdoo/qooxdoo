@@ -28,9 +28,9 @@
 /**
  * @appearance menu-radio-button
  */
-qx.Class.define("qx.ui.menu.RadioButton",
+qx.Class.define("qx.legacy.ui.menu.RadioButton",
 {
-  extend : qx.ui.menu.CheckBox,
+  extend : qx.legacy.ui.menu.CheckBox,
 
 
 
@@ -50,10 +50,10 @@ qx.Class.define("qx.ui.menu.RadioButton",
       init : "menu-radio-button"
     },
 
-    /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.legacy.ui.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      check : "qx.ui.selection.RadioManager",
+      check : "qx.legacy.ui.selection.RadioManager",
       nullable : true,
       apply : "_applyManager"
     }

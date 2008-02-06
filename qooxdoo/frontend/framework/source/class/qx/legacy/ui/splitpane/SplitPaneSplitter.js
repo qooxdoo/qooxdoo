@@ -30,9 +30,9 @@
  * @state vertical
  * @state horizontal
  */
-qx.Class.define("qx.ui.splitpane.SplitPaneSplitter",
+qx.Class.define("qx.legacy.ui.splitpane.SplitPaneSplitter",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
   construct : function(pane)
   {

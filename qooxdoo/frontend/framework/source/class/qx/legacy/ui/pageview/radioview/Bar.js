@@ -27,9 +27,9 @@
 /**
  * @appearance button-view-bar
  */
-qx.Class.define("qx.ui.pageview.radioview.Bar",
+qx.Class.define("qx.legacy.ui.pageview.radioview.Bar",
 {
-  extend : qx.ui.pageview.AbstractBar,
+  extend : qx.legacy.ui.pageview.AbstractBar,
 
   construct : function()
   {

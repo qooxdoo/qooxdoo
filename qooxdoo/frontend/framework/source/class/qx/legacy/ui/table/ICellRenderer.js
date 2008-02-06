@@ -26,7 +26,7 @@
 /**
  * A cell renderer for data cells.
  */
-qx.Interface.define("qx.ui.table.ICellRenderer",
+qx.Interface.define("qx.legacy.ui.table.ICellRenderer",
 {
 
   members :
@@ -42,7 +42,7 @@ qx.Interface.define("qx.ui.table.ICellRenderer",
      *   {@link TableModel#getRowData()}</li>
      * <li>row (int): the model index of the row the cell belongs to.</li>
      * <li>col (int): the model index of the column the cell belongs to.</li>
-     * <li>table (qx.ui.table.Table): the table the cell belongs to.</li>
+     * <li>table (qx.legacy.ui.table.Table): the table the cell belongs to.</li>
      * <li>xPos (int): the x position of the cell in the table pane.</li>
      * <li>selected (boolean): whether the cell is selected.</li>
      * <li>focusedRow (boolean): whether the cell is in the same row as the

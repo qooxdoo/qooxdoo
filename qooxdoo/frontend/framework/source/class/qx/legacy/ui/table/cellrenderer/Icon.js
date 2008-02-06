@@ -29,9 +29,9 @@
  * A template class for cell renderers, which display images. Concrete
  * implementations must implement the method @{link #_identifyImage}.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Icon",
+qx.Class.define("qx.legacy.ui.table.cellrenderer.Icon",
 {
-  extend : qx.ui.table.cellrenderer.Abstract,
+  extend : qx.legacy.ui.table.cellrenderer.Abstract,
 
 
 

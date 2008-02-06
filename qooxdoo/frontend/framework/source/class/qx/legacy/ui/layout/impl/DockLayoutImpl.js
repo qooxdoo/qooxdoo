@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
+qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
 {
-  extend : qx.ui.layout.impl.LayoutImpl,
+  extend : qx.legacy.ui.layout.impl.LayoutImpl,
 
 
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.ui.layout.impl.LayoutImpl:
+     *  Inherits from qx.legacy.ui.layout.impl.LayoutImpl:
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
@@ -99,28 +99,28 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
       common : function(vChild)
       {
         if (!(vChild._computedLeftTypeNull && vChild._computedRightTypeNull && vChild._computedTopTypeNull && vChild._computedBottomTypeNull)) {
-          throw new Error("qx.ui.layout.impl.DockLayoutImpl: It is not allowed to define any location values for children: " + vChild + "!");
+          throw new Error("qx.legacy.ui.layout.impl.DockLayoutImpl: It is not allowed to define any location values for children: " + vChild + "!");
         }
       },
 
       horizontal : function(vChild)
       {
         if (!(vChild._computedMinHeightTypeNull && vChild._computedHeightTypeNull && vChild._computedMaxHeightTypeNull)) {
-          throw new Error("qx.ui.layout.impl.DockLayoutImpl: It is not allowed to define any vertical dimension for 'horizontal' placed children: " + vChild + "!");
+          throw new Error("qx.legacy.ui.layout.impl.DockLayoutImpl: It is not allowed to define any vertical dimension for 'horizontal' placed children: " + vChild + "!");
         }
       },
 
       vertical : function(vChild)
       {
         if (!(vChild._computedMinWidthTypeNull && vChild._computedWidthTypeNull && vChild._computedMaxWidthTypeNull)) {
-          throw new Error("qx.ui.layout.impl.DockLayoutImpl: It is not allowed to define any horizontal dimension for 'vertical' placed children: " + vChild + "!");
+          throw new Error("qx.legacy.ui.layout.impl.DockLayoutImpl: It is not allowed to define any horizontal dimension for 'vertical' placed children: " + vChild + "!");
         }
       },
 
       "default" : function(vChild)
       {
-        qx.ui.layout.impl.DockLayoutImpl._childCheck.horizontal(vChild);
-        qx.ui.layout.impl.DockLayoutImpl._childCheck.vertical(vChild);
+        qx.legacy.ui.layout.impl.DockLayoutImpl._childCheck.horizontal(vChild);
+        qx.legacy.ui.layout.impl.DockLayoutImpl._childCheck.vertical(vChild);
       }
     }
   },
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
       this._lastLeft = this._lastRight = this._lastTop = this._lastBottom = 0;
 
       // sorting children
-      var vRankImpl = qx.ui.layout.impl.DockLayoutImpl._childRanking[vMode];
+      var vRankImpl = qx.legacy.ui.layout.impl.DockLayoutImpl._childRanking[vMode];
 
       var vOrderedChildren = qx.lang.Array.copy(vChildren).sort(function(c1, c2) {
         return (vRankImpl(c1) + vChildren.indexOf(c1)) - (vRankImpl(c2) + vChildren.indexOf(c2));
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
     */
 
     /**
-     * This is called from qx.ui.core.Widget and  it's task is to apply the layout
+     * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
      * @type member
@@ -339,8 +339,8 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
      */
     layoutChild : function(vChild, vJobs)
     {
-      qx.ui.layout.impl.DockLayoutImpl._childCheck.common(vChild);
-      qx.ui.layout.impl.DockLayoutImpl._childCheck[this.getChildAlignMode(vChild)](vChild);
+      qx.legacy.ui.layout.impl.DockLayoutImpl._childCheck.common(vChild);
+      qx.legacy.ui.layout.impl.DockLayoutImpl._childCheck[this.getChildAlignMode(vChild)](vChild);
 
       this.layoutChild_sizeX_essentialWrapper(vChild, vJobs);
       this.layoutChild_sizeY_essentialWrapper(vChild, vJobs);
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
       this.layoutChild_sizeLimitX(vChild, vJobs);
       this.layoutChild_sizeLimitY(vChild, vJobs);
 
-      this[qx.ui.layout.impl.DockLayoutImpl.METHOD_LOCATION + this.getChildAlign(vChild)](vChild, vJobs);
+      this[qx.legacy.ui.layout.impl.DockLayoutImpl.METHOD_LOCATION + this.getChildAlign(vChild)](vChild, vJobs);
     },
 
 

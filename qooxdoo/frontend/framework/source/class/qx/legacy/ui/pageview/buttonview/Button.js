@@ -29,9 +29,9 @@
  * @state checked Set by {@link #checked}
  * @state over
  */
-qx.Class.define("qx.ui.pageview.buttonview.Button",
+qx.Class.define("qx.legacy.ui.pageview.buttonview.Button",
 {
-  extend : qx.ui.pageview.AbstractButton,
+  extend : qx.legacy.ui.pageview.AbstractButton,
 
 
 

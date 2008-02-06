@@ -27,7 +27,7 @@
  * An abstract resize behavior.  All resize behaviors should extend this
  * class.
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
+qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Abstract",
 {
   type : "abstract",
   extend : qx.core.Object,
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @type member
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
+     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @type member
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
+     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @type member
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
+     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @type member
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
+     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @type member
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
+     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
@@ -178,11 +178,11 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * Determine the inner width available to columns in the table.
      *
      * @type member
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
+     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
      *   The table column model in use.
      * @return {Map}
      *   {'width'} Provide width without scrollbar space; scrollbar space is available
-     *   {'extraWidth'} qx.ui.core.Widget.SCROLLBAR_SIZE
+     *   {'extraWidth'} qx.legacy.ui.core.Widget.SCROLLBAR_SIZE
      */
     _getAvailableWidth : function(tableColumnModel)
     {
@@ -205,15 +205,15 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       {
         // provide width without scrollbar space; no scrollbar space available
         return {
-          width      : width - qx.ui.core.Widget.SCROLLBAR_SIZE,
+          width      : width - qx.legacy.ui.core.Widget.SCROLLBAR_SIZE,
           extraWidth : 0
         };
       }
 
       // provide width without scrollbar space; scrollbar space is available
       return {
-        width      : width - qx.ui.core.Widget.SCROLLBAR_SIZE,
-        extraWidth : qx.ui.core.Widget.SCROLLBAR_SIZE
+        width      : width - qx.legacy.ui.core.Widget.SCROLLBAR_SIZE,
+        extraWidth : qx.legacy.ui.core.Widget.SCROLLBAR_SIZE
       };
     }
   },

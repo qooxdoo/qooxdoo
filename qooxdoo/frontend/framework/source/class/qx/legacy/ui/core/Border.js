@@ -24,8 +24,8 @@
 
 ************************************************************************ */
 
-/** Border implementation for qx.ui.core.Widget instances. */
-qx.Class.define("qx.ui.core.Border",
+/** Border implementation for qx.legacy.ui.core.Widget instances. */
+qx.Class.define("qx.legacy.ui.core.Border",
 {
   extend : qx.core.Object,
 
@@ -83,11 +83,11 @@ qx.Class.define("qx.ui.core.Border",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.ui.core.Border} the created instance
+     * @return {qx.legacy.ui.core.Border} the created instance
      */
     fromString : function(str)
     {
-      var border = new qx.ui.core.Border;
+      var border = new qx.legacy.ui.core.Border;
       var parts = str.split(/\s+/);
       var part, temp;
 
@@ -131,11 +131,11 @@ qx.Class.define("qx.ui.core.Border",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.ui.core.Border} the created instance
+     * @return {qx.legacy.ui.core.Border} the created instance
      */
     fromConfig : function(config)
     {
-      var border = new qx.ui.core.Border;
+      var border = new qx.legacy.ui.core.Border;
       border.set(config);
       return border;
     },
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.core.Border",
      * Removes a border from a widget
      *
      * @type static
-     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
+     * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
      * @signature function(widget)
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.core.Border",
      * Removes a border from a widget
      *
      * @type static
-     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
+     * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
      * @signature function(widget)
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.core.Border",
      * Removes a border from a widget
      *
      * @type static
-     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
+     * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
      * @signature function(widget)
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.core.Border",
      * Removes a border from a widget
      *
      * @type static
-     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
+     * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
      * @signature function(widget)
@@ -798,7 +798,7 @@ qx.Class.define("qx.ui.core.Border",
      * @signature function(obj)
      * @type member
      * @internal
-     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      */
     renderTop : qx.core.Variant.select("qx.client",
     {
@@ -878,7 +878,7 @@ qx.Class.define("qx.ui.core.Border",
      * @signature function(obj)
      * @type member
      * @internal
-     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      */
     renderRight : qx.core.Variant.select("qx.client",
     {
@@ -958,7 +958,7 @@ qx.Class.define("qx.ui.core.Border",
      * @signature function(obj)
      * @type member
      * @internal
-     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      */
     renderBottom : qx.core.Variant.select("qx.client",
     {
@@ -1037,7 +1037,7 @@ qx.Class.define("qx.ui.core.Border",
      *
      * @signature function(obj)
      * @type member
-     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      * @internal
      */
     renderLeft : qx.core.Variant.select("qx.client",

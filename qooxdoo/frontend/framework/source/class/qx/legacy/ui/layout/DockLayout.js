@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.DockLayout",
+qx.Class.define("qx.legacy.ui.layout.DockLayout",
 {
-  extend : qx.ui.core.Parent,
+  extend : qx.legacy.ui.core.Parent,
 
 
 
@@ -97,10 +97,10 @@ qx.Class.define("qx.ui.layout.DockLayout",
      *
      * @param widget {var} TODOC
      * @type member
-     * @return {qx.ui.layout.BoxLayout} TODOC
+     * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.ui.layout.impl.DockLayoutImpl(this);
+      return new qx.legacy.ui.layout.impl.DockLayoutImpl(this);
     },
 
 

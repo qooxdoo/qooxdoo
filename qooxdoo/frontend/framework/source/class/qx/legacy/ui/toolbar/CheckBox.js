@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.toolbar.CheckBox",
+qx.Class.define("qx.legacy.ui.toolbar.CheckBox",
 {
-  extend : qx.ui.toolbar.Button,
+  extend : qx.legacy.ui.toolbar.Button,
 
 
 

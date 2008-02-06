@@ -27,9 +27,9 @@
 /**
  * @appearance list-item
  */
-qx.Class.define("qx.ui.form.ListItem",
+qx.Class.define("qx.legacy.ui.form.ListItem",
 {
-  extend : qx.ui.basic.Atom,
+  extend : qx.legacy.ui.basic.Atom,
 
 
 
@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.form.ListItem",
   */
 
   events: {
-    /** (Fired by {@link qx.ui.form.List}) */
+    /** (Fired by {@link qx.legacy.ui.form.List}) */
     "action" : "qx.event.type.Event"
   },
 
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.form.ListItem",
     */
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
+     * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * a string search
      *
      * @type member
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
+     * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * an exact string search
      *
      * @type member
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
+     * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * a value search
      *
      * @type member
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
+     * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * an exact value search
      *
      * @type member

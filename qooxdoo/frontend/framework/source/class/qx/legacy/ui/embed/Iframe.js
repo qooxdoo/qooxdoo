@@ -33,9 +33,9 @@
  *
  * @appearance iframe
  */
-qx.Class.define("qx.ui.embed.Iframe",
+qx.Class.define("qx.legacy.ui.embed.Iframe",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -396,13 +396,13 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var nameStr = vFrameName ? 'name="' + vFrameName + '"' : '';
-        var frameEl = qx.ui.embed.Iframe._element = document.createElement('<iframe onload="parent.qx.ui.embed.Iframe.load(this)"' + nameStr + '></iframe>');
+        var frameEl = qx.legacy.ui.embed.Iframe._element = document.createElement('<iframe onload="parent.qx.legacy.ui.embed.Iframe.load(this)"' + nameStr + '></iframe>');
       }
       else
       {
-        var frameEl = qx.ui.embed.Iframe._element = document.createElement("iframe");
+        var frameEl = qx.legacy.ui.embed.Iframe._element = document.createElement("iframe");
 
-        frameEl.onload = qx.ui.embed.Iframe.load;
+        frameEl.onload = qx.legacy.ui.embed.Iframe.load;
 
         if (vFrameName) {
           frameEl.name = vFrameName;
@@ -443,7 +443,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _generateBlockerElement : function()
     {
-      var blockerEl = qx.ui.embed.Iframe._blocker = document.createElement("div");
+      var blockerEl = qx.legacy.ui.embed.Iframe._blocker = document.createElement("div");
       var blockerStyle = blockerEl.style;
 
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -510,7 +510,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       this.base(arguments);
 
       // register to iframe manager as active widget
-      qx.ui.embed.IframeManager.getInstance().add(this);
+      qx.legacy.ui.embed.IframeManager.getInstance().add(this);
     },
 
 
@@ -525,7 +525,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       this.base(arguments);
 
       // deregister from iframe manager
-      qx.ui.embed.IframeManager.getInstance().remove(this);
+      qx.legacy.ui.embed.IframeManager.getInstance().remove(this);
     },
 
 

@@ -31,9 +31,9 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
+qx.Class.define("qx.legacy.ui.table.cellrenderer.Dynamic",
 {
-  extend : qx.ui.table.cellrenderer.Default,
+  extend : qx.legacy.ui.table.cellrenderer.Default,
 
 
   /*
@@ -71,13 +71,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      *   // based on the cellInfo map or other information, return the
      *   // appropriate cell renderer
      *   if (cellInfo.row == 5)
-     *     return new qx.ui.table.cellrenderer.Boolean;
+     *     return new qx.legacy.ui.table.cellrenderer.Boolean;
      *   else
-     *     return new qx.ui.table.cellrenderer.Default;
+     *     return new qx.legacy.ui.table.cellrenderer.Default;
      * });
      * </pre>
      *
-     * the function MUST return at least a qx.ui.table.cellrenderer.Default
+     * the function MUST return at least a qx.legacy.ui.table.cellrenderer.Default
      **/
     cellRendererFactoryFunction :
     {

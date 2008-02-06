@@ -24,11 +24,11 @@
  * Because the mixin needs to overwrite the default supportsDrop method, this
  * mixin must be applied with "patch" instead of "include":
  *
- * qx.Class.patch(qx.ui.treevirtual.TreeVirtual,qx.ui.treevirtual.MDragAndDropSupport);
+ * qx.Class.patch(qx.legacy.ui.treevirtual.TreeVirtual,qx.legacy.ui.treevirtual.MDragAndDropSupport);
  *
  * You also need the MNode Mixin:
  *
- * qx.Class.include(qx.ui.treevirtual.TreeVirtual, qx.ui.treevirtual.MNode);
+ * qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual, qx.legacy.ui.treevirtual.MNode);
  *
  * If you want to define your own supportsDrop method, you need to define a supportsDropCallback
  * function in your TreeVirtual instance.
@@ -37,7 +37,7 @@
  *
  * http://qooxdoo.org/documentation/0.7/snippets/treevirtual_draganddrop_mixin
  */
-qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
+qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
 {
   construct : function()
   {
@@ -358,8 +358,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       // this needs a more sophisticated check
       switch ( target.getParent().classname )
       {
-        case "qx.ui.table.pane.Header":
-        case "qx.ui.basic.ScrollBar":
+        case "qx.legacy.ui.table.pane.Header":
+        case "qx.legacy.ui.basic.ScrollBar":
           return;
       }
 
@@ -832,7 +832,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         throw new Error("Request to move a child to a non-existent parent");
       }
       var targetNodeIndex = targetParentNode.children.indexOf(targetNodeId);
-      if (targetParentNode.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+      if (targetParentNode.type == qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
       {
         throw new Error("Sorry, a LEAF may not have children.");
       }
@@ -887,7 +887,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         qx.lang.Array.insertAt( targetParentNode.children, sourceNodeId, targetNodeIndex );
         if ( this.getSortAfterDrop() ) this.sortChildNodes(targetParentNode);
       }
-      else if ( targetNode.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF )
+      else if ( targetNode.type != qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF )
       {
         // insert source as a child of target
         sourceNode.level = targetNode.level+1;

@@ -1,3 +1,3 @@
 /**
- * The qx.ui.listview package.
+ * The qx.legacy.ui.listview package.
  */

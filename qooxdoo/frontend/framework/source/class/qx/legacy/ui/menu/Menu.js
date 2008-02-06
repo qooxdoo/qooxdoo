@@ -27,15 +27,15 @@
 
 /**
  *
- * If you create a new menu using {@link qx.ui.menu.Menu}, do not forget
+ * If you create a new menu using {@link qx.legacy.ui.menu.Menu}, do not forget
  * to add it to the client document using its <i>addToDocument()</i> method,
  * or the menu will not be positioned correctly in the application.
  *
  * @appearance menu
  */
-qx.Class.define("qx.ui.menu.Menu",
+qx.Class.define("qx.legacy.ui.menu.Menu",
 {
-  extend : qx.ui.popup.Popup,
+  extend : qx.legacy.ui.popup.Popup,
 
 
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this.base(arguments);
 
     // Layout
-    var l = this._layout = new qx.ui.menu.Layout;
+    var l = this._layout = new qx.legacy.ui.menu.Layout;
     l.setEdge(0);
     this.add(l);
 
@@ -152,14 +152,14 @@ qx.Class.define("qx.ui.menu.Menu",
 
     hoverItem :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       nullable : true,
       apply : "_applyHoverItem"
     },
 
     openItem :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       nullable : true,
       apply : "_applyOpenItem"
     },
@@ -167,14 +167,14 @@ qx.Class.define("qx.ui.menu.Menu",
     /** Widget that opened the menu */
     opener :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       nullable : true
     },
 
     /** Reference to the parent menu if the menu is a submenu */
     parentMenu :
     {
-      check : "qx.ui.menu.Menu",
+      check : "qx.legacy.ui.menu.Menu",
       nullable : true
     },
 
@@ -334,10 +334,10 @@ qx.Class.define("qx.ui.menu.Menu",
     _beforeAppear : function()
     {
       // Intentionally bypass superclass and call super.super._beforeAppear
-      qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
+      qx.legacy.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
       // register to menu manager as active widget
-      qx.ui.menu.Manager.getInstance().add(this);
+      qx.legacy.ui.menu.Manager.getInstance().add(this);
 
       // zIndex handling
       this.bringToFront();
@@ -356,10 +356,10 @@ qx.Class.define("qx.ui.menu.Menu",
     _beforeDisappear : function()
     {
       // Intentionally bypass superclass and call super.super._beforeDisappear
-      qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
+      qx.legacy.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-      // deregister as opened from qx.ui.menu.Manager
-      qx.ui.menu.Manager.getInstance().remove(this);
+      // deregister as opened from qx.legacy.ui.menu.Manager
+      qx.legacy.ui.menu.Manager.getInstance().remove(this);
 
       // reset global active widget
       this._makeInactive();
@@ -1052,7 +1052,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _onkeypress_up : function(e)
     {
       var vHover = this.getHoverItem();
-      var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([ qx.ui.menu.Separator ]) : this.getLastActiveChild();
+      var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([ qx.legacy.ui.menu.Separator ]) : this.getLastActiveChild();
 
       this.setHoverItem(vPrev);
     },
@@ -1068,7 +1068,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _onkeypress_down : function(e)
     {
       var vHover = this.getHoverItem();
-      var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([ qx.ui.menu.Separator ]) : this.getFirstActiveChild();
+      var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([ qx.legacy.ui.menu.Separator ]) : this.getFirstActiveChild();
 
       this.setHoverItem(vNext);
     },
@@ -1085,8 +1085,8 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       var vOpener = this.getOpener();
 
-      // Jump to the "parent" qx.ui.menu.Menu
-      if (vOpener instanceof qx.ui.menu.Button)
+      // Jump to the "parent" qx.legacy.ui.menu.Menu
+      if (vOpener instanceof qx.legacy.ui.menu.Button)
       {
         var vOpenerParent = this.getOpener().getParentMenu();
 
@@ -1097,7 +1097,7 @@ qx.Class.define("qx.ui.menu.Menu",
       }
 
       // Jump to the previous ToolBarMenuButton
-      else if (vOpener instanceof qx.ui.toolbar.MenuButton)
+      else if (vOpener instanceof qx.legacy.ui.toolbar.MenuButton)
       {
         var vToolBar = vOpener.getParentToolBar();
 
@@ -1147,7 +1147,7 @@ qx.Class.define("qx.ui.menu.Menu",
       // Jump to the next ToolBarMenuButton
       var vOpener = this.getOpener();
 
-      if (vOpener instanceof qx.ui.toolbar.MenuButton)
+      if (vOpener instanceof qx.legacy.ui.toolbar.MenuButton)
       {
         var vToolBar = vOpener.getParentToolBar();
 
@@ -1157,17 +1157,17 @@ qx.Class.define("qx.ui.menu.Menu",
         // execute toolbars keydown implementation
         vToolBar._onkeypress(e);
       }
-      else if (vOpener instanceof qx.ui.menu.Button && vHover)
+      else if (vOpener instanceof qx.legacy.ui.menu.Button && vHover)
       {
         // search for menubar if existing
         // menu -> button -> menu -> button -> menu -> menubarbutton -> menubar
         var vOpenerParent = vOpener.getParentMenu();
 
-        while (vOpenerParent && vOpenerParent instanceof qx.ui.menu.Menu)
+        while (vOpenerParent && vOpenerParent instanceof qx.legacy.ui.menu.Menu)
         {
           vOpener = vOpenerParent.getOpener();
 
-          if (vOpener instanceof qx.ui.menu.Button) {
+          if (vOpener instanceof qx.legacy.ui.menu.Button) {
             vOpenerParent = vOpener.getParentMenu();
           }
           else
@@ -1180,11 +1180,11 @@ qx.Class.define("qx.ui.menu.Menu",
           }
         }
 
-        if (vOpenerParent instanceof qx.ui.toolbar.Part) {
+        if (vOpenerParent instanceof qx.legacy.ui.toolbar.Part) {
           vOpenerParent = vOpenerParent.getParent();
         }
 
-        if (vOpenerParent instanceof qx.ui.toolbar.ToolBar)
+        if (vOpenerParent instanceof qx.legacy.ui.toolbar.ToolBar)
         {
           // jump to next menubarbutton
           this.getFocusRoot().setActiveChild(vOpenerParent);
@@ -1209,7 +1209,7 @@ qx.Class.define("qx.ui.menu.Menu",
         vHover.execute();
       }
 
-      qx.ui.menu.Manager.getInstance().update();
+      qx.legacy.ui.menu.Manager.getInstance().update();
     }
   },
 

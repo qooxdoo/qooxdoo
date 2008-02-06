@@ -32,7 +32,7 @@
  * {
  *   // USER-PROVIDED ATTRIBUTES
  *   // ------------------------
- *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+ *   type           : qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
  *   parentNodeId   : 23,    // index in _nodeArr of the parent node
  *   label          : "My Documents",
  *   bSelected      : true,  // true if node is selected; false otherwise.
@@ -89,9 +89,9 @@
  * }
  * </pre>
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
+qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataModel",
 {
-  extend : qx.ui.table.model.Simple,
+  extend : qx.legacy.ui.table.model.Simple,
 
 
 
@@ -342,11 +342,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   may be added, and determines the default icons to use.  This
      *   parameter must be one of the following values:
      *   <dl>
-     *     <dt>qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH</dt>
+     *     <dt>qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH</dt>
      *     <dd>
      *       This node is a branch.  A branch node may have children.
      *     </dd>
-     *     <dt>qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF</dt>
+     *     <dt>qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF</dt>
      *     <dd>
      *       This node is a leaf, and may not have children
      *     </dd>
@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         }
 
         // Ensure parent isn't a leaf
-        if (parentNode.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+        if (parentNode.type == qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
         {
           throw new Error("Sorry, a LEAF may not have children.");
         }
@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       }
 
       // If this is a leaf, we don't present open/close icon
-      if (type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+      if (type == qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
       {
         // mask off the opened bit but retain the hide open/close button bit
         bOpened = false;
@@ -476,7 +476,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
                            label,
                            bOpened,
                            bHideOpenCloseButton,
-                           qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                           qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
                            icon,
                            iconSelected);
     },
@@ -512,7 +512,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
                            label,
                            false,
                            false,
-                           qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                           qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
                            icon,
                            iconSelected);
     },
@@ -768,7 +768,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {Array}
      *  Array of node objects.
-     *  See {@link qx.ui.treevirtual.SimpleTreeDataModel} for a description
+     *  See {@link qx.legacy.ui.treevirtual.SimpleTreeDataModel} for a description
      *  nodes in this array.
      */
     getData : function()

@@ -23,9 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.embed.LinkEmbed",
+qx.Class.define("qx.legacy.ui.embed.LinkEmbed",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : qx.legacy.ui.embed.HtmlEmbed,
 
 
 

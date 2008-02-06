@@ -27,14 +27,14 @@
 /**
  * One of the widgets which could be used to structurize the interface.
  *
- *  qx.ui.pageview.radioview.RadioView creates a series of horizontal radio
+ *  qx.legacy.ui.pageview.radioview.RadioView creates a series of horizontal radio
  *  buttons at the top of the view.
  *
  * @appearance radio-view
  */
-qx.Class.define("qx.ui.pageview.radioview.RadioView",
+qx.Class.define("qx.legacy.ui.pageview.radioview.RadioView",
 {
-  extend : qx.ui.pageview.AbstractPageView,
+  extend : qx.legacy.ui.pageview.AbstractPageView,
 
 
 
@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
 
   construct : function()
   {
-    this.base(arguments, qx.ui.pageview.radioview.Bar, qx.ui.pageview.radioview.Pane);
+    this.base(arguments, qx.legacy.ui.pageview.radioview.Bar, qx.legacy.ui.pageview.radioview.Pane);
 
     this.initBarPosition();
   },

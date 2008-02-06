@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table.selection package.
+ * The qx.legacy.ui.table.selection package.
  */

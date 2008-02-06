@@ -27,9 +27,9 @@
  * A date chooser button widget which can be associated to a widget where the date value is synchronized
  * whith the selected date.
  */
-qx.Class.define("qx.ui.component.DateChooserButton",
+qx.Class.define("qx.legacy.ui.component.DateChooserButton",
 {
-  extend : qx.ui.form.Button,
+  extend : qx.legacy.ui.form.Button,
 
 
 
@@ -41,13 +41,13 @@ qx.Class.define("qx.ui.component.DateChooserButton",
   */
 
   /**
-   * @param vTargetWidget {qx.ui.core.Widget} the widget which is the target for the date value selection. The target widget must have a setValue and getValue method.
+   * @param vTargetWidget {qx.legacy.ui.core.Widget} the widget which is the target for the date value selection. The target widget must have a setValue and getValue method.
    * @param vChooserTitle {String} the title of the chooser window. The default value is held in property chooserTitle.
    * @param vButtonLabel {String} the label of the button. The default is null.
    * @param vIcon {String} the icon of the button. The default is 'icon/16/apps/accessories-date.png'.
-   * @param vIconWidth {String} derived from qx.ui.form.Button.
-   * @param vIconHeight {String} derived from qx.ui.form.Button.
-   * @param vFlash {String} derived from qx.ui.form.Button.
+   * @param vIconWidth {String} derived from qx.legacy.ui.form.Button.
+   * @param vIconHeight {String} derived from qx.legacy.ui.form.Button.
+   * @param vFlash {String} derived from qx.legacy.ui.form.Button.
    */
   construct : function(vTargetWidget, vChooserTitle, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   {
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     /** The target widget the selected Date should be synchronized with. */
     targetWidget :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       init : null,
       nullable : true,
       apply : "_applyTargetWidget"
@@ -145,14 +145,14 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
-     * @throws exception if value is not instance of qx.ui.core.Widget or does not have setter and getter for property value
+     * @throws exception if value is not instance of qx.legacy.ui.core.Widget or does not have setter and getter for property value
      */
     _applyTargetWidget : function(value, old)
     {
-      if (value instanceof qx.ui.core.Widget && qx.util.Validation.isValidFunction(value.setValue) && qx.util.Validation.isValidFunction(value.getValue)) {
+      if (value instanceof qx.legacy.ui.core.Widget && qx.util.Validation.isValidFunction(value.setValue) && qx.util.Validation.isValidFunction(value.getValue)) {
         return true;
       } else {
-        throw new Error("TargetWidget must be an instance of qx.ui.core.Widget and has setValue and getValue methods");
+        throw new Error("TargetWidget must be an instance of qx.legacy.ui.core.Widget and has setValue and getValue methods");
       }
     },
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _createChooserWindow : function()
     {
-      var win = this._chooserWindow = new qx.ui.window.Window(this.getChooserTitle());
+      var win = this._chooserWindow = new qx.legacy.ui.window.Window(this.getChooserTitle());
 
       win.addListener("keydown", this._chooserWindowKeydownHandler, this);
       win.addListener("appear", this._chooserWindowAppearHandler, this);
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _createChooser : function()
     {
-      var cp = this._chooser = new qx.ui.component.DateChooser;
+      var cp = this._chooser = new qx.legacy.ui.component.DateChooser;
       cp.auto();
       cp.setBorder(null);
 
@@ -254,12 +254,12 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @type member
      * @param dateFormatSize {String} The date format size according to the size parameter in {qx.locale.Date.getDateFormat}
      * @return {void}
-     * @throws exception if the target widget is not instance of qx.ui.core.Widget or does not have setter and getter for property value
+     * @throws exception if the target widget is not instance of qx.legacy.ui.core.Widget or does not have setter and getter for property value
      */
     _changeLocale : function(dateFormatSize)
     {
       if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
-        throw new Error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+        throw new Error("TargetWidget must be set which must be an instance of qx.legacy.ui.core.Widget and has setValue and getValue method.");
       }
 
       var date = null;
@@ -293,12 +293,12 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @type member
      * @param e {Event} the received event
      * @return {void}
-     * @throws exception if the target widget is not instance of qx.ui.core.Widget or does not have setter and getter for property value
+     * @throws exception if the target widget is not instance of qx.legacy.ui.core.Widget or does not have setter and getter for property value
      */
     _executeHandler : function(e)
     {
       if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
-        throw new Error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+        throw new Error("TargetWidget must be set which must be an instance of qx.legacy.ui.core.Widget and has setValue and getValue method.");
       }
 
       var date = null;

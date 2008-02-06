@@ -1,3 +1,3 @@
 /**
- * The qx.ui.pageview.radioview package.
+ * The qx.legacy.ui.pageview.radioview package.
  */

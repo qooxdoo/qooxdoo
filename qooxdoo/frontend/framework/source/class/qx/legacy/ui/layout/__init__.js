@@ -1,3 +1,3 @@
 /**
- * The qx.ui.layout package.
+ * The qx.legacy.ui.layout package.
  */

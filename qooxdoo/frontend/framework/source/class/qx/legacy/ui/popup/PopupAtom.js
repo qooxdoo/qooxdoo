@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.popup.PopupAtom",
+qx.Class.define("qx.legacy.ui.popup.PopupAtom",
 {
-  extend : qx.ui.popup.Popup,
+  extend : qx.legacy.ui.popup.Popup,
 
 
 
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.popup.PopupAtom",
   {
     this.base(arguments);
 
-    this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
+    this._atom = new qx.legacy.ui.basic.Atom(vLabel, vIcon);
     this._atom.setParent(this);
   },
 
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.popup.PopupAtom",
      * Accessor method to get the atom sub widget
      *
      * @type member
-     * @return {qx.ui.basic.Atom} atom sub widget
+     * @return {qx.legacy.ui.basic.Atom} atom sub widget
      */
     getAtom : function() {
       return this._atom;

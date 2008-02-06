@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * This singleton manages multiple instances of qx.ui.embed.Iframe.
+ * This singleton manages multiple instances of qx.legacy.ui.embed.Iframe.
  * <p>
  * The problem: When dragging over an iframe then all mouse events will be
  * passed to the document of the iframe, not the main document.
@@ -26,7 +26,7 @@
  * The solution: In order to be able to track mouse events over iframes, this
  * manager will block all iframes during a drag with a glasspane.
  */
-qx.Class.define("qx.ui.embed.IframeManager",
+qx.Class.define("qx.legacy.ui.embed.IframeManager",
 {
   type : "singleton",
   extend : qx.util.manager.Object,

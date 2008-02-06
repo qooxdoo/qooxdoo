@@ -25,7 +25,7 @@ qx.Class.define("qx.util.ThemeList",
     /**
      * Generates buttons for the given list
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      * @param list {Theme[]} list of themes
@@ -45,7 +45,7 @@ qx.Class.define("qx.util.ThemeList",
           continue;
         }
 
-        button = new qx.ui.form.Button(prefix + theme.title, "icon/16/actions/dialog-ok.png");
+        button = new qx.legacy.ui.form.Button(prefix + theme.title, "icon/16/actions/dialog-ok.png");
 
         button.setUserData("theme", theme);
         button.setLocation(x, y);
@@ -61,7 +61,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing meta themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
@@ -78,7 +78,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing color themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
@@ -95,7 +95,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing border themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
@@ -112,7 +112,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing font themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
@@ -129,7 +129,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing widget themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
@@ -146,7 +146,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing icon themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
@@ -163,7 +163,7 @@ qx.Class.define("qx.util.ThemeList",
      * Generates buttons for all existing appearance themes and
      * place it to the given coordinates inside the given parent
      *
-     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param parent {qx.legacy.ui.layout.CanvasLayout} the parent where the buttons should be added
      * @param x {Integer} the x coordinate
      * @param y {Integer} the y coordinate
      */
