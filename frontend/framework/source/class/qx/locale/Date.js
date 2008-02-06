@@ -20,8 +20,10 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.locale.Date
+ * Static class that provides localized date information (like names of week
+ * days, AM/PM markers, start of week, etc.).
  */
+
 qx.Class.define("qx.locale.Date",
 {
   statics :

@@ -20,8 +20,10 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.locale.Number
+ * Provides information about local-dependend number formatting (like the decimal
+ * separator).
  */
+
 qx.Class.define("qx.locale.Number",
 {
   statics :

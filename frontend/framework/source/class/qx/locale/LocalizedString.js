@@ -19,6 +19,10 @@
 
 ************************************************************************ */
 
+/**
+ * String class to create translated and interpolated strings.
+ */
+
 qx.Class.define("qx.locale.LocalizedString",
 {
   extend : qx.core.Object,

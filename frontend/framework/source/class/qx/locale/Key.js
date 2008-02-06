@@ -20,8 +20,9 @@
 ************************************************************************ */
 
 /**
- * Static class, which contains functionality to localize key names.
+ * Static class, which contains functionality to localize the names of keyboard keys.
  */
+
 qx.Class.define("qx.locale.Key",
 {
   /*
