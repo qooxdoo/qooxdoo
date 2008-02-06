@@ -36,7 +36,7 @@
 
 qx.Class.define("showcase.Application",
 {
-  extend : qx.application.Gui,
+  extend : qx.legacy.application.Gui,
 
 
   events :
