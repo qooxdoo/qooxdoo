@@ -640,7 +640,7 @@ qx.Class.define("qx.util.format.DateFormat",
     {
       if (this._parseFeed != null)
       {
-        // We already have the farse feed
+        // We already have the parse feed
         return ;
       }
 
