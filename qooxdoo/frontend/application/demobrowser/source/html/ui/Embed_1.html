@@ -1,0 +1,93 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+  This example embeds a 0.8 ui widget into a legacy qooxdoo layout.
+  </div>
+
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  // extend legacy ui application class
+  extend : qx.legacy.application.Gui,
+
+  members :
+  {
+
+    main : function()
+    {
+      this.base(arguments);
+
+      // Create button
+      var button1 = new qx.legacy.ui.form.Button("Resize HBox");
+
+      var future = new qx.legacy.ui.embed.Future().set({
+        width : "auto",
+        height : "100%",
+        content : this.getGrid()
+      });
+
+      var hbox = new qx.legacy.ui.layout.HorizontalBoxLayout();
+      hbox.set({
+        top: 10,
+        left: 10,
+        height: "auto",
+        width: "auto",
+        backgroundColor: "gray",
+        border: "black",
+        spacing: 10,
+        padding: 5
+      });
+      hbox.add(button1, future);
+      hbox.addToDocument();
+
+      // Add an event listener
+      var grow = true;
+      button1.addListener("execute", function(e)
+      {
+        hbox.setHeight(grow ? 300 : "auto");
+        grow = !grow;
+      }, this);
+
+    },
+
+
+    getGrid : function()
+    {
+      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+
+      // auto size
+      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow"});
+      var layout = new qx.ui2.layout.Grid();
+      layout.setVerticalSpacing(20);
+      layout.setHorizontalSpacing(10);
+      layout.setRowFlex(0, 1);
+      layout.setColumnFlex(0, 1);
+
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 0);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 0, 1);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 1, 0);
+      layout.add((new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"}), 1, 1);
+
+      box.setLayout(layout);
+
+      return box;
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
