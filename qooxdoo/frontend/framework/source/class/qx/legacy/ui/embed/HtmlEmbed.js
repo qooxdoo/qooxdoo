@@ -149,7 +149,7 @@ qx.Class.define("qx.legacy.ui.embed.HtmlEmbed",
     */
 
     _applyFont : function(value, old) {
-      qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
+      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
     },
 
 
@@ -171,7 +171,7 @@ qx.Class.define("qx.legacy.ui.embed.HtmlEmbed",
     */
 
     _applyTextColor : function(value, old) {
-      qx.legacy.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
     },
 
     /**
