@@ -21,7 +21,7 @@
 /**
  * Collection of methods to compare two values.
  */
-qx.Class.define("qx.util.Compare",
+qx.Class.define("qx.legacy.util.Compare",
 {
   statics :
   {
@@ -51,7 +51,7 @@ qx.Class.define("qx.util.Compare",
      *       a value < 0  otherwise
      */
     byStringCaseInsensitive : function(a, b) {
-      return qx.util.Compare.byString(a.toLowerCase(), b.toLowerCase());
+      return qx.legacy.util.Compare.byString(a.toLowerCase(), b.toLowerCase());
     },
 
 
@@ -66,7 +66,7 @@ qx.Class.define("qx.util.Compare",
      *       a value < 0  otherwise
      */
     byStringUmlautsShort : function(a, b) {
-      return qx.util.Compare.byString(qx.util.Normalization.umlautsShort(a), qx.util.Normalization.umlautsShort(b));
+      return qx.legacy.util.Compare.byString(qx.legacy.util.Normalization.umlautsShort(a), qx.legacy.util.Normalization.umlautsShort(b));
     },
 
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.util.Compare",
      *       a value < 0  otherwise
      */
     byStringUmlautsShortCaseInsensitive : function(a, b) {
-      return qx.util.Compare.byString(qx.util.Normalization.umlautsShort(a).toLowerCase(), qx.util.Normalization.umlautsShort(b).toLowerCase());
+      return qx.legacy.util.Compare.byString(qx.legacy.util.Normalization.umlautsShort(a).toLowerCase(), qx.legacy.util.Normalization.umlautsShort(b).toLowerCase());
     },
 
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.util.Compare",
      *       a value < 0  otherwise
      */
     byStringUmlautsLong : function(a, b) {
-      return qx.util.Compare.byString(qx.util.Normalization.umlautsLong(a), qx.util.Normalization.umlautsLong(b));
+      return qx.legacy.util.Compare.byString(qx.legacy.util.Normalization.umlautsLong(a), qx.legacy.util.Normalization.umlautsLong(b));
     },
 
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.util.Compare",
      *       a value < 0  otherwise
      */
     byStringUmlautsLongCaseInsensitive : function(a, b) {
-      return qx.util.Compare.byString(qx.util.Normalization.umlautsLong(a).toLowerCase(), qx.util.Normalization.umlautsLong(b).toLowerCase());
+      return qx.legacy.util.Compare.byString(qx.legacy.util.Normalization.umlautsLong(a).toLowerCase(), qx.legacy.util.Normalization.umlautsLong(b).toLowerCase());
     },
 
 

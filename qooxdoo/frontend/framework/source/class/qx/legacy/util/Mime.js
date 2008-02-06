@@ -22,7 +22,7 @@
 /**
  * Mime type constants
  */
-qx.Class.define("qx.util.Mime",
+qx.Class.define("qx.legacy.util.Mime",
 {
   statics :
   {

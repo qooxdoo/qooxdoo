@@ -385,13 +385,13 @@ qx.Class.define("qx.legacy.ui.menu.Button",
 
       this._shortcutObject.setText(vHtml);
 
-      if (qx.util.Validation.isValidString(vHtml))
+      if (qx.legacy.util.Validation.isValidString(vHtml))
       {
         this._hasShortcut = true;
 
         var vOldHtml = old ? old.toString() : "";
 
-        if (qx.util.Validation.isInvalidString(vOldHtml))
+        if (qx.legacy.util.Validation.isInvalidString(vOldHtml))
         {
           if (this.getLastChild() == this._arrowObject) {
             this.addBefore(this._shortcutObject, this._arrowObject);
@@ -421,7 +421,7 @@ qx.Class.define("qx.legacy.ui.menu.Button",
       {
         this._hasMenu = true;
 
-        if (qx.util.Validation.isInvalidObject(old)) {
+        if (qx.legacy.util.Validation.isInvalidObject(old)) {
           this.addAtEnd(this._arrowObject);
         }
       }

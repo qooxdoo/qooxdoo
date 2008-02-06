@@ -142,7 +142,7 @@ qx.Class.define("qx.legacy.ui.embed.IconHtmlEmbed",
       var vIsPng = /\.png$/i.test(this.getIcon());
       var vSource;
 
-      if (qx.util.Validation.isValidString(this.getIcon()))
+      if (qx.legacy.util.Validation.isValidString(this.getIcon()))
       {
         vHtml.push("<img src=\"");
 
@@ -192,7 +192,7 @@ qx.Class.define("qx.legacy.ui.embed.IconHtmlEmbed",
         vHtml.push("\"/>");
       }
 
-      if (qx.util.Validation.isValidString(this.getHtml())) {
+      if (qx.legacy.util.Validation.isValidString(this.getHtml())) {
         vHtml.push(this.getHtml());
       }
 

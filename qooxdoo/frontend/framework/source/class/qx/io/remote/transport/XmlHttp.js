@@ -84,7 +84,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       crossDomain           : false,
       fileUpload            : false,
       programaticFormFields : false,
-      responseTypes         : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ]
+      responseTypes         : [ qx.legacy.util.Mime.TEXT, qx.legacy.util.Mime.JAVASCRIPT, qx.legacy.util.Mime.JSON, qx.legacy.util.Mime.XML, qx.legacy.util.Mime.HTML ]
     },
 
     requestObjects : [],
@@ -700,8 +700,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       switch(this.getResponseType())
       {
-        case qx.util.Mime.TEXT:
-        case qx.util.Mime.HTML:
+        case qx.legacy.util.Mime.TEXT:
+        case qx.legacy.util.Mime.HTML:
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.ioRemoteDebugData"))
@@ -712,7 +712,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
           return vText;
 
-        case qx.util.Mime.JSON:
+        case qx.legacy.util.Mime.JSON:
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.ioRemoteDebugData"))
@@ -734,7 +734,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             return "<pre>Could not execute json: \n" + vText + "\n</pre>";
           }
 
-        case qx.util.Mime.JAVASCRIPT:
+        case qx.legacy.util.Mime.JAVASCRIPT:
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.ioRemoteDebugData"))
@@ -754,7 +754,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             return null;
           }
 
-        case qx.util.Mime.XML:
+        case qx.legacy.util.Mime.XML:
           vText = this.getResponseXml();
 
           if (qx.core.Variant.isSet("qx.debug", "on"))

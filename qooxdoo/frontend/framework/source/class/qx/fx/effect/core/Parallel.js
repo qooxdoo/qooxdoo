@@ -52,7 +52,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
   {
     this.base(arguments);
 
-    this._effects = (qx.util.Validation.isValidObject(effects)) ? effects : [];
+    this._effects = (qx.legacy.util.Validation.isValidObject(effects)) ? effects : [];
   },
 
 

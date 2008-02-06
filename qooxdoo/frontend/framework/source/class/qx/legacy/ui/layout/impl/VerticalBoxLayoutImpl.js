@@ -253,7 +253,7 @@ qx.Class.define("qx.legacy.ui.layout.impl.VerticalBoxLayoutImpl",
             }
             else
             {
-              vAdjust = qx.util.Validation.isValidNumber(vCurrentChild.getMinHeightValue()) ? vCurrentChild._computedHeightFlexValue - vCurrentChild.getMinHeightValue() : vCurrentChild._computedHeightFlexValue;
+              vAdjust = qx.legacy.util.Validation.isValidNumber(vCurrentChild.getMinHeightValue()) ? vCurrentChild._computedHeightFlexValue - vCurrentChild.getMinHeightValue() : vCurrentChild._computedHeightFlexValue;
 
               if (vAdjust > 0) {
                 vCurrentChild._allocationLoops = Math.floor(vAdjust / vCurrentChild._computedHeightParsed);

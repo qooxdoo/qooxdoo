@@ -149,7 +149,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
      */
     _applyTargetWidget : function(value, old)
     {
-      if (value instanceof qx.legacy.ui.core.Widget && qx.util.Validation.isValidFunction(value.setValue) && qx.util.Validation.isValidFunction(value.getValue)) {
+      if (value instanceof qx.legacy.ui.core.Widget && qx.legacy.util.Validation.isValidFunction(value.setValue) && qx.legacy.util.Validation.isValidFunction(value.getValue)) {
         return true;
       } else {
         throw new Error("TargetWidget must be an instance of qx.legacy.ui.core.Widget and has setValue and getValue methods");
@@ -258,7 +258,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
      */
     _changeLocale : function(dateFormatSize)
     {
-      if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
+      if (qx.legacy.util.Validation.isInvalidObject(this.getTargetWidget())) {
         throw new Error("TargetWidget must be set which must be an instance of qx.legacy.ui.core.Widget and has setValue and getValue method.");
       }
 
@@ -297,7 +297,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
      */
     _executeHandler : function(e)
     {
-      if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
+      if (qx.legacy.util.Validation.isInvalidObject(this.getTargetWidget())) {
         throw new Error("TargetWidget must be set which must be an instance of qx.legacy.ui.core.Widget and has setValue and getValue method.");
       }
 
