@@ -31,7 +31,7 @@
  * Supported are: color, border, fonts, icons, widgets,
  * appearances and meta themes.
  */
-qx.Class.define("qx.Theme",
+qx.Class.define("qx.legacy.Theme",
 {
   statics:
   {
@@ -46,7 +46,7 @@ qx.Class.define("qx.Theme",
      *
      * Example:
      * <pre class='javascript'>
-     * qx.Theme.define("name",
+     * qx.legacy.Theme.define("name",
      * {
      *   title : "MyThemeTitle",
      *   extend : otherTheme,

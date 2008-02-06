@@ -21,9 +21,9 @@
 /**
  * Embed a new qooxdoo 0.8 widget into a legacy ui application.
  */
-qx.Class.define("qx.ui.embed.Future",
+qx.Class.define("qx.legacy.ui.embed.Future",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 

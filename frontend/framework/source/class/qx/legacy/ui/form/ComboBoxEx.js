@@ -901,7 +901,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
         }
       }
       // ##Final width and height
-      var borderObj = qx.theme.manager.Border.getInstance().resolveDynamic(this._popup.getBorder());
+      var borderObj = qx.legacy.theme.manager.Border.getInstance().resolveDynamic(this._popup.getBorder());
       this._popup.set({
           width : borderObj.getWidthLeft()+width+borderObj.getWidthRight(),
           height: this._getPopupHeight(maxRows),
@@ -914,7 +914,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
 
     _getPopupHeight: function(rows)
     {
-      var borderObj = qx.theme.manager.Border.getInstance().resolveDynamic(this._popup.getBorder());
+      var borderObj = qx.legacy.theme.manager.Border.getInstance().resolveDynamic(this._popup.getBorder());
       return borderObj.getWidthTop()+ this._list.getRowHeight() * Math.min(rows, (this.hasHeaders ? 1 : 0) + this.getSelection().length) +
          2 + (this.hasHeaders ? 2 : 0) + borderObj.getWidthBottom();
     },

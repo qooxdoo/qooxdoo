@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.theme.manager.Border",
+qx.Class.define("qx.legacy.theme.manager.Border",
 {
   type : "singleton",
   extend : qx.util.manager.Value,
@@ -145,7 +145,7 @@ qx.Class.define("qx.theme.manager.Border",
         }
       }
 
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
+      if (qx.legacy.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncBorderTheme();
       }
     }

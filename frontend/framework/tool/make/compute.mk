@@ -100,31 +100,31 @@ ifeq ($(APPLICATION_ENABLE_GUI),true)
   COMPUTED_THEME_SETTING =
 
   ifneq ($(APPLICATION_THEME),)
-    COMPUTED_THEME_SETTING += --use-setting qx.theme:$(APPLICATION_THEME)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.theme:$(APPLICATION_THEME)
   endif
 
   ifneq ($(APPLICATION_THEME_COLOR),)
-    COMPUTED_THEME_SETTING += --use-setting qx.colorTheme:$(APPLICATION_THEME_COLOR)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.colorTheme:$(APPLICATION_THEME_COLOR)
   endif
 
   ifneq ($(APPLICATION_THEME_BORDER),)
-    COMPUTED_THEME_SETTING += --use-setting qx.borderTheme:$(APPLICATION_THEME_BORDER)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.borderTheme:$(APPLICATION_THEME_BORDER)
   endif
 
   ifneq ($(APPLICATION_THEME_FONT),)
-    COMPUTED_THEME_SETTING += --use-setting qx.fontTheme:$(APPLICATION_THEME_FONT)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.fontTheme:$(APPLICATION_THEME_FONT)
   endif
 
   ifneq ($(APPLICATION_THEME_ICON),)
-    COMPUTED_THEME_SETTING += --use-setting qx.iconTheme:$(APPLICATION_THEME_ICON)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.iconTheme:$(APPLICATION_THEME_ICON)
   endif
 
   ifneq ($(APPLICATION_THEME_WIDGET),)
-    COMPUTED_THEME_SETTING += --use-setting qx.widgetTheme:$(APPLICATION_THEME_WIDGET)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.widgetTheme:$(APPLICATION_THEME_WIDGET)
   endif
 
   ifneq ($(APPLICATION_THEME_APPEARANCE),)
-    COMPUTED_THEME_SETTING += --use-setting qx.appearanceTheme:$(APPLICATION_THEME_APPEARANCE)
+    COMPUTED_THEME_SETTING += --use-setting qx.legacy.appearanceTheme:$(APPLICATION_THEME_APPEARANCE)
   endif
 
   COMPUTED_SOURCE_SETTING += $(COMPUTED_THEME_SETTING)

@@ -61,7 +61,7 @@
  *
  *   * <b>The icing:</b> Here are some packages that are relevant for advanced
  *     features of your GUI app:
- *     {@link qx.theme};
+ *     {@link qx.legacy.theme};
  *
  * Following is a complete list of the available *qx.legacy.ui* packages:
  *

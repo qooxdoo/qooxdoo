@@ -392,7 +392,7 @@ endif
 # Set the default meta theme.
 #
 ifndef APPLICATION_THEME
-  APPLICATION_THEME = qx.theme.ClassicRoyale
+  APPLICATION_THEME = qx.legacy.theme.ClassicRoyale
 endif
 
 #
