@@ -21,13 +21,13 @@
 /* ************************************************************************
 
 #module(ui_core)
-#optional(qx.ui.core.Parent)
-#optional(qx.ui.form.Button)
+#optional(qx.legacy.ui.core.Parent)
+#optional(qx.legacy.ui.form.Button)
 #optional(qx.event.Timer)
 #optional(qx.event.Command)
-#optional(qx.ui.popup.ToolTip)
-#optional(qx.ui.menu.Menu)
-#optional(qx.ui.basic.Inline)
+#optional(qx.legacy.ui.popup.ToolTip)
+#optional(qx.legacy.ui.menu.Menu)
+#optional(qx.legacy.ui.basic.Inline)
 
 #require(qx.event.dispatch.WidgetBubbling)
 #require(qx.core.LegacyProperty)
@@ -38,14 +38,14 @@
  * This is the main widget, all visible objects in the application extend this.
  *
  * @appearance widget
- * @state selected Set by {@link qx.ui.selection.SelectionManager#renderItemSelectionState}
- * @state anchor Set by {@link qx.ui.selection.SelectionManager#renderItemAnchorState}
- * @state lead Set by {@link qx.ui.selection.SelectionManager#renderItemLeadState}
+ * @state selected Set by {@link qx.legacy.ui.selection.SelectionManager#renderItemSelectionState}
+ * @state anchor Set by {@link qx.legacy.ui.selection.SelectionManager#renderItemAnchorState}
+ * @state lead Set by {@link qx.legacy.ui.selection.SelectionManager#renderItemLeadState}
  *
  * @state disabled Set by {@link qx.core.Object#enabled}
  * @state focused Set by {@link #focused}
  */
-qx.Class.define("qx.ui.core.Widget",
+qx.Class.define("qx.legacy.ui.core.Widget",
 {
   extend : qx.core.Object,
   type : "abstract",
@@ -134,16 +134,16 @@ qx.Class.define("qx.ui.core.Widget",
     /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
     "keyup"           : "qx.legacy.event.type.KeyEvent",
 
-    /** (Fired by {@link qx.ui.core.Parent}) */
+    /** (Fired by {@link qx.legacy.ui.core.Parent}) */
     "focusout"        : "qx.legacy.event.type.FocusEvent",
 
-    /** (Fired by {@link qx.ui.core.Parent}) */
+    /** (Fired by {@link qx.legacy.ui.core.Parent}) */
     "focusin"         : "qx.legacy.event.type.FocusEvent",
 
-    /** (Fired by {@link qx.ui.core.Parent}) */
+    /** (Fired by {@link qx.legacy.ui.core.Parent}) */
     "blur"            : "qx.legacy.event.type.FocusEvent",
 
-    /** (Fired by {@link qx.ui.core.Parent}) */
+    /** (Fired by {@link qx.legacy.ui.core.Parent}) */
     "focus"           : "qx.legacy.event.type.FocusEvent",
 
     /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
@@ -213,21 +213,21 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
+      if (qx.legacy.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
         return;
       }
 
       // Also used for inline event handling to seperate 'real' events
-      qx.ui.core.Widget._inFlushGlobalQueues = true;
+      qx.legacy.ui.core.Widget._inFlushGlobalQueues = true;
 
-      qx.ui.core.Widget.flushGlobalWidgetQueue();
-      qx.ui.core.Widget.flushGlobalStateQueue();
-      qx.ui.core.Widget.flushGlobalElementQueue();
-      qx.ui.core.Widget.flushGlobalJobQueue();
-      qx.ui.core.Widget.flushGlobalLayoutQueue();
-      qx.ui.core.Widget.flushGlobalDisplayQueue();
+      qx.legacy.ui.core.Widget.flushGlobalWidgetQueue();
+      qx.legacy.ui.core.Widget.flushGlobalStateQueue();
+      qx.legacy.ui.core.Widget.flushGlobalElementQueue();
+      qx.legacy.ui.core.Widget.flushGlobalJobQueue();
+      qx.legacy.ui.core.Widget.flushGlobalLayoutQueue();
+      qx.legacy.ui.core.Widget.flushGlobalDisplayQueue();
 
-      delete qx.ui.core.Widget._inFlushGlobalQueues;
+      delete qx.legacy.ui.core.Widget._inFlushGlobalQueues;
     },
 
 
@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalWidgetQueue && vWidget._isDisplayable)
       {
         this.__autoFlush.schedule();
-        qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
+        qx.legacy.ui.core.Widget._globalWidgetQueue.push(vWidget);
         vWidget._isInGlobalWidgetQueue = true;
       }
     },
@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (vWidget._isInGlobalWidgetQueue)
       {
-        qx.lang.Array.remove(qx.ui.core.Widget._globalWidgetQueue, vWidget);
+        qx.lang.Array.remove(qx.legacy.ui.core.Widget._globalWidgetQueue, vWidget);
         delete vWidget._isInGlobalWidgetQueue;
       }
     },
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalWidgetQueue : function()
     {
-      var vQueue = qx.ui.core.Widget._globalWidgetQueue, vLength, vWidget;
+      var vQueue = qx.legacy.ui.core.Widget._globalWidgetQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
       {
@@ -330,7 +330,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalElementQueue && vWidget._isDisplayable)
       {
         this.__autoFlush.schedule();
-        qx.ui.core.Widget._globalElementQueue.push(vWidget);
+        qx.legacy.ui.core.Widget._globalElementQueue.push(vWidget);
         vWidget._isInGlobalElementQueue = true;
       }
     },
@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (vWidget._isInGlobalElementQueue)
       {
-        qx.lang.Array.remove(qx.ui.core.Widget._globalElementQueue, vWidget);
+        qx.lang.Array.remove(qx.legacy.ui.core.Widget._globalElementQueue, vWidget);
         delete vWidget._isInGlobalElementQueue;
       }
     },
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalElementQueue : function()
     {
-      var vQueue = qx.ui.core.Widget._globalElementQueue, vLength, vWidget;
+      var vQueue = qx.legacy.ui.core.Widget._globalElementQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
       {
@@ -404,7 +404,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         this.__autoFlush.schedule();
 
-        qx.ui.core.Widget._globalStateQueue.push(vWidget);
+        qx.legacy.ui.core.Widget._globalStateQueue.push(vWidget);
         vWidget._isInGlobalStateQueue = true;
       }
     },
@@ -421,7 +421,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (vWidget._isInGlobalStateQueue)
       {
-        qx.lang.Array.remove(qx.ui.core.Widget._globalStateQueue, vWidget);
+        qx.lang.Array.remove(qx.legacy.ui.core.Widget._globalStateQueue, vWidget);
         delete vWidget._isInGlobalStateQueue;
       }
     },
@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalStateQueue : function()
     {
-      var vQueue = qx.ui.core.Widget._globalStateQueue, vLength, vWidget;
+      var vQueue = qx.legacy.ui.core.Widget._globalStateQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
       {
@@ -478,7 +478,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         this.__autoFlush.schedule();
 
-        qx.ui.core.Widget._globalJobQueue.push(vWidget);
+        qx.legacy.ui.core.Widget._globalJobQueue.push(vWidget);
         vWidget._isInGlobalJobQueue = true;
       }
     },
@@ -495,7 +495,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (vWidget._isInGlobalJobQueue)
       {
-        qx.lang.Array.remove(qx.ui.core.Widget._globalJobQueue, vWidget);
+        qx.lang.Array.remove(qx.legacy.ui.core.Widget._globalJobQueue, vWidget);
         delete vWidget._isInGlobalJobQueue;
       }
     },
@@ -509,7 +509,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalJobQueue : function()
     {
-      var vQueue = qx.ui.core.Widget._globalJobQueue, vLength, vWidget;
+      var vQueue = qx.legacy.ui.core.Widget._globalJobQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
       {
@@ -532,7 +532,7 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
       LAYOUT QUEUE
 
-      Contains the parents (qx.ui.core.Parent) of the children which needs layout updates
+      Contains the parents (qx.legacy.ui.core.Parent) of the children which needs layout updates
     ---------------------------------------------------------------------------
     */
 
@@ -552,7 +552,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         this.__autoFlush.schedule();
 
-        qx.ui.core.Widget._globalLayoutQueue.push(vParent);
+        qx.legacy.ui.core.Widget._globalLayoutQueue.push(vParent);
         vParent._isInGlobalLayoutQueue = true;
       }
     },
@@ -569,7 +569,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (vParent._isInGlobalLayoutQueue)
       {
-        qx.lang.Array.remove(qx.ui.core.Widget._globalLayoutQueue, vParent);
+        qx.lang.Array.remove(qx.legacy.ui.core.Widget._globalLayoutQueue, vParent);
         delete vParent._isInGlobalLayoutQueue;
       }
     },
@@ -583,7 +583,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalLayoutQueue : function()
     {
-      var vQueue = qx.ui.core.Widget._globalLayoutQueue, vLength, vParent;
+      var vQueue = qx.legacy.ui.core.Widget._globalLayoutQueue, vLength, vParent;
 
       while ((vLength = vQueue.length) > 0)
       {
@@ -633,15 +633,15 @@ qx.Class.define("qx.ui.core.Widget",
         {
           var vKey = vParent.toHashCode();
 
-          if (qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey]) {
-            qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey].push(vWidget);
+          if (qx.legacy.ui.core.Widget._lazyGlobalDisplayQueues[vKey]) {
+            qx.legacy.ui.core.Widget._lazyGlobalDisplayQueues[vKey].push(vWidget);
           } else {
-            qx.ui.core.Widget._lazyGlobalDisplayQueues[vKey] = [ vWidget ];
+            qx.legacy.ui.core.Widget._lazyGlobalDisplayQueues[vKey] = [ vWidget ];
           }
         }
         else
         {
-          qx.ui.core.Widget._fastGlobalDisplayQueue.push(vWidget);
+          qx.legacy.ui.core.Widget._fastGlobalDisplayQueue.push(vWidget);
         }
 
         vWidget._isInGlobalDisplayQueue = true;
@@ -669,8 +669,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var vKey, vLazyQueue, vWidget, vFragment;
 
-      var vFastQueue = qx.ui.core.Widget._fastGlobalDisplayQueue;
-      var vLazyQueues = qx.ui.core.Widget._lazyGlobalDisplayQueues;
+      var vFastQueue = qx.legacy.ui.core.Widget._fastGlobalDisplayQueue;
+      var vLazyQueues = qx.legacy.ui.core.Widget._lazyGlobalDisplayQueues;
 
       /* -----------------------------------------------
           Flush display queues
@@ -684,7 +684,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Work on lazy queues: Inline widgets
-      if (qx.Class.isDefined("qx.ui.basic.Inline"))
+      if (qx.Class.isDefined("qx.legacy.ui.basic.Inline"))
       {
         for (vKey in vLazyQueues)
         {
@@ -694,7 +694,7 @@ qx.Class.define("qx.ui.core.Widget",
           {
             vWidget = vLazyQueue[i];
 
-            if (vWidget instanceof qx.ui.basic.Inline)
+            if (vWidget instanceof qx.legacy.ui.basic.Inline)
             {
               vWidget._beforeInsertDom();
 
@@ -773,7 +773,7 @@ qx.Class.define("qx.ui.core.Widget",
       ----------------------------------------------- */
 
       // Only need to do this with the lazy queues
-      // because through the recursion from qx.ui.core.Parent
+      // because through the recursion from qx.legacy.ui.core.Parent
       // all others get also informed.
       for (vKey in vLazyQueues)
       {
@@ -853,7 +853,7 @@ qx.Class.define("qx.ui.core.Widget",
       var vPosition = vMode == null ? vChilds.indexOf(vObject) + vCalc : vMode === "first" ? 0 : vChilds.length - 1;
       var vInstance = vChilds[vPosition];
 
-      while (vInstance && (!vInstance.getEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance)))
+      while (vInstance && (!vInstance.getEnabled() || qx.legacy.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance)))
       {
         vPosition += vCalc;
         vInstance = vChilds[vPosition];
@@ -1040,7 +1040,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var c = qx.legacy.html.Dimension.getScrollBarSizeRight(t);
 
-      qx.ui.core.Widget.SCROLLBAR_SIZE = c ? c : 16;
+      qx.legacy.ui.core.Widget.SCROLLBAR_SIZE = c ? c : 16;
 
       document.body.removeChild(t);
     },
@@ -1074,7 +1074,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** The parent widget (the real object, no ID or something) */
     parent :
     {
-      check : "qx.ui.core.Parent",
+      check : "qx.legacy.ui.core.Parent",
       nullable : true,
       event : "changeParent",
       apply : "_applyParent"
@@ -1164,7 +1164,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Should this widget be stretched on the x-axis if the layout handler will do this?
-     *  Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
+     *  Used by some layout handlers (qx.legacy.ui.layout.BoxLayout, ...).
      */
     allowStretchX :
     {
@@ -1175,7 +1175,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Should this widget be stretched on the y-axis if the layout handler will do this?
-     *  Used by some layout handlers (qx.ui.layout.BoxLayout, ...).
+     *  Used by some layout handlers (qx.legacy.ui.layout.BoxLayout, ...).
      */
     allowStretchY :
     {
@@ -1467,7 +1467,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Contains the tooltip object connected to the widget. */
     toolTip :
     {
-      check : "qx.ui.popup.ToolTip",
+      check : "qx.legacy.ui.popup.ToolTip",
       nullable : true
     },
 
@@ -1475,7 +1475,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Contains the context menu object connected to the widget. (Need real implementation) */
     contextMenu :
     {
-      check : "qx.ui.menu.Menu",
+      check : "qx.legacy.ui.menu.Menu",
       nullable : true
     },
 
@@ -2583,18 +2583,18 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Add element (and create if not ready)
         if (!this._isCreated) {
-          qx.ui.core.Widget.addToGlobalElementQueue(this);
+          qx.legacy.ui.core.Widget.addToGlobalElementQueue(this);
         }
 
         // Add to global queues
-        qx.ui.core.Widget.addToGlobalStateQueue(this);
+        qx.legacy.ui.core.Widget.addToGlobalStateQueue(this);
 
         if (!qx.lang.Object.isEmpty(this._jobQueue)) {
-          qx.ui.core.Widget.addToGlobalJobQueue(this);
+          qx.legacy.ui.core.Widget.addToGlobalJobQueue(this);
         }
 
         if (!qx.lang.Object.isEmpty(this._childrenQueue)) {
-          qx.ui.core.Widget.addToGlobalLayoutQueue(this);
+          qx.legacy.ui.core.Widget.addToGlobalLayoutQueue(this);
         }
       }
 
@@ -2602,10 +2602,10 @@ qx.Class.define("qx.ui.core.Widget",
       else
       {
         // Removing from global queues
-        qx.ui.core.Widget.removeFromGlobalElementQueue(this);
-        qx.ui.core.Widget.removeFromGlobalStateQueue(this);
-        qx.ui.core.Widget.removeFromGlobalJobQueue(this);
-        qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);
+        qx.legacy.ui.core.Widget.removeFromGlobalElementQueue(this);
+        qx.legacy.ui.core.Widget.removeFromGlobalStateQueue(this);
+        qx.legacy.ui.core.Widget.removeFromGlobalJobQueue(this);
+        qx.legacy.ui.core.Widget.removeFromGlobalLayoutQueue(this);
 
         // Add to top-level tree queue
         this.removeFromCustomQueues(vHint);
@@ -2715,7 +2715,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Remove any hover/pressed styles
       this.removeState("over");
 
-      if (qx.Class.isDefined("qx.ui.form.Button"))
+      if (qx.Class.isDefined("qx.legacy.ui.form.Button"))
       {
         this.removeState("pressed");
         this.removeState("abandoned");
@@ -2957,7 +2957,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      */
     addToDocument : function() {
-      qx.ui.core.ClientDocument.getInstance().add(this);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(this);
     },
 
 
@@ -3049,7 +3049,7 @@ qx.Class.define("qx.ui.core.Widget",
     addToJobQueue : function(p)
     {
       if (this._hasParent) {
-        qx.ui.core.Widget.addToGlobalJobQueue(this);
+        qx.legacy.ui.core.Widget.addToGlobalJobQueue(this);
       }
 
       if (!this._jobQueue) {
@@ -3083,7 +3083,7 @@ qx.Class.define("qx.ui.core.Widget",
           return;
         }
 
-        var vLayoutImpl = this instanceof qx.ui.core.Parent ? this.getLayoutImpl() : null;
+        var vLayoutImpl = this instanceof qx.legacy.ui.core.Parent ? this.getLayoutImpl() : null;
 
         if (vLayoutImpl) {
           vLayoutImpl.updateSelfOnJobQueueFlush(vQueue);
@@ -3224,7 +3224,7 @@ qx.Class.define("qx.ui.core.Widget",
       try
       {
         // inform children about padding change
-        if (this instanceof qx.ui.core.Parent && (vQueue.paddingLeft || vQueue.paddingRight || vQueue.paddingTop || vQueue.paddingBottom))
+        if (this instanceof qx.legacy.ui.core.Parent && (vQueue.paddingLeft || vQueue.paddingRight || vQueue.paddingTop || vQueue.paddingBottom))
         {
           var ch = this.getChildren(), chl = ch.length;
 
@@ -3809,16 +3809,16 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedWidthType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedWidthValue = this._computeValuePixelLimit(this._computedWidthParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedWidthValue = this._computeValuePercentXLimit(this._computedWidthParsed);
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           return this._computedWidthValue = this.getPreferredBoxWidth();
 
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           if (this.getParent().getLayoutImpl().computeChildrenFlexWidth === undefined) {
             throw new Error("Widget " + this + ": having horizontal flex size (width=" + this.getWidth() + ") but parent layout " + this.getParent() + " does not support it");
           }
@@ -3845,13 +3845,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedMinWidthType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedWidthValue = this._computeValuePixelLimit(this._computedMinWidthParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedWidthValue = this._computeValuePercentXLimit(this._computedMinWidthParsed);
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           return this._computedMinWidthValue = this.getPreferredBoxWidth();
       }
 
@@ -3873,13 +3873,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedMaxWidthType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedWidthValue = this._computeValuePixelLimit(this._computedMaxWidthParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedWidthValue = this._computeValuePercentXLimit(this._computedMaxWidthParsed);
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           return this._computedMaxWidthValue = this.getPreferredBoxWidth();
       }
 
@@ -3901,10 +3901,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedLeftType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedLeftValue = this._computeValuePixel(this._computedLeftParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedLeftValue = this._computeValuePercentX(this._computedLeftParsed);
       }
 
@@ -3926,10 +3926,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedRightType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedRightValue = this._computeValuePixel(this._computedRightParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedRightValue = this._computeValuePercentX(this._computedRightParsed);
       }
 
@@ -3960,16 +3960,16 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedHeightType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedHeightValue = this._computeValuePixelLimit(this._computedHeightParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedHeightValue = this._computeValuePercentYLimit(this._computedHeightParsed);
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           return this._computedHeightValue = this.getPreferredBoxHeight();
 
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           if (this.getParent().getLayoutImpl().computeChildrenFlexHeight === undefined) {
             throw new Error("Widget " + this + ": having vertical flex size (height=" + this.getHeight() + ") but parent layout " + this.getParent() + " does not support it");
           }
@@ -3996,13 +3996,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedMinHeightType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedMinHeightValue = this._computeValuePixelLimit(this._computedMinHeightParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedMinHeightValue = this._computeValuePercentYLimit(this._computedMinHeightParsed);
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           return this._computedMinHeightValue = this.getPreferredBoxHeight();
       }
 
@@ -4024,13 +4024,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedMaxHeightType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedMaxHeightValue = this._computeValuePixelLimit(this._computedMaxHeightParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedMaxHeightValue = this._computeValuePercentYLimit(this._computedMaxHeightParsed);
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           return this._computedMaxHeightValue = this.getPreferredBoxHeight();
       }
 
@@ -4052,10 +4052,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedTopType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedTopValue = this._computeValuePixel(this._computedTopParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedTopValue = this._computeValuePercentY(this._computedTopParsed);
       }
 
@@ -4077,10 +4077,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this._computedBottomType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           return this._computedBottomValue = this._computeValuePixel(this._computedBottomParsed);
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           return this._computedBottomValue = this._computeValuePercentY(this._computedBottomParsed);
       }
 
@@ -4102,7 +4102,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         case "scroll":
         case "scrollY":
-          fw += qx.ui.core.Widget.SCROLLBAR_SIZE;
+          fw += qx.legacy.ui.core.Widget.SCROLLBAR_SIZE;
           break;
 
         case "auto":
@@ -4129,7 +4129,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         case "scroll":
         case "scrollX":
-          fh += qx.ui.core.Widget.SCROLLBAR_SIZE;
+          fh += qx.legacy.ui.core.Widget.SCROLLBAR_SIZE;
           break;
 
         case "auto":
@@ -4342,23 +4342,23 @@ qx.Class.define("qx.ui.core.Widget",
       switch(value)
       {
         case "auto":
-          return qx.ui.core.Widget.TYPE_AUTO;
+          return qx.legacy.ui.core.Widget.TYPE_AUTO;
 
         case Infinity:
         case -Infinity:
-          return qx.ui.core.Widget.TYPE_NULL;
+          return qx.legacy.ui.core.Widget.TYPE_NULL;
       }
 
       switch(typeof value)
       {
         case "number":
-          return isNaN(value) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
+          return isNaN(value) ? qx.legacy.ui.core.Widget.TYPE_NULL : qx.legacy.ui.core.Widget.TYPE_PIXEL;
 
         case "string":
-          return value.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : value.indexOf("*") != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
+          return value.indexOf("%") != -1 ? qx.legacy.ui.core.Widget.TYPE_PERCENT : value.indexOf("*") != -1 ? qx.legacy.ui.core.Widget.TYPE_FLEX : qx.legacy.ui.core.Widget.TYPE_NULL;
       }
 
-      return qx.ui.core.Widget.TYPE_NULL;
+      return qx.legacy.ui.core.Widget.TYPE_NULL;
     },
 
 
@@ -4374,23 +4374,23 @@ qx.Class.define("qx.ui.core.Widget",
       switch(value)
       {
         case "auto":
-          return qx.ui.core.Widget.TYPE_AUTO;
+          return qx.legacy.ui.core.Widget.TYPE_AUTO;
 
         case Infinity:
         case -Infinity:
-          return qx.ui.core.Widget.TYPE_NULL;
+          return qx.legacy.ui.core.Widget.TYPE_NULL;
       }
 
       switch(typeof value)
       {
         case "number":
-          return isNaN(value) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
+          return isNaN(value) ? qx.legacy.ui.core.Widget.TYPE_NULL : qx.legacy.ui.core.Widget.TYPE_PIXEL;
 
         case "string":
-          return value.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+          return value.indexOf("%") != -1 ? qx.legacy.ui.core.Widget.TYPE_PERCENT : qx.legacy.ui.core.Widget.TYPE_NULL;
       }
 
-      return qx.ui.core.Widget.TYPE_NULL;
+      return qx.legacy.ui.core.Widget.TYPE_NULL;
     },
 
 
@@ -4407,19 +4407,19 @@ qx.Class.define("qx.ui.core.Widget",
       {
         case Infinity:
         case -Infinity:
-          return qx.ui.core.Widget.TYPE_NULL;
+          return qx.legacy.ui.core.Widget.TYPE_NULL;
       }
 
       switch(typeof value)
       {
         case "number":
-          return isNaN(value) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
+          return isNaN(value) ? qx.legacy.ui.core.Widget.TYPE_NULL : qx.legacy.ui.core.Widget.TYPE_PIXEL;
 
         case "string":
-          return value.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+          return value.indexOf("%") != -1 ? qx.legacy.ui.core.Widget.TYPE_PERCENT : qx.legacy.ui.core.Widget.TYPE_NULL;
       }
 
-      return qx.ui.core.Widget.TYPE_NULL;
+      return qx.legacy.ui.core.Widget.TYPE_NULL;
     },
 
 
@@ -4446,7 +4446,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _unitDetectionPixelPercentAutoFlex : function(name, value)
     {
-      var r = qx.ui.core.Widget.layoutPropertyTypes[name];
+      var r = qx.legacy.ui.core.Widget.layoutPropertyTypes[name];
 
       var s = r.dataType;
       var p = r.dataParsed;
@@ -4464,26 +4464,26 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this[s] = this._evalUnitsPixelPercentAutoFlex(value))
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           this[s1] = true;
           this[s2] = this[s3] = this[s4] = this[s5] = false;
           this[p] = this[v] = Math.round(value);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           this[s2] = true;
           this[s1] = this[s3] = this[s4] = this[s5] = false;
           this[p] = parseFloat(value);
           this[v] = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           this[s3] = true;
           this[s1] = this[s2] = this[s4] = this[s5] = false;
           this[p] = this[v] = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           this[s4] = true;
           this[s1] = this[s2] = this[s3] = this[s5] = false;
           this[p] = parseFloat(value);
@@ -4564,7 +4564,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _unitDetectionPixelPercentAuto : function(name, value)
     {
-      var r = qx.ui.core.Widget.layoutPropertyTypes[name];
+      var r = qx.legacy.ui.core.Widget.layoutPropertyTypes[name];
 
       var s = r.dataType;
       var p = r.dataParsed;
@@ -4580,20 +4580,20 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this[s] = this._evalUnitsPixelPercentAuto(value))
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           this[s1] = true;
           this[s2] = this[s3] = this[s4] = false;
           this[p] = this[v] = Math.round(value);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           this[s2] = true;
           this[s1] = this[s3] = this[s4] = false;
           this[p] = parseFloat(value);
           this[v] = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           this[s3] = true;
           this[s1] = this[s2] = this[s4] = false;
           this[p] = this[v] = null;
@@ -4658,7 +4658,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _unitDetectionPixelPercent : function(name, value)
     {
-      var r = qx.ui.core.Widget.layoutPropertyTypes[name];
+      var r = qx.legacy.ui.core.Widget.layoutPropertyTypes[name];
 
       var s = r.dataType;
       var p = r.dataParsed;
@@ -4672,13 +4672,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       switch(this[s] = this._evalUnitsPixelPercent(value))
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           this[s1] = true;
           this[s2] = this[s3] = false;
           this[p] = this[v] = Math.round(value);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           this[s2] = true;
           this[s1] = this[s3] = false;
           this[p] = parseFloat(value);
@@ -4731,7 +4731,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * The widget which is at the top level,
      *  which contains all others (normally a
-     *  instance of qx.ui.core.ClientDocument).
+     *  instance of qx.legacy.ui.core.ClientDocument).
      *
      * @type member
      * @return {var} TODOC
@@ -4868,7 +4868,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getPreviousActiveSibling : function(vIgnoreClasses)
     {
-      var vPrev = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
+      var vPrev = qx.legacy.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), -1, vIgnoreClasses, null);
       return vPrev ? vPrev : this.getParent().getLastActiveChild();
     },
 
@@ -4882,7 +4882,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getNextActiveSibling : function(vIgnoreClasses)
     {
-      var vNext = qx.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
+      var vNext = qx.legacy.ui.core.Widget.getActiveSiblingHelper(this, this.getParent(), 1, vIgnoreClasses, null);
       return vNext ? vNext : this.getParent().getFirstActiveChild();
     },
 
@@ -4972,7 +4972,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.__states[vState] = true;
 
         if (this._hasParent) {
-          qx.ui.core.Widget.addToGlobalStateQueue(this);
+          qx.legacy.ui.core.Widget.addToGlobalStateQueue(this);
         }
       }
     },
@@ -4992,7 +4992,7 @@ qx.Class.define("qx.ui.core.Widget",
         delete this.__states[vState];
 
         if (this._hasParent) {
-          qx.ui.core.Widget.addToGlobalStateQueue(this);
+          qx.legacy.ui.core.Widget.addToGlobalStateQueue(this);
         }
       }
     },
@@ -5185,7 +5185,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      */
     addToStateQueue : function() {
-      qx.ui.core.Widget.addToGlobalStateQueue(this);
+      qx.legacy.ui.core.Widget.addToGlobalStateQueue(this);
     },
 
 
@@ -5411,7 +5411,7 @@ qx.Class.define("qx.ui.core.Widget",
     _generateHtmlId : function()
     {
       //var id = this.classname + "#" + this.toHashCode(); // not stable across machines
-      var id = this.classname + "." + qx.ui.core.Widget._idCounter++;
+      var id = this.classname + "." + qx.legacy.ui.core.Widget._idCounter++;
 
       this.debug("setting autogenerated HTML id to " + id);
       this.setHtmlProperty("id", id);
@@ -5667,7 +5667,7 @@ qx.Class.define("qx.ui.core.Widget",
         // Also reset some states to be sure a pressed/hovered button gets reset
         this.removeState("over");
 
-        if (qx.Class.isDefined("qx.ui.form.Button"))
+        if (qx.Class.isDefined("qx.legacy.ui.form.Button"))
         {
           this.removeState("abandoned");
           this.removeState("pressed");
@@ -6561,7 +6561,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Callback for border manager connection
      *
-     * @param value {qx.ui.core.Border} the border object
+     * @param value {qx.legacy.ui.core.Border} the border object
      * @param edge {String} top, right, bottom or left
      */
     _queueBorder : function(value, edge)
@@ -6655,7 +6655,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        var border = qx.ui.core.Border;
+        var border = qx.legacy.ui.core.Border;
 
         if (changes.borderTop) {
           border.resetTop(this);
@@ -7299,7 +7299,7 @@ qx.Class.define("qx.ui.core.Widget",
 
           if (vSum > 0)
           {
-            var logger = qx.log.Logger.getClassLogger(qx.ui.core.Widget);
+            var logger = qx.log.Logger.getClassLogger(qx.legacy.ui.core.Widget);
             logger.debug("Flush Global Queues");
             logger.debug("Widgets: " + vWidgetDuration + "ms (" + globalWidgetQueueLength + ")");
             logger.debug("State: " + vStateDuration + "ms (" + globalStateQueueLength + ")");
@@ -7316,7 +7316,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
     }
 
-    statics.__autoFlush = new qx.util.DeferredCall(qx.ui.core.Widget.flushGlobalQueues, qx.ui.core.Widget);
+    statics.__autoFlush = new qx.util.DeferredCall(qx.legacy.ui.core.Widget.flushGlobalQueues, qx.legacy.ui.core.Widget);
   },
 
 

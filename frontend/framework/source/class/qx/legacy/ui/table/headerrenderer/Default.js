@@ -26,13 +26,13 @@
 /**
  * The default header cell renderer.
  *
- * @appearance table-header-cell {qx.ui.basic.Atom}
+ * @appearance table-header-cell {qx.legacy.ui.basic.Atom}
  * @state mouseover {table-header-cell}
  */
-qx.Class.define("qx.ui.table.headerrenderer.Default",
+qx.Class.define("qx.legacy.ui.table.headerrenderer.Default",
 {
   extend : qx.core.Object,
-  implement : qx.ui.table.IHeaderRenderer,
+  implement : qx.legacy.ui.table.IHeaderRenderer,
 
 
 
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
     // overridden
     createHeaderCell : function(cellInfo)
     {
-      var widget = new qx.ui.basic.Atom();
+      var widget = new qx.legacy.ui.basic.Atom();
       widget.setAppearance("table-header-cell");
       widget.setSelectable(false);
 
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
     // overridden
     updateHeaderCell : function(cellInfo, cellWidget)
     {
-      var DefaultHeaderCellRenderer = qx.ui.table.headerrenderer.Default;
+      var DefaultHeaderCellRenderer = qx.legacy.ui.table.headerrenderer.Default;
 
       cellWidget.setLabel(cellInfo.name);
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
       if (this.getToolTip() != null) {
         if (widgetToolTip == null) {
           // We have no tooltip yet -> Create one
-          widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
+          widgetToolTip = new qx.legacy.ui.popup.ToolTip(this.getToolTip());
           cellWidget.setToolTip(widgetToolTip);
         } else {
           // Update tooltip text

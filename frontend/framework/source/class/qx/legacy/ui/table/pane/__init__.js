@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table.pane package.
+ * The qx.legacy.ui.table.pane package.
  */

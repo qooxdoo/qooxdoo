@@ -27,9 +27,9 @@
 /**
  * @appearance list
  */
-qx.Class.define("qx.ui.form.List",
+qx.Class.define("qx.legacy.ui.form.List",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.form.List",
   {
     this.base(arguments);
 
-    this._manager = new qx.ui.selection.SelectionManager(this);
+    this._manager = new qx.legacy.ui.selection.SelectionManager(this);
 
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mousedown", this._onmousedown);
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.List",
      * Accessor method for the selection manager
      *
      * @type member
-     * @return {qx.ui.selection.SelectionManager} TODOC
+     * @return {qx.legacy.ui.selection.SelectionManager} TODOC
      */
     getManager : function() {
       return this._manager;
@@ -140,12 +140,12 @@ qx.Class.define("qx.ui.form.List",
 
     /**
      * Traverses the widget tree upwards until a
-     * corresponding qx.ui.form.ListItem to given vItem
+     * corresponding qx.legacy.ui.form.ListItem to given vItem
      * (event target) is found.
      *
      * @type member
      * @param vItem {var} event target
-     * @return {qx.ui.form.ListItem} List item
+     * @return {qx.legacy.ui.form.ListItem} List item
      */
     getListItemTarget : function(vItem)
     {
@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.form.List",
      * Returns the first selected list item.
      *
      * @type member
-     * @return {qx.ui.form.ListItem|null} Selected item or null
+     * @return {qx.legacy.ui.form.ListItem|null} Selected item or null
      */
     getSelectedItem : function() {
       return this.getSelectedItems()[0] || null;
@@ -390,15 +390,15 @@ qx.Class.define("qx.ui.form.List",
 
     /**
      * Executes different (depending on the given search type) methods
-     * of qx.ui.form.ListItem for searching the given search string.
-     * Returns a reference to the qx.ui.form.ListItem where the search string
+     * of qx.legacy.ui.form.ListItem for searching the given search string.
+     * Returns a reference to the qx.legacy.ui.form.ListItem where the search string
      * is found first.
      *
      * @type member
      * @param vUserValue {String} search string
      * @param vStartIndex {Number} start index
      * @param vType {String} type of matching
-     * @return {qx.ui.form.ListItem | null} list item or null
+     * @return {qx.legacy.ui.form.ListItem | null} list item or null
      */
     _findItem : function(vUserValue, vStartIndex, vType)
     {
@@ -442,7 +442,7 @@ qx.Class.define("qx.ui.form.List",
      * @type member
      * @param vText {String} search string
      * @param vStartIndex {Number} start index
-     * @return {qx.ui.form.ListItem | null} list item or null
+     * @return {qx.legacy.ui.form.ListItem | null} list item or null
      */
     findString : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "String");
@@ -455,7 +455,7 @@ qx.Class.define("qx.ui.form.List",
      * @type member
      * @param vText {String} search string
      * @param vStartIndex {Number} start index
-     * @return {qx.ui.form.ListItem | null} list item or null
+     * @return {qx.legacy.ui.form.ListItem | null} list item or null
      */
     findStringExact : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "StringExact");
@@ -468,7 +468,7 @@ qx.Class.define("qx.ui.form.List",
      * @type member
      *@param vText {String} search string
      * @param vStartIndex {Number} start index
-     * @return {qx.ui.form.ListItem | null} list item or null
+     * @return {qx.legacy.ui.form.ListItem | null} list item or null
      */
     findValue : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "Value");
@@ -481,7 +481,7 @@ qx.Class.define("qx.ui.form.List",
      * @type member
      * @param vText {String} search string
      * @param vStartIndex {Number} start index
-     * @return {qx.ui.form.ListItem | null} list item or null
+     * @return {qx.legacy.ui.form.ListItem | null} list item or null
      */
     findValueExact : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "ValueExact");

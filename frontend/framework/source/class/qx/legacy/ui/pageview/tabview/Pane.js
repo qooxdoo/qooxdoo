@@ -27,9 +27,9 @@
 /**
  * @appearance tab-view-pane
  */
-qx.Class.define("qx.ui.pageview.tabview.Pane",
+qx.Class.define("qx.legacy.ui.pageview.tabview.Pane",
 {
-  extend : qx.ui.pageview.AbstractPane,
+  extend : qx.legacy.ui.pageview.AbstractPane,
 
 
 

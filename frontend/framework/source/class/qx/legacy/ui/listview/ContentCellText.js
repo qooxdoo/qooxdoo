@@ -27,9 +27,9 @@
 /**
  * @appearance list-view-content-cell-text
  */
-qx.Class.define("qx.ui.listview.ContentCellText",
+qx.Class.define("qx.legacy.ui.listview.ContentCellText",
 {
-  extend : qx.ui.embed.TextEmbed,
+  extend : qx.legacy.ui.embed.TextEmbed,
 
 
 

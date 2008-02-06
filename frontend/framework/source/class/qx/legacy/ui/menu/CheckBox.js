@@ -31,9 +31,9 @@
  * @appearance menu-check-box
  * @state checked Set by {@link #checked}
  */
-qx.Class.define("qx.ui.menu.CheckBox",
+qx.Class.define("qx.legacy.ui.menu.CheckBox",
 {
-  extend : qx.ui.menu.Button,
+  extend : qx.legacy.ui.menu.Button,
 
 
 

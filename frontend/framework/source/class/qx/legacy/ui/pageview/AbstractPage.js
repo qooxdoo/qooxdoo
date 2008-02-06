@@ -23,10 +23,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.pageview.AbstractPage",
+qx.Class.define("qx.legacy.ui.pageview.AbstractPage",
 {
   type : "abstract",
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
 
     /**
      * Make element displayed (if switched to true the widget will be created, if needed, too).
-     *  Instead of qx.ui.core.Widget, the default is false here.
+     *  Instead of qx.legacy.ui.core.Widget, the default is false here.
      */
     display :
     {
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
     /** The attached tab of this page. */
     button :
     {
-      check : "qx.ui.pageview.AbstractButton",
+      check : "qx.legacy.ui.pageview.AbstractButton",
       apply : "_applyButton"
     }
   },

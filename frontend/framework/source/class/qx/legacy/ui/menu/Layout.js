@@ -25,13 +25,13 @@
 ************************************************************************ */
 
 /**
- * A small helper class to create a special layout handler for qx.ui.menu.Menus
+ * A small helper class to create a special layout handler for qx.legacy.ui.menu.Menus
  *
  * @appearance menu-layout
  */
-qx.Class.define("qx.ui.menu.Layout",
+qx.Class.define("qx.legacy.ui.menu.Layout",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -80,10 +80,10 @@ qx.Class.define("qx.ui.menu.Layout",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {qx.ui.layout.BoxLayout} TODOC
+     * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.ui.menu.MenuLayoutImpl(this);
+      return new qx.legacy.ui.menu.MenuLayoutImpl(this);
     }
   }
 });

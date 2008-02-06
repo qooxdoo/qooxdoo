@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
+qx.Class.define("qx.legacy.ui.menu.ButtonLayoutImpl",
 {
-  extend : qx.ui.layout.impl.HorizontalBoxLayoutImpl,
+  extend : qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl,
 
 
 
@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
     this.base(arguments, vWidget);
 
     // We don't need flex support, should make things a bit faster,
-    // as this omits some additional loops in qx.ui.layout.impl.HorizontalBoxLayoutImpl.
+    // as this omits some additional loops in qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl.
     this.setEnableFlexSupport(false);
   },
 
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.ui.layout.impl.HorizontalBoxLayoutImpl:
+     *  Inherits from qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
       // Caching the widget reference
       var vWidget = this.getWidget();
 
-      // Ignore the verticalBoxLayout inside qx.ui.menu.Menu
+      // Ignore the verticalBoxLayout inside qx.legacy.ui.menu.Menu
       var vMenu = vWidget.getParent().getParent();
 
       // Let the menu do the real hard things
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
       // Caching the widget reference
       var vWidget = this.getWidget();
 
-      // Ignore the verticalBoxLayout inside qx.ui.menu.Menu
+      // Ignore the verticalBoxLayout inside qx.legacy.ui.menu.Menu
       var vMenu = vWidget.getParent().getParent();
 
       // Send out invalidate signals
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
       // Caching the widget reference
       var vWidget = this.getWidget();
 
-      // Ignore the verticalBoxLayout inside qx.ui.menu.Menu
+      // Ignore the verticalBoxLayout inside qx.legacy.ui.menu.Menu
       var vMenu = vWidget.getParent().getParent();
 
       // Left position of the child

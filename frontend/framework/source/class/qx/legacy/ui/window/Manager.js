@@ -24,8 +24,8 @@
 
 ************************************************************************ */
 
-/** This singleton manages qx.ui.window.Windows */
-qx.Class.define("qx.ui.window.Manager",
+/** This singleton manages qx.legacy.ui.window.Windows */
+qx.Class.define("qx.legacy.ui.window.Manager",
 {
   extend : qx.util.manager.Object,
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.window.Manager",
      */
     _applyActiveWindow : function(value, old)
     {
-      qx.ui.popup.PopupManager.getInstance().update();
+      qx.legacy.ui.popup.PopupManager.getInstance().update();
 
       if (old) {
         old.setActive(false);
@@ -143,8 +143,8 @@ qx.Class.define("qx.ui.window.Manager",
      * other to determine the sort order.
      *
      * @type member
-     * @param w1 {qx.ui.window.Window} first window to compare
-     * @param w2 {qx.ui.window.Window} second window to compare
+     * @param w1 {qx.legacy.ui.window.Window} first window to compare
+     * @param w2 {qx.legacy.ui.window.Window} second window to compare
      * @return {int | var} 1 for first window active, -1 for second window active
      * and the subtraction of the zIndex if none of the two are active.
      */
@@ -164,11 +164,11 @@ qx.Class.define("qx.ui.window.Manager",
 
 
     /**
-     * Adds a {@link qx.ui.window.Window} instance to the manager and
+     * Adds a {@link qx.legacy.ui.window.Window} instance to the manager and
      * sets it as active window.
      *
      * @type member
-     * @param vWindow {qx.ui.window.Window} window instance to add
+     * @param vWindow {qx.legacy.ui.window.Window} window instance to add
      * @return {void}
      */
     add : function(vWindow)
@@ -181,13 +181,13 @@ qx.Class.define("qx.ui.window.Manager",
 
 
     /**
-     * Removes a {@link qx.ui.window.Window} instance from the manager.
+     * Removes a {@link qx.legacy.ui.window.Window} instance from the manager.
      * If the current active window is the one which should be removed the
      * existing windows are compared to determine the new active window
      * (using the {@link #compareWindows} method).
      *
      * @type member
-     * @param vWindow {qx.ui.window.Window} window instance
+     * @param vWindow {qx.legacy.ui.window.Window} window instance
      * @return {void}
      */
     remove : function(vWindow)

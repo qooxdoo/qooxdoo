@@ -30,10 +30,10 @@
  *
  * @appearance table-row
  */
-qx.Class.define("qx.ui.table.rowrenderer.Default",
+qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
 {
   extend : qx.core.Object,
-  implement : [qx.ui.table.IRowRenderer],
+  implement : [qx.legacy.ui.table.IRowRenderer],
 
 
 
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * {@link #_renderFont} method.
      *
      * @type member
-     * @param value {qx.ui.core.Font} new font value to render
+     * @param value {qx.legacy.ui.core.Font} new font value to render
      */
     _styleFont : function(value) {
       this.__font = value;
@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
         this._fontStyleString = value.generateStyle();
       }
       else {
-        qx.ui.core.Font.resetStyle(this._fontStyle);
+        qx.legacy.ui.core.Font.resetStyle(this._fontStyle);
         this._fontStyleString = "";
       }
 
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
           this._updateTableContent();
           this._updateContentPlanned = false;
-          qx.ui.core.Widget.flushGlobalQueues();
+          qx.legacy.ui.core.Widget.flushGlobalQueues();
         },
         this, 0);
 

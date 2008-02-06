@@ -26,7 +26,7 @@
 /**
  * A factory creating widgets to use for editing table cells.
  */
-qx.Interface.define("qx.ui.table.ICellEditorFactory",
+qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
 {
 
   members :
@@ -40,14 +40,14 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      * <li>row (int): the model index of the row the cell belongs to.</li>
      * <li>col (int): the model index of the column the cell belongs to.</li>
      * <li>xPos (int): the x position of the cell in the table pane.</li>
-     * <li>table (qx.ui.table.Table) reference to the table, the cell belongs to. </li>
+     * <li>table (qx.legacy.ui.table.Table) reference to the table, the cell belongs to. </li>
      * </ul>
      *
      * @type member
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
-     * @return {qx.ui.core.Widget} the widget that should be used as cell editor.
+     * @return {qx.legacy.ui.core.Widget} the widget that should be used as cell editor.
      */
     createCellEditor : function(cellInfo) {
       return true;
@@ -59,7 +59,7 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      *
      * @type member
      * @abstract
-     * @param cellEditor {qx.ui.core.Widget} The cell editor formally created by
+     * @param cellEditor {qx.legacy.ui.core.Widget} The cell editor formally created by
      *      {@link #createCellEditor}.
      * @return {var} the current value from the editor.
      */

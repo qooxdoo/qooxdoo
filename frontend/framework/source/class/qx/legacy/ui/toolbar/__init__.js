@@ -1,3 +1,3 @@
 /**
- * The qx.ui.toolbar package.
+ * The qx.legacy.ui.toolbar package.
  */

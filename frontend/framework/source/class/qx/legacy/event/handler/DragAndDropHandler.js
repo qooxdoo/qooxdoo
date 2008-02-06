@@ -56,7 +56,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     for (var i=0, l=vActions.length; i<l; i++)
     {
       vAction = vActions[i];
-      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image;
+      vCursor = this.__cursors[vAction] = new qx.legacy.ui.basic.Image;
       vCursor.setAppearance("cursor-dnd-" + vAction);
       vCursor.setZIndex(1e8);
     }
@@ -75,13 +75,13 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
   {
     sourceWidget :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       nullable : true
     },
 
     destinationWidget :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       nullable : true,
       apply : "_applyDestinationWidget"
     },
@@ -335,7 +335,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
       {
         this.__feedbackWidget.setVisibility(false);
 
-        var doc = qx.ui.core.ClientDocument.getInstance();
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
         doc.add(this.__feedbackWidget);
         this.__feedbackWidget.setZIndex(1e8);
       }
@@ -507,7 +507,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
             this.__dragCache.currentDropWidget = this.__dragCache.sourceWidget;
 
             // Activate capture for clientDocument
-            qx.ui.core.ClientDocument.getInstance().setCapture(true);
+            qx.legacy.ui.core.ClientDocument.getInstance().setCapture(true);
           }
         }
       }
@@ -718,7 +718,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
       // Cleanup feedback widget
       if (this.__feedbackWidget)
       {
-        var doc = qx.ui.core.ClientDocument.getInstance();
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
         doc.remove(this.__feedbackWidget);
 
         if (this.__feedbackAutoDispose) {
@@ -748,7 +748,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
       }
 
       // Deactivate capture for clientDocument
-      qx.ui.core.ClientDocument.getInstance().setCapture(false);
+      qx.legacy.ui.core.ClientDocument.getInstance().setCapture(false);
 
       // Cleanup data and actions
       this.clearData();
@@ -823,8 +823,8 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
       // Ensure that the cursor is created
       if (!vNewCursor._initialLayoutDone)
       {
-        qx.ui.core.ClientDocument.getInstance().add(vNewCursor);
-        qx.ui.core.Widget.flushGlobalQueues();
+        qx.legacy.ui.core.ClientDocument.getInstance().add(vNewCursor);
+        qx.legacy.ui.core.Widget.flushGlobalQueues();
       }
 
       // Apply position with runtime style (fastest qooxdoo method)
@@ -996,7 +996,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      * represent the object(s) the user is dragging.
      *
      * @type member
-     * @param widget {qx.ui.core.Widget} the feedback widget.
+     * @param widget {qx.legacy.ui.core.Widget} the feedback widget.
      * @param deltaX {int ? 10} the number of pixels the top-left corner of the widget
      *          should be away from the mouse cursor in x direction.
      * @param deltaY {int ? 10} the number of pixels the top-left corner of the widget

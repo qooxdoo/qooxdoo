@@ -21,7 +21,7 @@
 /**
  * This interface must be implemented when adding mixin MResizer to a class.
  */
-qx.Interface.define("qx.ui.resizer.IResizable",
+qx.Interface.define("qx.legacy.ui.resizer.IResizable",
 {
   /*
   *****************************************************************************
@@ -51,7 +51,7 @@ qx.Interface.define("qx.ui.resizer.IResizable",
 
     /**
      * Respect which widget the resizing occurs?
-     * @return {qx.ui.core.Widget}
+     * @return {qx.legacy.ui.core.Widget}
      */
     _getResizeParent: function() {
       return true;
@@ -59,7 +59,7 @@ qx.Interface.define("qx.ui.resizer.IResizable",
 
     /**
      * Which widget determines the minimum size?
-     * @return {qx.ui.core.Widget}
+     * @return {qx.legacy.ui.core.Widget}
      */
     _getMinSizeReference: function() {
       return true;

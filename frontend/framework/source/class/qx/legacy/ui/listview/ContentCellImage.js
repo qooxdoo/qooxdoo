@@ -28,9 +28,9 @@
 /**
  * @appearance list-view-content-cell-image
  */
-qx.Class.define("qx.ui.listview.ContentCellImage",
+qx.Class.define("qx.legacy.ui.listview.ContentCellImage",
 {
-  extend : qx.ui.basic.Image,
+  extend : qx.legacy.ui.basic.Image,
 
 
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.listview.ContentCellImage",
       if (this._initialLayoutDone) {
         return this._updateContent(qx.io.Alias.getInstance().resolve(vSource == "" ? "static/image/blank.gif" : vSource));
       } else {
-        return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
+        return qx.legacy.ui.basic.Image.prototype.setSource.call(this, vSource);
       }
     },
 

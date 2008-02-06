@@ -29,9 +29,9 @@
  * When (de)selecting a branch, the selection state is propagated to its child nodes.
  * Partially selected child are highlighted.
  */
-qx.Class.define("qx.ui.treevirtual.RecursiveCheckBoxTree",
+qx.Class.define("qx.legacy.ui.treevirtual.RecursiveCheckBoxTree",
 {
-  extend : qx.ui.treevirtual.CheckBoxTree,
+  extend : qx.legacy.ui.treevirtual.CheckBoxTree,
 
 
 
@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveCheckBoxTree",
       refine: true,
       init : function(obj)
       {
-        return new qx.ui.treevirtual.RecursiveSelectionModel(obj);
+        return new qx.legacy.ui.treevirtual.RecursiveSelectionModel(obj);
       }
     }
   },

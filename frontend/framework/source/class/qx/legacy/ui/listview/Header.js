@@ -27,9 +27,9 @@
 /**
  * @appearance list-view-header
  */
-qx.Class.define("qx.ui.listview.Header",
+qx.Class.define("qx.legacy.ui.listview.Header",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.listview.Header",
     this.initOverflow();
 
     // This fixes the innerWidth calculation difference between the grid(pane) and the head.
-    this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
+    this.setPaddingRight(qx.legacy.ui.core.Widget.SCROLLBAR_SIZE);
 
     // Store configuration
     this._columns = vColumns;
@@ -59,8 +59,8 @@ qx.Class.define("qx.ui.listview.Header",
 
     for (var vCol in vColumns)
     {
-      vHeadCell = new qx.ui.listview.HeaderCell(vColumns[vCol], vCol);
-      vHeadSeparator = new qx.ui.listview.HeaderSeparator;
+      vHeadCell = new qx.legacy.ui.listview.HeaderCell(vColumns[vCol], vCol);
+      vHeadSeparator = new qx.legacy.ui.listview.HeaderSeparator;
 
       this.add(vHeadCell, vHeadSeparator);
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.listview.Header",
       }
 
       // store some additional data
-      vColumns[vCol].contentClass = qx.Class.getByName("qx.ui.listview.ContentCell" + qx.lang.String.firstUp(vColumns[vCol].type || "text"));
+      vColumns[vCol].contentClass = qx.Class.getByName("qx.legacy.ui.listview.ContentCell" + qx.lang.String.firstUp(vColumns[vCol].type || "text"));
       vColumns[vCol].headerCell = vHeadCell;
     }
 
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.listview.Header",
      */
     _syncResizeLine : function()
     {
-      qx.ui.core.Widget.flushGlobalQueues();
+      qx.legacy.ui.core.Widget.flushGlobalQueues();
 
       var vParent = this.getParent();
       var vLine = vParent.getResizeLine();
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.listview.Header",
         var vResizeCursor = false;
         var vResizeSeparator = null;
 
-        if (vTarget instanceof qx.ui.listview.HeaderSeparator)
+        if (vTarget instanceof qx.legacy.ui.listview.HeaderSeparator)
         {
           vResizeCursor = true;
           vResizeSeparator = vTarget;
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.listview.Header",
           vResizeSeparator = vTarget.getNextSibling();
         }
 
-        if (!(vResizeSeparator instanceof qx.ui.listview.HeaderSeparator)) {
+        if (!(vResizeSeparator instanceof qx.legacy.ui.listview.HeaderSeparator)) {
           vResizeSeparator = vTarget = vResizeCursor = null;
         }
 

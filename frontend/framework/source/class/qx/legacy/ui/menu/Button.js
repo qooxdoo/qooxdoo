@@ -27,9 +27,9 @@
 /**
  * @appearance menu-button
  */
-qx.Class.define("qx.ui.menu.Button",
+qx.Class.define("qx.legacy.ui.menu.Button",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -46,19 +46,19 @@ qx.Class.define("qx.ui.menu.Button",
 
 
 
-    var io = this._iconObject = new qx.ui.basic.Image;
+    var io = this._iconObject = new qx.legacy.ui.basic.Image;
     io.setWidth(16);
     io.setAnonymous(true);
 
-    var lo = this._labelObject = new qx.ui.basic.Label;
+    var lo = this._labelObject = new qx.legacy.ui.basic.Label;
     lo.setAnonymous(true);
     lo.setSelectable(false);
 
-    var so = this._shortcutObject = new qx.ui.basic.Label;
+    var so = this._shortcutObject = new qx.legacy.ui.basic.Label;
     so.setAnonymous(true);
     so.setSelectable(false);
 
-    var ao = this._arrowObject = new qx.ui.basic.Image;
+    var ao = this._arrowObject = new qx.legacy.ui.basic.Image;
     ao.setAppearance("menu-button-arrow");
     ao.setAnonymous(true);
 
@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.menu.Button",
     /** Associated sub menu */
     menu :
     {
-      check : "qx.ui.menu.Menu",
+      check : "qx.legacy.ui.menu.Menu",
       nullable : true,
       apply : "_applyMenu"
     }
@@ -228,7 +228,7 @@ qx.Class.define("qx.ui.menu.Button",
      * Accessor method for the button icon
      *
      * @type member
-     * @return {qx.ui.basic.Image} button icon
+     * @return {qx.legacy.ui.basic.Image} button icon
      */
     getIconObject : function() {
       return this._iconObject;
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.menu.Button",
      * Accessor method for the button label
      *
      * @type member
-     * @return {qx.ui.basic.Label} button label
+     * @return {qx.legacy.ui.basic.Label} button label
      */
     getLabelObject : function() {
       return this._labelObject;
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.menu.Button",
      * Accessor method for the button shortcut
      *
      * @type member
-     * @return {qx.ui.basic.Label} button shortcut
+     * @return {qx.legacy.ui.basic.Label} button shortcut
      */
     getShortcutObject : function() {
       return this._shortcutObject;
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.menu.Button",
      * Accessor method for the button arrow
      *
      * @type member
-     * @return {qx.ui.basic.Image} button arrow
+     * @return {qx.legacy.ui.basic.Image} button arrow
      */
     getArrowObject : function() {
       return this._arrowObject;
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.menu.Button",
      * Accessor method for the parent menu (if available)
      *
      * @type member
-     * @return {qx.ui.menu.Menu | null} Returns the parent menu (if available)
+     * @return {qx.legacy.ui.menu.Menu | null} Returns the parent menu (if available)
      */
     getParentMenu : function()
     {
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.menu.Button",
       {
         vParent = vParent.getParent();
 
-        if (vParent && vParent instanceof qx.ui.menu.Menu) {
+        if (vParent && vParent instanceof qx.legacy.ui.menu.Menu) {
           return vParent;
         }
       }
@@ -303,10 +303,10 @@ qx.Class.define("qx.ui.menu.Button",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {qx.ui.layout.BoxLayout} instance of a button layout implementation
+     * @return {qx.legacy.ui.layout.BoxLayout} instance of a button layout implementation
      */
     _createLayoutImpl : function() {
-      return new qx.ui.menu.ButtonLayoutImpl(this);
+      return new qx.legacy.ui.menu.ButtonLayoutImpl(this);
     },
 
 

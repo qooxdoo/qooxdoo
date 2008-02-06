@@ -21,7 +21,7 @@
 /**
  * A multi-purpose widget used by many more complex widgets.
  *
- * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text
+ * The intended purpose of qx.legacy.ui.basic.Atom is to easily align the common icon-text
  * combination in different ways.
  *
  * This is useful for all types of buttons, tooltips, ...
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui2.basic.Atom",
 
   properties :
   {
-    /** The label/caption/text of the qx.ui.basic.Atom instance */
+    /** The label/caption/text of the qx.legacy.ui.basic.Atom instance */
     label :
     {
       apply : "_applyLabel",

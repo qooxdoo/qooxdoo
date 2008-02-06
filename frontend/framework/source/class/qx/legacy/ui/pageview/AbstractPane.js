@@ -23,8 +23,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.pageview.AbstractPane",
+qx.Class.define("qx.legacy.ui.pageview.AbstractPane",
 {
   type : "abstract",
-  extend : qx.ui.layout.CanvasLayout
+  extend : qx.legacy.ui.layout.CanvasLayout
 });

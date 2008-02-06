@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.form.PasswordField",
+qx.Class.define("qx.legacy.ui.form.PasswordField",
 {
-  extend : qx.ui.form.TextField,
+  extend : qx.legacy.ui.form.TextField,
 
   members : {
     _inputType : "password"

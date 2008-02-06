@@ -1,3 +1,3 @@
 /**
- * The qx.ui.treevirtual package.
+ * The qx.legacy.ui.treevirtual package.
  */

@@ -1,3 +1,3 @@
 /**
- * The qx.ui.basic package.
+ * The qx.legacy.ui.basic package.
  */

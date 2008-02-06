@@ -33,13 +33,13 @@
  * the qooxdoo framework. It has no relevance for application developers.
  *
  * @appearance tree-element
- * @appearance tree-element-icon {qx.ui.basic.Image}
- * @appearance tree-element-label {qx.ui.basic.Label}
+ * @appearance tree-element-icon {qx.legacy.ui.basic.Image}
+ * @appearance tree-element-label {qx.legacy.ui.basic.Label}
  */
-qx.Class.define("qx.ui.tree.AbstractTreeElement",
+qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
 {
   type : "abstract",
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.legacy.ui.layout.BoxLayout,
 
 
 
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * The label/caption/text of the qx.ui.basic.Atom instance
+     * The label/caption/text of the qx.legacy.ui.basic.Atom instance
      */
     label :
     {
@@ -311,10 +311,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
    _getRowStructure : function(labelOrTreeRowStructure, icon, iconSelected)
    {
-      if (labelOrTreeRowStructure instanceof qx.ui.tree.TreeRowStructure) {
+      if (labelOrTreeRowStructure instanceof qx.legacy.ui.tree.TreeRowStructure) {
         return labelOrTreeRowStructure;
       } else {
-        return qx.ui.tree.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, iconSelected);
+        return qx.legacy.ui.tree.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, iconSelected);
       }
     },
 
@@ -414,7 +414,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {qx.ui.basic.Label} TODOC
+     * @return {qx.legacy.ui.basic.Label} TODOC
      */
     getLabelObject : function() {
       return this._labelObject;
@@ -674,7 +674,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
         {
           var vPrev = this.getPreviousVisibleSibling();
 
-          if (vPrev && vPrev instanceof qx.ui.tree.AbstractTreeElement) {
+          if (vPrev && vPrev instanceof qx.legacy.ui.tree.AbstractTreeElement) {
             vPrev._updateIndent();
           }
         }

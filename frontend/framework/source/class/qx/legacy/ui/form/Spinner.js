@@ -45,7 +45,7 @@
  * A brief, but non-trivial example:
  *
  * <pre>
- * var s = new qx.ui.form.Spinner;
+ * var s = new qx.legacy.ui.form.Spinner;
  * s.set({
  *   max: 3000,
  *   min: -3000
@@ -62,17 +62,17 @@
  *
  * @appearance spinner
  *
- * @appearance spinner-field {qx.ui.form.TextField}
+ * @appearance spinner-field {qx.legacy.ui.form.TextField}
  *
- * @appearance spinner-button-up {qx.ui.basic.Image}
+ * @appearance spinner-button-up {qx.legacy.ui.basic.Image}
  * @state pressed {spinner-button-up}
  *
- * @appearance spinner-button-down {qx.ui.basic.Image}
+ * @appearance spinner-button-down {qx.legacy.ui.basic.Image}
  * @state pressed {spinner-button-down}
  */
-qx.Class.define("qx.ui.form.Spinner",
+qx.Class.define("qx.legacy.ui.form.Spinner",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   TEXTFIELD
     // ************************************************************************
-    this._textfield = new qx.ui.form.TextField;
+    this._textfield = new qx.legacy.ui.form.TextField;
     this._textfield.setBorder(null);
     this._textfield.setWidth("1*");
     this._textfield.setAllowStretchY(true);
@@ -110,14 +110,14 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   BUTTON LAYOUT
     // ************************************************************************
-    this._buttonlayout = new qx.ui.layout.VerticalBoxLayout;
+    this._buttonlayout = new qx.legacy.ui.layout.VerticalBoxLayout;
     this._buttonlayout.setWidth("auto");
     this.add(this._buttonlayout);
 
     // ************************************************************************
     //   UP-BUTTON
     // ************************************************************************
-    this._upbutton = new qx.ui.basic.Image;
+    this._upbutton = new qx.legacy.ui.basic.Image;
     this._upbutton.setAppearance("spinner-button-up");
     this._upbutton.setHeight("1*");
     this._buttonlayout.add(this._upbutton);
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   DOWN-BUTTON
     // ************************************************************************
-    this._downbutton = new qx.ui.basic.Image;
+    this._downbutton = new qx.legacy.ui.basic.Image;
     this._downbutton.setAppearance("spinner-button-down");
     this._downbutton.setHeight("1*");
     this._buttonlayout.add(this._downbutton);

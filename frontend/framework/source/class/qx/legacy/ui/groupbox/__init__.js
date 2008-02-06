@@ -1,3 +1,3 @@
 /**
- * The qx.ui.groupbox package.
+ * The qx.legacy.ui.groupbox package.
  */

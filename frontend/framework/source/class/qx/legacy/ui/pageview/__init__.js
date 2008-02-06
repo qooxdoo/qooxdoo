@@ -15,18 +15,18 @@
  * The different incarnations of the pageview differentiate themselves by how
  * you switch between pages, i.e. the controls in the pageview bar. So it is
  * basically a matter of preference whether you choose a {@link
- * qx.ui.pageview.buttonview.ButtonView ButtonView}, a {@link
- * qx.ui.pageview.radioview.RadioView RadioView} or a {@link
- * qx.ui.pageview.tabview.TabView TabView}.
+ * qx.legacy.ui.pageview.buttonview.ButtonView ButtonView}, a {@link
+ * qx.legacy.ui.pageview.radioview.RadioView RadioView} or a {@link
+ * qx.legacy.ui.pageview.tabview.TabView TabView}.
  *
  * After creating the basic pageview widget you add buttons to the bar (using
  * pageview.getBar()) and pages to the pane (using pageview.getPane()), which
  * take a button as a constructor argument. A brief example:
  *
  * <pre class='javascript'>
- * var pv = new qx.ui.pageview.buttonview.ButtonView();
- * var b1 = new qx.ui.pageview.buttonview.Button("A");
- * var p1 = new qx.ui.pageview.buttonview.Page(b1);
+ * var pv = new qx.legacy.ui.pageview.buttonview.ButtonView();
+ * var b1 = new qx.legacy.ui.pageview.buttonview.Button("A");
+ * var p1 = new qx.legacy.ui.pageview.buttonview.Page(b1);
  * pv.getBar().add(b1);
  * pv.getPane().add(p1);
  * </pre>

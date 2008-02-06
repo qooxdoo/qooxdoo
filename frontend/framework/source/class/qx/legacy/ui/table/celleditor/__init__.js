@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table.celleditor package.
+ * The qx.legacy.ui.table.celleditor package.
  */

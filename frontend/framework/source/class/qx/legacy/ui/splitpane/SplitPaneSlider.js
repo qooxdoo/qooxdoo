@@ -29,9 +29,9 @@
  * @appearance splitpane-slider
  * @state dragging
  */
-qx.Class.define("qx.ui.splitpane.SplitPaneSlider",
+qx.Class.define("qx.legacy.ui.splitpane.SplitPaneSlider",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
   construct : function(pane)
   {

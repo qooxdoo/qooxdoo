@@ -1,3 +1,3 @@
 /**
- * The qx.ui.menubar package.
+ * The qx.legacy.ui.menubar package.
  */

@@ -27,9 +27,9 @@
 /**
  * @appearance toolbar
  */
-qx.Class.define("qx.ui.toolbar.ToolBar",
+qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     openMenu :
     {
-      check : "qx.ui.menu.Menu",
+      check : "qx.legacy.ui.menu.Menu",
       event : "changeOpenMenu",
       nullable : true
     },
@@ -126,9 +126,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       {
         vCurrent = vChildren[i];
 
-        if (vCurrent instanceof qx.ui.toolbar.MenuButton) {
+        if (vCurrent instanceof qx.legacy.ui.toolbar.MenuButton) {
           vDeepChildren.push(vCurrent);
-        } else if (vCurrent instanceof qx.ui.toolbar.Part) {
+        } else if (vCurrent instanceof qx.legacy.ui.toolbar.Part) {
           vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
         }
       }
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       {
         vCurrent = vChildren[i];
 
-        if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+        if (vCurrent instanceof qx.legacy.ui.toolbar.MenuButton && vCurrent.getEnabled())
         {
           vPrevButton = vCurrent;
           break;
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         {
           vCurrent = vChildren[i];
 
-          if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+          if (vCurrent instanceof qx.legacy.ui.toolbar.MenuButton && vCurrent.getEnabled())
           {
             vPrevButton = vCurrent;
             break;
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       if (vPrevButton)
       {
         // hide other menus
-        qx.ui.menu.Manager.getInstance().update();
+        qx.legacy.ui.menu.Manager.getInstance().update();
 
         // show previous menu
         vPrevButton._showMenu(true);
@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       {
         vCurrent = vChildren[i];
 
-        if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+        if (vCurrent instanceof qx.legacy.ui.toolbar.MenuButton && vCurrent.getEnabled())
         {
           vNextButton = vCurrent;
           break;
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         {
           vCurrent = vChildren[i];
 
-          if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+          if (vCurrent instanceof qx.legacy.ui.toolbar.MenuButton && vCurrent.getEnabled())
           {
             vNextButton = vCurrent;
             break;
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       if (vNextButton)
       {
         // hide other menus
-        qx.ui.menu.Manager.getInstance().update();
+        qx.legacy.ui.menu.Manager.getInstance().update();
 
         // show next menu
         vNextButton._showMenu(true);

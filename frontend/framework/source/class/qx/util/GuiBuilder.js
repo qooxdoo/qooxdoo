@@ -85,7 +85,7 @@ qx.Class.define("qx.util.GuiBuilder",
      * Dispatches a qx.event.type.Event("done") after the hierarchy is built
      *
      * @type member
-     * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
+     * @param parent {qx.legacy.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param url {String} URL of the XML files
      * @return {void}
      */
@@ -107,7 +107,7 @@ qx.Class.define("qx.util.GuiBuilder",
      * parse the children of the xml and appending all widgets to the parent widget
      *
      * @type member
-     * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
+     * @param parent {qx.legacy.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param node {String | Document | Element} can be either a xml string, or a xml dom document or fragment
      * @return {void}
      */
@@ -224,7 +224,7 @@ qx.Class.define("qx.util.GuiBuilder",
      * A node builder that will be used if no node builder is declared for a nodeName
      *
      * @type member
-     * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
+     * @param parent {qx.legacy.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param node {String | Document | Element} can be either a xml string, or a xml dom document or fragment
      * @return {void}
      * @throws TODOC
@@ -457,29 +457,29 @@ qx.Class.define("qx.util.GuiBuilder",
         self._setProperty(widget, name, window[value]);
       };
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'location', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'dimension', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'location', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'dimension', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'space', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'edge', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'space', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'edge', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'padding', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'margin', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'padding', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'margin', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'heights', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'widths', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'heights', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'widths', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'align', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'stretch', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'align', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'stretch', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'clipLocation', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'clipDimension', commaDelimitedPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'clip', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'clipLocation', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'clipDimension', commaDelimitedPropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.core.Widget', 'clip', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.menu.Button', 'menu', referencePropertyEditor);
-      this.registerPropertyEditor('qx.ui.toolbar.MenuButton', 'menu', referencePropertyEditor);
-      this.registerPropertyEditor('qx.ui.form.RadioButton', 'manager', referencePropertyEditor);
-      this.registerPropertyEditor('qx.ui.menu.RadioButton', 'group', referencePropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.menu.Button', 'menu', referencePropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.toolbar.MenuButton', 'menu', referencePropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.form.RadioButton', 'manager', referencePropertyEditor);
+      this.registerPropertyEditor('qx.legacy.ui.menu.RadioButton', 'group', referencePropertyEditor);
 
       // a property editor that just tries to coerce the string value into a suitable type
       this._coercePropertyEditor = {};
@@ -592,8 +592,8 @@ qx.Class.define("qx.util.GuiBuilder",
 
     /*
     2 format
-    1. <qx.ui.basic.Atom/>
-    3. <div qxtype="qx.ui.basic.Atom"/>
+    1. <qx.legacy.ui.basic.Atom/>
+    3. <div qxtype="qx.legacy.ui.basic.Atom"/>
     */
 
     /**

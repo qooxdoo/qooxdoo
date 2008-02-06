@@ -21,16 +21,16 @@
 /* ************************************************************************
 
 #module(ui_popup)
-#optional(qx.ui.menu.Manager)
+#optional(qx.legacy.ui.menu.Manager)
 
 ************************************************************************ */
 
 /**
  * @appearance popup
  */
-qx.Class.define("qx.ui.popup.Popup",
+qx.Class.define("qx.legacy.ui.popup.Popup",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
     /**
      * Make element displayed (if switched to true the widget will be created, if needed, too).
-     *  Instead of qx.ui.core.Widget, the default is false here.
+     *  Instead of qx.legacy.ui.core.Widget, the default is false here.
      */
     display :
     {
@@ -228,8 +228,8 @@ qx.Class.define("qx.ui.popup.Popup",
         }
       }
 
-      qx.ui.popup.PopupManager.getInstance().add(this);
-      qx.ui.popup.PopupManager.getInstance().update(this);
+      qx.legacy.ui.popup.PopupManager.getInstance().add(this);
+      qx.legacy.ui.popup.PopupManager.getInstance().update(this);
 
       this._showTimeStamp = (new Date).valueOf();
       this.bringToFront();
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       this.base(arguments);
 
-      qx.ui.popup.PopupManager.getInstance().remove(this);
+      qx.legacy.ui.popup.PopupManager.getInstance().remove(this);
 
       this._hideTimeStamp = (new Date).valueOf();
     },
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
       if (this.getRestrictToPageOnOpen())
       {
-        var doc = qx.ui.core.ClientDocument.getInstance();
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
 
@@ -398,19 +398,19 @@ qx.Class.define("qx.ui.popup.Popup",
 
     /**
      * Resets the zIndex of all registered popups and menus
-     * (getting the instances via the {@link qx.ui.popup.PopupManager} and
-     * the {@link qx.ui.menu.Manager}) one higher than the defined minimum zIndex.
+     * (getting the instances via the {@link qx.legacy.ui.popup.PopupManager} and
+     * the {@link qx.legacy.ui.menu.Manager}) one higher than the defined minimum zIndex.
      *
      * @type member
      * @return {void}
      */
     _sendTo : function()
     {
-      var vPopups = qx.lang.Object.getValues(qx.ui.popup.PopupManager.getInstance().getAll());
+      var vPopups = qx.lang.Object.getValues(qx.legacy.ui.popup.PopupManager.getInstance().getAll());
 
-      if (qx.Class.isDefined("qx.ui.menu.Manager"))
+      if (qx.Class.isDefined("qx.legacy.ui.menu.Manager"))
       {
-        var vMenus = qx.lang.Object.getValues(qx.ui.menu.Manager.getInstance().getAll());
+        var vMenus = qx.lang.Object.getValues(qx.legacy.ui.menu.Manager.getInstance().getAll());
         var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
       }
       else
@@ -469,13 +469,13 @@ qx.Class.define("qx.ui.popup.Popup",
      * Positions the popup relative to some reference element.
      *
      * @type member
-     * @param el {Element|qx.ui.core.Widget} Reference DOM element/widget.
+     * @param el {Element|qx.legacy.ui.core.Widget} Reference DOM element/widget.
      * @param offsetX {Integer ? 0} Offset in pixels in X direction (optional).
      * @param offsetY {Integer ? 0} Offset in pixels in Y direction (optional).
      */
     positionRelativeTo : function(el, offsetX, offsetY)
     {
-      if (el instanceof qx.ui.core.Widget) {
+      if (el instanceof qx.legacy.ui.core.Widget) {
         el = el.getElement();
       }
 
@@ -495,15 +495,15 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * Centers the popup using the coordinates of the {@link qx.ui.core.ClientDocument}.
+     * Centers the popup using the coordinates of the {@link qx.legacy.ui.core.ClientDocument}.
      * This method does only work if the Popup has already been rendered, so it
-     * is best to call it in the {@link qx.ui.core.Widget#appear} event.
+     * is best to call it in the {@link qx.legacy.ui.core.Widget#appear} event.
      *
      * @type member
      */
     centerToBrowser : function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
       var left = (d.getClientWidth() - this.getBoxWidth()) / 2;
       var top = (d.getClientHeight() - this.getBoxHeight()) / 2;
@@ -524,7 +524,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
   destruct : function()
   {
-    qx.ui.popup.PopupManager.getInstance().remove(this);
+    qx.legacy.ui.popup.PopupManager.getInstance().remove(this);
 
     this._disposeFields("_showTimeStamp", "_hideTimeStamp");
   }

@@ -27,9 +27,9 @@
 /**
  * @appearance list-view-content-cell-icon-html
  */
-qx.Class.define("qx.ui.listview.ContentCellIconHtml",
+qx.Class.define("qx.legacy.ui.listview.ContentCellIconHtml",
 {
-  extend : qx.ui.embed.IconHtmlEmbed,
+  extend : qx.legacy.ui.embed.IconHtmlEmbed,
 
 
 

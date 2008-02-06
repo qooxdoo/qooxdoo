@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.GridLayout",
+qx.Class.define("qx.legacy.ui.layout.GridLayout",
 {
-  extend : qx.ui.core.Parent,
+  extend : qx.legacy.ui.core.Parent,
 
 
 
@@ -197,10 +197,10 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {qx.ui.layout.BoxLayout} TODOC
+     * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.ui.layout.impl.GridLayoutImpl(this);
+      return new qx.legacy.ui.layout.impl.GridLayoutImpl(this);
     },
 
 
@@ -610,7 +610,7 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       this._setupColumnProperty(vIndex, "widthValue", vValue);
 
-      var vType = qx.ui.core.Parent.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+      var vType = qx.legacy.ui.core.Parent.prototype._evalUnitsPixelPercentAutoFlex(vValue);
 
       this._setupColumnProperty(vIndex, "widthType", vType);
 
@@ -618,17 +618,17 @@ qx.Class.define("qx.ui.layout.GridLayout",
 
       switch(vType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           vParsed = vComputed = Math.round(vValue);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           vParsed = parseFloat(vValue);
           vComputed = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           vParsed = vComputed = null;
           break;
 
@@ -653,24 +653,24 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       this._setupRowProperty(vIndex, "heightValue", vValue);
 
-      var vType = qx.ui.core.Widget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
+      var vType = qx.legacy.ui.core.Widget.prototype._evalUnitsPixelPercentAutoFlex(vValue);
       this._setupRowProperty(vIndex, "heightType", vType);
 
       var vParsed, vComputed;
 
       switch(vType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           vParsed = vComputed = Math.round(vValue);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           vParsed = parseFloat(vValue);
           vComputed = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           vParsed = vComputed = null;
           break;
 
@@ -704,20 +704,20 @@ qx.Class.define("qx.ui.layout.GridLayout",
 
       switch(vType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           vComputed = Math.max(0, vParsed);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           vComputed = this.getInnerWidth() * Math.max(0, vParsed) * 0.01;
           break;
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           // TODO
           vComputed = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           // TODO
           vComputed = null;
           break;
@@ -749,20 +749,20 @@ qx.Class.define("qx.ui.layout.GridLayout",
 
       switch(vType)
       {
-        case qx.ui.core.Widget.TYPE_PIXEL:
+        case qx.legacy.ui.core.Widget.TYPE_PIXEL:
           vComputed = Math.max(0, vParsed);
           break;
 
-        case qx.ui.core.Widget.TYPE_PERCENT:
+        case qx.legacy.ui.core.Widget.TYPE_PERCENT:
           vComputed = this.getInnerHeight() * Math.max(0, vParsed) * 0.01;
           break;
 
-        case qx.ui.core.Widget.TYPE_AUTO:
+        case qx.legacy.ui.core.Widget.TYPE_AUTO:
           // TODO
           vComputed = null;
           break;
 
-        case qx.ui.core.Widget.TYPE_FLEX:
+        case qx.legacy.ui.core.Widget.TYPE_FLEX:
           // TODO
           vComputed = null;
           break;
@@ -1189,7 +1189,7 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       for (var i=0, l=this.getColumnCount(); i<l; i++)
       {
-        if (this._getColumnProperty(i, "widthType") == qx.ui.core.Widget.TYPE_PERCENT) {
+        if (this._getColumnProperty(i, "widthType") == qx.legacy.ui.core.Widget.TYPE_PERCENT) {
           this._setupColumnProperty(i, "widthComputed", null);
         }
       }
@@ -1210,7 +1210,7 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       for (var i=0, l=this.getRowCount(); i<l; i++)
       {
-        if (this._getRowProperty(i, "heightType") == qx.ui.core.Widget.TYPE_PERCENT) {
+        if (this._getRowProperty(i, "heightType") == qx.legacy.ui.core.Widget.TYPE_PERCENT) {
           this._setupRowProperty(i, "heightComputed", null);
         }
       }

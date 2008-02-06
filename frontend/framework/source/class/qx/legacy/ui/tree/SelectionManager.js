@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.tree.SelectionManager",
+qx.Class.define("qx.legacy.ui.tree.SelectionManager",
 {
-  extend : qx.ui.selection.SelectionManager,
+  extend : qx.legacy.ui.selection.SelectionManager,
 
 
 
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     {
       if (vItem)
       {
-        if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
+        if (qx.legacy.ui.tree.Tree.isOpenTreeFolder(vItem))
         {
           return vItem.getFirstVisibleChildOfFolder();
         }
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
             vCurrent = vCurrent.getParentFolder();
           }
 
-          if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
+          if (vCurrent && vCurrent instanceof qx.legacy.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.legacy.ui.tree.AbstractTreeElement) {
             return vCurrent.getNextVisibleSibling();
           }
         }
@@ -173,10 +173,10 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         }
         else if (vItem.isFirstVisibleChild())
         {
-          if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder)
+          if (vItem.getParentFolder() instanceof qx.legacy.ui.tree.TreeFolder)
           {
             // The first node (if hidden) should be ignored for selection
-            if (vItem.getParentFolder() instanceof qx.ui.tree.Tree && vItem.getParentFolder().getHideNode()) {
+            if (vItem.getParentFolder() instanceof qx.legacy.ui.tree.Tree && vItem.getParentFolder().getHideNode()) {
               return vItem;
             }
 
@@ -187,9 +187,9 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         {
           var vPrev = vItem.getPreviousVisibleSibling();
 
-          while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
+          while (vPrev instanceof qx.legacy.ui.tree.AbstractTreeElement)
           {
-            if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev)) {
+            if (qx.legacy.ui.tree.Tree.isOpenTreeFolder(vPrev)) {
               vPrev = vPrev.getLastVisibleChildOfFolder();
             } else {
               break;
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
      */
     getItemHeight : function(vItem)
     {
-      if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout) {
+      if (vItem instanceof qx.legacy.ui.tree.TreeFolder && vItem._horizontalLayout) {
         return vItem._horizontalLayout.getOffsetHeight();
       } else {
         return vItem.getOffsetHeight();
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
      */
     scrollItemIntoView : function(vItem)
     {
-      if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout) {
+      if (vItem instanceof qx.legacy.ui.tree.TreeFolder && vItem._horizontalLayout) {
         return vItem._horizontalLayout.scrollIntoView();
       } else {
         return vItem.scrollIntoView();
@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
      * Renders the selection state of a tree node. If the node is selected this
      * method makes sure it is visible.
      *
-     * @param treeNode {qx.ui.tree.AbstractTreeElement} The tree node to select
+     * @param treeNode {qx.legacy.ui.tree.AbstractTreeElement} The tree node to select
      * @param vIsSelected {Boolean} whether the tree node is selected
      */
     renderItemSelectionState : function(treeNode, isSelected)

@@ -27,9 +27,9 @@
 /**
  * @appearance button-view-page
  */
-qx.Class.define("qx.ui.pageview.buttonview.Page",
+qx.Class.define("qx.legacy.ui.pageview.buttonview.Page",
 {
-  extend : qx.ui.pageview.AbstractPage,
+  extend : qx.legacy.ui.pageview.AbstractPage,
 
   properties :
   {

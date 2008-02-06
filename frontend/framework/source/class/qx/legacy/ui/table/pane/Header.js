@@ -26,9 +26,9 @@
 /**
  * Shows the header of a table.
  */
-qx.Class.define("qx.ui.table.pane.Header",
+qx.Class.define("qx.legacy.ui.table.pane.Header",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.table.pane.Header",
   */
 
   /**
-   * @param paneScroller {qx.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
+   * @param paneScroller {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
    */
   construct : function(paneScroller)
   {
@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * Returns the TablePaneScroller this header belongs to.
      *
      * @type member
-     * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
+     * @return {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
       return this._paneScroller;
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * Returns the table this header belongs to.
      *
      * @type member
-     * @return {qx.ui.table.Table} the table.
+     * @return {qx.legacy.ui.table.Table} the table.
      */
     getTable : function() {
       return this._paneScroller.getTable();

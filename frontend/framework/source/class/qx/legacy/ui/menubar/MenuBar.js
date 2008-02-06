@@ -24,6 +24,6 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.menubar.MenuBar", {
-  extend : qx.ui.toolbar.ToolBar
+qx.Class.define("qx.legacy.ui.menubar.MenuBar", {
+  extend : qx.legacy.ui.toolbar.ToolBar
 });

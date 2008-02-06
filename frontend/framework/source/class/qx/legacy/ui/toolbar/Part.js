@@ -27,9 +27,9 @@
 /**
  * @appearance toolbar-part
  */
-qx.Class.define("qx.ui.toolbar.Part",
+qx.Class.define("qx.legacy.ui.toolbar.Part",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.toolbar.Part",
   {
     this.base(arguments);
 
-    this._handle = new qx.ui.toolbar.PartHandle;
+    this._handle = new qx.legacy.ui.toolbar.PartHandle;
     this.add(this._handle);
 
     this.initWidth();

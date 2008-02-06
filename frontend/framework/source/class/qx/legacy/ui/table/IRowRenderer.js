@@ -26,7 +26,7 @@
 /**
  * Interface for a row renderer.
  */
-qx.Interface.define("qx.ui.table.IRowRenderer",
+qx.Interface.define("qx.legacy.ui.table.IRowRenderer",
 {
   members :
   {
@@ -41,7 +41,7 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      * <li>row (int): the model index of the row.</li>
      * <li>selected (boolean): whether a cell in this row is selected.</li>
      * <li>focusedRow (boolean): whether the focused cell is in this row.</li>
-     * <li>table (qx.ui.table.Table): the table the row belongs to.</li>
+     * <li>table (qx.legacy.ui.table.Table): the table the row belongs to.</li>
      * </ul>
      *
      * @type member

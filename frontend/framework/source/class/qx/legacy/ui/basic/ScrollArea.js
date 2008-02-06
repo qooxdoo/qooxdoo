@@ -27,9 +27,9 @@
  * The CanvasLayout, which fires scroll events. Widgets which need to react on scroll
  * events should extend thie class.
  */
-qx.Class.define("qx.ui.basic.ScrollArea",
+qx.Class.define("qx.legacy.ui.basic.ScrollArea",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 

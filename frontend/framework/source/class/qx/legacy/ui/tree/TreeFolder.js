@@ -29,16 +29,16 @@
 ************************************************************************ */
 
 /**
- * qx.ui.tree.TreeFolder objects are tree rows which may contain
+ * qx.legacy.ui.tree.TreeFolder objects are tree rows which may contain
  * sub-trees
  *
- * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
- * @appearance tree-folder-icon {qx.ui.basic.Image}
- * @appearance tree-folder-label {qx.ui.basic.Label}
+ * @appearance tree-folder {qx.legacy.ui.layout.HorizontalBoxLayout}
+ * @appearance tree-folder-icon {qx.legacy.ui.basic.Image}
+ * @appearance tree-folder-label {qx.legacy.ui.basic.Label}
  */
-qx.Class.define("qx.ui.tree.TreeFolder",
+qx.Class.define("qx.legacy.ui.tree.TreeFolder",
 {
-  extend : qx.ui.tree.AbstractTreeElement,
+  extend : qx.legacy.ui.tree.AbstractTreeElement,
 
 
 
@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     _openCallback : function()
     {
       this.setOpen(true);
-      qx.ui.core.Widget.flushGlobalQueues();
+      qx.legacy.ui.core.Widget.flushGlobalQueues();
       this.getTopLevelWidget().setGlobalCursor(null);
     },
 
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      if (!(this instanceof qx.ui.tree.Tree)) {
+      if (!(this instanceof qx.legacy.ui.tree.Tree)) {
         this.setHeight("auto");
       }
 
@@ -313,11 +313,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         this.setOrientation("vertical");
 
         // Create a horizontal layout for this tree row
-        this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
+        this._horizontalLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
         this._horizontalLayout.setWidth(null);
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
-        this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
+        this._horizontalLayout.setAppearance(this instanceof qx.legacy.ui.tree.Tree ? "tree" : "tree-folder");
 
         // Move the row fields into the horizontal layout
         for (var i=0; i<this._treeRowStructureFields.length; i++) {
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       if (!this._containerObject)
       {
         // Create a veritcal box layout for all of this folder's children
-        this._containerObject = new qx.ui.layout.VerticalBoxLayout;
+        this._containerObject = new qx.legacy.ui.layout.VerticalBoxLayout;
         this._containerObject.setWidth(null);
         this._containerObject.setHeight("auto");
         this._containerObject.setAnonymous(true);
@@ -581,7 +581,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * Returns the container of the current tree element.
      *
      * @type member
-     * @return {qx.ui.layout.VerticalBoxLayout} the widget container
+     * @return {qx.legacy.ui.layout.VerticalBoxLayout} the widget container
      */
     getContainerObject : function() {
       return this._containerObject;
@@ -592,7 +592,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * Returns the HorizontalBoxLayout of the folder.
      *
      * @type member
-     * @return {qx.ui.layout.HorizontalBoxLayout} the horizontal layout widget
+     * @return {qx.legacy.ui.layout.HorizontalBoxLayout} the horizontal layout widget
      */
     getHorizontalLayout : function() {
       return this._horizontalLayout;
@@ -1028,7 +1028,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     _updateIndent : function()
     {
       // Intentionally bypass superclass; the _updateIndent we want is in TreeFile
-      qx.ui.tree.TreeFile.prototype._updateIndent.call(this);
+      qx.legacy.ui.tree.TreeFile.prototype._updateIndent.call(this);
 
       if (!this._containerObject) {
         return;

@@ -21,9 +21,9 @@
 
 /**
  * Provides resizing behavior to any widget.
- * The widget that includes this mixin, must implement the {@link qx.ui.resizer.IResizable} interface.
+ * The widget that includes this mixin, must implement the {@link qx.legacy.ui.resizer.IResizable} interface.
  */
-qx.Mixin.define("qx.ui.resizer.MResizable",
+qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
 {
   /*
   *****************************************************************************
@@ -33,7 +33,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
   construct : function(child)
   {
-    this._frame = new qx.ui.basic.Terminator;
+    this._frame = new qx.legacy.ui.basic.Terminator;
     this._frame.setAppearance("resizer-frame");
     this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
@@ -188,7 +188,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             if (f.getParent() != pa)
             {
               f.setParent(pa);
-              qx.ui.core.Widget.flushGlobalQueues();
+              qx.legacy.ui.core.Widget.flushGlobalQueues();
             }
 
             f._renderRuntimeLeft(elLoc.left - paLoc.left);

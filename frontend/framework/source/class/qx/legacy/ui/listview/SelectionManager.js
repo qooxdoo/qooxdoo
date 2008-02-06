@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /** This class represents a selection and manage incoming events for widgets which need selection support. */
-qx.Class.define("qx.ui.listview.SelectionManager",
+qx.Class.define("qx.legacy.ui.listview.SelectionManager",
 {
-  extend : qx.ui.selection.SelectionManager,
+  extend : qx.legacy.ui.selection.SelectionManager,
 
 
 
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.listview.SelectionManager",
 
 
     /**
-     * In a qx.ui.listview.ListView there are no disabled entries support currently.
+     * In a qx.legacy.ui.listview.ListView there are no disabled entries support currently.
      *
      * @type member
      * @param vItem {var} TODOC

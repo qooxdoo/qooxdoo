@@ -230,7 +230,7 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
      * represent the object(s) the user is dragging.
      *
      * @type member
-     * @param widget {qx.ui.core.Widget} the feedback widget.
+     * @param widget {qx.legacy.ui.core.Widget} the feedback widget.
      * @param deltaX {int ? 10} the number of pixels the top-left corner of the widget
      *          should be away from the mouse cursor in x direction.
      * @param deltaY {int ? 10} the number of pixels the top-left corner of the widget

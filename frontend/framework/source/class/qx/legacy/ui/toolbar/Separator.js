@@ -26,11 +26,11 @@
 
 /**
  * @appearance toolbar-separator
- * @appearance toolbar-separator-line {qx.ui.basic.Terminator}
+ * @appearance toolbar-separator-line {qx.legacy.ui.basic.Terminator}
  */
-qx.Class.define("qx.ui.toolbar.Separator",
+qx.Class.define("qx.legacy.ui.toolbar.Separator",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.toolbar.Separator",
   {
     this.base(arguments);
 
-    var l = new qx.ui.basic.Terminator;
+    var l = new qx.legacy.ui.basic.Terminator;
     l.setAppearance("toolbar-separator-line");
     this.add(l);
   },

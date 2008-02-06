@@ -22,23 +22,23 @@
 
 #module(ui_core)
 #optional(qx.legacy.Window)
-#optional(qx.ui.window.Window)
-#optional(qx.ui.popup.PopupManager)
+#optional(qx.legacy.ui.window.Window)
+#optional(qx.legacy.ui.popup.PopupManager)
 
 ************************************************************************ */
 
 /**
  * This is the basic widget of all qooxdoo applications.
  *
- * qx.ui.core.ClientDocument is the parent of all children inside your application. It
+ * qx.legacy.ui.core.ClientDocument is the parent of all children inside your application. It
  * also handles their resizing and focus navigation.
  *
  * @appearance client-document
  */
-qx.Class.define("qx.ui.core.ClientDocument",
+qx.Class.define("qx.legacy.ui.core.ClientDocument",
 {
   type : "singleton",
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {qx.ui.core.Parent} TODOC
+     * @return {qx.legacy.ui.core.Parent} TODOC
      * @signature function()
      */
     getParent : qx.lang.Function.returnNull,
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {qx.ui.popup.ToolTip} TODOC
+     * @return {qx.legacy.ui.popup.ToolTip} TODOC
      * @signature function()
      */
     getToolTip : qx.lang.Function.returnNull,
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       if (!this._blocker)
       {
         // Create blocker instance
-        this._blocker = new qx.ui.core.ClientDocumentBlocker;
+        this._blocker = new qx.legacy.ui.core.ClientDocumentBlocker;
 
         // Add blocker events
         this._blocker.addListener("mousedown", this.blockHelper, this);
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       // this.debug("BLOCK: " + vActiveChild.toHashCode());
       this._getBlocker().show();
 
-      if (qx.Class.isDefined("qx.ui.window.Window") && vActiveChild instanceof qx.ui.window.Window)
+      if (qx.Class.isDefined("qx.legacy.ui.window.Window") && vActiveChild instanceof qx.legacy.ui.window.Window)
       {
         this._modalWidgets.push(vActiveChild);
 
@@ -582,8 +582,8 @@ qx.Class.define("qx.ui.core.ClientDocument",
     _onwindowresize : function(e)
     {
       // Hide popups, tooltips, ...
-      if (qx.Class.isDefined("qx.ui.popup.PopupManager")) {
-        qx.ui.popup.PopupManager.getInstance().update();
+      if (qx.Class.isDefined("qx.legacy.ui.popup.PopupManager")) {
+        qx.legacy.ui.popup.PopupManager.getInstance().update();
       }
 
       // Update children
@@ -591,7 +591,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       this._recomputeInnerHeight();
 
       // Flush queues
-      qx.ui.core.Widget.flushGlobalQueues();
+      qx.legacy.ui.core.Widget.flushGlobalQueues();
     },
 
 

@@ -28,7 +28,7 @@
  * A wrapper for CSS font styles. Fond objects can be aplpied to widgets
  * or DOM elements.
  */
-qx.Class.define("qx.ui.core.Font",
+qx.Class.define("qx.legacy.ui.core.Font",
 {
   extend : qx.core.Object,
 
@@ -74,11 +74,11 @@ qx.Class.define("qx.ui.core.Font",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.ui.core.Font} the created instance
+     * @return {qx.legacy.ui.core.Font} the created instance
      */
     fromString : function(str)
     {
-      var font = new qx.ui.core.Font;
+      var font = new qx.legacy.ui.core.Font;
       var parts = str.split(/\s+/);
       var name = [];
       var part;
@@ -125,11 +125,11 @@ qx.Class.define("qx.ui.core.Font",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.ui.core.Font} the created instance
+     * @return {qx.legacy.ui.core.Font} the created instance
      */
     fromConfig : function(config)
     {
-      var font = new qx.ui.core.Font;
+      var font = new qx.legacy.ui.core.Font;
       font.set(config);
       return font;
     },
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.core.Font",
     /**
      * Removes all fond styles from this widget
      *
-     * @param widget {qx.ui.core.Widget} widget to reset
+     * @param widget {qx.legacy.ui.core.Widget} widget to reset
      */
     reset : function(widget)
     {
@@ -292,7 +292,7 @@ qx.Class.define("qx.ui.core.Font",
     /**
      * Apply the font to the given widget.
      *
-     * @param widget {qx.ui.core.Widget} The widget to apply the font to
+     * @param widget {qx.legacy.ui.core.Widget} The widget to apply the font to
      */
     render : function(widget)
     {

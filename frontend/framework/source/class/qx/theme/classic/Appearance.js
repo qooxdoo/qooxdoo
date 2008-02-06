@@ -389,7 +389,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var padding = "undefined";
         var border = "undefined";
-        var clazz = qx.ui.core.Border;
+        var clazz = qx.legacy.ui.core.Border;
 
         if (states.barTop)
         {
@@ -428,7 +428,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.checked || states.over)
         {
-          border = new qx.ui.core.Border(1, "solid", "border-dark-shadow");
+          border = new qx.legacy.ui.core.Border(1, "solid", "border-dark-shadow");
 
           if (states.barTop)
           {
@@ -512,7 +512,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "tab-view-pane",
-          border : new qx.ui.core.Border(1, "solid", "tab-view-border"),
+          border : new qx.legacy.ui.core.Border(1, "solid", "tab-view-border"),
           padding : 10
         };
       }
@@ -531,7 +531,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         marginTop = 0;
         marginBottom = 0;
-        border = new qx.ui.core.Border(1, "solid", "tab-view-border");
+        border = new qx.legacy.ui.core.Border(1, "solid", "tab-view-border");
 
         if (states.checked)
         {
@@ -659,8 +659,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "radio-view-bar",
           padding : [ 1, 0 ],
           border : states.barTop ?
-            qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "border-dark-shadow" ] }) :
-            qx.ui.core.Border.fromConfig({ top : [ 1, "solid", "border-dark-shadow" ] })
+            qx.legacy.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "border-dark-shadow" ] }) :
+            qx.legacy.ui.core.Border.fromConfig({ top : [ 1, "solid", "border-dark-shadow" ] })
         };
       }
     },
@@ -673,7 +673,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.checked || states.over)
         {
-          border = new qx.ui.core.Border(1, "solid", "border-dark-shadow");
+          border = new qx.legacy.ui.core.Border(1, "solid", "border-dark-shadow");
           border.setLeft(3, "solid", "effect");
           padding = [ 2, 6, 2, 4 ];
         }
@@ -1290,7 +1290,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : new qx.ui.core.Border(1, "solid", "list-view-border"),
+          border : new qx.legacy.ui.core.Border(1, "solid", "list-view-border"),
           backgroundColor : "list-view"
         }
       }
@@ -1311,7 +1311,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "list-view-header-border" ] }),
+          border : qx.legacy.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "list-view-header-border" ] }),
           backgroundColor : "list-view-header"
         };
       }
@@ -1327,7 +1327,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : states.over ? "list-view-header-cell-hover" : "undefined",
           paddingBottom : states.over ? 0 : 2,
           border : states.over ?
-            new qx.ui.core.Border.fromConfig({ bottom : [ 2, "solid", "effect" ] }) :
+            new qx.legacy.ui.core.Border.fromConfig({ bottom : [ 2, "solid", "effect" ] }) :
             "undefined"
         };
       }
@@ -1375,7 +1375,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : states.selected ? "selected" : "undefined",
           textColor       : states.selected ? "text-selected" : "undefined",
           border          : states.lead && !states.selected ?
-            new qx.ui.core.Border.fromConfig({top : [ 1, "solid", "effect" ], bottom : [ 1, "solid", "effect" ]  }) :
+            new qx.legacy.ui.core.Border.fromConfig({top : [ 1, "solid", "effect" ], bottom : [ 1, "solid", "effect" ]  }) :
             "undefined",
           marginTop      : states.lead && !states.selected ? 0 : 1,
           marginBottom   : states.lead && !states.selected ? 0 : 1
@@ -1638,7 +1638,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border          : new qx.ui.core.Border(1, "solid", "gray"),
+          border          : new qx.legacy.ui.core.Border(1, "solid", "gray"),
           backgroundColor : "date-chooser"
         };
       }
@@ -1648,7 +1648,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border = qx.ui.core.Border.fromConfig({
+        var border = qx.legacy.ui.core.Border.fromConfig({
           bottom : [ 1, "solid", "gray" ]
         });
 
@@ -1683,14 +1683,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         if (states.header)
         {
-          var border = qx.ui.core.Border.fromConfig({
+          var border = qx.legacy.ui.core.Border.fromConfig({
             right : [ 1, "solid", "gray" ],
             bottom : [ 1, "solid", "gray" ]
           });
         }
         else
         {
-          var border = qx.ui.core.Border.fromConfig({
+          var border = qx.legacy.ui.core.Border.fromConfig({
             right : [ 1, "solid", "gray" ]
           });
         }
@@ -1718,7 +1718,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : qx.ui.core.Border.fromConfig({ top : [ 1, "solid", "border-dark-shadow" ] }),
+          border : qx.legacy.ui.core.Border.fromConfig({ top : [ 1, "solid", "border-dark-shadow" ] }),
           paddingLeft : 2,
           paddingRight : 2
         };
@@ -1730,7 +1730,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : new qx.ui.core.Border(2, "solid", "table-focus-indicator")
+          border : new qx.legacy.ui.core.Border(2, "solid", "table-focus-indicator")
         };
       }
     },
@@ -1763,7 +1763,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "table-header-border" ] }),
+          border : qx.legacy.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "table-header-border" ] }),
           backgroundColor : "table-header"
         };
       }
@@ -1810,7 +1810,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.mouseover)
         {
-          border = qx.ui.core.Border.fromConfig(
+          border = qx.legacy.ui.core.Border.fromConfig(
           {
             right : [ 1, "solid", "table-header-border" ],
             bottom : [ 2, "solid", "effect" ]
@@ -1821,7 +1821,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
         else
         {
-          border = qx.ui.core.Border.fromConfig({
+          border = qx.legacy.ui.core.Border.fromConfig({
             right : [ 1, "solid", "table-header-border" ]
           });
 

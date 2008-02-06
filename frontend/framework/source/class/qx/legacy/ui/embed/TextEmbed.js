@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.embed.TextEmbed",
+qx.Class.define("qx.legacy.ui.embed.TextEmbed",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -157,10 +157,10 @@ qx.Class.define("qx.ui.embed.TextEmbed",
 
     /**
      * @type member
-     * @param value {qx.ui.core.Font}
+     * @param value {qx.legacy.ui.core.Font}
      */
     _styleFont : function(value) {
-      value ? value.render(this) : qx.ui.core.Font.reset(this);
+      value ? value.render(this) : qx.legacy.ui.core.Font.reset(this);
     },
 
 

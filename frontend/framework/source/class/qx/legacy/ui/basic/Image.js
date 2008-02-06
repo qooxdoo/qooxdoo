@@ -30,9 +30,9 @@
  *
  * @appearance image
  */
-qx.Class.define("qx.ui.basic.Image",
+qx.Class.define("qx.legacy.ui.basic.Image",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -660,7 +660,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Images load asyncron, so we need to force flushing here
       // to get an up-to-date view when an image is loaded.
-      qx.ui.core.Widget.flushGlobalQueues();
+      qx.legacy.ui.core.Widget.flushGlobalQueues();
     },
 
 

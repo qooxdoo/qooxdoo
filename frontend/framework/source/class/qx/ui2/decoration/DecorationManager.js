@@ -94,7 +94,7 @@ qx.Class.define("qx.ui2.decoration.DecorationManager",
      * Update all objects which use the given border.
      *
      * @type member
-     * @param border {qx.ui.core.Border} the border which have been modified
+     * @param border {qx.legacy.ui.core.Border} the border which have been modified
      */
     updateObjects : function(border)
     {

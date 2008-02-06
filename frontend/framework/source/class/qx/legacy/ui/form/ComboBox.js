@@ -39,16 +39,16 @@
  * </ul>
  *
  * @appearance combo-box
- * @appearance combo-box-list {qx.ui.form.List}
- * @appearance combo-box-popup {qx.ui.popup.Popup}
- * @appearance combo-box-text-field {qx.ui.form.TextField}
- * @appearance combo-box-button {qx.ui.basic.Atom}
+ * @appearance combo-box-list {qx.legacy.ui.form.List}
+ * @appearance combo-box-popup {qx.legacy.ui.popup.Popup}
+ * @appearance combo-box-text-field {qx.legacy.ui.form.TextField}
+ * @appearance combo-box-button {qx.legacy.ui.basic.Atom}
  * @state pressed {combo-box-button}
  *
  */
-qx.Class.define("qx.ui.form.ComboBox",
+qx.Class.define("qx.legacy.ui.form.ComboBox",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     this.base(arguments);
 
     // List
-    var l = this._list = new qx.ui.form.List;
+    var l = this._list = new qx.legacy.ui.form.List;
     l.setAppearance("combo-box-list");
     l.setTabIndex(-1);
     l.setEdge(0);
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     m.setDragSelection(false);
 
     // Popup
-    var p = this._popup = new qx.ui.popup.Popup;
+    var p = this._popup = new qx.legacy.ui.popup.Popup;
     p.setAppearance("combo-box-popup");
     p.setRestrictToPageLeft(-100000);
     p.setRestrictToPageRight(-100000);
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     p.add(l);
 
     // Textfield
-    var f = this._field = new qx.ui.form.TextField;
+    var f = this._field = new qx.legacy.ui.form.TextField;
     f.setAppearance("combo-box-text-field");
     f.setTabIndex(-1);
     f.setWidth("1*");
@@ -93,9 +93,9 @@ qx.Class.define("qx.ui.form.ComboBox",
     this.add(f);
 
     // Button
-    // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
+    // Use qx.legacy.ui.basic.Atom instead of qx.legacy.ui.form.Button here to omit the registration
     // of the unneeded and complex button events.
-    var b = this._button = new qx.ui.basic.Atom;
+    var b = this._button = new qx.legacy.ui.basic.Atom;
     b.setAppearance("combo-box-button");
     b.setAllowStretchY(true);
     b.setTabIndex(-1);
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // force update of value on locale change
     qx.locale.Manager.getInstance().addListener("changeLocale", this._onlocalechange, this);
 
-    var vDoc = qx.ui.core.ClientDocument.getInstance();
+    var vDoc = qx.legacy.ui.core.ClientDocument.getInstance();
     vDoc.addListener("windowblur", this._testClosePopup, this);
 
     // Remapping
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     selected :
     {
-      check : "qx.ui.form.ListItem",
+      check : "qx.legacy.ui.form.ListItem",
       nullable : true,
       apply : "_applySelected",
       event : "changeSelected"
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Accessor method for the selection manager
      *
      * @type member
-     * @return {qx.ui.selection.SelectionManager} Reference to the selection manager
+     * @return {qx.legacy.ui.selection.SelectionManager} Reference to the selection manager
      */
     getManager : function() {
       return this._manager;
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Accessor method for the popup widget
      *
      * @type member
-     * @return {qx.ui.popup.Popup} Reference to the popup widget
+     * @return {qx.legacy.ui.popup.Popup} Reference to the popup widget
      */
     getPopup : function() {
       return this._popup;
@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Accessor method for the list widget
      *
      * @type member
-     * @return {qx.ui.form.List} Reference to the list widget
+     * @return {qx.legacy.ui.form.List} Reference to the list widget
      */
     getList : function() {
       return this._list;
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Accessor method for the text field widget
      *
      * @type member
-     * @return {qx.ui.form.TextField} Reference to the text field widget
+     * @return {qx.legacy.ui.form.TextField} Reference to the text field widget
      */
     getField : function() {
       return this._field;
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Accessor method for the button widget
      *
      * @type member
-     * @return {qx.ui.basic.Atom} Reference to the button widget
+     * @return {qx.legacy.ui.basic.Atom} Reference to the button widget
      */
     getButton : function() {
       return this._button;
@@ -646,7 +646,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           break;
 
         default:
-          if (vTarget instanceof qx.ui.form.ListItem && vTarget.getParent() == this._list)
+          if (vTarget instanceof qx.legacy.ui.form.ListItem && vTarget.getParent() == this._list)
           {
             this._list._onmousedown(e);
             this.setSelected(this._list.getSelectedItem());
@@ -692,7 +692,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       var vTarget = e.getTarget();
 
-      if (vTarget instanceof qx.ui.form.ListItem)
+      if (vTarget instanceof qx.legacy.ui.form.ListItem)
       {
         var vManager = this._manager;
 
@@ -989,7 +989,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     }
 
     // Remove cross-object event listeners
-    var vDoc = qx.ui.core.ClientDocument.getInstance();
+    var vDoc = qx.legacy.ui.core.ClientDocument.getInstance();
     vDoc.removeListener("windowblur", this._testClosePopup, this);
 
     var vMgr = qx.locale.Manager.getInstance();

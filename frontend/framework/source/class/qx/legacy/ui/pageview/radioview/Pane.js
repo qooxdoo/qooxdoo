@@ -27,9 +27,9 @@
 /**
  * @appearance radio-view-pane
  */
-qx.Class.define("qx.ui.pageview.radioview.Pane",
+qx.Class.define("qx.legacy.ui.pageview.radioview.Pane",
 {
-  extend : qx.ui.pageview.AbstractPane,
+  extend : qx.legacy.ui.pageview.AbstractPane,
 
   construct : function()
   {

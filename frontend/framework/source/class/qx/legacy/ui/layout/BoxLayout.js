@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.BoxLayout",
+qx.Class.define("qx.legacy.ui.layout.BoxLayout",
 {
-  extend : qx.ui.core.Parent,
+  extend : qx.legacy.ui.core.Parent,
 
 
 
@@ -198,10 +198,10 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {qx.ui.layout.BoxLayout} TODOC
+     * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
-      return this.getOrientation() == "vertical" ? new qx.ui.layout.impl.VerticalBoxLayoutImpl(this) : new qx.ui.layout.impl.HorizontalBoxLayoutImpl(this);
+      return this.getOrientation() == "vertical" ? new qx.legacy.ui.layout.impl.VerticalBoxLayoutImpl(this) : new qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl(this);
     },
 
 
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
       this._layoutMode = this._layoutVertical ? this.getVerticalChildrenAlign() : this.getHorizontalChildrenAlign();
 
       if (this.getReverseChildrenOrder()) {
-        this._layoutMode += qx.ui.layout.BoxLayout.STR_REVERSED;
+        this._layoutMode += qx.legacy.ui.layout.BoxLayout.STR_REVERSED;
       }
     },
 

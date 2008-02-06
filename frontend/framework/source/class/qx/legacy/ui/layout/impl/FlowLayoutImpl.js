@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
+qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
 {
-  extend : qx.ui.layout.impl.LayoutImpl,
+  extend : qx.legacy.ui.layout.impl.LayoutImpl,
 
 
 
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.ui.layout.impl.LayoutImpl:
+     *  Inherits from qx.legacy.ui.layout.impl.LayoutImpl:
      *
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
     computeChildrenNeededWidth : function()
     {
       var w = this.getWidget();
-      return qx.ui.layout.impl.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getHorizontalSpacing());
+      return qx.legacy.ui.layout.impl.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getHorizontalSpacing());
     },
 
 
@@ -451,8 +451,8 @@ qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
       var vWidget = this.getWidget();
       var vReverse = vWidget.getReverseChildrenOrder();
 
-      var vMethodBegin = vReverse ? qx.ui.layout.impl.FlowLayoutImpl.STR_LAST : qx.ui.layout.impl.FlowLayoutImpl.STR_FIRST;
-      var vMethodContinue = vReverse ? qx.ui.layout.impl.FlowLayoutImpl.STR_NEXT : qx.ui.layout.impl.FlowLayoutImpl.STR_PREVIOUS;
+      var vMethodBegin = vReverse ? qx.legacy.ui.layout.impl.FlowLayoutImpl.STR_LAST : qx.legacy.ui.layout.impl.FlowLayoutImpl.STR_FIRST;
+      var vMethodContinue = vReverse ? qx.legacy.ui.layout.impl.FlowLayoutImpl.STR_NEXT : qx.legacy.ui.layout.impl.FlowLayoutImpl.STR_PREVIOUS;
 
       if (vChild == vWidget[vMethodBegin]()) {
         vChild._cachedLocationHorizontal = vChild._cachedLocationVertical = vChild._cachedRow = 0;

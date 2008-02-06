@@ -40,8 +40,8 @@
  * the following keys attached to the constructor and the prototype:
  *
  * <table>
- * <tr><th><code>classname</code></th><td>The fully-qualified name of the class (e.g. <code>"qx.ui.core.Widget"</code>).</td></tr>
- * <tr><th><code>basename</code></th><td>The namespace part of the class name (e.g. <code>"qx.ui.core"</code>).</td></tr>
+ * <tr><th><code>classname</code></th><td>The fully-qualified name of the class (e.g. <code>"qx.legacy.ui.core.Widget"</code>).</td></tr>
+ * <tr><th><code>basename</code></th><td>The namespace part of the class name (e.g. <code>"qx.legacy.ui.core"</code>).</td></tr>
  * <tr><th><code>constructor</code></th><td>A reference to the constructor of the class.</td></tr>
  * <tr><th><code>superclass</code></th><td>A reference to the constructor of the super class.</td></tr>
  * </table>

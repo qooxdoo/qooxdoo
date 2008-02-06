@@ -34,16 +34,16 @@
  * <p>
  *   A number of convenience methods are available in the following mixins:
  *   <ul>
- *     <li>{@link qx.ui.treevirtual.MNode}</li>
- *     <li>{@link qx.ui.treevirtual.MFamily}</li>
+ *     <li>{@link qx.legacy.ui.treevirtual.MNode}</li>
+ *     <li>{@link qx.legacy.ui.treevirtual.MFamily}</li>
  *   </ul>
  * </p>
  *
- * @appearance treevirtual-focus-indicator {qx.ui.layout.HorizontalBoxLayout}
+ * @appearance treevirtual-focus-indicator {qx.legacy.ui.layout.HorizontalBoxLayout}
  */
-qx.Class.define("qx.ui.treevirtual.TreeVirtual",
+qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
 {
-  extend : qx.ui.table.Table,
+  extend : qx.legacy.ui.table.Table,
 
 
 
@@ -70,25 +70,25 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *
    *   <dl>
    *     <dt>dataModel</dt>
-   *       <dd>new qx.ui.treevirtual.SimpleTreeDataModel()</dd>
+   *       <dd>new qx.legacy.ui.treevirtual.SimpleTreeDataModel()</dd>
    *     <dt>treeDataCellRenderer</dt>
-   *       <dd>new qx.ui.treevirtual.SimpleTreeDataCellRenderer()</dd>
+   *       <dd>new qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer()</dd>
    *     <dt>defaultDataCellRenderer</dt>
-   *       <dd>new qx.ui.treevirtual.DefaultDataCellRenderer()</dd>
+   *       <dd>new qx.legacy.ui.treevirtual.DefaultDataCellRenderer()</dd>
    *     <dt>dataRowRenderer</dt>
-   *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
+   *       <dd>new qx.legacy.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
    *     <dt>selectionManager</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.treevirtual.SelectionManager(obj);
+   *           return new qx.legacy.ui.treevirtual.SelectionManager(obj);
    *         }
    *       </pre></dd>
    *     <dt>tableColumnModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.columnmodel.Resize(obj);
+   *           return new qx.legacy.ui.table.columnmodel.Resize(obj);
    *         }
    *       </pre></dd>
    *   </dl>
@@ -111,25 +111,25 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     if (! custom.dataModel)
     {
       custom.dataModel =
-        new qx.ui.treevirtual.SimpleTreeDataModel();
+        new qx.legacy.ui.treevirtual.SimpleTreeDataModel();
     }
 
     if (! custom.treeDataCellRenderer)
     {
       custom.treeDataCellRenderer =
-        new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
+        new qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer();
     }
 
     if (! custom.defaultDataCellRenderer)
     {
       custom.defaultDataCellRenderer =
-        new qx.ui.treevirtual.DefaultDataCellRenderer();
+        new qx.legacy.ui.treevirtual.DefaultDataCellRenderer();
     }
 
     if (! custom.dataRowRenderer)
     {
       custom.dataRowRenderer =
-        new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
+        new qx.legacy.ui.treevirtual.SimpleTreeDataRowRenderer();
       // Change focus colors.  Make them less obtrusive.
       custom.dataRowRenderer.setRowColors(
       {
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       custom.selectionManager =
         function(obj)
         {
-          return new qx.ui.treevirtual.SelectionManager(obj);
+          return new qx.legacy.ui.treevirtual.SelectionManager(obj);
         };
     }
 
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       custom.tableColumnModel =
         function(obj)
         {
-          return new qx.ui.table.columnmodel.Resize(obj);
+          return new qx.legacy.ui.table.columnmodel.Resize(obj);
         };
     }
 
@@ -288,11 +288,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     SelectionMode :
     {
-      NONE                    : qx.ui.table.selection.Model.NO_SELECTION,
-      SINGLE                  : qx.ui.table.selection.Model.SINGLE_SELECTION,
-      SINGLE_INTERVAL         : qx.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
-      MULTIPLE_INTERVAL       : qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION,
-      MULTIPLE_INTERVAL_TOGGLE: qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE
+      NONE                    : qx.legacy.ui.table.selection.Model.NO_SELECTION,
+      SINGLE                  : qx.legacy.ui.table.selection.Model.SINGLE_SELECTION,
+      SINGLE_INTERVAL         : qx.legacy.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL       : qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL_TOGGLE: qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE
     }
   },
 
@@ -497,16 +497,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param mode {Integer}
      *   The selection mode to be used.  It may be any of:
      *     <pre>
-     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE:
+     *       qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.NONE:
      *          Nothing can ever be selected.
      *
-     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE
+     *       qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE
      *          Allow only one selected item.
      *
-     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE_INTERVAL
+     *       qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE_INTERVAL
      *          Allow one contiguous interval of selected items.
      *
-     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL
+     *       qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL
      *          Allow any selected items, whether contiguous or not.
      *     </pre>
      *
@@ -759,7 +759,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
             // If it's an open branch and open/close is allowed...
             if ((node.type ==
-                 qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
+                 qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
                 ! node.bHideOpenClose &&
                 node.bOpened)
             {
@@ -784,7 +784,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
             // If it's a closed branch and open/close is allowed...
             if ((node.type ==
-                 qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
+                 qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
                 ! node.bHideOpenClose &&
                 ! node.bOpened)
             {
@@ -836,7 +836,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
             // If we're on a branch and open/close is allowed...
             if ((node.type ==
-                 qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
+                 qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
                 ! node.bHideOpenClose)
             {
               // ... then first ensure the branch is open
@@ -931,7 +931,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
       // If selections are allowed, pass an event to our listeners
       if (this.getSelectionMode() !=
-          qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
+          qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
       {
         var selectedNodes = this._calculateSelectedNodes();
 
@@ -1010,7 +1010,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @deprecated Use {@link qx.ui.treevirtual.MNode.nodeSetState} instead.
+     * @deprecated Use {@link qx.legacy.ui.treevirtual.MNode.nodeSetState} instead.
      *
      * @param nodeReference {Object | Integer}
      *   The node for which attributes are being set.  The node can be
@@ -1020,7 +1020,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param attributes {Map}
      *   Map with the node properties to be set.  The map may contain any of
      *   the properties described in
-     *   {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *   {@link qx.legacy.ui.treevirtual.SimpleTreeDataModel}
      *
      * @return {void}
      */
@@ -1038,8 +1038,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      *
      * @deprecated
-     *    Use {@link qx.ui.treevirtual.MNode.nodeSetOpened} or
-     *    {@link qx.ui.treevirtual.MNode.nodeSetOpened} instead.
+     *    Use {@link qx.legacy.ui.treevirtual.MNode.nodeSetOpened} or
+     *    {@link qx.legacy.ui.treevirtual.MNode.nodeSetOpened} instead.
      *
      * @param nodeReference {Object | Integer}
      *   The node to have its opened/closed state toggled.  The node can be
@@ -1063,7 +1063,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      *
      * @deprecated
-     *   Use {@link qx.ui.treevirtual.MFamily.familyGetFirstChild} instead.
+     *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetFirstChild} instead.
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the first child is desired.  The node can be
@@ -1086,7 +1086,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      *
      * @deprecated
-     *   Use {@link qx.ui.treevirtual.MFamily.familyGetLastChild} instead.
+     *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetLastChild} instead.
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the last child is desired.  The node can be
@@ -1109,7 +1109,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      *
      * @deprecated
-     *   Use {@link qx.ui.treevirtual.MFamily.familyGetNextSibling} instead.
+     *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetNextSibling} instead.
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the next sibling is desired.  The node can be
@@ -1132,7 +1132,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      *
      * @deprecated
-     *   Use {@link qx.ui.treevirtual.MFamily.familyGetPrevSibling} instead.
+     *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetPrevSibling} instead.
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the previous sibling is desired.  The node can be

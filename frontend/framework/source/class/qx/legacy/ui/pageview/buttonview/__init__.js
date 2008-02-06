@@ -1,3 +1,3 @@
 /**
- * The qx.ui.pageview.buttonview package.
+ * The qx.legacy.ui.pageview.buttonview package.
  */
