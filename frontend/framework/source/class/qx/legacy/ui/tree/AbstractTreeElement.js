@@ -71,7 +71,7 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
 
     this.base(arguments);
 
-    if (qx.util.Validation.isValid(treeRowStructure._label)) {
+    if (qx.legacy.util.Validation.isValid(treeRowStructure._label)) {
       this.setLabel(treeRowStructure._label);
     }
 

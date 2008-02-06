@@ -58,7 +58,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
   construct : function(element, options)
   {
-    if (qx.util.Validation.isValidObject(options)) {
+    if (qx.legacy.util.Validation.isValidObject(options)) {
       options.duration = 1.0;
     } else {
       options = {

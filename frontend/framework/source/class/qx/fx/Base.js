@@ -52,7 +52,7 @@ qx.Class.define("qx.fx.Base",
   {
     this.base(arguments);
 
-    if (qx.util.Validation.isInvalidObject(options)) {
+    if (qx.legacy.util.Validation.isInvalidObject(options)) {
       options = qx.lang.Object.copy(qx.fx.Base.DefaultOptions);
     }
 

@@ -1078,7 +1078,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
 
         var el = this._inputElement;
 
-        if ( qx.util.Validation.isValidString(el.value) && this.getVisibility() ) {
+        if ( qx.legacy.util.Validation.isValidString(el.value) && this.getVisibility() ) {
           el.selectionEnd = el.selectionStart + vLength;
         }
       }

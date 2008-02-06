@@ -675,7 +675,7 @@ qx.Class.define("qx.legacy.ui.window.Window",
      */
     _sendTo : function()
     {
-      var vAll = qx.lang.Object.getValues(this.getWindowManager().getAll()).sort(qx.util.Compare.byZIndex);
+      var vAll = qx.lang.Object.getValues(this.getWindowManager().getAll()).sort(qx.legacy.util.Compare.byZIndex);
       var vLength = vAll.length;
       var vIndex = this._minZIndex;
 

@@ -411,11 +411,11 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
       if (qx.Class.isDefined("qx.legacy.ui.menu.Manager"))
       {
         var vMenus = qx.lang.Object.getValues(qx.legacy.ui.menu.Manager.getInstance().getAll());
-        var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
+        var vAll = vPopups.concat(vMenus).sort(qx.legacy.util.Compare.byZIndex);
       }
       else
       {
-        var vAll = vPopups.sort(qx.util.Compare.byZIndex);
+        var vAll = vPopups.sort(qx.legacy.util.Compare.byZIndex);
       }
 
       var vLength = vAll.length;

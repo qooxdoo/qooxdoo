@@ -203,7 +203,7 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
       var vData = vListView.getData();
       var vFieldId = this._id;
       var vSortProp = this._config.sortProp || "text";
-      var vSortMethod = this._config.sortMethod || qx.util.Compare.byString;
+      var vSortMethod = this._config.sortMethod || qx.legacy.util.Compare.byString;
 
       vData.sort(function(a, b) {
         return vSortMethod(a[vFieldId][vSortProp], b[vFieldId][vSortProp]);

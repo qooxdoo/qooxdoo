@@ -252,7 +252,7 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
             }
             else
             {
-              vAdjust = qx.util.Validation.isValidNumber(vCurrentChild.getMinWidthValue()) ? vCurrentChild._computedWidthFlexValue - vCurrentChild.getMinWidthValue() : vCurrentChild._computedWidthFlexValue;
+              vAdjust = qx.legacy.util.Validation.isValidNumber(vCurrentChild.getMinWidthValue()) ? vCurrentChild._computedWidthFlexValue - vCurrentChild.getMinWidthValue() : vCurrentChild._computedWidthFlexValue;
 
               if (vAdjust > 0) {
                 vCurrentChild._allocationLoops = Math.floor(vAdjust / vCurrentChild._computedWidthParsed);

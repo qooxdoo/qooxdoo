@@ -34,7 +34,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.util.Type",
+qx.Class.define("qx.legacy.util.Type",
 {
   statics :
   {
