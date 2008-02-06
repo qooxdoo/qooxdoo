@@ -288,10 +288,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     _postponedUpdateTableContent : function()
     {
-      if(this._noTableContentUpdate) {
-        return;
-      }
-
       if (!this._updateContentPlanned)
       {
         qx.event.Timer.once(function()
@@ -317,10 +313,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     _updateTableContent : function()
     {
-      if(this._noTableContentUpdate) {
-        return;
-      }
-
       if(this._table) {
         this._table.updateContent();
       }
