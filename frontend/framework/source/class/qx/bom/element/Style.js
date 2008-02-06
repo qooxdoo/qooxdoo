@@ -204,7 +204,7 @@ qx.Class.define("qx.bom.element.Style",
       }
 
       // apply style
-      element.style[name] = value || "";
+      element.style[name] = value !== null ? value : "";
     },
 
 
