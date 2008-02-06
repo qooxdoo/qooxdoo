@@ -1248,6 +1248,9 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var el = new qx.html.Element("div");
       el.setStyle("zIndex", 5);
+      el.setStyle("position", "absolute");
+      el.setStyle("left", 0);
+      el.setStyle("top", 0);
       return el;
     },
 
