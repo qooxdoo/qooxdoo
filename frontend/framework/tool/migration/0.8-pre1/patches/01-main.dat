@@ -143,3 +143,12 @@ qx\.Theme=qx.legacy.Theme
 \bqx\.core\.Client\b=qx.legacy.core.Client
 \bqx\.core\.LegacyProperty\b=qx.legacy.core.LegacyProperty
 \bqx\.core\.MLegacyInit\b=qx.legacy.core.MLegacyInit
+\bqx\.util\.GuiBuilder\b=qx.legacy.util.GuiBuilder
+
+\bqx\.util\.Validation\b=qx.util.Validation
+\bqx\.util\.Type\b=qx.util.Type
+\bqx\.util\.Protocol\b=qx.util.Protocol
+\bqx\.util\.Http\b=qx.util.Http
+\bqx\.util\.Normalization\b=qx.util.Normalization
+\bqx\.util\.Mime\b=qx.util.Mime
+\bqx\.util\.Compare\b=qx.util.Compare
