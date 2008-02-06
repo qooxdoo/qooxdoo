@@ -31,7 +31,7 @@
  * this class. Normally at least the {@link #main} method will
  * be overridden to define the GUI.
  */
-qx.Class.define("qx.application.Gui2",
+qx.Class.define("qx.application.Gui",
 {
   extend : qx.core.Object,
   implement : qx.application.IApplication,
@@ -56,6 +56,8 @@ qx.Class.define("qx.application.Gui2",
      */
     main : function()
     {
+      this.error("NEW APPLICATION CLASS");
+      this.debug("Please use qx.legacy.application.Gui instead!");
 
     },
 

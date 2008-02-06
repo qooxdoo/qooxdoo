@@ -32,7 +32,7 @@
  * Home: http://www.kde-look.org/content/show.php?content=31585
  * Comment: Based on nuoveXT by the same author
  */
-qx.legacy.Theme.define("qx.legacy.theme.icon.VistaInspirate",
+qx.Theme.define("qx.legacy.theme.icon.VistaInspirate",
 {
   title : "VistaInspirate",
 

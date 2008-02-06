@@ -21,7 +21,7 @@
 /**
  * Windows classic color theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.color.Windows",
+qx.Theme.define("qx.legacy.theme.classic.color.Windows",
 {
   title : "Windows Classic",
 

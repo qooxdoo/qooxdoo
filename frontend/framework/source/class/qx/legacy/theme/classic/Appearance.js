@@ -60,7 +60,7 @@
 /**
  * The default qooxdoo appearance theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.Appearance",
+qx.Theme.define("qx.legacy.theme.classic.Appearance",
 {
   title : "Classic",
 

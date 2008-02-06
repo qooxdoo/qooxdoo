@@ -31,7 +31,7 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=25668
  */
-qx.legacy.Theme.define("qx.legacy.theme.icon.CrystalClear",
+qx.Theme.define("qx.legacy.theme.icon.CrystalClear",
 {
   title : "CrystalClear",
 
