@@ -572,7 +572,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     * @param old {var} Previous value
     */
     _applyTextColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
     },
 
 
@@ -612,7 +612,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * @param old {var} Previous value
      */
     _applyFont : function(value, old) {
-      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
+      qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
     },
 
 

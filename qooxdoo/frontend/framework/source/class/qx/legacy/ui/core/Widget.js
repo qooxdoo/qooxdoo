@@ -6483,7 +6483,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     */
 
     _applyBackgroundColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
     },
 
     _styleBackgroundColor : function(value) {
