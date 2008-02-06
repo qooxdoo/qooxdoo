@@ -40,9 +40,9 @@
  * * StackPanel (XAML)
  * * RowLayout (SWT)
  */
-qx.Class.define("qx.ui2.layout.HBox",
+qx.Class.define("qx.ui.layout.HBox",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
 
 
@@ -100,12 +100,12 @@ qx.Class.define("qx.ui2.layout.HBox",
      * Add a spacer at the current position to the layout. The spacer has a flex
      * value of one and will stretch to the available space.
      *
-     * @return {qx.ui2.core.Spacer} The newly added spacer object. A reference
+     * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
      *   to the spacer is needed to remove ths spacer from the layout.
      */
     addSpacer : function()
     {
-      var spacer = new qx.ui2.core.Spacer(0, 0);
+      var spacer = new qx.ui.core.Spacer(0, 0);
       this.add(spacer, {flex: 1});
       return spacer;
     },
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       // Cache children
       var children = this.getLayoutChildren();
       var length = children.length;
-      var util = qx.ui2.layout.Util;
+      var util = qx.ui.layout.Util;
 
       if (this.getReversed())
       {
@@ -221,7 +221,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (flexibles.length > 0)
         {
-          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
+          var offsets = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
 
           for (var key in offsets) {
             widths[key] += offsets[key];
@@ -412,7 +412,7 @@ qx.Class.define("qx.ui2.layout.HBox",
      */
     _getGaps : function()
     {
-      var util = qx.ui2.layout.Util;
+      var util = qx.ui.layout.Util;
 
       // Cache children data
       var children = this.getLayoutChildren();

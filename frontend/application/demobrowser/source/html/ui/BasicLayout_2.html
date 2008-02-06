@@ -28,15 +28,15 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      w1 = new qx.ui2.core.Widget;
-      w2 = new qx.ui2.core.Widget;
-      w3 = new qx.ui2.core.Widget;
-      w4 = new qx.ui2.core.Widget;
+      w1 = new qx.ui.core.Widget;
+      w2 = new qx.ui.core.Widget;
+      w3 = new qx.ui.core.Widget;
+      w4 = new qx.ui.core.Widget;
 
       w1.setId("w1");
       w2.setId("w2");
@@ -63,10 +63,10 @@ qx.Class.define("BasicSample",
       w4.setBackgroundColor("yellow");
 
       qx.theme.manager.Color.getInstance().setColorTheme(qx.theme.classic.color.Royale);
-      qx.ui2.decoration.DecorationManager.getInstance().setBorderTheme(qx.theme.classic.Border);
+      qx.ui.decoration.DecorationManager.getInstance().setBorderTheme(qx.theme.classic.Border);
 
       var borderColor = "black";
-      var border = new qx.ui2.decoration.Basic(3, "solid", borderColor);
+      var border = new qx.ui.decoration.Basic(3, "solid", borderColor);
 
       w1.setDecoration(border);
       w2.setDecoration(border);
@@ -79,14 +79,14 @@ qx.Class.define("BasicSample",
         border.setColor(borderColor);
       });
 
-      layout = new qx.ui2.layout.Basic();
+      layout = new qx.ui.layout.Basic();
 
       layout.add(w1, 10, 10);
       layout.add(w2, 200, 20);
       layout.add(w3, 350, 50);
       layout.add(w4, 50, 200);
 
-      var container = new qx.ui2.core.Widget();
+      var container = new qx.ui.core.Widget();
       container.setLayout(layout);
 
       doc.add(container, { left : 0, top : 0, right : 0, bottom : 0 });

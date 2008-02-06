@@ -35,11 +35,11 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      scrollArea = new qx.ui2.core.ScrollArea();
+      scrollArea = new qx.ui.core.ScrollArea();
       scrollArea.set({
         width: 300,
         height: 200,
@@ -49,7 +49,7 @@ qx.Class.define("BasicSample",
       doc.add(scrollArea, 10, 10);
       scrollArea.setContent(this.generateBox());
 
-      var toggle = new qx.ui2.core.Label("Toggle size").set({
+      var toggle = new qx.ui.core.Label("Toggle size").set({
         padding : 5,
         backgroundColor: "orange"
       });
@@ -66,7 +66,7 @@ qx.Class.define("BasicSample",
 
     generateBox : function()
     {
-      var box = new qx.ui2.core.Label("Content size: 300x300").set({
+      var box = new qx.ui.core.Label("Content size: 300x300").set({
         width: 300,
         minWidth: "pref",
         height: 300,
@@ -75,7 +75,7 @@ qx.Class.define("BasicSample",
         textColor: "white",
         padding: 10
       });
-      box.setDecoration(new qx.ui2.decoration.Basic(4, "solid", "black"));
+      box.setDecoration(new qx.ui.decoration.Basic(4, "solid", "black"));
       return box;
     }
   }

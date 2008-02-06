@@ -22,9 +22,9 @@
  * A preliminary scroll bar for the scroll pane. This is nothing more than
  * an early prototype.
  */
-qx.Class.define("qx.ui2.core.ScrollBar",
+qx.Class.define("qx.ui.core.ScrollBar",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
   construct : function(orientation)
   {
@@ -72,10 +72,10 @@ qx.Class.define("qx.ui2.core.ScrollBar",
 
       var hori = value === "horizontal";
 
-      var layout = hori ? new qx.ui2.layout.HBox : new qx.ui2.layout.VBox;
+      var layout = hori ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
       this.setLayout(layout);
 
-      this._barPane = new qx.ui2.core.Widget();
+      this._barPane = new qx.ui.core.Widget();
       this._barPane.setBackgroundColor("#EEE");
 
       if (hori) {
@@ -84,12 +84,12 @@ qx.Class.define("qx.ui2.core.ScrollBar",
         this._barPane.setWidth(18);
       }
 
-      this._btnBegin = new qx.ui2.basic.Label(hori ? "<" : "U").set({
+      this._btnBegin = new qx.ui.basic.Label(hori ? "<" : "U").set({
         backgroundColor : "gray",
         padding : 3
       });
 
-      this._btnEnd = new qx.ui2.basic.Label(hori ? ">" : "D").set({
+      this._btnEnd = new qx.ui.basic.Label(hori ? ">" : "D").set({
         backgroundColor : "gray",
         padding : 3
       });

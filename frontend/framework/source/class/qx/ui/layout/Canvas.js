@@ -45,9 +45,9 @@
  * * Stretching has a higher priority than the preferred dimensions
  * * Stretching has a lower priority than the min/max dimensions.
  */
-qx.Class.define("qx.ui2.layout.Canvas",
+qx.Class.define("qx.ui.layout.Canvas",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
 
 
@@ -76,13 +76,13 @@ qx.Class.define("qx.ui2.layout.Canvas",
      * true for the opposite cases.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to add.
+     * @param child {qx.ui.core.Widget} the widget to add.
      * @param left {Integer?null} Left position of the child.
      * @param top {Integer?null} Top position of the child.
      * @param right {Integer?null} Right position of the child.
      * @param bottom {Integer?null} Bottom position of the child.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
+     * @return {qx.ui.layout.Abstract} This object (for chaining support)
      */
     add : function(child, left, top, right, bottom, options)
     {
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
     renderLayout : function(availWidth, availHeight)
     {
       var children = this.getLayoutChildren();
-      var percent = qx.ui2.layout.Util.PERCENT_VALUE;
+      var percent = qx.ui.layout.Util.PERCENT_VALUE;
 
       var child, size, layout;
       var left, top, right, bottom, width, height;

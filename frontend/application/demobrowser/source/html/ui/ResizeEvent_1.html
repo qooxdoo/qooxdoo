@@ -28,12 +28,12 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var red = (new qx.ui2.core.Widget).set({backgroundColor: "red", width: 80});
-      var blue = (new qx.ui2.core.Widget).set({backgroundColor: "blue"});
+      var red = (new qx.ui.core.Widget).set({backgroundColor: "red", width: 80});
+      var blue = (new qx.ui.core.Widget).set({backgroundColor: "blue"});
 
       doc.add(red, 10, 10);
       doc.add(blue, 10, 110);

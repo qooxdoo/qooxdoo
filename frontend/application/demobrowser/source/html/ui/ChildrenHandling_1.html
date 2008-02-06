@@ -21,7 +21,7 @@
 
 qx.Class.define("Button",
 {
-  extend : qx.ui2.basic.Label,
+  extend : qx.ui.basic.Label,
 
   construct : function(text, callback, context)
   {
@@ -29,7 +29,7 @@ qx.Class.define("Button",
     this._callback = callback;
     this.addListener("click", callback, context);
 
-    var deco = new qx.ui2.decoration.Basic.fromString("1px solid black");
+    var deco = new qx.ui.decoration.Basic.fromString("1px solid black");
     this.setDecoration(deco);
 
     this.set({
@@ -49,50 +49,50 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var container = new qx.ui2.core.Widget();
-      var layout = new qx.ui2.layout.VBox();
+      var container = new qx.ui.core.Widget();
+      var layout = new qx.ui.layout.VBox();
       layout.setSpacing(10);
 
       container.setLayout(layout);
 
-      this._hbox = new qx.ui2.core.Widget();
+      this._hbox = new qx.ui.core.Widget();
       this._hbox.set({
         height : 100
       });
-      this._hbox.setLayout(new qx.ui2.layout.HBox());
+      this._hbox.setLayout(new qx.ui.layout.HBox());
       this._widgets = [];
       var widgetColors = ["green", "blue", "yellow", "black", "orange", "red"];
       for (var i=0; i<widgetColors.length; i++)
       {
-        var widget = new qx.ui2.core.Widget();
+        var widget = new qx.ui.core.Widget();
         widget.setBackgroundColor(widgetColors[i]);
         this._hbox.getLayout().add(widget);
         this._widgets.push(widget);
       }
       container.getLayout().add(this._hbox);
 
-      this._grid  = new qx.ui2.core.Widget();
+      this._grid  = new qx.ui.core.Widget();
       this._grid.set({
         height : 100
       });
-      this._grid.setLayout(new qx.ui2.layout.Grid());
+      this._grid.setLayout(new qx.ui.layout.Grid());
       this._gridWidgets = [];
       for (var i=0; i<widgetColors.length; i++)
       {
-        var widget = new qx.ui2.core.Widget();
+        var widget = new qx.ui.core.Widget();
         widget.setBackgroundColor(widgetColors[i]);
         this._grid.getLayout().add(widget, 0, i);
         this._gridWidgets.push(widget);
       }
       container.getLayout().add(this._grid);
 
-      var buttons = new qx.ui2.core.Widget();
-      buttons.setLayout(new qx.ui2.layout.HBox());
+      var buttons = new qx.ui.core.Widget();
+      buttons.setLayout(new qx.ui.layout.HBox());
 
       for (var i=0; i<this._widgets.length; i++) {
         buttons.getLayout().add(this.createRemoveButton(this._widgets[i], i));

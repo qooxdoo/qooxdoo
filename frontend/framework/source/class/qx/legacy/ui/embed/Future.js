@@ -59,7 +59,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
      */
     content :
     {
-      check : "qx.ui2.core.Widget",
+      check : "qx.ui.core.Widget",
       apply : "_applyContent",
       init : null,
       nullable : true
@@ -160,8 +160,8 @@ qx.Class.define("qx.legacy.ui.embed.Future",
       var rootEl = document.createElement("div");
 
       el.appendChild(rootEl);
-      this._root = new qx.ui2.root.Inline(rootEl);
-      this._root.setLayout(new qx.ui2.layout.Canvas());
+      this._root = new qx.ui.root.Inline(rootEl);
+      this._root.setLayout(new qx.ui.layout.Canvas());
 
       var content = this.getContent();
       if (content) {

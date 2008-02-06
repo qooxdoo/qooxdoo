@@ -22,9 +22,9 @@
  * The ScrollArea provides a container widget with on demand scroll bars
  * if the content size exceeds the size of the container.
  */
-qx.Class.define("qx.ui2.core.ScrollArea",
+qx.Class.define("qx.ui.core.ScrollArea",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
   /*
@@ -37,11 +37,11 @@ qx.Class.define("qx.ui2.core.ScrollArea",
   {
     this.base(arguments);
 
-    var scrollPane = this._scrollPane = new qx.ui2.core.ScrollPane();
+    var scrollPane = this._scrollPane = new qx.ui.core.ScrollPane();
     scrollPane.addListener("resize", this._onResize, this);
     scrollPane.addListener("resizeContent", this._onResize, this);
 
-    var corner = this._corner = new qx.ui2.core.Widget().set({
+    var corner = this._corner = new qx.ui.core.Widget().set({
       backgroundColor: "green",
       width : 0,
       height : 0
@@ -49,8 +49,8 @@ qx.Class.define("qx.ui2.core.ScrollArea",
 
     corner.exclude();
 
-    var hScrollBar = this._hScrollBar = new qx.ui2.core.ScrollBar("horizontal");
-    var vScrollBar = this._vScrollBar = new qx.ui2.core.ScrollBar("vertical");
+    var hScrollBar = this._hScrollBar = new qx.ui.core.ScrollBar("horizontal");
+    var vScrollBar = this._vScrollBar = new qx.ui.core.ScrollBar("vertical");
 
     hScrollBar.exclude();
     hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
     vScrollBar.addListener("scroll", this._onVerticalScroll, this);
     vScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
 
-    var grid = new qx.ui2.layout.Grid();
+    var grid = new qx.ui.layout.Grid();
     grid.setColumnFlex(0, 1);
     grid.setRowFlex(0, 1);
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      * Sets the content of the scroll area.
      *
      * @type member
-     * @param value {qx.ui2.core.Widget} Widget to insert
+     * @param value {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
     setContent : function(value) {
@@ -161,7 +161,7 @@ qx.Class.define("qx.ui2.core.ScrollArea",
      * Returns the content of the scroll area.
      *
      * @type member
-     * @return {qx.ui2.core.Widget}
+     * @return {qx.ui.core.Widget}
      */
     getContent : function() {
       return this._scrollPane.getContent() || null;

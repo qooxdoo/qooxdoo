@@ -23,7 +23,7 @@
  * this class and implement the methods {@link #invalidateLayoutCache},
  * {@link #renderLayout} and {#getSizeHint}.
  */
-qx.Class.define("qx.ui2.layout.Abstract",
+qx.Class.define("qx.ui.layout.Abstract",
 {
   extend : qx.core.Object,
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      */
     widget :
     {
-      check : "qx.ui2.core.LayoutItem",
+      check : "qx.ui.core.LayoutItem",
       init : null,
       nullable : true,
       apply : "_applyWidget"
@@ -94,9 +94,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to add.
+     * @param child {qx.ui.core.Widget} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
+     * @return {qx.ui.layout.Abstract} This object (for chaining support)
      */
     add : function(child, options)
     {
@@ -112,8 +112,8 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Remove this from the layout
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to add
-     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
+     * @param child {qx.ui.core.Widget} the widget to add
+     * @return {qx.ui.layout.Abstract} This object (for chaining support)
      */
     remove : function(child)
     {
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * a member of this layout. Otherwise it returns <code>-1</code>.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to query for
+     * @param child {qx.ui.core.Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Whether the widget is a child of this layout
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} child widget to check
+     * @param widget {qx.ui.core.Widget} child widget to check
      * @return {Boolean} <code>true</code> when the given widget is a child
      *    of this layout.
      */
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Returns the children list
      *
      * @type member
-     * @return {qx.ui2.core.Widget[]} The children array (Arrays are
+     * @return {qx.ui.core.Widget[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
     getChildren : function() {
@@ -166,9 +166,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
 
     /**
      * Returns all children, which are layout relevant. This excludes all widgets,
-     * which have a {@link qx.ui2.core.Widget#visibility} value of <code>exclude</code>.
+     * which have a {@link qx.ui.core.Widget#visibility} value of <code>exclude</code>.
      *
-     * @return {qx.ui2.core.Widget[]} All layout relevant children.
+     * @return {qx.ui.core.Widget[]} All layout relevant children.
      */
     getLayoutChildren : function()
     {
@@ -212,14 +212,14 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * layout options for the widget, insert it to the parent widget and schedules
      * a layout update.
      *
-     * @param child {qx.ui2.core.LayoutItem} The child to add.
+     * @param child {qx.ui.core.LayoutItem} The child to add.
      * @param options {Map|null} Optional layout data for the widget.
      */
     _addHelper : function(child, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!child || !(child instanceof qx.ui2.core.LayoutItem)) {
+        if (!child || !(child instanceof qx.ui.core.LayoutItem)) {
           throw new Error("Invalid widget to add: " + child);
         }
 
@@ -241,13 +241,13 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * widget's layout data, remove it from the parent widget and schedule a
      * layout update.
      *
-     * @param child {qx.ui2.core.LayoutItem} The child to remove.
+     * @param child {qx.ui.core.LayoutItem} The child to remove.
      */
     _removeHelper : function(child)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!child || !(child instanceof qx.ui2.core.LayoutItem)) {
+        if (!child || !(child instanceof qx.ui.core.LayoutItem)) {
           throw new Error("Invalid widget to remove: " + child);
         }
       }
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Helper to manage child insertion.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to insert
+     * @param widget {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
     _addToParent : function(widget)
@@ -281,7 +281,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Helper to manage child removal.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} Widget to remove
+     * @param widget {qx.ui.core.Widget} Widget to remove
      * @return {void}
      */
     _removeFromParent : function(widget)
@@ -310,10 +310,10 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Adds a layout property to the given widget.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} Widget to configure
+     * @param child {qx.ui.core.Widget} Widget to configure
      * @param name {String} Name of the property (width, top, minHeight, ...)
      * @param value {var} Any acceptable value (depends on the selected parent layout manager)
-     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     * @return {qx.ui.core.Widget} This widget (for chaining support)
      */
     addLayoutProperty : function(child, name, value)
     {
@@ -340,9 +340,9 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Removes a layout property from the given widget.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} Widget to configure
+     * @param child {qx.ui.core.Widget} Widget to configure
      * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     * @return {qx.ui.core.Widget} This widget (for chaining support)
      */
     removeLayoutProperty : function(child, name)
     {
@@ -355,7 +355,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Returns the value of a specific property of the given widget.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} Widget to query
+     * @param child {qx.ui.core.Widget} Widget to query
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @param def {var?} Any value which should be returned as a default
      * @return {var|null} Configured value
@@ -380,7 +380,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     /**
      * Returns all layout properties of a child widget as a map.
      *
-     * @param child {qx.ui2.core.Widget} Widget to query
+     * @param child {qx.ui.core.Widget} Widget to query
      * @return {Map} a map of all layout properties.
      */
     getLayoutProperties : function(child) {
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      * Whether the given widget has a specific property.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} Widget to query
+     * @param child {qx.ui.core.Widget} Widget to query
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {Boolean} <code>true</code> when this hint is defined
      */
@@ -435,7 +435,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
     {
       var widget = this.getWidget();
       if (widget) {
-        qx.ui2.core.LayoutQueue.add(widget);
+        qx.ui.core.LayoutQueue.add(widget);
       }
     },
 
@@ -489,7 +489,7 @@ qx.Class.define("qx.ui2.layout.Abstract",
      *
      * Concrete layout implementations may override this function to get notified.
      *
-     * @param child {qx.ui2.core.Widget} The changed widget
+     * @param child {qx.ui.core.Widget} The changed widget
      */
     childExcludeModified : function(child) {
       // empty implementation

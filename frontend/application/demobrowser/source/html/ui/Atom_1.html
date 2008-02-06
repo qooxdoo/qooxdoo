@@ -33,14 +33,14 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var docLayout = new qx.ui2.layout.HBox();
+      var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
 
-      var container = new qx.ui2.core.Widget();
+      var container = new qx.ui.core.Widget();
       container.setPadding(20);
       container.setLayout(docLayout);
 
@@ -51,16 +51,16 @@ qx.Class.define("BasicSample",
       var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
       var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      docLayout.add(new qx.ui2.basic.Atom("Juhu", img_arch, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
         backgroundColor : "gray",
         decoration : border,
         padding : 5,
         maxHeight : "pref"
       }));
 
-      docLayout.add(new qx.ui2.basic.Atom("Juhu", img_clip, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
         backgroundColor : "gray",
         decoration : border,
         iconPosition : "top",
@@ -68,7 +68,7 @@ qx.Class.define("BasicSample",
         maxHeight : "pref"
       }));
 
-      docLayout.add(new qx.ui2.basic.Atom("Juhu", img_clock, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         backgroundColor : "gray",
         decoration : border,
         iconPosition : "right",
@@ -76,7 +76,7 @@ qx.Class.define("BasicSample",
         maxHeight : "pref"
       }));
 
-      docLayout.add(new qx.ui2.basic.Atom("Juhu", img_date, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_date, 48, 48).set({
         backgroundColor : "gray",
         decoration : border,
         iconPosition : "bottom",
@@ -85,7 +85,7 @@ qx.Class.define("BasicSample",
       }));
 
 
-      docLayout.add(at5 = new qx.ui2.basic.Atom("Juhu", img_arch, 48, 48).set({
+      docLayout.add(at5 = new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
         backgroundColor : "gray",
         decoration : border,
         show : "icon",

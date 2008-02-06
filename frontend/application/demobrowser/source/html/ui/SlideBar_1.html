@@ -28,11 +28,11 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      slideBar = new qx.ui2.view.HSlideBar();
+      slideBar = new qx.ui.view.HSlideBar();
       slideBar.set({
         width: 300,
         backgroundColor : "yellow",
@@ -41,7 +41,7 @@ qx.Class.define("BasicSample",
 
       slideBar.setContent(this.generateBoxes());
 
-      var toggle = new qx.ui2.core.Label("Toggle size").set({
+      var toggle = new qx.ui.core.Label("Toggle size").set({
         padding : 5,
         backgroundColor: "orange"
       });
@@ -59,12 +59,12 @@ qx.Class.define("BasicSample",
 
     generateBoxes : function()
     {
-      var box = new qx.ui2.core.Widget();
-      var layout = new qx.ui2.layout.HBox();
+      var box = new qx.ui.core.Widget();
+      var layout = new qx.ui.layout.HBox();
 
       for (var i=0; i<10; i++)
       {
-        layout.add((new qx.ui2.core.Widget()).set({
+        layout.add((new qx.ui.core.Widget()).set({
           backgroundColor : (i % 2 == 0) ? "red" : "blue",
           width : 60,
           minWidth : 40

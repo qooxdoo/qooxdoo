@@ -22,7 +22,7 @@
  * This class maintains a list of all widgets, which need an update of their
  * decoration. All decoration changes can then be done at once.
  */
-qx.Class.define("qx.ui2.core.DecorationQueue",
+qx.Class.define("qx.ui.core.DecorationQueue",
 {
   statics :
   {
@@ -33,26 +33,26 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
     /**
      * Mark a widget's decoration as invalid and add it to the queue.
      *
-     * Should only be used by {@link qx.ui2.core.Widget}.
+     * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @type static
-     * @param widget {qx.ui2.core.Widget} Widget to add.
+     * @param widget {qx.ui.core.Widget} Widget to add.
      * @return {void}
      */
     add : function(widget)
     {
       this.__queue[widget.$$hash] = widget;
-      qx.ui2.core.QueueManager.scheduleFlush("decoration");
+      qx.ui.core.QueueManager.scheduleFlush("decoration");
     },
 
 
     /**
      * Mark a widget's decoration as valid and remove it from the queue.
      *
-     * Should only be used by {@link qx.ui2.core.Widget}.
+     * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @type static
-     * @param widget {qx.ui2.core.Widget} Widget to add.
+     * @param widget {qx.ui.core.Widget} Widget to add.
      * @return {void}
      */
     remove : function(widget) {
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui2.core.DecorationQueue",
     /**
      * Update the decoration of all widgets from the decoration queue.
      *
-     * This is used exclusively by the {@link qx.ui2.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
      *
      * @type static
      * @return {void}

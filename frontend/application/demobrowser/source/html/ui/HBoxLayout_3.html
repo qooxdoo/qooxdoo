@@ -29,24 +29,24 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
 
       // auto width + reversed
-      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height: 80});
-      var layout1 = new qx.ui2.layout.HBox();
+      var box1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", height: 80});
+      var layout1 = new qx.ui.layout.HBox();
 
       layout1.setReversed(true);
       layout1.setSpacing(5);
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight:60});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:60});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight:60});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight:60});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight:60});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight:60});
 
       layout1.add(w1, { align : "top" });
       layout1.add(w2, { align : "middle" });

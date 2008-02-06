@@ -25,9 +25,9 @@
  * Spacers are invisible and very light weight because they don't require any
  * DOM modifications.
  */
-qx.Class.define("qx.ui2.core.Spacer",
+qx.Class.define("qx.ui.core.Spacer",
 {
-  extend : qx.ui2.core.LayoutItem,
+  extend : qx.ui.core.LayoutItem,
 
 
 

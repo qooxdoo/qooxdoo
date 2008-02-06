@@ -54,20 +54,20 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var docLayout = new qx.ui2.layout.Grid();
+      var docLayout = new qx.ui.layout.Grid();
       docLayout.setSpacing(20);
 
-      var container = new qx.ui2.core.Widget();
+      var container = new qx.ui.core.Widget();
       container.setPadding(20);
       container.setLayout(docLayout);
 
       doc.add(container, 0, 0);
 
-      this._border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      this._border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       docLayout.add(this.getAnimGrid(), 0, 0);
     },
@@ -75,7 +75,7 @@ qx.Class.define("BasicSample",
 
     getNewWidget : function()
     {
-      var widget = new qx.ui2.core.Widget().set({
+      var widget = new qx.ui.core.Widget().set({
         width: 50,
         height: 50,
         backgroundColor: "green"
@@ -143,8 +143,8 @@ qx.Class.define("BasicSample",
 
     getAnimGrid : function()
     {
-      var box = (new qx.ui2.core.Widget).set({decoration: this._border, backgroundColor: "yellow", width: 500, height: 500});
-      var layout = new qx.ui2.layout.Grid();
+      var box = (new qx.ui.core.Widget).set({decoration: this._border, backgroundColor: "yellow", width: 500, height: 500});
+      var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
       this._active = null;

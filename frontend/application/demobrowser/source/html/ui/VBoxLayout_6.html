@@ -29,23 +29,23 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
 
       // auto size with limited height
-      var box1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", maxWidth : 100});
-      var layout1 = new qx.ui2.layout.VBox();
+      var box1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", maxWidth : 100});
+      var layout1 = new qx.ui.layout.VBox();
 
       layout1.setSpacing(5);
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green"});
 
       w1.setWidth(200);
       w2.setWidth(300);

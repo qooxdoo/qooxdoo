@@ -23,14 +23,14 @@
  * web pages. You can use the isles to place any qooxdoo powered widgets
  * inside a layout made using traditional HTML markup and CSS.
  *
- * This class uses a {@link qx.ui2.layout.Basic} as fixed layout. The layout
+ * This class uses a {@link qx.ui.layout.Basic} as fixed layout. The layout
  * cannot be changed.
  *
- * To position popups and tooltips please have a look at {@link qx.ui2.layout.Page}.
+ * To position popups and tooltips please have a look at {@link qx.ui.layout.Page}.
  */
-qx.Class.define("qx.ui2.root.Inline",
+qx.Class.define("qx.ui.root.Inline",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui2.root.Inline",
     // Make relative
     el.style.position = "relative";
 
-    this.setLayout(new qx.ui2.layout.Basic());
+    this.setLayout(new qx.ui.layout.Basic());
     this.scheduleLayoutUpdate();
   },
 
@@ -77,15 +77,15 @@ qx.Class.define("qx.ui2.root.Inline",
     /**
      * Adds a widget to the isle using a basic layout.
      *
-     * Please have a look at the {@link qx.ui2.layout.Basic#add} for further
+     * Please have a look at the {@link qx.ui.layout.Basic#add} for further
      * argument details.
      *
      * @type member
-     * @param widget {qx.ui2.core.Widget} the widget to add
+     * @param widget {qx.ui.core.Widget} the widget to add
      * @param left {Integer} left position on the page
      * @param top {Integer} top position on the page
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.root.Inline} This object (for chaining support)
+     * @return {qx.ui.root.Inline} This object (for chaining support)
      */
     add : function(widget, left, top, options)
     {

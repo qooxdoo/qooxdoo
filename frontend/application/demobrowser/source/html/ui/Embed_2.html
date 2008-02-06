@@ -36,7 +36,7 @@ qx.Class.define("BasicSample",
       });
       button.addToDocument();
 
-      var doc = new qx.ui2.root.Page(document);
+      var doc = new qx.ui.root.Page(document);
       var dlg = this.getDialog();
       doc.add(dlg, 100, 100);
       dlg.hide();
@@ -51,21 +51,21 @@ qx.Class.define("BasicSample",
 
     getDialog : function()
     {
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      var dialog = new qx.ui2.core.Widget().set({
+      var dialog = new qx.ui.core.Widget().set({
          backgroundColor: "yellow",
          decoration: border,
          padding: 10
       });
 
-      var layout = new qx.ui2.layout.Grid();
+      var layout = new qx.ui.layout.Grid();
       layout.setColumnFlex(0, 1);
       layout.setRowFlex(0, 1);
       layout.setSpacing(10);
       dialog.setLayout(layout);
 
-      var pane = new qx.ui2.basic.Label("Click here to resize ...").set({
+      var pane = new qx.ui.basic.Label("Click here to resize ...").set({
         backgroundColor : "green",
         width: 600,
         height: 300,
@@ -75,7 +75,7 @@ qx.Class.define("BasicSample",
 
       layout.add(pane, 0, 0, { colSpan: 3});
 
-      var ok = new qx.ui2.basic.Label("OK").set({
+      var ok = new qx.ui.basic.Label("OK").set({
         backgroundColor : "green",
         decoration: border,
         padding: [2, 5]
@@ -84,7 +84,7 @@ qx.Class.define("BasicSample",
 
       ok.addListener("click", dialog.hide, dialog);
 
-      var cancel = new qx.ui2.basic.Label("Cancel").set({
+      var cancel = new qx.ui.basic.Label("Cancel").set({
         backgroundColor : "green",
         decoration: border,
         padding: [2, 5]
