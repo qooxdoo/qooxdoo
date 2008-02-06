@@ -20,34 +20,34 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
-        var tf1 = new qx.ui.pageview.tabview.TabView;
+        var tf1 = new qx.legacy.ui.pageview.tabview.TabView;
         tf1.setEdge(20);
     
-        var t1_1 = new qx.ui.pageview.tabview.Button("Edit");
-        var t1_2 = new qx.ui.pageview.tabview.Button("Find");
-        var t1_3 = new qx.ui.pageview.tabview.Button("Backup");
+        var t1_1 = new qx.legacy.ui.pageview.tabview.Button("Edit");
+        var t1_2 = new qx.legacy.ui.pageview.tabview.Button("Find");
+        var t1_3 = new qx.legacy.ui.pageview.tabview.Button("Backup");
     
     
         t1_2.setChecked(true);
     
         tf1.getBar().add(t1_1, t1_2, t1_3);
     
-        var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
-        var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
-        var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
+        var p1_1 = new qx.legacy.ui.pageview.tabview.Page(t1_1);
+        var p1_2 = new qx.legacy.ui.pageview.tabview.Page(t1_2);
+        var p1_3 = new qx.legacy.ui.pageview.tabview.Page(t1_3);
     
         tf1.getPane().add(p1_1, p1_2, p1_3);
     
-        var f2 = new qx.ui.form.TextField("Find Anywhere");
-        var f3 = new qx.ui.form.TextField("Backup Input");
+        var f2 = new qx.legacy.ui.form.TextField("Find Anywhere");
+        var f3 = new qx.legacy.ui.form.TextField("Backup Input");
     
         p1_2.add(f2);
         p1_3.add(f3);
     
-        var c1 = new qx.ui.form.CheckBox("Place bar on top");
-        var c2 = new qx.ui.form.CheckBox("Align tabs to left");
+        var c1 = new qx.legacy.ui.form.CheckBox("Place bar on top");
+        var c2 = new qx.legacy.ui.form.CheckBox("Align tabs to left");
     
         c1.setTop(0);
         c1.setChecked(true);
@@ -68,35 +68,35 @@
     
     
     
-        var tf2 = new qx.ui.pageview.tabview.TabView;
+        var tf2 = new qx.legacy.ui.pageview.tabview.TabView;
     
         tf2.set({ left: 0, top: 50, right: 0, bottom: 0 });
     
     
     
-        var t2_1 = new qx.ui.pageview.tabview.Button("Search for Files", "icon/16/actions/document-open.png");
-        var t2_2 = new qx.ui.pageview.tabview.Button("Search the Web", "icon/16/categories/applications-internet.png");
-        var t2_3 = new qx.ui.pageview.tabview.Button("Search for Text", "icon/16/categories/applications.png");
-        var t2_4 = new qx.ui.pageview.tabview.Button("Search for Persons", "icon/16/apps/accessories-archiver.png");
-        var t2_5 = new qx.ui.pageview.tabview.Button("Search in Mails", "icon/16/apps/internet-email-client.png");
+        var t2_1 = new qx.legacy.ui.pageview.tabview.Button("Search for Files", "icon/16/actions/document-open.png");
+        var t2_2 = new qx.legacy.ui.pageview.tabview.Button("Search the Web", "icon/16/categories/applications-internet.png");
+        var t2_3 = new qx.legacy.ui.pageview.tabview.Button("Search for Text", "icon/16/categories/applications.png");
+        var t2_4 = new qx.legacy.ui.pageview.tabview.Button("Search for Persons", "icon/16/apps/accessories-archiver.png");
+        var t2_5 = new qx.legacy.ui.pageview.tabview.Button("Search in Mails", "icon/16/apps/internet-email-client.png");
     
         t2_1.setChecked(true);
     
         tf2.getBar().add(t2_1, t2_2, t2_3, t2_4, t2_5);
     
-        var p2_1 = new qx.ui.pageview.tabview.Page(t2_1);
-        var p2_2 = new qx.ui.pageview.tabview.Page(t2_2);
-        var p2_3 = new qx.ui.pageview.tabview.Page(t2_3);
-        var p2_4 = new qx.ui.pageview.tabview.Page(t2_4);
-        var p2_5 = new qx.ui.pageview.tabview.Page(t2_5);
+        var p2_1 = new qx.legacy.ui.pageview.tabview.Page(t2_1);
+        var p2_2 = new qx.legacy.ui.pageview.tabview.Page(t2_2);
+        var p2_3 = new qx.legacy.ui.pageview.tabview.Page(t2_3);
+        var p2_4 = new qx.legacy.ui.pageview.tabview.Page(t2_4);
+        var p2_5 = new qx.legacy.ui.pageview.tabview.Page(t2_5);
     
         tf2.getPane().add(p2_1, p2_2, p2_3, p2_4, p2_5);
     
-        var t2_1 = new qx.ui.form.TextField("Files...");
-        var t2_2 = new qx.ui.form.TextField("Web...");
-        var t2_3 = new qx.ui.form.TextField("Printers...");
-        var t2_4 = new qx.ui.form.TextField("Persons...");
-        var t2_5 = new qx.ui.form.TextField("Mails...");
+        var t2_1 = new qx.legacy.ui.form.TextField("Files...");
+        var t2_2 = new qx.legacy.ui.form.TextField("Web...");
+        var t2_3 = new qx.legacy.ui.form.TextField("Printers...");
+        var t2_4 = new qx.legacy.ui.form.TextField("Persons...");
+        var t2_5 = new qx.legacy.ui.form.TextField("Mails...");
     
         t2_1.set({ top: 2, left: 0, width: 140 });
         t2_2.set({ top: 2, left: 0, width: 140 });
@@ -110,11 +110,11 @@
         p2_4.add(t2_4);
         p2_5.add(t2_5);
     
-        var b2_1 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
-        var b2_2 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
-        var b2_3 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
-        var b2_4 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
-        var b2_5 = new qx.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+        var b2_1 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+        var b2_2 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+        var b2_3 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+        var b2_4 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
+        var b2_5 = new qx.legacy.ui.form.Button("Search", "icon/16/actions/edit-find.png");
     
         b2_1.set({ top: 0, left: 150 });
         b2_2.set({ top: 0, left: 150 });

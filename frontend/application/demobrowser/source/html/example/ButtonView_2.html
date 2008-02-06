@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Yet Another qx.ui.pageview.buttonview.ButtonView Example</p>
+    <p>Yet Another qx.legacy.ui.pageview.buttonview.ButtonView Example</p>
   </div>
 
   <script type="text/javascript">
@@ -20,19 +20,19 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
   
-        var bs = new qx.ui.pageview.buttonview.ButtonView;
+        var bs = new qx.legacy.ui.pageview.buttonview.ButtonView;
         bs.setEdge(20);
         bs.setBarPosition("left");
   
-        var bsb1 = new qx.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
-        var bsb2 = new qx.ui.pageview.buttonview.Button("Organizer", "icon/16/apps/office-organizer.png");
-        var bsb3 = new qx.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
-        var bsb4 = new qx.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
-        var bsb5 = new qx.ui.pageview.buttonview.Button("Paint", "icon/16/apps/graphics-image-viewer.png");
-        var bsb6 = new qx.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
-        var bsb7 = new qx.ui.pageview.buttonview.Button("System", "icon/16/apps/system-software-update.png");
+        var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
+        var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Organizer", "icon/16/apps/office-organizer.png");
+        var bsb3 = new qx.legacy.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
+        var bsb4 = new qx.legacy.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
+        var bsb5 = new qx.legacy.ui.pageview.buttonview.Button("Paint", "icon/16/apps/graphics-image-viewer.png");
+        var bsb6 = new qx.legacy.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
+        var bsb7 = new qx.legacy.ui.pageview.buttonview.Button("System", "icon/16/apps/system-software-update.png");
   
         bsb1.setChecked(true);
   
@@ -49,23 +49,23 @@
         bs.getBar().setHorizontalChildrenAlign("center");
         bs.getBar().setVerticalChildrenAlign("bottom");
   
-        var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
-        var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
-        var p3 = new qx.ui.pageview.buttonview.Page(bsb3);
-        var p4 = new qx.ui.pageview.buttonview.Page(bsb4);
-        var p5 = new qx.ui.pageview.buttonview.Page(bsb5);
-        var p6 = new qx.ui.pageview.buttonview.Page(bsb6);
-        var p7 = new qx.ui.pageview.buttonview.Page(bsb7);
+        var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
+        var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
+        var p3 = new qx.legacy.ui.pageview.buttonview.Page(bsb3);
+        var p4 = new qx.legacy.ui.pageview.buttonview.Page(bsb4);
+        var p5 = new qx.legacy.ui.pageview.buttonview.Page(bsb5);
+        var p6 = new qx.legacy.ui.pageview.buttonview.Page(bsb6);
+        var p7 = new qx.legacy.ui.pageview.buttonview.Page(bsb7);
   
         bs.getPane().add(p1, p2, p3, p4, p5, p6, p7);
   
-        var f1 = new qx.ui.form.TextField("Display Input");
-        var f2 = new qx.ui.form.TextField("Sunshine Input");
-        var f3 = new qx.ui.form.TextField("Paint Input");
-        var f4 = new qx.ui.form.TextField("Icons Input");
-        var f5 = new qx.ui.form.TextField("Images Input");
-        var f6 = new qx.ui.form.TextField("Applications Input");
-        var f7 = new qx.ui.form.TextField("System Input");
+        var f1 = new qx.legacy.ui.form.TextField("Display Input");
+        var f2 = new qx.legacy.ui.form.TextField("Sunshine Input");
+        var f3 = new qx.legacy.ui.form.TextField("Paint Input");
+        var f4 = new qx.legacy.ui.form.TextField("Icons Input");
+        var f5 = new qx.legacy.ui.form.TextField("Images Input");
+        var f6 = new qx.legacy.ui.form.TextField("Applications Input");
+        var f7 = new qx.legacy.ui.form.TextField("System Input");
   
         p1.add(f1);
         p2.add(f2);
@@ -75,10 +75,10 @@
         p6.add(f6);
         p7.add(f7);
   
-        var r1 = new qx.ui.form.RadioButton("Top", "top");
-        var r2 = new qx.ui.form.RadioButton("Right", "right");
-        var r3 = new qx.ui.form.RadioButton("Bottom", "bottom");
-        var r4 = new qx.ui.form.RadioButton("Left", "left", null, true);
+        var r1 = new qx.legacy.ui.form.RadioButton("Top", "top");
+        var r2 = new qx.legacy.ui.form.RadioButton("Right", "right");
+        var r3 = new qx.legacy.ui.form.RadioButton("Bottom", "bottom");
+        var r4 = new qx.legacy.ui.form.RadioButton("Left", "left", null, true);
   
         r1.setTop(50);
         r2.setTop(70);
@@ -87,7 +87,7 @@
   
         p1.add(r1, r2, r3, r4);
   
-        var rm = new qx.ui.selection.RadioManager(null, [r1, r2, r3, r4]);
+        var rm = new qx.legacy.ui.selection.RadioManager(null, [r1, r2, r3, r4]);
   
         rm.addListener("changeSelected", function(e) {
           bs.setBarPosition(e.getData().getValue());

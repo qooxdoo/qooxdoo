@@ -7,15 +7,15 @@
 </head>
 <body>  
   <div id="description">
-    <p>Introduce qx.ui.menu.Menu which opens on qx.ui.toolbar.ToolBarMenuButtons.</p>
+    <p>Introduce qx.legacy.ui.menu.Menu which opens on qx.legacy.ui.toolbar.ToolBarMenuButtons.</p>
   </div>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var tb = new qx.ui.toolbar.ToolBar;
+      var tb = new qx.legacy.ui.toolbar.ToolBar;
       with(tb)
       {
         setTop(48);
@@ -23,23 +23,23 @@
         setRight(335);
       };
 
-      var m1 = new qx.ui.menu.Menu;
+      var m1 = new qx.legacy.ui.menu.Menu;
 
-      var mb1 = new qx.ui.menu.Button("Folder");
-      var ms1 = new qx.ui.menu.Separator;
-      var mb2 = new qx.ui.menu.Button("Word Document");
-      var mb3 = new qx.ui.menu.Button("Text File");
-      var mb4 = new qx.ui.menu.Button("Image");
+      var mb1 = new qx.legacy.ui.menu.Button("Folder");
+      var ms1 = new qx.legacy.ui.menu.Separator;
+      var mb2 = new qx.legacy.ui.menu.Button("Word Document");
+      var mb3 = new qx.legacy.ui.menu.Button("Text File");
+      var mb4 = new qx.legacy.ui.menu.Button("Image");
 
       m1.add(mb1, ms1, mb2, mb3, mb4);
       d.add(m1);
 
 
-      var m2 = new qx.ui.menu.Menu;
+      var m2 = new qx.legacy.ui.menu.Menu;
 
-      var mb5 = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png");
-      var mb6 = new qx.ui.menu.Button("Move", "icon/16/actions/edit-cut.png");
-      var mb7 = new qx.ui.menu.Button("Delete", "icon/16/actions/edit-delete.png");
+      var mb5 = new qx.legacy.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png");
+      var mb6 = new qx.legacy.ui.menu.Button("Move", "icon/16/actions/edit-cut.png");
+      var mb7 = new qx.legacy.ui.menu.Button("Delete", "icon/16/actions/edit-delete.png");
 
       m2.add(mb5, mb6, mb7);
       d.add(m2);
@@ -76,7 +76,7 @@
         var btns = bars[j];
 
         if (useParts) {
-          var tbp = new qx.ui.toolbar.Part;
+          var tbp = new qx.legacy.ui.toolbar.Part;
         };
 
         for (var i=0; i<btns.length; i++)
@@ -86,11 +86,11 @@
           switch(btn.type)
           {
             case "separator":
-              var o = new qx.ui.toolbar.Separator;
+              var o = new qx.legacy.ui.toolbar.Separator;
               break;
 
             case "menu":
-              var o = new qx.ui.toolbar.MenuButton(btn.label, btn.menu, "icon/22/" + btn.icon + ".png", 22, 22);
+              var o = new qx.legacy.ui.toolbar.MenuButton(btn.label, btn.menu, "icon/22/" + btn.icon + ".png", 22, 22);
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
@@ -100,7 +100,7 @@
               break;
 
             case "button":
-              var o = new qx.ui.toolbar.Button(btn.label, "icon/22/" + btn.icon + ".png");
+              var o = new qx.legacy.ui.toolbar.Button(btn.label, "icon/22/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
@@ -128,9 +128,9 @@
       d.add(tb);
 
 
-      var rd1 = new qx.ui.form.RadioButton("Show Icons and Label", "both");
-      var rd2 = new qx.ui.form.RadioButton("Show Icons", "icon");
-      var rd3 = new qx.ui.form.RadioButton("Show Label", "label");
+      var rd1 = new qx.legacy.ui.form.RadioButton("Show Icons and Label", "both");
+      var rd2 = new qx.legacy.ui.form.RadioButton("Show Icons", "icon");
+      var rd3 = new qx.legacy.ui.form.RadioButton("Show Label", "label");
 
       with(rd1)
       {
@@ -152,7 +152,7 @@
       };
 
 
-      var rbm = new qx.ui.selection.RadioManager();
+      var rbm = new qx.legacy.ui.selection.RadioManager();
 
       rbm.add(rd1);
       rbm.add(rd2);
@@ -171,9 +171,9 @@
 
 
       // Alignment
-      var ra1 = new qx.ui.form.RadioButton("Left Aligned", "left");
-      var ra2 = new qx.ui.form.RadioButton("Centered", "center");
-      var ra3 = new qx.ui.form.RadioButton("Right Aligned", "right");
+      var ra1 = new qx.legacy.ui.form.RadioButton("Left Aligned", "left");
+      var ra2 = new qx.legacy.ui.form.RadioButton("Centered", "center");
+      var ra3 = new qx.legacy.ui.form.RadioButton("Right Aligned", "right");
 
       with(ra1)
       {
@@ -195,7 +195,7 @@
       };
 
 
-      var ram = new qx.ui.selection.RadioManager();
+      var ram = new qx.legacy.ui.selection.RadioManager();
 
       ram.add(ra1);
       ram.add(ra2);

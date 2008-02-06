@@ -37,20 +37,20 @@ function getTestData() {
 }
 
 qx.Class.define('Box', {
-  extend: qx.ui.layout.BoxLayout,
+  extend: qx.legacy.ui.layout.BoxLayout,
 
   construct: function() {
-    qx.ui.layout.BoxLayout.apply(this, arguments);
+    qx.legacy.ui.layout.BoxLayout.apply(this, arguments);
     this.auto();
   }
 });
 
 
 qx.Class.define('GroupBox', {
-  extend: qx.ui.groupbox.GroupBox,
+  extend: qx.legacy.ui.groupbox.GroupBox,
 
   construct: function() {
-    qx.ui.groupbox.GroupBox.apply(this, arguments);
+    qx.legacy.ui.groupbox.GroupBox.apply(this, arguments);
     this.auto();
   }
 });
@@ -65,8 +65,8 @@ qx.Class.define("BasicSample",
       {
         this.base(arguments);
         // Shortcuts
-        var form = qx.ui.form;
-        Label = qx.ui.basic.Label;
+        var form = qx.legacy.ui.form;
+        Label = qx.legacy.ui.basic.Label;
         var testData = getTestData();
       
         //###1st row: combo
@@ -149,7 +149,7 @@ qx.Class.define("BasicSample",
         var rb3 = new form.RadioButton('3', '3');
         var rb4 = new form.RadioButton('4', '4');
       
-        var fieldHeaders = new qx.ui.selection.RadioManager('headers', [ rb1, rb2, rb3, rb4 ]);
+        var fieldHeaders = new qx.legacy.ui.selection.RadioManager('headers', [ rb1, rb2, rb3, rb4 ]);
         fieldHeaders.addListener("changeSelected", function(e) {
           var headers = [], count = Number(e.getData().getValue());
           for (var i = 0; i < count; i++) {
@@ -169,12 +169,12 @@ qx.Class.define("BasicSample",
           });
       
         var boxShowHeaders = new Box;
-        var fieldShowHeaders = new qx.ui.selection.RadioManager("showHeaders", [
+        var fieldShowHeaders = new qx.legacy.ui.selection.RadioManager("showHeaders", [
           new form.RadioButton('Auto', 'auto'),
           new form.RadioButton('Always', 'always'),
           new form.RadioButton('Never', 'never')
         ]);
-        boxShowHeaders.add(new qx.ui.basic.Label('ShowColumnHeaders'));
+        boxShowHeaders.add(new qx.legacy.ui.basic.Label('ShowColumnHeaders'));
         var items = fieldShowHeaders.getItems();
         for (var i = 0; i < items.length; i++) {
           boxShowHeaders.add(items[i]);
@@ -211,7 +211,7 @@ qx.Class.define("BasicSample",
         rbDesc.setChecked(true);
         var rbIdAndDesc = new form.RadioButton('ID and description', 'idAndDescription');
         var rbId = new form.RadioButton('ID', 'id');
-        var fieldShowOn = new qx.ui.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc, rbId ]);
+        var fieldShowOn = new qx.legacy.ui.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc, rbId ]);
         fieldShowOn.addListener("changeSelected", function(e) {
           combo.setShowOnTextField(e.getData().getValue());
           });

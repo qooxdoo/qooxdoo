@@ -22,8 +22,8 @@
     // Leaks: +2MB
     // *****
 
-    var w1 = new qx.ui.basic.Terminator;
-    qx.ui.core.ClientDocument.getInstance().add(w1);
+    var w1 = new qx.legacy.ui.basic.Terminator;
+    qx.legacy.ui.core.ClientDocument.getInstance().add(w1);
 
 
 
@@ -32,24 +32,24 @@
     // Does not leak
     // *****
     /*
-    var w1 = new qx.ui.basic.Terminator;
+    var w1 = new qx.legacy.ui.basic.Terminator;
     w1.setTop(48);
     w1.setLeft(20);
-    qx.ui.core.ClientDocument.getInstance().add(w1);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(w1);
     */
 
 
     // Leaks +2MB
     // *****
     /*
-    var i1 = new qx.ui.basic.Image("icon/48/hardwareinfo.png");
+    var i1 = new qx.legacy.ui.basic.Image("icon/48/hardwareinfo.png");
     with(i1)
     {
       setTop(48);
       setLeft(20);
     };
 
-    qx.ui.core.ClientDocument.getInstance().add(i1);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(i1);
     */
 
 

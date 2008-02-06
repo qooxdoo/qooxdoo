@@ -7,17 +7,17 @@
 </head>
 <body>  
   <div id="description">
-    <p>Some tests for some of the most used properties of qx.ui.basic.Terminator (coordinates, dimensions, backgroundColor, opacity, ...).</p>
-    <p>Also here are the first test of some widgets which extend qx.ui.basic.Terminator: qx.ui.form.TextField and qx.ui.form.PasswordField. These extended
+    <p>Some tests for some of the most used properties of qx.legacy.ui.basic.Terminator (coordinates, dimensions, backgroundColor, opacity, ...).</p>
+    <p>Also here are the first test of some widgets which extend qx.legacy.ui.basic.Terminator: qx.legacy.ui.form.TextField and qx.legacy.ui.form.PasswordField. These extended
     widgets also interacts like the basic QxTerminators with the qx.legacy.event.handler.FocusHandler.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var c1 = new qx.ui.basic.Terminator;
+    var c1 = new qx.legacy.ui.basic.Terminator;
     d.add(c1);
 
     c1.setTabIndex(1);
@@ -37,7 +37,7 @@
     });
 
 
-    var c2 = new qx.ui.basic.Terminator;
+    var c2 = new qx.legacy.ui.basic.Terminator;
     d.add(c2);
 
     c2.setTabIndex(2);
@@ -57,7 +57,7 @@
     });
 
 
-    var t1 = new qx.ui.form.TextField;
+    var t1 = new qx.legacy.ui.form.TextField;
     t1.setValue("textfield");
     t1.setTop(140);
     t1.setLeft(20);
@@ -67,7 +67,7 @@
 
 
 
-    var t2 = new qx.ui.form.PasswordField;
+    var t2 = new qx.legacy.ui.form.PasswordField;
     t2.setValue("passwordfield");
     t2.setTop(170);
     t2.setLeft(20);
@@ -76,7 +76,7 @@
     d.add(t2);
 
 
-    var t3 = new qx.ui.form.TextArea;
+    var t3 = new qx.legacy.ui.form.TextArea;
     t3.setValue("textarea");
     t3.setTop(200);
     t3.setLeft(20);
@@ -87,7 +87,7 @@
     d.add(t3);
 
 
-    var t4 = new qx.ui.form.TextField;
+    var t4 = new qx.legacy.ui.form.TextField;
     t4.setValue("textfield");
     t4.setTop(300);
     t4.setLeft(20);

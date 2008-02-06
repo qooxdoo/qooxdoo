@@ -20,9 +20,9 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
-        var chooser = new qx.ui.component.DateChooser;
+        var chooser = new qx.legacy.ui.component.DateChooser;
         chooser.setLocation(20, 20);
         d.add(chooser);
       }

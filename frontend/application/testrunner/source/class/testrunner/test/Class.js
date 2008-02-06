@@ -625,9 +625,9 @@ qx.Class.define("testrunner.test.Class",
 
     testSubClassOf : function()
     {
-      this.assertTrue(qx.Class.isSubClassOf(qx.ui.core.Widget, qx.core.Object));
-      this.assertTrue(qx.Class.isSubClassOf(qx.ui.basic.Terminator, qx.core.Object));
-      this.assertFalse(qx.Class.isSubClassOf(qx.ui.basic.Terminator, qx.ui.core.Parent));
+      this.assertTrue(qx.Class.isSubClassOf(qx.legacy.ui.core.Widget, qx.core.Object));
+      this.assertTrue(qx.Class.isSubClassOf(qx.legacy.ui.basic.Terminator, qx.core.Object));
+      this.assertFalse(qx.Class.isSubClassOf(qx.legacy.ui.basic.Terminator, qx.legacy.ui.core.Parent));
     }
   }
 });

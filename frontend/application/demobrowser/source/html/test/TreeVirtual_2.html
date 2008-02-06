@@ -15,10 +15,10 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     // tree
-    var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+    var tree = new qx.legacy.ui.treevirtual.TreeVirtual("Tree");
     with (tree)
     {
       set({
@@ -47,7 +47,7 @@
 
     var node =
       {
-        type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+        type          : qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
         parentNodeId  : 0,
         label         : "My Root",
         bSelected     : false,
@@ -61,7 +61,7 @@
 
     var node =
       {
-        type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+        type          : qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
         parentNodeId  : 1,
         label         : "A sub-folder",
         bSelected     : false,
@@ -76,7 +76,7 @@
 
     var node =
       {
-        type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+        type          : qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
         parentNodeId  : 2,
         label         : "Third-level leaf",
         bSelected     : false,

@@ -29,7 +29,7 @@
  */
 qx.Class.define("buildtool.AppFrame",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -71,7 +71,7 @@ qx.Class.define("buildtool.AppFrame",
 
     // Main Pane
     // split
-    var mainsplit = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
+    var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(250, "1*");
     this.add(mainsplit);
     this.mainsplit = mainsplit;
     mainsplit.setLiveResize(true);
@@ -83,8 +83,8 @@ qx.Class.define("buildtool.AppFrame",
     this.mainsplit.addLeft(left);
 
     // Right
-    //var right = new qx.ui.layout.VerticalBoxLayout();
-    var right = new qx.ui.layout.CanvasLayout();
+    //var right = new qx.legacy.ui.layout.VerticalBoxLayout();
+    var right = new qx.legacy.ui.layout.CanvasLayout();
 
     right.set(
     {
@@ -204,11 +204,11 @@ qx.Class.define("buildtool.AppFrame",
      * Create the header widget
      *
      * @type member
-     * @return {qx.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Build Tool" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
+      var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Build Tool" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
       header.setHtmlProperty("id", "header");
       header.setStyleProperty("background", "#134275 url(" + qx.io.Alias.getInstance().resolve("buildtool/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
@@ -292,7 +292,7 @@ qx.Class.define("buildtool.AppFrame",
     __makeRightEdit : function ()
     {
       this.app.edit = {}; // var registry
-      var vl = new qx.ui.layout.VerticalBoxLayout();
+      var vl = new qx.legacy.ui.layout.VerticalBoxLayout();
       this.widgets["rightedit"] = vl;
       vl.set(
       {
@@ -322,7 +322,7 @@ qx.Class.define("buildtool.AppFrame",
 
     __makeRightRun : function ()
     {
-      var vl = new qx.ui.layout.VerticalBoxLayout();
+      var vl = new qx.legacy.ui.layout.VerticalBoxLayout();
       this.widgets["rightrun"] = vl;
       vl.set(
       {
@@ -340,7 +340,7 @@ qx.Class.define("buildtool.AppFrame",
 
     __makeRightInfo : function () 
     {
-      var vl = new qx.ui.layout.VerticalBoxLayout();
+      var vl = new qx.legacy.ui.layout.VerticalBoxLayout();
       this.widgets["rightinfo"] = vl;
       vl.set(
       {
@@ -371,28 +371,28 @@ qx.Class.define("buildtool.AppFrame",
      */
     __makeToolRun : function()
     {
-      var toolbar = new qx.ui.toolbar.ToolBar;
+      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
       toolbar.setBorder("line-bottom");
       toolbar.setHeight(27);
       this.widgets["toolrun"] = toolbar;
 
-      var mb = new qx.ui.toolbar.Part();
+      var mb = new qx.legacy.ui.toolbar.Part();
       toolbar.add(mb);
       this.widgets["toolrun.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button("Generate Application", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Generate Application", "icon/16/actions/media-playback-start.png");
       mb.add(this.runbutton);
       this.widgets["toolrun.runb"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunBuild);
-      this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Generate Application"));
+      this.runbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Generate Application"));
 
       // -- open generated app in browser
-      var openb = new qx.ui.toolbar.Button("Open Application", "icon/16/places/www.png");
+      var openb = new qx.legacy.ui.toolbar.Button("Open Application", "icon/16/places/www.png");
       mb.add(openb);
       this.widgets["toolrun.openb"] = openb;
       this.__bindCommand(openb, this._cmdOpenPage);
-      openb.setToolTip(new qx.ui.popup.ToolTip("Open application in browser"));
+      openb.setToolTip(new qx.legacy.ui.popup.ToolTip("Open application in browser"));
 
       return toolbar;
     },  // __makeToolRun()
@@ -410,7 +410,7 @@ qx.Class.define("buildtool.AppFrame",
       this.app.run = {};  // var registry
 
       // Main Container
-      var buttview = new qx.ui.pageview.tabview.TabView();
+      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
 
       buttview.set(
       {
@@ -422,16 +422,16 @@ qx.Class.define("buildtool.AppFrame",
       this.widgets["buttrun.bar"] = buttview.getBar();
 
       // First Page
-      var bsb1 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       this.widgets["buttrun.demopage.button"] = bsb1;
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1);
 
-      var p1 = new qx.ui.pageview.tabview.Page(bsb1);
+      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
       p1.set({ padding : [ 5 ] });
       buttview.getPane().add(p1);
 
-      var f1 = new qx.ui.embed.Iframe;
+      var f1 = new qx.legacy.ui.embed.Iframe;
       p1.add(f1);
       this.widgets["buttrun.demopage.page"] = f1;
 
@@ -462,7 +462,7 @@ qx.Class.define("buildtool.AppFrame",
      */
     __makeLeft : function()
     {
-      var buttview = new qx.ui.pageview.buttonview.ButtonView();
+      var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
 
       buttview.set(
       {
@@ -477,13 +477,13 @@ qx.Class.define("buildtool.AppFrame",
       buttview.getBar().getManager().addEventListener("changeSelected",this.__ehLeftSelection,this);
 
       // First Pane
-      var bsb1 = new qx.ui.pageview.buttonview.Button("Edit Configuration", "icon/16/actions/view-pane-tree.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Edit Configuration", "icon/16/actions/view-pane-tree.png");
       buttview.getBar().add(bsb1);
       this.widgets["treeview.bedit"] = bsb1;
       bsb1.setShow("icon");
-      bsb1.setToolTip(new qx.ui.popup.ToolTip("Customize configuration"));
+      bsb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Customize configuration"));
 
-      var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
+      var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
 
       p1.set(
       {
@@ -494,12 +494,12 @@ qx.Class.define("buildtool.AppFrame",
 
       buttview.getPane().add(p1);
 
-      //var tree = new qx.ui.tree.Tree("Samples");
+      //var tree = new qx.legacy.ui.tree.Tree("Samples");
       //var tree = new buildtool.FileSystemService(this.RpcServer);
       /*
       this.tree = tree;
       */
-      var tree = new qx.ui.tree.Tree("Customize Makefile");
+      var tree = new qx.legacy.ui.tree.Tree("Customize Makefile");
       p1.add(tree);
       tree.setHideNode(true);
       this.widgets["treeview.makvars"] = tree;
@@ -516,13 +516,13 @@ qx.Class.define("buildtool.AppFrame",
       tree.getManager().addEventListener("changeSelection", this.__ehHandleEditTreeSelection, this);
 
       // Second Pane
-      var bsb2 = new qx.ui.pageview.buttonview.Button("Generate Application", "icon/16/categories/applications-development.png");
+      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Generate Application", "icon/16/categories/applications-development.png");
       buttview.getBar().add(bsb2);
       this.widgets["treeview.brun"] = bsb2;
       bsb2.setShow("icon");
-      bsb2.setToolTip(new qx.ui.popup.ToolTip("Generate application"));
+      bsb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Generate application"));
 
-      var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
+      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
 
       p2.set(
       {
@@ -542,25 +542,25 @@ qx.Class.define("buildtool.AppFrame",
             label : "source",
             props : {
               //selected : true,
-              toolTip : new qx.ui.popup.ToolTip("Source version of your application")
+              toolTip : new qx.legacy.ui.popup.ToolTip("Source version of your application")
             }
           },
           {
             label : "build",
             props : {
-              toolTip : new qx.ui.popup.ToolTip("Build version of your application")
+              toolTip : new qx.legacy.ui.popup.ToolTip("Build version of your application")
             }
           },
           {
             label : "api",
             props : {
-              toolTip : new qx.ui.popup.ToolTip("API viewer of framework and your application classes")
+              toolTip : new qx.legacy.ui.popup.ToolTip("API viewer of framework and your application classes")
             }
           },
           {
             label : "test",
             props : {
-              toolTip : new qx.ui.popup.ToolTip("Testrunner application for your test classes")
+              toolTip : new qx.legacy.ui.popup.ToolTip("Testrunner application for your test classes")
             }
           }
           ]
@@ -584,13 +584,13 @@ qx.Class.define("buildtool.AppFrame",
       tree1.getManager().addEventListener("changeSelection", this.__ehHandleRunTreeSelection, this);
 
       // Third Pane
-      var bsb3 = new qx.ui.pageview.buttonview.Button("Info", "buildtool/image/information18.png");
+      var bsb3 = new qx.legacy.ui.pageview.buttonview.Button("Info", "buildtool/image/information18.png");
       buttview.getBar().add(bsb3);
       this.widgets["treeview.binfo"] = bsb3;
       bsb3.setShow("icon");
-      bsb3.setToolTip(new qx.ui.popup.ToolTip("Info"));
+      bsb3.setToolTip(new qx.legacy.ui.popup.ToolTip("Info"));
 
-      var p2 = new qx.ui.pageview.buttonview.Page(bsb3);
+      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb3);
 
       p2.set(
       {
@@ -628,7 +628,7 @@ qx.Class.define("buildtool.AppFrame",
 
     createTree : function (treeData)
     {
-      var tree = new qx.ui.tree.Tree("AnonRoot");
+      var tree = new qx.legacy.ui.tree.Tree("AnonRoot");
       tree.setHideNode(true);
       var selected;
 
@@ -637,10 +637,10 @@ qx.Class.define("buildtool.AppFrame",
       {
         if (!tData.items)
         {
-          var node = new qx.ui.tree.TreeFile(tData.label);
+          var node = new qx.legacy.ui.tree.TreeFile(tData.label);
         } else 
         {
-          var node = new qx.ui.tree.TreeFolder(tData.label);
+          var node = new qx.legacy.ui.tree.TreeFolder(tData.label);
           node.setAlwaysShowPlusMinusSymbol(true);
 
           for (var i=0; i<tData.items.length; i++)
@@ -748,28 +748,28 @@ qx.Class.define("buildtool.AppFrame",
 
     __makeToolEdit : function ()
     {
-      var toolbar = new qx.ui.toolbar.ToolBar;
+      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
       toolbar.setBorder("line-bottom");
       toolbar.setHeight(27);
       this.widgets["tooledit"] = toolbar;
 
-      var mb = new qx.ui.toolbar.Part();
+      var mb = new qx.legacy.ui.toolbar.Part();
       toolbar.add(mb);
       this.widgets["tooledit.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button("Save", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Save", "icon/16/actions/media-playback-start.png");
       mb.add(this.runbutton);
       this.widgets["tooledit.runbutton"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunSave);
-      this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Save"));
+      this.runbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Save"));
 
       // -- reset button
-      var resetb = new qx.ui.toolbar.Button("Reset", "icon/16/actions/edit-undo.png");
+      var resetb = new qx.legacy.ui.toolbar.Button("Reset", "icon/16/actions/edit-undo.png");
       mb.add(resetb);
       this.widgets["tooledit.resetbutton"] = resetb;
       this.__bindCommand(resetb, this._cmdRunReset);
-      resetb.setToolTip(new qx.ui.popup.ToolTip("Reset to load-time values"));
+      resetb.setToolTip(new qx.legacy.ui.popup.ToolTip("Reset to load-time values"));
 
       return toolbar;
       
@@ -779,7 +779,7 @@ qx.Class.define("buildtool.AppFrame",
     __makeButtEdit : function ()
     {
       // Main Container
-      var buttview = new qx.ui.pageview.tabview.TabView();
+      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
 
       buttview.set(
       {
@@ -791,18 +791,18 @@ qx.Class.define("buildtool.AppFrame",
       this.widgets["buttedit.bar"] = buttview.getBar();
 
       // First Page
-      var bsb1 = new qx.ui.pageview.tabview.Button("Customize Configuration", "icon/16/actions/system-run.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Customize Configuration", "icon/16/actions/system-run.png");
       this.widgets["buttedit.varedit.button"] = bsb1;
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1);
 
-      var p1 = new qx.ui.pageview.tabview.Page(bsb1);
+      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
       p1.set({ padding : [ 5 ] });
       buttview.getPane().add(p1);
 
       // contents widget
-      //var f1 = new qx.ui.embed.HtmlEmbed();
-      var f1 = new qx.ui.layout.GridLayout();
+      //var f1 = new qx.legacy.ui.embed.HtmlEmbed();
+      var f1 = new qx.legacy.ui.layout.GridLayout();
       p1.add(f1);
       this.widgets["buttedit.varedit.page"] = f1;
       this.widgets["buttedit.varedit.page.items"] = {}; // item widget registry
@@ -821,11 +821,11 @@ qx.Class.define("buildtool.AppFrame",
       f1.setColumnCount(2);
       //f1.setRowCount(2);
       f1.addRow();
-      f1.add(new qx.ui.basic.Label("Und 1.1"),0,0);
-      f1.add(new qx.ui.basic.Label("Und 1.2"),0,1);
+      f1.add(new qx.legacy.ui.basic.Label("Und 1.1"),0,0);
+      f1.add(new qx.legacy.ui.basic.Label("Und 1.2"),0,1);
       f1.addRow();
-      f1.add(new qx.ui.basic.Label("Und 2.1"),1,0);
-      f1.add(new qx.ui.basic.Label("Und 2.2"),1,1);
+      f1.add(new qx.legacy.ui.basic.Label("Und 2.1"),1,0);
+      f1.add(new qx.legacy.ui.basic.Label("Und 2.2"),1,1);
       for (var i=0, N=f1.getColumnCount(); i<N; i++) {                                   
         f1.setColumnWidth(i, 54);                                                   
       }                                                                                   
@@ -850,12 +850,12 @@ qx.Class.define("buildtool.AppFrame",
      */
     __makeToolInfo : function()
     {
-      var toolbar = new qx.ui.toolbar.ToolBar;
+      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
       toolbar.setBorder("line-bottom");
       toolbar.setHeight(27);
       this.widgets["toolinfo"] = toolbar;
 
-      var mb = new qx.ui.toolbar.Part();
+      var mb = new qx.legacy.ui.toolbar.Part();
       toolbar.add(mb);
       this.widgets["toolinfo.controlbutts"] = mb;
 
@@ -872,7 +872,7 @@ qx.Class.define("buildtool.AppFrame",
     __makeButtInfo : function()
     {
       // Main Container
-      var buttview = new qx.ui.pageview.tabview.TabView();
+      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
 
       buttview.set(
       {
@@ -884,16 +884,16 @@ qx.Class.define("buildtool.AppFrame",
       this.widgets["buttinfo.bar"] = buttview.getBar();
 
       // First Page
-      var bsb1 = new qx.ui.pageview.tabview.Button("Info", "icon/16/actions/system-run.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Info", "icon/16/actions/system-run.png");
       this.widgets["buttinfo.infopage.button"] = bsb1;
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1);
 
-      var p1 = new qx.ui.pageview.tabview.Page(bsb1);
+      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
       p1.set({ padding : [ 5 ] });
       buttview.getPane().add(p1);
 
-      var f1 = new qx.ui.embed.Iframe;
+      var f1 = new qx.legacy.ui.embed.Iframe;
       p1.add(f1);
       this.widgets["buttinfo.infopage.page"] = f1;
       f1.set(
@@ -912,7 +912,7 @@ qx.Class.define("buildtool.AppFrame",
 
     __makeOptionsPane : function () 
     {
-      var rightSub = new qx.ui.layout.VerticalBoxLayout();
+      var rightSub = new qx.legacy.ui.layout.VerticalBoxLayout();
       rightSub.set(
       {
         padding : 10,
@@ -920,11 +920,11 @@ qx.Class.define("buildtool.AppFrame",
         spacing : 20 
       });
 
-      var groupBox = new qx.ui.groupbox.GroupBox();
+      var groupBox = new qx.legacy.ui.groupbox.GroupBox();
       groupBox.set({ height : "auto" });
       rightSub.add(groupBox);
 
-      var vert = new qx.ui.layout.VerticalBoxLayout();
+      var vert = new qx.legacy.ui.layout.VerticalBoxLayout();
 
       vert.set(
       {
@@ -934,7 +934,7 @@ qx.Class.define("buildtool.AppFrame",
 
       groupBox.add(vert);
 
-      var opts = new qx.ui.layout.HorizontalBoxLayout();
+      var opts = new qx.legacy.ui.layout.HorizontalBoxLayout();
       //vert.add(opts);
       opts.set(
       {
@@ -942,10 +942,10 @@ qx.Class.define("buildtool.AppFrame",
         width : "100%"
       });
 
-      var c1 = new qx.ui.form.CheckBox("source","sourceChecked","c1");
+      var c1 = new qx.legacy.ui.form.CheckBox("source","sourceChecked","c1");
       opts.add(c1);
 
-      var addOpts = new qx.ui.layout.HorizontalBoxLayout();
+      var addOpts = new qx.legacy.ui.layout.HorizontalBoxLayout();
       vert.add(addOpts);
       addOpts.set(
       {
@@ -953,10 +953,10 @@ qx.Class.define("buildtool.AppFrame",
         width : "100%"
       });
 
-      var t1 = new qx.ui.form.TextField();
+      var t1 = new qx.legacy.ui.form.TextField();
       addOpts.add(t1);
 
-      var l1 = new qx.ui.basic.Label("additional run options");
+      var l1 = new qx.legacy.ui.basic.Label("additional run options");
       addOpts.add(l1);
 
 
@@ -1008,7 +1008,7 @@ qx.Class.define("buildtool.AppFrame",
       // handle enable "Open Application" button
       if (treeNode == null) {
         this._cmdOpenPage.setEnabled(false);
-      } else if (treeNode instanceof qx.ui.tree.TreeFolder || treeNode.getLabel() == "source") 
+      } else if (treeNode instanceof qx.legacy.ui.tree.TreeFolder || treeNode.getLabel() == "source") 
       {
         //this.widgets["toolrun.openb"].setEnabled(false);
         this._cmdOpenPage.setEnabled(false);
@@ -1021,7 +1021,7 @@ qx.Class.define("buildtool.AppFrame",
       // handle enable "Generate Application" button
       if (treeNode == null) {
         this._cmdRunBuild.setEnabled(false);
-      } else if (treeNode instanceof qx.ui.tree.TreeFile) 
+      } else if (treeNode instanceof qx.legacy.ui.tree.TreeFile) 
       {
         //this.widgets["toolrun.runb"].setEnabled(true);
         this._cmdRunBuild.setEnabled(true);
@@ -1056,7 +1056,7 @@ qx.Class.define("buildtool.AppFrame",
       }
       var treeNode = this.tree.getSelectedElement();
 
-      if (treeNode instanceof qx.ui.tree.TreeFile) 
+      if (treeNode instanceof qx.legacy.ui.tree.TreeFile) 
       {
         this.getFile(treeNode);
       }
@@ -1073,7 +1073,7 @@ qx.Class.define("buildtool.AppFrame",
       */
       var treeNode = this.widgets["treeview.trun"].getSelectedElement();
 
-      if (treeNode instanceof qx.ui.tree.TreeFile) 
+      if (treeNode instanceof qx.legacy.ui.tree.TreeFile) 
       {
         this.app.run.during_build = true;
         this._cmdRunBuild.setEnabled(false);
@@ -1279,7 +1279,7 @@ qx.Class.define("buildtool.AppFrame",
         return;
       }
 
-      if (treeNode instanceof qx.ui.tree.TreeFile) 
+      if (treeNode instanceof qx.legacy.ui.tree.TreeFile) 
       {
         var target = treeNode.getLabel();
         if (target == "source") {
@@ -1344,10 +1344,10 @@ qx.Class.define("buildtool.AppFrame",
     leftReloadTree : function(tD, oldData)
     {
       var treeData = tD || this.__makvars;
-      //var tree     = new qx.ui.tree.Tree("Customize Makefile");
+      //var tree     = new qx.legacy.ui.tree.Tree("Customize Makefile");
       var tree     = this.widgets["treeview.makvars"];
 
-      var makRoot = new qx.ui.tree.TreeFolder("Configuration Vars");
+      var makRoot = new qx.legacy.ui.tree.TreeFolder("Configuration Vars");
       tree.add(makRoot);
 
       this.createMakTree(makRoot,treeData);
@@ -1357,7 +1357,7 @@ qx.Class.define("buildtool.AppFrame",
 
       qx.client.Timer.once(function()
       {
-        qx.ui.core.Widget.flushGlobalQueues();  // create all widgets
+        qx.legacy.ui.core.Widget.flushGlobalQueues();  // create all widgets
       }, this, 0);
 
       return;
@@ -1435,7 +1435,7 @@ qx.Class.define("buildtool.AppFrame",
         {
           container.addRow();
           rowIndex = container.getRowCount() -1;
-          var l = new qx.ui.basic.Label(item.label);
+          var l = new qx.legacy.ui.basic.Label(item.label);
           that.widgets["buttedit.varedit.page.items"][item.label]={};
           that.widgets["buttedit.varedit.page.items"][item.label]['lab']=l; // register widget
           l.setUserData('id',item.label);
@@ -1452,34 +1452,34 @@ qx.Class.define("buildtool.AppFrame",
           container.addRow();
           rowIndex = container.getRowCount() -1;
           // Var Name
-          var l = new qx.ui.basic.Label(item.label);
+          var l = new qx.legacy.ui.basic.Label(item.label);
           container.add(l,0,rowIndex);
           that.widgets["buttedit.varedit.page.items"][item.label]={};
           that.widgets["buttedit.varedit.page.items"][item.label]['lab']=l; // register widget
           // Var Value
           var olditem = that.findOldItem(item.label, oldData);
           var value = olditem ? olditem.dat : item.defaultt;
-          var tf = new qx.ui.form.TextField(value);
+          var tf = new qx.legacy.ui.form.TextField(value);
           tf.addEventListener("changeValue",that.__ehEditFormChanged,that);
           that.widgets["buttedit.varedit.page.items"][item.label]['dat']=tf; // register widget
           that.widgets["buttedit.varedit.page.items"][item.label]['defaultt']=item.defaultt; // always remember application.mk default
           tf.setUserData('id',item.label);
           container.add(tf,1,rowIndex);
           // Var Reset Button
-          var rb = new qx.ui.form.Button("Reset value", "icon/16/actions/document-revert.png");
+          var rb = new qx.legacy.ui.form.Button("Reset value", "icon/16/actions/document-revert.png");
           rb.setUserData('id',item.label);
           rb.setShow("icon");
           rb.addEventListener("execute",that.__ehEditFormReset,that);
-          rb.setToolTip(new qx.ui.popup.ToolTip("Reset to default"));
+          rb.setToolTip(new qx.legacy.ui.popup.ToolTip("Reset to default"));
           container.add(rb,2,rowIndex);
           // File Chooser for QOOXDOO_PATH
           if (item.label == "QOOXDOO_PATH") 
           {
-            var fc = new qx.ui.form.Button("Pick Qooxdoo Path", "icon/16/actions/document-open.png");
+            var fc = new qx.legacy.ui.form.Button("Pick Qooxdoo Path", "icon/16/actions/document-open.png");
             fc.setUserData("id",item.label);
             fc.setShow("icon");
             fc.addEventListener("execute", that.__ehQxPathChooser,that);
-            fc.setToolTip(new qx.ui.popup.ToolTip("Choose Qooxdoo Path"));
+            fc.setToolTip(new qx.legacy.ui.popup.ToolTip("Choose Qooxdoo Path"));
             container.add(fc,3,rowIndex);
           }
         }
@@ -1550,8 +1550,8 @@ qx.Class.define("buildtool.AppFrame",
 
     __ehQxPathChooser : function (e) 
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
-      var diag = new qx.ui.window.Window("Qooxdoo Path Picker", "icon/16/actions/document-open.png");
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
+      var diag = new qx.legacy.ui.window.Window("Qooxdoo Path Picker", "icon/16/actions/document-open.png");
       d.add(diag);
       diag.setSpace(200, 400, 100, 120);
       diag.set({
@@ -1560,7 +1560,7 @@ qx.Class.define("buildtool.AppFrame",
         modal : true
       });
 
-      var box = new qx.ui.layout.VerticalBoxLayout();
+      var box = new qx.legacy.ui.layout.VerticalBoxLayout();
       diag.add(box);
       box.set({
         horizontalChildrenAlign : 'center',
@@ -1570,25 +1570,25 @@ qx.Class.define("buildtool.AppFrame",
         height: "100%"
       });
 
-      var lab = new qx.ui.basic.Label("Please identify your qooxdoo installation by selecting one of its top-level files (AUTHORS, LICENSE,...)");
+      var lab = new qx.legacy.ui.basic.Label("Please identify your qooxdoo installation by selecting one of its top-level files (AUTHORS, LICENSE,...)");
       this.widgets["window.chooseQxPath.lab"] = lab;
       box.add(lab);
 
-      var tf = new qx.ui.embed.HtmlEmbed("<input type='file' onchange='qx.core.Init.getInstance().getApplication().viewer.getQxPath(this.value);'>");
+      var tf = new qx.legacy.ui.embed.HtmlEmbed("<input type='file' onchange='qx.core.Init.getInstance().getApplication().viewer.getQxPath(this.value);'>");
       box.add(tf);
       tf.set({
         left   : 80,
         height : 30
       });
 
-      var line1 = new qx.ui.layout.HorizontalBoxLayout();
+      var line1 = new qx.legacy.ui.layout.HorizontalBoxLayout();
       box.add(line1);
       line1.set({
         spacing : 5,
         width : "100%"
       });
 
-      var b1 = new qx.ui.form.Button("OK");
+      var b1 = new qx.legacy.ui.form.Button("OK");
       line1.add(b1);
       b1.addEventListener("execute", function (e) 
       {
@@ -1603,17 +1603,17 @@ qx.Class.define("buildtool.AppFrame",
         }
         diag.close();
         diag.getParent().remove(diag);
-        qx.ui.core.Widget.flushGlobalQueues();
+        qx.legacy.ui.core.Widget.flushGlobalQueues();
         diag.dispose();
       }, this);
 
-      var b2 = new qx.ui.form.Button("Cancel");
+      var b2 = new qx.legacy.ui.form.Button("Cancel");
       line1.add(b2);
       b2.addEventListener("execute", function (e) 
       {
         diag.close();
         diag.getParent().remove(diag);
-        qx.ui.core.Widget.flushGlobalQueues();
+        qx.legacy.ui.core.Widget.flushGlobalQueues();
         diag.dispose();
       }, this);
 
@@ -1686,7 +1686,7 @@ qx.Class.define("buildtool.AppFrame",
         }
         if (node.type == 'part')       // parts become folders in the widget tree
         {
-          nnode = new qx.ui.tree.TreeFolder(node.label);
+          nnode = new qx.legacy.ui.tree.TreeFolder(node.label);
           if (olevel >= level) // coming back from a recursion
           {
             parnt.pop();
@@ -1697,7 +1697,7 @@ qx.Class.define("buildtool.AppFrame",
         {
         } else if (node.type == 'var')  // vars become leaf nodes
         {
-          nnode = new qx.ui.tree.TreeFile(node.label);
+          nnode = new qx.legacy.ui.tree.TreeFile(node.label);
           parnt[parnt.length-1].add(nnode);
         }
         if (nnode) {
@@ -1954,8 +1954,8 @@ qx.Class.define("buildtool.AppFrame",
      * Return the array of ancestor folders of a given element.
      *
      * @type member
-     * @param treeElem {qx.ui.tree.AbstractTreeElement} Element of a tree
-     * @return {qx.ui.tree.AbstractTreeElement[]|null} Array of ancestor folders
+     * @param treeElem {qx.legacy.ui.tree.AbstractTreeElement} Element of a tree
+     * @return {qx.legacy.ui.tree.AbstractTreeElement[]|null} Array of ancestor folders
      */
     getParentFolderChain : function(treeElem) 
     {

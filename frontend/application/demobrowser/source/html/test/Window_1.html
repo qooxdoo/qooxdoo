@@ -13,22 +13,22 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var w0 = new qx.ui.layout.CanvasLayout;
+    var w0 = new qx.legacy.ui.layout.CanvasLayout;
     w0.set({left:20, top:48, right: 335, bottom: 48, backgroundColor:"background", border:"inset"});
     w0.setOverflow("hidden");
     d.add(w0);
 
-    var w1 = new qx.ui.window.Window("First Window");
+    var w1 = new qx.legacy.ui.window.Window("First Window");
     w1.setSpace(20, 400, 20, 250);
     w0.add(w1);
 
-    var w2 = new qx.ui.window.Window("Second Window", "icon/16/categories/applications-graphics.png");
+    var w2 = new qx.legacy.ui.window.Window("Second Window", "icon/16/categories/applications-graphics.png");
     w2.setSpace(200, 300, 80, 350);
     w0.add(w2);
 
-    var w3 = new qx.ui.window.Window("Third Window", "icon/16/categories/applications-internet.png");
+    var w3 = new qx.legacy.ui.window.Window("Third Window", "icon/16/categories/applications-internet.png");
     w3.setSpace(100, 300, 200, 200);
     w3.setMaxWidth(450);
     w3.setMaxHeight(300);
@@ -37,26 +37,26 @@
 
 
 
-    var a1 = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/accessories-archiver.png");
+    var a1 = new qx.legacy.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/accessories-archiver.png");
     a1.set({ top: 4, left: 4 });
     w1.add(a1);
 
 
 
-    var tf1 = new qx.ui.pageview.tabview.TabView;
+    var tf1 = new qx.legacy.ui.pageview.tabview.TabView;
     tf1.set({ left: 10, top: 52, right: 10, bottom: 10 });
 
-    var t1_1 = new qx.ui.pageview.tabview.Button("Explore");
-    var t1_2 = new qx.ui.pageview.tabview.Button("Internet");
-    var t1_3 = new qx.ui.pageview.tabview.Button("Future");
+    var t1_1 = new qx.legacy.ui.pageview.tabview.Button("Explore");
+    var t1_2 = new qx.legacy.ui.pageview.tabview.Button("Internet");
+    var t1_3 = new qx.legacy.ui.pageview.tabview.Button("Future");
 
     t1_1.setChecked(true);
 
     tf1.getBar().add(t1_1, t1_2, t1_3);
 
-    var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
-    var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
-    var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
+    var p1_1 = new qx.legacy.ui.pageview.tabview.Page(t1_1);
+    var p1_2 = new qx.legacy.ui.pageview.tabview.Page(t1_2);
+    var p1_3 = new qx.legacy.ui.pageview.tabview.Page(t1_3);
 
     tf1.getPane().add(p1_1, p1_2, p1_3);
 
@@ -64,12 +64,12 @@
 
 
 
-    var at1 = new qx.ui.basic.Atom("Second Window", "icon/22/apps/accessories-clock.png");
+    var at1 = new qx.legacy.ui.basic.Atom("Second Window", "icon/22/apps/accessories-clock.png");
     at1.setLocation(4, 4);
     w2.add(at1);
 
 
-    var at2 = new qx.ui.basic.Atom("Third Window", "icon/48/categories/applications-graphics.png");
+    var at2 = new qx.legacy.ui.basic.Atom("Third Window", "icon/48/categories/applications-graphics.png");
     at2.setLocation(4, 4);
     w3.add(at2);
 
@@ -78,20 +78,20 @@
 
 
 
-    var fs1 = new qx.ui.groupbox.GroupBox("Settings");
+    var fs1 = new qx.legacy.ui.groupbox.GroupBox("Settings");
     fs1.setLocation(4, 30);
     fs1.setRight(4);
     fs1.setBottom(4);
 
 
-    var chk1 = new qx.ui.form.CheckBox("Show Icon");
+    var chk1 = new qx.legacy.ui.form.CheckBox("Show Icon");
     chk1.setLocation(0, 0);
     chk1.setChecked(true);
     chk1.addListener("changeChecked", function(e) {
       w2.setShowIcon(e.getData());
     });
 
-    var chk2 = new qx.ui.form.CheckBox("Show Caption");
+    var chk2 = new qx.legacy.ui.form.CheckBox("Show Caption");
     chk2.setLocation(0, 20);
     chk2.setChecked(true);
     chk2.addListener("changeChecked", function(e) {
@@ -100,14 +100,14 @@
 
 
 
-    var chk3 = new qx.ui.form.CheckBox("Resizeable");
+    var chk3 = new qx.legacy.ui.form.CheckBox("Resizeable");
     chk3.setLocation(0, 50);
     chk3.setChecked(true);
     chk3.addListener("changeChecked", function(e) {
       w2.setResizable(e.getData());
     });
 
-    var chk4 = new qx.ui.form.CheckBox("Moveable");
+    var chk4 = new qx.legacy.ui.form.CheckBox("Moveable");
     chk4.setLocation(0, 70);
     chk4.setChecked(true);
     chk4.addListener("changeChecked", function(e) {
@@ -116,21 +116,21 @@
 
 
 
-    var chk5 = new qx.ui.form.CheckBox("Show Close");
+    var chk5 = new qx.legacy.ui.form.CheckBox("Show Close");
     chk5.setLocation(0, 100);
     chk5.setChecked(true);
     chk5.addListener("changeChecked", function(e) {
       w2.setShowClose(e.getData());
     });
 
-    var chk6 = new qx.ui.form.CheckBox("Show Maximize/Restore");
+    var chk6 = new qx.legacy.ui.form.CheckBox("Show Maximize/Restore");
     chk6.setLocation(0, 120);
     chk6.setChecked(true);
     chk6.addListener("changeChecked", function(e) {
       w2.setShowMaximize(e.getData());
     });
 
-    var chk7 = new qx.ui.form.CheckBox("Show Minimize");
+    var chk7 = new qx.legacy.ui.form.CheckBox("Show Minimize");
     chk7.setLocation(0, 140);
     chk7.setChecked(true);
     chk7.addListener("changeChecked", function(e) {
@@ -139,21 +139,21 @@
 
 
 
-    var chk8 = new qx.ui.form.CheckBox("Allow Close");
+    var chk8 = new qx.legacy.ui.form.CheckBox("Allow Close");
     chk8.setLocation(0, 170);
     chk8.setChecked(true);
     chk8.addListener("changeChecked", function(e) {
       w2.setAllowClose(e.getData());
     });
 
-    var chk9 = new qx.ui.form.CheckBox("Allow Maximize");
+    var chk9 = new qx.legacy.ui.form.CheckBox("Allow Maximize");
     chk9.setLocation(0, 190);
     chk9.setChecked(true);
     chk9.addListener("changeChecked", function(e) {
       w2.setAllowMaximize(e.getData());
     });
 
-    var chk10 = new qx.ui.form.CheckBox("Allow Minimize");
+    var chk10 = new qx.legacy.ui.form.CheckBox("Allow Minimize");
     chk10.setLocation(0, 210);
     chk10.setChecked(true);
     chk10.addListener("changeChecked", function(e) {

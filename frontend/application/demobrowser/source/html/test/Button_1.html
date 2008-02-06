@@ -7,18 +7,18 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing the new flash support for QxButtons (inherited from qx.ui.basic.Atom).</p>
+    <p>Testing the new flash support for QxButtons (inherited from qx.legacy.ui.basic.Atom).</p>
   </div>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
       var a;
 
       for (var i=1; i<11; i++)
       {
-        var b = new qx.ui.form.Button("Flash Button #" + i, "icon/16/actions/view-refresh.png", 16, 16, "./image/flash/color/file" + i + ".swf");
+        var b = new qx.legacy.ui.form.Button("Flash Button #" + i, "icon/16/actions/view-refresh.png", 16, 16, "./image/flash/color/file" + i + ".swf");
         
         b.setTop(48 + ((i-1)*30));
         b.setLeft(20);
@@ -26,7 +26,7 @@
         d.add(b);
       }; 
       
-      var b = new qx.ui.form.Button("Big Rotated", "icon/48/actions/view-refresh.png", 48, 48, "./image/flash/color/file3.swf");
+      var b = new qx.legacy.ui.form.Button("Big Rotated", "icon/48/actions/view-refresh.png", 48, 48, "./image/flash/color/file3.swf");
       
       b.setTop(48);
       b.setLeft(200);

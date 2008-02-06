@@ -7,17 +7,17 @@
 </head>
 <body>  
   <div id="description">
-    <p>Some tests for qx.ui.basic.Label. Click on the third and fifth button like widget to test the reflow possibilities.
+    <p>Some tests for qx.legacy.ui.basic.Label. Click on the third and fifth button like widget to test the reflow possibilities.
     The debug log gives you information of the preferred dimensions.</p>
-    <p>Tests for qx.ui.core.Font added</p>
+    <p>Tests for qx.legacy.ui.core.Font added</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var c1 = new qx.ui.basic.Label("Hello qooxdoo!");
+    var c1 = new qx.legacy.ui.basic.Label("Hello qooxdoo!");
 
     c1.setLeft(20);
     c1.setTop(48);
@@ -25,7 +25,7 @@
     c1.setPadding(2, 4);
 
     c1.addListener("mouseover", function(e) {
-      this.setFont(qx.ui.core.Font.fromString("20px bold"));
+      this.setFont(qx.legacy.ui.core.Font.fromString("20px bold"));
     });
 
     c1.addListener("mouseout", function(e) {
@@ -34,7 +34,7 @@
 
 
 
-    var c2 = new qx.ui.basic.Label("<h1>Welcome to the qooxdoo universe</h1><p>Enjoy the new era of web interface development.</p>");
+    var c2 = new qx.legacy.ui.basic.Label("<h1>Welcome to the qooxdoo universe</h1><p>Enjoy the new era of web interface development.</p>");
 
     c2.setLeft(20);
     c2.setTop(100);
@@ -44,7 +44,7 @@
 
 
 
-    var c3 = new qx.ui.basic.Label("Delete temporary data", null, null, false);
+    var c3 = new qx.legacy.ui.basic.Label("Delete temporary data", null, null, false);
 
     c3.setLeft(20);
     c3.setTop(200);
@@ -71,12 +71,12 @@
 
 
 
-    var c4f = new qx.ui.core.Font(16, [ "Times New Roman" ]);
+    var c4f = new qx.legacy.ui.core.Font(16, [ "Times New Roman" ]);
     c4f.setBold(true);
     c4f.setItalic(true);
     c4f.setDecoration("underline");
 
-    var c4 = new qx.ui.basic.Label("Hello qooxdoo!");
+    var c4 = new qx.legacy.ui.basic.Label("Hello qooxdoo!");
 
     c4.setLeft(20);
     c4.setTop(250);
@@ -89,14 +89,14 @@
 
 
 
-    var c6 = new qx.ui.basic.Label("This is a long label", "h");
+    var c6 = new qx.legacy.ui.basic.Label("This is a long label", "h");
 
     c6.setTop(450);
     c6.setLeft(20);
     c6.setBorder("black");
 
 
-    var c7 = new qx.ui.basic.Label("This is a long label with long-words and more text", "l", null, false);
+    var c7 = new qx.legacy.ui.basic.Label("This is a long label with long-words and more text", "l", null, false);
 
     c7.setTop(490);
     c7.setLeft(20);

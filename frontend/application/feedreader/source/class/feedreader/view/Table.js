@@ -20,7 +20,7 @@
 
 qx.Class.define("feedreader.view.Table",
 {
-  extend : qx.ui.table.Table,
+  extend : qx.legacy.ui.table.Table,
 
   construct : function(controller)
   {
@@ -28,7 +28,7 @@ qx.Class.define("feedreader.view.Table",
     this._controller = controller;
 
     // Create table model
-    this._tableModel = new qx.ui.table.model.Simple();
+    this._tableModel = new qx.legacy.ui.table.model.Simple();
     this._tableModel.setColumnIds([ "title", "date", "id" ]);
 
     this._tableModel.setColumnNamesById(
@@ -43,7 +43,7 @@ qx.Class.define("feedreader.view.Table",
     this.base(arguments, this._tableModel,
     {
       tableColumnModel : function(obj) {
-        return new qx.ui.table.columnmodel.Resize(obj);
+        return new qx.legacy.ui.table.columnmodel.Resize(obj);
       }
     });
 

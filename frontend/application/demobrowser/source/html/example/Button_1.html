@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test the qx.ui.form.Button constructor. qx.ui.form.Button is based on qx.ui.basic.Atom.</p>
+    <p>Test the qx.legacy.ui.form.Button constructor. qx.legacy.ui.form.Button is based on qx.legacy.ui.basic.Atom.</p>
   </div>
 
   <script type="text/javascript">
@@ -20,31 +20,31 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
         function buttonExecute() { this.debug("Executed: " + this.getLabel()); };
     
-        var btn1 = new qx.ui.form.Button("Button No #1");
+        var btn1 = new qx.legacy.ui.form.Button("Button No #1");
         btn1.set({ top : 48, left : 20 });
         btn1.addListener("execute", buttonExecute);
         d.add(btn1);
     
     
     
-        var btn2 = new qx.ui.form.Button("Button No #2")
+        var btn2 = new qx.legacy.ui.form.Button("Button No #2")
         btn2.set({ top : 48, left : 120, enabled : false });
         btn2.addListener("execute", buttonExecute);
         d.add(btn2);
     
     
     
-        var btn3 = new qx.ui.form.Button("Button No #3");
+        var btn3 = new qx.legacy.ui.form.Button("Button No #3");
         btn3.set({ top : 48, left : 220 });
         btn3.addListener("execute", buttonExecute);
         d.add(btn3);
     
     
-        var btn4 = new qx.ui.form.Button("Button No #4", "icon/16/actions/go-next.png");
+        var btn4 = new qx.legacy.ui.form.Button("Button No #4", "icon/16/actions/go-next.png");
         btn4.set({ top : 48, left : 320 });
         btn4.addListener("execute", buttonExecute);
         d.add(btn4);

@@ -7,17 +7,17 @@
 </head>
 <body>  
   <div id="description">
-    Tests for the new implementation of the qx.ui.layout.FlowLayout widget.
+    Tests for the new implementation of the qx.legacy.ui.layout.FlowLayout widget.
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
 
-    var flow1 = new qx.ui.layout.FlowLayout;
+    var flow1 = new qx.legacy.ui.layout.FlowLayout;
 
     flow1.setTop(48);
     flow1.setLeft(20);
@@ -37,54 +37,54 @@
 
 
 
-    var w1 = new qx.ui.basic.Terminator;
+    var w1 = new qx.legacy.ui.basic.Terminator;
 
     w1.setBackgroundColor("orange");
     w1.setWidth(300);
     w1.setHeight(20);
 
 
-    var w2 = new qx.ui.basic.Terminator;
+    var w2 = new qx.legacy.ui.basic.Terminator;
 
     w2.setBackgroundColor("blue");
     w2.setWidth(200);
     w2.setHeight(50);
 
 
-    var w3 = new qx.ui.basic.Terminator;
+    var w3 = new qx.legacy.ui.basic.Terminator;
 
     w3.setBackgroundColor("green");
     w3.setWidth(100);
     w3.setHeight(150);
     w3.setMarginLeft(20);
 
-    var w4 = new qx.ui.basic.Terminator;
+    var w4 = new qx.legacy.ui.basic.Terminator;
 
     w4.setBackgroundColor("purple");
     w4.setWidth(100);
     w4.setHeight(20);
 
-    var w5 = new qx.ui.basic.Terminator;
+    var w5 = new qx.legacy.ui.basic.Terminator;
 
     w5.setBackgroundColor("yellow");
     w5.setWidth(50);
     w5.setHeight(80);
 
-    var w6 = new qx.ui.basic.Terminator;
+    var w6 = new qx.legacy.ui.basic.Terminator;
 
     w6.setBackgroundColor("red");
     w6.setWidth(400);
     w6.setHeight(50);
 
-    var i1 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
-    var i2 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var i1 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var i2 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
     i2.setResizeToInner(true);
 
-    var c1 = new qx.ui.basic.Label("Hello World");
-    var c2 = new qx.ui.basic.Label("<ol><li>Simple HTML List</li><li>with one</li><li>and another item</li></ol>");
+    var c1 = new qx.legacy.ui.basic.Label("Hello World");
+    var c2 = new qx.legacy.ui.basic.Label("<ol><li>Simple HTML List</li><li>with one</li><li>and another item</li></ol>");
 
-    var a1 = new qx.ui.form.Button("Press", "icon/16/apps/preferences-desktop-multimedia.png");
+    var a1 = new qx.legacy.ui.form.Button("Press", "icon/16/apps/preferences-desktop-multimedia.png");
 
 
     flow1.add(w1, i1, w2, w3, a1, c2, w4, i2, w5, c1, w6);
@@ -130,7 +130,7 @@
 
     // *************************************************************
 
-    var controlBox = new qx.ui.layout.VerticalBoxLayout;
+    var controlBox = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     controlBox.setLeft(20);
     controlBox.setBottom(48);
@@ -145,15 +145,15 @@
 
 
 
-    var cc0 = new qx.ui.basic.Label("Spacing: ");
+    var cc0 = new qx.legacy.ui.basic.Label("Spacing: ");
     cc0.setWidth(50);
 
-    var bc0 = new qx.ui.form.Button("0x0", "icon/16/actions/dialog-ok.png");
-    var bc1 = new qx.ui.form.Button("4x4", "icon/16/actions/dialog-ok.png");
-    var bc2 = new qx.ui.form.Button("8x8", "icon/16/actions/dialog-ok.png");
-    var bc3 = new qx.ui.form.Button("20x20", "icon/16/actions/dialog-ok.png");
-    var bc4 = new qx.ui.form.Button("0x10", "icon/16/actions/dialog-ok.png");
-    var bc5 = new qx.ui.form.Button("10x0", "icon/16/actions/dialog-ok.png");
+    var bc0 = new qx.legacy.ui.form.Button("0x0", "icon/16/actions/dialog-ok.png");
+    var bc1 = new qx.legacy.ui.form.Button("4x4", "icon/16/actions/dialog-ok.png");
+    var bc2 = new qx.legacy.ui.form.Button("8x8", "icon/16/actions/dialog-ok.png");
+    var bc3 = new qx.legacy.ui.form.Button("20x20", "icon/16/actions/dialog-ok.png");
+    var bc4 = new qx.legacy.ui.form.Button("0x10", "icon/16/actions/dialog-ok.png");
+    var bc5 = new qx.legacy.ui.form.Button("10x0", "icon/16/actions/dialog-ok.png");
 
     bc0.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(0);
@@ -185,7 +185,7 @@
       flow1.setVerticalSpacing(0);
     });
 
-    var hc0 = new qx.ui.layout.HorizontalBoxLayout;
+    var hc0 = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
     hc0.add(cc0, bc0, bc1, bc2, bc3, bc4, bc5);
     hc0.setVerticalChildrenAlign("middle");
@@ -198,11 +198,11 @@
 
 
 
-    var cr0 = new qx.ui.basic.Label("Order: ");
+    var cr0 = new qx.legacy.ui.basic.Label("Order: ");
     cr0.setWidth(50);
 
-    var br0 = new qx.ui.form.Button("Default", "icon/16/actions/dialog-ok.png");
-    var br1 = new qx.ui.form.Button("Reversed", "icon/16/actions/dialog-ok.png");
+    var br0 = new qx.legacy.ui.form.Button("Default", "icon/16/actions/dialog-ok.png");
+    var br1 = new qx.legacy.ui.form.Button("Reversed", "icon/16/actions/dialog-ok.png");
 
     br0.addListener("execute", function(e) {
       flow1.setReverseChildrenOrder(false);
@@ -214,7 +214,7 @@
 
 
 
-    var hc1 = new qx.ui.layout.HorizontalBoxLayout;
+    var hc1 = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
     hc1.add(cr0, br0, br1);
     hc1.setVerticalChildrenAlign("middle");
@@ -228,36 +228,36 @@
 
 
 
-    var ca0 = new qx.ui.basic.Label("Children: ");
+    var ca0 = new qx.legacy.ui.basic.Label("Children: ");
     ca0.setWidth(50);
 
-    var ba0 = new qx.ui.form.Button("New Atom", "icon/16/actions/dialog-ok.png");
-    var ba1 = new qx.ui.form.Button("New Image", "icon/16/actions/dialog-ok.png");
-    var ba2 = new qx.ui.form.Button("New Atom to #3", "icon/16/actions/dialog-ok.png");
-    var ba3 = new qx.ui.form.Button("New Image to #6", "icon/16/actions/dialog-ok.png");
-    var ba4 = new qx.ui.form.Button("Remove First", "icon/16/actions/dialog-ok.png");
+    var ba0 = new qx.legacy.ui.form.Button("New Atom", "icon/16/actions/dialog-ok.png");
+    var ba1 = new qx.legacy.ui.form.Button("New Image", "icon/16/actions/dialog-ok.png");
+    var ba2 = new qx.legacy.ui.form.Button("New Atom to #3", "icon/16/actions/dialog-ok.png");
+    var ba3 = new qx.legacy.ui.form.Button("New Image to #6", "icon/16/actions/dialog-ok.png");
+    var ba4 = new qx.legacy.ui.form.Button("Remove First", "icon/16/actions/dialog-ok.png");
 
     ba0.addListener("execute", function(e) {
-      flow1.add(new qx.ui.basic.Atom("New Atom", "icon/16/places/services.png"));
+      flow1.add(new qx.legacy.ui.basic.Atom("New Atom", "icon/16/places/services.png"));
     });
 
     ba1.addListener("execute", function(e) {
-      flow1.add(new qx.ui.basic.Image("icon/64/apps/accessories-disk-usage.png"));
+      flow1.add(new qx.legacy.ui.basic.Image("icon/64/apps/accessories-disk-usage.png"));
     });
 
     ba2.addListener("execute", function(e) {
-      flow1.addAt(new qx.ui.basic.Atom("New Atom", "icon/16/apps/preferences-desktop-multimedia.png"), 3);
+      flow1.addAt(new qx.legacy.ui.basic.Atom("New Atom", "icon/16/apps/preferences-desktop-multimedia.png"), 3);
     });
 
     ba3.addListener("execute", function(e) {
-      flow1.addAt(new qx.ui.basic.Image("icon/64/actions/format-color.png"), 6);
+      flow1.addAt(new qx.legacy.ui.basic.Image("icon/64/actions/format-color.png"), 6);
     });
 
     ba4.addListener("click", function(e) {
       flow1.remove(flow1.getFirstChild());
     });
 
-    var ha1 = new qx.ui.layout.HorizontalBoxLayout;
+    var ha1 = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
     ha1.add(ca0, ba0, ba1, ba2, ba3, ba4);
     ha1.setVerticalChildrenAlign("middle");

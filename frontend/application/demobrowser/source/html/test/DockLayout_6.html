@@ -7,15 +7,15 @@
 </head>
 <body>  
   <div id="description">
-    Simple Test for qx.ui.layout.DockLayout. But with a dynamic child. Simple click on "Hello World" to see the effect.
+    Simple Test for qx.legacy.ui.layout.DockLayout. But with a dynamic child. Simple click on "Hello World" to see the effect.
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var dl1 = new qx.ui.layout.DockLayout;
+    var dl1 = new qx.legacy.ui.layout.DockLayout;
 
     dl1.setTop(48);
     dl1.setLeft(20);
@@ -29,20 +29,20 @@
 
 
 
-    var t1 = new qx.ui.basic.Terminator;
+    var t1 = new qx.legacy.ui.basic.Terminator;
     t1.setHeight(50);
     t1.setBackgroundColor("white");
     t1.setBorder("inset");
     dl1.addTop(t1);
 
-    var t2 = new qx.ui.basic.Label("Hello World");
+    var t2 = new qx.legacy.ui.basic.Label("Hello World");
     t2.setHeight(null);
     t2.setBackgroundColor("white");
     t2.setPadding(10);
     t2.setBorder("inset");
     dl1.addLeft(t2);
 
-    var t3 = new qx.ui.layout.HorizontalBoxLayout;
+    var t3 = new qx.legacy.ui.layout.HorizontalBoxLayout;
 
     t3.setWidth(null);
     t3.setHeight(null);
@@ -53,7 +53,7 @@
 
     dl1.add(t3);
 
-    t3.add(new qx.ui.basic.Image("icon/128/categories/applications-games.png"));
+    t3.add(new qx.legacy.ui.basic.Image("icon/128/categories/applications-games.png"));
 
 
 

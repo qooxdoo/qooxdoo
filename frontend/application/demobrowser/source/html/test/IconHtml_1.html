@@ -7,17 +7,17 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.embed.IconHtmlEmbed.</p>
+    <p>Testing qx.legacy.ui.embed.IconHtmlEmbed.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var l1 = new qx.ui.embed.IconHtmlEmbed("Hello World", "icon/32/apps/office-organizer.png", 32, 32);
+    var l1 = new qx.legacy.ui.embed.IconHtmlEmbed("Hello World", "icon/32/apps/office-organizer.png", 32, 32);
 
     l1.setLocation(20, 48);
 
-    qx.ui.core.ClientDocument.getInstance().add(l1);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(l1);
   });
   </script>
 </body>

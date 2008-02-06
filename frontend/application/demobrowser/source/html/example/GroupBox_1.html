@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Introducing qx.ui.groupbox.GroupBox.</p>
+    <p>Introducing qx.legacy.ui.groupbox.GroupBox.</p>
   </div>
 
   <fieldset style="position:absolute; top:48px; left:400px; width:200px; height:100px"><legend>builtin</legend>content content content content content content content content content content content content content content content</fieldset>
@@ -23,9 +23,9 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
   
-        var fs = new qx.ui.groupbox.GroupBox("My first GroupBox");
+        var fs = new qx.legacy.ui.groupbox.GroupBox("My first GroupBox");
   
         with(fs)
         {
@@ -40,7 +40,7 @@
   
   
   
-        var a1 = new qx.ui.basic.Atom("TextField 1");
+        var a1 = new qx.legacy.ui.basic.Atom("TextField 1");
         with(a1)
         {
           setTop(3);
@@ -49,7 +49,7 @@
           setHorizontalChildrenAlign("left");
         };
   
-        var i1 = new qx.ui.form.TextField();
+        var i1 = new qx.legacy.ui.form.TextField();
         with(i1)
         {
           setTop(0);
@@ -60,7 +60,7 @@
   
   
   
-        var a2 = new qx.ui.basic.Atom("TextField 2", "icon/16/apps/preferences-desktop-wallpaper.png");
+        var a2 = new qx.legacy.ui.basic.Atom("TextField 2", "icon/16/apps/preferences-desktop-wallpaper.png");
         with(a2)
         {
           setTop(33);
@@ -70,7 +70,7 @@
         };
         fs.add(a2);
   
-        var i2 = new qx.ui.form.TextField();
+        var i2 = new qx.legacy.ui.form.TextField();
         with(i2)
         {
           setTop(30);
@@ -81,7 +81,7 @@
   
   
   
-        var a3 = new qx.ui.basic.Atom("TextField 3");
+        var a3 = new qx.legacy.ui.basic.Atom("TextField 3");
         with(a3)
         {
           setTop(63);
@@ -91,7 +91,7 @@
         };
         fs.add(a3);
   
-        var i3 = new qx.ui.form.TextField();
+        var i3 = new qx.legacy.ui.form.TextField();
         with(i3)
         {
           setTop(60);

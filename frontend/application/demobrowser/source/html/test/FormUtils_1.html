@@ -59,14 +59,14 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var btn = new qx.ui.form.Button("Encode");
+    var btn = new qx.legacy.ui.form.Button("Encode");
     btn.setLocation(20, 48);
-    qx.ui.core.ClientDocument.getInstance().add(btn);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(btn);
 
-    var area = new qx.ui.form.TextArea;
+    var area = new qx.legacy.ui.form.TextArea;
     area.setLocation(20, 100);
     area.setDimension(200, 100);
-    qx.ui.core.ClientDocument.getInstance().add(area);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(area);
 
     qx.legacy.html.Form.bind(document.getElementById("mainform"), function() {
       alert("Submitting Form Replacement...");

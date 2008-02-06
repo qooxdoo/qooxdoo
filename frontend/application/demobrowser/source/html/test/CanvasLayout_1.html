@@ -13,9 +13,9 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var w1 = new qx.ui.layout.CanvasLayout;
+    var w1 = new qx.legacy.ui.layout.CanvasLayout;
 
     w1.setWidth(100);
     w1.setHeight(100);
@@ -30,7 +30,7 @@
 
 
 
-    var w2 = new qx.ui.layout.CanvasLayout;
+    var w2 = new qx.legacy.ui.layout.CanvasLayout;
 
     w2.setWidth("25%");
     w2.setHeight(100);
@@ -42,7 +42,7 @@
 
 
 
-    var w3 = new qx.ui.layout.CanvasLayout;
+    var w3 = new qx.legacy.ui.layout.CanvasLayout;
 
     w3.setRight(400);
     w3.setHeight(100);
@@ -56,7 +56,7 @@
 
 
 
-    var w4 = new qx.ui.layout.CanvasLayout;
+    var w4 = new qx.legacy.ui.layout.CanvasLayout;
 
     w4.setLeft(10);
     w4.setRight(10);
@@ -70,7 +70,7 @@
 
 
 
-    var w5 = new qx.ui.layout.CanvasLayout;
+    var w5 = new qx.legacy.ui.layout.CanvasLayout;
 
     w5.setLeft(0);
     w5.setTop(0);
@@ -83,7 +83,7 @@
 
 
 
-    var w6 = new qx.ui.layout.CanvasLayout;
+    var w6 = new qx.legacy.ui.layout.CanvasLayout;
 
     w6.setBottom(50);
     w6.setLeft(350);
@@ -98,7 +98,7 @@
 
 
 
-    var w7 = new qx.ui.layout.CanvasLayout;
+    var w7 = new qx.legacy.ui.layout.CanvasLayout;
 
     w7.setTop(150);
     w7.setLeft(20);
@@ -111,14 +111,14 @@
 
 
 
-    var w8 = new qx.ui.layout.CanvasLayout;
+    var w8 = new qx.legacy.ui.layout.CanvasLayout;
 
     w8.setTop(280);
     w8.setLeft(20);
     w8.setWidth("auto");
     w8.setHeight("auto");
     w8.setBackgroundColor("fuchsia");
-    w8.setBorder(new qx.ui.core.Border(5, "solid", "black"));
+    w8.setBorder(new qx.legacy.ui.core.Border(5, "solid", "black"));
     w8.setPaddingTop(10);
 
     //w8.getBorder().setLeftWidth(20);
@@ -127,7 +127,7 @@
     // d.add(w8);
 
 
-    var w9 = new qx.ui.layout.CanvasLayout;
+    var w9 = new qx.legacy.ui.layout.CanvasLayout;
 
     w9.setTop(0);
     w9.getLeft(0);
@@ -139,7 +139,7 @@
 
 
 
-    var w10 = new qx.ui.layout.CanvasLayout;
+    var w10 = new qx.legacy.ui.layout.CanvasLayout;
 
     w10.setTop(0);
     w10.getLeft(0);
@@ -156,7 +156,7 @@
 
 
 
-    var w11 = new qx.ui.layout.CanvasLayout;
+    var w11 = new qx.legacy.ui.layout.CanvasLayout;
 
     w11.setTop(200);
     w11.setLeft(40);
@@ -185,13 +185,13 @@
     */
 
 
-    var w12 = new qx.ui.basic.Image("icon/64/apps/accessories-alarm.png");
+    var w12 = new qx.legacy.ui.basic.Image("icon/64/apps/accessories-alarm.png");
     w11.add(w12);
 
 
 
 
-    var w12 = new qx.ui.basic.Image("icon/48/apps/accessories-clock.png");
+    var w12 = new qx.legacy.ui.basic.Image("icon/48/apps/accessories-clock.png");
 
     w12.setTop(350);
     w12.setLeft(20);
@@ -199,7 +199,7 @@
     d.add(w12);
 
 
-    var w13 = new qx.ui.basic.Image("icon/48/apps/accessories-alarm.png");
+    var w13 = new qx.legacy.ui.basic.Image("icon/48/apps/accessories-alarm.png");
 
     w13.setTop(350);
     w13.setLeft(80);
@@ -210,7 +210,7 @@
 
 
 
-    var w14 = new qx.ui.layout.CanvasLayout;
+    var w14 = new qx.legacy.ui.layout.CanvasLayout;
 
     w14.setTop(400);
     w14.setLeft(20);
@@ -226,7 +226,7 @@
     d.add(w14);
 
 
-    var w15 = new qx.ui.basic.Image("icon/48/apps/accessories-clock.png");
+    var w15 = new qx.legacy.ui.basic.Image("icon/48/apps/accessories-clock.png");
 
     w15.setTop(0);
     w15.setLeft(20);
@@ -234,7 +234,7 @@
     w14.add(w15);
 
 
-    var w16 = new qx.ui.basic.Image("icon/128/apps/accessories-date.png");
+    var w16 = new qx.legacy.ui.basic.Image("icon/128/apps/accessories-date.png");
 
     w16.setTop(20);
     w16.setLeft(80);
@@ -242,7 +242,7 @@
     w14.add(w16);
 
 
-    var w16a = new qx.ui.layout.CanvasLayout;
+    var w16a = new qx.legacy.ui.layout.CanvasLayout;
 
     w16a.setMarginTop(160);
     w16a.setBottom(20);
@@ -270,13 +270,13 @@
 
 
 
-    var w17_b1 = new qx.ui.core.Border(5, "solid", "black");
-    var w17_b2 = new qx.ui.core.Border(10, "solid", "black");
+    var w17_b1 = new qx.legacy.ui.core.Border(5, "solid", "black");
+    var w17_b2 = new qx.legacy.ui.core.Border(10, "solid", "black");
 
     var w17_p1 = 10;
     var w17_p2 = 5;
 
-    var w17 = new qx.ui.layout.CanvasLayout;
+    var w17 = new qx.legacy.ui.layout.CanvasLayout;
 
     w17.setBackgroundColor("orange");
     w17.setWidth(50);
@@ -305,7 +305,7 @@
     });
 
 
-    var w18 = new qx.ui.layout.CanvasLayout;
+    var w18 = new qx.legacy.ui.layout.CanvasLayout;
 
     w18.setBackgroundColor("white");
     w18.setWidth("100%");
@@ -323,12 +323,12 @@
 
 
 
-    var w19_b1 = new qx.ui.core.Border(5, "solid", "black");
+    var w19_b1 = new qx.legacy.ui.core.Border(5, "solid", "black");
 
     var w19_p1 = 10;
     var w19_p2 = 5;
 
-    var w19 = new qx.ui.layout.CanvasLayout;
+    var w19 = new qx.legacy.ui.layout.CanvasLayout;
 
     w19.setBackgroundColor("orange");
     w19.setWidth(50);
@@ -360,7 +360,7 @@
     });
 
 
-    var w20 = new qx.ui.layout.CanvasLayout;
+    var w20 = new qx.legacy.ui.layout.CanvasLayout;
 
     w20.setBackgroundColor("white");
     w20.setWidth("100%");
@@ -374,10 +374,10 @@
 
 
 
-    var w21_b1 = new qx.ui.core.Border(5, "solid", "black");
-    var w21_b2 = new qx.ui.core.Border(5, "solid", "blue");
+    var w21_b1 = new qx.legacy.ui.core.Border(5, "solid", "black");
+    var w21_b2 = new qx.legacy.ui.core.Border(5, "solid", "blue");
 
-    var w21 = new qx.ui.layout.CanvasLayout;
+    var w21 = new qx.legacy.ui.layout.CanvasLayout;
 
     w21.setBackgroundColor("orange");
     w21.setWidth(50);
@@ -404,7 +404,7 @@
     });
 
 
-    var w22 = new qx.ui.layout.CanvasLayout;
+    var w22 = new qx.legacy.ui.layout.CanvasLayout;
 
     w22.setBackgroundColor("white");
     w22.setWidth("100%");
@@ -420,9 +420,9 @@
 
 
 
-    var w23_b1 = new qx.ui.core.Border(5, "solid", "black");
+    var w23_b1 = new qx.legacy.ui.core.Border(5, "solid", "black");
 
-    var w23 = new qx.ui.layout.CanvasLayout;
+    var w23 = new qx.legacy.ui.layout.CanvasLayout;
 
     w23.setBackgroundColor("orange");
     w23.setWidth(50);
@@ -447,7 +447,7 @@
       w23_b1.setStyle("solid");
     });
 
-    var w24 = new qx.ui.layout.CanvasLayout;
+    var w24 = new qx.legacy.ui.layout.CanvasLayout;
 
     w24.setBackgroundColor("white");
     w24.setWidth("100%");
@@ -469,7 +469,7 @@
     var w25_p1 = 10;
     var w25_p2 = 5;
 
-    var w25 = new qx.ui.layout.CanvasLayout;
+    var w25 = new qx.legacy.ui.layout.CanvasLayout;
 
     w25.setBackgroundColor("background");
     w25.setWidth(50);
@@ -498,7 +498,7 @@
     });
 
 
-    var w26 = new qx.ui.layout.CanvasLayout;
+    var w26 = new qx.legacy.ui.layout.CanvasLayout;
 
     w26.setBackgroundColor("white");
     w26.setWidth("100%");
@@ -514,7 +514,7 @@
 
 
 
-    var w27 = new qx.ui.layout.CanvasLayout;
+    var w27 = new qx.legacy.ui.layout.CanvasLayout;
 
     w27.setBackgroundColor("background");
     w27.setWidth(50);
@@ -543,7 +543,7 @@
     });
 
 
-    var w28 = new qx.ui.layout.CanvasLayout;
+    var w28 = new qx.legacy.ui.layout.CanvasLayout;
 
     w28.setBackgroundColor("white");
     w28.setWidth("100%");
@@ -565,7 +565,7 @@
     var w29_p1 = 10;
     var w29_p2 = 5;
 
-    var w29 = new qx.ui.layout.CanvasLayout;
+    var w29 = new qx.legacy.ui.layout.CanvasLayout;
 
     w29.setBackgroundColor("background");
     w29.setWidth(50);
@@ -594,7 +594,7 @@
     });
 
 
-    var w30 = new qx.ui.layout.CanvasLayout;
+    var w30 = new qx.legacy.ui.layout.CanvasLayout;
 
     w30.setBackgroundColor("white");
     w30.setLeft(0);

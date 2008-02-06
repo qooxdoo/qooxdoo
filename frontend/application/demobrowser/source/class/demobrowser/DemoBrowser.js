@@ -29,7 +29,7 @@
  */
 qx.Class.define("demobrowser.DemoBrowser",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Main Pane
     // split
-    var mainsplit = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
+    var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(200, "1*");
     this.add(mainsplit);
     this.mainsplit = mainsplit;
     mainsplit.setLiveResize(true);
@@ -79,7 +79,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.mainsplit.addLeft(left);
 
     // Right
-    var right = new qx.ui.layout.VerticalBoxLayout();
+    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
 
     right.set(
     {
@@ -178,11 +178,11 @@ qx.Class.define("demobrowser.DemoBrowser",
      * Create the header widget
      *
      * @type member
-     * @return {qx.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
+      var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
       header.setHtmlProperty("id", "header");
       header.setStyleProperty("background", "#134275 url(" + qx.io.Alias.getInstance().resolve("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
@@ -368,7 +368,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var mgr = cw.qx.theme.manager.Meta.getInstance();
         var themes = mgr.getMetaThemes();
 
-        var radioMgr = new qx.ui.selection.RadioManager();
+        var radioMgr = new qx.legacy.ui.selection.RadioManager();
         for (var i=0, l=themes.length; i<l; i++)
         {
           var theme = themes[i];
@@ -378,7 +378,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
 
           var checked = (theme == mgr.getTheme());
-          var item = new qx.ui.menu.RadioButton(theme.title, null, checked);
+          var item = new qx.legacy.ui.menu.RadioButton(theme.title, null, checked);
           item.setUserData("theme", theme);
           item.addListener("execute", function(e) {
             mgr.setTheme(e.getTarget().getUserData("theme"));
@@ -487,22 +487,22 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var createMenu = function(menuItems)
       {
-        var menu = new qx.ui.menu.Menu();
+        var menu = new qx.legacy.ui.menu.Menu();
         for (var i=0; i<menuItems.length; i++)
         {
           var item = menuItems[i];
           var itemType = item.type || "Button";
           switch (itemType) {
             case "Button":
-              var itemWidget = new qx.ui.menu.Button(item.label);
+              var itemWidget = new qx.legacy.ui.menu.Button(item.label);
               break;
 
             case "CheckBox":
-              var itemWidget = new qx.ui.menu.CheckBox(item.label);
+              var itemWidget = new qx.legacy.ui.menu.CheckBox(item.label);
               break;
 
             case "Separator":
-              var itemWidget = new qx.ui.menu.Separator;
+              var itemWidget = new qx.legacy.ui.menu.Separator;
               break;
 
             default:
@@ -517,10 +517,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
 
-      var bar = new qx.ui.menubar.MenuBar();
+      var bar = new qx.legacy.ui.menubar.MenuBar();
       for (var i=0; i<menuData.length; i++)
       {
-        var btn = new qx.ui.menubar.Button(menuData[i].label);
+        var btn = new qx.legacy.ui.menubar.Button(menuData[i].label);
         btn.setMenu(createMenu(menuData[i].items));
         setWidgetProperties(btn, menuData[i]);
         bar.add(btn);
@@ -545,53 +545,53 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeToolbar : function()
     {
-      var toolbar = new qx.ui.toolbar.ToolBar;
+      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
       toolbar.setBorder("line-bottom");
       toolbar.setHeight(27);
 
-      var mb = new qx.ui.toolbar.Part();
+      var mb = new qx.legacy.ui.toolbar.Part();
       toolbar.add(mb);
       this.widgets["toolbar.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button("Run Sample", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Sample", "icon/16/actions/media-playback-start.png");
       mb.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunSample);
-      this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run/reload selected sample"));
+      this.runbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Run/reload selected sample"));
 
       // -- playall button
-      var playallb = new qx.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
+      var playallb = new qx.legacy.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
       this.widgets["toolbar.playall"] = playallb;
       mb.add(playallb);
       playallb.addListener("execute", this.__ehPlayAll, this);
-      playallb.setToolTip(new qx.ui.popup.ToolTip("Run all examples"));
+      playallb.setToolTip(new qx.legacy.ui.popup.ToolTip("Run all examples"));
 
       // -- previous navigation
-      var prevbutt = new qx.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-left.png");
+      var prevbutt = new qx.legacy.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-left.png");
       mb.add(prevbutt);
       this.widgets["toolbar.prevbutt"] = prevbutt;
       this.__bindCommand(prevbutt, this._cmdPrevSample);
-      prevbutt.setToolTip(new qx.ui.popup.ToolTip("Run the previous sample"));
+      prevbutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Run the previous sample"));
 
       // -- next navigation
-      var nextbutt = new qx.ui.toolbar.Button("Next Sample", "icon/16/actions/go-right.png");
+      var nextbutt = new qx.legacy.ui.toolbar.Button("Next Sample", "icon/16/actions/go-right.png");
       mb.add(nextbutt);
       this.widgets["toolbar.nextbutt"] = nextbutt;
       this.__bindCommand(nextbutt, this._cmdNextSample);
-      nextbutt.setToolTip(new qx.ui.popup.ToolTip("Run the next sample"));
+      nextbutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Run the next sample"));
 
       // -- spin-out sample
-      var sobutt = new qx.ui.toolbar.Button("Spin out Sample", "icon/16/actions/edit-redo.png");
+      var sobutt = new qx.legacy.ui.toolbar.Button("Spin out Sample", "icon/16/actions/edit-redo.png");
       mb.add(sobutt);
       this.widgets["toolbar.sobutt"] = sobutt;
-      sobutt.setToolTip(new qx.ui.popup.ToolTip("Open Sample in Own Window"));
+      sobutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Open Sample in Own Window"));
       this.__bindCommand(sobutt, this._cmdSampleInOwnWindow);
 
-      toolbar.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
+      toolbar.add((new qx.legacy.ui.basic.HorizontalSpacer).set({ width : "1*" }));
 
       // -- Sample Features
-      var gb = new qx.ui.toolbar.Part();
+      var gb = new qx.legacy.ui.toolbar.Part();
       toolbar.add(gb);
       this.widgets["toolbar.sampbutts"] = gb;
 
@@ -606,15 +606,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       gb.setEnabled(false);
 
       // profiling
-      var sb0 = new qx.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", this._cmdProfile.getUserData("checked"));
+      var sb0 = new qx.legacy.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", this._cmdProfile.getUserData("checked"));
       gb.add(sb0);
 
       this.__bindCommand(sb0, this._cmdProfile);
-      sb0.setToolTip(new qx.ui.popup.ToolTip("Profile Running Sample"));
+      sb0.setToolTip(new qx.legacy.ui.popup.ToolTip("Profile Running Sample"));
       this.widgets["toolbar.profile"] = sb0;
 
       // object summary
-      var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
+      var sb1 = new qx.legacy.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
       gb.add(sb1);
 
       sb1.set(
@@ -625,14 +625,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       this.__bindCommand(sb1, this._cmdObjectSummary)
-      sb1.setToolTip(new qx.ui.popup.ToolTip("Sample Object Summary"));
+      sb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Sample Object Summary"));
 
       // -- sample: global pollution
-      var sb2 = new qx.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
+      var sb2 = new qx.legacy.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
       gb.add(sb2);
       this.__bindCommand(sb2, this._cmdNamespacePollution)
 
-      sb2.setToolTip(new qx.ui.popup.ToolTip("Sample Global Pollution"));
+      sb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Sample Global Pollution"));
 
       return toolbar;
     },  // __makeToolbar()
@@ -642,7 +642,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       if (!this._profWindow)
       {
-        var win = new qx.ui.window.Window("Profiling Data");
+        var win = new qx.legacy.ui.window.Window("Profiling Data");
         win.set({
           space: [20, 800, 20, 600],
           minWidth : 400,
@@ -653,18 +653,18 @@ qx.Class.define("demobrowser.DemoBrowser",
         win.addToDocument();
         this._profWindow = win;
 
-        var tableModel = new qx.ui.table.model.Simple();
+        var tableModel = new qx.legacy.ui.table.model.Simple();
         tableModel.setColumns([ "Function", "Type", "Own Time", "Avg Time", "Call Count" ]);
         tableModel.setData([]);
         this._profTableModel = tableModel;
 
         var custom = {
           tableColumnModel : function(obj) {
-            return new qx.ui.table.columnmodel.Resize(obj);
+            return new qx.legacy.ui.table.columnmodel.Resize(obj);
           }
         };
 
-        var table = new qx.ui.table.Table(tableModel, custom);
+        var table = new qx.legacy.ui.table.Table(tableModel, custom);
         table.set({
           height: "100%",
           width: "100%"
@@ -705,7 +705,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeOutputViews : function()
     {
       // Main Container
-      var buttview = new qx.ui.pageview.tabview.TabView();
+      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
 
       buttview.set(
       {
@@ -717,16 +717,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.bar"] = buttview.getBar();
 
       // First Page
-      var bsb1 = new qx.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
       this.widgets["outputviews.demopage.button"] = bsb1;
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1);
 
-      var p1 = new qx.ui.pageview.tabview.Page(bsb1);
+      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
       p1.set({ padding : [ 5 ] });
       buttview.getPane().add(p1);
 
-      var f1 = new qx.ui.embed.Iframe;
+      var f1 = new qx.legacy.ui.embed.Iframe;
       this.f1 = f1;
       p1.add(f1);
       this.widgets["outputviews.demopage.page"] = f1;
@@ -743,14 +743,14 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // Second Page
-      var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
+      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       buttview.getBar().add(bsb2);
 
-      var p2 = new qx.ui.pageview.tabview.Page(bsb2);
+      var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
       p2.set({ padding : [ 5 ] });
       buttview.getPane().add(p2);
 
-      var pp2 = new qx.ui.layout.VerticalBoxLayout();
+      var pp2 = new qx.legacy.ui.layout.VerticalBoxLayout();
       p2.add(pp2);
 
       pp2.set(
@@ -760,7 +760,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       // main output area
-      this.f2 = new qx.ui.embed.HtmlEmbed();
+      this.f2 = new qx.legacy.ui.embed.HtmlEmbed();
       pp2.add(this.f2);
 
       this.f2.set(
@@ -782,17 +782,17 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.ui.pageview.tabview.Button("Source Code", "icon/16/apps/graphics-snapshot.png");
+      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Source Code", "icon/16/apps/graphics-snapshot.png");
       buttview.getBar().add(bsb3);
 
       // -- Tab Pane
-      var p3 = new qx.ui.pageview.tabview.Page(bsb3);
+      var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
       p3.set({ padding : [ 5 ] });
       buttview.getPane().add(p3);
 
       // -- Pane Content
-      //var f3 = new qx.ui.form.TextArea("The sample source will be displayed here.");
-      var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
+      var f3 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.page"] = f3;
 
@@ -821,7 +821,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeLeft : function()
     {
-      var buttview = new qx.ui.pageview.buttonview.ButtonView();
+      var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
 
       buttview.set(
       {
@@ -835,13 +835,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["treeview"] = buttview;
 
       // full view
-      var bsb1 = new qx.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
       buttview.getBar().add(bsb1);
       this.widgets["treeview.bsb1"] = bsb1;
       bsb1.setShow("icon");
-      bsb1.setToolTip(new qx.ui.popup.ToolTip("Full tree view"));
+      bsb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Full tree view"));
 
-      var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
+      var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
 
       p1.set(
       {
@@ -852,7 +852,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       buttview.getPane().add(p1);
 
-      var tree = new qx.ui.tree.Tree("Samples");
+      var tree = new qx.legacy.ui.tree.Tree("Samples");
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
@@ -870,7 +870,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       tree.addListener("dblclick", function(e)
       {
-        if (e.getTarget() instanceof qx.ui.tree.TreeFile)
+        if (e.getTarget() instanceof qx.legacy.ui.tree.TreeFile)
         {
           // allow treeGetSelection to run first
           qx.event.Timer.once(this.runSample, this, 50);
@@ -883,17 +883,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       this);
 
       // flat view
-      var bsb2 = new qx.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
+      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
 
       // buttview.getBar().add(bsb2);
       this.widgets["treeview.bsb2"] = bsb2;
       bsb2.setShow("icon");
-      bsb2.setToolTip(new qx.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
+      bsb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
 
-      var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
+      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
       buttview.getPane().add(p2);
 
-      var tree1 = new qx.ui.tree.Tree("Tests");
+      var tree1 = new qx.legacy.ui.tree.Tree("Tests");
       p2.add(tree1);
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
@@ -952,7 +952,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update toolbar
-      if (treeNode instanceof qx.ui.tree.TreeFolder)
+      if (treeNode instanceof qx.legacy.ui.tree.TreeFolder)
       {
         this._cmdRunSample.setEnabled(false);
         this._cmdPrevSample.setEnabled(false);
@@ -1008,7 +1008,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       /**
        * create widget tree from model
        *
-       * @param widgetR {qx.ui.tree.Tree}    [In/Out]
+       * @param widgetR {qx.legacy.ui.tree.Tree}    [In/Out]
        *        widget root under which the widget tree will be built
        * @param modelR  {demobrowser.Tree} [In]
        *        model root for the tree from which the widgets representation
@@ -1025,7 +1025,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
+            t = new qx.legacy.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
             t.setAlwaysShowPlusMinusSymbol(true);
@@ -1045,7 +1045,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
           else
           {
-            t = new qx.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
+            t = new qx.legacy.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
 
@@ -1062,7 +1062,7 @@ qx.Class.define("demobrowser.DemoBrowser",
               desc = '<div style="max-width:200px">' + desc + '</div>';
             }
 
-            tt = new qx.ui.popup.ToolTip(desc, "icon/32/actions/help-contents.png");
+            tt = new qx.legacy.ui.popup.ToolTip(desc, "icon/32/actions/help-contents.png");
             tt.getAtom().getLabelObject().setWrap(true);
             tt.setShowInterval(200);
             t.setToolTip(tt);
@@ -1124,7 +1124,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
 
-          if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
+          if (selectedElement.widgetLinkFull instanceof qx.legacy.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFull.open();
           }
         }
@@ -1133,7 +1133,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
 
-          if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
+          if (selectedElement.widgetLinkFlat instanceof qx.legacy.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFlat.open();
           }
         }

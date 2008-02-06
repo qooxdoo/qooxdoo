@@ -19,21 +19,21 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     function changeValue(e) {
       this.debug("Text changed: " + e.getData());
     }
 
-		var l1 = new qx.ui.basic.Label("A date field: "); l1.set({top:51, left:20});
+		var l1 = new qx.legacy.ui.basic.Label("A date field: "); l1.set({top:51, left:20});
 		d.add(l1);
 
-    var tf1 = new qx.ui.form.TextField; tf1.set({top:48,left:90,width:150});
+    var tf1 = new qx.legacy.ui.form.TextField; tf1.set({top:48,left:90,width:150});
     tf1.addListener("changeValue", changeValue);
     d.add(tf1);
 
 
-    var dcb1 = new qx.ui.component.DateChooserButton();
+    var dcb1 = new qx.legacy.ui.component.DateChooserButton();
     dcb1.set({top:50,left:250});
     // associate the date chooser button to the textfield tf1:
     dcb1.setTargetWidget(tf1);
@@ -44,31 +44,31 @@
 
     d.add(dcb1);
 
-    var l2 = new qx.ui.basic.Label("Date field 2: "); l2.set({top:91, left:20});
+    var l2 = new qx.legacy.ui.basic.Label("Date field 2: "); l2.set({top:91, left:20});
 		d.add(l2);
 
-    var tf2 = new qx.ui.form.TextField; tf2.set({top:88,left:90,width:150});
+    var tf2 = new qx.legacy.ui.form.TextField; tf2.set({top:88,left:90,width:150});
     tf2.addListener("changeValue", changeValue);
     d.add(tf2);
 
-    var dcb2 = new qx.ui.component.DateChooserButton(tf2);
+    var dcb2 = new qx.legacy.ui.component.DateChooserButton(tf2);
     dcb2.set({top:90,left:250});
 		d.add(dcb2);
 
 
-		var l3 = new qx.ui.basic.Label("Choose a date format size: "); l3.set({top:140, left:20});
+		var l3 = new qx.legacy.ui.basic.Label("Choose a date format size: "); l3.set({top:140, left:20});
 		d.add(l3);
 
-		var c1 = new qx.ui.form.ComboBox;
+		var c1 = new qx.legacy.ui.form.ComboBox;
     c1.set({top:138,left:180});
 
     var item;
 
-    item = new qx.ui.form.ListItem("short"); c1.add(item);
+    item = new qx.legacy.ui.form.ListItem("short"); c1.add(item);
     c1.setSelected(item);
-    item = new qx.ui.form.ListItem("medium"); c1.add(item);
-    item = new qx.ui.form.ListItem("long"); c1.add(item);
-    item = new qx.ui.form.ListItem("full"); c1.add(item);
+    item = new qx.legacy.ui.form.ListItem("medium"); c1.add(item);
+    item = new qx.legacy.ui.form.ListItem("long"); c1.add(item);
+    item = new qx.legacy.ui.form.ListItem("full"); c1.add(item);
 
     c1.addListener("changeValue", function(e) {
       dcb1.setDateFormatSize(e.getData());
@@ -77,19 +77,19 @@
 
 		d.add(c1);
 
-		var l4 = new qx.ui.basic.Label("Choose a locale: "); l4.set({top:180, left:20});
+		var l4 = new qx.legacy.ui.basic.Label("Choose a locale: "); l4.set({top:180, left:20});
 		d.add(l4);
 
-		var c2 = new qx.ui.form.ComboBox;
+		var c2 = new qx.legacy.ui.form.ComboBox;
     c2.set({top:178,left:180});
 
     var item;
 
-    item = new qx.ui.form.ListItem("C"); c2.add(item);
+    item = new qx.legacy.ui.form.ListItem("C"); c2.add(item);
     c2.setSelected(item);
-    item = new qx.ui.form.ListItem("en"); c2.add(item);
-    item = new qx.ui.form.ListItem("de_DE"); c2.add(item);
-    item = new qx.ui.form.ListItem("fr_FR"); c2.add(item);
+    item = new qx.legacy.ui.form.ListItem("en"); c2.add(item);
+    item = new qx.legacy.ui.form.ListItem("de_DE"); c2.add(item);
+    item = new qx.legacy.ui.form.ListItem("fr_FR"); c2.add(item);
 
     c2.addListener("changeValue", function(e) {
 			qx.locale.Manager.getInstance().setLocale(e.getData());

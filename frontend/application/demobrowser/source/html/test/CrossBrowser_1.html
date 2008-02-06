@@ -27,9 +27,9 @@ Mit seiner Aufnahme in die Elite war Knechts Leben auf eine andre Ebene verpflan
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var w1 = new qx.ui.basic.Terminator;
+      var w1 = new qx.legacy.ui.basic.Terminator;
 
       with(w1)
       {
@@ -40,7 +40,7 @@ Mit seiner Aufnahme in die Elite war Knechts Leben auf eine andre Ebene verpflan
         setBackgroundColor("orange");
         setStyleProperty("padding", "5px");
         setStyleProperty("margin", "10px");
-        setBorder(new qx.ui.core.Border(2, "solid", "blue"));
+        setBorder(new qx.legacy.ui.core.Border(2, "solid", "blue"));
         setOverflow("scroll");
       };
 

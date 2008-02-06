@@ -23,7 +23,7 @@ qx.Class.define("Application",
       this.base(arguments);
 
       // Create button
-      var button1 = new qx.ui.form.Button("First Button", "./button.png");
+      var button1 = new qx.legacy.ui.form.Button("First Button", "./button.png");
 
       // Set button location
       button1.setTop(50);

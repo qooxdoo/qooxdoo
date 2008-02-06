@@ -13,9 +13,9 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-	  qx.Class.include(qx.ui.core.Widget, qx.ui.animation.MAnimation);
+	  qx.Class.include(qx.legacy.ui.core.Widget, qx.legacy.ui.animation.MAnimation);
 
     /*
     ----------------------------------------------
@@ -23,7 +23,7 @@
     ----------------------------------------------
     */
 
-    var la1 = new qx.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
+    var la1 = new qx.legacy.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
     la1.set({
       top : 48,
       left : 20,
@@ -34,20 +34,20 @@
     d.add(la1);
     la1.setPadding(10);
 
-		var action = qx.ui.animation.MAnimation.FADE_OUT;
+		var action = qx.legacy.ui.animation.MAnimation.FADE_OUT;
 
 		la1.addListener("FADE_FINISHED", function(e) {
-			if (e.getData() == qx.ui.animation.MAnimation.FADE_OUT) {
-				action = qx.ui.animation.MAnimation.FADE_IN;
+			if (e.getData() == qx.legacy.ui.animation.MAnimation.FADE_OUT) {
+				action = qx.legacy.ui.animation.MAnimation.FADE_IN;
 				btn1.setLabel("Fade in")
 			} else {
-				action = qx.ui.animation.MAnimation.FADE_OUT;
+				action = qx.legacy.ui.animation.MAnimation.FADE_OUT;
 				btn1.setLabel("Fade out")
 			}
 			btn1.setEnabled(true);
 		});
 
-		var btn1 = new qx.ui.form.Button("fade out");
+		var btn1 = new qx.legacy.ui.form.Button("fade out");
 		btn1.set({
 			top : 48,
 			left: 150
@@ -55,7 +55,7 @@
 		btn1.addListener("execute", function(e) {
 			var time = duration.getValue();
 			var step = steps.getValue();
-			if (action == qx.ui.animation.MAnimation.FADE_IN) {
+			if (action == qx.legacy.ui.animation.MAnimation.FADE_IN) {
 				la1.fadeIn(step, time);
 			} else {
 				la1.fadeOut(step, time);
@@ -64,14 +64,14 @@
 		});
 		d.add(btn1);
 
-		var durLabel = new qx.ui.basic.Label("Duration (ms):");
+		var durLabel = new qx.legacy.ui.basic.Label("Duration (ms):");
 		durLabel.set({
 			left: 20,
 			top: 100
 	  });
 	  d.add(durLabel);
 
-		var duration = new qx.ui.form.Spinner(0, 400, 10000);
+		var duration = new qx.legacy.ui.form.Spinner(0, 400, 10000);
 		duration.set({
 			left: 120,
 			top: 98,
@@ -79,14 +79,14 @@
 		});
 		d.add(duration);
 
-		var stepsLabel = new qx.ui.basic.Label("Fading steps:");
+		var stepsLabel = new qx.legacy.ui.basic.Label("Fading steps:");
 		stepsLabel.set({
 			left: 20,
 			top: 140
 	  });
 	  d.add(stepsLabel);
 
-		var steps = new qx.ui.form.Spinner(0, 10, 400);
+		var steps = new qx.legacy.ui.form.Spinner(0, 10, 400);
 		steps.set({
 			left: 120,
 			top: 138,

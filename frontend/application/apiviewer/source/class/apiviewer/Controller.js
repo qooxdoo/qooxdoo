@@ -253,7 +253,7 @@ qx.Class.define("apiviewer.Controller",
     {
       this._detailLoader.setVisibility(false);
 
-      var doc = qx.ui.core.ClientDocument.getInstance();
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
       doc.setGlobalCursor("wait");
 
       var cb = callback ? qx.lang.Function.bind(callback, self) : function() {};

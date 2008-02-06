@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>This is a test for the qx.ui.basic.Image constructor. It supports automatic preloading through qx.io.image.Preloader, with error and load
+    <p>This is a test for the qx.legacy.ui.basic.Image constructor. It supports automatic preloading through qx.io.image.Preloader, with error and load
     QxEvents which will be fired, and cross-browser PNG with extended alpha channels.</p>
 
     <p>PNG file in HTML (in Internet Explorer this should not be transparent):</p>
@@ -17,9 +17,9 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var i1 = new qx.ui.basic.Image("icon/64/apps/accessories-archiver.png", 48, 48);
+    var i1 = new qx.legacy.ui.basic.Image("icon/64/apps/accessories-archiver.png", 48, 48);
     with(i1)
     {
       setTop(48);
@@ -30,7 +30,7 @@
 
 
 
-    var i2 = new qx.ui.basic.Image("icon/64/apps/accessories-archiver.png", 48, 48);
+    var i2 = new qx.legacy.ui.basic.Image("icon/64/apps/accessories-archiver.png", 48, 48);
     with(i2)
     {
       setTop(48);
@@ -42,7 +42,7 @@
 
 
 
-    var i3 = new qx.ui.basic.Image("icon/64/apps/accessories-archiver.png", 96, 96);
+    var i3 = new qx.legacy.ui.basic.Image("icon/64/apps/accessories-archiver.png", 96, 96);
     with(i3)
     {
       setTop(120);
@@ -61,7 +61,7 @@
 
 
 
-    var i4 = new qx.ui.basic.Image("icon/64/apps/accessories-archiver.png", 24, 24);
+    var i4 = new qx.legacy.ui.basic.Image("icon/64/apps/accessories-archiver.png", 24, 24);
     with(i4)
     {
       setTop(120);
@@ -80,7 +80,7 @@
 
 
 
-    var i5 = new qx.ui.basic.Image("http://www.google.com/images/google_sm.gif");
+    var i5 = new qx.legacy.ui.basic.Image("http://www.google.com/images/google_sm.gif");
     with(i5)
     {
       setTop(300);

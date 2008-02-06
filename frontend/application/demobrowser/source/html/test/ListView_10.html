@@ -7,24 +7,24 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.listview.ListView in a qx.ui.window.Window.</p>
+    <p>Testing qx.legacy.ui.listview.ListView in a qx.legacy.ui.window.Window.</p>
     <p>I am sorry, but this seems not to be fixable with the current layouter stuff in qooxdoo.</p>
   </div>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var w = new qx.ui.window.Window("ListView");
+      var w = new qx.legacy.ui.window.Window("ListView");
       
       w.setWidth(400);
       w.setHeight(250);
       w.setLocation(50, 50);
       
-      qx.ui.core.ClientDocument.getInstance().add(w);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(w);
       
       
       /*
-      var cont = new qx.ui.layout.CanvasLayout;
+      var cont = new qx.legacy.ui.layout.CanvasLayout;
       
       cont.setEdge(0);
       cont.setBackgroundColor("white");
@@ -55,7 +55,7 @@
         rights : { label : "Rights", width: 80, type : "text" }
       };
       
-      var lv = new qx.ui.listview.ListView(ld, lc);
+      var lv = new qx.legacy.ui.listview.ListView(ld, lc);
 
       lv.setBackgroundColor("white");
       lv.setEdge(0);
@@ -74,7 +74,7 @@
       
       
       // Color Themes
-      qx.util.ThemeList.createMetaButtons(qx.ui.core.ClientDocument.getInstance(), 20, 448);      
+      qx.util.ThemeList.createMetaButtons(qx.legacy.ui.core.ClientDocument.getInstance(), 20, 448);      
     });
   </script>
 </body>

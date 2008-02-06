@@ -7,13 +7,13 @@
 </head>
 <body>  
   <div id="description">
-    <p>A simple form using qx.ui.layout.GridLayout</p>
+    <p>A simple form using qx.legacy.ui.layout.GridLayout</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var gl = new qx.ui.layout.GridLayout;
+    var gl = new qx.legacy.ui.layout.GridLayout;
     
     gl.setLocation(20, 48);
     gl.setDimension("auto", "auto");
@@ -38,25 +38,25 @@
     gl.setRowHeight(5, 70);
     gl.setRowHeight(6, 20);
 
-    qx.ui.core.ClientDocument.getInstance().add(gl);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(gl);
     
-    var label1 = new qx.ui.basic.Label("Given Name");
-    var label2 = new qx.ui.basic.Label("Name");
-    var label3 = new qx.ui.basic.Label("City");
-    var label4 = new qx.ui.basic.Label("Country");
-    var label5 = new qx.ui.basic.Label("E-Mail");
-    var label6 = new qx.ui.basic.Label("Comment");
+    var label1 = new qx.legacy.ui.basic.Label("Given Name");
+    var label2 = new qx.legacy.ui.basic.Label("Name");
+    var label3 = new qx.legacy.ui.basic.Label("City");
+    var label4 = new qx.legacy.ui.basic.Label("Country");
+    var label5 = new qx.legacy.ui.basic.Label("E-Mail");
+    var label6 = new qx.legacy.ui.basic.Label("Comment");
     label6.setVerticalAlign("top");
     
     label6.setVerticalAlign("top");
     
-    var input1 = new qx.ui.form.TextField;
-    var input2 = new qx.ui.form.TextField;
-    var input3 = new qx.ui.form.TextField;
-    var input4 = new qx.ui.form.TextField;
-    var input5 = new qx.ui.form.TextField;
-    var input6 = new qx.ui.form.TextArea;
-    var input7 = new qx.ui.form.Button("Submit", "icon/16/actions/dialog-ok.png");
+    var input1 = new qx.legacy.ui.form.TextField;
+    var input2 = new qx.legacy.ui.form.TextField;
+    var input3 = new qx.legacy.ui.form.TextField;
+    var input4 = new qx.legacy.ui.form.TextField;
+    var input5 = new qx.legacy.ui.form.TextField;
+    var input6 = new qx.legacy.ui.form.TextArea;
+    var input7 = new qx.legacy.ui.form.Button("Submit", "icon/16/actions/dialog-ok.png");
     
     input7.setHorizontalAlign("right");
     

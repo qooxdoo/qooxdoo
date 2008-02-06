@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="description">
-    <p>Test for qx.ui.form.Spinner.</p>
+    <p>Test for qx.legacy.ui.form.Spinner.</p>
   </div>
 
   <script type="text/javascript">
@@ -20,8 +20,8 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
-        var s1 = new qx.ui.form.Spinner;
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
+        var s1 = new qx.legacy.ui.form.Spinner;
     
         s1.set({
           left: 20,
@@ -30,10 +30,10 @@
     
         d.add(s1);
     
-        d.add( (new qx.ui.basic.Label("100").set({left:20, top:20})) );
-        d.add( (new qx.ui.basic.Label("0").set({left:20, top:60})) );
+        d.add( (new qx.legacy.ui.basic.Label("100").set({left:20, top:20})) );
+        d.add( (new qx.legacy.ui.basic.Label("0").set({left:20, top:60})) );
     
-        var s2 = new qx.ui.form.Spinner;
+        var s2 = new qx.legacy.ui.form.Spinner;
     
         s2.set({
           left: 100,
@@ -46,10 +46,10 @@
     
         d.add(s2);
     
-        d.add( (new qx.ui.basic.Label("30").set({left:100, top:20})) );
-        d.add( (new qx.ui.basic.Label("-30").set({left:100, top:60})) );
+        d.add( (new qx.legacy.ui.basic.Label("30").set({left:100, top:20})) );
+        d.add( (new qx.legacy.ui.basic.Label("-30").set({left:100, top:60})) );
     
-        var s3 = new qx.ui.form.Spinner;
+        var s3 = new qx.legacy.ui.form.Spinner;
     
         s3.set({
           left: 180,
@@ -62,11 +62,11 @@
     
         d.add(s3);
     
-        d.add( (new qx.ui.basic.Label("3000").set({left:180, top:20})) );
-        d.add( (new qx.ui.basic.Label("-3000").set({left:180, top:60})) );
+        d.add( (new qx.legacy.ui.basic.Label("3000").set({left:180, top:20})) );
+        d.add( (new qx.legacy.ui.basic.Label("-3000").set({left:180, top:60})) );
     
     
-        var s4 = new qx.ui.form.Spinner;
+        var s4 = new qx.legacy.ui.form.Spinner;
     
         s4.set({
           left: 260,
@@ -78,11 +78,11 @@
     
         d.add(s4);
     
-        d.add( (new qx.ui.basic.Label("200").set({left:260, top:20})) );
-        d.add( (new qx.ui.basic.Label("100").set({left:260, top:60})) );
+        d.add( (new qx.legacy.ui.basic.Label("200").set({left:260, top:20})) );
+        d.add( (new qx.legacy.ui.basic.Label("100").set({left:260, top:60})) );
     
     
-        var s5 = new qx.ui.form.Spinner( -200, null, -100);
+        var s5 = new qx.legacy.ui.form.Spinner( -200, null, -100);
     
         s5.set({
           left: 340,
@@ -91,16 +91,16 @@
     
         d.add(s5);
     
-        d.add( (new qx.ui.basic.Label("-100").set({left:340, top:20})) );
-        d.add( (new qx.ui.basic.Label("-200").set({left:340, top:60})) );
+        d.add( (new qx.legacy.ui.basic.Label("-100").set({left:340, top:20})) );
+        d.add( (new qx.legacy.ui.basic.Label("-200").set({left:340, top:60})) );
     
-        d.add(new qx.ui.form.Spinner(-200, null, -100).set({
+        d.add(new qx.legacy.ui.form.Spinner(-200, null, -100).set({
           left: 420,
           top: 36,
           enabled: false
         }));
 
-        var s6 = new qx.ui.form.Spinner;
+        var s6 = new qx.legacy.ui.form.Spinner;
 
         s6.set({
           max: 3000,
@@ -116,8 +116,8 @@
         
         d.add(s6);
 
-        d.add( (new qx.ui.basic.Label("3000").set({left:420, top:20})) );
-        d.add( (new qx.ui.basic.Label("-3000").set({left:420, top:60})) );
+        d.add( (new qx.legacy.ui.basic.Label("3000").set({left:420, top:20})) );
+        d.add( (new qx.legacy.ui.basic.Label("-3000").set({left:420, top:60})) );
 
       }
     }

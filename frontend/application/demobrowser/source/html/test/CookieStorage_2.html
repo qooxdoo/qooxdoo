@@ -18,23 +18,23 @@
 
     for (var i=0; i<vNum; i++)
     {
-      var f1 = new qx.ui.form.TextField;
+      var f1 = new qx.legacy.ui.form.TextField;
       f1.setLocation(20, 48+(i*22));
-      qx.ui.core.ClientDocument.getInstance().add(f1);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(f1);
       vAll.push(f1);
     };
 
-    var b1 = new qx.ui.form.Button("Restore");
+    var b1 = new qx.legacy.ui.form.Button("Restore");
     b1.setLocation(220, 48);
-    qx.ui.core.ClientDocument.getInstance().add(b1);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(b1);
 
-    var b2 = new qx.ui.form.Button("Save");
+    var b2 = new qx.legacy.ui.form.Button("Save");
     b2.setLocation(280, 48);
-    qx.ui.core.ClientDocument.getInstance().add(b2);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(b2);
 
-    var b3 = new qx.ui.form.Button("Clear");
+    var b3 = new qx.legacy.ui.form.Button("Clear");
     b3.setLocation(340, 48);
-    qx.ui.core.ClientDocument.getInstance().add(b3);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(b3);
 
 
 

@@ -8,7 +8,7 @@
 <body>
   <div id="description">
   <p>
-  Using the Table, qx.ui.table.cellrenderer.Dynamic, qx.ui.table.celleditor.Dynamic, qx.ui.table.celleditor.ComboBox
+  Using the Table, qx.legacy.ui.table.cellrenderer.Dynamic, qx.legacy.ui.table.celleditor.Dynamic, qx.legacy.ui.table.celleditor.ComboBox
   and cell value validation to build a property editor.
   </p>
   </div>
@@ -24,7 +24,7 @@ qx.Class.define("Sample",
     {
       this.base(arguments);
 
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
       // create some example data
       var tableData =
@@ -63,13 +63,13 @@ qx.Class.define("Sample",
             case "type":
               switch ( metaData['type'])
               {
-                case "checkbox": return new qx.ui.table.cellrenderer.Boolean;
-                case "password": return new qx.ui.table.cellrenderer.Password;
+                case "checkbox": return new qx.legacy.ui.table.cellrenderer.Boolean;
+                case "password": return new qx.legacy.ui.table.cellrenderer.Password;
               }
               break;
 
             case "options":
-              var renderer = new qx.ui.table.cellrenderer.Replace;
+              var renderer = new qx.legacy.ui.table.cellrenderer.Replace;
               var replaceMap = {};
               metaData['options'].forEach(function(row){
                 if (row instanceof Array)
@@ -82,12 +82,12 @@ qx.Class.define("Sample",
               return renderer;
   				}
         }
-        return new qx.ui.table.cellrenderer.Default;
+        return new qx.legacy.ui.table.cellrenderer.Default;
       }
 
       // create the  "meta" cell renderer object
   		propertyCellRendererFactory =
-  			new qx.ui.table.cellrenderer.Dynamic(propertyCellRendererFactoryFunc);
+  			new qx.legacy.ui.table.cellrenderer.Dynamic(propertyCellRendererFactoryFunc);
 
       // cell editor factory function
       // returns a cellEditorFactory instance based on data in the row itself
@@ -97,7 +97,7 @@ qx.Class.define("Sample",
   			var tableModel 	= table.getTableModel();
   			var rowData			= tableModel.getRowData(cellInfo.row);
   			var metaData		= rowData[3];
-  			var cellEditor 	= new qx.ui.table.celleditor.TextField;
+  			var cellEditor 	= new qx.legacy.ui.table.celleditor.TextField;
   			var validationFunc 	= null;
 
   			for ( var cmd in metaData )
@@ -105,7 +105,7 @@ qx.Class.define("Sample",
   				switch ( cmd )
   				{
   					case "options":
-  						cellEditor = new qx.ui.table.celleditor.ComboBox;
+  						cellEditor = new qx.legacy.ui.table.celleditor.ComboBox;
   						cellEditor.setListData( metaData['options'] );
   						cellEditor.setEditable( false );
   						break;
@@ -114,9 +114,9 @@ qx.Class.define("Sample",
                switch ( metaData['type'] )
                {
                  case "password":
-                   cellEditor = new qx.ui.table.celleditor.PasswordField; break;
+                   cellEditor = new qx.legacy.ui.table.celleditor.PasswordField; break;
                  case "checkbox":
-  						     cellEditor = new qx.ui.table.celleditor.CheckBox; break;
+  						     cellEditor = new qx.legacy.ui.table.celleditor.CheckBox; break;
                  case "email":
       						 cellEditor.setValidationFunction (function( newValue, oldValue ){
       							 var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
@@ -163,13 +163,13 @@ qx.Class.define("Sample",
 
       // create a "meta" cell editor object
   		propertyCellEditorFactory =
-  			new qx.ui.table.celleditor.Dynamic(propertyCellEditorFactoryFunc);
+  			new qx.legacy.ui.table.celleditor.Dynamic(propertyCellEditorFactoryFunc);
 
   		// create table
-      var propertyEditor_tableModel = new qx.ui.table.model.Simple();
+      var propertyEditor_tableModel = new qx.legacy.ui.table.model.Simple();
       propertyEditor_tableModel.setColumns(['Property','Property','Doubleclick on cell to edit value']);
-      var propertyEditor_resizeBehaviour = { tableColumnModel : function(obj){ return new qx.ui.table.columnmodel.Resize(obj); } };
-      var propertyEditor = new qx.ui.table.Table(propertyEditor_tableModel,propertyEditor_resizeBehaviour);
+      var propertyEditor_resizeBehaviour = { tableColumnModel : function(obj){ return new qx.legacy.ui.table.columnmodel.Resize(obj); } };
+      var propertyEditor = new qx.legacy.ui.table.Table(propertyEditor_tableModel,propertyEditor_resizeBehaviour);
 
       // layout
       propertyEditor.setDimension("100%","100%");
@@ -179,7 +179,7 @@ qx.Class.define("Sample",
       propertyEditor.setBorder("inset-thin");
 
       // selection mode
-      propertyEditor.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
+      propertyEditor.getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.SINGLE_SELECTION);
 
       // first table columns is not visible, has the key
       propertyEditor.getTableColumnModel().setColumnVisible(0,false);

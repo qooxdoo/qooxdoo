@@ -28,7 +28,7 @@
  */
 qx.Class.define("apiviewer.ui.LegendView",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : qx.legacy.ui.embed.HtmlEmbed,
 
 
 

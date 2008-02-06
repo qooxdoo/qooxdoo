@@ -13,21 +13,21 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var codeFont = new qx.ui.core.Font(12, [ "Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace" ]);
+    var codeFont = new qx.legacy.ui.core.Font(12, [ "Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace" ]);
 
     var good = "icon/16/actions/dialog-ok.png";
     var bad = "icon/16/actions/dialog-cancel.png";
 
-    var layout = new qx.ui.layout.VerticalBoxLayout;
+    var layout = new qx.legacy.ui.layout.VerticalBoxLayout;
     layout.setLocation(20, 50);
     layout.setRight(300);
     layout.setBottom(50);
     layout.addToDocument();
     layout.setSpacing(20);
 
-    var inputText = new qx.ui.form.TextArea;
+    var inputText = new qx.legacy.ui.form.TextArea;
     inputText.setHeight(100);
     inputText.setWidth(null);
     inputText.setFont(codeFont);
@@ -45,7 +45,7 @@
 			{name: "transform", type:"String"}
 		];
 
-		var fieldsLayout = new qx.ui.layout.GridLayout;
+		var fieldsLayout = new qx.legacy.ui.layout.GridLayout;
 
     fieldsLayout.setBorder("outset");
     fieldsLayout.setPadding(2, 4);
@@ -62,53 +62,53 @@
 		for (var field=0; field<fieldsConfig.length; field++)
 		{
   		fieldsLayout.setRowHeight(field, 30);
-			fieldsLayout.add(new qx.ui.basic.Label(fieldsConfig[field].name + ":"), 0, field);
+			fieldsLayout.add(new qx.legacy.ui.basic.Label(fieldsConfig[field].name + ":"), 0, field);
 			if (fieldsConfig[field].type == "String") {
-				fieldsLayout.add( new qx.ui.form.TextField, 1, field);
+				fieldsLayout.add( new qx.legacy.ui.form.TextField, 1, field);
 			} else if (fieldsConfig[field].type == "Boolean") {
-				fieldsLayout.add( new qx.ui.form.CheckBox, 1, field);
+				fieldsLayout.add( new qx.legacy.ui.form.CheckBox, 1, field);
 			}
 		}
 
 		layout.add(fieldsLayout);
 */
 
-    var toolbar = new qx.ui.toolbar.ToolBar;
-    var run = new qx.ui.toolbar.Button("Run", "icon/32/apps/accessories-archiver.png");
+    var toolbar = new qx.legacy.ui.toolbar.ToolBar;
+    var run = new qx.legacy.ui.toolbar.Button("Run", "icon/32/apps/accessories-archiver.png");
     toolbar.add(run);
     layout.add(toolbar);
 
-    var code = new qx.ui.pageview.tabview.TabView;
+    var code = new qx.legacy.ui.pageview.tabview.TabView;
     code.setHeight("1*");
     layout.add(code);
 
-    var getButton = new qx.ui.pageview.tabview.Button("get", bad);
-    var setButton = new qx.ui.pageview.tabview.Button("set", bad);
-    var resetButton = new qx.ui.pageview.tabview.Button("reset", bad);
-    var initButton = new qx.ui.pageview.tabview.Button("init", bad);
-    var styleButton = new qx.ui.pageview.tabview.Button("style", bad);
-    var unstyleButton = new qx.ui.pageview.tabview.Button("unstyle", bad);
-    var refreshButton = new qx.ui.pageview.tabview.Button("refresh", bad);
+    var getButton = new qx.legacy.ui.pageview.tabview.Button("get", bad);
+    var setButton = new qx.legacy.ui.pageview.tabview.Button("set", bad);
+    var resetButton = new qx.legacy.ui.pageview.tabview.Button("reset", bad);
+    var initButton = new qx.legacy.ui.pageview.tabview.Button("init", bad);
+    var styleButton = new qx.legacy.ui.pageview.tabview.Button("style", bad);
+    var unstyleButton = new qx.legacy.ui.pageview.tabview.Button("unstyle", bad);
+    var refreshButton = new qx.legacy.ui.pageview.tabview.Button("refresh", bad);
 
     code.getBar().add(getButton, setButton, resetButton, initButton, styleButton, unstyleButton, refreshButton);
 
     setButton.setChecked(true);
 
-    var getPage = new qx.ui.pageview.tabview.Page(getButton);
-    var setPage = new qx.ui.pageview.tabview.Page(setButton);
-    var resetPage = new qx.ui.pageview.tabview.Page(resetButton);
-    var initPage = new qx.ui.pageview.tabview.Page(initButton);
-    var stylePage = new qx.ui.pageview.tabview.Page(styleButton);
-    var unstylePage = new qx.ui.pageview.tabview.Page(unstyleButton);
-    var refreshPage = new qx.ui.pageview.tabview.Page(refreshButton);
+    var getPage = new qx.legacy.ui.pageview.tabview.Page(getButton);
+    var setPage = new qx.legacy.ui.pageview.tabview.Page(setButton);
+    var resetPage = new qx.legacy.ui.pageview.tabview.Page(resetButton);
+    var initPage = new qx.legacy.ui.pageview.tabview.Page(initButton);
+    var stylePage = new qx.legacy.ui.pageview.tabview.Page(styleButton);
+    var unstylePage = new qx.legacy.ui.pageview.tabview.Page(unstyleButton);
+    var refreshPage = new qx.legacy.ui.pageview.tabview.Page(refreshButton);
 
-    var getCode = new qx.ui.form.TextArea;
-    var setCode = new qx.ui.form.TextArea;
-    var resetCode = new qx.ui.form.TextArea;
-    var initCode = new qx.ui.form.TextArea;
-    var styleCode = new qx.ui.form.TextArea;
-    var unstyleCode = new qx.ui.form.TextArea;
-    var refreshCode = new qx.ui.form.TextArea;
+    var getCode = new qx.legacy.ui.form.TextArea;
+    var setCode = new qx.legacy.ui.form.TextArea;
+    var resetCode = new qx.legacy.ui.form.TextArea;
+    var initCode = new qx.legacy.ui.form.TextArea;
+    var styleCode = new qx.legacy.ui.form.TextArea;
+    var unstyleCode = new qx.legacy.ui.form.TextArea;
+    var refreshCode = new qx.legacy.ui.form.TextArea;
 
     getCode.setFont(codeFont);
     setCode.setFont(codeFont);
@@ -176,7 +176,7 @@
         var classname = "qx.Test" + (new Date).getTime();
         qx.Class.define(classname,
         {
-          extend : qx.ui.form.Button,
+          extend : qx.legacy.ui.form.Button,
 
           properties : {
             test : def

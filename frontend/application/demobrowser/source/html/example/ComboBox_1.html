@@ -8,7 +8,7 @@
 <body>  
   <div id="description">
     <p>Testing ComboBox implementation.</p>
-    <p>The elements of the popup will be created on the first open of the qx.ui.form.ComboBox.</p>
+    <p>The elements of the popup will be created on the first open of the qx.legacy.ui.form.ComboBox.</p>
   </div>
 
   <select style="position:absolute; left:300px; top:48px; width: 120px;">
@@ -56,9 +56,9 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
   
-        var c1 = new qx.ui.form.ComboBox;
+        var c1 = new qx.legacy.ui.form.ComboBox;
         c1.set({ top: 20, left: 20 });
   
   
@@ -67,7 +67,7 @@
   
         for(var i=1; i<=30; i++)
         {
-          item = new qx.ui.form.ListItem("Item No " + i);
+          item = new qx.legacy.ui.form.ListItem("Item No " + i);
           !(i % 10) && (item.setEnabled(false));
           c1.add(item);
         };
@@ -86,7 +86,7 @@
   
   
   
-        var b1 = new qx.ui.form.CheckBox("Editable");
+        var b1 = new qx.legacy.ui.form.CheckBox("Editable");
   
         b1.set({ top: 20, left: 150 });
   

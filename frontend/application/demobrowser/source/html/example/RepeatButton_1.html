@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test the qx.ui.form.RepeatButton constructor. qx.ui.form.RepeatButton is based on qx.ui.form.Button but adds some interval handled event mechanism.</p>
+    <p>Test the qx.legacy.ui.form.RepeatButton constructor. qx.legacy.ui.form.RepeatButton is based on qx.legacy.ui.form.Button but adds some interval handled event mechanism.</p>
   </div>
 
   <script type="text/javascript">
@@ -20,11 +20,11 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
         function buttonExecute() { this.debug("Executed: " + this.getLabel()); };
     
-        var btn1 = new qx.ui.form.RepeatButton("Repeat Button No #1");
+        var btn1 = new qx.legacy.ui.form.RepeatButton("Repeat Button No #1");
         with(btn1)
         {
           setTop(20);
@@ -36,7 +36,7 @@
     
     
     
-        var btn2 = new qx.ui.form.RepeatButton("Repeat Button No #2");
+        var btn2 = new qx.legacy.ui.form.RepeatButton("Repeat Button No #2");
         with(btn2)
         {
           setTop(20);
@@ -49,7 +49,7 @@
     
     
     
-        var btn3 = new qx.ui.form.RepeatButton("Repeat Button No #3");
+        var btn3 = new qx.legacy.ui.form.RepeatButton("Repeat Button No #3");
         with(btn3)
         {
           setTop(20);
@@ -60,7 +60,7 @@
         d.add(btn3);
     
     
-        var btn4 = new qx.ui.form.RepeatButton("Repeat Button No #4", "icon/16/actions/go-next.png");
+        var btn4 = new qx.legacy.ui.form.RepeatButton("Repeat Button No #4", "icon/16/actions/go-next.png");
         with(btn4)
         {
           setTop(60);

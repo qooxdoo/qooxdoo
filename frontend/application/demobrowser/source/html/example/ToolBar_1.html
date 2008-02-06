@@ -7,10 +7,10 @@
 </head>
 <body>  
   <div id="description">
-    <p>Introduce all classes needed for creating real qx.ui.toolbar.ToolBars. This includes qx.ui.toolbar.ToolBars,
-    qx.ui.toolbar.ToolBarParts, qx.ui.toolbar.Separator and qx.ui.toolbar.ToolBarButtons.</p>
+    <p>Introduce all classes needed for creating real qx.legacy.ui.toolbar.ToolBars. This includes qx.legacy.ui.toolbar.ToolBars,
+    qx.legacy.ui.toolbar.ToolBarParts, qx.legacy.ui.toolbar.Separator and qx.legacy.ui.toolbar.ToolBarButtons.</p>
 
-    <p>The qx.ui.toolbar.ToolBarButtons and QxRadioButtons in this example are beautifully
+    <p>The qx.legacy.ui.toolbar.ToolBarButtons and QxRadioButtons in this example are beautifully
     decoupled by "global" qx.event.type.Data.</p>
   </div>
 
@@ -30,9 +30,9 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
   
-        var tb = new qx.ui.toolbar.ToolBar;
+        var tb = new qx.legacy.ui.toolbar.ToolBar;
         with(tb)
         {
           setTop(20);
@@ -80,7 +80,7 @@
           var btns = bars[j];
   
           if (useParts) {
-            var tbp = new qx.ui.toolbar.Part;
+            var tbp = new qx.legacy.ui.toolbar.Part;
           };
   
           for (var i=0; i<btns.length; i++)
@@ -90,11 +90,11 @@
             switch(btn.type)
             {
               case "separator":
-                var o = new qx.ui.toolbar.Separator;
+                var o = new qx.legacy.ui.toolbar.Separator;
                 break;
   
               case "button":
-                var o = new qx.ui.toolbar.Button(btn.text, "icon/22/actions/" + btn.icon + ".png");
+                var o = new qx.legacy.ui.toolbar.Button(btn.text, "icon/22/actions/" + btn.icon + ".png");
   
                 // beautiful decoupling: toolbar buttons don't know about radio boxes
   
@@ -127,9 +127,9 @@
   
   
   
-        var rd1 = new qx.ui.form.RadioButton("Show Icons and Label", "both");
-        var rd2 = new qx.ui.form.RadioButton("Show Icons", "icon");
-        var rd3 = new qx.ui.form.RadioButton("Show Label", "label");
+        var rd1 = new qx.legacy.ui.form.RadioButton("Show Icons and Label", "both");
+        var rd2 = new qx.legacy.ui.form.RadioButton("Show Icons", "icon");
+        var rd3 = new qx.legacy.ui.form.RadioButton("Show Label", "label");
   
         with(rd1)
         {
@@ -151,7 +151,7 @@
         };
   
   
-        var rbm = new qx.ui.selection.RadioManager();
+        var rbm = new qx.legacy.ui.selection.RadioManager();
   
         rbm.add(rd1);
         rbm.add(rd2);
@@ -168,9 +168,9 @@
   
   
         // Alignment
-        var ra1 = new qx.ui.form.RadioButton("Left Aligned", "left");
-        var ra2 = new qx.ui.form.RadioButton("Centered", "center");
-        var ra3 = new qx.ui.form.RadioButton("Right Aligned", "right");
+        var ra1 = new qx.legacy.ui.form.RadioButton("Left Aligned", "left");
+        var ra2 = new qx.legacy.ui.form.RadioButton("Centered", "center");
+        var ra3 = new qx.legacy.ui.form.RadioButton("Right Aligned", "right");
   
         with(ra1)
         {
@@ -192,7 +192,7 @@
         };
   
   
-        var ram = new qx.ui.selection.RadioManager();
+        var ram = new qx.legacy.ui.selection.RadioManager();
   
         ram.add(ra1);
         ram.add(ra2);
@@ -208,7 +208,7 @@
   
   
         // Icon Sizes
-        var b3 = new qx.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
+        var b3 = new qx.legacy.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
   
         with(b3)
         {
@@ -221,7 +221,7 @@
           this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
         }, this);
   
-        var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
+        var b4 = new qx.legacy.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
   
         with(b4)
         {

@@ -7,16 +7,16 @@
 </head>
 <body>  
   <div id="description">
-    <p>Some speed tests for qx.ui.basic.Atom. Please regard, that many of things in the finished
-    page are modified on the already created and visible qx.ui.basic.Atom instances. This is not
-    a good example in scripting qooxdoo. It's always faster to configure a instance of qx.ui.core.Widget
-    completely, before add it to the qx.ui.core.ClientDocument or any other visible parent qx.ui.core.Widget.</p>
+    <p>Some speed tests for qx.legacy.ui.basic.Atom. Please regard, that many of things in the finished
+    page are modified on the already created and visible qx.legacy.ui.basic.Atom instances. This is not
+    a good example in scripting qooxdoo. It's always faster to configure a instance of qx.legacy.ui.core.Widget
+    completely, before add it to the qx.legacy.ui.core.ClientDocument or any other visible parent qx.legacy.ui.core.Widget.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     /*
     ----------------------------------------------
@@ -24,7 +24,7 @@
     ----------------------------------------------
     */
 
-    var la1 = new qx.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
+    var la1 = new qx.legacy.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
     with(la1)
     {
       setTop(48);
@@ -34,7 +34,7 @@
     d.add(la1);
 
 
-    var la2 = new qx.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
+    var la2 = new qx.legacy.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
     with(la2)
     {
       setTop(148);
@@ -44,7 +44,7 @@
     d.add(la2);
 
 
-    var la3 = new qx.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
+    var la3 = new qx.legacy.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
     with(la3)
     {
       setTop(248);
@@ -54,7 +54,7 @@
     d.add(la3);
 
 
-    var la4 = new qx.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
+    var la4 = new qx.legacy.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
     with(la4)
     {
       setTop(348);
@@ -70,7 +70,7 @@
     ----------------------------------------------
     */
 
-    var lb1 = new qx.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lb1 = new qx.legacy.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lb1)
     {
       setTop(48);
@@ -81,7 +81,7 @@
     lb1.setIconPosition("right");
 
 
-    var lb2 = new qx.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lb2 = new qx.legacy.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lb2)
     {
       setTop(148);
@@ -92,7 +92,7 @@
     lb2.setIconPosition("left");
 
 
-    var lb3 = new qx.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lb3 = new qx.legacy.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lb3)
     {
       setTop(248);
@@ -103,7 +103,7 @@
     lb3.setIconPosition("bottom");
 
 
-    var lb4 = new qx.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lb4 = new qx.legacy.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lb4)
     {
       setTop(348);
@@ -122,7 +122,7 @@
     ----------------------------------------------
     */
 
-    var lc1 = new qx.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lc1 = new qx.legacy.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lc1)
     {
       setTop(48);
@@ -133,7 +133,7 @@
     lc1.setIconPosition("top");
 
 
-    var lc2 = new qx.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lc2 = new qx.legacy.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lc2)
     {
       setTop(148);
@@ -144,7 +144,7 @@
     lc2.setIconPosition("bottom");
 
 
-    var lc3 = new qx.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lc3 = new qx.legacy.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lc3)
     {
       setTop(248);
@@ -155,7 +155,7 @@
     lc3.setIconPosition("right");
 
 
-    var lc4 = new qx.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
+    var lc4 = new qx.legacy.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
     with(lc4)
     {
       setTop(348);
@@ -174,7 +174,7 @@
     ----------------------------------------------
     */
 
-    var ld1 = new qx.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
+    var ld1 = new qx.legacy.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
     with(ld1)
     {
       setTop(48);
@@ -185,7 +185,7 @@
     ld1.setIconPosition("bottom");
 
 
-    var ld2 = new qx.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
+    var ld2 = new qx.legacy.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
     with(ld2)
     {
       setTop(148);
@@ -196,7 +196,7 @@
     ld2.setIconPosition("top");
 
 
-    var ld3 = new qx.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
+    var ld3 = new qx.legacy.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
     with(ld3)
     {
       setTop(248);
@@ -207,7 +207,7 @@
     ld3.setIconPosition("left");
 
 
-    var ld4 = new qx.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
+    var ld4 = new qx.legacy.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
     with(ld4)
     {
       setTop(348);
@@ -227,7 +227,7 @@
     ----------------------------------------------
     */
 
-    var le1 = new qx.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
+    var le1 = new qx.legacy.ui.basic.Atom("Test No #1", "icon/16/apps/preferences-desktop-multimedia.png");
     with(le1)
     {
       setTop(48);
@@ -238,7 +238,7 @@
     le1.setIconPosition("top");
 
 
-    var le2 = new qx.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
+    var le2 = new qx.legacy.ui.basic.Atom("Test No #2", "icon/16/apps/preferences-desktop-multimedia.png");
     with(le2)
     {
       setTop(148);
@@ -249,7 +249,7 @@
     le2.setIconPosition("bottom");
 
 
-    var le3 = new qx.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
+    var le3 = new qx.legacy.ui.basic.Atom("Test No #3", "icon/16/apps/preferences-desktop-multimedia.png");
     with(le3)
     {
       setTop(248);
@@ -260,7 +260,7 @@
     le3.setIconPosition("right");
 
 
-    var le4 = new qx.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
+    var le4 = new qx.legacy.ui.basic.Atom("Test No #4", "icon/16/apps/preferences-desktop-multimedia.png");
     with(le4)
     {
       setTop(348);

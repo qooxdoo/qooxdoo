@@ -7,14 +7,14 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for qx.ui.layout.GridLayout. Now with cells which are merged with others.</p>
+    <p>Test for qx.legacy.ui.layout.GridLayout. Now with cells which are merged with others.</p>
     <p>Added spacing in combination with spans.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var gl = new qx.ui.layout.GridLayout;
+    var gl = new qx.legacy.ui.layout.GridLayout;
     
     gl.setLocation(20, 48);
     gl.setDimension("auto", "auto");
@@ -33,7 +33,7 @@
     gl.setRowHeight(0, 40);
     gl.setRowHeight(1, 80);
     
-    qx.ui.core.ClientDocument.getInstance().add(gl);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(gl);
     
     // start-col, start-row, col-length, row-length
     gl.debug("Merge: 1, 1, 2, 1");
@@ -84,23 +84,23 @@
     
     
     
-    var term1 = new qx.ui.basic.Terminator;
+    var term1 = new qx.legacy.ui.basic.Terminator;
     term1.setBackgroundColor("yellow");
     gl.add(term1, 0, 0);
     
-    var term2 = new qx.ui.basic.Terminator;
+    var term2 = new qx.legacy.ui.basic.Terminator;
     term2.setBackgroundColor("red");
     gl.add(term2, 1, 0);
     
-    var term3 = new qx.ui.basic.Terminator;
+    var term3 = new qx.legacy.ui.basic.Terminator;
     term3.setBackgroundColor("green");
     gl.add(term3, 2, 0);
 
-    var term6 = new qx.ui.basic.Terminator;
+    var term6 = new qx.legacy.ui.basic.Terminator;
     term6.setBackgroundColor("olive");
     gl.add(term6, 1, 1);    
   
-    var term8 = new qx.ui.basic.Terminator;
+    var term8 = new qx.legacy.ui.basic.Terminator;
     term8.setBackgroundColor("navy");
     gl.add(term8, 3, 1);            
   });

@@ -27,7 +27,7 @@
 
 qx.Class.define("feedreader.PreferenceWindow",
 {
-  extend : qx.ui.window.Window,
+  extend : qx.legacy.ui.window.Window,
 
   construct : function()
   {
@@ -56,7 +56,7 @@ qx.Class.define("feedreader.PreferenceWindow",
      */
     _addContent : function()
     {
-      var winLayout = new qx.ui.layout.VerticalBoxLayout();
+      var winLayout = new qx.legacy.ui.layout.VerticalBoxLayout();
 
       winLayout.set(
       {
@@ -68,7 +68,7 @@ qx.Class.define("feedreader.PreferenceWindow",
 
       this.add(winLayout);
 
-      var gb = new qx.ui.groupbox.GroupBox(this.tr("Theme"));
+      var gb = new qx.legacy.ui.groupbox.GroupBox(this.tr("Theme"));
 
       gb.set(
       {
@@ -78,17 +78,17 @@ qx.Class.define("feedreader.PreferenceWindow",
 
       winLayout.add(gb);
 
-      var vb = new qx.ui.layout.VerticalBoxLayout();
+      var vb = new qx.legacy.ui.layout.VerticalBoxLayout();
       gb.add(vb);
 
-      var btn_classic = new qx.ui.form.RadioButton("Classic");
-      var btn_ext = new qx.ui.form.RadioButton("Ext");
+      var btn_classic = new qx.legacy.ui.form.RadioButton("Classic");
+      var btn_ext = new qx.legacy.ui.form.RadioButton("Ext");
       btn_ext.setChecked(true);
-      var rm = new qx.ui.selection.RadioManager();
+      var rm = new qx.legacy.ui.selection.RadioManager();
       rm.add(btn_classic, btn_ext);
       vb.add(btn_classic, btn_ext);
 
-      var hb = new qx.ui.layout.HorizontalBoxLayout();
+      var hb = new qx.legacy.ui.layout.HorizontalBoxLayout();
 
       hb.set(
       {
@@ -98,9 +98,9 @@ qx.Class.define("feedreader.PreferenceWindow",
         paddingRight            : 3
       });
 
-      var btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
+      var btn_cancel = new qx.legacy.ui.form.Button(this.tr("Cancel"));
       btn_cancel.addListener("execute", this.close, this);
-      var btn_ok = new qx.ui.form.Button(this.tr("OK"));
+      var btn_ok = new qx.legacy.ui.form.Button(this.tr("OK"));
 
       btn_ok.addListener("execute", function()
       {

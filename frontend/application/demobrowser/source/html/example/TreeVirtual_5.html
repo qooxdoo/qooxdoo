@@ -23,11 +23,11 @@
         // We want to use some of the high-level node operation convenience
         // methods rather than manually digging into the TreeVirtual helper
         // classes.  Include the mixin that provides them.
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MNode);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MNode);
         
         // tree
-        var tree = new qx.ui.treevirtual.TreeVirtual(["Tree", "Data"]);
+        var tree = new qx.legacy.ui.treevirtual.TreeVirtual(["Tree", "Data"]);
         tree.set({
                 left   : 10,
                 right  : 300,
@@ -40,7 +40,7 @@
         tree.setAlwaysShowOpenCloseSymbol(true);
     
         tree.setSelectionMode(
-                  qx.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL);
+                  qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL);
     
         // Add the tree to the document
         tree.addToDocument();
@@ -78,19 +78,19 @@
         var rowData = createRandomRows(50);
     
         // table model
-        var tableModel = new qx.ui.table.model.Simple();
+        var tableModel = new qx.legacy.ui.table.model.Simple();
         tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
         tableModel.setData(rowData);
         tableModel.setColumnEditable(1, true);
         tableModel.setColumnEditable(2, true);
     
         // table
-        var table = new qx.ui.table.Table(tableModel);
+        var table = new qx.legacy.ui.table.Table(tableModel);
         table.set({ left: 10, right: 300, top: '55%', bottom: 30, border:"inset-thin" });
-        table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+        table.getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
     
     	  if (1) {	// uncomment this section to see how the column widths of the tree are affected
-  	      var rtcm = new qx.ui.table.columnmodel.Resize();
+  	      var rtcm = new qx.legacy.ui.table.columnmodel.Resize();
   	      table.setTableColumnModel(rtcm);
   	      var resizeBehavior = rtcm.getBehavior();
   	      resizeBehavior.set(0, { width:"1*", minWidth:40, maxWidth:80  });
@@ -99,7 +99,7 @@
   	      resizeBehavior.setMaxWidth(1, 320);
   	      resizeBehavior.set(3, { width:100 });
   	      // Display a checkbox in column 3
-  	      rtcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+  	      rtcm.setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
         }
         
         table.addToDocument();

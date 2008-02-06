@@ -7,16 +7,16 @@
 </head>
 <body>  
   <div id="description">
-    Some tests for qx.ui.basic.Label. Click on the third and fifth button like widget to test the reflow possibilities.
+    Some tests for qx.legacy.ui.basic.Label. Click on the third and fifth button like widget to test the reflow possibilities.
     The debug log gives you information of the preferred dimensions.
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var c1 = new qx.ui.basic.Label("Hello qooxdoo!");
+    var c1 = new qx.legacy.ui.basic.Label("Hello qooxdoo!");
 
     c1.setLeft(20);
     c1.setTop(48);
@@ -27,7 +27,7 @@
 
 
 
-    var c2 = new qx.ui.basic.Label("<h1>Welcome to the qooxdoo universe</h1><p>Enjoy the new era of web interface development.</p>");
+    var c2 = new qx.legacy.ui.basic.Label("<h1>Welcome to the qooxdoo universe</h1><p>Enjoy the new era of web interface development.</p>");
 
     c2.setLeft(20);
     c2.setTop(100);
@@ -41,7 +41,7 @@
 
 
 
-    var c3 = new qx.ui.basic.Label("Delete temporary data");
+    var c3 = new qx.legacy.ui.basic.Label("Delete temporary data");
 
     c3.setLeft(20);
     c3.setTop(200);
@@ -55,7 +55,7 @@
     });
 
 
-    var c4 = new qx.ui.basic.Label("Hello qooxdoo!");
+    var c4 = new qx.legacy.ui.basic.Label("Hello qooxdoo!");
 
     c4.setLeft(20);
     c4.setTop(250);
@@ -67,7 +67,7 @@
 
 
 
-    var c5 = new qx.ui.basic.Label("Delete temporary data");
+    var c5 = new qx.legacy.ui.basic.Label("Delete temporary data");
 
     c5.setBorder("outset");
     c5.setPadding(4, 6);
@@ -78,7 +78,7 @@
     });
 
 
-    var c5w = new qx.ui.layout.CanvasLayout;
+    var c5w = new qx.legacy.ui.layout.CanvasLayout;
     c5w.setBorder("outset");
     c5w.setPadding(8);
     c5w.setLeft(20);
@@ -93,7 +93,7 @@
 
 
 
-    var c6 = new qx.ui.basic.Label("This is a long label", "h");
+    var c6 = new qx.legacy.ui.basic.Label("This is a long label", "h");
 
     c6.setTop(450);
     c6.setLeft(20);
@@ -101,7 +101,7 @@
     c6.addToDocument();
 
 
-    var c7 = new qx.ui.basic.Label("This is a long label with long-words and more text", "l");
+    var c7 = new qx.legacy.ui.basic.Label("This is a long label with long-words and more text", "l");
 
     c7.setTop(490);
     c7.setLeft(20);
@@ -110,7 +110,7 @@
     c7.setBackgroundColor("white");
     c7.addToDocument();
 
-    var textLabel = new qx.ui.basic.Label("     This is a pure text label. No HTML tags like <p>, or <h1> will be evaluated.", "p", "text");
+    var textLabel = new qx.legacy.ui.basic.Label("     This is a pure text label. No HTML tags like <p>, or <h1> will be evaluated.", "p", "text");
     textLabel.set({
       top : 530,
       left : 20,
@@ -154,7 +154,7 @@
     });
 
 
-    var parent8 = new qx.ui.layout.VerticalBoxLayout();
+    var parent8 = new qx.legacy.ui.layout.VerticalBoxLayout();
     parent8.set({ top:48, left:500, width:150, height:150, spacing:5,
         border:"inset-thin" });
     parent8.setPadding(5);
@@ -163,16 +163,16 @@
       this.setWidth((this.getWidth() == 150) ? 200 : 150);
     });
 
-    var clickHint = new qx.ui.basic.Label("Click me");
+    var clickHint = new qx.legacy.ui.basic.Label("Click me");
     clickHint.set({ width:"100%", height:"auto",
         border:"outset-thin" });
     parent8.add(clickHint);
 
-    var wrapLabel1 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
+    var wrapLabel1 = new qx.legacy.ui.basic.Label("This is a label having a auto-height that needs wrapping");
     wrapLabel1.set({ width:"100%", height:"auto", wrap : true, border:"outset-thin" });
     parent8.add(wrapLabel1);
 
-    var wrapLabel2 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
+    var wrapLabel2 = new qx.legacy.ui.basic.Label("This is a label having a auto-height that needs wrapping");
     wrapLabel2.set({ width:"100%", height:"auto", wrap : true, border:"outset-thin" });
     parent8.add(wrapLabel2);
   });

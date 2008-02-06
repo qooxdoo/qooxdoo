@@ -13,7 +13,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     function callback(e) {
 			d.debug(e.getData());
@@ -31,7 +31,7 @@
 	  //qx.event.Timer.once(function() {history.back();}, 0);
 	  hist.navigateBack();
 
-    var t1 = new qx.ui.form.TextField();
+    var t1 = new qx.legacy.ui.form.TextField();
     t1.set({
 			left: 20,
 			top:48,
@@ -39,7 +39,7 @@
 			value: ""
 		});
 
-		var a1 = new qx.ui.basic.Atom("");
+		var a1 = new qx.legacy.ui.basic.Atom("");
 		a1.set({
 			left: 20,
 			top: 78,
@@ -49,7 +49,7 @@
 			border: "inset-thin"
 		});
 
-		var b1 = new qx.ui.form.Button("add to history");
+		var b1 = new qx.legacy.ui.form.Button("add to history");
 		b1.set({
 			top: 48,
 			left: 150,

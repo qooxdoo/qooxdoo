@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.listview.ListView with text cells.</p>
+    <p>Testing qx.legacy.ui.listview.ListView with text cells.</p>
     <p>Testing of column alignment, resizeable prohibition for columns and live resizing.</p>
   </div>
 
@@ -39,30 +39,30 @@
           rights : { label : "Rights", width: 80, type : "text" }
         };
   
-        var lv = new qx.ui.listview.ListView(ld, lc);
+        var lv = new qx.legacy.ui.listview.ListView(ld, lc);
   
         lv.setWidth(500);
         lv.setBottom(20);
         lv.setLocation(20, 20);
   
-        qx.ui.core.ClientDocument.getInstance().add(lv);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(lv);
   
   
   
   
-        var chk1 = new qx.ui.form.CheckBox("Enable Live Resize");
+        var chk1 = new qx.legacy.ui.form.CheckBox("Enable Live Resize");
         chk1.setLeft(540);
         chk1.setTop(20);
-        qx.ui.core.ClientDocument.getInstance().add(chk1);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(chk1);
   
         chk1.addListener("changeChecked", function(e) {
           lv.setLiveResize(e.getData());
         });
   
-        var chk2 = new qx.ui.form.CheckBox("Disable ListView");
+        var chk2 = new qx.legacy.ui.form.CheckBox("Disable ListView");
         chk2.setLeft(540);
         chk2.setTop(50);
-        qx.ui.core.ClientDocument.getInstance().add(chk2);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(chk2);
   
         chk2.addListener("changeChecked", function(e) {
           lv.setEnabled(!e.getData())

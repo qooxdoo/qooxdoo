@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Simple test for qx.ui.embed.Flash.</p>
+    <p>Simple test for qx.legacy.ui.embed.Flash.</p>
   </div>
 
   <script type="text/javascript">
@@ -20,16 +20,16 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
         // Try no version required
-        var fo1 = new qx.ui.embed.Flash("./image/flash/fo_tester.swf");
+        var fo1 = new qx.legacy.ui.embed.Flash("./image/flash/fo_tester.swf");
     
         // Try version 7 required
-        // var fo1 = new qx.ui.embed.Flash("image/flash/fo_tester.swf", "7");
+        // var fo1 = new qx.legacy.ui.embed.Flash("image/flash/fo_tester.swf", "7");
     
         // Try version 9 required
-        // var fo1 = new qx.ui.embed.Flash("image/flash/fo_tester.swf", "9");
+        // var fo1 = new qx.legacy.ui.embed.Flash("image/flash/fo_tester.swf", "9");
     
         // Error handling methods:
         // #1: Enable Express Install: Available in Flash Players >= 6.0.65
