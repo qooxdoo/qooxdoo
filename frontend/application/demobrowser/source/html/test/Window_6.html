@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Dialog with qx.ui.form.TextField and qx.ui.form.TextArea</p>
+    <p>Dialog with qx.legacy.ui.form.TextField and qx.legacy.ui.form.TextArea</p>
     <p>Testing initial focus handling.</p>
   </div>
 
@@ -17,10 +17,10 @@
 
       qx.core.Init.getInstance().defineMain(function() {
 
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
       var txtfld;
 
-      var  dialogEditFrage = new qx.ui.window.Window("Edit", "icon/16/apps/accessories-text-editor.png");
+      var  dialogEditFrage = new qx.legacy.ui.window.Window("Edit", "icon/16/apps/accessories-text-editor.png");
 
 
       with(dialogEditFrage) {
@@ -28,7 +28,7 @@
 
         setShowClose(false);
 
-        var qxObj = new qx.ui.basic.Atom('Question');
+        var qxObj = new qx.legacy.ui.basic.Atom('Question');
         with(qxObj)
         {
           setHorizontalChildrenAlign('right');
@@ -36,7 +36,7 @@
         };
         add(qxObj);
 
-        qxObj = txtfld = new qx.ui.form.TextArea();
+        qxObj = txtfld = new qx.legacy.ui.form.TextArea();
         with (qxObj) {
           set({top:10,right:10,width:'70%'})
         }
@@ -46,7 +46,7 @@
           this.focus();
         });
 
-        qxObj = new qx.ui.basic.Atom('Type');
+        qxObj = new qx.legacy.ui.basic.Atom('Type');
         with(qxObj)
         {
           setHorizontalChildrenAlign('right');
@@ -54,16 +54,16 @@
         };
         add(qxObj);
 
-        qxObj = new qx.ui.form.TextField();
+        qxObj = new qx.legacy.ui.form.TextField();
         with (qxObj) {
           set({top:70,right:10,width:'70%'})
         }
         add(qxObj);
 
 
-        var btnOK = new qx.ui.form.Button("OK", "icon/16/actions/dialog-ok.png");
-        var btnCancel = new qx.ui.form.Button("Cancel", "icon/16/actions/dialog-cancel.png");
-        var btnSetFocus = new qx.ui.form.Button("Set Focus To First Field", "icon/16/actions/view-refresh.png");
+        var btnOK = new qx.legacy.ui.form.Button("OK", "icon/16/actions/dialog-ok.png");
+        var btnCancel = new qx.legacy.ui.form.Button("Cancel", "icon/16/actions/dialog-cancel.png");
+        var btnSetFocus = new qx.legacy.ui.form.Button("Set Focus To First Field", "icon/16/actions/view-refresh.png");
 
         btnOK.set({ bottom : 10, right : 10 });
         btnCancel.set({ bottom : 10, left : 10 });
@@ -83,13 +83,13 @@
         add(btnOK, btnCancel, btnSetFocus);
       }
 
-      var btnOpen = new qx.ui.form.Button("Open the dialog");
+      var btnOpen = new qx.legacy.ui.form.Button("Open the dialog");
       btnOpen.set({ top : 50, left : 20 });
       btnOpen.addListener("click", function(e) {
         dialogEditFrage.open();
       });
 
-      var btnRestore = new qx.ui.form.Button("Restore the dialog");
+      var btnRestore = new qx.legacy.ui.form.Button("Restore the dialog");
       btnRestore.set({ top : 80, left : 20 });
       btnRestore.addListener("click", function(e) {
         dialogEditFrage.restore();

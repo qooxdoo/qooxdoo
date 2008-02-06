@@ -50,7 +50,7 @@ qx.Class.define("custom.Application",
       qx.io.Alias.getInstance().add("custom", qx.core.Setting.get("custom.resourceUri"));
 
       // Create button
-      var button1 = new qx.ui.form.Button("First Button", "custom/image/test.png");
+      var button1 = new qx.legacy.ui.form.Button("First Button", "custom/image/test.png");
 
       // Set button location
       button1.setTop(50);
@@ -60,7 +60,7 @@ qx.Class.define("custom.Application",
       button1.addToDocument();
 
       // Attach a tooltip
-      button1.setToolTip(new qx.ui.popup.ToolTip("A nice tooltip", "icon/32/status/dialog-information.png"));
+      button1.setToolTip(new qx.legacy.ui.popup.ToolTip("A nice tooltip", "icon/32/status/dialog-information.png"));
 
       // Add an event listener
       button1.addListener("execute", function(e) {

@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for qx.ui.component.ColorSelector.</p>
+    <p>Test for qx.legacy.ui.component.ColorSelector.</p>
     <p>Adding a default/previous/old color value to compare it with the new selection.</p>
   </div>
 
@@ -21,11 +21,11 @@
       main : function()
       {
         this.base(arguments);
-        var mycolor = new qx.ui.component.ColorSelector(130, 180, 100);
+        var mycolor = new qx.legacy.ui.component.ColorSelector(130, 180, 100);
     
         mycolor.setLocation(20, 20);
     
-        qx.ui.core.ClientDocument.getInstance().add(mycolor);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(mycolor);
       }
     }
   });

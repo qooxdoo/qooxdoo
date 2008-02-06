@@ -288,7 +288,7 @@ qx.Class.define("feedreader.Application",
     _createLayout : function()
     {
       // Create main layout
-      var dockLayout = new qx.ui.layout.DockLayout();
+      var dockLayout = new qx.legacy.ui.layout.DockLayout();
       dockLayout.setEdge(0);
       dockLayout.addToDocument();
 
@@ -301,7 +301,7 @@ qx.Class.define("feedreader.Application",
       dockLayout.addTop(this._toolBarView);
 
       // Create horizontal split pane
-      var horSplitPane = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
+      var horSplitPane = new qx.legacy.ui.splitpane.HorizontalSplitPane(200, "1*");
       dockLayout.add(horSplitPane);
 
       // Create tree view
@@ -309,7 +309,7 @@ qx.Class.define("feedreader.Application",
       horSplitPane.addLeft(this._treeView);
 
       // Create vertical split pane
-      var vertSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
+      var vertSplitPane = new qx.legacy.ui.splitpane.VerticalSplitPane("1*", "2*");
       vertSplitPane.setEdge(0);
       vertSplitPane.setBorder("line-left");
       horSplitPane.addRight(vertSplitPane);

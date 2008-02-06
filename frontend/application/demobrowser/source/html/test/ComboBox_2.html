@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.form.ComboBox implementation.</p>
+    <p>Testing qx.legacy.ui.form.ComboBox implementation.</p>
     <p>Testing object creation (the list content will be filled then) on first open.</p>
     <p>Added Color Theme Buttons</p>
   </div>
@@ -50,9 +50,9 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-      var c1 = new qx.ui.form.ComboBox;
+      var c1 = new qx.legacy.ui.form.ComboBox;
       c1.setLocation(20, 48);
 
       c1.addListener("beforeInitialOpen", function(e)
@@ -61,7 +61,7 @@
 
         for(var i=1; i<=30; i++)
         {
-          item = new qx.ui.form.ListItem("Item No " + i);
+          item = new qx.legacy.ui.form.ListItem("Item No " + i);
           !(i % 10) && (item.setEnabled(false));
           c1.add(item);
         };
@@ -81,7 +81,7 @@
 
 
 
-      var b1 = new qx.ui.form.CheckBox("Editable");
+      var b1 = new qx.legacy.ui.form.CheckBox("Editable");
 
       b1.set({ top: 50, left: 150 });
 

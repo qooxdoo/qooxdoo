@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Introducing qx.ui.toolbar.CheckBox and qx.ui.toolbar.RadioButton.</p>
+    <p>Introducing qx.legacy.ui.toolbar.CheckBox and qx.legacy.ui.toolbar.RadioButton.</p>
   </div>
 
   <script type="text/javascript">
@@ -26,7 +26,7 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
   
         function changeLayout(e) {
           this.setShow(e.getData());
@@ -39,7 +39,7 @@
           this.setIcon(this.getIcon().replace(o, v));
         };
   
-        var tb = new qx.ui.toolbar.ToolBar;
+        var tb = new qx.legacy.ui.toolbar.ToolBar;
         with(tb)
         {
           setTop(20);
@@ -49,22 +49,22 @@
         };
   
   
-        var tbp1 = new qx.ui.toolbar.Part;
+        var tbp1 = new qx.legacy.ui.toolbar.Part;
         tb.add(tbp1);
   
-        var tbp2 = new qx.ui.toolbar.Part;
+        var tbp2 = new qx.legacy.ui.toolbar.Part;
         tb.add(tbp2);
   
-        var tbp3 = new qx.ui.toolbar.Part;
+        var tbp3 = new qx.legacy.ui.toolbar.Part;
         tb.add(tbp3);
   
-        var tbp4 = new qx.ui.toolbar.Part;
+        var tbp4 = new qx.legacy.ui.toolbar.Part;
         tb.add(tbp4);
   
   
   
         // Default
-        var tbd1 = new qx.ui.toolbar.Button("Default", "icon/22/actions/document-new.png");
+        var tbd1 = new qx.legacy.ui.toolbar.Button("Default", "icon/22/actions/document-new.png");
         tbp1.add(tbd1);
         this.addListener("changeLayout", changeLayout, tbd1);
         this.addListener("changeSize", changeSize, tbd1);
@@ -77,7 +77,7 @@
   
   
         // Checkbox
-        var tbc1 = new qx.ui.toolbar.CheckBox("Check", "icon/22/apps/preferences.png", true);
+        var tbc1 = new qx.legacy.ui.toolbar.CheckBox("Check", "icon/22/apps/preferences.png", true);
         tbp2.add(tbc1);
         this.addListener("changeLayout", changeLayout, tbc1);
         this.addListener("changeSize", changeSize, tbc1);
@@ -85,55 +85,55 @@
   
   
         // Radio
-        var tbr1 = new qx.ui.toolbar.RadioButton("Radio1", "icon/22/actions/system-run.png");
+        var tbr1 = new qx.legacy.ui.toolbar.RadioButton("Radio1", "icon/22/actions/system-run.png");
         tbp3.add(tbr1);
         this.addListener("changeLayout", changeLayout, tbr1);
         this.addListener("changeSize", changeSize, tbr1);
   
-        var tbr2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
+        var tbr2 = new qx.legacy.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
         tbp3.add(tbr2);
         this.addListener("changeLayout", changeLayout, tbr2);
         this.addListener("changeSize", changeSize, tbr2);
   
-        var tbr3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
+        var tbr3 = new qx.legacy.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
         tbp3.add(tbr3);
         this.addListener("changeLayout", changeLayout, tbr3);
         this.addListener("changeSize", changeSize, tbr3);
   
         // Radio Mananger
-        var tbr_manager = new qx.ui.selection.RadioManager(null, [tbr1, tbr2, tbr3]);
+        var tbr_manager = new qx.legacy.ui.selection.RadioManager(null, [tbr1, tbr2, tbr3]);
   
   
   
   
         // Radio
-        var tbs1 = new qx.ui.toolbar.RadioButton("Radio1", "icon/22/actions/view-pane-tree.png");
+        var tbs1 = new qx.legacy.ui.toolbar.RadioButton("Radio1", "icon/22/actions/view-pane-tree.png");
         tbp4.add(tbs1);
         tbs1.setDisableUncheck(true);
         this.addListener("changeLayout", changeLayout, tbs1);
         this.addListener("changeSize", changeSize, tbs1);
   
-        var tbs2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
+        var tbs2 = new qx.legacy.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
         tbp4.add(tbs2);
         tbs2.setDisableUncheck(true);
         this.addListener("changeLayout", changeLayout, tbs2);
         this.addListener("changeSize", changeSize, tbs2);
   
-        var tbs3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
+        var tbs3 = new qx.legacy.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
         tbp4.add(tbs3);
         tbs3.setDisableUncheck(true);
         this.addListener("changeLayout", changeLayout, tbs3);
         this.addListener("changeSize", changeSize, tbs3);
   
         // Radio Mananger
-        var tbs_manager = new qx.ui.selection.RadioManager(null, [tbs1, tbs2, tbs3]);
+        var tbs_manager = new qx.legacy.ui.selection.RadioManager(null, [tbs1, tbs2, tbs3]);
   
   
   
   
-        var rd1 = new qx.ui.form.RadioButton("Show Icons and Label", "both");
-        var rd2 = new qx.ui.form.RadioButton("Show Icons", "icon");
-        var rd3 = new qx.ui.form.RadioButton("Show Label", "label");
+        var rd1 = new qx.legacy.ui.form.RadioButton("Show Icons and Label", "both");
+        var rd2 = new qx.legacy.ui.form.RadioButton("Show Icons", "icon");
+        var rd3 = new qx.legacy.ui.form.RadioButton("Show Label", "label");
   
         with(rd1)
         {
@@ -154,7 +154,7 @@
         };
   
   
-        var rbm = new qx.ui.selection.RadioManager();
+        var rbm = new qx.legacy.ui.selection.RadioManager();
   
         rbm.add(rd1);
         rbm.add(rd2);
@@ -177,9 +177,9 @@
   
   
         // Alignment
-        var ra1 = new qx.ui.form.RadioButton("Left Aligned", "left");
-        var ra2 = new qx.ui.form.RadioButton("Centered", "center");
-        var ra3 = new qx.ui.form.RadioButton("Right Aligned", "right");
+        var ra1 = new qx.legacy.ui.form.RadioButton("Left Aligned", "left");
+        var ra2 = new qx.legacy.ui.form.RadioButton("Centered", "center");
+        var ra3 = new qx.legacy.ui.form.RadioButton("Right Aligned", "right");
   
         with(ra1)
         {
@@ -201,7 +201,7 @@
         };
   
   
-        var ram = new qx.ui.selection.RadioManager();
+        var ram = new qx.legacy.ui.selection.RadioManager();
   
         ram.add(ra1);
         ram.add(ra2);
@@ -217,7 +217,7 @@
   
   
         // Icon Sizes
-        var b3 = new qx.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
+        var b3 = new qx.legacy.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
   
         with(b3)
         {
@@ -230,7 +230,7 @@
           this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
         }, this);
   
-        var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
+        var b4 = new qx.legacy.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
   
         with(b4)
         {
@@ -250,14 +250,14 @@
   
   
   
-        var chkShowBtn1 = new qx.ui.form.CheckBox("Show First Button");
+        var chkShowBtn1 = new qx.legacy.ui.form.CheckBox("Show First Button");
   
         chkShowBtn1.setLocation(20, 500);
         chkShowBtn1.addListener("changeChecked", function(e) {
           tbd1.setDisplay(e.getValue());
         });
   
-        var chkShowPart1 = new qx.ui.form.CheckBox("Show First Part");
+        var chkShowPart1 = new qx.legacy.ui.form.CheckBox("Show First Part");
   
         chkShowPart1.setLocation(220, 500);
         chkShowPart1.addListener("changeChecked", function(e) {

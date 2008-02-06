@@ -7,7 +7,7 @@
 </head>
 <body>  <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      new qx.util.GuiBuilder().build(qx.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
+      new qx.util.GuiBuilder().build(qx.legacy.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
     });
   </script>
   <div id="description">
@@ -16,19 +16,19 @@
   </div>
   <textarea id='widgets' style='display:none'>
     <qx.client.builder.Container>
-      <qx.ui.basic.Atom id="linfo" label="Current Value" icon="icon/16/actions/go-next.png" border="black" padding="2,4" backgroundColor="white" top="48" left="20"/>
-      <qx.ui.selection.RadioManager id='_rm1' name="mygroup">
+      <qx.legacy.ui.basic.Atom id="linfo" label="Current Value" icon="icon/16/actions/go-next.png" border="black" padding="2,4" backgroundColor="white" top="48" left="20"/>
+      <qx.legacy.ui.selection.RadioManager id='_rm1' name="mygroup">
         <qx.client.builder.EventListener type='changeSelected' args='e'>
           linfo.setLabel("Current Value: \"" + e.getData().getLabel() + "\" (" + e.getData().getValue() + ")");
         </qx.client.builder.EventListener>
-      </qx.ui.selection.RadioManager>
-      <qx.ui.form.RadioButton qxtype="radioButton" label="Option #1" value="rb1" location="20,80"  manager="_rm1"/>
-      <qx.ui.form.RadioButton label="Option #2" value="rb2" location="20,110" manager="_rm1" checked="true"/>
-      <div qxtype="qx.ui.form.RadioButton" label="Top RadioButton" value="rb3" location="20,160" manager="_rm1" iconPosition="top"/>
-      <qx.ui.form.RadioButton label="Bottom RadioButton" value="rb4" location="160,160" manager="_rm1" iconPosition="bottom"/>
-      <qx.ui.form.RadioButton label="Left RadioButton" value="rb5" location="20,220" manager="_rm1" iconPosition="left"/>
-      <qx.ui.form.RadioButton label="Right RadioButton" value="rb6" location="160,220" manager="_rm1" iconPosition="right"/>
-      <qx.ui.form.RadioButton value="rb7" location="20,280" manager="_rm1"/>
+      </qx.legacy.ui.selection.RadioManager>
+      <qx.legacy.ui.form.RadioButton qxtype="radioButton" label="Option #1" value="rb1" location="20,80"  manager="_rm1"/>
+      <qx.legacy.ui.form.RadioButton label="Option #2" value="rb2" location="20,110" manager="_rm1" checked="true"/>
+      <div qxtype="qx.legacy.ui.form.RadioButton" label="Top RadioButton" value="rb3" location="20,160" manager="_rm1" iconPosition="top"/>
+      <qx.legacy.ui.form.RadioButton label="Bottom RadioButton" value="rb4" location="160,160" manager="_rm1" iconPosition="bottom"/>
+      <qx.legacy.ui.form.RadioButton label="Left RadioButton" value="rb5" location="20,220" manager="_rm1" iconPosition="left"/>
+      <qx.legacy.ui.form.RadioButton label="Right RadioButton" value="rb6" location="160,220" manager="_rm1" iconPosition="right"/>
+      <qx.legacy.ui.form.RadioButton value="rb7" location="20,280" manager="_rm1"/>
     </qx.client.builder.Container>
   </textarea>
 </body>

@@ -7,8 +7,8 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.listview.ListView with text cells.</p>
-    <p>And with drag and drop between the two qx.ui.listview.ListViews.</p>
+    <p>Testing qx.legacy.ui.listview.ListView with text cells.</p>
+    <p>And with drag and drop between the two qx.legacy.ui.listview.ListViews.</p>
   </div>
 
   <script type="text/javascript">
@@ -44,7 +44,7 @@
       
       function handleDrag(e) 
       {
-        e.addData("qx.ui.listview.ListViewEntries", qx.lang.Array.copy(e.getCurrentTarget().getManager().getSelectedItems()));
+        e.addData("qx.legacy.ui.listview.ListViewEntries", qx.lang.Array.copy(e.getCurrentTarget().getManager().getSelectedItems()));
         e.addAction("move");
         e.startDrag();
       };
@@ -81,7 +81,7 @@
       
       
       
-      var sourceView = new qx.ui.listview.ListView(ld, lc1);
+      var sourceView = new qx.legacy.ui.listview.ListView(ld, lc1);
 
       sourceView.setBorder("dark-shadow");
       sourceView.setBackgroundColor("white");
@@ -92,12 +92,12 @@
       sourceView.getPane().getManager().setDragSelection(false);
       sourceView.getPane().addListener("dragstart", handleDrag);
       
-      qx.ui.core.ClientDocument.getInstance().add(sourceView);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(sourceView);
       
       
       
       
-      var destView = new qx.ui.listview.ListView([], lc2);
+      var destView = new qx.legacy.ui.listview.ListView([], lc2);
 
       destView.setBorder("dark-shadow");
       destView.setBackgroundColor("white");
@@ -106,10 +106,10 @@
       destView.setLocation(20, 318);
       
       destView.getPane().getManager().setDragSelection(false);
-      destView.getPane().setDropDataTypes(["qx.ui.listview.ListViewEntries"]);
+      destView.getPane().setDropDataTypes(["qx.legacy.ui.listview.ListViewEntries"]);
       destView.getPane().addListener("dragdrop", handleDrop);          
       
-      qx.ui.core.ClientDocument.getInstance().add(destView);      
+      qx.legacy.ui.core.ClientDocument.getInstance().add(destView);      
     });
   </script>
 </body>

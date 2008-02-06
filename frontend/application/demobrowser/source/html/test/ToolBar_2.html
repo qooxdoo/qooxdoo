@@ -13,7 +13,7 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
       var btns1 = [
         { type : "button", icon : "document-new", text : "New" },
@@ -49,7 +49,7 @@
 
       for (var k=0; k<10; k++)
       {
-        var tb = new qx.ui.toolbar.ToolBar;
+        var tb = new qx.legacy.ui.toolbar.ToolBar;
         with(tb)
         {
           setTop(48+(k*50));
@@ -62,7 +62,7 @@
           var btns = bars[j];
   
           if (useParts) {
-            var tbp = new qx.ui.toolbar.Part;
+            var tbp = new qx.legacy.ui.toolbar.Part;
           };
   
           for (var i=0; i<btns.length; i++)
@@ -72,11 +72,11 @@
             switch(btn.type)
             {
               case "separator":
-                var o = new qx.ui.toolbar.Separator;
+                var o = new qx.legacy.ui.toolbar.Separator;
                 break;
   
               case "button":
-                var o = new qx.ui.toolbar.Button(btn.text, "icon/22/actions/" + btn.icon + ".png");
+                var o = new qx.legacy.ui.toolbar.Button(btn.text, "icon/22/actions/" + btn.icon + ".png");
   
                 // beautiful decoupling: toolbar buttons don't know about radio boxes
   

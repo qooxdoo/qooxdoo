@@ -114,7 +114,7 @@
           });
         };
   
-        var galleryList = new qx.ui.embed.GalleryList(galleryData);
+        var galleryList = new qx.legacy.ui.embed.GalleryList(galleryData);
   
         galleryList.setWidth(400);
         galleryList.setTop(20);
@@ -127,11 +127,11 @@
         galleryList.setBackgroundColor("white");
         galleryList.addListener("beforeToolTipAppear", function(e) {
   				var entry = galleryList.getEntryByNode(e.getData());
-        	galleryList.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.number));
+        	galleryList.setToolTip(new qx.legacy.ui.popup.ToolTip(entry.comment + ": " + entry.number));
         });
   
   
-        qx.ui.core.ClientDocument.getInstance().add(galleryList);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(galleryList);
       }
     }
   });

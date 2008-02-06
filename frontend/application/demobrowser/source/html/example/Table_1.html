@@ -32,9 +32,9 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-        var main = new qx.ui.layout.VerticalBoxLayout();
+        var main = new qx.legacy.ui.layout.VerticalBoxLayout();
         main.set({ left:20, top:20, right:20, bottom:20, spacing:5 });
 
         var nextId = 0;
@@ -56,7 +56,7 @@
         rowData[15][1] = "<b>A html &amp; entities escaping test</b>";
 
         // table model
-        var tableModel = new qx.ui.table.model.Simple();
+        var tableModel = new qx.legacy.ui.table.model.Simple();
         tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
         tableModel.setData(rowData);
         tableModel.setColumnEditable(1, true);
@@ -69,15 +69,15 @@
             tableColumnModel :
               function(obj)
               {
-                return new qx.ui.table.columnmodel.Resize(obj);
+                return new qx.legacy.ui.table.columnmodel.Resize(obj);
               }
           };
 
         // table
-        var table = new qx.ui.table.Table(tableModel, custom);
+        var table = new qx.legacy.ui.table.Table(tableModel, custom);
         with (table) {
           set({ width:"100%", height:"1*", border:"inset-thin" });
-          getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+          getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
 
           //
           // Specify the resize behavior...  First, get the table column model,
@@ -103,16 +103,16 @@
           resizeBehavior.set(3, { width:100 });
 
           // Display a checkbox in column 3
-          tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+          tcm.setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
         };
 
         main.add(table);
 
-        var buttonBar = new qx.ui.layout.HorizontalBoxLayout();
+        var buttonBar = new qx.legacy.ui.layout.HorizontalBoxLayout();
         buttonBar.set({ width:"100%", height:"auto", spacing:5 });
         main.add(buttonBar);
 
-        var button = new qx.ui.form.Button("Change row with ID 10");
+        var button = new qx.legacy.ui.form.Button("Change row with ID 10");
         button.addListener("execute", function(evt) {
           var rowData = createRandomRows(1);
           for (var i = 1; i < tableModel.getColumnCount(); i++) {
@@ -122,7 +122,7 @@
         });
         buttonBar.add(button);
 
-        var button = new qx.ui.form.Button("Add 10 rows");
+        var button = new qx.legacy.ui.form.Button("Add 10 rows");
         button.addListener("execute", function(evt) {
           var rowData = createRandomRows(10);
           tableModel.addRows(rowData);
@@ -130,7 +130,7 @@
         });
         buttonBar.add(button);
 
-        var button = new qx.ui.form.Button("Remove 5 rows");
+        var button = new qx.legacy.ui.form.Button("Remove 5 rows");
         button.addListener("execute", function(evt) {
           var rowCount = tableModel.getRowCount();
           tableModel.removeRows(rowCount-5, 5);
@@ -139,10 +139,10 @@
         buttonBar.add(button);
 
         var checkBox =
-          new qx.ui.form.CheckBox("keepFirstVisibleRowComplete",
+          new qx.legacy.ui.form.CheckBox("keepFirstVisibleRowComplete",
                                   null, null,
                                   table.getKeepFirstVisibleRowComplete());
-        checkBox.setToolTip(new qx.ui.popup.ToolTip(
+        checkBox.setToolTip(new qx.legacy.ui.popup.ToolTip(
                               "Whether the the first visible row should " +
                               "be rendered completely when scrolling."));
         checkBox.addListener(
@@ -158,12 +158,12 @@
 
 /* Demonstrate how to revert to the 0.7.2 style:
         var checkBox =
-          new qx.ui.form.CheckBox("0.7.2-style",
+          new qx.legacy.ui.form.CheckBox("0.7.2-style",
                                   null, null,
                                   false);
-        checkBox.setToolTip(new qx.ui.popup.ToolTip(
+        checkBox.setToolTip(new qx.legacy.ui.popup.ToolTip(
                               "Use the 0.7.2 style with less padding"));
-        var cellrenderer = qx.ui.table.cellrenderer.Abstract;
+        var cellrenderer = qx.legacy.ui.table.cellrenderer.Abstract;
         var origStyle = cellrenderer.getTableCellStyleSheet();
         checkBox.addListener(
           "changeChecked",
@@ -186,10 +186,10 @@
 
 /* Demonstrate how to change the header size
         var checkBox =
-          new qx.ui.form.CheckBox("header",
+          new qx.legacy.ui.form.CheckBox("header",
                                   null, null,
                                   false);
-        checkBox.setToolTip(new qx.ui.popup.ToolTip(
+        checkBox.setToolTip(new qx.legacy.ui.popup.ToolTip(
                               "Show an expanded header"));
         var origHeaderSize = table.getHeaderCellHeight();
         checkBox.addListener(
@@ -214,10 +214,10 @@
         var tcm = table.getTableColumnModel();
 
         var checkBox =
-          new qx.ui.form.CheckBox("Sort ID column even/odd",
+          new qx.legacy.ui.form.CheckBox("Sort ID column even/odd",
                                   null, null,
                                   false);
-        checkBox.setToolTip(new qx.ui.popup.ToolTip(
+        checkBox.setToolTip(new qx.legacy.ui.popup.ToolTip(
                               "Demonstrate use of alternate sorting algorithm."));
         checkBox.addListener(
           "changeChecked",

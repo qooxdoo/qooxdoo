@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for qx.ui.component.ColorPopup.</p>
+    <p>Test for qx.legacy.ui.component.ColorPopup.</p>
   </div>
 
   <script type="text/javascript">
@@ -20,7 +20,7 @@
       main : function()
       {
         this.base(arguments);
-        var mybtn = new qx.ui.form.Button("Open Popup");
+        var mybtn = new qx.legacy.ui.form.Button("Open Popup");
         mybtn.setLocation(20, 20);
         mybtn.addListener("execute", function() {
           mypop.setTop(qx.legacy.html.Location.getPageBoxBottom(this.getElement()));
@@ -28,7 +28,7 @@
           mypop.show();
         });
     
-        var myview = new qx.ui.basic.Label("Selected Color");
+        var myview = new qx.legacy.ui.basic.Label("Selected Color");
         myview.setBorder("inset");
         myview.setLocation(100, 20);
         myview.setPadding(3, 6);
@@ -55,7 +55,7 @@
           }
         }
     
-        var mypop = new qx.ui.component.ColorPopup(mytables);
+        var mypop = new qx.legacy.ui.component.ColorPopup(mytables);
         mypop.setLocation(100, 100);
         mypop.setValue("#23F3C1");
     

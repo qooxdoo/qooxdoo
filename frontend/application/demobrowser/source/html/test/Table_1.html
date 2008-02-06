@@ -13,10 +13,10 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     // table model
-    var tableModel = new qx.ui.table.model.Simple();
+    var tableModel = new qx.legacy.ui.table.model.Simple();
     tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
     var rowData = [];
     var now = new Date().getTime();
@@ -30,12 +30,12 @@
     tableModel.setColumnEditable(2, true);
   
     // table
-    var table = new qx.ui.table.Table(tableModel);
+    var table = new qx.legacy.ui.table.Table(tableModel);
     with (table) {
       set({ left:10, top:30, right:300, bottom:30, border:"inset-thin" });
       setMetaColumnCounts([1, -1]);
-      getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
-      getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+      getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+      getTableColumnModel().setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
     };
 
     d.add(table);

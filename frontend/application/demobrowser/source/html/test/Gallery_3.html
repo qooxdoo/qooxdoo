@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test file for qx.ui.embed.Gallery, now with ToolTips assigned.</p>
+    <p>Test file for qx.legacy.ui.embed.Gallery, now with ToolTips assigned.</p>
     <button onclick="updateAdd()">Update Add</button>
   </div>
 
@@ -115,7 +115,7 @@
         });
       };
 
-      var gallery = new qx.ui.embed.Gallery(galleryList);
+      var gallery = new qx.legacy.ui.embed.Gallery(galleryList);
 
       gallery.setLeft(20);
       gallery.setRight(335);
@@ -126,11 +126,11 @@
       gallery.setShowComment(false);
       gallery.setDecorHeight(0);
 
-      qx.ui.core.ClientDocument.getInstance().add(gallery);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(gallery);
 
 
 
-      var toolTip = new qx.ui.popup.ToolTip("Photo Details", "icon/32/actions/format-color.png");
+      var toolTip = new qx.legacy.ui.popup.ToolTip("Photo Details", "icon/32/actions/format-color.png");
     gallery.setToolTip(toolTip);
 
       gallery.addListener("beforeToolTipAppear", function(e)

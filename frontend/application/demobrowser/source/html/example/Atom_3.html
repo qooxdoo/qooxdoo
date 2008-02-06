@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing the new flash support for qx.ui.basic.Atom</p>
+    <p>Testing the new flash support for qx.legacy.ui.basic.Atom</p>
   </div>
 
   <script type="text/javascript">
@@ -20,12 +20,12 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
         var a;
   
         for (var i=1; i<11; i++)
         {
-          var a = new qx.ui.basic.Atom("Flash Atom #" + i, "icon/16/actions/view-refresh.png", 16, 16, "./image/flash/color/file" + i + ".swf");
+          var a = new qx.legacy.ui.basic.Atom("Flash Atom #" + i, "icon/16/actions/view-refresh.png", 16, 16, "./image/flash/color/file" + i + ".swf");
   
           a.setTop(20 + ((i-1)*30));
           a.setLeft(20);

@@ -29,11 +29,11 @@
         // We want to use some of the high-level node operation convenience
         // methods rather than manually digging into the TreeVirtual helper
         // classes.  Include the mixin that provides them.
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MNode);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MNode);
     
         // tree
-        var tree = new qx.ui.treevirtual.RecursiveCheckBoxTree("Tree");
+        var tree = new qx.legacy.ui.treevirtual.RecursiveCheckBoxTree("Tree");
         with (tree)
         {
           set({

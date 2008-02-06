@@ -14,7 +14,7 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var frame = new qx.ui.layout.CanvasLayout;
+    var frame = new qx.legacy.ui.layout.CanvasLayout;
     frame.setLocation(20, 48);
     frame.setBottom(48);
     frame.setRight(300);
@@ -23,19 +23,19 @@
     frame.addToDocument();
 
     // the splitpane itself
-    var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
+    var splitpane = new qx.legacy.ui.splitpane.HorizontalSplitPane("1*", "2*");
     splitpane.setEdge(0);
     frame.add(splitpane);
 
     // left Widget
-    var leftWidget = new qx.ui.form.TextArea("LeftWidget");
+    var leftWidget = new qx.legacy.ui.form.TextArea("LeftWidget");
     leftWidget.setWrap(true);
     leftWidget.setBackgroundColor("white");
     leftWidget.setWidth("100%");
     leftWidget.setHeight("100%");
 
     // rightWidget (another splitpane)
-    var rightWidget = new qx.ui.splitpane.VerticalSplitPane;
+    var rightWidget = new qx.legacy.ui.splitpane.VerticalSplitPane;
     rightWidget.setHeight("100%");
     rightWidget.setWidth("100%");
 
@@ -46,13 +46,13 @@
 
 
     // right top widget
-    var topWidget = new qx.ui.form.TextArea("Right Top Widget");
+    var topWidget = new qx.legacy.ui.form.TextArea("Right Top Widget");
     topWidget.setBackgroundColor("white");
     topWidget.setHeight("100%");
     topWidget.setWidth("100%");
 
     // right bottom widget
-    var bottomWidget = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
+    var bottomWidget = new qx.legacy.ui.embed.Iframe("http://www.qooxdoo.org");
     bottomWidget.setHeight("100%");
     bottomWidget.setWidth("100%");
 
@@ -63,7 +63,7 @@
 
 
 
-    var toggleButton = new qx.ui.form.Button("Toggle Layout", "icon/16/actions/view-refresh.png");
+    var toggleButton = new qx.legacy.ui.form.Button("Toggle Layout", "icon/16/actions/view-refresh.png");
     toggleButton.setBottom(48);
     toggleButton.setLeft(20);
     toggleButton.addToDocument();

@@ -7,8 +7,8 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.listview.ListView with text cells.</p>
-    <p>This qx.ui.listview.ListView will be resized with the window.</p>
+    <p>Testing qx.legacy.ui.listview.ListView with text cells.</p>
+    <p>This qx.legacy.ui.listview.ListView will be resized with the window.</p>
   </div>
 
   <script type="text/javascript">
@@ -32,7 +32,7 @@
         rights : { label : "Rights", width: 80, type : "text" }
       };
 
-      var lv = new qx.ui.listview.ListView(ld, lc);
+      var lv = new qx.legacy.ui.listview.ListView(ld, lc);
 
       lv.setBorder("dark-shadow");
       lv.setBackgroundColor("white");
@@ -40,7 +40,7 @@
       lv.setRight(335);
       lv.setBottom(48);
 
-      qx.ui.core.ClientDocument.getInstance().add(lv);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(lv);
     });
   </script>
 </body>

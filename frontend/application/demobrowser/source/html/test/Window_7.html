@@ -7,8 +7,8 @@
 </head>
 <body>
   <div id="description">
-    <p>qx.ui.basic.Atom is the parent class for buttons, menu entries, icons, checkboxes. While you can do,
-    you usually don't have to instantiate qx.ui.basic.Atom directly.</p>
+    <p>qx.legacy.ui.basic.Atom is the parent class for buttons, menu entries, icons, checkboxes. While you can do,
+    you usually don't have to instantiate qx.legacy.ui.basic.Atom directly.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,7 +21,7 @@
       main : function()
       {
         this.base(arguments);
-var layout = new qx.ui.layout.CanvasLayout();
+var layout = new qx.legacy.ui.layout.CanvasLayout();
 layout.set({
     left : 0,
     right : 0,
@@ -30,11 +30,11 @@ layout.set({
     overflow : "auto"
 });
 layout.addToDocument();
-var lbl = new qx.ui.basic.Label("label");
+var lbl = new qx.legacy.ui.basic.Label("label");
 lbl.setLeft(2000);
 lbl.setTop(2000);
 layout.add(lbl);
-var wnd = new qx.ui.window.Window("Test window");
+var wnd = new qx.legacy.ui.window.Window("Test window");
 wnd.set({
     left : 200,
     top : 200,

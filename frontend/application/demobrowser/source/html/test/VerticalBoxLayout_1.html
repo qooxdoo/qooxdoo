@@ -7,13 +7,13 @@
 </head>
 <body>  
   <div id="description">
-    Tests for the new implementation of the qx.ui.layout.VerticalBoxLayout widget.
+    Tests for the new implementation of the qx.legacy.ui.layout.VerticalBoxLayout widget.
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     var cl_white = "white";
     var cl_blue = "blue";
@@ -31,7 +31,7 @@
 
     *********************************************** */
 
-    var hbl1 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl1 = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     hbl1.setTop(48);
     hbl1.setLeft(20);
@@ -45,39 +45,39 @@
     hbl1.setHorizontalChildrenAlign("right");
 
 
-    var w1_1 = new qx.ui.layout.CanvasLayout;
+    var w1_1 = new qx.legacy.ui.layout.CanvasLayout;
     w1_1.setHeight(25);
     w1_1.setWidth(25);
     w1_1.setBorder("black");
     w1_1.setBackgroundColor(cl_white);
     // w1_1.setMaxWidth(40);
 
-    var w1_2 = new qx.ui.layout.CanvasLayout;
+    var w1_2 = new qx.legacy.ui.layout.CanvasLayout;
     w1_2.setHeight(25);
     w1_2.setWidth(25);
     w1_2.setBorder("black");
     w1_2.setBackgroundColor(cl_blue);
     w1_2.setRight(10);
 
-    var w1_3 = new qx.ui.layout.CanvasLayout;
+    var w1_3 = new qx.legacy.ui.layout.CanvasLayout;
     w1_3.setHeight(25);
     w1_3.setWidth("100%");
     w1_3.setBorder("black");
     w1_3.setBackgroundColor(cl_yellow);
 
-    var w1_4 = new qx.ui.layout.CanvasLayout;
+    var w1_4 = new qx.legacy.ui.layout.CanvasLayout;
     w1_4.setHeight(25);
     w1_4.setWidth(25);
     w1_4.setBorder("black");
     w1_4.setBackgroundColor(cl_green);
 
-    var w1_5 = new qx.ui.layout.CanvasLayout;
+    var w1_5 = new qx.legacy.ui.layout.CanvasLayout;
     w1_5.setHeight(40);
     // w1_5.setWidth(25);
     w1_5.setBorder("black");
     w1_5.setBackgroundColor(cl_orange);
 
-    var w1_6 = new qx.ui.layout.CanvasLayout;
+    var w1_6 = new qx.legacy.ui.layout.CanvasLayout;
     w1_6.setHeight(25);
     w1_6.setWidth(25);
     w1_6.setBorder("black");
@@ -85,17 +85,17 @@
     w1_6.setLeft(15);
     w1_6.setTop(-25);
 
-    var w1_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var w1_7 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
-    var w1_8 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var w1_8 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    var w1_9 = new qx.ui.layout.CanvasLayout;
+    var w1_9 = new qx.legacy.ui.layout.CanvasLayout;
     w1_9.setHeight(25);
     w1_9.setWidth(25);
     w1_9.setBorder("black");
     w1_9.setBackgroundColor(cl_aqua);
 
-    var w1_10 = new qx.ui.layout.CanvasLayout;
+    var w1_10 = new qx.legacy.ui.layout.CanvasLayout;
     w1_10.setHeight(25);
     w1_10.setWidth(25);
     w1_10.setBorder("black");
@@ -147,7 +147,7 @@
       {
         this.setHeight(65);
         this.setWidth(65);
-        this.setBorder(new qx.ui.core.Border(6, "double", "black"));
+        this.setBorder(new qx.legacy.ui.core.Border(6, "double", "black"));
       }
       else
       {
@@ -233,7 +233,7 @@
 
     *********************************************** */
 
-    var hbl2 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl2 = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     hbl2.setLeft(110);
     hbl2.setTop(48);
@@ -248,39 +248,39 @@
     hbl2.setHorizontalChildrenAlign("center");
 
 
-    var w2_1 = new qx.ui.layout.CanvasLayout;
+    var w2_1 = new qx.legacy.ui.layout.CanvasLayout;
     w2_1.setHeight(25);
     w2_1.setWidth(25);
     w2_1.setBorder("black");
     w2_1.setBackgroundColor(cl_white);
     // w2_1.setMaxWidth(40);
 
-    var w2_2 = new qx.ui.layout.CanvasLayout;
+    var w2_2 = new qx.legacy.ui.layout.CanvasLayout;
     w2_2.setHeight(25);
     w2_2.setWidth(25);
     w2_2.setBorder("black");
     w2_2.setBackgroundColor(cl_blue);
     w2_2.setRight(10);
 
-    var w2_3 = new qx.ui.layout.CanvasLayout;
+    var w2_3 = new qx.legacy.ui.layout.CanvasLayout;
     w2_3.setHeight(25);
     w2_3.setWidth("100%");
     w2_3.setBorder("black");
     w2_3.setBackgroundColor(cl_yellow);
 
-    var w2_4 = new qx.ui.layout.CanvasLayout;
+    var w2_4 = new qx.legacy.ui.layout.CanvasLayout;
     w2_4.setHeight(25);
     w2_4.setWidth(25);
     w2_4.setBorder("black");
     w2_4.setBackgroundColor(cl_green);
 
-    var w2_5 = new qx.ui.layout.CanvasLayout;
+    var w2_5 = new qx.legacy.ui.layout.CanvasLayout;
     w2_5.setHeight(40);
     // w2_5.setWidth(25);
     w2_5.setBorder("black");
     w2_5.setBackgroundColor(cl_orange);
 
-    var w2_6 = new qx.ui.layout.CanvasLayout;
+    var w2_6 = new qx.legacy.ui.layout.CanvasLayout;
     w2_6.setHeight(25);
     w2_6.setWidth(25);
     w2_6.setBorder("black");
@@ -288,17 +288,17 @@
     w2_6.setLeft(15);
     w2_6.setTop(-25);
 
-    var w2_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var w2_7 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
-    var w2_8 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var w2_8 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    var w2_9 = new qx.ui.layout.CanvasLayout;
+    var w2_9 = new qx.legacy.ui.layout.CanvasLayout;
     w2_9.setHeight(25);
     w2_9.setWidth(25);
     w2_9.setBorder("black");
     w2_9.setBackgroundColor(cl_aqua);
 
-    var w2_10 = new qx.ui.layout.CanvasLayout;
+    var w2_10 = new qx.legacy.ui.layout.CanvasLayout;
     w2_10.setHeight(25);
     w2_10.setWidth(25);
     w2_10.setBorder("black");
@@ -352,7 +352,7 @@
       {
         this.setHeight(65);
         this.setWidth(65);
-        this.setBorder(new qx.ui.core.Border(6, "double", "black"));
+        this.setBorder(new qx.legacy.ui.core.Border(6, "double", "black"));
       }
       else
       {
@@ -435,7 +435,7 @@
 
     *********************************************** */
 
-    var hbl3 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl3 = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     hbl3.setLeft(200);
     hbl3.setTop(48);
@@ -450,39 +450,39 @@
 
 
 
-    var w3_1 = new qx.ui.layout.CanvasLayout;
+    var w3_1 = new qx.legacy.ui.layout.CanvasLayout;
     w3_1.setHeight(25);
     w3_1.setWidth(25);
     w3_1.setBorder("black");
     w3_1.setBackgroundColor(cl_white);
     // w3_1.setMaxWidth(40);
 
-    var w3_2 = new qx.ui.layout.CanvasLayout;
+    var w3_2 = new qx.legacy.ui.layout.CanvasLayout;
     w3_2.setHeight(25);
     w3_2.setWidth(25);
     w3_2.setBorder("black");
     w3_2.setBackgroundColor(cl_blue);
     w3_2.setRight(10);
 
-    var w3_3 = new qx.ui.layout.CanvasLayout;
+    var w3_3 = new qx.legacy.ui.layout.CanvasLayout;
     w3_3.setHeight(25);
     w3_3.setWidth("100%");
     w3_3.setBorder("black");
     w3_3.setBackgroundColor(cl_yellow);
 
-    var w3_4 = new qx.ui.layout.CanvasLayout;
+    var w3_4 = new qx.legacy.ui.layout.CanvasLayout;
     w3_4.setHeight(25);
     w3_4.setWidth(25);
     w3_4.setBorder("black");
     w3_4.setBackgroundColor(cl_green);
 
-    var w3_5 = new qx.ui.layout.CanvasLayout;
+    var w3_5 = new qx.legacy.ui.layout.CanvasLayout;
     w3_5.setHeight(40);
     // w3_5.setWidth(25);
     w3_5.setBorder("black");
     w3_5.setBackgroundColor(cl_orange);
 
-    var w3_6 = new qx.ui.layout.CanvasLayout;
+    var w3_6 = new qx.legacy.ui.layout.CanvasLayout;
     w3_6.setHeight(25);
     w3_6.setWidth(25);
     w3_6.setBorder("black");
@@ -490,17 +490,17 @@
     w3_6.setLeft(15);
     w3_6.setTop(-25);
 
-    var w3_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var w3_7 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
-    var w3_8 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var w3_8 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    var w3_9 = new qx.ui.layout.CanvasLayout;
+    var w3_9 = new qx.legacy.ui.layout.CanvasLayout;
     w3_9.setHeight(25);
     w3_9.setWidth(25);
     w3_9.setBorder("black");
     w3_9.setBackgroundColor(cl_aqua);
 
-    var w3_10 = new qx.ui.layout.CanvasLayout;
+    var w3_10 = new qx.legacy.ui.layout.CanvasLayout;
     w3_10.setHeight(25);
     w3_10.setWidth(25);
     w3_10.setBorder("black");
@@ -553,7 +553,7 @@
       {
         this.setHeight(65);
         this.setWidth(65);
-        this.setBorder(new qx.ui.core.Border(6, "double", "black"));
+        this.setBorder(new qx.legacy.ui.core.Border(6, "double", "black"));
       }
       else
       {
@@ -638,7 +638,7 @@
 
     *********************************************** */
 
-    var hbl4 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl4 = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     hbl4.setLeft(290);
     hbl4.setTop(48);
@@ -655,39 +655,39 @@
 
 
 
-    var w4_1 = new qx.ui.layout.CanvasLayout;
+    var w4_1 = new qx.legacy.ui.layout.CanvasLayout;
     w4_1.setHeight(25);
     w4_1.setWidth(25);
     w4_1.setBorder("black");
     w4_1.setBackgroundColor(cl_white);
     // w4_1.setMaxWidth(40);
 
-    var w4_2 = new qx.ui.layout.CanvasLayout;
+    var w4_2 = new qx.legacy.ui.layout.CanvasLayout;
     w4_2.setHeight(25);
     w4_2.setWidth(25);
     w4_2.setBorder("black");
     w4_2.setBackgroundColor(cl_blue);
     w4_2.setRight(10);
 
-    var w4_3 = new qx.ui.layout.CanvasLayout;
+    var w4_3 = new qx.legacy.ui.layout.CanvasLayout;
     w4_3.setHeight(25);
     w4_3.setWidth("100%");
     w4_3.setBorder("black");
     w4_3.setBackgroundColor(cl_yellow);
 
-    var w4_4 = new qx.ui.layout.CanvasLayout;
+    var w4_4 = new qx.legacy.ui.layout.CanvasLayout;
     w4_4.setHeight(25);
     w4_4.setWidth(25);
     w4_4.setBorder("black");
     w4_4.setBackgroundColor(cl_green);
 
-    var w4_5 = new qx.ui.layout.CanvasLayout;
+    var w4_5 = new qx.legacy.ui.layout.CanvasLayout;
     w4_5.setHeight(40);
     // w4_5.setWidth(25);
     w4_5.setBorder("black");
     w4_5.setBackgroundColor(cl_orange);
 
-    var w4_6 = new qx.ui.layout.CanvasLayout;
+    var w4_6 = new qx.legacy.ui.layout.CanvasLayout;
     w4_6.setHeight(25);
     w4_6.setWidth(25);
     w4_6.setBorder("black");
@@ -695,17 +695,17 @@
     w4_6.setLeft(15);
     w4_6.setTop(-25);
 
-    var w4_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var w4_7 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
-    var w4_8 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var w4_8 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    var w4_9 = new qx.ui.layout.CanvasLayout;
+    var w4_9 = new qx.legacy.ui.layout.CanvasLayout;
     w4_9.setHeight(25);
     w4_9.setWidth(25);
     w4_9.setBorder("black");
     w4_9.setBackgroundColor(cl_aqua);
 
-    var w4_10 = new qx.ui.layout.CanvasLayout;
+    var w4_10 = new qx.legacy.ui.layout.CanvasLayout;
     w4_10.setHeight(25);
     w4_10.setWidth(25);
     w4_10.setBorder("black");
@@ -758,7 +758,7 @@
       {
         this.setHeight(65);
         this.setWidth(65);
-        this.setBorder(new qx.ui.core.Border(6, "double", "black"));
+        this.setBorder(new qx.legacy.ui.core.Border(6, "double", "black"));
       }
       else
       {
@@ -843,7 +843,7 @@
 
     *********************************************** */
 
-    var hbl5 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl5 = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     hbl5.setLeft(380);
     hbl5.setTop(48);
@@ -861,39 +861,39 @@
     hbl5.setWidth(80);
 
 
-    var w5_1 = new qx.ui.layout.CanvasLayout;
+    var w5_1 = new qx.legacy.ui.layout.CanvasLayout;
     w5_1.setHeight(25);
     w5_1.setWidth(25);
     w5_1.setBorder("black");
     w5_1.setBackgroundColor(cl_white);
     // w5_1.setMaxWidth(40);
 
-    var w5_2 = new qx.ui.layout.CanvasLayout;
+    var w5_2 = new qx.legacy.ui.layout.CanvasLayout;
     w5_2.setHeight(25);
     w5_2.setWidth(25);
     w5_2.setBorder("black");
     w5_2.setBackgroundColor(cl_blue);
     w5_2.setRight(10);
 
-    var w5_3 = new qx.ui.layout.CanvasLayout;
+    var w5_3 = new qx.legacy.ui.layout.CanvasLayout;
     w5_3.setHeight(25);
     w5_3.setWidth("100%");
     w5_3.setBorder("black");
     w5_3.setBackgroundColor(cl_yellow);
 
-    var w5_4 = new qx.ui.layout.CanvasLayout;
+    var w5_4 = new qx.legacy.ui.layout.CanvasLayout;
     w5_4.setHeight(25);
     w5_4.setWidth(25);
     w5_4.setBorder("black");
     w5_4.setBackgroundColor(cl_green);
 
-    var w5_5 = new qx.ui.layout.CanvasLayout;
+    var w5_5 = new qx.legacy.ui.layout.CanvasLayout;
     w5_5.setHeight(40);
     // w5_5.setWidth(25);
     w5_5.setBorder("black");
     w5_5.setBackgroundColor(cl_orange);
 
-    var w5_6 = new qx.ui.layout.CanvasLayout;
+    var w5_6 = new qx.legacy.ui.layout.CanvasLayout;
     w5_6.setHeight(25);
     w5_6.setWidth(25);
     w5_6.setBorder("black");
@@ -901,17 +901,17 @@
     w5_6.setLeft(15);
     w5_6.setTop(-25);
 
-    var w5_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var w5_7 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
-    var w5_8 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var w5_8 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    var w5_9 = new qx.ui.layout.CanvasLayout;
+    var w5_9 = new qx.legacy.ui.layout.CanvasLayout;
     w5_9.setHeight(25);
     w5_9.setWidth(25);
     w5_9.setBorder("black");
     w5_9.setBackgroundColor(cl_aqua);
 
-    var w5_10 = new qx.ui.layout.CanvasLayout;
+    var w5_10 = new qx.legacy.ui.layout.CanvasLayout;
     w5_10.setHeight(25);
     w5_10.setWidth(25);
     w5_10.setBorder("black");
@@ -964,7 +964,7 @@
       {
         this.setHeight(65);
         this.setWidth(65);
-        this.setBorder(new qx.ui.core.Border(6, "double", "black"));
+        this.setBorder(new qx.legacy.ui.core.Border(6, "double", "black"));
       }
       else
       {
@@ -1053,7 +1053,7 @@
 
     *********************************************** */
 
-    var hbl6 = new qx.ui.layout.VerticalBoxLayout;
+    var hbl6 = new qx.legacy.ui.layout.VerticalBoxLayout;
 
     hbl6.setLeft(470);
     hbl6.setTop(48);
@@ -1069,39 +1069,39 @@
     hbl6.setWidth(80);
 
 
-    var w6_1 = new qx.ui.layout.CanvasLayout;
+    var w6_1 = new qx.legacy.ui.layout.CanvasLayout;
     w6_1.setHeight(25);
     w6_1.setWidth(25);
     w6_1.setBorder("black");
     w6_1.setBackgroundColor(cl_white);
     // w6_1.setMaxWidth(40);
 
-    var w6_2 = new qx.ui.layout.CanvasLayout;
+    var w6_2 = new qx.legacy.ui.layout.CanvasLayout;
     w6_2.setHeight(25);
     w6_2.setWidth(25);
     w6_2.setBorder("black");
     w6_2.setBackgroundColor(cl_blue);
     w6_2.setRight(10);
 
-    var w6_3 = new qx.ui.layout.CanvasLayout;
+    var w6_3 = new qx.legacy.ui.layout.CanvasLayout;
     w6_3.setHeight(25);
     w6_3.setWidth("100%");
     w6_3.setBorder("black");
     w6_3.setBackgroundColor(cl_yellow);
 
-    var w6_4 = new qx.ui.layout.CanvasLayout;
+    var w6_4 = new qx.legacy.ui.layout.CanvasLayout;
     w6_4.setHeight(25);
     w6_4.setWidth(25);
     w6_4.setBorder("black");
     w6_4.setBackgroundColor(cl_green);
 
-    var w6_5 = new qx.ui.layout.CanvasLayout;
+    var w6_5 = new qx.legacy.ui.layout.CanvasLayout;
     w6_5.setHeight(40);
     // w6_5.setWidth(25);
     w6_5.setBorder("black");
     w6_5.setBackgroundColor(cl_orange);
 
-    var w6_6 = new qx.ui.layout.CanvasLayout;
+    var w6_6 = new qx.legacy.ui.layout.CanvasLayout;
     w6_6.setHeight(25);
     w6_6.setWidth(25);
     w6_6.setBorder("black");
@@ -1109,17 +1109,17 @@
     w6_6.setLeft(15);
     w6_6.setTop(-25);
 
-    var w6_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
+    var w6_7 = new qx.legacy.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
-    var w6_8 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    var w6_8 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    var w6_9 = new qx.ui.layout.CanvasLayout;
+    var w6_9 = new qx.legacy.ui.layout.CanvasLayout;
     w6_9.setHeight(25);
     w6_9.setWidth(25);
     w6_9.setBorder("black");
     w6_9.setBackgroundColor(cl_aqua);
 
-    var w6_10 = new qx.ui.layout.CanvasLayout;
+    var w6_10 = new qx.legacy.ui.layout.CanvasLayout;
     w6_10.setHeight(25);
     w6_10.setWidth(25);
     w6_10.setBorder("black");
@@ -1172,7 +1172,7 @@
       {
         this.setHeight(65);
         this.setWidth(65);
-        this.setBorder(new qx.ui.core.Border(6, "double", "black"));
+        this.setBorder(new qx.legacy.ui.core.Border(6, "double", "black"));
       }
       else
       {

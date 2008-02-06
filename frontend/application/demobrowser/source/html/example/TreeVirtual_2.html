@@ -29,11 +29,11 @@
         // We want to use some of the high-level node operation convenience
         // methods rather than manually digging into the TreeVirtual helper
         // classes.  Include the mixin that provides them.
-        qx.Class.include(qx.ui.treevirtual.TreeVirtual,
-                         qx.ui.treevirtual.MNode);
+        qx.Class.include(qx.legacy.ui.treevirtual.TreeVirtual,
+                         qx.legacy.ui.treevirtual.MNode);
         
         // tree
-        var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+        var tree = new qx.legacy.ui.treevirtual.TreeVirtual("Tree");
         tree.set({
                 left   : 10,
                 top    : 30,
@@ -128,28 +128,28 @@
     
     
     
-        var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+        var commandFrame = new qx.legacy.ui.groupbox.GroupBox("Control");
         commandFrame.set({ top: 48, left: 520, right: 290, height: "auto" });
         commandFrame.addToDocument();
     
         // Create a combo box for the selection type
-        var o = new qx.ui.basic.Atom("Selection Mode: ");
+        var o = new qx.legacy.ui.basic.Atom("Selection Mode: ");
         o.set({ top: 6, left: 0 });
         commandFrame.add(o);
     
-        o = new qx.ui.form.ComboBox();
+        o = new qx.legacy.ui.form.ComboBox();
         o.set({ top: 20, left: 4, width: "100%" });
         o.setEditable(false);
     
         // Add the various selection types
-        var item = new qx.ui.form.ListItem("No Selection");
+        var item = new qx.legacy.ui.form.ListItem("No Selection");
         o.add(item);
-        var item = new qx.ui.form.ListItem("Single Selection");
+        var item = new qx.legacy.ui.form.ListItem("Single Selection");
         o.add(item);
         o.setSelected(item);
-        var item = new qx.ui.form.ListItem("Single Interval Selection");
+        var item = new qx.legacy.ui.form.ListItem("Single Interval Selection");
         o.add(item);
-        var item = new qx.ui.form.ListItem("Multiple Interval Selection");
+        var item = new qx.legacy.ui.form.ListItem("Multiple Interval Selection");
         o.add(item);
       
         // We want to be notified if the selection changes
@@ -161,22 +161,22 @@
             {
             case "No Selection":
               tree.setSelectionMode(
-                qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE);
+                qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.NONE);
               break;
     
             case "Single Selection":
               tree.setSelectionMode(
-                qx.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE);
+                qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE);
               break;
     
             case "Single Interval Selection":
               tree.setSelectionMode(
-                qx.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE_INTERVAL);
+                qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE_INTERVAL);
               break;
     
             case "Multiple Interval Selection":
               tree.setSelectionMode(
-                qx.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL);
+                qx.legacy.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL);
               break;
             }
           });

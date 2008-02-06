@@ -7,8 +7,8 @@
 </head>
 <body>
   <div id="description">
-    <p>qx.ui.basic.Atom is the parent class for buttons, menu entries, icons, checkboxes. While you can do,
-    you usually don't have to instantiate qx.ui.basic.Atom directly.</p>
+    <p>qx.legacy.ui.basic.Atom is the parent class for buttons, menu entries, icons, checkboxes. While you can do,
+    you usually don't have to instantiate qx.legacy.ui.basic.Atom directly.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,10 +21,10 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
         // test no1
-        var nl1 = new qx.ui.basic.Atom("Test #1", "icon/16/actions/view-refresh.png", 16, 16);
+        var nl1 = new qx.legacy.ui.basic.Atom("Test #1", "icon/16/actions/view-refresh.png", 16, 16);
         nl1.setTop(20);
         nl1.setLeft(20);
         nl1.setBorder("black");
@@ -34,7 +34,7 @@
         d.add(nl1);
     
         // test no2
-        var nl2 = new qx.ui.basic.Atom("Test #2");
+        var nl2 = new qx.legacy.ui.basic.Atom("Test #2");
         nl2.setTop(20);
         nl2.setLeft(120);
         nl2.setBorder("black");
@@ -44,7 +44,7 @@
         d.add(nl2);
     
         // test no3
-        var nl3 = new qx.ui.basic.Atom(null, "icon/16/actions/view-refresh.png");
+        var nl3 = new qx.legacy.ui.basic.Atom(null, "icon/16/actions/view-refresh.png");
         nl3.setTop(20);
         nl3.setLeft(200);
         nl3.setBorder("black");
@@ -53,7 +53,7 @@
         d.add(nl3);
     
         // test no4
-        var nl4 = new qx.ui.basic.Atom("<span style='font-size:14px'>Some great HTML</span><br/>for <b>you</b>", "icon/32/actions/view-refresh.png");
+        var nl4 = new qx.legacy.ui.basic.Atom("<span style='font-size:14px'>Some great HTML</span><br/>for <b>you</b>", "icon/32/actions/view-refresh.png");
         nl4.setTop(20);
         nl4.setLeft(250);
         nl4.setBorder("black");
@@ -62,7 +62,7 @@
         d.add(nl4);
     
         // test no5
-        var nl5 = new qx.ui.basic.Atom(qx.legacy.html.Textile.textilize("*File Information*:\nJPEG-Photo\nCreated: 01/03/05"), "icon/48/apps/preferences-desktop-theme.png");
+        var nl5 = new qx.legacy.ui.basic.Atom(qx.legacy.html.Textile.textilize("*File Information*:\nJPEG-Photo\nCreated: 01/03/05"), "icon/48/apps/preferences-desktop-theme.png");
         nl5.set({ top : 200, left : 20, border : "outset", padding : [ 3, 6 ] });
         d.add(nl5);
     

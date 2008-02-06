@@ -7,13 +7,13 @@
 </head>
 <body>  
   <div id="description">
-    <p>Adding many qx.ui.basic.Atom widgets without setting the icon-width and -height.</p>
+    <p>Adding many qx.legacy.ui.basic.Atom widgets without setting the icon-width and -height.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     var atom;
     var toppos = 48;
@@ -22,7 +22,7 @@
     {
       for (var j=0; j<10; j++)
       {
-        atom = new qx.ui.basic.Atom("Date", "icon/16/apps/accessories-date.png");
+        atom = new qx.legacy.ui.basic.Atom("Date", "icon/16/apps/accessories-date.png");
 
         atom.setTop(toppos);
         atom.setLeft(20 + (j*50));

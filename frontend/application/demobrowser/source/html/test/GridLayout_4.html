@@ -7,14 +7,14 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for qx.ui.layout.GridLayout.</p>
+    <p>Test for qx.legacy.ui.layout.GridLayout.</p>
     <p>Using percents for children.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var gl = new qx.ui.layout.GridLayout;
+    var gl = new qx.legacy.ui.layout.GridLayout;
     
     gl.setLocation(20, 48);
     gl.setRight(335);
@@ -32,41 +32,41 @@
     gl.setRowHeight(0, "70%");
     gl.setRowHeight(1, "30%");
 
-    qx.ui.core.ClientDocument.getInstance().add(gl);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(gl);
     
     
     
     
     
-    var term1 = new qx.ui.basic.Terminator;
+    var term1 = new qx.legacy.ui.basic.Terminator;
     term1.setBackgroundColor("yellow");
     gl.add(term1, 0, 0);
     
-    var term2 = new qx.ui.basic.Terminator;
+    var term2 = new qx.legacy.ui.basic.Terminator;
     term2.setBackgroundColor("red");
     gl.add(term2, 1, 0);
     
-    var term3 = new qx.ui.basic.Terminator;
+    var term3 = new qx.legacy.ui.basic.Terminator;
     term3.setBackgroundColor("green");
     gl.add(term3, 2, 0);
 
-    var term4 = new qx.ui.basic.Terminator;
+    var term4 = new qx.legacy.ui.basic.Terminator;
     term4.setBackgroundColor("blue");
     gl.add(term4, 3, 0);
 
-    var term5 = new qx.ui.basic.Terminator;
+    var term5 = new qx.legacy.ui.basic.Terminator;
     term5.setBackgroundColor("fuchsia");
     gl.add(term5, 0, 1);
     
-    var term6 = new qx.ui.basic.Terminator;
+    var term6 = new qx.legacy.ui.basic.Terminator;
     term6.setBackgroundColor("olive");
     gl.add(term6, 1, 1);
     
-    var term7 = new qx.ui.basic.Terminator;
+    var term7 = new qx.legacy.ui.basic.Terminator;
     term7.setBackgroundColor("maroon");
     gl.add(term7, 2, 1);
     
-    var term8 = new qx.ui.basic.Terminator;
+    var term8 = new qx.legacy.ui.basic.Terminator;
     term8.setBackgroundColor("navy");
     gl.add(term8, 3, 1);            
   });

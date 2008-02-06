@@ -28,33 +28,33 @@
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      var layout1 = new qx.ui.layout.VerticalBoxLayout();
+      var layout1 = new qx.legacy.ui.layout.VerticalBoxLayout();
       layout1.setTop(40);
       layout1.setLeft(20);
       layout1.setSpacing(4);
 
-      var crossDomain = new qx.ui.form.CheckBox("Cross Domain");
+      var crossDomain = new qx.legacy.ui.form.CheckBox("Cross Domain");
       layout1.add(crossDomain);
 
-      layout1.add(new qx.ui.basic.Label("URL:"));
+      layout1.add(new qx.legacy.ui.basic.Label("URL:"));
       var defaultURL = qx.io.remote.Rpc.makeServerURL();
       if (defaultURL == null) {
         defaultURL = "/services/";
       }
-      var url = new qx.ui.form.TextField(defaultURL);
+      var url = new qx.legacy.ui.form.TextField(defaultURL);
       layout1.add(url);
 
-      layout1.add(new qx.ui.basic.Label("Service:"));
-      var service = new qx.ui.form.TextField("qooxdoo.test");
+      layout1.add(new qx.legacy.ui.basic.Label("Service:"));
+      var service = new qx.legacy.ui.form.TextField("qooxdoo.test");
       layout1.add(service);
 
-      var layout2 = new qx.ui.layout.HorizontalBoxLayout();
+      var layout2 = new qx.legacy.ui.layout.HorizontalBoxLayout();
       layout2.setHeight("auto");
       layout2.setVerticalChildrenAlign("middle");
       layout2.setSpacing(4);
-      var start = new qx.ui.form.Button("Start Test");
+      var start = new qx.legacy.ui.form.Button("Start Test");
       layout2.add(start);
-      var abort = new qx.ui.form.Button("Abort");
+      var abort = new qx.legacy.ui.form.Button("Abort");
       layout2.add(abort);
       layout1.add(layout2);
 
@@ -131,7 +131,7 @@
         mycalls = [ ];
       });
 
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
       d.add(layout1);
     });
   </script>

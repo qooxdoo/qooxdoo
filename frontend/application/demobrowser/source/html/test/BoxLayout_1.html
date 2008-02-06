@@ -179,50 +179,50 @@
   function test1()
   {
     bl.remove(w2);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   function test2()
   {
     bl.add(w2);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   function test3()
   {
     bl.addAt(w2, 2);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   function test4()
   {
     bl.addAt(w2, 4);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   function test5()
   {
     bl.addBefore(w3, w7);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   function test6()
   {
     bl.addAfter(w3, w4);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   function test7()
   {
     bl.addAt(w8, 1);
-    qx.ui.core.Widget.flushGlobalQueues();
+    qx.legacy.ui.core.Widget.flushGlobalQueues();
   };
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    bl = new qx.ui.layout.BoxLayout("horizontal");
+    bl = new qx.legacy.ui.layout.BoxLayout("horizontal");
     bl.setBorder("black");
     bl.setBackgroundColor("white");
     bl.setWidth(250);
@@ -230,41 +230,41 @@
     bl.setTop(48);
     bl.setLeft(20);
 
-    w1 = new qx.ui.layout.CanvasLayout;
+    w1 = new qx.legacy.ui.layout.CanvasLayout;
     w1.setBackgroundColor("orange");
     w1.setMinWidth(20);
     w1.setMinHeight(20);
     w1.setBorder("black");
 
-    w2 = new qx.ui.layout.CanvasLayout;
+    w2 = new qx.legacy.ui.layout.CanvasLayout;
     w2.setBackgroundColor("blue");
     w2.setMinWidth(20);
     w2.setMinHeight(20);
     w2.setBorder("black");
 
-    w3 = new qx.ui.layout.CanvasLayout;
+    w3 = new qx.legacy.ui.layout.CanvasLayout;
     w3.setBackgroundColor("green");
     w3.setMinWidth(20);
     w3.setMinHeight(20);
     w3.setBorder("black");
 
-    w4 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
+    w4 = new qx.legacy.ui.basic.Image("icon/32/actions/format-color.png");
 
-    w5 = new qx.ui.layout.CanvasLayout;
+    w5 = new qx.legacy.ui.layout.CanvasLayout;
     w5.setBackgroundColor("yellow");
     w5.setMinWidth(20);
     w5.setMinHeight(20);
     w5.setBorder("black");
 
-    w6 = new qx.ui.layout.CanvasLayout;
+    w6 = new qx.legacy.ui.layout.CanvasLayout;
     w6.setBackgroundColor("red");
     w6.setMinWidth(20);
     w6.setMinHeight(20);
     w6.setBorder("black");
 
-    w7 = new qx.ui.basic.Image("icon/64/devices/media-optical.png");
+    w7 = new qx.legacy.ui.basic.Image("icon/64/devices/media-optical.png");
 
-    w8 = new qx.ui.layout.CanvasLayout;
+    w8 = new qx.legacy.ui.layout.CanvasLayout;
     w8.setBackgroundColor("fuchsia");
     w8.setMinWidth(20);
     w8.setMinHeight(20);

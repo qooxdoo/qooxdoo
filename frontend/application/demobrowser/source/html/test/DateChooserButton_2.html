@@ -19,21 +19,21 @@
 	
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     function changeValue(e) {
       this.debug("Text changed: " + e.getData());
     }
 
-		var l1 = new qx.ui.basic.Label("Ein Datum: "); l1.set({top:51, left:20});
+		var l1 = new qx.legacy.ui.basic.Label("Ein Datum: "); l1.set({top:51, left:20});
 		d.add(l1);
 		
-    var tf1 = new qx.ui.form.TextField; tf1.set({top:48,left:80,width:70});
+    var tf1 = new qx.legacy.ui.form.TextField; tf1.set({top:48,left:80,width:70});
     tf1.addListener("changeValue", changeValue);
     d.add(tf1);
 
 
-    var dcb1 = new qx.ui.component.DateChooserButton(); 
+    var dcb1 = new qx.legacy.ui.component.DateChooserButton(); 
     dcb1.set({top:47,left:152});
     // associate the date chooser button to the textfield tf1:
     dcb1.setTargetWidget(tf1);
@@ -44,14 +44,14 @@
     
     d.add(dcb1);
     
-    var l2 = new qx.ui.basic.Label("Datum 2: "); l2.set({top:91, left:20});
+    var l2 = new qx.legacy.ui.basic.Label("Datum 2: "); l2.set({top:91, left:20});
 		d.add(l2);
 		
-    var tf2 = new qx.ui.form.TextField; tf2.set({top:88,left:80,width:70});
+    var tf2 = new qx.legacy.ui.form.TextField; tf2.set({top:88,left:80,width:70});
     tf2.addListener("changeValue", changeValue);
     d.add(tf2);
 
-    var dcb2 = new qx.ui.component.DateChooserButton(tf2); 
+    var dcb2 = new qx.legacy.ui.component.DateChooserButton(tf2); 
     dcb2.set({top:87,left:152,chooserTitle:"Bitte ein Datum wählen"});
 		d.add(dcb2);    
   });

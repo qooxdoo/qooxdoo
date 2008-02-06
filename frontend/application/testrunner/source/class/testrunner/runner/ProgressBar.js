@@ -26,7 +26,7 @@
 
 qx.Class.define("testrunner.runner.ProgressBar",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -48,11 +48,11 @@ qx.Class.define("testrunner.runner.ProgressBar",
 
     var label = arguments[0] || "Progress:";
 
-    this.label = new qx.ui.basic.Label(label);
+    this.label = new qx.legacy.ui.basic.Label(label);
     this.add(this.label);
     this.setLabel(label);
 
-    this.hull = new qx.ui.layout.CanvasLayout();
+    this.hull = new qx.legacy.ui.layout.CanvasLayout();
     this.add(this.hull);
 
     this.hull.set(
@@ -63,7 +63,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
       border          : "inset"
     });
 
-    this.bar = new qx.ui.basic.Terminator();
+    this.bar = new qx.legacy.ui.basic.Terminator();
     this.hull.add(this.bar);
 
     this.bar.set(
@@ -78,14 +78,14 @@ qx.Class.define("testrunner.runner.ProgressBar",
 
     this.bar.setStyleProperty("fontSize", 0);  // for IE
 
-    this.stepStatus = new qx.ui.basic.Label("(0/0)");
+    this.stepStatus = new qx.legacy.ui.basic.Label("(0/0)");
     this.add(this.stepStatus);
 
     if (!this.isShowStepStatus()) {
       this.stepStatus.setDisplay(false);
     }
 
-    this.pcntStatus = new qx.ui.basic.Label("(0%)");
+    this.pcntStatus = new qx.legacy.ui.basic.Label("(0%)");
     this.add(this.pcntStatus);
 
     if (!this.isShowPcntStatus()) {
@@ -251,7 +251,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
         {
           quotVal = Math.round(quot[0] / quot[1] * 100);
           this.bar.setWidth(quotVal + "%");
-          qx.ui.core.Widget.flushGlobalQueues();
+          qx.legacy.ui.core.Widget.flushGlobalQueues();
           this.stepStatus.setText("(" + val + ")");
           this.pcntStatus.setText("(" + quotVal + "%)");
         }
@@ -270,7 +270,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
         else
         {
           this.bar.setWidth(pcnt + "%");
-          qx.ui.core.Widget.flushGlobalQueues();
+          qx.legacy.ui.core.Widget.flushGlobalQueues();
           this.pcntStatus.setText("(" + pcnt + "%)");
           quotVal = pcnt + "/100";
           this.stepStatus.setText("(" + quotVal + ")");

@@ -29,7 +29,7 @@
  */
 qx.Class.define("apiviewer.ui.SearchView",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
   /*
@@ -85,7 +85,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       //--------------------------------------------------------
 
       // Search form
-      var sform = new qx.ui.layout.HorizontalBoxLayout;
+      var sform = new qx.legacy.ui.layout.HorizontalBoxLayout;
       sform.set({
         height          : "auto",
         padding         : 5,
@@ -96,23 +96,23 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
       // Search form - input field
-      this.sinput = new qx.ui.form.TextField();
+      this.sinput = new qx.legacy.ui.form.TextField();
       this.sinput.setLiveUpdate(true);
       this.sinput.setWidth("1*");
 
       // Search form - submit button
-      this.__button = new qx.ui.form.Button("Find");
+      this.__button = new qx.legacy.ui.form.Button("Find");
       this.__button.setEnabled(false);
 
       // Label for options
-      this.optLabel = new qx.ui.toolbar.Button(null, "widget/arrows/down.gif");
+      this.optLabel = new qx.legacy.ui.toolbar.Button(null, "widget/arrows/down.gif");
       this.optLabel.set({
         marginLeft        : 10,
         backgroundColor   : "white"
       });
       // Tooltips for options
-      this.optTooltipShow = new qx.ui.popup.ToolTip("Show options");
-      this.optTooltipHide = new qx.ui.popup.ToolTip("Hide options");
+      this.optTooltipShow = new qx.legacy.ui.popup.ToolTip("Show options");
+      this.optTooltipHide = new qx.legacy.ui.popup.ToolTip("Hide options");
       this.optLabel.setToolTip(this.optTooltipShow);
 
       this.optLabel.addListener("click", function() {
@@ -122,7 +122,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.add(sform.add(this.sinput, this.__button, this.optLabel));
 
       // Options
-      var options = new qx.ui.layout.HorizontalBoxLayout;
+      var options = new qx.legacy.ui.layout.HorizontalBoxLayout;
       options.set({
         width             : "100%",
         height            : 1,
@@ -132,7 +132,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         border            : "line-bottom",
         spacing           : 4
       });
-      var optCheckboxLivesearch = new qx.ui.form.CheckBox("Enable live search", "lschecked", "ls", true);
+      var optCheckboxLivesearch = new qx.legacy.ui.form.CheckBox("Enable live search", "lschecked", "ls", true);
 
 
       this.add(options.add(optCheckboxLivesearch));
@@ -255,7 +255,7 @@ qx.Class.define("apiviewer.ui.SearchView",
             icon : { label:" ", width:30, type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
             result : { label:results + " Results (" + duration + " s)", width:"80%", type:"text", sortable:true, sortProp:"text" }};
 
-          this.rlv = new qx.ui.listview.ListView(this.listdata, listfield);
+          this.rlv = new qx.legacy.ui.listview.ListView(this.listdata, listfield);
           this.rlv.setHeight("1*");
           this.rlv.setBorder(null);
 

@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Test for qx.ui.component.ColorSelector.</p>
+    <p>Test for qx.legacy.ui.component.ColorSelector.</p>
   </div>
 
   <script type="text/javascript">
@@ -20,11 +20,11 @@
       main : function()
       {
         this.base(arguments);
-        var mycolor = new qx.ui.component.ColorSelector;
+        var mycolor = new qx.legacy.ui.component.ColorSelector;
     
         mycolor.setLocation(20, 20);
     
-        qx.ui.core.ClientDocument.getInstance().add(mycolor);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(mycolor);
       }
     }      
   });

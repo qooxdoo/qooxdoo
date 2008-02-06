@@ -19,16 +19,16 @@ Additionally, the root node may be hidden. </p>
 
     function stuff(vLabel, vIcon, vIconSelected)
     {
-        treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+        treeRowStructure = qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow();
 
         // A left-justified icon
         if (Math.floor(Math.random() * 4) == 0)
         {
-          obj = new qx.ui.basic.Image("icon/16/apps/accessories-alarm.png", 16);
+          obj = new qx.legacy.ui.basic.Image("icon/16/apps/accessories-alarm.png", 16);
         }
         else
         {
-          obj = new qx.ui.basic.Image(null, 16);
+          obj = new qx.legacy.ui.basic.Image(null, 16);
         }
         treeRowStructure.addObject(obj, true);
 
@@ -41,29 +41,29 @@ Additionally, the root node may be hidden. </p>
           arguments.length >= 3 ? vIconSelected : "icon/16/apps/accessories-dictionary.png");
 
         // A pair of radio buttons comes right after the tree icon
-        var rb1 = new qx.ui.form.RadioButton("Yes", "Yes");
+        var rb1 = new qx.legacy.ui.form.RadioButton("Yes", "Yes");
         treeRowStructure.addObject(rb1, true);
-        var rb2 = new qx.ui.form.RadioButton("No", "No");
+        var rb2 = new qx.legacy.ui.form.RadioButton("No", "No");
         treeRowStructure.addObject(rb2, true);
-        var mgr = new qx.ui.selection.RadioManager("group", [rb1, rb2]);
+        var mgr = new qx.legacy.ui.selection.RadioManager("group", [rb1, rb2]);
         mgr.setSelected(rb2);
 
         // The label
         treeRowStructure.addLabel(vLabel);
 
         // All else should be right justified
-        obj = new qx.ui.basic.HorizontalSpacer;
+        obj = new qx.legacy.ui.basic.HorizontalSpacer;
         treeRowStructure.addObject(obj, true);
 
         // Add a file size, date and mode
-        obj = new qx.ui.basic.Label(Math.round(Math.random() * 100) + "kb");
+        obj = new qx.legacy.ui.basic.Label(Math.round(Math.random() * 100) + "kb");
         obj.setWidth(50);
         treeRowStructure.addObject(obj, true);
-        obj = new qx.ui.basic.Label(
+        obj = new qx.legacy.ui.basic.Label(
           "May " + Math.round(Math.random() * 30 + 1) + " 2005");
         obj.setWidth(150);
         treeRowStructure.addObject(obj, true);
-        obj = new qx.ui.basic.Label("-rw-r--r--");
+        obj = new qx.legacy.ui.basic.Label("-rw-r--r--");
         obj.setWidth(80);
         treeRowStructure.addObject(obj, true);
 
@@ -79,10 +79,10 @@ Additionally, the root node may be hidden. </p>
       main : function()
       {
         this.base(arguments);
-        var x = new qx.ui.basic.Atom("Test #1", "icon/16/actions/view-refresh.png", 16, 16);
+        var x = new qx.legacy.ui.basic.Atom("Test #1", "icon/16/actions/view-refresh.png", 16, 16);
           x.debug("In main");
   
-        var t = new qx.ui.tree.Tree(stuff("Root"));
+        var t = new qx.legacy.ui.tree.Tree(stuff("Root"));
         t.set({ backgroundColor : "white",
                 border          : "inset",
                 overflow        : "scrollY", 
@@ -92,108 +92,108 @@ Additionally, the root node may be hidden. </p>
                 width           : 600,
                 bottom          : 48 });    
   
-        qx.ui.core.ClientDocument.getInstance().add(t);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(t);
         // One icon for selected and one for unselected states
-        var te1 = new qx.ui.tree.TreeFolder(stuff("Desktop"));
+        var te1 = new qx.legacy.ui.tree.TreeFolder(stuff("Desktop"));
         t.add(te1);
   
         desktop = te1;
   
-        var te1_1 = new qx.ui.tree.TreeFolder(stuff("Files"));
-        var te1_2 = new qx.ui.tree.TreeFolder(stuff("Workspace"));
-        var te1_3 = new qx.ui.tree.TreeFolder(stuff("Network"));
-        var te1_4 = new qx.ui.tree.TreeFolder(stuff("Trash"));
+        var te1_1 = new qx.legacy.ui.tree.TreeFolder(stuff("Files"));
+        var te1_2 = new qx.legacy.ui.tree.TreeFolder(stuff("Workspace"));
+        var te1_3 = new qx.legacy.ui.tree.TreeFolder(stuff("Network"));
+        var te1_4 = new qx.legacy.ui.tree.TreeFolder(stuff("Trash"));
   
         te1.add(te1_1, te1_2, te1_3, te1_4);
   
         // One icon specified, and used for both selected unselected states
-        var te1_2_1 = new qx.ui.tree.TreeFile(stuff("Windows (C:)", "icon/16/devices/drive-harddisk.png"));
-        var te1_2_2 = new qx.ui.tree.TreeFile(stuff("Documents (D:)", "icon/16/devices/drive-harddisk.png"));
+        var te1_2_1 = new qx.legacy.ui.tree.TreeFile(stuff("Windows (C:)", "icon/16/devices/drive-harddisk.png"));
+        var te1_2_2 = new qx.legacy.ui.tree.TreeFile(stuff("Documents (D:)", "icon/16/devices/drive-harddisk.png"));
   
         te1_2.add(te1_2_1, te1_2_2);
   
         arbeitsplatz = te1_2;
   
   
-        var te2 = new qx.ui.tree.TreeFolder(stuff("Inbox"));
+        var te2 = new qx.legacy.ui.tree.TreeFolder(stuff("Inbox"));
         posteingang = te2;
   
-        var te2_1 = new qx.ui.tree.TreeFolder(stuff("Presets"));
-        var te2_2 = new qx.ui.tree.TreeFolder(stuff("Sent"));
-        var te2_3 = new qx.ui.tree.TreeFolder(stuff("Trash", "icon/16/places/user-trash.png"));
-        var te2_4 = new qx.ui.tree.TreeFolder(stuff("Data"));
-        var te2_5 = new qx.ui.tree.TreeFolder(stuff("Edit"));
+        var te2_1 = new qx.legacy.ui.tree.TreeFolder(stuff("Presets"));
+        var te2_2 = new qx.legacy.ui.tree.TreeFolder(stuff("Sent"));
+        var te2_3 = new qx.legacy.ui.tree.TreeFolder(stuff("Trash", "icon/16/places/user-trash.png"));
+        var te2_4 = new qx.legacy.ui.tree.TreeFolder(stuff("Data"));
+        var te2_5 = new qx.legacy.ui.tree.TreeFolder(stuff("Edit"));
   
         editieren = te2_5;
   
-        var te2_5_1 = new qx.ui.tree.TreeFolder(stuff("Chat"));
-        var te2_5_2 = new qx.ui.tree.TreeFolder(stuff("Pustefix"));
-        var te2_5_3 = new qx.ui.tree.TreeFolder(stuff("TINC"));
+        var te2_5_1 = new qx.legacy.ui.tree.TreeFolder(stuff("Chat"));
+        var te2_5_2 = new qx.legacy.ui.tree.TreeFolder(stuff("Pustefix"));
+        var te2_5_3 = new qx.legacy.ui.tree.TreeFolder(stuff("TINC"));
   
-        var te2_5_3_1 = new qx.ui.tree.TreeFolder(stuff("Announce"));
-        var te2_5_3_2 = new qx.ui.tree.TreeFolder(stuff("Devel"));
+        var te2_5_3_1 = new qx.legacy.ui.tree.TreeFolder(stuff("Announce"));
+        var te2_5_3_2 = new qx.legacy.ui.tree.TreeFolder(stuff("Devel"));
   
         te2_5_3.add(te2_5_3_1, te2_5_3_2);
   
         te2_5.add(te2_5_1, te2_5_2, te2_5_3);
   
-        var te2_6 = new qx.ui.tree.TreeFolder(stuff("Lists"));
+        var te2_6 = new qx.legacy.ui.tree.TreeFolder(stuff("Lists"));
   
-        var te2_6_1 = new qx.ui.tree.TreeFolder(stuff("Relations"));
-        var te2_6_2 = new qx.ui.tree.TreeFolder(stuff("Company"));
-        var te2_6_3 = new qx.ui.tree.TreeFolder(stuff("Questions"));
-        var te2_6_4 = new qx.ui.tree.TreeFolder(stuff("Internal"));
-        var te2_6_5 = new qx.ui.tree.TreeFolder(stuff("Products"));
-        var te2_6_6 = new qx.ui.tree.TreeFolder(stuff("Press"));
-        var te2_6_7 = new qx.ui.tree.TreeFolder(stuff("Development"));
-        var te2_6_8 = new qx.ui.tree.TreeFolder(stuff("Competition"));
+        var te2_6_1 = new qx.legacy.ui.tree.TreeFolder(stuff("Relations"));
+        var te2_6_2 = new qx.legacy.ui.tree.TreeFolder(stuff("Company"));
+        var te2_6_3 = new qx.legacy.ui.tree.TreeFolder(stuff("Questions"));
+        var te2_6_4 = new qx.legacy.ui.tree.TreeFolder(stuff("Internal"));
+        var te2_6_5 = new qx.legacy.ui.tree.TreeFolder(stuff("Products"));
+        var te2_6_6 = new qx.legacy.ui.tree.TreeFolder(stuff("Press"));
+        var te2_6_7 = new qx.legacy.ui.tree.TreeFolder(stuff("Development"));
+        var te2_6_8 = new qx.legacy.ui.tree.TreeFolder(stuff("Competition"));
   
         te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
   
-        var te2_7 = new qx.ui.tree.TreeFolder(stuff("Personal"));
+        var te2_7 = new qx.legacy.ui.tree.TreeFolder(stuff("Personal"));
   
-        var te2_7_1 = new qx.ui.tree.TreeFolder(stuff("Bugs"));
-        var te2_7_2 = new qx.ui.tree.TreeFolder(stuff("Family"));
-        var te2_7_3 = new qx.ui.tree.TreeFolder(stuff("Projects"));
-        var te2_7_4 = new qx.ui.tree.TreeFolder(stuff("Holiday"));
+        var te2_7_1 = new qx.legacy.ui.tree.TreeFolder(stuff("Bugs"));
+        var te2_7_2 = new qx.legacy.ui.tree.TreeFolder(stuff("Family"));
+        var te2_7_3 = new qx.legacy.ui.tree.TreeFolder(stuff("Projects"));
+        var te2_7_4 = new qx.legacy.ui.tree.TreeFolder(stuff("Holiday"));
   
         te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
   
-        var te2_8 = new qx.ui.tree.TreeFolder(stuff("Big"));
+        var te2_8 = new qx.legacy.ui.tree.TreeFolder(stuff("Big"));
   
         for (var i=0;i<50; i++) {
-          te2_8.add(new qx.ui.tree.TreeFolder(stuff("Item " + i)));
+          te2_8.add(new qx.legacy.ui.tree.TreeFolder(stuff("Item " + i)));
         };
   
-        var te2_9 = new qx.ui.tree.TreeFolder(stuff("Spam"));
+        var te2_9 = new qx.legacy.ui.tree.TreeFolder(stuff("Spam"));
         spam = te2_9;
   
         te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
   
         t.add(te2);
-        qx.ui.core.ClientDocument.getInstance().add(t);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(t);
   
   
   
   
   
   
-        var commandFrame = new qx.ui.groupbox.GroupBox("Control");
+        var commandFrame = new qx.legacy.ui.groupbox.GroupBox("Control");
   
         commandFrame.set({ top : 48, left : 650, width : "auto", height : "auto" });
-        qx.ui.core.ClientDocument.getInstance().add(commandFrame);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(commandFrame);
   
   
   
   
-        var tCurrentLabel = new qx.ui.basic.Atom("Current Folder: ");
+        var tCurrentLabel = new qx.legacy.ui.basic.Atom("Current Folder: ");
   
         tCurrentLabel.set({ left : 0, top : 0 });
         commandFrame.add(tCurrentLabel);
   
   
   
-        var tCurrentInput = new qx.ui.form.TextField;
+        var tCurrentInput = new qx.legacy.ui.form.TextField;
         tCurrentInput.set({ left : 0, right : 0, top : 20, readOnly : true });
         commandFrame.add(tCurrentInput);
   
@@ -203,7 +203,7 @@ Additionally, the root node may be hidden. </p>
   
   
   
-        var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
+        var tDoubleClick = new qx.legacy.ui.form.CheckBox("Use double click?");
   
         tDoubleClick.set({ top : 60, left : 0 });
         commandFrame.add(tDoubleClick);
@@ -213,7 +213,7 @@ Additionally, the root node may be hidden. </p>
   
   
   
-        var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
+        var tTreeLines = new qx.legacy.ui.form.CheckBox("Use tree lines?");
   
         tTreeLines.set({ top : 80, left : 0, checked : true });
         commandFrame.add(tTreeLines);
@@ -223,7 +223,7 @@ Additionally, the root node may be hidden. </p>
   
   
   
-        var tHideNode = new qx.ui.form.CheckBox("Hide the root node?");
+        var tHideNode = new qx.legacy.ui.form.CheckBox("Hide the root node?");
   
         tHideNode.set({ top : 100, left : 0, checked : false });
         commandFrame.add(tHideNode);

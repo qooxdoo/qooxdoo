@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Testing qx.ui.listview.ListView with text cells and an additional icon.</p>
+    <p>Testing qx.legacy.ui.listview.ListView with text cells and an additional icon.</p>
   </div>
 
   <script type="text/javascript">
@@ -40,13 +40,13 @@
           rights : { label : "Rights", width: 80, type : "text" }
         };
   
-        var lv = new qx.ui.listview.ListView(ld, lc);
+        var lv = new qx.legacy.ui.listview.ListView(ld, lc);
   
         lv.setWidth(600);
         lv.setHeight(350);
         lv.setLocation(20, 20);
   
-        qx.ui.core.ClientDocument.getInstance().add(lv);
+        qx.legacy.ui.core.ClientDocument.getInstance().add(lv);
       }
     }
   });

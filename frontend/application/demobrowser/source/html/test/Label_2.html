@@ -7,13 +7,13 @@
 </head>
 <body>  
   <div id="description">
-    qx.ui.basic.Label Stress Test
+    qx.legacy.ui.basic.Label Stress Test
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
     
     var c;
     
@@ -21,7 +21,7 @@
     {
       for (var j=0; j<20; j++)
       {
-        c = new qx.ui.basic.Label("Test " + i + "|" + j);
+        c = new qx.legacy.ui.basic.Label("Test " + i + "|" + j);
         
         c.setLeft(20+(i*60));
         c.setTop(48+(j*30));

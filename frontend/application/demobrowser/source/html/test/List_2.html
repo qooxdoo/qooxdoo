@@ -14,12 +14,12 @@
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var doc = qx.ui.core.ClientDocument.getInstance();
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
       // Create list to drag from
 
 
-      var sourceList = new qx.ui.form.List();
+      var sourceList = new qx.legacy.ui.form.List();
       sourceList.setWidth(100);
       sourceList.setHeight(250);
       sourceList.setLeft(20);
@@ -36,7 +36,7 @@
 
       for (var i = 1; i <= 10; i++) 
       {
-        var item = new qx.ui.form.ListItem("Item " + i);
+        var item = new qx.legacy.ui.form.ListItem("Item " + i);
         item.addListener("dragstart", handleStartDrag);
         sourceList.add(item);
       };
@@ -47,7 +47,7 @@
 
       // Create list to drop to
 
-      var destList = new qx.ui.form.List();
+      var destList = new qx.legacy.ui.form.List();
       destList.setWidth(100);
       destList.setHeight(250);
       destList.setLeft(320);

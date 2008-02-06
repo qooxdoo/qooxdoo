@@ -7,16 +7,16 @@
 </head>
 <body>  
   <div id="description">
-    <p>Layout tests for qx.ui.basic.Atom reimplementation.</p>
+    <p>Layout tests for qx.legacy.ui.basic.Atom reimplementation.</p>
   </div>
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function()
     {
-      var d = qx.ui.core.ClientDocument.getInstance();
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
-      var a1 = new qx.ui.basic.Atom;
+      var a1 = new qx.legacy.ui.basic.Atom;
       a1.setLabel("hello world");
       a1.setTop(48);
       a1.setLeft(20);
@@ -24,7 +24,7 @@
       a1.setBorder("outset");
       d.add(a1);
 
-      var a2 = new qx.ui.basic.Atom;
+      var a2 = new qx.legacy.ui.basic.Atom;
       a2.setIcon("icon/32/actions/system-run.png");
       a2.setTop(48);
       a2.setLeft(120);
@@ -35,7 +35,7 @@
 
 
 
-      var b1 = new qx.ui.basic.Atom;
+      var b1 = new qx.legacy.ui.basic.Atom;
       b1.setLabel("hello world");
       b1.setIcon("icon/32/actions/system-run.png");
       b1.setIconPosition("left");
@@ -45,7 +45,7 @@
       b1.setBorder("outset");
       d.add(b1);
 
-      var b2 = new qx.ui.basic.Atom;
+      var b2 = new qx.legacy.ui.basic.Atom;
       b2.setLabel("hello world");
       b2.setIcon("icon/32/actions/system-run.png");
       b2.setIconPosition("top");
@@ -55,7 +55,7 @@
       b2.setBorder("outset");
       d.add(b2);
 
-      var b3 = new qx.ui.basic.Atom;
+      var b3 = new qx.legacy.ui.basic.Atom;
       b3.setLabel("hello world");
       b3.setIcon("icon/32/actions/system-run.png");
       b3.setIconPosition("right");
@@ -65,7 +65,7 @@
       b3.setBorder("outset");
       d.add(b3);
 
-      var b4 = new qx.ui.basic.Atom;
+      var b4 = new qx.legacy.ui.basic.Atom;
       b4.setLabel("hello world");
       b4.setIcon("icon/32/actions/system-run.png");
       b4.setIconPosition("bottom");
@@ -78,7 +78,7 @@
 
 
 
-      var c1 = new qx.ui.basic.Atom;
+      var c1 = new qx.legacy.ui.basic.Atom;
       c1.setLabel("hello world");
       c1.setIcon("icon/32/actions/system-run.png");
       c1.setShow("icon");
@@ -88,7 +88,7 @@
       c1.setBorder("outset");
       d.add(c1);
 
-      var c2 = new qx.ui.basic.Atom;
+      var c2 = new qx.legacy.ui.basic.Atom;
       c2.setLabel("hello world");
       c2.setIcon("icon/32/actions/system-run.png");
       c2.setShow("label");
@@ -102,7 +102,7 @@
 
 
 
-      var d1 = new qx.ui.basic.Atom;
+      var d1 = new qx.legacy.ui.basic.Atom;
       d1.setLabel("hello world");
       d1.setIcon("icon/32/actions/system-run.png");
       d1.setShow("icon");
@@ -113,7 +113,7 @@
       d.add(d1);
       d1.setShow("both");
 
-      var d2 = new qx.ui.basic.Atom;
+      var d2 = new qx.legacy.ui.basic.Atom;
       d2.setLabel("hello world");
       d2.setIcon("icon/32/actions/system-run.png");
       d2.setShow("label");
@@ -124,7 +124,7 @@
       d.add(d2);
       d2.setShow("both");
 
-      var d3 = new qx.ui.basic.Atom;
+      var d3 = new qx.legacy.ui.basic.Atom;
       d3.setLabel("hello world");
       d3.setIcon("icon/32/actions/system-run.png");
       d3.setShow("none");
@@ -138,7 +138,7 @@
 
 
 
-      var e1 = new qx.ui.basic.Atom;
+      var e1 = new qx.legacy.ui.basic.Atom;
       e1.setIcon("icon/32/actions/system-run.png");
       e1.setShow("none");
       e1.setTop(300);
@@ -149,7 +149,7 @@
       e1.setShow("both");
       e1.setLabel("hello world");
 
-      var e2 = new qx.ui.basic.Atom;
+      var e2 = new qx.legacy.ui.basic.Atom;
       e2.setLabel("hello world");
       e2.setShow("none");
       e2.setTop(300);
@@ -160,7 +160,7 @@
       e2.setShow("both");
       e2.setIcon("icon/32/actions/system-run.png");
 
-      var e3 = new qx.ui.basic.Atom;
+      var e3 = new qx.legacy.ui.basic.Atom;
       e3.setShow("none");
       e3.setTop(300);
       e3.setLeft(240);
@@ -171,7 +171,7 @@
       e3.setIcon("icon/32/actions/system-run.png");
       e3.setLabel("hello world");
 
-      var e4 = new qx.ui.basic.Atom;
+      var e4 = new qx.legacy.ui.basic.Atom;
       e4.setShow("none");
       e4.setTop(300);
       e4.setLeft(350);
@@ -185,7 +185,7 @@
 
 
 
-      var f1 = new qx.ui.basic.Atom;
+      var f1 = new qx.legacy.ui.basic.Atom;
       f1.setLabel("hello world");
       f1.setIcon("icon/32/actions/system-run.png");
       f1.setIconPosition("left");
@@ -196,7 +196,7 @@
       d.add(f1);
       f1.setIconPosition("top");
 
-      var f2 = new qx.ui.basic.Atom;
+      var f2 = new qx.legacy.ui.basic.Atom;
       f2.setLabel("hello world");
       f2.setIcon("icon/32/actions/system-run.png");
       f2.setIconPosition("left");
@@ -207,7 +207,7 @@
       d.add(f2);
       f2.setIconPosition("right");
 
-      var f3 = new qx.ui.basic.Atom;
+      var f3 = new qx.legacy.ui.basic.Atom;
       f3.setLabel("hello world");
       f3.setIcon("icon/32/actions/system-run.png");
       f3.setIconPosition("left");
@@ -221,7 +221,7 @@
 
 
 
-      var g1 = new qx.ui.basic.Atom;
+      var g1 = new qx.legacy.ui.basic.Atom;
       g1.setLabel("hello world");
       g1.setIcon("icon/32/actions/system-run.png");
       g1.setIconPosition("top");
@@ -232,7 +232,7 @@
       d.add(g1);
       g1.setIconPosition("right");
 
-      var g2 = new qx.ui.basic.Atom;
+      var g2 = new qx.legacy.ui.basic.Atom;
       g2.setLabel("hello world");
       g2.setIcon("icon/32/actions/system-run.png");
       g2.setIconPosition("top");
@@ -243,7 +243,7 @@
       d.add(g2);
       g2.setIconPosition("bottom");
 
-      var g3 = new qx.ui.basic.Atom;
+      var g3 = new qx.legacy.ui.basic.Atom;
       g3.setLabel("hello world");
       g3.setIcon("icon/32/actions/system-run.png");
       g3.setIconPosition("top");
@@ -259,7 +259,7 @@
 
 
 
-      var h1 = new qx.ui.basic.Atom;
+      var h1 = new qx.legacy.ui.basic.Atom;
       h1.setLabel("hello world");
       h1.setIcon("icon/32/actions/system-run.png");
       h1.setIconPosition("left");
@@ -271,7 +271,7 @@
       h1.setSpacing(20);
 
 
-      var h2 = new qx.ui.basic.Atom;
+      var h2 = new qx.legacy.ui.basic.Atom;
       h2.setLabel("hello world");
       h2.setIcon("icon/32/actions/system-run.png");
       h2.setIconPosition("top");
@@ -287,7 +287,7 @@
 
 
 
-      var i1 = new qx.ui.basic.Atom;
+      var i1 = new qx.legacy.ui.basic.Atom;
       i1.setLabel("hello world");
       i1.setIcon("icon/32/actions/system-run.png");
       i1.setIconPosition("left");
@@ -299,7 +299,7 @@
       i1.setWidth(150);
       d.add(i1);
 
-      var i2 = new qx.ui.basic.Atom;
+      var i2 = new qx.legacy.ui.basic.Atom;
       i2.setLabel("hello world");
       i2.setIcon("icon/32/actions/system-run.png");
       i2.setIconPosition("top");

@@ -92,13 +92,13 @@
 
 		initializeLogger();
 
-		var d = qx.ui.core.ClientDocument.getInstance();
+		var d = qx.legacy.ui.core.ClientDocument.getInstance();
 		d.addListener("keydown", logKeyEvent);
 		d.addListener("keypress", logKeyEvent);
 		d.addListener("keyinput", logKeyEvent);
 		d.addListener("keyup", logKeyEvent);
 
-		var button = new qx.ui.form.Button("clear");
+		var button = new qx.legacy.ui.form.Button("clear");
 		button.set({
 			left: 550,
 			top: 40

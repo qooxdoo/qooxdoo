@@ -7,17 +7,17 @@
 </head>
 <body>  
   <div id="description">
-    <p>Layout Manager: qx.ui.layout.GridLayout. Example image borrowed from <a href="http://winfx.msdn.microsoft.com/library/en-us/wcp_conceptual/winfx/layout/overviews/grid_ovw.asp">Microsoft's XAML Documentation</a>.</p>
+    <p>Layout Manager: qx.legacy.ui.layout.GridLayout. Example image borrowed from <a href="http://winfx.msdn.microsoft.com/library/en-us/wcp_conceptual/winfx/layout/overviews/grid_ovw.asp">Microsoft's XAML Documentation</a>.</p>
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var img = new qx.ui.basic.Image("./image/grid_dialog_box.png");
+    var img = new qx.legacy.ui.basic.Image("./image/grid_dialog_box.png");
 
     img.setLocation(20, 48);
 
-    var gl = new qx.ui.layout.GridLayout;
+    var gl = new qx.legacy.ui.layout.GridLayout;
 
     gl.setLocation(46, 300);
     gl.auto();
@@ -46,39 +46,39 @@
 
     gl.setRowVerticalAlignment(1, "middle");
 
-    qx.ui.core.ClientDocument.getInstance().add(img, gl);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(img, gl);
 
 
 
 
 
-    var i1 = new qx.ui.basic.Image("icon/32/apps/preferences-desktop-wallpaper.png");
+    var i1 = new qx.legacy.ui.basic.Image("icon/32/apps/preferences-desktop-wallpaper.png");
     gl.add(i1, 0, 0);
 
-    var t1 = new qx.ui.basic.Label("Open:");
+    var t1 = new qx.legacy.ui.basic.Label("Open:");
     t1.setMnemonic("O");
     t1.setSelectable(false);
     gl.add(t1, 0, 1);
 
-    var b1 = new qx.ui.form.Button("OK");
+    var b1 = new qx.legacy.ui.form.Button("OK");
     b1.setAllowStretchX(true);
     gl.add(b1, 2, 3);
 
-    var b2 = new qx.ui.form.Button("Cancel");
+    var b2 = new qx.legacy.ui.form.Button("Cancel");
     b2.setAllowStretchX(true);
     gl.add(b2, 3, 3);
 
-    var b3 = new qx.ui.form.Button("Browse...");
+    var b3 = new qx.legacy.ui.form.Button("Browse...");
     b3.setAllowStretchX(true);
     b3.getLabelObject().setMnemonic("B");
     gl.add(b3, 4, 3);
 
-    var t2 = new qx.ui.basic.Label("Type in the name of a program, folder, document or Internet Resource and Windows will open it for you.");
+    var t2 = new qx.legacy.ui.basic.Label("Type in the name of a program, folder, document or Internet Resource and Windows will open it for you.");
     t2.setSelectable(false);
     t2.setStyleProperty("whiteSpace", "normal");
     gl.add(t2, 1, 0);
 
-    var c1 = new qx.ui.form.ComboBox();
+    var c1 = new qx.legacy.ui.form.ComboBox();
     c1.setEditable(true);
     c1.setValue("d:\\local\\pictures");
     c1.setWidth(null);
@@ -92,13 +92,13 @@
 
 
 
-    var c1 = new qx.ui.form.Button("Make bigger");
-    var c2 = new qx.ui.form.Button("Make smaller");
+    var c1 = new qx.legacy.ui.form.Button("Make bigger");
+    var c2 = new qx.legacy.ui.form.Button("Make smaller");
 
     c1.setLocation(500, 300);
     c2.setLocation(500, 330);
 
-    qx.ui.core.ClientDocument.getInstance().add(c1, c2);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(c1, c2);
 
     c1.addListener("execute", function(e) {
       gl.setColumnWidth(2, 100);

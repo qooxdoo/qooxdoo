@@ -13,14 +13,14 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var t1 = new qx.ui.basic.Terminator;
+    var t1 = new qx.legacy.ui.basic.Terminator;
 
     t1.setBackgroundColor("red");
     t1.setLocation(20, 48);
     t1.setDimension(100, 100);
-    t1.setBorder(new qx.ui.core.Border(2, "solid", "black"));
+    t1.setBorder(new qx.legacy.ui.core.Border(2, "solid", "black"));
     t1.setClipLocation(0, 0);
     t1.setClipDimension(50, 50);
 
@@ -28,12 +28,12 @@
 
 
 
-    var t2 = new qx.ui.basic.Terminator;
+    var t2 = new qx.legacy.ui.basic.Terminator;
 
     t2.setBackgroundColor("yellow");
     t2.setLocation(200, 48);
     t2.setDimension(100, 100);
-    t2.setBorder(new qx.ui.core.Border(2, "solid", "black"));
+    t2.setBorder(new qx.legacy.ui.core.Border(2, "solid", "black"));
     t2.setClipLocation(25, 25);
     t2.setClipDimension(50, 50);
 
@@ -41,12 +41,12 @@
 
 
 
-    var t3 = new qx.ui.basic.Terminator;
+    var t3 = new qx.legacy.ui.basic.Terminator;
 
     t3.setBackgroundColor("blue");
     t3.setLocation(20, 248);
     t3.setDimension(100, 100);
-    t3.setBorder(new qx.ui.core.Border(2, "solid", "black"));
+    t3.setBorder(new qx.legacy.ui.core.Border(2, "solid", "black"));
     t3.setClipLocation(50, 50);
     t3.setClipDimension(50, 50);
 
@@ -55,12 +55,12 @@
 
 
 
-    var t4 = new qx.ui.basic.Terminator;
+    var t4 = new qx.legacy.ui.basic.Terminator;
 
     t4.setBackgroundColor("orange");
     t4.setLocation(200, 248);
     t4.setDimension(100, 100);
-    t4.setBorder(new qx.ui.core.Border(2, "solid", "black"));
+    t4.setBorder(new qx.legacy.ui.core.Border(2, "solid", "black"));
     t4.setClip(25, 25, null, null);
 
     d.add(t4);

@@ -7,7 +7,7 @@
 </head>
 <body>  
   <div id="description">
-    <p>Some test for the enable property in QxObject which will be extended from qx.ui.core.Widget and any other
+    <p>Some test for the enable property in QxObject which will be extended from qx.legacy.ui.core.Widget and any other
     widget which need additional handling on a change of this property. Keep in mind: Disabled QxWidgets will be ignored
     from the QxEventManager and the qx.legacy.event.handler.FocusHandler.</p>
   </div>
@@ -16,9 +16,9 @@
   qx.core.Init.getInstance().defineMain(function()
   {
 
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
-    var w1 = new qx.ui.basic.Label("Basic Container");
+    var w1 = new qx.legacy.ui.basic.Label("Basic Container");
 
     with(w1)
     {
@@ -30,7 +30,7 @@
       setBackgroundColor("#fff");
       setTextColor("blue");
       setTabIndex(1);
-      setBorder(new qx.ui.core.Border(2, "solid", "blue"));
+      setBorder(new qx.legacy.ui.core.Border(2, "solid", "blue"));
       setEnabled(false);
     };
 
@@ -48,7 +48,7 @@
         this.getElement().style.color = "blue";
     });
 
-    var c1t = new qx.ui.form.CheckBox("Enabled");
+    var c1t = new qx.legacy.ui.form.CheckBox("Enabled");
     with(c1t)
     {
       setTop(60);
@@ -62,7 +62,7 @@
     // atom
     //------
 
-    var a1 = new qx.ui.basic.Atom("Atom", "icon/32/apps/accessories-clock.png");
+    var a1 = new qx.legacy.ui.basic.Atom("Atom", "icon/32/apps/accessories-clock.png");
 
     with(a1)
     {
@@ -75,7 +75,7 @@
 
     d.add(a1);
 
-    var swa1 = new qx.ui.form.CheckBox("Enabled");
+    var swa1 = new qx.legacy.ui.form.CheckBox("Enabled");
     with(swa1)
     {
       setTop(196);
@@ -89,7 +89,7 @@
     // button
     //--------
 
-    var btn1 = new qx.ui.form.Button("Button No #1");
+    var btn1 = new qx.legacy.ui.form.Button("Button No #1");
     with(btn1)
     {
       setTop(244);
@@ -99,7 +99,7 @@
 
     d.add(btn1);
 
-    var swbtn1 = new qx.ui.form.CheckBox("Enabled");
+    var swbtn1 = new qx.legacy.ui.form.CheckBox("Enabled");
     with(swbtn1)
     {
       setTop(244);
@@ -113,7 +113,7 @@
     // radiobutton
     //-------------
 
-    var rb1 = new qx.ui.form.RadioButton("Radio button");
+    var rb1 = new qx.legacy.ui.form.RadioButton("Radio button");
     with(rb1)
     {
       setTop(292);
@@ -123,7 +123,7 @@
 
     d.add(rb1);
 
-    var swrb1 = new qx.ui.form.CheckBox("Enabled");
+    var swrb1 = new qx.legacy.ui.form.CheckBox("Enabled");
     with(swrb1)
     {
       setTop(292);
@@ -137,7 +137,7 @@
     // checkbox
     //----------
 
-    var cb1 = new qx.ui.form.CheckBox("Checkbox");
+    var cb1 = new qx.legacy.ui.form.CheckBox("Checkbox");
     with(cb1)
     {
       setTop(340);
@@ -147,7 +147,7 @@
 
     d.add(cb1);
 
-    var swcb1 = new qx.ui.form.CheckBox("Enabled");
+    var swcb1 = new qx.legacy.ui.form.CheckBox("Enabled");
     with(swcb1)
     {
       setTop(340);
@@ -161,7 +161,7 @@
     // TextField
     //-----------
 
-    var tf1 = new qx.ui.form.TextField;
+    var tf1 = new qx.legacy.ui.form.TextField;
     with(tf1)
     {
       setTop(388);
@@ -171,7 +171,7 @@
 
     d.add(tf1);
 
-    var swtf1 = new qx.ui.form.CheckBox("Enabled");
+    var swtf1 = new qx.legacy.ui.form.CheckBox("Enabled");
     with(swtf1)
     {
       setTop(388);
@@ -185,7 +185,7 @@
     // ComboBox
     //-----------
 
-    var com1 = new qx.ui.form.ComboBox;
+    var com1 = new qx.legacy.ui.form.ComboBox;
     with(com1)
     {
       setTop(436);
@@ -202,13 +202,13 @@
 
       for(var i=1; i<=30; i++)
       {
-        item = new qx.ui.form.ListItem("Item No " + i);
+        item = new qx.legacy.ui.form.ListItem("Item No " + i);
         !(i % 10) && (item.setEnabled(false));
         com1.add(item);
       };
     });
 
-    var swcb1c = new qx.ui.form.CheckBox("Enabled");
+    var swcb1c = new qx.legacy.ui.form.CheckBox("Enabled");
     with(swcb1c)
     {
       setTop(436);

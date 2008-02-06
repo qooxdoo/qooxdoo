@@ -7,14 +7,14 @@
 </head>
 <body>  
   <div id="description">
-    This uses qx.ui.basic.Label instead of qx.ui.basic.Atom for text only display. Stored as Atom test file
+    This uses qx.legacy.ui.basic.Label instead of qx.legacy.ui.basic.Atom for text only display. Stored as Atom test file
     because this way we could compare it to the previous test file.
   </div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
     var atom;
     var toppos = 48;
@@ -23,7 +23,7 @@
     {
       for (var j=0; j<10; j++)
       {
-        atom = new qx.ui.basic.Label("Date");
+        atom = new qx.legacy.ui.basic.Label("Date");
 
         atom.setTop(toppos);
         atom.setLeft(20 + (j*50));

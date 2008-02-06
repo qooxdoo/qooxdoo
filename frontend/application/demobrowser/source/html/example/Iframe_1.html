@@ -25,13 +25,13 @@
       main : function()
       {
         this.base(arguments);
-        var d = qx.ui.core.ClientDocument.getInstance();
+        var d = qx.legacy.ui.core.ClientDocument.getInstance();
   
         //----------
-        // qx.ui.embed.Iframe
+        // qx.legacy.ui.embed.Iframe
         //----------
   
-        w1 = new qx.ui.embed.Iframe();
+        w1 = new qx.legacy.ui.embed.Iframe();
   
         w1.addListener("load", function(e) {
           this.debug("Loaded: " + this.getSource());
@@ -49,7 +49,7 @@
           this.setSource(e.getData());
         };
   
-        // make qx.ui.embed.Iframe react to event "surfTo" via function changeURL()
+        // make qx.legacy.ui.embed.Iframe react to event "surfTo" via function changeURL()
         this.addListener("surfTo", changeURL, w1);
   
   
@@ -57,13 +57,13 @@
         // radio group
         //-------------
   
-        var rd1 = new qx.ui.form.RadioButton("Google", "http://www.google.com");
-        var rd2 = new qx.ui.form.RadioButton("Yahoo", "http://www.yahoo.com");
+        var rd1 = new qx.legacy.ui.form.RadioButton("Google", "http://www.google.com");
+        var rd2 = new qx.legacy.ui.form.RadioButton("Yahoo", "http://www.yahoo.com");
   
         rd1.set( { left: 20, top: 48, checked: true } );
         rd2.set( { left: 120, top: 48 } );
   
-        var rbm = new qx.ui.selection.RadioManager( name, [rd1, rd2]);
+        var rbm = new qx.legacy.ui.selection.RadioManager( name, [rd1, rd2]);
   
         // elements of radio group fire event "surfTo"
         rbm.addListener("changeSelected", function(e)

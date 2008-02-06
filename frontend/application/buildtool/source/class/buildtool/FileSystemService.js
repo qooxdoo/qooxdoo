@@ -26,9 +26,9 @@
 
 qx.Class.define("buildtool.FileSystemService",
 {
-  //extend : qx.ui.basic.Terminator,
+  //extend : qx.legacy.ui.basic.Terminator,
   //extend : qx.core.Target,
-  extend : qx.ui.tree.Tree,
+  extend : qx.legacy.ui.tree.Tree,
 
   construct : function(rpc)
   {
@@ -100,7 +100,7 @@ qx.Class.define("buildtool.FileSystemService",
         {
             child = children[i];
 
-            trs = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+            trs = qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow();
 
             // Here's our indentation and tree-lines
             trs.addIndent();
@@ -122,7 +122,7 @@ qx.Class.define("buildtool.FileSystemService",
             trs.addLabel(child.name);
 
             // All else should be right justified
-            obj = new qx.ui.basic.HorizontalSpacer;
+            obj = new qx.legacy.ui.basic.HorizontalSpacer;
             trs.addObject(obj, true);
 
             // Add the permissions
@@ -136,32 +136,32 @@ qx.Class.define("buildtool.FileSystemService",
             mode = ((child.mode & 0100) ? "x" : "-") + mode;
             mode = ((child.mode & 0200) ? "w" : "-") + mode;
             mode = ((child.mode & 0400) ? "r" : "-") + mode;
-            obj = new qx.ui.basic.Label(mode);
+            obj = new qx.legacy.ui.basic.Label(mode);
             obj.setWidth(80);
             obj.setStyleProperty("fontFamily", "monospace");
             trs.addObject(obj, true);
 
             // Add a file size, date and mode
-            obj = new qx.ui.basic.Label(child.size + "");
+            obj = new qx.legacy.ui.basic.Label(child.size + "");
             obj.setWidth(50);
             obj.setStyleProperty("fontFamily", "monospace");
             trs.addObject(obj, true);
 
             var d = new Date();
             d.setTime(child.mtime * 1000);
-            obj = new qx.ui.basic.Label(d.toString().slice(0,33));
+            obj = new qx.legacy.ui.basic.Label(d.toString().slice(0,33));
             obj.setWidth(200);
             obj.setStyleProperty("fontFamily", "monospace");
             trs.addObject(obj, true);
 
             if (bIsDirectory)
             {
-                t = new qx.ui.tree.TreeFolder(trs);
+                t = new qx.legacy.ui.tree.TreeFolder(trs);
                 t.setAlwaysShowPlusMinusSymbol(true);
             }
             else
             {
-                t = new qx.ui.tree.TreeFile(trs);
+                t = new qx.legacy.ui.tree.TreeFile(trs);
             }
             parent.add(t);
         }

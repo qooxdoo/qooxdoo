@@ -13,21 +13,21 @@
     members : {
       main : function( evt ) {
         this.base( arguments );
-        var doc = qx.ui.core.ClientDocument.getInstance();
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
-        var text1 = new qx.ui.form.TextField();
+        var text1 = new qx.legacy.ui.form.TextField();
         text1.setValue("textfield 1");
         text1.setTop(48);
         text1.setLeft(20);
         doc.add( text1 );
 
-        var text2 = new qx.ui.form.TextField();
+        var text2 = new qx.legacy.ui.form.TextField();
         text2.setValue("textfield 2");
         text2.setTop(70);
         text2.setLeft(20);
         doc.add( text2 );
 
-        var button = new qx.ui.form.Button( "focus textfield 1" );
+        var button = new qx.legacy.ui.form.Button( "focus textfield 1" );
         button.set({ left : 20, top : 110 });
         button.addListener("execute", function() {
           text1.focus();

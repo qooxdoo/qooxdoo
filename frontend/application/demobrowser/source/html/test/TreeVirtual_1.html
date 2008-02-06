@@ -15,10 +15,10 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
+    var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
 
-    var horiz =  new qx.ui.layout.HorizontalBoxLayout;
+    var horiz =  new qx.legacy.ui.layout.HorizontalBoxLayout;
 
     horiz.setPadding(10);
     horiz.set({
@@ -27,7 +27,7 @@
         spacing:20
     });
 
-    var tree = new qx.ui.treevirtual.TreeVirtual(["Objects", "Date", "ID"]);
+    var tree = new qx.legacy.ui.treevirtual.TreeVirtual(["Objects", "Date", "ID"]);
     with (tree){
 	      setHeight ("100%");
         setWidth("100%");

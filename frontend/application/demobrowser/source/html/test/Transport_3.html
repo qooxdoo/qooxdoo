@@ -13,16 +13,16 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var lab1 = new qx.ui.basic.Label("40KB");
-    var lab2 = new qx.ui.basic.Label("400KB");
+    var lab1 = new qx.legacy.ui.basic.Label("40KB");
+    var lab2 = new qx.legacy.ui.basic.Label("400KB");
 
-    var spin1 = new qx.ui.form.Spinner(0, 3, 50);
-    var spin2 = new qx.ui.form.Spinner(0, 3, 20);
-
-
+    var spin1 = new qx.legacy.ui.form.Spinner(0, 3, 50);
+    var spin2 = new qx.legacy.ui.form.Spinner(0, 3, 20);
 
 
-    var grid = new qx.ui.layout.GridLayout;
+
+
+    var grid = new qx.legacy.ui.layout.GridLayout;
 
     grid.setLocation(20, 48);
     grid.setDimension("auto", "auto");
@@ -41,7 +41,7 @@
     grid.setRowHeight(0, 18);
     grid.setRowHeight(1, 22);
 
-    qx.ui.core.ClientDocument.getInstance().add(grid);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(grid);
 
     grid.add(lab1, 0, 0);
     grid.add(lab2, 1, 0);
@@ -51,16 +51,16 @@
 
 
 
-    var btn = new qx.ui.form.Button("Send", "icon/16/actions/dialog-ok.png");
+    var btn = new qx.legacy.ui.form.Button("Send", "icon/16/actions/dialog-ok.png");
     btn.setLocation(20, 120);
-    qx.ui.core.ClientDocument.getInstance().add(btn);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(btn);
 
 
 
-    var area = new qx.ui.form.TextArea("");
+    var area = new qx.legacy.ui.form.TextArea("");
     area.setLocation(20, 154);
     area.setDimension(192, 400);
-    qx.ui.core.ClientDocument.getInstance().add(area);
+    qx.legacy.ui.core.ClientDocument.getInstance().add(area);
 
 
 
