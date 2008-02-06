@@ -256,7 +256,7 @@ qx.Class.define("qx.log.appender.Window",
         return;
       };
 
-      qx.client.Timer.once(this._openWindowCallback, this, 200);
+      qx.event.Timer.once(this._openWindowCallback, this, 200);
     },
 
     _openWindowCallback : function()
