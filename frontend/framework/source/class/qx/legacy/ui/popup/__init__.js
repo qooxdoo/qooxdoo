@@ -1,3 +1,3 @@
 /**
- * The qx.ui.popup package.
+ * The qx.legacy.ui.popup package.
  */

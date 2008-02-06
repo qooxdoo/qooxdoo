@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.toolbar.RadioButton",
+qx.Class.define("qx.legacy.ui.toolbar.RadioButton",
 {
-  extend : qx.ui.toolbar.CheckBox,
+  extend : qx.legacy.ui.toolbar.CheckBox,
 
 
 
@@ -40,10 +40,10 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
   properties :
   {
-    /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.legacy.ui.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      check : "qx.ui.selection.RadioManager",
+      check : "qx.legacy.ui.selection.RadioManager",
       apply : "_applyManager",
       nullable : true
     },

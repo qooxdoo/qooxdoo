@@ -80,7 +80,7 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
 
     // interface implementation
     canDispatchEvent : function(target, event, type) {
-      return target instanceof qx.ui.core.Widget && event.getBubbles();
+      return target instanceof qx.legacy.ui.core.Widget && event.getBubbles();
     }
   },
 

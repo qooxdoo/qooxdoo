@@ -29,9 +29,9 @@
  * @state checked Set by {@link #checked}
  * @state over
  */
-qx.Class.define("qx.ui.pageview.radioview.Button",
+qx.Class.define("qx.legacy.ui.pageview.radioview.Button",
 {
-  extend : qx.ui.pageview.AbstractButton,
+  extend : qx.legacy.ui.pageview.AbstractButton,
 
 
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
 
           // Ensure that it's a button.  If not, loop again.
         }
-        while (!(vChild instanceof qx.ui.pageview.AbstractButton));
+        while (!(vChild instanceof qx.legacy.ui.pageview.AbstractButton));
       }
       else
       {
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
 
           // Ensure that it's a button.  If not, loop again.
         }
-        while (!(vChild instanceof qx.ui.pageview.AbstractButton));
+        while (!(vChild instanceof qx.legacy.ui.pageview.AbstractButton));
       }
 
       // focus next/previous button

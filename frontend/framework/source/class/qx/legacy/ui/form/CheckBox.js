@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.form.CheckBox",
+qx.Class.define("qx.legacy.ui.form.CheckBox",
 {
-  extend : qx.ui.basic.Atom,
+  extend : qx.legacy.ui.basic.Atom,
 
 
 
@@ -134,14 +134,14 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     /**
-     * Creates new qx.ui.form.InputCheckSymbol instance and adds it to the checkox widget.
+     * Creates new qx.legacy.ui.form.InputCheckSymbol instance and adds it to the checkox widget.
      *
      * @type member
      * @return {void}
      */
     _createIcon : function()
     {
-      var i = this._iconObject = new qx.ui.form.InputCheckSymbol;
+      var i = this._iconObject = new qx.legacy.ui.form.InputCheckSymbol;
 
       i.setType(this.INPUT_TYPE);
       i.setChecked(this.getChecked());

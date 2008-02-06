@@ -1,3 +1,3 @@
 /**
- * The qx.ui.window package.
+ * The qx.legacy.ui.window package.
  */

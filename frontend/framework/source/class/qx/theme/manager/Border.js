@@ -69,7 +69,7 @@ qx.Class.define("qx.theme.manager.Border",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return value instanceof qx.ui.core.Border ? value : this._dynamic[value];
+      return value instanceof qx.legacy.ui.core.Border ? value : this._dynamic[value];
     },
 
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.theme.manager.Border",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return value && (value instanceof qx.ui.core.Border || this._dynamic[value] !== undefined);
+      return value && (value instanceof qx.legacy.ui.core.Border || this._dynamic[value] !== undefined);
     },
 
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.theme.manager.Border",
      * Update all objects which use the given border. Only updates one edge at each call.
      *
      * @type member
-     * @param border {qx.ui.core.Border} the border which have been modified
+     * @param border {qx.legacy.ui.core.Border} the border which have been modified
      * @param edge {String} top, right, bottom or left
      */
     updateObjectsEdge : function(border, edge)
@@ -136,7 +136,7 @@ qx.Class.define("qx.theme.manager.Border",
       if (value)
       {
         var source = value.borders;
-        var border = qx.ui.core.Border;
+        var border = qx.legacy.ui.core.Border;
 
         for (var key in source)
         {

@@ -24,14 +24,14 @@
  * Fading support for widgets
  *
  * This mixin supports fading in and out of widgets. It can be included in any
- * sub class of {@link qx.ui.core.Widget}. To enable this feature for all widgets
+ * sub class of {@link qx.legacy.ui.core.Widget}. To enable this feature for all widgets
  * use:
  *
  * <pre class='javascript'>
- *   qx.Class.include(qx.ui.core.Widget, qx.ui.animation.MAnimation);
+ *   qx.Class.include(qx.legacy.ui.core.Widget, qx.legacy.ui.animation.MAnimation);
  * </pre>
  */
-qx.Mixin.define("qx.ui.animation.MAnimation", {
+qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
 
   events : {
     /** This event is fired after the fading has finished. */
@@ -128,7 +128,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       if (vSteps) this.setFadeSteps(vSteps);
       if (vTime) this.setFadeTime(vTime);
-      this._fadeMode = qx.ui.animation.MAnimation.FADE_IN;
+      this._fadeMode = qx.legacy.ui.animation.MAnimation.FADE_IN;
       this.setFadeCounter(0);
       var timer = this.getFadeTimer();
       timer.addListener("interval", this._onInterval, this);
@@ -148,7 +148,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       if (vSteps) this.setFadeSteps(vSteps);
       if (vTime) this.setFadeTime(vTime);
-      this._fadeMode = qx.ui.animation.MAnimation.FADE_OUT;
+      this._fadeMode = qx.legacy.ui.animation.MAnimation.FADE_OUT;
       this.setFadeCounter(this.getFadeSteps());
       var timer = this.getFadeTimer();
       timer.addListener("interval", this._onInterval, this);
@@ -209,7 +209,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
 
       switch(this._fadeMode)
       {
-        case qx.ui.animation.MAnimation.FADE_IN:
+        case qx.legacy.ui.animation.MAnimation.FADE_IN:
           this.setFadeCounter(++counter);
 
           if (counter <= this.getFadeSteps())
@@ -219,12 +219,12 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
           }
           else
           {
-            this.fireDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_IN);
+            this.fireDataEvent(qx.legacy.ui.animation.MAnimation.FADE_FINISHED, qx.legacy.ui.animation.MAnimation.FADE_IN);
           }
 
           break;
 
-        case qx.ui.animation.MAnimation.FADE_OUT:
+        case qx.legacy.ui.animation.MAnimation.FADE_OUT:
           this.setFadeCounter(--counter);
 
           if (counter >= 0)
@@ -234,7 +234,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
           }
           else
           {
-            this.fireDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_OUT);
+            this.fireDataEvent(qx.legacy.ui.animation.MAnimation.FADE_FINISHED, qx.legacy.ui.animation.MAnimation.FADE_OUT);
           }
 
           break;

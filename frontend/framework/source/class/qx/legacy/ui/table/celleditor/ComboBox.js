@@ -26,12 +26,12 @@
 /**
  * A cell editor factory creating combo boxes.
  *
- * @appearance table-editor-combobox {qx.ui.form.ComboBox}
+ * @appearance table-editor-combobox {qx.legacy.ui.form.ComboBox}
  */
-qx.Class.define("qx.ui.table.celleditor.ComboBox",
+qx.Class.define("qx.legacy.ui.table.celleditor.ComboBox",
 {
   extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table.ICellEditorFactory,
 
 
 
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
     // interface implementation
     createCellEditor : function(cellInfo)
     {
-      var cellEditor = new qx.ui.form.ComboBox;
+      var cellEditor = new qx.legacy.ui.form.ComboBox;
       cellEditor.setEditable(this.getEditable());
       cellEditor.setBorder(null);
       cellEditor.originalValue = cellInfo.value;
@@ -132,11 +132,11 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
         this.getListData().forEach(function(row){
           if ( row instanceof Array )
           {
-            list.add( new qx.ui.form.ListItem ( row[0],row[1],row[2]));
+            list.add( new qx.legacy.ui.form.ListItem ( row[0],row[1],row[2]));
           }
           else
           {
-            list.add( new qx.ui.form.ListItem ( row,null,row ));
+            list.add( new qx.legacy.ui.form.ListItem ( row,null,row ));
           }
         })
       }
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
     /**
      * retrieves value from TextField (editable combobox) or
      * selected ListItem (non-editable combobox) and validates value
-     * @param cellEditor {qx.ui.core.Widget}
+     * @param cellEditor {qx.legacy.ui.core.Widget}
      * @return {Object}
      */
     getCellEditorValue : function(cellEditor)

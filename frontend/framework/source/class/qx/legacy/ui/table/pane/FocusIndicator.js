@@ -23,9 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.table.pane.FocusIndicator",
+qx.Class.define("qx.legacy.ui.table.pane.FocusIndicator",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
   construct : function(scroller)
   {

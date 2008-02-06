@@ -23,10 +23,10 @@
 
  ************************************************************************ */
 
-qx.Class.define("qx.ui.pageview.AbstractButton",
+qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
 {
   type : "abstract",
-  extend : qx.ui.basic.Atom,
+  extend : qx.legacy.ui.basic.Atom,
 
 
 
@@ -82,16 +82,16 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     /** The attached page of this tab */
     page :
     {
-      check : "qx.ui.pageview.AbstractPage",
+      check : "qx.legacy.ui.pageview.AbstractPage",
       apply : "_applyPage",
       nullable : true
     },
 
 
-    /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.legacy.ui.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      check  : "qx.ui.selection.RadioManager",
+      check  : "qx.legacy.ui.selection.RadioManager",
       nullable : true,
       apply : "_applyManager"
     },

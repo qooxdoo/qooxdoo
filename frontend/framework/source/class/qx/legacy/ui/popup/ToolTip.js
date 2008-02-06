@@ -27,9 +27,9 @@
 /**
  * @appearance tool-tip
  */
-qx.Class.define("qx.ui.popup.ToolTip",
+qx.Class.define("qx.legacy.ui.popup.ToolTip",
 {
-  extend : qx.ui.popup.PopupAtom,
+  extend : qx.legacy.ui.popup.PopupAtom,
 
 
 
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
     /** Widget to which the tooltip is bound to */
     boundToWidget :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       apply : "_applyBoundToWidget"
     }
   },
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Callback method for the "afterAppear" event.<br/>
      * If the property {@link #restrictToPageOnOpen} is set to <code>true</code>
      * the tooltip gets repositioned to ensure it is displayed within the
-     * boundaries of the {@link qx.ui.core.ClientDocument}.
+     * boundaries of the {@link qx.legacy.ui.core.ClientDocument}.
      *
      * @type member
      * @return {void}
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       this.base(arguments);
 
       if (this.getRestrictToPageOnOpen()) {
-        var doc = qx.ui.core.ClientDocument.getInstance();
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
         var restrictToPageLeft   = parseInt(this.getRestrictToPageLeft());
@@ -451,7 +451,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
   destruct : function()
   {
-    var mgr = qx.ui.popup.ToolTipManager.getInstance();
+    var mgr = qx.legacy.ui.popup.ToolTipManager.getInstance();
     mgr.remove(this);
 
     if (mgr.getCurrentToolTip() == this) {

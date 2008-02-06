@@ -31,9 +31,9 @@
  * If used directly it represents an rectangular area, which can be positioned
  * and sized using the layout managers.
  */
-qx.Class.define("qx.ui.basic.Terminator",
+qx.Class.define("qx.legacy.ui.basic.Terminator",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.legacy.ui.core.Widget,
 
 
 

@@ -341,7 +341,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertQxWidget : function(value, msg) {
-      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value instanceof qx.legacy.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + qx.io.Json.stringify(value) + "!");
     },
 
 

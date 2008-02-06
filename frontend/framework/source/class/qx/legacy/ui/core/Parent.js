@@ -22,8 +22,8 @@
 
 #module(ui_core)
 #optional(qx.legacy.event.handler.FocusHandler)
-#optional(qx.ui.popup.ToolTipManager)
-#optional(qx.ui.popup.PopupManager)
+#optional(qx.legacy.ui.popup.ToolTipManager)
+#optional(qx.legacy.ui.popup.PopupManager)
 #require(qx.core.LegacyProperty)
 
 ************************************************************************ */
@@ -33,9 +33,9 @@
  *
  * Don't instantiate this class directly.
  */
-qx.Class.define("qx.ui.core.Parent",
+qx.Class.define("qx.legacy.ui.core.Parent",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.legacy.ui.core.Widget,
   type : "abstract",
 
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.core.Parent",
     /** The current active child. */
     activeChild :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       apply : "_applyActiveChild",
       event : "changeActiveChild",
       nullable : true
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.core.Parent",
     /** The current focused child. */
     focusedChild :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       apply : "_applyFocusedChild",
       event : "changeFocusedChild",
       nullable : true
@@ -246,9 +246,9 @@ qx.Class.define("qx.ui.core.Parent",
       var vFocusValid = value != null;
       var vBlurValid = old != null;
 
-      if (qx.Class.isDefined("qx.ui.popup.PopupManager") && vFocusValid)
+      if (qx.Class.isDefined("qx.legacy.ui.popup.PopupManager") && vFocusValid)
       {
-        var vMgr = qx.ui.popup.PopupManager.getInstance();
+        var vMgr = qx.legacy.ui.popup.PopupManager.getInstance();
 
         if (vMgr) {
           vMgr.update(value);
@@ -297,9 +297,9 @@ qx.Class.define("qx.ui.core.Parent",
 
         old.dispatchEvent(vEventObject);
 
-        if (qx.Class.isDefined("qx.ui.popup.ToolTipManager"))
+        if (qx.Class.isDefined("qx.legacy.ui.popup.ToolTipManager"))
         {
-          var vMgr = qx.ui.popup.ToolTipManager.getInstance();
+          var vMgr = qx.legacy.ui.popup.ToolTipManager.getInstance();
 
           if (vMgr) {
             vMgr.handleBlur(vEventObject);
@@ -323,9 +323,9 @@ qx.Class.define("qx.ui.core.Parent",
         var eventClone = vEventObject.clone();
         value.dispatchEvent(vEventObject);
 
-        if (qx.Class.isDefined("qx.ui.popup.ToolTipManager"))
+        if (qx.Class.isDefined("qx.legacy.ui.popup.ToolTipManager"))
         {
-          var vMgr = qx.ui.popup.ToolTipManager.getInstance();
+          var vMgr = qx.legacy.ui.popup.ToolTipManager.getInstance();
 
           if (vMgr) {
             eventClone.setTarget(value);
@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.core.Parent",
      * return
      *
      * @type member
-     * @return {qx.ui.layout.BoxLayout} TODOC
+     * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
       return null;
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.core.Parent",
     /**
      * Return the layout implementation.
      *
-     * return {qx.ui.layout.impl.LayoutImpl}
+     * return {qx.legacy.ui.layout.impl.LayoutImpl}
      *
      * @type member
      * @return {var} TODOC
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Return the array of all children
      *
      * @type member
-     * @return {qx.ui.core.Widget[]} all children
+     * @return {qx.legacy.ui.core.Widget[]} all children
      */
     getChildren : function() {
       return this._children;
@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Get the index of a child widget.
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} Child widget to get the index for
+     * @param vChild {qx.legacy.ui.core.Widget} Child widget to get the index for
      * @return {Integer} index of the child widget
      */
     indexOf : function(vChild) {
@@ -445,7 +445,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Check if the given widget is a child
      *
      * @type member
-     * @param vWidget {qx.ui.core.Widget} The widget which should be checked.
+     * @param vWidget {qx.legacy.ui.core.Widget} The widget which should be checked.
      * @return {Boolean | var} TODOC
      */
     contains : function(vWidget)
@@ -480,7 +480,7 @@ qx.Class.define("qx.ui.core.Parent",
      * (which are configured as visible=true)
      *
      * @type member
-     * @return {qx.ui.core.Widget[]} all visible children
+     * @return {qx.legacy.ui.core.Widget[]} all visible children
      */
     _computeVisibleChildren : function()
     {
@@ -553,7 +553,7 @@ qx.Class.define("qx.ui.core.Parent",
      *  one, a parameter could be a widget.
      *
      * @type member
-     * @param varargs {qx.ui.core.Widget} variable number of widgets to add
+     * @param varargs {qx.legacy.ui.core.Widget} variable number of widgets to add
      * @return {Parent} This widget.
      * @throws TODOC
      */
@@ -565,7 +565,7 @@ qx.Class.define("qx.ui.core.Parent",
       {
         vWidget = arguments[i];
 
-        if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof qx.ui.basic.Terminator)) {
+        if (!(vWidget instanceof qx.legacy.ui.core.Parent) && !(vWidget instanceof qx.legacy.ui.basic.Terminator)) {
           throw new Error("Invalid Widget: " + vWidget);
         } else {
           vWidget.setParent(this);
@@ -707,7 +707,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Remove one or multiple childrens.
      *
      * @type member
-     * @param varargs {qx.ui.core.Widget} variable number of widgets to remove
+     * @param varargs {qx.legacy.ui.core.Widget} variable number of widgets to remove
      */
     remove : function(varargs)
     {
@@ -717,7 +717,7 @@ qx.Class.define("qx.ui.core.Parent",
       {
         vWidget = arguments[i];
 
-        if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof qx.ui.basic.Terminator)) {
+        if (!(vWidget instanceof qx.legacy.ui.core.Parent) && !(vWidget instanceof qx.legacy.ui.basic.Terminator)) {
           throw new Error("Invalid Widget: " + vWidget);
         } else if (vWidget.getParent() == this) {
           vWidget.setParent(null);
@@ -803,7 +803,7 @@ qx.Class.define("qx.ui.core.Parent",
      *     not have any active children)
      */
     getFirstActiveChild : function(vIgnoreClasses) {
-      return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first") || null;
+      return qx.legacy.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first") || null;
     },
 
 
@@ -848,7 +848,7 @@ qx.Class.define("qx.ui.core.Parent",
      *     not have any active children)
      */
     getLastActiveChild : function(vIgnoreClasses) {
-      return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last") || null;
+      return qx.legacy.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last") || null;
     },
 
 
@@ -1125,7 +1125,7 @@ qx.Class.define("qx.ui.core.Parent",
 
       if (!vChild._isInParentChildrenQueue && vChild._isDisplayable)
       {
-        qx.ui.core.Widget.addToGlobalLayoutQueue(this);
+        qx.legacy.ui.core.Widget.addToGlobalLayoutQueue(this);
 
         if (!this._childrenQueue) {
           this._childrenQueue = {};
@@ -1150,7 +1150,7 @@ qx.Class.define("qx.ui.core.Parent",
         delete this._childrenQueue[vChild.toHashCode()];
 
         if (qx.lang.Object.isEmpty(this._childrenQueue)) {
-          qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);
+          qx.legacy.ui.core.Widget.removeFromGlobalLayoutQueue(this);
         }
       }
     },
@@ -1264,7 +1264,7 @@ qx.Class.define("qx.ui.core.Parent",
         if (vChanges.initial)
         {
           vChild._initialLayoutDone = true;
-          qx.ui.core.Widget.addToGlobalDisplayQueue(vChild);
+          qx.legacy.ui.core.Widget.addToGlobalDisplayQueue(vChild);
         }
       }
       catch(ex)
@@ -1424,7 +1424,7 @@ qx.Class.define("qx.ui.core.Parent",
       for (var i=0, l=t.length, s; i<l; i++)
       {
         s = t[i];
-        this[s] = new Function(qx.ui.core.Parent.prototype._remapStart + s + qx.ui.core.Parent.prototype._remapStop);
+        this[s] = new Function(qx.legacy.ui.core.Parent.prototype._remapStart + s + qx.legacy.ui.core.Parent.prototype._remapStop);
       }
     }
   },

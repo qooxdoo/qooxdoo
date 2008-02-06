@@ -23,21 +23,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.splitpane.HorizontalSplitPane",
+qx.Class.define("qx.legacy.ui.splitpane.HorizontalSplitPane",
 {
-  extend : qx.ui.splitpane.SplitPane,
+  extend : qx.legacy.ui.splitpane.SplitPane,
 
   /**
    * Creates a new instance of a horizontal SplitPane.<br /><br />
    *
-   * new qx.ui.splitpane.HorizontalSplitPane()<br />
-   * new qx.ui.splitpane.HorizontalSplitPane(firstSize, secondSize)
+   * new qx.legacy.ui.splitpane.HorizontalSplitPane()<br />
+   * new qx.legacy.ui.splitpane.HorizontalSplitPane(firstSize, secondSize)
    *
    * Please note that the usage of percents may be problematic because you must respect the
    * divider, too. To create a typical 50,50 split please use flex units instead e.g. "1*", "1*"
    *
-   * @param firstSize {String} The size of the left pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
-   * @param secondSize {String} The size of the right pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+   * @param firstSize {String} The size of the left pane. Allowed values are any by {@link qx.legacy.ui.core.Widget} supported unit.
+   * @param secondSize {String} The size of the right pane. Allowed values are any by {@link qx.legacy.ui.core.Widget} supported unit.
    */
   construct : function(firstSize, secondSize) {
     this.base(arguments, "horizontal", firstSize, secondSize);

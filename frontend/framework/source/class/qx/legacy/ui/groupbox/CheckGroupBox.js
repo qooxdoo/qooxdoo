@@ -25,11 +25,11 @@
 ************************************************************************ */
 
 /**
- * @appearance check-box-group-box-legend {qx.ui.form.CheckBox}
+ * @appearance check-box-group-box-legend {qx.legacy.ui.form.CheckBox}
  */
-qx.Class.define("qx.ui.groupbox.CheckGroupBox",
+qx.Class.define("qx.legacy.ui.groupbox.CheckGroupBox",
 {
-  extend : qx.ui.groupbox.GroupBox,
+  extend : qx.legacy.ui.groupbox.GroupBox,
 
 
 
@@ -44,15 +44,15 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
   members :
   {
     /**
-     * Creates the legend sub widget. Instead of the normal <code>qx.ui.basic.Atom</code>
-     * a <code>qx.ui.form.CheckBox</code> is used.
+     * Creates the legend sub widget. Instead of the normal <code>qx.legacy.ui.basic.Atom</code>
+     * a <code>qx.legacy.ui.form.CheckBox</code> is used.
      *
      * @type member
      * @return {void}
      */
     _createLegendObject : function()
     {
-      this._legendObject = new qx.ui.form.CheckBox;
+      this._legendObject = new qx.legacy.ui.form.CheckBox;
       this._legendObject.setAppearance("check-box-group-box-legend");
       this._legendObject.setChecked(true);
 

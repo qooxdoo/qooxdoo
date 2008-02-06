@@ -30,9 +30,9 @@
  * This Selection Manager differs from its superclass in that we do not want
  * rows to be selected when moving around with the keyboard.
  */
-qx.Class.define("qx.ui.treevirtual.SelectionManager",
+qx.Class.define("qx.legacy.ui.treevirtual.SelectionManager",
 {
-  extend : qx.ui.table.selection.Manager,
+  extend : qx.legacy.ui.table.selection.Manager,
 
 
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
       if (!bNoSelect)
       {
         // then call the Selection Manager's method to do it.
-        var Sm = qx.ui.table.selection.Manager;
+        var Sm = qx.legacy.ui.table.selection.Manager;
         Sm.prototype._handleSelectEvent.call(this, index, evt);
       }
     }

@@ -26,11 +26,11 @@
 
 /**
  * @appearance menu-separator
- * @appearance menu-separator-line {qx.ui.basic.Terminator}
+ * @appearance menu-separator-line {qx.legacy.ui.basic.Terminator}
  */
-qx.Class.define("qx.ui.menu.Separator",
+qx.Class.define("qx.legacy.ui.menu.Separator",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.menu.Separator",
     // ************************************************************************
     //   LINE
     // ************************************************************************
-    this._line = new qx.ui.basic.Terminator;
+    this._line = new qx.legacy.ui.basic.Terminator;
     this._line.setAnonymous(true);
     this._line.setAppearance("menu-separator-line");
     this.add(this._line);

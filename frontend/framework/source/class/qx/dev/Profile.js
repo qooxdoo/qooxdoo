@@ -88,12 +88,12 @@ qx.Bootstrap.define("qx.dev.Profile",
      *     "name":"qx.core.Object.addListener",
      *     "type":"member"
      *   },
-     *   "qx.ui.table.cellrenderer.Default (constructor)":{
+     *   "qx.legacy.ui.table.cellrenderer.Default (constructor)":{
      *     "totalTime":2,
      *     "ownTime":1,
      *     "callCount":1,
      *     "subRoutineCalls":4,
-     *     "name":"qx.ui.table.cellrenderer.Default",
+     *     "name":"qx.legacy.ui.table.cellrenderer.Default",
      *     "type":"constructor"
      *   }
      * }

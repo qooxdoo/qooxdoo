@@ -80,7 +80,7 @@ qx.Class.define("qx.application.Gui",
       this._initializedMain = true;
 
       // Prepare widget
-      qx.ui.core.Widget.initScrollbarWidth();
+      qx.legacy.ui.core.Widget.initScrollbarWidth();
 
       // Initialize themes
       qx.theme.manager.Meta.getInstance().initialize();
@@ -89,7 +89,7 @@ qx.Class.define("qx.application.Gui",
       qx.legacy.event.handler.EventHandler.getInstance();
 
       // Force creation of client document
-      qx.ui.core.ClientDocument.getInstance();
+      qx.legacy.ui.core.ClientDocument.getInstance();
 
       // Call preloader
       qx.event.Timer.once(this._preload, this, 0);
@@ -141,7 +141,7 @@ qx.Class.define("qx.application.Gui",
       var start = (new Date).valueOf();
 
       // Show initial widgets
-      qx.ui.core.Widget.flushGlobalQueues();
+      qx.legacy.ui.core.Widget.flushGlobalQueues();
 
       this.info("render runtime: " + (new Date - start) + "ms");
 

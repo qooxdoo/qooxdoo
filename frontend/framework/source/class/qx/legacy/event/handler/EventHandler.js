@@ -22,10 +22,10 @@
 
 #module(ui_core)
 #optional(qx.legacy.event.handler.DragAndDropHandler)
-#optional(qx.ui.menu.Manager)
+#optional(qx.legacy.ui.menu.Manager)
 #optional(qx.legacy.event.handler.FocusHandler)
-#optional(qx.ui.popup.PopupManager)
-#optional(qx.ui.popup.ToolTipManager)
+#optional(qx.legacy.ui.popup.PopupManager)
+#optional(qx.legacy.ui.popup.ToolTipManager)
 
 ************************************************************************ */
 
@@ -174,7 +174,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      *
      * @type static
      * @param vNode {Element} DOM Element to get the the container qooxdoo widget of
-     * @return {qx.ui.core.Widget} qooxdoo widget containing the DOM node.
+     * @return {qx.legacy.ui.core.Widget} qooxdoo widget containing the DOM node.
      */
     getOriginalTargetObject : function(vNode)
     {
@@ -185,7 +185,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         vNode = document.body;
       }
 
-      // Walk up the tree and search for an qx.ui.core.Widget
+      // Walk up the tree and search for an qx.legacy.ui.core.Widget
       while (vNode != null && vNode.qx_Widget == null)
       {
         try {
@@ -205,7 +205,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      * @type static
      * @param vDomEvent {Event} DOM event.
      * @param vWindow {Window} TODOC
-     * @return {qx.ui.core.Widget} target qooxdoo widget of the event.
+     * @return {qx.legacy.ui.core.Widget} target qooxdoo widget of the event.
      */
     getOriginalTargetObjectFromEvent : function(vDomEvent, vWindow)
     {
@@ -250,10 +250,10 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      *
      * @type static
      * @param vNode {Element} DOM node to search the target widget for.
-     * @param vObject {qx.ui.core.Widget ? null} optional qooxdoo widget to start the search from.
+     * @param vObject {qx.legacy.ui.core.Widget ? null} optional qooxdoo widget to start the search from.
      * @param allowDisabled {Boolean?false} whether disabled widgets should be returned. If set
      *   to true, <code>null</code> will be returned if a disabled widget is found.
-     * @return {null | qx.ui.core.Widget} The target container widget.
+     * @return {null | qx.legacy.ui.core.Widget} The target container widget.
      */
     getTargetObject : function(vNode, vObject, allowDisabled)
     {
@@ -294,7 +294,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      *
      * @type static
      * @param vDomEvent {Event} DOM event to get the target widget from.
-     * @return {qx.ui.core.Widget|null} The widget the event should be dispatched on (<code>null</code>
+     * @return {qx.legacy.ui.core.Widget|null} The widget the event should be dispatched on (<code>null</code>
      *   if no widget is found).
      */
     getTargetObjectFromEvent : function(vDomEvent) {
@@ -351,14 +351,14 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
 
     captureWidget :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.legacy.ui.core.Widget",
       nullable : true,
       apply : "_applyCaptureWidget"
     },
 
     focusRoot :
     {
-      check : "qx.ui.core.Parent",
+      check : "qx.legacy.ui.core.Parent",
       nullable : true,
       apply : "_applyFocusRoot"
     }
@@ -658,8 +658,8 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         {
           case "Escape":
           case "Tab":
-            if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-              qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+            if (qx.Class.isDefined("qx.legacy.ui.menu.Manager")) {
+              qx.legacy.ui.menu.Manager.getInstance().update(vTarget, vType);
             }
 
             break;
@@ -717,7 +717,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * This one handle all mouse events
      *
-     *  When a user double clicks on a qx.ui.core.Widget the
+     *  When a user double clicks on a qx.legacy.ui.core.Widget the
      *  order of the mouse events is the following:
      *
      *  1. mousedown
@@ -981,8 +981,8 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
           // target is disabled -> Pass the event only to the ToolTipManager
           if (vType == "mouseover")
           {
-            if (qx.Class.isDefined("qx.ui.popup.ToolTipManager")) {
-              qx.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+            if (qx.Class.isDefined("qx.legacy.ui.popup.ToolTipManager")) {
+              qx.legacy.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
             }
           }
         }
@@ -1025,42 +1025,42 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       switch(vType)
       {
         case "mousedown":
-          if (qx.Class.isDefined("qx.ui.popup.PopupManager")) {
-            qx.ui.popup.PopupManager.getInstance().update(vTarget);
+          if (qx.Class.isDefined("qx.legacy.ui.popup.PopupManager")) {
+            qx.legacy.ui.popup.PopupManager.getInstance().update(vTarget);
           }
 
-          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+          if (qx.Class.isDefined("qx.legacy.ui.menu.Manager")) {
+            qx.legacy.ui.menu.Manager.getInstance().update(vTarget, vType);
           }
 
-          if (qx.Class.isDefined("qx.ui.embed.IframeManager")) {
-            qx.ui.embed.IframeManager.getInstance().handleMouseDown(vEventObject);
+          if (qx.Class.isDefined("qx.legacy.ui.embed.IframeManager")) {
+            qx.legacy.ui.embed.IframeManager.getInstance().handleMouseDown(vEventObject);
           }
 
           break;
 
         case "mouseup":
           // Mouseup event should always hide, independed of target, so don't send a target
-          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+          if (qx.Class.isDefined("qx.legacy.ui.menu.Manager")) {
+            qx.legacy.ui.menu.Manager.getInstance().update(vTarget, vType);
           }
 
-          if (qx.Class.isDefined("qx.ui.embed.IframeManager")) {
-            qx.ui.embed.IframeManager.getInstance().handleMouseUp(vEventObject);
+          if (qx.Class.isDefined("qx.legacy.ui.embed.IframeManager")) {
+            qx.legacy.ui.embed.IframeManager.getInstance().handleMouseUp(vEventObject);
           }
 
           break;
 
         case "mouseover":
-          if (qx.Class.isDefined("qx.ui.popup.ToolTipManager")) {
-            qx.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+          if (qx.Class.isDefined("qx.legacy.ui.popup.ToolTipManager")) {
+            qx.legacy.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
           }
 
           break;
 
         case "mouseout":
-          if (qx.Class.isDefined("qx.ui.popup.ToolTipManager")) {
-            qx.ui.popup.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+          if (qx.Class.isDefined("qx.legacy.ui.popup.ToolTipManager")) {
+            qx.legacy.ui.popup.ToolTipManager.getInstance().handleMouseOut(vEventObject);
           }
 
           break;
@@ -1235,13 +1235,13 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       this.setCaptureWidget(null);
 
       // Hide Popups, Tooltips, ...
-      if (qx.Class.isDefined("qx.ui.popup.PopupManager")) {
-        qx.ui.popup.PopupManager.getInstance().update();
+      if (qx.Class.isDefined("qx.legacy.ui.popup.PopupManager")) {
+        qx.legacy.ui.popup.PopupManager.getInstance().update();
       }
 
       // Hide Menus
-      if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-        qx.ui.menu.Manager.getInstance().update();
+      if (qx.Class.isDefined("qx.legacy.ui.menu.Manager")) {
+        qx.legacy.ui.menu.Manager.getInstance().update();
       }
 
       // Cancel Drag Operations
@@ -1250,7 +1250,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       }
 
       // Send blur event to client document
-      qx.ui.core.ClientDocument.getInstance().fireEvent("windowblur");
+      qx.legacy.ui.core.ClientDocument.getInstance().fireEvent("windowblur");
     },
 
 
@@ -1272,7 +1272,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
 
       // this.debug("Window focus...");
       // Send focus event to client document
-      qx.ui.core.ClientDocument.getInstance().fireEvent("windowfocus");
+      qx.legacy.ui.core.ClientDocument.getInstance().fireEvent("windowfocus");
     },
 
 
@@ -1286,7 +1286,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     _onwindowresize : function(e)
     {
       // Send resize event to client document
-      qx.ui.core.ClientDocument.getInstance().fireEvent("windowresize");
+      qx.legacy.ui.core.ClientDocument.getInstance().fireEvent("windowresize");
     }
   },
 

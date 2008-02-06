@@ -32,9 +32,9 @@
  *
  * @appearance label
  */
-qx.Class.define("qx.ui.basic.Label",
+qx.Class.define("qx.legacy.ui.basic.Label",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -324,12 +324,12 @@ qx.Class.define("qx.ui.basic.Label",
      * Apply the font to the label.
      *
      * @type member
-     * @param font {qx.ui.core.Font} new font.
+     * @param font {qx.legacy.ui.core.Font} new font.
      */
     _styleFont : function(font)
     {
       this._invalidatePreferredInnerDimensions();
-      font ? font.render(this) : qx.ui.core.Font.reset(this);
+      font ? font.render(this) : qx.legacy.ui.core.Font.reset(this);
     },
 
 

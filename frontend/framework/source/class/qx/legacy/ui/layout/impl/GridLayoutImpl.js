@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.impl.GridLayoutImpl",
+qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
 {
-  extend : qx.ui.layout.impl.LayoutImpl,
+  extend : qx.legacy.ui.layout.impl.LayoutImpl,
 
 
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.layout.impl.GridLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.ui.layout.impl.LayoutImpl:
+     *  Inherits from qx.legacy.ui.layout.impl.LayoutImpl:
      *
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
      *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.layout.impl.GridLayoutImpl",
     */
 
     /**
-     * This is called from qx.ui.core.Widget and  it's task is to apply the layout
+     * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
      * @type member

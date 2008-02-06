@@ -25,6 +25,6 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.HorizontalBoxLayout", {
-  extend : qx.ui.layout.BoxLayout
+qx.Class.define("qx.legacy.ui.layout.HorizontalBoxLayout", {
+  extend : qx.legacy.ui.layout.BoxLayout
 });

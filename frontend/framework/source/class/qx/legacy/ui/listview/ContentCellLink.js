@@ -27,9 +27,9 @@
 /**
  * @appearance list-view-content-cell-link
  */
-qx.Class.define("qx.ui.listview.ContentCellLink",
+qx.Class.define("qx.legacy.ui.listview.ContentCellLink",
 {
-  extend : qx.ui.embed.LinkEmbed,
+  extend : qx.legacy.ui.embed.LinkEmbed,
 
 
 

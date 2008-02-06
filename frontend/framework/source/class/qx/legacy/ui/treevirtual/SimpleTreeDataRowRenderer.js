@@ -26,9 +26,9 @@
 /**
  * A data row renderer for a simple tree row
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
+qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataRowRenderer",
 {
-  extend : qx.ui.table.rowrenderer.Default,
+  extend : qx.legacy.ui.table.rowrenderer.Default,
 
 
 

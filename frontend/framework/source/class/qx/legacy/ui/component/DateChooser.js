@@ -26,24 +26,24 @@
 /**
  * Shows a calendar and allows choosing a date.
  *
- * @appearance datechooser-toolbar-button {qx.ui.toolbar.Button}
- * @appearance datechooser-monthyear {qx.ui.basic.Label}
- * @appearance datechooser-weekday {qx.ui.basic.Label}
- * @appearance datechooser-datepane {qx.ui.layout.GridLayout}
- * @appearance datechooser-weekday {qx.ui.basic.Label}
+ * @appearance datechooser-toolbar-button {qx.legacy.ui.toolbar.Button}
+ * @appearance datechooser-monthyear {qx.legacy.ui.basic.Label}
+ * @appearance datechooser-weekday {qx.legacy.ui.basic.Label}
+ * @appearance datechooser-datepane {qx.legacy.ui.layout.GridLayout}
+ * @appearance datechooser-weekday {qx.legacy.ui.basic.Label}
  *
- * @appearance datechooser-week {qx.ui.layout.GridLayout}
+ * @appearance datechooser-week {qx.legacy.ui.layout.GridLayout}
  * @state header {datechooser-week}
  *
- * @appearance datechooser-day {qx.ui.basic.Label}
+ * @appearance datechooser-day {qx.legacy.ui.basic.Label}
  * @state weekend {datechooser-day}
  * @state otherMonth {datechooser-day}
  * @state today {datechooser-day}
  * @state selected {datechooser-day}
  */
-qx.Class.define("qx.ui.component.DateChooser",
+qx.Class.define("qx.legacy.ui.component.DateChooser",
 {
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.legacy.ui.layout.BoxLayout,
 
 
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.component.DateChooser",
     this.setOrientation("vertical");
 
     // Create the navigation bar
-    var navBar = new qx.ui.layout.BoxLayout;
+    var navBar = new qx.legacy.ui.layout.BoxLayout;
 
     navBar.set(
     {
@@ -73,35 +73,35 @@ qx.Class.define("qx.ui.component.DateChooser",
       spacing : 1
     });
 
-    var lastYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/lastYear.png");
-    var lastMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/lastMonth.png");
-    var monthYearLabel = new qx.ui.basic.Label;
-    var nextMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
-    var nextYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
+    var lastYearBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/lastYear.png");
+    var lastMonthBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/lastMonth.png");
+    var monthYearLabel = new qx.legacy.ui.basic.Label;
+    var nextMonthBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
+    var nextYearBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
 
     lastYearBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Last year")),
+      toolTip : new qx.legacy.ui.popup.ToolTip(this.tr("Last year")),
       spacing : 0
     });
 
     lastMonthBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Last month"))
+      toolTip : new qx.legacy.ui.popup.ToolTip(this.tr("Last month"))
     });
 
     nextMonthBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Next month"))
+      toolTip : new qx.legacy.ui.popup.ToolTip(this.tr("Next month"))
     });
 
     nextYearBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Next year"))
+      toolTip : new qx.legacy.ui.popup.ToolTip(this.tr("Next year"))
     });
 
     lastYearBt.setAppearance("datechooser-toolbar-button");
@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.component.DateChooser",
     navBar.setHtmlProperty("id", "navBar");
 
     // Create the date pane
-    var datePane = new qx.ui.layout.GridLayout;
+    var datePane = new qx.legacy.ui.layout.GridLayout;
     datePane.setAppearance("datechooser-datepane");
 
     datePane.set(
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.component.DateChooser",
 
     // Create the weekdays
     // Add an empty label as spacer for the week numbers
-    var label = new qx.ui.basic.Label;
+    var label = new qx.legacy.ui.basic.Label;
     label.setAppearance("datechooser-week");
 
     label.set(
@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.component.DateChooser",
 
     for (var i=0; i<7; i++)
     {
-      var label = new qx.ui.embed.TextEmbed;
+      var label = new qx.legacy.ui.embed.TextEmbed;
       label.setAppearance("datechooser-weekday");
       label.setSelectable(false);
       label.setCursor("default");
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.component.DateChooser",
     for (var y=0; y<6; y++)
     {
       // Add the week label
-      var label = new qx.ui.embed.TextEmbed;
+      var label = new qx.legacy.ui.embed.TextEmbed;
       label.setAppearance("datechooser-week");
       label.setSelectable(false);
       label.setCursor("default");
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       // Add the day labels
       for (var x=0; x<7; x++)
       {
-        var label = new qx.ui.embed.TextEmbed;
+        var label = new qx.legacy.ui.embed.TextEmbed;
         label.setAppearance("datechooser-day");
         label.setSelectable(false);
         label.setCursor("default");
@@ -602,7 +602,7 @@ qx.Class.define("qx.ui.component.DateChooser",
      */
     _updateDatePane : function()
     {
-      var DateChooser = qx.ui.component.DateChooser;
+      var DateChooser = qx.legacy.ui.component.DateChooser;
 
       var today = new Date();
       var todayYear = today.getFullYear();

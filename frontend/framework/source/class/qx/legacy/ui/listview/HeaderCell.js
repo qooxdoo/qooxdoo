@@ -27,9 +27,9 @@
 /**
  * @appearance list-view-header-cell
  */
-qx.Class.define("qx.ui.listview.HeaderCell",
+qx.Class.define("qx.legacy.ui.listview.HeaderCell",
 {
-  extend : qx.ui.basic.Atom,
+  extend : qx.legacy.ui.basic.Atom,
 
 
 
@@ -66,14 +66,14 @@ qx.Class.define("qx.ui.listview.HeaderCell",
     this.getLayoutImpl().setEnableFlexSupport(true);
 
     // Children
-    this._spacer = new qx.ui.basic.HorizontalSpacer;
+    this._spacer = new qx.legacy.ui.basic.HorizontalSpacer;
 
-    this._arrowup = new qx.ui.basic.Image;
+    this._arrowup = new qx.legacy.ui.basic.Image;
     this._arrowup.setAppearance("list-view-header-cell-arrow-up");
     this._arrowup.setVerticalAlign("middle");
     this._arrowup.setDisplay(false);
 
-    this._arrowdown = new qx.ui.basic.Image;
+    this._arrowdown = new qx.legacy.ui.basic.Image;
     this._arrowdown.setAppearance("list-view-header-cell-arrow-down");
     this._arrowdown.setVerticalAlign("middle");
     this._arrowdown.setDisplay(false);
@@ -182,11 +182,11 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
       switch(vCurrentSortOrder)
       {
-        case qx.ui.listview.HeaderCell.C_SORT_ASCENDING:
-          return qx.ui.listview.HeaderCell.C_SORT_DESCENDING;
+        case qx.legacy.ui.listview.HeaderCell.C_SORT_ASCENDING:
+          return qx.legacy.ui.listview.HeaderCell.C_SORT_DESCENDING;
 
         default:
-          return qx.ui.listview.HeaderCell.C_SORT_ASCENDING;
+          return qx.legacy.ui.listview.HeaderCell.C_SORT_ASCENDING;
       }
     },
 
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
         return vSortMethod(a[vFieldId][vSortProp], b[vFieldId][vSortProp]);
       });
 
-      if (this.getSortOrder() == qx.ui.listview.HeaderCell.C_SORT_DESCENDING) {
+      if (this.getSortOrder() == qx.legacy.ui.listview.HeaderCell.C_SORT_DESCENDING) {
         vData.reverse();
       }
     },
@@ -236,14 +236,14 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
       switch(value)
       {
-        case qx.ui.listview.HeaderCell.C_SORT_ASCENDING:
+        case qx.legacy.ui.listview.HeaderCell.C_SORT_ASCENDING:
           this._arrowup.setDisplay(true);
           this._arrowdown.setDisplay(false);
 
           vListView.setSortBy(this._id);
           break;
 
-        case qx.ui.listview.HeaderCell.C_SORT_DESCENDING:
+        case qx.legacy.ui.listview.HeaderCell.C_SORT_DESCENDING:
           this._arrowup.setDisplay(false);
           this._arrowdown.setDisplay(true);
 

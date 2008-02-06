@@ -1,3 +1,3 @@
 /**
- * The qx.ui.animation package.
+ * The qx.legacy.ui.animation package.
  */

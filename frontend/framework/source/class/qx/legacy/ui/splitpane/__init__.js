@@ -1,3 +1,3 @@
 /**
- * The qx.ui.splitpane package.
+ * The qx.legacy.ui.splitpane package.
  */

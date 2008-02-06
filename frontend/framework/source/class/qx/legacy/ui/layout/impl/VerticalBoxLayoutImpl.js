@@ -25,9 +25,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
+qx.Class.define("qx.legacy.ui.layout.impl.VerticalBoxLayoutImpl",
 {
-  extend : qx.ui.layout.impl.LayoutImpl,
+  extend : qx.legacy.ui.layout.impl.LayoutImpl,
 
 
 
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.ui.layout.impl.LayoutImpl:
+     *  Inherits from qx.legacy.ui.layout.impl.LayoutImpl:
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *
      * @type member
@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
     computeChildrenNeededHeight : function()
     {
       var w = this.getWidget();
-      return qx.ui.layout.impl.LayoutImpl.prototype.computeChildrenNeededHeight_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getSpacing());
+      return qx.legacy.ui.layout.impl.LayoutImpl.prototype.computeChildrenNeededHeight_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getSpacing());
     },
 
 
@@ -716,7 +716,7 @@ qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
     */
 
     /**
-     * This is called from qx.ui.core.Widget and  it's task is to apply the layout
+     * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
      * @type member

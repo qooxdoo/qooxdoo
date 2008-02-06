@@ -31,10 +31,10 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.ui.table.celleditor.Dynamic",
+qx.Class.define("qx.legacy.ui.table.celleditor.Dynamic",
 {
   extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table.ICellEditorFactory,
 
 
   /*
@@ -70,9 +70,9 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
      *   // based on the cellInfo map or other information, return the
      *   // appropriate cellEditorFactory
      *   if (cellInfo.row == 5)
-     *     return new qx.ui.table.celleditor.CheckBox;
+     *     return new qx.legacy.ui.table.celleditor.CheckBox;
      *   else
-     *     return new qx.ui.table.celleditor.TextField;
+     *     return new qx.legacy.ui.table.celleditor.TextField;
      * });
      * </pre>
      **/
@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
      * Creates the cell editor based on the cellEditorFactory instance
      * returned by the function stored in the cellEditorFactoryFunction
      * property. Passes the cellInfo map to the function.
-     * @return {qx.ui.core.Widget}
+     * @return {qx.legacy.ui.core.Widget}
      */
     createCellEditor : function(cellInfo)
     {
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
     /**
      * Retrieves the value  the cell editor based on the current cellEditorFactory
      * instance.
-     * @param cellEditor {qx.ui.core.Widget}
+     * @param cellEditor {qx.legacy.ui.core.Widget}
      * @return {Object}
      */
     getCellEditorValue : function(cellEditor)

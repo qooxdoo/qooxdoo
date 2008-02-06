@@ -26,7 +26,7 @@
 /**
  *
  */
-qx.Mixin.define("qx.ui.treevirtual.MNode",
+qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
 {
   members :
   {
@@ -112,7 +112,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @param attributes {Map}
      *   Map with the node properties to be set.  The map may contain any of
      *   the properties described in
-     *   {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *   {@link qx.legacy.ui.treevirtual.SimpleTreeDataModel}
      *
      * @return {void}
      */

@@ -24,8 +24,8 @@
 
 ************************************************************************ */
 
-/** This singleton manages multiple instances of qx.ui.menu.Menu and their state. */
-qx.Class.define("qx.ui.menu.Manager",
+/** This singleton manages multiple instances of qx.legacy.ui.menu.Menu and their state. */
+qx.Class.define("qx.legacy.ui.menu.Manager",
 {
   type : "singleton",
   extend : qx.util.manager.Object,

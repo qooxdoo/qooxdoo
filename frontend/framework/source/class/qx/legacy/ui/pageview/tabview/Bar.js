@@ -27,9 +27,9 @@
 /**
  * @appearance tab-view-bar
  */
-qx.Class.define("qx.ui.pageview.tabview.Bar",
+qx.Class.define("qx.legacy.ui.pageview.tabview.Bar",
 {
-  extend : qx.ui.pageview.AbstractBar,
+  extend : qx.legacy.ui.pageview.AbstractBar,
 
 
 

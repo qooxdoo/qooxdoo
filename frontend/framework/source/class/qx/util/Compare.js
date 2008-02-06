@@ -194,8 +194,8 @@ qx.Class.define("qx.util.Compare",
      * Compare the zIndex property of two widgets.
      *
      * @type static
-     * @param a {qx.ui.core.Widget} first value
-     * @param b {qx.ui.core.Widget} second value
+     * @param a {qx.legacy.ui.core.Widget} first value
+     * @param b {qx.legacy.ui.core.Widget} second value
      * @return {Number} 0 if both values are equal
      *       a number > 0 if the first value if greater than the second one
      *       a value < 0  otherwise

@@ -21,12 +21,12 @@
 /* ************************************************************************
 
 #module(ui_popup)
-#optional(qx.ui.popup.ToolTip)
+#optional(qx.legacy.ui.popup.ToolTip)
 
 ************************************************************************ */
 
 /** This singleton is used to manager multiple instances of popups and their state. */
-qx.Class.define("qx.ui.popup.PopupManager",
+qx.Class.define("qx.legacy.ui.popup.PopupManager",
 {
   type : "singleton",
   extend : qx.util.manager.Object,
@@ -65,13 +65,13 @@ qx.Class.define("qx.ui.popup.PopupManager",
      * Updates all registered popups
      *
      * @type member
-     * @param vTarget {qx.ui.popup.Popup | qx.ui.popup.ToolTip} current widget
+     * @param vTarget {qx.legacy.ui.popup.Popup | qx.legacy.ui.popup.ToolTip} current widget
      * @return {void}
      */
     update : function(vTarget)
     {
       // be sure that target is correctly set (needed for contains() later)
-      if (!(vTarget instanceof qx.ui.core.Widget)) {
+      if (!(vTarget instanceof qx.legacy.ui.core.Widget)) {
         vTarget = null;
       }
 
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.popup.PopupManager",
           continue;
         }
 
-        if (qx.Class.isDefined("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
+        if (qx.Class.isDefined("qx.legacy.ui.popup.ToolTip") && vTarget instanceof qx.legacy.ui.popup.ToolTip && !(vPopup instanceof qx.legacy.ui.popup.ToolTip)) {
           continue;
         }
 

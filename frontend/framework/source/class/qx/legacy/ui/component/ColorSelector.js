@@ -34,9 +34,9 @@
  *
  * @appearance colorselector
  */
-qx.Class.define("qx.ui.component.ColorSelector",
+qx.Class.define("qx.legacy.ui.component.ColorSelector",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
 
 
@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createControlBar : function()
     {
-      this._controlBar = new qx.ui.layout.HorizontalBoxLayout;
+      this._controlBar = new qx.legacy.ui.layout.HorizontalBoxLayout;
       this._controlBar.setHeight("auto");
       this._controlBar.setParent(this);
     },
@@ -219,15 +219,15 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createButtonBar : function()
     {
-      this._btnbar = new qx.ui.layout.HorizontalBoxLayout;
+      this._btnbar = new qx.legacy.ui.layout.HorizontalBoxLayout;
       this._btnbar.setHeight("auto");
       this._btnbar.setSpacing(4);
       this._btnbar.setHorizontalChildrenAlign("right");
       this._btnbar.setPadding(2, 4);
       this.add(this._btnbar);
 
-      this._btncancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
-      this._btnok = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
+      this._btncancel = new qx.legacy.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
+      this._btnok = new qx.legacy.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
 
       this._btncancel.addListener("execute", this._onButtonCancelExecute, this);
       this._btnok.addListener("execute", this._onButtonOkExecute, this);
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createControlPane : function()
     {
-      this._controlPane = new qx.ui.layout.VerticalBoxLayout;
+      this._controlPane = new qx.legacy.ui.layout.VerticalBoxLayout;
       this._controlPane.setWidth("auto");
       this._controlPane.setPadding(4);
       this._controlPane.setPaddingBottom(7);
@@ -268,21 +268,21 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createHueSaturationPane : function()
     {
-      this._hueSaturationPane = new qx.ui.layout.CanvasLayout;
+      this._hueSaturationPane = new qx.legacy.ui.layout.CanvasLayout;
       this._hueSaturationPane.setWidth("auto");
       this._hueSaturationPane.setPadding(6, 4);
       this._hueSaturationPane.setParent(this._controlBar);
 
       this._hueSaturationPane.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
 
-      this._hueSaturationField = new qx.ui.basic.Image("widget/colorselector/huesaturation-field.jpg");
+      this._hueSaturationField = new qx.legacy.ui.basic.Image("widget/colorselector/huesaturation-field.jpg");
       this._hueSaturationField.setBorder("inset-thin");
       this._hueSaturationField.setMargin(5);
       this._hueSaturationField.setParent(this._hueSaturationPane);
 
       this._hueSaturationField.addListener("mousedown", this._onHueSaturationFieldMouseDown, this);
 
-      this._hueSaturationHandle = new qx.ui.basic.Image("widget/colorselector/huesaturation-handle.gif");
+      this._hueSaturationHandle = new qx.legacy.ui.basic.Image("widget/colorselector/huesaturation-handle.gif");
       this._hueSaturationHandle.setLocation(0, 256);
       this._hueSaturationHandle.setParent(this._hueSaturationPane);
 
@@ -300,21 +300,21 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createBrightnessPane : function()
     {
-      this._brightnessPane = new qx.ui.layout.CanvasLayout;
+      this._brightnessPane = new qx.legacy.ui.layout.CanvasLayout;
       this._brightnessPane.setWidth("auto");
       this._brightnessPane.setPadding(6, 4);
       this._brightnessPane.setParent(this._controlBar);
 
       this._brightnessPane.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
 
-      this._brightnessField = new qx.ui.basic.Image("widget/colorselector/brightness-field.jpg");
+      this._brightnessField = new qx.legacy.ui.basic.Image("widget/colorselector/brightness-field.jpg");
       this._brightnessField.setBorder("inset-thin");
       this._brightnessField.setMargin(5, 7);
       this._brightnessField.setParent(this._brightnessPane);
 
       this._brightnessField.addListener("mousedown", this._onBrightnessFieldMouseDown, this);
 
-      this._brightnessHandle = new qx.ui.basic.Image("widget/colorselector/brightness-handle.gif");
+      this._brightnessHandle = new qx.legacy.ui.basic.Image("widget/colorselector/brightness-handle.gif");
       this._brightnessHandle.setLocation(0, 0);
       this._brightnessHandle.setParent(this._brightnessPane);
 
@@ -340,11 +340,11 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createPresetFieldSet : function()
     {
-      this._presetFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Presets"));
+      this._presetFieldSet = new qx.legacy.ui.groupbox.GroupBox(this.tr("Presets"));
       this._presetFieldSet.setHeight("auto");
       this._presetFieldSet.setParent(this._controlPane);
 
-      this._presetGrid = new qx.ui.layout.GridLayout;
+      this._presetGrid = new qx.legacy.ui.layout.GridLayout;
       this._presetGrid.setHorizontalSpacing(2);
       this._presetGrid.setVerticalSpacing(2);
       this._presetGrid.setColumnCount(11);
@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       {
         for (var j=0; j<10; j++)
         {
-          colorField = new qx.ui.basic.Terminator;
+          colorField = new qx.legacy.ui.basic.Terminator;
           colorField.setBorder("inset-thin");
           colorField.setBackgroundColor(this._presetTable[i * 10 + j]);
           colorField.addListener("mousedown", this._onColorFieldClick, this);
@@ -391,11 +391,11 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createInputFieldSet : function()
     {
-      this._inputFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Details"));
+      this._inputFieldSet = new qx.legacy.ui.groupbox.GroupBox(this.tr("Details"));
       this._inputFieldSet.setHeight("auto");
       this._inputFieldSet.setParent(this._controlPane);
 
-      this._inputLayout = new qx.ui.layout.VerticalBoxLayout;
+      this._inputLayout = new qx.legacy.ui.layout.VerticalBoxLayout;
       this._inputLayout.setHeight("auto");
       this._inputLayout.setSpacing(10);
       this._inputLayout.setParent(this._inputFieldSet.getFrameObject());
@@ -410,11 +410,11 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createPreviewFieldSet : function()
     {
-      this._previewFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
+      this._previewFieldSet = new qx.legacy.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
       this._previewFieldSet.setHeight("1*");
       this._previewFieldSet.setParent(this._controlPane);
 
-      this._previewLayout = new qx.ui.layout.HorizontalBoxLayout;
+      this._previewLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
       this._previewLayout.setHeight("100%");
       this._previewLayout.setLocation(0, 0);
       this._previewLayout.setRight(0);
@@ -439,20 +439,20 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createHexField : function()
     {
-      this._hexLayout = new qx.ui.layout.HorizontalBoxLayout;
+      this._hexLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
       this._hexLayout.setHeight("auto");
       this._hexLayout.setSpacing(4);
       this._hexLayout.setVerticalChildrenAlign("middle");
       this._hexLayout.setParent(this._inputLayout);
 
-      this._hexLabel = new qx.ui.basic.Label(this.tr("Hex"));
+      this._hexLabel = new qx.legacy.ui.basic.Label(this.tr("Hex"));
       this._hexLabel.setWidth(25);
       this._hexLabel.setParent(this._hexLayout);
 
-      this._hexHelper = new qx.ui.basic.Label("#");
+      this._hexHelper = new qx.legacy.ui.basic.Label("#");
       this._hexHelper.setParent(this._hexLayout);
 
-      this._hexField = new qx.ui.form.TextField("FFFFFF");
+      this._hexField = new qx.legacy.ui.form.TextField("FFFFFF");
       this._hexField.setWidth(50);
       this._hexField.setParent(this._hexLayout);
 
@@ -468,23 +468,23 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createRgbSpinner : function()
     {
-      this._rgbSpinLayout = new qx.ui.layout.HorizontalBoxLayout;
+      this._rgbSpinLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
       this._rgbSpinLayout.setHeight("auto");
       this._rgbSpinLayout.setSpacing(4);
       this._rgbSpinLayout.setVerticalChildrenAlign("middle");
       this._rgbSpinLayout.setParent(this._inputLayout);
 
-      this._rgbSpinLabel = new qx.ui.basic.Label(this.tr("RGB"));
+      this._rgbSpinLabel = new qx.legacy.ui.basic.Label(this.tr("RGB"));
       this._rgbSpinLabel.setWidth(25);
       this._rgbSpinLabel.setParent(this._rgbSpinLayout);
 
-      this._rgbSpinRed = new qx.ui.form.Spinner(0, 255, 255);
+      this._rgbSpinRed = new qx.legacy.ui.form.Spinner(0, 255, 255);
       this._rgbSpinRed.setWidth(50);
 
-      this._rgbSpinGreen = new qx.ui.form.Spinner(0, 255, 255);
+      this._rgbSpinGreen = new qx.legacy.ui.form.Spinner(0, 255, 255);
       this._rgbSpinGreen.setWidth(50);
 
-      this._rgbSpinBlue = new qx.ui.form.Spinner(0, 255, 255);
+      this._rgbSpinBlue = new qx.legacy.ui.form.Spinner(0, 255, 255);
       this._rgbSpinBlue.setWidth(50);
 
       this._rgbSpinLayout.add(this._rgbSpinRed, this._rgbSpinGreen, this._rgbSpinBlue);
@@ -503,23 +503,23 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createHsbSpinner : function()
     {
-      this._hsbSpinLayout = new qx.ui.layout.HorizontalBoxLayout;
+      this._hsbSpinLayout = new qx.legacy.ui.layout.HorizontalBoxLayout;
       this._hsbSpinLayout.setHeight("auto");
       this._hsbSpinLayout.setSpacing(4);
       this._hsbSpinLayout.setVerticalChildrenAlign("middle");
       this._hsbSpinLayout.setParent(this._inputLayout);
 
-      this._hsbSpinLabel = new qx.ui.basic.Label(this.tr("HSB"));
+      this._hsbSpinLabel = new qx.legacy.ui.basic.Label(this.tr("HSB"));
       this._hsbSpinLabel.setWidth(25);
       this._hsbSpinLayout.add(this._hsbSpinLabel);
 
-      this._hsbSpinHue = new qx.ui.form.Spinner(0, 0, 360);
+      this._hsbSpinHue = new qx.legacy.ui.form.Spinner(0, 0, 360);
       this._hsbSpinHue.setWidth(50);
 
-      this._hsbSpinSaturation = new qx.ui.form.Spinner(0, 0, 100);
+      this._hsbSpinSaturation = new qx.legacy.ui.form.Spinner(0, 0, 100);
       this._hsbSpinSaturation.setWidth(50);
 
-      this._hsbSpinBrightness = new qx.ui.form.Spinner(0, 100, 100);
+      this._hsbSpinBrightness = new qx.legacy.ui.form.Spinner(0, 100, 100);
       this._hsbSpinBrightness.setWidth(50);
 
       this._hsbSpinLayout.add(this._hsbSpinHue, this._hsbSpinSaturation, this._hsbSpinBrightness);
@@ -546,13 +546,13 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _createPreviewContent : function()
     {
-      this._oldColorPreview = new qx.ui.basic.Terminator;
+      this._oldColorPreview = new qx.legacy.ui.basic.Terminator;
       this._oldColorPreview.setBorder("inset-thin");
       this._oldColorPreview.setWidth("1*");
       this._oldColorPreview.setBackgroundImage("static/image/dotted_white.gif");
       this._oldColorPreview.setParent(this._previewLayout);
 
-      this._newColorPreview = new qx.ui.basic.Terminator;
+      this._newColorPreview = new qx.legacy.ui.basic.Terminator;
       this._newColorPreview.setBorder("inset-thin");
       this._newColorPreview.setWidth("1*");
       this._newColorPreview.setBackgroundColor("white");

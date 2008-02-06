@@ -1,3 +1,3 @@
 /**
- * The qx.ui.embed package.
+ * The qx.legacy.ui.embed package.
  */

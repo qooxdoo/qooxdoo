@@ -29,9 +29,9 @@
  * This widget can be used to embed qooxdoo widgets inside a normal
  * HTML page.
  */
-qx.Class.define("qx.ui.basic.Inline",
+qx.Class.define("qx.legacy.ui.basic.Inline",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 

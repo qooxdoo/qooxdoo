@@ -29,22 +29,22 @@
  * @state maximized This state is active if the window is maximized
  *
  * @appearance window The main window object
- * @appearance window-resize-frame {qx.ui.basic.Terminator}
- * @appearance window-captionbar-icon {qx.ui.basic.Image}
- * @appearance window-captionbar-title {qx.ui.basic.Label} The label of the caption bar
- * @appearance window-captionbar-minimize-button {qx.ui.form.Button}
- * @appearance window-captionbar-restore-button {qx.ui.form.Button}
- * @appearance window-captionbar-maximize-button {qx.ui.form.Button}
- * @appearance window-captionbar-close-button {qx.ui.form.Button}
- * @appearance window-statusbar {qx.ui.layout.HorizontalBoxLayout}
- * @appearance window-statusbar-text {qx.ui.basic.Label}
+ * @appearance window-resize-frame {qx.legacy.ui.basic.Terminator}
+ * @appearance window-captionbar-icon {qx.legacy.ui.basic.Image}
+ * @appearance window-captionbar-title {qx.legacy.ui.basic.Label} The label of the caption bar
+ * @appearance window-captionbar-minimize-button {qx.legacy.ui.form.Button}
+ * @appearance window-captionbar-restore-button {qx.legacy.ui.form.Button}
+ * @appearance window-captionbar-maximize-button {qx.legacy.ui.form.Button}
+ * @appearance window-captionbar-close-button {qx.legacy.ui.form.Button}
+ * @appearance window-statusbar {qx.legacy.ui.layout.HorizontalBoxLayout}
+ * @appearance window-statusbar-text {qx.legacy.ui.basic.Label}
  *
- * @appearance window-captionbar {qx.ui.layout.HorizontalBoxLayout}
+ * @appearance window-captionbar {qx.legacy.ui.layout.HorizontalBoxLayout}
  * @state active {window-captionbar}
  */
-qx.Class.define("qx.ui.window.Window",
+qx.Class.define("qx.legacy.ui.window.Window",
 {
-  extend : qx.ui.resizer.ResizablePopup,
+  extend : qx.legacy.ui.resizer.ResizablePopup,
 
 
 
@@ -62,19 +62,19 @@ qx.Class.define("qx.ui.window.Window",
     //   MANAGER
     // ************************************************************************
     // Init Window Manager
-    this.setWindowManager(vWindowManager || qx.ui.window.Window.getDefaultWindowManager());
+    this.setWindowManager(vWindowManager || qx.legacy.ui.window.Window.getDefaultWindowManager());
 
     // ************************************************************************
     //   LAYOUT
     // ************************************************************************
-    var l = this._layout = new qx.ui.layout.VerticalBoxLayout;
+    var l = this._layout = new qx.legacy.ui.layout.VerticalBoxLayout;
     l.setEdge(0);
     this.add(l);
 
     // ************************************************************************
     //   CAPTIONBAR
     // ************************************************************************
-    var cb = this._captionBar = new qx.ui.layout.HorizontalBoxLayout;
+    var cb = this._captionBar = new qx.legacy.ui.layout.HorizontalBoxLayout;
     cb.setAppearance("window-captionbar");
     cb.setHeight("auto");
     cb.setOverflow("hidden");
@@ -83,14 +83,14 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONICON
     // ************************************************************************
-    var ci = this._captionIcon = new qx.ui.basic.Image;
+    var ci = this._captionIcon = new qx.legacy.ui.basic.Image;
     ci.setAppearance("window-captionbar-icon");
     cb.add(ci);
 
     // ************************************************************************
     //   CAPTIONTITLE
     // ************************************************************************
-    var ct = this._captionTitle = new qx.ui.basic.Label(vCaption);
+    var ct = this._captionTitle = new qx.legacy.ui.basic.Label(vCaption);
     ct.setAppearance("window-captionbar-title");
     ct.setSelectable(false);
     cb.add(ct);
@@ -98,13 +98,13 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONFLEX
     // ************************************************************************
-    var cf = this._captionFlex = new qx.ui.basic.HorizontalSpacer;
+    var cf = this._captionFlex = new qx.legacy.ui.basic.HorizontalSpacer;
     cb.add(cf);
 
     // ************************************************************************
     //   CAPTIONBUTTONS: MINIMIZE
     // ************************************************************************
-    var bm = this._minimizeButton = new qx.ui.form.Button;
+    var bm = this._minimizeButton = new qx.legacy.ui.form.Button;
 
     bm.setAppearance("window-captionbar-minimize-button");
     bm.setTabIndex(-1);
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: RESTORE
     // ************************************************************************
-    var br = this._restoreButton = new qx.ui.form.Button;
+    var br = this._restoreButton = new qx.legacy.ui.form.Button;
 
     br.setAppearance("window-captionbar-restore-button");
     br.setTabIndex(-1);
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: MAXIMIZE
     // ************************************************************************
-    var bx = this._maximizeButton = new qx.ui.form.Button;
+    var bx = this._maximizeButton = new qx.legacy.ui.form.Button;
 
     bx.setAppearance("window-captionbar-maximize-button");
     bx.setTabIndex(-1);
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: CLOSE
     // ************************************************************************
-    var bc = this._closeButton = new qx.ui.form.Button;
+    var bc = this._closeButton = new qx.legacy.ui.form.Button;
 
     bc.setAppearance("window-captionbar-close-button");
     bc.setTabIndex(-1);
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   PANE
     // ************************************************************************
-    var p = this._pane = new qx.ui.layout.CanvasLayout;
+    var p = this._pane = new qx.legacy.ui.layout.CanvasLayout;
     p.setHeight("1*");
     p.setOverflow("hidden");
     l.add(p);
@@ -164,14 +164,14 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   STATUSBAR
     // ************************************************************************
-    var sb = this._statusBar = new qx.ui.layout.HorizontalBoxLayout;
+    var sb = this._statusBar = new qx.legacy.ui.layout.HorizontalBoxLayout;
     sb.setAppearance("window-statusbar");
     sb.setHeight("auto");
 
     // ************************************************************************
     //   STATUSTEXT
     // ************************************************************************
-    var st = this._statusText = new qx.ui.basic.Label("Ready");
+    var st = this._statusText = new qx.legacy.ui.basic.Label("Ready");
     st.setAppearance("window-statusbar-text");
     st.setSelectable(false);
     sb.add(st);
@@ -236,15 +236,15 @@ qx.Class.define("qx.ui.window.Window",
      * the manager is created.
      *
      * @type static
-     * @return {qx.ui.window.Manager} window manager instance
+     * @return {qx.legacy.ui.window.Manager} window manager instance
      */
     getDefaultWindowManager : function()
     {
-      if (!qx.ui.window.Window._defaultWindowManager) {
-        qx.ui.window.Window._defaultWindowManager = new qx.ui.window.Manager;
+      if (!qx.legacy.ui.window.Window._defaultWindowManager) {
+        qx.legacy.ui.window.Window._defaultWindowManager = new qx.legacy.ui.window.Manager;
       }
 
-      return qx.ui.window.Window._defaultWindowManager;
+      return qx.legacy.ui.window.Window._defaultWindowManager;
     }
   },
 
@@ -270,13 +270,13 @@ qx.Class.define("qx.ui.window.Window",
     /** The windowManager to use for. */
     windowManager :
     {
-      check : "qx.ui.window.Manager",
+      check : "qx.legacy.ui.window.Manager",
       event : "changeWindowManager"
     },
 
 
     /**
-     * If the window is active, only one window in a single qx.ui.window.Manager could
+     * If the window is active, only one window in a single qx.legacy.ui.window.Manager could
      *  have set this to true at the same time.
      */
     active :
@@ -315,7 +315,7 @@ qx.Class.define("qx.ui.window.Window",
     /** The opener (button) of the window */
     opener :
     {
-      check : "qx.ui.core.Widget"
+      check : "qx.legacy.ui.core.Widget"
     },
 
 
@@ -468,7 +468,7 @@ qx.Class.define("qx.ui.window.Window",
      * Accessor method for the pane sub widget
      *
      * @type member
-     * @return {qx.ui.layout.CanvasLayout} pane sub widget
+     * @return {qx.legacy.ui.layout.CanvasLayout} pane sub widget
      */
     getPane : function() {
       return this._pane;
@@ -479,7 +479,7 @@ qx.Class.define("qx.ui.window.Window",
      * Accessor method for the captionbar sub widget
      *
      * @type member
-     * @return {qx.ui.layout.HorizontalBoxLayout} captionbar sub widget
+     * @return {qx.legacy.ui.layout.HorizontalBoxLayout} captionbar sub widget
      */
     getCaptionBar : function() {
       return this._captionBar;
@@ -490,7 +490,7 @@ qx.Class.define("qx.ui.window.Window",
      * Accessor method for the statusbar sub widget
      *
      * @type member
-     * @return {qx.ui.layout.HorizontalBoxLayout} statusbar sub widget
+     * @return {qx.legacy.ui.layout.HorizontalBoxLayout} statusbar sub widget
      */
     getStatusBar : function() {
       return this._statusBar;
@@ -499,7 +499,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Closes the current window instance.
-     * Technically calls the {@link qx.ui.core.Widget#hide} method.
+     * Technically calls the {@link qx.legacy.ui.core.Widget#hide} method.
      *
      * @type member
      * @return {void}
@@ -600,7 +600,7 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Executes routines to ensure the window is displayed correctly and gains control.<br/>
      * Hides all open popups, sets the focus root to the current window, adds
-     * the current window to the window manager and calls {@link qx.ui.popup.Popup#_makeActive}.
+     * the current window to the window manager and calls {@link qx.legacy.ui.popup.Popup#_makeActive}.
      *
      * @type member
      * @return {void}
@@ -608,10 +608,10 @@ qx.Class.define("qx.ui.window.Window",
     _beforeAppear : function()
     {
       // Intentionally bypass superclass and call super.super._beforeAppear
-      qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
+      qx.legacy.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
       // Hide popups
-      qx.ui.popup.PopupManager.getInstance().update();
+      qx.legacy.ui.popup.PopupManager.getInstance().update();
 
       // Configure the focus root to be the current opened window
       qx.legacy.event.handler.EventHandler.getInstance().setFocusRoot(this);
@@ -624,7 +624,7 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Executes routines to ensure the window releases all control.<br/>
      * Resets the focus root, release the capturing on any contained widget,
-     * deregisters from the window manager and calls {@link qx.ui.popup.Popup#_makeInactive}.
+     * deregisters from the window manager and calls {@link qx.legacy.ui.popup.Popup#_makeInactive}.
      *
      * @type member
      * @return {void}
@@ -632,7 +632,7 @@ qx.Class.define("qx.ui.window.Window",
     _beforeDisappear : function()
     {
       // Intentionally bypass superclass and call super.super._beforeDisappear
-      qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
+      qx.legacy.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
       // Reset focus root
       var vFocusRoot = qx.legacy.event.handler.EventHandler.getInstance().getFocusRoot();
@@ -1074,8 +1074,8 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Minimizes the window. Technically this methods calls the {@link qx.ui.core.Widget#blur}
-     * and the {@link qx.ui.core.Widget#hide} methods.
+     * Minimizes the window. Technically this methods calls the {@link qx.legacy.ui.core.Widget#blur}
+     * and the {@link qx.legacy.ui.core.Widget#hide} methods.
      *
      * @type member
      * @return {void}
@@ -1128,8 +1128,8 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Restores the window from minimized mode.<br/>
      * Reset the window mode to maximized if the window
-     * has the state maximized and call {@link qx.ui.core.Widget#show} and
-     * {@link qx.ui.core.Widget#focus}
+     * has the state maximized and call {@link qx.legacy.ui.core.Widget#show} and
+     * {@link qx.legacy.ui.core.Widget#focus}
      *
      * @type member
      * @return {void}
@@ -1399,7 +1399,7 @@ qx.Class.define("qx.ui.window.Window",
 
             // This flush is required to get the element node, needed by
             // the code below and the other event handlers
-            qx.ui.core.Widget.flushGlobalQueues();
+            qx.legacy.ui.core.Widget.flushGlobalQueues();
           }
 
           f._renderRuntimeLeft(elLoc.left - paLoc.left);

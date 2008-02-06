@@ -31,9 +31,9 @@
  * @state vertical
  * @state dragging
  */
-qx.Class.define("qx.ui.splitpane.SplitPaneKnob",
+qx.Class.define("qx.legacy.ui.splitpane.SplitPaneKnob",
 {
-  extend : qx.ui.basic.Image,
+  extend : qx.legacy.ui.basic.Image,
 
   properties :
   {

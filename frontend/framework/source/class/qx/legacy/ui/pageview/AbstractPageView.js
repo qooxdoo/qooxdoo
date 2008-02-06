@@ -23,10 +23,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.pageview.AbstractPageView",
+qx.Class.define("qx.legacy.ui.pageview.AbstractPageView",
 {
   type : "abstract",
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.legacy.ui.layout.BoxLayout,
 
 
 

@@ -27,9 +27,9 @@
 /**
  * @appearance tab-view
  */
-qx.Class.define("qx.ui.pageview.tabview.TabView",
+qx.Class.define("qx.legacy.ui.pageview.tabview.TabView",
 {
-  extend : qx.ui.pageview.AbstractPageView,
+  extend : qx.legacy.ui.pageview.AbstractPageView,
 
 
 
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
   */
 
   construct : function() {
-    this.base(arguments, qx.ui.pageview.tabview.Bar, qx.ui.pageview.tabview.Pane);
+    this.base(arguments, qx.legacy.ui.pageview.tabview.Bar, qx.legacy.ui.pageview.tabview.Pane);
   },
 
 

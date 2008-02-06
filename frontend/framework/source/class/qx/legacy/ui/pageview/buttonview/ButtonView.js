@@ -27,14 +27,14 @@
 /**
  * One of the widgets which could be used to structurize the interface.
  *
- *  qx.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
+ *  qx.legacy.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
  *  be found in more modern versions of the settings dialog in Mozilla Firefox.
  *
  * @appearance button-view
  */
-qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
+qx.Class.define("qx.legacy.ui.pageview.buttonview.ButtonView",
 {
-  extend : qx.ui.pageview.AbstractPageView,
+  extend : qx.legacy.ui.pageview.AbstractPageView,
 
 
 
@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
   construct : function()
   {
-    this.base(arguments, qx.ui.pageview.buttonview.Bar, qx.ui.pageview.buttonview.Pane);
+    this.base(arguments, qx.legacy.ui.pageview.buttonview.Bar, qx.legacy.ui.pageview.buttonview.Pane);
 
     this.initBarPosition();
   },

@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.ui.embed.GalleryList",
+qx.Class.define("qx.legacy.ui.embed.GalleryList",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.legacy.ui.basic.Terminator,
 
 
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
     this.setHtmlProperty("className", "qx_ui_embed_GalleryList");
 
-    this._manager = new qx.ui.selection.DomSelectionManager(this);
+    this._manager = new qx.legacy.ui.selection.DomSelectionManager(this);
 
     this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
@@ -397,7 +397,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      */
     _onmousemove : function(e)
     {
-      if (!qx.Class.isDefined("qx.ui.popup.ToolTipManager")) {
+      if (!qx.Class.isDefined("qx.legacy.ui.popup.ToolTipManager")) {
         return;
       }
 
@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
       if (this._lastItem)
       {
         var vEventObject = new qx.legacy.event.type.MouseEvent("mouseout", e, false, this._lastItem);
-        qx.ui.popup.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+        qx.legacy.ui.popup.ToolTipManager.getInstance().handleMouseOut(vEventObject);
         vEventObject.dispose();
       }
 
@@ -423,7 +423,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
         }
 
         var vEventObject = new qx.legacy.event.type.MouseEvent("mouseout", e, false, vItem);
-        qx.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+        qx.legacy.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         vEventObject.dispose();
 
         this.setToolTip(null);
@@ -616,8 +616,8 @@ qx.Class.define("qx.ui.embed.GalleryList",
     {
       if (this.hasListeners("loadComplete"))
       {
-        inode.onload = qx.ui.embed.GalleryList.imageOnLoad;
-        inode.onerror = qx.ui.embed.GalleryList.imageOnError;
+        inode.onload = qx.legacy.ui.embed.GalleryList.imageOnLoad;
+        inode.onerror = qx.legacy.ui.embed.GalleryList.imageOnError;
         inode.gallery = this;
       }
 

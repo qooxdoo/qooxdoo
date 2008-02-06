@@ -20,9 +20,9 @@
 /**
  * A scroll bar.
  */
-qx.Class.define("qx.ui.basic.ScrollBar",
+qx.Class.define("qx.legacy.ui.basic.ScrollBar",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.layout.CanvasLayout,
 
 
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
 
     this._horizontal = (horizontal == true);
 
-    this._scrollBar = new qx.ui.basic.ScrollArea;
+    this._scrollBar = new qx.legacy.ui.basic.ScrollArea;
 
     if (qx.core.Variant.isSet("qx.client", "gecko"))
     {
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     this._scrollBar.setOverflow(horizontal ? "scrollX" : "scrollY");
     this._scrollBar.addListener("scroll", this._onscroll, this);
 
-    this._scrollContent = new qx.ui.basic.Terminator;
+    this._scrollContent = new qx.legacy.ui.basic.Terminator;
 
     if (qx.core.Variant.isSet("qx.client", "gecko")) {
       this._scrollContent.setStyleProperty("position", "");
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
 
     this.add(this._scrollBar);
 
-    this._blocker = new qx.ui.basic.Terminator();
+    this._blocker = new qx.legacy.ui.basic.Terminator();
     this._blocker.set({
       left : 0,
       top : 0,
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     _getScrollBarWidth : function()
     {
       // Auto-detect the scrollbar width
-      if (qx.ui.basic.ScrollBar._scrollBarWidth == null)
+      if (qx.legacy.ui.basic.ScrollBar._scrollBarWidth == null)
       {
         var dummy = document.createElement("div");
         dummy.style.width = "100px";
@@ -291,11 +291,11 @@ qx.Class.define("qx.ui.basic.ScrollBar",
         dummy.style.overflow = "scroll";
         dummy.style.visibility = "hidden";
         document.body.appendChild(dummy);
-        qx.ui.basic.ScrollBar._scrollBarWidth = dummy.offsetWidth - dummy.clientWidth;
+        qx.legacy.ui.basic.ScrollBar._scrollBarWidth = dummy.offsetWidth - dummy.clientWidth;
         document.body.removeChild(dummy);
       }
 
-      return qx.ui.basic.ScrollBar._scrollBarWidth;
+      return qx.legacy.ui.basic.ScrollBar._scrollBarWidth;
     },
 
 
@@ -321,16 +321,16 @@ qx.Class.define("qx.ui.basic.ScrollBar",
           self._internalValueChange = true;
           self.setValue(self._lastScrollEventValue);
           self._internalValueChange = false;
-          qx.ui.core.Widget.flushGlobalQueues();
+          qx.legacy.ui.core.Widget.flushGlobalQueues();
         },
-        qx.ui.basic.ScrollBar.EVENT_DELAY);
+        qx.legacy.ui.basic.ScrollBar.EVENT_DELAY);
       }
       else
       {
         this._internalValueChange = true;
         this.setValue(value);
         this._internalValueChange = false;
-        qx.ui.core.Widget.flushGlobalQueues();
+        qx.legacy.ui.core.Widget.flushGlobalQueues();
       }
     },
 

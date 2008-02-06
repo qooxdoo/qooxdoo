@@ -23,10 +23,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.pageview.AbstractBar",
+qx.Class.define("qx.legacy.ui.pageview.AbstractBar",
 {
   type : "abstract",
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.legacy.ui.layout.BoxLayout,
 
 
 
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
   {
     this.base(arguments);
 
-    this._manager = new qx.ui.selection.RadioManager;
+    this._manager = new qx.legacy.ui.selection.RadioManager;
 
     this.addListener("mousewheel", this._onmousewheel);
   },
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
      * Get the selection manager.
      *
      * @type member
-     * @return {qx.ui.selection.RadioManager} the selection manager of the bar.
+     * @return {qx.legacy.ui.selection.RadioManager} the selection manager of the bar.
      */
     getManager : function() {
       return this._manager;

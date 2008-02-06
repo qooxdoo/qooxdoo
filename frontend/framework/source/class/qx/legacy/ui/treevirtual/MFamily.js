@@ -26,7 +26,7 @@
 /**
  *
  */
-qx.Mixin.define("qx.ui.treevirtual.MFamily",
+qx.Mixin.define("qx.legacy.ui.treevirtual.MFamily",
 {
   members :
   {

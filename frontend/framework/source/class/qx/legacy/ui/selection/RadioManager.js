@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /**
- * Each instance manages vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.RadioButton, ...
+ * Each instance manages vItems set of radio options: qx.legacy.ui.form.RadioButton, qx.legacy.ui.toolbar.RadioButton, ...
  */
-qx.Class.define("qx.ui.selection.RadioManager",
+qx.Class.define("qx.legacy.ui.selection.RadioManager",
 {
   extend : qx.core.Object,
 
@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.selection.RadioManager",
     this._items = [];
 
     // apply name property
-    this.setName(vName != null ? vName : qx.ui.selection.RadioManager.AUTO_NAME_PREFIX + this.toHashCode());
+    this.setName(vName != null ? vName : qx.legacy.ui.selection.RadioManager.AUTO_NAME_PREFIX + this.toHashCode());
 
     if (vMembers != null)
     {

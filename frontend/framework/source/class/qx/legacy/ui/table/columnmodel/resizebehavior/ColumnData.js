@@ -26,9 +26,9 @@
 /**
  * All of the resizing information about a column.
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
+qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.ColumnData",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.legacy.ui.core.Widget,
 
 
 
