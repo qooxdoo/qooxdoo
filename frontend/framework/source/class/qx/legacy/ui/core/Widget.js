@@ -5089,7 +5089,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       {
         try
         {
-          var r = qx.theme.manager.Appearance.getInstance().styleFrom(vAppearance, this.__states);
+          var r = qx.legacy.theme.manager.Appearance.getInstance().styleFrom(vAppearance, this.__states);
 
           if (r) {
             this._styleFromMap(r);
@@ -5117,7 +5117,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
       if (vAppearance)
       {
-        var vAppearanceManager = qx.theme.manager.Appearance.getInstance();
+        var vAppearanceManager = qx.legacy.theme.manager.Appearance.getInstance();
 
         var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this.__states);
         var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this.__states);
@@ -5213,7 +5213,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
         this.__states = {};
       }
 
-      var vAppearanceManager = qx.theme.manager.Appearance.getInstance();
+      var vAppearanceManager = qx.legacy.theme.manager.Appearance.getInstance();
 
       if (value)
       {
@@ -6487,7 +6487,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     */
 
     _applyBackgroundColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
     },
 
     _styleBackgroundColor : function(value) {
@@ -6544,7 +6544,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
     /** apply routine for property {@link #border} */
     _applyBorder : function(value, old) {
-      qx.theme.manager.Border.getInstance().connect(this._queueBorder, this, value);
+      qx.legacy.theme.manager.Border.getInstance().connect(this._queueBorder, this, value);
     },
 
 

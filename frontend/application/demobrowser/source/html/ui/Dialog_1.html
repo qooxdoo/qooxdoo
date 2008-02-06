@@ -54,7 +54,7 @@ qx.Class.define("BasicSample",
       layout.setSpacing(10);
       dialog.setLayout(layout);
 
-      var pane = new qx.ui2.core.Label("Click here to resize ...").set({
+      var pane = new qx.ui2.basic.Label("Click here to resize ...").set({
         backgroundColor : "green",
         width: 600,
         height: 300,
@@ -64,14 +64,14 @@ qx.Class.define("BasicSample",
 
       layout.add(pane, 0, 0, { colSpan: 3});
 
-      var ok = new qx.ui2.core.Label("OK").set({
+      var ok = new qx.ui2.basic.Label("OK").set({
         backgroundColor : "green",
         decoration: border,
         padding: [2, 5]
       });
       layout.add(ok, 1, 1);
 
-      var cancel = new qx.ui2.core.Label("Cancel").set({
+      var cancel = new qx.ui2.basic.Label("Cancel").set({
         backgroundColor : "green",
         decoration: border,
         padding: [2, 5]

@@ -37,6 +37,7 @@ APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
 APPLICATION_OPTIMIZE_REMOVE_ASPECTS = false
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
+  --exclude-without-dependencies demobrowser.* \
   --use-setting qx.allowUrlSettings:true \
   --use-setting qx.enableAspect:false \
   --add-require qx.Class:qx.dev.Profile

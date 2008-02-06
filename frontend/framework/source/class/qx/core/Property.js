@@ -158,7 +158,8 @@ qx.Class.define("qx.core.Property",
       "Theme"     : 'value !== null && value.$$type === "Theme"',
 
       "Color"     : 'typeof value === "string" && qx.util.ColorUtil.isValid(value)',
-      "Border"    : 'value !== null && qx.theme.manager.Border.getInstance().isDynamic(value)',
+      "Decoration": 'value !== null && qx.theme.manager.Decoration.getInstance().isDynamic(value)',
+      "Border"    : 'value !== null && qx.legacy.theme.manager.Border.getInstance().isDynamic(value)',
       "Font"      : 'value !== null && qx.theme.manager.Font.getInstance().isDynamic(value)',
       "Label"     : 'value !== null && (qx.locale.Manager.getInstance().isDynamic(value) || typeof value === "string")'
     },

@@ -30,7 +30,7 @@
 /**
  * Ext-Clone widget theme.
  */
-qx.Theme.define("qx.theme.ext.Widget",
+qx.legacy.Theme.define("qx.legacy.theme.ext.Widget",
 {
   title : "Ext",
 

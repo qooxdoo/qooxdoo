@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-15 10:00+0100\n"
+"POT-Creation-Date: 2008-02-06 14:50+0100\n"
 "PO-Revision-Date: 2007-01-23 17:53+0100\n"
 "Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 "Language-Team: German\n"
@@ -16,315 +16,315 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#. TRANSLATION: short representation of key names
-#: class/qx/locale/Key.js:76
-msgid "key_short_Backspace"
-msgstr "Rück"
-
-#: class/qx/locale/Key.js:77
-msgid "key_short_Tab"
-msgstr "Tab"
-
-#: class/qx/locale/Key.js:78
-msgid "key_short_Space"
-msgstr "Leer"
-
-#: class/qx/locale/Key.js:79
-msgid "key_short_Enter"
-msgstr "Enter"
-
-#: class/qx/locale/Key.js:80
-msgid "key_short_Shift"
-msgstr "Umschalt"
-
-#: class/qx/locale/Key.js:81
-msgid "key_short_Control"
-msgstr "Strg"
-
-#: class/qx/locale/Key.js:82
-msgid "key_short_Alt"
-msgstr "Alt"
-
-#: class/qx/locale/Key.js:83
-msgid "key_short_CapsLock"
-msgstr "Feststell"
-
-#: class/qx/locale/Key.js:84
-msgid "key_short_Meta"
-msgstr "Meta"
-
-#: class/qx/locale/Key.js:85
-msgid "key_short_Escape"
-msgstr "Esc"
-
-#: class/qx/locale/Key.js:86
-msgid "key_short_Left"
-msgstr "Links"
-
-#: class/qx/locale/Key.js:87
-msgid "key_short_Up"
-msgstr "Hoch"
-
-#: class/qx/locale/Key.js:88
-msgid "key_short_Right"
-msgstr "Rechts "
-
-#: class/qx/locale/Key.js:89
-msgid "key_short_Down"
-msgstr "Runter"
-
-#: class/qx/locale/Key.js:90
-msgid "key_short_PageUp"
-msgstr "Bild hoch"
-
-#: class/qx/locale/Key.js:91
-msgid "key_short_PageDown"
-msgstr "Bild runter"
-
-#: class/qx/locale/Key.js:92
-msgid "key_short_End"
-msgstr "Ende"
-
-#: class/qx/locale/Key.js:93
-msgid "key_short_Home"
-msgstr "Pos1"
-
-#: class/qx/locale/Key.js:94
-msgid "key_short_Insert"
-msgstr "Einfg"
-
-#: class/qx/locale/Key.js:95
-msgid "key_short_Delete"
-msgstr "Entf"
-
-#: class/qx/locale/Key.js:96
-msgid "key_short_NumLock"
-msgstr "Num"
-
-#: class/qx/locale/Key.js:97
-#, fuzzy
-msgid "key_short_PrintScreen"
-msgstr "Drucken"
-
-#: class/qx/locale/Key.js:98
-msgid "key_short_Scroll"
-msgstr "Rollen"
-
-#: class/qx/locale/Key.js:99
-msgid "key_short_Pause"
-msgstr "Pause"
-
-#: class/qx/locale/Key.js:100
-msgid "key_short_Win"
-msgstr "Win"
-
-#: class/qx/locale/Key.js:101
-msgid "key_short_Apps"
-msgstr "Kontext"
-
-#. TRANSLATION: full/long representation of key names
-#: class/qx/locale/Key.js:104
-msgid "key_full_Backspace"
-msgstr "Rücktaste"
-
-#: class/qx/locale/Key.js:105
-msgid "key_full_Tab"
-msgstr "Tabulator"
-
-#: class/qx/locale/Key.js:106
-msgid "key_full_Space"
-msgstr "Leertaste"
-
-#: class/qx/locale/Key.js:107
-msgid "key_full_Enter"
-msgstr "Enter"
-
-#: class/qx/locale/Key.js:108
-msgid "key_full_Shift"
-msgstr "Umschalttaste"
-
-#: class/qx/locale/Key.js:109
-msgid "key_full_Control"
-msgstr "Steuerung"
-
-#: class/qx/locale/Key.js:110
-msgid "key_full_Alt"
-msgstr "Alt"
-
-#: class/qx/locale/Key.js:111
-msgid "key_full_CapsLock"
-msgstr "Feststelltaste"
-
-#: class/qx/locale/Key.js:112
-msgid "key_full_Meta"
-msgstr "Meta"
-
-#: class/qx/locale/Key.js:113
-msgid "key_full_Escape"
-msgstr "Escape"
-
-#: class/qx/locale/Key.js:114
-msgid "key_full_Left"
-msgstr "Pfeil links"
-
-#: class/qx/locale/Key.js:115
-msgid "key_full_Up"
-msgstr "Pfeil hoch"
-
-#: class/qx/locale/Key.js:116
-msgid "key_full_Right"
-msgstr "Pfeil rechts"
-
-#: class/qx/locale/Key.js:117
-msgid "key_full_Down"
-msgstr "Pfeil runter"
-
-#: class/qx/locale/Key.js:118
-msgid "key_full_PageUp"
-msgstr "Bild hoch"
-
-#: class/qx/locale/Key.js:119
-msgid "key_full_PageDown"
-msgstr "Bild runter "
-
-#: class/qx/locale/Key.js:120
-msgid "key_full_End"
-msgstr "Ende"
-
-#: class/qx/locale/Key.js:121
-msgid "key_full_Home"
-msgstr "Position 1"
-
-#: class/qx/locale/Key.js:122
-msgid "key_full_Insert"
-msgstr "Einfügen"
-
-#: class/qx/locale/Key.js:123
-msgid "key_full_Delete"
-msgstr "Entfernen"
-
-#: class/qx/locale/Key.js:124
-msgid "key_full_NumLock"
-msgstr "NumLock"
-
-#: class/qx/locale/Key.js:125
-#, fuzzy
-msgid "key_full_PrintScreen"
-msgstr "Drucken"
-
-#: class/qx/locale/Key.js:126
-msgid "key_full_Scroll"
-msgstr "Rollen"
-
-#: class/qx/locale/Key.js:127
-msgid "key_full_Pause"
-msgstr "Pause"
-
-#: class/qx/locale/Key.js:128
-msgid "key_full_Win"
-msgstr "Windowstaste"
-
-#: class/qx/locale/Key.js:129
-msgid "key_full_Apps"
-msgstr "Kontextmenü"
-
-#: class/qx/ui/component/ColorPopup.js:161
+#: class/qx/legacy/ui/component/ColorPopup.js:161
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: class/qx/ui/component/ColorPopup.js:229
-#: class/qx/ui/component/ColorSelector.js:413
+#: class/qx/legacy/ui/component/ColorPopup.js:229
+#: class/qx/legacy/ui/component/ColorSelector.js:413
 msgid "Preview (Old/New)"
 msgstr "Vorschau (alt/neu)"
 
-#: class/qx/ui/component/ColorPopup.js:262
+#: class/qx/legacy/ui/component/ColorPopup.js:262
 msgid "Open ColorSelector"
 msgstr "Öffne Farbauswahl"
 
-#: class/qx/ui/component/ColorPopup.js:283
+#: class/qx/legacy/ui/component/ColorPopup.js:283
 msgid "Color Selector"
 msgstr "Farbauswahl"
 
-#: class/qx/ui/component/ColorSelector.js:229
+#: class/qx/legacy/ui/component/ColorSelector.js:229
 msgid "Cancel"
 msgstr "Abbruch"
 
-#: class/qx/ui/component/ColorSelector.js:230
+#: class/qx/legacy/ui/component/ColorSelector.js:230
 msgid "OK"
 msgstr "OK"
 
-#: class/qx/ui/component/ColorSelector.js:343
+#: class/qx/legacy/ui/component/ColorSelector.js:343
 msgid "Presets"
 msgstr "Voreinstellungen"
 
-#: class/qx/ui/component/ColorSelector.js:394
+#: class/qx/legacy/ui/component/ColorSelector.js:394
 msgid "Details"
 msgstr "Details"
 
-#: class/qx/ui/component/ColorSelector.js:448
+#: class/qx/legacy/ui/component/ColorSelector.js:448
 msgid "Hex"
 msgstr "Hex"
 
-#: class/qx/ui/component/ColorSelector.js:477
+#: class/qx/legacy/ui/component/ColorSelector.js:477
 msgid "RGB"
 msgstr "RGB"
 
-#: class/qx/ui/component/ColorSelector.js:512
+#: class/qx/legacy/ui/component/ColorSelector.js:512
 msgid "HSB"
 msgstr "HSB"
 
-#: class/qx/ui/component/DateChooser.js:85
+#: class/qx/legacy/ui/component/DateChooser.js:85
 msgid "Last year"
 msgstr "Vorheriges Jahr"
 
-#: class/qx/ui/component/DateChooser.js:92
+#: class/qx/legacy/ui/component/DateChooser.js:92
 msgid "Last month"
 msgstr "Vorheriger Monat"
 
-#: class/qx/ui/component/DateChooser.js:98
+#: class/qx/legacy/ui/component/DateChooser.js:98
 msgid "Next month"
 msgstr "Nächster Monat"
 
-#: class/qx/ui/component/DateChooser.js:104
+#: class/qx/legacy/ui/component/DateChooser.js:104
 msgid "Next year"
 msgstr "Nächstes Jahr"
 
-#: class/qx/ui/component/DateChooserButton.js:111
+#: class/qx/legacy/ui/component/DateChooserButton.js:111
 msgid "Choose a date"
 msgstr "Datum auswählen"
 
-#: class/qx/ui/form/ComboBoxEx.js:270
+#: class/qx/legacy/ui/form/ComboBoxEx.js:270
 msgid "Description"
 msgstr "Beschreibung"
 
-#: class/qx/ui/form/ComboBoxEx.js:270
+#: class/qx/legacy/ui/form/ComboBoxEx.js:270
 msgid "ID"
 msgstr "ID"
 
-#: class/qx/ui/form/ComboBoxEx.js:954
+#: class/qx/legacy/ui/form/ComboBoxEx.js:954
 msgid "Search"
 msgstr "Suchen"
 
-#: class/qx/ui/form/ComboBoxEx.js:1070
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1070
 msgid "Case sensitive"
 msgstr "Groß-/Kleinschreibung"
 
-#: class/qx/ui/form/ComboBoxEx.js:1112
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1112
 msgid "Search next occurrence"
 msgstr "Weiter suchen"
 
-#: class/qx/ui/form/ComboBoxEx.js:1156
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1156
 msgid "Search items in list"
 msgstr "Liste durchsuchen"
 
-#: class/qx/ui/table/Table.js:1497
+#: class/qx/legacy/ui/table/Table.js:1497
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: class/qx/ui/table/Table.js:1499
+#: class/qx/legacy/ui/table/Table.js:1499
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
 msgstr[1] "%1 von %2 Zeilen"
+
+#. TRANSLATION: short representation of key names
+#: class/qx/locale/Key.js:77
+msgid "key_short_Backspace"
+msgstr "Rück"
+
+#: class/qx/locale/Key.js:78
+msgid "key_short_Tab"
+msgstr "Tab"
+
+#: class/qx/locale/Key.js:79
+msgid "key_short_Space"
+msgstr "Leer"
+
+#: class/qx/locale/Key.js:80
+msgid "key_short_Enter"
+msgstr "Enter"
+
+#: class/qx/locale/Key.js:81
+msgid "key_short_Shift"
+msgstr "Umschalt"
+
+#: class/qx/locale/Key.js:82
+msgid "key_short_Control"
+msgstr "Strg"
+
+#: class/qx/locale/Key.js:83
+msgid "key_short_Alt"
+msgstr "Alt"
+
+#: class/qx/locale/Key.js:84
+msgid "key_short_CapsLock"
+msgstr "Feststell"
+
+#: class/qx/locale/Key.js:85
+msgid "key_short_Meta"
+msgstr "Meta"
+
+#: class/qx/locale/Key.js:86
+msgid "key_short_Escape"
+msgstr "Esc"
+
+#: class/qx/locale/Key.js:87
+msgid "key_short_Left"
+msgstr "Links"
+
+#: class/qx/locale/Key.js:88
+msgid "key_short_Up"
+msgstr "Hoch"
+
+#: class/qx/locale/Key.js:89
+msgid "key_short_Right"
+msgstr "Rechts "
+
+#: class/qx/locale/Key.js:90
+msgid "key_short_Down"
+msgstr "Runter"
+
+#: class/qx/locale/Key.js:91
+msgid "key_short_PageUp"
+msgstr "Bild hoch"
+
+#: class/qx/locale/Key.js:92
+msgid "key_short_PageDown"
+msgstr "Bild runter"
+
+#: class/qx/locale/Key.js:93
+msgid "key_short_End"
+msgstr "Ende"
+
+#: class/qx/locale/Key.js:94
+msgid "key_short_Home"
+msgstr "Pos1"
+
+#: class/qx/locale/Key.js:95
+msgid "key_short_Insert"
+msgstr "Einfg"
+
+#: class/qx/locale/Key.js:96
+msgid "key_short_Delete"
+msgstr "Entf"
+
+#: class/qx/locale/Key.js:97
+msgid "key_short_NumLock"
+msgstr "Num"
+
+#: class/qx/locale/Key.js:98
+#, fuzzy
+msgid "key_short_PrintScreen"
+msgstr "Drucken"
+
+#: class/qx/locale/Key.js:99
+msgid "key_short_Scroll"
+msgstr "Rollen"
+
+#: class/qx/locale/Key.js:100
+msgid "key_short_Pause"
+msgstr "Pause"
+
+#: class/qx/locale/Key.js:101
+msgid "key_short_Win"
+msgstr "Win"
+
+#: class/qx/locale/Key.js:102
+msgid "key_short_Apps"
+msgstr "Kontext"
+
+#. TRANSLATION: full/long representation of key names
+#: class/qx/locale/Key.js:105
+msgid "key_full_Backspace"
+msgstr "Rücktaste"
+
+#: class/qx/locale/Key.js:106
+msgid "key_full_Tab"
+msgstr "Tabulator"
+
+#: class/qx/locale/Key.js:107
+msgid "key_full_Space"
+msgstr "Leertaste"
+
+#: class/qx/locale/Key.js:108
+msgid "key_full_Enter"
+msgstr "Enter"
+
+#: class/qx/locale/Key.js:109
+msgid "key_full_Shift"
+msgstr "Umschalttaste"
+
+#: class/qx/locale/Key.js:110
+msgid "key_full_Control"
+msgstr "Steuerung"
+
+#: class/qx/locale/Key.js:111
+msgid "key_full_Alt"
+msgstr "Alt"
+
+#: class/qx/locale/Key.js:112
+msgid "key_full_CapsLock"
+msgstr "Feststelltaste"
+
+#: class/qx/locale/Key.js:113
+msgid "key_full_Meta"
+msgstr "Meta"
+
+#: class/qx/locale/Key.js:114
+msgid "key_full_Escape"
+msgstr "Escape"
+
+#: class/qx/locale/Key.js:115
+msgid "key_full_Left"
+msgstr "Pfeil links"
+
+#: class/qx/locale/Key.js:116
+msgid "key_full_Up"
+msgstr "Pfeil hoch"
+
+#: class/qx/locale/Key.js:117
+msgid "key_full_Right"
+msgstr "Pfeil rechts"
+
+#: class/qx/locale/Key.js:118
+msgid "key_full_Down"
+msgstr "Pfeil runter"
+
+#: class/qx/locale/Key.js:119
+msgid "key_full_PageUp"
+msgstr "Bild hoch"
+
+#: class/qx/locale/Key.js:120
+msgid "key_full_PageDown"
+msgstr "Bild runter "
+
+#: class/qx/locale/Key.js:121
+msgid "key_full_End"
+msgstr "Ende"
+
+#: class/qx/locale/Key.js:122
+msgid "key_full_Home"
+msgstr "Position 1"
+
+#: class/qx/locale/Key.js:123
+msgid "key_full_Insert"
+msgstr "Einfügen"
+
+#: class/qx/locale/Key.js:124
+msgid "key_full_Delete"
+msgstr "Entfernen"
+
+#: class/qx/locale/Key.js:125
+msgid "key_full_NumLock"
+msgstr "NumLock"
+
+#: class/qx/locale/Key.js:126
+#, fuzzy
+msgid "key_full_PrintScreen"
+msgstr "Drucken"
+
+#: class/qx/locale/Key.js:127
+msgid "key_full_Scroll"
+msgstr "Rollen"
+
+#: class/qx/locale/Key.js:128
+msgid "key_full_Pause"
+msgstr "Pause"
+
+#: class/qx/locale/Key.js:129
+msgid "key_full_Win"
+msgstr "Windowstaste"
+
+#: class/qx/locale/Key.js:130
+msgid "key_full_Apps"
+msgstr "Kontextmenü"

@@ -21,10 +21,10 @@
 /**
  * The qooxdoo big font theme.
  */
-qx.Theme.define("qx.theme.classic.font.Big",
+qx.legacy.Theme.define("qx.legacy.theme.classic.font.Big",
 {
   title : "Classic Big",
-  extend : qx.theme.classic.font.Default,
+  extend : qx.legacy.theme.classic.font.Default,
 
   fonts :
   {

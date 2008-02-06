@@ -559,35 +559,35 @@ qx.Class.define("qx.legacy.ui.core.Border",
     },
 
     _applyColorTop : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorTop, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorTop, this, value);
     },
 
     _applyColorRight : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorRight, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorRight, this, value);
     },
 
     _applyColorBottom : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, value);
     },
 
     _applyColorLeft : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, value);
     },
 
     _applyColorInnerTop : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerTop, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerTop, this, value);
     },
 
     _applyColorInnerRight : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerRight, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerRight, this, value);
     },
 
     _applyColorInnerBottom : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerBottom, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerBottom, this, value);
     },
 
     _applyColorInnerLeft : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerLeft, this, value);
+      qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerLeft, this, value);
     },
 
     _applyStyleTop : function() {
@@ -776,7 +776,7 @@ qx.Class.define("qx.legacy.ui.core.Border",
      * @param edge {String} the edge which was updated
      */
     __informManager : function(edge) {
-      qx.theme.manager.Border.getInstance().updateObjectsEdge(this, edge);
+      qx.legacy.theme.manager.Border.getInstance().updateObjectsEdge(this, edge);
     },
 
 

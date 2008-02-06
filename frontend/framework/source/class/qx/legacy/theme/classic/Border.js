@@ -23,7 +23,7 @@
 /**
  * The default qooxdoo border theme.
  */
-qx.Theme.define("qx.theme.classic.Border",
+qx.legacy.Theme.define("qx.legacy.theme.classic.Border",
 {
   title : "Classic",
 

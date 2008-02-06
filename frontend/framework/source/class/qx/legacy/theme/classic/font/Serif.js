@@ -21,10 +21,10 @@
 /**
  * The qooxdoo serif font theme.
  */
-qx.Theme.define("qx.theme.classic.font.Serif",
+qx.legacy.Theme.define("qx.legacy.theme.classic.font.Serif",
 {
   title : "Classic Serif",
-  extend : qx.theme.classic.font.Default,
+  extend : qx.legacy.theme.classic.font.Default,
 
   fonts :
   {
