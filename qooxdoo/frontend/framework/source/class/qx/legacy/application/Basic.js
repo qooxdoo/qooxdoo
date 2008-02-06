@@ -52,7 +52,11 @@ qx.Class.define("qx.legacy.application.Basic",
      *
      * @type member
      */
-    main : function() {},
+    main : function()
+    {
+      this.warn("Using legacy application class!");
+
+    },
 
 
     /**

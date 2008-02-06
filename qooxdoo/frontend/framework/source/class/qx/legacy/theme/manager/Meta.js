@@ -331,7 +331,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
 
   settings :
   {
-    "qx.legacy.theme"    : "qx.legacy.theme.ClassicRoyale",
+    "qx.legacy.theme"           : "qx.legacy.theme.ClassicRoyale",
     "qx.legacy.colorTheme"      : null,
     "qx.legacy.borderTheme"     : null,
     "qx.legacy.fontTheme"       : null,
