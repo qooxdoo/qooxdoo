@@ -127,7 +127,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.__states.isLoading = false;
     this.__states.isFirstSample = false;
     this.__states.isLastSample  = false;
-    
+
   }, //construct
 
 
@@ -994,12 +994,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this._sampleToTreeNodeMap = {};
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
-      var _initialSection    = "example";
+      var _initialSection    = "ui";
 
       // set a section to open initially
       var state   = this._history.getState();
       var section =  state.match(/([^~]+)~/);
-      if (section) 
+      if (section)
       {
         _initialSection = section[1];
       }
@@ -1251,9 +1251,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var furl = this.f1.getSource();
       //if (this._currentSampleUrl != this.defaultUrl)
-      if (furl != null && 
-          furl != this.defaultUrl && 
-          fwindow.qx && 
+      if (furl != null &&
+          furl != this.defaultUrl &&
+          fwindow.qx &&
           fwindow.qx.log)
       {
         // set logger
