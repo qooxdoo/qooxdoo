@@ -12,7 +12,6 @@
 # Merged Entity and String classes
 #
 
-\bqx\.html2\.Entity\b=qx.html2.String
 \bqx\.html\.Entity\b=qx.html.String
 \bqx\.xml\.Entity\b=qx.xml.String
 
@@ -42,7 +41,7 @@
 # Remove qx.client namespace
 #
 
-\bqx\.client\.Command\b=qx.event2.Command
+\bqx\.client\.Command\b=qx.event.Command
 \bqx\.client\.History\b=qx.bom.History
 \bqx\.client\.Timer\b=qx.bom.Timer
 
@@ -77,6 +76,7 @@
 \bqx\.html\b=qx.legacy.html
 \bqx\.ui\b=qx.legacy.ui
 \bqx\.io\.image\b=qx.legacy.io.image
+\bqx\.application\b=qx.legacy.application
 
 
 
