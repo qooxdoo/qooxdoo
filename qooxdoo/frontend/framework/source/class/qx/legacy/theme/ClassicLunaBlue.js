@@ -21,17 +21,17 @@
 /**
  * Classic Luna Blue Theme
  */
-qx.Theme.define("qx.theme.ClassicLunaBlue",
+qx.legacy.Theme.define("qx.legacy.theme.ClassicLunaBlue",
 {
   title : "Classic Luna Blue",
 
   meta :
   {
-    color : qx.theme.classic.color.LunaBlue,
-    border : qx.theme.classic.Border,
-    font : qx.theme.classic.font.Default,
-    widget : qx.theme.classic.Widget,
-    appearance : qx.theme.classic.Appearance,
-    icon : qx.theme.icon.Nuvola
+    color : qx.legacy.theme.classic.color.LunaBlue,
+    border : qx.legacy.theme.classic.Border,
+    font : qx.legacy.theme.classic.font.Default,
+    widget : qx.legacy.theme.classic.Widget,
+    appearance : qx.legacy.theme.classic.Appearance,
+    icon : qx.legacy.theme.icon.Nuvola
   }
 });

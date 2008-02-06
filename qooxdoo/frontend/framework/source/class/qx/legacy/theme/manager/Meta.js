@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.theme.manager.Meta",
+qx.Class.define("qx.legacy.theme.manager.Meta",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -96,12 +96,12 @@ qx.Class.define("qx.theme.manager.Meta",
         this.setAutoSync(false);
       }
 
-      var colorMgr = qx.theme.manager.Color.getInstance();
-      var borderMgr = qx.theme.manager.Border.getInstance();
-      var fontMgr = qx.theme.manager.Font.getInstance();
-      var iconMgr = qx.theme.manager.Icon.getInstance();
-      var widgetMgr = qx.theme.manager.Widget.getInstance();
-      var appearanceMgr = qx.theme.manager.Appearance.getInstance();
+      var colorMgr = qx.legacy.theme.manager.Color.getInstance();
+      var borderMgr = qx.legacy.theme.manager.Border.getInstance();
+      var fontMgr = qx.legacy.theme.manager.Font.getInstance();
+      var iconMgr = qx.legacy.theme.manager.Icon.getInstance();
+      var widgetMgr = qx.legacy.theme.manager.Widget.getInstance();
+      var appearanceMgr = qx.legacy.theme.manager.Appearance.getInstance();
 
       colorMgr.setColorTheme(color);
       borderMgr.setBorderTheme(border);
@@ -120,12 +120,12 @@ qx.Class.define("qx.theme.manager.Meta",
     {
       if (value)
       {
-        qx.theme.manager.Appearance.getInstance().syncAppearanceTheme();
-        qx.theme.manager.Icon.getInstance().syncIconTheme();
-        qx.theme.manager.Widget.getInstance().syncWidgetTheme();
-        qx.theme.manager.Font.getInstance().syncFontTheme();
-        qx.theme.manager.Border.getInstance().syncBorderTheme();
-        qx.theme.manager.Color.getInstance().syncColorTheme();
+        qx.legacy.theme.manager.Appearance.getInstance().syncAppearanceTheme();
+        qx.legacy.theme.manager.Icon.getInstance().syncIconTheme();
+        qx.legacy.theme.manager.Widget.getInstance().syncWidgetTheme();
+        qx.legacy.theme.manager.Font.getInstance().syncFontTheme();
+        qx.legacy.theme.manager.Border.getInstance().syncBorderTheme();
+        qx.legacy.theme.manager.Color.getInstance().syncColorTheme();
       }
     },
 
@@ -141,10 +141,10 @@ qx.Class.define("qx.theme.manager.Meta",
       var setting = qx.core.Setting;
       var theme, obj;
 
-      theme = setting.get("qx.theme");
+      theme = setting.get("qx.legacy.theme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The meta theme to use is not available: " + theme);
         }
@@ -152,70 +152,70 @@ qx.Class.define("qx.theme.manager.Meta",
         this.setTheme(obj);
       }
 
-      theme = setting.get("qx.colorTheme");
+      theme = setting.get("qx.legacy.colorTheme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The color theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Color.getInstance().setColorTheme(obj);
+        qx.legacy.theme.manager.Color.getInstance().setColorTheme(obj);
       }
 
-      theme = setting.get("qx.borderTheme");
+      theme = setting.get("qx.legacy.borderTheme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The border theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Border.getInstance().setBorderTheme(obj);
+        qx.legacy.theme.manager.Border.getInstance().setBorderTheme(obj);
       }
 
-      theme = setting.get("qx.fontTheme");
+      theme = setting.get("qx.legacy.fontTheme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The font theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Font.getInstance().setFontTheme(obj);
+        qx.legacy.theme.manager.Font.getInstance().setFontTheme(obj);
       }
 
-      theme = setting.get("qx.widgetTheme");
+      theme = setting.get("qx.legacy.widgetTheme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The widget theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Widget.getInstance().setWidgetTheme(obj);
+        qx.legacy.theme.manager.Widget.getInstance().setWidgetTheme(obj);
       }
 
-      theme = setting.get("qx.iconTheme");
+      theme = setting.get("qx.legacy.iconTheme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The icon theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Icon.getInstance().setIconTheme(obj);
+        qx.legacy.theme.manager.Icon.getInstance().setIconTheme(obj);
       }
 
-      theme = setting.get("qx.appearanceTheme");
+      theme = setting.get("qx.legacy.appearanceTheme");
       if (theme)
       {
-        obj = qx.Theme.getByName(theme);
+        obj = qx.legacy.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The appearance theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Appearance.getInstance().setAppearanceTheme(obj);
+        qx.legacy.theme.manager.Appearance.getInstance().setAppearanceTheme(obj);
       }
     },
 
@@ -227,7 +227,7 @@ qx.Class.define("qx.theme.manager.Meta",
      */
     __queryThemes : function(key)
     {
-      var reg = qx.Theme.getAll();
+      var reg = qx.legacy.theme.getAll();
       var theme;
       var list = [];
 
@@ -331,12 +331,12 @@ qx.Class.define("qx.theme.manager.Meta",
 
   settings :
   {
-    "qx.theme"           : "qx.theme.ClassicRoyale",
-    "qx.colorTheme"      : null,
-    "qx.borderTheme"     : null,
-    "qx.fontTheme"       : null,
-    "qx.widgetTheme"     : null,
-    "qx.appearanceTheme" : null,
-    "qx.iconTheme"       : null
+    "qx.legacy.theme"    : "qx.legacy.theme.ClassicRoyale",
+    "qx.legacy.colorTheme"      : null,
+    "qx.legacy.borderTheme"     : null,
+    "qx.legacy.fontTheme"       : null,
+    "qx.legacy.widgetTheme"     : null,
+    "qx.legacy.appearanceTheme" : null,
+    "qx.legacy.iconTheme"       : null
   }
 });

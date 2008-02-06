@@ -21,11 +21,11 @@
 /**
  * The default qooxdoo border theme.
  */
-qx.Theme.define("qx.theme.ext.Border",
+qx.legacy.Theme.define("qx.legacy.theme.ext.Border",
 {
   title : "Ext",
 
-  extend : qx.theme.classic.Border,
+  extend : qx.legacy.theme.classic.Border,
 
   borders :
   {

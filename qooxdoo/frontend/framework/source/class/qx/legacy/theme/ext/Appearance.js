@@ -51,7 +51,7 @@
 /**
  * Ext-Clone appearance theme.
  */
-qx.Theme.define("qx.theme.ext.Appearance",
+qx.legacy.Theme.define("qx.legacy.theme.ext.Appearance",
 {
   title : "Ext",
 

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton selects the widget theme to use. */
-qx.Class.define("qx.theme.manager.Widget",
+qx.Class.define("qx.legacy.theme.manager.Widget",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -65,7 +65,7 @@ qx.Class.define("qx.theme.manager.Widget",
   {
     _applyWidgetTheme : function(value, old)
     {
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
+      if (qx.legacy.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncWidgetTheme();
       }
     },

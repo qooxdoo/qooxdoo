@@ -21,17 +21,17 @@
 /**
  * Ext Theme
  */
-qx.Theme.define("qx.theme.Ext",
+qx.legacy.Theme.define("qx.legacy.theme.Ext",
 {
   title : "Ext",
 
   meta :
   {
-    color      : qx.theme.ext.Color,
-    border     : qx.theme.ext.Border,
-    font       : qx.theme.ext.font.Default,
-    widget     : qx.theme.ext.Widget,
-    appearance : qx.theme.ext.Appearance,
-    icon       : qx.theme.icon.CrystalClear
+    color      : qx.legacy.theme.ext.Color,
+    border     : qx.legacy.theme.ext.Border,
+    font       : qx.legacy.theme.ext.font.Default,
+    widget     : qx.legacy.theme.ext.Widget,
+    appearance : qx.legacy.theme.ext.Appearance,
+    icon       : qx.legacy.theme.icon.CrystalClear
   }
 });

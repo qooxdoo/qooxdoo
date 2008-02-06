@@ -28,7 +28,7 @@
 /**
  * Default qooxdoo widget theme
  */
-qx.Theme.define("qx.theme.classic.Widget",
+qx.legacy.Theme.define("qx.legacy.theme.classic.Widget",
 {
   title : "Windows",
 

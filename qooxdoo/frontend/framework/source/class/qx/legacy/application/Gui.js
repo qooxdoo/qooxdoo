@@ -31,7 +31,7 @@
  * this class. Normally at least the {@link #main} method will
  * be overridden to define the GUI.
  */
-qx.Class.define("qx.application.Gui",
+qx.Class.define("qx.legacy.application.Gui",
 {
   extend : qx.core.Object,
   implement : qx.application.IApplication,
@@ -83,7 +83,7 @@ qx.Class.define("qx.application.Gui",
       qx.legacy.ui.core.Widget.initScrollbarWidth();
 
       // Initialize themes
-      qx.theme.manager.Meta.getInstance().initialize();
+      qx.legacy.theme.manager.Meta.getInstance().initialize();
 
       // Force creation of event handler
       qx.legacy.event.handler.EventHandler.getInstance();

@@ -27,7 +27,7 @@
 /**
  * This singleton manages the current theme
  */
-qx.Class.define("qx.theme.manager.Appearance",
+qx.Class.define("qx.legacy.theme.manager.Appearance",
 {
   type : "singleton",
   extend : qx.util.manager.Object,
@@ -87,7 +87,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       this._currentTheme = value;
       this._oldTheme = old;
 
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
+      if (qx.legacy.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncAppearanceTheme();
       }
     },

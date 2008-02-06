@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton selects the icon theme to use. */
-qx.Class.define("qx.theme.manager.Icon",
+qx.Class.define("qx.legacy.theme.manager.Icon",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -65,7 +65,7 @@ qx.Class.define("qx.theme.manager.Icon",
   {
     _applyIconTheme : function(value, old)
     {
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
+      if (qx.legacy.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncIconTheme();
       }
     },

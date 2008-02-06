@@ -21,11 +21,11 @@
 /**
  * Ext-Clone color theme.
  */
-qx.Theme.define("qx.theme.ext.Color",
+qx.legacy.Theme.define("qx.legacy.theme.ext.Color",
 {
   title : "Ext",
 
-  extend : qx.theme.classic.color.Royale,
+  extend : qx.legacy.theme.classic.color.Royale,
 
   colors :
   {

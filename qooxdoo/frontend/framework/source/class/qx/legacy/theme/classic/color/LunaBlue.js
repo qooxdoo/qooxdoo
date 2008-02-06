@@ -21,7 +21,7 @@
 /**
  * Windows Luna Blue color theme
  */
-qx.Theme.define("qx.theme.classic.color.LunaBlue",
+qx.legacy.Theme.define("qx.legacy.theme.classic.color.LunaBlue",
 {
   title : "Windows Luna Blue",
 

@@ -56,16 +56,16 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
     this._table = table;
 
     // link to font theme
-    qx.theme.manager.Font.getInstance().connect(this._styleFont, this, "default");
+    qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, "default");
 
     // link to color theme
-    qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, "table-row-background-focused-selected");
-    qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, "table-row-background-focused");
-    qx.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, "table-row-background-selected");
-    qx.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, "table-row-background-even");
-    qx.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, "table-row-background-odd");
-    qx.theme.manager.Color.getInstance().connect(this._styleColSelected, this, "table-row-selected");
-    qx.theme.manager.Color.getInstance().connect(this._styleColNormal, this, "table-row");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, "table-row-background-focused-selected");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, "table-row-background-focused");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, "table-row-background-selected");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, "table-row-background-even");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, "table-row-background-odd");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColSelected, this, "table-row-selected");
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColNormal, this, "table-row");
   },
 
 

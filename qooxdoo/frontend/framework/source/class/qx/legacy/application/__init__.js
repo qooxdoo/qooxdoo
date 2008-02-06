@@ -1,3 +1,3 @@
 /**
- * The qx.application package.
+ * The qx.legacy.application package.
  */

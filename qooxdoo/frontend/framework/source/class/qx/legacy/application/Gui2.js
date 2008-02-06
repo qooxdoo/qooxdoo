@@ -31,7 +31,7 @@
  * this class. Normally at least the {@link #main} method will
  * be overridden to define the GUI.
  */
-qx.Class.define("qx.application.Gui2",
+qx.Class.define("qx.legacy.application.Gui2",
 {
   extend : qx.core.Object,
   implement : qx.application.IApplication,

@@ -30,7 +30,7 @@
  * The {@link #main} method will be called on the document.onload event,
  * {@link #close} on document.beforeunload and {@link #terminate} on document.unload.
  */
-qx.Class.define("qx.application.Basic",
+qx.Class.define("qx.legacy.application.Basic",
 {
   extend : qx.core.Object,
   implement : qx.application.IApplication,
