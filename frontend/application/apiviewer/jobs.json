@@ -1,0 +1,121 @@
+{
+  "common" : 
+  {
+    "let" :
+    [
+      ["APPLICATION_NAMESPACE", "apiviewer"],
+      ["QOOXDOO_PATH", "../.."],
+      ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
+    ],
+
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path"     : "${QOOXDOO_PATH}/framework/source",
+        "uri"      : "${QOOXDOO_URI}/framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path"     : "./source",
+        "uri"      : "../source"
+      }
+    ],
+
+    "require" :
+    {
+      "qx.log.Logger" : ["qx.log.appender.Native"]
+    },
+
+    "settings" : 
+    {
+      "qx.application" : "${APPLICATION_NAMESPACE}.Application",
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
+      "qx.minLogLevel" : "700",
+      "qx.theme"       : "qx.theme.ClassicRoyale"
+    },
+
+    "localize" :
+    {
+      "locales" : ["en", "de", "es", "it"]
+    },
+ 
+    "cache" :
+    {
+      "path" : "../../cache2"
+    }
+  },
+
+
+  "source" : 
+  {
+    "extend" : ["common"],
+
+    "settings" :
+    {
+      "${APPLICATION_NAMESPACE}.resourceUri" : "./resource"
+    },
+
+    "source" :
+    {
+      "file" : "./source/script/${APPLICATION_NAMESPACE}.js"
+    }
+  },
+
+
+  "build" : 
+  {
+    "extend" : ["common"],
+
+    "settings" :
+    {
+      "${APPLICATION_NAMESPACE}.resourceUri" : "./resource/${APPLICATION_NAMESPACE}"
+    },
+
+    "compile" :
+    {
+      "file" : "./build/script/${APPLICATION_NAMESPACE}.js",
+      "uri"  : "script/${APPLICATION_NAMESPACE}.js"
+    }
+  },
+
+
+  "api-data" : 
+  {
+    "extend" : ["common"],
+
+    "api" :
+    {
+      "path" : "./api/script"
+    }
+ 
+  },
+
+
+  "api-build" : 
+  {
+    "extend" : ["common"],
+
+    "settings" : 
+    {
+      "qx.application" : "apiviewer.Application",
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
+      "apiviewer.resourceUri" : "./resource/apiviewer",
+      "qx.minLogLevel" : "700",
+      "qx.theme"       : "qx.theme.ClassicRoyale",
+      "apiviewer.title": "Generator2 API Viewer"
+     },
+
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "./api/script/apiviewer.js",
+      "uri"  : "script/apiviewer.js"
+    }
+  }
+}
