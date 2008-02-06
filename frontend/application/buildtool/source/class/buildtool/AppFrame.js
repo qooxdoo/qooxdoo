@@ -1355,7 +1355,7 @@ qx.Class.define("buildtool.AppFrame",
 
       this.createMakList1(this.widgets["buttedit.varedit.page"],treeData,oldData);
 
-      qx.client.Timer.once(function()
+      qx.event.Timer.once(function()
       {
         qx.legacy.ui.core.Widget.flushGlobalQueues();  // create all widgets
       }, this, 0);
