@@ -139,7 +139,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Icon",
       var content = ['<img '];
       var urlAndToolTip = this._getImageInfos(cellInfo);
 
-      if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
+      if (qx.legacy.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
         content.push(
           'src="', this.IMG_BLANK_URL, '" style="filter:',
           "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",

@@ -3,7 +3,7 @@
  * <pre>
  * myXml = new qx.xml.Document.fromString( xlmText);
  * // activate XPath support in IE7
- * if ((qx.core.Client.getEngine()=="mshtml") && (qx.core.Client.getVersion()==7))
+ * if ((qx.legacy.core.Client.getEngine()=="mshtml") && (qx.legacy.core.Client.getVersion()==7))
  * {
  *   if( myXml.setProperty)
  *   {
