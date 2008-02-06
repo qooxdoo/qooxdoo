@@ -32,7 +32,7 @@
  * Version names follow the wikipedia scheme: major.minor[.revision[.build]] at
  * http://en.wikipedia.org/wiki/Software_version
  */
-qx.Class.define("qx.core.Client",
+qx.Class.define("qx.legacy.core.Client",
 {
   statics :
   {
@@ -277,7 +277,7 @@ qx.Class.define("qx.core.Client",
     {
       if (qx.core.Log)
       {
-        //qx.core.Log.warn("Usage of old style qx.core.Client. Call trace follows:")
+        //qx.core.Log.warn("Usage of old style qx.legacy.core.Client. Call trace follows:")
         //qx.core.Log.trace();
       }
     },

@@ -153,7 +153,7 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
         var type = domEvent.type;
 
         // FF repeats under windows keydown events like IE
-        if (qx.core.Client.getInstance().runsOnWindows())
+        if (qx.legacy.core.Client.getInstance().runsOnWindows())
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
         // prevent Safari from sending key signals twice
         // This bug is fixed in recent Webkit builds so we need a revision check
         // see http://trac.mochikit.com/ticket/182 for details
-        if (qx.core.Client.getInstance().getVersion() < 420)
+        if (qx.legacy.core.Client.getInstance().getVersion() < 420)
         {
           if (!this._lastCharCodeForType) {
             this._lastCharCodeForType = {};
@@ -249,7 +249,7 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
         var type = domEvent.type;
 
         // FF repeats under windows keydown events like IE
-        if (qx.core.Client.getInstance().runsOnWindows())
+        if (qx.legacy.core.Client.getInstance().runsOnWindows())
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
@@ -277,7 +277,7 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
         // prevent Safari from sending key signals twice
         // This bug is fixed in recent Webkit builds so we need a revision check
         // see http://trac.mochikit.com/ticket/182 for details
-        if (qx.core.Client.getInstance().getVersion() < 420)
+        if (qx.legacy.core.Client.getInstance().getVersion() < 420)
         {
           if (!this._lastCharCodeForType) {
             this._lastCharCodeForType = {};

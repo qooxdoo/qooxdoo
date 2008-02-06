@@ -182,7 +182,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * (string) The correct value for the CSS style attribute "cursor" for the
      * horizontal resize cursor.
      */
-    CURSOR_RESIZE_HORIZONTAL : (qx.core.Client.getInstance().isGecko() && (qx.core.Client.getInstance().getMajor() > 1 || qx.core.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize"
+    CURSOR_RESIZE_HORIZONTAL : (qx.legacy.core.Client.getInstance().isGecko() && (qx.legacy.core.Client.getInstance().getMajor() > 1 || qx.legacy.core.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize"
   },
 
 

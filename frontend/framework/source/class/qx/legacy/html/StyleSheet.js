@@ -127,7 +127,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
         vSheet.addRule(vSelector, vStyle);
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
+      "other" : qx.lang.Object.select(qx.legacy.core.Client.getInstance().isSafari2() ? "safari2" : "other",
       {
         "safari2+" : function(vSheet, vSelector, vStyle)
         {
@@ -175,7 +175,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
         }
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
+      "other" : qx.lang.Object.select(qx.legacy.core.Client.getInstance().isSafari2() ? "safari2" : "other",
       {
         "safari2+" : function(vSheet, vSelector)
         {
@@ -236,7 +236,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
         }
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
+      "other" : qx.lang.Object.select(qx.legacy.core.Client.getInstance().isSafari2() ? "safari2" : "other",
       {
         "safari2+" : function(vSheet)
         {
@@ -278,7 +278,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
         vSheet.addImport(vUrl);
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
+      "other" : qx.lang.Object.select(qx.legacy.core.Client.getInstance().isSafari2() ? "safari2" : "other",
       {
         "safari2+" : function(vSheet, vUrl) {
           vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));

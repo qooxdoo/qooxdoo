@@ -180,7 +180,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // --------------------------------------
       //   Local handling
       // --------------------------------------
-      var vLocalRequest = (qx.core.Client.getInstance().getRunsLocally() && !(/^http(s){0,1}\:/.test(vUrl)));
+      var vLocalRequest = (qx.legacy.core.Client.getInstance().getRunsLocally() && !(/^http(s){0,1}\:/.test(vUrl)));
       this._localRequest = vLocalRequest;
 
       // --------------------------------------

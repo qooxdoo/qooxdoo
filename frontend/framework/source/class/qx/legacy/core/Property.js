@@ -32,7 +32,7 @@
  *
  * @deprecated This class is supposed to be removed in qooxdoo 0.7
  */
-qx.Class.define("qx.core.LegacyProperty",
+qx.Class.define("qx.legacy.core.Property",
 {
   statics :
   {

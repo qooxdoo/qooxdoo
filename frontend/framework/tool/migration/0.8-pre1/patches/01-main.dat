@@ -135,3 +135,11 @@ qx\.Theme=qx.legacy.Theme
 \btoFirstUp\b=firstUp
 \btoFirstLower\b=firstLow
 
+
+#
+# Moved older legacy stuff into legacy folder
+#
+
+\bqx\.core\.Client\b=qx.legacy.core.Client
+\bqx\.core\.LegacyProperty\b=qx.legacy.core.LegacyProperty
+\bqx\.core\.MLegacyInit\b=qx.legacy.core.MLegacyInit

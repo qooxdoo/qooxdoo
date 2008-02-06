@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#require(qx.core.Client)
+#require(qx.legacy.core.Client)
 
 ************************************************************************ */
 
@@ -73,13 +73,13 @@ qx.Class.define("testrunner.test.core.Variants",
 
       var b = new qx.test.Browser1();
 
-      if (qx.core.Client.getInstance().isGecko()) {
+      if (qx.legacy.core.Client.getInstance().isGecko()) {
         this.assertEquals("Gecko", b.getName());
-      } else if (qx.core.Client.getInstance().isMshtml()) {
+      } else if (qx.legacy.core.Client.getInstance().isMshtml()) {
         this.assertEquals("Internet Explorer", b.getName());
-      } else if (qx.core.Client.getInstance().isWebkit()) {
+      } else if (qx.legacy.core.Client.getInstance().isWebkit()) {
         this.assertEquals("Webkit", b.getName());
-      } else if (qx.core.Client.getInstance().isOpera()) {
+      } else if (qx.legacy.core.Client.getInstance().isOpera()) {
         this.assertEquals("Opera", b.getName());
       }
     },
@@ -246,7 +246,7 @@ qx.Class.define("testrunner.test.core.Variants",
         b = "other";
       }
 
-      if (qx.core.Client.getInstance().isMshtml()) {
+      if (qx.legacy.core.Client.getInstance().isMshtml()) {
         this.assertEquals("mshtml", b);
       } else {
         this.assertEquals("other", b);
@@ -286,7 +286,7 @@ qx.Class.define("testrunner.test.core.Variants",
     {
       var a = qx.core.Variant.isSet("qx.client", "mshtml") ? "mshtml" : "other";
 
-      if (qx.core.Client.getInstance().isMshtml()) {
+      if (qx.legacy.core.Client.getInstance().isMshtml()) {
         this.assertEquals("mshtml", a);
       } else {
         this.assertEquals("other", a);

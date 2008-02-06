@@ -26,7 +26,7 @@
 #optional(qx.Interface)
 #optional(qx.Mixin)
 #optional(qx.core.Property)
-#optional(qx.core.LegacyProperty)
+#optional(qx.legacy.core.Property)
 
 ************************************************************************ */
 
@@ -135,7 +135,7 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
      *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. For a description of the format of a property definition see
-     *           {@link qx.core.Property} or the legacy version {@link qx.core.LegacyProperty}.</td></tr>
+     *           {@link qx.core.Property} or the legacy version {@link qx.legacy.core.Property}.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
      *           {@link qx.core.Setting}.</td></tr>
@@ -1127,9 +1127,9 @@ qx.Bootstrap.define("qx.Class",
 
         // Create old style properties
         if (config._fast) {
-          qx.core.LegacyProperty.addFastProperty(config, clazz.prototype);
+          qx.legacy.core.Property.addFastProperty(config, clazz.prototype);
         } else if (config._cached) {
-          qx.core.LegacyProperty.addCachedProperty(config, clazz.prototype);
+          qx.legacy.core.Property.addCachedProperty(config, clazz.prototype);
         }
       }
     },
