@@ -21,7 +21,7 @@
 /**
  * Ext Theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.Ext",
+qx.Theme.define("qx.legacy.theme.Ext",
 {
   title : "Ext",
 

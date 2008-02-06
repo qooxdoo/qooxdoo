@@ -161,18 +161,6 @@ qx.Class.define("qx.core.Init",
       {
         this.debug("qooxdoo " + qx.core.Version.toString());
 
-        this.debug("loaded " + qx.Class.getTotalNumber() + " classes");
-        this.debug("loaded " + qx.Interface.getTotalNumber() + " interfaces");
-        this.debug("loaded " + qx.Mixin.getTotalNumber() + " mixins");
-
-        if (qx.Theme) {
-          this.debug("loaded " + qx.Theme.getTotalNumber() + " themes");
-        }
-
-        if (qx.locale && qx.locale.Manager) {
-          this.debug("loaded " + qx.locale.Manager.getInstance().getAvailableLocales().length + " locales");
-        }
-
         // Print browser information
         if (qx.bom && qx.bom.client)
         {
@@ -182,12 +170,6 @@ qx.Class.define("qx.core.Init",
 
           if (qx.bom.client.Platform && qx.bom.client.System) {
             this.debug("system: " + qx.bom.client.Platform.NAME + " | " + qx.bom.client.System.NAME);
-          }
-
-          if (qx.bom.client.Flash)
-          {
-            var express = qx.bom.client.Flash.EXPRESSINSTALL ? " (express)" : " (no-express)";
-            this.debug("flash: " + qx.bom.client.Flash.FULLVERSION + express);
           }
         }
       }

@@ -35,7 +35,7 @@
  */
 qx.Class.define("feedreader.Application",
 {
-  extend : qx.application.Gui,
+  extend : qx.legacy.application.Gui,
 
 
 

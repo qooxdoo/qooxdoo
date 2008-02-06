@@ -31,7 +31,7 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=5358
  */
-qx.legacy.Theme.define("qx.legacy.theme.icon.Nuvola",
+qx.Theme.define("qx.legacy.theme.icon.Nuvola",
 {
   title : "Nuvola",
 

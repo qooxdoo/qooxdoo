@@ -144,7 +144,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.theme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The meta theme to use is not available: " + theme);
         }
@@ -155,7 +155,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.colorTheme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The color theme to use is not available: " + theme);
         }
@@ -166,7 +166,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.borderTheme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The border theme to use is not available: " + theme);
         }
@@ -177,7 +177,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.fontTheme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The font theme to use is not available: " + theme);
         }
@@ -188,7 +188,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.widgetTheme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The widget theme to use is not available: " + theme);
         }
@@ -199,7 +199,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.iconTheme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The icon theme to use is not available: " + theme);
         }
@@ -210,7 +210,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
       theme = setting.get("qx.legacy.appearanceTheme");
       if (theme)
       {
-        obj = qx.legacy.Theme.getByName(theme);
+        obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The appearance theme to use is not available: " + theme);
         }

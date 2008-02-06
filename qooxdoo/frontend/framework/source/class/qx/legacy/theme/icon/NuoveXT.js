@@ -31,7 +31,7 @@
  * License: GPL & LGPL/EPL
  * Home: http://www.kde-look.org/content/show.php?content=26449
  */
-qx.legacy.Theme.define("qx.legacy.theme.icon.NuoveXT",
+qx.Theme.define("qx.legacy.theme.icon.NuoveXT",
 {
   title : "NuoveXT",
 

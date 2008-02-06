@@ -21,7 +21,7 @@
 /**
  * The qooxdoo big font theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.font.Big",
+qx.Theme.define("qx.legacy.theme.classic.font.Big",
 {
   title : "Classic Big",
   extend : qx.legacy.theme.classic.font.Default,

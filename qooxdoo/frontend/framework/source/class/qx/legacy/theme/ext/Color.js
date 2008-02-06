@@ -21,7 +21,7 @@
 /**
  * Ext-Clone color theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.ext.Color",
+qx.Theme.define("qx.legacy.theme.ext.Color",
 {
   title : "Ext",
 

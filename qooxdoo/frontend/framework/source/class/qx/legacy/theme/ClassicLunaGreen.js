@@ -21,7 +21,7 @@
 /**
  * Classic Luna Green Theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.ClassicLunaGreen",
+qx.Theme.define("qx.legacy.theme.ClassicLunaGreen",
 {
   title : "Classic Luna Green",
 

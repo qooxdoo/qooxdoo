@@ -21,7 +21,7 @@
 /**
  * Classic Royale Theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.ClassicRoyale",
+qx.Theme.define("qx.legacy.theme.ClassicRoyale",
 {
   title : "Classic Royale",
 
