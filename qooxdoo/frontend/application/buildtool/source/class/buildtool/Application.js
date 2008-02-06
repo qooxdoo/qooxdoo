@@ -69,7 +69,7 @@ qx.Class.define("buildtool.Application",
       this.viewer.addToDocument();
 
       // Load data file
-      qx.client.Timer.once(this._load, this, 0);
+      qx.event.Timer.once(this._load, this, 0);
     },
 
 

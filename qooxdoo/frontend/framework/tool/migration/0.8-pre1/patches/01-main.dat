@@ -43,7 +43,7 @@
 
 \bqx\.client\.Command\b=qx.event.Command
 \bqx\.client\.History\b=qx.bom.History
-\bqx\.client\.Timer\b=qx.bom.Timer
+\bqx\.client\.Timer\b=qx.event.Timer
 
 
 #
