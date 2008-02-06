@@ -42,9 +42,9 @@
  * * DockPanel (XAML)
  * * BorderLayout (Java)
  */
-qx.Class.define("qx.ui2.layout.Dock",
+qx.Class.define("qx.ui.layout.Dock",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
 
 
@@ -92,12 +92,12 @@ qx.Class.define("qx.ui2.layout.Dock",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} Widget to add
+     * @param child {qx.ui.core.Widget} Widget to add
      * @param edge {String} Edge to attach. Could be anyone of
      *   <code>north</code>, <code>west</code>, <code>south</code>,
      *   <code>east</code> or <code>center</code>.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.layout.HBox} This object (for chaining support)
+     * @return {qx.ui.layout.HBox} This object (for chaining support)
      */
     add : function(child, edge, options)
     {
@@ -216,7 +216,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         if (flexibles.length > 0)
         {
-          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
+          var offsets = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
 
           for (var key in offsets)
           {
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui2.layout.Dock",
 
         if (flexibles.length > 0)
         {
-          var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
+          var offsets = qx.ui.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
 
           for (var key in offsets)
           {
@@ -466,7 +466,7 @@ qx.Class.define("qx.ui2.layout.Dock",
      * {@link #sort} property.
      *
      * @type member
-     * @return {qx.ui2.core.Widget[]} Presorted array of widgets
+     * @return {qx.ui.core.Widget[]} Presorted array of widgets
      */
     _getSortedChildren : function()
     {

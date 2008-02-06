@@ -28,9 +28,9 @@
  *
  * @appearance atom
  */
-qx.Class.define("qx.ui2.basic.Atom",
+qx.Class.define("qx.ui.basic.Atom",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui2.basic.Atom",
   {
     this.base(arguments);
 
-    this.setLayout(new qx.ui2.layout.Atom());
+    this.setLayout(new qx.ui.layout.Atom());
 
     if (label) {
       this.setLabel(label);
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui2.basic.Atom",
     },
 
 
-    /** Any URI String supported by qx.ui2.core.Image to display a icon */
+    /** Any URI String supported by qx.ui.core.Image to display a icon */
     icon :
     {
       check : "String",
@@ -103,7 +103,7 @@ qx.Class.define("qx.ui2.basic.Atom",
     /**
      * The width of the icon.
      *
-     * If configured, this makes qx.ui2.basic.Atom a little bit faster as it
+     * If configured, this makes qx.ui.basic.Atom a little bit faster as it
      * does not need to wait until the image loading is finished.
      */
     iconWidth :
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui2.basic.Atom",
     /**
      * The height of the icon
      *
-     * If configured, this makes qx.ui2.basic.Atom a little bit faster as it
+     * If configured, this makes qx.ui.basic.Atom a little bit faster as it
      * does not need to wait until the image loading is finished.
      */
     iconHeight :
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui2.basic.Atom",
 
 
     /**
-     * Any URI String supported by qx.ui2.core.Image to display a disabled icon.
+     * Any URI String supported by qx.ui.core.Image to display a disabled icon.
      * <p>
      * If not set the normal icon is shown transparently.
      */
@@ -238,7 +238,7 @@ qx.Class.define("qx.ui2.basic.Atom",
       if (this._label) {
         this._label.setText(value);
       } else {
-        this._label = new qx.ui2.core.Label(value);
+        this._label = new qx.ui.core.Label(value);
       }
       this._handleLabel();
     },
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui2.basic.Atom",
       if (this._icon) {
         this._icon.setSource(value);
       } else {
-        this._icon = new qx.ui2.core.Image(value, this.getIconWidth(), this.getIconHeight());
+        this._icon = new qx.ui.core.Image(value, this.getIconWidth(), this.getIconHeight());
       }
 
       this._handleIcon();
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui2.basic.Atom",
       if (this._disabledIcon) {
         this._disabledIcon.setSource(value);
       } else {
-        this._disabledIcon = new qx.ui2.core.Image(value);
+        this._disabledIcon = new qx.ui.core.Image(value);
       }
 
       this._handleIcon();

@@ -24,9 +24,9 @@
  * dimensions of this widget. The widget also offer methods to control
  * the scrolling position. This widget can only have excactly one child.
  */
-qx.Class.define("qx.ui2.core.ScrollPane",
+qx.Class.define("qx.ui.core.ScrollPane",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
   /*
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
     this.base(arguments);
 
     // Automatically configure a "fixed" scroll layout.
-    this.setLayout(new qx.ui2.layout.Scroll());
+    this.setLayout(new qx.ui.layout.Scroll());
   },
 
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
     _applyLayout : function(value, old)
     {
       if (old) {
-        throw new Error("You cannot change the layout of qx.ui2.core.ScrollPane!");
+        throw new Error("You cannot change the layout of qx.ui.core.ScrollPane!");
       }
 
       this.base(arguments, value, old);
@@ -99,8 +99,8 @@ qx.Class.define("qx.ui2.core.ScrollPane",
      * Configures the content of the scroll pane.
      *
      * @type member
-     * @param content {qx.ui2.core.Widget?null} The content widget of the pane
-     * @return {qx.ui2.core.Widget|null} The current layout content
+     * @param content {qx.ui.core.Widget?null} The content widget of the pane
+     * @return {qx.ui.core.Widget|null} The current layout content
      */
     setContent : function(content)
     {
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui2.core.ScrollPane",
      * Returns the current content.
      *
      * @type member
-     * @return {qx.ui2.core.Widget|null} The current layout content
+     * @return {qx.ui.core.Widget|null} The current layout content
      */
     getContent : function() {
       return this.getLayout().getContent();

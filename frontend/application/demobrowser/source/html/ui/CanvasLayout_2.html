@@ -31,17 +31,17 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      w1 = new qx.ui2.core.Widget;
-      w2 = new qx.ui2.core.Widget;
-      w3 = new qx.ui2.core.Widget;
-      w4 = new qx.ui2.core.Widget;
-      w5 = new qx.ui2.core.Widget;
-      w6 = new qx.ui2.core.Widget;
+      w1 = new qx.ui.core.Widget;
+      w2 = new qx.ui.core.Widget;
+      w3 = new qx.ui.core.Widget;
+      w4 = new qx.ui.core.Widget;
+      w5 = new qx.ui.core.Widget;
+      w6 = new qx.ui.core.Widget;
 
       w1.setId("w1");
       w2.setId("w2");
@@ -65,9 +65,9 @@ qx.Class.define("BasicSample",
       w6.setBackgroundColor("teal");
 
       qx.theme.manager.Color.getInstance().setColorTheme(qx.theme.classic.color.Royale);
-      qx.ui2.decoration.DecorationManager.getInstance().setBorderTheme(qx.theme.classic.Border);
+      qx.ui.decoration.DecorationManager.getInstance().setBorderTheme(qx.theme.classic.Border);
 
-      var border = new qx.ui2.decoration.Basic(3, "solid", "black");
+      var border = new qx.ui.decoration.Basic(3, "solid", "black");
 
       w1.setDecoration(border);
       w2.setDecoration(border);
@@ -76,7 +76,7 @@ qx.Class.define("BasicSample",
       w5.setDecoration(border);
       w6.setDecoration(border);
 
-      layout = new qx.ui2.layout.Canvas();
+      layout = new qx.ui.layout.Canvas();
 
       layout.add(w1, "3%", "3%", "3%", "3%", { width : "20%", height : "20%" });
       layout.add(w2, "6%", "6%", "6%", null, { width : "20%", height : "20%" });
@@ -85,7 +85,7 @@ qx.Class.define("BasicSample",
       layout.add(w5, null, "9%", "9%", null, { width : "20%", height : "20%" });
       layout.add(w6, null, null, "9%", "9%", { width : "20%", height : "20%" });
 
-      var container = new qx.ui2.core.Widget();
+      var container = new qx.ui.core.Widget();
       container.setLayout(layout);
 
       doc.add(container, 0, 0, 0, 0);

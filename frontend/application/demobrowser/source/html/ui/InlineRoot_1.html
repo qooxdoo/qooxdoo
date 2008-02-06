@@ -32,9 +32,9 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      var isle = new qx.ui2.root.Inline(document.getElementById("isle"));
+      var isle = new qx.ui.root.Inline(document.getElementById("isle"));
 
       isle.setDecoration(border);
       isle.setPadding(20);
@@ -42,12 +42,12 @@ qx.Class.define("BasicSample",
       isle.setTextColor("black");
       isle.setBackgroundColor("white");
 
-      var layout = new qx.ui2.layout.HBox();
+      var layout = new qx.ui.layout.HBox();
 
-      var w1 = new qx.ui2.core.Widget;
-      var w2 = new qx.ui2.core.Widget;
-      var w3 = new qx.ui2.core.Widget;
-      var w4 = new qx.ui2.core.Widget;
+      var w1 = new qx.ui.core.Widget;
+      var w2 = new qx.ui.core.Widget;
+      var w3 = new qx.ui.core.Widget;
+      var w4 = new qx.ui.core.Widget;
 
       w1.setDecoration(border);
       w2.setDecoration(border);

@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.ui2.LayoutTestCase",
+qx.Class.define("testrunner.test.ui.LayoutTestCase",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -25,10 +25,10 @@ qx.Class.define("testrunner.test.ui2.LayoutTestCase",
   {
     getRoot : function()
     {
-      var cls = testrunner.test.ui2.LayoutTestCase;
+      var cls = testrunner.test.ui.LayoutTestCase;
 
       if (!cls._root) {
-        cls._root = new qx.ui2.root.Application(document);
+        cls._root = new qx.ui.root.Application(document);
       }
       return cls._root;
     },
@@ -36,7 +36,7 @@ qx.Class.define("testrunner.test.ui2.LayoutTestCase",
 
     _getFixedWidget : function()
     {
-      var widget = new qx.ui2.core.Widget();
+      var widget = new qx.ui.core.Widget();
       widget.set({
         width: 200,
         height: 100,
@@ -51,7 +51,7 @@ qx.Class.define("testrunner.test.ui2.LayoutTestCase",
 
     assertSize : function(widget, width, height)
     {
-      qx.ui2.core.QueueManager.flush();
+      qx.ui.core.QueueManager.flush();
       var size = widget.getComputedLayout();
       this.assertEquals(width, size.width);
       this.assertEquals(height, size.height);
@@ -60,7 +60,7 @@ qx.Class.define("testrunner.test.ui2.LayoutTestCase",
 
     assertStyle : function(widget, style, value)
     {
-      qx.ui2.core.QueueManager.flush();
+      qx.ui.core.QueueManager.flush();
       var widgetStyle = widget.getElement()._element.style[style];
       this.assertEquals(value, widgetStyle);
     }

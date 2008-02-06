@@ -22,9 +22,9 @@
  * Preliminary test class for overflow handling. Could be used
  * for scrolling tab panes etc. in the future.
  */
-qx.Class.define("qx.ui2.view.HSlideBar",
+qx.Class.define("qx.ui.view.HSlideBar",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
   /*
@@ -37,15 +37,15 @@ qx.Class.define("qx.ui2.view.HSlideBar",
   {
     this.base(arguments);
 
-    var layout = new qx.ui2.layout.HBox();
+    var layout = new qx.ui.layout.HBox();
     this.setLayout(layout);
 
     // TODO: Real buttons are needed here.
-    this._leftButton = new qx.ui2.basic.Label("<").set({
+    this._leftButton = new qx.ui.basic.Label("<").set({
       backgroundColor : "gray"
     });
 
-    this._rightButton = new qx.ui2.basic.Label(">").set({
+    this._rightButton = new qx.ui.basic.Label(">").set({
       backgroundColor : "gray"
     });
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
     this._leftButton.addListener("click", this._scrollRight, this);
     this._rightButton.addListener("click", this._scrollLeft, this);
 
-    this._scrollPane = new qx.ui2.core.ScrollPane();
+    this._scrollPane = new qx.ui.core.ScrollPane();
     this._scrollPane.addListener("resize", this._onResize, this);
     this._scrollPane.addListener("resizeContent", this._onResize, this);
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      * Sets the content of the scroll area.
      *
      * @type member
-     * @param value {qx.ui2.core.Widget} Widget to insert
+     * @param value {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
     setContent : function(value) {
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui2.view.HSlideBar",
      * Returns the content of the scroll area.
      *
      * @type member
-     * @return {qx.ui2.core.Widget}
+     * @return {qx.ui.core.Widget}
      */
     getContent : function() {
       return this._scrollPane.getContent() || null;

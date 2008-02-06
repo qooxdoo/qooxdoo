@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.layout.Util",
+qx.Class.define("qx.ui.layout.Util",
 {
   statics :
   {

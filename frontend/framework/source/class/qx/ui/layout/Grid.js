@@ -34,9 +34,9 @@
  * * col/row spans
  * * auto-sizing
  */
-qx.Class.define("qx.ui2.layout.Grid",
+qx.Class.define("qx.ui.layout.Grid",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
 
 
@@ -111,11 +111,11 @@ qx.Class.define("qx.ui2.layout.Grid",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param widget {qx.ui2.core.LayoutItem} The widget or spacer to add
+     * @param widget {qx.ui.core.LayoutItem} The widget or spacer to add
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
      * @param options {Map?null} Optional layout data for the widget.
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     add : function(widget, row, column, options)
     {
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
-     * @param widget {qx.ui2.core.LayoutItem} The widget to add.
+     * @param widget {qx.ui.core.LayoutItem} The widget to add.
      */
     _setCellWidget : function(row, column, widget)
     {
@@ -365,7 +365,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      * to the same value.
      *
      * @param spacing {Integer} new horizontal and vertical spacing
-     * @return {qx.ui2.layout.Grid} This object (for chaining support).
+     * @return {qx.ui.layout.Grid} This object (for chaining support).
      */
     setSpacing : function(spacing)
     {
@@ -388,7 +388,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *    "left", "center" and "right".
      * @param vAlign {String} The vertical alignment. Valid values are
      *    "top", "middle", "bottom"
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setColumnAlign : function(column, hAlign, vAlign)
     {
@@ -436,7 +436,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *    "left", "center" and "right".
      * @param vAlign {String} The vertical alignment. Valid values are
      *    "top", "middle", "bottom"
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setRowAlign : function(row, hAlign, vAlign)
     {
@@ -472,12 +472,12 @@ qx.Class.define("qx.ui2.layout.Grid",
 
     /**
      * Get the widget located in the cell. If a the cell is empty or the widget
-     * has a {@link qx.ui2.core.Widget#visibility} value of <code>exclude</code>,
+     * has a {@link qx.ui.core.Widget#visibility} value of <code>exclude</code>,
      * <code>null</code> is returned.
      *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
-     * @return {qx.ui2.core.Widget|null}The cell's widget. The value may be null.
+     * @return {qx.ui.core.Widget|null}The cell's widget. The value may be null.
      */
     getCellWidget : function(row, column)
     {
@@ -495,7 +495,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      * Get a map of the cell's alignment. For vertical alignment the row alignment
      * takes precedence over the column alignmnet. For horizontal alignment it is
      * the over way round. If an alignment is set on the cell widget using
-     * {@link qx.ui2.layout.Abstract#setLayoutProperty}, this alignment takes
+     * {@link qx.ui.layout.Abstract#setLayoutProperty}, this alignment takes
      * always precedence over row or column alignment.
      *
      * @param row {Integer} The cell's row index
@@ -547,7 +547,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param flex {Integer} The column's flex value
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setColumnFlex : function(column, flex)
     {
@@ -576,7 +576,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param flex {Integer} The row's flex value
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setRowFlex : function(row, flex)
     {
@@ -606,7 +606,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param maxWidth {Integer} The column's maximum width
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setColumnMaxWidth : function(column, maxWidth)
     {
@@ -635,7 +635,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param maxWidth {Integer} The column's width
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setColumnWidth : function(column, width)
     {
@@ -664,7 +664,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param column {Integer} The column index
      * @param minWidth {Integer} The column's minimum width
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setColumnMinWidth : function(column, minWidth)
     {
@@ -693,7 +693,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param maxHeight {Integer} The row's maximum width
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setRowMaxHeight : function(row, maxHeight)
     {
@@ -722,7 +722,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param maxHeight {Integer} The row's width
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setRowHeight : function(row, height)
     {
@@ -751,7 +751,7 @@ qx.Class.define("qx.ui2.layout.Grid",
      *
      * @param row {Integer} The row index
      * @param minHeight {Integer} The row's minimum width
-     * @return {qx.ui2.layout.Grid} This object (for chaining support)
+     * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setRowMinHeight : function(row, minHeight)
     {
@@ -842,7 +842,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         // increment the preferred row sizes.
         if (prefSpanHeight < hint.height)
         {
-          var rowIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+          var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
             prefRowFlex, hint.height - prefSpanHeight
           );
 
@@ -855,7 +855,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         // increment the min row sizes.
         if (minSpanHeight < hint.minHeight)
         {
-          var rowIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+          var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
             minRowFlex, hint.minHeight - minSpanHeight
           );
 
@@ -935,7 +935,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         // increment the preferred column sizes.
         if (prefSpanWidth < hint.width)
         {
-          var colIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+          var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
             prefColFlex, hint.width - prefSpanWidth
           );
 
@@ -948,7 +948,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         // increment the min column sizes.
         if (minSpanWidth < hint.minWidth)
         {
-          var colIncrements = qx.ui2.layout.Util.computeFlexOffsets(
+          var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
             minColFlex, hint.minWidth - minSpanWidth
           );
 
@@ -1137,7 +1137,7 @@ qx.Class.define("qx.ui2.layout.Grid",
         }
       }
 
-      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
+      return qx.ui.layout.Util.computeFlexOffsets(flexibles, diff);
     },
 
 
@@ -1185,14 +1185,14 @@ qx.Class.define("qx.ui2.layout.Grid",
         }
       }
 
-      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
+      return qx.ui.layout.Util.computeFlexOffsets(flexibles, diff);
     },
 
 
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var Util = qx.ui2.layout.Util;
+      var Util = qx.ui.layout.Util;
       var hSpacing = this.getHorizontalSpacing();
       var vSpacing = this.getVerticalSpacing();
 

@@ -29,7 +29,7 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
@@ -42,14 +42,14 @@ qx.Class.define("BasicSample",
     test1 : function(doc)
     {
       // interactive reversed
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
-      var layout = new qx.ui2.layout.HBox();
+      var box = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
+      var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
       layout.add(w1, { align : "top" });
       layout.add(w2, { align : "middle" });
@@ -69,14 +69,14 @@ qx.Class.define("BasicSample",
     test2 : function(doc)
     {
       // interactive margin 1
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
-      var layout = new qx.ui2.layout.HBox();
+      var box = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
+      var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
       layout.add(w1, { align : "top", marginLeft : 10 });
       layout.add(w2, { align : "middle", marginLeft : 10 });
@@ -98,14 +98,14 @@ qx.Class.define("BasicSample",
     test3 : function(doc)
     {
       // interactive margin 2
-      var border = new qx.ui2.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      var box = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
-      var layout = new qx.ui2.layout.HBox();
+      var box = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", height : 80 });
+      var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
-      var w2 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
-      var w3 = (new qx.ui2.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
+      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "grey", maxHeight: 50});
 
       layout.add(w1, { align : "top", marginLeft : 10 });
       layout.add(w2, { align : "middle", marginLeft : 10 });

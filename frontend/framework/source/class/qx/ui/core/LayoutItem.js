@@ -20,9 +20,9 @@
 
 /**
  * The base class of all items, which should be layed out using a layout manager
- * {@link qx.ui2.layout.Abstract}.
+ * {@link qx.ui.layout.Abstract}.
  */
-qx.Class.define("qx.ui2.core.LayoutItem",
+qx.Class.define("qx.ui.core.LayoutItem",
 {
   type : "abstract",
   extend : qx.core.Object,
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      * @type member
      */
     scheduleLayoutUpdate : function() {
-      qx.ui2.core.LayoutQueue.add(this);
+      qx.ui.core.LayoutQueue.add(this);
     },
 
 
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      * Derived classes, which can have children, must implement this method.
      *
      * @internal
-     * @param parent {qx.ui2.core.LayoutItem} The new parent
+     * @param parent {qx.ui.core.LayoutItem} The new parent
      */
     nativeAddToParent : function(parent) {
     },
@@ -287,7 +287,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      * Derived classes, which can have children, must implement this method.
      *
      * @internal
-     * @param child {qx.ui2.core.LayoutItem} the child to add
+     * @param child {qx.ui.core.LayoutItem} the child to add
      */
     nativeRemoveFromParent : function() {
     },
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      * layout, the parent is always a child of the containing widget. The parent
      * widget may be <code>null</code>.
      *
-     * @return {qx.ui2.core.Widget|null} The widget's parent.
+     * @return {qx.ui.core.Widget|null} The widget's parent.
      */
     getParent : function() {
       return this._parent || null;
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      * Set the widget's parent
      *
      * @internal: Should only be used by the layout managers
-     * @param parent {qx.ui2.core.Widget|null} The widget's new parent.
+     * @param parent {qx.ui.core.Widget|null} The widget's new parent.
      */
     setParent : function(parent) {
       this._parent = parent;
@@ -334,7 +334,7 @@ qx.Class.define("qx.ui2.core.LayoutItem",
      *
      * @internal
      * @type member
-     * @return {qx.ui2.core.Widget|null} The root widget (if available)
+     * @return {qx.ui.core.Widget|null} The root widget (if available)
      */
     getRoot : function()
     {

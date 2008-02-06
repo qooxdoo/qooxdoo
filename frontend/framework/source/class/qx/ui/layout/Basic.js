@@ -36,9 +36,9 @@
  *
  * * Shrink or grow of children depending on the available space
  */
-qx.Class.define("qx.ui2.layout.Basic",
+qx.Class.define("qx.ui.layout.Basic",
 {
-  extend : qx.ui2.layout.Abstract,
+  extend : qx.ui.layout.Abstract,
 
 
 
@@ -60,11 +60,11 @@ qx.Class.define("qx.ui2.layout.Basic",
      * Adds a new widget to this layout.
      *
      * @type member
-     * @param child {qx.ui2.core.Widget} the widget to add.
+     * @param child {qx.ui.core.Widget} the widget to add.
      * @param left {Integer} Left position of the child.
      * @param top {Integer} Top position of the child.
      * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui2.layout.Abstract} This object (for chaining support)
+     * @return {qx.ui.layout.Abstract} This object (for chaining support)
      */
     add : function(child, left, top, options)
     {

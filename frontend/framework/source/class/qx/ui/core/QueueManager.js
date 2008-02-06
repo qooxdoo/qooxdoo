@@ -21,7 +21,7 @@
 /**
  * This class performs the auto flush of all layout relevant queues.
  */
-qx.Class.define("qx.ui2.core.QueueManager",
+qx.Class.define("qx.ui.core.QueueManager",
 {
   statics :
   {
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui2.core.QueueManager",
      */
     scheduleFlush : function(job)
     {
-      var clazz = qx.ui2.core.QueueManager;
+      var clazz = qx.ui.core.QueueManager;
 
       clazz.__jobs[job] = true;
 
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui2.core.QueueManager",
      */
     flush : function()
     {
-      var jobs = qx.ui2.core.QueueManager.__jobs;
+      var jobs = qx.ui.core.QueueManager.__jobs;
 
       // No else blocks here because each flush can influence the
       // following flushes!
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui2.core.QueueManager",
       {
         //var start = new Date;
         // console.profile("layout");
-        qx.ui2.core.LayoutQueue.flush();
+        qx.ui.core.LayoutQueue.flush();
         // console.profileEnd();
         jobs.layout = false;
         //qx.core.Log.debug("Layout queue runtime: " + (new Date - start) + "ms");
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui2.core.QueueManager",
       if (jobs.decoration)
       {
         //var start = new Date;
-        qx.ui2.core.DecorationQueue.flush();
+        qx.ui.core.DecorationQueue.flush();
         jobs.decoration = false;
         //qx.core.Log.debug("Decoration queue runtime: " + (new Date - start) + "ms");
       }
@@ -98,12 +98,12 @@ qx.Class.define("qx.ui2.core.QueueManager",
       if (jobs.display)
       {
         //var start = new Date;
-        qx.ui2.core.DisplayQueue.flush();
+        qx.ui.core.DisplayQueue.flush();
         jobs.display = false;
         //qx.core.Log.debug("Display queue runtime: " + (new Date - start) + "ms");
       }
 
-      qx.ui2.core.QueueManager.__scheduled = false;
+      qx.ui.core.QueueManager.__scheduled = false;
     }
   },
 
