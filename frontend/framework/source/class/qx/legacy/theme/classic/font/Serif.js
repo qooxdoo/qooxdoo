@@ -21,7 +21,7 @@
 /**
  * The qooxdoo serif font theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.font.Serif",
+qx.Theme.define("qx.legacy.theme.classic.font.Serif",
 {
   title : "Classic Serif",
   extend : qx.legacy.theme.classic.font.Default,

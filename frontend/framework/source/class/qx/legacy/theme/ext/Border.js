@@ -21,7 +21,7 @@
 /**
  * The default qooxdoo border theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.ext.Border",
+qx.Theme.define("qx.legacy.theme.ext.Border",
 {
   title : "Ext",
 

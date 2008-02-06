@@ -21,7 +21,7 @@
 /**
  * The default qooxdoo font theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.font.Default",
+qx.Theme.define("qx.legacy.theme.classic.font.Default",
 {
   title : "Classic",
 

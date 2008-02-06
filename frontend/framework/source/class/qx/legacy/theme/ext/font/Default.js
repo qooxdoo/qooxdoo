@@ -20,7 +20,7 @@
 /**
  * The default qooxdoo font theme.
  */
-qx.legacy.Theme.define("qx.legacy.theme.ext.font.Default",
+qx.Theme.define("qx.legacy.theme.ext.font.Default",
 {
   title : "Ext",
 

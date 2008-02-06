@@ -21,7 +21,7 @@
 /**
  * Classic Windows Theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.ClassicWindows",
+qx.Theme.define("qx.legacy.theme.ClassicWindows",
 {
   title : "Classic Windows",
 

@@ -21,7 +21,7 @@
 /**
  * Windows Luna Silver color theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.color.LunaSilver",
+qx.Theme.define("qx.legacy.theme.classic.color.LunaSilver",
 {
   title : "Windows Luna Silver",
 

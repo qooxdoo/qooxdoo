@@ -21,7 +21,7 @@
 /**
  * Windows Royale color theme
  */
-qx.legacy.Theme.define("qx.legacy.theme.classic.color.Royale",
+qx.Theme.define("qx.legacy.theme.classic.color.Royale",
 {
   title : "Windows Royale",
 
