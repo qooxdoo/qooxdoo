@@ -31,8 +31,8 @@ qx.Class.define("testrunner.test.util.Validation",
      */
     testUmlauts : function()
     {
-      this.assertEquals("aouAOUs", qx.util.Normalization.umlautsShort("äöüÄÖÜß"));
-      this.assertEquals("aeoeueAeOeUess", qx.util.Normalization.umlautsLong("äöüÄÖÜß"));
+      this.assertEquals("aouAOUs", qx.legacy.util.Normalization.umlautsShort("äöüÄÖÜß"));
+      this.assertEquals("aeoeueAeOeUess", qx.legacy.util.Normalization.umlautsLong("äöüÄÖÜß"));
     }
   }
 });

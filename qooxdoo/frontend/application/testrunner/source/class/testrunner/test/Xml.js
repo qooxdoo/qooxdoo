@@ -138,7 +138,7 @@ qx.Class.define("testrunner.test.Xml",
         };
       }
 
-      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("testrunner/data/qooxdoo-blog.xml"), qx.util.Http.METHOD_GET, qx.util.Mime.XML);
+      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("testrunner/data/qooxdoo-blog.xml"), qx.legacy.util.Http.METHOD_GET, qx.legacy.util.Mime.XML);
       req.setAsynchronous(false);
       var failed = "";
       var xmlDocument;

@@ -27,7 +27,7 @@
  *          Please see the qooxdoo homepage for related projects or ask on
  *          the mailing list.
  */
-qx.Class.define("qx.util.GuiBuilder",
+qx.Class.define("qx.legacy.util.GuiBuilder",
 {
   extend : qx.core.Object,
 
