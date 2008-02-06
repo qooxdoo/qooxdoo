@@ -161,7 +161,7 @@ qx.Class.define("qx.fx.Base",
     beforeStartInternal : function(){},
     beforeStart : function(){},
 
-    
+
     setup : function()
     {
       this.fireEvent("setup");

@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -66,7 +66,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       backwardDuration   : 1.0,
       delayBetween       : 0.3
     };
-  
+
     for(var i in effectSpecificOptions)
     {
       if (typeof(options[i]) == "undefined") {
@@ -101,7 +101,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -144,14 +144,14 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         this._highlightEffects[effect].finish = function(){};
 
       }
-      this._highlightEffects[1].start();      
+      this._highlightEffects[1].start();
 
       this.base(arguments);
     }
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -159,6 +159,6 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
   */
 
   defer : function(statics) {
-    
+
   }
 });
