@@ -101,33 +101,14 @@
 \bqx\.legacy\.event\.type\.DataEvent\b=qx.event.type.DataEvent
 \bqx\.legacy\.event\.type\.ChangeEvent\b=qx.event.type.ChangeEvent
 
-\b\.setPropagationStopped\(true\)=stopPropagation()
-
 \bqx\.legacy\.event\.message\b=qx.event.message
+\bqx\.core\.Target\b=qx.core.Object
 
-\bqx\.event\.type\.EventPool\b=qx.event.Pool
-
-\bqx\.event\.type\.ChangeEvent\b=qx.event.type.Change
-\bqx\.event\.type\.DataEvent\b=qx.event.type.Data
-\bqx\.event\.type\.DomEvent\b=qx.event.type.Dom
-\bqx\.event\.type\.KeyInputEvent\b=qx.event.type.KeyInput
-\bqx\.event\.type\.KeySequenceEvent\b=qx.event.type.KeySequence
-\bqx\.event\.type\.MouseEvent\b=qx.event.type.Mouse
-\bqx\.event\.type\.NativeEvent\b=qx.event.type.Native
-
-\bqx\.event\.handler\.AbstractEventHandler\b=qx.event.handler.Abstract
-\bqx\.event\.handler\.FocusHandler\b=qx.event.handler.Focus
-\bqx\.event\.handler\.IEventHandler\b=qx.event.handler.IHandler
-\bqx\.event\.handler\.IframeEventHandler\b=qx.event.handler.Iframe
-\bqx\.event\.handler\.InlineEventHandler\b=qx.event.handler.Inline
-\bqx\.event\.handler\.KeyEventHandler\b=qx.event.handler.Keyboard
-\bqx\.event\.handler\.MouseEventHandler\b=qx.event.handler.Mouse
-\bqx\.event\.handler\.ObjectEventHandler\b=qx.event.handler.Object
+\b\.setPropagationStopped\(true\)=stopPropagation()
 
 \bcreateDispatchEvent\b=fireEvent
 \bcreateDispatchDataEvent\b=fireDataEvent
 
-\bqx\.core\.Target\b=qx.core.Object
 \baddEventListener\b=addListener
 \bremoveEventListener\b=removeListener
 \bhasEventListeners\b=hasListeners
