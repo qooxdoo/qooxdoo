@@ -386,7 +386,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorTop :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorTop"
     },
 
@@ -394,7 +393,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorRight :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorRight"
     },
 
@@ -402,7 +400,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorBottom :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorBottom"
     },
 
@@ -410,7 +407,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorLeft :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorLeft"
     },
 
@@ -427,7 +423,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorInnerTop :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorInnerTop"
     },
 
@@ -435,7 +430,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorInnerRight :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorInnerRight"
     },
 
@@ -443,7 +437,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorInnerBottom :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorInnerBottom"
     },
 
@@ -451,7 +444,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     colorInnerLeft :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyColorInnerLeft"
     },
 
