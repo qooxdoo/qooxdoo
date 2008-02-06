@@ -528,7 +528,9 @@ qx.Class.define("feedreader.Application",
 
       // Post processing items
       for (var i=0, l=items.length; i<l; i++) {
-        items[i].date = this._dateFormat.format(items[i].date);
+        if (items[i].date) {
+          items[i].date = this._dateFormat.format(items[i].date);
+        }
       }
 
       // Store items
