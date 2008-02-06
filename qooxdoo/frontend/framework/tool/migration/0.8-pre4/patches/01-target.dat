@@ -1,4 +1,0 @@
-\bqx\.core\.Target\b=qx.core.Object
-\baddEventListener\b=addListener
-\bremoveEventListener\b=removeListener
-\bhasEventListeners\b=hasListeners
