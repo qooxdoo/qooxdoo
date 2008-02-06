@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -75,7 +75,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
     this.base(arguments, element, options);
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -146,7 +146,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
           moveY = this._oldStyle.height;
         break;
 
-        case 'center':  
+        case 'center':
           moveX = this._oldStyle.width / 2;
           moveY = this._oldStyle.height / 2;
         break;
@@ -170,7 +170,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
           scaleMode: {
             originalHeight: this._oldStyle.height,
             originalWidth: this._oldStyle.width
-          }, 
+          },
           sync: true,
           transition: this._options.scaleTransition,
           restoreAfterFinish: true
@@ -188,7 +188,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -196,7 +196,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
   */
 
   defer : function(statics) {
-    
+
   }
 });
 

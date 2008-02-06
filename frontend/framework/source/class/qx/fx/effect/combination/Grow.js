@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -75,7 +75,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     this.base(arguments, element, options);
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -131,7 +131,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       switch (this._options.direction)
       {
         case 'top-left':
-          initialMoveX = initialMoveY = moveX = moveY = 0; 
+          initialMoveX = initialMoveY = moveX = moveY = 0;
         break;
 
         case 'top-right':
@@ -178,7 +178,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
           scaleMode: {
             originalHeight: this._oldStyle.height,
             originalWidth: this._oldStyle.width
-          }, 
+          },
           sync: true,
           scaleFrom : 0,
           transition: this._options.scaleTransition
@@ -209,7 +209,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -217,7 +217,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
   */
 
   defer : function(statics) {
-    
+
   }
 });
 

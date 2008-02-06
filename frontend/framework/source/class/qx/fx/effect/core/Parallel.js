@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -55,7 +55,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     this._effects = (qx.util.Validation.isValidObject(effects)) ? effects : [];
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -82,12 +82,12 @@ qx.Class.define("qx.fx.effect.core.Parallel",
       {
         this._effects[i].render(1.0);
         this._effects[i].cancel();
-  
+
         this._effects[i].beforeFinishInternal();
         this._effects[i].beforeFinish();
-  
+
         this._effects[i].finish(position);
-  
+
         this._effects[i].afterFinishInternal();
         this._effects[i].afterFinish();
       }
@@ -122,6 +122,6 @@ qx.Class.define("qx.fx.effect.core.Parallel",
   */
 
   defer : function(statics) {
-    
+
   }
 });

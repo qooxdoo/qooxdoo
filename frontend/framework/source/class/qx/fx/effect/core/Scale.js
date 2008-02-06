@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -71,7 +71,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -90,7 +90,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
    members :
    {
-    
+
     _originalStyle :
     {
       'top'      : null,
@@ -99,7 +99,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
       'height'   : null,
       'fontSize' : null
     },
-    
+
     _fontTypes :
     {
       'em' : 'em',
@@ -138,7 +138,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
           fontSize = (qx.bom.client.Engine.MSHTML) ? "12px" : "100%";
         }
       }
-      
+
       for(var type in this._fontTypes)
       {
         if (fontSize.indexOf(type) > 0)
@@ -159,7 +159,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
       } else {
         this._dims = [this._options.scaleMode.originalHeight, this._options.scaleMode.originalWidth];
       }
-      
+
     },
 
 
@@ -175,7 +175,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
       this._setDimensions(this._dims[0] * currentScale, this._dims[1] * currentScale);
     },
-    
+
    finish : function(position)
    {
      this.base(arguments);
@@ -237,13 +237,13 @@ qx.Class.define("qx.fx.effect.core.Scale",
      {
        qx.bom.element.Style.set(this._element, property, d[property])
      }
-     
+
    }
 
   },
-   
-   
-   
+
+
+
   /*
   *****************************************************************************
      DEFER
@@ -251,6 +251,6 @@ qx.Class.define("qx.fx.effect.core.Scale",
   */
 
   defer : function(statics) {
-    
+
   }
 });
