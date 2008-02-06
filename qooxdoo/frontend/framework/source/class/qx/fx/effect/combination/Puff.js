@@ -49,7 +49,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -84,14 +84,14 @@ qx.Class.define("qx.fx.effect.combination.Puff",
             to: 0.0
           }
       )
-    }); 
+    });
 
     this._element = element;
     this.base(arguments, element, options);
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -148,6 +148,6 @@ qx.Class.define("qx.fx.effect.combination.Puff",
   */
 
   defer : function(statics) {
-    
+
   }
 });

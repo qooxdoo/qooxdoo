@@ -73,7 +73,7 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
     {
       fromValue = options.from;
     }
-    
+
     var effectSpecificOptions =
     {
         from : fromValue,

@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -74,7 +74,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -103,7 +103,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
         left   : qx.bom.element.Location.getLeft(this._element, "scroll")
       };
     },
-    
+
     start : function()
     {
       this.base(arguments);
@@ -123,7 +123,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
         6 : new qx.fx.effect.core.Move(this._element, { x : -distance,   y : 0, duration : split*2})
       };
-      
+
       for(var effect in moveEffects)
       {
         counter++;
@@ -149,7 +149,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -157,7 +157,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   */
 
   defer : function(statics) {
-    
+
   }
 });
 

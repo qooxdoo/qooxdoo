@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -63,21 +63,21 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     this._outerScaleEffect = new qx.fx.effect.core.Scale(
       this._element,
       5,
-      {   
+      {
         scaleContent: false,
         scaleX: false
       }
     );
-    
+
     this._innerScaleEffect = new qx.fx.effect.core.Scale(
       this._element,
       5,
-      {   
+      {
         scaleContent: false,
         scaleY: false
       }
     );
-    
+
     var innerScaleEffectReference = this._innerScaleEffect;
 
     this._outerScaleEffect.afterFinishInternal = function(effect) {
@@ -114,7 +114,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
         height : qx.bom.element.Dimension.getHeight(this._element)
       };
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
-      
+
       var oldStyleReference = this._oldStyle;
 
       this._innerScaleEffect.afterFinishInternal = function(effect)
@@ -127,17 +127,17 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       };
 
     },
-    
+
     start : function()
     {
       this._outerScaleEffect.start();
       this.base(arguments);
     }
-    
+
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -145,7 +145,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
   */
 
   defer : function(statics) {
-    
+
   }
 });
 

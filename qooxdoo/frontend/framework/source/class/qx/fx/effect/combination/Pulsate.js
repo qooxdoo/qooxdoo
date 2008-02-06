@@ -48,7 +48,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
     *****************************************************************************
        CONSTRUCTOR
@@ -60,7 +60,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     var effectSpecificOptions = {
         duration : 2
     };
-  
+
     for(var i in effectSpecificOptions)
     {
       if (typeof(options[i]) == "undefined") {
@@ -82,7 +82,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
   },
 
-  
+
   /*
   *****************************************************************************
      STATICS
@@ -120,12 +120,12 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
           };
         }
       }
-      this._fadeEffects[1].start();      
+      this._fadeEffects[1].start();
     }
 
    },
 
-   
+
   /*
   *****************************************************************************
      DEFER
@@ -133,6 +133,6 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
   */
 
   defer : function(statics) {
-    
+
   }
 });

@@ -71,7 +71,7 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
       }
     }
 
-  
+
     this.base(arguments, element, options);
   },
 
@@ -116,37 +116,37 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
           moveEffectOptions.x = 0;
           moveEffectOptions.y = this._options.yAmount;
         break;
-          
+
         case "north":
           moveEffectOptions.x = 0;
           moveEffectOptions.y = -this._options.yAmount;
         break;
-          
+
         case "west":
           moveEffectOptions.x = -this._options.xAmount;
           moveEffectOptions.y = 0;
         break;
-          
+
         case "east":
           moveEffectOptions.x = this._options.xAmount;
           moveEffectOptions.y = 0;
         break;
-          
+
         case "south-west":
           moveEffectOptions.x = -this._options.xAmount;
           moveEffectOptions.y = this._options.yAmount;
         break;
-          
+
         case "south-east":
           moveEffectOptions.x = this._options.xAmount;
           moveEffectOptions.y = this._options.yAmount;
         break;
-          
+
         case "north-east":
           moveEffectOptions.x = this._options.xAmount;
           moveEffectOptions.y = -this._options.yAmount;
         break;
-          
+
         case "north-west":
           moveEffectOptions.x = -this._options.xAmount;
           moveEffectOptions.y = -this._options.yAmount;
