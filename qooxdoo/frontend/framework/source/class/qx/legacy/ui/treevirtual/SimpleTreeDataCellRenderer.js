@@ -181,7 +181,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
       var html = Stdcr.IMG_START;
       var Am = qx.io.Alias;
 
-      if (qx.core.Client.getInstance().isMshtml() &&
+      if (qx.legacy.core.Client.getInstance().isMshtml() &&
           /\.png$/i.test(urlAndToolTip.url))
         {
           html +=

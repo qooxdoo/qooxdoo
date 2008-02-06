@@ -1,4 +1,4 @@
-qx.Mixin.define("qx.core.MLegacyInit",
+qx.Mixin.define("qx.legacy.core.MLegacyInit",
 {
   members :
   {

@@ -442,7 +442,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
 
       if (value)
       {
-        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+        if (value == "pointer" && qx.legacy.core.Client.getInstance().isMshtml()) {
           style.cursor = "hand";
         } else {
           style.cursor = value;

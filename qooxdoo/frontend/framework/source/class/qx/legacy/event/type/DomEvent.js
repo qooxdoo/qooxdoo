@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.core.LegacyProperty)
+#require(qx.legacy.core.Property)
 
 ************************************************************************ */
 
@@ -221,7 +221,7 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
      */
     isCtrlOrCommandPressed : function()
     {
-      if (qx.core.Client.getInstance().runsOnMacintosh()) {
+      if (qx.legacy.core.Client.getInstance().runsOnMacintosh()) {
         return this.getDomEvent().metaKey;
       } else {
         return this.getDomEvent().ctrlKey;

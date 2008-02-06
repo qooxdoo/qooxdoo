@@ -13,7 +13,7 @@
   document.title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
 
   // Enable legacy init process
-  qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
+  qx.Class.include(qx.core.Init, qx.legacy.core.MLegacyInit);
 
   // Hide description
   document.write("<style type='text/css'>#description{display:none}</style>");
