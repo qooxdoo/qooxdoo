@@ -12,7 +12,7 @@
 
   <script type="text/javascript">
 
-  var elementStyle = 'text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:110px;top:50px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
+  var elementStyle = 'text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
   var myElement;
 
   function resetElement()
@@ -22,11 +22,6 @@
   
   qx.core.Init.getInstance().defineMain(function()
   {
-
-		var transitionData = {
-			linear : "Simple linear transition."
-		};
-
     var doc = qx.ui.core.ClientDocument.getInstance();
   	myElement = qx.bom.Element.create('div', { style : elementStyle });
   	var doc = qx.ui.core.ClientDocument.getInstance();
@@ -36,43 +31,72 @@
   	myElement.id = "testDiv";
   	myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
 
+		var transitionData = {
+			linear      : "Linear is the default transition for many effects.",
+      easeInQuad  : "EaseInQuad will accelerate exponentially.",
+      easeOutQuad : "EaseOutQuad will slow down exponentially.",
+      sinoidal    : "Sinoidal transition will accelerate sinusoidal.",
+      reverse     : "Reverse behaves like linear, but in the opposite direction.",
+      wobble      : "Wobble will bounce the element forwards and backwards.",
+      spring      : "Spring will overshoot the target and then move back."
+    };
+
 
 		var combo = new qx.ui.form.ComboBox;
-		combo.setLocation(25, 25);
-		for(var transition in transitionData)
-		{
+  	var btnShow = new qx.ui.form.Button("Show it!");
+    var lblName = new qx.ui.basic.Label("Name");
+    var lblDesc = new qx.ui.basic.Label("Description");
+    var lblDur = new qx.ui.basic.Label("Duration");
+    var textDesc = new qx.ui.embed.TextEmbed;
+    var spDuration = new qx.ui.form.Spinner;
+
+		lblName.setLocation(25, 50);
+		lblDesc.setLocation(25, 75);
+		lblDur.setLocation(25, 25);
+
+		combo.setLocation(90, 50);
+		textDesc.setLocation(90, 75);
+		spDuration.setLocation(90, 25);
+
+		btnShow.setLocation(23, 100);
+
+		for (var transition in transitionData) {
 			combo.add(new qx.ui.form.ListItem(transition));
 		}
-		
 
+    combo.addListener("changeValue", function(){
+      textDesc.setText(transitionData[this.getSelected().getLabel()]);
+    });
+    combo.addListener("appear", function(){
+      this.setSelected(this.getList().getChildren()[0]);
+    });
 
+    spDuration.set({
+      max : 10,
+      min : 1
+    });
 
+    var nf = new qx.util.format.NumberFormat();
+    nf.setMaximumFractionDigits(2);
+    spDuration.setNumberFormat(nf);
+    spDuration.getManager().setPrecision(2);
 
-    /*
-    * This move effect moves the element to the given coordinates
-    * Note that you these coordinates can be absolute to the document or relative to the element's position.
-    */
-  	var animMove = new qx.fx.effect.core.Move(myElement, {
-  	  x : 600,
-  	  y : 300,
-  	  transition : qx.fx.Transition.sinoidal,
-      mode : "absolute"
-  	});
-  	animMove.addListener("finish", resetElement);
-
-  	/* Buttons */
-  	var btnShow = new qx.ui.form.Button("Move");
-
-  
-  
-  	btnShow.setLocation(325, 25);
-
-  	/* Events */
   	btnShow.addListener("execute", function(){
-  	  animMove.start();  	  
-  	});
-  
-  	doc.add(btnShow, combo);
+      var transition = combo.getSelected().getLabel();
+      var animMove = new qx.fx.effect.core.Move(myElement, {
+        x : 600,
+        y : 300,
+        transition : qx.fx.Transition[transition],
+        duration : spDuration.getValue(),
+        mode : "absolute",
+      });
+
+      animMove.addListener("finish", resetElement);
+      animMove.start();  	  
+    });
+
+
+  	doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
      
   });
   </script>
