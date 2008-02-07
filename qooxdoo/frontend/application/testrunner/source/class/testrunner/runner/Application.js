@@ -35,7 +35,7 @@
  */
 qx.Class.define("testrunner.runner.Application",
 {
-  extend : qx.application.Gui,
+  extend : qx.legacy.application.Gui,
 
 
 
