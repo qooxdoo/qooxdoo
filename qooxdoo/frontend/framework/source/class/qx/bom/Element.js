@@ -19,8 +19,6 @@
 
 /* ************************************************************************
 
-#module(bom)
-
 #require(qx.event.dispatch.Direct)
 #require(qx.event.dispatch.DomBubbling)
 #require(qx.event.handler.Keyboard)

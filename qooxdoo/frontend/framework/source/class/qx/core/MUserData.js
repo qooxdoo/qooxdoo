@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(core)
-
-************************************************************************ */
-
 /**
  * Add user data handling to a class. This mixins provide the methods
  * {@link #setUserData} and {@link #getUserData} for a user friendly

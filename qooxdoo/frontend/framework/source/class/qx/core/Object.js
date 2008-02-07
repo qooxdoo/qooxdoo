@@ -21,7 +21,6 @@
 
 /* ************************************************************************
 
-#module(core)
 #optional(qx.dev.StackTrace)
 #require(qx.core.Property)
 #use(qx.event.handler.Object)
@@ -567,8 +566,8 @@ qx.Class.define("qx.core.Object",
     __dbg : function() {
       return this.classname + "[" + this.toHashCode() + "]: ";
     },
-    
-    
+
+
     __logger : qx.core.Log,
     //__logger : qx.log2.Logger,
 
