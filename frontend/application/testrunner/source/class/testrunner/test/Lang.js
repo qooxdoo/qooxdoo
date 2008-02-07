@@ -77,40 +77,6 @@ qx.Class.define("testrunner.test.Lang",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    testAddRemovelistItem : function()
-    {
-      this.assertNotUndefined(qx.lang.String.pad);
-      var Str = qx.lang.String;
-
-      this.assertEquals("a", Str.addListItem("a", "a", ", "));
-      this.assertEquals("a", Str.addListItem("", "a", ", "));
-
-      this.assertEquals("a, b", Str.addListItem("a", "b", ", "));
-      this.assertEquals("a, b", Str.addListItem("a, b", "b", ", "));
-
-      this.assertEquals("a,b", Str.addListItem("a", "b"));
-      this.assertEquals("a,b", Str.addListItem("a,b", "b"));
-
-      this.assertEquals("a,b", Str.removeListItem("a,b,c", "c"));
-      this.assertEquals("a,b", Str.removeListItem("a,c,b", "c"));
-      this.assertEquals("a,b", Str.removeListItem("c,a,b", "c"));
-
-      this.assertEquals("a, b", Str.removeListItem("a, b, c", "c", ", "));
-      this.assertEquals("a, b", Str.removeListItem("a, c, b", "c", ", "));
-      this.assertEquals("a, b", Str.removeListItem("c, a, b", "c", ", "));
-
-      this.assertEquals("a, b", Str.removeListItem("a, b", "c", ", "));
-
-      this.assertEquals("", Str.removeListItem("", "c"));
-    },
-
-
-    /**
      * Array tests
      *
      * @type member
