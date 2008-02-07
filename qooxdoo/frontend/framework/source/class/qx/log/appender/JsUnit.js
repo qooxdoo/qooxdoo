@@ -66,7 +66,7 @@ qx.Class.define("qx.log.appender.JsUnit",
       if (window.warn && window.inform && window.debug)
       {
         var log = qx.log.Logger;
-        var msg = qx.legacy.html.String.fromText(this.formatLogEvent(evt));
+        var msg = qx.bom.String.fromText(this.formatLogEvent(evt));
 
         switch(evt.level)
         {
