@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.dev.Profile",
       }
       str.push("</table>");
 
-      var win = new qx.legacy.Window("about:blank", "profileLog");
+      var win = new qx.legacy.html.Window("about:blank", "profileLog");
       win.open();
       var doc = win._window.document;
       doc.open();
