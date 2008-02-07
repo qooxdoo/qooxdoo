@@ -42,65 +42,6 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
 
   extend : qx.fx.Base,
 
-  /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
-
-  construct : function(element, options)
-  {
-    var fromValue;
-
-    if (typeof(options.from) == "undefined")
-    {
-      if (qx.bom.element.Style.get(element, "display") == "none"){
-        fromValue = 0.0;
-      }
-      else
-      {
-        var opacity = qx.bom.element.Style.get(element, "opacity");
-
-        if (typeof(opacity) == "number") {
-          fromValue = opacity;
-        } else {
-          fromValue = 0.0;
-        }
-
-      }
-    }
-    else
-    {
-      fromValue = options.from;
-    }
-
-    var effectSpecificOptions =
-    {
-        from : fromValue,
-        to   : 1.0
-    };
-
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-
-    this.base(arguments, element, options);
-
-  },
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
   /*
    *****************************************************************************
@@ -114,14 +55,13 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
     update : function(position)
     {
       this.base(arguments);
-
       qx.bom.element.Opacity.set(this._element, position);
     },
 
 
     beforeSetup : function(effect)
     {
-      qx.bom.element.Style.set(this._element, "opacity", this._options.from);
+      qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
       qx.bom.element.Style.set(this._element, "display", "block");
     }
 

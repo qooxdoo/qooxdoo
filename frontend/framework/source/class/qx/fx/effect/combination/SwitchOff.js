@@ -56,36 +56,37 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
+    this.base(arguments, element);
 
-    var effectSpecificOptions = {
-      duration   : 0.4,
-      from       : 0,
-      transition : qx.fx.Transition.flicker
-    };
-
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-
-    this.base(arguments, element, options);
-
+    this.setTransition(qx.fx.Transition.flicker);
   },
 
 
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  statics :
-  {
-  },
+   properties :
+   {
+
+    duration :
+    {
+      init : 0.4,
+      refine : true
+    },
+
+    from :
+    {
+      init : 0.0,
+      refine : true
+    }
+
+   },
+
 
   /*
    *****************************************************************************
@@ -107,17 +108,15 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     {
       this.base(arguments);
 
-      var scaleEffect = new qx.fx.effect.core.Scale(
-        this._element,
-        1,
-        {
-          duration           : 0.3,
-          scaleFromCenter    : true,
-          scaleX             : false,
-          scaleContent       : false,
-          restoreAfterFinish : true
-        }
-      );
+      var scaleEffect = new qx.fx.effect.core.Scale(this._element);
+      scaleEffect.set({
+        scaleTo            : 1.0,
+        duration           : 0.3,
+        scaleFromCenter    : true,
+        scaleX             : false,
+        scaleContent       : false,
+        restoreAfterFinish : true
+      });
 
       scaleEffect.beforeSetup = function() {
         qx.bom.element.Style.set(this._element, "overflow", "hidden");
@@ -128,7 +127,11 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
         qx.bom.element.Style.set(this._element, "display", "none");
       };
 
-      this._appearEffect = new qx.fx.effect.core.FadeOut(this._element, this._options);
+      this._appearEffect = new qx.fx.effect.core.FadeOut(this._element);
+      this._appearEffect.set({
+        duration : this.getDuration(),
+        from : this.getFrom()
+      });
 
       this._appearEffect.afterFinishInternal = function() {
         scaleEffect.start();

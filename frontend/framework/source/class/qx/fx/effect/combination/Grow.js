@@ -49,42 +49,50 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
   extend : qx.fx.Base,
 
+
   /*
     *****************************************************************************
        CONSTRUCTOR
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
+    this.base(arguments, element);
 
-    var effectSpecificOptions = {
-      direction         : 'center',
-      moveTransition    : qx.fx.Transition.sinoidal,
-      scaleTransition   : qx.fx.Transition.sinoidal,
-      opacityTransition : qx.fx.Transition.full
-    };
-
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-
-    this.base(arguments, element, options);
+    this.setScaleTransition(qx.fx.Transition.sinoidal);
+    this.setMoveTransition(qx.fx.Transition.sinoidal);
   },
-
 
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  statics :
+  properties :
   {
+
+    direction :
+    {
+      init : "center",
+      check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ] 
+    },
+
+    scaleTransition :
+    {
+      init : null,
+      check : "Function"
+    },
+
+    moveTransition :
+    {
+      init : null,
+      check : "Function"
+    }
+
   },
+
 
   /*
    *****************************************************************************
@@ -104,7 +112,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       qx.bom.element.Style.set(this._element, "width", "0px");
     },
 
-    afterFinishInternal : function(effect)
+    afterFinishInternal : function()
     {
       qx.bom.element.Style.set(this._element, "overflow", "visible");
 
@@ -128,7 +136,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       };
 
 
-      switch (this._options.direction)
+      switch (this.getDirection())
       {
         case 'top-left':
           initialMoveX = initialMoveY = moveX = moveY = 0;
@@ -161,47 +169,39 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         break;
       }
 
-      var moveEffect = new qx.fx.effect.core.Move(
-        this._element,
-        {
-          x: moveX,
-          y: moveY,
-          sync: true,
-          transition: this._options.moveTransition
-        }
-      );
+      var moveEffect = new qx.fx.effect.core.Move(this._element);
+      moveEffect.set({
+        x: moveX,
+        y: moveY,
+        sync: true,
+        transition: this.getMoveTransition()
+      });
 
-      var scaleEffect = new qx.fx.effect.core.Scale(
-        this._element,
-        100,
-        {
-          scaleMode: {
-            originalHeight: this._oldStyle.height,
-            originalWidth: this._oldStyle.width
-          },
-          sync: true,
-          scaleFrom : 0,
-          transition: this._options.scaleTransition
-        }
-      );
+      var scaleEffect = new qx.fx.effect.core.Scale(this._element);
+      scaleEffect.set({
+        scaleTo : 100,
+        scaleMode: {
+          originalHeight: this._oldStyle.height,
+          originalWidth: this._oldStyle.width
+        },
+        sync: true,
+        scaleFrom : 0,
+        transition: this.getScaleTransition()
+      });
 
-      this._effect = new qx.fx.effect.core.Move(
-        this._element,
-        {
-          x : initialMoveX,
-          y : initialMoveY,
-          duration: 0.01
-        }
-      );
+      this._effect = new qx.fx.effect.core.Move(this._element);
+      this._effect.set({
+        x : initialMoveX,
+        y : initialMoveY,
+        duration: 0.01
+      });
 
       this._effect.afterFinishInternal = function(effect)
       {
-        new qx.fx.effect.core.Parallel(
-          {
-            1 : moveEffect,
-            2 : scaleEffect
-          }
-        ).start();
+        new qx.fx.effect.core.Parallel([
+          moveEffect,
+          scaleEffect
+        ]).start();
       };
 
       this._effect.start();
