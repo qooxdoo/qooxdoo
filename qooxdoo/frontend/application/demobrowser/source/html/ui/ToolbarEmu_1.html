@@ -38,13 +38,13 @@ qx.Class.define("BasicSample",
 
 
       // toolbar like with one "button" which does not stretch
-      var box1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "yellow", width: 600, height : 50});
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width: 600, height : 50});
       var layout1 = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", height : 20});
-      var w2 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", height : 40});
-      var w3 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", height : 20});
-      var w4 = (new qx.ui.core.Widget).set({decoration: border, backgroundColor: "green", height : 20});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 40});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
+      var w4 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
 
       w3.setMaxHeight("pref");
       layout1.setVerticalAlign(w3, "middle");

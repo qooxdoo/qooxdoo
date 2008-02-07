@@ -57,7 +57,7 @@ qx.Class.define("BasicSample",
 
     getNewWidget : function() {
       var widget = new qx.ui.core.Widget().set({
-        decoration: this._border,
+        decorator: this._border,
         backgroundColor: "green",
         maxWidth: "pref",
         maxHeight: "pref",
@@ -70,7 +70,7 @@ qx.Class.define("BasicSample",
 
     getColumnAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decoration: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
+      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
@@ -92,7 +92,7 @@ qx.Class.define("BasicSample",
 
     getRowAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decoration: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
+      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
@@ -114,7 +114,7 @@ qx.Class.define("BasicSample",
 
     getCellAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decoration: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
+      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
@@ -155,7 +155,7 @@ qx.Class.define("BasicSample",
       // hAlign is taken from the row
       // vAlign is taken from the column
 
-      var box = (new qx.ui.core.Widget).set({decoration: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
+      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", maxHeight: "pref", maxWidth: "pref"});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
