@@ -29,7 +29,7 @@
 #optional(qx.legacy.ui.menu.Menu)
 #optional(qx.legacy.ui.basic.Inline)
 
-#require(qx.event.dispatch.WidgetBubbling)
+#require(qx.legacy.event.WidgetBubbling)
 #require(qx.legacy.core.Property)
 
 ************************************************************************ */
