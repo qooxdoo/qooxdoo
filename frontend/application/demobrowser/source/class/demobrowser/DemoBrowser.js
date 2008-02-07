@@ -1535,7 +1535,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (PScriptStart.exec(lines[i])) // start of inline script
           {
             // add this line to 'normal' code
-            bsrc += this.__beautyHtml(qx.legacy.html.String.escape(currBlock + lines[i]));
+            bsrc += this.__beautyHtml(qx.bom.String.escape(currBlock + lines[i]));
             currBlock = "";  // start new block
           }
           else if (PScriptEnd.exec(lines[i])) // end of inline script
@@ -1553,7 +1553,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // collect rest of page
-      bsrc += this.__beautyHtml(qx.legacy.html.String.escape(currBlock)) + "</pre>";
+      bsrc += this.__beautyHtml(qx.bom.String.escape(currBlock)) + "</pre>";
 
       return bsrc;
 

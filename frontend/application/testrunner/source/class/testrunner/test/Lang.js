@@ -180,31 +180,31 @@ qx.Class.define("testrunner.test.Lang",
     testEscape : function()
     {
       // escape HTML
-      this.assertEquals("\n", qx.legacy.html.String.escape("\n"));
+      this.assertEquals("\n", qx.bom.String.escape("\n"));
 
-      this.assertEquals("Hello", qx.legacy.html.String.escape("Hello"));
-      this.assertEquals("juhu &lt;&gt;", qx.legacy.html.String.escape("juhu <>"));
+      this.assertEquals("Hello", qx.bom.String.escape("Hello"));
+      this.assertEquals("juhu &lt;&gt;", qx.bom.String.escape("juhu <>"));
 
-      this.assertEquals("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;", qx.legacy.html.String.escape("<div id='1'>&nbsp; €</div>"));
+      this.assertEquals("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;", qx.bom.String.escape("<div id='1'>&nbsp; €</div>"));
 
       // textToHtml
-      this.assertEquals("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp; &euro;&lt;/div&gt;", qx.legacy.html.String.fromText("<div id='1'>\n  &nbsp; €</div>"));
+      this.assertEquals("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp; &euro;&lt;/div&gt;", qx.bom.String.fromText("<div id='1'>\n  &nbsp; €</div>"));
 
       // htmlToText
-      this.assertEquals("<div id='1'>\n \u00A0&nbsp; €</div>", qx.legacy.html.String.toText("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp;  \n   &euro;&lt;/div&gt;"));
+      this.assertEquals("<div id='1'>\n \u00A0&nbsp; €</div>", qx.bom.String.toText("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp;  \n   &euro;&lt;/div&gt;"));
 
       // unescape HTML
-      this.assertEquals("\n", qx.legacy.html.String.unescape("\n"));
-      this.assertEquals("Hello", qx.legacy.html.String.unescape("Hello"));
-      this.assertEquals("juhu <>", qx.legacy.html.String.unescape("juhu &lt;&gt;"));
+      this.assertEquals("\n", qx.bom.String.unescape("\n"));
+      this.assertEquals("Hello", qx.bom.String.unescape("Hello"));
+      this.assertEquals("juhu <>", qx.bom.String.unescape("juhu &lt;&gt;"));
 
-      this.assertEquals("<div id='1'>&nbsp; €</div>", qx.legacy.html.String.unescape("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;"));
+      this.assertEquals("<div id='1'>&nbsp; €</div>", qx.bom.String.unescape("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;"));
 
-      this.assertEquals(">&zzzz;x", qx.legacy.html.String.unescape("&gt;&zzzz;x"));
+      this.assertEquals(">&zzzz;x", qx.bom.String.unescape("&gt;&zzzz;x"));
 
-      this.assertEquals("€", qx.legacy.html.String.unescape("&#x20AC;"));
+      this.assertEquals("€", qx.bom.String.unescape("&#x20AC;"));
 
-      this.assertEquals("€", qx.legacy.html.String.unescape("&#X20AC;"));
+      this.assertEquals("€", qx.bom.String.unescape("&#X20AC;"));
 
       // escape XML
       this.assertEquals("\n", qx.xml.String.escape("\n"));
