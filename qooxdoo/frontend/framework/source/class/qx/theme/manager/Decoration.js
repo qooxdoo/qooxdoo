@@ -100,7 +100,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * Update all objects which use the given border. Only updates one edge at each call.
      *
      * @type member
-     * @param border {qx.legacy.ui.core.Border} the border which have been modified
+     * @param border {qx.ui.core.Decoration} the border which have been modified
      * @param edge {String} top, right, bottom or left
      */
     updateObjectsEdge : function(border, edge)
@@ -136,7 +136,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       if (value)
       {
         var source = value.borders;
-        var border = qx.legacy.ui.core.Border;
+        var border = qx.ui.core.Decoration;
 
         for (var key in source)
         {
