@@ -24,7 +24,7 @@
 /**
  * Generic escaping and unescaping of DOM strings.
  *
- * {@link qx.legacy.html.String} for (un)escaping of HTML strings.
+ * {@link qx.bom.String} for (un)escaping of HTML strings.
  * {@link qx.xml.String} for (un)escaping of XML strings.
  */
 qx.Class.define("qx.util.StringEscape",
