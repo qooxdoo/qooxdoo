@@ -42,40 +42,36 @@ qx.Class.define("qx.fx.effect.core.Move",
 
   extend : qx.fx.Base,
 
+
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  construct : function(element, options)
-  {
+   properties :
+   {
 
-    var effectSpecificOptions = {
-      x : 0,
-      y : 0
-    };
+      mode :
+      {
+        init : "relative",
+        check : "String"
+      },
 
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
+      x :
+      {
+        init : 0,
+        check : "Integer"
+      },
+
+      y :
+      {
+        init : 0,
+        check : "Integer"
       }
-    }
 
-    this.base(arguments, element, options);
-  },
+   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
   /*
    *****************************************************************************
@@ -93,12 +89,12 @@ qx.Class.define("qx.fx.effect.core.Move",
       this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box");
       this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
 
-      if (this._options.mode == 'absolute') {
-        this._x = this._options.x - this._originalLeft;
-        this._y = this._options.y - this._originalTop;
+      if (this.getMode == 'absolute') {
+        this._x = this.getX() - this._originalLeft;
+        this._y = this.getY() - this._originalTop;
       }else{
-        this._x = this._options.x;
-        this._y = this._options.y;
+        this._x = this.getX();
+        this._y = this.getY();
       }
     },
 

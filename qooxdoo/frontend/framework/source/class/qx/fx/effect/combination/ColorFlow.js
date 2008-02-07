@@ -50,67 +50,78 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
   extend : qx.fx.Base,
 
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  construct : function(element, options)
+  properties :
   {
-    var effectSpecificOptions = {
-      startColor         : "#ffffff",
-      endColor           : "#ffffaa",
-      forwardTransition  : qx.fx.Transition.linear,
-      backwardTransition : qx.fx.Transition.linear,
-      forwardDuration    : 1.0,
-      backwardDuration   : 1.0,
-      delayBetween       : 0.3
-    };
-
-    for(var i in effectSpecificOptions)
+  
+    startColor :
     {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-    this.base(arguments, element, options);
-    this._element = element;
+      init   : "#ffffff",
+      check : "Color"
+    },
 
-    this._highlightEffects = {
-      1 : new qx.fx.effect.core.Highlight(
-        this._element,
-        {
-          startColor   : this._options.startColor,
-          endColor     : this._options.endColor,
-          duration     : this._options.forwardDuration,
-          transition   : this._options.forwardTransition,
-          restoreColor : false
-        }
-      ),
-      2 : new qx.fx.effect.core.Highlight(
-        this._element,
-        {
-          startColor   : this._options.endColor,
-          endColor     : this._options.startColor,
-          duration     : this._options.backwardDuration,
-          transition   : this._options.backwardTransition,
-          restoreColor : false
-        }
-      )
-    };
+    endColor :
+    {
+      init   : "#ffffaa",
+      check : "Color"
+    },
+
+    forwardTransition :
+    {
+      init   : null,
+      check : "Function"
+    },
+    
+    backwardTransition :
+    {
+      init   : null,
+      check : "Function"
+    },
+    
+    forwardDuration :
+    {
+      init   : 1.0,
+      check : "Number"
+    },
+    
+    backwardDuration :
+    {
+      init   : 1.0,
+      check : "Number"
+    },
+    
+    delayBetween :
+    {
+      init   : 0.3,
+      check : "Number"
+    }
 
   },
 
 
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
   */
 
-  statics :
+  construct : function(element)
   {
+    this.base(arguments, element);
+    this.setForwardTransition(qx.fx.Transition.linear);
+    this.setBackwardTransition(qx.fx.Transition.linear);
+
+    this._highlightEffects = {
+      1 : new qx.fx.effect.core.Highlight(this._element),
+      2 : new qx.fx.effect.core.Highlight(this._element)
+    };
+
   },
+
 
   /*
    *****************************************************************************
@@ -123,9 +134,28 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     start : function()
     {
+      this.base(arguments);
+
       var counter = 0;
       var highlightEffectsReference = this._highlightEffects;
-      var delay = this._options.delayBetween*1000;
+      var delay = this.getDelayBetween() * 1000;
+
+     
+      this._highlightEffects[1].set({
+        startColor   : this.getStartColor(),
+        endColor     : this.getEndColor(),
+        duration     : this.getForwardDuration(),
+        transition   : this.getForwardTransition(),
+        restoreColor : false
+      });
+
+      this._highlightEffects[2].set({
+        startColor   : this.getEndColor(),
+        endColor     : this.getStartColor(),
+        duration     : this.getBackwardDuration(),
+        transition   : this.getBackwardTransition(),
+        restoreColor : false
+      });
 
       for(var effect in this._highlightEffects)
       {
@@ -146,7 +176,6 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       }
       this._highlightEffects[1].start();
 
-      this.base(arguments);
     }
 
    },

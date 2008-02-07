@@ -56,51 +56,30 @@ qx.Class.define("qx.fx.effect.combination.Puff",
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
-    if (qx.legacy.util.Validation.isValidObject(options)) {
-      options.duration = 1.0;
-    } else {
-      options = {
-        duration : 1.0
-      }
-    }
+    this.base(arguments, element);
+    
+    var list = [];
 
-    this._effect = new qx.fx.effect.core.Parallel({
-      0 : new qx.fx.effect.core.Scale(
-          element,
-          200,
-          {
-            sync : true,
-            scaleFromCenter : true,
-            scaleContent : true,
-            restoreAfterFinish : true
-          }
-      ),
-      1 : new qx.fx.effect.core.FadeOut(
-          element,
-          {
-            sync: true,
-            to: 0.0
-          }
-      )
+    list[0] = new qx.fx.effect.core.Scale(this._element);
+    list[0].set({
+      scaleTo : 200,
+      sync : true,
+      scaleFromCenter : true,
+      scaleContent : true,
+      restoreAfterFinish : true
     });
 
-    this._element = element;
-    this.base(arguments, element, options);
+    list[1] = new qx.fx.effect.core.FadeOut(this._element);
+    list[1].set({
+      sync: true,
+      to: 0.0
+    });
 
+    this._effect = new qx.fx.effect.core.Parallel(list);
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
   /*
    *****************************************************************************

@@ -55,35 +55,42 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
+    this.base(arguments, element);
 
-    var effectSpecificOptions = {
-      direction         : 'center',
-      moveTransition    : qx.fx.Transition.sinoidal,
-      scaleTransition   : qx.fx.Transition.sinoidal,
-      opacityTransition : qx.fx.Transition.sinoidal
-    };
-
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-
-    this.base(arguments, element, options);
+    this.setMoveTransition(qx.fx.Transition.sinoidal);
+    this.setScaleTransition(qx.fx.Transition.sinoidal);
   },
 
 
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  statics :
+  properties :
   {
+
+    direction : 
+    {
+      init : "center",
+      check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ]
+    },
+    
+    moveTransition : 
+    {
+      init : null,
+      check : "Function"
+    },
+    
+    scaleTransition : 
+    {
+      init : null,
+      check : "Function"
+    },
+
   },
 
   /*
@@ -124,7 +131,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         height : qx.bom.element.Dimension.getHeight(this._element)
       };
 
-      switch (this._options.direction)
+      switch (this.getDirection())
       {
 
         case 'top-left':
@@ -153,36 +160,32 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
       }
 
-      var moveEffect = new qx.fx.effect.core.Move(
-        this._element,
-        {
-          x: moveX,
-          y: moveY,
-          sync: true,
-          transition: this._options.moveTransition
-        }
-      );
+      var moveEffect = new qx.fx.effect.core.Move(this._element);
+      moveEffec.set({
+        x: moveX,
+        y: moveY,
+        sync: true,
+        transition: this.getMoveTransition()
+      });
 
-      var scaleEffect = new qx.fx.effect.core.Scale(
-        this._element,
-        0,
-        {
-          scaleMode: {
-            originalHeight: this._oldStyle.height,
-            originalWidth: this._oldStyle.width
-          },
-          sync: true,
-          transition: this._options.scaleTransition,
-          restoreAfterFinish: true
-        }
-      );
+      var scaleEffect = new qx.fx.effect.core.Scale(this._element);
+      scaleEffect.set({
+        scaleTo : 0,
+        scaleMode: {
+          originalHeight: this._oldStyle.height,
+          originalWidth: this._oldStyle.width
+        },
+        sync: true,
+        transition: this._options.scaleTransition,
+        restoreAfterFinish: true
+      });
 
-      this._effect = new qx.fx.effect.core.Parallel(
-        {
-          1 : moveEffect,
-          2 : scaleEffect
-        }
-      ).start();
+      this._effect = new qx.fx.effect.core.Parallel([
+        moveEffect,
+        scaleEffect
+      ]);
+      
+      this._effect.start();
 
     }
 

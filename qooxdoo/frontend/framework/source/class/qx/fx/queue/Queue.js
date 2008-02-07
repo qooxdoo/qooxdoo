@@ -42,11 +42,13 @@ qx.Class.define("qx.fx.queue.Queue",
 
   extend : qx.core.Object,
 
+
   /*
     *****************************************************************************
        CONSTRUCTOR
     *****************************************************************************
   */
+
 
   construct : function()
   {
@@ -55,20 +57,11 @@ qx.Class.define("qx.fx.queue.Queue",
 
 
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
-
-  /*
    *****************************************************************************
       MEMBERS
    *****************************************************************************
    */
+
 
    members :
    {
@@ -79,7 +72,7 @@ qx.Class.define("qx.fx.queue.Queue",
     add: function(effect)
     {
       var timestamp = new Date().getTime();
-      var position = (typeof(effect._options.queue) == "string") ?  effect._options.queue : effect._options.queue.position;
+      var position = (typeof(effect.getQueue()) == "string") ?  effect.getQueue() : effect.getQueue().position;
 
       switch(position)
       {
@@ -91,7 +84,7 @@ qx.Class.define("qx.fx.queue.Queue",
             e.finishOn += effect.finishOn;
             });
           */
-          var idleEffects = qx.lang.Array.findAll(this._effects, function(e){ return e.state == qx.fx.EffectState.idle });
+          var idleEffects = qx.lang.Array.findAll(this._effects, function(e){ return e._state == qx.fx.EffectState.idle });
 
           for(var i in idleEffects)
           {
@@ -116,7 +109,7 @@ qx.Class.define("qx.fx.queue.Queue",
       effect._startOn  += timestamp;
       effect._finishOn += timestamp;
 
-      if (!effect._options.queue.limit || (this._effects.length < effect._options.queue.limit)) {
+      if (!effect.getQueue().limit || (this._effects.length < effect.getQueue().limit)) {
         this._effects.push(effect);
       }
 
@@ -149,6 +142,7 @@ qx.Class.define("qx.fx.queue.Queue",
     }
 
    },
+
 
   /*
   *****************************************************************************

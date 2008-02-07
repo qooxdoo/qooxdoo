@@ -48,29 +48,13 @@ qx.Class.define("qx.fx.Base",
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
     this.base(arguments);
 
-    if (qx.legacy.util.Validation.isInvalidObject(options)) {
-      options = qx.lang.Object.copy(qx.fx.Base.DefaultOptions);
-    }
-
-    if (typeof(options.transition) != "function") {
-      this._transition = qx.fx.Transition.linear;
-    } else {
-      this._transition = options.transition;
-    }
-
-    this._options = qx.lang.Object.copy(qx.fx.Base.DefaultOptions);
-    for (var i in options) {
-      this._options[i] = options[i];
-    }
-
-
-    this.init();
+    this.setTransition(qx.fx.Transition.linear);
     this._element = element;
-
+    this.init();
   },
 
 
@@ -87,6 +71,65 @@ qx.Class.define("qx.fx.Base",
      "update" : "qx.event.type.Event"
    },
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+     duration :
+     {
+       init   : 1.0,
+       check  : "Number"
+     },
+
+     fps :
+     {
+       init   : 100,
+       check  : "Number"
+     },
+
+     sync :
+     {
+       init   : false,
+       check  : "Boolean"
+     },
+
+     from :
+     {
+       init   : 0,
+       check  : "Number"
+     },
+
+     to :
+     {
+       init   : 1,
+       check  : "Number"
+     },
+
+     delay :
+     {
+       init   : 0.0,
+       check  : "Number"
+     },
+
+     queue :
+     {
+       init   : "parallel",
+       check  : "String"
+     },
+
+     transition :
+     {
+       init   : null,
+       check  : "Function"
+     }
+
+  },
+
 
   /*
   *****************************************************************************
@@ -96,16 +139,6 @@ qx.Class.define("qx.fx.Base",
 
   statics :
   {
-    DefaultOptions :
-    {
-      duration:   1.0,   // seconds
-      fps:        100,   // 100 = assume 66fps max.
-      sync:       false, // true for combining
-      from:       0.0,
-      to:         1.0,
-      delay:      0.0,
-      queue:      'parallel'
-    },
 
     EffectPosition :
     {
@@ -120,6 +153,7 @@ qx.Class.define("qx.fx.Base",
       FINISHED : 'finished',
       RUNNING  : 'running'
     }
+
   },
 
 
@@ -136,11 +170,11 @@ qx.Class.define("qx.fx.Base",
     {
       this._currentFrame = 0;
       this._state        = qx.fx.Base.EffectState.IDLE;
-      this._startOn      = this._options.delay * 1000;
-      this._finishOn     = this._startOn + (this._options.duration * 1000);
-      this._fromToDelta  = this._options.to - this._options.from;
+      this._startOn      = this.getDelay() * 1000;
+      this._finishOn     = this._startOn + (this.getDuration() * 1000);
+      this._fromToDelta  = this.getTo() - this.getFrom();
       this._totalTime    = this._finishOn - this._startOn;
-      this._totalFrames  = this._options.fps * this._options.duration;
+      this._totalFrames  = this.getFps() * this.getDuration();
     },
 
     beforeFinishInternal : function(){},
@@ -196,7 +230,7 @@ qx.Class.define("qx.fx.Base",
       this.beforeStartInternal();
       this.beforeStart();
 
-      if (!this._options.sync)
+      if (!this.getSync())
       {
         var queue = this._getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
@@ -232,13 +266,11 @@ qx.Class.define("qx.fx.Base",
 
         this.afterSetupInternal();
         this.afertSetup();
-
       }
 
       if(this._state == qx.fx.Base.EffectState.RUNNING)
       {
-
-        this._position = this._transition(pos) * this._fromToDelta + this._options.from;
+        this._position = this.getTransition()(pos) * this._fromToDelta + this.getFrom();
 
         this.beforeUpdateInternal();
         this.beforeUpdate();
@@ -247,7 +279,6 @@ qx.Class.define("qx.fx.Base",
 
         this.afterUpdateInternal();
         this.afterUpdate();
-
       }
     },
 
@@ -278,7 +309,7 @@ qx.Class.define("qx.fx.Base",
 
     cancel : function()
     {
-      if (!this._options.sync)
+      if (!this.getSync())
       {
         var queue = this._getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
@@ -289,7 +320,7 @@ qx.Class.define("qx.fx.Base",
 
 
     _getQueue : function() {
-      return (typeof(this._options.queue) == "string") ? 'global' : this._options.queue.scope;
+      return (typeof(this.getQueue()) == "string") ? 'global' : this.getQueue().scope;
     }
 
   },

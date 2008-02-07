@@ -49,40 +49,28 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
   extend : qx.fx.Base,
 
-  /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
 
-  construct : function(element, options)
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+  properties :
   {
 
-    var effectSpecificOptions = {
-      distance : 20,
-      duration : 0.5
-    };
-
-    for(var i in effectSpecificOptions)
+    duration : 
     {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
+      init : 0.5,
+      refine : true
+    },
+    
+    distance : 
+    {
+      init : 20,
+      check : "Number"
     }
 
-    this.base(arguments, element, options);
-
-  },
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
   },
 
   /*
@@ -108,22 +96,31 @@ qx.Class.define("qx.fx.effect.combination.Shake",
     {
       this.base(arguments);
 
-      var distance = parseFloat(this._options.distance);
-      var split = parseFloat(this._options.duration) / 10.0;
+      var distance = parseFloat(this.getDistance());
+      var split = parseFloat(this.getDuration()) / 10.0;
       var counter = 0;
 
       var moveEffects = {
-        1 : new qx.fx.effect.core.Move(this._element, { x : distance,    y : 0, duration : split}),
-
-        2 : new qx.fx.effect.core.Move(this._element, { x : -distance*2, y : 0, duration : split*2}),
-        3 : new qx.fx.effect.core.Move(this._element, { x : distance*2,  y : 0, duration : split*2}),
-
-        4 : new qx.fx.effect.core.Move(this._element, { x : -distance*2, y : 0, duration : split*2}),
-        5 : new qx.fx.effect.core.Move(this._element, { x : distance*2,  y : 0, duration : split*2}),
-
-        6 : new qx.fx.effect.core.Move(this._element, { x : -distance,   y : 0, duration : split*2})
+        1 : new qx.fx.effect.core.Move(this._element),
+  
+        2 : new qx.fx.effect.core.Move(this._element),
+        3 : new qx.fx.effect.core.Move(this._element),
+  
+        4 : new qx.fx.effect.core.Move(this._element),
+        5 : new qx.fx.effect.core.Move(this._element),
+  
+        6 : new qx.fx.effect.core.Move(this._element)
       };
 
+      moveEffects[1].set({ x : distance,    y : 0, duration : split});
+      moveEffects[2].set({ x : -distance*2, y : 0, duration : split*2});
+      moveEffects[3].set({ x : distance*2,  y : 0, duration : split*2});
+      moveEffects[4].set({ x : -distance*2, y : 0, duration : split*2});
+      moveEffects[5].set({ x : distance*2,  y : 0, duration : split*2});
+      moveEffects[6].set({ x : -distance,   y : 0, duration : split*2});
+
+
+      
       for(var effect in moveEffects)
       {
         counter++;
@@ -133,6 +130,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
           moveEffects[effect].afterFinishInternal = function(){
             moveEffects[this.id + 1].start();
           };
+          console.info(moveEffects[effect].getDuration())
         }
         else
         {

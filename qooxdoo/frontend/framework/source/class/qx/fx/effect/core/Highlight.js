@@ -42,51 +42,46 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
   extend : qx.fx.Base,
 
+
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  construct : function(element, options)
-  {
+   properties :
+   {
 
-    var effectSpecificOptions = {
-      startColor   : "#ffffff",
-      endColor     : "#ffffaa",
-      restoreColor : true
-    };
+      startColor :
+      {
+        init : "#ffffff",
+        check : "Color"
+      },
+      
+      endColor :
+      {
+        init : "#ffffaa",
+        check : "Color"
+      },
 
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
+      restoreColor :
+      {
+        init : true,
+        check : "Boolean"
       }
-    }
 
-    this.base(arguments, element, options);
-  },
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
+   },
 
 
   /*
    *****************************************************************************
       MEMBERS
    *****************************************************************************
-   */
+  */
 
   members :
   {
+
     setup : function()
     {
       this.base(arguments);
@@ -97,15 +92,14 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       };
       qx.bom.element.Style.set(this._element, "backgroundImage", "none");
 
-      this._startColor = qx.util.ColorUtil.cssStringToRgb(this._options.startColor);
-      this._endColor = qx.util.ColorUtil.cssStringToRgb(this._options.endColor);
+      this._startColor = qx.util.ColorUtil.cssStringToRgb(this.getStartColor());
+      this._endColor = qx.util.ColorUtil.cssStringToRgb(this.getEndColor());
 
       this._deltaColor = [
         this._endColor[0] - this._startColor[0],
         this._endColor[1] - this._startColor[1],
         this._endColor[2] - this._startColor[2]
       ];
-
     },
 
 
@@ -122,7 +116,6 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       var hexColor = "#" + color[0].toString(16) + color[1].toString(16) + color[2].toString(16);
 
       qx.bom.element.Style.set(this._element, "backgroundColor", hexColor);
-
     },
 
 
