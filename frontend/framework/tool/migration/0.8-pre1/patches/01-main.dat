@@ -80,6 +80,12 @@
 \bqx\.theme\b=qx.legacy.theme
 
 
+#
+# New BOM API
+#
+
+\bqx\.legacy\.html\.String\b=qx.bom.String
+
 
 
 
