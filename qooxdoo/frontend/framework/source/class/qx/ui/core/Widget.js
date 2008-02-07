@@ -1272,10 +1272,10 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // overridden
-    nativeRemoveFromParent : function()
+    nativeRemoveFromParent : function(parent)
     {
       if (parent instanceof qx.ui.core.Widget) {
-        parent._contentElement.add(this._containerElement);
+        parent._contentElement.remove(this._containerElement);
       }
     },
 
