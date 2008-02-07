@@ -55,7 +55,7 @@ qx.Class.define("BasicSample",
 
       var dialog = new qx.ui.core.Widget().set({
          backgroundColor: "yellow",
-         decoration: border,
+         decorator: border,
          padding: 10
       });
 
@@ -69,7 +69,7 @@ qx.Class.define("BasicSample",
         backgroundColor : "green",
         width: 600,
         height: 300,
-        decoration: border,
+        decorator: border,
         padding: 10
       });
 
@@ -77,7 +77,7 @@ qx.Class.define("BasicSample",
 
       var ok = new qx.ui.basic.Label("OK").set({
         backgroundColor : "green",
-        decoration: border,
+        decorator: border,
         padding: [2, 5]
       });
       layout.add(ok, 1, 1);
@@ -86,7 +86,7 @@ qx.Class.define("BasicSample",
 
       var cancel = new qx.ui.basic.Label("Cancel").set({
         backgroundColor : "green",
-        decoration: border,
+        decorator: border,
         padding: [2, 5]
       });
       layout.add(cancel, 1, 2);

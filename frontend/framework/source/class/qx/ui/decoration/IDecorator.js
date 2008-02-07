@@ -25,7 +25,7 @@
  *
  * All Decoration renderer must implement this interface.
  */
-qx.Interface.define("qx.ui.decoration.IDecoration",
+qx.Interface.define("qx.ui.decoration.IDecorator",
 {
   members :
   {
