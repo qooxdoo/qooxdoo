@@ -88,12 +88,12 @@ qx.Bootstrap.define("qx.dev.Profile",
      *     "name":"qx.core.Object.addListener",
      *     "type":"member"
      *   },
-     *   "qx.legacy.ui.table.cellrenderer.Default (constructor)":{
+     *   "qx.ui.table.cellrenderer.Default (constructor)":{
      *     "totalTime":2,
      *     "ownTime":1,
      *     "callCount":1,
      *     "subRoutineCalls":4,
-     *     "name":"qx.legacy.ui.table.cellrenderer.Default",
+     *     "name":"qx.ui.table.cellrenderer.Default",
      *     "type":"constructor"
      *   }
      * }
@@ -140,9 +140,8 @@ qx.Bootstrap.define("qx.dev.Profile",
       }
       str.push("</table>");
 
-      var win = new qx.legacy.html.Window("about:blank", "profileLog");
-      win.open();
-      var doc = win._window.document;
+      var win = window.open("about:blank", "profileLog");
+      var doc = win.document;
       doc.open();
       doc.write("<html><body>");
       doc.write(str.join(""));
