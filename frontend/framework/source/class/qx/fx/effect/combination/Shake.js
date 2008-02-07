@@ -59,13 +59,13 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   properties :
   {
 
-    duration : 
+    duration :
     {
       init : 0.5,
       refine : true
     },
-    
-    distance : 
+
+    distance :
     {
       init : 20,
       check : "Number"
@@ -102,13 +102,13 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
       var moveEffects = {
         1 : new qx.fx.effect.core.Move(this._element),
-  
+
         2 : new qx.fx.effect.core.Move(this._element),
         3 : new qx.fx.effect.core.Move(this._element),
-  
+
         4 : new qx.fx.effect.core.Move(this._element),
         5 : new qx.fx.effect.core.Move(this._element),
-  
+
         6 : new qx.fx.effect.core.Move(this._element)
       };
 
@@ -120,7 +120,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       moveEffects[6].set({ x : -distance,   y : 0, duration : split*2});
 
 
-      
+
       for(var effect in moveEffects)
       {
         counter++;

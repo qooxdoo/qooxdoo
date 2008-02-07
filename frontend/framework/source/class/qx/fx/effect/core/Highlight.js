@@ -57,7 +57,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
         init : "#ffffff",
         check : "Color"
       },
-      
+
       endColor :
       {
         init : "#ffffaa",
