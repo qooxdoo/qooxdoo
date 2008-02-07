@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-
-************************************************************************ */
-
 /**
  * The image preloader can be used to fill the browser cache with images,
  * which are needed later. Once all images are pre loaded a "complete"

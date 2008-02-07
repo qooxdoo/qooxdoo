@@ -34,13 +34,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.fx.Base)
-#require(qx.fx.Transition)
-
-************************************************************************ */
-
 /**
  * TODO
  */
@@ -66,7 +59,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       1 : new qx.fx.effect.core.Highlight(this._element),
       2 : new qx.fx.effect.core.Highlight(this._element)
     };
-  
+
   },
 
   /*
