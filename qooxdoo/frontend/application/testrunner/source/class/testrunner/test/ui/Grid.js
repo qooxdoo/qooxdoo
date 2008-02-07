@@ -126,9 +126,9 @@ qx.Class.define("testrunner.test.ui.Grid",
       // layout:
       // ab
       // cd
-      a.setVisibility("hide");
-      b.setVisibility("hide");
-      c.setVisibility("hide");
+      a.setVisibility("hidden");
+      b.setVisibility("hidden");
+      c.setVisibility("hidden");
       this.assertSize(this._gridWidget, 420, 210);
       this.assertStyle(a, "display", "none");
       this.assertStyle(b, "display", "none");
@@ -137,9 +137,9 @@ qx.Class.define("testrunner.test.ui.Grid",
 
       // layout:
       // ab
-      b.setVisibility("show");
-      c.setVisibility("exclude");
-      d.setVisibility("exclude");
+      b.setVisibility("visible");
+      c.setVisibility("excluded");
+      d.setVisibility("excluded");
       this.assertSize(this._gridWidget, 420, 100);
       this.assertStyle(b, "display", "");
       this.assertStyle(c, "display", "none");
@@ -147,10 +147,10 @@ qx.Class.define("testrunner.test.ui.Grid",
 
       // layout:
       // cd
-      a.setVisibility("exclude");
-      b.setVisibility("exclude");
-      c.setVisibility("show");
-      d.setVisibility("show");
+      a.setVisibility("excluded");
+      b.setVisibility("excluded");
+      c.setVisibility("visible");
+      d.setVisibility("visible");
       this.assertSize(this._gridWidget, 420, 110);
       this.assertStyle(b, "display", "none");
       this.assertStyle(b, "display", "none");

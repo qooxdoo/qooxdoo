@@ -88,8 +88,13 @@ qx.Class.define("testrunner.test.bom.Basic",
       this.assertEquals("../foo.html", attrib.get(document.getElementById("test6"), "href"));
       //this.assertEquals("", attrib.get(document.getElementById("test6"), "style"));
       //this.assertEquals("", util.getCss(document.getElementById("test6")));
-      this.assertEquals("red", style.get(document.getElementById("test6"), "color"));
-      this.assertEquals("blue", style.get(document.getElementById("test6"), "backgroundColor"));
+
+      var test6Color = style.get(document.getElementById("test6"), "color");
+      this.assert(test6Color == "red" || test6Color == "rgb(255, 0, 0)", test6Color);
+
+      var test6BackgroundColor = style.get(document.getElementById("test6"), "backgroundColor");
+      this.assert(test6BackgroundColor == "blue" || test6BackgroundColor == "rgb(0, 0, 255)", test6BackgroundColor);
+
       this.assertEquals("", style.get(document.getElementById("test6"), "font"));
       this.assertEquals("serif", style.get(document.getElementById("test6"), "fontFamily"));
       this.assertEquals("Foo-Link", attrib.get(document.getElementById("test6"), "text"));
@@ -103,69 +108,16 @@ qx.Class.define("testrunner.test.bom.Basic",
       this.info("test8");
       style.set(document.getElementById("test8"), "color", "red");
       style.set(document.getElementById("test8"), "backgroundColor", "black");
+
       opac.set(document.getElementById("test8"), 0.5);
-      this.assertEquals("red", style.get(document.getElementById("test8"), "color"));
-      this.assertEquals("black", style.get(document.getElementById("test8"), "backgroundColor"));
+
+      var test8Color = style.get(document.getElementById("test8"), "color");
+      this.assert(test8Color == "red" || test8Color == "rgb(255, 0, 0)" );
+
+      var test8BackgroundColor = style.get(document.getElementById("test8"), "backgroundColor");
+      this.assert(test8BackgroundColor == "black" || test8BackgroundColor == "rgb(0, 0, 0)", test8BackgroundColor);
+
       this.assertEquals(0.5, opac.get(document.getElementById("test8")));
-    },
-
-
-    testGeneric : function()
-    {
-      var gen = qx.legacy.html.Element;
-
-      var test1 = document.getElementById("test1");
-
-      this.assertEquals("hello world", gen.get(test1, "class"));
-      this.assertEquals("hello world title", gen.get(test1, "title"));
-
-      var test2 = document.getElementById("test2");
-      this.assertEquals("foo2", gen.get(test2, "name"));
-      this.assertEquals("hello", gen.get(test2, "value"));
-      this.assertEquals("text", gen.get(test2, "type"));
-      this.assertEquals(20, gen.get(test2, "maxlength"));
-
-      var test3 = document.getElementById("test3");
-      this.assertEquals("foo3", gen.get(test3, "name"));
-      this.assertEquals("bar", gen.get(test3, "value"));
-      this.assertEquals("checkbox", gen.get(test3, "type"));
-      this.assertEquals(true, gen.get(test3, "checked"));
-      this.assertEquals(false, gen.get(test3, "disabled"));
-      this.assertEquals(2, gen.get(test3, "tabindex"));
-
-      this.info("test4");
-      this.assertEquals(true, gen.get(document.getElementById("test4"), "disabled"));
-      this.assertEquals(false, gen.get(document.getElementById("test4"), "readonly"));
-
-      this.info("test5");
-      this.assertEquals(true, gen.get(document.getElementById("test5"), "disabled"));
-      this.assertEquals(true, gen.get(document.getElementById("test5"), "readonly"));
-
-      this.info("test6");
-      this.assertEquals("../foo.html", gen.get(document.getElementById("test6"), "href"));
-      //this.assertEquals("", attrib.get(document.getElementById("test6"), "style"));
-      //this.assertEquals("", util.getCss(document.getElementById("test6")));
-      this.assertEquals("red", gen.get(document.getElementById("test6"), "color"));
-      this.assertEquals("blue", gen.get(document.getElementById("test6"), "backgroundColor"));
-      this.assertEquals("", gen.get(document.getElementById("test6"), "font"));
-      this.assertEquals("serif", gen.get(document.getElementById("test6"), "fontFamily"));
-      this.assertEquals("Foo-Link", gen.get(document.getElementById("test6"), "text"));
-      this.assertEquals("<b>Foo</b>-Link", gen.get(document.getElementById("test6"), "html"));
-      this.assertEquals(1, gen.get(document.getElementById("test6"), "opacity"));
-
-      this.info("test7");
-      var test7 = document.getElementById("test7");
-      this.assertEquals("bottom", gen.get(test7, "valign"));
-      this.assertEquals(3, gen.get(test7.getElementsByTagName("td")[0], "colspan"));
-
-      this.info("test8");
-      var test8 = document.getElementById("test8");
-      gen.set(test8, "color", "red");
-      gen.set(test8, "backgroundColor", "black");
-      gen.set(test8, "opacity", 0.5);
-      this.assertEquals("red", gen.get(test8, "color"));
-      this.assertEquals("black", gen.get(test8, "backgroundColor"));
-      this.assertEquals(0.5, gen.get(test8, "opacity"), "Test8");
     }
 
   }
