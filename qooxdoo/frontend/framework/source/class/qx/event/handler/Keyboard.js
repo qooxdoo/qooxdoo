@@ -309,7 +309,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var type = domEvent.type;
 
         // FF repeats under windows keydown events like IE
-        if (qx.legacy.core.Client.getInstance().runsOnWindows())
+        if (qx.bom.client.Platform.WIN)
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
@@ -382,7 +382,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var type = domEvent.type;
 
         // FF repeats under windows keydown events like IE
-        if (qx.legacy.core.Client.getInstance().runsOnWindows())
+        if (qx.bom.client.Platform.WIN)
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
