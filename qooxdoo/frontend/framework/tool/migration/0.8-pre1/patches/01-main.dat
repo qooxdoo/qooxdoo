@@ -158,3 +158,4 @@ qx\.Theme=qx.legacy.Theme
 \bqx\.util\.Normalization\b=qx.util.Normalization
 \bqx\.util\.Mime\b=qx.util.Mime
 \bqx\.util\.Compare\b=qx.util.Compare
+\bqx\.dev\.TimeTracker\b=qx.legacy.dev.TimeTracker
