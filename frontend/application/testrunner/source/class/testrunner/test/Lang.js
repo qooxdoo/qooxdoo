@@ -221,7 +221,7 @@ qx.Class.define("testrunner.test.Lang",
       this.assertEquals(4, result);
 
       context = null;
-      var addOne = qx.lang.Function.bind(add, this, [1], false);
+      var addOne = qx.lang.Function.bind(add, this, 1);
       result = addOne(4);
       this.assertEquals(context, this);
       this.assertEquals(5, result);

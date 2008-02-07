@@ -402,7 +402,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     _initMouseObserver : function()
     {
-      this._onNativeMouseDownWrapper = qx.lang.Function.bind(this._onNativeMouseDown, this);
+      this._onNativeMouseDownWrapper = qx.lang.Function.listener(this._onNativeMouseDown, this);
       qx.event.Registration.addNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
     },
 
@@ -419,8 +419,8 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function()
       {
         // Bind methods
-        this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
-        this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
+        this._onNativeFocusWrapper = qx.lang.Function.listener(this._onNativeFocus, this);
+        this._onNativeBlurWrapper = qx.lang.Function.listener(this._onNativeBlur, this);
 
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
@@ -431,8 +431,8 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function()
       {
         // Bind methods
-        this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
-        this._onNativeFocusOutWrapper = qx.lang.Function.bind(this._onNativeFocusOut, this);
+        this._onNativeFocusInWrapper = qx.lang.Function.listener(this._onNativeFocusIn, this);
+        this._onNativeFocusOutWrapper = qx.lang.Function.listener(this._onNativeFocusOut, this);
 
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
@@ -445,10 +445,10 @@ qx.Class.define("qx.event.handler.Focus",
       "webkit|opera" : function()
       {
         // Bind methods
-        this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
-        this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
-        this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
-        this._onNativeFocusOutWrapper = qx.lang.Function.bind(this._onNativeFocusOut, this);
+        this._onNativeFocusWrapper = qx.lang.Function.listener(this._onNativeFocus, this);
+        this._onNativeBlurWrapper = qx.lang.Function.listener(this._onNativeBlur, this);
+        this._onNativeFocusInWrapper = qx.lang.Function.listener(this._onNativeFocusIn, this);
+        this._onNativeFocusOutWrapper = qx.lang.Function.listener(this._onNativeFocusOut, this);
 
         // Opera 9.2 ignores the event when capturing is enabled
         this._window.addEventListener("focus", this._onNativeFocusWrapper, false);
