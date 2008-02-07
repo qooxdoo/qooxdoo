@@ -376,7 +376,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {var} TODOC
      */
     getIframeWindow : function() {
-      return qx.legacy.html.Iframe.getWindow(this._frame);
+      return qx.bom.Iframe.getWindow(this._frame);
     },
 
 
@@ -387,7 +387,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {var} TODOC
      */
     getIframeDocument : function() {
-      return qx.legacy.html.Iframe.getDocument(this._frame);
+      return qx.bom.Iframe.getDocument(this._frame);
     },
 
 
@@ -398,7 +398,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {var} TODOC
      */
     getIframeBody : function() {
-      return qx.legacy.html.Iframe.getBody(this._frame);
+      return qx.bom.Iframe.getBody(this._frame);
     },
 
 

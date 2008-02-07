@@ -72,7 +72,7 @@ qx.Class.define("qx.Interface",
      *
      *   events :
      *   {
-     *     keydown : "qx.legacy.event.type.KeyEvent"
+     *     keydown : "qx.event.type.KeyEvent"
      *   }
      * });
      * </pre>
