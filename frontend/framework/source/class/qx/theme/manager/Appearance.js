@@ -112,7 +112,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       var app = qx.core.Init.getInstance().getApplication();
 
       if (app && app.getUiReady()) {
-        qx.legacy.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
+        qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
       }
 
       if (this._oldTheme) {
