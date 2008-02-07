@@ -1,3 +1,7 @@
+/*
+#require(qx.event.handler.Window)
+*/
+
 qx.Class.define("qx.log2.Console",
 {
   statics :
@@ -7,7 +11,7 @@ qx.Class.define("qx.log2.Console",
       // Build style sheet content
       var style = 
       [
-        '.qxconsole{width:500px;height:200px;top:4px;right:4px;position:absolute;border:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
+        '.qxconsole{z-index:10000;width:500px;height:200px;top:4px;right:4px;position:absolute;border:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
         '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
         '.qxconsole .control a{text-decoration:none;color:black;}',        
         '.qxconsole .messages{background:white;height:100%;width:100%;overflow-y:scroll;}',        
@@ -101,13 +105,9 @@ qx.Class.define("qx.log2.Console",
         return;
       }
       
-      if (window.execScript) {
-        var ret = window.execScript(value);
-      } else {
-        var ret = window.eval(value);
-      }
-      
       qx.log2.Logger.debug(">>> " + value)
+      
+      var ret = qx.lang.Function.globalEval(value);
       qx.log2.Logger.debug(ret);
     },
     
@@ -166,7 +166,7 @@ qx.Class.define("qx.log2.Console",
   
   defer : function(statics) 
   {
-    // qx.event.Registration.addListener(window, "load", statics.init, statics);
-    // qx.event.Registration.addListener(window, "unload", statics.dispose, statics);    
+    qx.event.Registration.addListener(window, "load", statics.init, statics);
+    qx.event.Registration.addListener(window, "unload", statics.dispose, statics);    
   }
 });
