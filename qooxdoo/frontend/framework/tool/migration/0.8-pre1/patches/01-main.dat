@@ -36,16 +36,6 @@
 \bqx\.xml\.Document\.isDocument\b=qx.dom.Node.isDocument
 
 
-
-#
-# Remove qx.client namespace
-#
-
-\bqx\.client\.Command\b=qx.event.Command
-\bqx\.client\.History\b=qx.bom.History
-\bqx\.client\.Timer\b=qx.event.Timer
-
-
 #
 # Remove qx.net namespace
 #
@@ -78,6 +68,20 @@
 \bqx\.io\.image\b=qx.legacy.io.image
 \bqx\.application\b=qx.legacy.application
 \bqx\.theme\b=qx.legacy.theme
+
+
+
+
+#
+# Remove qx.client namespace
+#
+
+\bqx\.client\.Command\b=qx.event.Command
+\bqx\.client\.History\b=qx.bom.History
+\bqx\.client\.Timer\b=qx.event.Timer
+
+
+
 
 
 #
@@ -151,11 +155,11 @@ qx\.Theme=qx.legacy.Theme
 \bqx\.core\.MLegacyInit\b=qx.legacy.core.MLegacyInit
 \bqx\.util\.GuiBuilder\b=qx.legacy.util.GuiBuilder
 
-\bqx\.util\.Validation\b=qx.util.Validation
-\bqx\.util\.Type\b=qx.util.Type
-\bqx\.util\.Protocol\b=qx.util.Protocol
-\bqx\.util\.Http\b=qx.util.Http
-\bqx\.util\.Normalization\b=qx.util.Normalization
-\bqx\.util\.Mime\b=qx.util.Mime
-\bqx\.util\.Compare\b=qx.util.Compare
+\bqx\.util\.Validation\b=qx.legacy.util.Validation
+\bqx\.util\.Type\b=qx.legacy.util.Type
+\bqx\.util\.Protocol\b=qx.legacy.util.Protocol
+\bqx\.util\.Http\b=qx.legacy.util.Http
+\bqx\.util\.Normalization\b=qx.legacy.util.Normalization
+\bqx\.util\.Mime\b=qx.legacy.util.Mime
+\bqx\.util\.Compare\b=qx.legacy.util.Compare
 \bqx\.dev\.TimeTracker\b=qx.legacy.dev.TimeTracker
