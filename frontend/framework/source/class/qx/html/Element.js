@@ -802,6 +802,16 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Returns whether the element has any child nodes
+     *
+     *  @return {Boolean} Whether the element has any child nodes
+     */
+    hasChildren : function() {
+      return this._children[0] == undefined;
+    },
+
+
+    /**
      * Find the position of the given child
      *
      * @type member
