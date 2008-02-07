@@ -162,3 +162,4 @@ qx\.Theme=qx.legacy.Theme
 \bqx\.util\.Compare\b=qx.legacy.util.Compare
 \bqx\.util\.ThemeList\b=qx.legacy.util.ThemeList
 \bqx\.dev\.TimeTracker\b=qx.legacy.dev.TimeTracker
+\bqx\.util\.range\.IntegerRange\b=qx.legacy.util.IntegerRange

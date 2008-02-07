@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(core)
 #require(qx.core.Setting)
 #require(qx.lang.Object)
 #optional(qx.Interface)
@@ -945,7 +944,7 @@ qx.Bootstrap.define("qx.Class",
       // Store names in constructor/object
       clazz.name = clazz.classname = name;
       clazz.basename = basename;
-      
+
       // Store type info
       clazz.$$type = "Class";
 
