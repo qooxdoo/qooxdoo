@@ -93,13 +93,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
       apply : "_applyFocusedChild",
       event : "changeFocusedChild",
       nullable : true
-    },
-
-    /** all visible child widgets */
-    visibleChildren :
-    {
-      _cached      : true,
-      defaultValue : null
     }
   },
 
@@ -1440,6 +1433,9 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
   defer : function(statics, members, properties)
   {
+    qx.legacy.core.Property.addCachedProperty({ name : "visibleChildren", _cached : true, defaultValue : null }, members);
+
+
     // TODO There must be a better way than to define this in defer
 
     // Fix Operas Rendering Bugs
