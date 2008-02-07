@@ -23,12 +23,6 @@
 
       {
         "encoding" : "utf-8",
-        "path" : "application/webmail/source",
-        "uri" : "../source"
-      },
-
-      {
-        "encoding" : "utf-8",
         "path" : "application/showcase/source",
         "uri" : "../source"
       }
@@ -49,7 +43,41 @@
   
   
 
+  "compile-log2" : 
+  {
+    "extend" : ["common"],
+    
+    "include" : ["qx.log2.Logger"],
 
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+    
+    "compile" :
+    {
+      "file" : "compile-log2.js",
+      "optimize" : [ "variables", "basecalls" ]
+    }    
+  },
+
+  "compile-bom" : 
+  {
+    "extend" : ["common"],
+    
+    "include" : ["qx.bom.Element"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+    
+    "compile" :
+    {
+      "file" : "compile-bom.js",
+      "optimize" : [ "variables", "basecalls" ]
+    }    
+  },
 
 
 
