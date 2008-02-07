@@ -22,9 +22,9 @@
   
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = qx.ui.core.ClientDocument.getInstance();
+    var doc = qx.legacy.ui.core.ClientDocument.getInstance();
   	myElement = qx.bom.Element.create('div', { style : elementStyle });
-  	var doc = qx.ui.core.ClientDocument.getInstance();
+  	var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
   	document.body.appendChild(myElement);
   
@@ -43,13 +43,13 @@
       pulse       : "Alternates between start and end. Looks only nice on color effects."
     };
 
-		var combo = new qx.ui.form.ComboBox;
-  	var btnShow = new qx.ui.form.Button("Show it!");
-    var lblName = new qx.ui.basic.Label("Name");
-    var lblDesc = new qx.ui.basic.Label("Description");
-    var lblDur = new qx.ui.basic.Label("Duration");
-    var textDesc = new qx.ui.embed.TextEmbed;
-    var spDuration = new qx.ui.form.Spinner;
+		var combo = new qx.legacy.ui.form.ComboBox;
+  	var btnShow = new qx.legacy.ui.form.Button("Show it!");
+    var lblName = new qx.legacy.ui.basic.Label("Name");
+    var lblDesc = new qx.legacy.ui.basic.Label("Description");
+    var lblDur = new qx.legacy.ui.basic.Label("Duration");
+    var textDesc = new qx.legacy.ui.embed.TextEmbed;
+    var spDuration = new qx.legacy.ui.form.Spinner;
 
 		lblName.setLocation(25, 50);
 		lblDesc.setLocation(25, 75);
@@ -62,7 +62,7 @@
 		btnShow.setLocation(23, 100);
 
 		for (var transition in transitionData) {
-			combo.add(new qx.ui.form.ListItem(transition));
+			combo.add(new qx.legacy.ui.form.ListItem(transition));
 		}
 
     combo.addListener("changeValue", function(){
