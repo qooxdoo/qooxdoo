@@ -21,7 +21,6 @@
 
 /* ************************************************************************
 
-#module(core)
 #require(qx.core.Setting)
 #require(qx.bom.client.Engine)
 

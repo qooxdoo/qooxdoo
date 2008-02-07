@@ -48,12 +48,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(event)
-
-************************************************************************ */
-
 /**
  * This handler provides a cross-browser "domready" event which fires when
  * the DOM is completely loaded, but the content e.g. images are still

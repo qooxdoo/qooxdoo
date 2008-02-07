@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(core)
 #optional(qx.Interface)
 #use(qx.event.type.Change)
 

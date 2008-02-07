@@ -19,8 +19,6 @@
 
 /* ************************************************************************
 
-#module(event)
-
 #require(qx.event.handler.Focus)
 #require(qx.event.handler.Window)
 #require(qx.event.handler.Capture)

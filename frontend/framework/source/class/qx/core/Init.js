@@ -20,13 +20,9 @@
 
 /* ************************************************************************
 
-#module(core)
-#optional(qx.Theme)
-#optional(qx.locale.Manager)
 #optional(qx.bom.client.Engine)
 #optional(qx.bom.client.Platform)
 #optional(qx.bom.client.System)
-#optional(qx.bom.client.Flash)
 
 #require(qx.event.Registration)
 #require(qx.event.handler.Window)
