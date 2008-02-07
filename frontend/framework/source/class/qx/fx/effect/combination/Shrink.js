@@ -73,23 +73,23 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
   properties :
   {
 
-    direction : 
+    direction :
     {
       init : "center",
       check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ]
     },
-    
-    moveTransition : 
+
+    moveTransition :
     {
       init : null,
       check : "Function"
     },
-    
-    scaleTransition : 
+
+    scaleTransition :
     {
       init : null,
       check : "Function"
-    },
+    }
 
   },
 
@@ -184,7 +184,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         moveEffect,
         scaleEffect
       ]);
-      
+
       this._effect.start();
 
     }

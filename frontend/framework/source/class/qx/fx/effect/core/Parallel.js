@@ -41,7 +41,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 {
 
   extend : qx.fx.Base,
-  
+
   /*
    *****************************************************************************
       CONSTRUCTOR
@@ -53,7 +53,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     this.base(arguments);
     this.setEffects(effects);
   },
-  
+
   /*
    *****************************************************************************
       PROPERTIES
@@ -122,7 +122,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
       var effects = this.getEffects();
 
       for (var i=0; i<effects.length; i++) {
-        effects[i].start()
+        effects[i].start();
       }
     }
 

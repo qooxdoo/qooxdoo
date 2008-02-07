@@ -89,7 +89,7 @@ qx.Class.define("qx.fx.effect.core.Move",
       this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box");
       this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
 
-      if (this.getMode == 'absolute') {
+      if (this.getMode() == 'absolute') {
         this._x = this.getX() - this._originalLeft;
         this._y = this.getY() - this._originalTop;
       }else{

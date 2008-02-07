@@ -60,19 +60,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     this.base(arguments, element);
 
     this._outerScaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._outerScaleEffect.set({
-      scaleTo : 5,
-      scaleContent: false,
-      scaleX: false
-    });
-
-
     this._innerScaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._innerScaleEffect.set({
-      scaleTo : 5,
-      scaleContent: false,
-      scaleY: false
-    });
 
     var innerScaleEffectReference = this._innerScaleEffect;
 
@@ -82,15 +70,6 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
   },
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
   /*
    *****************************************************************************
@@ -101,11 +80,11 @@ qx.Class.define("qx.fx.effect.combination.Fold",
    members :
    {
 
-    setup : function()
+    start : function()
     {
       this.base(arguments);
 
-      this._oldStyle = {
+      var oldStyle = {
         top    : qx.bom.element.Location.getTop(this._element, "scroll"),
         left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
         width  : qx.bom.element.Dimension.getWidth(this._element),
@@ -113,22 +92,28 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       };
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
 
-      var oldStyleReference = this._oldStyle;
-
       this._innerScaleEffect.afterFinishInternal = function(effect)
       {
         qx.bom.element.Style.set(this._element, "display", "none");
         qx.bom.element.Style.set(this._element, "overflow", "visible");
-        for (var property in oldStyleReference) {
-          qx.bom.element.Style.set(this._element, property, oldStyleReference[property]);
+
+        for (var property in oldStyle) {
+          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
         }
       };
 
-    },
+      this._outerScaleEffect.set({
+        scaleTo : 5,
+        scaleContent: false,
+        scaleX: false
+      });
 
-    start : function()
-    {
-      this.base(arguments);
+      this._innerScaleEffect.set({
+        scaleTo : 5,
+        scaleContent: false,
+        scaleY: false
+      });
+
       this._outerScaleEffect.start();
     }
 
