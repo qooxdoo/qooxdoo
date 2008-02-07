@@ -37,7 +37,7 @@ def extractMonth(calendarElement):
     		monthType = monthWidth.attrib["type"]
     		for month in monthWidth.findall("month"):
     			if month.attrib.has_key("alt"): continue
-    			data["month_%s_%s" % (monthType, month.attrib["type"])] = month.text
+    			data["cldr_month_%s_%s" % (monthType, month.attrib["type"])] = month.text
     return data
 
 
@@ -47,7 +47,7 @@ def extractDay(calendarElement):
     	dayType = dayWidth.attrib["type"]
     	for day in dayWidth.findall("day"):
     		if day.attrib.has_key("alt"): continue
-    		data['day_%s_%s' % (dayType, day.attrib["type"])] = day.text
+    		data['cldr_day_%s_%s' % (dayType, day.attrib["type"])] = day.text
     return data
 
 
@@ -60,11 +60,11 @@ def extractAmPm(calendarElement):
 
     amNode = calendarElement.find(".//am")
     if amNode != None:
-    	data['am'] = amNode.text
+    	data['cldr_am'] = amNode.text
 
     pmNode = calendarElement.find(".//pm")
     if pmNode != None:
-    	data["pm"] = pmNode.text
+    	data["cldr_pm"] = pmNode.text
 
     return data
 
@@ -75,7 +75,7 @@ def extractDateFormat(calendarElement):
     	dateType = dateFormatLength.attrib["type"]
     	for dateFormat in dateFormatLength.findall("dateFormat/pattern"):
     		if dateFormat.attrib.has_key("alt"): continue
-    		data['date_format_%s'% dateType] = dateFormat.text
+    		data['cldr_date_format_%s'% dateType] = dateFormat.text
     return data
 
 
@@ -85,14 +85,14 @@ def extractTimeFormat(calendarElement):
     	timeType = timeFormatLength.attrib["type"]
     	for timeFormat in timeFormatLength.findall("timeFormat/pattern"):
     		if timeFormat.attrib.has_key("alt"): continue
-    		data['time_format_%s' % timeType] = timeFormat.text
+    		data['cldr_time_format_%s' % timeType] = timeFormat.text
     return data
 
 
 def extractDateTimeFormat(calendarElement):
     data = {}
     for dateTimeFormat in calendarElement.findall(".//dateFormatItem"):
-    	data["date_time_format_%s" % dateTimeFormat.attrib["id"]] = dateTimeFormat.text
+    	data["cldr_date_time_format_%s" % dateTimeFormat.attrib["id"]] = dateTimeFormat.text
     return data
 
 
@@ -118,16 +118,16 @@ def extractNumber(tree):
 
     decimalSeparatorNode = tree.find("numbers/symbols/decimal")
     if decimalSeparatorNode != None:
-    	data['number_decimal_separator'] = decimalSeparatorNode.text
+    	data['cldr_number_decimal_separator'] = decimalSeparatorNode.text
 
     groupSeparator = ","
     groupSeparatorNode = tree.find("numbers/symbols/group")
     if groupSeparatorNode != None:
-    	data['number_group_separator'] = groupSeparatorNode.text
+    	data['cldr_number_group_separator'] = groupSeparatorNode.text
 
     percentFormatNode = tree.find("numbers/percentFormats/percentFormatLength/percentFormat/pattern")
     if percentFormatNode != None:
-    	data['number_percent_format'] = percentFormatNode.text
+    	data['cldr_number_percent_format'] = percentFormatNode.text
 
     return data
 

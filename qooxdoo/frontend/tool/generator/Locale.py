@@ -18,14 +18,14 @@ class Locale:
         self._console.debug("Generating localization data...")
         self._console.indent()
 
-        data = []
+        data = {}
         root = os.path.join(filetool.root(), "data", "cldr", "main")
         for entry in locales:
             self._console.debug("Processing locale: %s" % entry)
-            data.append(cldr.parseCldrFile(os.path.join(root, "%s.xml" % entry)))
+            data[entry] = cldr.parseCldrFile(os.path.join(root, "%s.xml" % entry))
 
         self._console.outdent()
-        return "".join(data)
+        return data
 
 
 
@@ -143,7 +143,8 @@ class Locale:
                 result.update(self.entriesToDict(translated))
 
             self._console.debug("Formatting %s entries" % len(result))
-            blocks[entry] = self.msgfmt(result)
+            #blocks[entry] = self.msgfmt(result)
+            blocks[entry] = result
             self._console.outdent()
 
         return blocks

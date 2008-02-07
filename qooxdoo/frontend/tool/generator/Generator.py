@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import re, os, sys, zlib, optparse
+import re, os, sys, zlib, optparse, types
 
 from misc import filetool, textutil, idlist
 from ecmascript import treegenerator, tokenizer, compiler
@@ -32,6 +32,7 @@ from generator.PartBuilder import PartBuilder
 from generator.TreeLoader import TreeLoader
 from generator.TreeCompiler import TreeCompiler
 from generator.LibraryPath import LibraryPath
+import simplejson
 
 
 class Generator:
@@ -62,19 +63,25 @@ class Generator:
 
 
     def _mergeDicts(self, source1, source2):
-        target = {}
-
-        for key in source1:
-            if not target.has_key(key):
-                target[key] = []
-
-            target[key].extend(source1[key])
+        """(non-destructive) merge source2 map into source1, but don't overwrite
+           existing keys in source1 (unlike source1.update(source2)); on common
+           keys, use .update() on dict values and .extend() on list values"""
+        target = source1.copy()
 
         for key in source2:
             if not target.has_key(key):
-                target[key] = []
-
-            target[key].extend(source2[key])
+                target[key] = source2[key]
+            # dict value: update
+            elif (isinstance(source2[key], types.DictType) and
+                  isinstance(target[key], types.DictType)):
+                target[key].update(source2[key])
+            # list value: append
+            elif (isinstance(source2[key], types.ListType) and
+                  isinstance(target[key], types.ListType)):
+                target[key].extend(source2[key])
+            # leave everything else in target alone
+            else:
+                pass
 
         return target
 
@@ -169,7 +176,7 @@ class Generator:
 
             # Execute real tasks
             self.runApiData(packages)
-            self.runTranslation(parts, packages, variants)
+            self._translationMaps = self.runTranslation(parts, packages, variants)
             self.runSource(parts, packages, boot, variants)
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
@@ -253,7 +260,9 @@ class Generator:
             self._console.debug("Package: %s" % pos)
             self._console.indent()
             
-            packageTranslation.append(self._locale.generatePackageData(classes, variants, locales))
+            pac_dat = self._locale.generatePackageData(classes, variants, locales)
+            loc_dat = self._locale.getLocalizationData(locales)
+            packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
             
             self._console.outdent()
 
@@ -359,6 +368,7 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
+        sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
         if format:
@@ -448,7 +458,21 @@ class Generator:
 
         return result
 
-
+        
+    def generateTranslationCode(self, translationMaps, format=False):
+        result = 'if(!window.qxlocales)qxlocales={};'
+        locales = translationMaps[0]  # TODO: just one currently
+        
+        for key in locales:
+            if format:
+                result += "\n"
+            
+            value = locales[key]
+            result += 'qxlocales["%s"]=' % (key,)
+            result += simplejson.dumps(value)
+            result += ';'
+            
+        return result
 
     def generateSourcePackageCode(self, parts, packages, boot, format=False):
         if not parts:
