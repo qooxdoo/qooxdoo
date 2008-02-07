@@ -288,9 +288,9 @@ qx.Class.define("qx.ui.layout.Abstract",
     {
       var parent = this.getWidget();
       if (parent) {
-        widget.nativeRemoveFromParent();
+        widget.nativeRemoveFromParent(parent);
       }
-      this.setParent(null);
+      widget.setParent(null);
     },
 
 
