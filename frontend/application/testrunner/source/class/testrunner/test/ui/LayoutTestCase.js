@@ -61,7 +61,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     assertStyle : function(widget, style, value)
     {
       qx.ui.core.QueueManager.flush();
-      var widgetStyle = widget.getElement()._element.style[style];
+      var widgetStyle = widget._containerElement._element.style[style];
       this.assertEquals(value, widgetStyle);
     }
 

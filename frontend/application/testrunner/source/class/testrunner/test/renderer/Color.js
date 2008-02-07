@@ -68,10 +68,10 @@ qx.Class.define("testrunner.test.renderer.Color",
         Error,
         "Could not convert system colors to RGB"
       );
+    }
 
-    },
 
-
+/*
     testThemedColors : function()
     {
       var colorMgr = qx.theme.manager.Color.getInstance();
@@ -85,6 +85,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       colorMgr.setColorTheme(oldTheme);
     }
+*/
 
   }
 });

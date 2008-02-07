@@ -43,31 +43,6 @@ qx.Class.define("testrunner.test.Class",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    testSameNameClasses : function()
-    {
-      qx.Class.define("testrunner.Same",
-      {
-        extend    : Object,
-        construct : function() {}
-      });
-
-      this.assertExceptionDebugOn(function()
-      {
-        qx.Class.define("testrunner.Same",
-        {
-          extend    : Object,
-          construct : function() {}
-        });
-      },
-      Error, "An object of the name 'testrunner.Same' already exists and overwriting is not allowed!");
-    },
-
 
     /**
      * TODOC
