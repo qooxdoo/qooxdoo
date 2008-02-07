@@ -227,7 +227,7 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
      */
     __queryThemes : function(key)
     {
-      var reg = qx.legacy.theme.getAll();
+      var reg = qx.Theme.getAll();
       var theme;
       var list = [];
 
