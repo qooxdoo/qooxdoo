@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(log)
-
-************************************************************************ */
-
 /**
  * An appender that writes all messages to a memory container. The messages
  * can be retrieved later, f. i. when an error dialog pops up and the question

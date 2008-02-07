@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(core)
-
-************************************************************************ */
-
 /**
  * The intention of this class is to add features to native JavaScript
  * objects so that all browsers operate on a common JavaScript language level
