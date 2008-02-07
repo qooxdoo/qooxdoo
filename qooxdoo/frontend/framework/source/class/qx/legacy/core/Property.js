@@ -56,7 +56,9 @@ qx.Class.define("qx.legacy.core.Property",
       var vName = config.name;
       var vUpName = qx.lang.String.firstUp(vName);
 
-      console.info("FastProperty: " + vName + " to " + proto.constructor.classname);
+      if (config._fast) {
+        console.warn("FastProperty: " + vName + " to " + proto.constructor.classname);
+      }
 
       var vStorageField = "_value" + vUpName;
       var vGetterName = "get" + vUpName;
@@ -137,7 +139,9 @@ qx.Class.define("qx.legacy.core.Property",
       var vComputerName = "_compute" + vUpName;
       var vChangeName = "_change" + vUpName;
 
-      console.info("CachedProperty: " + vName + " to " + proto.constructor.classname);
+      if (config._cached) {
+        console.warn("CachedProperty: " + vName + " to " + proto.constructor.classname);
+      }
 
       if (typeof config.defaultValue !== "undefined") {
         proto[vStorageField] = config.defaultValue;
