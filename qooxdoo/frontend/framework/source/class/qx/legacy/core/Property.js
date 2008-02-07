@@ -63,47 +63,56 @@ qx.Class.define("qx.legacy.core.Property",
 
       proto[vStorageField] = typeof config.defaultValue !== "undefined" ? config.defaultValue : null;
 
-      if (config.noCompute)
+      if (!proto.hasOwnProperty(vGetterName))
       {
-        proto[vGetterName] = function() {
-          return this[vStorageField];
-        };
-      }
-      else
-      {
-        proto[vGetterName] = function() {
-          return this[vStorageField] == null ? this[vStorageField] = this[vComputerName]() : this[vStorageField];
-        };
-      }
-
-      proto[vGetterName].self = proto.constructor;
-
-      if (config.setOnlyOnce)
-      {
-        proto[vSetterName] = function(vValue)
+        if (config.noCompute)
         {
-          this[vStorageField] = vValue;
-          this[vSetterName] = null;
+          proto[vGetterName] = function() {
+            return this[vStorageField];
+          };
+        }
+        else
+        {
+          proto[vGetterName] = function() {
+            return this[vStorageField] == null ? this[vStorageField] = this[vComputerName]() : this[vStorageField];
+          };
+        }
 
-          return vValue;
-        };
+        proto[vGetterName].self = proto.constructor;
       }
-      else
+
+      if (!proto.hasOwnProperty(vSetterName))
       {
-        proto[vSetterName] = function(vValue) {
-          return this[vStorageField] = vValue;
-        };
+        if (config.setOnlyOnce)
+        {
+          proto[vSetterName] = function(vValue)
+          {
+            this[vStorageField] = vValue;
+            this[vSetterName] = null;
+
+            return vValue;
+          };
+        }
+        else
+        {
+          proto[vSetterName] = function(vValue) {
+            return this[vStorageField] = vValue;
+          };
+        }
+
+        proto[vSetterName].self = proto.constructor;
       }
 
-      proto[vSetterName].self = proto.constructor;
-
-      if (!config.noCompute)
+      if (!proto.hasOwnProperty(vComputerName))
       {
-        proto[vComputerName] = function() {
-          return null;
-        };
+        if (!config.noCompute)
+        {
+          proto[vComputerName] = function() {
+            return null;
+          };
 
-        proto[vComputerName].self = proto.constructor;
+          proto[vComputerName].self = proto.constructor;
+        }
       }
     },
 
@@ -122,56 +131,76 @@ qx.Class.define("qx.legacy.core.Property",
       var vName = config.name;
       var vUpName = qx.lang.String.firstUp(vName);
 
+      // Store property
+      proto.constructor.$$properties[vName] = config;
+
       var vStorageField = "_cached" + vUpName;
       var vComputerName = "_compute" + vUpName;
       var vChangeName = "_change" + vUpName;
+
+      console.info("CachedProperty: " + vName + " to " + proto.constructor.classname);
 
       if (typeof config.defaultValue !== "undefined") {
         proto[vStorageField] = config.defaultValue;
       }
 
-      proto["get" + vUpName] = function()
+      if (!proto.hasOwnProperty("get" + vUpName))
       {
-        if (this[vStorageField] == null) {
-          this[vStorageField] = this[vComputerName]();
-        }
-
-        return this[vStorageField];
-      };
-
-      proto["_invalidate" + vUpName] = function()
-      {
-        if (this[vStorageField] != null)
+        proto["get" + vUpName] = function()
         {
-          this[vStorageField] = null;
-
-          if (config.addToQueueRuntime) {
-            this.addToQueueRuntime(config.name);
+          if (this[vStorageField] == null) {
+            this[vStorageField] = this[vComputerName]();
           }
-        }
-      };
 
-      proto["_recompute" + vUpName] = function()
+          return this[vStorageField];
+        };
+      }
+
+      if (!proto.hasOwnProperty("_invalidate" + vUpName))
       {
-        var vOld = this[vStorageField];
-        var vNew = this[vComputerName]();
-
-        if (vNew != vOld)
+        proto["_invalidate" + vUpName] = function()
         {
-          this[vStorageField] = vNew;
-          this[vChangeName](vNew, vOld);
+          if (this[vStorageField] != null)
+          {
+            this[vStorageField] = null;
 
-          return true;
-        }
+            if (config.addToQueueRuntime) {
+              this.addToQueueRuntime(config.name);
+            }
+          }
+        };
+      }
 
-        return false;
-      };
+      if (!proto.hasOwnProperty("_recompute" + vUpName))
+      {
+        proto["_recompute" + vUpName] = function()
+        {
+          var vOld = this[vStorageField];
+          var vNew = this[vComputerName]();
 
-      proto[vChangeName] = function(vNew, vOld) {};
+          if (vNew != vOld)
+          {
+            this[vStorageField] = vNew;
+            this[vChangeName](vNew, vOld);
 
-      proto[vComputerName] = function() {
-        return null;
-      };
+            return true;
+          }
+
+          return false;
+        };
+      }
+
+      if (!proto.hasOwnProperty(vChangeName))
+      {
+        proto[vChangeName] = function(vNew, vOld) {};
+      }
+
+      if (!proto.hasOwnProperty(vComputerName))
+      {
+        proto[vComputerName] = function() {
+          return null;
+        };
+      }
 
       proto["get" + vUpName].self = proto.constructor;
       proto["_invalidate" + vUpName].self = proto.constructor;
