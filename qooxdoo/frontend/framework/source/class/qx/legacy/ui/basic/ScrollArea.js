@@ -43,7 +43,7 @@ qx.Class.define("qx.legacy.ui.basic.ScrollArea",
   {
     this.base(arguments);
 
-    this.__onscroll = qx.lang.Function.bind(this._onscroll, this, null, true);
+    this.__onscroll = qx.lang.Function.listener(this._onscroll, this);
   },
 
 

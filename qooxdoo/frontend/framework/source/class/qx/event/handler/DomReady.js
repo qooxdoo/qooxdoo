@@ -157,7 +157,7 @@ qx.Class.define("qx.event.handler.DomReady",
     _initWindowObserver : function()
     {
       var win = this._window;
-      var nativeWrapper = this._onNativeWrapper = qx.lang.Function.bind(this._onNative, this);
+      var nativeWrapper = this._onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
 
       // Using most native method supported by Mozilla and Opera >= 9.0
       if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {

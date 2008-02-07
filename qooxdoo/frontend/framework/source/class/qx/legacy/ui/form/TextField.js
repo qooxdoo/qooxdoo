@@ -64,7 +64,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     this.initSpellCheck();
 
     // Inline event wrapper
-    this.__oninput = qx.lang.Function.bind(this._oninputDom, this, null, true);
+    this.__oninput = qx.lang.Function.listener(this._oninputDom, this);
 
     // Add listeners
     this.addListener("blur", this._onblur);

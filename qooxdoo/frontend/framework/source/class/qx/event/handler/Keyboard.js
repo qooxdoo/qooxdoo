@@ -231,8 +231,8 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _initKeyObserver : function()
     {
-      this._onKeyUpDownWrapper = qx.lang.Function.bind(this._onKeyUpDown, this);
-      this._onKeyPressWrapper = qx.lang.Function.bind(this._onKeyPress, this);
+      this._onKeyUpDownWrapper = qx.lang.Function.listener(this._onKeyUpDown, this);
+      this._onKeyPressWrapper = qx.lang.Function.listener(this._onKeyPress, this);
 
       var Registration = qx.event.Registration;
 

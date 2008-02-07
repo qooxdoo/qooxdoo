@@ -151,7 +151,7 @@ qx.Class.define("qx.event.handler.Window",
      */
     _initWindowObserver : function()
     {
-      this._onNativeWrapper = qx.lang.Function.bind(this._onNative, this);
+      this._onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
 
       for (var key in this._eventTypes) {
         qx.event.Registration.addNativeListener(this._window, key, this._onNativeWrapper);

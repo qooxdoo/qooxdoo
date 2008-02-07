@@ -98,7 +98,7 @@ qx.Class.define("qx.event.handler.Element",
     registerEvent : function(target, type)
     {
       var elementId = qx.core.Object.toHashCode(target);
-      var listener = qx.lang.Function.bind(this._onNative, this, [elementId], false);
+      var listener = qx.lang.Function.listener(this._onNative, this, elementId);
 
       qx.event.Registration.addNativeListener(target, type, listener);
 
@@ -161,11 +161,11 @@ qx.Class.define("qx.event.handler.Element",
      * Default event handler.
      *
      * @type member
-     * @param elementId {Integer} element id of the current target
      * @param domEvent {Event} DOM event
+     * @param elementId {Integer} element id of the current target
      * @return {void}
      */
-    _onNative : function(elementId, domEvent)
+    _onNative : function(domEvent, elementId)
     {
       var event = qx.event.Registration.createEvent(qx.event.type.Dom, [domEvent]);
       event.setBubbles(false);
