@@ -224,36 +224,24 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     {
       check : "Boolean",
       init : true
-    },
+    }
+  },
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      LOCATIONS AND DIMENSIONS OF CHILDRENS CHILDREN:
-      CREATE VARIABLES
-    ---------------------------------------------------------------------------
-    */
-
-    maxIconWidth : { _cached : true },
-    maxLabelWidth : { _cached : true },
-    maxLabelWidthIncShortcut : { _cached : true },
-    maxShortcutWidth : { _cached : true },
-    maxArrowWidth : { _cached : true },
-    maxContentWidth : { _cached : true },
-
-    iconPosition :
-    {
-      _cached      : true,
-      defaultValue : 0
-    },
-
-    labelPosition : { _cached : true },
-    shortcutPosition : { _cached : true },
-    arrowPosition : { _cached : true },
-
-    menuButtonNeededWidth : { _cached : true }
+  defer : function(statics, members)
+  {
+    qx.legacy.core.Property.addCachedProperty({ name : "maxIconWidth" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "maxLabelWidth" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "maxLabelWidthIncShortcut" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "maxShortcutWidth" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "maxArrowWidth" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "maxContentWidth" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "iconPosition", defaultValue : 0 }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "labelPosition" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "shortcutPosition" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "arrowPosition" }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "menuButtonNeededWidth" }, members);
   },
 
 
