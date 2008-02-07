@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(core)
 #resource(qx.static:static)
 #use(qx.lang.Core)
 #use(qx.lang.Generics)
@@ -40,8 +39,8 @@ qx =
   {
     genericToString : function() {
       return "[Bootstrap " + this.classname + "]";
-    },    
-        
+    },
+
     createNamespace : function(name, object)
     {
       var splits = name.split(".");
@@ -91,22 +90,22 @@ qx =
       {
         clazz = config.statics || {};
       }
-      
+
       // Create namespace
       var basename = this.createNamespace(name, clazz);
-      
+
       // Store names in constructor/object
       clazz.name = clazz.classname = name;
       clazz.basename = basename;
-      
+
       // Store type info
       clazz.$$type = "Class";
 
       // Attach toString
       if (!clazz.hasOwnProperty("toString")) {
         clazz.toString = this.genericToString;
-      }    
-      
+      }
+
       // Execute defer section
       if (config.defer) {
         config.defer(clazz, proto);
@@ -181,8 +180,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {String} The class identifier
      */
     genericToString : qx.Bootstrap.genericToString,
-    
-     
+
+
     /**
      * Find a class by its name
      *
