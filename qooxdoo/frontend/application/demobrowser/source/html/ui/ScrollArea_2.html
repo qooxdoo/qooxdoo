@@ -42,7 +42,7 @@ qx.Class.define("BasicSample",
       doc.add(scrollArea, 10, 10);
       scrollArea.setContent(this.generateBox());
 
-      var toggle = new qx.ui.core.Label("Toggle size").set({
+      var toggle = new qx.ui.basic.Label("Toggle size").set({
         padding : 5,
         backgroundColor: "orange"
       });
@@ -60,7 +60,7 @@ qx.Class.define("BasicSample",
 
     generateBox : function()
     {
-      var box = new qx.ui.core.Label("Content size: 300x300").set({
+      var box = new qx.ui.basic.Label("Content size: 300x300").set({
         width: 300,
         minWidth: "pref",
         height: 300,
