@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.decoration.Basic",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.legacy.ui.core.Border} the created instance
+     * @return {qx.ui.core.Decoration} the created instance
      */
     fromString : function(str)
     {
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.decoration.Basic",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.legacy.ui.core.Border} the created instance
+     * @return {qx.ui.core.Decoration} the created instance
      */
     fromConfig : function(config)
     {
