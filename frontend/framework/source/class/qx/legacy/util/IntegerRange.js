@@ -34,7 +34,7 @@
  *  while ((i = r.next())!=null) { alert(i) }; // yields 1,2,3,..,20
  *</pre>
  */
-qx.Class.define("qx.util.range.IntegerRange",
+qx.Class.define("qx.legacy.util.IntegerRange",
 {
   extend : qx.core.Object,
 
