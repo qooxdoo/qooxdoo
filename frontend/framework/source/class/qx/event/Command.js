@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-
-************************************************************************ */
-
 /**
  * Commands can be used to globally define keyboard shortcuts. They could
  * also be used to assign a execution of a command sequence to multiple
@@ -241,7 +235,7 @@ qx.Class.define("qx.event.Command",
      * Checks whether the given key event matches the command's shortcut
      *
      * @type member
-     * @param e {qx.legacy.event.type.KeySequenceEvent} the key event object
+     * @param e {qx.event.type.KeySequenceEvent} the key event object
      * @return {Boolean} whether the commands shortcut matches the key event
      */
     matchesKeyEvent : function(e)

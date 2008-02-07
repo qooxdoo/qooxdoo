@@ -18,16 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(event)
-
-************************************************************************ */
-
 /**
- * Event dispatcher for all bubbling events on DOM elements.
+ * Event dispatcher for all bubbling events on legacy widgets.
  */
-qx.Class.define("qx.event.dispatch.WidgetBubbling",
+qx.Class.define("qx.legacy.event.WidgetBubbling",
 {
   extend : qx.event.dispatch.AbstractBubbling,
 
