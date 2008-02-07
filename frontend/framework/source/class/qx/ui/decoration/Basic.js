@@ -19,13 +19,13 @@
 ************************************************************************ */
 
 /**
- * A basic decoration featuring background colors and simple borders based on
+ * A basic decorator featuring background colors and simple borders based on
  * CSS styles.
  */
 qx.Class.define("qx.ui.decoration.Basic",
 {
   extend : qx.core.Object,
-  implement : qx.ui.decoration.IDecoration,
+  implement : qx.ui.decoration.IDecorator,
 
 
 

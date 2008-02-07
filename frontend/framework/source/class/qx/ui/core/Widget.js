@@ -26,7 +26,7 @@
  * added to the parent widget has two child Element: The "decoration" and the
  * "content" element. The decoration element has a lower z-Index and contains
  * markup to render the widget's backround and border using an implementation
- * of {@link qx.ui.decoration.IDecoration}.The cntent element is positioned
+ * of {@link qx.ui.decoration.IDecorator}.The cntent element is positioned
  * inside the "container" element to respect paddings and contains the "real"
  * widget element.
  *
@@ -390,16 +390,16 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * The decoration property points to an object, which is responsible
+     * The decorator property points to an object, which is responsible
      * for drawing the widget's decoration, e.g. border, background or shadow
      */
-    decoration :
+    decorator :
     {
       nullable : true,
       init : null,
-      apply : "_applyDecoration",
-      event : "changeDecoration",
-      check : "qx.ui.decoration.IDecoration",
+      apply : "_applyDecorator",
+      event : "changeDecorator",
+      check : "qx.ui.decoration.IDecorator",
       themeable : true
     },
 
@@ -948,10 +948,10 @@ qx.Class.define("qx.ui.core.Widget",
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
 
-      var decoration = this.getDecoration();
-      if (decoration)
+      var decorator = this.getDecorator();
+      if (decorator)
       {
-        var inset = decoration.getInsets();
+        var inset = decorator.getInsets();
 
         top += inset.top;
         right += inset.right;
@@ -1386,15 +1386,15 @@ qx.Class.define("qx.ui.core.Widget",
      */
     updateDecoration : function(width, height)
     {
-      var decoration = this.getDecoration();
-      if (decoration)
+      var decorator = this.getDecorator();
+      if (decorator)
       {
         if (!this._decorationElement)
         {
           this._decorationElement = this._createDecorationElement();
           this._containerElement.add(this._decorationElement);
         }
-        decoration.update(this._decorationElement, width, height);
+        decorator.update(this._decorationElement, width, height);
       }
 
       qx.ui.core.DecorationQueue.remove(this);
@@ -1402,8 +1402,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyDecoration : function(value, old) {
-      qx.ui.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
+    _applyDecorator : function(value, old) {
+      qx.ui.decoration.DecorationManager.getInstance().connect(this._styleDecorator, this, value);
     },
 
 
@@ -1419,13 +1419,13 @@ qx.Class.define("qx.ui.core.Widget",
      * Callback for decoration manager connection
      *
      * @type member
-     * @param decoration {qx.ui.decoration.IDecoration} the decoration object
+     * @param decorator {qx.ui.decoration.IDecorator} the decorator object
      * @return {void}
      */
-    _styleDecoration : function(decoration)
+    _styleDecorator : function(decorator)
     {
       var old = this._lastDecorationInsets || this._defaultDecorationInsets;
-      var current = decoration ? decoration.getInsets() : this._defaultDecorationInsets;
+      var current = decorator ? decorator.getInsets() : this._defaultDecorationInsets;
 
       // Detect inset changes
       if (old.top != current.top || old.right != current.right || old.bottom != current.bottom || old.left != current.left)
