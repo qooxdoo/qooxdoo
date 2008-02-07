@@ -442,7 +442,7 @@ qx.Class.define("qx.log.appender.Window",
         if (evt.isDummyEventForMessage) {
           txt = evt.message;
         } else {
-          txt = qx.legacy.html.String.fromText(this.formatLogEvent(evt));
+          txt = qx.bom.String.fromText(this.formatLogEvent(evt));
         }
 
         divElem.innerHTML = txt;

@@ -123,7 +123,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Replace",
         if ( typeof label != "undefined" )
         {
           cellInfo.value = label;
-          return qx.legacy.html.String.escape(this._formatValue(cellInfo));
+          return qx.bom.String.escape(this._formatValue(cellInfo));
         }
       }
 
@@ -132,7 +132,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Replace",
       {
         cellInfo.value = replaceFunc (value);
       }
-      return qx.legacy.html.String.escape(this._formatValue(cellInfo));
+      return qx.bom.String.escape(this._formatValue(cellInfo));
     },
 
     /**
