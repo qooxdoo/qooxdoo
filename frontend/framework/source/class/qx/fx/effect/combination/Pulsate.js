@@ -55,43 +55,49 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
-    var effectSpecificOptions = {
-        duration : 2
-    };
+    this.base(arguments, element);
 
-    for(var i in effectSpecificOptions)
-    {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
-    }
-    this.base(arguments, element, options);
-
-    var duration = this._options.duration / 6;
+    var duration = this.getDuration() / 6;
 
     this._fadeEffects = {
-      1 : new qx.fx.effect.core.FadeOut(this._element, {duration : duration, transition: qx.fx.Transition.sinoidal}),
-      2 : new qx.fx.effect.core.FadeIn(this._element,  {duration : duration, transition: qx.fx.Transition.sinoidal}),
-      3 : new qx.fx.effect.core.FadeOut(this._element, {duration : duration, transition: qx.fx.Transition.sinoidal}),
-      4 : new qx.fx.effect.core.FadeIn(this._element,  {duration : duration, transition: qx.fx.Transition.sinoidal}),
-      5 : new qx.fx.effect.core.FadeOut(this._element, {duration : duration, transition: qx.fx.Transition.sinoidal}),
-      6 : new qx.fx.effect.core.FadeIn(this._element,  {duration : duration, transition: qx.fx.Transition.sinoidal})
+      1 : new qx.fx.effect.core.FadeOut(this._element),
+      2 : new qx.fx.effect.core.FadeIn(this._element),
+      3 : new qx.fx.effect.core.FadeOut(this._element),
+      4 : new qx.fx.effect.core.FadeIn(this._element),
+      5 : new qx.fx.effect.core.FadeOut(this._element),
+      6 : new qx.fx.effect.core.FadeIn(this._element)
     };
+
+    for(var effect in this._fadeEffects)
+    {
+      this._fadeEffects[effect].set({
+        duration : duration,
+        transition: qx.fx.Transition.sinoidal
+      });
+    }
 
   },
 
 
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  statics :
+  properties :
   {
+
+    duration : 
+    {
+      init : 2,
+      refine : true
+    }
+
   },
+
 
   /*
    *****************************************************************************

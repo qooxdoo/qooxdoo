@@ -51,40 +51,34 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
   extend : qx.fx.Base,
 
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  construct : function(element, options)
+  properties :
   {
-    var effectSpecificOptions = {
-      direction : 'south',
-      xAmount   : 100,
-      yAmount   : 100
-    };
 
-    for(var i in effectSpecificOptions)
+    direction :
     {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
+      init : "south",
+      check : [ "south", "west", "east", "north", "south-west", "south-east", "north-east", "north-west" ]
+    },
+
+    xAmount :
+    {
+      init : 100,
+      check : "Number"
+    },
+
+    yAmount :
+    {
+      init : 100,
+      check : "Number"
     }
 
-
-    this.base(arguments, element, options);
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
   /*
    *****************************************************************************
@@ -98,6 +92,9 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     start : function()
     {
       this.base(arguments);
+      
+      var xAmount = this.getXAmount();
+      var yAmount = this.getYAmount();
 
       var oldStyle = {
         top  : qx.bom.element.Location.getTop(this._element, "scroll"),
@@ -105,59 +102,57 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
       };
 
       var moveEffectOptions = {
-        x    : 0,
-        y    : this._options.xAmount,
+        x    : xAmount,
+        y    : yAmount,
         sync : true
       };
 
-      switch(this._options.direction)
+      switch(this.getDirection())
       {
         case "south":
           moveEffectOptions.x = 0;
-          moveEffectOptions.y = this._options.yAmount;
+          moveEffectOptions.y = yAmount;
         break;
 
         case "north":
           moveEffectOptions.x = 0;
-          moveEffectOptions.y = -this._options.yAmount;
+          moveEffectOptions.y = -yAmount;
         break;
 
         case "west":
-          moveEffectOptions.x = -this._options.xAmount;
+          moveEffectOptions.x = -xAmount;
           moveEffectOptions.y = 0;
         break;
 
         case "east":
-          moveEffectOptions.x = this._options.xAmount;
+          moveEffectOptions.x = xAmount;
           moveEffectOptions.y = 0;
         break;
 
         case "south-west":
-          moveEffectOptions.x = -this._options.xAmount;
-          moveEffectOptions.y = this._options.yAmount;
+          moveEffectOptions.x = -xAmount;
+          moveEffectOptions.y = yAmount;
         break;
 
         case "south-east":
-          moveEffectOptions.x = this._options.xAmount;
-          moveEffectOptions.y = this._options.yAmount;
+          moveEffectOptions.x = xAmount;
+          moveEffectOptions.y = yAmount;
         break;
 
         case "north-east":
-          moveEffectOptions.x = this._options.xAmount;
-          moveEffectOptions.y = -this._options.yAmount;
+          moveEffectOptions.x = xAmount;
+          moveEffectOptions.y = -yAmount;
         break;
 
         case "north-west":
-          moveEffectOptions.x = -this._options.xAmount;
-          moveEffectOptions.y = -this._options.yAmount;
+          moveEffectOptions.x = -xAmount;
+          moveEffectOptions.y = -yAmount;
         break;
 
       }
 
-      var moveEffect = new qx.fx.effect.core.Move(
-        this._element,
-        moveEffectOptions
-      );
+      var moveEffect = new qx.fx.effect.core.Move(this._element);
+      moveEffect.set(moveEffectOptions);
 
       moveEffect.afterFinishInternal = function()
       {
@@ -166,20 +161,17 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
         }
       };
 
-      var fadeEffect = new qx.fx.effect.core.FadeOut(
-        this._element,
-        {
-          duration : 0.5,
-          sync : true
-        }
-      );
+      var fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
+      fadeEffect.set({
+        duration : 0.5,
+        sync : true
+      });
 
-      this._effect = new qx.fx.effect.core.Parallel(
-        {
-          1 : moveEffect,
-          2 : fadeEffect
-        }
-      ).start();
+
+      this._effect = new qx.fx.effect.core.Parallel([
+         moveEffect,
+         fadeEffect
+      ]).start();
 
     }
 

@@ -55,32 +55,28 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     *****************************************************************************
   */
 
-  construct : function(element, options)
+  construct : function(element)
   {
-    this.base(arguments, element, options);
-    this._element = element;
+    this.base(arguments, element);
 
-    this._outerScaleEffect = new qx.fx.effect.core.Scale(
-      this._element,
-      5,
-      {
-        scaleContent: false,
-        scaleX: false
-      }
-    );
+    this._outerScaleEffect = new qx.fx.effect.core.Scale(this._element);
+    this._outerScaleEffect.set({
+      scaleTo : 5,
+      scaleContent: false,
+      scaleX: false
+    });
 
-    this._innerScaleEffect = new qx.fx.effect.core.Scale(
-      this._element,
-      5,
-      {
-        scaleContent: false,
-        scaleY: false
-      }
-    );
+
+    this._innerScaleEffect = new qx.fx.effect.core.Scale(this._element);
+    this._innerScaleEffect.set({
+      scaleTo : 5,
+      scaleContent: false,
+      scaleY: false
+    });
 
     var innerScaleEffectReference = this._innerScaleEffect;
 
-    this._outerScaleEffect.afterFinishInternal = function(effect) {
+    this._outerScaleEffect.afterFinishInternal = function() {
       innerScaleEffectReference.start();
     };
 
@@ -107,6 +103,8 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
     setup : function()
     {
+      this.base(arguments);
+
       this._oldStyle = {
         top    : qx.bom.element.Location.getTop(this._element, "scroll"),
         left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
@@ -130,8 +128,8 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
     start : function()
     {
-      this._outerScaleEffect.start();
       this.base(arguments);
+      this._outerScaleEffect.start();
     }
 
 

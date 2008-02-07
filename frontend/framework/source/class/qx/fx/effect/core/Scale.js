@@ -42,45 +42,65 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
   extend : qx.fx.Base,
 
+
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  construct : function(element, percent, options)
+  properties :
   {
-    var effectSpecificOptions = {
-      scaleX : true,
-      scaleY : true,
-      scaleContent : true,
-      scaleFromCenter : false,
-      scaleMode : 'box',        // 'box' or 'contents' or { } with provided values
-      scaleFrom : 100.0,
-      scaleTo :   percent
-    };
-
-    for(var i in effectSpecificOptions)
+    
+    scaleX :
     {
-      if (typeof(options[i]) == "undefined") {
-        options[i] = effectSpecificOptions[i];
-      }
+      init : true,
+      check : "Boolean"
+    },
+   
+    scaleY :
+    {
+      init : true,
+      check : "Boolean"
+    },
+  
+    scaleContent :
+    {
+      init : true,
+      check : "Boolean"
+    },
+  
+    scaleFromCenter :
+    {
+      init : true,
+      check : "Boolean"
+    },
+  
+    scaleFrom :
+    {
+      init : 100.0,
+      check : "Number"
+    },
+  
+    scaleTo :
+    {
+      init : 100,
+      check : "Number"
+    },
+    
+    scaleMode : 
+    {
+      init : "box"
+    },
+
+    restoreAfterFinish :
+    {
+      init : false,
+      check : "Boolean"
     }
 
-    this.base(arguments, element, options);
-
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
   /*
    *****************************************************************************
@@ -115,13 +135,11 @@ qx.Class.define("qx.fx.effect.core.Scale",
     _factor             : null,
     _dims               : [],
     _elementPositioning : null,
-    _restoreAfterFinish : false,
 
     setup : function()
     {
       this.base(arguments);
 
-      this._restoreAfterFinish = (this._options.restoreAfterFinish == true) ? true : false;
       this._elementPositioning = qx.bom.element.Style.get(this._element, "position");
 
       for (var property in this._originalStyle) {
@@ -150,14 +168,14 @@ qx.Class.define("qx.fx.effect.core.Scale",
         }
       }
 
-      this._factor = (this._options.scaleTo - this._options.scaleFrom) / 100;
+      this._factor = (this.getScaleTo() - this.getScaleFrom()) / 100;
 
-      if (this._options.scaleMode == "box") {
+      if (this.getScaleMode() == "box") {
         this._dims = [this._element.offsetHeight, this._element.offsetWidth];
-      }else if (this._options.scaleMode == "contents") {
+      }else if (this.getScaleMode() == "contents") {
         this._dims = [this._element.scrollHeight, this._element.scrollWidth];
       } else {
-        this._dims = [this._options.scaleMode.originalHeight, this._options.scaleMode.originalWidth];
+        this._dims = [this.getScaleMode().originalHeight, this.getScaleMode().originalWidth];
       }
 
     },
@@ -167,9 +185,9 @@ qx.Class.define("qx.fx.effect.core.Scale",
     {
       this.base(arguments);
 
-      var currentScale = (this._options.scaleFrom / 100.0) + (this._factor * position);
+      var currentScale = (this.getScaleFrom() / 100.0) + (this._factor * position);
 
-      if (this._options.scaleContent && this._fontSize) {
+      if (this.getScaleContent() && this._fontSize) {
         qx.bom.element.Style.set(this._element, "fontSize", this._fontSize * currentScale + this._fontSizeType);
       }
 
@@ -180,7 +198,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
    {
      this.base(arguments);
 
-     if (this._restoreAfterFinish)
+     if (this.getRestoreAfterFinish())
      {
        for(var property in this._originalStyle) {
          qx.bom.element.Style.set(this._element, property, this._originalStyle[property]);
@@ -192,16 +210,18 @@ qx.Class.define("qx.fx.effect.core.Scale",
    {
 
      var d = { };
+     var scaleX = this.getScaleX();
+     var scaleY = this.getScaleY()
 
-     if (this._options.scaleX) {
+     if (scaleX) {
        d.width = Math.round(width) + 'px';
      }
 
-     if (this._options.scaleY) {
+     if (scaleY) {
        d.height = Math.round(height) + 'px';
      }
 
-     if (this._options.scaleFromCenter)
+     if (this.getScaleFromCenter())
      {
 
        var topd  = (height - this._dims[0]) / 2;
@@ -210,11 +230,11 @@ qx.Class.define("qx.fx.effect.core.Scale",
        if (this._elementPositioning == "absolute")
        {
 
-         if (this._options.scaleY) {
+         if (scaleY) {
            d.top = this._originalTop-topd + 'px';
          }
 
-         if (this._options.scaleX) {
+         if (scaleX) {
            d.left = this._originalLeft-leftd + 'px';
          }
 
@@ -222,11 +242,11 @@ qx.Class.define("qx.fx.effect.core.Scale",
        else
        {
 
-         if (this._options.scaleY) {
+         if (scaleY) {
            d.top = -topd + 'px';
          }
 
-         if (this._options.scaleX) {
+         if (scaleX) {
            d.left = -leftd + 'px';
          }
 

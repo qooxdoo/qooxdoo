@@ -41,30 +41,36 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 {
 
   extend : qx.fx.Base,
-
+  
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
   */
 
   construct : function(effects)
   {
     this.base(arguments);
-
-    this._effects = (qx.legacy.util.Validation.isValidObject(effects)) ? effects : [];
+    this.setEffects(effects);
   },
-
-
+  
   /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-  statics :
-  {
-  },
+   properties :
+   {
+
+     effects :
+     {
+       init : null,
+       check : "Array"
+     }
+
+   },
+
 
   /*
    *****************************************************************************
@@ -74,22 +80,25 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
    members :
    {
+
     finish : function(position)
     {
       this.base(arguments);
 
-      for(var i in this._effects)
+      var effects = this.getEffects();
+
+      for(var i=0; i<effects.length; i++)
       {
-        this._effects[i].render(1.0);
-        this._effects[i].cancel();
+        effects[i].render(1.0);
+        effects[i].cancel();
 
-        this._effects[i].beforeFinishInternal();
-        this._effects[i].beforeFinish();
+        effects[i].beforeFinishInternal();
+        effects[i].beforeFinish();
 
-        this._effects[i].finish(position);
+        effects[i].finish(position);
 
-        this._effects[i].afterFinishInternal();
-        this._effects[i].afterFinish();
+        effects[i].afterFinishInternal();
+        effects[i].afterFinish();
       }
     },
 
@@ -98,8 +107,10 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      for (var i in this._effects) {
-        this._effects[i].render(position);
+      var effects = this.getEffects();
+
+      for (var i=0; i<effects.length; i++) {
+        effects[i].render(position);
       }
     },
 
@@ -108,8 +119,10 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      for (var i in this._effects) {
-        this._effects[i].start();
+      var effects = this.getEffects();
+
+      for (var i=0; i<effects.length; i++) {
+        effects[i].start()
       }
     }
 
