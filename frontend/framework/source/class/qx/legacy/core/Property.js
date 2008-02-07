@@ -56,6 +56,8 @@ qx.Class.define("qx.legacy.core.Property",
       var vName = config.name;
       var vUpName = qx.lang.String.firstUp(vName);
 
+      console.info("FastProperty: " + vName + " to " + proto.constructor.classname);
+
       var vStorageField = "_value" + vUpName;
       var vGetterName = "get" + vUpName;
       var vSetterName = "set" + vUpName;
@@ -130,9 +132,6 @@ qx.Class.define("qx.legacy.core.Property",
     {
       var vName = config.name;
       var vUpName = qx.lang.String.firstUp(vName);
-
-      // Store property
-      proto.constructor.$$properties[vName] = config;
 
       var vStorageField = "_cached" + vUpName;
       var vComputerName = "_compute" + vUpName;
