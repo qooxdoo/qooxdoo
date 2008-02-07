@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.dev.TimeTracker",
+qx.Class.define("qx.legacy.dev.TimeTracker",
 {
   extend : qx.core.Object,
 
@@ -241,7 +241,7 @@ qx.Class.define("qx.dev.TimeTracker",
           median.push(allTimes[i][j]);
         }
 
-        median.sort(qx.dev.TimeTracker._compare);
+        median.sort(qx.legacy.dev.TimeTracker._compare);
         medianValue = median[Math.floor(rounds / 2)].toString();
 
         medianAll.push(medianValue);
