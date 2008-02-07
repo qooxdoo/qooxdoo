@@ -29,27 +29,13 @@ qx.Class.define("qx.legacy.ui.table.pane.CellEvent",
   extend : qx.event.type.Mouse,
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
-  properties :
+
+  defer : function(statics, members)
   {
-    row :
-    {
-      _fast    : true,
-      readOnly : true
-    },
-
-    column :
-    {
-      _fast    : true,
-      readOnly : true
-    }
+    qx.legacy.core.Property.addFastProperty({ name : "row", readOnly : true }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "column", readOnly : true }, members);
   },
-
 
 
 

@@ -1123,13 +1123,6 @@ qx.Bootstrap.define("qx.Class",
         if (attach) {
           qx.core.Property.attachMethods(clazz, name, config);
         }
-
-        // Create old style properties
-        if (config._fast) {
-          qx.legacy.core.Property.addFastProperty(config, clazz.prototype);
-        } else if (config._cached) {
-          qx.legacy.core.Property.addCachedProperty(config, clazz.prototype);
-        }
       }
     },
 
@@ -1145,16 +1138,10 @@ qx.Bootstrap.define("qx.Class",
       "on": function(clazz, name, config, patch)
       {
         var has = this.hasProperty(clazz, name);
-        var compat = config._fast || config._cached;
 
         if (has)
         {
           var existingProperty = this.getPropertyDefinition(clazz, name);
-          var existingCompat = existingProperty._fast || existingProperty._cached;
-
-          if (compat != existingCompat) {
-            throw new Error("Could not redefine existing property '" + name + "' of class '" + clazz.classname + "'.");
-          }
 
           if (config.refine && existingProperty.init === undefined) {
             throw new Error("Could not refine a init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
@@ -1169,7 +1156,7 @@ qx.Bootstrap.define("qx.Class",
           throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
         }
 
-        if (has && patch && !compat)
+        if (has && patch)
         {
           if (!config.refine) {
             throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.getByProperty(clazz, name).classname + '.');
@@ -1181,10 +1168,6 @@ qx.Bootstrap.define("qx.Class",
               throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
             }
           }
-        }
-
-        if (compat) {
-          return;
         }
 
         // Check 0.7 keys

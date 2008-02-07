@@ -149,34 +149,16 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
       check : "Boolean",
       init : false,
       apply : "_applyUseAdvancedFlexAllocation"
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ACCUMULATED CHILDREN WIDTH/HEIGHT
-    --------------------------------------------------------------------------------
-
-      Needed for center/middle and right/bottom alignment
-
-    ---------------------------------------------------------------------------
-    */
-
-    accumulatedChildrenOuterWidth :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    accumulatedChildrenOuterHeight :
-    {
-      _cached      : true,
-      defaultValue : null
     }
   },
 
+
+
+  defer : function(statics, members)
+  {
+    qx.legacy.core.Property.addCachedProperty({ name : "accumulatedChildrenOuterWidth", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "accumulatedChildrenOuterHeight", defaultValue : null }, members);
+  },
 
 
 
