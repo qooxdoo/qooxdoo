@@ -50,7 +50,7 @@ qx.Class.define("qx.io.remote.Request",
    *   Determines that type of request to issue (GET or POST). Default is GET.
    *
    * @param vResponseType {String}
-   *   The mime type of the response. Default is text/plain {@link qx.legacy.util.Mime}.
+   *   The mime type of the response. Default is text/plain.
    */
   construct : function(vUrl, vMethod, vResponseType)
   {
@@ -170,7 +170,7 @@ qx.Class.define("qx.io.remote.Request",
      */
     method :
     {
-      check : [ "GET", "POST", qx.legacy.util.Http.METHOD_PUT, qx.legacy.util.Http.METHOD_HEAD, qx.legacy.util.Http.METHOD_DELETE ],
+      check : [ "GET", "POST", "PUT", "HEAD", "DELETE" ],
       apply : "_applyMethod",
       init : "GET"
     },
@@ -236,8 +236,6 @@ qx.Class.define("qx.io.remote.Request",
      * The response type is a MIME type, default is text/plain. Other supported
      * MIME types are text/javascript, text/html, application/json,
      * application/xml.
-     *
-     * @see qx.legacy.util.Mime
      */
     responseType :
     {
