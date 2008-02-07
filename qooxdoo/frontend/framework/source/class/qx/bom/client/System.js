@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#module(client)
 #require(qx.bom.client.Platform)
 #require(qx.bom.client.Engine)
 
