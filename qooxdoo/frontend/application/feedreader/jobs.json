@@ -1,5 +1,5 @@
 {
-  "common" : 
+  "common" :
   {
     "let" :
     [
@@ -23,25 +23,25 @@
       }
     ],
 
-    "include" : ["feedreader.*", "qx.theme.Ext", "qx.locale.*"],
+    "include" : ["feedreader.*", "qx.legacy.theme.Ext", "qx.locale.*"],
 
     "require" :
     {
       "qx.log.Logger" : ["qx.log.appender.Native"]
     },
 
-    "settings" : 
+    "settings" :
     {
       "qx.application" : "feedreader.Application",
       "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-      "qx.theme"       : "qx.theme.Ext"
+      "qx.theme"       : "qx.legacy.theme.Ext"
     },
 
     "localize" :
     {
       "locales" : ["en", "de", "es", "it"]
     },
- 
+
     "cache" :
     {
       "path" : "../../cache2"
@@ -49,7 +49,7 @@
   },
 
 
-  "source" : 
+  "source" :
   {
     "extend" : ["common"],
 
@@ -65,7 +65,7 @@
   },
 
 
-  "build" : 
+  "build" :
   {
     "extend" : ["common"],
 
@@ -82,7 +82,7 @@
   },
 
 
-  "api-data" : 
+  "api-data" :
   {
     "extend" : ["common"],
 
@@ -90,11 +90,11 @@
     {
       "path" : "./api/script"
     }
- 
+
   },
 
 
-  "api-build" : 
+  "api-build" :
   {
     "extend" : ["common"],
 
@@ -113,14 +113,14 @@
       }
     ],
 
-    "include" : ["apiviewer.Application", "qx.theme.ClassicRoyale"],
+    "include" : ["apiviewer.Application", "qx.legacy.theme.ClassicRoyale"],
 
-    "settings" : 
+    "settings" :
     {
       "qx.application" : "apiviewer.Application",
       "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
       "qx.minLogLevel" : "700",
-      "qx.theme"       : "qx.theme.ClassicRoyale",
+      "qx.theme"       : "qx.legacy.theme.ClassicRoyale",
       "apiviewer.resourceUri" : "./resource/apiviewer",
       "apiviewer.title": "Generator2 API Viewer"
      },
