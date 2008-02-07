@@ -395,11 +395,21 @@ qx.Class.define("qx.ui.core.Widget",
      */
     decorator :
     {
+      check : "qx.ui.decoration.IDecorator",
       nullable : true,
       init : null,
       apply : "_applyDecorator",
       event : "changeDecorator",
+      themeable : true
+    },
+
+
+    outline :
+    {
       check : "qx.ui.decoration.IDecorator",
+      nullable : true,
+      init : null,
+      apply : "_applyOutline",
       themeable : true
     },
 
@@ -1249,11 +1259,17 @@ qx.Class.define("qx.ui.core.Widget",
       var el = new qx.html.Element("div");
       el.setStyle("zIndex", 5);
       el.setStyle("position", "absolute");
-      el.setStyle("left", 0);
-      el.setStyle("top", 0);
       return el;
     },
 
+
+    _createOutlineElement : function()
+    {
+      var el = new qx.html.Element("div");
+      el.setStyle("zIndex", 4);
+      el.setStyle("position", "absolute");
+      return el;
+    },
 
 
     /*
@@ -1397,6 +1413,17 @@ qx.Class.define("qx.ui.core.Widget",
         decorator.update(this._decorationElement, width, height);
       }
 
+      var outline = this.getOutline();
+      if (outline)
+      {
+        if (!this._outlineElement)
+        {
+          this._outlineElement = this._createOutlineElement();
+          this._containerElement.add(this._outlineElement);
+        }
+        outline.update(this._outlineElement, width, height);
+      }
+
       qx.ui.core.DecorationQueue.remove(this);
     },
 
@@ -1443,6 +1470,22 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
+
+    _applyOutline : function(value, old)
+    {
+      if (this._outlineElement)
+      {
+        if (value) {
+          this._outlineElement.show();
+        } else {
+          this._outlineElement.hide();
+        }
+      }
+
+      if (value) {
+        qx.ui.core.DecorationQueue.add(this);
+      }
+    },
 
 
 
