@@ -11,7 +11,7 @@ qx.Class.define("qx.log2.Console",
       // Build style sheet content
       var style = 
       [
-        '.qxconsole{z-index:10000;width:500px;height:200px;top:4px;right:4px;position:absolute;border:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
+        '.qxconsole{z-index:10000;width:500px;height:250px;top:4px;right:4px;position:absolute;border:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
         '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
         '.qxconsole .control a{text-decoration:none;color:black;}',        
         '.qxconsole .messages{background:white;height:100%;width:100%;overflow-y:scroll;}',        
@@ -32,7 +32,7 @@ qx.Class.define("qx.log2.Console",
       var markup = 
       [
         '<div class="qxconsole">',
-        '<div class="control"><a href="javascript:qx.log2.Console.clear()">Clear</a></div>',
+        '<div class="control"><a href="javascript:qx.log2.Console.clear()">Clear</a> | <a href="javascript:qx.log2.Console.toggle()">Hide</a></div>',
         '<div class="messages">',
         '</div>',
         '<div class="command">',
@@ -141,7 +141,7 @@ qx.Class.define("qx.log2.Console",
       for (var i=0, l=result.length; i<l; i++) 
       {
         entry = result[i];
-        output.push("<span class='" + entry.type + "'>" + entry.msg + "</span>");
+        output.push("<span class='qx" + entry.type + "'>" + entry.msg + "</span>");
       }
       
       offset = "<span class='offset'>" + this.__formatOffset(entry.offset) + "</span>: ";

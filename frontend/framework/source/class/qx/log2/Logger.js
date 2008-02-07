@@ -1,6 +1,7 @@
 /*
 # Temporary dependency extension
 #use(qx.log2.Console)
+#use(qx.log2.Firebug)
 */
 
 
@@ -99,10 +100,7 @@ qx.Bootstrap.define("qx.log2.Logger",
     },
     
     
-    
-    
-    
-    
+
     
     __log : function(level, data)
     {
@@ -131,7 +129,10 @@ qx.Bootstrap.define("qx.log2.Logger",
       }
       
       // Build entry
-      var entry = {level:level, msgs:msgs};
+      var entry = {
+        level: level, 
+        msgs: msgs
+      };
       
       // Update buffer
       var buffer = this.__buffer;
@@ -143,29 +144,7 @@ qx.Bootstrap.define("qx.log2.Logger",
       for (var id in appender) {
         appender[id].process(entry);
       }
-      
-      // Firebug support
-      if (window.console && console.firebug && console[entry.level]) {
-        window.console[entry.level].apply(window.console, this.__toArguments(entry.msgs));
-      }
     },  
-    
-    
-    __toArguments : function(msgs)
-    {
-      var output = [];
-      
-      for (var i=0, l=msgs.length; i<l; i++) {
-        output.push(msgs[i].msg);
-      }
-      
-      return output; 
-    },
-
-
-    __escapeHtml : function(html) {
-      return html ? html.replace(/&/g, "&#38;").replace(/</g, "&#60;").replace(/>/g, "&#62;") : "";
-    },
 
 
     __detect : function(item)
@@ -219,8 +198,6 @@ qx.Bootstrap.define("qx.log2.Logger",
           return type;
           
         case "string":
-          return this.__escapeHtml(item);
-        
         case "number":
         case "boolean":
           return item;
@@ -238,10 +215,10 @@ qx.Bootstrap.define("qx.log2.Logger",
               ret += ", ";
             }
             
-            ret += this.__escapeHtml(item[i]);
+            ret += item[i];
             
-            if (ret.length > 25) {
-              return "[" + ret.substring(0, 25) + "...]";
+            if (ret.length > 35) {
+              return "[" + ret.substring(0, 35) + "...]";
             }
           }
           return "[" + ret + "]";
@@ -251,7 +228,7 @@ qx.Bootstrap.define("qx.log2.Logger",
           for (var key in item) 
           {
             ret.push(key);
-            if (ret.length == 3) 
+            if (ret.length == 4) 
             {
               ret.push("...");
               break;
