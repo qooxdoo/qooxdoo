@@ -91,7 +91,7 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
      */
     buildFromUrl : function(parent, url)
     {
-      var req = new qx.io.remote.Request(url, "GET", qx.legacy.util.Mime.XML);
+      var req = new qx.io.remote.Request(url, "GET", "application/xml");
       var self = this;
 
       req.addListener("completed", function(e)
