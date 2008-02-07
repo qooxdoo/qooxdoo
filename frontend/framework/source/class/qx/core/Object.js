@@ -568,8 +568,8 @@ qx.Class.define("qx.core.Object",
     },
 
 
-    __logger : qx.core.Log,
-    //__logger : qx.log2.Logger,
+    //__logger : qx.core.Log,
+    __logger : qx.log2.Logger,
 
 
     /**
