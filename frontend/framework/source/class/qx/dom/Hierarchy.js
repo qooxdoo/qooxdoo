@@ -35,12 +35,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(html2)
-
-************************************************************************ */
-
 /**
  * Methods to operate on nodes and elements on a DOM tree. This contains
  * special getters to query for child nodes, siblings, etc. This class also

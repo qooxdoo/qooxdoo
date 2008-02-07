@@ -37,7 +37,6 @@
 
 /* ************************************************************************
 
-#module(core)
 #optional(qx.dev.StackTrace)
 #embed(qx.static/log/log.html)
 
