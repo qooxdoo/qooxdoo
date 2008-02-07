@@ -25,7 +25,6 @@
 #optional(qx.Interface)
 #optional(qx.Mixin)
 #optional(qx.core.Property)
-#optional(qx.legacy.core.Property)
 
 ************************************************************************ */
 
@@ -39,8 +38,8 @@
  * the following keys attached to the constructor and the prototype:
  *
  * <table>
- * <tr><th><code>classname</code></th><td>The fully-qualified name of the class (e.g. <code>"qx.legacy.ui.core.Widget"</code>).</td></tr>
- * <tr><th><code>basename</code></th><td>The namespace part of the class name (e.g. <code>"qx.legacy.ui.core"</code>).</td></tr>
+ * <tr><th><code>classname</code></th><td>The fully-qualified name of the class (e.g. <code>"qx.ui.core.Widget"</code>).</td></tr>
+ * <tr><th><code>basename</code></th><td>The namespace part of the class name (e.g. <code>"qx.ui.core"</code>).</td></tr>
  * <tr><th><code>constructor</code></th><td>A reference to the constructor of the class.</td></tr>
  * <tr><th><code>superclass</code></th><td>A reference to the constructor of the super class.</td></tr>
  * </table>
@@ -134,7 +133,7 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
      *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. For a description of the format of a property definition see
-     *           {@link qx.core.Property} or the legacy version {@link qx.legacy.core.Property}.</td></tr>
+     *           {@link qx.core.Property}.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
      *           {@link qx.core.Setting}.</td></tr>
