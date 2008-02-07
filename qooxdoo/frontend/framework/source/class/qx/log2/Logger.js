@@ -1,3 +1,8 @@
+/*
+# Temporary dependency extension
+#use(qx.log2.Console)
+*/
+
 
 qx.Bootstrap.define("qx.log2.Logger", 
 {
@@ -140,7 +145,7 @@ qx.Bootstrap.define("qx.log2.Logger",
       }
       
       // Firebug support
-      if (window.console && window.console[entry.level]) {
+      if (window.console && console.firebug && console[entry.level]) {
         window.console[entry.level].apply(window.console, this.__toArguments(entry.msgs));
       }
     },  
