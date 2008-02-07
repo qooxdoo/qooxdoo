@@ -47,7 +47,16 @@ qx.Class.define("qx.locale.Manager",
     this.base(arguments);
 
     this._translationCatalog = window.qxlocales || {};
-    this.setLocale(qx.legacy.core.Client.getInstance().getLocale() || this._defaultLocale);
+
+    var clazz = qx.bom.client.Locale;
+
+    var locale = clazz.LOCALE;
+    var variant = clazz.VARIANT;
+    if (variant !== "") {
+      locale += "_" + variant;
+    }
+
+    this.setLocale(locale || this._defaultLocale);
   },
 
 
