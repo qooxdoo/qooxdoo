@@ -310,7 +310,7 @@ qx.Class.define("qx.event.Registration",
      *
      * @internal
      * @type static
-     * @param handler {qx.legacy.event.handler.AbstractEventHandler} Event handler to add
+     * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *       or {@link #PRIORITY_LAST}.
      * @return {void}
@@ -340,7 +340,7 @@ qx.Class.define("qx.event.Registration",
      *
      * @internal
      * @type static
-     * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
+     * @return {qx.event.handler.AbstractEventHandler[]} registered event handlers
      */
     getHandlers : function() {
       return this.__handlers;
@@ -364,7 +364,7 @@ qx.Class.define("qx.event.Registration",
      *
      * @internal
      * @type static
-     * @param dispatcher {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
+     * @param dispatcher {qx.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *       or {@link #PRIORITY_LAST}.
      * @return {void}
@@ -394,7 +394,7 @@ qx.Class.define("qx.event.Registration",
      *
      * @internal
      * @type static
-     * @return {qx.legacy.event.dispatch.IEventDispatch[]} all registered event dispatcher
+     * @return {qx.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
     getDispatchers : function() {
       return this.__dispatchers;
