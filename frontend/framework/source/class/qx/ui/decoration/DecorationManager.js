@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.decoration.DecorationManager",
 
   properties :
   {
-    /** the currently selected border theme */
+    /** the currently selected decoration theme */
     borderTheme :
     {
       check : "Theme",
@@ -91,12 +91,12 @@ qx.Class.define("qx.ui.decoration.DecorationManager",
 
 
     /**
-     * Update all objects which use the given border.
+     * Update all objects which use the given decoration.
      *
      * @type member
-     * @param border {qx.legacy.ui.core.Border} the border which have been modified
+     * @param decoration {qx.ui.core.Decoration} the decoration which have been modified
      */
-    updateObjects : function(border)
+    updateObjects : function(decoration)
     {
       var reg = this._registry;
       var dynamics = this._dynamic;
@@ -106,8 +106,8 @@ qx.Class.define("qx.ui.decoration.DecorationManager",
       {
         entry = reg[key];
 
-        if (entry.value === border || dynamics[entry.value] === border) {
-          entry.callback.call(entry.object, border);
+        if (entry.value === decoration || dynamics[entry.value] === decoration) {
+          entry.callback.call(entry.object, decoration);
         }
       }
     },
@@ -129,11 +129,11 @@ qx.Class.define("qx.ui.decoration.DecorationManager",
       if (value)
       {
         var source = value.borders;
-        var border = qx.ui.decoration.Basic;
+        var decoration = qx.ui.decoration.Basic;
 
         for (var key in source)
         {
-          dest[key] = (new border).set(source[key]);
+          dest[key] = (new decoration).set(source[key]);
           dest[key].themed = true;
         }
       }
