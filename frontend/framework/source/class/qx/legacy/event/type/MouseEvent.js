@@ -189,26 +189,13 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
 
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
-  properties :
+  defer : function(statics, members)
   {
-    button :
-    {
-      _fast    : true,
-      readOnly : true
-    },
-
-    wheelDelta :
-    {
-      _fast    : true,
-      readOnly : true
-    }
+    qx.legacy.core.Property.addFastProperty({ name : "button", readOnly : true }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "wheelDelta", readOnly : true }, members);
   },
+
 
 
 

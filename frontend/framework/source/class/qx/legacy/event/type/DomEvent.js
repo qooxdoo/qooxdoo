@@ -80,62 +80,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
   /*
   *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-    bubbles :
-    {
-      _fast        : true,
-      defaultValue : true,
-      noCompute    : true
-    },
-
-    domEvent :
-    {
-      _fast       : true,
-      setOnlyOnce : true,
-      noCompute   : true
-    },
-
-    domTarget :
-    {
-      _fast       : true,
-      setOnlyOnce : true,
-      noCompute   : true
-    },
-
-    originalTarget :
-    {
-      _fast       : true,
-      setOnlyOnce : true
-    },
-
-    relatedTarget :
-    {
-      _fast       : true,
-      setOnlyOnce : true
-    },
-
-    /**
-     * The modifiers. A mask of the pressed modifier keys. This is an OR-combination of
-     * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK} and {@link #META_MASK}.
-     */
-    modifiers :
-    {
-      _cached      : true,
-      defaultValue : null
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -272,6 +216,17 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     }
   },
 
+
+
+  defer : function(statics, members)
+  {
+    qx.legacy.core.Property.addCachedProperty({ name : "modifiers", defaultValue : null }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "bubbles", defaultValue : true, noCompute : true }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "domEvent", defaultValue : null, noCompute : true, setOnlyOnce : true }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "domTarget", defaultValue : null, noCompute : true, setOnlyOnce : true }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "originalTarget", defaultValue : null, setOnlyOnce : true }, members);
+    qx.legacy.core.Property.addFastProperty({ name : "relatedTarget", defaultValue : null, setOnlyOnce : true }, members);
+  },
 
 
 
