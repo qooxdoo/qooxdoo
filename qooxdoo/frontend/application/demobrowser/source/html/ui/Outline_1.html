@@ -56,6 +56,7 @@ qx.Class.define("BasicSample",
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       var outline = new qx.ui.decoration.AntTrailOutline();
+      var shadow = new qx.ui.decoration.ShadowOutline();
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
         backgroundColor : "gray",
@@ -76,6 +77,7 @@ qx.Class.define("BasicSample",
       docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
+        outline : shadow,
         iconPosition : "right",
         padding : 5,
         maxHeight : "pref"
@@ -90,7 +92,7 @@ qx.Class.define("BasicSample",
       }));
 
 
-      docLayout.add(at5 = new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         show : "icon",

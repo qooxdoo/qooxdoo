@@ -21,7 +21,7 @@
 /**
  *
  */
-qx.Class.define("qx.ui.decoration.AntTrailOutline",
+qx.Class.define("qx.ui.decoration.ShadowOutline",
 {
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,
@@ -47,7 +47,8 @@ qx.Class.define("qx.ui.decoration.AntTrailOutline",
       decorationElement.setStyles({
         width: width,
         height: height,
-        border: "1px dotted black"
+        backgroundColor: "#55A",
+        opacity: 0.5
       });
     },
 
@@ -67,8 +68,8 @@ qx.Class.define("qx.ui.decoration.AntTrailOutline",
 
     getOutsets : function() {
       return {
-        top : 1,
-        left : 1
+        top : -5,
+        left : -5
       }
     }
   },

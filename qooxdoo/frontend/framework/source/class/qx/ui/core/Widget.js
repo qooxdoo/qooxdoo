@@ -539,6 +539,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         container.setStyle("left", left + pixel);
         container.setStyle("top", top + pixel);
+
+        this._positionOutline(left, top);
       }
 
       if (this.hasHeightForWidth())
@@ -594,6 +596,8 @@ qx.Class.define("qx.ui.core.Widget",
           content.setStyle("width", innerWidth + pixel);
           content.setStyle("height", innerHeight + pixel);
 
+          this._positionOutlineContainer(insets.left, insets.top);
+
           this.updateDecoration(width, height);
         }
 
@@ -617,6 +621,28 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (locationChange && this.hasListeners("move")) {
         this.fireDataEvent("move", computed);
+      }
+    },
+
+
+    _positionOutline : function(left, top)
+    {
+      var outline = this.getOutline();
+      if (outline && this._outlineElement)
+      {
+        var outsets = outline.getOutsets();
+        this._outlineElement.setStyle("left", (left - outsets.left) + "px");
+        this._outlineElement.setStyle("top", (top - outsets.top) + "px");
+      }
+    },
+
+
+    _positionOutlineContainer : function(left, top)
+    {
+      if (this._outlineContainerElement)
+      {
+        this._outlineContainerElement.setStyle("left", left);
+        this._outlineContainerElement.setStyle("top", top);
       }
     },
 
@@ -1266,6 +1292,14 @@ qx.Class.define("qx.ui.core.Widget",
     _createOutlineElement : function()
     {
       var el = new qx.html.Element("div");
+      el.setStyle("position", "absolute");
+      return el;
+    },
+
+
+    _createOutlineContainerElement : function()
+    {
+      var el = new qx.html.Element("div");
       el.setStyle("zIndex", 4);
       el.setStyle("position", "absolute");
       return el;
@@ -1281,7 +1315,19 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     nativeAddToParent : function(parent)
     {
-      if (parent instanceof qx.ui.core.Widget) {
+      if (parent instanceof qx.ui.core.Widget)
+      {
+        // add outline element
+        if (this._outlineElement)
+        {
+          if (!parent._outlineContainerElement)
+          {
+            parent._outlineContainerElement = parent._createOutlineContainerElement();
+            parent._containerElement.add(parent._outlineContainerElement);
+          }
+          parent._outlineContainerElement.add(this._outlineElement);
+        }
+        // add container element
         parent._contentElement.add(this._containerElement);
       }
     },
@@ -1290,7 +1336,18 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     nativeRemoveFromParent : function(parent)
     {
-      if (parent instanceof qx.ui.core.Widget) {
+      if (parent instanceof qx.ui.core.Widget)
+      {
+        // remove outline element
+        if (this._outlineElement && parent._outlineContainerElement)
+        {
+          parent._outlineContainerElement.remove(this._outlineElement);
+
+          if (!parent._outlineContainerElement.hasChildren()) {
+            parent._contentElement.remove(parent._outlineContainerElement);
+          }
+        }
+        // remove container element
         parent._contentElement.remove(this._containerElement);
       }
     },
@@ -1414,13 +1471,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var outline = this.getOutline();
-      if (outline)
-      {
-        if (!this._outlineElement)
-        {
-          this._outlineElement = this._createOutlineElement();
-          this._containerElement.add(this._outlineElement);
-        }
+      if (outline) {
         outline.update(this._outlineElement, width, height);
       }
 
@@ -1482,7 +1533,27 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      if (value) {
+      if (value)
+      {
+        if (!this._outlineElement)
+        {
+          this._outlineElement = this._createOutlineElement();
+          var parent = this.getParent();
+          if (parent)
+          {
+            if (!parent._outlineContainerElement)
+            {
+              parent._outlineContainerElement = parent._createOutlineContainerElement();
+              parent._containerElement.add(parent._outlineContainerElement);
+            }
+            parent._outlineContainerElement.add(this._outlineElement);
+          }
+        }
+
+        var computed = this.__computedLayout;
+        if (computed) {
+          this._positionOutline(computed.left, computed.top);
+        }
         qx.ui.core.DecorationQueue.add(this);
       }
     },
