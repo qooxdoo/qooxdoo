@@ -360,11 +360,6 @@ qx.Class.define("qx.core.Property",
      */
     attachMethods : function(clazz, name, config)
     {
-      // Filter old properties
-      if (config._fast || config._cached) {
-        return;
-      }
-
       // Generate property method prefixes and postfixes
       var prefix, postfix;
 
