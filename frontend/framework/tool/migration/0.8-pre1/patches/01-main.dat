@@ -61,7 +61,6 @@
 # Introduce legacy namespace (0.7 COMPAT)
 #
 
-\bqx\.client\.NativeWindow\b=qx.legacy.Window
 \bqx\.event\b=qx.legacy.event
 \bqx\.html\b=qx.legacy.html
 \bqx\.ui\b=qx.legacy.ui
@@ -79,8 +78,7 @@
 \bqx\.client\.Command\b=qx.event.Command
 \bqx\.client\.History\b=qx.bom.History
 \bqx\.client\.Timer\b=qx.event.Timer
-
-
+\bqx\.client\.NativeWindow\b=qx.legacy.util.NativeWindow
 
 
 
@@ -162,4 +160,5 @@ qx\.Theme=qx.legacy.Theme
 \bqx\.util\.Normalization\b=qx.legacy.util.Normalization
 \bqx\.util\.Mime\b=qx.legacy.util.Mime
 \bqx\.util\.Compare\b=qx.legacy.util.Compare
+\bqx\.util\.ThemeList\b=qx.legacy.util.ThemeList
 \bqx\.dev\.TimeTracker\b=qx.legacy.dev.TimeTracker
