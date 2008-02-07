@@ -85,7 +85,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       crossDomain           : true,
       fileUpload            : false,
       programaticFormFields : false,
-      responseTypes         : [ qx.legacy.util.Mime.TEXT, qx.legacy.util.Mime.JAVASCRIPT, qx.legacy.util.Mime.JSON ]
+      responseTypes         : [ "text/plain", "text/javascript", "application/json" ]
     },
 
 
@@ -399,10 +399,10 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       switch(this.getResponseType())
       {
-        case qx.legacy.util.Mime.TEXT:
+        case "text/plain":
           // server is responsible for using a string as the response
-        case qx.legacy.util.Mime.JSON:
-        case qx.legacy.util.Mime.JAVASCRIPT:
+        case "application/json":
+        case "text/javascript":
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.ioRemoteDebugData"))

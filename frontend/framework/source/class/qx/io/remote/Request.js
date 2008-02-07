@@ -170,9 +170,9 @@ qx.Class.define("qx.io.remote.Request",
      */
     method :
     {
-      check : [ qx.legacy.util.Http.METHOD_GET, qx.legacy.util.Http.METHOD_POST, qx.legacy.util.Http.METHOD_PUT, qx.legacy.util.Http.METHOD_HEAD, qx.legacy.util.Http.METHOD_DELETE ],
+      check : [ "GET", "POST", qx.legacy.util.Http.METHOD_PUT, qx.legacy.util.Http.METHOD_HEAD, qx.legacy.util.Http.METHOD_DELETE ],
       apply : "_applyMethod",
-      init : qx.legacy.util.Http.METHOD_GET
+      init : "GET"
     },
 
 
@@ -241,8 +241,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     responseType :
     {
-      check : [ qx.legacy.util.Mime.TEXT, qx.legacy.util.Mime.JAVASCRIPT, qx.legacy.util.Mime.JSON, qx.legacy.util.Mime.XML, qx.legacy.util.Mime.HTML ],
-      init : qx.legacy.util.Mime.TEXT,
+      check : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ],
+      init : "text/plain",
       apply : "_applyResponseType"
     },
 
@@ -726,7 +726,7 @@ qx.Class.define("qx.io.remote.Request",
      */
     _applyMethod : function(value, old)
     {
-      if (value === qx.legacy.util.Http.METHOD_POST) {
+      if (value === "POST") {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       } else {
         this.removeRequestHeader("Content-Type");
@@ -757,7 +757,7 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Add a request header to the request.
      *
-     * Example: request.setRequestHeader("Content-Type", qx.legacy.util.Mime.HTML)
+     * Example: request.setRequestHeader("Content-Type", "text/html")
      *
      * @type member
      * @param vId {String} The identifier to use for this added header

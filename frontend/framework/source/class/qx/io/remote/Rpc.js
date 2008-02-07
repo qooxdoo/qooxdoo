@@ -371,8 +371,8 @@ qx.Class.define("qx.io.remote.Rpc",
       }
 
       var req = new qx.io.remote.Request(this.getUrl(),
-                                         qx.legacy.util.Http.METHOD_POST,
-                                         qx.legacy.util.Mime.JSON);
+                                         "POST",
+                                         "application/json");
 
       var requestObject =
       {
@@ -563,7 +563,7 @@ qx.Class.define("qx.io.remote.Rpc",
       else
       {
         // When not cross-domain, set type to text/json
-        req.setRequestHeader("Content-Type", qx.legacy.util.Mime.JSON);
+        req.setRequestHeader("Content-Type", "application/json");
       }
 
       req.send();
