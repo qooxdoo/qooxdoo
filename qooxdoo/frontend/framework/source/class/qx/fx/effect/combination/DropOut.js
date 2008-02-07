@@ -50,6 +50,29 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
 
   extend : qx.fx.Base,
 
+
+  /*
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+  */
+
+  construct : function(element)
+  {
+
+    this.base(arguments, element);
+
+    this._moveEffect = new qx.fx.effect.core.Move(this._element);
+    this._fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
+
+    this._mainEffect = new qx.fx.effect.core.Parallel([
+       this._moveEffect,
+       this._fadeEffect
+    ]);
+
+  },
+
+
   /*
    *****************************************************************************
       PROPERTIES
@@ -92,7 +115,7 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     start : function()
     {
       this.base(arguments);
-      
+
       var xAmount = this.getXAmount();
       var yAmount = this.getYAmount();
 
@@ -151,27 +174,20 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
 
       }
 
-      var moveEffect = new qx.fx.effect.core.Move(this._element);
-      moveEffect.set(moveEffectOptions);
-
-      moveEffect.afterFinishInternal = function()
+      this._moveEffect.set(moveEffectOptions);
+      this._moveEffect.afterFinishInternal = function()
       {
         for (var property in oldStyle) {
           qx.bom.element.Style.set(this._element, property, oldStyle[property]);
         }
       };
 
-      var fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
-      fadeEffect.set({
+      this._fadeEffect.set({
         duration : 0.5,
         sync : true
       });
 
-
-      this._effect = new qx.fx.effect.core.Parallel([
-         moveEffect,
-         fadeEffect
-      ]).start();
+      this._mainEffect.start();
 
     }
 

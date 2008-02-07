@@ -51,44 +51,44 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
   properties :
   {
-    
+
     scaleX :
     {
       init : true,
       check : "Boolean"
     },
-   
+
     scaleY :
     {
       init : true,
       check : "Boolean"
     },
-  
+
     scaleContent :
     {
       init : true,
       check : "Boolean"
     },
-  
+
     scaleFromCenter :
     {
       init : true,
       check : "Boolean"
     },
-  
+
     scaleFrom :
     {
       init : 100.0,
       check : "Number"
     },
-  
+
     scaleTo :
     {
       init : 100,
       check : "Number"
     },
-    
-    scaleMode : 
+
+    scaleMode :
     {
       init : "box"
     },

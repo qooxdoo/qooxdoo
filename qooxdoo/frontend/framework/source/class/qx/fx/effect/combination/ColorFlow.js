@@ -51,13 +51,33 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   /*
    *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+  */
+
+  construct : function(element)
+  {
+    this.base(arguments, element);
+
+    this.setForwardTransition(qx.fx.Transition.linear);
+    this.setBackwardTransition(qx.fx.Transition.linear);
+
+    this._highlightEffects = {
+      1 : new qx.fx.effect.core.Highlight(this._element),
+      2 : new qx.fx.effect.core.Highlight(this._element)
+    };
+  
+  },
+
+  /*
+   *****************************************************************************
       PROPERTIES
    *****************************************************************************
    */
 
   properties :
   {
-  
+
     startColor :
     {
       init   : "#ffffff",
@@ -75,50 +95,30 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       init   : null,
       check : "Function"
     },
-    
+
     backwardTransition :
     {
       init   : null,
       check : "Function"
     },
-    
+
     forwardDuration :
     {
       init   : 1.0,
       check : "Number"
     },
-    
+
     backwardDuration :
     {
       init   : 1.0,
       check : "Number"
     },
-    
+
     delayBetween :
     {
       init   : 0.3,
       check : "Number"
     }
-
-  },
-
-
-  /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
-
-  construct : function(element)
-  {
-    this.base(arguments, element);
-    this.setForwardTransition(qx.fx.Transition.linear);
-    this.setBackwardTransition(qx.fx.Transition.linear);
-
-    this._highlightEffects = {
-      1 : new qx.fx.effect.core.Highlight(this._element),
-      2 : new qx.fx.effect.core.Highlight(this._element)
-    };
 
   },
 
@@ -140,7 +140,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       var highlightEffectsReference = this._highlightEffects;
       var delay = this.getDelayBetween() * 1000;
 
-     
+
       this._highlightEffects[1].set({
         startColor   : this.getStartColor(),
         endColor     : this.getEndColor(),

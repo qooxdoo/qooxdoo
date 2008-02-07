@@ -62,6 +62,19 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     this.setScaleTransition(qx.fx.Transition.sinoidal);
     this.setMoveTransition(qx.fx.Transition.sinoidal);
+
+    this._moveEffect = new qx.fx.effect.core.Move(this._element);
+    this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
+    this._mainEffect = new qx.fx.effect.core.Move(this._element);
+
+    var parallelEffect = new qx.fx.effect.core.Parallel([
+      this._moveEffect,
+      this._scaleEffect
+    ]);
+
+    this._mainEffect.afterFinishInternal = function(effect) {
+      parallelEffect.start();
+    };
   },
 
   /*
@@ -76,7 +89,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     direction :
     {
       init : "center",
-      check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ] 
+      check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ]
     },
 
     scaleTransition :
@@ -169,16 +182,14 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         break;
       }
 
-      var moveEffect = new qx.fx.effect.core.Move(this._element);
-      moveEffect.set({
+      this._moveEffect.set({
         x: moveX,
         y: moveY,
         sync: true,
         transition: this.getMoveTransition()
       });
 
-      var scaleEffect = new qx.fx.effect.core.Scale(this._element);
-      scaleEffect.set({
+      this._scaleEffect.set({
         scaleTo : 100,
         scaleMode: {
           originalHeight: this._oldStyle.height,
@@ -189,22 +200,13 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         transition: this.getScaleTransition()
       });
 
-      this._effect = new qx.fx.effect.core.Move(this._element);
-      this._effect.set({
+      this._mainEffect.set({
         x : initialMoveX,
         y : initialMoveY,
         duration: 0.01
       });
 
-      this._effect.afterFinishInternal = function(effect)
-      {
-        new qx.fx.effect.core.Parallel([
-          moveEffect,
-          scaleEffect
-        ]).start();
-      };
-
-      this._effect.start();
+      this._mainEffect.start();
     }
 
    },

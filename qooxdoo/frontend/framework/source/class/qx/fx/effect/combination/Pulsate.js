@@ -90,7 +90,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
   properties :
   {
 
-    duration : 
+    duration :
     {
       init : 2,
       refine : true
