@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (this._label) {
         this._label.setText(value);
       } else {
-        this._label = new qx.ui.core.Label(value);
+        this._label = new qx.ui.basic.Label(value);
       }
       this._handleLabel();
     },
