@@ -43,10 +43,11 @@ qx.Bootstrap.define("qx.lang.Array",
      *
      * @type static
      * @param args {arguments} arguments object
+     * @param offset {Integer?0} position to start from
      * @return {Array} a newly created array (copy) with the content of the arguments object.
      */
-    fromArguments : function(args) {
-      return Array.prototype.slice.call(args, 0);
+    fromArguments : function(args, offset) {
+      return Array.prototype.slice.call(args, offset||0);
     },
 
 

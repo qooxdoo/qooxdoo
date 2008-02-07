@@ -46,6 +46,19 @@ qx.Bootstrap.define("qx.lang.Function",
   statics :
   {
     /**
+     * Extract the caller of a function from the arguments variable.
+     * This will not work in Opera.
+     *
+     * @type static
+     * @param args {arguments} The local arguments variable
+     * @return {Function | undefined} A reference to the calling function or "undefined" if caller is not supported.
+     */
+    getCaller : function(args) {
+      return args.caller ? args.caller.callee : args.callee.caller;
+    },
+
+
+    /**
      * Evaluates JavaScript code globally
      *
      * @type static
@@ -128,7 +141,7 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param func {Function} Original function to wrap
      * @param options? {Map} Map of options
      * <ul>
-     * <li><strong>bind</strong>: The object that the "this" of the function will refer to. Default is the current function.</li>
+     * <li><strong>self</strong>: The object that the "this" of the function will refer to. Default is the current function.</li>
      * <li><strong>event</strong>: If set to true, the function will act as an event listener and receive an event as its first argument.
      *    If set to a class name, the function will receive a new instance of this class (with the event passed as argument's constructor) as first argument.</li>
      *    Default is false.
@@ -148,23 +161,30 @@ qx.Bootstrap.define("qx.lang.Function",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (typeof func !== "function")
-        {
-          qx.core.Log.trace();
+        if (typeof func !== "function") {
           throw new Error("Could not bind non-function: " + func);
         }
       }
 
-      var options = options || {};
+      // Nothing to be done when there are no options.
+      if (!options) {
+        return func;
+      }
 
-      if (!options.bind) {
-        options.bind = func;
+      // Check for at least one attribute.
+      if (!(options.self || options.event || options.args || options.delay != null || options.periodical != null || options.attempt)) {
+        return func;
+      }
+
+      // Auto-bind to function if no other context is given.
+      if (!options.self) {
+        options.self = func;
       }
 
       return function(event)
       {
-        // Convert incoming arguments
-        var args = options.event ? [] : Array.prototype.slice.call(arguments, 0);
+        // Copy incoming arguments
+        var args = qx.lang.Array.fromArguments(arguments);
 
         // Prepand static arguments
         if (options.args) {
@@ -180,9 +200,9 @@ qx.Bootstrap.define("qx.lang.Function",
         {
           var returns = function()
           {
-            func.context = options.bind;
+            func.context = options.self;
 
-            var ret = func.apply(options.bind, args);
+            var ret = func.apply(options.self, args);
 
             func.context = null;
             return ret;
@@ -199,10 +219,10 @@ qx.Bootstrap.define("qx.lang.Function",
         else if (options.attempt)
         {
           var ret = false;
-          func.context = options.bind;
+          func.context = options.self;
 
           try {
-            ret = func.apply(options.bind, args);
+            ret = func.apply(options.self, args);
           } catch(ex) {}
 
           func.context = null;
@@ -210,9 +230,9 @@ qx.Bootstrap.define("qx.lang.Function",
         }
         else
         {
-          func.context = options.bind;
+          func.context = options.self;
 
-          var ret = func.apply(options.bind, args);
+          var ret = func.apply(options.self, args);
 
           func.context = null;
           return ret;
@@ -222,94 +242,11 @@ qx.Bootstrap.define("qx.lang.Function",
 
 
     /**
-     * Returns a closure with arguments and bind.
-     *
-     * *Syntax*
-     *
-     * <pre class='javascript'>var newFunction = qx.lang.Function.pass(myFunction, [args[, bind]]);</pre>
-     *
-     * *Example*
-     *
-     * <pre class='javascript'>
-     * var myFunction = function()
-     * {
-     *   var result = 'Passed: ';
-     *   for(var i = 0, l = arguments.length; i < l; i++){
-     *     result += (arguments[i] + ' ');
-     *   }
-     *   return result;
-     * }
-     * var myHello = qx.lang.Function.pass(myFunction, 'hello');
-     * var myItems = qx.lang.Function.pass(myFunction, ['peach', 'apple', 'orange']);
-     *
-     * //when ready I can execute the functions.
-     * alert(myHello());
-     * alert(myItems());
-     * </pre>
-     *
-     * @type static
-     * @param func {Function} Original function to wrap
-     * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
-     * @param bind {Object ? null} The object that the "this" of the function will refer to.
-     * @return {var} The function whose arguments are passed when called.
-     */
-    pass : function(func, args, bind)
-    {
-      return this.create(func,
-      {
-        args : args,
-        bind : bind
-      });
-    },
-
-
-    /**
-     * Tries to execute the function.
-     *
-     * *Syntax*
-     *
-     * <pre class='javascript'>var result = qx.lang.Function.attempt(myFunction, [args[, bind]]);</pre>
-     *
-     * *Example*
-     *
-     * <pre class='javascript'>
-     * var myObject = {
-     *   'cow': 'moo!'
-     * };
-     *
-     * var myFunction = function()
-     * {
-     *   for(var i = 0; i < arguments.length; i++) {
-     *     if(!this[arguments[i]]) throw('doh!');
-     *   }
-     * };
-     *
-     * var result = qx.lang.Function.attempt(myFunction, ['pig', 'cow'], myObject); // false
-     * </pre>
-     *
-     * @type static
-     * @param func {Function} Original function to wrap
-     * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
-     * @param bind {Object ? null} The object that the "this" of the function will refer to.
-     * @return {Boolean|var} <code>false</code> if an exception is thrown, else the function's return.
-     */
-    attempt : function(func, args, bind)
-    {
-      return this.create(func,
-      {
-        args    : args,
-        bind    : bind,
-        attempt : true
-      })();
-    },
-
-
-    /**
      * Returns a function whose "this" is altered.
      *
      * *Syntax*
      *
-     * <pre class='javascript'>qx.lang.Function.bind(myFunction[, obj[, args[, evt]]]);</pre>
+     * <pre class='javascript'>qx.lang.Function.self(myFunction, [self, [varargs...]]);</pre>
      *
      * *Example*
      *
@@ -327,19 +264,82 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * @type static
      * @param func {Function} Original function to wrap
-     * @param obj {Object ? null} The object that the "this" of the function will refer to.
-     * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
-     * @param evt {Boolean ? false} Used to signifiy that the function is an Event Listener. See <Function.create> Options section for more information.
+     * @param self {Object ? null} The object that the "this" of the function will refer to.
+     * @param varargs {arguments} The arguments to pass to the function.
      * @return {var} The binded function.
      */
-    bind : function(func, obj, args, evt)
+    bind : function(func, self, varargs)
     {
       return this.create(func,
       {
-        bind  : obj,
-        args  : args,
-        event : evt
+        self  : self,
+        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 2) : null
       });
+    },
+
+
+    /**
+     * Returns a function which could be used as a listener for a native event callback.
+     *
+     * *Syntax*
+     *
+     * <pre class='javascript'>qx.lang.Function.listener(myFunction, [self, [varargs...]]);</pre>
+     *
+     * @type static
+     * @param func {Function} Original function to wrap
+     * @param self {Object ? null} The object that the "this" of the function will refer to.
+     * @param varargs {arguments} The arguments to pass to the function.
+     * @return {var} The binded function.
+     */
+    listener : function(func, self, varargs)
+    {
+      return this.create(func,
+      {
+        self  : self,
+        event : true,
+        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 3) : null
+      });
+    },
+
+
+    /**
+     * Tries to execute the function.
+     *
+     * *Syntax*
+     *
+     * <pre class='javascript'>var result = qx.lang.Function.attempt(myFunction, [self, [varargs...]]);</pre>
+     *
+     * *Example*
+     *
+     * <pre class='javascript'>
+     * var myObject = {
+     *   'cow': 'moo!'
+     * };
+     *
+     * var myFunction = function()
+     * {
+     *   for(var i = 0; i < arguments.length; i++) {
+     *     if(!this[arguments[i]]) throw('doh!');
+     *   }
+     * };
+     *
+     * var result = qx.lang.Function.attempt(myFunction, myObject, 'pig', 'cow'); // false
+     * </pre>
+     *
+     * @type static
+     * @param func {Function} Original function to wrap
+     * @param self {Object ? null} The object that the "this" of the function will refer to.
+     * @param varargs {arguments ? null} The arguments to pass to the function.
+     * @return {Boolean|var} <code>false</code> if an exception is thrown, else the function's return.
+     */
+    attempt : function(func, self, varargs)
+    {
+      return this.create(func,
+      {
+        self    : self,
+        attempt : true,
+        args    : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 2) : null
+      })();
     },
 
 
@@ -348,7 +348,7 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * *Syntax*
      *
-     * <pre class='javascript'>var timeoutID = qx.lang.Function.delay(myFunction, [delay[, bind[, args]]]);</pre>
+     * <pre class='javascript'>var timeoutID = qx.lang.Function.delay(myFunction, [delay, [self, [varargs...]]]);</pre>
      *
      * *Example*
      *
@@ -364,17 +364,17 @@ qx.Bootstrap.define("qx.lang.Function",
      * @type static
      * @param func {Function} Original function to wrap
      * @param delay {Integer} The duration to wait (in milliseconds).
-     * @param bind {Object ? null} The object that the "this" of the function will refer to.
-     * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
+     * @param self {Object ? null} The object that the "this" of the function will refer to.
+     * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Integer} The JavaScript Timeout ID (useful for clearing delays).
      */
-    delay : function(func, delay, bind, args)
+    delay : function(func, delay, self, varargs)
     {
       return this.create(func,
       {
         delay : delay,
-        bind  : bind,
-        args  : args
+        self  : self,
+        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 3) : null
       })();
     },
 
@@ -384,7 +384,7 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * *Syntax*
      *
-     * <pre class='javascript'>var intervalID = qx.lang.Function.periodical(myFunction, [period[, bind[, args]]]);</pre>
+     * <pre class='javascript'>var intervalID = qx.lang.Function.periodical(myFunction, [period, [self, [varargs...]]]);</pre>
      *
      * *Example*
      *
@@ -397,31 +397,18 @@ qx.Bootstrap.define("qx.lang.Function",
      * @type static
      * @param func {Function} Original function to wrap
      * @param interval {Integer} The duration of the intervals between executions.
-     * @param bind {Object ? null} The object that the "this" of the function will refer to.
-     * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
+     * @param self {Object ? null} The object that the "this" of the function will refer to.
+     * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Integer} The Interval ID (useful for clearing a periodical).
      */
-    periodical : function(func, interval, bind, args)
+    periodical : function(func, interval, self, varargs)
     {
       return this.create(func,
       {
         periodical : interval,
-        bind       : bind,
-        args       : args
+        self       : self,
+        args       : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 3) : null
       })();
-    },
-
-
-    /**
-     * Extract the caller of a function from the arguments variable.
-     * This will not work in Opera.
-     *
-     * @type static
-     * @param args {arguments} The local arguments variable
-     * @return {Function | undefined} A reference to the calling function or "undefined" if caller is not supported.
-     */
-    getCaller : function(args) {
-      return args.caller ? args.caller.callee : args.callee.caller;
     }
   }
 });
