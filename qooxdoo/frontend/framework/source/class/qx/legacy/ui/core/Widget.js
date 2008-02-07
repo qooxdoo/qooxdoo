@@ -1869,7 +1869,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
     clipLocation : { group : [ "clipLeft", "clipTop" ] },
     clipDimension : { group : [ "clipWidth", "clipHeight" ] },
-    clip : { group : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ] },
+    clip : { group : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ] }
   },
 
 
