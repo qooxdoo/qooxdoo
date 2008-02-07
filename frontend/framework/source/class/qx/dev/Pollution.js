@@ -171,7 +171,7 @@ qx.Class.define("qx.dev.Pollution",
           // MS IE 7 crashes when doing typeof(window.external), catch here
           if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
           {
-            if ((qx.legacy.core.Client.getInstance().getMajor() >= 7) && (objectName == "window") && (key == "external")) {
+            if (objectName == "window" && key == "external") {
               continue;
             }
           }
