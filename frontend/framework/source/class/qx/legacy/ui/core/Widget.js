@@ -1870,167 +1870,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     clipLocation : { group : [ "clipLeft", "clipTop" ] },
     clipDimension : { group : [ "clipWidth", "clipHeight" ] },
     clip : { group : [ "clipLeft", "clipTop", "clipWidth", "clipHeight" ] },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DIMENSION CACHE
-    ---------------------------------------------------------------------------
-    */
-
-    /*
-      Add basic setter/getters
-    */
-
-    innerWidth :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    innerHeight :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    boxWidth :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    boxHeight :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    outerWidth :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    outerHeight :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      FRAME DIMENSIONS
-    ---------------------------------------------------------------------------
-    */
-
-    frameWidth :
-    {
-      _cached           : true,
-      defaultValue      : null,
-      addToQueueRuntime : true
-    },
-
-    frameHeight :
-    {
-      _cached           : true,
-      defaultValue      : null,
-      addToQueueRuntime : true
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PREFERRED DIMENSIONS: INNER
-    ---------------------------------------------------------------------------
-    */
-
-    preferredInnerWidth :
-    {
-      _cached           : true,
-      defaultValue      : null,
-      addToQueueRuntime : true
-    },
-
-    preferredInnerHeight :
-    {
-      _cached           : true,
-      defaultValue      : null,
-      addToQueueRuntime : true
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PREFERRED DIMENSIONS: BOX
-    ---------------------------------------------------------------------------
-    */
-
-    preferredBoxWidth :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-    preferredBoxHeight :
-    {
-      _cached      : true,
-      defaultValue : null
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT AUTO/PERCENT CACHE
-    ---------------------------------------------------------------------------
-    */
-
-    hasPercentX :
-    {
-      _cached      : true,
-      defaultValue : false
-    },
-
-    hasPercentY :
-    {
-      _cached      : true,
-      defaultValue : false
-    },
-
-    hasAutoX :
-    {
-      _cached      : true,
-      defaultValue : false
-    },
-
-    hasAutoY :
-    {
-      _cached      : true,
-      defaultValue : false
-    },
-
-    hasFlexX :
-    {
-      _cached      : true,
-      defaultValue : false
-    },
-
-    hasFlexY :
-    {
-      _cached      : true,
-      defaultValue : false
-    }
   },
 
 
@@ -7174,6 +7013,32 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
   defer : function(statics, members)
   {
+    qx.legacy.core.Property.addCachedProperty({ name : "innerWidth", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "innerHeight", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "boxWidth", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "boxHeight", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "outerWidth", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "outerHeight", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "preferredBoxWidth", defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "preferredBoxHeight", defaultValue : null }, members);
+
+    qx.legacy.core.Property.addCachedProperty({ name : "frameWidth", defaultValue : null, addToQueueRuntime : true }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "frameHeight", defaultValue : null, addToQueueRuntime : true }, members);
+
+    qx.legacy.core.Property.addCachedProperty({ name : "preferredInnerWidth", defaultValue : null, addToQueueRuntime : true }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "preferredInnerHeight", defaultValue : null, addToQueueRuntime : true }, members);
+
+    qx.legacy.core.Property.addCachedProperty({ name : "hasPercentX", defaultValue : false }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "hasPercentY", defaultValue : false }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "hasFlexX", defaultValue : false }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "hasFlexY", defaultValue : false }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "hasAutoX", defaultValue : false }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "hasAutoY", defaultValue : false }, members);
+
+
+
+
+
     statics.__initApplyMethods(members);
 
     // In MSHTML we rewrite these runtime setters to improve the

@@ -24,7 +24,6 @@
 #optional(qx.legacy.event.handler.FocusHandler)
 #optional(qx.legacy.ui.popup.ToolTipManager)
 #optional(qx.legacy.ui.popup.PopupManager)
-#require(qx.legacy.core.Property)
 
 ************************************************************************ */
 
@@ -1433,7 +1432,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
   defer : function(statics, members, properties)
   {
-    qx.legacy.core.Property.addCachedProperty({ name : "visibleChildren", _cached : true, defaultValue : null }, members);
+    qx.legacy.core.Property.addCachedProperty({ name : "visibleChildren", defaultValue : null }, members);
 
 
     // TODO There must be a better way than to define this in defer
