@@ -1,0 +1,109 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="description">
+  </div>
+
+  <script type="text/javascript">
+
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var docLayout = new qx.ui.layout.HBox();
+      docLayout.setSpacing(10);
+
+      var container = new qx.ui.core.Widget().set({
+        padding: 20,
+        layout: docLayout,
+        backgroundColor: "#CCC"
+      })
+
+      doc.add(container, 0, 0);
+
+      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-archiver.png";
+      var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
+      var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
+      var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
+
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      var outline = new qx.ui.decoration.AntTrailOutline();
+
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        padding : 5,
+        maxHeight : "pref"
+      }));
+
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        outline : outline,
+        iconPosition : "top",
+        padding : 5,
+        maxHeight : "pref"
+      }));
+
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        iconPosition : "right",
+        padding : 5,
+        maxHeight : "pref"
+      }));
+
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_date, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        iconPosition : "bottom",
+        padding : 5,
+        maxHeight : "pref"
+      }));
+
+
+      docLayout.add(at5 = new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        show : "icon",
+        padding : 5,
+        maxHeight : "pref"
+      }));
+
+    }
+
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
