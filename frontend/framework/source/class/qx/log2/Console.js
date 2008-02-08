@@ -1,8 +1,7 @@
 /*
 #require(qx.event.handler.Window)
 */
-
-qx.Class.define("qx.log2.Console",
+qx.Bootstrap.define("qx.log2.Console",
 {
   statics :
   {
