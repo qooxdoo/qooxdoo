@@ -42,6 +42,28 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
   extend : qx.fx.Base,
 
+  /*
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
+  */
+
+  construct : function(element)
+  {
+    this.base(arguments, element);
+
+    this._effects = {
+      1 : new qx.fx.effect.core.Move(this._element),
+      
+      2 : new qx.fx.effect.core.Move(this._element),
+      3 : new qx.fx.effect.core.Move(this._element),
+      
+      4 : new qx.fx.effect.core.Move(this._element),
+      5 : new qx.fx.effect.core.Move(this._element),
+      
+      6 : new qx.fx.effect.core.Move(this._element)
+    };
+  },
 
   /*
    *****************************************************************************
@@ -93,37 +115,24 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       var split = parseFloat(this.getDuration()) / 10.0;
       var counter = 0;
 
-      var moveEffects = {
-        1 : new qx.fx.effect.core.Move(this._element),
+      this._effects[1].set({ x : distance,    y : 0, duration : split});
+      this._effects[2].set({ x : -distance*2, y : 0, duration : split*2});
+      this._effects[3].set({ x : distance*2,  y : 0, duration : split*2});
+      this._effects[4].set({ x : -distance*2, y : 0, duration : split*2});
+      this._effects[5].set({ x : distance*2,  y : 0, duration : split*2});
+      this._effects[6].set({ x : -distance,   y : 0, duration : split*2});
 
-        2 : new qx.fx.effect.core.Move(this._element),
-        3 : new qx.fx.effect.core.Move(this._element),
+      var effects = this._effects;
 
-        4 : new qx.fx.effect.core.Move(this._element),
-        5 : new qx.fx.effect.core.Move(this._element),
-
-        6 : new qx.fx.effect.core.Move(this._element)
-      };
-
-      moveEffects[1].set({ x : distance,    y : 0, duration : split});
-      moveEffects[2].set({ x : -distance*2, y : 0, duration : split*2});
-      moveEffects[3].set({ x : distance*2,  y : 0, duration : split*2});
-      moveEffects[4].set({ x : -distance*2, y : 0, duration : split*2});
-      moveEffects[5].set({ x : distance*2,  y : 0, duration : split*2});
-      moveEffects[6].set({ x : -distance,   y : 0, duration : split*2});
-
-
-
-      for(var effect in moveEffects)
+      for(var effect in this._effects)
       {
         counter++;
-        moveEffects[effect].id = counter;
+        this._effects[effect].id = counter;
         if (counter < 6)
         {
-          moveEffects[effect].afterFinishInternal = function(){
-            moveEffects[this.id + 1].start();
+          this._effects[effect].afterFinishInternal = function(){
+            effects[this.id + 1].start();
           };
-          console.info(moveEffects[effect].getDuration())
         }
         else
         {
@@ -134,21 +143,22 @@ qx.Class.define("qx.fx.effect.combination.Shake",
           };
         }
       }
-      moveEffects[1].start();
+      this._effects[1].start();
 
     }
 
    },
 
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
+   /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
 
-  defer : function(statics) {
-
-  }
+   destruct : function()
+   {
+     this._disposeObjectDeep("_effects", 1);
+   }
+   
 });
-

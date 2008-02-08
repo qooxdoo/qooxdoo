@@ -61,13 +61,13 @@ qx.Class.define("qx.fx.effect.core.Move",
       x :
       {
         init : 0,
-        check : "Integer"
+        check : "Number"
       },
 
       y :
       {
         init : 0,
-        check : "Integer"
+        check : "Number"
       }
 
    },
@@ -107,16 +107,7 @@ qx.Class.define("qx.fx.effect.core.Move",
       qx.bom.element.Style.set(this._element, "top", Math.round(this._y  * position + this._originalTop));
     }
 
-   },
+   }
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
+ });
 
-  defer : function(statics) {
-
-  }
-
-});

@@ -177,6 +177,13 @@ qx.Class.define("qx.fx.Base",
       this._totalFrames  = this.getFps() * this.getDuration();
     },
 
+    set : function(args)
+    {
+      this.base(arguments, args);
+      console.warn(args)
+      this.init();
+    },
+    
     beforeFinishInternal : function(){},
     beforeFinish : function(){},
     afterFinishInternal : function(){},
@@ -196,19 +203,17 @@ qx.Class.define("qx.fx.Base",
     beforeStart : function(){},
 
 
-    setup : function()
-    {
+    setup : function() {
       this.fireEvent("setup");
     },
 
 
-    update : function()
-    {
+    update : function() {
       this.fireEvent("update");
     },
 
 
-    finish  : function(){
+    finish  : function() {
       this.fireEvent("finish");
     },
 
@@ -325,13 +330,16 @@ qx.Class.define("qx.fx.Base",
 
   },
 
+
   /*
   *****************************************************************************
-     DEFER
+     DESTRUCTOR
   *****************************************************************************
   */
 
-  defer : function(statics) {
-
+  destruct : function()
+  {
+    this._disposeFields("_element");
   }
+  
 });
