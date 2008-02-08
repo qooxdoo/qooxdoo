@@ -329,5 +329,5 @@ qx.Class.define("qx.fx.Base",
   {
     this._disposeFields("_element");
   }
-  
+
 });
