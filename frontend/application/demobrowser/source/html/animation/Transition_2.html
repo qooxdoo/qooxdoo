@@ -20,87 +20,96 @@
     qx.bom.element.Style.setCss(myElement, elementStyle);
   }
   
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("Transition2",
   {
-    var doc = qx.legacy.ui.core.ClientDocument.getInstance();
-  	myElement = qx.bom.Element.create('div', { style : elementStyle });
-  	var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 
-  	document.body.appendChild(myElement);
+    extend : qx.legacy.application.Gui,
+
+    members :
+    {
+      main : function()
+      {
+      
+        this.base(arguments);
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
+        myElement = qx.bom.Element.create('div', { style : elementStyle });
+
+        document.body.appendChild(myElement);
   
-  	myElement.id = "testDiv";
-  	myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
+        myElement.id = "testDiv";
+        myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
 
-		var transitionData = {
-			linear      : "Linear is the default transition for many effects.",
-      easeInQuad  : "EaseInQuad will accelerate exponentially.",
-      easeOutQuad : "EaseOutQuad will slow down exponentially.",
-      sinoidal    : "Sinoidal transition will accelerate sinusoidal.",
-      reverse     : "Reverse behaves like linear, but in the opposite direction.",
-      wobble      : "Wobble will bounce the element forwards and backwards.",
-      spring      : "Spring will overshoot the target and then move back.",
-      flicker     : "Alternates rapidly between start end target. Looks only nice on color effects.",
-      pulse       : "Alternates between start and end. Looks only nice on color effects."
-    };
+        var transitionData = {
+          linear      : "Linear is the default transition for many effects.",
+          easeInQuad  : "EaseInQuad will accelerate exponentially.",
+          easeOutQuad : "EaseOutQuad will slow down exponentially.",
+          sinoidal    : "Sinoidal transition will accelerate sinusoidal.",
+          reverse     : "Reverse behaves like linear, but in the opposite direction.",
+          wobble      : "Wobble will bounce the element forwards and backwards.",
+          spring      : "Spring will overshoot the target and then move back.",
+          flicker     : "Alternates rapidly between start end target. Looks only nice on color effects.",
+          pulse       : "Alternates between start and end. Looks only nice on color effects."
+        };
 
-		var combo = new qx.legacy.ui.form.ComboBox;
-  	var btnShow = new qx.legacy.ui.form.Button("Show it!");
-    var lblName = new qx.legacy.ui.basic.Label("Name");
-    var lblDesc = new qx.legacy.ui.basic.Label("Description");
-    var lblDur = new qx.legacy.ui.basic.Label("Duration");
-    var textDesc = new qx.legacy.ui.embed.TextEmbed;
-    var spDuration = new qx.legacy.ui.form.Spinner;
+        var combo = new qx.legacy.ui.form.ComboBox;
+        var btnShow = new qx.legacy.ui.form.Button("Show it!");
+        var lblName = new qx.legacy.ui.basic.Label("Name");
+        var lblDesc = new qx.legacy.ui.basic.Label("Description");
+        var lblDur = new qx.legacy.ui.basic.Label("Duration");
+        var textDesc = new qx.legacy.ui.embed.TextEmbed;
+        var spDuration = new qx.legacy.ui.form.Spinner;
 
-		lblName.setLocation(25, 50);
-		lblDesc.setLocation(25, 75);
-		lblDur.setLocation(25, 25);
+        lblName.setLocation(25, 50);
+        lblDesc.setLocation(25, 75);
+        lblDur.setLocation(25, 25);
 
-		combo.setLocation(90, 50);
-		textDesc.setLocation(90, 75);
-		spDuration.setLocation(90, 25);
+        combo.setLocation(90, 50);
+        textDesc.setLocation(90, 75);
+        spDuration.setLocation(90, 25);
 
-		btnShow.setLocation(23, 100);
+        btnShow.setLocation(23, 100);
 
-		for (var transition in transitionData) {
-			combo.add(new qx.legacy.ui.form.ListItem(transition));
-		}
+        for (var transition in transitionData) {
+          combo.add(new qx.legacy.ui.form.ListItem(transition));
+        }
 
-    combo.addListener("changeValue", function(){
-      textDesc.setText(transitionData[this.getSelected().getLabel()]);
-    });
-    combo.addListener("appear", function(){
-      this.setSelected(this.getList().getChildren()[0]);
-    });
+        combo.addListener("changeValue", function(){
+          textDesc.setText(transitionData[this.getSelected().getLabel()]);
+        });
+        combo.addListener("appear", function(){
+          this.setSelected(this.getList().getChildren()[0]);
+        });
 
-    spDuration.set({
-      max   : 10.0,
-      min   :  0.1,
-      value :  1.0
-    });
+        spDuration.set({
+          max   : 10.0,
+          min   :  0.1,
+          value :  1.0
+        });
 
-    var nf = new qx.util.format.NumberFormat();
-    nf.setMaximumFractionDigits(2);
-    spDuration.setNumberFormat(nf);
-    spDuration.getManager().setPrecision(2);
+        var nf = new qx.util.format.NumberFormat();
+        nf.setMaximumFractionDigits(2);
+        spDuration.setNumberFormat(nf);
+        spDuration.getManager().setPrecision(2);
 
-  	btnShow.addListener("execute", function(){
-      var transition = combo.getSelected().getLabel();
-      var animMove = new qx.fx.effect.core.Highlight(myElement, {
-        startColor : "#134275",
-        endColor : "#7CFC00",
-        transition : qx.fx.Transition[transition],
-        duration : spDuration.getValue(),
-        mode : "absolute",
-      });
+        btnShow.addListener("execute", function(){
+          var transition = combo.getSelected().getLabel();
+          var animMove = new qx.fx.effect.core.Highlight(myElement, {
+            startColor : "#134275",
+            endColor : "#7CFC00",
+            transition : qx.fx.Transition[transition],
+            duration : spDuration.getValue(),
+            mode : "absolute",
+          });
 
-      animMove.addListener("finish", resetElement);
-      animMove.start();  	  
-    });
+          animMove.addListener("finish", resetElement);
+          animMove.start();  	  
+        });
 
-
-  	doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
-     
+  	    doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
+      }
+    }
   });
+  qx.core.Init.getInstance().setApplication(new Transition2);
   </script>
 </body>
 </html>
