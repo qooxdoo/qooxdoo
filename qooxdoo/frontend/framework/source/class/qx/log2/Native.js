@@ -2,14 +2,24 @@ qx.Bootstrap.define("qx.log2.Native",
 {
   statics :
   {
-    process : function(entry)
+    process : qx.core.Variant.select("qx.client",
     {
-      if (window.console && console.firebug) {
-        console[entry.level].apply(console, this.__toArguments(entry.items));
-      } else if (window.opera && opera.postError) {
-        opera.postError.apply(opera, this.__toArguments(entry.items));
-      }
-    },
+      "gecko" : function(entry)
+      {
+        if (window.console && console.firebug) {
+          console[entry.level].apply(console, this.__toArguments(entry.items));
+        } 
+      },
+      
+      "opera" : function(entry)
+      {
+        if (window.opera && opera.postError) {
+          opera.postError.apply(opera, this.__toArguments(entry.items));
+        }
+      },
+      
+      "default" : function(entry) {}
+    }),
 
     __toArguments : function(items)
     {

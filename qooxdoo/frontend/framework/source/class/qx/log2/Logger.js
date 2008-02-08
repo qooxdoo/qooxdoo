@@ -1,7 +1,7 @@
 /*
 # Temporary dependency extension
 #use(qx.log2.Console)
-#use(qx.log2.Firebug)
+#use(qx.log2.Native)
 */
 
 
