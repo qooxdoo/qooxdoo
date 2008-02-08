@@ -110,19 +110,18 @@ qx.Bootstrap.define("qx.log2.Logger",
 
       // Serialize and cache
       var msgs = [];
-      var item, type, msg, time;
+      var item, time, detect;
       for (var i=0, l=data.length; i<l; i++)
       {
         item = data[i];
-        type = this.__detect(item);
-        msg = this.__serialize(item, type)
+        detect = this.__serialize(item, true)
         time = new Date;
 
         msgs.push({
           time : time,
           offset : time-this.__start,
-          type : type,
-          msg : msg
+          type : detect.type,
+          msg : detect.value
         });
       }
 
@@ -182,49 +181,75 @@ qx.Bootstrap.define("qx.log2.Logger",
     },
 
 
-    __serialize : function(item, type)
+    /**
+     * Serializes incoming item to a string or a list of serialized values
+     * for arrays and maps.
+     *
+     * @type static
+     * @param item {var} Incoming item
+     * @param
+     */
+    __serialize : function(item, deep)
     {
+      var type = this.__detect(item);
+      var value = "unknown";
+
       switch(type)
       {
         case "null":
         case "undefined":
-          return type;
-
-        case "function":
-          return qx.dev.StackTrace.getFunctionName(item) || "function";
+          value = type;
+          break;
 
         case "string":
         case "number":
         case "boolean":
-          return item;
+          value = item;
+          break;
+
+        case "function":
+          value = qx.dev.StackTrace.getFunctionName(item) || type;
+          break;
 
         case "class":
         case "stringify":
         case "instance":
-          return item.toString();
+          value = item.toString();
+          break;
 
         case "array":
-          var ret = "";
-          for (var i=0, l=item.length; i<l; i++)
+          if (deep)
           {
-            if (i !== 0) {
-              ret += ", ";
+            value = [];
+            for (var i=0, l=item.length; i<l; i++) {
+              value.push(this.__serialize(item[i], false));
             }
-
-            ret += item[i];
           }
-          return "[" + ret + "]";
+          else
+          {
+            value = "[...]";
+          }
+          break;
 
         case "map":
-          var ret = [];
-          for (var key in item) {
-            ret.push(key);
+          if (deep)
+          {
+            value = [];
+            for (var key in item) {
+              value.push(key);
+            }
           }
-
-          return "{" + ret.join(", ") + "}";
+          else
+          {
+            value = "{...}";
+          }
+          break;
       }
 
-      return "unknown";
+      return {
+        type : type,
+        value : value
+      };
     }
   }
 });
