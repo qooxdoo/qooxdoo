@@ -1,0 +1,173 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>qx.ui.menu.Menu Implementation.</p>
+    <p>Example of how to enable scollbars in menus.</p>
+  </div>
+
+  <script type="text/javascript">
+
+
+qx.Class.define("Menu",
+{
+  extend : qx.ui.menu.Menu,
+
+  members :
+  {
+
+    /**
+     * Measure and store the menu height. This method must be called if the menu
+     * should have automatic vertical scrollbars. It must be called after the
+     * menu is created and inserted into the document.
+     */
+    measureHeight : function()
+    {
+      //Hack: Show menu so real height is computed
+      var oldHeight = this.getHeight();
+      this.setHeight("auto");
+
+      var oldRestrictValue = this.getRestrictToPageOnOpen();
+      this.setRestrictToPageOnOpen(false);
+
+      //Move out of view so it is not rendered on screen
+      //Method stolen from qooxdoo/Popup.js
+      var hideOffsetLeft = 10000;
+      var oldLeftValue = this.getLeft();
+      this.setLeft(hideOffsetLeft);
+
+      if (this.getElement() != null)
+      {
+        // The popup was already visible once before
+        // -> Move it immediately before it gets visible again
+        this.getElement().style.left = hideOffsetLeft;
+      }
+
+      this.show();
+
+      //Flush queue so it is layouted
+      qx.ui.core.Widget.flushGlobalQueues();
+
+      var height = this.getHeightValue();
+
+      //Hide again, on next open it will have correct size
+      this.hide();
+      this.setRestrictToPageOnOpen(oldRestrictValue);
+      this.setLeft(oldLeftValue);
+      this.setHeight(oldHeight);
+
+      this._measuredHeight = height;
+    },
+
+
+    // overridden
+    // show vertical scroll bars if needed
+    _beforeAppear : function()
+    {
+      //Enforce max height
+      var menuHeight = this._measuredHeight;
+      if (!menuHeight) {
+        return this.base(arguments);;
+      }
+
+      var availableHeight = qx.ui.core.ClientDocument.getInstance().getInnerHeight();
+
+      if ( menuHeight > availableHeight)
+      {
+        this.setOverflow("scrollY");
+        this.setHeight(availableHeight);
+      }
+      else
+      {
+        this.setHeight("auto");
+        this.setOverflow("hidden");
+      }
+
+      this.base(arguments);
+    }
+
+  }
+})
+
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+
+    members :
+    {
+
+
+
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+
+
+        var m2 = new Menu;
+
+        for (var i=1; i<45; i++) {
+          m2.add(new qx.ui.menu.Button("Item #" + i))
+        }
+        m2.addToDocument();
+        console.log(m2.measureHeight());
+
+        var m1 = new qx.ui.menu.Menu;
+
+        var mb1_01 = new qx.ui.menu.Button("View/Lists");
+        var mb1_02 = new qx.ui.menu.Button("Syntax Highlighting");
+        var ms1    = new qx.ui.menu.Separator();
+        var mb1_03 = new qx.ui.menu.Button("Window Font");
+        var mb1_04 = new qx.ui.menu.Button("Printer Font");
+        var ms2    = new qx.ui.menu.Separator();
+        var mb1_14 = new qx.ui.menu.Button("View", null, null, m2);
+
+        m1.add(mb1_01, mb1_02, ms1, mb1_03, mb1_04, ms2, mb1_14);
+
+        d.add(m1);
+
+
+        var w1 = new qx.ui.form.Button("Open");
+
+        w1.setTop(20);
+        w1.setLeft(20);
+
+        w1.addEventListener("click", function(e)
+        {
+          if (m1.isSeeable())
+          {
+            m1.hide();
+          }
+          else
+          {
+            var el = this.getElement();
+
+            m1.setLeft(qx.html.Location.getPageBoxLeft(el));
+            m1.setTop(qx.html.Location.getPageBoxBottom(el));
+
+            m1.show();
+          };
+
+          e.setPropagationStopped(true);
+        });
+
+        w1.addEventListener("mousedown", function(e)
+        {
+          e.setPropagationStopped(true);
+        });
+
+
+        d.add(w1);
+      }
+    }
+  });
+
+  qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
