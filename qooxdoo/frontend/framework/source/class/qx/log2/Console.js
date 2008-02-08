@@ -134,8 +134,16 @@ qx.Class.define("qx.log2.Console",
 
     __onKeyPress : function(e)
     {
-      if (e.getKeyIdentifier() == "Q" && e.isCtrlPressed()) {
+      if (e.getKeyIdentifier() == "Q" && e.isCtrlPressed())
+      {
         this.toggle();
+        e.preventDefault();
+      }
+
+      if (e.getKeyIdentifier() == "F7")
+      {
+        this.toggle();
+        e.preventDefault();
       }
 
       if (e.getKeyIdentifier() == "Enter" && this.__cmd.value != "")
