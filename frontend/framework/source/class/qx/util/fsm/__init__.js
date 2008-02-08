@@ -3,7 +3,7 @@
  *
  * Example:
  *
- * <pre>
+ * <pre class="javascript">
  * var fsm;
  * var state;
  * var trans;
@@ -27,7 +27,7 @@
  *
  *     // Function called on exit from this state
  *     "onexit" :
- *       function(fsm, event) 
+ *       function(fsm, event)
  *       {
  *         alert("Next state: " + fsm.getNextState());
  *       };
@@ -69,7 +69,7 @@
  *     //   "autoActionsAfterOnexit"
  *
  *     // Events handled by this state, or queued for processing by a future
- *     // state 
+ *     // state
  *     "events" :
  *     {
  *       // The event type "compete" is handled by one of the transitions in
@@ -181,7 +181,7 @@
  *         // a predicate search to find it.
  *         return null;
  *       },
- *               
+ *
  *     // return to current state
  *     "nextState" : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
  *   });
@@ -198,10 +198,10 @@
  *     // No predicate or a value of 'true' means that the predicate passes as
  *     // if a predicate function returned true.
  *     "predicate" : true,
- *     
+ *
  *     // if event matches, go to this state
  *     "nextState" : "S2",
- *     
+ *
  *     // action taken during transisition
  *     "action"    :
  *       function(fsm, event)
