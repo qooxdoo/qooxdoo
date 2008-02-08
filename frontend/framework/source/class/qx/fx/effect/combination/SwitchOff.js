@@ -147,5 +147,5 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
    {
      this._disposeObjects("_appearEffect", "_scaleEffect");
    }
-   
+
 });

@@ -147,6 +147,6 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   {
     this._disposeFields("_startColor", "_endColor", "_deltaColor");
   }
-  
+
 });
 

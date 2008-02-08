@@ -30,7 +30,7 @@
 qx.Class.define("testrunner.runner.TestRunner",
 {
   extend : qx.legacy.ui.layout.VerticalBoxLayout,
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR

@@ -185,6 +185,6 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
      this._disposeObjectDeep("_highlightEffects", 1);
      this._disposeObjects("_mainEffect");
    }
-   
+
 });
 

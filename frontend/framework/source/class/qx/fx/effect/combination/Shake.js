@@ -54,13 +54,13 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
     this._effects = {
       1 : new qx.fx.effect.core.Move(this._element),
-      
+
       2 : new qx.fx.effect.core.Move(this._element),
       3 : new qx.fx.effect.core.Move(this._element),
-      
+
       4 : new qx.fx.effect.core.Move(this._element),
       5 : new qx.fx.effect.core.Move(this._element),
-      
+
       6 : new qx.fx.effect.core.Move(this._element)
     };
   },
@@ -160,5 +160,5 @@ qx.Class.define("qx.fx.effect.combination.Shake",
    {
      this._disposeObjectDeep("_effects", 1);
    }
-   
+
 });

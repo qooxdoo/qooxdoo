@@ -135,5 +135,5 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
    {
      this._disposeObjectDeep("_fadeEffects", 1);
    }
-   
+
 });
