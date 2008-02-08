@@ -177,13 +177,6 @@ qx.Class.define("qx.fx.Base",
       this._totalFrames  = this.getFps() * this.getDuration();
     },
 
-    set : function(args)
-    {
-      this.base(arguments, args);
-      console.warn(args)
-      this.init();
-    },
-    
     beforeFinishInternal : function(){},
     beforeFinish : function(){},
     afterFinishInternal : function(){},
@@ -221,16 +214,11 @@ qx.Class.define("qx.fx.Base",
     start : function()
     {
 
-      switch (this._state)
-      {
-        case qx.fx.Base.EffectState.FINISHED :
-          this.init();
-        break;
-
-        case qx.fx.Base.EffectState.RUNNING :
-          this.end();
-        break;
+      if(this._state == qx.fx.Base.EffectState.RUNNING) {
+        this.end();
       }
+
+      this.init();
 
       this.beforeStartInternal();
       this.beforeStart();

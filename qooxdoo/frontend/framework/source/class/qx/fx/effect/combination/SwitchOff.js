@@ -53,23 +53,31 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
   {
     this.base(arguments, element);
     this.setTransition(qx.fx.Transition.flicker);
-    
+
     var scaleEffect = this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
 
     this._scaleEffect.beforeSetup = function() {
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
     };
 
-    this._scaleEffect.afterFinishInternal = function() {
-      qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
-      qx.bom.element.Style.set(this._element, "display", "none");
-    };
-
-
-    this._appearEffect = new qx.fx.effect.core.FadeOut(this._element);
+    this._appearEffect = new qx.fx.effect.core.FadeIn(this._element);
     this._appearEffect.afterFinishInternal = function() {
       scaleEffect.start();
     };
+
+    this._scaleEffect.set({
+      scaleTo            : 1.0,
+      duration           : 0.3,
+      scaleFromCenter    : true,
+      scaleX             : false,
+      scaleContent       : false,
+      restoreAfterFinish : true
+    });
+
+    this._appearEffect.set({
+      duration : this.getDuration(),
+      from : this.getFrom()
+    });
 
   },
 
@@ -112,27 +120,17 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
       this.base(arguments);
 
       this._oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
+
+      this._scaleEffect.afterFinishInternal = function() {
+        qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
+        qx.bom.element.Style.set(this._element, "display", "none");
+      };
+
     },
 
     start : function()
     {
       this.base(arguments);
-
-      this._scaleEffect.set({
-        scaleTo            : 1.0,
-        duration           : 0.3,
-        scaleFromCenter    : true,
-        scaleX             : false,
-        scaleContent       : false,
-        restoreAfterFinish : true
-      });
-
-      this._appearEffect.set({
-        duration : this.getDuration(),
-        from : this.getFrom()
-      });
-
-
       this._appearEffect.start();
     }
 
