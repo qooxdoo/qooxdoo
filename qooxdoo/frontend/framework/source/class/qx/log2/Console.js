@@ -121,7 +121,7 @@ qx.Class.define("qx.log2.Console",
       this.__history.push(value);
       qx.log2.Logger.debug(">>> " + value)
 
-      var ret = qx.lang.Function.globalEval(value);
+      var ret = window.eval(value);
       if (ret !== undefined) {
         qx.log2.Logger.debug(ret);
       }
