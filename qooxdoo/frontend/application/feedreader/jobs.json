@@ -23,7 +23,7 @@
       }
     ],
 
-    "include" : ["feedreader.*", "qx.legacy.theme.Ext", "qx.locale.*"],
+    "include" : ["feedreader.*", "qx.legacy.theme.Ext"],
 
     "require" :
     {
@@ -34,7 +34,7 @@
     {
       "qx.application" : "feedreader.Application",
       "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-      "qx.theme"       : "qx.legacy.theme.Ext"
+      "qx.legacy.theme"       : "qx.legacy.theme.Ext"
     },
 
     "localize" :
@@ -120,7 +120,7 @@
       "qx.application" : "apiviewer.Application",
       "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
       "qx.minLogLevel" : "700",
-      "qx.theme"       : "qx.legacy.theme.ClassicRoyale",
+      "qx.legacy.theme"       : "qx.legacy.theme.ClassicRoyale",
       "apiviewer.resourceUri" : "./resource/apiviewer",
       "apiviewer.title": "Generator2 API Viewer"
      },
