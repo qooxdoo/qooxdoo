@@ -86,6 +86,14 @@
           value :  1.0
         });
 
+        var animMove = new qx.fx.effect.core.Highlight(myElement);
+        animMove.set({
+          startColor : "#134275",
+          endColor : "#7CFC00",
+          mode : "absolute"
+        });
+        animMove.addListener("finish", resetElement);
+
         var nf = new qx.util.format.NumberFormat();
         nf.setMaximumFractionDigits(2);
         spDuration.setNumberFormat(nf);
@@ -93,15 +101,11 @@
 
         btnShow.addListener("execute", function(){
           var transition = combo.getSelected().getLabel();
-          var animMove = new qx.fx.effect.core.Highlight(myElement, {
-            startColor : "#134275",
-            endColor : "#7CFC00",
+          animMove.set({
             transition : qx.fx.Transition[transition],
-            duration : spDuration.getValue(),
-            mode : "absolute",
+            duration : spDuration.getValue()
           });
 
-          animMove.addListener("finish", resetElement);
           animMove.start();  	  
         });
 

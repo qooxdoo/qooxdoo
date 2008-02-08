@@ -82,6 +82,14 @@
           value :  1.0
         });
 
+        var animMove = new qx.fx.effect.core.Move(myElement);
+        animMove.set({
+          x : 600,
+          y : 300,
+          mode : "absolute"
+        });
+        animMove.addListener("finish", resetElement);
+
         var nf = new qx.util.format.NumberFormat();
         nf.setMaximumFractionDigits(2);
         spDuration.setNumberFormat(nf);
@@ -89,15 +97,11 @@
 
         btnShow.addListener("execute", function(){
           var transition = combo.getSelected().getLabel();
-          var animMove = new qx.fx.effect.core.Move(myElement, {
-            x : 600,
-            y : 300,
+          animMove.set({
             transition : qx.fx.Transition[transition],
-            duration : spDuration.getValue(),
-            mode : "absolute",
+            duration : spDuration.getValue()
           });
 
-          animMove.addListener("finish", resetElement);
           animMove.start();  	  
         });
 
