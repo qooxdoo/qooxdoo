@@ -109,26 +109,19 @@ qx.Bootstrap.define("qx.log2.Logger",
       }
 
       // Serialize and cache
-      var msgs = [];
-      var item, time, detect;
-      for (var i=0, l=data.length; i<l; i++)
-      {
-        item = data[i];
-        detect = this.__serialize(item, true)
-        time = new Date;
-
-        msgs.push({
-          time : time,
-          offset : time-this.__start,
-          type : detect.type,
-          msg : detect.value
-        });
+      var items = [];
+      for (var i=0, l=data.length; i<l; i++) {
+        items.push(this.__serialize(data[i], true));
       }
 
       // Build entry
-      var entry = {
+      var time = new Date;
+      var entry =
+      {
+        time : time,
+        offset : time-this.__start,
         level: level,
-        msgs: msgs
+        items: items
       };
 
       // Update buffer
@@ -144,36 +137,43 @@ qx.Bootstrap.define("qx.log2.Logger",
     },
 
 
-    __detect : function(item)
+    /**
+     * Detects the type of the given variable.
+     *
+     * @type static
+     * @param item {var} Incoming value
+     * @return {String} Type of the incoming value
+     */
+    __detect : function(value)
     {
-      if (item === undefined) {
+      if (value === undefined) {
         return "undefined";
-      } else if (item === null) {
+      } else if (value === null) {
         return "null";
       }
 
-      var type = typeof item;
-
-      if (item.$$type) {
+      if (value.$$type) {
         return "class";
       }
 
-      else if (type === "function" || type == "string" || type === "number" || type === "boolean") {
+      var type = typeof value;
+
+      if (type === "function" || type == "string" || type === "number" || type === "boolean") {
         return type;
       }
 
       else if (type === "object")
       {
-        if (item.classname) {
+        if (value.classname) {
           return "instance";
-        } else if (item instanceof Array) {
+        } else if (value instanceof Array) {
           return "array";
         } else {
           return "map";
         }
       }
 
-      else if (item.toString) {
+      if (value.toString) {
         return "stringify";
       }
 
@@ -186,69 +186,73 @@ qx.Bootstrap.define("qx.log2.Logger",
      * for arrays and maps.
      *
      * @type static
-     * @param item {var} Incoming item
-     * @param
+     * @param value {var} Incoming value
+     * @param deep {Boolean?false} Whether arrays and maps should be
+     *    inspected for their content.
      */
-    __serialize : function(item, deep)
+    __serialize : function(value, deep)
     {
-      var type = this.__detect(item);
-      var value = "unknown";
+      var type = this.__detect(value);
+      var text = "unknown";
 
       switch(type)
       {
         case "null":
         case "undefined":
-          value = type;
+          text = type;
           break;
 
         case "string":
         case "number":
         case "boolean":
-          value = item;
+          text = value;
           break;
 
         case "function":
-          value = qx.dev.StackTrace.getFunctionName(item) || type;
+          text = qx.dev.StackTrace.getFunctionName(value) || type;
+          break;
+
+        case "instance":
+          text = value.classname + "[" + value.$$hash + "]";
           break;
 
         case "class":
         case "stringify":
-        case "instance":
-          value = item.toString();
+          text = value.toString();
           break;
 
         case "array":
           if (deep)
           {
-            value = [];
-            for (var i=0, l=item.length; i<l; i++) {
-              value.push(this.__serialize(item[i], false));
+            text = [];
+            for (var i=0, l=value.length; i<l; i++) {
+              text.push(this.__serialize(value[i], false));
             }
           }
           else
           {
-            value = "[...]";
+            text = "[...]";
           }
           break;
 
         case "map":
           if (deep)
           {
-            value = [];
-            for (var key in item) {
-              value.push(key);
+            text = [];
+            for (var key in value) {
+              text.push(this.__serialize(key, false));
             }
           }
           else
           {
-            value = "{...}";
+            text = "{...}";
           }
           break;
       }
 
       return {
         type : type,
-        value : value
+        text : text
       };
     }
   }

@@ -555,34 +555,16 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
-
-    /**
-     * Internal helper which returns the prefix of all debug
-     * messages.
-     *
-     * @type member
-     * @return {String}
-     */
-    __dbg : function() {
-      return this.classname + "[" + this.toHashCode() + "]: ";
-    },
-
-
-    //__logger : qx.core.Log,
-    __logger : qx.log2.Logger,
-
-
     /**
      * Logs a debug message.
      *
      * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *          object dump will be logged.
-     * @param exc {var} the exception to log.
      * @return {void}
      */
-    debug : function(msg, exc) {
-      this.__logger.debug(this.__dbg(), msg, exc||"");
+    debug : function(msg) {
+      qx.log2.Logger.debug(this, msg);
     },
 
 
@@ -592,11 +574,10 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
-     * @param exc {var} the exception to log.
      * @return {void}
      */
-    info : function(msg, exc) {
-      this.__logger.info(this.__dbg(), msg, exc||"");
+    info : function(msg) {
+      qx.log2.Logger.info(this, msg);
     },
 
 
@@ -606,11 +587,10 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
-     * @param exc {var} the exception to log.
      * @return {void}
      */
-    warn : function(msg, exc) {
-      this.__logger.warn(this.__dbg(), msg, exc||"");
+    warn : function(msg) {
+      qx.log2.Logger.warn(this, msg);
     },
 
 
@@ -620,11 +600,10 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
-     * @param exc {var} the exception to log.
      * @return {void}
      */
-    error : function(msg, exc) {
-      this.__logger.error(this.__dbg(), msg, exc||"");
+    error : function(msg) {
+      qx.log2.Logger.error(this, msg);
     },
 
 
