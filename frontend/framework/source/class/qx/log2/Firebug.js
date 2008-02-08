@@ -1,4 +1,4 @@
-qx.Class.define("qx.log2.Firebug",
+qx.Bootstrap.define("qx.log2.Native",
 {
   statics :
   {
@@ -6,6 +6,8 @@ qx.Class.define("qx.log2.Firebug",
     {
       if (window.console && console.firebug) {
         console[entry.level].apply(console, this.__toArguments(entry.items));
+      } else if (window.opera && opera.postError) {
+        opera.postError.apply(opera, this.__toArguments(entry.items));
       }
     },
 
