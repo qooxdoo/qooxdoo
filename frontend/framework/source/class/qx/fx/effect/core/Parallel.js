@@ -51,25 +51,8 @@ qx.Class.define("qx.fx.effect.core.Parallel",
   construct : function(effects)
   {
     this.base(arguments);
-    this.setEffects(effects);
+    this._effects = effects;
   },
-
-  /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
-
-   properties :
-   {
-
-     effects :
-     {
-       init : null,
-       check : "Array"
-     }
-
-   },
 
 
   /*
@@ -85,7 +68,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      var effects = this.getEffects();
+      var effects = this._effects;
 
       for(var i=0; i<effects.length; i++)
       {
@@ -107,7 +90,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      var effects = this.getEffects();
+      var effects = this._effects;
 
       for (var i=0; i<effects.length; i++) {
         effects[i].render(position);
@@ -119,13 +102,25 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      var effects = this.getEffects();
+      var effects = this._effects;
 
       for (var i=0; i<effects.length; i++) {
         effects[i].start();
       }
     }
 
+   },
+
+
+   /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function()
+   {
+     this._disposeObjectDeep("_effects", 1);
    }
    
 });
