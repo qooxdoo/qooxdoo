@@ -65,15 +65,6 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
       qx.bom.element.Style.set(this._element, "display", "block");
     }
 
-  },
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics) {
-
   }
+
 });

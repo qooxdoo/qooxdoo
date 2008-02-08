@@ -54,6 +54,13 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     this.setMoveTransition(qx.fx.Transition.sinoidal);
     this.setScaleTransition(qx.fx.Transition.sinoidal);
+    
+    this._moveEffect = new qx.fx.effect.core.Move(this._element);
+    this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
+    this._mainEffect = new qx.fx.effect.core.Parallel([
+      this._moveEffect,
+      this._scaleEffect
+    ]);
   },
 
 
@@ -153,46 +160,41 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
       }
 
-      var moveEffect = new qx.fx.effect.core.Move(this._element);
-      moveEffec.set({
+      this._moveEffect.set({
         x: moveX,
         y: moveY,
         sync: true,
         transition: this.getMoveTransition()
       });
 
-      var scaleEffect = new qx.fx.effect.core.Scale(this._element);
-      scaleEffect.set({
+      this._scaleEffect.set({
         scaleTo : 0,
         scaleMode: {
           originalHeight: this._oldStyle.height,
           originalWidth: this._oldStyle.width
         },
         sync: true,
-        transition: this._options.scaleTransition,
+        transition: this.getScaleTransition(),
         restoreAfterFinish: true
       });
 
-      this._effect = new qx.fx.effect.core.Parallel([
-        moveEffect,
-        scaleEffect
-      ]);
-
-      this._effect.start();
+      this._mainEffect.start();
 
     }
 
    },
 
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
+   /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
 
-  defer : function(statics) {
-
-  }
+   destruct : function()
+   {
+     this._disposeObjects("_moveEffect", "_scaleEffect");
+     this._disposeObjectDeep("_mainEffect", 1);
+   }
+   
 });
-
