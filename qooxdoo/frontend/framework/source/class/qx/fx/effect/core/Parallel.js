@@ -122,5 +122,5 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    {
      this._disposeObjectDeep("_effects", 1);
    }
-   
+
 });

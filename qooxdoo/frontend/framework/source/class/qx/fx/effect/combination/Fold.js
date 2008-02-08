@@ -124,5 +124,5 @@ qx.Class.define("qx.fx.effect.combination.Fold",
    {
      this._disposeObjects("_outerScaleEffect", "_innerScaleEffect");
    }
-   
+
 });

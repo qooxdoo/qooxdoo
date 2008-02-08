@@ -974,7 +974,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         }
         else if (node.isInternal() && !showInternal) {
           qx.lang.Array.removeAt(copyArr, i);
-        }        
+        }
       }
 
       return copyArr;

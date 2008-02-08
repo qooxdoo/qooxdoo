@@ -76,8 +76,8 @@ qx.Class.define("feedreader.FeedParser",
           //console.debug(ex);
           try {
             date = this._rssDate2.parse(date);
-          } 
-          catch(ex1) 
+          }
+          catch(ex1)
           {
             //console.debug(ex1);
           }

@@ -215,5 +215,5 @@ qx.Class.define("qx.fx.effect.combination.Grow",
    {
      this._disposeObjects("_moveEffect", "_scaleEffect", "_mainEffect", "parallelEffect");
    }
-   
+
 });

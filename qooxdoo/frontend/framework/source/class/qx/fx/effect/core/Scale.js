@@ -273,6 +273,6 @@ qx.Class.define("qx.fx.effect.core.Scale",
    {
      this._disposeFields("_dims");
    }
-   
+
 });
 

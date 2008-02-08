@@ -124,5 +124,5 @@ qx.Class.define("qx.fx.effect.combination.Puff",
      this._disposeObjectDeep("_effects", 1);
      this._disposeObjects("_mainEffect");
    }
-   
+
 });

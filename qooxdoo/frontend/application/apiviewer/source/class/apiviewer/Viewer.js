@@ -189,7 +189,7 @@ qx.Class.define("apiviewer.Viewer",
 
       var part = new qx.legacy.ui.toolbar.Part;
       toolbar.add(part);
-      
+
       part.add(createButton(
         "Expand",
         qx.legacy.ui.toolbar.CheckBox,
@@ -198,7 +198,7 @@ qx.Class.define("apiviewer.Viewer",
         "Expand properties",
         false,
         "btn_expand"
-      ));  
+      ));
       part.add(createButton(
         "Inherited",
         qx.legacy.ui.toolbar.CheckBox,

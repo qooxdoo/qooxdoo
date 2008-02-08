@@ -54,7 +54,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     this.setMoveTransition(qx.fx.Transition.sinoidal);
     this.setScaleTransition(qx.fx.Transition.sinoidal);
-    
+
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
     this._mainEffect = new qx.fx.effect.core.Parallel([
@@ -196,5 +196,5 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
      this._disposeObjects("_moveEffect", "_scaleEffect");
      this._disposeObjectDeep("_mainEffect", 1);
    }
-   
+
 });

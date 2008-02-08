@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.core.Widget",
      * to <code>null</code> the preferred minimum width of the widget's content
      * is used.
      *
-     *  Also take a look at the related properties {@link #width} and {@link #maxWidth}.
+     * Also take a look at the related properties {@link #width} and {@link #maxWidth}.
      */
     minWidth :
     {
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.core.Widget",
      * to <code>null</code> the preferred maximal width of the widget's content
      * is used.
      *
-     *  Also take a look at the related properties {@link #width} and {@link #minWidth}.
+     * Also take a look at the related properties {@link #width} and {@link #minWidth}.
      */
     maxWidth :
     {
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.core.Widget",
      * to <code>null</code> the preferred minimal height of the widget's content
      * is used.
      *
-     *  Also take a look at the related properties {@link #height} and {@link #maxHeight}.
+     * Also take a look at the related properties {@link #height} and {@link #maxHeight}.
      */
     minHeight :
     {
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.core.Widget",
      * to <code>null</code> the preferred maximal height of the widget's content
      * is used.
      *
-     *  Also take a look at the related properties {@link #height} and {@link #minHeight}.
+     * Also take a look at the related properties {@link #height} and {@link #minHeight}.
      */
     maxHeight :
     {
@@ -291,7 +291,6 @@ qx.Class.define("qx.ui.core.Widget",
     allowGrowX :
     {
       check : "Boolean",
-      nullable : false,
       apply : "_applyLayoutChange",
       init : true,
       themeable : true
@@ -302,7 +301,6 @@ qx.Class.define("qx.ui.core.Widget",
     allowShrinkX :
     {
       check : "Boolean",
-      nullable : false,
       apply : "_applyLayoutChange",
       init : true,
       themeable : true
@@ -313,7 +311,6 @@ qx.Class.define("qx.ui.core.Widget",
     allowGrowY :
     {
       check : "Boolean",
-      nullable : false,
       apply : "_applyLayoutChange",
       init : true,
       themeable : true
@@ -324,7 +321,6 @@ qx.Class.define("qx.ui.core.Widget",
     allowShrinkY :
     {
       check : "Boolean",
-      nullable : false,
       apply : "_applyLayoutChange",
       init : true,
       themeable : true

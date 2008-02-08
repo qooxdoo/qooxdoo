@@ -197,5 +197,5 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
    {
      this._disposeObjects("_moveEffect", "_fadeEffect", "_mainEffect");
    }
-   
+
 });
