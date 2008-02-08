@@ -189,24 +189,25 @@ qx.Class.define("qx.ui.layout.Dock",
           child = children[i];
           props = this.getLayoutProperties(child);
 
-          if (child.canStretchX())
+          if (props.edge === "west" || props.edge === "east" || props.edge === "center")
           {
-            if (props.edge === "west" || props.edge === "east" || props.edge === "center")
+            flex = props.flex;
+
+            // Default flex for centered children is '1'
+            if (flex == null && props.edge == "center") {
+              flex = 1;
+            }
+
+            if (flex > 0)
             {
-              flex = props.flex;
+              hint = child.getSizeHint();
+              var potential = grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth;
 
-              // Default flex for centered children is '1'
-              if (flex == null && props.edge == "center") {
-                flex = 1;
-              }
-
-              if (flex > 0)
+              if (potential != 0)
               {
-                hint = child.getSizeHint();
-
                 flexibles.push({
                   id : i,
-                  potential : grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
+                  potential : potentail,
                   flex : grow ? flex : 1 / flex
                 });
               }
@@ -244,24 +245,25 @@ qx.Class.define("qx.ui.layout.Dock",
           child = children[i];
           props = this.getLayoutProperties(child);
 
-          if (child.canStretchY())
+          if (props.edge === "north" || props.edge === "south" || props.edge === "center")
           {
-            if (props.edge === "north" || props.edge === "south" || props.edge === "center")
+            flex = props.flex;
+
+            // Default flex for centered children is '1'
+            if (flex == null && props.edge == "center") {
+              flex = 1;
+            }
+
+            if (flex > 0)
             {
-              flex = props.flex;
+              hint = child.getSizeHint();
+              var potential = grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight;
 
-              // Default flex for centered children is '1'
-              if (flex == null && props.edge == "center") {
-                flex = 1;
-              }
-
-              if (flex > 0)
+              if (potentail > 0)
               {
-                hint = child.getSizeHint();
-
                 flexibles.push({
                   id : i,
-                  potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
+                  potential : potential,
                   flex : grow ? flex : 1 / flex
                 });
               }

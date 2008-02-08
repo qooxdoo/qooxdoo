@@ -83,7 +83,7 @@ qx.Class.define("BasicSample",
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       // auto size
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", maxHeight: "pref"});
+      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", allowGrowX: false});
       var layout = new qx.ui.layout.Grid();
 
       layout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}), 0, 0);

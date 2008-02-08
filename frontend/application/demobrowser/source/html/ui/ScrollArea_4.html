@@ -68,9 +68,9 @@ qx.Class.define("BasicSample",
     {
       var box = new qx.ui.basic.Label("Content size: 300x300").set({
         width: 300,
-        minWidth: "pref",
         height: 300,
-        minHeight: "pref",
+        allowShrinkX: false,
+        allowShrinkY: false,
         backgroundColor: "blue",
         textColor: "white",
         padding: 10

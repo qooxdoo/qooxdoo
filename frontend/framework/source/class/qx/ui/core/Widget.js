@@ -174,39 +174,26 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Sets the user provided minimal width of the widget. The property supports
-     * the following values:
-     *
-     *  <ul>
-     *    <li>Integer pixel value</li>
-     *    <li>The string value <code>auto</code>. This will derive the minimum
-     *      width from the minimum width of its content
-     *    </li>
-     *    <li>The string value <code>pref</code>. This will set the minimum
-     *      width to the preferred width and thus disables shrinking of the widget.
-     *    </li>
-     *  </ul>
+     * Sets the user provided minimal width of the widget. If the value is set
+     * to <code>null</code> the preferred minimum width of the widget's content
+     * is used.
      *
      *  Also take a look at the related properties {@link #width} and {@link #maxWidth}.
      */
     minWidth :
     {
+      check : "Integer",
+      nullable : true,
       apply : "_applyLayoutChange",
-      init : "auto",
+      init : null,
       themeable : true
     },
 
 
     /**
-     * Sets the preferred width of the widget. The property supports
-     * the following values:
-     *
-     *  <ul>
-     *    <li>Integer pixel value</li>
-     *    <li>The string value <code>auto</code>. This will derive the preferred
-     *      width from the preferred width of its content
-     *    </li>
-     *  </ul>
+     * Sets the preferred width of the widget. If the value is set
+     * to <code>null</code> the preferred width of the widget's content
+     * is used.
      *
      * The widget's computed width may differ from the given width due to
      * widget stretching. Also take a look at the related properties
@@ -214,70 +201,53 @@ qx.Class.define("qx.ui.core.Widget",
      */
     width :
     {
-      init : "auto",
+      check : "Integer",
+      nullable : true,
       apply : "_applyLayoutChange",
+      init : null,
       themeable : true
     },
 
 
     /**
-     * Sets the user provided maximal width of the widget. The property supports
-     * the following values:
-     *
-     *  <ul>
-     *    <li>Integer pixel value</li>
-     *    <li>The string value <code>auto</code>. This will derive the maximal
-     *      width from the maximal width of its content
-     *    </li>
-     *    <li>The string value <code>pref</code>. This will set the maximal
-     *      width to the preferred width and thus disables growing of the widget.
-     *    </li>
-     *  </ul>
+     * Sets the user provided maximal width of the widget. If the value is set
+     * to <code>null</code> the preferred maximal width of the widget's content
+     * is used.
      *
      *  Also take a look at the related properties {@link #width} and {@link #minWidth}.
      */
     maxWidth :
     {
+      check : "Integer",
+      nullable : true,
       apply : "_applyLayoutChange",
-      init : Infinity,
+      init : null,
       themeable : true
+
     },
 
 
     /**
-     * Sets the user provided minimal height of the widget. The property supports
-     * the following values:
-     *
-     *  <ul>
-     *    <li>Integer pixel value</li>
-     *    <li>The string value <code>auto</code>. This will derive the minimum
-     *      height from the minimum height of its content
-     *    </li>
-     *    <li>The string value <code>pref</code>. This will set the minimum
-     *      height to the preferred height and thus disables shrinking of the widget.
-     *    </li>
-     *  </ul>
+     * Sets the user provided minimal height of the widget. If the value is set
+     * to <code>null</code> the preferred minimal height of the widget's content
+     * is used.
      *
      *  Also take a look at the related properties {@link #height} and {@link #maxHeight}.
      */
     minHeight :
     {
+      check : "Integer",
+      nullable : true,
       apply : "_applyLayoutChange",
-      init : "auto",
+      init : null,
       themeable : true
     },
 
 
     /**
-     * Sets the preferred height of the widget. The property supports
-     * the following values:
-     *
-     *  <ul>
-     *    <li>Integer pixel value</li>
-     *    <li>The string value <code>auto</code>. This will derive the preferred
-     *      height from the preferred height of its content
-     *    </li>
-     *  </ul>
+     * Sets the preferred height of the widget. If the value is set
+     * to <code>null</code> the preferred height of the widget's content
+     * is used.
      *
      * The widget's computed height may differ from the given height due to
      * widget stretching. Also take a look at the related properties
@@ -285,35 +255,80 @@ qx.Class.define("qx.ui.core.Widget",
      */
     height :
     {
+      check : "Integer",
+      nullable : true,
       apply : "_applyLayoutChange",
-      init : "auto",
+      init : null,
       themeable : true
     },
 
 
     /**
-     * Sets the user provided maximal height of the widget. The property supports
-     * the following values:
-     *
-     *  <ul>
-     *    <li>Integer pixel value</li>
-     *    <li>The string value <code>auto</code>. This will derive the maximal
-     *      height from the maximal height of its content
-     *    </li>
-     *    <li>The string value <code>pref</code>. This will set the maximal
-     *      height to the preferred height and thus disables growing of the widget.
-     *    </li>
-     *  </ul>
+     * Sets the user provided maximal height of the widget. If the value is set
+     * to <code>null</code> the preferred maximal height of the widget's content
+     * is used.
      *
      *  Also take a look at the related properties {@link #height} and {@link #minHeight}.
      */
     maxHeight :
     {
+      check : "Integer",
+      nullable : true,
       apply : "_applyLayoutChange",
-      init : Infinity,
+      init : null,
       themeable : true
     },
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      STRETCHING
+    ---------------------------------------------------------------------------
+    */
+
+    /** Whether the widget can grow horitontally. */
+    allowGrowX :
+    {
+      check : "Boolean",
+      nullable : false,
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Whether the widget can shrink horitontally. */
+    allowShrinkX :
+    {
+      check : "Boolean",
+      nullable : false,
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Whether the widget can grow vertically. */
+    allowGrowY :
+    {
+      check : "Boolean",
+      nullable : false,
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Whether the widget can shrink vertically. */
+    allowShrinkY :
+    {
+      check : "Boolean",
+      nullable : false,
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
 
 
 
@@ -642,185 +657,134 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
       SIZE HINTS
     ---------------------------------------------------------------------------
-      A size hint computes the dimensions of a widget. It returns
-      the the recommended dimensions as well as the min and max dimensions.
-      Existing technical limits are also respected.
-    ---------------------------------------------------------------------------
     */
 
-    // overridden
+    /**
+     * A size hint computes the dimensions of a widget. It returns
+     * the the recommended dimensions as well as the min and max dimensions.
+     * Existing technical limits are also respected. The min and max values
+     * already respect the stretching properties.
+     *
+     * <h3>Wording</h3>
+     * <ul>
+     * <li>User value: Value defined by the widget user, using the size properties</li>
+     *
+     * <li>Technical value: Technical minimum value defined by the widget author
+     *     {@link #_getTechnicalLimits}.</li>
+     *
+     * <li>Layout value: The value computed by {@link #_getContentHint}</li>
+     * </ul>
+     *
+     * <h3>Algorithm</h3>
+     * <ul>
+     * <li>minSize: If the user min size or the technical min size is not null, the
+     *     maximum of both is taken. Otherwise the layout value is used.</li>
+     *
+     * <li>(preferred) size: If the user value is not null the user value is used,
+     *     otherwise the layout value is used.</li>
+     *
+     * <li>max size: Same as the preferred size.</li>
+     * </ul>
+     *
+     *
+     * @type member
+     * @return {Map} The map with the preferred width/height and the allowed
+     *   minimum and maximum values in cases where shrinking or growing
+     *   is required.
+     */
     getSizeHint : function()
     {
       if (this._sizeHint) {
         return this._sizeHint;
       }
 
-      var width, minWidth, maxWidth;
-      var height, minHeight, maxHeight;
 
-      // Prepare insets
+      // the widget size
+      // start with the user defined values
+      var sizeHint =
+      {
+        width : this.getWidth(),
+        minWidth : this.getMinWidth(),
+        maxWidth : this.getMaxWidth(),
+        height : this.getHeight(),
+        minHeight : this.getMinHeight(),
+        minHeight : this.getMaxHeight()
+      }
+
+
+      // apply technical min size
+      var technicalLimits = this._getTechnicalLimits();
+
+      if (technicalLimits.minWidth != null)
+      {
+        if (sizeHint.minWidth != null) {
+          sizeHint.minWidth = Math.max(sizeHint.minWidth, technicalLimits.minWidth);
+        } else {
+          userSite.minWidth = technicalLimits.minWidth;
+        }
+      }
+
+      if (technicalLimits.minHeight != null)
+      {
+        if (sizeHint.minHeight != null) {
+          sizeHint.minHeight = Math.max(sizeHint.minHeight, technicalLimits.minHeight);
+        } else {
+          userSite.minHeight = technicalLimits.minHeight;
+        }
+      }
+
+
+      // compute content hint
+      var contentHint = this._getContentHint();
+
       var insets = this.getInsets();
-
       var insetX = insets.left + insets.right;
       var insetY = insets.top + insets.bottom;
 
+      // add insets to content hint
+      contentHint.width += insetX;
+      contentHint.minWidth += insetX;
+      contentHint.maxWidth += insetX;
+      contentHint.height += insetY;
+      contentHint.minHeight += insetY;
+      contentHint.maxHeight += insetY;
 
-      // Read properties
-      var width = this.getWidth();
-      var minWidth = this.getMinWidth();
-      var maxWidth = this.getMaxWidth();
-      var height = this.getHeight();
-      var minHeight = this.getMinHeight();
-      var maxHeight = this.getMaxHeight();
+
+      // merge size with content size hint
+      sizeHint.width = sizeHint.width != null ? sizeHint.width : contentHint.width;
+      sizeHint.minWidth = sizeHint.minWidth != null ? sizeHint.minWidth : contentHint.minWidth;
+      sizeHint.maxWidth = sizeHint.maxWidth != null ? sizeHint.maxWidth : contentHint.maxWidth;
+      sizeHint.height = sizeHint.height != null ? sizeHint.height : contentHint.height;
+      sizeHint.minHeight = sizeHint.minHeight != null ? sizeHint.minHeight : contentHint.minHeight;
+      sizeHint.maxHeight = sizeHint.maxHeight != null ? sizeHint.maxHeight : contentHint.maxHeight;
 
 
-      // Cache technical limits
-      var technicalLimits = this._getTechnicalLimits();
+      // limit to allowed range
+      sizeHint.width = Math.max(sizeHint.minWidth, Math.min(sizeHint.width, sizeHint.maxWidth));
+      sizeHint.height = Math.max(sizeHint.minHeight, Math.min(sizeHint.height, sizeHint.maxHeight));
 
-      // Cache content hint
-      var contentHint = this._getContentHint();
 
-      if (!contentHint)
-      {
-        // Fix invalid values (which are also the default ones in this case)
-        if (width === "auto" || height === "auto")
-        {
-          width = 0;
-          height = 0;
-        }
+      // apply stretching
+      var growX = this.getAllowGrowX();
+      var shrinkX = this.getAllowShrinkX();
+      var growY = this.getAllowGrowY();
+      var shrinkY = this.getAllowShrinkY();
+
+      if (!growX) {
+        sizeHint.maxWidth = sizeHint.width;
+      }
+      if (!shrinkX) {
+        sizeHint.minWidth = sizeHint.width;
+      }
+      if (!growY) {
+        sizeHint.maxHeight = sizeHint.height;
+      }
+      if (!shrinkY) {
+        sizeHint.minHeight = sizeHint.height;
       }
 
-
-
-
-      // X-AXIS
-      // ----------------------------------------
-
-      if (width === "auto") {
-        width = contentHint.width + insetX;
-      }
-
-      if (this.canStretchX())
-      {
-        if (contentHint)
-        {
-          if (minWidth === "auto") {
-            minWidth = contentHint.minWidth + insetX;
-          } else if (minWidth === "pref") {
-            minWidth = width;
-          }
-
-          if (maxWidth === "auto") {
-            maxWidth = contentHint.maxWidth + insetX;
-          } else if (maxWidth === "pref") {
-            maxWidth = width;
-          }
-        }
-        else
-        {
-          if (minWidth === "auto" || minWidth === "pref") {
-            minWidth = 0;
-          }
-
-          if (maxWidth === "auto" || maxWidth === "pref") {
-            maxWidth = 32000;
-          }
-        }
-      }
-      else
-      {
-        minWidth = width;
-        maxWidth = width;
-      }
-
-      // Always respect technical limitations
-      minWidth = Math.max(insetX, minWidth, technicalLimits.minWidth);
-      maxWidth = Math.min(32000, maxWidth, technicalLimits.maxWidth);
-
-
-
-
-      // Y-AXIS
-      // ----------------------------------------
-
-      if (height === "auto") {
-        height = contentHint.height + insetY;
-      }
-
-      if (this.canStretchY())
-      {
-        if (contentHint)
-        {
-          if (minHeight === "auto") {
-            minHeight = contentHint.minHeight + insetY;
-          } else if (minHeight === "pref") {
-            minHeight = height;
-          }
-
-          if (maxHeight === "auto") {
-            maxHeight = contentHint.maxHeight + insetY;
-          } else if (maxHeight === "pref") {
-            maxHeight = height;
-          }
-        }
-        else
-        {
-          if (minHeight === "auto" || minHeight === "pref") {
-            minHeight = 0;
-          }
-
-          if (maxHeight === "auto" || maxHeight === "pref") {
-            maxHeight = 32000;
-          }
-        }
-      }
-      else
-      {
-        minHeight = height;
-        maxHeight = height;
-      }
-
-      // Always respect technical limitations
-      minHeight = Math.max(insetY, minHeight, technicalLimits.minWidth);
-      maxHeight = Math.min(32000, maxHeight, technicalLimits.maxWidth);
-
-
-
-
-      // HEIGHT FOR WIDTH
-      // ----------------------------------------
-      if (this.__heightForWidth)
-      {
-        // this.debug("Use HeightForWidth: " + this.__heightForWidth);
-        height = this.__heightForWidth;
-      }
-
-
-
-
-      // LIMITING DIMENSIONS
-      // ----------------------------------------
-
-      width = Math.max(Math.min(width, maxWidth), minWidth);
-      height = Math.max(Math.min(height, maxHeight), minHeight);
-
-
-
-
-      // RESULT
-      // ----------------------------------------
-
-      var hint = {
-        width : width,
-        minWidth : minWidth,
-        maxWidth : maxWidth,
-        height : height,
-        minHeight : minHeight,
-        maxHeight : maxHeight
-      };
-
-      // this.debug("Compute size hint: ", hint);
-      return this._sizeHint = hint;
+      this._sizeHint = sizeHint;
+      return sizeHint;
     },
 
 
@@ -911,16 +875,15 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @internal
      * @type member
-     * @return {Map} Map with <code>minWidth</code>, <code>maxWidth</code>,
-     *    <code>minHeight</code> and <code>maxHeight</code>.
+     * @return {Map} Map with <code>minWidth</code> and <code>minHeight</code>.
+     *     A value of <code>null</code> means that the widget does not have a
+     *     technical min size.
      */
     _getTechnicalLimits : function()
     {
       return {
-        minWidth : 0,
-        maxWidth : 32000,
-        minHeight : 0,
-        maxHeight : 32000
+        minWidth : null,
+        minHeight : null
       };
     },
 

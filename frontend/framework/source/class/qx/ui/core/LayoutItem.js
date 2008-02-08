@@ -55,6 +55,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       event : "changeVisibility",
       nullable : false
     }
+
   },
 
 
@@ -205,48 +206,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     getHeightForWidth : function(width) {
       return null;
-    },
-
-
-    /**
-     * Whether a widget is able to stretch on the x-axis. Some specific y-axis
-     * oriented widgets may overwrite this e.g. ToolBarSeparator, ...
-     *
-     * Please note: This property is not overwritable by the widget user. It
-     * may only be refined in a derived class. This way it gives the original
-     * widget author the full control regarding flex grow/shrinking used by some
-     * layout managers.
-     *
-     * The user can limit the stretching through the definition of a min- or
-     * max-width. If these limits are reached the result of this function is
-     * ignored.
-     *
-     * @type member
-     * @return {Boolean} Whether the widget is able to stretch on the x-axis.
-     */
-    canStretchX : function() {
-      return true;
-    },
-
-
-    /**
-     * Whether a widget is able to stretch on the y-axis. Some specific x-axis
-     * oriented widgets may overwrite this e.g. TextField, Spinner, ComboBox, ...
-     *
-     * Please note: This property is not overwritable by the widget user. It
-     * may only be refined in a derived class. This way it gives the original
-     * widget author the full control regarding flex grow/shrinking used by some
-     * layout managers.
-     *
-     * The user can limit the stretching through the definition of a min- or
-     * max-height. If these limits are reached the result of this function is
-     * ignored.
-     *
-     * @type member
-     * @return {Boolean} Whether the widget is able to stretch on the y-axis.
-     */
-    canStretchY : function() {
-      return true;
     },
 
 

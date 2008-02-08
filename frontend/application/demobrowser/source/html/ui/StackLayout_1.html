@@ -83,7 +83,7 @@ qx.Class.define("BasicSample",
 
 
       // resize to selected, auto-sized
-      var widget2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", maxHeight:"pref"});
+      var widget2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", allowGrowY: false});
       layout2 = new qx.ui.layout.Stack();
       layout2.setResizeToSelected(true);
 
