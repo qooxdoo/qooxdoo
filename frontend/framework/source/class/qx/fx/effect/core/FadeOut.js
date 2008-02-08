@@ -88,15 +88,6 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
       qx.bom.element.Style.set(this._element, "display", "block");
     }
 
-  },
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics) {
-
   }
+
 });

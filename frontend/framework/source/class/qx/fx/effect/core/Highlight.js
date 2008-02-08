@@ -136,13 +136,17 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
   },
 
+
   /*
   *****************************************************************************
-     DEFER
+     DESTRUCTOR
   *****************************************************************************
   */
 
-  defer : function(statics) {
-
+  destruct : function()
+  {
+    this._disposeFields("_startColor", "_endColor", "_deltaColor");
   }
+  
 });
+
