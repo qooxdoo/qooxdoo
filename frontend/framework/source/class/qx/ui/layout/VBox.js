@@ -197,22 +197,23 @@ qx.Class.define("qx.ui.layout.VBox",
         {
           child = children[i];
 
-          if (child.canStretchY())
+          layoutHeight = this.getLayoutProperty(child, "height");
+          if (layoutHeight && util.FLEX_VALUE.test(layoutHeight)) {
+            flex = parseInt(layoutHeight);
+          } else {
+            flex = this.getLayoutProperty(child, "flex", 0);
+          }
+
+          if (flex > 0)
           {
-            layoutHeight = this.getLayoutProperty(child, "height");
-            if (layoutHeight && util.FLEX_VALUE.test(layoutHeight)) {
-              flex = parseInt(layoutHeight);
-            } else {
-              flex = this.getLayoutProperty(child, "flex", 0);
-            }
+            hint = child.getSizeHint();
+            var potential = grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight;
 
-            if (flex > 0)
+            if (potential != 0)
             {
-              hint = child.getSizeHint();
-
               flexibles.push({
                 id : i,
-                potential : grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight,
+                potential : potential,
                 flex : grow ? flex : 1 / flex
               });
             }
@@ -287,11 +288,7 @@ qx.Class.define("qx.ui.layout.VBox",
         if (top < availHeight)
         {
           hint = child.getSizeHint();
-          if (child.canStretchX()) {
-            width = Math.max(hint.minWidth, Math.min(availWidth, hint.maxWidth));
-          } else {
-            width = hint.width;
-          }
+          width = Math.max(hint.minWidth, Math.min(availWidth, hint.maxWidth));
 
           // Respect horizontal alignment
           left = util.computeHorizontalAlignOffset(this.getLayoutProperty(child, "align", "left"), width, availWidth);

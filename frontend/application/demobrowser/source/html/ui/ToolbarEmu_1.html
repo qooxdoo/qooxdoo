@@ -46,7 +46,7 @@ qx.Class.define("BasicSample",
       var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
       var w4 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
 
-      w3.setMaxHeight("pref");
+      w3.setAllowGrowY(false);
       layout1.setVerticalAlign(w3, "middle");
 
       layout1.add(w1, 0);

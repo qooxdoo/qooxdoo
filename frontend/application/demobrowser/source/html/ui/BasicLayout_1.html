@@ -38,28 +38,15 @@ qx.Class.define("BasicSample",
       w3 = new qx.ui.core.Widget;
       w4 = new qx.ui.core.Widget;
 
-      w1.setId("w1");
-      w2.setId("w2");
-      w3.setId("w3");
-      w4.setId("w4");
-
       w1.setPaddingLeft(10);
       w1.setPaddingRight(10);
       w2.setPadding(3);
       w4.setPadding(10);
 
-      w1.setHtml("<b>W1</b>");
-      w2.setHtml("<b>W2</b>");
-      w3.setHtml("<b>W3</b>");
-      w4.setHtml("<b>W4</b>");
-
       w1.setBackgroundColor("red");
       w2.setBackgroundColor("blue");
       w3.setBackgroundColor("green");
       w4.setBackgroundColor("yellow");
-
-      qx.theme.manager.Color.getInstance().setColorTheme(qx.theme.classic.color.Royale);
-      qx.ui.decoration.DecorationManager.getInstance().setBorderTheme(qx.theme.classic.Border);
 
       var borderColor = "black";
       var border = new qx.ui.decoration.Basic(3, "solid", borderColor);

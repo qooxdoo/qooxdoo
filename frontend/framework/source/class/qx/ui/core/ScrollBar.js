@@ -32,6 +32,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     if (orientation != null) {
       this.setOrientation(orientation);
+    } else {
+      this.initOrientation();
     }
   },
 
@@ -71,6 +73,11 @@ qx.Class.define("qx.ui.core.ScrollBar",
       }
 
       var hori = value === "horizontal";
+
+      this.setAllowGrowX(hori);
+      this.setAllowShrinkX(hori);
+      this.setAllowGrowX(!hori);
+      this.setAllowShrinkX(!hori);
 
       var layout = hori ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
       this.setLayout(layout);
@@ -134,14 +141,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
     _applyMaximum : function(value, old) {
-    },
-
-    canStretchX : function() {
-      return this.getOrientation() === "horizontal";
-    },
-
-    canStretchY : function() {
-      return this.getOrientation() !== "horizontal";
     }
+
   }
 });
