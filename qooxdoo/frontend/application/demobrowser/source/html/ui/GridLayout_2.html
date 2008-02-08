@@ -71,8 +71,8 @@ qx.Class.define("BasicSample",
         decorator: border,
         backgroundColor: "yellow",
         width:500,
-        minWidth:"pref",
-        minHeight: "pref"
+        allowShrinkX: false,
+        allowShrinkY: false
       });
 
       var layout = new qx.ui.layout.Grid();
@@ -110,8 +110,8 @@ qx.Class.define("BasicSample",
       innerLayout.setColumnFlex(1, 1);
 
       innerLayout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", width:150}), 0, 0);
-      innerLayout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxWidth: "pref", height: 70, maxHeight: "pref"}), 0, 1);//, 2, 1);
-      innerLayout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 60, maxWidth:"pref"}), 1, 0);
+      innerLayout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", allowGrowX: false, height: 70, allowGrowX: false}), 0, 1);//, 2, 1);
+      innerLayout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 60, allowGrowX: false}), 1, 0);
       innerLayout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", minWidth:170}), 2, 0);//, 1, 2);
 
       return box;

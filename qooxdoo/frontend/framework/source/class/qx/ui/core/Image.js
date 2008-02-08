@@ -63,7 +63,32 @@ qx.Class.define("qx.ui.core.Image",
     {
       check : "String",
       apply : "_applySource"
+    },
+
+    allowGrowX :
+    {
+      refine : true,
+      init : false
+    },
+
+    allowShrinkX :
+    {
+      refine : true,
+      init : false
+    },
+
+    allowGrowY :
+    {
+      refine : true,
+      init : false
+    },
+
+    allowShrinkY :
+    {
+      refine : true,
+      init : false
     }
+
   },
 
 

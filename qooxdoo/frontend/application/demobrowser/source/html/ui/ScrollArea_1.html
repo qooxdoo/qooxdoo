@@ -69,10 +69,9 @@ qx.Class.define("BasicSample",
           layout.add((new qx.ui.core.Widget()).set({
             backgroundColor : ((x+y) % 2 == 0) ? "red" : "blue",
             width : 60,
-            minWidth : "pref",
-
-            height : 60,
-            minHeight : "pref"
+            allowShrinkY : false,
+            allowShrinkX : false,
+            height : 60
           }), x, y);
         }
       }
