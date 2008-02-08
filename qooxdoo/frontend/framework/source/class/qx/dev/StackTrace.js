@@ -319,7 +319,6 @@ qx.Class.define("qx.dev.StackTrace",
       }
 
       return 'anonymous';
-      //return fcn.toString();
     },
 
 
