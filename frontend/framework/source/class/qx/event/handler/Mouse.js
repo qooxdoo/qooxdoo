@@ -313,6 +313,15 @@ qx.Class.define("qx.event.handler.Mouse",
       var type = domEvent.type;
       var target = domEvent.target || domEvent.srcElement;
 
+      // Safari (and maybe gecko) takes text nodes as targets for events
+      // See: http://www.nczonline.net/archive/2008/2/556
+      if (qx.core.Client.isVariant("qx.client", "gecko|webkit"))
+      {
+        if (target && target.nodeType == 3) {
+          target = target.parentNode;
+        }      
+      }
+
       if (this.__rightClickFixPre) {
         this.__rightClickFixPre(domEvent, type, target);
       }
