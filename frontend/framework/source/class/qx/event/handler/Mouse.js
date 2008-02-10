@@ -315,7 +315,7 @@ qx.Class.define("qx.event.handler.Mouse",
 
       // Safari (and maybe gecko) takes text nodes as targets for events
       // See: http://www.nczonline.net/archive/2008/2/556
-      if (qx.core.Client.isVariant("qx.client", "gecko|webkit"))
+      if (qx.core.Variant.isSet("qx.client", "gecko|webkit"))
       {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
