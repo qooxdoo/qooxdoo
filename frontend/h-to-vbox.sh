@@ -1,4 +1,4 @@
-cat framework/source/class/qx/ui2/layout/HBox.js | \
+cat framework/source/class/qx/ui/layout/HBox.js | \
   sed s:width:_xx1_:g | \
   sed s:height:_xx2_:g | \
   sed s:left:_xx3_:g | \
@@ -52,4 +52,4 @@ cat framework/source/class/qx/ui2/layout/HBox.js | \
   sed s:"HBox":"VBox":g | \
   sed s:"hbox":"vbox":g | \
   sed s:"vertical row":"vertical column":g \
-> framework/source/class/qx/ui2/layout/VBox.js
+> framework/source/class/qx/ui/layout/VBox.js
