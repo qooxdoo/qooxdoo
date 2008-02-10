@@ -60,42 +60,63 @@ qx.Class.define("qx.bom.element.Attribute",
     /** Internal map of attribute convertions */
     __hints :
     {
-      // Name translation table
+      // Name translation table (camelcase is important for some attributes)
       names :
       {
-        "class"   : "className",
-        "for"     : "htmlFor",
-        html      : "innerHTML",
-        text      : qx.core.Variant.isSet("qx.client", "mshtml") ? "innerText" : "textContent",
-        colspan   : "colSpan",
-        rowspan   : "rowSpan",
-        valign    : "vAlign",
-        datetime  : "dateTime",
-        accesskey : "accessKey",
-        tabindex  : "tabIndex",
-        enctype   : "encType",
-        maxlength : "maxLength",
-        readonly  : "readOnly",
-        longdesc  : "longDesc"
+        "class"     : "className",
+        "for"       : "htmlFor",
+        html        : "innerHTML",
+        text        : qx.core.Variant.isSet("qx.client", "mshtml") ? "innerText" : "textContent",
+        colspan     : "colSpan",
+        rowspan     : "rowSpan",
+        valign      : "vAlign",
+        datetime    : "dateTime",
+        accesskey   : "accessKey",
+        tabindex    : "tabIndex",
+        enctype     : "encType",
+        maxlength   : "maxLength",
+        readonly    : "readOnly",
+        longdesc    : "longDesc",
+        cellpadding : "cellPadding",
+        cellspacing : "cellSpacing",
+        frameborder : "frameBorder",
+        usemap      : "useMap"
+      },
+      
+      // Attributes which are (forced) boolean
+      bools :
+      {
+        compact  : 1, 
+        nowrap   : 1, 
+        ismap    : 1, 
+        declare  : 1, 
+        noshade  : 1, 
+        checked  : 1, 
+        disabled : 1, 
+        readonly : 1, 
+        multiple : 1, 
+        selected : 1, 
+        noresize : 1, 
+        defer    : 1
       },
 
-      // Interpreted as property: element.property
+      // Interpreted as property (element.property)
       property :
       {
-        disabled    : true,
-        checked     : true,
-        readOnly    : true,
-        multiple    : true,
-        selected    : true,
-        value       : true,
-        maxLength   : true,
-        className   : true,
-        innerHTML   : true,
-        innerText   : true,
-        textContent : true,
-        htmlFor     : true,
-        scrollLeft  : true,
-        scrollTop   : true
+        disabled    : 1,
+        checked     : 1,
+        readOnly    : 1,
+        multiple    : 1,
+        selected    : 1,
+        value       : 1,
+        maxLength   : 1,
+        className   : 1,
+        innerHTML   : 1,
+        innerText   : 1,
+        textContent : 1,
+        htmlFor     : 1,
+        scrollLeft  : 1,
+        scrollTop   : 1
       },
 
       // Interpreted as property and attribute
@@ -103,27 +124,27 @@ qx.Class.define("qx.bom.element.Attribute",
       // e.g. tabIndex on all elements which are no input fields in Safari 3 and Opera
       dual :
       {
-        tabIndex : true
+        tabIndex : 1
       },
 
       // Use getAttribute(name, 2) for these to query for the real value, not
       // the interpreted one.
-      mshtmlOriginal :
+      original :
       {
-        href : true,
-        src  : true,
-        type : true
+        href : 1,
+        src  : 1,
+        type : 1
       },
 
       // Block these properties when trying to apply new value to them
-      readOnly :
+      readonly :
       {
-        offsetWidth : true,
-        offsetHeight : true,
-        scrollWidth : true,
-        scrollHeight : true,
-        clientWidth : true,
-        clientHeight : true
+        offsetWidth  : 1,
+        offsetHeight : 1,
+        scrollWidth  : 1,
+        scrollHeight : 1,
+        clientWidth  : 1,
+        clientHeight : 1
       }
     },
 
@@ -142,28 +163,38 @@ qx.Class.define("qx.bom.element.Attribute",
       "mshtml" : function(element, name)
       {
         var hints = this.__hints;
+        var value;
 
         // normalize name
         name = hints.names[name] || name;
 
         // respect properties
         if (hints.property[name]) {
-          return element[name];
+          value = element[name];
         }
 
         // respect original values
         // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
-        if (hints.mshtmlOriginal[name]) {
-          return element.getAttribute(name, 2);
+        else if (hints.original[name]) {
+          value = element.getAttribute(name, 2);
         }
 
-        return element.getAttribute(name);
+        else {
+          value = element.getAttribute(name);
+        }
+        
+        if (hints.bools[name]) {
+          return !!value;
+        }
+        
+        return value;
       },
 
-      // currently only supported by gecko
+      // currently supported by gecko, opera and webkit
       "default" : function(element, name)
       {
         var hints = this.__hints;
+        var value;
 
         // normalize name
         name = hints.names[name] || name;
@@ -174,15 +205,23 @@ qx.Class.define("qx.bom.element.Attribute",
         // This is the case for example tabIndex in Opera,
         // Safari and Gecko
         if (hints.dual[name]) {
-          return element.getAttribute(name) || element[name];
+          value = element.getAttribute(name) || element[name];
         }
 
         // respect properties
-        if (hints.property[name]) {
-          return element[name];
+        else if (hints.property[name]) {
+          value = element[name];
         }
 
-        return element.getAttribute(name);
+        else {
+          value = element.getAttribute(name);
+        }
+        
+        if (hints.bools[name]) {
+          return !!value;
+        }
+        
+        return value;        
       }
     }),
 
@@ -201,13 +240,18 @@ qx.Class.define("qx.bom.element.Attribute",
       var hints = this.__hints;
 
       // block read only ones
-      if (hints.readOnly[name]) {
+      if (hints.readonly[name]) {
         throw new Error("Attribute " + name + " is read only!");
       }
 
       // normalize name
       name = hints.names[name] || name;
-
+      
+      // respect booleans
+      if (hints.bools[name]) {
+        value = !!value;
+      }
+      
       // apply attribute
       if (hints.property[name]) {
         element[name] = value;
