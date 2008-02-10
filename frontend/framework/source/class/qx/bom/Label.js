@@ -53,7 +53,7 @@ qx.Class.define("qx.bom.Label",
       var style = el.style;
 
       style.width = style.height = "auto";
-      style.left = style.top = 0;
+      style.left = style.top = "-1000px";
       style.visibility = "hidden";
       style.position = "absolute";
       style.overflow = "visible";
@@ -77,7 +77,7 @@ qx.Class.define("qx.bom.Label",
       var style = el.style;
 
       style.width = style.height = "auto";
-      style.left = style.top = 0;
+      style.left = style.top = "-1000px";
       style.visibility = "hidden";
       style.position = "absolute";
       style.overflow = "visible";
@@ -233,7 +233,7 @@ qx.Class.define("qx.bom.Label",
       }
 
       // apply width
-      element.style.width = width != null ? width + "px" : "";
+      element.style.width = width != null ? width + "px" : "auto";
 
       // insert content
       element.innerHTML = content;
