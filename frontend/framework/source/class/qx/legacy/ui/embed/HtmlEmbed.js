@@ -211,5 +211,20 @@ qx.Class.define("qx.legacy.ui.embed.HtmlEmbed",
     _syncHtml : function() {
       this._getTargetNode().innerHTML = this.getHtml();
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // release connections to value managers
+    qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleTextColor, this, null);
   }
 });

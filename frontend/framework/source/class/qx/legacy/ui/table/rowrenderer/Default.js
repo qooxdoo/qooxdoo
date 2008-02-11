@@ -328,7 +328,19 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
+
+    // unlink from color theme
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColSelected, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColNormal, this, null);
+
     this._disposeFields("_colors", "_fontStyle", "__font", "_table");
   }
 });

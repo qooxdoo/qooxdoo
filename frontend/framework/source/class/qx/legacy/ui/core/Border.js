@@ -1102,5 +1102,27 @@ qx.Class.define("qx.legacy.ui.core.Border",
         }
       }
     })
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // release connections to value managers
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorTop, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorRight, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerTop, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerRight, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerBottom, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._changeColorInnerLeft, this, null);
   }
+
 });

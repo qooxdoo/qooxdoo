@@ -602,5 +602,21 @@ qx.Class.define("qx.legacy.ui.basic.Label",
         qx.bom.element.Attribute.set(element, "text", html);
       }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // release connections to value managers
+    qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleTextColor, this, null);
+    qx.locale.Manager.getInstance().connect(this._syncText, this, null);
   }
 });
