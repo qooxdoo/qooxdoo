@@ -7194,6 +7194,9 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
   destruct : function()
   {
+    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, null);
+    qx.legacy.theme.manager.Border.getInstance().connect(this._queueBorder, this, null);
+
     var elem = this.getElement();
 
     if (elem) {
