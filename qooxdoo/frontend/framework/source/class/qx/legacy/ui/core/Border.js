@@ -28,6 +28,7 @@
 qx.Class.define("qx.legacy.ui.core.Border",
 {
   extend : qx.core.Object,
+  include : qx.util.manager.MConnectedObject,
 
 
 
@@ -1102,27 +1103,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
         }
       }
     })
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    // release connections to value managers
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorTop, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorRight, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorBottom, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorLeft, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorInnerTop, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorInnerRight, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorInnerBottom, this);
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._changeColorInnerLeft, this);
   }
 
 });
