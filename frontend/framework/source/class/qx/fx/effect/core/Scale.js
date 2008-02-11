@@ -35,7 +35,8 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * This effect scales the specified element (and its content, optionally)
+ * by given percentages.
  */
 qx.Class.define("qx.fx.effect.core.Scale",
 {
@@ -52,18 +53,27 @@ qx.Class.define("qx.fx.effect.core.Scale",
   properties :
   {
 
+    /**
+     * Flag indicating if element's width should be scaled.
+     */
     scaleX :
     {
       init : true,
       check : "Boolean"
     },
 
+    /**
+     * Flag indicating if element's height should be scaled.
+     */
     scaleY :
     {
       init : true,
       check : "Boolean"
     },
 
+    /**
+     * Flag indicating if element's content (font size) should be scaled.
+     */
     scaleContent :
     {
       init : true,
@@ -82,6 +92,9 @@ qx.Class.define("qx.fx.effect.core.Scale",
       check : "Number"
     },
 
+    /**
+     * Percentage the elements dimensions should be scaled to.
+     */
     scaleTo :
     {
       init : 100,
@@ -93,6 +106,10 @@ qx.Class.define("qx.fx.effect.core.Scale",
       init : "box"
     },
 
+    /**
+     * Flag indicating if element's original dimensions should be restored
+     * after effect's runtime.
+     */
     restoreAfterFinish :
     {
       init : false,

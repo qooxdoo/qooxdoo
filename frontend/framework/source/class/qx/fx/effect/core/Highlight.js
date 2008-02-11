@@ -35,7 +35,7 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * This effect cycles to background color from initial to final color.
  */
 qx.Class.define("qx.fx.effect.core.Highlight",
 {
@@ -52,18 +52,27 @@ qx.Class.define("qx.fx.effect.core.Highlight",
    properties :
    {
 
+      /**
+       * Initial background color value.
+       */
       startColor :
       {
         init : "#ffffff",
         check : "Color"
       },
 
+      /**
+       * Final background color value.
+       */
       endColor :
       {
         init : "#ffffaa",
         check : "Color"
       },
 
+      /**
+       * Flag indicating if element's background color or image should be restored.
+       */
       restoreColor :
       {
         init : true,

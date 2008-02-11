@@ -35,7 +35,7 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Basic class for all core and combination effects.
  */
 qx.Class.define("qx.fx.Base",
 {
@@ -66,9 +66,20 @@ qx.Class.define("qx.fx.Base",
 
    events:
    {
-     "finish" : "qx.event.type.Event",
+     /**
+      * This event is fired when effect starts. 
+      */
      "setup"  : "qx.event.type.Event",
-     "update" : "qx.event.type.Event"
+
+     /**
+      * This event is fired on each frame.
+      */
+     "update" : "qx.event.type.Event",
+
+     /**
+      * This event is fired when effect ends.
+      */
+      "finish" : "qx.event.type.Event"
    },
 
   /*
@@ -79,49 +90,73 @@ qx.Class.define("qx.fx.Base",
 
   properties :
   {
-
+     /**
+     * Number of seconds the effect should run.
+     */
      duration :
      {
        init   : 1.0,
        check  : "Number"
      },
 
+     /**
+      * Number frames per seconds the effect should be rendered with.
+      */
      fps :
      {
        init   : 100,
        check  : "Number"
      },
 
+     /**
+      * Flag indicating if effect should run parallel with others.
+      */
      sync :
      {
        init   : false,
        check  : "Boolean"
      },
 
+     /**
+      * Initial value of effect-specific property (color, opacity, position, etc.).
+      */
      from :
      {
        init   : 0,
        check  : "Number"
      },
 
+     /**
+      * End value of effect-specific property. When this value is reached, the effect will end.
+      */
      to :
      {
        init   : 1,
        check  : "Number"
      },
 
+     /**
+      * Number of seconds the effect should wait before start.
+      */
      delay :
      {
        init   : 0.0,
        check  : "Number"
      },
 
+     /**
+      * Name of queue the effect should run in.
+      */
      queue :
      {
        init   : "parallel",
        check  : "String"
      },
 
+     /**
+      * Function which modifies the effect-specific property during the transtion
+      * between "from" and "to" value.
+      */
      transition :
      {
        init   : null,
