@@ -114,10 +114,10 @@ qx.Class.define("qx.ui.core.Image",
       return {
         width : 16,
         minWidth : 0,
-        maxWidth : 32000,
+        maxWidth : Infinity,
         height : 16,
         minHeight : 0,
-        maxHeight : 32000
+        maxHeight : Infinity
       };
     },
 
