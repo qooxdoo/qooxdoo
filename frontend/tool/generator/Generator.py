@@ -33,6 +33,7 @@ from generator.TreeLoader import TreeLoader
 from generator.TreeCompiler import TreeCompiler
 from generator.LibraryPath import LibraryPath
 import simplejson
+from robocopy import robocopy
 
 
 class Generator:
@@ -41,6 +42,7 @@ class Generator:
         self._console = console
         self._variants = variants
         self._settings = settings
+        self._copier = robocopy.PyRobocopier()
 
         # Merge config deps and runtime deps
         require = self._mergeDicts(require, config.get("require", {}))
@@ -345,7 +347,16 @@ class Generator:
             self._console.outdent()
 
         self._console.outdent()
-
+        
+        # Copy resources
+        resSource = self._config.get("resource/source", "./source/resource")
+        resTarget = self._config.get("resource/target", "./build/resource")
+        
+        self._console.info("Copying resources...")
+        self._console.indent()
+        self._copyResources(resSource, resTarget)
+        
+        self._console.outdent()
 
 
 
@@ -702,3 +713,8 @@ class Generator:
         (options, args) = parser.parse_args([])
 
         return compiler.compile(restree, options)
+
+
+    def _copyResources(self, srcPath, targPath):
+        self._copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
+        self._copier.do_work()
