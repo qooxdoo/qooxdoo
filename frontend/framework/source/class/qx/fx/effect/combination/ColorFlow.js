@@ -131,8 +131,6 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
       var counter = 0;
       var highlightEffectsReference = this._highlightEffects;
-      var delay = this.getDelayBetween() * 1000;
-
 
       this._highlightEffects[1].set({
         startColor   : this.getStartColor(),
@@ -147,7 +145,8 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         endColor     : this.getStartColor(),
         duration     : this.getBackwardDuration(),
         transition   : this.getBackwardTransition(),
-        restoreColor : false
+        restoreColor : false,
+        delay        : this.getDelayBetween()
       });
 
       for(var effect in this._highlightEffects)
@@ -156,9 +155,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         this._highlightEffects[effect].id = counter;
         if (counter == 1)
         {
-          this._highlightEffects[effect].afterFinishInternal = function()
-          {
-            highlightEffectsReference[2].setDelay(delay);
+          this._highlightEffects[effect].afterFinishInternal = function() {
             highlightEffectsReference[2].start();
           };
         }

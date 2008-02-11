@@ -80,12 +80,19 @@ qx.Class.define("qx.fx.effect.core.Scale",
       check : "Boolean"
     },
 
+    /**
+     * Flag indicating if element should be scaled
+     * from center (upper left corner otherwise).
+     */
     scaleFromCenter :
     {
       init : true,
       check : "Boolean"
     },
 
+    /**
+     * Percentage the elements dimensions should be scaled from.
+     */
     scaleFrom :
     {
       init : 100.0,
@@ -99,11 +106,6 @@ qx.Class.define("qx.fx.effect.core.Scale",
     {
       init : 100,
       check : "Number"
-    },
-
-    scaleMode :
-    {
-      init : "box"
     },
 
     /**
@@ -145,14 +147,6 @@ qx.Class.define("qx.fx.effect.core.Scale",
       'pt' : 'pt'
     },
 
-    _originalTop        : null,
-    _originalLeft       : null,
-    _fontSize           : null,
-    _fontSizeType       : null,
-    _factor             : null,
-    _dims               : [],
-    _elementPositioning : null,
-
     setup : function()
     {
       this.base(arguments);
@@ -186,14 +180,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
       }
 
       this._factor = (this.getScaleTo() - this.getScaleFrom()) / 100;
-
-      if (this.getScaleMode() == "box") {
-        this._dims = [this._element.offsetHeight, this._element.offsetWidth];
-      }else if (this.getScaleMode() == "contents") {
-        this._dims = [this._element.scrollHeight, this._element.scrollWidth];
-      } else {
-        this._dims = [this.getScaleMode().originalHeight, this.getScaleMode().originalWidth];
-      }
+      this._dims = [this._element.offsetHeight, this._element.offsetWidth];
 
     },
 
@@ -270,8 +257,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
        }
      }
 
-     for(var property in d)
-     {
+     for(var property in d) {
        qx.bom.element.Style.set(this._element, property, d[property])
      }
 
