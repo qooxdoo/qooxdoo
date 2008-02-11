@@ -73,8 +73,10 @@ qx.Class.define("qx.ui.core.DecorationQueue",
       for (var widgetHash in this.__queue)
       {
         var widget = this.__queue[widgetHash];
-        if (widget) {
-          widget.updateDecoration(widget.getComputedWidth(), widget.getComputedHeight());
+        if (widget)
+        {
+          var size = widget.getComputedLayout();
+          widget.updateDecoration(size.width, size.height);
         }
       }
 

@@ -1166,8 +1166,8 @@ qx.Class.define("qx.ui.core.Widget",
     _createContainerElement : function()
     {
       var el = new qx.html.Element("div");
-
       el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 0);
 
       return el;
     },

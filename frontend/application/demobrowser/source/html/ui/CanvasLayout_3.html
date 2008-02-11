@@ -36,48 +36,42 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      w1 = new qx.ui.core.Widget;
-      w2 = new qx.ui.core.Widget;
-      w3 = new qx.ui.core.Widget;
-      w4 = new qx.ui.core.Widget;
-      w5 = new qx.ui.core.Widget;
-      w6 = new qx.ui.core.Widget;
-
-      w1.setId("w1");
-      w2.setId("w2");
-      w3.setId("w3");
-      w4.setId("w4");
-      w5.setId("w5");
-      w6.setId("w6");
-
-      w1.setHtml("<b>W1</b>");
-      w2.setHtml("<b>W2</b>");
-      w3.setHtml("<b>W3 (maxHeight=300)</b>");
-      w4.setHtml("<b>W4</b>");
-      w5.setHtml("<b>W5</b>");
-      w6.setHtml("<b>W6 (minWidth=400)</b>");
-
-      w3.setMaxHeight(300);
-      w6.setMinWidth(400);
-
-      w1.setBackgroundColor("red");
-      w2.setBackgroundColor("blue");
-      w3.setBackgroundColor("green");
-      w4.setBackgroundColor("yellow");
-      w5.setBackgroundColor("orange");
-      w6.setBackgroundColor("teal");
-
-      qx.theme.manager.Color.getInstance().setColorTheme(qx.theme.classic.color.Royale);
-      qx.ui.decoration.DecorationManager.getInstance().setBorderTheme(qx.theme.classic.Border);
-
       var border = new qx.ui.decoration.Basic(3, "solid", "black");
 
-      w1.setDecoration(border);
-      w2.setDecoration(border);
-      w3.setDecoration(border);
-      w4.setDecoration(border);
-      w5.setDecoration(border);
-      w6.setDecoration(border);
+      w1 = new qx.ui.core.Widget().set({
+        backgroundColor: "red",
+        decorator: border
+      });
+
+      w2 = new qx.ui.core.Widget().set({
+        backgroundColor: "blue",
+        decorator: border
+      });
+
+      w3 = new qx.ui.basic.Label("maxHeight=300").set({
+        backgroundColor: "green",
+        decorator: border,
+        padding: 5,
+        maxHeight: 300
+      });
+
+      w4 = new qx.ui.core.Widget().set({
+        backgroundColor: "yellow",
+        decorator: border
+      });
+
+      w5 = new qx.ui.core.Widget().set({
+        backgroundColor: "orange",
+        decorator: border
+      });
+
+      w6 = new qx.ui.basic.Label("minWidth=400").set({
+        backgroundColor: "teal",
+        decorator: border,
+        padding: 5,
+        minWidth: 400
+      });
+
 
       layout = new qx.ui.layout.Canvas();
 

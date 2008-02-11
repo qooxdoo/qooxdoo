@@ -33,31 +33,34 @@ qx.Class.define("BasicSample",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      w1 = new qx.ui.core.Widget;
-      w2 = new qx.ui.core.Widget;
-      w3 = new qx.ui.core.Widget;
-      w4 = new qx.ui.core.Widget;
-
-      w1.setPaddingLeft(10);
-      w1.setPaddingRight(10);
-      w2.setPadding(3);
-      w4.setPadding(10);
-
-      w1.setBackgroundColor("red");
-      w2.setBackgroundColor("blue");
-      w3.setBackgroundColor("green");
-      w4.setBackgroundColor("yellow");
-
       var borderColor = "black";
       var border = new qx.ui.decoration.Basic(3, "solid", borderColor);
 
-      w1.setDecoration(border);
-      w2.setDecoration(border);
-      w3.setDecoration(border);
-      w4.setDecoration(border);
+      w1 = new qx.ui.basic.Label("Toggle border color.").set({
+        backgroundColor: "red",
+        decorator: border,
+        paddingLeft: 10,
+        paddingRight: 10
+      });
 
-      w1.addListener("click", function(e)
-      {
+      w2 = new qx.ui.core.Widget().set({
+        backgroundColor: "blue",
+        decorator: border
+      });
+
+      w3 = new qx.ui.core.Widget().set({
+        backgroundColor: "green",
+        decorator: border,
+        padding: 3
+      });
+
+      w4 = new qx.ui.core.Widget().set({
+        backgroundColor: "yellow",
+        decorator: border,
+        padding: 10
+      });
+
+      w1.addListener("click", function(e) {
         borderColor = borderColor == "black" ? "orange" : "black";
         border.setColor(borderColor);
       });
@@ -72,7 +75,7 @@ qx.Class.define("BasicSample",
       var container = new qx.ui.core.Widget();
       container.setLayout(layout);
 
-      doc.add(container, { left : 0, top : 0, right : 0, bottom : 0 });
+      doc.add(container, 0, 0, 0, 0);
     }
   }
 });
