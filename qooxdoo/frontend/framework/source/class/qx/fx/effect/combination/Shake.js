@@ -35,7 +35,10 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Shake"
+ *
+ * The given element will be moved forwards and backwards
+ * several times.
  */
 qx.Class.define("qx.fx.effect.combination.Shake",
 {
@@ -48,6 +51,9 @@ qx.Class.define("qx.fx.effect.combination.Shake",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);
@@ -73,13 +79,18 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
   properties :
   {
-
+    /**
+     * Number of seconds the effect should run.
+     */
     duration :
     {
       init : 0.5,
       refine : true
     },
 
+    /**
+     * Amount of pixel the element should be moved during the shake.
+     */
     distance :
     {
       init : 20,

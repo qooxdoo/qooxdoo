@@ -35,8 +35,11 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Fold"
+ *
+ * The specified element will shrink in width and height and become invisible.
  */
+
 qx.Class.define("qx.fx.effect.combination.Fold",
 {
 
@@ -48,6 +51,9 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);

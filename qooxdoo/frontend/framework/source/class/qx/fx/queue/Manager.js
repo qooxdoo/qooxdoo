@@ -52,8 +52,13 @@ qx.Class.define("qx.fx.queue.Manager",
 
   members :
   {
-    instances : {},
+    _instances : {},
 
+    /**
+     * Returns existing queue by name or creates a new queue object and returns it.
+     * @param queueName {String} Name of queue.
+     * @return {Class} The queue object.
+     */
     getQueue : function(queueName)
     {
 
@@ -61,12 +66,26 @@ qx.Class.define("qx.fx.queue.Manager",
         return queueName;
       }
 
-     if(typeof(this.instances[queueName]) == "object") {
-       return this.instances[queueName];
+     if(typeof(this._instances[queueName]) == "object") {
+       return this._instances[queueName];
      } else {
-       return this.instances[queueName] = new qx.fx.queue.Queue;
+       return this._instances[queueName] = new qx.fx.queue.Queue;
      }
 
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjectDeep("_instances", 1);
   }
+
+
 });

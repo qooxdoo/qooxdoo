@@ -8,5 +8,5 @@
  *
  * Classes in this namespace may contain code based
  * on script.aculo.us.
- * 
+ *
  */

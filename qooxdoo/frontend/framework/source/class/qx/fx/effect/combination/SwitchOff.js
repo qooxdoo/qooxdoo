@@ -35,7 +35,10 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Switch Off"
+ *
+ * The given element will flicker one time and then
+ * fold in.
  */
 
 qx.Class.define("qx.fx.effect.combination.SwitchOff",
@@ -49,6 +52,9 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);
