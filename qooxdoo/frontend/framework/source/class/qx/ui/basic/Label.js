@@ -613,8 +613,8 @@ qx.Class.define("qx.ui.basic.Label",
   destruct : function()
   {
     // release connections to value managers
-    qx.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, null);
-    qx.locale.Manager.getInstance().connect(this._syncText, this, null);
+    qx.theme.manager.Font.getInstance().disconnect(this._styleFont, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._styleTextColor, this);
+    qx.locale.Manager.getInstance().disconnect(this._syncText, this);
   }
 });

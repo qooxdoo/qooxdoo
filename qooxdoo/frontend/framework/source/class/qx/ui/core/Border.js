@@ -1123,14 +1123,14 @@ qx.Class.define("qx.ui.core.Border",
   destruct : function()
   {
     // release connections to value managers
-    qx.theme.manager.Color.getInstance().connect(this._changeColorTop, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorRight, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorInnerTop, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorInnerRight, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorInnerBottom, this, null);
-    qx.theme.manager.Color.getInstance().connect(this._changeColorInnerLeft, this, null);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorTop, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorRight, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorBottom, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorLeft, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorInnerTop, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorInnerRight, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorInnerBottom, this);
+    qx.theme.manager.Color.getInstance().disconnect(this._changeColorInnerLeft, this);
   }
 
 });
