@@ -30,10 +30,10 @@ qx.Class.define("Button",
     this.addListener("click", callback, context);
 
     var deco = new qx.ui.decoration.Basic.fromString("1px solid black");
-    this.setDecoration(deco);
 
     this.set({
-      padding : 4
+      padding : 4,
+      decorator: deco
     });
   }
 });
@@ -111,11 +111,11 @@ qx.Class.define("BasicSample",
         if (doRemove) {
           this._hbox.getLayout().remove(widget);
           this._grid.getLayout().remove(this._gridWidgets[widgetIndex]);
-          button.setContent("Add " + widget.getBackgroundColor());
+          button.setText("Add " + widget.getBackgroundColor());
         } else {
           this._hbox.getLayout().add(widget);
           this._grid.getLayout().add(this._gridWidgets[widgetIndex], 0, widgetIndex);
-          button.setContent("Remove " + widget.getBackgroundColor());
+          button.setText("Remove " + widget.getBackgroundColor());
         }
 
         doRemove = !doRemove;
