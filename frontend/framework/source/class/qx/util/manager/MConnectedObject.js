@@ -50,7 +50,6 @@ qx.Mixin.define("qx.util.manager.MConnectedObject",
       }
       this._valueManager[valueManager.toHashCode()] = valueManager;
     }
-    }
   },
 
 
