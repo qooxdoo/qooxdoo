@@ -15,7 +15,7 @@
     Mod  Nov 11 Rewrote to use the filecmp module.
 """
 
-import os, stat
+import os, stat, sys
 import time
 import shutil
 import filecmp
@@ -26,7 +26,7 @@ Pyrobocopy: Command line directory diff, synchronization, update & copy
 
 Author: Anand Pillai
 
-Usage: %s <sourcedir> <targetdir> Options
+Usage: %s  [Options] <sourcedir> <targetdir>
 
 Main Options:\n
 \t-d --diff         - Only report difference between sourcedir and targetdir
@@ -42,6 +42,8 @@ Additional Options:\n
 \t                    target directory should exist.)
 \t-m, --modtime     - Only compare file's modification times for an update (By default,
 \t                    compares source file's creation time also).
+\t-x, --excludeList - Comma-separated list of patterns to exclude. Patterns will
+                      be applied to both directories and file names.
 """                   
 
 
@@ -67,6 +69,7 @@ class PyRobocopier:
         self.__maketarget =False
         self.__modtimeonly =False
         self.__mainfunc = None
+        self.__xlist = []
         
         # stat vars
         self.__numdirs =0
@@ -90,8 +93,9 @@ class PyRobocopier:
         
         import getopt
 
-        shortargs = "supncm"
-        longargs = ["synchronize=", "update=", "purge=", "nodirection=", "create=", "modtime="]
+        shortargs = "supncmx:"
+        longargs = ["synchronize=", "update=", "purge=", "nodirection=", 
+                    "create=", "modtime=", "excludeList="]
 
         try:
             optlist, args = getopt.getopt( arguments, shortargs, longargs )
@@ -101,15 +105,15 @@ class PyRobocopier:
 
         allargs = []
         if len(optlist):
-            allargs = [x[0] for x in optlist]
+            allargs = [x for x in optlist]
             
-        allargs.extend( args )
+        allargs.extend([(x,'') for x in args ])
         self.__setargs( allargs )
             
     def __setargs(self, argslist):
         """ Sets internal variables using arguments """
         
-        for option in argslist:
+        for option, arg in argslist:
             if option.lower() in ('-s', '--synchronize'):
                 self.__mainfunc = self.synchronize
             elif option.lower() in ('-u', '--update'):
@@ -125,7 +129,9 @@ class PyRobocopier:
             elif option.lower() in ('-c', '--create'):
                 self.__maketarget = True
             elif option.lower() in ('-m', '--modtime'):
-                self.__modtimeonly = True                            
+                self.__modtimeonly = True
+            elif option.lower() in ('-x', '--excludeList'):
+                self.__xlist.extend(arg.split(','))
             else:
                 if self.__dir1=='':
                     self.__dir1 = option
@@ -198,6 +204,9 @@ class PyRobocopier:
 
         # Files & directories only in source directory
         for f1 in self.__dcmp.left_only:
+            if f1 in self.__xlist:
+                continue
+
             try:
                st = os.stat(os.path.join(dir1, f1))
             except os.error:
