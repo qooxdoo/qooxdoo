@@ -68,6 +68,19 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     this._mainEffect.afterFinishInternal = function(effect) {
       parallelEffect.start();
     };
+  /*  
+    afterFinishInternal : function()
+    {
+      qx.bom.element.Style.set(this._element, "overflow", "visible");
+
+      for (var property in this._oldStyle) {
+        console.info(property, this._oldStyle[property])
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      }
+    },
+
+*/    
+    
   },
 
   /*
@@ -118,15 +131,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       qx.bom.element.Style.set(this._element, "width", "0px");
     },
 
-    afterFinishInternal : function()
-    {
-      qx.bom.element.Style.set(this._element, "overflow", "visible");
-
-      for (var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-      }
-    },
-
     start : function()
     {
       this.base(arguments);
@@ -175,6 +179,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         break;
       }
 
+      console.warn(initialMoveX, initialMoveY, moveX, moveY)
+
       this._moveEffect.set({
         x: moveX,
         y: moveY,
@@ -213,7 +219,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
    destruct : function()
    {
-     this._disposeObjects("_moveEffect", "_scaleEffect", "_mainEffect", "parallelEffect");
+     this._disposeObjects("_moveEffect", "_scaleEffect", "_mainEffect");
    }
 
 });

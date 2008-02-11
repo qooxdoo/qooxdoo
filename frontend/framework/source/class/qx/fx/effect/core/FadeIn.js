@@ -35,8 +35,10 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * This effect fades in the specified element: 
+ * it changes to opacity from a given value to 1.0.
  */
+
 qx.Class.define("qx.fx.effect.core.FadeIn",
 {
 

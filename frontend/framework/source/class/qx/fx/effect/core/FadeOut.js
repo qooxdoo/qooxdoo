@@ -35,7 +35,8 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * This effect fades out the specified element: 
+ * it changes to opacity from 1.0 to a given value.
  */
 qx.Class.define("qx.fx.effect.core.FadeOut",
 {
@@ -52,12 +53,18 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
   properties :
   {
 
+    /**
+     * Initial opacity value.
+     */
     from :
     {
       init   : 1.0,
       refine : true
     },
 
+    /**
+     * Final opacity value.
+     */
     to :
     {
       init   : 0.0,
