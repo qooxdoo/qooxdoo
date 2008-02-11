@@ -67,7 +67,7 @@ qx.Class.define("qx.fx.Base",
    events:
    {
      /**
-      * This event is fired when effect starts. 
+      * This event is fired when effect starts.
       */
      "setup"  : "qx.event.type.Event",
 

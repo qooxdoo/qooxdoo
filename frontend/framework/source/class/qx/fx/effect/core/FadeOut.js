@@ -35,7 +35,9 @@
 ************************************************************************ */
 
 /**
- * This effect fades out the specified element: 
+ * Core effect "Fade Out"
+ *
+ * This effect fades out the specified element:
  * it changes to opacity from 1.0 to a given value.
  */
 qx.Class.define("qx.fx.effect.core.FadeOut",

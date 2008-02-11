@@ -35,8 +35,13 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Color Flow"
+ *
+ * It changes an element's background color to a given initial value and modifies it
+ * step by step to the final value. After that the effects waits a given amount of time
+ * before it modifies to background color back to the inital value.
  */
+
 qx.Class.define("qx.fx.effect.combination.ColorFlow",
 {
 
@@ -48,6 +53,9 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
    *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);
@@ -122,8 +130,8 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
    *****************************************************************************
    */
 
-   members :
-   {
+  members :
+  {
 
     start : function()
     {
@@ -153,6 +161,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       {
         counter++;
         this._highlightEffects[effect].id = counter;
+
         if (counter == 1)
         {
           this._highlightEffects[effect].afterFinishInternal = function() {
@@ -160,26 +169,25 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
           };
         }
         this._highlightEffects[effect].finish = function(){};
-
       }
+
       this._highlightEffects[1].start();
 
     }
 
-   },
+  },
 
 
-   /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
+ /*
+ *****************************************************************************
+    DESTRUCTOR
+ *****************************************************************************
+ */
 
-   destruct : function()
-   {
-     this._disposeObjectDeep("_highlightEffects", 1);
-     this._disposeObjects("_mainEffect");
-   }
+  destruct : function()
+  {
+    this._disposeObjectDeep("_highlightEffects", 1);
+    this._disposeObjects("_mainEffect");
+  }
 
 });
-

@@ -35,8 +35,12 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Grow"
+ *
+ * The element will be resized from initial dimensions to
+ * final dimensions.
  */
+
 qx.Class.define("qx.fx.effect.combination.Grow",
 {
 
@@ -49,6 +53,9 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);
@@ -68,7 +75,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     this._mainEffect.afterFinishInternal = function(effect) {
       parallelEffect.start();
     };
-  /*  
+  /*
     afterFinishInternal : function()
     {
       qx.bom.element.Style.set(this._element, "overflow", "visible");
@@ -79,8 +86,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       }
     },
 
-*/    
-    
+*/
+
   },
 
   /*
@@ -92,18 +99,27 @@ qx.Class.define("qx.fx.effect.combination.Grow",
   properties :
   {
 
+    /**
+     * Direction in which the element should grow.
+     */
     direction :
     {
       init : "center",
       check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ]
     },
 
+    /**
+     * Transition function to modify the scaling process.
+     */
     scaleTransition :
     {
       init : null,
       check : "Function"
     },
 
+    /**
+     * Transition function to modify the movement process.
+     */
     moveTransition :
     {
       init : null,

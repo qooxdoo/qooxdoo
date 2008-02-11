@@ -35,7 +35,9 @@
 ************************************************************************ */
 
 /**
- * This effect fades in the specified element: 
+ * Core effect "Fade In"
+ *
+ * This effect fades in the specified element:
  * it changes to opacity from a given value to 1.0.
  */
 

@@ -35,9 +35,10 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Drop Out"
+ *
+ * The specified element will move to the given direction and fade out.
  */
-
 qx.Class.define("qx.fx.effect.combination.DropOut",
 {
 
@@ -50,6 +51,9 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
    *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
 
@@ -59,8 +63,8 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     this._fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
 
     this._mainEffect = new qx.fx.effect.core.Parallel([
-       this._moveEffect,
-       this._fadeEffect
+      this._moveEffect,
+      this._fadeEffect
     ]);
 
   },
@@ -74,19 +78,27 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
 
   properties :
   {
-
+    /**
+     * Direction in which the element should drop out.
+     */
     direction :
     {
       init : "south",
       check : [ "south", "west", "east", "north", "south-west", "south-east", "north-east", "north-west" ]
     },
 
+    /**
+     * Amount of pixel the element should move horizontally while fading out.
+     */
     xAmount :
     {
       init : 100,
       check : "Number"
     },
 
+    /**
+     * Amount of pixel the element should move vertically while fading out.
+     */
     yAmount :
     {
       init : 100,
@@ -102,8 +114,8 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
    *****************************************************************************
    */
 
-   members :
-   {
+  members :
+  {
 
     start : function()
     {
@@ -164,7 +176,6 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
           moveEffectOptions.x = -xAmount;
           moveEffectOptions.y = -yAmount;
         break;
-
       }
 
       this._moveEffect.set(moveEffectOptions);
@@ -184,7 +195,7 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
 
     }
 
-   },
+  },
 
 
    /*
@@ -193,9 +204,8 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
    *****************************************************************************
    */
 
-   destruct : function()
-   {
-     this._disposeObjects("_moveEffect", "_fadeEffect", "_mainEffect");
-   }
+  destruct : function() {
+    this._disposeObjects("_moveEffect", "_fadeEffect", "_mainEffect");
+  }
 
 });

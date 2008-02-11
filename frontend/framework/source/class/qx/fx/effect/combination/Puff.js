@@ -35,7 +35,10 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Puff"
+ *
+ * The given element resized from zero to it's original size
+ * and faded in at the same time.
  */
 qx.Class.define("qx.fx.effect.combination.Puff",
 {
@@ -48,6 +51,9 @@ qx.Class.define("qx.fx.effect.combination.Puff",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);

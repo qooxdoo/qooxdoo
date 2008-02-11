@@ -35,7 +35,7 @@
 ************************************************************************ */
 
 /**
- * Static class containing all transition functions. 
+ * Static class containing all transition functions.
  */
 qx.Class.define("qx.fx.Transition",
 {
