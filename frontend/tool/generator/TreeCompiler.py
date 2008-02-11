@@ -1,7 +1,7 @@
 import copy, optparse
 
 from ecmascript import compiler, treeutil
-from ecmascript.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
+from ecmascript.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 from misc import idlist
 
 class TreeCompiler:
@@ -98,6 +98,10 @@ class TreeCompiler:
             self._console.debug("Optimize strings...")
             self._stringOptimizeHelper(fileTree, fileId, variants)
 
+        if "privates" in optimize:
+            self._console.debug("Crypting privates...")
+            self._privateOptimizeHelper(fileTree, fileId, variants)
+
         return fileTree
 
 
@@ -114,6 +118,10 @@ class TreeCompiler:
 
     def _variableOptimizeHelper(self, tree, id, variants):
         variableoptimizer.search(tree, [], 0, 0, "$")
+        
+        
+    def _privateOptimizeHelper(self, tree, id, variants):
+        privateoptimizer.patch(tree, id)
 
 
     def _stringOptimizeHelper(self, tree, id, variants):

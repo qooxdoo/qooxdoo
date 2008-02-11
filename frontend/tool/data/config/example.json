@@ -57,7 +57,7 @@
     "compile" :
     {
       "file" : "compile-log2.js",
-      "optimize" : [ "variables", "basecalls" ]
+      "optimize" : [ "variables", "basecalls", "privates" ]
     }    
   },
 
@@ -79,6 +79,23 @@
     }    
   },
 
+  "compile-bom-privates" : 
+  {
+    "extend" : ["common"],
+    
+    "include" : ["qx.bom.Element"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },
+    
+    "compile" :
+    {
+      "file" : "compile-bom.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }    
+  },
 
 
 
@@ -143,7 +160,7 @@
   "source-feedreader" :
   {
     "extend" : ["common"],
-    "include" : ["feedreader.*", "qx.theme.Ext"],
+    "include" : ["feedreader.*", "qx.legacy.theme.Ext"],
 
     "settings" :
     {
@@ -188,19 +205,25 @@
   "compile-feedreader" :
   {
     "extend" : ["common"],
-    "include" : ["feedreader.*", "qx.theme.Ext"],
+    "include" : ["feedreader.*", "qx.legacy.theme.Ext"],
 
     "settings" :
     {
       "qx.application" : "feedreader.Application",
-      "qx.resourceUri" : "../../../framework/source/resource"
+      "qx.resourceUri" : "resource/qx",
+      "feedreader.resourceUri" : "resource/feedreader"
     },
+    
+    "variants" :
+    {
+      "qx.debug" : ["off"]
+    },    
 
     "compile" :
     {
-      "file" : "feedreader-build.js",
-      "gzip" : "true",
-      "optimize" : [ "variables", "basecalls" ]
+      "file" : "application/feedreader/build/script/feedreader.js",
+      "uri" : "script/feedreader.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
     }
   },
 
