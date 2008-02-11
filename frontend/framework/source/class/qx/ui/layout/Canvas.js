@@ -30,6 +30,7 @@
  * * Stretching between left+right and top+bottom
  * * Min and max dimensions (using widget properties)
  * * Children are automatically shrinked to their minimum dimensions if not enough space is available
+ * * Auto sizing
  *
  * @param left {Integer|String?null} Left position of the widget (accepts
  *   both, integer(pixel) and string(percent) values.
@@ -264,6 +265,96 @@ qx.Class.define("qx.ui.layout.Canvas",
 
         child.renderLayout(left, top, width, height);
       }
+    },
+
+
+    // overridden
+    _computeSizeHint : function()
+    {
+      var hint = {
+        width : 0,
+        minWidth : 0,
+        maxWidth : Infinity,
+        height : 0,
+        minHeight : 0,
+        maxHeight : Infinity
+      };
+
+      var children = this.getLayoutChildren();
+      for (var i=0,l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        var layout = this.getLayoutProperties(child);
+
+
+        // **************************************
+        //   compute width
+        // **************************************
+
+        var childWidth = 0;
+        var childMinWidth = 0;
+
+        if (typeof layout.left == "number")
+        {
+          childWidth += layout.left;
+          childMinWidth += layout.left;
+        }
+        if (typeof layout.right == "number")
+        {
+          childWidth += layout.right;
+          childMinWidth += layout.right;
+        }
+        if (typeof layout.width == "number")
+        {
+          childWidth += layout.width;
+          childMinWidth += layout.width;
+        }
+        else
+        {
+          var childHint = child.getSizeHint();
+          childWidth += childHint.width;
+          childMinWidth += childHint.minWidth;
+        }
+
+        hint.width = Math.max(hint.width, childWidth);
+        hint.minWidth = Math.max(hint.minWidth, childMinWidth);
+
+
+        // **************************************
+        //   compute height
+        // **************************************
+
+        var childHeight = 0;
+        var childMinHeight = 0;
+
+        if (typeof layout.top == "number")
+        {
+          childHeight += layout.top;
+          childMinHeight += layout.top;
+        }
+        if (typeof layout.bottom == "number")
+        {
+          childHeight += layout.bottom;
+          childMinHeight += layout.bottom;
+        }
+        if (typeof layout.height == "number")
+        {
+          childHeight += layout.width;
+          childMinHeight += layout.width;
+        }
+        else
+        {
+          var childHint = child.getSizeHint();
+          childHeight += childHint.height;
+          childMinHeight += childHint.minHeight;
+        }
+
+        hint.height = Math.max(hint.height, childHeight);
+        hint.minHeight = Math.max(hint.minHeight, childMinHeight);
+      }
+
+      return hint;
     }
+
   }
 });

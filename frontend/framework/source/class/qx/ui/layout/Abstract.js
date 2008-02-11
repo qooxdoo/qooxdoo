@@ -472,13 +472,10 @@ qx.Class.define("qx.ui.layout.Abstract",
         return this._sizeHint;
       }
 
-      if (this._computeSizeHint)
-      {
-        this._sizeHint = this._computeSizeHint();
-        // this.debug("Computed size hint: ", this._sizeHint);
-      }
+      this._sizeHint = this._computeSizeHint();
+      // console.log("Computed size hint: ", this._sizeHint);
 
-      return this._sizeHint || null;
+      return this._sizeHint;
     },
 
 
@@ -501,7 +498,7 @@ qx.Class.define("qx.ui.layout.Abstract",
      *
      * @abstract
      * @type member
-     * @return {Map|null} The size hint or <code>null</code> when the size hint is not supported.
+     * @return {Map} The size hint.
      */
     _computeSizeHint : function() {
       return null;
