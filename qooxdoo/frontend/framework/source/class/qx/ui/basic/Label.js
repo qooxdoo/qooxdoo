@@ -600,21 +600,5 @@ qx.Class.define("qx.ui.basic.Label",
         qx.dom.Element.setTextContent(element, html);
       }
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    // release connections to value managers
-    qx.theme.manager.Font.getInstance().disconnect(this._styleFont, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleTextColor, this);
-    qx.locale.Manager.getInstance().disconnect(this._syncText, this);
   }
 });

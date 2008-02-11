@@ -33,6 +33,7 @@
 qx.Class.define("qx.ui.table.rowrenderer.Default",
 {
   extend : qx.core.Target,
+  include : qx.util.manager.MConnectedObject,
   implement : qx.ui.table.IRowRenderer,
 
 
@@ -328,19 +329,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    qx.theme.manager.Font.getInstance().disconnect(this._styleFont, this);
-
-    // unlink from color theme
-    qx.theme.manager.Color.getInstance().disconnect(this._styleBgcolFocusedSelected, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleBgcolFocused, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleBgcolSelected, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleBgcolEven, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleBgcolOdd, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleColSelected, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleColNormal, this);
-
+  destruct : function() {
     this._disposeFields("_colors", "_fontStyle", "__font", "_table");
   }
 });

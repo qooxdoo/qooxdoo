@@ -1262,9 +1262,6 @@ qx.Class.define("qx.ui.form.TextField",
 
   destruct : function()
   {
-    qx.theme.manager.Font.getInstance().disconnect(this._styleFont, this);
-    qx.theme.manager.Color.getInstance().disconnect(this._styleTextColor, this);
-
     if (this._inputElement)
     {
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {

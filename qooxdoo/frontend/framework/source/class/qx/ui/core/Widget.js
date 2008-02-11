@@ -45,6 +45,8 @@
 qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.core.Target,
+  include : qx.util.manager.MConnectedObject,
+
   type : "abstract",
 
 
@@ -7417,9 +7419,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
-    qx.theme.manager.Color.getInstance().disconnect(this._styleBackgroundColor, this);
-    qx.theme.manager.Border.getInstance().disconnect(this._queueBorder, this);
-
     var elem = this.getElement();
 
     if (elem) {
