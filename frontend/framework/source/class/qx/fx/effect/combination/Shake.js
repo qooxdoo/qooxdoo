@@ -80,6 +80,15 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   properties :
   {
     /**
+     * Direction in which the element should be shaken.
+     */
+    direction :
+    {
+      init : "horizontal",
+      check : [ "horizontal", "vertical" ]
+    },
+
+    /**
      * Number of seconds the effect should run.
      */
     duration :
@@ -126,12 +135,24 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       var split = parseFloat(this.getDuration()) / 10.0;
       var counter = 0;
 
-      this._effects[1].set({ x : distance,    y : 0, duration : split});
-      this._effects[2].set({ x : -distance*2, y : 0, duration : split*2});
-      this._effects[3].set({ x : distance*2,  y : 0, duration : split*2});
-      this._effects[4].set({ x : -distance*2, y : 0, duration : split*2});
-      this._effects[5].set({ x : distance*2,  y : 0, duration : split*2});
-      this._effects[6].set({ x : -distance,   y : 0, duration : split*2});
+      if(this.getDirection() == "horizontal")
+      {
+        this._effects[1].set({ x : distance,    y : 0, duration : split});
+        this._effects[2].set({ x : -distance*2, y : 0, duration : split*2});
+        this._effects[3].set({ x : distance*2,  y : 0, duration : split*2});
+        this._effects[4].set({ x : -distance*2, y : 0, duration : split*2});
+        this._effects[5].set({ x : distance*2,  y : 0, duration : split*2});
+        this._effects[6].set({ x : -distance,   y : 0, duration : split*2});
+      }
+      else if(this.getDirection() == "vertical")
+      {
+        this._effects[1].set({ y : distance,    x : 0, duration : split});
+        this._effects[2].set({ y : -distance*2, x : 0, duration : split*2});
+        this._effects[3].set({ y : distance*2,  x : 0, duration : split*2});
+        this._effects[4].set({ y : -distance*2, x : 0, duration : split*2});
+        this._effects[5].set({ y : distance*2,  x : 0, duration : split*2});
+        this._effects[6].set({ y : -distance,   x : 0, duration : split*2});
+      }
 
       var effects = this._effects;
 
