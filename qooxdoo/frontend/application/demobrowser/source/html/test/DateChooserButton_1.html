@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Test the date chooser button component.</p>
     <p>This widget can be associated to another widget (in this case a textfield) which then
@@ -22,7 +22,7 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
     function changeValue(e) {
-      this.debug("Text changed: " + e.getData());
+      this.debug("Text changed: " + e.getValue());
     }
 
 		var l1 = new qx.ui.basic.Label("A date field: "); l1.set({top:51, left:20});

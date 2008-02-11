@@ -32,8 +32,6 @@ qx.Class.define("qx.ui.component.DateChooserButton",
   extend : qx.ui.form.Button,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -58,11 +56,6 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     this.base(arguments, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash);
     this.set({ height : 20 });
 
-    // create the subwidgets
-    //
-    this._createChooser();
-    this._createChooserWindow();
-
     // create dateFormat instance
     //
     this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(this.getDateFormatSize()));
@@ -79,8 +72,20 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     this.addEventListener("execute", this._executeHandler, this);
   },
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
+  statics :
+  {
+    /** Will contain the shared instance of the popup window */
+    __chooserWindow : null,
 
+    /** Will contain the shared instance of the date chooser */
+    __chooser : null
+  },
 
   /*
   *****************************************************************************
@@ -106,10 +111,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     },
 
     /** The title of the date chooser window. */
-    chooserTitle :
-    {
-      init : qx.locale.Manager.tr("Choose a date"),
-      apply : "_applyChooserTitle"
+    chooserTitle : {
+      init : qx.locale.Manager.tr("Choose a date")
     },
 
     /** The date format size according to the size parameter in {@link qx.locale.Date#getDateFormat}. */
@@ -158,19 +161,6 @@ qx.Class.define("qx.ui.component.DateChooserButton",
 
 
     /**
-     * Modifier for property chooserTitle.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {Boolean} true if modification succeeded
-     */
-    _applyChooserTitle : function(value, old) {
-      this._chooserWindow.setCaption(value);
-    },
-
-
-    /**
      * Modifier for property dateFormatSize.
      *
      * @type member
@@ -199,10 +189,14 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _createChooserWindow : function()
     {
-      var win = this._chooserWindow = new qx.ui.window.Window(this.getChooserTitle());
+      if (qx.ui.component.DateChooserButton.__chooserWindow != null) {
+        return;
+      }
 
-      win.addEventListener("keydown", this._chooserWindowKeydownHandler, this);
-      win.addEventListener("appear", this._chooserWindowAppearHandler, this);
+      var win = qx.ui.component.DateChooserButton.__chooserWindow = new qx.ui.window.Window(this.getChooserTitle());
+
+      win.addEventListener("keydown", this._chooserWindowKeydownHandler, win);
+      win.addEventListener("appear", this._chooserWindowAppearHandler, win);
 
       win.set(
       {
@@ -219,7 +213,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       });
 
       win.auto();
-      win.add(this._chooser);
+      win.add(qx.ui.component.DateChooserButton.__chooser);
       win.addToDocument();
     },
 
@@ -232,11 +226,14 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _createChooser : function()
     {
-      var cp = this._chooser = new qx.ui.component.DateChooser;
+      if (qx.ui.component.DateChooserButton.__chooser != null)
+        return;
+
+      var cp = qx.ui.component.DateChooserButton.__chooser = new qx.ui.component.DateChooser;
       cp.auto();
       cp.setBorder(null);
 
-      cp.addEventListener("select", this._chooserSelectHandler, this);
+      cp.addEventListener("select", this._chooserSelectHandler, cp);
     },
 
 
@@ -274,7 +271,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
         return;
       }
 
-      this._chooser.setDate(date);
+      qx.ui.component.DateChooserButton.__chooser.setDate(date);
       this.getTargetWidget().setValue(this._dateFormat.format(date));
     },
 
@@ -301,6 +298,16 @@ qx.Class.define("qx.ui.component.DateChooserButton",
         throw new Error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
       }
 
+      if (qx.ui.component.DateChooserButton.__chooser == null)
+      {
+        // create the subwidgets
+        this._createChooser();
+        this._createChooserWindow();
+      }
+
+      // needed to be reset because of multi usage of the window instance
+      qx.ui.component.DateChooserButton.__chooserWindow.setCaption(this.getChooserTitle());
+
       var date = null;
 
       try {
@@ -308,8 +315,12 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       } catch(ex) {}
 
       // value from taget widget could not be parsed.
-      this._chooser.setDate(date);
-      this._chooserWindow.open();
+      qx.ui.component.DateChooserButton.__chooser.setDate(date);
+
+      qx.ui.component.DateChooserButton.__chooser.openedButton = this;
+      qx.ui.component.DateChooserButton.__chooserWindow.openedButton = this;
+
+      qx.ui.component.DateChooserButton.__chooserWindow.open();
     },
 
 
@@ -339,8 +350,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       switch(e.getKeyIdentifier())
       {
         case "Escape":
-          this._chooserWindow.close();
-          this.getTargetWidget().focus();
+          this.close();
+          this.openedButton.getTargetWidget().focus();
           break;
       }
     },
@@ -355,8 +366,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _chooserWindowAppearHandler : function(e)
     {
-      this._chooserWindow.positionRelativeTo(this.getTargetWidget());
-      this._chooser.focus();
+      this.positionRelativeTo(this.openedButton.getTargetWidget());
+      qx.ui.component.DateChooserButton.__chooser.focus();
     },
 
 
@@ -369,9 +380,9 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _chooserSelectHandler : function(e)
     {
-      var target = this.getTargetWidget();
-      target.setValue(this._dateFormat.format(this._chooser.getDate()));
-      this._chooserWindow.close();
+      target = this.openedButton.getTargetWidget();
+      target.setValue(this.openedButton._dateFormat.format(this.getDate()));
+      qx.ui.component.DateChooserButton.__chooserWindow.close();
       target.focus();
     }
   },
@@ -385,13 +396,10 @@ qx.Class.define("qx.ui.component.DateChooserButton",
   *****************************************************************************
   */
 
-  destruct : function() {
-    var chooserWindowParent = this._chooserWindow.getParent();
-    if (chooserWindowParent)
-      chooserWindowParent.remove(this._chooserWindow);
+  /**
+   * Since the child components window and chooser are instanced we don't need
+   * to destroy them here.
+   */
+  destruct : function() {}
 
-    qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._changeLocaleHandler, this);
-
-    this._disposeObjects("_dateFormat", "_chooser", "_chooserWindow");
-  }
 });
