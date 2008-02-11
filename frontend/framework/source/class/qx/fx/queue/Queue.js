@@ -35,7 +35,7 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * This queue manages ordering and rendering of effects.
  */
 qx.Class.define("qx.fx.queue.Queue",
 {
@@ -69,6 +69,11 @@ qx.Class.define("qx.fx.queue.Queue",
     _effects  : [],
     _interval : null,
 
+    /**
+     * This method adds the given effect to the queue
+     * and orders it based on its position.
+     * @param effect {Class} The effect.
+     */
     add: function(effect)
     {
       var timestamp = new Date().getTime();
@@ -110,7 +115,7 @@ qx.Class.define("qx.fx.queue.Queue",
       effect._finishOn += timestamp;
 
       if (!effect.getQueue().limit || (this._effects.length < effect.getQueue().limit)) {
-        this._effects.push(effect);
+        this._effects.push(effect)
       }
 
       if (!this._interval) {
@@ -118,6 +123,10 @@ qx.Class.define("qx.fx.queue.Queue",
       }
     },
 
+    /**
+     * This method removes the given effect from the queue.
+     * @param effect {Class} The effect.
+     */
     remove : function(effect)
     {
       //this.effects = this.effects.reject(function(e) { return e==effect });
@@ -131,6 +140,9 @@ qx.Class.define("qx.fx.queue.Queue",
       }
     },
 
+    /**
+     * This method executes all effects in queue.
+     */
     loop: function()
     {
       var timePos = new Date().getTime();
@@ -144,13 +156,16 @@ qx.Class.define("qx.fx.queue.Queue",
    },
 
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
+   /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
 
-  defer : function(statics) {
+   destruct : function()
+   {
+     this._disposeFields("_effects");
+   }
 
-  }
 });
+

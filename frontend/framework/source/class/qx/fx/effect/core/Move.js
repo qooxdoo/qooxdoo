@@ -35,6 +35,8 @@
 ************************************************************************ */
 
 /**
+ * Core effect "Move"
+ *
  * This effect moves to element to the given coordinates.
  */
 qx.Class.define("qx.fx.effect.core.Move",
@@ -43,44 +45,43 @@ qx.Class.define("qx.fx.effect.core.Move",
   extend : qx.fx.Base,
 
 
-  /*
+   /*
    *****************************************************************************
       PROPERTIES
    *****************************************************************************
    */
 
-   properties :
-   {
-      /**
-       * String indicating if the coordinates are relative
-       * to element's position or absolute.
-       */
-      mode :
-      {
-        init : "relative",
-        check : [ "relative", "absolute" ]
-      },
+  properties :
+  {
+    /**
+     * String indicating if the coordinates are relative
+     * to element's position or absolute.
+     */
+    mode :
+    {
+      init : "relative",
+      check : [ "relative", "absolute" ]
+    },
 
-      /**
-       * X coordinate the element should be moved to.
-       */
-      x :
-      {
-        init : 0,
-        check : "Number"
-      },
+    /**
+     * X coordinate the element should be moved to.
+     */
+    x :
+    {
+      init : 0,
+      check : "Number"
+    },
 
-      /**
-       * Y coordinate the element should be moved to.
-       */
-      y :
-      {
-        init : 0,
-        check : "Number"
-      }
+    /**
+     * Y coordinate the element should be moved to.
+     */
+    y :
+    {
+      init : 0,
+      check : "Number"
+    }
 
-   },
-
+  },
 
   /*
    *****************************************************************************
@@ -88,8 +89,8 @@ qx.Class.define("qx.fx.effect.core.Move",
    *****************************************************************************
    */
 
-   members :
-   {
+  members :
+  {
 
     setup : function()
     {
@@ -116,7 +117,6 @@ qx.Class.define("qx.fx.effect.core.Move",
       qx.bom.element.Style.set(this._element, "top", Math.round(this._y  * position + this._originalTop));
     }
 
-   }
+  }
 
- });
-
+});

@@ -35,8 +35,11 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Pulsate"
+ *
+ * The given element faded in and out several times.
  */
+
 qx.Class.define("qx.fx.effect.combination.Pulsate",
 {
 
@@ -48,6 +51,9 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);
@@ -83,6 +89,9 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
   properties :
   {
 
+    /**
+     * Number of seconds the effect should run.
+     */
     duration :
     {
       init : 2,

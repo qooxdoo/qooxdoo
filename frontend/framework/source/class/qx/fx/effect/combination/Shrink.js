@@ -35,8 +35,12 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Combination effect "Shrink"
+ *
+ * The given element will be resized from initial dimensions to
+ * final dimensions.
  */
+
 qx.Class.define("qx.fx.effect.combination.Shrink",
 {
 
@@ -48,6 +52,9 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments, element);
@@ -73,18 +80,27 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
   properties :
   {
 
+    /**
+     * Direction in which the element should shrink.
+     */
     direction :
     {
       init : "center",
       check : [ "top-left", "top-right", "bottom-left", "bottom-right",  "center" ]
     },
 
+    /**
+     * Transition function to modify the movment process.
+     */
     moveTransition :
     {
       init : null,
       check : "Function"
     },
 
+    /**
+     * Transition function to modify the scaling process.
+     */
     scaleTransition :
     {
       init : null,
