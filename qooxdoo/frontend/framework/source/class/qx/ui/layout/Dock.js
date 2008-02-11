@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.layout.Dock",
               {
                 flexibles.push({
                   id : i,
-                  potential : potentail,
+                  potential : potential,
                   flex : grow ? flex : 1 / flex
                 });
               }
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.layout.Dock",
               hint = child.getSizeHint();
               var potential = grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight;
 
-              if (potentail > 0)
+              if (potential > 0)
               {
                 flexibles.push({
                   id : i,
