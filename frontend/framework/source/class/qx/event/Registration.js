@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/*
+#require(qx.event.Manager)
+*/
+
 /**
  * Wrapper for browser DOM event handling.
  *
