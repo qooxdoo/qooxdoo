@@ -737,22 +737,14 @@ qx.Class.define("qx.ui.core.Widget",
       var insetX = insets.left + insets.right;
       var insetY = insets.top + insets.bottom;
 
-      // add insets to content hint
-      contentHint.width += insetX;
-      contentHint.minWidth += insetX;
-      contentHint.maxWidth += insetX;
-      contentHint.height += insetY;
-      contentHint.minHeight += insetY;
-      contentHint.maxHeight += insetY;
-
 
       // merge size with content size hint
-      sizeHint.width = sizeHint.width != null ? sizeHint.width : contentHint.width;
-      sizeHint.minWidth = sizeHint.minWidth != null ? sizeHint.minWidth : contentHint.minWidth;
-      sizeHint.maxWidth = sizeHint.maxWidth != null ? sizeHint.maxWidth : contentHint.maxWidth;
-      sizeHint.height = sizeHint.height != null ? sizeHint.height : contentHint.height;
-      sizeHint.minHeight = sizeHint.minHeight != null ? sizeHint.minHeight : contentHint.minHeight;
-      sizeHint.maxHeight = sizeHint.maxHeight != null ? sizeHint.maxHeight : contentHint.maxHeight;
+      sizeHint.width = sizeHint.width != null ? sizeHint.width : contentHint.width + insetX;
+      sizeHint.minWidth = sizeHint.minWidth != null ? sizeHint.minWidth : contentHint.minWidth + insetX;
+      sizeHint.maxWidth = sizeHint.maxWidth != null ? sizeHint.maxWidth : contentHint.maxWidth + insetX;
+      sizeHint.height = sizeHint.height != null ? sizeHint.height : contentHint.height + insetY;
+      sizeHint.minHeight = sizeHint.minHeight != null ? sizeHint.minHeight : contentHint.minHeight + insetY;
+      sizeHint.maxHeight = sizeHint.maxHeight != null ? sizeHint.maxHeight : contentHint.maxHeight + insetY;
 
 
       // limit to allowed range
