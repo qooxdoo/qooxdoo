@@ -45,6 +45,7 @@
 qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.ui.core.LayoutItem,
+  include : qx.util.manager.MConnectedObject,
 
   /*
   *****************************************************************************
@@ -704,7 +705,7 @@ qx.Class.define("qx.ui.core.Widget",
         maxWidth : this.getMaxWidth(),
         height : this.getHeight(),
         minHeight : this.getMinHeight(),
-        minHeight : this.getMaxHeight()
+        maxHeight : this.getMaxHeight()
       }
 
 
@@ -745,6 +746,14 @@ qx.Class.define("qx.ui.core.Widget",
       sizeHint.height = sizeHint.height != null ? sizeHint.height : contentHint.height + insetY;
       sizeHint.minHeight = sizeHint.minHeight != null ? sizeHint.minHeight : contentHint.minHeight + insetY;
       sizeHint.maxHeight = sizeHint.maxHeight != null ? sizeHint.maxHeight : contentHint.maxHeight + insetY;
+
+
+      // height for width
+      if (this.__heightForWidth)
+      {
+        // this.debug("Use HeightForWidth: " + this.__heightForWidth);
+        sizeHint.height = this.__heightForWidth;
+      }
 
 
       // limit to allowed range

@@ -25,6 +25,7 @@
 qx.Class.define("qx.ui.decoration.Basic",
 {
   extend : qx.core.Object,
+  include : qx.util.manager.MConnectedObject,
   implement : qx.ui.decoration.IDecorator,
 
 

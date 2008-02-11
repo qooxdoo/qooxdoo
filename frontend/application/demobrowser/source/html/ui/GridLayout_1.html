@@ -45,8 +45,8 @@ qx.Class.define("BasicSample",
 
       doc.add(container, 0, 0);
 
-      //docLayout.add(this.getGrid1());
-      //docLayout.add(this.getGrid2());
+      docLayout.add(this.getGrid1());
+      docLayout.add(this.getGrid2());
       docLayout.add(this.getGrid3());
     },
 
@@ -56,7 +56,6 @@ qx.Class.define("BasicSample",
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       // auto size
-      //docLayout.add(new qx.ui.basic.Label("Autosize, all default values"))
       var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", minHeight:300});
       var layout = new qx.ui.layout.Grid();
       layout.setVerticalSpacing(20);
