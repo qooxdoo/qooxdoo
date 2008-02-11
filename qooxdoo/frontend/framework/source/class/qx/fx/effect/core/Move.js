@@ -35,7 +35,7 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * This effect moves to element to the given coordinates.
  */
 qx.Class.define("qx.fx.effect.core.Move",
 {
@@ -51,19 +51,28 @@ qx.Class.define("qx.fx.effect.core.Move",
 
    properties :
    {
-
+      /**
+       * String indicating if the coordinates are relative
+       * to element's position or absolute.
+       */
       mode :
       {
         init : "relative",
-        check : "String"
+        check : [ "relative", "absolute" ]
       },
 
+      /**
+       * X coordinate the element should be moved to.
+       */
       x :
       {
         init : 0,
         check : "Number"
       },
 
+      /**
+       * Y coordinate the element should be moved to.
+       */
       y :
       {
         init : 0,

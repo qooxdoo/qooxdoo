@@ -156,12 +156,10 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         this._highlightEffects[effect].id = counter;
         if (counter == 1)
         {
-          this._highlightEffects[effect].afterFinishInternal = function(){
-            if (delay > 0) {
-              qx.lang.Function.delay(highlightEffectsReference[2].start, delay, highlightEffectsReference[2]);
-            } else {
-              highlightEffectsReference[2].start();
-            }
+          this._highlightEffects[effect].afterFinishInternal = function()
+          {
+            highlightEffectsReference[2].setDelay(delay);
+            highlightEffectsReference[2].start();
           };
         }
         this._highlightEffects[effect].finish = function(){};

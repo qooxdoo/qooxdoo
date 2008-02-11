@@ -35,7 +35,8 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Helper class for building combination effects with
+ * several effects running synchronized.
  */
 qx.Class.define("qx.fx.effect.core.Parallel",
 {
