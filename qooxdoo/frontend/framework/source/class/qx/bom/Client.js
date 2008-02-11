@@ -116,7 +116,7 @@ qx.Class.define("qx.bom.Client",
 
       // Translate expression to JavaScript
       // Replace all identifiers with the full qualified name
-      var code = key.replace(/,/g, "&&").replace(/\|/g, "||").replace(/\b([a-z][a-z0-9_]+)\b/g, "this.__active.$1");
+      var code = key.replace(/,/g, "&&").replace(/\|/g, "||").replace(/\b([a-z][a-z0-9_]+)\b/g, "this." + "__active" + ".$1");
 
       // In debug mode we evaluate inside a try-catch block to detect script errors
       if (qx.core.Variant.isSet("qx.debug", "on"))
