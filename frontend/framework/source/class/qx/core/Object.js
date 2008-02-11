@@ -816,7 +816,7 @@ qx.Class.define("qx.core.Object",
         }
 
         if (!this[name].dispose) {
-          throw new Error(this.classname + " has no own object " + name);
+          throw new Error(this.classname + "." + name + " is not a qooxdoo object. Use _disposeFields instead of _disposeObjects.");
         }
 
         this[name].dispose();
