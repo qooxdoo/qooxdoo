@@ -225,5 +225,21 @@ qx.Class.define("qx.ui.embed.TextEmbed",
     _syncText : function() {
       this._getTargetNode().firstChild.nodeValue = this.getText();
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // release connections to value managers
+    qx.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
+    qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, null);
   }
 });
