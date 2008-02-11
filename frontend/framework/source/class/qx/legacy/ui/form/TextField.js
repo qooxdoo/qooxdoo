@@ -1262,8 +1262,8 @@ qx.Class.define("qx.legacy.ui.form.TextField",
 
   destruct : function()
   {
-    qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleTextColor, this, null);
+    qx.legacy.theme.manager.Font.getInstance().disconnect(this._styleFont, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleTextColor, this);
 
     if (this._inputElement)
     {

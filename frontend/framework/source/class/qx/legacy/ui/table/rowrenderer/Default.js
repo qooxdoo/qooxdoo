@@ -330,16 +330,16 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
 
   destruct : function()
   {
-    qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, null);
+    qx.legacy.theme.manager.Font.getInstance().disconnect(this._styleFont, this);
 
     // unlink from color theme
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColSelected, this, null);
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColNormal, this, null);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleBgcolFocusedSelected, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleBgcolFocused, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleBgcolSelected, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleBgcolEven, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleBgcolOdd, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleColSelected, this);
+    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleColNormal, this);
 
     this._disposeFields("_colors", "_fontStyle", "__font", "_table");
   }

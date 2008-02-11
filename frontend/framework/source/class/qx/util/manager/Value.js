@@ -56,12 +56,41 @@ qx.Class.define("qx.util.manager.Value",
   members :
   {
     /**
+     * Disconnect a callback from value changes. This method should be called
+     * for all connected values on the object destruct method.
+     *
+     * @type member
+     * @param callback {Function} The callback function which handles the
+     *   apply of the resulting dynamically resolved value.
+     * @param obj {Object} The context, the callback will be called with.
+     */
+    disconnect : function(callback, obj)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!callback) {
+          throw new Error("Can not disconnect from invalid callback: " + callback);
+        }
+
+        if (!obj) {
+          throw new Error("Can not disconnect from invalid object: " + obj);
+        }
+      }
+
+      var key = "v" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
+
+      // remove reference to this object
+      delete this._registry[key];
+    },
+
+
+    /**
      * Processing a value and handle callback execution on updates.
      *
      * @type member
-     * @param obj {Object} Any object
-     * @param callback {String} Name of callback function which handles the
-     *   apply of the resulting CSS valid value.
+     * @param callback {Function} The callback function which handles the
+     *   apply of the resulting dynamically resolved value.
+     * @param obj {Object} The context, the callback will be caled with.
      * @param value {var} Any acceptable value, but no booleans and no undefined
      * @return {void}
      */
