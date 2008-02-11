@@ -102,8 +102,8 @@ qx.Class.define("qx.xml.Document",
           }
 
           xmlStr.add(" />");
-    vObject.async = false;
-    vObject.setProperty("SelectionLanguage", "XPath");
+          vObject.async = false;
+          vObject.setProperty("SelectionLanguage", "XPath");
           vObject.loadXML(xmlStr.toString());
         }
 
