@@ -79,17 +79,19 @@ def update(node, privates):
     elif node.type == "constant" and node.get("constantType") == "string":
         name = node.get("value", False)
     
-    if not name or not name.startswith("__"):
+    if not name:
         return
         
-    if not privates.has_key(name):
+    elif not privates.has_key(name):
         if node.type == "constant":
             for key in privates:
                 if key in name:
                     print "Problematic private use as part of a string: %s" % key
-                    return
-        
-        print "Ignored private %s" % name  
+                    break
+                    
+        elif name.startswith("__"):
+            print "Ignored private %s" % name  
+            
         return
         
     repl = privates[name]
