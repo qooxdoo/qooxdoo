@@ -138,22 +138,13 @@ qx.Class.define("feedreader.FeedParser",
           date = null;
         }
 
-        var href = entry.content.match(' href=\\"(http:.+?)\\"');
-        if (href)
-        {
-          href = href[1];
-          href = href.replace(/\\\//, "/");
-        } else
-        {
-          href = entry.link["@attributes"].href;
-        }
         items.push(
         {
           title   : entry.title,
           author  : entry.author.name,
           date    : date,
           content : entry.content,
-          link    : href,
+          link    : entry.link["@attributes"].href,
           id      : i
         });
       }
