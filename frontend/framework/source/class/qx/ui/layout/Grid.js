@@ -625,7 +625,7 @@ qx.Class.define("qx.ui.layout.Grid",
     getColumnMaxWidth : function(column)
     {
       var colData = this._colData[column] || {};
-      return colData.maxWidth !== undefined ? colData.maxWidth : 32000;
+      return colData.maxWidth !== undefined ? colData.maxWidth : Infinity;
     },
 
 
@@ -1120,21 +1120,21 @@ qx.Class.define("qx.ui.layout.Grid",
       for (var i=0, l=colWidths.length; i<l; i++)
       {
         var col = colWidths[i];
+        var colFlex = this.getColumnFlex(i);
 
-        if (col.width == col.maxWidth && col.Width == col.minWidth) {
+        if (
+          (colFlex <= 0) ||
+          (col.width == col.maxWidth && diff > 0) ||
+          (col.width == col.minWidth && diff < 0)
+        ) {
           continue;
         }
 
-        var colFlex = this.getColumnFlex(i);
-
-        if (colFlex > 0)
-        {
-          flexibles.push({
-            id : i,
-            potential : diff > 0 ? col.maxWidth - col.width : col.width - col.minWidth,
-            flex : diff > 0 ? colFlex : (1 / colFlex)
-          });
-        }
+        flexibles.push({
+          id : i,
+          potential : diff > 0 ? col.maxWidth - col.width : col.width - col.minWidth,
+          flex : diff > 0 ? colFlex : (1 / colFlex)
+        });
       }
 
       return qx.ui.layout.Util.computeFlexOffsets(flexibles, diff);
@@ -1165,24 +1165,21 @@ qx.Class.define("qx.ui.layout.Grid",
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
         var row = rowHeights[i];
+        var rowFlex = this.getRowFlex(i);
 
         if (
+          (rowFlex <= 0) ||
           (row.height == row.maxHeight && diff > 0) ||
           (row.height == row.minHeight && diff < 0)
         ) {
           continue;
         }
 
-        var rowFlex = this.getRowFlex(i);
-
-        if (rowFlex > 0)
-        {
-          flexibles.push({
-            id : i,
-            potential : diff > 0 ? row.maxHeight - row.height : row.height - row.minHeight,
-            flex : diff > 0 ? rowFlex : (1 / rowFlex)
-          });
-        }
+        flexibles.push({
+          id : i,
+          potential : diff > 0 ? row.maxHeight - row.height : row.height - row.minHeight,
+          flex : diff > 0 ? rowFlex : (1 / rowFlex)
+        });
       }
 
       return qx.ui.layout.Util.computeFlexOffsets(flexibles, diff);
@@ -1258,8 +1255,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
           var cellHint = widget.getSizeHint();
 
-          var cellWidth = Math.min(spanWidth, cellHint.maxWidth);
-          var cellHeight = Math.min(spanHeight, cellHint.maxHeight);
+          var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth, cellHint.maxWidth));
+          var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight, cellHint.maxHeight));
 
           var cellAlign = this.getCellAlign(row, col);
           var cellLeft = left + Util.computeHorizontalAlignOffset(cellAlign.hAlign, cellWidth, spanWidth);
