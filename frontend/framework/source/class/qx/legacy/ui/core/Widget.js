@@ -49,8 +49,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 {
   extend : qx.core.Object,
   type : "abstract",
-  include : [ qx.locale.MTranslation, qx.core.MUserData ],
-
+  include : [ qx.locale.MTranslation, qx.core.MUserData, qx.util.manager.MConnectedObject ],
 
 
   /*
@@ -7194,9 +7193,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
   destruct : function()
   {
-    qx.legacy.theme.manager.Color.getInstance().disconnect(this._styleBackgroundColor, this);
-    qx.legacy.theme.manager.Border.getInstance().disconnect(this._queueBorder, this);
-
     var elem = this.getElement();
 
     if (elem) {
