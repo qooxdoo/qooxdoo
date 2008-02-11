@@ -1,4 +1,4 @@
-/**
+/*
  * The qx.util.fsm package.
  *
  * Example:
@@ -32,8 +32,8 @@
  *         alert("Next state: " + fsm.getNextState());
  *       };
  *
- *     // Automatic actions to take place before a (possibly) new state's onentry
- *     // function is called.
+ *     // Automatic actions to take place before a (possibly) new state's
+ *     // onentry function is called.
  *     "autoActionsBeforeOnentry" :
  *     {
  *       // The name of a function.
@@ -152,7 +152,7 @@
  *     // the state which was found at the top of the stack.  States are added
  *     // to the state stack by calling fsm.pushState() during a state's
  *     // onexit function or by a transition's action function.
- *     "nextState" : qx.util.fsm.FiniteStateMachine.StateChange..POP_STATE_STACK,
+ *     "nextState" : qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK,
  *
  *     // action taken during transisition
  *     "action"    :
