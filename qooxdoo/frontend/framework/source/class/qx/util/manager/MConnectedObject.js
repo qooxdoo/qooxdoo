@@ -29,18 +29,6 @@ qx.Mixin.define("qx.util.manager.MConnectedObject",
 {
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this._valueManager = {};
-  },
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -55,8 +43,13 @@ qx.Mixin.define("qx.util.manager.MConnectedObject",
      * @param valueManager {qx.util.manager.Value} Value manager, which is connected
      *     to this object.
      */
-    hasConnectionTo : function(valueManager) {
+    hasConnectionTo : function(valueManager)
+    {
+      if (!this._valueManager) {
+        this._valueManager = {};
+      }
       this._valueManager[valueManager.toHashCode()] = valueManager;
+    }
     }
   },
 
