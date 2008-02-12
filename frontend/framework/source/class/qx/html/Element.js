@@ -66,12 +66,7 @@ qx.Class.define("qx.html.Element",
     this._children = [];
 
     // Store hashcode as ID in debug mode
-    if (qx.core.Variant.isSet("qx.debug", "on"))
-    {
-      if (qx.html.Element._debug) {
-        this.setAttribute("id", "hc" + this.$$hash);
-      }
-    }
+    this.setAttribute("id", "hc" + this.$$hash);
   },
 
 
@@ -90,7 +85,7 @@ qx.Class.define("qx.html.Element",
       STATIC DATA
     ---------------------------------------------------------------------------
     */
-
+    
     /** {Boolean} If debugging should be enabled */
     _debug : false,
 
@@ -112,7 +107,8 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Map} Map of attributes where the computed value should be preferred over the configured value */
-    _computedAttributes : {
+    _computedAttributes : 
+    {
       scrollLeft : true,
       scrollTop : true,
       offsetWidth : true,
@@ -316,7 +312,8 @@ qx.Class.define("qx.html.Element",
       this._element = qx.bom.Element.create(this._nodeName);
       this._element.QxElement = this;
     },
-
+    
+    
 
 
 
@@ -357,15 +354,40 @@ qx.Class.define("qx.html.Element",
 
       if (!this._element)
       {
-        this._createDomElement();
-        this._copyData();
+        if (this._useInnerHtml)
+        {
+          var html = [];
 
-        if (length > 0) {
-          this._insertChildren();
+          html.push("<", this._nodeName, " ");
+          html.push(qx.bom.element.Attribute.compile(this.__attribValues));
+          html.push("style='", qx.bom.element.Style.compile(this.__styleValues), "'>");
+          html.push(this._compileChildren());
+          html.push("</", this._nodeName, ">");
+          
+          this._html = html.join("");          
+        }
+        else
+        {
+          this._createDomElement();
+          this._copyData();
+
+          if (length > 0) {
+            this._insertChildren();
+          }
         }
       }
       else
       {
+        if (this._useInnerHtml)
+        {
+          var compiled = this._compileChildren();
+          if (compiled != "") 
+          {
+            this._htmlWrapper.innerHTML = compiled;
+            this._assignElements(this._htmlWrapper);
+          }
+        }
+
         this._syncData();
 
         if (this._modifiedChildren) {
@@ -375,6 +397,57 @@ qx.Class.define("qx.html.Element",
 
       delete this._modifiedChildren;
     },
+    
+    _assignElements : function(parent)
+    {
+      if (this._children.length == 0) {
+        return;
+      }
+      
+      var child, el;
+      
+      for (var i=0, children=this._children, l=children.length; i<l; i++)
+      { 
+        child = children[i];
+        
+        if (child._included && child._html)
+        {
+          el = parent.childNodes[i];
+
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (child.getAttribute("id") != el.id) {
+              throw new Error("Oops. Something went wrong here. Different IDs found!");
+            }
+          }
+          
+          child._element = el;
+          delete child._html;
+          
+          child._assignElements(el);        
+        }        
+      }     
+    },    
+    
+    _compileChildren : function()
+    {
+      var content = [];
+      var child;
+      
+      for (var i=0, children=this._children, l=children.length; i<l; i++)
+      {      
+        child = children[i];
+        if (child._included && child._html) {
+          content.push(child._html);
+        }
+      }      
+      
+      return content.join("");
+    },
+
+    // InnerHTML mode
+    _useInnerHtml : false,    
+    _htmlWrapper : document.createElement("DIV"),
 
 
 
@@ -536,9 +609,17 @@ qx.Class.define("qx.html.Element",
       {
         var Style = qx.bom.element.Style;
 
+        // Compiling styles and applying them in one process seems
+        // to be a lot faster. Saves about 20% in webkit and 15% in gecko-1.9
+        // tested with 1600 elements.
+        Style.setCss(elem, Style.compile(data));
+
+        // Previous implementation
+        /*
         for (var key in data) {
           Style.set(elem, key, data[key]);
         }
+        */
       }
 
       // Attach events

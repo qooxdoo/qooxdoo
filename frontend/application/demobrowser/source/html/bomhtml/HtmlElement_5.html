@@ -30,7 +30,7 @@ qx.Class.define("BasicSample",
       body.add(wrapper);
 
       var il, jl;
-      for (var i=0; i<30; i++)
+      for (var i=0; i<40; i++)
       {
         il = new qx.html.Element;
         il.setAttribute("id", "row" + i);        
@@ -39,7 +39,7 @@ qx.Class.define("BasicSample",
         il.setStyle("clear", "left");        
         wrapper.add(il);
         
-        for (var j=0; j<30; j++)
+        for (var j=0; j<40; j++)
         {
           jl = new qx.html.Element;
           jl.setAttribute("id", "row" + i + "col" + j);
@@ -52,7 +52,7 @@ qx.Class.define("BasicSample",
         }        
       }
       body.debug("Create runtime: " + (new Date-start) + "ms");      
-      
+
       var start = new Date;
       qx.html.Element.flush();
       body.debug("Flush runtime: " + (new Date-start) + "ms");
