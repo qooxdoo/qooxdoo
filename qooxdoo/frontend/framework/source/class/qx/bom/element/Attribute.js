@@ -82,6 +82,13 @@ qx.Class.define("qx.bom.element.Attribute",
         frameborder : "frameBorder",
         usemap      : "useMap"
       },
+      
+      // Attributes which are only applyable on a DOM element (not using compile())
+      runtime : 
+      {
+        "html" : 1,
+        "text" : 1
+      },
 
       // Attributes which are (forced) boolean
       bools :
@@ -146,6 +153,33 @@ qx.Class.define("qx.bom.element.Attribute",
         clientWidth  : 1,
         clientHeight : 1
       }
+    },
+    
+    
+    /** 
+     * Compiles an incoming attribute map to a string which
+     * could be used when building HTML blocks using innerHTML.
+     *
+     * This method silently ignores runtime attributes like
+     * <code>html</code> or <code>text</code>.
+     * 
+     * @type static
+     * @param map {Map} Map of attributes. The key is the name of the attribute.
+     * @return {String} Returns a compiled string ready for usage.
+     */
+    compile : function(map)
+    {
+      var html = [];
+      var runtime = this.__hints.runtime;
+      
+      for (var key in map) 
+      {
+        if (!runtime[key]) {
+          html.push(key, "='", map[key], "'");
+        }
+      }
+      
+      return html.join("");      
     },
 
 
