@@ -174,8 +174,9 @@ qx.Class.define("qx.dom.Hierarchy",
       var doc = element.ownerDocument || element.document;
       
       // This is available after most browser excluding gecko haved copied it from mshtml.
-      if (doc.contains) {
-        return doc.contains(element);
+      // Contains() is only available on real elements in webkit and not on the document.
+      if (doc.body.contains) {
+        return doc.body.contains(element);
       }
       
       // Gecko way, DOM3 method
