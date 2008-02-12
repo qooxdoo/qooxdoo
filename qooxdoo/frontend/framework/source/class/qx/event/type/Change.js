@@ -60,11 +60,15 @@ qx.Class.define("qx.event.type.Change",
      * Get a copy of this object
      *
      * @type member
+     * @param embryo {qx.event.type.Change?null} Optional event class, which will
+     *     be configured using the data of this event instance. The event must be
+     *     an instance of this event class. If the value is <code>null</code>,
+     *     a new pooled instance is created.
      * @return {qx.event.type.Change} a copy of this object
      */
-    clone : function()
+    clone : function(embryo)
     {
-      var clone = this.base(arguments);
+      var clone = this.base(arguments, embryo);
 
       clone._value = this._value;
       clone._old = this._old;

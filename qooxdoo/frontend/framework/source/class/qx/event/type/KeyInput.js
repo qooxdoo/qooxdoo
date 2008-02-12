@@ -60,9 +60,9 @@ qx.Class.define("qx.event.type.KeyInput",
 
 
     // overridden
-    clone : function()
+    clone : function(embryo)
     {
-      var clone = this.base(arguments);
+      var clone = this.base(arguments, embryo);
 
       clone._charCode = this._charCode;
 
