@@ -448,11 +448,14 @@ qx.Class.define("qx.core.Object",
      * @param type {String} name of the event type
      * @param func {Function} event callback function
      * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     * @param capture {Boolean ? false} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event. The default is
+     *         to attach the event handler to the bubbling phase.
      */
-    addListener : function(type, func, obj)
+    addListener : function(type, func, obj, capture)
     {
       if (!this.__disposed) {
-        qx.event.Registration.addListener(this, type, func, obj, false);
+        qx.event.Registration.addListener(this, type, func, obj, !!capture);
       }
     },
 

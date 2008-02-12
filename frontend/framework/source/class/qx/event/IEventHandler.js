@@ -48,8 +48,10 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param target {var} The target to, which the event handler should
      *     be attached
      * @param type {String} event type
+     * @param capture {Boolean} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event.
      */
-    registerEvent : function(target, type) {
+    registerEvent : function(target, type, capture) {
       return true;
     },
 
@@ -62,8 +64,10 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param target {var} The target from, which the event handler should
      *     be removed
      * @param type {String} event type
+     * @param capture {Boolean} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event.
      */
-    unregisterEvent : function(target, type) {
+    unregisterEvent : function(target, type, capture) {
       return true;
     }
   }
