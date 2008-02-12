@@ -111,6 +111,17 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
+      // Conforming to the MS implementation a mouse click will stop mouse
+      // capturing. The event is "eaten" by the capturing handler.
+      if (type == "click")
+      {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.releaseCapture();
+        return;
+      }
+
       var listeners = this._manager.getListeners(this._captureElement, type, false);
 
       if (listeners)
@@ -123,16 +134,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
           var context = listeners[i].context || event.getCurrentTarget();
           listeners[i].handler.call(context, event);
         }
-      }
-
-      // Conforming to the MS implementation a mouse click will stop mouse
-      // capturing. The event is "eaten" by the capturing handler.
-      if (type == "click")
-      {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.releaseCapture();
       }
     },
 

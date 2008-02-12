@@ -133,7 +133,7 @@
 
 qx.Class.define("BasicSample",
 {
-  extend : qx.application.Basic,
+  extend : qx.application.Gui,
 
   members :
   {
@@ -176,7 +176,7 @@ qx.Class.define("BasicSample",
         }
       }, this);
 
-      
+
       qx.event.Registration.addListener(
         mouseDiv,
         "losecapture",
@@ -192,7 +192,7 @@ qx.Class.define("BasicSample",
         this
       )
       */
-      
+
       qx.event.Registration.addListener(
         document.getElementById("btnClear"),
         "click",
