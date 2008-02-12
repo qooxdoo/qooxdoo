@@ -546,6 +546,7 @@ qx.Class.define("qx.html.Element",
       if (data)
       {
         var Event = qx.event.Registration;
+        this.__hasDomEventListeners = true;
 
         var entry;
         for (var key in data)
@@ -1714,8 +1715,12 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    if (this._element) {
+    if (this._element)
+    {
       this._element.QxElement = null;
+      if (this.__hasDomEventListeners) {
+        qx.event.Registration.getManager(this._element).removeAllListeners(this._element);
+      }
     }
 
     this._disposeObjectDeep("_children", 1);
