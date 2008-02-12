@@ -74,7 +74,7 @@ qx.Class.define("qx.html.Root",
       this._root = true;
 
       // Register for syncronization
-      qx.html.Element._modified[this.toHashCode()] = this;
+      qx.html.Element._modified[this.$$hash] = this;
     }
   }
 });
