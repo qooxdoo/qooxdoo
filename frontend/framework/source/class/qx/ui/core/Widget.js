@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /*
-#require(qx.ui.core.WidgetEventHandler)
+#require(qx.ui.event.WidgetEventHandler)
 */
 
 /**
@@ -492,6 +492,33 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * Returns the widget, which contains the given DOM element.
+     *
+     * @param {Element} The DOM element to search the widget for.
+     * @return {qx.ui.core.Widget} The widget containing the element.
+     */
+    getWidgetByElement : function(element)
+    {
+      while(element)
+      {
+        if (element.QxWidget) {
+          return element.QxWidget;
+        }
+
+        element = element.parentNode;
+      }
+      return null;
+    }
+  },
 
 
 
@@ -1193,6 +1220,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = new qx.html.Element("div");
       el.setStyle("position", "absolute");
+      el.setAttribute("QxWidget", this);
       el.setStyle("zIndex", 0);
 
       return el;

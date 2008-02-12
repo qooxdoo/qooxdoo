@@ -18,10 +18,17 @@
 
 ************************************************************************ */
 
+/*
+#require(qx.ui.event.type.Mouse)
+#require(qx.ui.event.type.KeySequence)
+#require(qx.ui.event.type.KeyInput)
+#require(qx.ui.event.type.Event)
+*/
+
 /**
  * The WidgetEventHandler connects the widgets to the browser DOM events.
  */
-qx.Class.define("qx.ui.core.WidgetEventHandler",
+qx.Class.define("qx.ui.event.WidgetEventHandler",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
@@ -37,7 +44,6 @@ qx.Class.define("qx.ui.core.WidgetEventHandler",
   construct : function()
   {
     this.__eventHandler = {};
-
     this.__manager = qx.event.Registration.getManager();
   },
 
@@ -115,7 +121,10 @@ qx.Class.define("qx.ui.core.WidgetEventHandler",
 
     _cloneEvent : function(target, event)
     {
-      var clone = event.clone();
+      var widgetEventClass = qx.Class.getByName("qx.ui.event.type." + event.basename);
+      var clone = qx.event.Pool.getInstance().getEventInstance(widgetEventClass);
+
+      event.clone(clone);
       clone.setBubbles(false);
 
       console.log(clone);

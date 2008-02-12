@@ -98,11 +98,19 @@ qx.Class.define("qx.event.type.Event",
      * or pooled after an event dispatch.
      *
      * @type member
+     * @param embryo {qx.event.type.Event?null} Optional event class, which will
+     *     be configured using the data of this event instance. The event must be
+     *     an instance of this event class. If the value is <code>null</code>,
+     *     a new pooled instance is created.
      * @return {qx.event.type.Event} a clone of this class.
      */
-    clone : function()
+    clone : function(embryo)
     {
-      var clone = qx.event.Pool.getInstance().getEventInstance(this.constructor);
+      if (embryo) {
+        var clone = embryo;
+      } else {
+        var clone = qx.event.Pool.getInstance().getEventInstance(this.constructor);
+      }
 
       clone._type = this._type;
       clone._target = this._target;
@@ -200,7 +208,7 @@ qx.Class.define("qx.event.type.Event",
 
 
     /**
-     * Indicates the DOM event target to which the event was originally
+     * Returns the DOM event target to which the event was originally
      * dispatched.
      *
      * @type member

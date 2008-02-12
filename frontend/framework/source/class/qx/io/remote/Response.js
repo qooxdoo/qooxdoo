@@ -96,9 +96,10 @@ qx.Class.define("qx.io.remote.Response",
     ---------------------------------------------------------------------------
     */
 
-    clone : function()
+    // overridden
+    clone : function(embryo)
     {
-      var clone = this.base(arguments);
+      var clone = this.base(arguments, embryo);
       clone.setType(this.getType());
       clone.setState(this.getState());
       clone.setStatusCode(this.getStatusCode());

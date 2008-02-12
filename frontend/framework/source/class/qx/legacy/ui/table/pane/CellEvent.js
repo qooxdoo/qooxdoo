@@ -60,9 +60,9 @@ qx.Class.define("qx.legacy.ui.table.pane.CellEvent",
 
 
     // overridden
-    clone : function()
+    clone : function(embryo)
     {
-      var clone = this.base(arguments);
+      var clone = this.base(arguments, embryo);
       clone._scroller = this._scroller;
       return clone;
     },
