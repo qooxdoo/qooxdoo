@@ -164,7 +164,9 @@ qx.Bootstrap.define("qx.log2.Logger",
 
       else if (type === "object")
       {
-        if (value.classname) {
+        if (value.nodeType) {
+          return "node";
+        } else if (value.classname) {
           return "instance";
         } else if (value instanceof Array) {
           return "array";
@@ -207,6 +209,28 @@ qx.Bootstrap.define("qx.log2.Logger",
         case "boolean":
           text = value;
           break;
+          
+        case "node":
+          if (value.nodeType === 9) 
+          {
+            text = "document";
+          }
+          else if (value.nodeType === 3) 
+          {
+            text = "text[" + value.nodeValue + "]";
+          } 
+          else if (value.nodeType === 1) 
+          {
+            text = value.nodeName.toLowerCase();
+            if (value.id) {
+              text += "#" + value.id;
+            }
+          }
+          else 
+          {
+            text = "node";
+          }
+          break;
 
         case "function":
           text = qx.dev.StackTrace.getFunctionName(value) || type;
@@ -225,7 +249,14 @@ qx.Bootstrap.define("qx.log2.Logger",
           if (deep)
           {
             text = [];
-            for (var i=0, l=value.length; i<l; i++) {
+            for (var i=0, l=value.length; i<l; i++) 
+            {
+              if (text.length > 20) 
+              {
+                text.push(this.__serialize("...", false));
+                break;
+              }
+              
               text.push(this.__serialize(value[i], false));
             }
           }
@@ -239,7 +270,14 @@ qx.Bootstrap.define("qx.log2.Logger",
           if (deep)
           {
             text = [];
-            for (var key in value) {
+            for (var key in value) 
+            {
+              if (text.length > 20) 
+              {
+                text.push(this.__serialize("...", false));
+                break;
+              }
+              
               text.push(this.__serialize(key, false));
             }
           }
