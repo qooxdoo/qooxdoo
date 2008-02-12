@@ -89,7 +89,7 @@ qx.Class.define("qx.event.handler.Element",
 
 
     // interface implementation
-    registerEvent : function(target, type)
+    registerEvent : function(target, type, capture)
     {
       var elementId = qx.core.Object.toHashCode(target);
       var listener = qx.lang.Function.listener(this._onNative, this, elementId);
@@ -108,7 +108,7 @@ qx.Class.define("qx.event.handler.Element",
 
 
     // interface implementation
-    unregisterEvent : function(target, type)
+    unregisterEvent : function(target, type, capture)
     {
       var id = qx.core.Object.toHashCode(target) + type;
 

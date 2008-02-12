@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/*
+#require(qx.ui.core.WidgetEventHandler)
+*/
+
 /**
  * This is the base class for all widgets.
  *
@@ -470,6 +474,19 @@ qx.Class.define("qx.ui.core.Widget",
       inheritable : true,
       apply : "_applyEnabled",
       event : "changeEnabled"
+    },
+
+
+    /**
+     * If you switch this to true, the widget doesn't receive any user input
+     * events like key, mouse or focus events.
+     */
+    anonymous :
+    {
+      check : "Boolean",
+      init: false,
+      inheritable : true,
+      event : "changeAnonymous"
     }
   },
 
@@ -1238,96 +1255,6 @@ qx.Class.define("qx.ui.core.Widget",
         parent._contentElement.remove(this._containerElement);
       }
     },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Event which are dispatched on the container/content element */
-    _eventTarget :
-    {
-      container :
-      {
-        // mouse events
-        mousemove : 1,
-        mouseover : 1,
-        mouseout : 1,
-        mousedown : 1,
-        mouseup : 1,
-        click : 1,
-        dblclick : 1,
-        contextmenu : 1,
-        mousewheel : 1,
-
-        // key events
-        keyup : 1,
-        keydown : 1,
-        keypress : 1,
-        keyinput : 1,
-
-        // focus events (do bubble)
-        focusin : 1,
-        focusout : 1,
-        beforedeactivate : 1,
-        beforeactivate : 1,
-        activate : 1,
-        deactivate : 1
-      },
-
-      content :
-      {
-        // focus, blur events (do not bubble)
-        focus : 1,
-        blur : 1,
-
-        // all elements
-        select : 1,
-
-        // input elements
-        change : 1,
-        input : 1,
-
-        // iframe elements
-        load : 1
-      }
-    },
-
-
-    // overridden
-    addListener : function(type, func, obj)
-    {
-      var target = this._eventTarget;
-
-      if (target.content[type]) {
-        this._contentElement.addListener(type, func, obj);
-      } else if (target.container[type]) {
-        this._containerElement.addListener(type, func, obj);
-      } else {
-        this.base(arguments, type, func, obj);
-      }
-    },
-
-
-    // overridden
-    removeListener : function(type, func, obj)
-    {
-      var target = this._eventTarget;
-
-      if (target.content[type]) {
-        this._contentElement.removeListener(type, func, obj);
-      } else if (target.container[type]) {
-        this._containerElement.removeListener(type, func, obj);
-      } else {
-        this.base(arguments, type, func, obj);
-      }
-    },
-
-
-
 
 
 

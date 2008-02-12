@@ -135,13 +135,13 @@ qx.Class.define("qx.event.handler.Keyboard",
 
 
     // interface implementation
-    registerEvent : function(target, type) {
+    registerEvent : function(target, type, capture) {
       // Nothing needs to be done here
     },
 
 
     // interface implementation
-    unregisterEvent : function(target, type) {
+    unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
     },
 
