@@ -93,53 +93,61 @@ qx.Class.define("qx.ui.core.Widget",
     move : "qx.event.type.Data",
 
     /** Fired if the mouse curser moves over the widget. */
-    mousemove : "qx.event.type.Mouse",
+    mousemove : "qx.ui.event.type.Mouse",
 
     /** Fired if the mouse curser enters the widget. */
-    mouseover : "qx.event.type.Mouse",
+    mouseover : "qx.ui.event.type.Mouse",
 
     /** Fired if the mouse curser leaves widget. */
-    mouseout : "qx.event.type.Mouse",
+    mouseout : "qx.ui.event.type.Mouse",
 
     /** Fired if a mouse button is pressed on the widget. */
-    mousedown : "qx.event.type.Mouse",
+    mousedown : "qx.ui.event.type.Mouse",
 
     /** Fired if a mouse button is released on the widget. */
-    mouseup : "qx.event.type.Mouse",
+    mouseup : "qx.ui.event.type.Mouse",
 
     /** Fired if the widget is clicked using the left mouse button. */
-    click : "qx.event.type.Mouse",
+    click : "qx.ui.event.type.Mouse",
 
     /** Fired if the widget is double clicked using the left mouse button. */
-    dblclick : "qx.event.type.Mouse",
+    dblclick : "qx.ui.event.type.Mouse",
 
     /** Fired if the widget is clicked using the right mouse button. */
-    contextmenu : "qx.event.type.Mouse",
+    contextmenu : "qx.ui.event.type.Mouse",
 
     /** Fired if the mouse wheel is used over the widget. */
-    mousewheel : "qx.event.type.Mouse",
+    mousewheel : "qx.ui.event.type.Mouse",
 
     // key events
-    keyup : "qx.event.type.KeySequence",
-    keydown : "qx.event.type.KeySequence",
-    keypress : "qx.event.type.KeySequence",
-    keyinput : "qx.event.type.KeyInput",
+    keyup : "qx.ui.event.type.KeySequence",
+    keydown : "qx.ui.event.type.KeySequence",
+    keypress : "qx.ui.event.type.KeySequence",
+    keyinput : "qx.ui.event.type.KeyInput",
 
     // focus events
-    focus : "qx.event.type.Event",
-    blur : "qx.event.type.Event",
-    focusin : "qx.event.type.Event",
-    focusout : "qx.event.type.Event",
-    beforedeactivate : "qx.event.type.Event",
-    beforeactivate : "qx.event.type.Event",
-    activate : "qx.event.type.Event",
-    deactivate : "qx.event.type.Event",
+    focus : "qx.ui.event.type.Event",
+    blur : "qx.ui.event.type.Event",
+    focusin : "qx.ui.event.type.Event",
+    focusout : "qx.ui.event.type.Event",
+    beforedeactivate : "qx.ui.event.type.Event",
+    beforeactivate : "qx.ui.event.type.Event",
+    activate : "qx.ui.event.type.Event",
+    deactivate : "qx.ui.event.type.Event",
 
-    // inline events
-    change : "qx.event.type.Data",
-    input : "qx.event.type.Data",
-    load : "qx.event.type.Event",
-    select : "qx.event.type.Event"
+    // capture event
+
+    /**
+     * Fired is the widget becomes the capturing widget by a call to {@link #capture}.
+     */
+    capture : "qx.ui.event.type.Event",
+
+    /**
+     * Fired is the widget looses the capturing mode by a call to
+     * {@link #releaseCapture} or a mouse click.
+     */
+    losecapture : "qx.ui.event.type.Event"
+
   },
 
 
@@ -1282,6 +1290,34 @@ qx.Class.define("qx.ui.core.Widget",
       if (parent instanceof qx.ui.core.Widget) {
         parent._contentElement.remove(this._containerElement);
       }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Enables mouse event capturing. All mouse events will dispatched on this
+     * widget until capturing is disabled using {@link #releaseCapture} or a
+     * mouse button is clicked. If the widgets becomes the capturing widget the
+     * {@link #capture} event is fired. Once it looses capture mode the
+     * {@link #losecapture} event is fired.
+     */
+    capture : function() {
+      this._containerElement.capture();
+    },
+
+
+    /**
+     * Disables mouse capture mode enabled by {@link #capture}.
+     */
+    releaseCapture : function() {
+      this._containerElement.releaseCapture();
     },
 
 

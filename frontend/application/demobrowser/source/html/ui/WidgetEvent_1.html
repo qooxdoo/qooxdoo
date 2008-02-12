@@ -67,15 +67,36 @@ qx.Class.define("BasicSample",
 
       a1.addListener("click", function(e) {
         console.log("click2");
-      }, this, true);
+        console.log(e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
+      }, this);
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
+      a1.addListener("mouseout", function(e) {
+        console.log("mouseout");
+        console.log(e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
+      }, this);
+
+      var a2 = new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         iconPosition : "top",
         padding : 5,
         allowGrowY: false
-      }));
+      })
+      docLayout.add(a2);
+
+
+      a2.addListener("click", function() {
+        a2.capture();
+      }, this);
+
+      a2.addListener("losecapture", function() {
+        console.log("lose capture!")
+      }, this);
+
+      a2.addListener("mousemove", function(e) {
+        console.log(e);
+      }, this);
+
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         backgroundColor : "gray",
