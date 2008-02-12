@@ -434,19 +434,24 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     flushGlobalStateQueue : function()
     {
-      var vQueue = qx.legacy.ui.core.Widget._globalStateQueue, vLength, vWidget;
+      var Widget = qx.legay.ui.core.Widget;
 
-      while ((vLength = vQueue.length) > 0)
+      // the queue may change while doing the flush so we work on a copy of
+      // the queue and loop while the queue has any entries.
+      while(Widget._globalStateQueue.length > 0)
       {
-        for (var i=0; i<vLength; i++)
+        var queue = qx.lang.Array.copy(Widget._globalStateQueue);
+        Widget._globalStateQueue = [];
+
+        for (var i=0, l=queue.length; i<l; i++)
         {
-          vWidget = vQueue[i];
-          vWidget._renderAppearance();
-
-          delete vWidget._isInGlobalStateQueue;
+          var widget = queue[i];
+          if (widget._isInGlobalStateQueue)
+          {
+            widget._renderAppearance();
+            delete widget._isInGlobalStateQueue;
+          }
         }
-
-        vQueue.splice(0, vLength);
       }
     },
 
