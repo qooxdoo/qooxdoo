@@ -294,6 +294,8 @@ qx.Class.define("qx.bom.element.Attribute",
       } else if (value === false || value === null) {
         element.removeAttribute(name);
       } else {
+        // What the hell is this. TO DISCUSS.
+        // This definitely needs another approach.
         if ((typeof value).match("object|function")) {
           element[name] = value;
         } else {

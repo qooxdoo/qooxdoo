@@ -32,6 +32,52 @@ qx.Class.define("qx.bom.element.Clip",
   statics :
   {
     /**
+     * Compiles the given clipping into a CSS compatible string. This 
+     * is a simple square which describes the visible area of an DOM element.
+     * Changing the clipping does not change the dimensions of
+     * an element.
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     *   <code>left</code>, <code>top</code>, <code>width</code>, <code>height</code>.
+     * @return {String} CSS compatible string
+     */
+    compile : function(map)
+    {
+      var left = map.left;
+      var top = map.top;
+      var width = map.width;
+      var height = map.height;
+
+      var right, bottom;
+
+      if (left == null)
+      {
+        right = (width == null ? "auto" : width + "px");
+        left = "auto";
+      }
+      else
+      {
+        right = (width == null ? "auto" : left + width + "px");
+        left = left + "px";
+      }
+
+      if (top == null)
+      {
+        bottom = (height == null ? "auto" : height + "px");
+        top = "auto";
+      }
+      else
+      {
+        bottom = (height == null ? "auto" : top + height + "px");
+        top = top + "px";
+      }
+
+      return "clip:rect(" + top + "," + right + "," + bottom + "," + left + ");";
+    },
+    
+    
+    /**
      * Gets the clipping of the given element.
      *
      * @type static

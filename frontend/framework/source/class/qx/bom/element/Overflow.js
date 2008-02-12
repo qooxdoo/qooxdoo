@@ -17,7 +17,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Contains methods to control and query the element's overflow properties.
  */
@@ -31,6 +30,83 @@ qx.Class.define("qx.bom.element.Overflow",
 
   statics :
   {
+    /**
+     * Compiles the given property into a cross-browser style string.
+     *
+     * @type static
+     * @signature function(prop, value)
+     * @param prop {String} Property name (overflowX or overflowY)
+     * @param value {String} Overflow value for the given axis
+     * @return {String} CSS string
+     */
+    _compile : qx.core.Variant.select("qx.client",
+    {
+      // gecko support differs
+      "gecko" : qx.bom.Client.select(
+      {
+        // older geckos do not support overflowX
+        "version<1.8" : function(prop, value)
+        {
+          // Fix for gecko < 1.6
+          if (value == "hidden") {
+            value = "-moz-scrollbars-none";
+          }
+
+          // Apply style
+          return "overflow:" + value + ";";
+        },
+
+        // gecko >= 1.8 supports overflowX, too
+        "default" : function(prop, value) {
+          return prop + ":" + value + ";";
+        }
+      }),
+
+      // opera support differs
+      "opera" : qx.bom.Client.select(
+      {
+        // older versions of opera have no support for splitted overflow properties.
+        "version<9.5" : function(prop, value) {
+          return "overflow:" + value + ";";
+        },
+
+        // opera >=9.5 supports overflowX, too
+        "default" : function(prop, value) {
+          return prop + ":" + value + ";";
+        }
+      }),
+
+      // use native overflowX property
+      "default" : function(prop, value) {
+        return prop + ":" + value + ";";
+      }
+    }),
+    
+
+    /**
+     * Compiles the horizontal overflow property into a cross-browser style string.
+     *
+     * @type static
+     * @param value {String} Overflow value
+     * @return {String} CSS string
+     */    
+    compileX : function(value) {
+      return this._compile("overflowX", value);
+    },
+
+
+    /**
+     * Compiles the vertical overflow property into a cross-browser style string.
+     *
+     * @type static
+     * @param value {String} Overflow value
+     * @return {String} CSS string
+     */    
+    compileY : function(value) {
+      return this._compile("overflowY", value);
+    },
+    
+    
     // Mozilla notes (http://developer.mozilla.org/en/docs/Mozilla_CSS_Extensions):
     // -moz-scrollbars-horizontal: Indicates that horizontal scrollbars should
     //    always appear and vertical scrollbars should never appear.
@@ -68,10 +144,8 @@ qx.Class.define("qx.bom.element.Overflow",
         {
           var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
 
-          if (overflow == "-moz-scrollbars-horizontal") {
-            return "scroll";
-          } else if (overflow === "-moz-scrollbars-vertical" || overflow === "-moz-scrollbars-none" || overflow === "hidden") {
-            return "hidden";
+          if (overflow === "-moz-scrollbars-none") {
+            overflow = "hidden";
           }
 
           return overflow;
@@ -119,40 +193,11 @@ qx.Class.define("qx.bom.element.Overflow",
       "gecko" : qx.bom.Client.select(
       {
         // older geckos do not support overflowX
-        // it's also more safe to translate hidden to -moz-scrollbars-none
-        // because of issues in older geckos
         "version<1.8" : function(element, value)
         {
-          // Initialize overflowY from computed style
-          var orig = qx.bom.element.Style.get(element, "overflow", qx.bom.element.Style.COMPUTED_MODE, false);
-
-          if (!element._overflowY)
-          {
-            if (orig === "-moz-scrollbars-vertical" || orig === "scroll") {
-              element._overflowY = "scroll";
-            } else if (orig === "-moz-scrollbars-none" || orig === "hidden") {
-              element._overflowY = "hidden";
-            }
-          }
-
           // Fix for gecko < 1.6
           if (value == "hidden") {
             value = "-moz-scrollbars-none";
-          }
-
-          // Store internal helper
-          element._overflowX = value;
-
-          // Gecko special values
-          if (element._overflowX != element._overflowY)
-          {
-            if (element._overflowX == "scroll") {
-              value = "-moz-scrollbars-horizontal";
-            }
-
-            if (element._overflowY == "scroll") {
-              value = "-moz-scrollbars-vertical";
-            }
           }
 
           // Apply style
@@ -199,7 +244,7 @@ qx.Class.define("qx.bom.element.Overflow",
       "gecko" : qx.bom.Client.select(
       {
         "version<1.8" : function(element) {
-          this.setX(element, "");
+          element.style.overflow = "";
         },
 
         // gecko >= 1.8 supports overflowX, too
@@ -252,10 +297,8 @@ qx.Class.define("qx.bom.element.Overflow",
         {
           var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
 
-          if (overflow == "-moz-scrollbars-vertical") {
-            return "scroll";
-          } else if (overflow === "-moz-scrollbars-horizontal" || overflow === "-moz-scrollbars-none" || overflow === "hidden") {
-            return "hidden";
+          if (overflow === "-moz-scrollbars-none") {
+            overflow = "hidden";
           }
 
           return overflow;
@@ -307,36 +350,9 @@ qx.Class.define("qx.bom.element.Overflow",
         // because of issues in older geckos
         "version<1.8" : function(element, value)
         {
-          // Initialize overflowX from computed style
-          var orig = qx.bom.element.Style.get(element, "overflow", qx.bom.element.Style.COMPUTED_MODE, false);
-
-          if (!element._overflowX)
-          {
-            if (orig === "-moz-scrollbars-vertical" || orig === "scroll") {
-              element._overflowX = "scroll";
-            } else if (orig === "-moz-scrollbars-none" || orig === "hidden") {
-              element._overflowX = "hidden";
-            }
-          }
-
           // Fix for gecko < 1.6
-          if (value == "hidden") {
+          if (value === "hidden") {
             value = "-moz-scrollbars-none";
-          }
-
-          // Store internal helper
-          element._overflowY = value;
-
-          // Gecko special values
-          if (element._overflowX != element._overflowY)
-          {
-            if (element._overflowX == "scroll") {
-              value = "-moz-scrollbars-horizontal";
-            }
-
-            if (element._overflowY == "scroll") {
-              value = "-moz-scrollbars-vertical";
-            }
           }
 
           // Apply style
@@ -383,7 +399,7 @@ qx.Class.define("qx.bom.element.Overflow",
       "gecko" : qx.bom.Client.select(
       {
         "version<1.8" : function(element) {
-          this.setY(element, "");
+          element.style.overflow = "";
         },
 
         // gecko >= 1.8 supports overflowX, too
