@@ -102,7 +102,7 @@ qx.Class.define("qx.event.type.Event",
      */
     clone : function()
     {
-      var clone = new this.constructor;
+      var clone = qx.event.Pool.getInstance().getEventInstance(this.constructor);
 
       clone._type = this._type;
       clone._target = this._target;

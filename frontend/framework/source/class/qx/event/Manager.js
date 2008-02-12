@@ -245,7 +245,7 @@ qx.Class.define("qx.event.Manager",
       // Inform the event handler about the new event
       // they perform the event registration at DOM level if needed
       if (listeners.length === 0) {
-        this.__registerAtHandler(target, type);
+        this.__registerAtHandler(target, type, capture);
       }
 
       // Append listener to list
@@ -264,10 +264,11 @@ qx.Class.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param type {String} event type
-     * @return {void}
+     * @param capture {Boolean} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event.
      * @throws an error if there is no handler for the event
      */
-    __registerAtHandler : function(target, type)
+    __registerAtHandler : function(target, type, capture)
     {
       var classes = qx.event.Registration.getHandlers();
       var instance;
@@ -278,7 +279,7 @@ qx.Class.define("qx.event.Manager",
 
         if (instance.canHandleEvent(target, type))
         {
-          instance.registerEvent(target, type);
+          instance.registerEvent(target, type, capture);
           return;
         }
       }
@@ -359,7 +360,7 @@ qx.Class.define("qx.event.Manager",
       // Inform the event handler about the event removal so that
       // they perform the event deregistration at DOM level if needed
       if (listeners.length === 0) {
-        this.__unregisterAtHandler(target, type);
+        this.__unregisterAtHandler(target, type, capture);
       }
     },
 
@@ -372,10 +373,11 @@ qx.Class.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param type {String} event type
-     * @return {void}
+     * @param capture {Boolean} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event.
      * @throws an error if there is no handler for the event
      */
-    __unregisterAtHandler : function(target, type)
+    __unregisterAtHandler : function(target, type, capture)
     {
       var classes = qx.event.Registration.getHandlers();
       var instance;
@@ -386,7 +388,7 @@ qx.Class.define("qx.event.Manager",
 
         if (instance.canHandleEvent(target, type))
         {
-          instance.unregisterEvent(target, type);
+          instance.unregisterEvent(target, type, capture);
           return;
         }
       }

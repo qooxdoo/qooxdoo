@@ -136,7 +136,7 @@ qx.Class.define("qx.event.handler.Input",
      */
     registerEvent : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(target, type)
+      "mshtml" : function(target, type, capture)
       {
         if (!target.__inputHandlerAttached)
         {
@@ -155,7 +155,7 @@ qx.Class.define("qx.event.handler.Input",
         }
       },
 
-      "default" : function(target, type)
+      "default" : function(target, type, capture)
       {
         if (type === "input")
         {
