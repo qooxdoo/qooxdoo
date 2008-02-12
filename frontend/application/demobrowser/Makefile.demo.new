@@ -37,14 +37,14 @@ APPLICATION_PROFILE_BUILD = false
 APPLICATION_OPTIMIZE_REMOVE_ASPECTS = false
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
-  --include qx.ui2.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.* \
+  --include qx.ui.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.* \
   --use-setting qx.allowUrlSettings:true \
-  --add-require qx.core.Init:qx.core.MLegacyInit
+  --add-require qx.core.Init:qx.legacy.core.MLegacyInit
 
 APPLICATION_ADDITIONAL_BUILD_OPTIONS = \
-  --include qx.ui2.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.* \
+  --include qx.ui.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.* \
   --use-setting qx.allowUrlSettings:true \
-  --add-require qx.core.Init:qx.core.MLegacyInit
+  --add-require qx.core.Init:qx.legacy.core.MLegacyInit
 
 ################################################################################
 # INCLUDE CORE
