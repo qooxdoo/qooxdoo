@@ -454,7 +454,9 @@ qx.Class.define("qx.core.Object",
      */
     addListener : function(type, func, obj, capture)
     {
-      if (!this.__disposed) {
+      if (!this.__disposed)
+      {
+        this.__hasEventListeners = true;
         qx.event.Registration.addListener(this, type, func, obj, !!capture);
       }
     },
@@ -675,6 +677,10 @@ qx.Class.define("qx.core.Object",
 
       // Mark as disposed (directly, not at end, to omit recursions)
       this.__disposed = true;
+
+      if (this.__hasEventListeners) {
+        qx.event.Registration.getManager(this).removeAllListeners(this);
+      }
 
       // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
