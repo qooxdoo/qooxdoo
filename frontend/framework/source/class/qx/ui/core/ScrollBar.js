@@ -76,8 +76,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       this.setAllowGrowX(hori);
       this.setAllowShrinkX(hori);
-      this.setAllowGrowX(!hori);
-      this.setAllowShrinkX(!hori);
+      this.setAllowGrowY(!hori);
+      this.setAllowShrinkY(!hori);
 
       var layout = hori ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
       this.setLayout(layout);

@@ -38,23 +38,47 @@ qx.Class.define("BasicSample",
 
 
       // toolbar like with one "button" which does not stretch
-      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width: 600, height : 50});
-      var layout1 = new qx.ui.layout.HBox();
+      var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
-      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 40});
-      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
-      var w4 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", height : 20});
+      var box1 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "yellow",
+        width: 600,
+        height : 50,
+        layout: layout
+      });
 
-      w3.setAllowGrowY(false);
-      layout1.setVerticalAlign(w3, "middle");
 
-      layout1.add(w1, 0);
-      layout1.add(w2, 0);
-      layout1.add(w3, 0);
-      layout1.add(w4, 0);
+      var w1 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 20
+      });
+      layout.add(w1);
 
-      box1.setLayout(layout1);
+      var w2 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 40
+      });
+      layout.add(w2);
+
+      var w3 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 20,
+        allowGrowY: false
+      });
+      layout.add(w3);
+      layout.addLayoutProperty(w3, "align", "middle");
+
+      var w4 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 20
+      });
+      layout.add(w4);
+
       doc.add(box1, 10, 10);
     }
   }
