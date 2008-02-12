@@ -126,6 +126,10 @@ qx.Class.define("qx.util.manager.Value",
           throw new Error("Can not connect to invalid object: " + obj);
         }
 
+        if (typeof obj.hasConnectionTo != "function") {
+          throw new Error("The Connected object '" + obj + "' must include the mixin 'qx.util.manager.MConnectedObject'!");
+        }
+
         if (value === undefined) {
           throw new Error("Undefined values are not allowed for connect: " + callback + "[" + obj + "]");
         }
