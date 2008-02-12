@@ -82,21 +82,21 @@ qx.Class.define("qx.bom.element.Attribute",
         frameborder : "frameBorder",
         usemap      : "useMap"
       },
-      
+
       // Attributes which are (forced) boolean
       bools :
       {
-        compact  : 1, 
-        nowrap   : 1, 
-        ismap    : 1, 
-        declare  : 1, 
-        noshade  : 1, 
-        checked  : 1, 
-        disabled : 1, 
-        readonly : 1, 
-        multiple : 1, 
-        selected : 1, 
-        noresize : 1, 
+        compact  : 1,
+        nowrap   : 1,
+        ismap    : 1,
+        declare  : 1,
+        noshade  : 1,
+        checked  : 1,
+        disabled : 1,
+        readonly : 1,
+        multiple : 1,
+        selected : 1,
+        noresize : 1,
         defer    : 1
       },
 
@@ -182,11 +182,11 @@ qx.Class.define("qx.bom.element.Attribute",
         else {
           value = element.getAttribute(name);
         }
-        
+
         if (hints.bools[name]) {
           return !!value;
         }
-        
+
         return value;
       },
 
@@ -216,12 +216,12 @@ qx.Class.define("qx.bom.element.Attribute",
         else {
           value = element.getAttribute(name);
         }
-        
+
         if (hints.bools[name]) {
           return !!value;
         }
-        
-        return value;        
+
+        return value;
       }
     }),
 
@@ -246,12 +246,12 @@ qx.Class.define("qx.bom.element.Attribute",
 
       // normalize name
       name = hints.names[name] || name;
-      
+
       // respect booleans
       if (hints.bools[name]) {
         value = !!value;
       }
-      
+
       // apply attribute
       if (hints.property[name]) {
         element[name] = value;
@@ -260,7 +260,11 @@ qx.Class.define("qx.bom.element.Attribute",
       } else if (value === false || value === null) {
         element.removeAttribute(name);
       } else {
-        element.setAttribute(name, value);
+        if ((typeof value).match("object|function")) {
+          element[name] = value;
+        } else {
+          element.setAttribute(name, value);
+        }
       }
     },
 
