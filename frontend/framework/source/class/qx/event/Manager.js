@@ -291,7 +291,7 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Remove an event listener from a DOM node.
+     * Remove an event listener from a event target.
      *
      * @type member
      * @param target {Object} Any valid event target
@@ -361,6 +361,29 @@ qx.Class.define("qx.event.Manager",
       // they perform the event deregistration at DOM level if needed
       if (listeners.length === 0) {
         this.__unregisterAtHandler(target, type, capture);
+      }
+    },
+
+
+    /**
+     * Remove all event listeners, which are attached to the given event target.
+     *
+     * @param target{Object} The event target to remove all event listeners from.
+     */
+    removeAllListeners : function(target)
+    {      
+      var targetKey = target.$$hash;
+      for (var key in this.__listeners)
+      {
+        var listener = key.split('|');
+        if (listener[0] == targetKey)
+        {
+          var type = listener[1];
+          var capture = (listener[2] == "capture");
+
+          var entry = this.__listeners[key];
+          this.removeListener(target, type, entry.handler, entry.context, capture);
+        }
       }
     },
 
