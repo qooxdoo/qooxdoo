@@ -23,7 +23,7 @@ def main(dist, scan):
       res += "},"
 
     res += "{"
-    res += "classname:\""+category+"\",tests:[\n"
+    res += "\"classname\":\""+category+"\",\"tests\":[\n"
 
     firstItem = True
     lastbasename = None
@@ -60,12 +60,12 @@ def main(dist, scan):
             res += "\n]},\n"
 
           res += "{"
-          res += "classname:\""+basename+"\",desc:\"Folder %s\",tests:[\n" % basename
+          res += "\"classname\":\""+basename+"\",\"desc\":\"Folder %s\",\"tests\":[\n" % basename
 
       if not firstItem:
         res += ",\n"
 
-      res += '{nr:"%s",title:"%s",name:"%s",desc:"%s"}' % (nr, title, item, desc)
+      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s",\"desc\":"%s"}' % (nr, title, item, desc)
       lastbasename = basename
       firstItem = False
 
