@@ -54,9 +54,9 @@ qx.Class.define("qx.event.type.Native",
 
 
     // overridden
-    clone : function()
+    clone : function(embryo)
     {
-      var clone = this.base(arguments);
+      var clone = this.base(arguments, embryo);
       clone._native = this._native;
       return clone;
     },
