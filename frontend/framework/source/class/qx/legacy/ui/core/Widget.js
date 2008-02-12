@@ -434,7 +434,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     flushGlobalStateQueue : function()
     {
-      var Widget = qx.legay.ui.core.Widget;
+      var Widget = qx.legacy.ui.core.Widget;
 
       // the queue may change while doing the flush so we work on a copy of
       // the queue and loop while the queue has any entries.
