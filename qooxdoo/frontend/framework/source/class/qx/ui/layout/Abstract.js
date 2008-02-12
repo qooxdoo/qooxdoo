@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.layout.Abstract",
         }
 
         if (options != null && typeof options !== "object") {
-          throw new Error("Invalid layout data: " + layout);
+          throw new Error("Invalid layout data: " + options);
         }
       }
 
@@ -317,6 +317,8 @@ qx.Class.define("qx.ui.layout.Abstract",
      */
     addLayoutProperty : function(child, name, value)
     {
+      var childKey = child.$$hash;
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         switch(typeof value)
@@ -329,9 +331,13 @@ qx.Class.define("qx.ui.layout.Abstract",
           default:
             throw new Error("Invalid value for layout property " + name + ": " + value);
         }
+
+        if (!this._options[childKey]) {
+          throw new Error("It is not possible to set a layout property for a widget, which has not been added to the layout!");
+        }
       }
 
-      this._options[child.$$hash][name] = value;
+      this._options[childKey][name] = value;
       this.scheduleWidgetLayoutUpdate();
     },
 

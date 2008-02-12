@@ -73,9 +73,9 @@ qx.Class.define("BasicSample",
         allowShrinkY: false,
         backgroundColor: "blue",
         textColor: "white",
-        padding: 10
+        padding: 10,
+        decorator: new qx.ui.decoration.Basic(4, "solid", "black")
       });
-      box.setDecoration(new qx.ui.decoration.Basic(4, "solid", "black"));
       return box;
     }
   }

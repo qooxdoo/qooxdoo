@@ -34,34 +34,35 @@ qx.Class.define("BasicSample",
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black")
 
-      doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
-      doc.setDecoration(border);
+      // doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
+
+      doc.setDecorator(border);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
+      var w1 = new qx.ui.core.Widget().set({
+        backgroundColor: "red",
+        decorator: border,
+        padding: 10
+      });
+
+      var w2 = new qx.ui.core.Widget().set({
+        backgroundColor: "blue",
+        decorator: border
+      });
+
+      var w3 = new qx.ui.core.Widget().set({
+        backgroundColor: "green",
+        decorator: border
+      });
+
+      var w4 = new qx.ui.core.Widget().set({
+        backgroundColor: "yellow",
+        decorator: border
+      });
+
+
       var layout = new qx.ui.layout.HBox();
-
-      var w1 = new qx.ui.core.Widget;
-      var w2 = new qx.ui.core.Widget;
-      var w3 = new qx.ui.core.Widget;
-      var w4 = new qx.ui.core.Widget;
-
-      w1.setDecoration(border);
-      w2.setDecoration(border);
-      w3.setDecoration(border);
-      w4.setDecoration(border);
-
-      w1.setHtml("<b>W1</b>");
-      w2.setHtml("<b>W2</b>");
-      w3.setHtml("<b>W3</b>");
-      w4.setHtml("<b>W4</b>");
-
-      w1.setBackgroundColor("red");
-      w2.setBackgroundColor("blue");
-      w3.setBackgroundColor("green");
-      w4.setBackgroundColor("yellow");
-
-      w1.setPadding(10);
 
       layout.add(w1);
       layout.add(w2);

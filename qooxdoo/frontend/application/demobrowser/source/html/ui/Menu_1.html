@@ -39,7 +39,7 @@ qx.Class.define("MenuItem",
       MenuItem.menuDecoration = new qx.ui.decoration.Basic();
     }
 
-    this._text.setDecoration(MenuItem.menuDecoration);
+    this._text.setDecorator(MenuItem.menuDecoration);
 
     this._text.addListener("mouseover", this._onMouseOver, this);
     this._text.addListener("mouseout", this._onMouseOut, this);
@@ -48,7 +48,7 @@ qx.Class.define("MenuItem",
       this._shortcut = new qx.ui.basic.Label(shortcut);
       this._shortcut.setPadding(4, 4, 4, 20);
 
-      this._shortcut.setDecoration(MenuItem.menuDecoration);
+      this._shortcut.setDecorator(MenuItem.menuDecoration);
 
       this._shortcut.addListener("mouseover", this._onMouseOver, this);
       this._shortcut.addListener("mouseout", this._onMouseOut, this);
@@ -99,13 +99,13 @@ qx.Class.define("Menu",
     this.base(arguments);
 
     this._layout = new qx.ui.layout.Grid();
-    this._layout.setColumnFlex(1, 0);
+    this._layout.setColumnFlex(0, 1);
     this._layout.setVerticalSpacing(2);
     this._layout.setHorizontalSpacing(0);
     this.setLayout(this._layout);
 
     var border = new qx.ui.decoration.Basic(1, "solid", "black");
-    this.setDecoration(border);
+    this.setDecorator(border);
 
     this._menuItems = [];
   },
@@ -177,7 +177,7 @@ qx.Class.define("BasicSample",
 
       var menu = new Menu();
       menu.add(new MenuItem("New", "Ctrl-N"));
-      menu.add(new MenuItem("Abracadabra ... very long text"));
+      menu.add(new MenuItem("Abracadabra -  very long text"));
       menu.add(new MenuItem("Close", "Ctrl-W"));
       menu.add(new MenuItem("Save", "Ctrl-S"));
       menu.add(new MenuItem("Save as"));
