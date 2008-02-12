@@ -86,6 +86,71 @@ qx.Class.define("qx.bom.element.Style",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      COMPILE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
+    _hyphens : {},
+
+    
+    /** 
+     * Compiles the given styles into a string which can be used to
+     * concat a HTML string for innerHTML usage.
+     *
+     * @type static
+     * @param map {Map} Map of style properties to compile
+     * @return {String} Compiled string of given style properties.
+     */
+    compile : function(map)
+    {
+      var html = [];
+      var value;
+      var name;
+      
+      for (var key in map)
+      {
+        value = map[key];
+
+        switch(key)
+        {
+          case "clip":
+            html.push(qx.bom.element.Clip.compile(value));
+            break;
+
+          case "cursor":
+            html.push(qx.bom.element.Cursor.compile(value));
+            break;
+
+          case "opacity":
+            html.push(qx.bom.element.Opacity.compile(value));
+            break;
+
+          case "overflowX":
+            html.push(qx.bom.element.Overflow.compile(value));
+            break;
+
+          case "overflowY":
+            html.push(qx.bom.element.Overflow.compile(value));
+            break;
+            
+          default:
+            name = this._hyphens[key];
+            if (!name) {
+              name = this._hyphens[key] = qx.lang.String.hyphenate(key);
+            }
+            
+            html.push(name, ":", value, ";");
+        }
+      }
+      
+      return html.join("");      
+    },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
