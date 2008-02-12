@@ -87,7 +87,11 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         beforedeactivate : 1,
         beforeactivate : 1,
         activate : 1,
-        deactivate : 1
+        deactivate : 1,
+
+        // mouse capture
+        capture : 1,
+        losecapture : 1
       },
 
       content :

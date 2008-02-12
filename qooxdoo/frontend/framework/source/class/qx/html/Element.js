@@ -108,7 +108,7 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Array} A list of all supported (post) actions */
-    _supportedActions : [ "deactivate", "blur", "activate", "focus" ],
+    _supportedActions : [ "deactivate", "blur", "activate", "focus", "capture", "releaseCapture" ],
 
 
     /** {Map} Map of attributes where the computed value should be preferred over the configured value */
@@ -1357,8 +1357,24 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    /**
+     * Captures all mouse events to this element
+     */
+    capture : function()
+    {
+      qx.html.Element._actions.capture = this;
+      qx.html.Element._scheduleFlush("element");
+    },
 
 
+    /**
+     * Releases this element from a previous {@link #capture} call
+     */
+    releaseCapture : function()
+    {
+      qx.html.Element._actions.releaseCapture = this;
+      qx.html.Element._scheduleFlush("element");
+    },
 
 
     /*
