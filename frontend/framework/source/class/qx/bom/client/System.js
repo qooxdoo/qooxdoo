@@ -148,8 +148,9 @@ qx.Bootstrap.define("qx.bom.client.System",
       "Mac OS X 10.2" : "osx2",
       "Mac OS X 10_1" : "osx1",                        
       "Mac OS X 10.1" : "osx1",                        
-      "Mac OS X 10" : "osx0",                        
-      "Mac OS X 10" : "osx0",                        
+      "Mac OS X 10_0" : "osx0",                        
+      "Mac OS X 10.0" : "osx0",                        
+      "Mac OS X" : "osx",                        
       "Mac OS 9" : "os9"
     },
 
