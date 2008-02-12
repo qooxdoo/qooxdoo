@@ -53,6 +53,57 @@ qx.Class.define("qx.bom.element.Opacity",
   statics :
   {
     /**
+     * Compiles the given opacity value into a cross-browser CSS string. 
+     * Accepts numbers between zero and one
+     * where "0" means transparent, "1" means opaque.
+     *
+     * @type static
+     * @signature function(opacity)
+     * @param opacity {Float} A float number between 0 and 1
+     * @return {String} CSS compatible string
+     */
+    compile : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(opacity)
+      {
+        // Remove opacity filter
+        if (opacity >= 1) {
+          return "";
+        }
+
+        if (opacity < 0.00001) {
+          opacity = 0;
+        }
+        
+        return "zoom:1;filter:alpha(opacity=" + (opacity * 100) + ");";
+      },
+
+      "gecko" : function(opacity)
+      {
+        // Animations look better when not using 1.0 in gecko
+        if (opacity == 1) {
+          opacity = 0.999999;
+        }
+
+        if (qx.bom.client.Engine.VERSION < 1.7) {
+          return "-moz-opacity:" + opacity + ";";
+        } else {
+          return "opacity:" + opacity + ";";
+        }
+      },
+
+      "default" : function(opacity)
+      {
+        if (opacity == 1) {
+          return "";
+        }
+
+        return "opacity:" + opacity + ";";
+      }
+    }),
+    
+    
+    /**
      * Sets opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
