@@ -56,6 +56,18 @@ qx.Class.define("qx.bom.element.Cursor",
       "default" : {}
     }),
 
+    
+    /**
+     * Compiles the given cursor into a CSS compatible string.
+     *
+     * @type static
+     * @param cursor {String} Valid CSS cursor name
+     * @return {String} CSS string
+     */
+    compile : function(cursor) {
+      return "cursor:" + (this.__map[value] || value) + ";";
+    },
+
 
     /**
      * Returns the computed cursor style for the given element.

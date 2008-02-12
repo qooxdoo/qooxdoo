@@ -54,10 +54,16 @@ qx.Class.define("qx.bom.element.Style",
     /** Internal map of style property convertions */
     __hints :
     {
-      // Style property name correction
-      names :
+      // Style property name correction (at element.style level)
+      styleNames :
       {
         "float" : qx.bom.client.Engine.MSHTML ? "styleFloat" : "cssFloat",
+        "boxSizing" : qx.bom.client.Engine.GECKO ? "mozBoxSizing" : "boxSizing"
+      },
+      
+      // CSS property name correction (at HTML/CSS level)
+      cssNames : 
+      {
         "boxSizing" : qx.bom.client.Engine.GECKO ? "mozBoxSizing" : "boxSizing"
       },
 
@@ -93,7 +99,7 @@ qx.Class.define("qx.bom.element.Style",
     */
     
     /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
-    _hyphens : {},
+    __hyphens : {},
 
     
     /** 
@@ -107,43 +113,56 @@ qx.Class.define("qx.bom.element.Style",
     compile : function(map)
     {
       var html = [];
-      var value;
-      var name;
+      var hints = this.__hints;
+      var special = hints.special;
+      var names = hints.cssNames;
+      var hyphens = this.__hyphens;
+      var str = qx.lang.String;
+      var name, prop, value;
       
-      for (var key in map)
+      for (name in map)
       {
-        value = map[key];
+        // normalize name
+        name = names[name] || name;
+        
+        // read value        
+        value = map[name];
 
-        switch(key)
+        // process special properties
+        if (special[name])
         {
-          case "clip":
-            html.push(qx.bom.element.Clip.compile(value));
-            break;
+          switch(name)
+          {
+            case "clip":
+              html.push(qx.bom.element.Clip.compile(value));
+              break;
 
-          case "cursor":
-            html.push(qx.bom.element.Cursor.compile(value));
-            break;
+            case "cursor":
+              html.push(qx.bom.element.Cursor.compile(value));
+              break;
 
-          case "opacity":
-            html.push(qx.bom.element.Opacity.compile(value));
-            break;
+            case "opacity":
+              html.push(qx.bom.element.Opacity.compile(value));
+              break;
 
-          case "overflowX":
-            html.push(qx.bom.element.Overflow.compile(value));
-            break;
+            case "overflowX":
+              html.push(qx.bom.element.Overflow.compileX(value));
+              break;
 
-          case "overflowY":
-            html.push(qx.bom.element.Overflow.compile(value));
-            break;
-            
-          default:
-            name = this._hyphens[key];
-            if (!name) {
-              name = this._hyphens[key] = qx.lang.String.hyphenate(key);
-            }
-            
-            html.push(name, ":", value, ";");
+            case "overflowY":
+              html.push(qx.bom.element.Overflow.compileY(value));
+              break;
+          }
         }
+        else
+        {
+          prop = hyphens[name];
+          if (!prop) {
+            prop = hyphens[name] = str.hyphenate(name);
+          }
+        
+          html.push(prop, ":", value, ";");          
+        }        
       }
       
       return html.join("");      
@@ -239,9 +258,11 @@ qx.Class.define("qx.bom.element.Style",
       var hints = this.__hints;
 
       // normalize name
-      name = hints.names[name] || name;
+      name = hints.styleNames[name] || name;
 
-      // special handling
+      // special handling for specific properties
+      // through this good working switch this part costs nothing when 
+      // processing non-smart properties
       if (smart!==false && hints.special[name])
       {
         switch(name)
@@ -283,9 +304,9 @@ qx.Class.define("qx.bom.element.Style",
       var hints = this.__hints;
 
       // normalize name
-      name = hints.names[name] || name;
+      name = hints.styleNames[name] || name;
 
-      // special handling
+      // special handling for specific properties
       if (smart!==false && hints.special[name])
       {
         switch(name)
@@ -346,7 +367,7 @@ qx.Class.define("qx.bom.element.Style",
         var hints = this.__hints;
 
         // normalize name
-        name = hints.names[name] || name;
+        name = hints.styleNames[name] || name;
 
         // special handling
         if (smart!==false && hints.special[name])
@@ -424,7 +445,7 @@ qx.Class.define("qx.bom.element.Style",
         var hints = this.__hints;
 
         // normalize name
-        name = hints.names[name] || name;
+        name = hints.styleNames[name] || name;
 
         // special handling
         if (smart!==false && hints.special[name])
