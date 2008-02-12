@@ -192,7 +192,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertNotUndefined : function(value, msg) {
-      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found " + value + "!");
     },
 
 
@@ -205,7 +205,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertUndefined : function(value, msg) {
-      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found " + value + "!");
     },
 
 
@@ -218,7 +218,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertNotNull : function(value, msg) {
-      this.__assert(value !== null, msg || "", "Expected value not to be null but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value !== null, msg || "", "Expected value not to be null but found " + value + "!");
     },
 
 
@@ -231,7 +231,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertNull : function(value, msg) {
-      this.__assert(value === null, msg || "", "Expected value to be null but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value === null, msg || "", "Expected value to be null but found " + value + "!");
     },
 
 
@@ -244,7 +244,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertFunction : function(value, msg) {
-      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found " + value + "!");
     },
 
 
@@ -257,7 +257,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertString : function(value, msg) {
-      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found " + value + "!");
     },
 
 
@@ -270,7 +270,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertNumber : function(value, msg) {
-      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found " + value + "!");
     },
 
 
@@ -283,7 +283,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertObject : function(value, msg) {
-      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found " + value + "!");
     },
 
 
@@ -296,7 +296,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertArray : function(value, msg) {
-      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found " + value + "!");
     },
 
 
@@ -309,7 +309,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertMap : function(value, msg) {
-      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found " + value + "!");
     },
 
 
@@ -322,7 +322,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertQxObject : function(value, msg) {
-      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + value + "!");
     },
 
 
@@ -335,7 +335,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * @return {void}
      */
     assertQxWidget : function(value, msg) {
-      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + qx.io.Json.stringify(value) + "!");
+      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + value + "!");
     },
 
 
