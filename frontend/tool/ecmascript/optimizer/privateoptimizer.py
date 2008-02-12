@@ -87,9 +87,8 @@ def update(node, privates):
             for key in privates:
                 if key in name:
                     print "Problematic private use as part of a string: %s" % key
-                    break
                     
-        elif name.startswith("__"):
+        if name.startswith("__"):
             print "Ignored private %s" % name  
             
         return
