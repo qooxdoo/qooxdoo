@@ -48,7 +48,6 @@ qx.Class.define("qx.core.Client",
       var vBrowserVendor = navigator.vendor;
       var vBrowserProduct = navigator.product;
       var vBrowserPlatform = navigator.platform;
-      var vBrowserModeHta = false;
       var vBrowser;
 
       var vEngine = null;
@@ -129,8 +128,6 @@ qx.Class.define("qx.core.Client",
         vEngine = "mshtml";
         vEngineVersion = RegExp.$1;
         vBrowser = "explorer";
-
-        vBrowserModeHta = !window.external;
       }
 
       if (vEngineVersion)
@@ -255,7 +252,6 @@ qx.Class.define("qx.core.Client",
       this._browserPlatformMacintosh = vPlatformMacintosh;
       this._browserPlatformUnix = vPlatformUnix;
       this._browserPlatformOther = vPlatformOther;
-      this._browserModeHta = vBrowserModeHta;
       this._browserLocale = vBrowserLocale;
       this._browserLocaleVariant = vBrowserLocaleVariant;
 
