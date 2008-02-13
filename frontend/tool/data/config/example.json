@@ -69,7 +69,9 @@
 
     "variants" :
     {
-      "qx.debug" : ["off"]
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
     },
     
     "compile" :
@@ -83,11 +85,13 @@
   {
     "extend" : ["common"],
     
-    "include" : ["qx.bom.Element"],
+    "include" : ["qx.bom.Element","qx.bom.element.Style","qx.bom.element.Attribute"],
 
     "variants" :
     {
-      "qx.debug" : ["off"]
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
     },
     
     "compile" :
