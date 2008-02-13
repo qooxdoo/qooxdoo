@@ -185,12 +185,12 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
 
     // interface implementation
-    unregisterEvent : function(target, type)
+    unregisterEvent : function(target, type, capture)
     {
       var eventTarget = this.__getEventTarget(target, type);
       var eventHandler = this.__eventHandler[target.$$hash];
 
-      if (eventHandler)
+      if (eventHandler && eventTarget.hasListener(type, eventHandler, this, capture))
       {
         eventTarget.removeListener(type, eventHandler, this, capture);
         delete this.__eventHandler[target.$$hash]
