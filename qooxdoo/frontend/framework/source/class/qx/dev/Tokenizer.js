@@ -99,10 +99,11 @@ qx.Class.define("qx.dev.Tokenizer",
       var re_float = /[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?/
       var re_doublequote = /["][^"]*["]/
       var re_singlequote = /['][^']*[']/
-      var re_tab = /\t/
-      var re_nl = /\r\n|\r|\n/
-      var re_space = /\s/
-      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
+      var re_tab = /\t/;
+      var re_nl = /\r\n|\r|\n/;
+      var re_space = /\s/;
+      var re_re = /\/(?:\\.|[^\/])+\/[gimy]*/;
+      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\/(?:\\.|[^\/])+\/[gimy]*|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
 
       var tokens = [];
 
@@ -111,7 +112,10 @@ qx.Class.define("qx.dev.Tokenizer",
       for (var i = 0; i < a.length; i++)
       {
         var token = a[i];
-        if (token.match(re_line_comment)) {
+        if (token.match(re_re)) {
+          tokens.push({type: "regexp", value: token});
+        }
+        else if (token.match(re_line_comment)) {
           tokens.push({type: "linecomment", value: token});
         }
         else if (token.match(re_full_comment)) {
@@ -186,6 +190,10 @@ qx.Class.define("qx.dev.Tokenizer",
         var token = tokens[i];
         var htmlValue = qx.bom.String.escape(token.value);
         switch(token.type) {
+          case "regexp":
+            js.add("<span class='regexp'>", htmlValue, "</span>");
+            break;
+            
           case "ident":
             js.add("<span class='ident'>", htmlValue, "</span>");
             break;
