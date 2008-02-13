@@ -63,12 +63,12 @@ S_OPERATORS_4 = r"\>\>\>="
 S_OPERATORS = "(?:" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
 S_REGEXP   = "(?:\/(?!\*)[^\t\n\r\f\v\/]+?\/[mgi]*)"
-#S_REGEXP   = "(?:\/[^\t\n\r\f\v\/]+?\/[mgi]*)"
 S_REGEXP_A = "\.(?:match|search|split)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*\)"
 S_REGEXP_B = "\.(?:replace)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*?,?"
 S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(?:test|exec)\s*\(\s*"
 S_REGEXP_D = "(?::|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
-S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
+S_REGEXP_E = "[\(,]\s*" + S_REGEXP + "\s*[,\)]"          # regexp as parameter/tuple entry
+S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D + "|" + S_REGEXP_E
 #S_REGEXP_ALL = "(?P<REGEXP>" + S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D + ")"
             # I would rather group only on the top-level expression, and there create a named group
             # (sub-groups only if in dire need); the named groups provide not only the match, but
@@ -87,6 +87,7 @@ R_REGEXP_A = re.compile(S_REGEXP_A)
 R_REGEXP_B = re.compile(S_REGEXP_B)
 R_REGEXP_C = re.compile(S_REGEXP_C)
 R_REGEXP_D = re.compile(S_REGEXP_D)
+R_REGEXP_E = re.compile(S_REGEXP_E)
 R_ALL = re.compile(S_ALL)
 
 
@@ -404,7 +405,7 @@ def parseStream(content, uniqueId=""):
             if fragresult:
                 # print "Type:RegExp: %s" % fragresult.group(0)
 
-                if R_REGEXP_A.match(fragment) or R_REGEXP_B.match(fragment) or R_REGEXP_C.match(fragment) or R_REGEXP_D.match(fragment):
+                if R_REGEXP_A.match(fragment) or R_REGEXP_B.match(fragment) or R_REGEXP_C.match(fragment) or R_REGEXP_D.match(fragment) or R_REGEXP_E.match(fragment):
                     content = parseFragmentLead(content, fragresult.group(0), tokens)
                     tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(fragresult.group(0)), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
