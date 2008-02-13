@@ -518,8 +518,11 @@ qx.Class.define("qx.ui.core.Widget",
     {
       while(element)
       {
-        if (element.QxWidget) {
-          return element.QxWidget;
+        var widgetKey = qx.bom.element.Attribute.get(element, "QxWidget");
+        if (widgetKey)
+        {
+          // dereference "weak" reference to the widget.
+          return qx.core.Object.getObjectByHashCode(widgetKey);
         }
 
         element = element.parentNode;
@@ -1228,7 +1231,9 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = new qx.html.Element("div");
       el.setStyle("position", "absolute");
-      el.setAttribute("QxWidget", this);
+
+      // store "weak" reference to the widget in the DOM element.
+      el.setAttribute("QxWidget", this.toHashCode());
       el.setStyle("zIndex", 0);
 
       return el;
