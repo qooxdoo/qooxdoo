@@ -122,6 +122,23 @@ qx.Class.define("qx.bom.Flash",
 
 
     /**
+     * Internal helper to prevent leaks in IE
+     *
+     * @type static
+     * @return {void}
+     */
+    __fixOutOfMemoryError : function()
+    {
+      // IE Memory Leak Fix
+      __flash_unloadHandler = function() {};
+      __flash_savedUnloadHandler = function() {};
+
+      // Remove listener again
+      window.detachEvent("onbeforeunload", qx.bom.client.Flash.__fixOutOfMemoryError);
+    },
+    
+
+    /**
      * Creates a DOM element with a flash movie
      *
      * @type static
@@ -193,5 +210,12 @@ qx.Class.define("qx.bom.Flash",
         return swf;
       }
     })
+  },
+  
+  defer : function(statics)
+  {
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      window.attachEvent("onbeforeunload", statics.__fixOutOfMemoryError);
+    }    
   }
 });
