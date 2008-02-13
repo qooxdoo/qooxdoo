@@ -485,6 +485,7 @@ class Generator:
             
         return result
 
+
     def generateSourcePackageCode(self, parts, packages, boot, format=False):
         if not parts:
             return ""
@@ -518,7 +519,6 @@ class Generator:
         result = result.replace("%BOOT%", '"%s"' % boot)
 
         return result
-
 
 
     def generateCompiledPackageCode(self, fileName, parts, packages, boot, variants, settings, format=False):
