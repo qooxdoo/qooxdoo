@@ -43,24 +43,6 @@
   
   
 
-  "compile-log2" : 
-  {
-    "extend" : ["common"],
-    
-    "include" : ["qx.log2.Logger"],
-
-    "variants" :
-    {
-      "qx.debug" : ["off"]
-    },
-    
-    "compile" :
-    {
-      "file" : "compile-log2.js",
-      "optimize" : [ "variables", "basecalls", "privates" ]
-    }    
-  },
-
   "compile-bom" : 
   {
     "extend" : ["common"],

@@ -38,18 +38,6 @@ class DependencyLoader:
                     result.remove(entry)
 
 
-        # Debug optional classes
-        if self._console.inDebugMode():
-            self._console.debug("Looking out for optional classes...")
-            optionals = self.getOptionals(result)
-            if len(optionals) > 0:
-                self._console.debug("Found these optional classes:")
-                self._console.indent()
-                for entry in optionals:
-                    self._console.debug("%s" % entry)
-                self._console.outdent()
-
-
         # Sort classes
         self._console.info("Sorting %s classes..." % len(result))
         result = self.sortClasses(result, variants)
