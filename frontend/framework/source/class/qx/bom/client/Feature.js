@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      */
     __init : function()
     {
-      this.STANDARD_MODE = document.compatMode == "CSS1Compat";
+      this.STANDARD_MODE = document.compatMode === "CSS1Compat";
       this.QUIRKS_MODE = !this.STANDARD_MODE;
 
       this.CONTENT_BOX = !!(!qx.bom.client.Engine.MSHTML || this.STANDARD_MODE);
