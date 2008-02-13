@@ -57,7 +57,7 @@ R_INLINE_COMMENT_PURE = re.compile("^//")
 
 
 
-S_BLOCK_COMMENT = "/\*([^*]|[\n]|(\*+([^*/]|[\n])))*\*+/"
+S_BLOCK_COMMENT = "/\*(?:[^*]|[\n]|(?:\*+(?:[^*/]|[\n])))*\*+/"
 R_BLOCK_COMMENT = re.compile("^" + S_BLOCK_COMMENT + "$")
 
 R_BLOCK_COMMENT_JAVADOC = re.compile("^/\*\*")
