@@ -511,7 +511,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the widget, which contains the given DOM element.
      *
-     * @param {Element} The DOM element to search the widget for.
+     * @param element {Element} The DOM element to search the widget for.
      * @return {qx.ui.core.Widget} The widget containing the element.
      */
     getWidgetByElement : function(element)
