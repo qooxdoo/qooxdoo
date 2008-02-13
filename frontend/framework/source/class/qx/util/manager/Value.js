@@ -63,8 +63,6 @@ qx.Class.define("qx.util.manager.Value",
      */
     disconnect : function(obj)
     {
-      console.log("disconnect:", obj);
-
       // Error checking
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {

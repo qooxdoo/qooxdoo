@@ -130,8 +130,8 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
       event.clone(clone);
       clone.setBubbles(false);
+      clone.setCurrentTarget(target);
 
-      console.log(clone);
       return clone;
     },
 

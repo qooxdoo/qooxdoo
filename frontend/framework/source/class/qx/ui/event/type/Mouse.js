@@ -60,34 +60,6 @@ qx.Class.define("qx.ui.event.type.Mouse",
 
 
     /**
-     * Get the event target widget whose event listeners are currently being
-     * processed. This is particularly useful during event capturing and
-     * bubbling.
-     *
-     * @type member
-     * @return {qx.ui.core.Wodget} The widget the event listener is currently
-     *       dispatched on.
-     */
-    getCurrentTarget : function() {
-      return qx.ui.core.Widget.getWidgetByElement(this._currentTarget);
-    },
-
-
-    /**
-     * Get the event target DOM node whose event listeners are currently being
-     * processed. This is particularly useful during event capturing and
-     * bubbling.
-     *
-     * @type member
-     * @return {Element} The DOM element the event listener is currently
-     *       dispatched on.
-     */
-    getDomCurrentTarget : function() {
-      return this._currentTarget;
-    },
-
-
-    /**
      * Get a secondary event target related to an UI event. This attribute is
      * used with the mouseover event to indicate the event target which the
      * pointing device exited and with the mouseout event to indicate the
