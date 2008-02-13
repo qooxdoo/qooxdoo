@@ -56,34 +56,6 @@ qx.Class.define("qx.ui.event.type.Event",
      */
     getDomTarget : function() {
       return this._target;
-    },
-
-
-    /**
-     * Get the event target widget whose event listeners are currently being
-     * processed. This is particularly useful during event capturing and
-     * bubbling.
-     *
-     * @type member
-     * @return {qx.ui.core.Wodget} The widget the event listener is currently
-     *       dispatched on.
-     */
-    getCurrentTarget : function() {
-      return qx.ui.core.Widget.getWidgetByElement(this._currentTarget);
-    },
-
-
-    /**
-     * Get the event target DOM node whose event listeners are currently being
-     * processed. This is particularly useful during event capturing and
-     * bubbling.
-     *
-     * @type member
-     * @return {Element} The DOM element the event listener is currently
-     *       dispatched on.
-     */
-    getDomCurrentTarget : function() {
-      return this._currentTarget;
     }
   }
 });
