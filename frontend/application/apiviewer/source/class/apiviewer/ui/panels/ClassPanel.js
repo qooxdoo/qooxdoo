@@ -126,9 +126,17 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
 
       var classes = currentClassDocNode.getClasses();
       var nodeArr = [];
+      var clType;
       for (var i=0; i<classes.length; i++)
       {
-        if (classes[i].getType() == this.getType()) {
+        clType = classes[i].getType();
+        
+        // Normalize pseudo-classes (for the user this detail is often not relevant)
+        if (clType === "bootstrap" || clType === "list") {
+          clType = "class";
+        }
+        
+        if (clType === this.getType()) {
           nodeArr.push(classes[i]);
         }
       }
