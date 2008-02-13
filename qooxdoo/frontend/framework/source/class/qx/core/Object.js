@@ -61,10 +61,8 @@ qx.Class.define("qx.core.Object",
   {
     this.$$hash = qx.core.Object.__availableHashCode++;
 
-    if (this._autoDispose)
-    {
-      this.__dbKey = qx.core.Object.__db.length;
-      qx.core.Object.__db.push(this);
+    if (this._autoDispose) {
+      qx.core.Object.__db[this.$$hash] = this;
     }
   },
 
@@ -80,11 +78,11 @@ qx.Class.define("qx.core.Object",
   statics :
   {
     /** TODOC */
-    __availableHashCode : 0,
+    __availableHashCode : 1,
 
 
     /** TODOC */
-    __db : [],
+    __db : {},
 
 
     /** TODOC */
@@ -115,14 +113,27 @@ qx.Class.define("qx.core.Object",
 
     /**
      * Returns the database created, but not yet disposed elements.
-     * Please be sure to not modify the given array!
+     * Please be sure to not modify the given map!
      *
      * @type static
      * @internal
-     * @return {Array} The database
+     * @return {Map} The database
      */
     getDb : function() {
       return this.__db;
+    },
+
+
+    /**
+     * Get a object instance by its hash code as returned by {@link toHashCode}.
+     * If the object is already disposed or the hashCode is invalid,
+     * <code>null</code> is returned.
+     *
+     * @param hashCode {Integer} The object's hash code.
+     * @return {qx.core.Object|null} The corresponding object or <code>null</code>.
+     */
+    getObjectByHashCode : function(hashCode) {
+      return this.__db[hashCode] || null;
     },
 
 
@@ -154,12 +165,11 @@ qx.Class.define("qx.core.Object",
         }
       }
 
-      // var vStart = (new Date).valueOf();
       var vObject, vObjectDb = this.__db;
 
-      for (var i=vObjectDb.length - 1; i>=0; i--)
+      for (var key in vObjectDb)
       {
-        vObject = vObjectDb[i];
+        vObject = vObjectDb[key];
 
         if (vObject && vObject.__disposed === false)
         {
@@ -222,6 +232,8 @@ qx.Class.define("qx.core.Object",
           qx.core.Log.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
+
+      this.__db = [];
     },
 
 
@@ -1049,13 +1061,6 @@ qx.Class.define("qx.core.Object",
     }
 
     // Delete Entry from Object DB
-    if (this.__dbKey != null)
-    {
-      if (qx.core.Object.__disposeAll) {
-        qx.core.Object.__db[this.__dbKey] = null;
-      } else {
-        delete qx.core.Object.__db[this.__dbKey];
-      }
-    }
+    delete qx.core.Object.__db[this.$$hash];
   }
 });
