@@ -18,8 +18,7 @@
 #
 ################################################################################
 
-import sha
-import zlib
+debug = False
 
 def patch(tree, id):
     # Look for privates
@@ -35,7 +34,16 @@ def patch(tree, id):
     
 
 def crypt(id, name):
-    return "CRYPT_%s_%s" % (id.replace(".", "_"), name[2:])
+    if debug:
+        ret = "CRYPT_%s_%s" % (id.replace(".", "_"), name[2:])
+    else:
+        code = hash(id + name[2:])
+        if code > 0:
+            ret = "CC%s" % code
+        else:
+            ret = "PP%s" % (code * -1)
+
+    return ret
     
     
 def lookup(id, node, privates):
