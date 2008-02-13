@@ -36,9 +36,9 @@ qx.Class.define("qx.dev.ObjectSummary",
       var vObject;
       var vDb = qx.core.Object.getDb();
 
-      for (var i=vDb.length - 1; i>=0; i--)
+      for (var key in vDb)
       {
-        vObject = vDb[i];
+        vObject = vDb[key];
 
         if (vObject && vObject.__disposed === false)
         {
@@ -93,9 +93,9 @@ qx.Class.define("qx.dev.ObjectSummary",
       var mHashCode = {};
       var ar;
 
-      for (var i=vDb.length - 1; i>=0; i--)
+      for (var key in vDb)
       {
-        vObject = vDb[i];
+        vObject = vDb[key];
 
         if (vObject && vObject.__disposed === false)
         {
