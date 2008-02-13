@@ -39,34 +39,35 @@
 #</pre>
 ##
 
-import sys, string, re, optparse
+import sys, string, re, optparse, types
 import config, filetool, comment
 
-R_WHITESPACE = re.compile(r"(\s+)")
+R_WHITESPACE = re.compile(r"(?:\s+)")
 R_NONWHITESPACE = re.compile("\S+")
 R_NUMBER = re.compile("^[0-9]+")
-R_NEWLINE = re.compile(r"(\n)")
+R_NEWLINE = re.compile(r"(\n)")  # don't touch this subgroup!
 
 # Ideas from: http://www.regular-expressions.info/examplesprogrammer.html
 # Multicomment RegExp inspired by: http://ostermiller.org/findcomment.html
 
-# builds regexp strings
-S_STRING_A = "'[^'\\\n]*(\\.|\n[^'\\\n]*)*'"
-S_STRING_B = '"[^"\\\n]*(\\.|\n[^"\\\n]*)*"'
+# Build Regexps for JavaScript
+# quoted strings (single and double)
+S_STRING_A = "'[^'\\\n]*(?:\\.|\n[^'\\\n]*)*'"
+S_STRING_B = '"[^"\\\n]*(?:\\.|\n[^"\\\n]*)*"'
 
-S_FLOAT = "([0-9]*\.[0-9]+(?:[eE][+-]?[0-9]+)?)"
+S_FLOAT = "(?:[0-9]*\.[0-9]+(?:[eE][+-]?[0-9]+)?)"
 
-S_OPERATORS_2 = r"(==)|(!=)|(\+\+)|(--)|(-=)|(\+=)|(\*=)|(/=)|(%=)|(&&)|(\|\|)|(\>=)|(\<=)|(>>)|(<<)|(\^\|)|(\|=)|(\^=)|(&=)|(::)|(\.\.)"
-S_OPERATORS_3 = r"(===)|(!==)|(\<\<=)|(\>\>=)|(\>\>\>)"
-S_OPERATORS_4 = r"(\>\>\>=)"
-S_OPERATORS = "(" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
+S_OPERATORS_2 = r"==|!=|\+\+|--|-=|\+=|\*=|/=|%=|&&|\|\||\>=|\<=|>>|<<|\^\||\|=|\^=|&=|::|\.\."
+S_OPERATORS_3 = r"===|!==|\<\<=|\>\>=|\>\>\>"
+S_OPERATORS_4 = r"\>\>\>="
+S_OPERATORS = "(?:" + S_OPERATORS_4 + "|" + S_OPERATORS_3 + "|" + S_OPERATORS_2 + ")"
 
-S_REGEXP = "(\/(?!\*)[^\t\n\r\f\v\/]+?\/[mgi]*)"
-#S_REGEXP = "(\/[^\t\n\r\f\v\/]+?\/[mgi]*)"
-S_REGEXP_A = "\.(match|search|split)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*\)"
-S_REGEXP_B = "\.(replace)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*?,?"
-S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(test|exec)\s*\(\s*"
-S_REGEXP_D = "(:|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
+S_REGEXP   = "(?:\/(?!\*)[^\t\n\r\f\v\/]+?\/[mgi]*)"
+#S_REGEXP   = "(?:\/[^\t\n\r\f\v\/]+?\/[mgi]*)"
+S_REGEXP_A = "\.(?:match|search|split)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*\)"
+S_REGEXP_B = "\.(?:replace)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*?,?"
+S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(?:test|exec)\s*\(\s*"
+S_REGEXP_D = "(?::|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
 #S_REGEXP_ALL = "(?P<REGEXP>" + S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D + ")"
             # I would rather group only on the top-level expression, and there create a named group
@@ -74,7 +75,7 @@ S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP
             # also the classification (like "REGEXP"), to be retrieved through mo.groupdict(). this
             # would allow you to build a tokenizer through regexps entirely.
 
-S_ALL = "(" + comment.S_BLOCK_COMMENT + "|" + comment.S_INLINE_COMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
+S_ALL = "(?:" + comment.S_BLOCK_COMMENT + "|" + comment.S_INLINE_COMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
 
 # compile regexp strings
 R_STRING_A = re.compile("^" + S_STRING_A + "$")
@@ -284,8 +285,18 @@ def parseStream(content, uniqueId=""):
         sys.exit(1)
 
     # print "      * structuring..."
-    for item in all:
-        fragment = item[0]
+
+    #for item in all:
+    #    if type(item) != types.TupleType:   # item's no longer a tuple!
+    #        item = (item,)
+    #    fragment = item[0]
+
+    while content:
+        mo = R_ALL.search(content)
+        if mo:
+            fragment = mo.group(0)
+        else:
+            break
 
         # print "Found: '%s'" % fragment
 
@@ -371,6 +382,14 @@ def parseStream(content, uniqueId=""):
             # print "Type:Float: %s" % fragment
             content = parseFragmentLead(content, fragment, tokens)
             tokens.append({ "type" : "number", "detail" : "float", "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+
+        # Handle regexps
+        #elif R_REGEXP.search(content[:content.index('\n')]):
+        #    mo = R_REGEXP.search(content)
+        #    regmatch = mo.group(0)
+        #    content = parseFragmentLead(content, regmatch, tokens)
+        #    tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(regmatch), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+        #    parseColumn += len(regmatch)
 
         # Handle operator
         elif R_OPERATORS.match(fragment):
