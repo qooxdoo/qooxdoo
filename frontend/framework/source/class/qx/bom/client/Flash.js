@@ -78,26 +78,9 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     supportsVersion : function(input)
     {
       var input = input.split(".");
-      var system = qx.bom.client.Flash.FULLVERSION.split(".");
+      var system = this.FULLVERSION.split(".");
 
       return (system[0] > input[0] || (system[0] == input[0] && system[1] > input[1]) || (system[0] == input[0] && system[1] == input[1] && system[2] >= input[2])) ? true : false;
-    },
-
-
-    /**
-     * Internal helper to prevent leaks in IE
-     *
-     * @type static
-     * @return {void}
-     */
-    __fixOutOfMemoryError : function()
-    {
-      // IE Memory Leak Fix
-      __flash_unloadHandler = function() {};
-      __flash_savedUnloadHandler = function() {};
-
-      // Remove listener again
-      window.detachEvent("onbeforeunload", qx.bom.client.Flash.__fixOutOfMemoryError);
     },
 
 
@@ -107,24 +90,15 @@ qx.Bootstrap.define("qx.bom.client.Flash",
      * @type static
      * @return {void}
      */
-    __init : function()
+    __init : qx.core.Variant.select("qx.client",
     {
-      var full = [0,0,0];
-
-      if (navigator.plugins && typeof navigator.plugins["Shockwave Flash"] == "object")
+      "mshtml" : function()
       {
-        var desc = navigator.plugins["Shockwave Flash"].description;
-
-        if (typeof desc != "undefined")
-        {
-          desc = desc.replace(/^.*\s+(\S+\s+\S+$)/, "$1");
-          full[0] = parseInt(desc.replace(/^(.*)\..*$/, "$1"), 10);
-          full[1] = parseInt(desc.replace(/^.*\.(.*)\s.*$/, "$1"), 10);
-          full[2] = /r/.test(desc) ? parseInt(desc.replace(/^.*r(.*)$/, "$1"), 10) : 0;
+        if (window.ActiveXObject) {
+          return;
         }
-      }
-      else if (window.ActiveXObject)
-      {
+        
+        var full = [0,0,0];        
         var fp6Crash = false;
 
         try {
@@ -164,9 +138,41 @@ qx.Bootstrap.define("qx.bom.client.Flash",
             full[1] = parseInt(info[1]);
             full[2] = parseInt(info[2]);
           }
-        }
-      }
+        }  
 
+        this.__store(full);              
+      },
+      
+      "default" : function()
+      {
+        if (!navigator.plugins || typeof navigator.plugins["Shockwave Flash"] !== "object") {
+          return;
+        }
+
+        var full = [0,0,0];
+        var desc = navigator.plugins["Shockwave Flash"].description;
+
+        if (typeof desc != "undefined")
+        {
+          desc = desc.replace(/^.*\s+(\S+\s+\S+$)/, "$1");
+          full[0] = parseInt(desc.replace(/^(.*)\..*$/, "$1"), 10);
+          full[1] = parseInt(desc.replace(/^.*\.(.*)\s.*$/, "$1"), 10);
+          full[2] = /r/.test(desc) ? parseInt(desc.replace(/^.*r(.*)$/, "$1"), 10) : 0;
+        }
+        
+        this.__store(full);
+      }
+    }),
+    
+
+    /**
+     * Internal storage helper
+     *
+     * @type static
+     * @return {void}
+     */
+    __store : function(full)
+    {
       this.FULLVERSION = full.join(".");
       this.VERSION = parseFloat(full);
       this.AVAILABLE = this.VERSION > 0;
@@ -185,12 +191,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
+  defer : function(statics) {
     statics.__init();
-
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      window.attachEvent("onbeforeunload", statics.__fixOutOfMemoryError);
-    }
   }
 });
