@@ -19,7 +19,7 @@
   {
     qx.bom.element.Style.setCss(myElement, elementStyle);
   }
-  
+
   qx.Class.define("Transition1",
   {
 
@@ -29,13 +29,13 @@
     {
       main : function()
       {
-      
+
         this.base(arguments);
         var doc = qx.legacy.ui.core.ClientDocument.getInstance();
         myElement = qx.bom.Element.create('div', { style : elementStyle });
 
         document.body.appendChild(myElement);
-      
+
         myElement.id = "testDiv";
         myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
 
@@ -88,7 +88,16 @@
           y : 300,
           mode : "absolute"
         });
-        animMove.addListener("finish", resetElement);
+
+        var moveBack = false;
+        animMove.addListener("finish", function()
+        {
+          animMove.set({
+            x: moveBack ? 90 : 600,
+            y: moveBack ? 90 : 300
+          });
+          moveBack = !moveBack;
+        });
 
         var nf = new qx.util.format.NumberFormat();
         nf.setMaximumFractionDigits(2);
@@ -102,14 +111,14 @@
             duration : spDuration.getValue()
           });
 
-          animMove.start();  	  
+          animMove.start();
         });
 
         doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
       }
     }
   });
-  qx.core.Init.getInstance().setApplication(new Transition1);  
+  qx.core.Init.getInstance().setApplication(new Transition1);
   </script>
 </body>
 </html>
