@@ -82,9 +82,9 @@ qx.Class.define("qx.bom.element.Attribute",
         frameborder : "frameBorder",
         usemap      : "useMap"
       },
-      
+
       // Attributes which are only applyable on a DOM element (not using compile())
-      runtime : 
+      runtime :
       {
         "html" : 1,
         "text" : 1
@@ -154,15 +154,15 @@ qx.Class.define("qx.bom.element.Attribute",
         clientHeight : 1
       }
     },
-    
-    
-    /** 
+
+
+    /**
      * Compiles an incoming attribute map to a string which
      * could be used when building HTML blocks using innerHTML.
      *
      * This method silently ignores runtime attributes like
      * <code>html</code> or <code>text</code>.
-     * 
+     *
      * @type static
      * @param map {Map} Map of attributes. The key is the name of the attribute.
      * @return {String} Returns a compiled string ready for usage.
@@ -171,15 +171,15 @@ qx.Class.define("qx.bom.element.Attribute",
     {
       var html = [];
       var runtime = this.__hints.runtime;
-      
-      for (var key in map) 
+
+      for (var key in map)
       {
         if (!runtime[key]) {
           html.push(key, "='", map[key], "'");
         }
       }
-      
-      return html.join("");      
+
+      return html.join("");
     },
 
 
@@ -294,13 +294,7 @@ qx.Class.define("qx.bom.element.Attribute",
       } else if (value === false || value === null) {
         element.removeAttribute(name);
       } else {
-        // What the hell is this. TO DISCUSS.
-        // This definitely needs another approach.
-        if ((typeof value).match("object|function")) {
-          element[name] = value;
-        } else {
-          element.setAttribute(name, value);
-        }
+        element.setAttribute(name, value);
       }
     },
 
