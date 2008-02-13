@@ -125,25 +125,6 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-    /**
-     * Generates a unique ID for a combination of target, type and capturing
-     *
-     * @type member
-     * @param target {Object} Any valid event target
-     * @param type {String} Event name
-     * @param capture {Boolean ? false} Event for capture phase?
-     * @return {String} the unique ID
-     */
-    __generateUniqueId : function(target, type, capture) {
-      return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");
-    },
-
-
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -152,23 +133,62 @@ qx.Class.define("qx.event.Manager",
     */
 
     /**
+     * Generates a unique ID for a combination of target, type and capturing
+     *
+     * @type member
+     * @param type {String} Event name
+     * @param capture {Boolean ? false} Event for capture phase?
+     * @return {String} the unique ID
+     */
+    __generateUniqueId : function(type, capture) {
+      return type + (capture ? "|capture" : "|bubble");
+    },
+
+
+    /**
      * Get all event listeners for the given target, event type and phase.
      *
      * @type member
      * @param target {Object} any valid event target
      * @param type {String} DOM event type
      * @param capture {Boolean ? false} Whether the listener is for the
-     *         capturing phase of the bubbling phase.
+     *       capturing phase of the bubbling phase.
+     * @param copy {Boolean?true} Whether a copy of the listener list should be
+     *       returned.
+     * @param create {Boolean?false} Internal flag to indicate, whether a map entry
+     *       for the target's listeners should be created if it does not yet exist.
      * @return {Function[] | null} Array of registered event handlers for this event
      *       and type. Will return null if <code>setup</code> and no entry
      *       is found.
      */
-    getListeners : function(target, type, capture)
+    getListeners : function(target, type, capture, copy, create)
     {
-      var uniqueId = this.__generateUniqueId(target, type, capture);
-      var res = this.__listeners[uniqueId];
-      if (res && res.length > 0) {
-        return res.concat();
+      var targetKey = qx.core.Object.toHashCode(target);
+
+      // create map entry if needed
+      if (!this.__listeners[targetKey])
+      {
+        if (create) {
+          this.__listeners[targetKey] = {};
+        } else {
+          return null;
+        }
+      }
+
+      var uniqueId = this.__generateUniqueId(type, capture);
+      var res = this.__listeners[targetKey][uniqueId];
+      if (!res && create) {
+        res = [];
+        this.__listeners[targetKey][uniqueId] = res;
+      }
+
+      if (res)
+      {
+        if (copy !== true) {
+          return res;
+        } else {
+          return res.concat();
+        }
       }
 
       return null;
@@ -188,8 +208,7 @@ qx.Class.define("qx.event.Manager",
      */
     hasListeners : function(target, type, capture)
     {
-      var uniqueId = this.__generateUniqueId(target, type, capture);
-      var listeners = this.__listeners[uniqueId];
+      var listeners = this.getListeners(target, type, capture, false, false);
       return listeners != null && listeners.length > 0;
     },
 
@@ -233,13 +252,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       // Preparations
-      var uniqueId = this.__generateUniqueId(target, type, capture);
-      var listeners = this.__listeners[uniqueId];
-
-      // Create data hierarchy
-      if (!listeners) {
-        listeners = this.__listeners[uniqueId] = [];
-      }
+      var listeners = this.getListeners(target, type, capture, false, true);
 
       // This is the first event listener for this type and target
       // Inform the event handler about the new event
@@ -326,8 +339,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       // Preparations
-      var uniqueId = this.__generateUniqueId(target, type, capture);
-      var listeners = this.__listeners[uniqueId];
+      var listeners = this.getListeners(target, type, capture, false);
 
       // Directly return if there are no listeners
       if (!listeners || listeners.length === 0) {
@@ -368,23 +380,24 @@ qx.Class.define("qx.event.Manager",
     /**
      * Remove all event listeners, which are attached to the given event target.
      *
-     * @param target{Object} The event target to remove all event listeners from.
+     * @param target {Object} The event target to remove all event listeners from.
      */
     removeAllListeners : function(target)
-    {      
-      var targetKey = target.$$hash;
-      for (var key in this.__listeners)
+    {
+      var targetKey = qx.core.Object.toHashCode(target);
+      var listeners = this.__listeners[targetKey];
+      if (!listeners) {
+        return;
+      }
+
+      for (var key in listeners)
       {
         var listener = key.split('|');
-        if (listener[0] == targetKey)
-        {
-          var type = listener[1];
-          var capture = (listener[2] == "capture");
-
-          var entry = this.__listeners[key];
-          this.removeListener(target, type, entry.handler, entry.context, capture);
-        }
+        var type = listener[0];
+        var capture = (listener[1] == "capture");
+        this.__unregisterAtHandler(target, type, capture);
       }
+      delete this.__listeners[targetKey];
     },
 
 
