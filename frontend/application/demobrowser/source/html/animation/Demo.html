@@ -19,7 +19,7 @@
   {
     qx.bom.element.Style.setCss(el,  elementStyle);
   }
-  
+
   qx.Class.define("AnimationDemo",
   {
 
@@ -29,23 +29,23 @@
     {
       main : function()
       {
-      
+
         this.base(arguments);
         var doc = doc = qx.legacy.ui.core.ClientDocument.getInstance();
         myElement = qx.bom.Element.create('div', { style : elementStyle });
-      
+
         document.body.appendChild(myElement);
-      
+
         myElement.id = "testDiv";
         myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
-      
+
         /*
          * Each effect needs
          * 1. an HTML element to modify
-         * 2. a map with effect spcific options 
+         * 2. a map with effect spcific options
          */
-      
-      
+
+
         /*
          * Effect for fading in the div container
         */
@@ -56,13 +56,13 @@
           to : 1,
           duration : 2
         });
-        
+
         /*
          * Effect for fading out the div container
         */
         var animHide = new qx.fx.effect.core.FadeOut(myElement);
         animHide.setDuration(1);
-        
+
         /*
          * Effect for increasing the dimensions of the div container
         */
@@ -72,7 +72,7 @@
           duration : 2,
           scaleMode : "contents"
         });
-        
+
         /*
          * Effect for reduce the dimensions of the div container
         */
@@ -82,7 +82,7 @@
           duration : 2,
           scaleMode : "contents"
         });
-      
+
         /*
         * This FadeIn effect demonstrates a different transition: wobble
         * In opposite to the linear transition, this one differs between the values
@@ -96,7 +96,7 @@
           duration : 6,
           transition : qx.fx.Transition.wobble
         });
-      
+
         /*
         * This Scale effect shows the sinoidal transition.
         */
@@ -107,8 +107,8 @@
           delay : 2,
           scaleMode : "contents",
           transition : qx.fx.Transition.sinoidal
-        }); 
-        
+        });
+
         /*
         * This is one of the combination effect.
         * Puff will scale and fade out the given element and looks
@@ -142,18 +142,18 @@
 
         /*
         * Grow is another combination effect. Internally, it uses
-        * the FadeIn, Scale and Move effect.    
-        */    
+        * the FadeIn, Scale and Move effect.
+        */
         var animGrow = new qx.fx.effect.combination.Grow(myElement);
         animGrow.setDirection("center");
-        
+
         var animShake = new qx.fx.effect.combination.Shake(myElement);
 
         var animPulsate = new qx.fx.effect.combination.Pulsate(myElement);
 
         /*
         * Shake is a combination effect without options
-        */    
+        */
         var animShake = new qx.fx.effect.combination.Shake(myElement);
         var animSwitchOff = new qx.fx.effect.combination.SwitchOff(myElement);
         var animFold = new qx.fx.effect.combination.Fold(myElement);
@@ -170,7 +170,7 @@
           transition : qx.fx.Transition.wobble,
           duration : 3
         });
-        
+
         var animColorFlow = new qx.fx.effect.combination.ColorFlow(myElement);
         animColorFlow.setStartColor("#134275");
 
@@ -200,8 +200,29 @@
         var btnDropOut = new qx.legacy.ui.form.Button("DropOut");
 
         var btnReset = new qx.legacy.ui.form.Button("Reset element");
-      
-      
+
+
+        var buttonBar1 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
+          height: "auto",
+          width: "auto",
+          top: 25,
+          left: 25,
+          spacing: 10
+        });
+        buttonBar1.add(btnShow, btnHide, btnIncrease, btnDecrease, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake);
+        buttonBar1.addToDocument();
+
+        var buttonBar2 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
+          height: "auto",
+          width: "auto",
+          top: 60,
+          left: 25,
+          spacing: 10
+        });
+        buttonBar2.add(btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnDropOut, btnReset);
+        buttonBar2.addToDocument();
+
+        /*
         btnShow.setLocation(25, 25);
         btnHide.setLocation(85, 25)
         btnIncrease.setLocation(150, 25);
@@ -221,55 +242,56 @@
         btnColorFlow.setLocation(160, 60);
         btnShrink.setLocation(235, 60);
         btnDropOut.setLocation(285, 60);
-        
+
         btnReset.setLocation(25, 87);
-      
+        */
+
         /* Events */
         btnShow.addListener("execute", function(){
           animShow.start();
         });
-        
+
         btnShow.addListener("appear", function(){
           btnShow.focus();
         });
-        
+
         btnHide.addListener("execute", function(){
           animHide.start();
         });
-        
+
         btnIncrease.addListener("execute", function(){
           animIncrease.start();
         });
-        
+
         btnDecrease.addListener("execute", function(){
           animDecrease.start();
         });
-      
+
         btnCombination.addListener("execute", function(){
           animFadeInWobble.start();
           animIncreaseSinoidal.start();
         });
-        
+
         btnPuff.addListener("execute", function(){
           animPuff.start();
         });
-      
+
         btnMoveAway.addListener("execute", function(){
           animMoveAway.start();
         });
-      
+
         btnMoveBack.addListener("execute", function(){
           animMoveBack.start();
         });
-        
+
         btnGrow.addListener("execute", function(){
           animGrow.start();
         });
-        
+
         btnShake.addListener("execute", function(){
           animShake.start();
         });
-        
+
         btnSwitchOff.addListener("execute", function(){
           animSwitchOff.start();
         });
@@ -306,13 +328,13 @@
         btnReset.addListener("execute", function(){
           resetElement(myElement);
         });
-      
+
         btnReset.setBackgroundColor("#B22222");
-      
-        doc.add(btnShow, btnHide, btnIncrease, btnDecrease, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnDropOut, btnReset);
+
+        //doc.add(btnShow, btnHide, btnIncrease, btnDecrease, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake, btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnDropOut, btnReset);
       }
     }
-     
+
   });
   qx.core.Init.getInstance().setApplication(new AnimationDemo);
 
