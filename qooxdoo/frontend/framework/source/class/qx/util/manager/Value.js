@@ -41,8 +41,6 @@ qx.Class.define("qx.util.manager.Value",
 
     // Create empty dynamic map
     this._dynamic = {};
-
-    this._connectedObjects = {};
   },
 
 
@@ -65,15 +63,7 @@ qx.Class.define("qx.util.manager.Value",
      */
     disconnect : function(obj)
     {
-      // If value is disposed, it's already disconnected
-      if (this.isDisposed()) {
-        return;
-      }
-
-      // Otherwise disconnect from this value
-      var objectHash = obj.toHashCode();
-      var connections = this._connectedObjects;
-      var reg = this._registry;
+      console.log("disconnect:", obj);
 
       // Error checking
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -81,20 +71,18 @@ qx.Class.define("qx.util.manager.Value",
         if (!obj) {
           throw new Error("Can not disconnect from an empty object");
         }
-
-        if (!connections[objectHash]) {
-          throw new Error("disconnect: themed value " + this + " has no connection to object: " + obj);
-        }
       }
 
-      // Disconnect all keys
-      var lKeys = connections[objectHash];
-      while (lKeys.length) {
-        delete reg[lKeys.pop()];
+      // If value is disposed, it's already disconnected
+      if (this.isDisposed()) {
+        return;
       }
 
-      // Forget about object
-      delete connections[objectHash];
+      // Otherwise disconnect from this value
+      var objectKey = obj.toHashCode();
+      var reg = this._registry;
+
+      delete reg[objectKey];
     },
 
 
@@ -133,39 +121,37 @@ qx.Class.define("qx.util.manager.Value",
         }
       }
 
-      // Store references for dynamic values
-      var objectHash = obj.toHashCode();
-      var key = "v" + objectHash + "$" + qx.core.Object.toHashCode(callback);
-      var reg = this._registry;
-
       // Preprocess value (if function is defined)
       if (value !== null && this._preprocess) {
         value = this._preprocess(value);
       }
 
+      // Store references for dynamic values
+      var objectKey = obj.toHashCode();
+      var callbackKey = qx.core.Object.toHashCode(callback);
+      var reg = this._registry;
+
       // Callback handling
       if (this.isDynamic(value))
       {
+        if (!reg[objectKey]) {
+          reg[objectKey] = {};
+        }
+
         // Store reference for themed values
-        reg[key] =
+        reg[objectKey][callbackKey] =
         {
           callback : callback,
           object   : obj,
           value    : value
         };
 
-        // remember, which objects have connections
-        if (!this._connectedObjects[objectHash]) {
-          this._connectedObjects[objectHash] = [];
-        }
-        this._connectedObjects[objectHash].push(key);
         obj.hasConnectionTo(this);
-
       }
-      else if (reg[key])
+      else if (reg[objectKey] && reg[objectKey][callbackKey])
       {
         // In all other cases try to remove previously created references
-        delete reg[key];
+        delete reg[objectKey][callbackKey];
       }
 
       // Finally executing given callback
@@ -207,10 +193,13 @@ qx.Class.define("qx.util.manager.Value",
       var reg = this._registry;
       var entry;
 
-      for (var key in reg)
+      for (var OobjectKey in reg)
       {
-        entry = reg[key];
-        entry.callback.call(entry.object, this.resolveDynamic(entry.value));
+        for (var callbackKey in reg[objectKey])
+        {
+          entry = reg[objectKey][callbackKey];
+          entry.callback.call(entry.object, this.resolveDynamic(entry.value));
+        }
       }
     }
   },
@@ -225,6 +214,6 @@ qx.Class.define("qx.util.manager.Value",
   */
 
   destruct : function() {
-    this._disposeFields("_registry", "_dynamic", "_connectedObjects");
+    this._disposeFields("_registry", "_dynamic");
   }
 });
