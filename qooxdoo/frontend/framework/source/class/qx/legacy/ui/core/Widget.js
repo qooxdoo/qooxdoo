@@ -1517,7 +1517,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     },
 
 
-    /*
+    /**
      * The method which this.supportsDrop() calls to determine whether the
      * widget supports a particular drop operation.
      *
