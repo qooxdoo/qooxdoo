@@ -85,7 +85,7 @@ qx.Class.define("qx.html.Element",
       STATIC DATA
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Boolean} If debugging should be enabled */
     _debug : false,
 
@@ -107,7 +107,7 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Map} Map of attributes where the computed value should be preferred over the configured value */
-    _computedAttributes : 
+    _computedAttributes :
     {
       scrollLeft : true,
       scrollTop : true,
@@ -312,8 +312,8 @@ qx.Class.define("qx.html.Element",
       this._element = qx.bom.Element.create(this._nodeName);
       this._element.QxElement = this;
     },
-    
-    
+
+
 
 
 
@@ -363,8 +363,8 @@ qx.Class.define("qx.html.Element",
           html.push("style='", qx.bom.element.Style.compile(this.__styleValues), "'>");
           html.push(this._compileChildren());
           html.push("</", this._nodeName, ">");
-          
-          this._html = html.join("");          
+
+          this._html = html.join("");
         }
         else
         {
@@ -381,7 +381,7 @@ qx.Class.define("qx.html.Element",
         if (this._useInnerHtml)
         {
           var compiled = this._compileChildren();
-          if (compiled != "") 
+          if (compiled != "")
           {
             this._htmlWrapper.innerHTML = compiled;
             this._assignElements(this._htmlWrapper);
@@ -397,19 +397,19 @@ qx.Class.define("qx.html.Element",
 
       delete this._modifiedChildren;
     },
-    
+
     _assignElements : function(parent)
     {
       if (this._children.length == 0) {
         return;
       }
-      
+
       var child, el;
-      
+
       for (var i=0, children=this._children, l=children.length; i<l; i++)
-      { 
+      {
         child = children[i];
-        
+
         if (child._included && child._html)
         {
           el = parent.childNodes[i];
@@ -420,33 +420,33 @@ qx.Class.define("qx.html.Element",
               throw new Error("Oops. Something went wrong here. Different IDs found!");
             }
           }
-          
+
           child._element = el;
           delete child._html;
-          
-          child._assignElements(el);        
-        }        
-      }     
-    },    
-    
+
+          child._assignElements(el);
+        }
+      }
+    },
+
     _compileChildren : function()
     {
       var content = [];
       var child;
-      
+
       for (var i=0, children=this._children, l=children.length; i<l; i++)
-      {      
+      {
         child = children[i];
         if (child._included && child._html) {
           content.push(child._html);
         }
-      }      
-      
+      }
+
       return content.join("");
     },
 
     // InnerHTML mode
-    _useInnerHtml : false,    
+    _useInnerHtml : false,
     _htmlWrapper : document.createElement("DIV"),
 
 
@@ -611,15 +611,24 @@ qx.Class.define("qx.html.Element",
 
         // Compiling styles and applying them in one process seems
         // to be a lot faster. Saves about 20% in webkit and 15% in gecko-1.9
-        // tested with 1600 elements.
-        Style.setCss(elem, Style.compile(data));
+        // tested with 1600 elements. (wpbasti)
+        // Style.setCss(elem, Style.compile(data));
 
         // Previous implementation
-        /*
+
+        // I have seen the opposite effect in the opacity demo, where this old
+        // approach is about 20% faster in Firefox 2 but the new one is still
+        // faster in WebKit (element flush in the opacity demo):
+        //
+        // Browser   compile  Style.set
+        // FF2       1000 ms     800 ms
+        // WebKit     194 ms     260 ms
+
         for (var key in data) {
           Style.set(elem, key, data[key]);
         }
-        */
+
+
       }
 
       // Attach events
