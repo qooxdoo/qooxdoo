@@ -1669,6 +1669,20 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         };
       }
     },
+    
+    "table-editor-textfield" :
+    {
+      include : "text-field",
+
+      style : function(states)
+      {
+        return {
+          border          : "undefined",
+          padding         : [ 0, 2 ],
+          backgroundColor : "white"
+        };
+      }
+    },
 
     "table-pane":
     {
