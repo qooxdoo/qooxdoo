@@ -472,6 +472,63 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Mapping to native style property opacity.
+     *
+     *  The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
+     *  Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
+     */
+    opacity :
+    {
+      check : "Number",
+      apply : "_applyOpacity",
+      themeable : true,
+      nullable : true,
+      init : null
+    },
+
+
+    /**
+     * Mapping to native style property cursor.
+     *
+     * The name of the cursor to show when the mouse pointer is over the widget.
+     * This is any valid CSS2 cursor name defined by W3C.
+     *
+     * The following values are possible crossbrowser:
+     * <ul><li>default</li>
+     * <li>crosshair</li>
+     * <li>pointer</li>
+     * <li>move</li>
+     * <li>n-resize</li>
+     * <li>ne-resize</li>
+     * <li>e-resize</li>
+     * <li>se-resize</li>
+     * <li>s-resize</li>
+     * <li>sw-resize</li>
+     * <li>w-resize</li>
+     * <li>nw-resize</li>
+     * <li>text</li>
+     * <li>wait</li>
+     * <li>help </li>
+     * </ul>
+     */
+    cursor :
+    {
+      check : "String",
+      apply : "_applyCursor",
+      themeable : true,
+      inheritable : true,
+      nullable : true,
+      init : null
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MANAGEMENT PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
      * and don't receive user input events.
      */
@@ -495,6 +552,24 @@ qx.Class.define("qx.ui.core.Widget",
       init: false,
       inheritable : true,
       event : "changeAnonymous"
+    },
+
+
+    /**
+     * Set this to a positive value makes the widget able to get the focus
+     * and makes it reachable by using the tab-key.
+     *
+     * Widgets with the same tabIndex are handled through their position
+     * in the document.
+     *
+     * Setting the tabIndex to -1 deactivates focus handling for the widget.
+     */
+    tabIndex :
+    {
+      check : "Integer",
+      init : -1,
+      apply : "_applyTabIndex",
+      event : "changeTabIndex"
     }
   },
 
@@ -1459,8 +1534,26 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
+    _applyOpacity : function(value, old) {
+      this._containerElement.setStyle("opacity", value);
+    },
+
+
+    // property apply
+    _applyCursor : function(value, old) {
+      this._containerElement.setStyle("cursor", value);
+    },
+
+
+    // property apply
     _applyEnabled : function(value, old) {
       // Nothing to do here, may be overridden
+    },
+
+
+    // property apply
+    _applyTabIndex : function(value, old) {
+      // TODO
     },
 
 
