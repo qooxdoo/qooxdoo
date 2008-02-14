@@ -10,6 +10,19 @@ class TreeCompiler:
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
+        
+        self._setupPrivates()
+        
+
+    def _setupPrivates(self):
+        privates = self._cache.read("privates-tree-compiler")
+        if privates != None:
+            self._console.debug("Loaded %s private variables" % len(privates))
+            privateoptimizer.load(privates)
+
+    
+    def _storePrivates(self):
+        self._cache.write("privates-tree-compiler", privateoptimizer.get())
 
 
     def compileClasses(self, classes, variants, optimize, format):
@@ -101,6 +114,7 @@ class TreeCompiler:
         if "privates" in optimize:
             self._console.debug("Crypting privates...")
             self._privateOptimizeHelper(fileTree, fileId, variants)
+            self._storePrivates()
 
         return fileTree
 
@@ -117,7 +131,7 @@ class TreeCompiler:
 
 
     def _variableOptimizeHelper(self, tree, id, variants):
-        variableoptimizer.search(tree, [], 0, 0, "$")
+        variableoptimizer.search(tree)
         
         
     def _privateOptimizeHelper(self, tree, id, variants):

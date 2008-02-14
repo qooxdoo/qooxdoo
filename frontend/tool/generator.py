@@ -72,14 +72,16 @@ def main():
     obj = open(options.config)
     config = simplejson.loads(obj.read())
     obj.close()
+    
+    # Resolve "include"-Keys
+    # TODO
 
     # Resolve "extend"-Keys
     _resolveExtends(console, config, options.jobs)
 
     # Resolve "let"-Keys
     _resolveMacros(console, config, options.jobs)
-
-    console.debug(simplejson.dumps(config, separators=(',',':')))
+    # console.debug(simplejson.dumps(config, separators=(',',':')))
 
     # Convert into Config class instance
     config = Config(config)
@@ -151,7 +153,6 @@ def _resolveExtends(console, config, jobs):
 
 
 def _resolveMacros(console, config, jobs):
-
     def _expandString(s, map):
         templ = string.Template(s)
         sub = templ.substitute(map)
@@ -177,12 +178,14 @@ def _resolveMacros(console, config, jobs):
                     configElem[e] = _expandString(configElem[e], macroMap)
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
+                    
                 # expand in keys
                 if (isinstance(e, types.StringTypes) and 
                     e.find(r'${')>-1):
                     enew = _expandString(e, macroMap)
                     configElem[enew] = configElem[e]
                     del configElem[e]
+                    
         # leave everything else alone
         else:
             pass
