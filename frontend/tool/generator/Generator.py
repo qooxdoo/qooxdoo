@@ -182,6 +182,7 @@ class Generator:
             self.runSource(parts, packages, boot, variants)
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
+            self.runResources()
 
 
 
@@ -196,6 +197,25 @@ class Generator:
             apiContent.extend(classes)
             
         self._apiLoader.storeApi(apiContent, apiPath)
+
+
+
+    def runResources(self):
+        # only run for compile jobs
+        if not self._config.get("compile/file", False):
+            return
+        
+        resTargetRoot = "build"   # should probably come from config
+        libs = self._config.get("library")
+        self._console.info("Copying resources...")
+        self._console.indent()
+        for lib in libs:
+            # Copy resources
+            resSource = os.path.join(lib['path'], "resource", lib['namespace'])
+            resTarget = os.path.join(resTargetRoot, "resource", lib['namespace'])
+            self._copyResources(resSource, resTarget)
+        
+        self._console.outdent()
 
 
 
@@ -273,11 +293,6 @@ class Generator:
 
 
 
-
-
-
-
-
     def runCompiled(self, parts, packages, boot, variants):
         if not self._config.get("compile/file"):
             return
@@ -346,16 +361,6 @@ class Generator:
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
 
-        self._console.outdent()
-        
-        # Copy resources
-        resSource = self._config.get("resource/source", "./source/resource")
-        resTarget = self._config.get("resource/target", "./build/resource")
-        
-        self._console.info("Copying resources...")
-        self._console.indent()
-        self._copyResources(resSource, resTarget)
-        
         self._console.outdent()
 
 
