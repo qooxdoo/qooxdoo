@@ -56,7 +56,7 @@ qx.Class.define("qx.bom.element.Cursor",
       "default" : {}
     }),
 
-    
+
     /**
      * Compiles the given cursor into a CSS compatible string.
      *
@@ -65,7 +65,7 @@ qx.Class.define("qx.bom.element.Cursor",
      * @return {String} CSS string
      */
     compile : function(cursor) {
-      return "cursor:" + (this.__map[value] || value) + ";";
+      return "cursor:" + (this.__map[cursor] || cursor) + ";";
     },
 
 
