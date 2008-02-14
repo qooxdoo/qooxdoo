@@ -42,7 +42,7 @@ class Generator:
         self._console = console
         self._variants = variants
         self._settings = settings
-        self._copier = robocopy.PyRobocopier()
+        self._copier = robocopy.PyRobocopier(console)
 
         # Merge config deps and runtime deps
         require = self._mergeDicts(require, config.get("require", {}))
