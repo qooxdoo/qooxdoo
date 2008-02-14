@@ -460,9 +460,9 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * A function to instantiate a selection model.  this allows subclasses of
-     * Table to subclass this internal class.  To take effect, this property must
-     * be set before calling the Table constructor.
+     * A function to instantiate a table column model.  This allows subclasses
+     * of Table to subclass this internal class.  To take effect, this
+     * property must be set before calling the Table constructor.
      */
     newTableColumnModel :
     {
@@ -474,9 +474,9 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * A function to instantiate a table pane.  this allows subclasses of Table to
-     * subclass this internal class.  To take effect, this property must be set
-     * before calling the Table constructor.
+     * A function to instantiate a table pane.  this allows subclasses of
+     * Table to subclass this internal class.  To take effect, this property
+     * must be set before calling the Table constructor.
      */
     newTablePane :
     {
@@ -488,9 +488,9 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * A function to instantiate a table pane.  this allows subclasses of Table to
-     * subclass this internal class.  To take effect, this property must be set
-     * before calling the Table constructor.
+     * A function to instantiate a table pane.  this allows subclasses of
+     * Table to subclass this internal class.  To take effect, this property
+     * must be set before calling the Table constructor.
      */
     newTablePaneHeader :
     {
@@ -502,9 +502,9 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * A function to instantiate a table pane scroller.  this allows subclasses of
-     * Table to subclass this internal class.  To take effect, this property must
-     * be set before calling the Table constructor.
+     * A function to instantiate a table pane scroller.  this allows
+     * subclasses of Table to subclass this internal class.  To take effect,
+     * this property must be set before calling the Table constructor.
      */
     newTablePaneScroller :
     {
@@ -516,9 +516,9 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * A function to instantiate a table pane model.  this allows subclasses of
-     * Table to subclass this internal class.  To take effect, this property must
-     * be set before calling the Table constructor.
+     * A function to instantiate a table pane model.  this allows subclasses
+     * of Table to subclass this internal class.  To take effect, this
+     * property must be set before calling the Table constructor.
      */
     newTablePaneModel :
     {
