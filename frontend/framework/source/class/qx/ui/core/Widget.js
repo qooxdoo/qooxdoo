@@ -634,7 +634,14 @@ qx.Class.define("qx.ui.core.Widget",
     updateLayout : function()
     {
       var computed = this.__computedLayout;
-      this.renderLayout(computed.left, computed.top, computed.width, computed.height);
+      if (computed.height == null || computed.width == null) {
+        var hint = this.getSizeHint();
+      }
+
+      var height = computed.height != null ? computed.height : hint.height;
+      var width = computed.width != null ? computed.width : hint.width;
+
+      this.renderLayout(computed.left || 0, computed.top || 0, width, height);
     },
 
 
@@ -673,7 +680,7 @@ qx.Class.define("qx.ui.core.Widget",
         container.setStyle("top", top + pixel);
       }
 
-      if (this.hasHeightForWidth())
+      if (!this._hasUserHeight && this.hasHeightForWidth())
       {
         // Note: What when other stuff reproduces a reflow here.
         // Is this really correct to just check for null here?
@@ -825,7 +832,6 @@ qx.Class.define("qx.ui.core.Widget",
         return this._sizeHint;
       }
 
-
       // the widget size
       // start with the user defined values
       var sizeHint =
@@ -837,7 +843,6 @@ qx.Class.define("qx.ui.core.Widget",
         minHeight : this.getMinHeight(),
         maxHeight : this.getMaxHeight()
       }
-
 
       // apply technical min size
       var technicalLimits = this._getTechnicalLimits();
@@ -860,58 +865,86 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-
-      // compute content hint
-      var contentHint = this._getContentHint();
-
-      var insets = this.getInsets();
-      var insetX = insets.left + insets.right;
-      var insetY = insets.top + insets.bottom;
-
-
-      // merge size with content size hint
-      sizeHint.width = sizeHint.width != null ? sizeHint.width : contentHint.width + insetX;
-      sizeHint.minWidth = sizeHint.minWidth != null ? sizeHint.minWidth : contentHint.minWidth + insetX;
-      sizeHint.maxWidth = sizeHint.maxWidth != null ? sizeHint.maxWidth : contentHint.maxWidth + insetX;
-      sizeHint.height = sizeHint.height != null ? sizeHint.height : contentHint.height + insetY;
-      sizeHint.minHeight = sizeHint.minHeight != null ? sizeHint.minHeight : contentHint.minHeight + insetY;
-      sizeHint.maxHeight = sizeHint.maxHeight != null ? sizeHint.maxHeight : contentHint.maxHeight + insetY;
-
-
       // height for width
-      if (this.__heightForWidth)
+      if (this.__heightForWidth) {
+        sizeHint.height != null ? sizeHint.height : this.__heightForWidth;
+      }
+
+      this.__limitAndStretchSizeHint(sizeHint);
+
+      // remember that the height value is determined only by user set properties
+      // and not by the content hint. If this is the case we can ignore
+      // "height for width".
+      this._hasUserHeight = sizeHint.height != null;
+
+      // the content hint is only needed if any of the size hint fields is
+      // still null.
+      if (
+        sizeHint.width == null ||
+        sizeHint.minWidth == null ||
+        sizeHint.maxWidth == null ||
+        sizeHint.height == null ||
+        sizeHint.minHeight == null ||
+        sizeHint.maxHeight == null
+      )
       {
-        // this.debug("Use HeightForWidth: " + this.__heightForWidth);
-        sizeHint.height = this.__heightForWidth;
-      }
+        var contentHint = this._getContentHint();
 
+        var insets = this.getInsets();
+        var insetX = insets.left + insets.right;
+        var insetY = insets.top + insets.bottom;
 
-      // limit to allowed range
-      sizeHint.width = Math.max(sizeHint.minWidth, Math.min(sizeHint.width, sizeHint.maxWidth));
-      sizeHint.height = Math.max(sizeHint.minHeight, Math.min(sizeHint.height, sizeHint.maxHeight));
+        // merge size with content size hint
+        sizeHint.width = sizeHint.width != null ? sizeHint.width : contentHint.width + insetX;
+        sizeHint.minWidth = sizeHint.minWidth != null ? sizeHint.minWidth : contentHint.minWidth + insetX;
+        sizeHint.maxWidth = sizeHint.maxWidth != null ? sizeHint.maxWidth : contentHint.maxWidth + insetX;
+        sizeHint.height = sizeHint.height != null ? sizeHint.height : contentHint.height + insetY;
+        sizeHint.minHeight = sizeHint.minHeight != null ? sizeHint.minHeight : contentHint.minHeight + insetY;
+        sizeHint.maxHeight = sizeHint.maxHeight != null ? sizeHint.maxHeight : contentHint.maxHeight + insetY;
 
-
-      // apply stretching
-      var growX = this.getAllowGrowX();
-      var shrinkX = this.getAllowShrinkX();
-      var growY = this.getAllowGrowY();
-      var shrinkY = this.getAllowShrinkY();
-
-      if (!growX) {
-        sizeHint.maxWidth = sizeHint.width;
-      }
-      if (!shrinkX) {
-        sizeHint.minWidth = sizeHint.width;
-      }
-      if (!growY) {
-        sizeHint.maxHeight = sizeHint.height;
-      }
-      if (!shrinkY) {
-        sizeHint.minHeight = sizeHint.height;
+        // limit and stretch again
+        this.__limitAndStretchSizeHint(sizeHint);
       }
 
       this._sizeHint = sizeHint;
       return sizeHint;
+    },
+
+
+    /**
+     * Limits the height and width values to the allowed range and applies
+     * stretching and shrinking.
+     *
+     * @param sizeHint {Map} the size hint to modify. This map will be modified
+     *     in place.
+     */
+    __limitAndStretchSizeHint : function(sizeHint)
+    {
+      if (sizeHint.width != null)
+      {
+        if (sizeHint.minWidth != null && sizeHint.maxWidth != null) {
+          sizeHint.width = Math.max(sizeHint.minWidth, Math.min(sizeHint.width, sizeHint.maxWidth));
+        }
+        if (!this.getAllowGrowX()) {
+          sizeHint.maxWidth = sizeHint.width;
+        }
+        if (!this.getAllowShrinkX()) {
+          sizeHint.minWidth = sizeHint.width;
+        }
+      }
+
+      if (sizeHint.height != null)
+      {
+        if (sizeHint.minHeight != null && sizeHint.maxHeight != null) {
+          sizeHint.height = Math.max(sizeHint.minHeight, Math.min(sizeHint.height, sizeHint.maxHeight));
+        }
+        if (!this.getAllowGrowY()) {
+          sizeHint.maxHeight = sizeHint.height;
+        }
+        if (!this.getAllowShrinkY()) {
+          sizeHint.minHeight = sizeHint.height;
+        }
+      }
     },
 
 
