@@ -134,12 +134,14 @@ qx.Class.define("qx.io.remote.RequestQueue",
     _debug : function()
     {
       // Debug output
-      var vText = this._active.length + "/" + (this._queue.length + this._active.length);
-
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug"))
         {
+          var vText =
+            this._active.length + "/" +
+            (this._queue.length + this._active.length);
+          
           this.debug("Progress: " + vText);
           window.status = "Request-Queue Progress: " + vText;
         }
