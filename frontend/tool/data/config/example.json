@@ -151,7 +151,8 @@
     "settings" :
     {
       "qx.application" : "feedreader.Application",
-      "qx.resourceUri" : "../../../framework/source/resource"
+      "qx.resourceUri" : "../../../framework/source/resource",
+      "qx.legacy.theme" : "qx.legacy.theme.Ext"      
     },
 
     "source" :
@@ -197,6 +198,7 @@
     {
       "qx.application" : "feedreader.Application",
       "qx.resourceUri" : "resource/qx",
+      "qx.legacy.theme" : "qx.legacy.theme.Ext",
       "feedreader.resourceUri" : "resource/feedreader"
     },
     

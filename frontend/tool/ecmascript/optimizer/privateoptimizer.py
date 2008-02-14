@@ -18,7 +18,17 @@
 #
 ################################################################################
 
-debug = False
+names = {}
+
+
+def load(data):
+    global names
+    names = data
+
+
+def get():
+    return names
+
 
 def patch(tree, id):
     # Look for privates
@@ -32,19 +42,31 @@ def patch(tree, id):
     # Also respect non-definition blocks here
     update(tree, privates)
     
+    
+def convert(current):
+    table = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    res = u""
+    length = len(table) - 1
+
+    if current / length > 0:
+        res += convert(current / length)
+
+    res += table[current % length]
+
+    return res
+        
 
 def crypt(id, name):
-    if debug:
-        ret = "CRYPT_%s_%s" % (id.replace(".", "_"), name[2:])
-    else:
-        code = hash(id + name[2:])
-        if code > 0:
-            ret = "CC%s" % code
-        else:
-            ret = "PP%s" % (code * -1)
+    combined = "%s:%s" % (id, name)
+    if names.has_key(combined):
+        return names[combined]
 
-    return ret
-    
+    repl = "__%s" % convert(len(names))
+    names[combined] = repl
+
+    return repl
+        
     
 def lookup(id, node, privates):
     name = None

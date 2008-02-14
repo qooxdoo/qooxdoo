@@ -16,22 +16,23 @@ class Cache:
         return "%s-%s" % (baseId, digestId)
 
 
-    def read(self, cacheId, dependsOn, memory=False):
+    def read(self, cacheId, dependsOn=None, memory=False):
         if self._memory.has_key(cacheId):
             return self._memory[cacheId]
 
         filetool.directory(self._path)
-        fileModTime = os.stat(dependsOn).st_mtime
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
         try:
             cacheModTime = os.stat(cacheFile).st_mtime
         except OSError:
-            cacheModTime = 0
+            return None
 
         # Out of date check
-        if fileModTime > cacheModTime:
-            return None
+        if dependsOn:
+            fileModTime = os.stat(dependsOn).st_mtime
+            if fileModTime > cacheModTime:
+                return None
 
         try:
             content = cPickle.load(open(cacheFile, 'rb'))

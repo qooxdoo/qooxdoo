@@ -706,7 +706,7 @@ class Generator:
 
     def _optimizeJavaScript(self, code):
         restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
-        variableoptimizer.search(restree, [], 0, 0, "$")
+        variableoptimizer.search(restree)
 
         # Emulate options
         parser = optparse.OptionParser()

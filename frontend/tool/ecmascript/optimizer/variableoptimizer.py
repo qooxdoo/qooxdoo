@@ -21,15 +21,28 @@
 
 from ecmascript import tree
 
-def convert(current):
-    # Possibilities with each character
-    # 1: 36 = 36
-    # 2: 36*36 = 1296
-    # 3: 36*36*36 = 46656
-    
-    table = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-    res = ""
+def mapper(found):
+    counter = 0
+    translations = {}
+    
+    for entry in found:
+        counter += 1
+        repl = convert(counter)
+        
+        while repl in found:
+            counter += 1
+            repl = convert(counter)
+            
+        translations[entry] = repl
+
+    return translations
+
+
+def convert(current):
+    table = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    res = u""
     length = len(table) - 1
 
     if current / length > 0:
@@ -39,22 +52,23 @@ def convert(current):
 
     return res
 
-def skip(name, prefix):
-    return len(prefix) > 0 and name[:len(prefix)] == prefix
 
-def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=False, verbose=False):
+def respect(name, found):
+    return (name and not name in found and not name.startswith("_"))
+
+
+def search(node, found=None, register=False, level=0):
+    if found == None:
+        found = []
+    
     if node.type == "function":
         if register:
             name = node.get("name", False)
-            if name != None and not name in found:
-                # print "Name: %s" % name
+            if respect(name, found):
                 found.append(name)
 
-        foundLen = len(found)
+        openedAt = len(found)
         register = True
-
-        if verbose:
-            print "\n%s<scope line='%s'>" % (("  " * level), node.get("line"))
 
     # e.g. func(name1, name2);
     elif register and node.type == "variable" and node.hasChildren() and len(node.children) == 1:
@@ -64,52 +78,41 @@ def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=Fa
             if first.type == "identifier":
                 name = first.get("name")
 
-                if not name in found:
-                    # print "Name: %s" % name
+                if respect(name, found):
                     found.append(name)
 
     # e.g. var name1, name2 = "foo";
     elif register and node.type == "definition":
         name = node.get("identifier", False)
 
-        if name != None:
-            if not name in found:
-                # print "Name: %s" % name
-                found.append(name)
+        if respect(name, found):
+            found.append(name)
 
     # Iterate over children
     if node.hasChildren():
         if node.type == "function":
             for child in node.children:
-                counter += search(child, found, 0, level+1, prefix, skipPrefix, register, verbose)
+                search(child, found, register, level+1)
 
         else:
             for child in node.children:
-                counter += search(child, found, 0, level, prefix, skipPrefix, register, verbose)
+                search(child, found, register, level)
 
     # Function closed
     if node.type == "function":
-
-        # Debug
-        if verbose:
-            for item in found:
-                print "  %s<item>%s</item>" % (("  " * level), item)
-            print "%s</scope>" % ("  " * level)
-
-        # Iterate over content
-        # Replace variables in current scope
-        # (only used from top-level functions, to avoid variable capture)
         if level==0:
-            counter += update(node, found, 0, prefix, skipPrefix, verbose)
-            # this breaks the index in cases where variables are defined after
-            # the declaration of an inner function and used in this function.
-            # (really?)
-            del found[foundLen:]
+            # Generate translation list
+            translations = mapper(found)
+            
+            # Start replacement when get back to first level
+            update(node, translations)
+            
+            # Afterwards the function is closed and we can clean-
+            # up the found variables
+            del found[openedAt:]
 
-    return counter
 
-
-def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
+def update(node, translations):
     # Handle all identifiers
     if node.type == "identifier":
         isFirstChild = False
@@ -134,43 +137,26 @@ def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
 
         # inside a variable parent only respect the first member
         if not isVariableMember or isFirstChild:
-            idenName = node.get("name", False)
+            name = node.get("name", False)
 
-            if idenName != None and idenName in found and not skip(idenName, skipPrefix):
-                replName = "%s%s" % (prefix, convert(found.index(idenName)))
-                node.set("name", replName)
-                counter += 1
-
-                if verbose:
-                    print "  - Replaced '%s' with '%s'" % (idenName, replName)
+            if name != None and translations.has_key(name):
+                node.set("name", translations[name])
 
     # Handle variable definition
     elif node.type == "definition":
-        idenName = node.get("identifier", False)
+        name = node.get("identifier", False)
 
-        if idenName != None and idenName in found and not skip(idenName, skipPrefix):
-            replName = "%s%s" % (prefix, convert(found.index(idenName)))
-            node.set("identifier", replName)
-            counter += 1
-
-            if verbose:
-                print "  - Replaced '%s' with '%s'" % (idenName, replName)
+        if name != None and translations.has_key(name):
+            node.set("identifier", translations[name])
 
     # Handle function definition
     elif node.type == "function":
-        idenName = node.get("name", False)
+        name = node.get("name", False)
 
-        if idenName != None and idenName in found and not skip(idenName, skipPrefix):
-            replName = "%s%s" % (prefix, convert(found.index(idenName)))
-            node.set("name", replName)
-            counter += 1
-
-            if verbose:
-                print "  - Replaced '%s' with '%s'" % (idenName, replName)
+        if name != None and translations.has_key(name):
+            node.set("name", translations[name])
 
     # Iterate over children
     if node.hasChildren():
         for child in node.children:
-            counter += update(child, found, 0, prefix, skipPrefix, verbose)
-
-    return counter
+            update(child, translations)
