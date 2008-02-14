@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
 
     /**
-     * Base function for creating functional closures which is used by all other Function prototypes.
+     * Base function for creating functional closures which is used by most other methods here.
      *
      * *Syntax*
      *
@@ -135,14 +135,10 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param func {Function} Original function to wrap
      * @param options? {Map} Map of options
      * <ul>
-     * <li><strong>self</strong>: The object that the "this" of the function will refer to. Default is the current function.</li>
-     * <li><strong>event</strong>: If set to true, the function will act as an event listener and receive an event as its first argument.
-     *    If set to a class name, the function will receive a new instance of this class (with the event passed as argument's constructor) as first argument.</li>
-     *    Default is false.
-     * <li><strong>args</strong>: A single argument or array of arguments that will be passed as arguments to the function when called.
-     *     If both the event and arguments options are set, the event is passed as first argument and the arguments array will follow.
+     * <li><strong>self</strong>: The object that the "this" of the function will refer to. Default is the same as the wrapper function is called.</li>
+     * <li><strong>args</strong>: An array of arguments that will be passed as arguments to the function when called.
      *     Default is no custom arguments; the function will receive the standard arguments when called.</li>
-     * <li><strong>delay</strong>: if set, the returned function will delay the actual execution by this amount of milliseconds and return a timer handle when called.
+     * <li><strong>delay</strong>: If set, the returned function will delay the actual execution by this amount of milliseconds and return a timer handle when called.
      *     Default is no delay.</li>
      * <li><strong>periodical</strong>: If set the returned function will periodically perform the actual execution with this specified interval
      *      and return a timer handle when called. Default is no periodical execution.</li>
@@ -166,40 +162,24 @@ qx.Bootstrap.define("qx.lang.Function",
       }
 
       // Check for at least one attribute.
-      if (!(options.self || options.event || options.args || options.delay != null || options.periodical != null || options.attempt)) {
+      if (!(options.self || options.args || options.delay != null || options.periodical != null || options.attempt)) {
         return func;
-      }
-
-      // Auto-bind to function if no other context is given.
-      if (!options.self) {
-        options.self = func;
       }
 
       return function(event)
       {
-        // Copy incoming arguments
+        // Convert (and copy) incoming arguments 
         var args = qx.lang.Array.fromArguments(arguments);
-
+      
         // Prepand static arguments
         if (options.args) {
-          args.unshift.apply(args, options.args);
-        }
-
-        // Prepand event object
-        if (options.event) {
-          args.unshift(event || window.event);
-        }
+          args = options.args.concat(args);
+        }          
 
         if (options.delay || options.periodical)
         {
-          var returns = function()
-          {
-            func.context = options.self;
-
-            var ret = func.apply(options.self, args);
-
-            func.context = null;
-            return ret;
+          var returns = function() {
+            return func.apply(options.self||this, args);
           };
 
           if (options.delay) {
@@ -213,23 +193,16 @@ qx.Bootstrap.define("qx.lang.Function",
         else if (options.attempt)
         {
           var ret = false;
-          func.context = options.self;
 
           try {
-            ret = func.apply(options.self, args);
+            ret = func.apply(options.self||this, args);
           } catch(ex) {}
 
-          func.context = null;
           return ret;
         }
         else
         {
-          func.context = options.self;
-
-          var ret = func.apply(options.self, args);
-
-          func.context = null;
-          return ret;
+          return func.apply(options.self||this, args);
         }
       };
     },
@@ -259,7 +232,7 @@ qx.Bootstrap.define("qx.lang.Function",
      * @type static
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
-     * @param varargs {arguments} The arguments to pass to the function.
+     * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {var} The binded function.
      */
     bind : function(func, self, varargs)
@@ -270,6 +243,37 @@ qx.Bootstrap.define("qx.lang.Function",
         args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 2) : null
       });
     },
+    
+    
+    /**
+     * Returns a function whose arguments are pre-configured.
+     *
+     * *Syntax*
+     *
+     * <pre class='javascript'>qx.lang.Function.curry(myFunction, [varargs...]);</pre>
+     *
+     * *Example*
+     *
+     * <pre class='javascript'>
+     * function myFunction(elem) {
+     *   elem.setStyle('color', 'red');
+     * };
+     *
+     * var myBoundFunction = qx.lang.Function.curry(myFunction, myElement);
+     * myBoundFunction(); // this will make the element myElement red.
+     * </pre>
+     *
+     * @type static
+     * @param func {Function} Original function to wrap
+     * @param varargs {arguments} The arguments to pass to the function.
+     * @return {var} The pre-configured function.
+     */
+    curry : function(func, varargs)
+    {
+      return this.create(func, {
+        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 1) : null
+      });
+    },    
 
 
     /**
@@ -282,17 +286,34 @@ qx.Bootstrap.define("qx.lang.Function",
      * @type static
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
-     * @param varargs {arguments} The arguments to pass to the function.
+     * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {var} The binded function.
      */
     listener : function(func, self, varargs)
     {
-      return this.create(func,
+      if (varargs === undefined)
       {
-        self  : self,
-        event : true,
-        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 3) : null
-      });
+        return function(event) 
+        {
+          // Directly execute, but force first parameter to be the event object.
+          return func.call(self||this, event||window.event);
+        }
+      }
+      else
+      {
+        var optargs = qx.lang.Array.fromArguments(arguments, 2);
+        
+        return function(event)
+        {
+          var args = [event||window.event];
+          
+          // Append static arguments
+          args.push.apply(args, optargs);
+          
+          // Finally execute original method
+          func.apply(self||this, args);
+        };
+      }
     },
 
 
