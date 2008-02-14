@@ -955,10 +955,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     __filterItems : function(nodeArr, expandProperties, showProtected, showPrivate, showInternal)
     {
-      if (showProtected && showPrivate) {
-        return nodeArr;
-      }
-
       var copyArr = nodeArr.concat();
       for (var i=nodeArr.length-1; i>=0; i--)
       {

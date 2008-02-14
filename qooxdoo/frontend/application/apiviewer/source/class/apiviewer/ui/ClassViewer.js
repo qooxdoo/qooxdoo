@@ -156,6 +156,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Event"     : true,
 
       "Class"     : true,
+      "Bootstrap" : true,
+      "List"      : true,
       "Mixin"     : true,
       "Interface" : true,
       "Theme"     : true
