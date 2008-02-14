@@ -28,17 +28,17 @@ qx.Class.define("AnimProperty",
 {
   extend : qx.fx.Base,
 
-  construct : function(element, property, options)
+  construct : function(element, property)
   {
     this._propName = property
-    this.base(arguments, element, options);
+    this.base(arguments, element);
   },
 
   members :
   {
     update : function(value) {
       var properties = {};
-      properties[this._propName] = value;
+      properties[this._propName] = Math.round(value);
       this._element.set(properties);
     }
   }
@@ -87,7 +87,7 @@ qx.Class.define("BasicSample",
           return;
         }
 
-        var effects = {};
+        var effects = [];
         var duration = 1;
 
         if (this._active) {
@@ -118,18 +118,18 @@ qx.Class.define("BasicSample",
             //height: 200
         });
 
-        effects.growX = new AnimProperty(widget, "width", {
+        effects.push(new AnimProperty(widget, "width").set({
           from: 50,
           to: 200,
           duration: duration,
           transition: qx.fx.Transition.sinoidal
-        });
-        effects.growY = new AnimProperty(widget, "height", {
+        }));
+        effects.push(new AnimProperty(widget, "height").set({
           from: 50,
           to: 200,
           duration: duration,
           transition: qx.fx.Transition.sinoidal
-        });
+        }));
 
         var effect = new qx.fx.effect.core.Parallel(effects);
         effect.start();
