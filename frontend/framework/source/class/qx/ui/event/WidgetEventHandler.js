@@ -144,31 +144,32 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      */
     _dispatchEvent : function(target, event)
     {
+      if (target.isAnonymous() || (!target.isEnabled())) {
+        return;
+      }
+
       var capture = event.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var type = event.getType();
-
       var listeners = this.__manager.getListeners(target, type, capture);
 
-      if (listeners)
-      {
-        var clone = this._cloneEvent(target, event);
-
-        for (var i=0, l=listeners.length; i<l; i++)
-        {
-          if (!target.isAnonymous())
-          {
-            var context = listeners[i].context || target;
-            listeners[i].handler.call(context, clone);
-          }
-        }
-
-        if (clone.getPropagationStopped()) {
-          event.stopPropagation();
-        }
-
-        // Release the event instance to the event pool
-        qx.event.Pool.getInstance().poolEvent(clone);
+      if (!listeners) {
+        return;
       }
+
+      var clone = this._cloneEvent(target, event);
+
+      for (var i=0, l=listeners.length; i<l; i++)
+      {
+        var context = listeners[i].context || target;
+        listeners[i].handler.call(context, clone);
+      }
+
+      if (clone.getPropagationStopped()) {
+        event.stopPropagation();
+      }
+
+      // Release the event instance to the event pool
+      qx.event.Pool.getInstance().poolEvent(clone);
     },
 
 
