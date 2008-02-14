@@ -194,7 +194,6 @@ qx.Class.define("apiviewer.Viewer",
         "Expand",
         qx.legacy.ui.toolbar.CheckBox,
         "icon/22/apps/accessories-archiver.png",
-        //apiviewer.TreeUtil.iconNameToIconPath("ICON_PROPERTY_PUB"),
         "Expand properties",
         false,
         "btn_expand"
@@ -203,17 +202,14 @@ qx.Class.define("apiviewer.Viewer",
         "Inherited",
         qx.legacy.ui.toolbar.CheckBox,
         "icon/22/apps/system-users.png",
-        //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PUB_INHERITED"),
         "Show inherited items",
         false,
         "btn_inherited"
       ));
-      part.add(new qx.legacy.ui.toolbar.Separator);
       part.add(createButton(
         "Protected",
         qx.legacy.ui.toolbar.CheckBox,
         "icon/22/actions/stop.png",
-        //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PROT"),
         "Show protected items",
         false,
         "btn_protected"
@@ -222,7 +218,6 @@ qx.Class.define("apiviewer.Viewer",
         "Private",
         qx.legacy.ui.toolbar.CheckBox,
         "icon/22/actions/decrypt.png",
-        //apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PRIV"),
         "Show private/internal items",
         false,
         "btn_private"
