@@ -61,6 +61,7 @@ qx.Class.define("qx.legacy.theme.manager.Border",
 
   members :
   {
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -103,20 +104,8 @@ qx.Class.define("qx.legacy.theme.manager.Border",
      * @param border {qx.legacy.ui.core.Border} the border which have been modified
      * @param edge {String} top, right, bottom or left
      */
-    updateObjectsEdge : function(border, edge)
-    {
-      var reg = this._registry;
-      var dynamics = this._dynamic;
-      var entry;
-
-      for (var key in reg)
-      {
-        entry = reg[key];
-
-        if (entry.value === border || dynamics[entry.value] === border) {
-          entry.callback.call(entry.object, border, edge);
-        }
-      }
+    updateObjectsEdge : function(border, edge) {
+      this.syncConnectedObjects(border, edge);
     },
 
 

@@ -55,6 +55,55 @@ qx.Class.define("qx.ui.decoration.DecorationManager",
 
   members :
   {
+    _borderToWidgetsMap : {},
+
+    // overridden
+    connect : function(callback, obj, value)
+    {
+      var objectKey = obj.toHashCode();
+      var callbackKey = qx.core.Object.toHashCode(callback);
+      var listenerKey = objectKey + "|" + callbackKey;
+      var reg = this._registry;
+
+      // remove old entry
+      if (reg[objectKey] && reg[objectKey][callbackKey])
+      {
+        var oldValue = reg[objectKey][callbackKey].value;
+        if (this.isDynamic(oldValue)) {
+          oldValue = this.resolveDynamic(oldValue);
+        }
+        if (oldValue instanceof qx.core.Object)
+        {
+          var oldValueWidgets = this._borderToWidgetsMap[oldValue.toHashCode()];
+          if (oldValueWidgets) {
+            delete oldValueWidgets[listenerKey];
+          }
+        }
+      }
+
+      this.base(arguments, callback, obj, value);
+
+      if (!value) {
+        return;
+      }
+
+      // add new entry
+      if (this.isDynamic(value)) {
+        value = this.resolveDynamic(value);
+      }
+
+      var valueKey = value.toHashCode();
+      if (!this._borderToWidgetsMap[valueKey]) {
+        this._borderToWidgetsMap[valueKey] = {};
+      }
+
+      this._borderToWidgetsMap[valueKey][listenerKey] = {
+        callbackKey: qx.core.Object.toHashCode(callback),
+        contextKey: qx.core.Object.toHashCode(obj)
+      };
+    },
+
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -96,20 +145,8 @@ qx.Class.define("qx.ui.decoration.DecorationManager",
      * @type member
      * @param decoration {qx.ui.core.Decoration} the decoration which have been modified
      */
-    updateObjects : function(decoration)
-    {
-      var reg = this._registry;
-      var dynamics = this._dynamic;
-      var entry;
-
-      for (var key in reg)
-      {
-        entry = reg[key];
-
-        if (entry.value === decoration || dynamics[entry.value] === decoration) {
-          entry.callback.call(entry.object, decoration);
-        }
-      }
+    updateObjects : function(decoration) {
+      this.syncConnectedObjects(border, edge);
     },
 
 

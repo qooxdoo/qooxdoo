@@ -37,7 +37,8 @@ qx.Class.define("qx.util.manager.Value",
     this.base(arguments);
 
     // Stores the objects
-    this._registry = {};
+    this._objectToValue = {};
+    this._valueToObjects = {};
 
     // Create empty dynamic map
     this._dynamic = {};
@@ -78,7 +79,7 @@ qx.Class.define("qx.util.manager.Value",
 
       // Otherwise disconnect from this value
       var objectKey = obj.toHashCode();
-      var reg = this._registry;
+      var reg = this._objectToValue;
 
       delete reg[objectKey];
     },
@@ -127,33 +128,66 @@ qx.Class.define("qx.util.manager.Value",
       // Store references for dynamic values
       var objectKey = obj.toHashCode();
       var callbackKey = qx.core.Object.toHashCode(callback);
-      var reg = this._registry;
+      var listenerKey = objectKey + "|" + callbackKey;
+      var objectToValue = this._objectToValue;
+      var valueToObjects = this._valueToObjects;
+
+
+      // remove old value from value2object map
+      if (objectToValue[objectKey] && objectToValue[objectKey][callbackKey])
+      {
+        var oldValue = this.resolveDynamic(objectToValue[objectKey][callbackKey].value);
+        if (oldValue instanceof qx.core.Object)
+        {
+          var connectedObjects = valueToObjects[oldValue.toHashCode()];
+          if (connectedObjects) {
+            delete connectedObjects[listenerKey];
+          }
+        }
+      }
+
 
       // Callback handling
       if (this.isDynamic(value))
       {
-        if (!reg[objectKey]) {
-          reg[objectKey] = {};
+        if (!objectToValue[objectKey]) {
+          objectToValue[objectKey] = {};
         }
 
         // Store reference for themed values
-        reg[objectKey][callbackKey] =
+        objectToValue[objectKey][callbackKey] =
         {
           callback : callback,
           object   : obj,
           value    : value
         };
 
+        var value = this.resolveDynamic(value);
+
+        // store value in value2objects map
+        if (value instanceof qx.core.Object)
+        {
+          var valueKey = value.toHashCode();
+          if (!valueToObjects[valueKey]) {
+            valueToObjects[valueKey] = {};
+          }
+
+          valueToObjects[valueKey][listenerKey] = {
+            callbackKey: callbackKey,
+            contextKey: objectKey
+          };
+        }
+
         obj.hasConnectionTo(this);
       }
-      else if (reg[objectKey] && reg[objectKey][callbackKey])
+      else if (objectToValue[objectKey] && objectToValue[objectKey][callbackKey])
       {
         // In all other cases try to remove previously created references
-        delete reg[objectKey][callbackKey];
+        delete objectToValue[objectKey][callbackKey];
       }
 
       // Finally executing given callback
-      callback.call(obj, this.resolveDynamic(value) || value);
+      callback.call(obj, value);
     },
 
 
@@ -182,16 +216,45 @@ qx.Class.define("qx.util.manager.Value",
 
 
     /**
+     * Calls the callbacks of all objects connected to this value.
+     * All argumants passed to this function (including <code>value</code>) are
+     * also the arguments of the callbacks.
+     *
+     * @param value {var} a dynamic value
+     * @param varargs {var} a variable number of argiments, which are passed to
+     *     the callbacks
+     */
+    syncConnectedObjects : function(value, varargs)
+    {
+      var value = this.resolveDynamic(value) || value;
+      if (! value instanceof qx.core.Object) {
+        return;
+      }
+
+      var callbackInfo = this._valueToObjects[value.toHashCode()];
+      if (!callbackInfo) {
+        return;
+      }
+
+      for (var key in callbackInfo)
+      {
+        var entry = this._objectToValue[callbackInfo[key].contextKey][callbackInfo[key].callbackKey];
+        entry.callback.apply(entry.object, arguments);
+      }
+    },
+
+
+    /**
      * Update all registered objects regarding the value switch
      *
      * @type member
      */
     _updateObjects : function()
     {
-      var reg = this._registry;
+      var reg = this._objectToValue;
       var entry;
 
-      for (var OobjectKey in reg)
+      for (var objectKey in reg)
       {
         for (var callbackKey in reg[objectKey])
         {
@@ -212,6 +275,6 @@ qx.Class.define("qx.util.manager.Value",
   */
 
   destruct : function() {
-    this._disposeFields("_registry", "_dynamic");
+    this._disposeFields("_objectToValue", "_dynamic");
   }
 });
