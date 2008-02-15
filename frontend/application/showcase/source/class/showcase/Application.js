@@ -1637,7 +1637,7 @@ qx.Class.define("showcase.Application",
         spacing : 5
       });
 
-      var win = new qx.legacy.Window("http://qooxdoo.org");
+      var win = new qx.legacy.util.NativeWindow("http://qooxdoo.org");
       win.setDimension(600, 400);
 
       var openBt = new qx.legacy.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
@@ -2198,8 +2198,8 @@ qx.Class.define("showcase.Application",
       wm2.add(btn3, btn4, icon1, warn1);
 
       // Icon & Color Themes
-      // qx.util.ThemeList.createIconButtons(w3, 20, 248);
-      // qx.util.ThemeList.createColorButtons(w3, 4, 58);
+      // qx.legacy.util.ThemeList.createIconButtons(w3, 20, 248);
+      // qx.legacy.util.ThemeList.createColorButtons(w3, 4, 58);
       w1.open();
       w2.open();
       w3.open();
@@ -2231,7 +2231,7 @@ qx.Class.define("showcase.Application",
       win.add(info);
 
       // output meta theme list
-      qx.util.ThemeList.createMetaButtons(win.getPane(), 0, 50);
+      qx.legacy.util.ThemeList.createMetaButtons(win.getPane(), 0, 50);
 
       // Put the window in lower right corner
       win.set(
