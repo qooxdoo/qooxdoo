@@ -21,9 +21,26 @@
 /**
  * A decoration renderer is responsible for rendering a widget's background and
  * border. It is passed the widget's decoration element {@link qx.html.Element}
- * and configures it to display the decoration.
+ * and configures it to display the decoration. Each time a widget is resized
+ * the decorator's {@link #update} gets called.
  *
  * All Decoration renderer must implement this interface.
+ *
+ * A decorators must support the following three life cycles:
+ * <ul>
+ *   <li><b>Init</b>: If the widget did not have a decorator before, the
+ *     {@link init} method is called once for the widget nd gives the decorator
+ *     the opportunity to initialize the widget's decortation element.
+ *   </li><li><b>Reuse</b>: If the widget's old decorator was an instance of the
+ *     same decorator class, the {@link #reset} method of the old decorator is
+ *     <b>not</b> called. Instead the {@link #reuse} method of the new decorator
+ *     is called. This gives the new decorator the chance to reuse the decoration
+ *     element.
+ *   </li><li><b>Change</b>: If the widget's old decorator was not an instance of the
+ *     same decorator class, the {@link #reset} method of the old decorator and
+ *     the {@link #init} method of the new decorator is called.
+ *   </li>
+ * </ul>
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",
 {
@@ -38,9 +55,29 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
       return true;
     },
 
+
+    /**
+     * Initialize or reuse the decoration element of the widget's former
+     * decorator with the same class.
+     *
+     * @param decorationElement {qx.html.Element} The widget's decoration element.
+     */
+    reuse : function(decorationElement) {
+      return true;
+    },
+
+
+    /**
+     * Update the decoration size of the given decoration element.
+     *
+     * @param decorationElement {qx.html.Element} The widget's decoration element.
+     * @param height {Integer} The widget's new height
+     * @param width {Integer} The widget's new width
+     */
     update : function(decorationElement, height, width) {
       return true;
     },
+
 
     /**
      * Reset all properties set by the decoration on the widget's decoration
@@ -51,6 +88,7 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
     reset : function(decorationElement) {
       return true;
     },
+
 
     /**
      * Get the amount of space, the decoration needs for its border on each

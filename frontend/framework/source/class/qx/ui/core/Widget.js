@@ -1451,13 +1451,7 @@ qx.Class.define("qx.ui.core.Widget",
     updateDecoration : function(width, height)
     {
       var decorator = this.getDecorator();
-      if (decorator)
-      {
-        if (!this._decorationElement)
-        {
-          this._decorationElement = this._createDecorationElement();
-          this._containerElement.add(this._decorationElement);
-        }
+      if (decorator) {
         decorator.update(this._decorationElement, width, height);
       }
 
@@ -1488,14 +1482,46 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleDecorator : function(decorator)
     {
-      var old = this._lastDecorationInsets || this._defaultDecorationInsets;
-      var current = decorator ? decorator.getInsets() : this._defaultDecorationInsets;
+      // decorator life cycle management
+      var oldDecorator = this._decorator;
+
+      if (decorator && !this._decorationElement)
+      {
+        this._decorationElement = this._createDecorationElement();
+        this._containerElement.add(this._decorationElement);
+      }
+
+      if (decorator !== oldDecorator)
+      {
+        if (!oldDecorator)
+        {
+          decorator.init(this._decorationElement);
+        }
+        else
+        {
+          if (oldDecorator.classname == decorator.classname) {
+            decorator.reuse(this._decorationElement);
+          } else {
+            oldDecorator.reset(this._decorationElement);
+            decorator.init(this._decorationElement);
+          }
+        }
+        this._decorator = decorator;
+      }
+
+      var oldInsets = this._lastDecorationInsets || this._defaultDecorationInsets;
+      var currentInsets = decorator ? decorator.getInsets() : this._defaultDecorationInsets;
 
       // Detect inset changes
-      if (old.top != current.top || old.right != current.right || old.bottom != current.bottom || old.left != current.left)
+      if (
+        oldInsets.top != currentInsets.top ||
+        oldInsets.right != currentInsets.right ||
+        oldInsets.bottom != currentInsets.bottom ||
+        oldInsets.left != currentInsets.left
+      )
       {
         // Create copy and store for next modification.
-        this._lastDecorationInsets = qx.lang.Object.copy(current);
+        this._lastDecorationInsets = qx.lang.Object.copy(currentInsets);
 
         // Inset changes requires a layout update
         qx.ui.core.LayoutQueue.add(this);
