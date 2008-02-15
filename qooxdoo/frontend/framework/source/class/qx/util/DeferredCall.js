@@ -46,7 +46,7 @@ qx.Class.define("qx.util.DeferredCall",
 
     this.__callback = callback;
     this.__context = context || null;
-    this.__timeoutWrapper = qx.lang.Function.bind(this.__timeout, this);
+    this._manager = qx.util.DeferredCallManager.getInstance();
   },
 
 
@@ -62,38 +62,26 @@ qx.Class.define("qx.util.DeferredCall",
     /**
      * Prevent the callback from being called.
      */
-    cancel : function()
-    {
-      if (this.__timeoutId != null)
-      {
-        window.clearTimeout(this.__timeoutId);
-        this.__timeoutId = null;
-      }
+    cancel : function() {
+      this._manager.cancel(this);
     },
 
 
     /**
      * Issue a deferred call of the callback.
      */
-    schedule : function()
-    {
-      if (this.__timeoutId == null) {
-        this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
-      }
+    schedule : function() {
+      this._manager.schedule(this);
     },
 
 
     /**
-     * Helper function for the timer.
-     *
-     * @type static
-     * @return {void}
+     * Calls the callback directly.
      */
-    __timeout : function()
-    {
-      this.__timeoutId = null;
+    call : function() {
       this.__context ? this.__callback.apply(this.__context) : this.__callback();
     }
+
   },
 
 
@@ -107,6 +95,6 @@ qx.Class.define("qx.util.DeferredCall",
   destruct : function(callback, context)
   {
     this.cancel();
-    this._disposeFields("__timeoutId", "__timeoutWrapper", "__callback");
+    this._disposeFields("__context", "__callback");
   }
 });
