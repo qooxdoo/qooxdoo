@@ -36,7 +36,7 @@
 
 
 /**
- * Full blown cross-browser opacity support.
+ * Cross-browser opacity support.
  *
  * Optimized for animations (contains workarounds for typical flickering
  * in some browsers). Reduced class dependencies for optimal size and
@@ -53,7 +53,7 @@ qx.Class.define("qx.bom.element.Opacity",
   statics :
   {
     /**
-     * Compiles the given opacity value into a cross-browser CSS string. 
+     * Compiles the given opacity value into a cross-browser CSS string.
      * Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
@@ -74,7 +74,7 @@ qx.Class.define("qx.bom.element.Opacity",
         if (opacity < 0.00001) {
           opacity = 0;
         }
-        
+
         return "zoom:1;filter:alpha(opacity=" + (opacity * 100) + ");";
       },
 
@@ -101,8 +101,8 @@ qx.Class.define("qx.bom.element.Opacity",
         return "opacity:" + opacity + ";";
       }
     }),
-    
-    
+
+
     /**
      * Sets opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
