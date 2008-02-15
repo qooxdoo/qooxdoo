@@ -888,6 +888,18 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Get a child element at the given index
+     *
+     * @param index {Integer} child index
+     * @return {qx.html.Element|null} The child element or <code>null</code> if
+     *     no child is found at that index.
+     */
+    getChild : function(index) {
+      return this._children[index] || null;
+    },
+
+
+    /**
      * Returns whether the element has any child nodes
      *
      *  @return {Boolean} Whether the element has any child nodes
