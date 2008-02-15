@@ -124,7 +124,6 @@ qx.Class.define("qx.theme.manager.Decoration",
         {
           var styles = source[key].style;
           var decorationClass =  source[key].clazz || qx.ui.decoration.Basic;
-          console.log(source[key].clazz, decorationClass.classname, styles)
           dest[key] = (new decorationClass).set(styles);
           dest[key].themed = true;
         }
