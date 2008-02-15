@@ -56,8 +56,6 @@ qx.Class.define("BasicSample",
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(theme);
 
-      console.log(theme);
-
       // auto size
       var box = (new qx.ui.core.Widget).set({
         decorator: "outset",
@@ -72,7 +70,6 @@ qx.Class.define("BasicSample",
       var i=0;
       for (var key in decorations)
       {
-        console.log(key);
         layout.add(new qx.ui.basic.Label(key).set({
           decorator: key,
           padding: 5,
