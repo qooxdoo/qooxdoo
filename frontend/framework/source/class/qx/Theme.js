@@ -380,7 +380,6 @@ qx.Class.define("qx.Theme",
             }
 
             if (typeof value !== this.__metaKeys[key]) {
-              console.log(value)
               throw new Error('The type of the key "' + key + '" inside the meta block is wrong.');
             }
 
