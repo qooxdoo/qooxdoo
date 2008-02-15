@@ -58,13 +58,13 @@ qx.Class.define("qx.bom.element.Style",
       styleNames :
       {
         "float" : qx.bom.client.Engine.MSHTML ? "styleFloat" : "cssFloat",
-        "boxSizing" : qx.bom.client.Engine.GECKO ? "mozBoxSizing" : "boxSizing"
-      },
-      
-      // CSS property name correction (at HTML/CSS level)
-      cssNames : 
-      {
-        "boxSizing" : qx.bom.client.Engine.GECKO ? "mozBoxSizing" : "boxSizing"
+        "boxSizing" : qx.core.Variant.select("qx.client",
+        {
+          "mshtml" : null,
+          "gecko" : "MozBoxSizing",
+          "webkit" : "WebkitBoxSizing",
+          "default" : "boxSizing"
+        })
       },
 
       // Mshtml has propertiery pixel* properties for locations and dimensions
@@ -97,12 +97,12 @@ qx.Class.define("qx.bom.element.Style",
       COMPILE SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Map} Caches hyphend style names e.g. marginTop => margin-top. */
     __hyphens : {},
 
-    
-    /** 
+
+    /**
      * Compiles the given styles into a string which can be used to
      * concat a HTML string for innerHTML usage.
      *
@@ -115,18 +115,18 @@ qx.Class.define("qx.bom.element.Style",
       var html = [];
       var hints = this.__hints;
       var special = hints.special;
-      var names = hints.cssNames;
+      var names = hints.styleNames;
       var hyphens = this.__hyphens;
       var str = qx.lang.String;
       var name, prop, value;
-      
+
       for (name in map)
       {
+        // read value
+        value = map[name];
+
         // normalize name
         name = names[name] || name;
-        
-        // read value        
-        value = map[name];
 
         // process special properties
         if (special[name])
@@ -160,12 +160,12 @@ qx.Class.define("qx.bom.element.Style",
           if (!prop) {
             prop = hyphens[name] = str.hyphenate(name);
           }
-        
-          html.push(prop, ":", value, ";");          
-        }        
+
+          html.push(prop, ":", value, ";");
+        }
       }
-      
-      return html.join("");      
+
+      return html.join("");
     },
 
 
@@ -261,7 +261,7 @@ qx.Class.define("qx.bom.element.Style",
       name = hints.styleNames[name] || name;
 
       // special handling for specific properties
-      // through this good working switch this part costs nothing when 
+      // through this good working switch this part costs nothing when
       // processing non-smart properties
       if (smart!==false && hints.special[name])
       {

@@ -612,21 +612,16 @@ qx.Class.define("qx.html.Element",
         // Compiling styles and applying them in one process seems
         // to be a lot faster. Saves about 20% in webkit and 15% in gecko-1.9
         // tested with 1600 elements. (wpbasti)
-        // Style.setCss(elem, Style.compile(data));
+
+        Style.setCss(elem, Style.compile(data));
 
         // Previous implementation
 
-        // I have seen the opposite effect in the opacity demo, where this old
-        // approach is about 20% faster in Firefox 2 but the new one is still
-        // faster in WebKit (element flush in the opacity demo):
-        //
-        // Browser   compile  Style.set
-        // FF2       1000 ms     800 ms
-        // WebKit     194 ms     260 ms
-
+        /*
         for (var key in data) {
           Style.set(elem, key, data[key]);
         }
+        */
 
 
       }
