@@ -451,7 +451,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
 
 
     /**
-     * A function to instantiate a selection model.  this allows subclasses of
+     * A function to instantiate a table column model.  this allows subclasses of
      * Table to subclass this internal class.  To take effect, this property must
      * be set before calling the Table constructor.
      */

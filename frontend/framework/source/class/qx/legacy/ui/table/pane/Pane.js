@@ -423,8 +423,8 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
 
       // We don't want to execute the row loop below more than necessary. If
       // onlyrow is not null, we want to do the loop only for that row.
-      // In that case, was start at (set the "row" variable to) that row, and
-      // stop at (set the "end" variable to the offset of) the next row; .
+      // In that case, we start at (set the "row" variable to) that row, and
+      // stop at (set the "end" variable to the offset of) the next row.
       var row = this.getFirstVisibleRow();
       var y = 0;
 
