@@ -22,112 +22,6 @@
 
   <script type="text/javascript">
 
-qx.Theme.define("Decorations1",
-{
-  title : "Test Decorations",
-
-  decorations :
-  {
-    "black" :
-    {
-      clazz : qx.ui.decoration.Basic,
-
-      style :
-      {
-        width: 1,
-        color: "black"
-      }
-    },
-
-    "special" :
-    {
-      clazz : qx.ui.decoration.Basic,
-
-      style :
-      {
-        top : [1, "solid", "orange"],
-        left : [5, "dotted", "green"],
-        bottom : [3, "dashed", "blue"],
-        right : [6, "double", "purple"]
-      }
-    },
-
-    "round" :
-    {
-      clazz : qx.ui.decoration.CssRoundedBorder,
-
-      style :
-      {
-        radius: 10,
-        backgroundColor: "gray",
-        width: 3,
-        style: "solid",
-        color: "black"
-      }
-    },
-
-    "inset" :
-    {
-      clazz : qx.ui.decoration.DoubleBorder,
-
-      style :
-      {
-        width : 1,
-        innerWidth: 1,
-        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
-        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
-      }
-    }
-  }
-});
-
-
-qx.Theme.define("Decorations2",
-{
-  title : "Test Decorations",
-
-  decorations :
-  {
-    "black" :
-    {
-      style :
-      {
-        width: 3,
-        color: "black"
-      }
-    },
-
-    "special" :
-    {
-      style :
-      {
-        top : [3, "dashed", "blue"],
-        left : [6, "double", "purple"],
-        bottom : [1, "solid", "orange"],
-        right : [5, "dotted", "green"]
-      }
-    },
-
-    "round" :
-    {
-      clazz : qx.ui.decoration.CssRoundedBorder,
-
-      style :
-      {
-        radiusTopLeft: 10,
-        radiusTopRight: 10,
-        radiusBottomLeft: null,
-        radiusBottomRight: null,
-        backgroundColor: "gray",
-        width: 1,
-        style: "solid",
-        color: "black"
-      }
-    }
-  }
-});
-
-
 qx.Class.define("BasicSample",
 {
   extend : qx.application.Gui,
@@ -140,7 +34,7 @@ qx.Class.define("BasicSample",
 
       doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
-      doc.setBackgroundColor("#EEE");
+      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
@@ -151,94 +45,46 @@ qx.Class.define("BasicSample",
 
       doc.add(container, 0, 0);
 
-      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-archiver.png";
-      var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
-      var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
-      var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
+      docLayout.add(this.getGrid1());
+    },
+
+
+    getGrid1 : function()
+    {
+      var theme = qx.theme.classic.Decoration;
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
-      qx.theme.manager.Decoration.getInstance().setTheme(Decorations1);
+      qx.theme.manager.Decoration.getInstance().setTheme(theme);
 
+      console.log(theme);
 
-      var border = new qx.ui.decoration.Basic(2, "solid", "black");
-      var special = new qx.ui.decoration.Basic().set({
-        top : [1, "solid", "orange"],
-        left : [5, "dotted", "green"],
-        bottom : [3, "dashed", "blue"],
-        right : [6, "double", "purple"]
+      // auto size
+      var box = (new qx.ui.core.Widget).set({
+        decorator: "outset",
+        padding: 5,
+        backgroundColor: "#CCC"
       });
+      var layout = new qx.ui.layout.Grid();
+      layout.setSpacing(10);
 
+      var decorations = theme.decorations;
 
-      var a1 = new qx.ui.basic.Atom("Toggle special border.", img_arch, 48, 48).set({
-        backgroundColor : "gray",
-        decorator : border,
-        iconPosition : "top",
-        padding : 5,
-        allowGrowY: false
-      })
-      docLayout.add(a1);
+      var i=0;
+      for (var key in decorations)
+      {
+        console.log(key);
+        layout.add(new qx.ui.basic.Label(key).set({
+          decorator: key,
+          padding: 5,
+          height: 100,
+          width: 100
+        }), Math.floor(i/4), i%4);
+        i += 1;
+      }
 
-      var grow = true;
-      a1.addListener("click", function() {
-        special.setRight(grow ? [10, "solid", "black"] : [6, "double", "purple"]);
-        grow = !grow;
-      });
+      box.setLayout(layout);
 
-
-      var a2 = new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
-        backgroundColor : "gray",
-        decorator : special,
-        iconPosition : "top",
-        padding : 5,
-        allowGrowY: false
-      })
-      docLayout.add(a2);
-
-
-      var a3 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
-        backgroundColor : "gray",
-        decorator : "black",
-        iconPosition : "top",
-        padding : 5,
-        allowGrowY: false
-      });
-      docLayout.add(a3);
-
-      var flag = false;
-      a3.addListener("click", function() {
-        qx.theme.manager.Decoration.getInstance().setTheme(flag ? Decorations1 : Decorations2);
-        flag = !flag;
-      });
-
-
-      var a4 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
-        backgroundColor : "gray",
-        decorator : "special",
-        iconPosition : "top",
-        padding : 5,
-        allowGrowY: false
-      });
-      docLayout.add(a4);
-
-
-      var a5 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
-        //backgroundColor : "gray",
-        decorator : "round",
-        iconPosition : "top",
-        padding : 5,
-        allowGrowY: false
-      });
-      docLayout.add(a5);
-
-
-      var a6 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
-        //backgroundColor : "gray",
-        decorator : "inset",
-        iconPosition : "top",
-        padding : 5,
-        allowGrowY: false
-      });
-      docLayout.add(a6);
+      return box;
     }
 
   }
