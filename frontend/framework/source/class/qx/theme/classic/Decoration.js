@@ -31,12 +31,133 @@ qx.Theme.define("qx.theme.classic.Decoration",
   {
     "black" :
     {
-      clazz : qx.ui.decoration.Basic,
-
       style :
       {
         width: 1,
         color: "black"
+      }
+    },
+
+    "black" :
+    {
+      style :
+      {
+        width : 1,
+        color : "black"
+      }
+    },
+
+    "white" :
+    {
+      style :
+      {
+        width : 1,
+        color : "white"
+      }
+    },
+
+    "dark-shadow" :
+    {
+      style :
+      {
+        width : 1,
+        color : "border-dark-shadow"
+      }
+    },
+
+    "light-shadow" :
+    {
+      style :
+      {
+        width : 1,
+        color : "border-light-shadow"
+      }
+    },
+
+    "light" :
+    {
+      style :
+      {
+        width : 1,
+        color : "border-light"
+      }
+    },
+
+    "dark" :
+    {
+      style :
+      {
+        width : 1,
+        color : "border-dark"
+      }
+    },
+
+    "inset" :
+    {
+      clazz : qx.ui.decoration.DoubleBorder,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
+      }
+    },
+
+    "outset" :
+    {
+      clazz : qx.ui.decoration.DoubleBorder,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,      color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+      }
+    },
+
+    "groove" :
+    {
+      clazz : qx.ui.decoration.DoubleBorder,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+      }
+    },
+
+    "ridge" :
+    {
+      clazz : qx.ui.decoration.DoubleBorder,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+        innerColor : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
+      }
+    },
+
+    "inset-thin" :
+    {
+      style :
+      {
+        width : 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
+      }
+    },
+
+    "outset-thin" :
+    {
+      style :
+      {
+        width : 1,
+        color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
       }
     }
 
