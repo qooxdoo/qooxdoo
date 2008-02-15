@@ -19,7 +19,7 @@
   <script type="text/javascript">
 qx.Class.define("BasicSample",
 {
-  extend : qx.application.Basic,
+  extend : qx.application.Gui,
 
   members :
   {
@@ -28,10 +28,10 @@ qx.Class.define("BasicSample",
       this.base(arguments);
 
       var movie = qx.bom.Flash.create("Flash_1.swf");
-      
+
       qx.bom.element.Style.set(movie, "width", "300px");
       qx.bom.element.Style.set(movie, "height", "120px");
-      
+
       document.body.appendChild(movie);
     }
   }
