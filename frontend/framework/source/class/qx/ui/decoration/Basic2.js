@@ -22,7 +22,7 @@
  * A basic decorator featuring background colors and simple borders based on
  * CSS styles.
  */
-qx.Class.define("qx.ui.decoration.Basic",
+qx.Class.define("qx.ui.decoration.Basic2",
 {
   extend : qx.core.Object,
   include : qx.util.manager.MConnectedObject,
@@ -47,14 +47,6 @@ qx.Class.define("qx.ui.decoration.Basic",
   {
     this.base(arguments);
 
-    this._needUpdate = true;
-
-    var decorationManager = qx.theme.manager.Decoration.getInstance();
-    var self = this;
-    this._updateManager = new qx.util.DeferredCall(function() {
-      decorationManager.updateObjects(self)
-    });
-
     if (width !== undefined) {
       this.setWidth(width);
     }
@@ -66,7 +58,6 @@ qx.Class.define("qx.ui.decoration.Basic",
     if (color !== undefined) {
       this.setColor(color);
     }
-
   },
 
 
@@ -94,7 +85,7 @@ qx.Class.define("qx.ui.decoration.Basic",
      */
     fromString : function(str)
     {
-      var border = new qx.ui.decoration.Basic;
+      var border = new qx.ui.decoration.Basic2;
       var parts = str.split(/\s+/);
       var part, temp;
 
@@ -142,10 +133,34 @@ qx.Class.define("qx.ui.decoration.Basic",
      */
     fromConfig : function(config)
     {
-      var border = new qx.ui.decoration.Basic;
+      var border = new qx.ui.decoration.Basic2;
       border.set(config);
       return border;
-    }
+    },
+
+
+    /** The template for the CSS style */
+    __styleTemplate :
+    [
+      "border-top-width: ", null,        // 1
+      "px;border-top-style: ", null,     // 3
+      ";border-top-color: ", null,       // 5
+      ";border-right-width: ", null,     // 7
+      "px;border-right-style: ", null,   // 9
+      ";border-right-color: ", null,     // 11
+      ";border-bottom-width: ", null,    // 13
+      "px;border-bottom-style: ", null,  // 15
+      ";border-bottom-color: ", null,    // 17
+      ";border-left-width: ", null,      // 19
+      "px;border-left-style: ", null,    // 21
+      ";border-left-color: ", null,      // 23
+      ";width: ", null,                  // 25
+      "px;height: ", null,               // 27
+      "px;background-color: ", null,      // 29
+      ";position:absolute",
+      ";top:0px;left:0px"
+    ]
+
 
   },
 
@@ -210,7 +225,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     styleTop :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
       apply : "_applyBorderChange"
     },
@@ -219,7 +234,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     styleRight :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
       apply : "_applyBorderChange"
     },
@@ -228,7 +243,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     styleBottom :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
       apply : "_applyBorderChange"
     },
@@ -237,7 +252,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     styleLeft :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
       apply : "_applyBorderChange"
     },
@@ -281,17 +296,6 @@ qx.Class.define("qx.ui.decoration.Basic",
       nullable : true,
       check : "Color",
       apply : "_applyColorLeft"
-    },
-
-    /** The background color */
-    backgroundColor :
-    {
-      nullable : true,
-      init : "inherit",
-      check : "Color",
-      apply : "_applyBackgroundColor",
-      event : "changeBackgroundColor",
-      inheritable : true
     },
 
 
@@ -363,133 +367,75 @@ qx.Class.define("qx.ui.decoration.Basic",
   members :
   {
     /**
-     * Initialize the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     */
-    _initSize : function(decorationElement)
-    {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (qx.bom.client.Feature.CONTENT_BOX) {
-          this._useContentBox = true;
-          return;
-        }
-      }
-      else
-      {
-        decorationElement.setStyle("boxSizing", "border-box");
-      }
-      decorationElement.setStyle("width", "100%");
-      decorationElement.setStyle("height", "100%");
-    },
-
-
-    /**
-     * Update the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     * @param height {Integer} The widget's new height
-     * @param width {Integer} The widget's new width
-     */
-    _updateSize : function(decorationElement, width, height)
-    {
-      if (!this._useContentBox) {
-        return;
-      }
-
-      var borderWidth = this.getWidthLeft() + this.getWidthRight();
-      var borderHeight = this.getWidthTop() + this.getWidthBottom();
-
-      decorationElement.setStyle("width", width - borderWidth);
-      decorationElement.setStyle("height", height - borderHeight);
-    },
-
-
-    // interface implementation
-    init : function(decorationElement)
-    {
-      this._initSize(decorationElement);
-      decorationElement.setStyles({
-        "position": "absolute",
-        "top": 0,
-        "left": 0
-      })
-    },
-
-
-    // interface implementation
-    reuse : function(decorationElement)
-    {
-      this.reset(decorationElement);
-      this.init(decorationElement);
-    },
-
-
-    /**
      * Get the CSS style map for the decoration
      *
      * @param width {Integer} The widget's width
      * @param height {Integer} The widget's height
      * @return {Map} a map containing the computed CSS styles
      */
-    _getStyles : function(width, height)
+    _getStyle : function(width, height)
     {
-      var styles = {
-        "borderTopWidth": this.getWidthTop(),
-        "borderTopStyle": this.getStyleTop() || "none",
-        "borderTopColor": this.__colorTop,
-        "borderRightWidth": this.getWidthRight(),
-        "borderRightStyle": this.getStyleRight() || "none",
-        "borderRightColor": this.__colorRight,
-        "borderBottomWidth": this.getWidthBottom(),
-        "borderBottomStyle": this.getStyleBottom() || "none",
-        "borderBottomColor": this.__colorBottom,
-        "borderLeftWidth": this.getWidthLeft(),
-        "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": this.__colorLeft,
-        "backgroundColor": this.__bgColor
+      var template = qx.ui.decoration.Basic2.__styleTemplate;
+
+      template[1] = this.getWidthTop() || "0";
+      template[3] = this.getStyleTop() || "none";
+      template[5] = this.__colorTop || "";
+
+      template[7] = this.getWidthRight() || "0";
+      template[9] = this.getStyleRight() || "none";
+      template[11] = this.__colorRight || "";
+
+      template[13] = this.getWidthBottom() || "0";
+      template[15] = this.getStyleBottom() || "none";
+      template[17] = this.__colorBottom || "";
+
+      template[19] = this.getWidthLeft() || "0";
+      template[21] = this.getStyleLeft() || "none";
+      template[23] = this.__colorLeft || "";
+
+      // TODO: rspect box model
+      var borderWidth = this.getWidthLeft() + this.getWidthRight();
+      var borderHeight = this.getWidthTop() + this.getWidthBottom();
+
+      if (qx.bom.client.Feature.BORDER_BOX)
+      {
+        template[25] = width;
+        template[27] = height;
       }
-      return styles;
+      else
+      {
+        template[25] = width - borderWidth;
+        template[27] = height - borderHeight;
+      }
+
+      template[29] = "''"; // backgroundColor
+
+      return template.join("");
+    },
+
+
+    // interface implementation
+    init : function(decorationElement) {
+    },
+
+
+    // interface implementation
+    reuse : function(decorationElement) {
+      return true;
     },
 
 
     // interface implementation
     update : function(decorationElement, width, height)
     {
-      if (this._needsUpdate)
-      {
-        decorationElement.setStyles(this._getStyles());
-        this._needUpdate = false;
-        this._updateManager.cancel();
-      }
-      this._updateSize(decorationElement, width, height);
+      var decorationHtml = "<div style='" + this._getStyle(width, height) + "'></div>";
+      decorationElement.setAttribute("html", decorationHtml);
     },
 
 
     // interface implementation
-    reset : function(decorationElement)
-    {
-      decorationElement.setStyles({
-        "borderTopWidth": null,
-        "borderTopStyle": null,
-        "borderTopColor": null,
-        "borderRightWidth": null,
-        "borderRightStyle": null,
-        "borderRightColor": null,
-        "borderBottomWidth": null,
-        "borderBottomStyle": null,
-        "borderBottomColor": null,
-        "borderLeftWidth": null,
-        "borderLeftStyle": null,
-        "borderLeftColor": null,
-        "backgroundColor": null,
-        "width": null,
-        "height": null,
-        "position": "absolute",
-        "top": 0,
-        "left": 0
-      });
+    reset : function(decorationElement) {
+      decorationElement.setAttribute("html", "");
     },
 
 
@@ -498,12 +444,11 @@ qx.Class.define("qx.ui.decoration.Basic",
     {
       return {
         top : this.getWidthTop(),
-        right : this.getWidthRight(),
+        right : this.getWidthTop(),
         bottom : this.getWidthBottom(),
         left : this.getWidthLeft()
       }
     },
-
 
 
     /*
@@ -535,11 +480,6 @@ qx.Class.define("qx.ui.decoration.Basic",
     // property apply
     _applyColorLeft : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, value);
-    },
-
-    // property apply
-    _applyBackgroundColor : function(value) {
-      qx.theme.manager.Color.getInstance().connect(this._changeBackgroundColor, this, value);
     },
 
 
@@ -601,19 +541,6 @@ qx.Class.define("qx.ui.decoration.Basic",
       this.__informManager();
     },
 
-    /**
-     * Callback for color manager connection
-     *
-     * @type member
-     * @param color {Color} any CSS acceptable color value
-     * @return {void}
-     */
-    _changeBackgroundColor : function(color)
-    {
-      this.__bgColor = color;
-      this.__informManager();
-    },
-
 
 
     /*
@@ -627,10 +554,8 @@ qx.Class.define("qx.ui.decoration.Basic",
      *
      * @type member
      */
-    __informManager : function()
-    {
-      this._needsUpdate = true;
-      this._updateManager.schedule();
+    __informManager : function() {
+      qx.ui.decoration.DecorationManager.getInstance().updateObjects(this);
     }
 
   },
@@ -644,7 +569,9 @@ qx.Class.define("qx.ui.decoration.Basic",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeObjects("_updateManager");
+  destruct : function()
+  {
+
+
   }
 });

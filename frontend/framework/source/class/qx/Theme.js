@@ -21,7 +21,7 @@
 /**
  * This class helps to create and manager so-named theme classes.
  *
- * Supported are: color, border, fonts, icons, widgets,
+ * Supported are: color, border, decorations, fonts, icons, widgets,
  * appearances and meta themes.
  */
 qx.Class.define("qx.Theme",
@@ -45,7 +45,7 @@ qx.Class.define("qx.Theme",
      *   extend : otherTheme,
      *   include : [MMixinTheme],
      *   colors : {},
-     *   borders : {},
+     *   decorations : {},
      *   fonts : {},
      *   icons : {},
      *   widgets : {},
@@ -259,7 +259,7 @@ qx.Class.define("qx.Theme",
 
 
     /** {Array} Keys which support inheritance */
-    __inheritableKeys : [ "colors", "borders", "fonts", "icons", "widgets", "appearances", "meta" ],
+    __inheritableKeys : [ "colors", "borders", "decorations", "fonts", "icons", "widgets", "appearances", "meta" ],
 
 
     /** {Map} allowed keys in theme definition */
@@ -272,6 +272,7 @@ qx.Class.define("qx.Theme",
         "extend"      : "object", // Theme
         "colors"      : "object", // Map
         "borders"     : "object", // Map
+        "decorations" : "object", // Map
         "fonts"       : "object", // Map
         "icons"       : "object", // Map
         "widgets"     : "object", // Map
@@ -290,6 +291,7 @@ qx.Class.define("qx.Theme",
       {
         "color" : "object",
         "border" : "object",
+        "decoration" : "object",
         "font" : "object",
         "widget" : "object",
         "icon" : "object",
@@ -335,7 +337,7 @@ qx.Class.define("qx.Theme",
         }
 
         // Validate maps
-        var maps = [ "colors", "borders", "fonts", "icons", "widgets", "appearances", "meta" ];
+        var maps = [ "colors", "borders", "decorations", "fonts", "icons", "widgets", "appearances", "meta" ];
         for (var i=0, l=maps.length; i<l; i++)
         {
           var key = maps[i];
@@ -378,6 +380,7 @@ qx.Class.define("qx.Theme",
             }
 
             if (typeof value !== this.__metaKeys[key]) {
+              console.log(value)
               throw new Error('The type of the key "' + key + '" inside the meta block is wrong.');
             }
 

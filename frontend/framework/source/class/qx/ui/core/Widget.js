@@ -423,7 +423,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : null,
       apply : "_applyDecorator",
       event : "changeDecorator",
-      check : "qx.ui.decoration.IDecorator",
+      check : "Decoration",
       themeable : true
     },
 
@@ -1071,10 +1071,9 @@ qx.Class.define("qx.ui.core.Widget",
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
 
-      var decorator = this.getDecorator();
-      if (decorator)
+      if (this._decorator)
       {
-        var inset = decorator.getInsets();
+        var inset = this._decorator.getInsets();
 
         top += inset.top;
         right += inset.right;
@@ -1450,9 +1449,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     updateDecoration : function(width, height)
     {
-      var decorator = this.getDecorator();
-      if (decorator) {
-        decorator.update(this._decorationElement, width, height);
+      if (this._decorator) {
+        this._decorator.update(this._decorationElement, width, height);
       }
 
       qx.ui.core.DecorationQueue.remove(this);
@@ -1461,7 +1459,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     // property apply
     _applyDecorator : function(value, old) {
-      qx.ui.decoration.DecorationManager.getInstance().connect(this._styleDecorator, this, value);
+      qx.theme.manager.Decoration.getInstance().connect(this._styleDecorator, this, value);
     },
 
 
@@ -1499,10 +1497,15 @@ qx.Class.define("qx.ui.core.Widget",
         }
         else
         {
-          if (oldDecorator.classname == decorator.classname) {
+          if (oldDecorator.classname == decorator.classname)
+          {
             decorator.reuse(this._decorationElement);
-          } else {
-            oldDecorator.reset(this._decorationElement);
+          }
+          else
+          {
+            if (this._decorationElement) {
+              oldDecorator.reset(this._decorationElement);
+            }
             decorator.init(this._decorationElement);
           }
         }
