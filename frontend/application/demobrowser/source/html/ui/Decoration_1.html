@@ -1,0 +1,250 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+    body {
+      font: 11px Tahoma, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="description">
+  </div>
+
+  <script type="text/javascript">
+
+qx.Theme.define("Decorations1",
+{
+  title : "Test Decorations",
+
+  decorations :
+  {
+    "black" :
+    {
+      clazz : qx.ui.decoration.Basic,
+
+      style :
+      {
+        width: 1,
+        color: "black"
+      }
+    },
+
+    "special" :
+    {
+      clazz : qx.ui.decoration.Basic,
+
+      style :
+      {
+        top : [1, "solid", "orange"],
+        left : [5, "dotted", "green"],
+        bottom : [3, "dashed", "blue"],
+        right : [6, "double", "purple"]
+      }
+    },
+
+    "round" :
+    {
+      clazz : qx.ui.decoration.CssRoundedBorder,
+
+      style :
+      {
+        radius: 10,
+        backgroundColor: "gray",
+        width: 3,
+        style: "solid",
+        color: "black"
+      }
+    },
+
+    "inset" :
+    {
+      clazz : qx.ui.decoration.DoubleBorder,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
+      }
+    }
+  }
+});
+
+
+qx.Theme.define("Decorations2",
+{
+  title : "Test Decorations",
+
+  decorations :
+  {
+    "black" :
+    {
+      style :
+      {
+        width: 3,
+        color: "black"
+      }
+    },
+
+    "special" :
+    {
+      style :
+      {
+        top : [3, "dashed", "blue"],
+        left : [6, "double", "purple"],
+        bottom : [1, "solid", "orange"],
+        right : [5, "dotted", "green"]
+      }
+    },
+
+    "round" :
+    {
+      clazz : qx.ui.decoration.CssRoundedBorder,
+
+      style :
+      {
+        radiusTopLeft: 10,
+        radiusTopRight: 10,
+        radiusBottomLeft: null,
+        radiusBottomRight: null,
+        backgroundColor: "gray",
+        width: 1,
+        style: "solid",
+        color: "black"
+      }
+    }
+  }
+});
+
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("#EEE");
+
+      var docLayout = new qx.ui.layout.HBox();
+      docLayout.setSpacing(10);
+
+      var container = new qx.ui.core.Widget();
+      container.setPadding(20);
+      container.setLayout(docLayout);
+
+      doc.add(container, 0, 0);
+
+      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-archiver.png";
+      var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
+      var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
+      var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
+
+      qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
+      qx.theme.manager.Decoration.getInstance().setTheme(Decorations1);
+
+
+      var border = new qx.ui.decoration.Basic(2, "solid", "black");
+      var special = new qx.ui.decoration.Basic().set({
+        top : [1, "solid", "orange"],
+        left : [5, "dotted", "green"],
+        bottom : [3, "dashed", "blue"],
+        right : [6, "double", "purple"]
+      });
+
+
+      var a1 = new qx.ui.basic.Atom("Toggle special border.", img_arch, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      })
+      docLayout.add(a1);
+
+      var grow = true;
+      a1.addListener("click", function() {
+        special.setRight(grow ? [10, "solid", "black"] : [6, "double", "purple"]);
+        grow = !grow;
+      });
+
+
+      var a2 = new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : special,
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      })
+      docLayout.add(a2);
+
+
+      var a3 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : "black",
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      });
+      docLayout.add(a3);
+
+      var flag = false;
+      a3.addListener("click", function() {
+        qx.theme.manager.Decoration.getInstance().setTheme(flag ? Decorations1 : Decorations2);
+        flag = !flag;
+      });
+
+
+      var a4 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : "special",
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      });
+      docLayout.add(a4);
+
+
+      var a5 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+        //backgroundColor : "gray",
+        decorator : "round",
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      });
+      docLayout.add(a5);
+
+
+      var a6 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+        //backgroundColor : "gray",
+        decorator : "inset",
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      });
+      docLayout.add(a6);
+    }
+
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
