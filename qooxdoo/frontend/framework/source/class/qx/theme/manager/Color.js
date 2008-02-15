@@ -35,12 +35,12 @@ qx.Class.define("qx.theme.manager.Color",
   properties :
   {
     /** the currently selected color theme */
-    colorTheme :
+    theme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyColorTheme",
-      event : "changeColorTheme"
+      apply : "_applyTheme",
+      event : "changeTheme"
     }
   },
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.theme.manager.Color",
 
   members :
   {
-    _applyColorTheme : function(value)
+    _applyTheme : function(value)
     {
       var dest = this._dynamic = {};
 

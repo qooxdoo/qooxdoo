@@ -41,28 +41,32 @@ qx.Class.define("qx.ui.decoration.CssRoundedBorder",
     radiusTopLeft :
     {
       check : "typeof(value) === 'number' || value instanceof Array",
-      init : 0,
+      init : null,
+      nullable : true,
       apply : "_applyBorderChange"
     },
 
     radiusTopRight :
     {
       check : "typeof(value) === 'number' || value instanceof Array",
-      init : 0,
+      init : null,
+      nullable : true,
       apply : "_applyBorderChange"
     },
 
     radiusBottomRight :
     {
       check : "typeof(value) === 'number' || value instanceof Array",
-      init : 0,
+      init : null,
+      nullable : true,
       apply : "_applyBorderChange"
     },
 
     radiusBottomLeft :
     {
       check : "typeof(value) === 'number' || value instanceof Array",
-      init : 0,
+      init : null,
+      nullable : true,
       apply : "_applyBorderChange"
     },
 
@@ -72,7 +76,8 @@ qx.Class.define("qx.ui.decoration.CssRoundedBorder",
     ---------------------------------------------------------------------------
     */
 
-    radius : {
+    radius :
+    {
       group : [ "radiusTopRight", "radiusBottomRight", "radiusBottomLeft", "radiusTopLeft" ],
       mode : "shorthand"
     }
@@ -88,43 +93,36 @@ qx.Class.define("qx.ui.decoration.CssRoundedBorder",
 
   members :
   {
-    _getStyle : function(width, height)
+    _getStyles : function(width, height)
     {
-      var style = [this.base(arguments, width, height), ";"];
+      var style = this.base(arguments, width, height);
+
 
       var topLeft = this.getRadiusTopLeft();
-      if (topLeft !== 0)
-      {
-        style.push("-moz-border-radius-topleft: ");
-        style.push(topLeft instanceof Array ? topLeft.join(" ") : topLeft);
-        style.push(";");
-      }
+      style.MozBorderRadiusTopleft = topLeft instanceof Array ? topLeft.join(" ") : topLeft;
 
       var topRight = this.getRadiusTopRight();
-      if (topRight !== 0)
-      {
-        style.push("-moz-border-radius-topright: ");
-        style.push(topRight instanceof Array ? topRight.join("px ") : topRight);
-        style.push("px;");
-      }
+      style.MozBorderRadiusTopright = topRight instanceof Array ? topRight.join(" ") : topRight;
 
       var bottomRight = this.getRadiusBottomRight();
-      if (bottomRight !== 0)
-      {
-        style.push("-moz-border-radius-bottomright: ");
-        style.push(bottomRight instanceof Array ? bottomRight.join("px ") : bottomRight);
-        style.push("px;");
-      }
+      style.MozBorderRadiusBottomright = bottomRight instanceof Array ? bottomRight.join(" ") : bottomRight;
 
       var bottomLeft = this.getRadiusBottomLeft();
-      if (bottomLeft !== 0)
-      {
-        style.push("-moz-border-radius-bottomleft: ");
-        style.push(bottomLeft instanceof Array ? bottomLeft.join("px ") : bottomLeft);
-        style.push("px;");
-      }
+      style.MozBorderRadiusBottomleft = bottomLeft instanceof Array ? bottomLeft.join(" ") : bottomLeft;
 
-      return style.join("");
+      return style;
+    },
+
+
+    reset : function(decorationElement)
+    {
+      this.base(arguments, decorationElement);
+      decorationElement.setStyles({
+        MozBorderRadiusTopleft: null,
+        MozBorderRadiusTopright: null,
+        MozBorderRadiusBottomright: null,
+        MozBorderRadiusBottomleft: null
+      });
     }
 
   }

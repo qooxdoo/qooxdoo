@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -35,12 +36,12 @@ qx.Class.define("qx.theme.manager.Decoration",
   properties :
   {
     /** the currently selected decoration theme */
-    decorationTheme :
+    theme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyDecorationTheme",
-      event : "changeDecorationTheme"
+      apply : "_applyTheme",
+      event : "changeTheme"
     }
   },
 
@@ -63,7 +64,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return value instanceof qx.ui.core.Decoration ? value : this._dynamic[value];
+      return typeof(value) == "object" ? value : this._dynamic[value];
     },
 
 
@@ -75,7 +76,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return value && (value instanceof qx.ui.core.Decoration || this._dynamic[value] !== undefined);
+      return value && (typeof(value) == "object" || this._dynamic[value] !== undefined);
     },
 
 
@@ -85,36 +86,24 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @type member
      * @return {void}
      */
-    syncBorderTheme : function() {
+    syncDecorationTheme : function() {
       this._updateObjects();
     },
 
 
     /**
-     * Update all objects which use the given border. Only updates one edge at each call.
+     * Update all objects which use the given decoration.
      *
      * @type member
-     * @param border {qx.ui.core.Decoration} the border which have been modified
-     * @param edge {String} top, right, bottom or left
+     * @param decoration {qx.ui.core.Decoration} the decoration which have been modified
      */
-    updateObjectsEdge : function(border, edge)
-    {
-      var reg = this._registry;
-      var dynamics = this._dynamic;
-      var entry;
-
-      for (var key in reg)
-      {
-        entry = reg[key];
-
-        if (entry.value === border || dynamics[entry.value] === border) {
-          entry.callback.call(entry.object, border, edge);
-        }
-      }
+    updateObjects : function(decoration) {
+      this.syncConnectedObjects(decoration);
     },
 
 
-    _applyBorderTheme : function(value)
+    // property apply
+    _applyTheme : function(value)
     {
       var dest = this._dynamic;
 
@@ -129,18 +118,20 @@ qx.Class.define("qx.theme.manager.Decoration",
 
       if (value)
       {
-        var source = value.borders;
-        var border = qx.ui.core.Decoration;
+        var source = value.decorations;
 
         for (var key in source)
         {
-          dest[key] = (new border).set(source[key]);
+          var styles = source[key].style;
+          var decorationClass =  source[key].clazz || qx.ui.decoration.Basic;
+          console.log(source[key].clazz, decorationClass.classname, styles)
+          dest[key] = (new decorationClass).set(styles);
           dest[key].themed = true;
         }
       }
 
       if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
-        this.syncBorderTheme();
+        this.syncDecorationTheme();
       }
     }
   }
