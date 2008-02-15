@@ -231,15 +231,23 @@ qx.Class.define("qx.util.manager.Value",
         return;
       }
 
-      var callbackInfo = this._valueToObjects[value.toHashCode()];
+      var valueKey = value.toHashCode();
+      var callbackInfo = this._valueToObjects[valueKey];
       if (!callbackInfo) {
         return;
       }
 
       for (var key in callbackInfo)
       {
-        var entry = this._objectToValue[callbackInfo[key].contextKey][callbackInfo[key].callbackKey];
-        entry.callback.apply(entry.object, arguments);
+        var contextKey = callbackInfo[key].contextKey;
+        var callbackKey = callbackInfo[key].callbackKey;
+        if (this._objectToValue[contextKey] && this._objectToValue[contextKey][callbackKey])
+        {
+          var entry = this._objectToValue[contextKey][callbackKey];
+          entry.callback.apply(entry.object, arguments);
+        } else {
+          delete this._valueToObjects[valueKey]
+        }
       }
     },
 
