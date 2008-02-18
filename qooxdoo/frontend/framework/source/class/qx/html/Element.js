@@ -695,7 +695,7 @@ qx.Class.define("qx.html.Element",
         if (data)
         {
           var value;
-          for (var key in data)
+          for (var key in jobs)
           {
             value = data[key];
 
