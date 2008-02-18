@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-06 14:50+0100\n"
+"POT-Creation-Date: 2008-02-18 15:14+0100\n"
 "PO-Revision-Date: 2007-01-23 17:53+0100\n"
 "Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 "Language-Team: German\n"
@@ -77,7 +77,7 @@ msgstr "Nächster Monat"
 msgid "Next year"
 msgstr "Nächstes Jahr"
 
-#: class/qx/legacy/ui/component/DateChooserButton.js:111
+#: class/qx/legacy/ui/component/DateChooserButton.js:121
 msgid "Choose a date"
 msgstr "Datum auswählen"
 
