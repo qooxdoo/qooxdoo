@@ -57,14 +57,13 @@ qx.Class.define("qx.bom.element.Style",
       // Style property name correction (at element.style level)
       styleNames :
       {
-        "float" : qx.bom.client.Engine.MSHTML ? "styleFloat" : "cssFloat",
-        "boxSizing" : qx.core.Variant.select("qx.client",
-        {
-          "mshtml" : null,
-          "gecko" : "MozBoxSizing",
-          "webkit" : "WebkitBoxSizing",
-          "default" : "boxSizing"
-        })
+        "float" : qx.bom.client.Engine.MSHTML ? "styleFloat" : "cssFloat"
+      },
+
+      // CSS property name correction (at HTML/CSS level)
+      cssNames :
+      {
+
       },
 
       // Mshtml has propertiery pixel* properties for locations and dimensions
@@ -81,11 +80,12 @@ qx.Class.define("qx.bom.element.Style",
 
       special :
       {
-        clip : true,
-        cursor : true,
-        opacity : true,
-        overflowX : true,
-        overflowY : true
+        clip : 1,
+        cursor : 1,
+        opacity : 1,
+        boxSizing : 1,
+        overflowX : 1,
+        overflowY : 1
       }
     },
 
@@ -115,18 +115,18 @@ qx.Class.define("qx.bom.element.Style",
       var html = [];
       var hints = this.__hints;
       var special = hints.special;
-      var names = hints.styleNames;
+      var names = hints.cssNames;
       var hyphens = this.__hyphens;
       var str = qx.lang.String;
       var name, prop, value;
 
       for (name in map)
       {
-        // read value
-        value = map[name];
-
         // normalize name
         name = names[name] || name;
+
+        // read value
+        value = map[name];
 
         // process special properties
         if (special[name])
@@ -143,6 +143,10 @@ qx.Class.define("qx.bom.element.Style",
 
             case "opacity":
               html.push(qx.bom.element.Opacity.compile(value));
+              break;
+
+            case "boxSizing":
+              html.push(qx.bom.element.BoxSizing.compile(value));
               break;
 
             case "overflowX":
@@ -276,6 +280,9 @@ qx.Class.define("qx.bom.element.Style",
           case "opacity":
             return qx.bom.element.Opacity.set(element, value);
 
+          case "boxSizing":
+            return qx.bom.element.BoxSizing.set(element, value);
+
           case "overflowX":
             return qx.bom.element.Overflow.setX(element, value);
 
@@ -319,6 +326,9 @@ qx.Class.define("qx.bom.element.Style",
 
           case "opacity":
             return qx.bom.element.Opacity.reset(element);
+
+          case "boxSizing":
+            return qx.bom.element.BoxSizing.reset(element);
 
           case "overflowX":
             return qx.bom.element.Overflow.resetX(element);
@@ -382,6 +392,9 @@ qx.Class.define("qx.bom.element.Style",
 
             case "opacity":
               return qx.bom.element.Opacity.get(element, mode);
+
+            case "boxSizing":
+              return qx.bom.element.BoxSizing.get(element, mode);
 
             case "overflowX":
               return qx.bom.element.Overflow.getX(element, mode);
@@ -460,6 +473,9 @@ qx.Class.define("qx.bom.element.Style",
 
             case "opacity":
               return qx.bom.element.Opacity.get(element, mode);
+
+            case "boxSizing":
+              return qx.bom.element.BoxSizing.get(element, mode);
 
             case "overflowX":
               return qx.bom.element.Overflow.getX(element, mode);
