@@ -419,9 +419,7 @@ qx.Class.define("qx.ui.decoration.Basic",
 
 
     // interface implementation
-    reuse : function(decorationElement)
-    {
-      this.reset(decorationElement);
+    reuse : function(decorationElement) {
       this.init(decorationElement);
     },
 

@@ -94,7 +94,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "inset" :
     {
-      clazz : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.DoubleBorder,
 
       style :
       {
@@ -107,19 +107,20 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "outset" :
     {
-      clazz : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.DoubleBorder,
 
       style :
       {
         width : 1,
-        innerWidth: 1,      color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        innerWidth: 1,
+        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
         innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
       }
     },
 
     "groove" :
     {
-      clazz : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.DoubleBorder,
 
       style :
       {
@@ -132,7 +133,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "ridge" :
     {
-      clazz : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.DoubleBorder,
 
       style :
       {
