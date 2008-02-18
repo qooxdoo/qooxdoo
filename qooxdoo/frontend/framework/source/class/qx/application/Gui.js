@@ -48,10 +48,7 @@ qx.Class.define("qx.application.Gui",
      *
      * @type member
      */
-    main : function()
-    {
-      this.info("Using 0.8.x GUI application class!");
-    },
+    main : function() {},
 
 
     /**

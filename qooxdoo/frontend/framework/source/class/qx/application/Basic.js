@@ -43,10 +43,7 @@ qx.Class.define("qx.application.Basic",
      *
      * @type member
      */
-    main : function()
-    {
-      this.info("Using 0.8.x basic application class!");
-    },
+    main : function() {},
 
 
     /**
