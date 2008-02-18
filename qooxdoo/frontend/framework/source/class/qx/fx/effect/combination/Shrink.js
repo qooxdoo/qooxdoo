@@ -132,6 +132,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
       for (var property in this._oldStyle) {
         qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
       }
+      qx.bom.element.Style.set(this._element, "display", "none");
     },
 
     start : function()
@@ -185,10 +186,6 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
       this._scaleEffect.set({
         scaleTo : 0,
-        scaleMode: {
-          originalHeight: this._oldStyle.height,
-          originalWidth: this._oldStyle.width
-        },
         sync: true,
         transition: this.getScaleTransition(),
         restoreAfterFinish: true

@@ -79,6 +79,11 @@ qx.Class.define("qx.fx.effect.combination.Fold",
    members :
    {
 
+    afterSetup : function()
+    {
+      qx.bom.element.Style.set(this._element, "display", "none");
+    },
+
     start : function()
     {
       this.base(arguments);

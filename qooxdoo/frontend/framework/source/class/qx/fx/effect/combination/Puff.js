@@ -46,10 +46,10 @@ qx.Class.define("qx.fx.effect.combination.Puff",
   extend : qx.fx.Base,
 
   /*
-    *****************************************************************************
+   *****************************************************************************
        CONSTRUCTOR
-    *****************************************************************************
-  */
+   *****************************************************************************
+   */
 
   /**
    * @param element {Object} The DOM element
@@ -64,6 +64,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
     ];
 
     this._mainEffect = new qx.fx.effect.core.Parallel(this._effects);
+
   },
 
 
@@ -75,26 +76,26 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
    members :
    {
+    afterFinish : function()
+    {
+      for(var property in this._oldStyle) {
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      }
+      qx.bom.element.Style.set(this._element, "display", "none");
+    },
 
     setup : function()
     {
       this.base(arguments);
 
       this._oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width  : qx.bom.element.Dimension.getWidth(this._element),
-        height : qx.bom.element.Dimension.getHeight(this._element)
+        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width   : qx.bom.element.Dimension.getWidth(this._element),
+        height  : qx.bom.element.Dimension.getHeight(this._element),
+        opacity : qx.bom.element.Style.get(this._element, "opacity")
       };
     },
-
-    afterFinishInternal : function()
-    {
-      for(var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-      }
-    },
-
 
     start : function()
     {
