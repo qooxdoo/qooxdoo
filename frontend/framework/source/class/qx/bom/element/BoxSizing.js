@@ -175,7 +175,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
         throw new Error("This client do not support the dynamic modification of the box-sizing property.");
       },
 
-      "default " : function(element, value)
+      "default" : function(element, value)
       {
         var props = this.__styleProperties;
         if (props)
