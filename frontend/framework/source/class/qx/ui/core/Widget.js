@@ -1489,7 +1489,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._containerElement.add(this._decorationElement);
       }
 
-      if (decorator !== oldDecorator)
+      if (decorator && decorator !== oldDecorator)
       {
         if (!oldDecorator)
         {
