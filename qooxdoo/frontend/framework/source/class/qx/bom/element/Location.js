@@ -204,7 +204,7 @@ qx.Class.define("qx.bom.element.Location",
         var top = body.offsetTop;
 
         // Correct substracted border (only in content-box mode)
-        if (qx.bom.element.Dimension.getBoxSizing(body) !== "border-box")
+        if (qx.bom.element.BoxSizing.get(body) !== "border-box")
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
