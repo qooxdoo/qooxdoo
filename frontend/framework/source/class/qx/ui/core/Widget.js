@@ -449,12 +449,10 @@ qx.Class.define("qx.ui.core.Widget",
     backgroundColor :
     {
       nullable : true,
-      init : "inherit",
       check : "Color",
       apply : "_applyBackgroundColor",
       event : "changeBackgroundColor",
-      themeable : true,
-      inheritable : true
+      themeable : true
     },
 
 
@@ -701,7 +699,7 @@ qx.Class.define("qx.ui.core.Widget",
           if (height !== flowHeight)
           {
             this.__heightForWidth = flowHeight;
-            this.scheduleLayoutUpdate();
+            qx.ui.core.LayoutQueue.add(this);
 
             // Fabian thinks this works flawlessly
             return;
@@ -1172,7 +1170,7 @@ qx.Class.define("qx.ui.core.Widget",
           parentLayout.childExcludeModified(this);
         }
 
-        parent.scheduleLayoutUpdate();
+        qx.ui.core.LayoutQueue.add(parent);
       }
     },
 
@@ -1582,7 +1580,7 @@ qx.Class.define("qx.ui.core.Widget",
      * generic property apply method for layout relevant properties
      */
     _applyLayoutChange : function() {
-      this.scheduleLayoutUpdate();
+      qx.ui.core.LayoutQueue.add(this);
     },
 
 
