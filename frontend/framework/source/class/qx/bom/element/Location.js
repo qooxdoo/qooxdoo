@@ -89,9 +89,8 @@ qx.Class.define("qx.bom.element.Location",
 
       // Use faster getBoundingClientRect() if available
       // Hint: The viewport workaround here only needs to be applied for
-      // MSHTML currently. Gecko must always use the bottom code block -
-      // independently from the availbility of getBoundingClientRect()
-      if (qx.bom.client.Engine.MSHTML && elem.getBoundingClientRect)
+      // MSHTML and gecko clients currently.
+      if (elem.getBoundingClientRect)
       {
         // Find window
         var win = qx.dom.Node.getWindow(elem);
