@@ -19,7 +19,9 @@
 ************************************************************************ */
 
 /**
- *
+ * Border implementation with two CSS borders. both borders can be styled
+ * independent from each other. This decorator is used to create 3D effects like
+ * <code>inset</code>, <code>outset</code> or <code>ridge</code>.
  */
 qx.Class.define("qx.ui.decoration.DoubleBorder",
 {
@@ -89,36 +91,39 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     */
 
     /** top inner color of border */
-    colorInnerTop :
+    innerColorTop :
     {
       nullable : true,
-      apply : "_applyColorInnerTop"
+      apply : "_applyInnerColorTop"
     },
 
     /** right inner color of border */
-    colorInnerRight :
+    innerColorRight :
     {
       nullable : true,
-      apply : "_applyColorInnerRight"
+      apply : "_applyInnerColorRight"
     },
 
     /** bottom inner color of border */
-    colorInnerBottom :
+    innerColorBottom :
     {
       nullable : true,
-      apply : "_applyColorInnerBottom"
+      apply : "_applyInnerColorBottom"
     },
 
     /** left inner color of border */
-    colorInnerLeft :
+    innerColorLeft :
     {
       nullable : true,
-      apply : "_applyColorInnerLeft"
+      apply : "_applyInnerColorLeft"
     },
 
+    /**
+     * Property group for the inner color properties.
+     */
     innerColor :
     {
-      group : [ "colorInnerTop", "colorInnerRight", "colorInnerBottom", "colorInnerLeft" ],
+      group : [ "innerColorTop", "innerColorRight", "innerColorBottom", "innerColorLeft" ],
       mode : "shorthand"
     }
   },
@@ -190,6 +195,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     },
 
 
+    // overridden
     init : function(decorationElement)
     {
       var innerElement = new qx.html.Element();
@@ -215,13 +221,13 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     {
       var styles = {
         "borderTopWidth": this.getInnerWidthTop(),
-        "borderTopColor": this.__colorInnerTop,
+        "borderTopColor": this.__innerColorTop,
         "borderRightWidth": this.getInnerWidthRight(),
-        "borderRightColor": this.__colorInnerRight,
+        "borderRightColor": this.__innerColorRight,
         "borderBottomWidth": this.getInnerWidthBottom(),
-        "borderBottomColor": this.__colorInnerBottom,
+        "borderBottomColor": this.__innerColorBottom,
         "borderLeftWidth": this.getInnerWidthLeft(),
-        "borderLeftColor": this.__colorInnerLeft,
+        "borderLeftColor": this.__innerColorLeft,
         "backgroundColor": this.__bgColor,
         "borderStyle": "solid"
       }
@@ -256,23 +262,23 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     */
 
     // property apply
-    _applyColorInnerTop : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerTop, this, value);
+    _applyInnerColorTop : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorTop, this, value);
     },
 
     // property apply
-    _applyColorInnerRight : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerRight, this, value);
+    _applyInnerColorRight : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorRight, this, value);
     },
 
     // property apply
-    _applyColorInnerBottom : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerBottom, this, value);
+    _applyInnerColorBottom : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorBottom, this, value);
     },
 
     // property apply
-    _applyColorInnerLeft : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerLeft, this, value);
+    _applyInnerColorLeft : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorLeft, this, value);
     },
 
 
@@ -282,9 +288,9 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
      * @type member
      * @param value {Color} the color value to apply
      */
-    _changeColorInnerTop : function(value)
+    _changeInnerColorTop : function(value)
     {
-      this.__colorInnerTop = value;
+      this.__innerColorTop = value;
       this.__informManager();
     },
 
@@ -295,9 +301,9 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
      * @type member
      * @param value {Color} the color value to apply
      */
-    _changeColorInnerRight : function(value)
+    _changeInnerColorRight : function(value)
     {
-      this.__colorInnerRight = value;
+      this.__innerColorRight = value;
       this.__informManager();
     },
 
@@ -308,9 +314,9 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
      * @type member
      * @param value {Color} the color value to apply
      */
-    _changeColorInnerBottom : function(value)
+    _changeInnerColorBottom : function(value)
     {
-      this.__colorInnerBottom = value;
+      this.__innerColorBottom = value;
       this.__informManager();
     },
 
@@ -321,20 +327,10 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
      * @type member
      * @param value {Color} the color value to apply
      */
-    _changeColorInnerLeft : function(value)
+    _changeInnerColorLeft : function(value)
     {
-      this.__colorInnerLeft = value;
+      this.__innerColorLeft = value;
       this.__informManager();
     }
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
   }
 });

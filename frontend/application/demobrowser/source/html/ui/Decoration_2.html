@@ -58,7 +58,7 @@ qx.Theme.define("Decorations1",
 
       style :
       {
-        radius: 10,
+        radius: 20,
         backgroundColor: "gray",
         width: 3,
         style: "solid",
@@ -116,14 +116,26 @@ qx.Theme.define("Decorations2",
       {
         radiusTopLeft: 10,
         radiusTopRight: 10,
-        radiusBottomLeft: null,
-        radiusBottomRight: null,
         backgroundColor: "gray",
-        width: 1,
+        width: 2,
         style: "solid",
-        color: "black"
+        color: "orange"
+      }
+    },
+
+    "inset" :
+    {
+      clazz : qx.ui.decoration.DoubleBorder,
+
+      style :
+      {
+        width : 2,
+        innerWidth: 2,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
       }
     }
+
   }
 });
 
@@ -211,7 +223,7 @@ qx.Class.define("BasicSample",
       });
 
 
-      var a4 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+      var a4 = new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         backgroundColor : "gray",
         decorator : "special",
         iconPosition : "top",
@@ -221,7 +233,7 @@ qx.Class.define("BasicSample",
       docLayout.add(a4);
 
 
-      var a5 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+      var a5 = new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         //backgroundColor : "gray",
         decorator : "round",
         iconPosition : "top",
@@ -231,7 +243,7 @@ qx.Class.define("BasicSample",
       docLayout.add(a5);
 
 
-      var a6 = new qx.ui.basic.Atom("Change Theme", img_clock, 48, 48).set({
+      var a6 = new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         //backgroundColor : "gray",
         decorator : "inset",
         iconPosition : "top",
