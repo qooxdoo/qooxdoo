@@ -360,9 +360,9 @@ qx.Class.define("qx.bom.element.Location",
 
           // Stop at the body
           var body = qx.dom.Node.getDocument(elem).body;
-          var dim = qx.bom.element.Dimension;
+          var box = qx.bom.element.BoxSizing;
 
-          if (dim.getBoxSizing(elem) !== "border-box")
+          if (box.get(elem) !== "border-box")
           {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
@@ -376,7 +376,7 @@ qx.Class.define("qx.bom.element.Location",
 
             // Mozilla does not add the borders to the offset
             // when using box-sizing=content-box
-            if (dim.getBoxSizing(elem) !== "border-box")
+            if (box.get(elem) !== "border-box")
             {
               left += this.__num(elem, "borderLeftWidth");
               top += this.__num(elem, "borderTopWidth");
