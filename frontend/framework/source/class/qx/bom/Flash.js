@@ -134,9 +134,9 @@ qx.Class.define("qx.bom.Flash",
       __flash_savedUnloadHandler = function() {};
 
       // Remove listener again
-      window.detachEvent("onbeforeunload", qx.bom.client.Flash.__fixOutOfMemoryError);
+      window.detachEvent("onbeforeunload", qx.bom.Flash.__fixOutOfMemoryError);
     },
-    
+
 
     /**
      * Creates a DOM element with a flash movie
@@ -211,11 +211,11 @@ qx.Class.define("qx.bom.Flash",
       }
     })
   },
-  
+
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       window.attachEvent("onbeforeunload", statics.__fixOutOfMemoryError);
-    }    
+    }
   }
 });
