@@ -147,12 +147,15 @@ qx.Class.define("qx.bom.element.BoxSizing",
       "default" : function(element, mode)
       {
         var props = this.__styleProperties;
+        var value;
+
         if (props)
         {
           for (var i=0, l=props.length; i<l; i++)
           {
             value = qx.bom.element.Style.get(element, props[i], mode, false);
             if (value != null && value !== "") {
+console.debug("Value: " + props[i] + ": " + value);
               return value;
             }
           }
