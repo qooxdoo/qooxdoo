@@ -155,7 +155,6 @@ qx.Class.define("qx.bom.element.BoxSizing",
           {
             value = qx.bom.element.Style.get(element, props[i], mode, false);
             if (value != null && value !== "") {
-console.debug("Value: " + props[i] + ": " + value);
               return value;
             }
           }
