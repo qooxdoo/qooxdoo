@@ -51,7 +51,6 @@
         */
         var animShow = new qx.fx.effect.core.FadeIn(myElement);
         animShow.set({
-          position : qx.fx.Base.EffectPosition.END,
           from : 0,
           to : 1,
           duration : 2
@@ -69,8 +68,7 @@
         var animIncrease = new qx.fx.effect.core.Scale(myElement);
         animIncrease.set({
           scaleTo : 200,
-          duration : 2,
-          scaleMode : "contents"
+          duration : 2
         });
 
         /*
@@ -79,8 +77,7 @@
         var animDecrease = new qx.fx.effect.core.Scale(myElement);
         animDecrease.set({
           scaleTo : 50,
-          duration : 2,
-          scaleMode : "contents"
+          duration : 2
         });
 
         /*
@@ -90,7 +87,6 @@
         */
         var animFadeInWobble = new qx.fx.effect.core.FadeIn(myElement);
         animFadeInWobble.set({
-          position : qx.fx.Base.EffectPosition.FRONT,
           from : 0,
           to : 1,
           duration : 6,
@@ -105,7 +101,6 @@
           scaleTo : 200,
           duration : 4,
           delay : 2,
-          scaleMode : "contents",
           transition : qx.fx.Transition.sinoidal
         });
 
@@ -161,18 +156,24 @@
         var animHigh = new qx.fx.effect.core.Highlight(myElement);
         animHigh.set({
           startColor : "#134275",
+          endColor : "#7CFC00",
           duration : 1
         });
 
         var animAHigh = new qx.fx.effect.core.Highlight(myElement);
         animAHigh.set({
           startColor : "#134275",
+          endColor : "#7CFC00",
           transition : qx.fx.Transition.wobble,
           duration : 3
         });
 
         var animColorFlow = new qx.fx.effect.combination.ColorFlow(myElement);
-        animColorFlow.setStartColor("#134275");
+        animColorFlow.set({
+          startColor : "#134275",
+          endColor : "#7CFC00",
+          backwardDuration : 3
+        });
 
         var animShrink = new qx.fx.effect.combination.Shrink(myElement);
         animShrink.setDirection("center");
