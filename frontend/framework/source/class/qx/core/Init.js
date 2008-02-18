@@ -153,23 +153,6 @@ qx.Class.define("qx.core.Init",
 
       this.fireEvent("load");
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        this.debug("qooxdoo " + qx.core.Version.toString());
-
-        // Print browser information
-        if (qx.bom && qx.bom.client)
-        {
-          if (qx.bom.client.Engine) {
-            this.debug("engine: " + qx.bom.client.Engine.NAME + "-" + qx.bom.client.Engine.FULLVERSION);
-          }
-
-          if (qx.bom.client.Platform && qx.bom.client.System) {
-            this.debug("system: " + qx.bom.client.Platform.NAME + " | " + qx.bom.client.System.NAME);
-          }
-        }
-      }
-
       // Init application from settings
       if (!this.getApplication())
       {
@@ -179,19 +162,16 @@ qx.Class.define("qx.core.Init",
         }
       }
 
-      if (!this.getApplication()) {
+      var app = this.getApplication();
+      if (!app) {
         return;
       }
 
-      // Debug info
-      this.debug("application: " + this.getApplication().classname + "[" + this.getApplication().toHashCode() + "]");
-
-      // Send onload
-      var start = new Date;
-
-      this.getApplication().main();
-
-      this.info("main runtime: " + (new Date - start) + "ms");
+      // Start main method
+      var start = new Date();
+      app.debug("Running main()...");
+      app.main();
+      app.debug("Done in: " + (new Date-start) + "ms");
     },
 
 
