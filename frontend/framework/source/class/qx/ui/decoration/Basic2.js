@@ -555,7 +555,7 @@ qx.Class.define("qx.ui.decoration.Basic2",
      * @type member
      */
     __informManager : function() {
-      qx.ui.decoration.DecorationManager.getInstance().updateObjects(this);
+      qx.theme.manager.Decoration.getInstance().updateObjects(this);
     }
 
   },
