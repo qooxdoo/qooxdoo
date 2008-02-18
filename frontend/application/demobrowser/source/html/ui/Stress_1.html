@@ -58,31 +58,31 @@ qx.Class.define("BasicSample",
       // auto size
       var box = new qx.ui.core.Widget();
 
-      var layout = new qx.ui.layout.Grid();
-      layout.setSpacing(2);
-
-      var w;
+      var layout = new qx.ui.layout.Basic();
+      var widget, left, top;
+      var spacing = 2;
 
       for (var x=0; x<columns; x++)
       {
         for (var y=0; y<rows; y++)
         {
-          w = new qx.ui.core.Widget();
+          widget = new qx.ui.core.Widget();
+          left = (boxSize + spacing) * x;
+          top = (boxSize + spacing) * y;
 
-          w.set({
-            backgroundColor: "red",
-            height: boxSize,
-            width: boxSize
+          widget.set({
+            backgroundColor : "red",
+            height : boxSize,
+            width : boxSize
           });
 
-          layout.add(w, y, x);
+          layout.add(widget, left, top);
         }
       }
-      box.setLayout(layout);
 
+      box.setLayout(layout);
       return box;
     }
-
   }
 });
 
