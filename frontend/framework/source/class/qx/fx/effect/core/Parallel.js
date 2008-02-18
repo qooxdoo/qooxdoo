@@ -49,6 +49,10 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    *****************************************************************************
   */
 
+
+  /**
+   * @param effects {Array} List of effects
+   */
   construct : function(effects)
   {
     this.base(arguments);

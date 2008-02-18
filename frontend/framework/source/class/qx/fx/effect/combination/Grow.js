@@ -195,8 +195,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         break;
       }
 
-      console.warn(initialMoveX, initialMoveY, moveX, moveY)
-
       this._moveEffect.set({
         x: moveX,
         y: moveY,
@@ -206,10 +204,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       this._scaleEffect.set({
         scaleTo : 100,
-        scaleMode: {
-          originalHeight: this._oldStyle.height,
-          originalWidth: this._oldStyle.width
-        },
         sync: true,
         scaleFrom : 0,
         transition: this.getScaleTransition()
