@@ -51,11 +51,11 @@ qx.Class.define("BasicSample",
 
     getGrid1 : function()
     {
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Basic2(1, "solid", "black");
 
       columns = 30;
       rows = 30;
-      boxSize = 10;
+      boxSize = 15;
 
       // auto size
       var box = new qx.ui.basic.Label().set({
@@ -75,7 +75,7 @@ qx.Class.define("BasicSample",
         for (var y=0; y<rows; y++)
         {
           layout.add(new qx.ui.core.Widget().set({
-            //decorator: border,
+            decorator: border,
             backgroundColor: "green",
             height: boxSize,
             width: boxSize,
