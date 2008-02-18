@@ -607,23 +607,10 @@ qx.Class.define("qx.html.Element",
       var data = this.__styleValues;
       if (data)
       {
+        // Set styles at once which is a lot faster in most browsers
+        // compared to separate modifications of many single style properties.
         var Style = qx.bom.element.Style;
-
-        // Compiling styles and applying them in one process seems
-        // to be a lot faster. Saves about 20% in webkit and 15% in gecko-1.9
-        // tested with 1600 elements. (wpbasti)
-
         Style.setCss(elem, Style.compile(data));
-
-        // Previous implementation
-
-        /*
-        for (var key in data) {
-          Style.set(elem, key, data[key]);
-        }
-        */
-
-
       }
 
       // Attach events
