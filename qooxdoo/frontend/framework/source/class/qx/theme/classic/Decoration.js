@@ -160,6 +160,60 @@ qx.Theme.define("qx.theme.classic.Decoration",
         width : 1,
         color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
       }
+    },
+
+    "line-left" :
+    {
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "border-dark-shadow"
+      }
+    },
+
+    "line-right" :
+    {
+      style :
+      {
+        widthRight : 1,
+        colorRight : "border-dark-shadow"
+      }
+    },
+
+    "line-top" :
+    {
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark-shadow"
+      }
+    },
+
+    "line-bottom" :
+    {
+      style :
+      {
+        widthBottom : 1,
+        colorBottom : "border-dark-shadow"
+      }
+    },
+
+    "divider-vertical" :
+    {
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark-shadow"
+      }
+    },
+
+    "divider-horizontal" :
+    {
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "border-dark-shadow"
+      }
     }
 
   }
