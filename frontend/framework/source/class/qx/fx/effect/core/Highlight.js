@@ -75,12 +75,11 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       /**
        * Flag indicating if element's background color or image should be restored.
        */
-      restoreColor :
+      restoreBackground :
       {
         init : true,
         check : "Boolean"
       }
-
    },
 
 
@@ -101,6 +100,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
         backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
         backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
       };
+
       qx.bom.element.Style.set(this._element, "backgroundImage", "none");
 
       this._startColor = qx.util.ColorUtil.cssStringToRgb(this.getStartColor());
@@ -124,7 +124,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
         this._startColor[2] + Math.round(this._deltaColor[2] * position)
       ];
 
-      var hexColor = "#" + color[0].toString(16) + color[1].toString(16) + color[2].toString(16);
+      var hexColor = "#" + qx.util.ColorUtil.rgbToHexString([color[0].toString(16), color[1].toString(16), color[2].toString(16)]);
 
       qx.bom.element.Style.set(this._element, "backgroundColor", hexColor);
     },
@@ -134,7 +134,9 @@ qx.Class.define("qx.fx.effect.core.Highlight",
     {
       this.base(arguments);
 
-      qx.lang.Function.delay(this._restore, 1000, this);
+      if (this.getRestoreBackground()) {
+        qx.lang.Function.delay(this._restore, 1000, this);
+      }
     },
 
 

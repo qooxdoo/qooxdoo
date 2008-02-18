@@ -46,6 +46,27 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
 
   extend : qx.fx.Base,
 
+  
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+      /**
+       * Flag indicating if the CSS attribute "display"
+       * should be modified by effect
+       */
+      modifyDisplay :
+      {
+        init : true,
+        check : "Boolean"
+      }
+
+   },
+
 
   /*
    *****************************************************************************
@@ -66,7 +87,10 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
     beforeSetup : function(effect)
     {
       qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
-      qx.bom.element.Style.set(this._element, "display", "block");
+
+      if (this.getModifyDisplay()) {
+        qx.bom.element.Style.set(this._element, "display", "block");
+      }
     }
 
   }

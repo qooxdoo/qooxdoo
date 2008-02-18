@@ -71,6 +71,16 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
     {
       init   : 0.0,
       refine : true
+    },
+
+    /**
+     * Flag indicating if the CSS attribute "display"
+     * should be modified by effect
+     */
+    modifyDisplay :
+    {
+      init : true,
+      check : "Boolean"
     }
 
   },
@@ -91,10 +101,19 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
     },
 
 
-    beforeSetup : function(effect)
+    beforeSetup : function()
     {
+      this._oldOpacity = qx.bom.element.Style.get(this._element, "opacity");
       qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
-      qx.bom.element.Style.set(this._element, "display", "block");
+    },
+    
+    beforeFinish : function()
+    {
+      if (this.getModifyDisplay()) {
+        qx.bom.element.Style.set(this._element, "display", "none");
+      }
+
+      qx.bom.element.Style.set(this._element, "opacity", this._oldOpacity);
     }
 
   }

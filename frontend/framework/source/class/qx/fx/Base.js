@@ -48,6 +48,9 @@ qx.Class.define("qx.fx.Base",
     *****************************************************************************
   */
 
+  /**
+   * @param element {Object} The DOM element
+   */
   construct : function(element)
   {
     this.base(arguments);
@@ -91,8 +94,8 @@ qx.Class.define("qx.fx.Base",
   properties :
   {
      /**
-     * Number of seconds the effect should run.
-     */
+      * Number of seconds the effect should run.
+      */
      duration :
      {
        init   : 1.0,
@@ -263,6 +266,7 @@ qx.Class.define("qx.fx.Base",
         var queue = this._getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
       }
+
     },
 
 

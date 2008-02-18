@@ -72,7 +72,7 @@ qx.Class.define("qx.fx.queue.Queue",
     /**
      * This method adds the given effect to the queue
      * and orders it based on its position.
-     * @param effect {Class} The effect.
+     * @param effect {Object} The effect.
      */
     add: function(effect)
     {
@@ -125,7 +125,7 @@ qx.Class.define("qx.fx.queue.Queue",
 
     /**
      * This method removes the given effect from the queue.
-     * @param effect {Class} The effect.
+     * @param effect {Object} The effect.
      */
     remove : function(effect)
     {

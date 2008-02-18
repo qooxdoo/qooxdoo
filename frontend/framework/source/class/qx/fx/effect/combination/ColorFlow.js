@@ -78,48 +78,60 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   properties :
   {
-
+    /**
+     * Initial background color value.
+     */
     startColor :
     {
-      init   : "#ffffff",
+      init  : "#ffffff",
       check : "Color"
     },
 
     endColor :
     {
-      init   : "#ffffaa",
+      init  : "#ffffaa",
       check : "Color"
     },
 
     forwardTransition :
     {
-      init   : null,
+      init  : null,
       check : "Function"
     },
 
     backwardTransition :
     {
-      init   : null,
+      init  : null,
       check : "Function"
     },
 
     forwardDuration :
     {
-      init   : 1.0,
+      init  : 1.0,
       check : "Number"
     },
 
     backwardDuration :
     {
-      init   : 1.0,
+      init  : 1.0,
       check : "Number"
     },
 
     delayBetween :
     {
-      init   : 0.3,
+      init  : 0.3,
       check : "Number"
+    },
+
+    /**
+     * Flag indicating if element's background color or image should be restored.
+     */
+    restoreBackground :
+    {
+      init : true,
+      check : "Boolean"
     }
+
 
   },
 
@@ -137,24 +149,29 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
     {
       this.base(arguments);
 
+      this._oldStyle = {
+        backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
+        backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
+      };
+      
       var counter = 0;
       var highlightEffectsReference = this._highlightEffects;
 
       this._highlightEffects[1].set({
-        startColor   : this.getStartColor(),
-        endColor     : this.getEndColor(),
-        duration     : this.getForwardDuration(),
-        transition   : this.getForwardTransition(),
-        restoreColor : false
+        startColor        : this.getStartColor(),
+        endColor          : this.getEndColor(),
+        duration          : this.getForwardDuration(),
+        transition        : this.getForwardTransition(),
+        restoreBackground : false
       });
 
       this._highlightEffects[2].set({
-        startColor   : this.getEndColor(),
-        endColor     : this.getStartColor(),
-        duration     : this.getBackwardDuration(),
-        transition   : this.getBackwardTransition(),
-        restoreColor : false,
-        delay        : this.getDelayBetween()
+        startColor        : this.getEndColor(),
+        endColor          : this.getStartColor(),
+        duration          : this.getBackwardDuration(),
+        transition        : this.getBackwardTransition(),
+        restoreBackground : false,
+        delay             : this.getDelayBetween()
       });
 
       for(var effect in this._highlightEffects)
@@ -173,6 +190,24 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
       this._highlightEffects[1].start();
 
+    },
+
+
+    finish : function()
+    {
+      this.base(arguments);
+
+      if (this.getRestoreBackground()) {
+        qx.lang.Function.delay(this._restore, 1000, this);
+      }
+    },
+
+
+    _restore : function()
+    {
+      for(var property in this._oldStyle) {
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      }
     }
 
   },
