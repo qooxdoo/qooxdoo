@@ -61,18 +61,23 @@ qx.Class.define("BasicSample",
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(2);
 
+      var w;
+
       for (var x=0; x<columns; x++)
       {
         for (var y=0; y<rows; y++)
         {
-          layout.add(new qx.ui.core.Widget().set({
+          w = new qx.ui.core.Widget();
+
+          w.set({
             backgroundColor: "red",
             height: boxSize,
             width: boxSize
-          }), y, x);
+          });
+
+          layout.add(w, y, x);
         }
       }
-
       box.setLayout(layout);
 
       return box;
