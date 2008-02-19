@@ -178,13 +178,6 @@ qx.Class.define("qx.fx.Base",
   statics :
   {
 
-    EffectPosition :
-    {
-      FRONT    : 'front',
-      END      : 'end',
-      WITHLAST : 'with-last'
-    },
-
     EffectState :
     {
       IDLE     : 'idle',
