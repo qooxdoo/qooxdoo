@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.core.Log)
+#require(qx.log2.Logger)
 
 ************************************************************************ */
 
@@ -69,37 +69,37 @@ qx.Class.define("qx.log.appender.Native",
       switch(evt.level)
       {
         case log.LEVEL_DEBUG:
-          if (qx.core.Log.debug) {
-            qx.core.Log.debug(msg);
+          if (qx.log2.Logger.debug) {
+            qx.log2.Logger.debug(msg);
           }
 
           break;
 
         case log.LEVEL_INFO:
-          if (qx.core.Log.info) {
-            qx.core.Log.info(msg);
+          if (qx.log2.Logger.info) {
+            qx.log2.Logger.info(msg);
           }
 
           break;
 
         case log.LEVEL_WARN:
-          if (qx.core.Log.warn) {
-            qx.core.Log.warn(msg);
+          if (qx.log2.Logger.warn) {
+            qx.log2.Logger.warn(msg);
           }
 
           break;
 
         default:
-          if (qx.core.Log.error) {
-            qx.core.Log.error(msg);
+          if (qx.log2.Logger.error) {
+            qx.log2.Logger.error(msg);
           }
 
           break;
       }
 
       // Force a stack dump, for helping locating the error
-      if (evt.level >= log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && qx.core.Log.trace) {
-        qx.core.Log.trace();
+      if (evt.level >= log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && qx.log2.Logger.trace) {
+        qx.log2.Logger.trace();
       }
     }
   }

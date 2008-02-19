@@ -466,8 +466,8 @@ qx.Class.define("qx.bom.element.Location",
         var top = offset.top + body.top - scroll.top;
       }
 
-      // qx.core.Log.debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
-      // qx.core.Log.debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
+      // qx.log2.Logger.debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
+      // qx.log2.Logger.debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
 
       var right = left + elem.offsetWidth;
       var bottom = top + elem.offsetHeight;

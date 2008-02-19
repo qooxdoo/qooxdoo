@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.layout.Util",
       // Continue as long as we need to do anything
       while (remaining != 0)
       {
-        // qx.core.Log.debug("Flex loop, remaining: " + remaining);
+        // qx.log2.Logger.debug("Flex loop, remaining: " + remaining);
 
         // Find minimum potential for next correction
         flexStep = Infinity;
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.layout.Util",
         // Respect maximum potential given through remaining space
         // The parent should always win in such conflicts.
         flexStep = Math.min(remaining, flexStep * flexSum) / flexSum;
-        // qx.core.Log.debug("Flex Step (corrected): " + flexStep);
+        // qx.log2.Logger.debug("Flex Step (corrected): " + flexStep);
 
 
         // Start with correction
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.layout.Util",
             // Update parent status
             remaining -= childOffset;
 
-            // qx.core.Log.debug("  - grow by: " + childOffset + " (potential: " + child.potential + ")");
+            // qx.log2.Logger.debug("  - grow by: " + childOffset + " (potential: " + child.potential + ")");
           }
         }
       }

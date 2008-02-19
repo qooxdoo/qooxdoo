@@ -31,15 +31,15 @@ qx.Class.define("BasicSample",
       inp1.focus();
 
       inp1.addListener("focus", function(e) {
-        qx.core.Log.debug("Element focused");
+        qx.log2.Logger.debug("Element focused");
       });
 
       inp1.addListener("blur", function(e) {
-        qx.core.Log.debug("Element blurred");
+        qx.log2.Logger.debug("Element blurred");
       });
 
       qx.bom.Element.addListener(document.documentElement, "focusin", function(e) {
-        qx.core.Log.debug("FocusIn: ", e.getTarget());
+        qx.log2.Logger.debug("FocusIn: ", e.getTarget());
       });
 
       body.add(inp1);
