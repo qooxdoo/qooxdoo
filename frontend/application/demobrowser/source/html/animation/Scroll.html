@@ -36,13 +36,23 @@
         myElement = document.getElementById("testDiv");;
         resetElement();
 
-        var animScrollUp = new qx.fx.effect.core.Scroll(myElement);
-        animScrollUp.setY(-100);
-        animScrollUp.setTransition(qx.fx.Transition.spring);
+
+        var scrollerQueue = qx.fx.queue.Manager.getInstance().getQueue("scroller");
+        scrollerQueue.setLimit(1);
 
         var animScrollDown = new qx.fx.effect.core.Scroll(myElement);
-        animScrollDown.setY(100);
-        animScrollDown.setTransition(qx.fx.Transition.sinoidal);
+        animScrollDown.set({
+          y          : 100,
+          queue      : scrollerQueue,
+          transition : qx.fx.Transition.sinoidal
+        });
+
+        var animScrollUp = new qx.fx.effect.core.Scroll(myElement);
+        animScrollUp.set({
+          y          : -100,
+          queue      : scrollerQueue,
+          transition : qx.fx.Transition.spring
+        });
 
         /* Buttons */
         var btnUp = new qx.legacy.ui.form.Button("Scroll Up");
