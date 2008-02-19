@@ -49,9 +49,12 @@ class TreeCompiler:
         if compiled != None:
             return compiled
 
-        tree = copy.deepcopy(self._treeLoader.getVariantsTree(fileId, variants))
+        tree = self._treeLoader.getVariantsTree(fileId, variants)
 
         if len(optimize) > 0:
+            # Protect original before optimizing
+            tree = copy.deepcopy(tree)
+            
             self._console.debug("Optimizing tree: %s..." % fileId)
             self._console.indent()
             self._optimizeHelper(tree, fileId, variants, optimize)

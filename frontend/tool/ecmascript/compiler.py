@@ -387,9 +387,6 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
 
     compileNode(node,opts)
 
-    if not result.endswith("\n"):
-        result += "\n"
-
     return result
 
 
