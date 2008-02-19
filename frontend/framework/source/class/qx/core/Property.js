@@ -129,7 +129,6 @@ qx.Class.define("qx.core.Property",
     {
       "Boolean"   : 'typeof value === "boolean"',
       "String"    : 'typeof value === "string"',
-      "NonEmptyString" : 'typeof value === "string" && value.length > 0',
 
       "Number"    : 'typeof value === "number" && isFinite(value)',
       "Integer"   : 'typeof value === "number" && isFinite(value) && value%1 === 0',
@@ -1158,14 +1157,6 @@ qx.Class.define("qx.core.Property",
           code.push('}');
         }
       }
-
-
-
-
-
-
-
-
 
 
 
