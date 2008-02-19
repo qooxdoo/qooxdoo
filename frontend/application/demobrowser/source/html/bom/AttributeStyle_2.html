@@ -4,9 +4,12 @@
   <title>qooxdoo &raquo; Demo Browser</title>
 
   <script type="text/javascript">
-    qxsettings = { "qx.enableApplicationLayout" : false };
+    qxsettings = {
+      "qx.application":"BasicSample",
+      "qx.enableApplicationLayout" : false
+    };
   </script>
-  
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -26,21 +29,21 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      
+
       var chk = qx.bom.Element.create("input", {
         type : "checkbox",
         checked : true,
         id : "chk"
       });
-      
+
       document.body.appendChild(chk);
-      
+
       var lab = qx.bom.Element.create("label", {
         "for" : "chk"
       });
-      
+
       qx.bom.element.Attribute.set(lab, "text", "Checkbox #1");
-      
+
       document.body.appendChild(lab);
     }
   }

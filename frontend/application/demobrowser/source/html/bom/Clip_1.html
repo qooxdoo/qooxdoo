@@ -4,9 +4,12 @@
   <title>qooxdoo &raquo; Demo Browser</title>
 
   <script type="text/javascript">
-    qxsettings = { "qx.enableApplicationLayout" : false };
+    qxsettings = {
+      "qx.application":"BasicSample",
+      "qx.enableApplicationLayout" : false
+    };
   </script>
-  
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -17,25 +20,25 @@
       width: 200px;
       background: red;
     }
-    
+
     #test1 div{
       border: 1px solid black;
       margin: 2px;
     }
   </style>
-  
+
   <div id="test1">
     <div id="test2">hello2</div>
     <div id="test3">hello3</div>
     <div id="test4">hello4</div>
   </div>
-  
+
   <br/>
   <br/>
   <br/>
   <br/>
   <br/>
-  
+
   <a href="javascript:qx.core.Init.getInstance().getApplication()._set0()">Set Clip 0</a>|
   <a href="javascript:qx.core.Init.getInstance().getApplication()._set1()">Set Clip 1</a>
   <a href="javascript:qx.core.Init.getInstance().getApplication()._set2()">Set Clip 2</a>
@@ -58,72 +61,72 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      
+
       var el = document.getElementById("test1");
-      
+
       var clip = qx.bom.element.Clip.get(el) || {};
       this.debug("Clip init: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
-    
+
     _set0 : function()
     {
       var el = document.getElementById("test1");
-      
+
       this.debug("Setting to: 20,20  120,40");
       qx.bom.element.Clip.set(el, 20, 20, 120, 40);
 
       var clip = qx.bom.element.Clip.get(el) || {};
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
-        
+
     _set1 : function()
     {
       var el = document.getElementById("test1");
-      
+
       this.debug("Setting to: 20,20  null,40");
       qx.bom.element.Clip.set(el, 20, 20, null, 40);
 
       var clip = qx.bom.element.Clip.get(el) || {};
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
-    
+
     _set2 : function()
     {
       var el = document.getElementById("test1");
-      
+
       this.debug("Setting to: 20,20  120,null");
       qx.bom.element.Clip.set(el, 20, 20, 120, null);
 
       var clip = qx.bom.element.Clip.get(el) || {};
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
-    
+
     _set3 : function()
     {
       var el = document.getElementById("test1");
-      
+
       this.debug("Setting to: null,20  120,40");
       qx.bom.element.Clip.set(el, null, 20, 120, 40);
 
       var clip = qx.bom.element.Clip.get(el) || {};
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
-    
+
     _set4 : function()
     {
       var el = document.getElementById("test1");
-      
+
       this.debug("Setting to: 20,null  120,40");
       qx.bom.element.Clip.set(el, 20, null, 120, 40);
 
       var clip = qx.bom.element.Clip.get(el) || {};
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },            
-    
+    },
+
     _reset : function()
     {
       var el = document.getElementById("test1");
-      
+
       this.debug("Resetting");
       qx.bom.element.Clip.reset(el);
 
