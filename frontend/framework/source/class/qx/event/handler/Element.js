@@ -91,7 +91,7 @@ qx.Class.define("qx.event.handler.Element",
     // interface implementation
     registerEvent : function(target, type, capture)
     {
-      var elementId = qx.core.Object.toHashCode(target);
+      var elementId = qx.core.ObjectRegistry.toHashCode(target);
       var listener = qx.lang.Function.listener(this._onNative, this, elementId);
 
       qx.event.Registration.addNativeListener(target, type, listener);
@@ -110,7 +110,7 @@ qx.Class.define("qx.event.handler.Element",
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
-      var id = qx.core.Object.toHashCode(target) + type;
+      var id = qx.core.ObjectRegistry.toHashCode(target) + type;
 
       var eventData = this._registeredEvents[id];
       qx.event.Registration.removeNativeListener(target, type, eventData.listener);

@@ -240,7 +240,7 @@ qx.Class.define("qx.legacy.ui.selection.DomSelectionManager",
         return oItem._hash;
       }
 
-      return oItem._hash = qx.core.Object.toHashCode(oItem);
+      return oItem._hash = qx.core.ObjectRegistry.toHashCode(oItem);
     },
 
 

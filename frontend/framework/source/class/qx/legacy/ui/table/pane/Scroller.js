@@ -1670,7 +1670,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
           // Workaround: Calling focus() directly has no effect
           qx.event.Timer.once(function()
           {
-            if (this.getDisposed())
+            if (this.isDisposed())
             {
               return;
             }

@@ -28,7 +28,7 @@
  *
  * Stores a collection of generic JavaScript objects into a registry.
  * The registered objects can be retrieved by their qooxdoo hash code
- * returned by {@link qx.core.Object.toHashCode}.
+ * returned by {@link qx.core.ObjectRegistry.toHashCode}.
  */
 qx.Class.define("qx.util.manager.Object",
 {
@@ -75,10 +75,10 @@ qx.Class.define("qx.util.manager.Object",
      */
     add : function(vObject)
     {
-      if (this.getDisposed()) {
+      if (this.isDisposed()) {
         return;
       }
-      var hash = qx.core.Object.toHashCode(vObject);
+      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       this._objects[hash] = vObject;
       return hash;
     },
@@ -91,11 +91,11 @@ qx.Class.define("qx.util.manager.Object",
      */
     remove : function(vObject)
     {
-      if (this.getDisposed()) {
+      if (this.isDisposed()) {
         return false;
       }
 
-      var hash = qx.core.Object.toHashCode(vObject);
+      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       delete this._objects[hash];
     },
 
@@ -106,7 +106,7 @@ qx.Class.define("qx.util.manager.Object",
      * @param obj {Object} Object to check
      */
     has : function(vObject) {
-      var hash = qx.core.Object.toHashCode(vObject);
+      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       return this._objects[hash] !== undefined;
     },
 
@@ -119,7 +119,7 @@ qx.Class.define("qx.util.manager.Object",
      * @return {var} TODOC
      */
     get : function(vObject) {
-      var hash = qx.core.Object.toHashCode(vObject);
+      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       return this._objects[hash];
     },
 

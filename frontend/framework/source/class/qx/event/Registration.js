@@ -76,7 +76,7 @@ qx.Bootstrap.define("qx.event.Registration",
         var win = window;
       }
 
-      var id = qx.core.Object.toHashCode(win);
+      var id = qx.core.ObjectRegistry.toHashCode(win);
       var manager = this.__managers[id];
 
       if (!manager)
@@ -101,7 +101,7 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     removeManager : function(mgr)
     {
-      var id = qx.core.Object.toHashCode(mgr.getWindow());
+      var id = qx.core.ObjectRegistry.toHashCode(mgr.getWindow());
       delete this.__managers[id];
     },
 
