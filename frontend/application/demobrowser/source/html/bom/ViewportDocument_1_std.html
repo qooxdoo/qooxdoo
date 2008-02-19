@@ -3,11 +3,14 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
-  
+
   <script type="text/javascript">
-    qxsettings = { "qx.enableApplicationLayout" : false };
+    qxsettings = {
+      "qx.application":"BasicSample",
+      "qx.enableApplicationLayout" : false
+    };
   </script>
-  
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -42,7 +45,7 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      
+
       document.body.onclick = qx.lang.Function.bind(function()
       {
         this.debug("Document Dimension: " + qx.bom.Document.getWidth() + "x" + qx.bom.Document.getHeight());

@@ -5,6 +5,7 @@
 
   <script type="text/javascript">
   qxsettings = {
+    "qx.application":"BasicSample",
     "qx.enableApplicationLayout" : false,
     "qx.boxModelCorrection" : false
   };
@@ -61,7 +62,7 @@
 	  function domReady() {
 			qx.core.Init.getInstance().debug("DOM Ready... juhi :)")
 		}
-		
+
     qx.event.Registration.addListener(window, "domready", domReady, this);
 	</script>
 </head>
@@ -123,7 +124,7 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      
+
       qx.event.Registration.addListener(window, "resize", this._onResize, this);
 
       var cmd = new qx.event.Command("Shift-Meta-F1");
@@ -172,7 +173,7 @@ qx.Class.define("BasicSample",
 
       //qx.event.Registration.addListener(document.documentElement, "click", this._positionDiv, this);
 
-      qx.event.Registration.addListener(this._juhu, "click", function() 
+      qx.event.Registration.addListener(this._juhu, "click", function()
       {
         var e = qx.event.Registration.createEvent(qx.event.type.Event, ["juhu"]);
         qx.event.Registration.dispatchEvent(this, e);
@@ -188,7 +189,7 @@ qx.Class.define("BasicSample",
       }, this);
 
     },
-    
+
     _onResize : function(e) {
       this.debug("Resize:" + e);
     },
@@ -209,19 +210,19 @@ qx.Class.define("BasicSample",
       this.debug("scroll:" + e.getTarget());
     },
 
-    _cascadeCapture : function(e) 
+    _cascadeCapture : function(e)
     {
       var elem = e.getCurrentTarget();
       var title = e.getEventPhase() == 2 ? "at-target: " : "capture: ";
-      
+
       this.debug(title + elem.id + " (capture-listener)");
     },
 
-    _cascadeBubble : function(e) 
+    _cascadeBubble : function(e)
     {
       var elem = e.getCurrentTarget();
       var title = e.getEventPhase() == 2 ? "at-target: " : "bubble: ";
-      
+
       this.debug(title + elem.id + " (bubble-listener)");
     },
 
