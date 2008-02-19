@@ -33,7 +33,6 @@
 qx.Class.define("qx.legacy.application.Basic",
 {
   extend : qx.core.Object,
-  implement : qx.application.IApplication,
 
 
 

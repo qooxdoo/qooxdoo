@@ -200,7 +200,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     */
 
 
-    $$uiReady = false,
+    $$uiReady : false,
 
     /**
      * Flush all global queues
