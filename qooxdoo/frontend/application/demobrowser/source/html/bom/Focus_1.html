@@ -4,7 +4,10 @@
   <title>qooxdoo &raquo; Demo Browser</title>
 
   <script type="text/javascript">
-    qxsettings = { "qx.enableApplicationLayout" : false };
+    qxsettings = {
+      "qx.application":"BasicSample",
+      "qx.enableApplicationLayout" : false
+    };
   </script>
 
   <script type="text/javascript" src="../../script/demo.js"></script>
@@ -87,56 +90,56 @@ qx.Class.define("BasicSample",
       qx.event.Registration.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
       qx.event.Registration.addListener(document.documentElement, "focusin", this._onFocusIn, this);
       qx.event.Registration.addListener(document.documentElement, "focusout", this._onFocusOut, this);
-      
+
       qx.event.Registration.addListener(window, "focus", this._onWindowFocus, this);
       qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
-      
+
       var h2 = document.getElementById("h2");
       qx.bom.Element.addListener(h2, "mouseup", this._onHeaderMouseUp, this);
-      
+
       var f1 = document.getElementById("f1");
       qx.bom.Element.addListener(f1, "keydown", this._onInputKeyDown, this);
-      
+
       qx.bom.Element.addListener(document.body, "keydown", this._onAnyKeyDown, this);
     },
-    
+
     _onWindowFocus : function(e)
     {
       this.debug("Window focussed");
     },
-    
+
     _onWindowBlur : function(e)
     {
       this.debug("Window blurred");
     },
-    
-    _onActivate : function(e) 
+
+    _onActivate : function(e)
     {
-      this.debug("Activate: " + e.getTarget());      
+      this.debug("Activate: " + e.getTarget());
       e.getTarget().style.background = "#E8ECF6";
     },
-    
-    _onDeactivate : function(e) 
+
+    _onDeactivate : function(e)
     {
       this.debug("Deactivate: " + e.getTarget());
       e.getTarget().style.background = "";
     },
-    
-    _onFocusIn : function(e) 
+
+    _onFocusIn : function(e)
     {
       this.debug("FocusIn: " + e.getTarget());
-      
-      if (qx.bom.client.Engine.MSHTML) 
+
+      if (qx.bom.client.Engine.MSHTML)
       {
         e.getTarget().style.border = "1px dotted black";
       }
-      else 
+      else
       {
         e.getTarget().style.outline = "1px dotted black";
       }
     },
-    
-    _onFocusOut : function(e) 
+
+    _onFocusOut : function(e)
     {
       this.debug("FocusOut: " + e.getTarget());
 
@@ -146,34 +149,34 @@ qx.Class.define("BasicSample",
         e.getTarget().style.outline = "";
       }
     },
-    
+
     _onHeaderMouseUp : function(e)
     {
       var f1 = document.getElementById("f1");
-      
+
       // These both should work identical
-      // qx.bom.Element.focus(f1); 
+      // qx.bom.Element.focus(f1);
       f1.focus();
     },
-    
+
     _onInputKeyDown : function(e)
     {
       this.debug("Input-Field: " + e.getKeyIdentifier());
-      if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape") 
+      if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape")
       {
         this.debug("Blur field");
-        
+
         // These both should work identical
         // qx.bom.Element.blur(e.getTarget());
-        
+
         e.getTarget().blur();
-      } 
+      }
     },
-    
+
     _onAnyKeyDown : function(e)
     {
       this.debug("Key-Action on " + e.getTarget() + " [" + e.getKeyIdentifier() + "]");
-       
+
     }
   }
 });
