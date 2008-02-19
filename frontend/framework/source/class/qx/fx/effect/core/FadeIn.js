@@ -46,7 +46,7 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
 
   extend : qx.fx.Base,
 
-  
+
   /*
    *****************************************************************************
       PROPERTIES
