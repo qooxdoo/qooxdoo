@@ -50,7 +50,8 @@ qx.Class.define("qx.legacy.application.Gui",
     uiReady :
     {
       check : "Boolean",
-      init : false
+      init : false,
+      apply : "_applyUiReady"
     }
   },
 
@@ -117,6 +118,13 @@ qx.Class.define("qx.legacy.application.Gui",
      * @type member
      */
     terminate : function() {},
+
+
+    _applyUiReady : function(value)
+    {
+      // Hack to make compatible with new init()
+      qx.legacy.ui.core.Widget.$$uiReady = true;
+    },
 
 
     /**
