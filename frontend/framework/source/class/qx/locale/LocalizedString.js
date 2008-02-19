@@ -106,8 +106,6 @@ qx.Class.define("qx.locale.LocalizedString",
 
   members :
   {
-    _autoDispose : false,
-
     /**
      * Return translation of the string using the current locale
      *
