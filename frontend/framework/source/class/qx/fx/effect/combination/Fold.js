@@ -72,6 +72,26 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
   /*
    *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+      /**
+       * Flag indicating if the CSS attribute "display"
+       * should be modified by effect
+       */
+      modifyDisplay :
+      {
+        init : true,
+        check : "Boolean"
+      }
+
+   },
+
+  /*
+   *****************************************************************************
       MEMBERS
    *****************************************************************************
    */
@@ -79,21 +99,20 @@ qx.Class.define("qx.fx.effect.combination.Fold",
    members :
    {
 
-    afterSetup : function()
-    {
-      qx.bom.element.Style.set(this._element, "display", "none");
-    },
-
     start : function()
     {
       this.base(arguments);
 
       var oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width  : qx.bom.element.Dimension.getWidth(this._element),
-        height : qx.bom.element.Dimension.getHeight(this._element)
+        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width   : qx.bom.element.Dimension.getWidth(this._element),
+        height  : qx.bom.element.Dimension.getHeight(this._element),
+        display : qx.bom.element.Style.get(this._element, "display")
       };
+
+      var modifyDisplay = this.getModifyDisplay();
+
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
 
       this._innerScaleEffect.afterFinishInternal = function(effect)
@@ -102,7 +121,9 @@ qx.Class.define("qx.fx.effect.combination.Fold",
         qx.bom.element.Style.set(this._element, "overflow", "visible");
 
         for (var property in oldStyle) {
-          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+          if( (property != "display") || !modifyDisplay ){
+            qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+          }
         }
       };
 

@@ -70,6 +70,27 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
   /*
    *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+      /**
+       * Flag indicating if the CSS attribute "display"
+       * should be modified by effect
+       */
+      modifyDisplay :
+      {
+        init : true,
+        check : "Boolean"
+      }
+
+   },
+
+
+  /*
+   *****************************************************************************
       MEMBERS
    *****************************************************************************
    */
@@ -78,40 +99,45 @@ qx.Class.define("qx.fx.effect.combination.Puff",
    {
     afterFinish : function()
     {
-      for(var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      if (this.getModifyDisplay()) {
+        qx.bom.element.Style.set(this._element, "display", "none");
       }
-      qx.bom.element.Style.set(this._element, "display", "none");
     },
 
-    setup : function()
+
+    start : function()
     {
       this.base(arguments);
 
-      this._oldStyle = {
+      var oldStyle = {
         top     : qx.bom.element.Location.getTop(this._element, "scroll"),
         left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
         width   : qx.bom.element.Dimension.getWidth(this._element),
         height  : qx.bom.element.Dimension.getHeight(this._element),
         opacity : qx.bom.element.Style.get(this._element, "opacity")
       };
-    },
 
-    start : function()
-    {
-      this.base(arguments);
+
+      this._effects[0].afterFinishInternal = function(effect)
+      {
+        for (var property in oldStyle) {
+          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+        }
+      };
+
 
       this._effects[0].set({
         scaleTo : 200,
         sync : true,
         scaleFromCenter : true,
         scaleContent : true,
-        restoreAfterFinish : true
+        restoreAfterFinish : false
       });
 
       this._effects[1].set({
         sync: true,
-        to: 0.0
+        to: 0.0,
+        modifyDisplay : false
       });
 
       this._mainEffect.start();

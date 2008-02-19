@@ -103,6 +103,16 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     {
       init : 100,
       check : "Number"
+    },
+
+    /**
+     * Flag indicating if the CSS attribute "display"
+     * should be modified by effect
+     */
+    modifyDisplay :
+    {
+      init : true,
+      check : "Boolean"
     }
 
   },
@@ -189,7 +199,8 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
 
       this._fadeEffect.set({
         duration : 0.5,
-        sync : true
+        sync : true,
+        modifyDisplay : this.getModifyDisplay()
       });
 
       this._mainEffect.start();
