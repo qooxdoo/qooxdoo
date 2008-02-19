@@ -2,6 +2,14 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
+
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.application":"BasicSample",
+      "qx.enableApplicationLayout" : false
+    };
+  </script>
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -33,12 +41,12 @@ qx.Class.define("BasicSample",
       for (var i=0; i<40; i++)
       {
         il = new qx.html.Element;
-        il.setAttribute("id", "row" + i);        
+        il.setAttribute("id", "row" + i);
         il.setStyle("marginBottom", "2px");
         il.setStyle("float", "left");
-        il.setStyle("clear", "left");        
+        il.setStyle("clear", "left");
         wrapper.add(il);
-        
+
         for (var j=0; j<40; j++)
         {
           jl = new qx.html.Element;
@@ -46,12 +54,12 @@ qx.Class.define("BasicSample",
           jl.setStyle("marginRight", "2px");
           jl.setStyle("float", "left");
           jl.setStyle("width", "12px");
-          jl.setStyle("height", "12px");          
+          jl.setStyle("height", "12px");
           jl.setStyle("backgroundColor", "red");
           il.add(jl)
-        }        
+        }
       }
-      body.debug("Create runtime: " + (new Date-start) + "ms");      
+      body.debug("Create runtime: " + (new Date-start) + "ms");
 
       var start = new Date;
       qx.html.Element.flush();
@@ -59,8 +67,6 @@ qx.Class.define("BasicSample",
     }
   }
 });
-
-qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>
