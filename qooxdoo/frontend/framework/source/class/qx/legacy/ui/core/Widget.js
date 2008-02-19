@@ -200,6 +200,8 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     */
 
 
+    $$uiReady = false,
+
     /**
      * Flush all global queues
      *
@@ -212,7 +214,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
         return;
       }
 
-      if (qx.legacy.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
+      if (qx.legacy.ui.core.Widget._inFlushGlobalQueues || !qx.legacy.ui.core.Widget.$$uiReady) {
         return;
       }
 
