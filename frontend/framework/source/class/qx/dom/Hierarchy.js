@@ -162,9 +162,9 @@ qx.Class.define("qx.dom.Hierarchy",
     isRendered : function(element)
     {
       // This module is highly used by new qx.html.Element
-      // Copied over details from qx.dom.Node.getDocument() and 
+      // Copied over details from qx.dom.Node.getDocument() and
       // this.contains() for performance reasons.
-      
+
       // Offset parent is a good start to test. It omits document detection
       // and function calls.
       if (!element.offsetParent) {
@@ -172,18 +172,18 @@ qx.Class.define("qx.dom.Hierarchy",
       }
 
       var doc = element.ownerDocument || element.document;
-      
+
       // This is available after most browser excluding gecko haved copied it from mshtml.
       // Contains() is only available on real elements in webkit and not on the document.
       if (doc.body.contains) {
         return doc.body.contains(element);
       }
-      
+
       // Gecko way, DOM3 method
       if (doc.compareDocumentPosition) {
         return !!(doc.compareDocumentPosition(element) & 16);
       }
-      
+
       // Should not happen :)
       throw new Error("Missing support for isRendered()!");
     },
@@ -299,23 +299,15 @@ qx.Class.define("qx.dom.Hierarchy",
     getChildElements : function(element)
     {
       element = element.firstChild;
-    
+
       if (!element) {
         return [];
       }
-    
-      var children = [];
-    
-      while (element)
-      {
-        if(element.nodeType == 1) {
-          children.push(element);
-          children = children.concat(qx.dom.Hierarchy.getChildElements(element));
-        }
-        element = element.nextSibling;
-      }
-    
-      return children;
+
+      var arr = this.getNextSiblings(element);
+      arr.unshift(element);
+
+      return arr;
     },
 
 
