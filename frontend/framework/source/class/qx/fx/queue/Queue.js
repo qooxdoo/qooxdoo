@@ -98,8 +98,8 @@ qx.Class.define("qx.fx.queue.Queue",
 
       effect._startOn  += timestamp;
       effect._finishOn += timestamp;
-      
-      if (this._effects.length < effect.getQueue().getLimit()) {
+
+      if ( (!effect.getQueue().getLimit) || (this._effects.length < effect.getQueue().getLimit()) ) {
         this._effects.push(effect)
       }
 
