@@ -299,20 +299,23 @@ qx.Class.define("qx.dom.Hierarchy",
     getChildElements : function(element)
     {
       element = element.firstChild;
-
+    
       if (!element) {
         return [];
       }
-
-      while (element && element.nodeType != 1) {
+    
+      var children = [];
+    
+      while (element)
+      {
+        if(element.nodeType == 1) {
+          children.push(element);
+          children = children.concat(qx.dom.Hierarchy.getChildElements(element));
+        }
         element = element.nextSibling;
       }
-
-      if (element) {
-        return [ element ].concat(element.nextSiblings());
-      }
-
-      return [];
+    
+      return children;
     },
 
 
