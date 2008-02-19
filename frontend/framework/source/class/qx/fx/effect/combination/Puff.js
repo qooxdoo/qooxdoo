@@ -97,7 +97,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
    members :
    {
-    afterFinish : function()
+    afterFinishInternal : function()
     {
       if (this.getModifyDisplay()) {
         qx.bom.element.Style.set(this._element, "display", "none");
