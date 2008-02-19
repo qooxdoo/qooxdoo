@@ -61,9 +61,7 @@ qx.Class.define("qx.core.Object",
   {
     this.$$hash = qx.core.Object.__availableHashCode++;
 
-    if (this._autoDispose) {
-      qx.core.Object.__db[this.$$hash] = this;
-    }
+    qx.core.Object.__db[this.$$hash] = this;
   },
 
 
@@ -272,10 +270,6 @@ qx.Class.define("qx.core.Object",
 
   members :
   {
-    /** If the object should automatically be disposed on application unload */
-    _autoDispose : true,
-
-
     /*
     ---------------------------------------------------------------------------
       BASICS
