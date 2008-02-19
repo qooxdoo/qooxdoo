@@ -113,6 +113,16 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     {
       init : 0.0,
       refine : true
+    },
+
+    /**
+     * Flag indicating if the CSS attribute "display"
+     * should be modified by effect
+     */
+    modifyDisplay :
+    {
+      init : true,
+      check : "Boolean"
     }
 
   },
@@ -136,14 +146,15 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
       this._scaleEffect.afterFinishInternal = function()
       {
         qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
-        qx.bom.element.Style.set(this._element, "display", "none");
       };
 
     },
 
-    afterSetup : function()
+    afterFinish : function()
     {
-      qx.bom.element.Style.set(this._element, "display", "none");
+      if (this.getModifyDisplay()) {
+        qx.bom.element.Style.set(this._element, "display", "none");
+      }
     },
 
     start : function()
