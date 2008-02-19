@@ -106,7 +106,7 @@ qx.Class.define("qx.fx.effect.core.FadeOut",
       this._oldOpacity = qx.bom.element.Style.get(this._element, "opacity");
       qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
     },
-    
+
     beforeFinish : function()
     {
       if (this.getModifyDisplay()) {

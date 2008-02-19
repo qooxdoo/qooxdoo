@@ -96,7 +96,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
   properties :
   {
-  
+
     /**
     * Number of seconds the effect should run.
     */
@@ -105,7 +105,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
       init : 0.4,
       refine : true
     },
-    
+
     /**
      * Initial opacity value
      */
@@ -114,7 +114,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
       init : 0.0,
       refine : true
     }
-  
+
   },
 
 
@@ -123,47 +123,47 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
       MEMBERS
    *****************************************************************************
    */
-  
+
   members :
   {
-  
+
     setup : function()
     {
       this.base(arguments);
-      
+
       this._oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
-      
+
       this._scaleEffect.afterFinishInternal = function()
       {
         qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
         qx.bom.element.Style.set(this._element, "display", "none");
       };
-    
+
     },
-    
+
     afterSetup : function()
     {
       qx.bom.element.Style.set(this._element, "display", "none");
     },
-    
+
     start : function()
     {
       this.base(arguments);
       this._appearEffect.start();
     }
-  
+
   },
-  
-  
+
+
    /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
-  
+
   destruct : function()
   {
     this._disposeObjects("_appearEffect", "_scaleEffect");
   }
-  
+
 });
