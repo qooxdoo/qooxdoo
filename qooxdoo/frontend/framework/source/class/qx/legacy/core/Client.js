@@ -271,10 +271,10 @@ qx.Class.define("qx.legacy.core.Client",
 
     _deprecated : function()
     {
-      if (qx.core.Log)
+      if (qx.log2.Logger)
       {
-        //qx.core.Log.warn("Usage of old style qx.legacy.core.Client. Call trace follows:")
-        //qx.core.Log.trace();
+        //qx.log2.Logger.warn("Usage of old style qx.legacy.core.Client. Call trace follows:")
+        //qx.log2.Logger.trace();
       }
     },
 

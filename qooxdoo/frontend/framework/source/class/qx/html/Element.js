@@ -153,7 +153,7 @@ qx.Class.define("qx.html.Element",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this._debug) {
-          qx.core.Log.debug("Flushing elements...");
+          qx.log2.Logger.debug("Flushing elements...");
         }
       }
 
@@ -217,7 +217,7 @@ qx.Class.define("qx.html.Element",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this._debug) {
-            qx.core.Log.debug("Switching visibility to: " + obj._visible);
+            qx.log2.Logger.debug("Switching visibility to: " + obj._visible);
           }
         }
 
