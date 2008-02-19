@@ -39,7 +39,7 @@
  * in {@link qx.event.handler} defines the available features.
  *
  */
-qx.Class.define("qx.event.Registration",
+qx.Bootstrap.define("qx.event.Registration",
 {
   /*
   *****************************************************************************
