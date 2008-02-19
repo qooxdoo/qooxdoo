@@ -195,7 +195,7 @@ qx.Class.define("qx.event.handler.Application",
 
   destruct : function()
   {
-    this._stopWindowObserver();
+    this._stopObserver();
   },
 
 
