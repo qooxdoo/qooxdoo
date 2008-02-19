@@ -19,11 +19,36 @@
 
 qx.Bootstrap.define("qx.core.ObjectRegistry",
 {
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
   statics :
   {
+    /** {Map} Internal data structure to store objects */
     __registry : {},
+
+
+    /** {Integer} Next free hash code. */
     __nextHash : 0,
 
+
+    /**
+     * Registers an object into the database. This adds a hashcode
+     * to the object (if not already done before) and stores it under
+     * this hashcode. You can access this object later using the hashcode
+     * by calling {@link #fromHashCode}.
+     *
+     * All registered objects are automatically disposed on application
+     * shutdown. Each registered object must at least have a method
+     * called <code>dispose</code>.
+     *
+     * @type static
+     * @param obj {Object} Any object with a dispose() method
+     * @return {void}
+     */
     register : function(obj)
     {
       var hash = obj.$$hash;
@@ -38,6 +63,14 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       this.__registry[hash] = obj;
     },
 
+
+    /**
+     * Removes the given object from the database.
+     *
+     * @type static
+     * @param obj {Object} Any previously registered object
+     * @return {void}
+     */
     unregister : function(obj)
     {
       var hash = obj.$$hash;
@@ -82,6 +115,15 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       return this.__registry[hash] || null;
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
 
   defer : function(statics)
   {
