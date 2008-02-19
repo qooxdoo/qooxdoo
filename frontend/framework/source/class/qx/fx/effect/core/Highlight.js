@@ -79,7 +79,18 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       {
         init : true,
         check : "Boolean"
+      },
+
+      /**
+       * Flag indicating if element's background image should consists during effect.
+       * Useful for no-repeating background images.
+       */
+      keepBackgroundImage :
+      {
+        init : false,
+        check : "Boolean"
       }
+
    },
 
 
@@ -101,7 +112,9 @@ qx.Class.define("qx.fx.effect.core.Highlight",
         backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
       };
 
-      qx.bom.element.Style.set(this._element, "backgroundImage", "none");
+      if (!this.getKeepBackgroundImage()) {
+        qx.bom.element.Style.set(this._element, "backgroundImage", "none");
+      }
 
       this._startColor = qx.util.ColorUtil.cssStringToRgb(this.getStartColor());
       this._endColor = qx.util.ColorUtil.cssStringToRgb(this.getEndColor());

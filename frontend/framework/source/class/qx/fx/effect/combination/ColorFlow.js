@@ -157,8 +157,18 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
     {
       init : false,
       check : "Boolean"
-    }
+    },
 
+
+    /**
+     * Flag indicating if element's background image should consists during effect.
+     * Useful for no-repeating background images.
+     */
+    keepBackgroundImage :
+    {
+      init : false,
+      check : "Boolean"
+    }
 
   },
 
@@ -180,25 +190,27 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
         backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
       };
-      
+
       var counter = 0;
       var highlightEffectsReference = this._highlightEffects;
 
       this._highlightEffects[1].set({
-        startColor        : this.getStartColor(),
-        endColor          : this.getEndColor(),
-        duration          : this.getForwardDuration(),
-        transition        : this.getForwardTransition(),
-        restoreBackground : false
+        startColor          : this.getStartColor(),
+        endColor            : this.getEndColor(),
+        duration            : this.getForwardDuration(),
+        transition          : this.getForwardTransition(),
+        restoreBackground   : false,
+        keepBackgroundImage : this.getKeepBackgroundImage()
       });
 
       this._highlightEffects[2].set({
-        startColor        : this.getEndColor(),
-        endColor          : this.getStartColor(),
-        duration          : this.getBackwardDuration(),
-        transition        : this.getBackwardTransition(),
-        restoreBackground : false,
-        delay             : this.getDelayBetween()
+        startColor          : this.getEndColor(),
+        endColor            : this.getStartColor(),
+        duration            : this.getBackwardDuration(),
+        transition          : this.getBackwardTransition(),
+        restoreBackground   : false,
+        keepBackgroundImage : this.getKeepBackgroundImage(),
+        delay               : this.getDelayBetween()
       });
 
       for(var effect in this._highlightEffects)
