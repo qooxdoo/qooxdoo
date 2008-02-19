@@ -39,12 +39,12 @@
   <br/>
   <br/>
 
-  <a href="javascript:qx.core.Init.getInstance().getApplication()._set0()">Set Clip 0</a>|
-  <a href="javascript:qx.core.Init.getInstance().getApplication()._set1()">Set Clip 1</a>
-  <a href="javascript:qx.core.Init.getInstance().getApplication()._set2()">Set Clip 2</a>
-  <a href="javascript:qx.core.Init.getInstance().getApplication()._set3()">Set Clip 3</a>
-  <a href="javascript:qx.core.Init.getInstance().getApplication()._set4()">Set Clip 4</a>|
-  <a href="javascript:qx.core.Init.getInstance().getApplication()._reset()">Reset Clip</a>
+  <a href="javascript:set0()">Set Clip 0</a>|
+  <a href="javascript:set1()">Set Clip 1</a>
+  <a href="javascript:set2()">Set Clip 2</a>
+  <a href="javascript:set3()">Set Clip 3</a>
+  <a href="javascript:set4()">Set Clip 4</a>|
+  <a href="javascript:reset()">Reset Clip</a>
 
   <div id="description">
   </div>
@@ -52,89 +52,76 @@
   <div id="test"></div>
 
   <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
+    var el = document.getElementById("test1");
 
-  members :
-  {
-    main : function()
+    var clip = qx.bom.element.Clip.get(el) || {};
+    qx.log2.Logger.debug("Clip init: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+
+    function set0()
     {
-      this.base(arguments);
-
       var el = document.getElementById("test1");
+
+      qx.log2.Logger.debug("Setting to: 20,20  120,40");
+      qx.bom.element.Clip.set(el, {left:20, top:20, width:120, height:40});
 
       var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip init: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },
+      qx.log2.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+    }
 
-    _set0 : function()
+    function set1()
     {
       var el = document.getElementById("test1");
 
-      this.debug("Setting to: 20,20  120,40");
-      qx.bom.element.Clip.set(el, 20, 20, 120, 40);
+      qx.log2.Logger.debug("Setting to: 20,20  null,40");
+      qx.bom.element.Clip.set(el, {left:20, top:20, height:40});
 
       var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },
+      qx.log2.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+    }
 
-    _set1 : function()
+    function set2()
     {
       var el = document.getElementById("test1");
 
-      this.debug("Setting to: 20,20  null,40");
-      qx.bom.element.Clip.set(el, 20, 20, null, 40);
+      qx.log2.Logger.debug("Setting to: 20,20  120,null");
+      qx.bom.element.Clip.set(el, {left:20, top:20, width:120});
 
       var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },
+      qx.log2.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+    }
 
-    _set2 : function()
+    function set3()
     {
       var el = document.getElementById("test1");
 
-      this.debug("Setting to: 20,20  120,null");
-      qx.bom.element.Clip.set(el, 20, 20, 120, null);
+      qx.log2.Logger.debug("Setting to: null,20  120,40");
+      qx.bom.element.Clip.set(el, {top:20, width:120, height:40});
 
       var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },
+      qx.log2.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+    }
 
-    _set3 : function()
+    function set4()
     {
       var el = document.getElementById("test1");
 
-      this.debug("Setting to: null,20  120,40");
-      qx.bom.element.Clip.set(el, null, 20, 120, 40);
+      qx.log2.Logger.debug("Setting to: 20,null  120,40");
+      qx.bom.element.Clip.set(el, {left:20, width:120, height:40});
 
       var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },
+      qx.log2.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+    }
 
-    _set4 : function()
+    function reset()
     {
       var el = document.getElementById("test1");
 
-      this.debug("Setting to: 20,null  120,40");
-      qx.bom.element.Clip.set(el, 20, null, 120, 40);
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    },
-
-    _reset : function()
-    {
-      var el = document.getElementById("test1");
-
-      this.debug("Resetting");
+      qx.log2.Logger.debug("Resetting");
       qx.bom.element.Clip.reset(el);
 
       var clip = qx.bom.element.Clip.get(el) || {};
-      this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
+      qx.log2.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     }
-  }
-});
   </script>
 </body>
 </html>
