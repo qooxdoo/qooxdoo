@@ -476,6 +476,9 @@ class Generator:
 
 
     def generateTranslationCode(self, translationMaps, format=False):
+        if translationMaps == None:
+            return ""
+            
         result = 'if(!window.qxlocales)qxlocales={};'
         locales = translationMaps[0]  # TODO: just one currently
 
