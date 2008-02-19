@@ -60,7 +60,6 @@ qx.Class.define("qx.core.Object",
   construct : function()
   {
     qx.core.ObjectRegistry.register(this);
-
   },
 
 
@@ -75,129 +74,7 @@ qx.Class.define("qx.core.Object",
   statics :
   {
     /** Internal type */
-    $$type : "Object",
-
-
-    /**
-     * Destructor. This method is called by qooxdoo on object destruction.
-     *
-     * Any class that holds resources like links to DOM nodes must override
-     * this method and free these resources.
-     *
-     * @type static
-     * @param unload {Boolean?false} Whether the dispose is fired through the page unload event
-     * @return {void}
-     */
-    dispose : function(unload)
-    {
-      if (this.$$disposed) {
-        return;
-      }
-
-      this.$$disposed = true;
-      this.__unload = unload || false;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
-        {
-          var disposeStart = new Date;
-          qx.log2.Logger.debug("Disposing qooxdoo application...");
-        }
-      }
-
-      var vObject, vObjectDb = this.__db;
-
-      for (var key in vObjectDb)
-      {
-        vObject = vObjectDb[key];
-
-        if (vObject && vObject.$$disposed === false)
-        {
-          try
-          {
-            vObject.dispose();
-          }
-          catch(ex)
-          {
-            if (qx.core.Variant.isSet("qx.debug", "on"))
-            {
-              if (window.console) {
-                qx.log2.Logger.warn("Could not dispose: " + vObject + ": ", ex);
-              } else {
-                throw ex;
-              }
-            }
-          }
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
-        {
-          // check dom
-          var elems = document.all ? document.all : document.getElementsByTagName("*");
-
-          qx.log2.Logger.debug("Checking " + elems.length + " elements for object references...");
-
-          for (var i=0, l=elems.length; i<l; i++)
-          {
-            var elem = elems[i];
-
-            for (var key in elem)
-            {
-              try
-              {
-                if (typeof elem[key] == "object")
-                {
-                  if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array) {
-
-                    var name = "unknown object";
-
-                    if (elem[key] instanceof qx.core.Object) {
-                      name = elem[key].classname + "[" + elem[key].toHashCode() + "]";
-                    }
-
-                    qx.log2.Logger.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
-                  }
-                }
-              }
-              catch(ex)
-              {
-                // ignore access errors
-              }
-            }
-          }
-
-          qx.log2.Logger.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
-        }
-      }
-
-      this.__db = [];
-    },
-
-
-    /**
-     * Returns whether a global dispose is currently taking place.
-     *
-     * @type static
-     * @return {Boolean} whether a global dispose is taking place.
-     */
-    inGlobalDispose : function() {
-      return this.$$disposed || false;
-    },
-
-
-    /**
-     * Returns whether a global unload (page unload) is currently taking place.
-     *
-     * @type static
-     * @return {Boolean} whether a global unload is taking place.
-     */
-    isPageUnload : function() {
-      return this.__unload || false;
-    }
+    $$type : "Object"
   },
 
 
@@ -236,13 +113,8 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @return {String} string representation of the object
      */
-    toString : function()
-    {
-      if (this.classname) {
-        return "[object " + this.classname + "]";
-      }
-
-      return "[object Object]";
+    toString : function() {
+      return this.classname + "[" + this.$$hash + "]";
     },
 
 
@@ -576,9 +448,6 @@ qx.Class.define("qx.core.Object",
 
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       DISPOSER
@@ -655,28 +524,25 @@ qx.Class.define("qx.core.Object",
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!qx.core.Object.isPageUnload())
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
+          var vValue;
+          for (var vKey in this)
           {
-            var vValue;
-            for (var vKey in this)
+            vValue = this[vKey];
+
+            // Check for Objects but respect values attached to the prototype itself
+            if (vValue !== null && typeof vValue === "object")
             {
-              vValue = this[vKey];
-
-              // Check for Objects but respect values attached to the prototype itself
-              if (vValue !== null && typeof vValue === "object")
-              {
-                // Check prototype value
-                // undefined is the best, but null may be used as a placeholder for
-                // private variables (hint: checks in qx.Class.define). We accept both.
-                if (this.constructor.prototype[vKey] != null) {
-                  continue;
-                }
-
-                qx.log2.Logger.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
-                delete this[vKey];
+              // Check prototype value
+              // undefined is the best, but null may be used as a placeholder for
+              // private variables (hint: checks in qx.Class.define). We accept both.
+              if (this.constructor.prototype[vKey] != null) {
+                continue;
               }
+
+              qx.log2.Logger.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
+              delete this[vKey];
             }
           }
         }

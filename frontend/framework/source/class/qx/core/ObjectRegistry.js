@@ -17,6 +17,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.handler.Application)
+#require(qx.event.dispatch.Direct)
+
+************************************************************************ */
+
 qx.Bootstrap.define("qx.core.ObjectRegistry",
 {
   /*
@@ -51,6 +58,11 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     register : function(obj)
     {
+      var registry = this.__registry;
+      if (!registry) {
+        return;
+      }
+
       var hash = obj.$$hash;
       if (hash == null) {
         hash = obj.$$hash = this.__nextHash++;
@@ -60,7 +72,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         throw new Error("Invalid object: " + obj);
       }
 
-      this.__registry[hash] = obj;
+      registry[hash] = obj;
     },
 
 
@@ -79,7 +91,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       }
 
       var registry = this.__registry;
-      if (registry[hash]) {
+      if (registry && registry[hash]) {
         delete registry[hash];
       }
     },
@@ -113,6 +125,55 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     fromHashCode : function(hash) {
       return this.__registry[hash] || null;
+    },
+
+
+    /**
+     * Disposing all registered object and cleaning up registry. This is
+     * automatically executed at application shutdown.
+     *
+     * @type static
+     * @return {void}
+     */
+    shutdown : function()
+    {
+      var registry = this.__registry;
+      var hashes = [];
+
+      for (var hash in registry) {
+        hashes.push(hash);
+      }
+
+      hashes.sort(function(a, b) { return b-a; });
+
+      var obj, i=0, l=hashes.length;
+      while(true)
+      {
+        try
+        {
+          for (; i<l; i++)
+          {
+            hash = hashes[i];
+            obj = registry[hash];
+
+            if (obj && obj.dispose) {
+              obj.dispose();
+            }
+          }
+        }
+        catch(ex)
+        {
+          qx.log2.Logger.error("Could not dispose object " + obj.toString() + ": " + ex);
+
+          if (i !== 0) {
+            continue;
+          }
+        }
+
+        break;
+      }
+
+      delete this.__registry;
     }
   },
 
@@ -125,8 +186,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-
+  defer : function(statics) {
+    qx.event.Registration.addListener(window, "shutdown", statics.shutdown, this);
   }
 });
