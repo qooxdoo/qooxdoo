@@ -58,6 +58,25 @@ qx.Class.define("qx.fx.queue.Queue",
 
   /*
    *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+      /**
+       * Maximal number of effects that can run simultaneously.
+       */
+      limit :
+      {
+        init   : Infinity,
+        check  : "Number"
+      }
+
+   },
+
+  /*
+   *****************************************************************************
       MEMBERS
    *****************************************************************************
    */
@@ -70,19 +89,17 @@ qx.Class.define("qx.fx.queue.Queue",
     _interval : null,
 
     /**
-     * This method adds the given effect to the queue
-     * and orders it based on its position.
+     * This method adds the given effect to the queue and starts the timer (if necessary).
      * @param effect {Object} The effect.
      */
     add: function(effect)
     {
       var timestamp = new Date().getTime();
-      var position = (typeof(effect.getQueue()) == "string") ?  effect.getQueue() : effect.getQueue().position;
 
       effect._startOn  += timestamp;
       effect._finishOn += timestamp;
-
-      if (!effect.getQueue().limit || (this._effects.length < effect.getQueue().limit)) {
+      
+      if (this._effects.length < effect.getQueue().getLimit()) {
         this._effects.push(effect)
       }
 
@@ -97,8 +114,6 @@ qx.Class.define("qx.fx.queue.Queue",
      */
     remove : function(effect)
     {
-      //this.effects = this.effects.reject(function(e) { return e==effect });
-
       this._effects = qx.lang.Array.reject(this._effects, function(e) { return e == effect });
 
       if (this._effects.length == 0)

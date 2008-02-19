@@ -152,8 +152,7 @@ qx.Class.define("qx.fx.Base",
       */
      queue :
      {
-       init   : "parallel",
-       check  : "String"
+       init   : "parallel"
      },
 
      /**
@@ -256,7 +255,7 @@ qx.Class.define("qx.fx.Base",
 
       if (!this.getSync())
       {
-        var queue = this._getQueue();
+        var queue = this.getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
       }
 
@@ -336,17 +335,13 @@ qx.Class.define("qx.fx.Base",
     {
       if (!this.getSync())
       {
-        var queue = this._getQueue();
+        var queue = this.getQueue();
         qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
       }
 
       this._state = qx.fx.Base.EffectState.FINISHED;
-    },
-
-
-    _getQueue : function() {
-      return (typeof(this.getQueue()) == "string") ? 'global' : this.getQueue().scope;
     }
+
 
   },
 
