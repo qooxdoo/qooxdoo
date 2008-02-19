@@ -7,7 +7,7 @@ qx.Class.define("apiviewer.ObjectRegistry",
 
     register : function(object)
     {
-      var hash = qx.core.Object.toHashCode(object);
+      var hash = qx.core.ObjectRegistry.toHashCode(object);
       this.__objectDb[hash] = object;
     },
 

@@ -158,7 +158,7 @@ qx.Class.define("qx.dev.StackTrace",
           }
 
           // avoid infinite recursion
-          var hash = qx.core.Object.toHashCode(fcn);
+          var hash = qx.core.ObjectRegistry.toHashCode(fcn);
           if (knownFunction[hash]) {
             trace.push("...");
             break;

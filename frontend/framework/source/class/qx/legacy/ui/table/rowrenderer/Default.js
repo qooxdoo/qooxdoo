@@ -293,7 +293,7 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
       {
         qx.event.Timer.once(function()
         {
-          if (this.getDisposed()) {
+          if (this.isDisposed()) {
             return;
           }
 

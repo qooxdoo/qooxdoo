@@ -163,7 +163,7 @@ qx.Class.define("qx.event.Manager",
      */
     getListeners : function(target, type, capture, copy, create)
     {
-      var targetKey = qx.core.Object.toHashCode(target);
+      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
 
       // create map entry if needed
       if (!this.__listeners[targetKey])
@@ -384,7 +384,7 @@ qx.Class.define("qx.event.Manager",
      */
     removeAllListeners : function(target)
     {
-      var targetKey = qx.core.Object.toHashCode(target);
+      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var listeners = this.__listeners[targetKey];
       if (!listeners) {
         return;
@@ -459,7 +459,7 @@ qx.Class.define("qx.event.Manager",
      */
     dispatchEvent : function(target, event)
     {
-      if (this.getDisposed()) {
+      if (this.isDisposed()) {
         return;
       }
 
@@ -497,7 +497,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       // The event handler may have disposed the app.
-      if (this.getDisposed()) {
+      if (this.isDisposed()) {
         return;
       }
 

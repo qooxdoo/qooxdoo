@@ -243,7 +243,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
 
       qx.event.Timer.once(function()
                            {
-                             if (this._table && !this._table.getDisposed())
+                             if (this._table && !this._table.isDisposed())
                              {
                                this._table._updateScrollerWidths();
                                this._table._updateScrollBarVisibility();
@@ -326,7 +326,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
 
       qx.event.Timer.once(function()
                            {
-                             if (!this._table.getDisposed())
+                             if (!this._table.isDisposed())
                              {
                                this._table._updateScrollerWidths();
                                this._table._updateScrollBarVisibility();

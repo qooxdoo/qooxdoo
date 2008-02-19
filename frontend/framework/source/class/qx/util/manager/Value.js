@@ -127,7 +127,7 @@ qx.Class.define("qx.util.manager.Value",
 
       // Store references for dynamic values
       var objectKey = obj.toHashCode();
-      var callbackKey = qx.core.Object.toHashCode(callback);
+      var callbackKey = qx.core.ObjectRegistry.toHashCode(callback);
       var listenerKey = objectKey + "|" + callbackKey;
       var objectToValue = this._objectToValue;
       var valueToObjects = this._valueToObjects;

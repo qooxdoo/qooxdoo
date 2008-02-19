@@ -1397,7 +1397,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
       {
         qx.event.Timer.once(function()
         {
-          if (this.getDisposed()) {
+          if (this.isDisposed()) {
             return;
           }
 
@@ -1673,7 +1673,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
 
       window.setTimeout(function()
       {
-        if (self.getDisposed()) {
+        if (self.isDisposed()) {
           return;
         }
 
@@ -1694,7 +1694,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      */
     _cleanupColumnVisibilityMenu : function()
     {
-      if (this._columnVisibilityMenu != null && !this._columnVisibilityMenu.getDisposed())
+      if (this._columnVisibilityMenu != null && !this._columnVisibilityMenu.isDisposed())
       {
         var parent = this._columnVisibilityMenu.getParent();
         if (parent) {
@@ -1743,7 +1743,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
 
       window.setTimeout(function()
       {
-        if (self.getDisposed()) {
+        if (self.isDisposed()) {
           return;
         }
 
@@ -1765,7 +1765,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
 
       window.setTimeout(function()
       {
-        if (self.getDisposed()) {
+        if (self.isDisposed()) {
           return;
         }
 
