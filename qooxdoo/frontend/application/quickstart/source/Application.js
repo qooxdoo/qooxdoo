@@ -13,7 +13,7 @@
  */
 qx.Class.define("Application",
 {
-  extend : qx.application.Basic,
+  extend : qx.application.Abstract,
 
   members :
   {
