@@ -78,6 +78,8 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   properties :
   {
+
+
     /**
      * Initial background color value.
      */
@@ -87,48 +89,73 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       check : "Color"
     },
 
+
+    /**
+     * Final background color value.
+     */
     endColor :
     {
       init  : "#ffffaa",
       check : "Color"
     },
 
+
+    /**
+     * Function for transition between start color and end color
+     */
     forwardTransition :
     {
       init  : null,
       check : "Function"
     },
 
+
+    /**
+     * Function for transition between end color and start color
+     */
     backwardTransition :
     {
       init  : null,
       check : "Function"
     },
 
+
+    /**
+     * Number of seconds the first transition should
+     */
     forwardDuration :
     {
       init  : 1.0,
       check : "Number"
     },
 
+
+    /**
+     * Number of seconds the second transition should
+     */
     backwardDuration :
     {
       init  : 1.0,
       check : "Number"
     },
 
+
+    /**
+     * Number of seconds the end color should be visible
+     */
     delayBetween :
     {
       init  : 0.3,
       check : "Number"
     },
 
+
     /**
      * Flag indicating if element's background color or image should be restored.
      */
     restoreBackground :
     {
-      init : true,
+      init : false,
       check : "Boolean"
     }
 

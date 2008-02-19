@@ -79,38 +79,6 @@ qx.Class.define("qx.fx.queue.Queue",
       var timestamp = new Date().getTime();
       var position = (typeof(effect.getQueue()) == "string") ?  effect.getQueue() : effect.getQueue().position;
 
-      switch(position)
-      {
-        case qx.fx.Base.EffectPosition.FRONT:
-          // move unstarted effects after this effect
-          /*
-          this.effects.findAll(function(e){ return e.state=='idle' }).each( function(e) {
-            e.startOn  += effect.finishOn;
-            e.finishOn += effect.finishOn;
-            });
-          */
-          var idleEffects = qx.lang.Array.findAll(this._effects, function(e){ return e._state == qx.fx.EffectState.idle });
-
-          for(var i in idleEffects)
-          {
-            idleEffects[i]._startOn  += effect._finishOn;
-            idleEffects[i]._finishOn += effect._finishOn;
-          }
-        break;
-
-        case qx.fx.Base.EffectPosition.WITHLAST:
-          //timestamp = this.effects.pluck('startOn').max() || timestamp;
-          timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'startOn'))  || timestamp;
-        break;
-
-        case qx.fx.Base.EffectPosition.END:
-          // start effect after last queued effect has finished
-          //timestamp = this.effects.pluck('finishOn').max() || timestamp;
-          timestamp = qx.lang.Array.max(qx.lang.Array.pluck(this._effects, 'finishOn')) || timestamp;
-        break;
-
-      }
-
       effect._startOn  += timestamp;
       effect._finishOn += timestamp;
 
