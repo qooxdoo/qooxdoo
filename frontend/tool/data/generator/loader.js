@@ -32,8 +32,8 @@ window.qxloader =
       type = "debug";
     }
 
-    if (window.qx && qx.core && qx.core.Log) {
-      return qx.core.Log[type](msg);
+    if (window.qx && qx.core && qx.log2.Logger) {
+      return qx.log2.Logger[type](msg);
     }
 
     if (window.console && console[type]) {

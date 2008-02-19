@@ -161,7 +161,7 @@ qx.Class.define("qx.core.Object",
         if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           var disposeStart = new Date;
-          qx.core.Log.debug("Disposing qooxdoo application...");
+          qx.log2.Logger.debug("Disposing qooxdoo application...");
         }
       }
 
@@ -182,7 +182,7 @@ qx.Class.define("qx.core.Object",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (window.console) {
-                qx.core.Log.warn("Could not dispose: " + vObject + ": ", ex);
+                qx.log2.Logger.warn("Could not dispose: " + vObject + ": ", ex);
               } else {
                 throw ex;
               }
@@ -198,7 +198,7 @@ qx.Class.define("qx.core.Object",
           // check dom
           var elems = document.all ? document.all : document.getElementsByTagName("*");
 
-          qx.core.Log.debug("Checking " + elems.length + " elements for object references...");
+          qx.log2.Logger.debug("Checking " + elems.length + " elements for object references...");
 
           for (var i=0, l=elems.length; i<l; i++)
           {
@@ -218,7 +218,7 @@ qx.Class.define("qx.core.Object",
                       name = elem[key].classname + "[" + elem[key].toHashCode() + "]";
                     }
 
-                    qx.core.Log.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
+                    qx.log2.Logger.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
                   }
                 }
               }
@@ -229,7 +229,7 @@ qx.Class.define("qx.core.Object",
             }
           }
 
-          qx.core.Log.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
+          qx.log2.Logger.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
 
@@ -631,7 +631,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     trace : function() {
-      qx.core.Log.trace();
+      qx.log2.Logger.trace();
     },
 
 
@@ -698,7 +698,7 @@ qx.Class.define("qx.core.Object",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-          qx.core.Log.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.log2.Logger.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -752,7 +752,7 @@ qx.Class.define("qx.core.Object",
                   continue;
                 }
 
-                qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
+                qx.log2.Logger.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
                 delete this[vKey];
               }
             }
@@ -793,7 +793,7 @@ qx.Class.define("qx.core.Object",
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-              qx.core.Log.debug(this.classname + " has no own field " + name);
+              qx.log2.Logger.debug(this.classname + " has no own field " + name);
             }
           }
 
@@ -829,7 +829,7 @@ qx.Class.define("qx.core.Object",
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-              qx.core.Log.debug(this.classname + " has no own field " + name);
+              qx.log2.Logger.debug(this.classname + " has no own field " + name);
             }
           }
 
@@ -869,7 +869,7 @@ qx.Class.define("qx.core.Object",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-            qx.core.Log.debug(this.classname + " has no own field " + name);
+            qx.log2.Logger.debug(this.classname + " has no own field " + name);
           }
         }
 
@@ -879,7 +879,7 @@ qx.Class.define("qx.core.Object",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-          qx.core.Log.debug("Dispose Deep: " + name);
+          qx.log2.Logger.debug("Dispose Deep: " + name);
         }
       }
 
@@ -905,7 +905,7 @@ qx.Class.define("qx.core.Object",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-            qx.core.Log.debug("Sending dispose to " + obj.classname);
+            qx.log2.Logger.debug("Sending dispose to " + obj.classname);
           }
         }
 
@@ -930,7 +930,7 @@ qx.Class.define("qx.core.Object",
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
                 if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-                  qx.core.Log.debug("- Deep processing item '" + i + "'");
+                  qx.log2.Logger.debug("- Deep processing item '" + i + "'");
                 }
               }
 
@@ -940,7 +940,7 @@ qx.Class.define("qx.core.Object",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-                qx.core.Log.debug("- Resetting key (object) '" + key + "'");
+                qx.log2.Logger.debug("- Resetting key (object) '" + key + "'");
               }
             }
 
@@ -951,7 +951,7 @@ qx.Class.define("qx.core.Object",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-                qx.core.Log.debug("- Resetting key (function) '" + key + "'");
+                qx.log2.Logger.debug("- Resetting key (function) '" + key + "'");
               }
             }
 
@@ -978,7 +978,7 @@ qx.Class.define("qx.core.Object",
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
                 if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-                  qx.core.Log.debug("- Deep processing key '" + key + "'");
+                  qx.log2.Logger.debug("- Deep processing key '" + key + "'");
                 }
               }
 
@@ -988,7 +988,7 @@ qx.Class.define("qx.core.Object",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-                qx.core.Log.debug("- Resetting key (object) '" + key + "'");
+                qx.log2.Logger.debug("- Resetting key (object) '" + key + "'");
               }
             }
 
@@ -999,7 +999,7 @@ qx.Class.define("qx.core.Object",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
-                qx.core.Log.debug("- Resetting key (function) '" + key + "'");
+                qx.log2.Logger.debug("- Resetting key (function) '" + key + "'");
               }
             }
 
