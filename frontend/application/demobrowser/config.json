@@ -1,0 +1,59 @@
+{
+  "common" :
+  {
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path" : "../../framework/source",
+        "uri" : "../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "source",
+        "uri" : "../source"
+      }
+    ],
+
+    "cache" :
+    {
+      "path" : "../../cache"
+    }
+  },
+  
+  "common-demo" :
+  {
+    "extend" : ["common"],
+
+    "include" : ["qx.ui.*","qx.html.*","qx.bom.*","qx.event.*","qx.application.*","qx.fx.*"]
+  },
+  
+  "compile-demo" :
+  {
+    "extend" : ["common-demo"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "build/script/demo.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }
+  },
+  
+  "source-demo" :
+  {
+    "extend" : ["common-demo"],
+
+    "source" :
+    {
+      "file" : "source/script/demo.js"
+    }
+  }   
+}
+    
