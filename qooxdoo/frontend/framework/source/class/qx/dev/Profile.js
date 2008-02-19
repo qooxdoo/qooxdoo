@@ -72,12 +72,12 @@ qx.Bootstrap.define("qx.dev.Profile",
      * Example:
      *   <pre class="javascript">
      * {
-     *   "qx.core.Object.toHashCode (static)":{
+     *   "qx.core.ObjectRegistry.toHashCode (static)":{
      *     *     "totalTime":3,
      *     "ownTime":3,
      *     "callCount":218,
      *     "subRoutineCalls":0,
-     *     "name":"qx.core.Object.toHashCode",
+     *     "name":"qx.core.ObjectRegistry.toHashCode",
      *     "type":"static"
      *   },
      *   "qx.core.Object.addListener (member)":{

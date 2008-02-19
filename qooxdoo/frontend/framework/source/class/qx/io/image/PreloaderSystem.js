@@ -153,7 +153,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __onload : function(e)
     {
-      if (this.getDisposed()) {
+      if (this.isDisposed()) {
         return;
       }
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __onerror : function(e)
     {
-      if (this.getDisposed()) {
+      if (this.isDisposed()) {
         return;
       }
 

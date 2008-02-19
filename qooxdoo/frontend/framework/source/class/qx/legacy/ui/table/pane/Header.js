@@ -365,7 +365,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
       {
         var cellWidget = children[x];
 
-        // this.debug("disposed:" + cellWidget.getDisposed() + ",has parent: " + (cellWidget.getParent() != null) + ",x:"+x);
+        // this.debug("disposed:" + cellWidget.isDisposed() + ",has parent: " + (cellWidget.getParent() != null) + ",x:"+x);
         this.remove(cellWidget);
         cellWidget.dispose();
       }

@@ -59,9 +59,8 @@ qx.Class.define("qx.core.Object",
    */
   construct : function()
   {
-    this.$$hash = qx.core.Object.__availableHashCode++;
+    qx.core.ObjectRegistry.register(this);
 
-    qx.core.Object.__db[this.$$hash] = this;
   },
 
 
@@ -75,64 +74,8 @@ qx.Class.define("qx.core.Object",
 
   statics :
   {
-    /** TODOC */
-    __availableHashCode : 1,
-
-
-    /** TODOC */
-    __db : {},
-
-
-    /** TODOC */
-    __disposeAll : false,
-
-
     /** Internal type */
     $$type : "Object",
-
-
-    /**
-     * Returns an unique identifier for the given object. If such an identifier
-     * does not yet exist, create it.
-     *
-     * @type static
-     * @param obj {Object} the Object to get the hashcode for
-     * @return {Integer} unique identifier for the given object
-     */
-    toHashCode : function(obj)
-    {
-      if (obj.$$hash != null) {
-        return obj.$$hash;
-      }
-
-      return obj.$$hash = this.__availableHashCode++;
-    },
-
-
-    /**
-     * Returns the database created, but not yet disposed elements.
-     * Please be sure to not modify the given map!
-     *
-     * @type static
-     * @internal
-     * @return {Map} The database
-     */
-    getDb : function() {
-      return this.__db;
-    },
-
-
-    /**
-     * Get a object instance by its hash code as returned by {@link toHashCode}.
-     * If the object is already disposed or the hashCode is invalid,
-     * <code>null</code> is returned.
-     *
-     * @param hashCode {Integer} The object's hash code.
-     * @return {qx.core.Object|null} The corresponding object or <code>null</code>.
-     */
-    getObjectByHashCode : function(hashCode) {
-      return this.__db[hashCode] || null;
-    },
 
 
     /**
@@ -147,11 +90,11 @@ qx.Class.define("qx.core.Object",
      */
     dispose : function(unload)
     {
-      if (this.__disposed) {
+      if (this.$$disposed) {
         return;
       }
 
-      this.__disposed = true;
+      this.$$disposed = true;
       this.__unload = unload || false;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -169,7 +112,7 @@ qx.Class.define("qx.core.Object",
       {
         vObject = vObjectDb[key];
 
-        if (vObject && vObject.__disposed === false)
+        if (vObject && vObject.$$disposed === false)
         {
           try
           {
@@ -242,7 +185,7 @@ qx.Class.define("qx.core.Object",
      * @return {Boolean} whether a global dispose is taking place.
      */
     inGlobalDispose : function() {
-      return this.__disposed || false;
+      return this.$$disposed || false;
     },
 
 
@@ -460,7 +403,7 @@ qx.Class.define("qx.core.Object",
      */
     addListener : function(type, func, obj, capture)
     {
-      if (!this.__disposed)
+      if (!this.$$disposed)
       {
         this.__hasEventListeners = true;
         qx.event.Registration.addListener(this, type, func, obj, !!capture);
@@ -479,7 +422,7 @@ qx.Class.define("qx.core.Object",
      */
     removeListener : function(type, func, obj)
     {
-      if (!this.__disposed) {
+      if (!this.$$disposed) {
         qx.event.Registration.removeListener(this, type, func, obj, false);
       }
     },
@@ -506,7 +449,7 @@ qx.Class.define("qx.core.Object",
      */
     dispatchEvent : function(evt)
     {
-      if (!this.__disposed) {
+      if (!this.$$disposed) {
         qx.event.Registration.dispatchEvent(this, evt);
       }
     },
@@ -523,7 +466,7 @@ qx.Class.define("qx.core.Object",
      */
     fireCustomEvent : function(clazz, args)
     {
-      if (!this.__disposed) {
+      if (!this.$$disposed) {
         qx.event.Registration.fireCustomEvent(this, clazz, args);
       }
     },
@@ -537,7 +480,7 @@ qx.Class.define("qx.core.Object",
      */
     fireEvent : function(type)
     {
-      if (!this.__disposed) {
+      if (!this.$$disposed) {
         qx.event.Registration.fireCustomEvent(this, qx.event.type.Event, [type, false]);
       }
     },
@@ -552,7 +495,7 @@ qx.Class.define("qx.core.Object",
      */
     fireDataEvent : function(type, data)
     {
-      if (!this.__disposed) {
+      if (!this.$$disposed) {
         qx.event.Registration.fireCustomEvent(this, qx.event.type.Data, [type, data]);
       }
     },
@@ -642,21 +585,6 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
-    /** TODOC */
-    __disposed : false,
-
-
-    /**
-     * Returns true if the object is disposed.
-     *
-     * @type member
-     * @return {Boolean} whether the object has been disposed
-     */
-    getDisposed : function() {
-      return this.__disposed;
-    },
-
-
     /**
      * Returns true if the object is disposed.
      *
@@ -664,7 +592,7 @@ qx.Class.define("qx.core.Object",
      * @return {Boolean} whether the object has been disposed
      */
     isDisposed : function() {
-      return this.__disposed;
+      return this.$$disposed || false;
     },
 
 
@@ -677,12 +605,12 @@ qx.Class.define("qx.core.Object",
     dispose : function()
     {
       // Check first
-      if (this.__disposed) {
+      if (this.$$disposed) {
         return;
       }
 
       // Mark as disposed (directly, not at end, to omit recursions)
-      this.__disposed = true;
+      this.$$disposed = true;
 
       if (this.__hasEventListeners) {
         qx.event.Registration.getManager(this).removeAllListeners(this);
@@ -1054,7 +982,6 @@ qx.Class.define("qx.core.Object",
       clazz = clazz.superclass;
     }
 
-    // Delete Entry from Object DB
-    delete qx.core.Object.__db[this.$$hash];
+    qx.core.ObjectRegistry.unregister(this);
   }
 });

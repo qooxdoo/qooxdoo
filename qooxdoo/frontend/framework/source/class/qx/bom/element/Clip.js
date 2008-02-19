@@ -32,7 +32,7 @@ qx.Class.define("qx.bom.element.Clip",
   statics :
   {
     /**
-     * Compiles the given clipping into a CSS compatible string. This 
+     * Compiles the given clipping into a CSS compatible string. This
      * is a simple square which describes the visible area of an DOM element.
      * Changing the clipping does not change the dimensions of
      * an element.
@@ -75,8 +75,8 @@ qx.Class.define("qx.bom.element.Clip",
 
       return "clip:rect(" + top + "," + right + "," + bottom + "," + left + ");";
     },
-    
-    
+
+
     /**
      * Gets the clipping of the given element.
      *
@@ -91,12 +91,12 @@ qx.Class.define("qx.bom.element.Clip",
      */
     get : function(element, mode)
     {
-      var clip = qx.bom.element.Style.get(element, "clip", mode);
+      var clip = qx.bom.element.Style.get(element, "clip", mode, false);
 
       var left, top, width, height;
       var right, bottom;
 
-      if (typeof clip === "string" && clip !== "auto")
+      if (typeof clip === "string" && clip !== "auto" && clip !== "")
       {
         clip = qx.lang.String.trim(clip);
 
@@ -163,11 +163,6 @@ qx.Class.define("qx.bom.element.Clip",
         {
           throw new Error("Could not parse clip string: " + clip);
         }
-      }
-
-      // Simplify return value when nothing set
-      if (left == null && top == null && width == null && height == null) {
-        return null;
       }
 
       // Return map when any value is available.

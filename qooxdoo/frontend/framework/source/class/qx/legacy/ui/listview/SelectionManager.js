@@ -141,7 +141,7 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
         return oItem._hash;
       }
 
-      return oItem._hash = qx.core.Object.toHashCode(oItem);
+      return oItem._hash = qx.core.ObjectRegistry.toHashCode(oItem);
     },
 
 
