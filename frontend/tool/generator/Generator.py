@@ -182,7 +182,7 @@ class Generator:
             self.runSource(parts, packages, boot, variants)
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
-            self.runResources()
+            #self.runResources()
 
 
 
@@ -195,7 +195,7 @@ class Generator:
         apiContent = []
         for classes in packages:
             apiContent.extend(classes)
-            
+
         self._apiLoader.storeApi(apiContent, apiPath)
 
 
@@ -204,7 +204,7 @@ class Generator:
         # only run for compile jobs
         if not self._config.get("compile/file", False):
             return
-        
+
         resTargetRoot = "build"   # should probably come from config
         libs = self._config.get("library")
         self._console.info("Copying resources...")
@@ -214,7 +214,7 @@ class Generator:
             resSource = os.path.join(lib['path'], "resource", lib['namespace'])
             resTarget = os.path.join(resTargetRoot, "resource", lib['namespace'])
             self._copyResources(resSource, resTarget)
-        
+
         self._console.outdent()
 
 
@@ -263,7 +263,7 @@ class Generator:
         self._console.indent()
         for namespace in namespaces:
             self._locale.updateTranslations(namespace)
-    
+
         self._console.outdent()
 
 
@@ -281,11 +281,11 @@ class Generator:
         for pos, classes in enumerate(packages):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
-            
+
             pac_dat = self._locale.generatePackageData(classes, variants, locales)
             loc_dat = self._locale.getLocalizationData(locales)
             packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
-            
+
             self._console.outdent()
 
         self._console.outdent()
@@ -379,7 +379,7 @@ class Generator:
 
         # Read in settings
         settings = self.getSettings()
-        
+
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
@@ -474,20 +474,20 @@ class Generator:
 
         return result
 
-        
+
     def generateTranslationCode(self, translationMaps, format=False):
         result = 'if(!window.qxlocales)qxlocales={};'
         locales = translationMaps[0]  # TODO: just one currently
-        
+
         for key in locales:
             if format:
                 result += "\n"
-            
+
             value = locales[key]
             result += 'qxlocales["%s"]=' % (key,)
             result += simplejson.dumps(value)
             result += ';'
-            
+
         return result
 
 

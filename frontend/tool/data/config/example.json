@@ -38,15 +38,15 @@
       "path" : "cache"
     }
   },
-  
-  
-  
-  
 
-  "compile-bom" : 
+
+
+
+
+  "compile-bom" :
   {
     "extend" : ["common"],
-    
+
     "include" : ["qx.bom.Element"],
 
     "variants" :
@@ -55,18 +55,18 @@
       "qx.aspects" : ["off"],
       "qx.client" : ["gecko","mshtml"]
     },
-    
+
     "compile" :
     {
-      "file" : "compile-bom.js",
+      "file" : "compile-bom-{qx.client}.js",
       "optimize" : [ "variables", "basecalls" ]
-    }    
+    }
   },
 
-  "compile-bom-privates" : 
+  "compile-bom-privates" :
   {
     "extend" : ["common"],
-    
+
     "include" : ["qx.bom.Element","qx.bom.element.Style","qx.bom.element.Attribute"],
 
     "variants" :
@@ -75,12 +75,12 @@
       "qx.aspects" : ["off"],
       "qx.client" : ["gecko","mshtml"]
     },
-    
+
     "compile" :
     {
-      "file" : "compile-bom.js",
+      "file" : "compile-bom-{qx.client}.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
-    }    
+    }
   },
 
 
@@ -132,16 +132,16 @@
       "path" : "application/apiviewer/source/script"
     }
   },
-  
+
   "po-feedreader" :
   {
     "extend" : ["common"],
-    
-    "translation" : 
+
+    "translation" :
     {
       "update" : ["feedreader"]
     }
-  },  
+  },
 
   "source-feedreader" :
   {
@@ -152,7 +152,7 @@
     {
       "qx.application" : "feedreader.Application",
       "qx.resourceUri" : "../../../framework/source/resource",
-      "qx.legacy.theme" : "qx.legacy.theme.Ext"      
+      "qx.legacy.theme" : "qx.legacy.theme.Ext"
     },
 
     "source" :
@@ -201,11 +201,11 @@
       "qx.legacy.theme" : "qx.legacy.theme.Ext",
       "feedreader.resourceUri" : "resource/feedreader"
     },
-    
+
     "variants" :
     {
       "qx.debug" : ["off"]
-    },    
+    },
 
     "compile" :
     {
@@ -266,7 +266,7 @@
       "file" : "application/apiviewer/source/script/apiviewer.js"
     }
   },
-  
+
   "compile-apiviewer" :
   {
     "extend" :["common"],
@@ -289,5 +289,5 @@
     {
       "file" : "application/apiviewer/build/script/apiviewer.js"
     }
-  }  
+  }
 }
