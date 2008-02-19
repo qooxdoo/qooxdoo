@@ -14,18 +14,74 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     * Andreas Ecker (ecker)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#require(qx.event.handler.Application)
+#require(qx.event.dispatch.Direct)
 
 ************************************************************************ */
 
 /**
- * This is the base class for all non GUI qooxdoo applications.
+ * This is the base class for all qooxdoo applications.
  */
-qx.Class.define("qx.application.Basic",
+qx.Class.define("qx.application.Abstract",
 {
   extend : qx.core.Object,
-  implement : qx.application.IApplication,
 
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * Runs when the application is loaded. Automatically creates an instance
+     * of the class defined by the setting <code>qx.application</code>.
+     *
+     * @type static
+     * @return {void}
+     */
+    __ready : function()
+    {
+      var app = qx.core.Setting.get("qx.application");
+      var clazz = qx.Class.getByName(app);
+
+      if (clazz)
+      {
+        var start = new Date;
+
+        this.__application = new clazz;
+        this.__application.main();
+
+        qx.log2.Logger.debug("Executed main() in " + (new Date - start) + "ms");
+      }
+    },
+
+
+    /**
+     * Runs when the document is unloaded. Automatically terminates a previously
+     * created application instance.
+     *
+     * @type static
+     * @return {void}
+     */
+    __shutdown : function()
+    {
+      var app = this.__application;
+
+      if (app) {
+        app.terminate();
+      }
+    }
+  },
 
 
 
@@ -39,31 +95,35 @@ qx.Class.define("qx.application.Basic",
   members :
   {
     /**
-     * Called in the document.onload event of the browser.
+     * Called when the application relevant classes are loaded and ready.
      *
      * @type member
+     * @return {void}
      */
     main : function() {},
 
 
     /**
-     * Called in the document.onbeforeunload event of the browser. If the method
-     * returns a string value, the user will be asked by the browser, whether
-     * he really wants to leave the page. The return string will be displayed in
-     * the message box.
+     * This method contains the last code which is run inside the page and may contain cleanup code.
      *
      * @type member
-     * @return {String?null} message text on unloading the page
-     */
-    close : function() {},
-
-
-    /**
-     * Called in the document.onunload event of the browser. This method contains the last
-     * code which is run inside the page and may contain cleanup code.
-     *
-     * @type member
+     * @return {void}
      */
     terminate : function() {}
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    qx.event.Registration.addListener(window, "ready", statics.__ready, this);
+    qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, this);
   }
 });
