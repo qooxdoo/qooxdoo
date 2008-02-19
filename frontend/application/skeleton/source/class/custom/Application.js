@@ -24,7 +24,7 @@
  */
 qx.Class.define("custom.Application",
 {
-  extend : qx.application.Basic,
+  extend : qx.application.Abstract,
 
 
 
