@@ -196,7 +196,7 @@ qx.Class.define("qx.util.fsm.Transition",
      */
     name :
     {
-      check : "NonEmptyString",
+      check : "String",
       nullable : true
     },
 
