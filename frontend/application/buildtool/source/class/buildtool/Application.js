@@ -35,7 +35,7 @@
  */
 qx.Class.define("buildtool.Application",
 {
-  extend : qx.application.Gui,
+  extend : qx.application.Basic,
 
 
 

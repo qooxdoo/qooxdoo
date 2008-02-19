@@ -15,7 +15,7 @@ qx.Mixin.define("qx.legacy.core.MLegacyInit",
     defineInitialize : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.application.Gui);
+        this.setApplication(new qx.application.Basic);
       }
       this.getApplication().initialize = function()
       {
@@ -36,12 +36,12 @@ qx.Mixin.define("qx.legacy.core.MLegacyInit",
     defineMain : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.application.Gui);
+        this.setApplication(new qx.application.Basic);
       }
 
       this.getApplication().main = function()
       {
-        qx.application.Gui.prototype.main.call(this);
+        qx.application.Basic.prototype.main.call(this);
         if (this.initialize) {
           this.initialize();
         }
@@ -65,7 +65,7 @@ qx.Mixin.define("qx.legacy.core.MLegacyInit",
     defineFinalize : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.application.Gui);
+        this.setApplication(new qx.application.Basic);
       }
       this.getApplication().finalize = function()
       {
@@ -86,12 +86,12 @@ qx.Mixin.define("qx.legacy.core.MLegacyInit",
     defineClose : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.application.Gui);
+        this.setApplication(new qx.application.Basic);
       }
 
       this.getApplication().close = function()
       {
-        qx.application.Gui.prototype.close.call(this);
+        qx.application.Basic.prototype.close.call(this);
         func.call(this);
       }
     },
@@ -109,12 +109,12 @@ qx.Mixin.define("qx.legacy.core.MLegacyInit",
     defineTerminate : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.application.Gui);
+        this.setApplication(new qx.application.Basic);
       }
 
       this.getApplication().terminate = function()
       {
-        qx.application.Gui.prototype.terminate.call(this);
+        qx.application.Basic.prototype.terminate.call(this);
         func.call(this);
       }
     }
