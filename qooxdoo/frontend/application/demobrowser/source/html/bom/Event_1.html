@@ -60,7 +60,7 @@
 
 	<script type="text/javascript">
 	  function domReady() {
-			qx.core.Init.getInstance().debug("DOM Ready... juhi :)")
+			qx.log2.Logger.debug("DOM Ready... juhi :)")
 		}
 
     qx.event.Registration.addListener(window, "domready", domReady, this);
@@ -258,9 +258,6 @@ qx.Class.define("BasicSample",
 
   }
 });
-
-qx.core.Init.getInstance().setApplication(new BasicSample);
-
   </script>
 </body>
 </html>
