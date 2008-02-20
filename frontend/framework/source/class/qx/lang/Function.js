@@ -168,13 +168,13 @@ qx.Bootstrap.define("qx.lang.Function",
 
       return function(event)
       {
-        // Convert (and copy) incoming arguments 
+        // Convert (and copy) incoming arguments
         var args = qx.lang.Array.fromArguments(arguments);
-      
+
         // Prepand static arguments
         if (options.args) {
           args = options.args.concat(args);
-        }          
+        }
 
         if (options.delay || options.periodical)
         {
@@ -243,8 +243,8 @@ qx.Bootstrap.define("qx.lang.Function",
         args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 2) : null
       });
     },
-    
-    
+
+
     /**
      * Returns a function whose arguments are pre-configured.
      *
@@ -273,7 +273,7 @@ qx.Bootstrap.define("qx.lang.Function",
       return this.create(func, {
         args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 1) : null
       });
-    },    
+    },
 
 
     /**
@@ -293,7 +293,7 @@ qx.Bootstrap.define("qx.lang.Function",
     {
       if (varargs === undefined)
       {
-        return function(event) 
+        return function(event)
         {
           // Directly execute, but force first parameter to be the event object.
           return func.call(self||this, event||window.event);
@@ -302,14 +302,14 @@ qx.Bootstrap.define("qx.lang.Function",
       else
       {
         var optargs = qx.lang.Array.fromArguments(arguments, 2);
-        
+
         return function(event)
         {
           var args = [event||window.event];
-          
+
           // Append static arguments
           args.push.apply(args, optargs);
-          
+
           // Finally execute original method
           func.apply(self||this, args);
         };

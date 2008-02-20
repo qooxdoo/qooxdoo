@@ -65,7 +65,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    
+
     this._moveEffect.beforeStartInternal = function(){
       qx.bom.element.Style.set(this._element, "visiblity", "visible");
     };

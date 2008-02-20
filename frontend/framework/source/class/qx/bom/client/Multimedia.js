@@ -24,43 +24,43 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
      STATICS
   *****************************************************************************
   */
-    
+
   statics :
   {
     // filled with additional data at initialization
-    __db : 
+    __db :
     {
-      quicktime : 
+      quicktime :
       {
         plugin : "QuickTime",
         control : "QuickTimeCheckObject.QuickTimeCheck.1"
-        // call returns boolean: instance.IsQuickTimeAvailable(0)         
+        // call returns boolean: instance.IsQuickTimeAvailable(0)
       },
-      
-      wmv : 
+
+      wmv :
       {
         plugin : "Windows Media",
         control : "WMPlayer.OCX.7"
         // version string in: instance.versionInfo
       },
-      
-      divx : 
+
+      divx :
       {
         plugin : "DivX Web Player",
         control : "npdivx.DivXBrowserPlugin.1"
       },
-      
-      silverlight : 
+
+      silverlight :
       {
         plugin : "Silverlight",
         control : "AgControl.AgControl"
         // version string in: instance.version (Silverlight 1.0)
         // version string in: instance.settings.version (Silverlight 1.1)
-        // version check possible using instance.IsVersionSupported        
+        // version check possible using instance.IsVersionSupported
       }
     },
-    
-    
+
+
     /**
      * Detects if the given plugin is available.
      *
@@ -72,16 +72,16 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
     has : function(id, version)
     {
       // TODO
-      
+
     },
-    
-    
+
+
     /**
      * Internal initialize helper
      *
      * @type static
      * @return {void}
-     */    
+     */
     __init : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
@@ -90,20 +90,20 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
         if (!control) {
           return;
         }
-        
+
         var db = this.__db;
         var entry, obj;
-        
+
         for (var id in db)
         {
           entry = db[id];
-          
+
           try {
             obj = new ActiveXObject(entry.control);
           } catch(ex) {
             continue;
           }
-          
+
           // version detection etc.
           switch(id)
           {
@@ -119,46 +119,46 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
             case "silverlight":
               break;
           }
-          
-          entry.installed = true;          
+
+          entry.installed = true;
         }
       },
-      
+
       "default" : function()
       {
         var plugins = navigator.plugins;
         if (!plugins) {
           return;
         }
-      
+
         var db = this.__db;
         var verreg = /([0-9]\.[0-9])/g;
         var plugin, name;
-      
-        for (var i=0, il=plugins.length; i<il; i++) 
+
+        for (var i=0, il=plugins.length; i<il; i++)
         {
           plugin = plugins[i];
           name = plugin.name;
-        
-          for (var id in db) 
+
+          for (var id in db)
           {
             entry = db[id];
-            if (!entry.installed && name.indexOf(entry.plugin) !== -1) 
+            if (!entry.installed && name.indexOf(entry.plugin) !== -1)
             {
               entry.installed = true;
-              
+
               if (verreg.test(plugin.name) || verreg.test(plugin.description)) {
                 entry.version = parseFloat(RegExp.$1, 10);
               } else {
                 entry.version = 0;
               }
-            
+
               break;
             }
           }
         }
       }
-    })    
+    })
   },
 
 
