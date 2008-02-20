@@ -109,9 +109,7 @@ qx.Class.define("qx.legacy.theme.manager.Appearance",
         this.__cache[this._currentTheme.name] = {};
       }
 
-      var app = qx.core.Init.getInstance().getApplication();
-
-      if (app && app.getUiReady()) {
+      if (qx.legacy.ui.core.Widget.$$uiReady) {
         qx.legacy.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
       }
 

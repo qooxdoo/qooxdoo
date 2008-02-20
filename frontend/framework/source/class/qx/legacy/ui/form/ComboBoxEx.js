@@ -1580,15 +1580,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
 
   destruct : function()
   {
-    // If this is not a page unload, we have to reset the parent. Otherwise,
-    // disposing a ComboBox that was clicked at least once would mean that
-    // the popup is still referenced by the parent. When an application
-    // repeatedly creates and disposes ComboBoxes, this would mean a memleak
-    // (and it would also mess with other things like focus management).
-    if (this._popup && !qx.core.Object.inGlobalDispose()) {
-      this._popup.setParent(null);
-    }
-
     this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
   }
 });
