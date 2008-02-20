@@ -46,10 +46,10 @@ import os, codecs, cPickle, sys
 import gzip as sys_gzip
 import textutil
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -61,9 +61,9 @@ import textutil
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
         filePath = filePath + ".gz"
-    
+
     content = unicode(content).encode(encoding)
-    
+
     outputFile = sys_gzip.open(filePath, "wb", 9)
     outputFile.write(content)
     outputFile.close()
@@ -75,7 +75,7 @@ def gunzip(filePath, encoding="utf-8"):
 
     inputFile = sys_gzip.open(filePath, "rb")
     content = inputFile.read()
-    
+
     return textutil.any2Unix(unicode(content))
 
 
@@ -177,17 +177,12 @@ def readCache(cachePath):
 
 
 # deprecated
-def checkCache(filePath, cachePath, internalModTime):
+def checkCache(filePath, cachePath):
     fileModTime = os.stat(filePath).st_mtime
 
     try:
         cacheModTime = os.stat(cachePath).st_mtime
     except OSError:
         cacheModTime = 0
-
-    if internalModTime > cacheModTime:
-        # print "Invalid cache: %s" % filePath
-        # print "%s > %s" % (internalModTime, cacheModTime)
-        return True
 
     return fileModTime > cacheModTime
