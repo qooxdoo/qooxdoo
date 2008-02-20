@@ -54,15 +54,20 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     fromCollection : function(coll)
     {
-    	if (coll.item)
-    	{
-    		var arr = [];
-    		for (var i=0, l=coll.length; i<l; i++) {
-    		  arr[i] = coll[i];
-    		}
+      // Some collection is mshtml are not able to be sliced.
+      // This lines are a special workaround for this client.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+      	if (coll.item)
+      	{
+      		var arr = [];
+      		for (var i=0, l=coll.length; i<l; i++) {
+      		  arr[i] = coll[i];
+      		}
 
-    		return arr;
-    	}
+      		return arr;
+      	}
+      }
 
       return Array.prototype.slice.call(coll, 0);
     },
