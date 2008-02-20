@@ -56,6 +56,11 @@ error:
 # EXTENSIONS
 ################################################################################
 
+source-new:
+	@../../tool/generator.py -c jobs.json -j source -v
+
+build-new:
+	@../../tool/generator.py -c jobs.json -j build -v
 
 source-data:
 	@../../tool/generator.py -c jobs.json -j source-data -v
