@@ -354,40 +354,15 @@ qx.Class.define("qx.html.Element",
 
       if (!this._element)
       {
-        if (this._useInnerHtml)
-        {
-          var html = [];
+        this._createDomElement();
+        this._copyData();
 
-          html.push("<", this._nodeName, " ");
-          html.push(qx.bom.element.Attribute.compile(this.__attribValues));
-          html.push("style='", qx.bom.element.Style.compile(this.__styleValues), "'>");
-          html.push(this._compileChildren());
-          html.push("</", this._nodeName, ">");
-
-          this._html = html.join("");
-        }
-        else
-        {
-          this._createDomElement();
-          this._copyData();
-
-          if (length > 0) {
-            this._insertChildren();
-          }
+        if (length > 0) {
+          this._insertChildren();
         }
       }
       else
       {
-        if (this._useInnerHtml)
-        {
-          var compiled = this._compileChildren();
-          if (compiled != "")
-          {
-            this._htmlWrapper.innerHTML = compiled;
-            this._assignElements(this._htmlWrapper);
-          }
-        }
-
         this._syncData();
 
         if (this._modifiedChildren) {
@@ -398,56 +373,6 @@ qx.Class.define("qx.html.Element",
       delete this._modifiedChildren;
     },
 
-    _assignElements : function(parent)
-    {
-      if (this._children.length == 0) {
-        return;
-      }
-
-      var child, el;
-
-      for (var i=0, children=this._children, l=children.length; i<l; i++)
-      {
-        child = children[i];
-
-        if (child._included && child._html)
-        {
-          el = parent.childNodes[i];
-
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (child.getAttribute("id") != el.id) {
-              throw new Error("Oops. Something went wrong here. Different IDs found!");
-            }
-          }
-
-          child._element = el;
-          delete child._html;
-
-          child._assignElements(el);
-        }
-      }
-    },
-
-    _compileChildren : function()
-    {
-      var content = [];
-      var child;
-
-      for (var i=0, children=this._children, l=children.length; i<l; i++)
-      {
-        child = children[i];
-        if (child._included && child._html) {
-          content.push(child._html);
-        }
-      }
-
-      return content.join("");
-    },
-
-    // InnerHTML mode
-    _useInnerHtml : false,
-    _htmlWrapper : document.createElement("DIV"),
 
 
 
@@ -1661,7 +1586,7 @@ qx.Class.define("qx.html.Element",
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeAttribute : function(key, value, direct) {
+    removeAttribute : function(key, direct) {
       this.setAttribute(key, null, direct);
     },
 
