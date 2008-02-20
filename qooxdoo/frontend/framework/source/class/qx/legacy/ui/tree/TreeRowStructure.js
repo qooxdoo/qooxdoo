@@ -353,6 +353,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
   {
     this._disposeFields("_icons");
     this._disposeObjects('_indentObject', '_iconObject', '_labelObject');
-    this._disposeObjectDeep("_fields", 1);
+    this._disposeArray("_fields");
   }
 });

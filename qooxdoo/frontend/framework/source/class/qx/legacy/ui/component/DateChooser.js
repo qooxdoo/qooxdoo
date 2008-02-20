@@ -711,8 +711,8 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
 
     this._disposeObjects("_lastYearBt", "_lastMonthBt", "_nextMonthBt", "_nextYearBt", "_monthYearLabel");
 
-    this._disposeObjectDeep("_weekdayLabelArr", 1);
-    this._disposeObjectDeep("_dayLabelArr", 1);
-    this._disposeObjectDeep("_weekLabelArr", 1);
+    this._disposeArray("_weekdayLabelArr");
+    this._disposeArray("_dayLabelArr");
+    this._disposeArray("_weekLabelArr");
   }
 });
