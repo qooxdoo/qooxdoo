@@ -1044,7 +1044,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
 
   destruct : function()
   {
-    this._disposeObjectDeep("__cursors", 1);
+    this._disposeMap("__cursors");
     this._disposeObjects("__feedbackWidget");
     this._disposeFields("__dragCache", "__data", "__actions", "__lastDestinationEvent");
   }

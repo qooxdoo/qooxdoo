@@ -1471,7 +1471,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_children", 1);
+    this._disposeArray("_children");
     this._disposeObjects("_layoutImpl", "_focusHandler");
     this._disposeFields("_childrenQueue", "_childrenQueue", "_remappingChildTable",
       "_remappingChildTarget", "_cachedVisibleChildren");
