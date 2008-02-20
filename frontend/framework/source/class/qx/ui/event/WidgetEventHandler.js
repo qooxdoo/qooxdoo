@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
 
 
