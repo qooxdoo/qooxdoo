@@ -29,12 +29,12 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      var start = new Date;
       var body = new qx.html.Root(document.getElementById("test"));
 
       var wrapper = new qx.html.Element;
       wrapper.setStyle("float", "left");
       wrapper.setStyle("border", "2px solid black");
+      wrapper.setStyle("fontSize", "1px");
       body.add(wrapper);
 
       var il, jl;
@@ -59,11 +59,6 @@ qx.Class.define("BasicSample",
           il.add(jl)
         }
       }
-      body.debug("Create runtime: " + (new Date-start) + "ms");
-
-      var start = new Date;
-      qx.html.Element.flush();
-      body.debug("Flush runtime: " + (new Date-start) + "ms");
     }
   }
 });
