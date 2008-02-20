@@ -17,13 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.Application)
-#require(qx.event.dispatch.Direct)
-
-************************************************************************ */
-
 qx.Bootstrap.define("qx.core.ObjectRegistry",
 {
   /*
@@ -175,18 +168,5 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
       delete this.__registry;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics) {
-    qx.event.Registration.addListener(window, "shutdown", statics.shutdown, this);
   }
 });
