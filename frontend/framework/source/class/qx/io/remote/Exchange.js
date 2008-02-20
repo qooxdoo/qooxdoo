@@ -252,7 +252,7 @@ qx.Class.define("qx.io.remote.Exchange",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.ioRemoteDebug") && vReadyState > 3) {
-                qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
+                qx.legacy.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
               }
             }
 
@@ -273,7 +273,7 @@ qx.Class.define("qx.io.remote.Exchange",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.ioRemoteDebug") && vReadyState === 4) {
-                qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
+                qx.legacy.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
               }
             }
 
@@ -309,7 +309,7 @@ qx.Class.define("qx.io.remote.Exchange",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-                qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
+                qx.legacy.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
               }
             }
 
@@ -330,7 +330,7 @@ qx.Class.define("qx.io.remote.Exchange",
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
               if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-                qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
+                qx.legacy.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
               }
             }
 
@@ -343,7 +343,7 @@ qx.Class.define("qx.io.remote.Exchange",
               return true;
             }
 
-            qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+            qx.legacy.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
             return false;
         }
       }

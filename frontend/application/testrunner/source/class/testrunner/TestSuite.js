@@ -34,7 +34,7 @@ qx.Class.define("testrunner.TestSuite",
   {
     this.base(arguments);
 
-    // qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+    // qx.legacy.log.Logger.ROOT_LOGGER.removeAllAppenders();
     this.__tests = [];
 
     if (testClassOrNamespace) {

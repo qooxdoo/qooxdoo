@@ -25,9 +25,9 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.Class.define("qx.log.appender.JsUnit",
+qx.Class.define("qx.legacy.log.appender.JsUnit",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.log.appender.JsUnit",
     {
       if (window.warn && window.inform && window.debug)
       {
-        var log = qx.log.Logger;
+        var log = qx.legacy.log.Logger;
         var msg = qx.bom.String.fromText(this.formatLogEvent(evt));
 
         switch(evt.level)

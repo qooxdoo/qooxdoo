@@ -23,9 +23,9 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  */
-qx.Class.define("qx.log.appender.Window",
+qx.Class.define("qx.legacy.log.appender.Window",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.log.appender.Window",
   {
     this.base(arguments);
 
-    this._id = qx.log.appender.Window.register(this);
+    this._id = qx.legacy.log.appender.Window.register(this);
 
     this._name = name;
     if (this._name == null) {
@@ -92,7 +92,7 @@ qx.Class.define("qx.log.appender.Window",
      */
     register : function(appender)
     {
-      var WindowAppender = qx.log.appender.Window;
+      var WindowAppender = qx.legacy.log.appender.Window;
 
       var id = WindowAppender._nextId++;
       WindowAppender._registeredAppenders[id] = appender;
@@ -110,7 +110,7 @@ qx.Class.define("qx.log.appender.Window",
      *       WindowAppender with this ID is registered.
      */
     getAppender : function(id) {
-      return qx.log.appender.Window._registeredAppenders[id];
+      return qx.legacy.log.appender.Window._registeredAppenders[id];
     }
   },
 
@@ -285,7 +285,7 @@ qx.Class.define("qx.log.appender.Window",
 
       logDocument.open();
       logDocument.write("<html><head><title>" + this._name + "</title></head>"
-        + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
+        + '<body onload="qx = opener.qx;" onunload="try{qx.legacy.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
         + '  <style type="text/css">'
         + '    html, body, input, pre{ font-size: 11px; font-family: Tahoma, sans-serif; line-height : 1 }'
         + '    html, body{ padding: 0; margin: 0; border : 0 none; }'
@@ -418,7 +418,7 @@ qx.Class.define("qx.log.appender.Window",
       {
         var divElem = this._logWindow.document.createElement("div");
 
-        if (evt.level >= qx.log.Logger.LEVEL_ERROR)
+        if (evt.level >= qx.legacy.log.Logger.LEVEL_ERROR)
         {
           divElem.style.backgroundColor = "#FFEEEE";
 
@@ -426,7 +426,7 @@ qx.Class.define("qx.log.appender.Window",
             this._errorsPreventingAutoCloseCount += 1;
           }
         }
-        else if (evt.level == qx.log.Logger.LEVEL_DEBUG)
+        else if (evt.level == qx.legacy.log.Logger.LEVEL_DEBUG)
         {
           divElem.style.color = "gray";
         }

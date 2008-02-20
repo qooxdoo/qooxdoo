@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.log2.Logger)
+#require(qx.log.Logger)
 
 ************************************************************************ */
 
@@ -31,9 +31,9 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.Class.define("qx.log.appender.Native",
+qx.Class.define("qx.legacy.log.appender.Native",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 
@@ -63,43 +63,43 @@ qx.Class.define("qx.log.appender.Native",
     // overridden
     appendLogEvent : function(evt)
     {
-      var log = qx.log.Logger;
+      var log = qx.legacy.log.Logger;
       var msg = this.formatLogEvent(evt);
 
       switch(evt.level)
       {
         case log.LEVEL_DEBUG:
-          if (qx.log2.Logger.debug) {
-            qx.log2.Logger.debug(msg);
+          if (qx.log.Logger.debug) {
+            qx.log.Logger.debug(msg);
           }
 
           break;
 
         case log.LEVEL_INFO:
-          if (qx.log2.Logger.info) {
-            qx.log2.Logger.info(msg);
+          if (qx.log.Logger.info) {
+            qx.log.Logger.info(msg);
           }
 
           break;
 
         case log.LEVEL_WARN:
-          if (qx.log2.Logger.warn) {
-            qx.log2.Logger.warn(msg);
+          if (qx.log.Logger.warn) {
+            qx.log.Logger.warn(msg);
           }
 
           break;
 
         default:
-          if (qx.log2.Logger.error) {
-            qx.log2.Logger.error(msg);
+          if (qx.log.Logger.error) {
+            qx.log.Logger.error(msg);
           }
 
           break;
       }
 
       // Force a stack dump, for helping locating the error
-      if (evt.level >= log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && qx.log2.Logger.trace) {
-        qx.log2.Logger.trace();
+      if (evt.level >= log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && qx.log.Logger.trace) {
+        qx.log.Logger.trace();
       }
     }
   }

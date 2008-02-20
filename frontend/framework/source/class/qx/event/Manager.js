@@ -492,7 +492,7 @@ qx.Class.define("qx.event.Manager",
 
       if (!dispatched)
       {
-        qx.log2.Logger.error("No dispatcher can handle event of type " + type + " on " + target);
+        qx.log.Logger.error("No dispatcher can handle event of type " + type + " on " + target);
         return;
       }
 

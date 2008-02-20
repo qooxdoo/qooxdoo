@@ -20,9 +20,9 @@
 /**
  * A logger. Logs messages of one log category.
  */
-qx.Class.define("qx.log.Logger",
+qx.Class.define("qx.legacy.log.Logger",
 {
-  extend : qx.log.LogEventProcessor,
+  extend : qx.legacy.log.LogEventProcessor,
 
 
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.log.Logger",
     {
       if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
       {
-        var logger = qx.log.Logger.getClassLogger(fcn.self||this);
+        var logger = qx.legacy.log.Logger.getClassLogger(fcn.self||this);
 
         var functionName = qx.dev.StackTrace.getFunctionName(fcn);
         var className = fcn.self ? fcn.self.classname : "unknown";
@@ -94,7 +94,7 @@ qx.Class.define("qx.log.Logger",
     {
       if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
       {
-        var logger = qx.log.Logger.getClassLogger(clazz);
+        var logger = qx.legacy.log.Logger.getClassLogger(clazz);
 
         var className = clazz.self ? clazz.self.classname : "unknown";
         logger.warn(
@@ -124,7 +124,7 @@ qx.Class.define("qx.log.Logger",
         var splits = classname.split(".");
         var currPackage = window;
         var currPackageName = "";
-        var parentLogger = qx.log.Logger.ROOT_LOGGER;
+        var parentLogger = qx.legacy.log.Logger.ROOT_LOGGER;
 
         for (var i=0; i<splits.length-1; i++)
         {
@@ -134,14 +134,14 @@ qx.Class.define("qx.log.Logger",
           if (currPackage._logger == null)
           {
             // This package has no logger -> Create one
-            currPackage._logger = new qx.log.Logger(currPackageName, parentLogger);
+            currPackage._logger = new qx.legacy.log.Logger(currPackageName, parentLogger);
           }
 
           parentLogger = currPackage._logger;
         }
 
         // Create the class logger
-        logger = new qx.log.Logger(classname, parentLogger);
+        logger = new qx.legacy.log.Logger(classname, parentLogger);
         clazz._logger = logger;
       }
 
@@ -249,7 +249,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     indent : function() {
-      qx.log.Logger._indent++;
+      qx.legacy.log.Logger._indent++;
     },
 
 
@@ -262,7 +262,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     unindent : function() {
-      qx.log.Logger._indent--;
+      qx.legacy.log.Logger._indent--;
     },
 
 
@@ -315,7 +315,7 @@ qx.Class.define("qx.log.Logger",
     // overridden
     handleLogEvent : function(evt)
     {
-      var Filter = qx.log.Filter;
+      var Filter = qx.legacy.log.Filter;
 
       var decision = Filter.NEUTRAL;
       var logger = this;
@@ -376,7 +376,7 @@ qx.Class.define("qx.log.Logger",
         message    : msg,
         throwable  : exc,
         trace      : trace,
-        indent     : qx.log.Logger._indent,
+        indent     : qx.legacy.log.Logger._indent,
         instanceId : instanceId
       };
 
@@ -395,7 +395,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     debug : function(msg, instanceId, exc) {
-      this.log(qx.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
+      this.log(qx.legacy.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
     },
 
 
@@ -410,7 +410,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     info : function(msg, instanceId, exc) {
-      this.log(qx.log.Logger.LEVEL_INFO, msg, instanceId, exc);
+      this.log(qx.legacy.log.Logger.LEVEL_INFO, msg, instanceId, exc);
     },
 
 
@@ -425,7 +425,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     warn : function(msg, instanceId, exc) {
-      this.log(qx.log.Logger.LEVEL_WARN, msg, instanceId, exc);
+      this.log(qx.legacy.log.Logger.LEVEL_WARN, msg, instanceId, exc);
     },
 
 
@@ -440,7 +440,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     error : function(msg, instanceId, exc) {
-      this.log(qx.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
+      this.log(qx.legacy.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
     },
 
 
@@ -455,7 +455,7 @@ qx.Class.define("qx.log.Logger",
      * @return {void}
      */
     fatal : function(msg, instanceId, exc) {
-      this.log(qx.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
+      this.log(qx.legacy.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
     },
 
 
@@ -519,8 +519,8 @@ qx.Class.define("qx.log.Logger",
 
   settings :
   {
-    "qx.logAppender" : "qx.log.appender.Native",
-    "qx.minLogLevel" : 200 // qx.log.Logger.LEVEL_DEBUG
+    "qx.logAppender" : "qx.legacy.log.appender.Native",
+    "qx.minLogLevel" : 200 // qx.legacy.log.Logger.LEVEL_DEBUG
   },
 
 

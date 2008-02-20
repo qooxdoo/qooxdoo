@@ -1,7 +1,7 @@
 /*
 #require(qx.event.handler.Window)
 */
-qx.Bootstrap.define("qx.log2.Console",
+qx.Bootstrap.define("qx.log.appender.Console",
 {
   statics :
   {
@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.log2.Console",
       var markup =
       [
         '<div class="qxconsole">',
-        '<div class="control"><a href="javascript:qx.log2.Console.clear()">Clear</a> | <a href="javascript:qx.log2.Console.toggle()">Hide</a></div>',
+        '<div class="control"><a href="javascript:qx.log.Console.clear()">Clear</a> | <a href="javascript:qx.log.Console.toggle()">Hide</a></div>',
         '<div class="messages">',
         '</div>',
         '<div class="command">',
@@ -70,12 +70,12 @@ qx.Bootstrap.define("qx.log2.Console",
       this.toggle();
 
       // Finally register to log engine
-      qx.log2.Logger.register(this);
+      qx.log.Logger.register(this);
     },
 
     dispose : function()
     {
-      qx.log2.Logger.unregister(this);
+      qx.log.Logger.unregister(this);
     },
 
     process : function(entry)
@@ -118,11 +118,11 @@ qx.Bootstrap.define("qx.log2.Console",
       }
 
       this.__history.push(value);
-      qx.log2.Logger.debug(">>> " + value)
+      qx.log.Logger.debug(">>> " + value)
 
       var ret = window.eval(value);
       if (ret !== undefined) {
-        qx.log2.Logger.debug(ret);
+        qx.log.Logger.debug(ret);
       }
     },
 

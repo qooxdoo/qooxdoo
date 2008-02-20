@@ -23,9 +23,9 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  */
-qx.Class.define("qx.log.appender.Div",
+qx.Class.define("qx.legacy.log.appender.Div",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 
@@ -154,7 +154,7 @@ qx.Class.define("qx.log.appender.Div",
     // overridden
     appendLogEvent : function(evt)
     {
-      var Logger = qx.log.Logger;
+      var Logger = qx.legacy.log.Logger;
 
       // Initialize the log element if nessesary
       if (this._logElem == null)

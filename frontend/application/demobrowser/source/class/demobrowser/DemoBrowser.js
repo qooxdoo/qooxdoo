@@ -772,8 +772,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : "monospace"
       });
 
-      this.logappender = new qx.log.appender.HtmlElement;
-      this.logger = new qx.log.Logger("Demo Browser");
+      this.logappender = new qx.legacy.log.appender.HtmlElement;
+      this.logger = new qx.legacy.log.Logger("Demo Browser");
       this.logger.addAppender(this.logappender);
 
       this.f2.addListener("appear", function(e) {
@@ -1254,11 +1254,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (furl != null &&
           furl != this.defaultUrl &&
           fwindow.qx &&
-          fwindow.qx.log)
+          fwindow.qx.legacy.log)
       {
         // set logger
-        fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
-        fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
+        fwindow.qx.legacy.log.Logger.ROOT_LOGGER.removeAllAppenders();
+        fwindow.qx.legacy.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
 
         var url = fwindow.location.href;
         var posHtml = url.indexOf("/html/") + 6;

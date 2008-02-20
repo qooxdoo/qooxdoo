@@ -330,7 +330,7 @@ qx.Class.define("qx.Interface",
         {
           if (!preCondition.apply(this, arguments))
           {
-            qx.log2.Logger.trace();
+            qx.log.Logger.trace();
             throw new Error('Pre condition of method "' + functionName + '" defined by "' + iface.name + '" failed.');
           }
 

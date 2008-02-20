@@ -20,9 +20,9 @@
 /**
  * An appender. Does the actual logging.
  */
-qx.Class.define("qx.log.appender.Abstract",
+qx.Class.define("qx.legacy.log.appender.Abstract",
 {
-  extend : qx.log.LogEventProcessor,
+  extend : qx.legacy.log.LogEventProcessor,
   type : "abstract",
 
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.log.appender.Abstract",
     // overridden
     handleLogEvent : function(evt)
     {
-      if (this.decideLogEvent(evt) != qx.log.Filter.DENY) {
+      if (this.decideLogEvent(evt) != qx.legacy.log.Filter.DENY) {
         this.appendLogEvent(evt);
       }
     },
@@ -101,7 +101,7 @@ qx.Class.define("qx.log.appender.Abstract",
      */
     formatLogEvent : function(evt)
     {
-      var Logger = qx.log.Logger;
+      var Logger = qx.legacy.log.Logger;
 
       var text = "";
 

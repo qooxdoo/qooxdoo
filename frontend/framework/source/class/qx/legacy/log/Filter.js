@@ -20,7 +20,7 @@
 /**
  * A filter for log events.
  */
-qx.Class.define("qx.log.Filter",
+qx.Class.define("qx.legacy.log.Filter",
 {
   extend : qx.core.Object,
   type : "abstract",

@@ -390,7 +390,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     debug : function(msg) {
-      qx.log2.Logger.debug(this, msg);
+      qx.log.Logger.debug(this, msg);
     },
 
 
@@ -403,7 +403,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     info : function(msg) {
-      qx.log2.Logger.info(this, msg);
+      qx.log.Logger.info(this, msg);
     },
 
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     warn : function(msg) {
-      qx.log2.Logger.warn(this, msg);
+      qx.log.Logger.warn(this, msg);
     },
 
 
@@ -429,7 +429,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     error : function(msg) {
-      qx.log2.Logger.error(this, msg);
+      qx.log.Logger.error(this, msg);
     },
 
 
@@ -440,7 +440,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     trace : function() {
-      qx.log2.Logger.trace();
+      qx.log.Logger.trace();
     },
 
 
@@ -489,7 +489,7 @@ qx.Class.define("qx.core.Object",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-          qx.log2.Logger.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.log.Logger.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -541,7 +541,7 @@ qx.Class.define("qx.core.Object",
                 continue;
               }
 
-              qx.log2.Logger.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
+              qx.log.Logger.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
               delete this[vKey];
             }
           }

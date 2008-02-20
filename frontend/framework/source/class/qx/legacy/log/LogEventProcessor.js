@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#require(qx.log.DefaultFilter)
+#require(qx.legacy.log.DefaultFilter)
 
 ************************************************************************ */
 
@@ -27,7 +27,7 @@
  * Processes log events. May be configured with filters in order to specify
  * which log events should be processed.
  */
-qx.Class.define("qx.log.LogEventProcessor",
+qx.Class.define("qx.legacy.log.LogEventProcessor",
 {
   extend : qx.core.Object,
   type : "abstract",
@@ -106,13 +106,13 @@ qx.Class.define("qx.log.LogEventProcessor",
     {
       var headFilter = this.getHeadFilter();
 
-      if (!(headFilter instanceof qx.log.DefaultFilter))
+      if (!(headFilter instanceof qx.legacy.log.DefaultFilter))
       {
         // The head filter of the appender is no DefaultFilter
         // (or the appender has no filters at all)
         // -> Create a default handler and append it
         this.clearFilters();
-        headFilter = new qx.log.DefaultFilter();
+        headFilter = new qx.legacy.log.DefaultFilter();
         this.addFilter(headFilter);
       }
 
@@ -158,7 +158,7 @@ qx.Class.define("qx.log.LogEventProcessor",
      */
     decideLogEvent : function(evt)
     {
-      var NEUTRAL = qx.log.Filter.NEUTRAL;
+      var NEUTRAL = qx.legacy.log.Filter.NEUTRAL;
 
       if (this._filterArr != null)
       {

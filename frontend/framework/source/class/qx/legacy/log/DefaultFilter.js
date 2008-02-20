@@ -20,9 +20,9 @@
 /**
  * The default filter. Has a minimum level and can be enabled or disabled.
  */
-qx.Class.define("qx.log.DefaultFilter",
+qx.Class.define("qx.legacy.log.DefaultFilter",
 {
-  extend : qx.log.Filter,
+  extend : qx.legacy.log.Filter,
 
 
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.log.DefaultFilter",
      */
     decide : function(evt)
     {
-      var Filter = qx.log.Filter;
+      var Filter = qx.legacy.log.Filter;
 
       if (!this.getEnabled()) {
         return Filter.DENY;

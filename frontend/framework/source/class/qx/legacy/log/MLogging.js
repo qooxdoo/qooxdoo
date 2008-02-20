@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#optional(qx.log.Logger)
+#optional(qx.legacy.log.Logger)
 
 ************************************************************************ */
 
@@ -29,7 +29,7 @@
  *
  * Convenience functions to use the logging system of qooxdoo.
  */
-qx.Mixin.define("qx.log.MLogging",
+qx.Mixin.define("qx.legacy.log.MLogging",
 {
   members:
   {
@@ -37,15 +37,15 @@ qx.Mixin.define("qx.log.MLogging",
      * Returns the logger of this class.
      *
      * @type member
-     * @return {qx.log.Logger} the logger of this class.
+     * @return {qx.legacy.log.Logger} the logger of this class.
      */
     getLogger : function()
     {
-      if (qx.log.Logger) {
-        return qx.log.Logger.getClassLogger(this.constructor);
+      if (qx.legacy.log.Logger) {
+        return qx.legacy.log.Logger.getClassLogger(this.constructor);
       }
 
-      throw new Error("To enable logging please include qx.log.Logger into your build!");
+      throw new Error("To enable logging please include qx.legacy.log.Logger into your build!");
     },
 
     /**
