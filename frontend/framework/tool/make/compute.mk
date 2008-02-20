@@ -29,14 +29,14 @@
 # ==============================================================================
 
 ifneq ($(APPLICATION_INCLUDES),false)
-	
+
 	QOOXDOO_INCLUDE_CACHE = $(FRAMEWORK_PATH)/.includes
 
 	DOWNLOAD_CONTRIBS = $(filter contrib://%, $(APPLICATION_INCLUDES))
 	LOCAL_INCLUDES = $(filter-out contrib://%, $(APPLICATION_INCLUDES))
 
 	MANIFESTS = $(patsubst contrib://%, --manifest $(QOOXDOO_INCLUDE_CACHE)/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
-	MANIFESTS += $(patsubst %, --manifest %/Manifest.js , $(LOCAL_INCLUDES))		
+	MANIFESTS += $(patsubst %, --manifest %/Manifest.js , $(LOCAL_INCLUDES))
 
 	MANIFEST_ARGS = \
 	  --application-build-path $(APPLICATION_BUILD_PATH) \
@@ -45,7 +45,7 @@ ifneq ($(APPLICATION_INCLUDES),false)
 
 	APPLICATION_ADDITIONAL_CLASS_PATH += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --class-path`
 	APPLICATION_ADDITIONAL_CLASS_URI += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --class-uri`
-	
+
 	APPLICATION_ADDITIONAL_BUILD_OPTIONS += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --resource-flags-build`
 	APPLICATION_ADDITIONAL_SOURCE_OPTIONS += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --resource-flags-source`
 endif
@@ -310,17 +310,17 @@ endif
 # ==============================================================================
 
 # Make the appender available to enable classes to log at load time
-ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
-  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
-else
-  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
-endif
+#ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
+#  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
+#else
+#  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
+#endif
 
-ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
-  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
-else
-  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
-endif
+#ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
+#  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
+#else
+#  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
+#endif
 
 # profiler requires
 ifeq ($(APPLICATION_PROFILE_SOURCE),true)
@@ -347,7 +347,7 @@ endif
 # ==============================================================================
 
 COMPUTED_BUILD_VARIANT = --use-variant qx.domEditDistance:off --use-variant qx.deprecationWarnings:off
-COMPUTED_SOURCE_VARIANT = 
+COMPUTED_SOURCE_VARIANT =
 
 ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
   COMPUTED_BUILD_VARIANT += --use-variant qx.debug:off
@@ -463,7 +463,7 @@ endif
 # Adobe AIR support
 # ==============================================================================
 
-# Auto detected by looking for binary "adl", the "adt" in "bin" is just a shell 
+# Auto detected by looking for binary "adl", the "adt" in "bin" is just a shell
 # script or batch file which does not work via which under cygwin
 ifneq ($(APPLICATION_AIR_PATH),)
 	COMPUTED_CMD_AIR_ADT := $(APPLICATION_AIR_PATH)/lib/adt.jar

@@ -46,9 +46,6 @@ import sys, string, re, os, random, codecs
 import config, tokenizer, treegenerator, filetool, stringoptimizer, textutil
 import treeutil
 
-internalModTime = 0
-
-
 ##
 # Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
@@ -62,8 +59,6 @@ internalModTime = 0
 # @exception IOError  The error it throws
 #
 def validateFiles():
-
-    global internalModTime
 
     base = os.path.dirname(os.path.abspath(sys.argv[0]))
     if base.endswith("modules"):
@@ -90,20 +85,6 @@ def validateFiles():
 
             if fileModTime > maxFileModTime:
                 maxFileModTime = fileModTime
-
-
-    internalModTime = maxFileModTime
-
-
-
-def getInternalModTime(disableInternalCheck):
-
-    global internalModTime
-
-    if internalModTime == 0 and not disableInternalCheck:
-        validateFiles()
-
-    return internalModTime
 
 
 
@@ -217,7 +198,7 @@ def getTokens(fileDb, fileId, options):
             cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
             useCache = True
 
-            if not filetool.checkCache(filePath, cachePath, getInternalModTime(options.disableInternalCheck)):
+            if not filetool.checkCache(filePath, cachePath):
                 loadCache = True
 
         if loadCache:
@@ -260,7 +241,7 @@ def getTree(fileDb, fileId, options):
             cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
             useCache = True
 
-            if not filetool.checkCache(filePath, cachePath, getInternalModTime(options.disableInternalCheck)):
+            if not filetool.checkCache(filePath, cachePath):
                 loadCache = True
 
         if loadCache:
@@ -317,7 +298,7 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
                     break
 
                 # treat dependencies in defer as requires
-                if assembled == "qx.Class.define":
+                if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define":
                     if node.parent.type == "operand" and node.parent.parent.type == "call":
                         deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                         if deferNode != None:
@@ -471,7 +452,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
         cachePath = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + "-entry.pcl")
         useCache = True
 
-        if not filetool.checkCache(filePath, cachePath, getInternalModTime(options.disableInternalCheck)):
+        if not filetool.checkCache(filePath, cachePath):
             loadCache = True
 
 
@@ -676,6 +657,10 @@ def sortClass(fileDb, fileId, avail, result, verbose, dynLoad, dynRun):
     runDeps = fileEntry["runtimeDeps"]
     if dynRun.has_key(fileId):
         runDeps += dynRun[fileId]
+
+    #print fileId
+    #print loadDeps
+    #print
 
     # Priorize loadtime dependencies
     for depId in loadDeps:
