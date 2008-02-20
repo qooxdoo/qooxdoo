@@ -66,5 +66,7 @@ qx.Mixin.define("qx.util.manager.MConnectedObject",
       var valueManager = this._valueManager[key];
       valueManager.disconnect(this);
     }
+
+    this._disposeFields("_valueManager");
   }
 });
