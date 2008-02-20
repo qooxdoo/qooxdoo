@@ -38,8 +38,8 @@ qx.Class.define("qx.bom.element.Clip",
      * an element.
      *
      * @type static
-     * @param element {Element} DOM element to modify
-     *   <code>left</code>, <code>top</code>, <code>width</code>, <code>height</code>.
+     * @param map {Map}  Map which contains <code>left</code>, <code>top</code>
+     *   <code>width</code> and <code>height</code> of the clipped area.
      * @return {String} CSS compatible string
      */
     compile : function(map)

@@ -97,8 +97,8 @@ qx.Bootstrap.define("qx.bom.client.Flash",
         if (window.ActiveXObject) {
           return;
         }
-        
-        var full = [0,0,0];        
+
+        var full = [0,0,0];
         var fp6Crash = false;
 
         try {
@@ -138,11 +138,11 @@ qx.Bootstrap.define("qx.bom.client.Flash",
             full[1] = parseInt(info[1]);
             full[2] = parseInt(info[2]);
           }
-        }  
+        }
 
-        this.__store(full);              
+        this.__store(full);
       },
-      
+
       "default" : function()
       {
         if (!navigator.plugins || typeof navigator.plugins["Shockwave Flash"] !== "object") {
@@ -159,16 +159,17 @@ qx.Bootstrap.define("qx.bom.client.Flash",
           full[1] = parseInt(desc.replace(/^.*\.(.*)\s.*$/, "$1"), 10);
           full[2] = /r/.test(desc) ? parseInt(desc.replace(/^.*r(.*)$/, "$1"), 10) : 0;
         }
-        
+
         this.__store(full);
       }
     }),
-    
+
 
     /**
      * Internal storage helper
      *
      * @type static
+     * @param full {String} Full version string
      * @return {void}
      */
     __store : function(full)
