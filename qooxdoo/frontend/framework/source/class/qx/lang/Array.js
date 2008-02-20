@@ -52,7 +52,18 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param coll {var} node collection
      * @return {Array} a newly created array (copy) with the content of the node collection.
      */
-    fromCollection : function(coll) {
+    fromCollection : function(coll)
+    {
+    	if (coll.item)
+    	{
+    		var arr = [];
+    		for (var i=0, l=coll.length; i<l; i++) {
+    		  arr[i] = coll[i];
+    		}
+
+    		return arr;
+    	}
+
       return Array.prototype.slice.call(coll, 0);
     },
 

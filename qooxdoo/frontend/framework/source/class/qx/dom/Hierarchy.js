@@ -320,28 +320,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @return {Array} list of all found elements
      */
     getDescendants : function(element) {
-      var elements = element.getElementsByTagName("*");
-      
-      /*
-       * ATTENTION
-       * IE is returning a collection of elements which is NOT
-       * acting like an array. Instead of using square brackets
-       * one has to deal with the "item" method to access any member.
-       * 
-       * Transform the collection into an array before passing it to 
-       * the "fromCollection" method 
-       */
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var copy = [];
-        for (var i=0, j=elements.length; i<j; i++)
-        {
-          copy[i] = elements.item(i);
-        }
-        elements = copy;
-      }
-      
-      return qx.lang.Array.fromCollection(elements);
+      return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
     },
 
 
