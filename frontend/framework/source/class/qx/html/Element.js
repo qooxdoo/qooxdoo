@@ -1823,9 +1823,7 @@ qx.Class.define("qx.html.Element",
       }
     }
 
-    this._disposeObjectDeep("_children", 1);
-    this._disposeFields("__attribValues", "__styleValues", "__eventValues");
-    this._disposeFields("__attribJobs", "__styleJobs");
-    this._disposeFields("_element");
+    this._disposeArray("_children");
+    this._disposeFields("__attribValues", "__styleValues", "__eventValues", "__attribJobs", "__styleJobs", "_element");
   }
 });
