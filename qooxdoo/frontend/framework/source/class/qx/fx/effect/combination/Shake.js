@@ -58,17 +58,17 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   {
     this.base(arguments, element);
 
-    this._effects = {
-      1 : new qx.fx.effect.core.Move(this._element),
+    this._effects = [
+      new qx.fx.effect.core.Move(this._element),
 
-      2 : new qx.fx.effect.core.Move(this._element),
-      3 : new qx.fx.effect.core.Move(this._element),
+      new qx.fx.effect.core.Move(this._element),
+      new qx.fx.effect.core.Move(this._element),
 
-      4 : new qx.fx.effect.core.Move(this._element),
-      5 : new qx.fx.effect.core.Move(this._element),
+      new qx.fx.effect.core.Move(this._element),
+      new qx.fx.effect.core.Move(this._element),
 
-      6 : new qx.fx.effect.core.Move(this._element)
-    };
+      new qx.fx.effect.core.Move(this._element)
+    ];
   },
 
   /*
@@ -137,30 +137,29 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
       if(this.getDirection() == "horizontal")
       {
-        this._effects[1].set({ x : distance,    y : 0, duration : split});
-        this._effects[2].set({ x : -distance*2, y : 0, duration : split*2});
-        this._effects[3].set({ x : distance*2,  y : 0, duration : split*2});
-        this._effects[4].set({ x : -distance*2, y : 0, duration : split*2});
-        this._effects[5].set({ x : distance*2,  y : 0, duration : split*2});
-        this._effects[6].set({ x : -distance,   y : 0, duration : split*2});
+        this._effects[0].set({ x : distance,    y : 0, duration : split});
+        this._effects[1].set({ x : -distance*2, y : 0, duration : split*2});
+        this._effects[2].set({ x : distance*2,  y : 0, duration : split*2});
+        this._effects[3].set({ x : -distance*2, y : 0, duration : split*2});
+        this._effects[4].set({ x : distance*2,  y : 0, duration : split*2});
+        this._effects[5].set({ x : -distance,   y : 0, duration : split*2});
       }
       else if(this.getDirection() == "vertical")
       {
-        this._effects[1].set({ y : distance,    x : 0, duration : split});
-        this._effects[2].set({ y : -distance*2, x : 0, duration : split*2});
-        this._effects[3].set({ y : distance*2,  x : 0, duration : split*2});
-        this._effects[4].set({ y : -distance*2, x : 0, duration : split*2});
-        this._effects[5].set({ y : distance*2,  x : 0, duration : split*2});
-        this._effects[6].set({ y : -distance,   x : 0, duration : split*2});
+        this._effects[0].set({ y : distance,    x : 0, duration : split});
+        this._effects[1].set({ y : -distance*2, x : 0, duration : split*2});
+        this._effects[2].set({ y : distance*2,  x : 0, duration : split*2});
+        this._effects[3].set({ y : -distance*2, x : 0, duration : split*2});
+        this._effects[4].set({ y : distance*2,  x : 0, duration : split*2});
+        this._effects[5].set({ y : -distance,   x : 0, duration : split*2});
       }
 
       var effects = this._effects;
 
       for(var effect in this._effects)
       {
-        counter++;
         this._effects[effect].id = counter;
-        if (counter < 6)
+        if (counter < 5)
         {
           this._effects[effect].afterFinishInternal = function(){
             effects[this.id + 1].start();
@@ -174,8 +173,10 @@ qx.Class.define("qx.fx.effect.combination.Shake",
             }
           };
         }
+        counter++;
+
       }
-      this._effects[1].start();
+      this._effects[0].start();
 
     }
 
