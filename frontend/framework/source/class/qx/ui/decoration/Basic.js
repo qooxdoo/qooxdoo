@@ -289,9 +289,7 @@ qx.Class.define("qx.ui.decoration.Basic",
       nullable : true,
       init : "inherit",
       check : "Color",
-      apply : "_applyBackgroundColor",
-      event : "changeBackgroundColor",
-      inheritable : true
+      apply : "_applyBackgroundColor"
     },
 
 
