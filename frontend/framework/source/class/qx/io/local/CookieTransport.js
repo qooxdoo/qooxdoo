@@ -199,7 +199,7 @@ qx.Class.define("qx.io.local.CookieTransport",
 
         if (vTemp.length > qx.io.local.CookieTransport.MAXSIZE)
         {
-          qx.legacy.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Could not store value of name '" + vName + "': Maximum size of " + qx.io.local.CookieTransport.MAXSIZE + "reached!");
+          qx.log.Logger.debug("Could not store value of name '" + vName + "': Maximum size of " + qx.io.local.CookieTransport.MAXSIZE + "reached!");
           continue;
         }
 
@@ -209,7 +209,7 @@ qx.Class.define("qx.io.local.CookieTransport",
 
           if (vIndex == qx.io.local.CookieTransport.MAXCOOKIES)
           {
-            qx.legacy.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Failed to store cookie. Max cookie amount reached!", "error");
+            qx.log.Logger.debug("Failed to store cookie. Max cookie amount reached!", "error");
             return false;
           }
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      */
     _setCookie : function(vIndex, vString)
     {
-      // qx.legacy.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Store: " + vIndex + " = " + vString);
+      // qx.log.Logger.debug("Store: " + vIndex + " = " + vString);
       qx.io.local.CookieApi.set(qx.io.local.CookieTransport.BASENAME + vIndex, vString);
     },
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      */
     _delCookie : function(vIndex)
     {
-      // qx.legacy.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Delete: " + vIndex);
+      // qx.log.Logger.debug("Delete: " + vIndex);
       qx.io.local.CookieApi.del(qx.io.local.CookieTransport.BASENAME + vIndex);
     }
   }
