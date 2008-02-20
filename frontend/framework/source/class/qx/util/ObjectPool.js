@@ -44,20 +44,9 @@ qx.Class.define("qx.util.ObjectPool",
   {
     this.base(arguments);
 
-    this._pool = {};
+    this.__pool = {};
   },
 
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjectDeep("_pool", 1);
-  },
 
 
 
@@ -106,26 +95,27 @@ qx.Class.define("qx.util.ObjectPool",
     */
 
     /**
-     * Get the number of instance of type vClassname that are currently
+     * Get the number of instance of type classname that are currently
      * pooled.
      *
-     * @param vClassname {String} The name of the Object type to count.
+     * @param classname {String} The name of the Object type to count.
      *
-     * @return {Integer} The number of instance of type vClassname that are currently
+     * @return {Integer} The number of instance of type classname that are currently
      *         pooled.
      */
-    countObjectsOfType : function(vClassname)
+    countObjectsOfType : function(classname)
     {
-      // this.debug("countObjectsOfType() vClassname=" + vClassname );
-      // this.debug("countObjectsOfType() this._pool["+vClassname+"]=" + this._pool[vClassname]);
+      // this.debug("countObjectsOfType() classname=" + classname );
+      // this.debug("countObjectsOfType() this.__pool["+classname+"]=" + this.__pool[classname]);
       var count = 0;
 
-      if (this._pool[vClassname]) {
-        count = this._pool[vClassname].length;
+      if (this.__pool[classname]) {
+        count = this.__pool[classname].length;
       }
 
       return count;
     },
+
 
     /**
      * This method finds and returns an instance of a requested type in the pool,
@@ -133,18 +123,18 @@ qx.Class.define("qx.util.ObjectPool",
      * return to the client.  The client cannot get a specific instance from the
      * pool.
      *
-     * @param vClassname {String} The name of the Object type to return.
+     * @param classname {String} The name of the Object type to return.
      *
      * @return {Object} An instance of the requested type, or null if no such instance
      *         exists in the pool.
      */
-    getObjectOfType : function(vClassname)
+    getObjectOfType : function(classname)
     {
       var obj = null;
 
-      if (this._pool[vClassname])
+      if (this.__pool[classname])
       {
-        obj = this._pool[vClassname].pop();
+        obj = this.__pool[classname].pop();
 
         if (obj == undefined) {
           obj = null;
@@ -153,6 +143,7 @@ qx.Class.define("qx.util.ObjectPool",
 
       return obj;
     },
+
 
     /**
      * This method places an Object in a pool of Objects of its type.  Note that
@@ -180,13 +171,13 @@ qx.Class.define("qx.util.ObjectPool",
 
       // Check to see whether this instance is already in the pool
       //
-      // Note that iterating over this._pool[classname].length only works because
+      // Note that iterating over this.__pool[classname].length only works because
       // there are never any empty Array elements in the pool.
       var pooled = false;
 
-      for (i=0, l=this._pool[classname].length; i<l; i++)
+      for (i=0, l=this.__pool[classname].length; i<l; i++)
       {
-        if (this._pool[classname][i] == vObject)
+        if (this.__pool[classname][i] == vObject)
         {
           //this.warn("poolObject() Cannot pool " + vObject + " because it is already in the pool.");
           pooled = true;
@@ -203,7 +194,7 @@ qx.Class.define("qx.util.ObjectPool",
 
       // Pool instance if possible
       if (!pooled && !full) {
-        this._pool[classname].push(vObject);
+        this.__pool[classname].push(vObject);
       } else {
         //this.warn("poolObject() Cannot pool " + vObject + "; lost an instance of type " + classname);
       }
@@ -223,36 +214,64 @@ qx.Class.define("qx.util.ObjectPool",
      * already full.  As a side-effect of calling this method a pool will
      * be created if it does not already exist.
      *
-     * @param vClassname {String} The name of a type of Object.
+     * @param classname {String} The name of a type of Object.
      *
      * @return {Boolean} True if the pool is already full, otherwise false.  Note
      *         that is no upper limit is defined for the type, this method will
      *         always return false.
      */
-    _isPoolFull : function(vClassname)
+    _isPoolFull : function(classname)
     {
-      this._ensurePoolOfType(vClassname);
+      this._ensurePoolOfType(classname);
 
       var isPoolFull = false;
 
       if (this.getPoolSize() != null) {
-        isPoolFull = this._pool[vClassname].length >= this.getPoolSize();
+        isPoolFull = this.__pool[classname].length >= this.getPoolSize();
       }
 
       return isPoolFull;
     },
 
+
     /**
      * This method ensures that there is a pool for Objects of a given type.  If a
      * pool doesn't already exist, this method will create it.
      *
-     * @param vClassname {String} The name of a type of Object.
+     * @param classname {String} The name of a type of Object.
      */
-    _ensurePoolOfType : function(vClassname)
+    _ensurePoolOfType : function(classname)
     {
-      if (!this._pool[vClassname]) {
-        this._pool[vClassname] = [];
+      if (!this.__pool[classname]) {
+        this.__pool[classname] = [];
       }
     }
-  }
+  },
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var pool = this.__pool;
+    var i, l;
+
+    for (var classname in pool)
+    {
+      list = pool[classname];
+      for (i=0, l=list.length; i<l; i++) {
+        list[i].dispose();
+      }
+    }
+
+    this.__pool = null;
+  },
 });
