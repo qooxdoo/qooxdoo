@@ -48,7 +48,7 @@ qx.Class.define("qx.core.Package",
      * Loads any script file asynchronously.
      *
      * @type static
-     * @param name {String} Complete URI of the script
+     * @param url {String} Complete URI of the script
      * @param callback {Function} Function to execute on completetion
      * @param self {Object?window} Context to execute the given function
      * @return {void}

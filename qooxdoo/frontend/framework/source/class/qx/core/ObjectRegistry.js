@@ -119,7 +119,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * If the object is already disposed or the hashCode is invalid,
      * <code>null</code> is returned.
      *
-     * @param hashCode {Integer} The object's hash code.
+     * @param hash {Integer} The object's hash code.
      * @return {qx.core.Object|null} The corresponding object or <code>null</code>.
      */
     fromHashCode : function(hash) {

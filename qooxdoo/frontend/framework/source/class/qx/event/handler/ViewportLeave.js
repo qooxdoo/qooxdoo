@@ -145,7 +145,12 @@ qx.Class.define("qx.event.handler.ViewportLeave",
     */
 
     /**
+     * Event listener for native mouse out event
+     *
      * @signature function(domEvent)
+     * @type member
+     * @param domEvent {Event} Native event object
+     * @return {void}
      */
     _onNativeMouseOut : qx.core.Variant.select("qx.client",
     {
@@ -180,7 +185,12 @@ qx.Class.define("qx.event.handler.ViewportLeave",
 
 
     /**
+     * Event listener for native mouse over event
+     *
      * @signature function(domEvent)
+     * @type member
+     * @param domEvent {Event} Native event object
+     * @return {void}
      */
     _onNativeMouseOver : qx.core.Variant.select("qx.client",
     {
