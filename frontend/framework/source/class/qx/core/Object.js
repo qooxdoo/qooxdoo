@@ -23,6 +23,7 @@
 
 #optional(qx.dev.StackTrace)
 #require(qx.core.Property)
+#require(qx.core.ObjectRegistry)
 #use(qx.event.handler.Object)
 
 ************************************************************************ */
