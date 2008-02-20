@@ -18,17 +18,17 @@
 
       {
         "encoding" : "utf-8",
-        "path"     : "./source",
+        "path"     : "source",
         "uri"      : "../source"
       }
     ],
 
     "settings" :
     {
-      "qx.application" : "${APPLICATION_NAMESPACE}.Application",
-      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-      "qx.minLogLevel" : "700",
-      "qx.theme"       : "qx.theme.ClassicRoyale"
+      "qx.application"  : "apiviewer.Application",
+      "qx.resourceUri"  : "${QOOXDOO_URI}/framework/source/resource",
+      "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
+      "qx.version"      : "TODO"
     },
 
     "cache" :
@@ -45,15 +45,16 @@
   "source" :
   {
     "extend" : ["common"],
+    "include" : ["apiviewer.*","qx.legacy.theme.ClassicRoyale"],
 
     "settings" :
     {
-      "${APPLICATION_NAMESPACE}.resourceUri" : "./resource"
+      "apiviewer.resourceUri" : "./resource"
     },
-
+    
     "source" :
     {
-      "file" : "./source/script/${APPLICATION_NAMESPACE}.js"
+      "file" : "./source/script/apiviewer.js"
     }
   },
 
@@ -61,16 +62,17 @@
   "build" :
   {
     "extend" : ["common"],
+    "include" : ["apiviewer.*","qx.legacy.theme.ClassicRoyale"],
 
     "settings" :
     {
-      "${APPLICATION_NAMESPACE}.resourceUri" : "./resource/${APPLICATION_NAMESPACE}"
+      "apiviewer.resourceUri" : "./resource/apiviewer"
     },
 
     "compile" :
     {
-      "file" : "./build/script/${APPLICATION_NAMESPACE}.js",
-      "uri"  : "script/${APPLICATION_NAMESPACE}.js"
+      "file" : "./build/script/apiviewer.js",
+      "uri"  : "script/apiviewer.js"
     }
   },
 
