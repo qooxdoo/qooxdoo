@@ -260,8 +260,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_highlightEffects", 1);
+    this._disposeMap("_highlightEffects");
     this._disposeObjects("_mainEffect");
   }
-
 });

@@ -140,9 +140,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
    *****************************************************************************
    */
 
-   destruct : function()
-   {
-     this._disposeObjectDeep("_fadeEffects", 1);
+   destruct : function() {
+     this._disposeMap("_fadeEffects");
    }
-
 });

@@ -84,8 +84,6 @@ qx.Class.define("qx.fx.queue.Manager",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_instances", 1);
+    this._disposeMap("_instances");
   }
-
-
 });
