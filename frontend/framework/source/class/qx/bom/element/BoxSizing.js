@@ -99,23 +99,23 @@ qx.Class.define("qx.bom.element.BoxSizing",
      */
     compile : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, mode) {
+      "mshtml" : function(value) {
         throw new Error("This client do not support the dynamic modification of the box-sizing property.");
       },
 
       "default" : function(value)
       {
         var props = this.__cssProperties;
-        var value = "";
+        var css = "";
 
         if (props)
         {
           for (var i=0, l=props.length; i<l; i++) {
-            value += props[i] + ":" + value + ";";
+            css += props[i] + ":" + value + ";";
           }
         }
 
-        return value;
+        return css;
       }
     }),
 
