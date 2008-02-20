@@ -25,7 +25,7 @@
 
 qx.Class.define("testrunner.runner.TestAppender",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 

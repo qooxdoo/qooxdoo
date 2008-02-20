@@ -1,4 +1,4 @@
-qx.Bootstrap.define("qx.log2.Native",
+qx.Bootstrap.define("qx.log.appender.Native",
 {
   statics :
   {
@@ -8,16 +8,16 @@ qx.Bootstrap.define("qx.log2.Native",
       {
         if (window.console && console.firebug) {
           console[entry.level].apply(console, this.__toArguments(entry.items));
-        } 
+        }
       },
-      
+
       "opera" : function(entry)
       {
         if (window.opera && opera.postError) {
           opera.postError.apply(opera, this.__toArguments(entry.items));
         }
       },
-      
+
       "default" : function(entry) {}
     }),
 
@@ -34,6 +34,6 @@ qx.Bootstrap.define("qx.log2.Native",
   },
 
   defer : function(statics) {
-    qx.log2.Logger.register(statics);
+    qx.log.Logger.register(statics);
   }
 });

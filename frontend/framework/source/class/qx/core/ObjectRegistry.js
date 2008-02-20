@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         }
         catch(ex)
         {
-          qx.log2.Logger.error("Could not dispose object " + obj.toString() + ": " + ex);
+          qx.log.Logger.error("Could not dispose object " + obj.toString() + ": " + ex);
 
           if (i !== 0) {
             continue;
@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         break;
       }
 
-      qx.log2.Logger.debug("Disposed " + l + " objects");
+      qx.log.Logger.debug("Disposed " + l + " objects");
 
       delete this.__registry;
     }

@@ -23,9 +23,9 @@
  * arises what actions have caused the error.
  *
  */
-qx.Class.define("qx.log.appender.RingBuffer",
+qx.Class.define("qx.legacy.log.appender.RingBuffer",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 
@@ -158,7 +158,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
     formatLogEvents : function(count)
     {
       if (this._appenderToFormatStrings == null) {
-        this._appenderToFormatStrings = new qx.log.appender.Abstract();
+        this._appenderToFormatStrings = new qx.legacy.log.appender.Abstract();
       }
 
       var events = this.retrieveLogEvents(count);

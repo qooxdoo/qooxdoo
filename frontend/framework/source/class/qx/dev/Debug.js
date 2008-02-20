@@ -44,14 +44,14 @@ qx.Class.define("qx.dev.Debug",
      *   root will be used.  If provided, this should be an instance of an
      *   appender to which the object debug will be sent.  For example, you
      *   might pass, for this parameter, <code>new
-     *   qx.log.appender.Window()</code>.
+     *   qx.legacy.log.appender.Window()</code>.
      *
      * @return {void}
      */
     debugObject : function(obj, initialMessage, maxLevel, appender)
     {
       // Get a new logger
-      var logger = new qx.log.Logger("Debug", qx.log.Logger.ROOT_LOGGER);
+      var logger = new qx.legacy.log.Logger("Debug", qx.legacy.log.Logger.ROOT_LOGGER);
 
       // If a maximum recursion level was not specified...
       if (!maxLevel)

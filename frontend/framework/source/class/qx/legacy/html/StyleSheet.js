@@ -180,7 +180,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
         "safari2+" : function(vSheet, vSelector)
         {
           var warn = function() {
-            qx.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.legacy.html.StyleSheet.addRule");
+            qx.legacy.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.legacy.html.StyleSheet.addRule");
           };
 
           if (!vSheet._qxRules) {
