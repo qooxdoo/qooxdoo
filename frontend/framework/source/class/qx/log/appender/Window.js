@@ -206,7 +206,7 @@ qx.Class.define("qx.log.appender.Window",
      */
     openWindow : function()
     {
-      if (!qx.core.Init.getInstance().LOADED) {
+      if (!document.body) {
         return;
       }
 

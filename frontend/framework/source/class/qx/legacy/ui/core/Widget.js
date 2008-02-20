@@ -210,10 +210,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     flushGlobalQueues : function()
     {
-      if (qx.core.Object.inGlobalDispose()) {
-        return;
-      }
-
       if (qx.legacy.ui.core.Widget._inFlushGlobalQueues || !qx.legacy.ui.core.Widget.$$uiReady) {
         return;
       }
@@ -7111,7 +7107,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       {
         statics.flushGlobalQueues = function()
         {
-          if (statics._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
+          if (statics._inFlushGlobalQueues || !qx.legacy.ui.core.Widget.$$uiReady) {
             return;
           }
 
