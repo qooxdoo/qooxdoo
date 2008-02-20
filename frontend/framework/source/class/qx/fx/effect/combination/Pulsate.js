@@ -60,14 +60,14 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     var duration = this.getDuration() / 6;
 
-    this._fadeEffects = {
-      1 : new qx.fx.effect.core.FadeOut(this._element),
-      2 : new qx.fx.effect.core.FadeIn(this._element),
-      3 : new qx.fx.effect.core.FadeOut(this._element),
-      4 : new qx.fx.effect.core.FadeIn(this._element),
-      5 : new qx.fx.effect.core.FadeOut(this._element),
-      6 : new qx.fx.effect.core.FadeIn(this._element)
-    };
+    this._fadeEffects = [
+      new qx.fx.effect.core.FadeOut(this._element),
+      new qx.fx.effect.core.FadeIn(this._element),
+      new qx.fx.effect.core.FadeOut(this._element),
+      new qx.fx.effect.core.FadeIn(this._element),
+      new qx.fx.effect.core.FadeOut(this._element),
+      new qx.fx.effect.core.FadeIn(this._element)
+    ];
 
     for(var effect in this._fadeEffects)
     {
@@ -119,16 +119,16 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
       for(var effect in this._fadeEffects)
       {
-        counter++;
         this._fadeEffects[effect].id = counter;
-        if (counter < 6)
+        if (counter < 5)
         {
           this._fadeEffects[effect].afterFinishInternal = function(){
             fadeEffectsReference[this.id + 1].start();
           };
         }
+        counter++;
       }
-      this._fadeEffects[1].start();
+      this._fadeEffects[0].start();
     }
 
    },
@@ -141,6 +141,6 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
    */
 
    destruct : function() {
-     this._disposeMap("_fadeEffects");
+     this._disposeArray("_fadeEffects");
    }
 });
