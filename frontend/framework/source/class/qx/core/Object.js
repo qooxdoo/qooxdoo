@@ -558,24 +558,54 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Disconnects given fields from instance.
+     *
+     * @type member
+     * @param varargs {arguments} List of fields to dispose
+     * @return {void}
+     */
     _disposeFields : function(varargs) {
       qx.util.DisposeUtil.disposeFields(this, qx.lang.Array.fromArguments(arguments));
     },
 
+
+    /**
+     * Disconnects and disposes given objects from instance.
+     * Only works with qx.core.Object based objects e.g. Widgets.
+     *
+     * @type member
+     * @param varargs {arguments} List of fields (which store objects) to dispose
+     * @return {void}
+     */
     _disposeObjects : function(varargs) {
       qx.util.DisposeUtil.disposeObjects(this, qx.lang.Array.fromArguments(arguments));
     },
 
+
+    /**
+     * Disposes all members of the given array and deletes
+     * the field which refers to the array afterwards.
+     *
+     * @type member
+     * @param field {String} Name of the field which refers to the array
+     * @return {void}
+     */
     _disposeArray : function(field) {
       qx.util.DisposeUtil.disposeArray(this, field);
     },
 
+
+    /**
+     * Disposes all members of the given map and deletes
+     * the field which refers to the map afterwards.
+     *
+     * @type member
+     * @param field {String} Name of the field which refers to the array
+     * @return {void}
+     */
     _disposeMap : function(field) {
       qx.util.DisposeUtil.disposeMap(this, field);
-    },
-
-    _disposeObjectDeep : function(varargs) {
-      this.error("Method _disposeObjectDeep is not supported anymore!");
     }
   },
 
