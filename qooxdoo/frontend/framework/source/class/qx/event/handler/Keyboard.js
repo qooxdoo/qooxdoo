@@ -51,7 +51,13 @@ qx.Class.define("qx.event.handler.Keyboard",
 
     // Define shorthands
     this._manager = manager;
-    this._root = manager.getWindow().document.documentElement;
+
+    // Gecko ignore keyevents when not explicitely clicked in the document.
+    if (qx.core.Variant.isSet("qx.client", "gecko")) {
+      this._root = manager.getWindow();
+    } else {
+      this._root = manager.getWindow().document.documentElement;
+    }
 
     // Initialize observer
     this._initKeyObserver();
