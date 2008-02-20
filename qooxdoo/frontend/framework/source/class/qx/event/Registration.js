@@ -309,12 +309,10 @@ qx.Bootstrap.define("qx.event.Registration",
      * @internal
      * @type static
      * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
-     * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
-     *       or {@link #PRIORITY_LAST}.
      * @return {void}
      * @throws an error if the handler does not have the IEventHandler interface.
      */
-    addHandler : function(handler, priority)
+    addHandler : function(handler)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
