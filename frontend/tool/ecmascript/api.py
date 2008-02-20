@@ -86,12 +86,12 @@ def createDoc(syntaxTree, docTree = None):
 
     global hasDocError
     return (docTree, hasDocError)
-    
-    
+
+
 def createPackageDoc(text, packageName, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
-    
+
     package = getPackageNode(docTree, packageName)
 
     commentAttributes = comment.parseText(text)
@@ -112,8 +112,8 @@ def createPackageDoc(text, packageName, docTree = None):
             package.addChild(seeNode)
 
     return docTree
-    
-    
+
+
 
 
 ########################################################################################
@@ -502,7 +502,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             node.set("check", check.get("value"))
             #checkBasic = check.get("value")
         else:
-            printDocError(check, "Unknown check value", check)
+            printDocError(check, "Unknown check value")
             return node
 
 
