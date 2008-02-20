@@ -23,11 +23,6 @@
       }
     ],
 
-    "require" :
-    {
-      "qx.log.Logger" : ["qx.log.appender.Native"]
-    },
-
     "settings" :
     {
       "qx.application" : "${APPLICATION_NAMESPACE}.Application",

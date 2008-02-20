@@ -20,12 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-
-************************************************************************ */
-
 /**
  * @deprecated: Should be replaced by qx.bom.StyleSheet
  *
@@ -180,7 +174,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
         "safari2+" : function(vSheet, vSelector)
         {
           var warn = function() {
-            qx.legacy.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.legacy.html.StyleSheet.addRule");
+            qx.log.Logger.warn("In Safari/Webkit you can only remove rules that are created using qx.legacy.html.StyleSheet.addRule");
           };
 
           if (!vSheet._qxRules) {
