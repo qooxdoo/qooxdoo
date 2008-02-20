@@ -57,11 +57,14 @@ error:
 ################################################################################
 
 
-source:
+source-data:
 	@../../tool/generator.py -c jobs.json -j source-data -v
 
-build:
+build-data:
 	@../../tool/generator.py -c jobs.json -j build-data -v
+
+source: source-data
+build: build-data
 
 clean:
 	@$(CMD_REMOVE) source/script

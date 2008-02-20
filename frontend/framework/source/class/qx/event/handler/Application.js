@@ -164,6 +164,13 @@ qx.Class.define("qx.event.handler.Application",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Event listener for native load event
+     *
+     * @type member
+     * @param e {Event} Native event object
+     * @return {void}
+     */
     _onNativeLoad : function(e)
     {
       if (!this.__ready)
@@ -175,6 +182,14 @@ qx.Class.define("qx.event.handler.Application",
       }
     },
 
+
+    /**
+     * Event listener for native unload event
+     *
+     * @type member
+     * @param e {Event} Native event object
+     * @return {void}
+     */
     _onNativeUnload : function(e)
     {
       if (!this.__down)
