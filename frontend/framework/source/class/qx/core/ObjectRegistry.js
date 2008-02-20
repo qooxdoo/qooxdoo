@@ -172,6 +172,8 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         break;
       }
 
+      qx.log2.Logger.debug("Disposed " + l + " objects");
+
       delete this.__registry;
     }
   }
