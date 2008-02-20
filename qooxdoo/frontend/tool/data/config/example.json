@@ -28,11 +28,6 @@
       }
     ],
 
-    "require" :
-    {
-      "qx.log.Logger" : ["qx.log.appender.Native"]
-    },
-
     "cache" :
     {
       "path" : "cache"
