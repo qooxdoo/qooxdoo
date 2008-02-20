@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 /**
- * This manager (singleton) manage all drag and drop handling of a qx.core.Init instance.
+ * This manager (singleton) manage all drag and drop handling
  */
 qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
 {
