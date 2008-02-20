@@ -51,6 +51,8 @@ qx.Class.define("qx.application.Abstract",
      */
     __ready : function()
     {
+      qx.log2.Logger.debug("Loaded application in " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
+
       var app = qx.core.Setting.get("qx.application");
       var clazz = qx.Class.getByName(app);
 

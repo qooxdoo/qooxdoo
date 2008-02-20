@@ -95,7 +95,7 @@ qx.Class.define("apiviewer.Viewer",
         "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>" +
         " API Documentation" +
         "</h1>" +
-        "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>"
+        "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>"
       );
       header.setHtmlProperty("id", "header");
       header.setStyleProperty(
