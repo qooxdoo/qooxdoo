@@ -29,7 +29,7 @@
   qx.Class.define("AnimationDemo",
   {
 
-    extend : qx.application.Abstract,
+    extend : qx.legacy.application.Gui,
 
     members :
     {
@@ -38,7 +38,7 @@
 
         this.base(arguments);
 
-        var doc = doc = qx.legacy.ui.core.ClientDocument.getInstance();
+        var doc = qx.legacy.ui.core.ClientDocument.getInstance();
         myElement = document.getElementById("testDiv");;
         resetElement();
 
@@ -93,38 +93,23 @@
 <p>
  qooxdoo (pronounced [&rsquo;ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No <acronym title="HyperText Markup Language">HTML</acronym>, <acronym title="Cascading Style Sheets">CSS</acronym> nor <acronym title="Document Object Model">DOM</acronym> knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art <acronym title="Graphical User Interface">GUI</acronym> toolkit and an advanced client-server communication layer. It is Open Source under an <acronym title="GNU Lesser General Public License">LGPL</acronym>/<acronym title="Eclipse Public License">EPL</acronym> dual <a href="/license" class="wikilink1" title="license">license</a>. 
 </p>
-
-
 <b>Framework</b>
-
 <p>
  qooxdoo is entirely class-based and tries to leverage the features of object-oriented JavaScript. It is fully based on namespaces and does not extend native JavaScript types to allow for easy integration with other libraries and existing user code. Most <a href="/documentation/0.7/requirements#browser_requirements" class="wikilink1" title="documentation:0.7:requirements">modern browsers</a> are supported (e.g. Firefox, Internet Explorer, Opera, WebKit/Safari) and it is free of memory leaks. It comes with a <a href="http://api.qooxdoo.org" class="urlextern" title="http://api.qooxdoo.org">comprehensive API reference</a>, that is auto-generated from Javadoc-like comments and from the syntax tree representing the code. The fast and complete JavaScript parser not only allows doc generation, but is an integral part of the automatic build process that makes optimizing, compressing, linking and deployment of custom applications very user-friendly. Internationalization and localization of applications for various countries and languages is a core feature and easy to use.  <strong><a href="/about/framework" class="wikilink1" title="about:framework">more ...</a></strong>
 </p>
-
 <p>
-
-
 </p>
-
-
 <b>GUI Toolkit</b>
-
 <p>
  Despite being a pure JavaScript framework, qooxdoo is quite on par with <acronym title="Graphical User Interface">GUI</acronym> toolkits like Qt or  SWT when it comes to advanced yet easy to implement user interfaces. It offers a full-blown set of widgets that are hardly distinguishable from elements of native desktop applications. Full built-in support for keyboard navigation, focus and tab handling and drag &amp; drop is provided. Dimensions can be specified as static, auto-sizing, stretching, percentage, weighted flex or min/max or even as combinations of those. All widgets are based on powerful and flexible layout managers which are a key to many of the advanced layout capabilities. Interface description is done programmatically in JavaScript for maximum performance.
 </p>
-
 <p>
 No <acronym title="HyperText Markup Language">HTML</acronym> has to be used and augmented to define the interface. The qooxdoo user does not even have to know <acronym title="Cascading Style Sheets">CSS</acronym> to <a href="/documentation/general/styling_without_css_know-how" class="wikilink1" title="documentation:general:styling_without_css_know-how">style the interface</a>. Clean and easy-to-configure themes for appearance, colors, borders, fonts and icons allow for a full-fledged styling that even supports runtime switching.
 </p>
-
-
 <b>AJAX</b>
-
 <p>
  While being a client-side and server-agnostic solution, the qooxdoo project does include complete implementations of <acronym title="Remote Procedure Call">RPC</acronym> servers (currently Java, <acronym title="Hypertext Preprocessor">PHP</acronym>, <acronym title="Practical Extraction and Report Language">Perl</acronym>) to demonstrate some of its advanced client-server communcation. An abstract transport layer supports queues, timeouts and implementations via XMLHttpRequest, Iframes and Scripts. Like the rest of qooxdoo it fully supports event-based programming which greatly simplifies asynchronous communication.
 </p>
-
-
   </div>
   </body>
 </body>
