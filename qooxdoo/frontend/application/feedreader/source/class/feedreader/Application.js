@@ -104,7 +104,6 @@ qx.Class.define("feedreader.Application",
       this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
       this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
       this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
-      this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
 
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
@@ -523,22 +522,29 @@ qx.Class.define("feedreader.Application",
       // Read content
       var json = response.getContent();
 
-      // Normalize json feed data to item list
-      var items = feedreader.FeedParser.parseFeed(json);
+      try
+      {
+        // Normalize json feed data to item list
+        var items = feedreader.FeedParser.parseFeed(json);
 
-      // Post processing items
-      for (var i=0, l=items.length; i<l; i++) {
-        if (items[i].date) {
-          items[i].date = this._dateFormat.format(items[i].date);
+        // Post processing items
+        for (var i=0, l=items.length; i<l; i++) {
+          if (items[i].date) {
+            items[i].date = this._dateFormat.format(items[i].date);
+          }
+        }
+
+        // Store items
+        feed.items = items;
+
+        // Update display
+        if (this.getSelectedFeed() == feed) {
+          this._applySelectedFeed(feed);
         }
       }
-
-      // Store items
-      feed.items = items;
-
-      // Update display
-      if (this.getSelectedFeed() == feed) {
-        this._applySelectedFeed(feed);
+      catch(ex)
+      {
+        this.error("Could not parse feed: " + url);
       }
     }
   },
