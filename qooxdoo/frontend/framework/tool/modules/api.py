@@ -556,7 +556,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             node.set("check", check.get("value"))
             #checkBasic = check.get("value")
         else:
-            printDocError(check, "Unknown check value", check)
+            printDocError(check, "Unknown check value")
             return node
 
 
