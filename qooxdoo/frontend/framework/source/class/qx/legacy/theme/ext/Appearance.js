@@ -1669,7 +1669,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         };
       }
     },
-    
+
     "table-editor-textfield" :
     {
       include : "text-field",

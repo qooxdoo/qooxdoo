@@ -81,7 +81,7 @@ qx.Class.define("qx.bom.element.Overflow",
         return prop + ":" + value + ";";
       }
     }),
-    
+
 
     /**
      * Compiles the horizontal overflow property into a cross-browser style string.
@@ -89,7 +89,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @type static
      * @param value {String} Overflow value
      * @return {String} CSS string
-     */    
+     */
     compileX : function(value) {
       return this._compile("overflowX", value);
     },
@@ -101,12 +101,12 @@ qx.Class.define("qx.bom.element.Overflow",
      * @type static
      * @param value {String} Overflow value
      * @return {String} CSS string
-     */    
+     */
     compileY : function(value) {
       return this._compile("overflowY", value);
     },
-    
-    
+
+
     // Mozilla notes (http://developer.mozilla.org/en/docs/Mozilla_CSS_Extensions):
     // -moz-scrollbars-horizontal: Indicates that horizontal scrollbars should
     //    always appear and vertical scrollbars should never appear.
