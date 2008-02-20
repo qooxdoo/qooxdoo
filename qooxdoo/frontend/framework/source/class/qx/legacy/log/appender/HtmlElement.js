@@ -23,9 +23,9 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  */
-qx.Class.define("qx.log.appender.HtmlElement",
+qx.Class.define("qx.legacy.log.appender.HtmlElement",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 

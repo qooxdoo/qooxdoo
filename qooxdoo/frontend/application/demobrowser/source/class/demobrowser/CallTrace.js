@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.CallTrace", {
     callTraceEnter: function(fullName, fcn, type, args)
     {
       // time stamp
-      // code from qx.log.appender.Abstract
+      // code from qx.legacy.log.appender.Abstract
       var time = new String(new Date().getTime() - qx.Bootstrap.LOADSTART);
       while (time.length < 6) {
         time = "0" + time;

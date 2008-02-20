@@ -68,11 +68,11 @@
   </iframe>
 
   <script type="text/javascript">
-appender = new qx.log.appender.HtmlElement;
+appender = new qx.legacy.log.appender.HtmlElement;
 appender.setElement(document.getElementById("log"));
 
-qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
-qx.log.Logger.ROOT_LOGGER.addAppender(appender);
+qx.legacy.log.Logger.ROOT_LOGGER.removeAllAppenders();
+qx.legacy.log.Logger.ROOT_LOGGER.addAppender(appender);
 
 qx.Class.define("BasicSample",
 {

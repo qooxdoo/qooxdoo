@@ -359,8 +359,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       }, this);
 
       // log appender
-      // this.logappender = new qx.log.appender.Window("qooxdoo Test Runner");
-      // this.logappender = new qx.log.appender.Div("sessionlog");
+      // this.logappender = new qx.legacy.log.appender.Window("qooxdoo Test Runner");
+      // this.logappender = new qx.legacy.log.appender.Div("sessionlog");
       this.logappender = new testrunner.runner.TestAppender(this.f2);
 
       // TODO: the next line needs re-activation

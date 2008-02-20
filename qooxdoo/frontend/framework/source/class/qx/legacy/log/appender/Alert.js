@@ -29,9 +29,9 @@
  * window temporarily halts the regular program execution. That way even
  * the dispose process can easily be debugged.
  */
-qx.Class.define("qx.log.appender.Alert",
+qx.Class.define("qx.legacy.log.appender.Alert",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 

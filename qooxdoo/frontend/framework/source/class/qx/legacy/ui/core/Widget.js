@@ -7159,7 +7159,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
           if (vSum > 0)
           {
-            var logger = qx.log.Logger.getClassLogger(qx.legacy.ui.core.Widget);
+            var logger = qx.legacy.log.Logger.getClassLogger(qx.legacy.ui.core.Widget);
             logger.debug("Flush Global Queues");
             logger.debug("Widgets: " + vWidgetDuration + "ms (" + globalWidgetQueueLength + ")");
             logger.debug("State: " + vStateDuration + "ms (" + globalStateQueueLength + ")");

@@ -20,9 +20,9 @@
 /**
  * An appender that forwards all log events to a log event processor.
  */
-qx.Class.define("qx.log.appender.Forward",
+qx.Class.define("qx.legacy.log.appender.Forward",
 {
-  extend : qx.log.appender.Abstract,
+  extend : qx.legacy.log.appender.Abstract,
 
 
 
@@ -34,7 +34,7 @@ qx.Class.define("qx.log.appender.Forward",
   */
 
   /**
-   * @param targetProcessor {qx.log.LogEventProcessor} The log event processor Where to
+   * @param targetProcessor {qx.legacy.log.LogEventProcessor} The log event processor Where to
    *    pass the log events.
    */
   construct : function(targetProcessor)
