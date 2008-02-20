@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/*
+#require(qx.util.DeferredCallManager)
+*/
+
 /**
  * This class represents a wrapper for functions, which should be called after
  * the current thread of JavaScript has finished and the control is returned to
