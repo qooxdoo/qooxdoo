@@ -63,10 +63,10 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
     this.setForwardTransition(qx.fx.Transition.linear);
     this.setBackwardTransition(qx.fx.Transition.linear);
 
-    this._highlightEffects = {
-      1 : new qx.fx.effect.core.Highlight(this._element),
-      2 : new qx.fx.effect.core.Highlight(this._element)
-    };
+    this._highlightEffects = [
+      new qx.fx.effect.core.Highlight(this._element),
+      new qx.fx.effect.core.Highlight(this._element)
+    ];
 
   },
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       var counter = 0;
       var highlightEffectsReference = this._highlightEffects;
 
-      this._highlightEffects[1].set({
+      this._highlightEffects[0].set({
         startColor          : this.getStartColor(),
         endColor            : this.getEndColor(),
         duration            : this.getForwardDuration(),
@@ -203,7 +203,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         keepBackgroundImage : this.getKeepBackgroundImage()
       });
 
-      this._highlightEffects[2].set({
+      this._highlightEffects[1].set({
         startColor          : this.getEndColor(),
         endColor            : this.getStartColor(),
         duration            : this.getBackwardDuration(),
@@ -221,13 +221,13 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         if (counter == 1)
         {
           this._highlightEffects[effect].afterFinishInternal = function() {
-            highlightEffectsReference[2].start();
+            highlightEffectsReference[1].start();
           };
         }
         this._highlightEffects[effect].finish = function(){};
       }
 
-      this._highlightEffects[1].start();
+      this._highlightEffects[0].start();
 
     },
 
@@ -260,7 +260,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
   destruct : function()
   {
-    this._disposeMap("_highlightEffects");
+    this._disposeArray("_highlightEffects");
     this._disposeObjects("_mainEffect");
   }
 });
