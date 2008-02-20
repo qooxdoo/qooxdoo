@@ -58,22 +58,10 @@ error:
 
 
 source:
-	@$(CMD_GENERATOR) \
-		--disable-internal-check \
-	  --generate-api-documentation \
-	  --api-separate-files \
-	  --add-new-lines \
-	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
-	  --api-documentation-index-file $(APPLICATION_SOURCE_PATH)/script/apiindex.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+	@../../tool/generator.py -c jobs.json -j source-data -v
 
 build:
-	@$(CMD_GENERATOR) \
-	  --generate-api-documentation \
-	  --api-separate-files \
-	  --api-documentation-json-file $(APPLICATION_BUILD_PATH)/script/apidata.js \
-	  --api-documentation-index-file $(APPLICATION_BUILD_PATH)/script/apiindex.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+	@../../tool/generator.py -c jobs.json -j build-data -v
 
 clean:
 	@$(CMD_REMOVE) source/script
