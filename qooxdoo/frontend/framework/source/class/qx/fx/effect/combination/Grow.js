@@ -65,17 +65,16 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._mainEffect = new qx.fx.effect.core.Move(this._element);
-/*
-    var parallelEffect = new qx.fx.effect.core.Parallel([
+    
+    this._moveEffect.beforeStartInternal = function(){
+      qx.bom.element.Style.set(this._element, "visiblity", "visible");
+    };
+
+    this._mainEffect = new qx.fx.effect.core.Parallel([
       this._moveEffect,
       this._scaleEffect
     ]);
 
-    this._mainEffect.afterFinishInternal = function(effect) {
-      parallelEffect.start();
-    };
-*/
   },
 
   /*
@@ -126,29 +125,12 @@ qx.Class.define("qx.fx.effect.combination.Grow",
    members :
    {
 
-
-    afterFinishInternal : function()
-    {
-      qx.bom.element.Style.set(this._element, "overflow", "visible");
-
-      for (var property in this._oldStyle) {
-        console.info(property, this._oldStyle[property])
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-      }
-    },
-
-
     setup : function()
     {
       this.base(arguments);
 
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
-      /*
-      qx.bom.element.Style.set(this._element, "height", "0px");
-      qx.bom.element.Style.set(this._element, "width", "0px");
-      */
     },
-
 
     start : function()
     {
@@ -157,11 +139,18 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       var initialMoveX, initialMoveY;
       var moveX, moveY;
 
-      this._oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
+      var oldStyle = {
+        top    : qx.bom.element.Location.getTop(this._element),
+        left   : qx.bom.element.Location.getLeft(this._element),
         width  : qx.bom.element.Dimension.getWidth(this._element),
         height : qx.bom.element.Dimension.getHeight(this._element)
+      };
+
+      this._scaleEffect.afterFinishInternal = function()
+      {
+        for (var property in oldStyle) {
+          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+        }
       };
 
 
@@ -172,29 +161,29 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         break;
 
         case 'top-right':
-          initialMoveX = this._oldStyle.width;
+          initialMoveX = oldStyle.width;
           initialMoveY = moveY = 0;
-          moveX = -this._oldStyle.width;
+          moveX = -oldStyle.width;
         break;
 
         case 'bottom-left':
           initialMoveX = moveX = 0;
-          initialMoveY = this._oldStyle.height;
-          moveY = -this._oldStyle.height;
+          initialMoveY = oldStyle.height;
+          moveY = -oldStyle.height;
         break;
 
         case 'bottom-right':
-          initialMoveX = this._oldStyle.width;
-          initialMoveY = this._oldStyle.height;
-          moveX = -this._oldStyle.width;
-          moveY = -this._oldStyle.height;
+          initialMoveX = oldStyle.width;
+          initialMoveY = oldStyle.height;
+          moveX = -oldStyle.width;
+          moveY = -oldStyle.height;
         break;
 
         case 'center':
-          initialMoveX = Math.round(this._oldStyle.width / 2);
-          initialMoveY = Math.round(this._oldStyle.height / 2);
-          moveX = -Math.round(this._oldStyle.width / 2);
-          moveY = -Math.round(this._oldStyle.height / 2);
+          initialMoveX = Math.round(oldStyle.width / 2);
+          initialMoveY = Math.round(oldStyle.height / 2);
+          moveX = -Math.round(oldStyle.width / 2);
+          moveY = -Math.round(oldStyle.height / 2);
         break;
       }
 
@@ -209,19 +198,15 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         scaleTo : 100,
         sync: true,
         scaleFrom : 0,
+        scaleFromCenter : false,
         transition: this.getScaleTransition()
       });
 
-      this._mainEffect.set({
-        x : initialMoveX,
-        y : initialMoveY,
-        duration: 0.01
-      });
+      qx.bom.element.Style.set(this._element, "visiblity", "hidden");
+      qx.bom.element.Style.set(this._element, "top", oldStyle.top + initialMoveY);
+      qx.bom.element.Style.set(this._element, "left", oldStyle.left + initialMoveX);
 
-      this.setup();
-      this._scaleEffect.start();
-      
-      //this._mainEffect.start();
+      this._mainEffect.start();
     }
 
    },
