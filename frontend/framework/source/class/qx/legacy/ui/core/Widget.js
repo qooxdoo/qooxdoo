@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_core)
 #optional(qx.legacy.ui.core.Parent)
 #optional(qx.legacy.ui.form.Button)
 #optional(qx.event.Timer)
@@ -28,9 +27,7 @@
 #optional(qx.legacy.ui.popup.ToolTip)
 #optional(qx.legacy.ui.menu.Menu)
 #optional(qx.legacy.ui.basic.Inline)
-
 #require(qx.legacy.event.WidgetBubbling)
-#require(qx.legacy.core.Property)
 
 ************************************************************************ */
 

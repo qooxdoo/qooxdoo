@@ -18,13 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-#require(qx.legacy.core.Property)
-
-************************************************************************ */
-
 /** A mouse event instance contains all data for each occured mouse event */
 qx.Class.define("qx.legacy.event.type.MouseEvent",
 {
