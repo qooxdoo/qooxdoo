@@ -273,5 +273,5 @@ qx.Class.define("qx.util.ObjectPool",
     }
 
     this.__pool = null;
-  },
+  }
 });

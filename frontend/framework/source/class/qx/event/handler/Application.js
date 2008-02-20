@@ -169,6 +169,8 @@ qx.Class.define("qx.event.handler.Application",
       if (!this.__ready)
       {
         this.__ready = true;
+
+        // Fire user event
         qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "ready", false ]);
       }
     },
@@ -178,7 +180,12 @@ qx.Class.define("qx.event.handler.Application",
       if (!this.__down)
       {
         this.__down = true;
+
+        // Fire user event
         qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "shutdown", false ]);
+
+        // Execute registry shutdown
+        qx.core.ObjectRegistry.shutdown();
       }
     }
   },
