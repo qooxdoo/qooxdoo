@@ -39,35 +39,15 @@ qx.Class.define("qx.dev.Debug",
      *   The maximum level of recursion.  Objects beyond this level will not
      *   be displayed.
      *
-     * @param appender {Object, null}
-     *   If not provided (or provided as null), the default appender of the
-     *   root will be used.  If provided, this should be an instance of an
-     *   appender to which the object debug will be sent.  For example, you
-     *   might pass, for this parameter, <code>new
-     *   qx.legacy.log.appender.Window()</code>.
-     *
      * @return {void}
      */
-    debugObject : function(obj, initialMessage, maxLevel, appender)
+    debugObject : function(obj, initialMessage, maxLevel)
     {
-      // Get a new logger
-      var logger = new qx.legacy.log.Logger("Debug", qx.legacy.log.Logger.ROOT_LOGGER);
-
       // If a maximum recursion level was not specified...
       if (!maxLevel)
       {
         // ... then create one arbitrarily
         maxLevel = 10;
-      }
-
-      // If an appender was provided...
-      if (appender)
-      {
-        // ... then remove all existing appenders (the defaults), ...
-        logger.removeAllAppenders();
-
-        // ... and add the provided one.
-        logger.addAppender(appender);
       }
 
       // Initialize an empty message to be displayed
@@ -161,7 +141,7 @@ qx.Class.define("qx.dev.Debug",
         "============================================================\n";
 
       // We've compiled the complete message.  Give 'em what they came for!
-      logger.debug(message);
+      qx.log.Logger.debug(message);
     },
 
 
