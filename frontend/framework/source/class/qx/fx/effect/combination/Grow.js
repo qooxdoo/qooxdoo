@@ -66,7 +66,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
     this._mainEffect = new qx.fx.effect.core.Move(this._element);
-
+/*
     var parallelEffect = new qx.fx.effect.core.Parallel([
       this._moveEffect,
       this._scaleEffect
@@ -75,19 +75,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     this._mainEffect.afterFinishInternal = function(effect) {
       parallelEffect.start();
     };
-  /*
-    afterFinishInternal : function()
-    {
-      qx.bom.element.Style.set(this._element, "overflow", "visible");
-
-      for (var property in this._oldStyle) {
-        console.info(property, this._oldStyle[property])
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-      }
-    },
-
 */
-
   },
 
   /*
@@ -138,14 +126,29 @@ qx.Class.define("qx.fx.effect.combination.Grow",
    members :
    {
 
+
+    afterFinishInternal : function()
+    {
+      qx.bom.element.Style.set(this._element, "overflow", "visible");
+
+      for (var property in this._oldStyle) {
+        console.info(property, this._oldStyle[property])
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      }
+    },
+
+
     setup : function()
     {
       this.base(arguments);
 
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
+      /*
       qx.bom.element.Style.set(this._element, "height", "0px");
       qx.bom.element.Style.set(this._element, "width", "0px");
+      */
     },
+
 
     start : function()
     {
@@ -215,7 +218,10 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         duration: 0.01
       });
 
-      this._mainEffect.start();
+      this.setup();
+      this._scaleEffect.start();
+      
+      //this._mainEffect.start();
     }
 
    },
