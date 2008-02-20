@@ -570,7 +570,7 @@ qx.Class.define("qx.ui.layout.Abstract",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_children", 1);
+    this._disposeArray("_children");
     this._disposeFields("_options");
   }
 });

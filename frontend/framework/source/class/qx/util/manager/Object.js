@@ -78,6 +78,7 @@ qx.Class.define("qx.util.manager.Object",
       if (this.isDisposed()) {
         return;
       }
+
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       this._objects[hash] = vObject;
       return hash;
@@ -105,7 +106,8 @@ qx.Class.define("qx.util.manager.Object",
      *
      * @param obj {Object} Object to check
      */
-    has : function(vObject) {
+    has : function(vObject)
+    {
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       return this._objects[hash] !== undefined;
     },
@@ -118,7 +120,8 @@ qx.Class.define("qx.util.manager.Object",
      * @param vObject {var} TODOC
      * @return {var} TODOC
      */
-    get : function(vObject) {
+    get : function(vObject)
+    {
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
       return this._objects[hash];
     },
@@ -186,6 +189,6 @@ qx.Class.define("qx.util.manager.Object",
   */
 
   destruct : function() {
-     this._disposeObjectDeep("_objects");
+    this._disposeMap("_objects");
   }
 });
