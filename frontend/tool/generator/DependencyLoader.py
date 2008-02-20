@@ -268,36 +268,47 @@ class DependencyLoader:
 
     def sortClasses(self, include, variants):
         result = []
+        path = []
 
         for classId in include:
-            self._sortClassesRecurser(classId, include, variants, result)
+            self._sortClassesRecurser(classId, include, variants, result, path)
 
         return result
 
 
 
-    def _sortClassesRecurser(self, classId, available, variants, result):
+    def _sortClassesRecurser(self, classId, available, variants, result, path):
         if classId in result:
             return
 
         # reading dependencies
         deps = self.getCombinedDeps(classId, variants)
-
+        
+        # path is needed for recursion detection
+        if not classId in path:
+            path.append(classId)
+        
         # process loadtime requirements
         for item in deps["load"]:
             if item in available and not item in result:
-                self._sortClassesRecurser(item, available, variants, result)
+                if item in path:
+                    other = self.getCombinedDeps(item, variants)
+                    self._console.warn("Detected circular dependency between: %s and %s" % (classId, item))
+                    self._console.indent()
+                    self._console.debug("%s depends on: %s" % (classId, ", ".join(deps["load"])))                    
+                    self._console.debug("%s depends on: %s" % (item, ", ".join(other["load"])))
+                    self._console.outdent()
+                    sys.exit(1)
 
-        if classId in result:
-            return
+                self._sortClassesRecurser(item, available, variants, result, path)
 
-        # print "Add: %s" % classId
-        result.append(classId)
+        if not classId in result:
+            # remove element from path
+            path.remove(classId)
+            
+            # print "Add: %s" % classId
+            result.append(classId)
 
-        # process runtime requirements
-        for item in deps["run"]:
-            if item in available and not item in result:
-                self._sortClassesRecurser(item, available, variants, result)
 
 
 
