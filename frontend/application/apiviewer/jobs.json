@@ -1,5 +1,5 @@
 {
-  "common" : 
+  "common" :
   {
     "let" :
     [
@@ -28,7 +28,7 @@
       "qx.log.Logger" : ["qx.log.appender.Native"]
     },
 
-    "settings" : 
+    "settings" :
     {
       "qx.application" : "${APPLICATION_NAMESPACE}.Application",
       "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
@@ -36,19 +36,18 @@
       "qx.theme"       : "qx.theme.ClassicRoyale"
     },
 
-    "localize" :
-    {
-      "locales" : ["en", "de", "es", "it"]
-    },
- 
     "cache" :
     {
-      "path" : "../../cache2"
+      "path" : "../../cache"
     }
   },
 
 
-  "source" : 
+
+
+
+
+  "source" :
   {
     "extend" : ["common"],
 
@@ -64,7 +63,7 @@
   },
 
 
-  "build" : 
+  "build" :
   {
     "extend" : ["common"],
 
@@ -81,41 +80,33 @@
   },
 
 
-  "api-data" : 
+
+
+
+
+
+  "source-data" :
   {
     "extend" : ["common"],
+
+    "include" : ["qx.*"],
 
     "api" :
     {
-      "path" : "./api/script"
+      "path" : "source/script"
     }
- 
   },
 
 
-  "api-build" : 
+  "build-data" :
   {
     "extend" : ["common"],
 
-    "settings" : 
-    {
-      "qx.application" : "apiviewer.Application",
-      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-      "apiviewer.resourceUri" : "./resource/apiviewer",
-      "qx.minLogLevel" : "700",
-      "qx.theme"       : "qx.theme.ClassicRoyale",
-      "apiviewer.title": "Generator2 API Viewer"
-     },
+    "include" : ["qx.*"],
 
-    "variants" :
+    "api" :
     {
-      "qx.debug" : ["off"]
-    },
-
-    "compile" :
-    {
-      "file" : "./api/script/apiviewer.js",
-      "uri"  : "script/apiviewer.js"
+      "path" : "build/script"
     }
   }
 }
