@@ -54,10 +54,27 @@ qx.Class.define("qx.bom.Image",
       return el;
     },
 
+
+    /**
+     * Sets the source to the given value.
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @param value {String} Image URL to use
+     * @return {void}
+     */
     setSource : function(element, value) {
       element.src = value;
     },
 
+
+    /**
+     * Returns the configured source
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {String} Current image
+     */
     getSource : function(element) {
       return element.src;
     }
