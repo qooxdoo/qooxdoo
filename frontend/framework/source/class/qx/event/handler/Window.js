@@ -190,7 +190,10 @@ qx.Class.define("qx.event.handler.Window",
         e = window.event;
       }
 
-      this._manager.fireCustomEvent(this._window, qx.event.type.Event, [e.type, false]);
+      var mgr = this._manager;
+      if (mgr) {
+        mgr.fireCustomEvent(this._window, qx.event.type.Event, [e.type, false]);
+      }
     }
   },
 
@@ -207,7 +210,6 @@ qx.Class.define("qx.event.handler.Window",
   destruct : function()
   {
     this._stopWindowObserver();
-
     this._disposeFields("_manager", "_window");
   },
 
