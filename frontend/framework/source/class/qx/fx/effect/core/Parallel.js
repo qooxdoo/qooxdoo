@@ -123,9 +123,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    *****************************************************************************
    */
 
-   destruct : function()
-   {
-     this._disposeObjectDeep("_effects", 1);
+   destruct : function() {
+     this._disposeArray("_effects");
    }
-
 });

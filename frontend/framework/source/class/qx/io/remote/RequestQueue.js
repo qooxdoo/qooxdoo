@@ -446,7 +446,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_active", 1);
+    this._disposeArray("_active");
     this._disposeObjects("_timer");
     this._disposeFields("_queue");
   }

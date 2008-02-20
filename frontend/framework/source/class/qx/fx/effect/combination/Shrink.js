@@ -204,10 +204,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
    *****************************************************************************
    */
 
-   destruct : function()
-   {
-     this._disposeObjects("_moveEffect", "_scaleEffect");
-     this._disposeObjectDeep("_mainEffect", 1);
+   destruct : function() {
+     this._disposeObjects("_moveEffect", "_scaleEffect", "_mainEffect");
    }
-
 });
