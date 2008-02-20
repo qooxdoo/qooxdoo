@@ -58,15 +58,15 @@ qx.Bootstrap.define("qx.lang.Array",
       // This lines are a special workaround for this client.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-      	if (coll.item)
-      	{
-      		var arr = [];
-      		for (var i=0, l=coll.length; i<l; i++) {
-      		  arr[i] = coll[i];
-      		}
+        if (coll.item)
+        {
+          var arr = [];
+          for (var i=0, l=coll.length; i<l; i++) {
+            arr[i] = coll[i];
+          }
 
-      		return arr;
-      	}
+          return arr;
+        }
       }
 
       return Array.prototype.slice.call(coll, 0);
@@ -306,8 +306,8 @@ qx.Bootstrap.define("qx.lang.Array",
      * Check whether the two arr have the same content. Checks only the
      * equality of the arrays' content.
      *
-     * @param array1 {Array} first arr
-     * @param array2 {Array} second arr
+     * @param arr1 {Array} first arr
+     * @param arr2 {Array} second arr
      * @return {Boolean} Whether the two arrays are equal
      */
     equals : function(arr1, arr2)
