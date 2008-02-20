@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 
+#require(qx.util.StringSplit)
 #require(qx.bom.client.Engine)
 #require(qx.bom.client.Feature)
 #require(qx.bom.client.Platform)

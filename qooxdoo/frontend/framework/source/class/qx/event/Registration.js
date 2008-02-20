@@ -20,6 +20,7 @@
 
 /*
 #require(qx.event.Manager)
+#require(qx.dom.Node)
 */
 
 /**
