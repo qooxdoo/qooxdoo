@@ -55,15 +55,15 @@ qx.Theme.define("Decorations1",
 
     "round" :
     {
-      clazz : qx.ui.decoration.CssRoundedBorder,
+      clazz : qx.ui.decoration.RoundedBorder,
 
       style :
       {
-        radius: 20,
-        backgroundColor: "gray",
-        width: 3,
+        radius: [50, 30, 20, 20],
+        backgroundColor: "red",
+        width: [10, 30, 20, 15],
         style: "solid",
-        color: "black"
+        color: ["purple", "blue", "yellow", "green"]
       }
     },
 
@@ -111,7 +111,7 @@ qx.Theme.define("Decorations2",
 
     "round" :
     {
-      clazz : qx.ui.decoration.CssRoundedBorder,
+      clazz : qx.ui.decoration.RoundedBorder,
 
       style :
       {

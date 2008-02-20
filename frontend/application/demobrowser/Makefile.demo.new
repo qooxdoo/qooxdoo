@@ -37,11 +37,11 @@ APPLICATION_PROFILE_BUILD = false
 APPLICATION_OPTIMIZE_REMOVE_ASPECTS = false
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
-  --include qx.ui.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.* \
+  --include qx.ui.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.*,qx.theme.* \
   --use-setting qx.allowUrlSettings:true
 
 APPLICATION_ADDITIONAL_BUILD_OPTIONS = \
-  --include qx.ui.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.* \
+  --include qx.ui.*,qx.html.*,qx.bom.*,qx.event.*,qx.application.*,qx.fx.*,qx.theme.* \
   --use-setting qx.allowUrlSettings:true
 
 ################################################################################
