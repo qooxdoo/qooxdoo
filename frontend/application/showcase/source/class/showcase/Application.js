@@ -26,11 +26,11 @@
 #embed(qx.icontheme/32/*)
 #embed(qx.icontheme/48/*)
 
-#use(qx.theme.ClassicRoyale)
-#use(qx.theme.ClassicLunaBlue)
-#use(qx.theme.ClassicLunaGreen)
-#use(qx.theme.ClassicLunaSilver)
-#use(qx.theme.Ext)
+#use(qx.legacy.theme.ClassicRoyale)
+#use(qx.legacy.theme.ClassicLunaBlue)
+#use(qx.legacy.theme.ClassicLunaGreen)
+#use(qx.legacy.theme.ClassicLunaSilver)
+#use(qx.legacy.theme.Ext)
 
 ************************************************************************ */
 
