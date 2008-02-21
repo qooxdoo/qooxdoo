@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.demo.bom.Event_2",
     bindIFrameEvents : function()
     {
       var iframe = window.document.getElementById("iframe");
-      var document = qx.legacy.html.Iframe.getDocument(iframe);
+      var document = qx.bom.Iframe.getDocument(iframe);
 
       this._juhu = document.getElementById("juhu");
       this._inner = document.getElementById("inner");
