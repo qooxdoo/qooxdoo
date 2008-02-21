@@ -21,6 +21,7 @@
 /*
 #require(qx.event.Manager)
 #require(qx.dom.Node)
+#require(qx.lang.Function)
 */
 
 /**

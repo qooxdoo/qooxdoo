@@ -46,9 +46,13 @@ qx.Class.define("qx.event.Manager",
     // Assign window object
     this.__window = win;
 
-    // Register to the page unload event
-    this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
-    qx.event.Registration.addNativeListener(this.__window, "unload", this.__disposeWrapper);
+    // Register to the page unload event.
+    // Only for iframes and other secondary documents.
+    if (win != window)
+    {
+      this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
+      qx.event.Registration.addNativeListener(win, "unload", this.__disposeWrapper);
+    }
 
     // Registry for event listeners
     this.__listeners = {};
