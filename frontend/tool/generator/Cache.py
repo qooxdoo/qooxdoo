@@ -1,24 +1,25 @@
 import os, sys, sha, cPickle
 from misc import filetool
 
+memcache = {}
+
 class Cache:
     def __init__(self, config, console):
-        self._path = config.get("path")
+        self._path = config.get("path", "cache")
         self._console = console
-        self._memory = {}
 
 
     def filename(self, cacheId):
         splittedId = cacheId.split("-")
         baseId = splittedId.pop(0)
         digestId = sha.new("-".join(splittedId)).hexdigest()
-        
+
         return "%s-%s" % (baseId, digestId)
 
 
     def read(self, cacheId, dependsOn=None, memory=False):
-        if self._memory.has_key(cacheId):
-            return self._memory[cacheId]
+        if memcache.has_key(cacheId):
+            return memcache[cacheId]
 
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
@@ -38,7 +39,7 @@ class Cache:
             content = cPickle.load(open(cacheFile, 'rb'))
 
             if memory:
-                self._memory[cacheId] = content
+                memcache[cacheId] = content
 
             return content
 
@@ -59,4 +60,4 @@ class Cache:
             sys.exit(1)
 
         if memory:
-            self._memory[cacheId] = content
+            memcache[cacheId] = content

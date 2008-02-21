@@ -6,7 +6,7 @@ class LibraryPath:
     def __init__(self, config, console):
         self._config = config
         self._console = console
-        
+
         self._classes = {}
         self._docs = {}
         self._translations = {}
@@ -19,16 +19,16 @@ class LibraryPath:
     _classFolder = "class"
     _translationFolder = "translation"
     _docFilename = "__init__.js"
-    
+
 
     def getClasses(self):
         return self._classes
-        
-        
+
+
     def getDocs(self):
         return self._docs
-        
-        
+
+
     def getTranslations(self):
         return self._translations
 
@@ -64,12 +64,12 @@ class LibraryPath:
         self._scanTranslationPath(translationPath)
 
         self._console.outdent()
-        
+
 
     def _getCodeId(self, fileContent):
         for item in self._codeExpr.findall(fileContent):
             return item[1]
-            
+
         return None
 
 
@@ -121,18 +121,18 @@ class LibraryPath:
                 # Ignore dot files
                 if fileName.startswith("."):
                     continue
-                
+
                 # Process path data
                 filePath = os.path.join(root, fileName)
                 fileRel = filePath.replace(path + os.sep, "")
                 fileExt = os.path.splitext(fileName)[-1]
-                
+
                 # Compute full URI from relative path
                 fileUri = uri + "/" + fileRel.replace(os.sep, "/")
 
                 # Compute identifier from relative path
                 filePathId = fileRel.replace(fileExt, "").replace(os.sep, ".")
-                
+
                 # Extract package ID
                 filePackage = filePathId[:filePathId.rfind(".")]
 
@@ -144,13 +144,13 @@ class LibraryPath:
                         "path" : filePath,
                         "encoding" : encoding,
                         "namespace" : self._namespace,
-                        "id" : filePathId,                        
+                        "id" : filePathId,
                         "package" : filePackage
                     }
-                    
+
                     # Stop further processing
                     continue
-            
+
                 # Ignore non-script
                 if os.path.splitext(fileName)[-1] != ".js":
                     continue
@@ -160,11 +160,11 @@ class LibraryPath:
 
                 # Extract code ID (e.g. class name, mixin name, ...)
                 fileCodeId = self._getCodeId(fileContent)
-                
+
                 # Ignore all data files (e.g. translation, doc files, ...)
                 if fileCodeId == None:
                     continue
-                
+
                 # Compare path and content
                 if fileCodeId != filePathId:
                     self._console.error("Detected conflict between filename and classname!")
@@ -184,10 +184,10 @@ class LibraryPath:
                     "id" : filePathId,
                     "package" : filePackage
                 }
-                
+
         self._console.indent()
         self._console.debug("Found %s classes" % len(self._classes))
-        self._console.debug("Found %s docs" % len(self._docs))        
+        self._console.debug("Found %s docs" % len(self._docs))
         self._console.outdent()
 
 
