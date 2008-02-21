@@ -28,7 +28,31 @@ qx.Class.define("demobrowser.demo.ui.HBoxLayout_3",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+
+      // auto width + reversed
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", height: 80});
+      var layout1 = new qx.ui.layout.HBox();
+
+      layout1.setReversed(true);
+      layout1.setSpacing(5);
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxHeight:60});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight:60});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxHeight:60});
+
+      layout1.add(w1, { align : "top" });
+      layout1.add(w2, { align : "middle" });
+      layout1.add(w3, { align : "bottom" });
+
+      box1.setLayout(layout1);
+      doc.add(box1, 10, 10);
     }
   }
 });
