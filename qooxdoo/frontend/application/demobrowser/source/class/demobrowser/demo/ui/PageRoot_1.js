@@ -28,7 +28,44 @@ qx.Class.define("demobrowser.demo.ui.PageRoot_1",
     {
       this.base(arguments);
 
+      var doc = new qx.ui.root.Page(document);
 
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      // doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
+      doc.setTextColor("black");
+
+      var box = new qx.ui.core.Widget();
+      var layout = new qx.ui.layout.HBox();
+      box.setLayout(layout);
+
+      var w1 = new qx.ui.core.Widget().set({
+        backgroundColor: "red",
+        decorator: border,
+        padding: 10
+      });
+
+      var w2 = new qx.ui.core.Widget().set({
+        backgroundColor: "blue",
+        decorator: border
+      });
+
+      var w3 = new qx.ui.core.Widget().set({
+        backgroundColor: "green",
+        decorator: border
+      });
+
+      var w4 = new qx.ui.core.Widget().set({
+        backgroundColor: "yellow",
+        decorator: border
+      });
+
+      layout.add(w1);
+      layout.add(w2);
+      layout.add(w3);
+      layout.add(w4);
+
+      doc.add(box, 30, 120);
     }
   }
 });

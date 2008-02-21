@@ -1,56 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.enableApplicationLayout" : false,
-      "qx.boxModelCorrection" : false,
-      "qx.application" : "BasicSample"      
-    };
-  </script>
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
-  <style type="text/css">
-    body {
-      font: 11px Tahoma, sans-serif;
-    }
-  </style>
+  <script type="text/javascript" src="../../script/demobrowser.demo.ui.ResizeEvent_1.js"></script>
 </head>
 <body>
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
 
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      var red = (new qx.ui.core.Widget).set({backgroundColor: "red", width: 80});
-      var blue = (new qx.ui.core.Widget).set({backgroundColor: "blue"});
-
-      doc.add(red, 10, 10);
-      doc.add(blue, 10, 110);
-
-      red.addListener("resize", function(e) {
-        this.debug("Resize red");
-        blue.setWidth(e.getData().width);
-      });
-
-      red.addListener("click", function() {
-        red.setWidth(red.getWidth() + 10);
-      });
-    }
-  }
-});
-
-  </script>
 </body>
 </html>
