@@ -1,16 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.enableApplicationLayout" : false,
-      "qx.boxModelCorrection" : false,
-      "qx.application" : "BasicSample"      
-    };
-  </script>
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.ui.InlineRoot_1.js"></script>
 </head>
 <body>
   <div id="text-content" style="font-size:16px;line-height:24px">
@@ -18,65 +9,5 @@
     <div id="isle"></div>
     per in arx persisto Conculco Vere to aut in, via Remitto, solum casso hic at vis series, to. Doxa In, revello en Propitius. Nec vas forfex dies Quid eo omnipotens, eo. Seu his ex cui hic Exorsus, ivi sed bos Secus an tam Inibi conor his Laxo crepusculum, de. Luo vis enim ne, hi. Rigor ars Veho ficus ruo neque, os duo rigor Sum better) exeo. Beo, suo Sal sectator, dicto edo pilus Repo. Ne, an mel nitor Lex edoctus ante sis hic Fides. Sic tum pes Facio Ius penitus. No, sus os lemma Familia. Mire hae opus Nam pro sis Renuo optatus census. Adhuc censeo Cruentus, at. Ligo amnis opus tam ops is do Vietus spurcus, os ictus eu quis non tui Plures per, no. Uter Qui surgo, os. Nascor Abrogo Ius, et. Via adeo hic, sui Curo ius Non, re. Garrio vena, ex. Plango fas permeo Expilatio ut indo tero, re. Ver esse armo Fio puto orca maneo Trado ita, os. Etiam te reus alma cur Desolo, St. Hic se rebello se distinguo si stupeo tam dum Diruo. Sicut de umquam res neo recubo Vicarius faveo Nam castellanus lex Domus, me. Ne is en altilis no ubi et Senium ater quibus, ut. Ala certamen Promitto, eo. Re se speculatio lama, in. Vox rex Nunc, ne. Nos quies Excello, tu. Ver peto aula duco dis tueor labor, ut. Error per egeo Fundo ira via inhoneste Fas, do. Is ludus, lux rex St peto serenus laxe, do. Sodes me prex ac Illi fines cura, et. Daps ludus sui, do. Plura veho Algor ivi voco per Tibi facunde, et. Eventus boo res Nec is Lampas. Tui, boo clam Advoco, ex. Ludio Allatus, in. Jus Farrago molior, se. Ars, se. Arx redeo Proles Neo, se. Una leto Gestum quid, ut.. Pars hio elatio Largitio cui, os os quo tendo lito nam cui rebello, ivi Reor epops aut pax Detestor erro diu Ingressus No has res vilis Maculosus ut aut humus Elido cui leo magis roto, te per res nam ago, me mus hoc tellus inopportunitas haec, esca ara jurgium in sui ver Glorifico vultur res furor To laxe nam muto, teneo ego ivi, Tenus Telum Labor abeo calamitosus Ius aut Exsequor sis sudo fama Impeditio superstes cardo Jacio far fervidus fundo sol cum murus tepidus promulgatio mel plumbum si mille Alius quia curvo epos, texo Per immundus ubi chorus Veter m.
   </div>
-
-
-
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
-      var isle = new qx.ui.root.Inline(document.getElementById("isle")).set({
-        decorator: border,
-        padding: 10,
-        textColor: "black",
-        backgroundColor: "white"
-      });
-      //isle.getElement().setStyle("font", "11px Tahoma, sans-serif");
-
-
-      var w1 = new qx.ui.core.Widget().set({
-        backgroundColor: "red",
-        decorator: border,
-        padding: 10
-      });
-
-      var w2 = new qx.ui.core.Widget().set({
-        backgroundColor: "blue",
-        decorator: border
-      });
-
-      var w3 = new qx.ui.core.Widget().set({
-        backgroundColor: "green",
-        decorator: border
-      });
-
-      var w4 = new qx.ui.core.Widget().set({
-        backgroundColor: "yellow",
-        decorator: border
-      });
-
-      var layout = new qx.ui.layout.HBox();
-
-      layout.add(w1);
-      layout.add(w2);
-      layout.add(w3);
-      layout.add(w4);
-
-      isle.setLayout(layout);
-    }
-  }
-});
-
-  </script>
 </body>
 </html>

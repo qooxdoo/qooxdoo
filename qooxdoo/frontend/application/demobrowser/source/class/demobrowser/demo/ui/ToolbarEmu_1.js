@@ -28,7 +28,57 @@ qx.Class.define("demobrowser.demo.ui.ToolbarEmu_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+
+      // toolbar like with one "button" which does not stretch
+      var layout = new qx.ui.layout.HBox();
+
+      var box1 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "yellow",
+        width: 600,
+        height : 50,
+        layout: layout
+      });
+
+
+      var w1 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 20
+      });
+      layout.add(w1);
+
+      var w2 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 40
+      });
+      layout.add(w2);
+
+      var w3 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 20,
+        allowGrowY: false
+      });
+      layout.add(w3);
+      layout.addLayoutProperty(w3, "align", "middle");
+
+      var w4 = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height : 20
+      });
+      layout.add(w4);
+
+      doc.add(box1, 10, 10);
     }
   }
 });

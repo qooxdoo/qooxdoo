@@ -28,7 +28,46 @@ qx.Class.define("demobrowser.demo.ui.InlineRoot_1",
     {
       this.base(arguments);
 
+var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
+      var isle = new qx.ui.root.Inline(document.getElementById("isle")).set({
+        decorator: border,
+        padding: 10,
+        textColor: "black",
+        backgroundColor: "white"
+      });
+      //isle.getElement().setStyle("font", "11px Tahoma, sans-serif");
+
+
+      var w1 = new qx.ui.core.Widget().set({
+        backgroundColor: "red",
+        decorator: border,
+        padding: 10
+      });
+
+      var w2 = new qx.ui.core.Widget().set({
+        backgroundColor: "blue",
+        decorator: border
+      });
+
+      var w3 = new qx.ui.core.Widget().set({
+        backgroundColor: "green",
+        decorator: border
+      });
+
+      var w4 = new qx.ui.core.Widget().set({
+        backgroundColor: "yellow",
+        decorator: border
+      });
+
+      var layout = new qx.ui.layout.HBox();
+
+      layout.add(w1);
+      layout.add(w2);
+      layout.add(w3);
+      layout.add(w4);
+
+      isle.setLayout(layout);
     }
   }
 });
