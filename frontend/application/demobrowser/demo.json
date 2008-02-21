@@ -1,0 +1,58 @@
+{
+  "common" :
+  {
+    "let" :
+    [
+      ["CLASS", "XXX"]
+    ],
+
+    "include" : ["${CLASS}"],
+
+    "cache" :
+    {
+      "path" : "../../cache"
+    },
+
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path" : "../../framework/source",
+        "uri" : "../../../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "source",
+        "uri" : "../.."
+      }
+    ]
+  },
+
+  "source" :
+  {
+    "extend" : [ "common" ],
+
+    "source" :
+    {
+      "file" : "source/script/${CLASS}.js"
+    }
+  },
+
+  "compile" :
+  {
+    "extend" : [ "common" ],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "build/script/${CLASS}.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }
+  }
+}
