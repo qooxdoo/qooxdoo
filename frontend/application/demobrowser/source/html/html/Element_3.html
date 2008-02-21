@@ -1,63 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <title>HTML/Element 3</title>
 </head>
 <body>
-  <div id="description">
-  </div>
-
   <div id="test"></div>
-
-  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var body = new qx.html.Root(document.getElementById("test"));
-
-      var inp1 = new qx.html.Element("input");
-      inp1.setAttribute("type", "text");
-      inp1.focus();
-
-      inp1.addListener("focus", function(e) {
-        qx.log.Logger.debug("Element focused");
-      });
-
-      inp1.addListener("blur", function(e) {
-        qx.log.Logger.debug("Element blurred");
-      });
-
-      qx.bom.Element.addListener(document.documentElement, "focusin", function(e) {
-        qx.log.Logger.debug("FocusIn: ", e.getTarget());
-      });
-
-      body.add(inp1);
-
-      qx.html.Element.flush();
-    }
-  }
-});
-
-qx.core.Init.getInstance().setApplication(new BasicSample);
-  </script>
 </body>
 </html>

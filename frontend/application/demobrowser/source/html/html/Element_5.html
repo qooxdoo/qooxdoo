@@ -1,67 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <title>HTML/Element 5</title>
 </head>
 <body>
   <div id="test"></div>
-
-  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var body = new qx.html.Root(document.getElementById("test"));
-
-      var wrapper = new qx.html.Element;
-      wrapper.setStyle("float", "left");
-      wrapper.setStyle("border", "2px solid black");
-      wrapper.setStyle("fontSize", "1px");
-      body.add(wrapper);
-
-      var il, jl;
-      for (var i=0; i<40; i++)
-      {
-        il = new qx.html.Element;
-        il.setAttribute("id", "row" + i);
-        il.setStyle("marginBottom", "2px");
-        il.setStyle("float", "left");
-        il.setStyle("clear", "left");
-        wrapper.add(il);
-
-        for (var j=0; j<40; j++)
-        {
-          jl = new qx.html.Element;
-          jl.setAttribute("id", "row" + i + "col" + j);
-          jl.setStyle("marginRight", "2px");
-          jl.setStyle("float", "left");
-          jl.setStyle("width", "12px");
-          jl.setStyle("height", "12px");
-          jl.setStyle("backgroundColor", "red");
-          il.add(jl)
-        }
-      }
-    }
-  }
-});
-  </script>
 </body>
 </html>
