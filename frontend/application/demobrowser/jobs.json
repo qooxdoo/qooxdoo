@@ -21,15 +21,15 @@
       "path" : "../../cache"
     }
   },
-  
+
   "common-demo" :
   {
     "extend" : ["common"],
 
     "include" : ["qx.ui.*","qx.html.*","qx.bom.*","qx.event.*","qx.application.*","qx.fx.*"]
   },
-  
-  "compile-demo" :
+
+  "build-demo" :
   {
     "extend" : ["common-demo"],
 
@@ -45,7 +45,7 @@
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
   },
-  
+
   "source-demo" :
   {
     "extend" : ["common-demo"],
@@ -54,6 +54,5 @@
     {
       "file" : "source/script/demo.js"
     }
-  }   
+  }
 }
-    

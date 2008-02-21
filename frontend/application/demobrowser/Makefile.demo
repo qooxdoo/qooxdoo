@@ -38,11 +38,13 @@ APPLICATION_OPTIMIZE_REMOVE_ASPECTS = false
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
   --exclude-without-dependencies demobrowser.* \
+  --exclude-without-dependencies qx.legacy.* \
   --use-setting qx.allowUrlSettings:true \
   --use-setting qx.enableAspect:false \
   --add-require qx.Class:qx.dev.Profile
-  
+
 APPLICATION_ADDITIONAL_BUILD_OPTIONS = \
+  --exclude-without-dependencies qx.legacy.* \
   --use-setting qx.allowUrlSettings:true \
   --use-setting qx.enableAspect:false \
   --add-require qx.Class:qx.dev.Profile
@@ -61,27 +63,14 @@ error:
 
 
 
-
-
 ################################################################################
 # EXTENSIONS
 ################################################################################
 
-source:
-	@echo
-	@echo "  GENERATION OF DEMO BROWSER DATA"
-	@$(CMD_LINE)
-	@echo "  * Generating $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
-	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/html
+source-new:
+	@rm -rf source/class/demo
+	@../../tool/generator.py -c jobs.json -j source-demo -v
 
-build:
-	@echo
-	@echo "  GENERATION OF DEMO BROWSER DATA"
-	@$(CMD_LINE)
-	@echo "  * Generating $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
-	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_BUILD_PATH)/html
-
-clean:
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
-	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
-
+build-new:
+	@rm -rf source/class/demo
+	@../../tool/generator.py -c jobs.json -j build-demo -v
