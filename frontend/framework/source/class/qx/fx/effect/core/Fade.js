@@ -35,13 +35,17 @@
 ************************************************************************ */
 
 /**
- * Core effect "Fade In"
+ * Core effect "Fade"
  *
  * This effect fades in the specified element:
- * it changes to opacity from a given value to 1.0.
+ * it changes to opacity from a given value to another.
+ * If target value is 0, it will hide the element, if value is
+ * 1, it will show it using the "display" property.
+ * You can toggle this behavior using the "modifyDisplay" property:
+ * {@link qx.fx.effect.core.Fade}.
  */
 
-qx.Class.define("qx.fx.effect.core.FadeIn",
+qx.Class.define("qx.fx.effect.core.Fade",
 {
 
   extend : qx.fx.Base,
@@ -63,6 +67,24 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
       {
         init : true,
         check : "Boolean"
+      },
+
+      /**
+       * Initial opacity value.
+       */
+      from :
+      {
+        init   : 1.0,
+        refine : true
+      },
+
+      /**
+       * Final opacity value.
+       */
+      to :
+      {
+        init   : 0.0,
+        refine : true
       }
 
    },
@@ -88,9 +110,17 @@ qx.Class.define("qx.fx.effect.core.FadeIn",
     {
       qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
 
-      if (this.getModifyDisplay()) {
-        qx.bom.element.Style.set(this._element, "display", "block");
+      if (this.getModifyDisplay())
+      {
+        if (this.getTo() == 1) {
+          qx.bom.element.Style.set(this._element, "display", "block");
+        }
+        else if (this.getTo() == 0)
+        {
+          qx.bom.element.Style.set(this._element, "display", "none");
+        }
       }
+
     }
 
   }
