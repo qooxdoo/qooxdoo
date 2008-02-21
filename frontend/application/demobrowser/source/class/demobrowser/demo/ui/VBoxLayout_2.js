@@ -28,7 +28,100 @@ qx.Class.define("demobrowser.demo.ui.VBoxLayout_2",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+
+      // auto size + negative margins
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width:180});
+      var layout1 = new qx.ui.layout.VBox();
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxWidth:100});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxWidth:100});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxWidth:100});
+
+      layout1.add(w1, { align : "left" });
+      layout1.add(w2, { marginTop : -10, align : "center" });
+      layout1.add(w3, { marginTop : -10, align : "right" });
+
+      box1.setLayout(layout1);
+      doc.add(box1, 10, 10);
+
+
+
+
+      // auto size + negative margins + collapsing
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width:180});
+      var layout1 = new qx.ui.layout.VBox();
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxWidth:100});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxWidth:100});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxWidth:100});
+
+      layout1.add(w1, { align : "left" });
+      layout1.add(w2, { marginTop : -10, marginBottom : 20, align : "center" });
+      layout1.add(w3, { marginTop : -10, align : "right" });
+
+      box1.setLayout(layout1);
+      doc.add(box1, 210, 10);
+
+
+
+
+      // auto size + negative margins + flex
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width:180, height: 300});
+      var layout1 = new qx.ui.layout.VBox();
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxWidth:100});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxWidth:100});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxWidth:100});
+
+      layout1.add(w1, { flex : 1, align : "left" });
+      layout1.add(w2, { flex : 1, marginTop : -10, align : "center" });
+      layout1.add(w3, { flex : 1, marginTop : -10, align : "right" });
+
+      box1.setLayout(layout1);
+      doc.add(box1, 410, 10);
+
+
+
+
+
+      // auto size + negative margins + different flex
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width:180, height: 300});
+      var layout1 = new qx.ui.layout.VBox();
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxWidth:100});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxWidth:100});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxWidth:100});
+
+      layout1.add(w1, { flex : 1, align : "left" });
+      layout1.add(w2, { flex : 2, marginTop : -10, align : "center" });
+      layout1.add(w3, { flex : 3, marginTop : -10, align : "right" });
+
+      box1.setLayout(layout1);
+      doc.add(box1, 610, 10);
+
+
+
+      // auto size + negative margins + different flex (using height)
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", width:180, height: 300});
+      var layout1 = new qx.ui.layout.VBox();
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxWidth:100});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxWidth:100});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxWidth:100});
+
+      layout1.add(w1, { height : "1*", align : "left" });
+      layout1.add(w2, { height : "2*", marginTop : -10, align : "center" });
+      layout1.add(w3, { height : "3*", marginTop : -10, align : "right" });
+
+      box1.setLayout(layout1);
+      doc.add(box1, 810, 10);
     }
   }
 });
