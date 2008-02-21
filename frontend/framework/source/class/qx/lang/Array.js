@@ -391,60 +391,7 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       return result;
-    },
-
-
-    /**
-     * Returns all elements which do no apply to given function.
-     *
-     * Opposite of {@link qx.lang.Array#findAll}
-     *
-     * @type static
-     * @param arr {Array} Array to process
-     * @param iterator {Function} Fuction which should be called for every element as parameter.
-     * @param context {Object} Context in which the iterator should be called.
-     * @return {Array} Array with all elements for which the given function returns false.
-     */
-    reject : function(arr, iterator, context)
-    {
-      var results = [];
-      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator;
-
-      for (var i=0, l=arr.length; i<l; i++)
-      {
-        if (!fnc(arr[i])) {
-          results.push(arr[i]);
-        }
-      }
-
-      return results;
-    },
-
-
-    /**
-     * Returns all elements which apply to given function.
-     *
-     * Opposite of {@link qx.lang.Array#reject}
-     *
-     * @type static
-     * @param arr {Array} Array to process
-     * @param iterator {Function} Fuction which should be called for every element as parameter.
-     * @param context {Object} Context in which the iterator should be called.
-     * @return {Array} Array with all elements for which the given function returns true.
-     */
-    findAll : function(arr, iterator, context)
-    {
-      var results = [];
-      var fnc = (typeof(context) == "object") ? qx.lang.Function.bind(iterator, context) : iterator;
-
-      for (var i=0, l=arr.length; i<l; i++)
-      {
-        if (fnc(arr[i])) {
-          results.push(arr[i]);
-        }
-      }
-
-      return results;
     }
+
   }
 });
