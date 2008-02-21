@@ -1,48 +1,8 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.Iframe_1.js"></script>
 </head>
 <body>
-  <div id="description">
-  </div>
-
-  <div id="test"></div>
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var iframe = qx.bom.Iframe.create({
-        name : "testFrame",
-        src : "http://google.com"
-      });
-
-      qx.event.Registration.addListener(iframe, "load", function(e) {
-        console.log("Content loaded.");
-      });
-
-      document.body.appendChild(iframe);
-    }
-  }
-});
-  </script>
 </body>
 </html>

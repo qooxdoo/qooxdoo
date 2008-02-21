@@ -1,53 +1,8 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.AttributeStyle_2.js"></script>
 </head>
 <body>
-  <div id="description">
-  </div>
-
-  <div id="test"></div>
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var chk = qx.bom.Element.create("input", {
-        type : "checkbox",
-        checked : true,
-        id : "chk"
-      });
-
-      document.body.appendChild(chk);
-
-      var lab = qx.bom.Element.create("label", {
-        "for" : "chk"
-      });
-
-      qx.bom.element.Attribute.set(lab, "text", "Checkbox #1");
-
-      document.body.appendChild(lab);
-    }
-  }
-});
-  </script>
 </body>
 </html>

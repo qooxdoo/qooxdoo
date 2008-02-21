@@ -1,27 +1,17 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.Clip_1.js"></script>
 </head>
 <body>
   <style type="text/css">
-    #test1{
+    #test1 {
       position: absolute;
       width: 200px;
       background: red;
     }
 
-    #test1 div{
+    #test1 div {
       border: 1px solid black;
       margin: 2px;
     }
@@ -39,89 +29,13 @@
   <br/>
   <br/>
 
-  <a href="javascript:set0()">Set Clip 0</a>|
-  <a href="javascript:set1()">Set Clip 1</a>
-  <a href="javascript:set2()">Set Clip 2</a>
-  <a href="javascript:set3()">Set Clip 3</a>
-  <a href="javascript:set4()">Set Clip 4</a>|
-  <a href="javascript:reset()">Reset Clip</a>
-
-  <div id="description">
-  </div>
+  <a href="javascript:window.APPLICATION.set0()">Set Clip 0</a>|
+  <a href="javascript:window.APPLICATION.set1()">Set Clip 1</a>
+  <a href="javascript:window.APPLICATION.set2()">Set Clip 2</a>
+  <a href="javascript:window.APPLICATION.set3()">Set Clip 3</a>
+  <a href="javascript:window.APPLICATION.set4()">Set Clip 4</a>|
+  <a href="javascript:window.APPLICATION.reset()">Reset Clip</a>
 
   <div id="test"></div>
-
-  <script type="text/javascript">
-    var el = document.getElementById("test1");
-
-    var clip = qx.bom.element.Clip.get(el) || {};
-    qx.log.Logger.debug("Clip init: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-
-    function set0()
-    {
-      var el = document.getElementById("test1");
-
-      qx.log.Logger.debug("Setting to: 20,20  120,40");
-      qx.bom.element.Clip.set(el, {left:20, top:20, width:120, height:40});
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      qx.log.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    }
-
-    function set1()
-    {
-      var el = document.getElementById("test1");
-
-      qx.log.Logger.debug("Setting to: 20,20  null,40");
-      qx.bom.element.Clip.set(el, {left:20, top:20, height:40});
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      qx.log.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    }
-
-    function set2()
-    {
-      var el = document.getElementById("test1");
-
-      qx.log.Logger.debug("Setting to: 20,20  120,null");
-      qx.bom.element.Clip.set(el, {left:20, top:20, width:120});
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      qx.log.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    }
-
-    function set3()
-    {
-      var el = document.getElementById("test1");
-
-      qx.log.Logger.debug("Setting to: null,20  120,40");
-      qx.bom.element.Clip.set(el, {top:20, width:120, height:40});
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      qx.log.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    }
-
-    function set4()
-    {
-      var el = document.getElementById("test1");
-
-      qx.log.Logger.debug("Setting to: 20,null  120,40");
-      qx.bom.element.Clip.set(el, {left:20, width:120, height:40});
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      qx.log.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    }
-
-    function reset()
-    {
-      var el = document.getElementById("test1");
-
-      qx.log.Logger.debug("Resetting");
-      qx.bom.element.Clip.reset(el);
-
-      var clip = qx.bom.element.Clip.get(el) || {};
-      qx.log.Logger.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
-    }
-  </script>
 </body>
 </html>
