@@ -36,6 +36,9 @@ import simplejson
 from robocopy import robocopy
 
 
+memcache = {}
+
+
 class Generator:
     def __init__(self, config, console, variants, settings, require, use):
         self._config = config
@@ -99,13 +102,21 @@ class Generator:
         self._translations = {}
 
         for entry in library.iter():
-            path = LibraryPath(entry, self._console)
+            key = entry.get("path")
+            if memcache.has_key(key):
+                self._console.debug("Use memory cache for %s" % key)
+                path = memcache[key]
+            else:
+                path = LibraryPath(entry, self._console)
+
             namespace = path.getNamespace()
 
             self._namespaces.append(namespace)
             self._classes.update(path.getClasses())
             self._docs.update(path.getDocs())
             self._translations[namespace] = path.getTranslations()
+
+            memcache[key] = path
 
         self._console.outdent()
         self._console.debug("Loaded %s libraries" % len(self._namespaces))
@@ -478,7 +489,7 @@ class Generator:
     def generateTranslationCode(self, translationMaps, format=False):
         if translationMaps == None:
             return ""
-            
+
         result = 'if(!window.qxlocales)qxlocales={};'
         locales = translationMaps[0]  # TODO: just one currently
 
