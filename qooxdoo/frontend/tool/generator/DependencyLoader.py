@@ -73,6 +73,10 @@ class DependencyLoader:
 
 
     def _resolveDependenciesRecurser(self, item, block, variants, result):
+        # support blocking
+        if item in block:
+            return
+            
         # check if already in
         if item in result:
             return
