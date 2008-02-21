@@ -80,7 +80,7 @@ clean:
 
 
 source:
-	@tool/gendemo.sh source
+	@../../tool/generator.py -c demo.json -j source
 
 build:
-	@tool/gendemo.sh compile
+	@../../tool/generator.py -c demo.json -j build
