@@ -84,22 +84,20 @@ qx.Class.define("qx.fx.queue.Queue",
 
    members :
    {
-
     _effects  : [],
-    _interval : null,
 
     /**
      * This method adds the given effect to the queue and starts the timer (if necessary).
      * @param effect {Object} The effect.
      */
-    add: function(effect)
+    add : function(effect)
     {
       var timestamp = new Date().getTime();
 
       effect._startOn  += timestamp;
       effect._finishOn += timestamp;
 
-      if ( (!effect.getQueue().getLimit) || (this._effects.length < effect.getQueue().getLimit()) ) {
+      if (this._effects.length < this.getLimit()) {
         this._effects.push(effect)
       }
 
@@ -114,12 +112,12 @@ qx.Class.define("qx.fx.queue.Queue",
      */
     remove : function(effect)
     {
-      this._effects = qx.lang.Array.reject(this._effects, function(e) { return e == effect });
+      qx.lang.Array.remove(this._effects, effect);
 
       if (this._effects.length == 0)
       {
         window.clearInterval(this._interval);
-        this._interval = null;
+        delete this._interval;
       }
     },
 

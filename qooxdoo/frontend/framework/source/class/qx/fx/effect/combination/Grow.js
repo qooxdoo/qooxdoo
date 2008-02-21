@@ -70,10 +70,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       qx.bom.element.Style.set(this._element, "visiblity", "visible");
     };
 
-    this._mainEffect = new qx.fx.effect.core.Parallel([
-      this._moveEffect,
-      this._scaleEffect
-    ]);
+    this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._scaleEffect);
 
   },
 
