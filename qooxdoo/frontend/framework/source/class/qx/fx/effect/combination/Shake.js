@@ -58,17 +58,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   {
     this.base(arguments, element);
 
-    this._effects = [
-      new qx.fx.effect.core.Move(this._element),
-
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element),
-
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element),
-
-      new qx.fx.effect.core.Move(this._element)
-    ];
+    this._effect = new qx.fx.effect.core.Move(this._element);
   },
 
   /*
@@ -126,7 +116,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
         left   : qx.bom.element.Location.getLeft(this._element, "scroll")
       };
     },
-
+/*
     start : function()
     {
       this.base(arguments);
@@ -155,7 +145,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       }
 
       var effects = this._effects;
-
       for (var i=0, len=this._effects.length; i<len; i++)
       {
         this._effects[i].id = counter;
@@ -167,7 +156,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
         }
         else
         {
-          effect.afterFinishInternal = function(){
+          this._effects[i].afterFinishInternal = function(){
             for(var property in this._oldStyle) {
               qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
             }
@@ -179,7 +168,37 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       this._effects[0].start();
 
     }
+*/
+      start : function()
+      {
+        this.base(arguments);
+  
+        var distance = parseFloat(this.getDistance());
+        var split = parseFloat(this.getDuration()) / 10.0;
 
+        this._effect.set({ y : distance,    x : 0, duration : split});
+        this._effect.start();
+
+        this._effect.set({ y : -distance*2, x : 0, duration : split*2, delay : split});
+        this._effect.start();
+
+        this._effect.set({ y : distance*2,  x : 0, duration : split*2, delay : split*2});
+        this._effect.start();
+
+        this._effect.set({ y : -distance*2, x : 0, duration : split*2, delay : split*2});
+        this._effect.start();
+
+        this._effect.set({ y : distance*2,  x : 0, duration : split*2, delay : split*2});
+        this._effect.start();
+
+        this._effect.set({ y : -distance,   x : 0, duration : split*2, delay : split*2});
+        this._effect.start();
+
+        for(var property in this._oldStyle) {
+          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+        }
+
+      }
    },
 
 

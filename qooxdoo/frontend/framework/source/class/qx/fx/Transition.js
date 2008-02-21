@@ -32,6 +32,20 @@
      Author:
        Thomas Fuchs
 
+
+   * Easing eqoutations
+       http://www.robertpenner.com/easing/
+
+     Copyright:
+       (c) 2001 Robert Penner
+
+     License:
+       BSD: TODO
+
+     Author:
+       Robert Penner
+       
+
 ************************************************************************ */
 
 /**
@@ -43,6 +57,12 @@ qx.Class.define("qx.fx.Transition",
 
   statics :
   {
+  
+    get : function(functionName)
+    {
+      return qx.fx.Transition[functionName] || false;
+    },
+
     linear : function(pos)
     {
       return pos;

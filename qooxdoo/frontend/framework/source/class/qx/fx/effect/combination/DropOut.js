@@ -60,12 +60,9 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     this.base(arguments, element);
 
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
-    this._fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
+    this._fadeEffect = new qx.fx.effect.core.Fade(this._element);
 
-    this._mainEffect = new qx.fx.effect.core.Parallel([
-      this._moveEffect,
-      this._fadeEffect
-    ]);
+    this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._fadeEffect);
 
   },
 
@@ -200,6 +197,8 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
       this._fadeEffect.set({
         duration : 0.5,
         sync : true,
+        to : 0,
+        from : oldStyle.opacity,
         modifyDisplay : this.getModifyDisplay()
       });
 
