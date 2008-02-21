@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.Template",
+qx.Class.define("demobrowser.demo.ui.InlineRoot_1",
 {
   extend : demobrowser.Demo,
 

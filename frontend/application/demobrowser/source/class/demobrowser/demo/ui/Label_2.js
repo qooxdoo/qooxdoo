@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.Template",
+qx.Class.define("demobrowser.demo.ui.Label_2",
 {
   extend : demobrowser.Demo,
 

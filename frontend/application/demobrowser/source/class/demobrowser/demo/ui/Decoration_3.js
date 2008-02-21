@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.Template",
+qx.Class.define("demobrowser.demo.ui.Decoration_3",
 {
   extend : demobrowser.Demo,
 
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.Template",
 
     getGrid1 : function()
     {
-      var theme = Decorations;
+      var theme = demobrowser.demo.ui.Decoration_3_Theme;
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(theme);
