@@ -116,6 +116,10 @@ qx.Bootstrap.define("qx.log.Logger",
       this.buffer.length = 0;
     },
 
+    trace : function() {
+      // TODO
+    },
+
 
 
 
