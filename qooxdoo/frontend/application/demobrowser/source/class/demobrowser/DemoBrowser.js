@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(demobrowser)
-
-************************************************************************ */
-
 /**
  * The GUI definition of the qooxdoo unit test runner.
  */
@@ -294,6 +288,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __setStateInitialized : function()
     {
+      return;
       this._cmdObjectSummary.setEnabled(false);
       this._cmdRunSample.setEnabled(false);
       this._cmdPrevSample.setEnabled(false);
@@ -308,7 +303,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __setStateLoading : function() {
+    __setStateLoading : function() 
+    {
+      return;      
       this.__states.isLoading = true;
       this.__setStateInitialized();
       if (!this.isPlayAll()) {
@@ -1090,7 +1087,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       */
 
       // Disable Tree View
-      this.widgets["treeview"].setEnabled(false);
+      // this.widgets["treeview"].setEnabled(false);
 
       // Handle current Tree Selection and Content
       var fulltree = this.widgets["treeview.full"];
@@ -1187,7 +1184,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Vars and Setup -----------------------
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
-      this.widgets["outputviews.demopage.page"].setEnabled(false);
+      //this.widgets["outputviews.demopage.page"].setEnabled(false);
 
       this.__setStateLoading();
 
@@ -1196,8 +1193,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         iDoc.body.innerHTML = "";
       }
-      this.widgets["outputviews.bar"].setEnabled(false);
-      this.widgets["outputviews"].setEnabled(false);
+      //this.widgets["outputviews.bar"].setEnabled(false);
+      //this.widgets["outputviews"].setEnabled(false);
 
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
@@ -1205,8 +1202,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (treeNode)
       {
         treeNode.setSelected(true);
-        //this.widgets["treeview.full"].setSelectedElement(treeNode);
-        url = 'html/' + value;
+        url = 'demo/' + value;
         if (this._useProfile) {
           url += "?qxvariant:qx.aspects:on&qxsetting:qx.enableAspect:true"
         } else {
@@ -1219,7 +1215,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // disable tree *after* setSelectedElement
-      this.widgets["treeview"].setEnabled(false);
+      //this.widgets["treeview"].setEnabled(false);
 
       // Clear log
       this.logappender.clear();
@@ -1254,7 +1250,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (furl != null && furl != this.defaultUrl)
       {
         var url = fwindow.location.href;
-        var posHtml = url.indexOf("/html/") + 6;
+        var posHtml = url.indexOf("/demo/") + 6;
         var posSearch = url.indexOf("?");
         posSearch = posSearch == -1 ? url.length : posSearch;
         var split = url.substring(posHtml, posSearch).split("/");
@@ -1328,10 +1324,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
       {
+        /*
         if (this.__states.isLoading)
         {
           this.widgets["toolbar.playall"].setEnabled(false);
         }
+        */
         this.setPlayAll(false);
       }
     },
@@ -1612,7 +1610,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       return str.replace(".html", "").replace("_", " ");
     },
 
-    defaultUrl : "html/welcome.html"
+    defaultUrl : "demo/welcome.html"
   },
 
 
