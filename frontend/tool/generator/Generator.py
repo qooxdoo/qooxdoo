@@ -133,7 +133,7 @@ class Generator:
         # We only need to call this once on each job
         smartInclude, explicitInclude = self.getIncludes()
         smartExclude, explicitExclude = self.getExcludes()
-
+        
         # Processing all combinations of variants
         variantData = self.getVariants()
         variantSets = idlist.computeCombinations(variantData)
