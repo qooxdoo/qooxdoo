@@ -20,6 +20,8 @@
 
 qx.Class.define("demobrowser.demo.Template",
 {
+  extend : demobrowser.Demo,
+
   members :
   {
     main: function()
