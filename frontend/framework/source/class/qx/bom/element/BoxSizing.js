@@ -17,7 +17,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Contains methods to control and query the element's box-sizing property.
  *
@@ -36,7 +35,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
 
   statics :
   {
-    /** Internal helper structure to return the valid box-sizing style property names */
+    /** {Map} Internal helper structure to return the valid box-sizing style property names */
     __styleProperties : qx.core.Variant.select("qx.client",
     {
       "mshtml" : null,
@@ -46,7 +45,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     }),
 
 
-    /** Internal helper structure to return the valid box-sizing CSS property names */
+    /** {Map} Internal helper structure to return the valid box-sizing CSS property names */
     __cssProperties : qx.core.Variant.select("qx.client",
     {
       "mshtml" : null,
@@ -56,7 +55,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     }),
 
 
-    /** Internal data structure for __usesNativeBorderBox() */
+    /** {Map} Internal data structure for __usesNativeBorderBox() */
     __nativeBorderBox :
     {
       tags :
@@ -91,9 +90,10 @@ qx.Class.define("qx.bom.element.BoxSizing",
 
 
     /**
-     * Compiles the given cursor into a CSS compatible string.
+     * Compiles the given box sizing into a CSS compatible string.
      *
      * @type static
+     * @signature function(value)
      * @param value {String} Valid CSS box-sizing value
      * @return {String} CSS string
      */
@@ -121,18 +121,16 @@ qx.Class.define("qx.bom.element.BoxSizing",
 
 
     /**
-     * Returns the computed cursor style for the given element.
+     * Returns the box sizing for the given element.
      *
      * @type static
+     * @signature function(element, mode)     
      * @param element {Element} The element to query
-     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
-     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
-     *   The computed mode is the default one.
-     * @return {String} Computed cursor value of the given element.
+     * @return {String} Box sizing value of the given element.
      */
     get : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, mode)
+      "mshtml" : function(element)
       {
         if (qx.bom.Document.isStandardMode(qx.dom.Node.getDocument(element)))
         {
@@ -144,7 +142,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
         return "border-box";
       },
 
-      "default" : function(element, mode)
+      "default" : function(element)
       {
         var props = this.__styleProperties;
         var value;
@@ -153,7 +151,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
         {
           for (var i=0, l=props.length; i<l; i++)
           {
-            value = qx.bom.element.Style.get(element, props[i], mode, false);
+            value = qx.bom.element.Style.get(element, props[i], null, false);
             if (value != null && value !== "") {
               return value;
             }
@@ -164,11 +162,12 @@ qx.Class.define("qx.bom.element.BoxSizing",
 
 
     /**
-     * Applies a new cursor style to the given element
+     * Applies a new box sizing to the given element
      *
      * @type static
+     * @signature function(element, value)     
      * @param element {Element} The element to modify
-     * @param value {String} New cursor value to set
+     * @param value {String} New box sizing value to set
      * @return {void}
      */
     set : qx.core.Variant.select("qx.client",
@@ -191,7 +190,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
 
 
     /**
-     * Removes the local cursor style applied to the element
+     * Removes the local box sizing applied to the element
      *
      * @type static
      * @param element {Element} The element to modify
