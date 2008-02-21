@@ -1251,15 +1251,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var furl = this.f1.getSource();
       //if (this._currentSampleUrl != this.defaultUrl)
-      if (furl != null &&
-          furl != this.defaultUrl &&
-          fwindow.qx &&
-          fwindow.qx.legacy.log)
+      if (furl != null && furl != this.defaultUrl)
       {
-        // set logger
-        fwindow.qx.legacy.log.Logger.ROOT_LOGGER.removeAllAppenders();
-        fwindow.qx.legacy.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
-
         var url = fwindow.location.href;
         var posHtml = url.indexOf("/html/") + 6;
         var posSearch = url.indexOf("?");
