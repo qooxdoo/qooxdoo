@@ -25,6 +25,26 @@ qx.Class.define("demobrowser.Demo",
   extend : qx.application.Abstract,
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    __initTitle : function()
+    {
+      var splits = location.href.split("/");
+      var length = splits.length;
+      var div = " " + String.fromCharCode(187) + " ";
+      var category = splits[length-2].toUpperCase();
+      var file = splits[length-1].replace(".html", "").replace("_", " ");
+
+      document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
+    }
+  },
+
 
 
   /*
@@ -45,13 +65,11 @@ qx.Class.define("demobrowser.Demo",
     {
       this.base(arguments);
 
-      var splits = location.href.split("/");
-      var length = splits.length;
-      var div = " " + String.fromCharCode(187) + " ";
-      var category = splits[length-2].toUpperCase();
-      var file = splits[length-1].replace(".html", "").replace("_", " ");
 
-      document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
     }
+  },
+
+  defer : function(statics) {
+    statics.__initTitle();
   }
 });
