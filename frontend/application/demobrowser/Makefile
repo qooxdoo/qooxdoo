@@ -75,3 +75,12 @@ build:
 clean:
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
+
+
+
+
+source:
+	@tool/gendemo.sh source
+
+build:
+	@tool/gendemo.sh compile
