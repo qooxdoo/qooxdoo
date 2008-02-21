@@ -66,7 +66,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
     };
 
-    this._appearEffect = new qx.fx.effect.core.FadeIn(this._element);
+    this._appearEffect = new qx.fx.effect.core.Fade(this._element);
     this._appearEffect.afterFinishInternal = function() {
       scaleEffect.start();
     };
@@ -82,7 +82,8 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
     this._appearEffect.set({
       duration : this.getDuration(),
-      from : this.getFrom()
+      from : this.getFrom(),
+      to : 1
     });
 
   },

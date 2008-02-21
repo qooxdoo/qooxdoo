@@ -59,22 +59,26 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     this.base(arguments, element);
 
     var duration = this.getDuration() / 6;
+    var counter = 0;
 
     this._fadeEffects = [
-      new qx.fx.effect.core.FadeOut(this._element),
-      new qx.fx.effect.core.FadeIn(this._element),
-      new qx.fx.effect.core.FadeOut(this._element),
-      new qx.fx.effect.core.FadeIn(this._element),
-      new qx.fx.effect.core.FadeOut(this._element),
-      new qx.fx.effect.core.FadeIn(this._element)
+      new qx.fx.effect.core.Fade(this._element),
+      new qx.fx.effect.core.Fade(this._element),
+      new qx.fx.effect.core.Fade(this._element),
+      new qx.fx.effect.core.Fade(this._element),
+      new qx.fx.effect.core.Fade(this._element),
+      new qx.fx.effect.core.Fade(this._element)
     ];
 
     for(var effect in this._fadeEffects)
     {
       this._fadeEffects[effect].set({
         duration : duration,
+        to : ( (counter % 2) != 0) ? 1 : 0,
+        from : ( (counter % 2) != 0) ? 0 : 1,
         transition: qx.fx.Transition.sinoidal
       });
+      counter++;
     }
 
   },

@@ -165,7 +165,8 @@ qx.Class.define("qx.fx.Base",
      transition :
      {
        init   : null,
-       check  : "Function"
+       //check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
+       check : "Function"
      }
 
   },
@@ -320,7 +321,6 @@ qx.Class.define("qx.fx.Base",
         if (timePos >= this._finishOn)
         {
           this.end();
-          return;
         }
 
         var pos   = (timePos - this._startOn) / this._totalTime;

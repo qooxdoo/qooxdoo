@@ -59,7 +59,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
     this.base(arguments, element);
 
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
+    this._fadeEffect = new qx.fx.effect.core.Fade(this._element);
 
     this._mainEffect = new qx.fx.effect.core.Parallel(this._scaleEffect, this._fadeEffect);
   },
