@@ -54,9 +54,12 @@ qx.Class.define("qx.fx.Base",
   construct : function(element)
   {
     this.base(arguments);
+    
+    this.setQueue( qx.fx.queue.Manager.getInstance().getDefaultQueue() );
 
     this.setTransition(qx.fx.Transition.linear);
     this._element = element;
+
     this.init();
   },
 
@@ -75,7 +78,7 @@ qx.Class.define("qx.fx.Base",
      "setup"  : "qx.event.type.Event",
 
      /**
-      * This event is fired on each frame.
+      * This event is fired every time a frame is rendered.
       */
      "update" : "qx.event.type.Event",
 
@@ -152,7 +155,7 @@ qx.Class.define("qx.fx.Base",
       */
      queue :
      {
-       init   : "parallel"
+       check : "Object"
      },
 
      /**
@@ -196,6 +199,7 @@ qx.Class.define("qx.fx.Base",
   members :
   {
 
+    
     init : function()
     {
       this._currentFrame = 0;
@@ -231,8 +235,11 @@ qx.Class.define("qx.fx.Base",
     },
 
 
-    update : function() {
-      this.fireEvent("update");
+    update : function()
+    {
+      if (this.hasListeners()) {
+        this.fireEvent("update");
+      }
     },
 
 
@@ -253,10 +260,8 @@ qx.Class.define("qx.fx.Base",
       this.beforeStartInternal();
       this.beforeStart();
 
-      if (!this.getSync())
-      {
-        var queue = this.getQueue();
-        qx.fx.queue.Manager.getInstance().getQueue(queue).add(this);
+      if (!this.getSync()) {
+        var queue = this.getQueue(queue).add(this);
       }
 
     },
@@ -333,10 +338,8 @@ qx.Class.define("qx.fx.Base",
 
     cancel : function()
     {
-      if (!this.getSync())
-      {
-        var queue = this.getQueue();
-        qx.fx.queue.Manager.getInstance().getQueue(queue).remove(this);
+      if (!this.getSync()) {
+        this.getQueue().remove(this);
       }
 
       this._state = qx.fx.Base.EffectState.FINISHED;
