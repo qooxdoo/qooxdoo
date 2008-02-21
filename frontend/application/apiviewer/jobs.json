@@ -87,6 +87,7 @@
     "extend" : ["common"],
 
     "include" : ["qx.*"],
+    "exclude" : ["=qx.legacy.*"],
 
     "api" :
     {
@@ -100,7 +101,8 @@
     "extend" : ["common"],
 
     "include" : ["qx.*"],
-
+    "exclude" : ["=qx.legacy.*"],
+    
     "api" :
     {
       "path" : "build/script"
