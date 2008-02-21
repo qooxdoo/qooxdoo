@@ -28,7 +28,24 @@ qx.Class.define("demobrowser.demo.ui.ResizeEvent_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
 
+      var red = (new qx.ui.core.Widget).set({backgroundColor: "red", width: 80});
+      var blue = (new qx.ui.core.Widget).set({backgroundColor: "blue"});
+
+      doc.add(red, 10, 10);
+      doc.add(blue, 10, 110);
+
+      red.addListener("resize", function(e) {
+        this.debug("Resize red");
+        blue.setWidth(e.getData().width);
+      });
+
+      red.addListener("click", function() {
+        red.setWidth(red.getWidth() + 10);
+      });
     }
   }
 });
