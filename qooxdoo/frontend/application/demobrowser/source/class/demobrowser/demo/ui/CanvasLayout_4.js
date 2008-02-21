@@ -28,7 +28,52 @@ qx.Class.define("demobrowser.demo.ui.CanvasLayout_4",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+
+      var border = new qx.ui.decoration.Basic(3, "solid", "black");
+
+      w1 = new qx.ui.core.Widget().set({
+        backgroundColor: "red",
+        decorator: border,
+        width: 400
+      });
+
+      w2 = new qx.ui.core.Widget().set({
+        backgroundColor: "blue",
+        decorator: border,
+        minWidth: 400
+      });
+
+      w3 = new qx.ui.core.Widget().set({
+        backgroundColor: "green",
+        decorator: border,
+        width: 400
+      });
+
+      w4 = new qx.ui.core.Widget().set({
+        backgroundColor: "yellow",
+        decorator: border,
+        minWidth: 400
+      });
+
+
+      layout = new qx.ui.layout.Canvas();
+
+      layout.add(w1, 10, 10);
+      layout.add(w2, 10, 80);
+      layout.add(w3, null, 150, 10);
+      layout.add(w4, null, 220, 10);
+
+      var container = new qx.ui.core.Widget().set({
+        layout: layout,
+        decorator: border
+      });
+
+      doc.add(container, 20, 20);
     }
   }
 });
