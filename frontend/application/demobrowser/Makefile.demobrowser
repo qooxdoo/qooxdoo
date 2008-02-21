@@ -34,9 +34,6 @@ APPLICATION_COMPLETE_BUILD = false
 APPLICATION_COMPLETE_SOURCE = false
 APPLICATION_BUILD_LOG_LEVEL = error
 
-# comment the next line in for call tracing
-#APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --add-require qx.Class:demobrowser.CallTrace --use-variant=qx.aspects:on --use-setting=qx.enableAspect:true
-
 ####################################################################################
 # INCLUDE CORE
 ####################################################################################
