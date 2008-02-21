@@ -1,18 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-  qxsettings = {
-    "qx.application":"BasicSample",
-    "qx.enableApplicationLayout" : false,
-    "qx.boxModelCorrection" : true
-  };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.ScrollIntoView_1.js"></script>
 </head>
 <body>
   <style type="text/css">
@@ -57,21 +46,7 @@
     </div>
   </div>
 
-  <script type="text/javascript">
-function test()
-{
-	var ids = [ "z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8" ];
-
-  for (var i=0, l=ids.length; i<l; i++)
-  {
-	  var el = document.getElementById(ids[i]);
-	  console.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
-    console.log("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
-  }
-}
-  </script>
-
-  <a style="position:absolute;top:280px;left:20px" href="javascript:test()">Dimension test</a>
+  <a style="position:absolute;top:280px;left:20px" href="javascript:demobrowser.demo.bom.ScrollIntoView_1.test()">Dimension test</a>
 
   <div id="z1" style="background:red;width:100px;height:100px;overflow:visible;position:absolute;left:20px;top:300px">
 	</div>
@@ -93,8 +68,6 @@ function test()
   <div id="z8" style="background:green;width:100px;height:100px;overflow:hidden;position:absolute;left:200px;top:660px">
 	  <div style="height:300px">&#160;</div>
 	</div>
-
-
 
 	<div id="s1" style="position:absolute;left:400px;top:200px;background:yellow;width:100px;height:100px">
   	<div id="s2" style="position:absolute;left:0px;top:0px;background:orange;width:100px;height:100px">

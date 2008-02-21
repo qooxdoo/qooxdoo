@@ -1,17 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.Overflow_1.js"></script>
 </head>
 <body>
   <style type="text/css">
@@ -47,55 +37,5 @@
     <div id="test9p" style="overflow-y:hidden;overflow-x:auto">hidden-overflow-combo2</div>
   </div>
 
-  <div id="description">
-  </div>
-
-  <div id="test"></div>
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var over = qx.bom.element.Overflow;
-
-      this.info("#0");
-      this.debug("1: " + over.getX(document.getElementById("test1")) + ", " + over.getY(document.getElementById("test1")));
-      this.debug("2: " + over.getX(document.getElementById("test2")) + ", " + over.getY(document.getElementById("test2")));
-      this.debug("3: " + over.getX(document.getElementById("test3")) + ", " + over.getY(document.getElementById("test3")));
-
-      this.info("#1");
-      this.debug("9a: " + over.getX(document.getElementById("test9a")) + ", " + over.getY(document.getElementById("test9a")));
-      this.debug("9b: " + over.getX(document.getElementById("test9b")) + ", " + over.getY(document.getElementById("test9b")));
-      this.debug("9c: " + over.getX(document.getElementById("test9c")) + ", " + over.getY(document.getElementById("test9c")));
-      this.debug("9d: " + over.getX(document.getElementById("test9d")) + ", " + over.getY(document.getElementById("test9d")));
-
-      this.info("#2");
-      this.debug("9e: " + over.getX(document.getElementById("test9e")) + ", " + over.getY(document.getElementById("test9e")));
-      this.debug("9f: " + over.getX(document.getElementById("test9f")) + ", " + over.getY(document.getElementById("test9f")));
-      this.debug("9g: " + over.getX(document.getElementById("test9g")) + ", " + over.getY(document.getElementById("test9g")));
-      this.debug("9h: " + over.getX(document.getElementById("test9h")) + ", " + over.getY(document.getElementById("test9h")));
-
-      this.info("#3");
-      this.debug("9i: " + over.getX(document.getElementById("test9i")) + ", " + over.getY(document.getElementById("test9i")));
-      this.debug("9j: " + over.getX(document.getElementById("test9j")) + ", " + over.getY(document.getElementById("test9j")));
-      this.debug("9k: " + over.getX(document.getElementById("test9k")) + ", " + over.getY(document.getElementById("test9k")));
-      this.debug("9l: " + over.getX(document.getElementById("test9l")) + ", " + over.getY(document.getElementById("test9l")));
-
-      this.info("#4");
-      this.debug("9m: " + over.getX(document.getElementById("test9m")) + ", " + over.getY(document.getElementById("test9m")));
-      this.debug("9n: " + over.getX(document.getElementById("test9n")) + ", " + over.getY(document.getElementById("test9n")));
-      this.debug("9o: " + over.getX(document.getElementById("test9o")) + ", " + over.getY(document.getElementById("test9o")));
-      this.debug("9p: " + over.getX(document.getElementById("test9p")) + ", " + over.getY(document.getElementById("test9p")));
-    }
-  }
-});
-  </script>
 </body>
 </html>

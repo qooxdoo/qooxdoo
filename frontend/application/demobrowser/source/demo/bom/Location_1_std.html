@@ -2,18 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-  qxsettings = {
-    "qx.application":"BasicSample",
-    "qx.enableApplicationLayout" : false,
-    "qx.boxModelCorrection" : false
-  };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.demobrowser.demo.bom.Location_1_std.js"></script>
 
 	<style>
 		#moveable{ font-size: 0px; line-height: 0px; position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 6px dashed red; }
@@ -43,79 +32,6 @@
 	</style>
 </head>
 <body style="border:20px solid red; margin: 10px">
-  <script type="text/javascript">
-    function jump(event)
-    {
-      if (!event) {
-        event = window.event;
-      }
-
-      event.returnValue = false;
-
-      if (event.preventDefault) {
-        event.preventDefault();
-      }
-
-    	var href = this.href;
-    	var id = href.substr(href.indexOf('#')+1);
-
-    	var elem = document.getElementById(id);
-    	var location = qx.bom.element.Location.get(elem, document.getElementById("mode").value);
-
-    	var moveable = document.getElementById("moveable");
-      moveable.style.left = location.left + "px";
-    	moveable.style.top = location.top + "px";
-
-    	if (qx.bom.client.Feature.BORDER_BOX)
-    	{
-        moveable.style.width = (location.right - location.left) + "px";
-        moveable.style.height = (location.bottom - location.top) + "px";
-    	}
-    	else
-    	{
-    	  var clazz = qx.bom.element.Location;
-        moveable.style.width = (location.right - location.left - clazz.__num(moveable, "borderLeftWidth") - clazz.__num(moveable, "borderRightWidth")) + "px";
-        moveable.style.height = (location.bottom - location.top - clazz.__num(moveable, "borderTopWidth") - clazz.__num(moveable, "borderBottomWidth")) + "px";
-      }
-
-    	return false;
-    }
-
-    function randomize()
-    {
-      var divs = document.body.getElementsByTagName("div");
-      for (var i=0, l=divs.length; i<l; i++)
-      {
-        if (divs[i].id && divs[i].id != "moveable")
-        {
-          divs[i].style.margin = Math.round(Math.random()*10) + "px";
-          divs[i].style.padding = Math.round(Math.random()*10) + "px";
-          divs[i].style.borderWidth = Math.round(Math.random()*10) + "px";
-        }
-      }
-    }
-
-    qx.Class.define("BasicSample",
-    {
-      extend : qx.application.Abstract,
-
-      members :
-      {
-        main : function()
-        {
-          this.base(arguments);
-
-      		var links = document.getElementById("list").getElementsByTagName("a");
-      	  for (var i=0, l=links.length; i<l; i++) {
-            links[i].onclick = jump;
-      	  }
-        }
-      }
-    });
-
-    qx.core.Init.getInstance().setApplication(new BasicSample);
-  </script>
-
 	<p>
 	  Select a div to move the grey box too. (Standard-Mode; Box-Model-Correction:OFF)
   	<select id="mode">
@@ -125,7 +41,7 @@
   	  <option value="scroll">scroll</option>
   	  <option value="padding">padding</option>
   	</select>
-  	<a href="javascript:randomize()">Randomize</a>
+  	<a href="javascript:demobrowser.demo.bom.Location_1_std.randomize()">Randomize</a>
 	</p>
 
 	<ul id="list">
