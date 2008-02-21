@@ -72,15 +72,27 @@ def main():
     obj = open(options.config)
     config = simplejson.loads(obj.read())
     obj.close()
-    
+
+    # Expanding jobs (support for "run" keyword)
+    expandedjobs = []
+    for job in options.jobs:
+        if not job in expandedjobs:
+          entry = config[job]
+          if entry.has_key("run"):
+              expandedjobs.extend(entry["run"])
+          else:
+              expandedjobs.append(job)
+
+    console.debug("Expanded to %s jobs" % len(expandedjobs))
+
     # Resolve "include"-Keys
     # TODO
 
     # Resolve "extend"-Keys
-    _resolveExtends(console, config, options.jobs)
+    _resolveExtends(console, config, expandedjobs)
 
     # Resolve "let"-Keys
-    _resolveMacros(console, config, options.jobs)
+    _resolveMacros(console, config, expandedjobs)
     # console.debug(simplejson.dumps(config, separators=(',',':')))
 
     # Convert into Config class instance
@@ -90,7 +102,7 @@ def main():
     variants, settings, require, use = _executeFeatureSets(console, options)
 
     # Processing jobs...
-    for job in options.jobs:
+    for job in expandedjobs:
         console.head("Executing: %s" % job, True)
         Generator(config.split(job), console, variants, settings, require, use)
 
@@ -178,19 +190,19 @@ def _resolveMacros(console, config, jobs):
                     configElem[e] = _expandString(configElem[e], macroMap)
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
-                    
+
                 # expand in keys
-                if (isinstance(e, types.StringTypes) and 
+                if (isinstance(e, types.StringTypes) and
                     e.find(r'${')>-1):
                     enew = _expandString(e, macroMap)
                     configElem[enew] = configElem[e]
                     del configElem[e]
-                    
+
         # leave everything else alone
         else:
             pass
 
-    
+
     def _expandMacrosInLet(letList):
         """ takes array of pairs and returns dict with pair[0]:pair[1] entries
             with macros expanded along the way"""
