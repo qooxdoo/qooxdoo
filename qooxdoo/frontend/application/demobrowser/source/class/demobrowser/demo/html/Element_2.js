@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.element.Element_2",
+qx.Class.define("demobrowser.demo.html.Element_2",
 {
   members :
   {
