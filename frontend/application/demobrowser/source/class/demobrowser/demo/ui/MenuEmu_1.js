@@ -18,7 +18,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Menu_1",
+/**
+ * Proof of concept that the grid can be used for menus.
+ */
+qx.Class.define("demobrowser.demo.ui.MenuEmu_1",
 {
   extend : demobrowser.Demo,
 
@@ -27,6 +30,9 @@ qx.Class.define("demobrowser.demo.ui.Menu_1",
     main: function()
     {
       this.base(arguments);
+
+      var MenuItem = demobrowser.demo.ui.MenuEmu_1_MenuItem;
+      var Menu = demobrowser.demo.ui.MenuEmu_1_Menu;
 
       doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
