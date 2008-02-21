@@ -115,7 +115,7 @@ qx.Class.define("demobrowser.demo.ui.Dialog_2",
       vbox.add(label2);
 
       var label3 = new qx.ui.basic.Label();
-      label3.setHtml("qooxdoo (pronounced [’ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license.");
+      label3.setHtml("qooxdoo (pronounced [â€™ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license.");
       vbox.add(label3);
 
       return vbox;
