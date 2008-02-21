@@ -1,23 +1,5 @@
-{
-  "common" :
+  "common-XXX" :
   {
-    "let" :
-    [
-      ["CLASS", "XXX"]
-    ],
-
-    "include" : ["${CLASS}"],
-
-    "cache" :
-    {
-      "path" : "../../cache"
-    },
-
-    "settings" :
-    {
-      "qx.application" : "${CLASS}"
-    },
-
     "library" :
     [
       {
@@ -31,22 +13,34 @@
         "path" : "source",
         "uri" : "../.."
       }
-    ]
-  },
+    ],
 
-  "source" :
-  {
-    "extend" : [ "common" ],
+    "include" : ["XXX"],
 
-    "source" :
+    "cache" :
     {
-      "file" : "source/script/${CLASS}.js"
+      "path" : "../../cache"
+    },
+
+    "settings" :
+    {
+      "qx.application" : "XXX"
     }
   },
 
-  "compile" :
+  "source-XXX" :
   {
-    "extend" : [ "common" ],
+    "extend" : ["common-XXX"],
+
+    "source" :
+    {
+      "file" : "source/script/XXX.js"
+    }
+  },
+
+  "compile-XXX" :
+  {
+    "extend" : ["common-XXX"],
 
     "variants" :
     {
@@ -56,8 +50,7 @@
 
     "compile" :
     {
-      "file" : "build/script/${CLASS}.js",
+      "file" : "build/script/XXX.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
   }
-}
