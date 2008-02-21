@@ -679,12 +679,11 @@ qx.Class.define("qx.html.Element",
      */
     __generateListenerId : function(type, listener, self, capture)
     {
-      var Object = qx.core.Object;
-
-      var id = "evt" + Object.toHashCode(type) + "-" + Object.toHashCode(listener);
+      var reg = qx.core.ObjectRegistry;
+      var id = "evt" + reg.toHashCode(type) + "-" + reg.toHashCode(listener);
 
       if (self) {
-        id += "-" + Object.toHashCode(self);
+        id += "-" + reg.toHashCode(self);
       }
 
       if (capture) {

@@ -459,7 +459,6 @@ exec-api-build:
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
 	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
 	  --include apiviewer \
-	  --include qx.application.Gui \
 	  --use-setting qx.minLogLevel:700 \
 	  --use-variant qx.debug:off \
     --use-setting qx.theme:qx.theme.ClassicRoyale \
