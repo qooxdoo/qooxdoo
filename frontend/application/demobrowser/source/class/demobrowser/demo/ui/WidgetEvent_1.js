@@ -28,6 +28,95 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var docLayout = new qx.ui.layout.HBox();
+      docLayout.setSpacing(10);
+
+      var container = new qx.ui.core.Widget();
+      container.setPadding(20);
+      container.setLayout(docLayout);
+
+      doc.add(container, 0, 0);
+
+      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-archiver.png";
+      var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
+      var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
+      var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
+
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      var a1 = new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        padding : 5,
+        allowGrowY: false
+      })
+      docLayout.add(a1);
+
+      a1.addListener("click", function() {
+        console.log("click1")
+      }, this, false);
+
+      a1.addListener("click", function(e) {
+        console.log("click2", e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
+      }, this);
+
+      a1.addListener("mouseout", function(e) {
+        console.log("mouseout", e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
+      }, this);
+
+      var a2 = new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        iconPosition : "top",
+        padding : 5,
+        allowGrowY: false
+      })
+      docLayout.add(a2);
+
+
+      a2.addListener("click", function() {
+        a2.capture();
+      }, this);
+
+
+      a2.addListener("losecapture", function() {
+        console.log("lose capture!")
+      }, this);
+
+
+      a2.addListener("mousemove", function(e) {
+        console.log("move", e);
+      }, this);
+
+
+        docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        iconPosition : "right",
+        padding : 5,
+        allowGrowY: false
+      }));
+
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_date, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        iconPosition : "bottom",
+        padding : 5,
+        allowGrowY: false
+      }));
+
+
+      docLayout.add(at5 = new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+        backgroundColor : "gray",
+        decorator : border,
+        show : "icon",
+        padding : 5,
+        allowGrowX: false
+      }));
 
     }
   }
