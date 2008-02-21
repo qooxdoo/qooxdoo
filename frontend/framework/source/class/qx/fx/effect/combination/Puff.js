@@ -58,13 +58,10 @@ qx.Class.define("qx.fx.effect.combination.Puff",
   {
     this.base(arguments, element);
 
-    this._effects = [
-      new qx.fx.effect.core.Scale(this._element),
-      new qx.fx.effect.core.FadeOut(this._element)
-    ];
+    this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
+    this._fadeEffect = new qx.fx.effect.core.FadeOut(this._element);
 
-    this._mainEffect = new qx.fx.effect.core.Parallel(this._effects);
-
+    this._mainEffect = new qx.fx.effect.core.Parallel(this._scaleEffect, this._fadeEffect);
   },
 
 
@@ -118,7 +115,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
       };
 
 
-      this._effects[0].afterFinishInternal = function(effect)
+      this._scaleEffect.afterFinishInternal = function(effect)
       {
         for (var property in oldStyle) {
           qx.bom.element.Style.set(this._element, property, oldStyle[property]);
@@ -126,7 +123,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
       };
 
 
-      this._effects[0].set({
+      this._scaleEffect.set({
         scaleTo : 200,
         sync : true,
         scaleFromCenter : true,
@@ -134,7 +131,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
         restoreAfterFinish : false
       });
 
-      this._effects[1].set({
+      this._fadeEffect.set({
         sync: true,
         to: 0.0,
         modifyDisplay : false

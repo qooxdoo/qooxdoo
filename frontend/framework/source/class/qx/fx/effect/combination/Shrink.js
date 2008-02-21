@@ -64,10 +64,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._mainEffect = new qx.fx.effect.core.Parallel([
-      this._moveEffect,
-      this._scaleEffect
-    ]);
+    this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._scaleEffect);
   },
 
 

@@ -91,13 +91,30 @@ qx.Class.define("qx.fx.effect.core.Scroll",
    members :
    {
 
-    beforeSetup : function()
+    start : function()
     {
-      this._offsets = {
+
+      this._startOffsets = {
         x : this._element.scrollLeft,
         y : this._element.scrollTop
       };
+
+      // Stop if element can not scroll further
+      if (this._atEndPosition(this._startOffsets.x, this._startOffsets.y)) {
+        return ;
+      }
+
+      if(this.getMode() == "absolute")
+      {
+        this._deltaOffsets = {
+          left : this.getX() - this._startOffsets.x,
+          top  : this.getY() - this._startOffsets.y
+        };
+      }
+
+      this.base(arguments);
     },
+
 
     update : function(position)
     {
@@ -105,15 +122,41 @@ qx.Class.define("qx.fx.effect.core.Scroll",
 
       if(this.getMode() == "relative")
       {
-        this._element.scrollLeft = this._offsets.x + this.getX() * position;
-        this._element.scrollTop =  this._offsets.y +this.getY() * position;
+
+        if (this.getX() != 0) {
+          this._element.scrollLeft = this._startOffsets.x + (this.getX() * position);
+        }
+
+        if (this.getY() != 0) {
+          this._element.scrollTop = this._startOffsets.y + (this.getY() * position);
+        }
+
       }
       else
       {
-        this._element.scrollLeft = this.getX() * position;
-        this._element.scrollTop = this.getY() * position;
+        this._element.scrollLeft = this._startOffsets.x + (this._deltaOffsets.left * position);
+        this._element.scrollTop = this._startOffsets.y + (this._deltaOffsets.top * position);
       }
 
+    },
+
+
+    _atEndPosition : function(left, top)
+    {
+      var element = this._element;
+      var x = this.getX();
+      var y = this.getY();
+
+      return
+      (
+        ( (x < 0) && (left == 0) ) || // left limit
+        ( (x > 0) && (left == (element.scrollWidth - element.clientWidth)) ) // right limit
+      )
+      &&
+      (
+        ( (y < 0) && (top == 0) ) || // upper limit
+        ( (y > 0) && (top == (element.scrollHeight - element.clientHeight)) ) // lower limit
+      );
     }
 
   }

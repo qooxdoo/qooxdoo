@@ -156,12 +156,12 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
       var effects = this._effects;
 
-      for(var effect in this._effects)
+      for (var i=0, len=this._effects.length; i<len; i++)
       {
-        this._effects[effect].id = counter;
+        this._effects[i].id = counter;
         if (counter < 5)
         {
-          this._effects[effect].afterFinishInternal = function(){
+          this._effects[i].afterFinishInternal = function(){
             effects[this.id + 1].start();
           };
         }

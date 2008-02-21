@@ -61,18 +61,18 @@ qx.Class.define("qx.fx.queue.Manager",
      */
     getQueue : function(queueName)
     {
-
-      if (typeof(queueName) != "string") {
-        return queueName;
-      }
-
      if(typeof(this._instances[queueName]) == "object") {
        return this._instances[queueName];
      } else {
        return this._instances[queueName] = new qx.fx.queue.Queue;
      }
+    },
 
+    getDefaultQueue : function()
+    {
+      return this.getQueue("__default");
     }
+
   },
 
 
