@@ -28,7 +28,48 @@ qx.Class.define("demobrowser.demo.ui.ScrollArea_2",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
 
+      scrollArea = new qx.ui.core.ScrollArea();
+      scrollArea.set({
+        width: 200,
+        height: 200,
+        backgroundColor : "yellow"
+      });
+
+      doc.add(scrollArea, 10, 10);
+      scrollArea.setContent(this.generateBox());
+
+      var toggle = new qx.ui.basic.Label("Toggle size").set({
+        padding : 5,
+        backgroundColor: "orange"
+      });
+
+      var grow = true;
+      toggle.addListener("click", function()
+      {
+        scrollArea.setWidth(grow ? 300 : 200);
+        scrollArea.setHeight(grow ? 300 : 200);
+        grow = !grow;
+      });
+
+      doc.add(toggle, 10, 400);
+    },
+
+    generateBox : function()
+    {
+      var box = new qx.ui.basic.Label("Content size: 300x300").set({
+        width: 300,
+        height: 300,
+        allowShrinkX: false,
+        allowShrinkY: false,
+        backgroundColor: "brown",
+        textColor: "white",
+        padding: 10
+      });
+      return box;
     }
   }
 });

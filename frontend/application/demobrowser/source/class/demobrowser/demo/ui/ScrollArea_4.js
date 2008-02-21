@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/**
+ * Test the edge case were the available height is normally enough. The content
+ * however requires a higher width than the available width. This means it creates
+ * a horizontal scrollbar and this way stoles the height the required size.
+ */
 qx.Class.define("demobrowser.demo.ui.ScrollArea_4",
 {
   extend : demobrowser.Demo,
@@ -28,7 +33,48 @@ qx.Class.define("demobrowser.demo.ui.ScrollArea_4",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
 
+      scrollArea = new qx.ui.core.ScrollArea();
+      scrollArea.set({
+        width: 200,
+        height: 300,
+        backgroundColor : "yellow"
+      });
+
+      doc.add(scrollArea, 10, 10);
+      scrollArea.setContent(this.generateBox());
+
+      var toggle = new qx.ui.basic.Label("Toggle size").set({
+        padding : 5,
+        backgroundColor: "orange"
+      });
+
+      var grow = true;
+      toggle.addListener("click", function()
+      {
+        scrollArea.setWidth(grow ? 300 : 200);
+        grow = !grow;
+      });
+
+      doc.add(toggle, 10, 400);
+    },
+
+    generateBox : function()
+    {
+      var box = new qx.ui.basic.Label("Content size: 300x300").set({
+        width: 300,
+        height: 300,
+        allowShrinkX: false,
+        allowShrinkY: false,
+        backgroundColor: "blue",
+        textColor: "white",
+        padding: 10,
+        decorator: new qx.ui.decoration.Basic(4, "solid", "black")
+      });
+      return box;
     }
   }
 });
