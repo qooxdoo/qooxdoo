@@ -1,17 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.application":"BasicSample",
-      "qx.enableApplicationLayout" : false
-    };
-  </script>
-
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.bom.Focus_1.js"></script>
 </head>
 <body>
   <style type="text/css">
@@ -57,129 +47,19 @@
   </div>
 
   <h1 id="h2">Fields</h1>
+
   <input id="f1" type="text" value="text field"></input>
+
   <textarea>hello</textarea>
+
   <input type="checkbox" id="chk1"/><label for="chk1">Check 1</label>
   <input type="radio" id="rd1"/><label for="rd1">Radio 1</label>
   <input type="radio" id="rd2"/><label for="rd2">Radio 2</label>
 
   <h1 id="h3">Iframe</h1>
+
   <iframe src="Empty_1.html" style="width:200px;height:100px">
   </iframe>
 
-  <script type="text/javascript">
-appender = new qx.legacy.log.appender.HtmlElement;
-appender.setElement(document.getElementById("log"));
-
-qx.legacy.log.Logger.ROOT_LOGGER.removeAllAppenders();
-qx.legacy.log.Logger.ROOT_LOGGER.addAppender(appender);
-
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      // document.body.focus();
-
-      qx.event.Registration.addListener(document.documentElement, "activate", this._onActivate, this, true);
-      qx.event.Registration.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
-      qx.event.Registration.addListener(document.documentElement, "focusin", this._onFocusIn, this);
-      qx.event.Registration.addListener(document.documentElement, "focusout", this._onFocusOut, this);
-
-      qx.event.Registration.addListener(window, "focus", this._onWindowFocus, this);
-      qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
-
-      var h2 = document.getElementById("h2");
-      qx.bom.Element.addListener(h2, "mouseup", this._onHeaderMouseUp, this);
-
-      var f1 = document.getElementById("f1");
-      qx.bom.Element.addListener(f1, "keydown", this._onInputKeyDown, this);
-
-      qx.bom.Element.addListener(document.body, "keydown", this._onAnyKeyDown, this);
-    },
-
-    _onWindowFocus : function(e)
-    {
-      this.debug("Window focussed");
-    },
-
-    _onWindowBlur : function(e)
-    {
-      this.debug("Window blurred");
-    },
-
-    _onActivate : function(e)
-    {
-      this.debug("Activate: " + e.getTarget());
-      e.getTarget().style.background = "#E8ECF6";
-    },
-
-    _onDeactivate : function(e)
-    {
-      this.debug("Deactivate: " + e.getTarget());
-      e.getTarget().style.background = "";
-    },
-
-    _onFocusIn : function(e)
-    {
-      this.debug("FocusIn: " + e.getTarget());
-
-      if (qx.bom.client.Engine.MSHTML)
-      {
-        e.getTarget().style.border = "1px dotted black";
-      }
-      else
-      {
-        e.getTarget().style.outline = "1px dotted black";
-      }
-    },
-
-    _onFocusOut : function(e)
-    {
-      this.debug("FocusOut: " + e.getTarget());
-
-      if (qx.bom.client.Engine.MSHTML) {
-        e.getTarget().style.border = "1px solid black";
-      } else {
-        e.getTarget().style.outline = "";
-      }
-    },
-
-    _onHeaderMouseUp : function(e)
-    {
-      var f1 = document.getElementById("f1");
-
-      // These both should work identical
-      // qx.bom.Element.focus(f1);
-      f1.focus();
-    },
-
-    _onInputKeyDown : function(e)
-    {
-      this.debug("Input-Field: " + e.getKeyIdentifier());
-      if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape")
-      {
-        this.debug("Blur field");
-
-        // These both should work identical
-        // qx.bom.Element.blur(e.getTarget());
-
-        e.getTarget().blur();
-      }
-    },
-
-    _onAnyKeyDown : function(e)
-    {
-      this.debug("Key-Action on " + e.getTarget() + " [" + e.getKeyIdentifier() + "]");
-
-    }
-  }
-});
-  </script>
 </body>
 </html>
