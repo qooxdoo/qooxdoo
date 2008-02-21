@@ -66,7 +66,7 @@ exec-distclean:
 
 	@echo "  * Cleaning up framework..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
-	@$(CMD_REMOVE) $(QOOXDOO_INCLUDE_CACHE)	
+	@$(CMD_REMOVE) $(QOOXDOO_INCLUDE_CACHE)
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
@@ -460,7 +460,6 @@ exec-api-build:
 	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
 	  --include apiviewer \
 	  --include qx.application.Gui \
-	  --add-require qx.log.Logger:qx.log.appender.Native \
 	  --use-setting qx.minLogLevel:700 \
 	  --use-variant qx.debug:off \
     --use-setting qx.theme:qx.theme.ClassicRoyale \
@@ -523,7 +522,6 @@ exec-tests-build:
 	  --include testrunner.TestLoader \
 	  --include $(APPLICATION_NAMESPACE).* \
 	  --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
-	  --add-require qx.log.Logger:qx.log.appender.Native \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
 	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
 	  --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
@@ -552,7 +550,6 @@ exec-tests-source:
 	   --include testrunner.TestLoader \
 	   --include $(APPLICATION_NAMESPACE).* \
 	   --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
-	   --add-require qx.log.Logger:qx.log.appender.Native \
 	   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
 	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
 	   --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \

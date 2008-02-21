@@ -310,17 +310,17 @@ endif
 # ==============================================================================
 
 # Make the appender available to enable classes to log at load time
-#ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
-#  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
-#else
-#  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
-#endif
+ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
+  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.legacy.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
+else
+  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.legacy.log.Logger:qx.legacy.log.appender.Native
+endif
 
-#ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
-#  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
-#else
-#  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
-#endif
+ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
+  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.legacy.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
+else
+  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.legacy.log.Logger:qx.legacy.log.appender.Native
+endif
 
 # profiler requires
 ifeq ($(APPLICATION_PROFILE_SOURCE),true)

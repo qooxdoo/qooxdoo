@@ -536,7 +536,11 @@ qx.Class.define("qx.legacy.log.Logger",
   {
     statics.ROOT_LOGGER = new statics("root", null);
     statics.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
-    statics.ROOT_LOGGER.addAppender(new (qx.Class.getByName(qx.core.Setting.get("qx.logAppender"))));
+
+    var clazz = qx.Class.getByName(qx.core.Setting.get("qx.logAppender"));
+    if (clazz) {
+      statics.ROOT_LOGGER.addAppender(new clazz);
+    }
   },
 
 

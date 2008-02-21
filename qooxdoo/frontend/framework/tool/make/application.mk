@@ -141,7 +141,7 @@ endif
 # Copyright of your application
 #
 ifndef APPLICATION_COPYRIGHT
-  APPLICATION_COPYRIGHT = 
+  APPLICATION_COPYRIGHT =
 endif
 
 #
@@ -373,7 +373,7 @@ endif
 
 #
 # List of directories containing contributions or external projects
-# to include code from. Additionally qooxdoo-contrib includes can be 
+# to include code from. Additionally qooxdoo-contrib includes can be
 # used by using the following URL scheme:
 # contrib://ProgressBar/0.1
 #
@@ -462,14 +462,14 @@ endif
 # Set the default log appender for the source version
 #
 ifndef APPLICATION_SOURCE_LOG_APPENDER
-  APPLICATION_SOURCE_LOG_APPENDER = qx.log.appender.Native
+  APPLICATION_SOURCE_LOG_APPENDER = qx.legacy.log.appender.Native
 endif
 
 #
 # Set the default log appender for the build version
 #
 ifndef APPLICATION_BUILD_LOG_APPENDER
-  APPLICATION_BUILD_LOG_APPENDER = qx.log.appender.Native
+  APPLICATION_BUILD_LOG_APPENDER = qx.legacy.log.appender.Native
 endif
 
 
@@ -559,7 +559,7 @@ endif
 ifndef APPLICATION_TEST_PATH
   APPLICATION_TEST_PATH = ./test
 endif
- 
+
 #
 # The folder that will contain assorted tools (e.g. buildtool) that can be
 # generated for the current application, defined from the directory which
@@ -570,7 +570,7 @@ endif
 ifndef APPLICATION_TOOL_PATH
   APPLICATION_TOOL_PATH = ./tool
 endif
- 
+
 #
 # The folder that will contain the buildtool application, defined from the
 # directory which contains the Makefile (if defined relatively). This is the
@@ -580,7 +580,7 @@ endif
 ifndef APPLICATION_BUILDTOOL_PATH
   APPLICATION_BUILDTOOL_PATH = $(APPLICATION_TOOL_PATH)/buildtool
 endif
- 
+
 
 
 
@@ -626,7 +626,7 @@ endif
 # as errors.
 #
 ifndef LINT_ALLOWED_GLOBALS
-  LINT_ALLOWED_GLOBALS = 
+  LINT_ALLOWED_GLOBALS =
 endif
 
 
