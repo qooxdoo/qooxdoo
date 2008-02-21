@@ -13,6 +13,9 @@ def main(dist, scan):
   for category in os.listdir(scan):
     if category == ".svn":
       continue
+      
+    if os.path.splitext(category)[1] == ".html":
+        continue
 
     if not firstCategory:
       res += "},"
