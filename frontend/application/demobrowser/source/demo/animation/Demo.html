@@ -53,18 +53,19 @@
         /*
          * Effect for fading in the div container
         */
-        var animShow = new qx.fx.effect.core.FadeIn(myElement);
-        animShow.set({
+        var animShow = new qx.fx.effect.core.Fade(myElement).set({
           from : 0,
           to : 1,
-          duration : 2
+          duration : 1
         });
 
         /*
          * Effect for fading out the div container
         */
-        var animHide = new qx.fx.effect.core.FadeOut(myElement);
-        animHide.setDuration(1);
+        var animHide = new qx.fx.effect.core.Fade(myElement).set({
+        	duration : 1,
+        	to : 0
+        });
 
         /*
          * Effect for increasing the dimensions of the div container
@@ -89,8 +90,7 @@
         * In opposite to the linear transition, this one differs between the values
         * Just take a look at this transition behavior to get the idea. ;-)
         */
-        var animFadeInWobble = new qx.fx.effect.core.FadeIn(myElement);
-        animFadeInWobble.set({
+        var animFadeInWobble = new qx.fx.effect.core.Fade(myElement).set({
           from : 0,
           to : 1,
           duration : 6,
