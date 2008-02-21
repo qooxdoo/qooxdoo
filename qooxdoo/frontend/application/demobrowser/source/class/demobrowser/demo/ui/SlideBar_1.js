@@ -28,7 +28,51 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
 
+      slideBar = new qx.ui.view.HSlideBar();
+      slideBar.set({
+        width: 300,
+        backgroundColor : "yellow",
+        padding : 10
+      });
+
+      slideBar.setContent(this.generateBoxes());
+
+      var toggle = new qx.ui.basic.Label("Toggle size").set({
+        padding : 5,
+        backgroundColor: "orange"
+      });
+
+      var grow = true;
+      toggle.addListener("click", function()
+      {
+        slideBar.setWidth(grow ? 800 : 300);
+        grow = !grow;
+      });
+
+      doc.add(toggle, 10, 100);
+      doc.add(slideBar, 10, 10);
+    },
+
+    generateBoxes : function()
+    {
+      var box = new qx.ui.core.Widget();
+      var layout = new qx.ui.layout.HBox();
+
+      for (var i=0; i<10; i++)
+      {
+        layout.add((new qx.ui.core.Widget()).set({
+          backgroundColor : (i % 2 == 0) ? "red" : "blue",
+          width : 60,
+          minWidth : 40
+        }), {flex: 1});
+      }
+
+      box.setLayout(layout);
+      return box;
     }
   }
 });

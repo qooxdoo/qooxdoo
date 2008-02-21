@@ -1,87 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.enableApplicationLayout" : false,
-      "qx.boxModelCorrection" : false,
-      "qx.application" : "BasicSample"      
-    };
-  </script>
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
-  <style type="text/css">
-    body {
-      font: 11px Tahoma, sans-serif;
-    }
-  </style>
+  <script type="text/javascript" src="../../script/demobrowser.demo.ui.ScrollArea_4.js"></script>
 </head>
 <body>
-  <script type="text/javascript">
 
-  /*
-  Test the edge case were the available height is normally enough. The content
-  however requires a higher width than the available width. This means it creates
-  a horizontal scrollbar and this way stoles the height the required size.
-  */
-
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      scrollArea = new qx.ui.core.ScrollArea();
-      scrollArea.set({
-        width: 200,
-        height: 300,
-        backgroundColor : "yellow"
-      });
-
-      doc.add(scrollArea, 10, 10);
-      scrollArea.setContent(this.generateBox());
-
-      var toggle = new qx.ui.basic.Label("Toggle size").set({
-        padding : 5,
-        backgroundColor: "orange"
-      });
-
-      var grow = true;
-      toggle.addListener("click", function()
-      {
-        scrollArea.setWidth(grow ? 300 : 200);
-        grow = !grow;
-      });
-
-      doc.add(toggle, 10, 400);
-    },
-
-    generateBox : function()
-    {
-      var box = new qx.ui.basic.Label("Content size: 300x300").set({
-        width: 300,
-        height: 300,
-        allowShrinkX: false,
-        allowShrinkY: false,
-        backgroundColor: "blue",
-        textColor: "white",
-        padding: 10,
-        decorator: new qx.ui.decoration.Basic(4, "solid", "black")
-      });
-      return box;
-    }
-  }
-});
-
-  </script>
 </body>
 </html>

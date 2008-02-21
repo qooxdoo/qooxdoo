@@ -28,7 +28,19 @@ qx.Class.define("demobrowser.demo.ui.Scrollbar_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
 
+      var vbar = new qx.ui.core.ScrollBar("vertical");
+      vbar.setHeight(200);
+      vbar.setWidth(20);
+      doc.add(vbar, 230, 10);
+
+      var hbar = new qx.ui.core.ScrollBar("horizontal");
+      hbar.setHeight(20);
+      hbar.setWidth(200);
+      doc.add(hbar, 10, 230);
     }
   }
 });
