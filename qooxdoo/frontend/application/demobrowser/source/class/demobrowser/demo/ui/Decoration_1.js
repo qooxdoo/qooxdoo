@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.Template",
+qx.Class.define("demobrowser.demo.ui.Decoration_1",
 {
   extend : demobrowser.Demo,
 
@@ -28,7 +28,58 @@ qx.Class.define("demobrowser.demo.Template",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
 
+      var docLayout = new qx.ui.layout.HBox();
+      docLayout.setSpacing(10);
+
+      var container = new qx.ui.core.Widget();
+      container.setPadding(20);
+      container.setLayout(docLayout);
+
+      doc.add(container, 0, 0);
+
+      docLayout.add(this.getGrid1());
+    },
+
+
+    getGrid1 : function()
+    {
+      var theme = qx.theme.classic.Decoration;
+
+      qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
+      qx.theme.manager.Decoration.getInstance().setTheme(theme);
+
+      // auto size
+      var box = (new qx.ui.core.Widget).set({
+        decorator: "outset",
+        padding: 5,
+        backgroundColor: "#CCC"
+      });
+      var layout = new qx.ui.layout.Grid();
+      layout.setSpacing(10);
+
+      var decorations = theme.decorations;
+
+      var columns = 5;
+
+      var i=0;
+      for (var key in decorations)
+      {
+        layout.add(new qx.ui.basic.Label(key).set({
+          decorator: key,
+          padding: 5,
+          height: 100,
+          width: 100
+        }), Math.floor(i/columns), i%columns);
+        i += 1;
+      }
+
+      box.setLayout(layout);
+
+      return box;
     }
   }
 });

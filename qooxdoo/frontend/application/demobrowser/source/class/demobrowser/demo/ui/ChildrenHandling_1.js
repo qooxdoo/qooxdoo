@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.Template",
+qx.Class.define("demobrowser.demo.ui.ChildrenHandling_1",
 {
   extend : demobrowser.Demo,
 
@@ -28,7 +28,88 @@ qx.Class.define("demobrowser.demo.Template",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var container = new qx.ui.core.Widget();
+      var layout = new qx.ui.layout.VBox();
+      layout.setSpacing(10);
+
+      container.setLayout(layout);
+
+      this._hbox = new qx.ui.core.Widget();
+      this._hbox.set({
+        height : 100
+      });
+      this._hbox.setLayout(new qx.ui.layout.HBox());
+      this._widgets = [];
+      var widgetColors = ["green", "blue", "yellow", "black", "orange", "red"];
+      for (var i=0; i<widgetColors.length; i++)
+      {
+        var widget = new qx.ui.core.Widget();
+        widget.setBackgroundColor(widgetColors[i]);
+        this._hbox.getLayout().add(widget);
+        this._widgets.push(widget);
+      }
+      container.getLayout().add(this._hbox);
+
+      this._grid  = new qx.ui.core.Widget();
+      this._grid.set({
+        height : 100
+      });
+      this._grid.setLayout(new qx.ui.layout.Grid());
+      this._gridWidgets = [];
+      for (var i=0; i<widgetColors.length; i++)
+      {
+        var widget = new qx.ui.core.Widget();
+        widget.setBackgroundColor(widgetColors[i]);
+        this._grid.getLayout().add(widget, 0, i);
+        this._gridWidgets.push(widget);
+      }
+      container.getLayout().add(this._grid);
+
+      var buttons = new qx.ui.core.Widget();
+      buttons.setLayout(new qx.ui.layout.HBox());
+
+      for (var i=0; i<this._widgets.length; i++) {
+        buttons.getLayout().add(this.createRemoveButton(this._widgets[i], i));
+      }
+
+      container.getLayout().add(buttons);
+
+      doc.add(container, 0, 0);
+    },
+
+    createRemoveButton : function(widget, widgetIndex)
+    {
+      var doRemove = true;
+      var button = new qx.ui.basic.Label("Remove " + widget.getBackgroundColor());
+
+      var deco = new qx.ui.decoration.Basic.fromString("1px solid black");
+
+      button.set({
+        padding : 4,
+        decorator: deco
+      });
+
+      button.addListener(function()
+      {
+        if (doRemove) {
+          this._hbox.getLayout().remove(widget);
+          this._grid.getLayout().remove(this._gridWidgets[widgetIndex]);
+          button.setText("Add " + widget.getBackgroundColor());
+        } else {
+          this._hbox.getLayout().add(widget);
+          this._grid.getLayout().add(this._gridWidgets[widgetIndex], 0, widgetIndex);
+          button.setText("Remove " + widget.getBackgroundColor());
+        }
+
+        doRemove = !doRemove;
+      }, this);
+
+      return button;
     }
   }
 });

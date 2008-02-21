@@ -1,94 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.enableApplicationLayout" : false,
-      "qx.boxModelCorrection" : false,
-      "qx.application" : "BasicSample"      
-    };
-  </script>
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
-  <style type="text/css">
-    body {
-      font: 11px Tahoma, sans-serif;
-    }
-  </style>
+  <script type="text/javascript" src="../../script/demobrowser.demo.ui.CanvasLayout_1.js"></script>
 </head>
 <body>
-  <div id="description">
-  </div>
 
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      doc = new qx.ui.root.Application(document);
-
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      var border = new qx.ui.decoration.Basic(3, "solid", "black");
-
-      w1 = new qx.ui.core.Widget().set({
-        backgroundColor: "red",
-        decorator: border
-      });
-
-      w2 = new qx.ui.core.Widget().set({
-        backgroundColor: "blue",
-        decorator: border
-      });
-
-      w3 = new qx.ui.core.Widget().set({
-        backgroundColor: "green",
-        decorator: border
-      });
-
-      w4 = new qx.ui.core.Widget().set({
-        backgroundColor: "yellow",
-        decorator: border
-      });
-
-      w5 = new qx.ui.core.Widget().set({
-        backgroundColor: "orange",
-        decorator: border
-      });
-
-      w6 = new qx.ui.core.Widget().set({
-        backgroundColor: "teal",
-        decorator: border
-      });
-
-      layout = new qx.ui.layout.Canvas();
-
-      layout.add(w1, 10, 10, 10, 10);
-      layout.add(w2, 30, 30, 30);
-      layout.add(w3, 50, 50, null, 50);
-      layout.add(w4, 70, 70);
-      layout.add(w5, null, 50, 50);
-      layout.add(w6, null, null, 50, 50);
-
-      var container = new qx.ui.core.Widget().set({
-        backgroundColor: "gray",
-        padding: 10
-      });
-      container.setLayout(layout);
-
-      doc.add(container, 0, 0, 0, 0);
-    }
-  }
-});
-
-  </script>
 </body>
 </html>
