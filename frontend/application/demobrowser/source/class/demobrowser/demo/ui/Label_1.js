@@ -28,7 +28,32 @@ qx.Class.define("demobrowser.demo.ui.Label_1",
     {
       this.base(arguments);
 
+      var doc = new qx.ui.root.Application(document);
 
+      var decor = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      var label1 = new qx.ui.basic.Label("Hello World").set({
+        decorator: decor
+      });
+      doc.add(label1, 20, 20);
+
+      var label2 = new qx.ui.basic.Label("Hello World").set({
+        decorator: decor,
+        width: 50,
+        mode: "html"
+      });
+      doc.add(label2, 20, 60);
+
+      var label3 = new qx.ui.basic.Label().set({
+        html: "Returns the preferred height for this layout item, given the width w.",
+        decorator: decor,
+        width: 100
+      });
+      doc.add(label3, 20, 100);
+
+      this.debug("Height for Width (100): " + label3.getHeightForWidth(100));
+      this.debug("Height for Width (150): " + label3.getHeightForWidth(150));
+      this.debug("Height for Width (200): " + label3.getHeightForWidth(200));
     }
   }
 });

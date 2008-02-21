@@ -28,7 +28,27 @@ qx.Class.define("demobrowser.demo.ui.Image_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      w1 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-archiver.png", 48, 48);
+      w2 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png", 48, 48);
+      w3 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png", 48, 48);
+      w4 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png", 48, 48);
+
+      layout = new qx.ui.layout.Basic();
+
+      layout.add(w1, 10, 10);
+      layout.add(w2, 200, 20);
+      layout.add(w3, 350, 50);
+      layout.add(w4, 50, 200);
+
+      var container = new qx.ui.core.Widget();
+      container.setLayout(layout);
+
+      doc.add(container, 0, 0, 0, 0);
     }
   }
 });
