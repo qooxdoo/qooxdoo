@@ -24,11 +24,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.CallTrace", {
-
+qx.Class.define("demobrowser.CallTrace", 
+{
   statics :
   {
-
     /**
      * This function will be called before each function call.
      *
@@ -54,7 +53,5 @@ qx.Class.define("demobrowser.CallTrace", {
   {
     qx.core.Aspect.addAdvice("before", "*", "demobrowser\.(?!(DemoBrowser\.(init|get|set)|Application))", statics.callTraceEnter);
     //qx.core.Aspect.addAdvice("before", "*", "(?!qx.legacy.event.*)", statics.callTraceEnter);
-
   }
-
 });
