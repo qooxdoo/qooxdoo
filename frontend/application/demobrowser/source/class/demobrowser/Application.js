@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(demobrowser)
 #resource(demobrowser.css:css)
 #resource(demobrowser.image:image)
 

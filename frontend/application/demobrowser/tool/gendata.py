@@ -3,19 +3,14 @@
 
 import sys, os, optparse, codecs, re
 
-
-
 basic = u"""[%s]"""
-
-
 
 def main(dist, scan):
   res = ""
   structurize = False
 
   firstCategory = True
-  # for category in os.listdir(scan):
-  for category in [ "bom", "html", "animation", "ui" ]:
+  for category in os.listdir(scan):
     if category == ".svn":
       continue
 
@@ -34,12 +29,6 @@ def main(dist, scan):
 
       if os.path.splitext(item)[1] != ".html":
         continue
-
-      if item == "index.html":
-        continue
-
-      desc = getDesc(os.path.join(scan, category, item))
-      desc = re.sub('"','\\"',desc)
 
       title = item[:item.find(".")]
 
@@ -65,7 +54,7 @@ def main(dist, scan):
       if not firstItem:
         res += ",\n"
 
-      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s",\"desc\":"%s"}' % (nr, title, item, desc)
+      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s",\"desc\":"%s"}' % (nr, title, item, "TODO")
       lastbasename = basename
       firstItem = False
 
@@ -91,25 +80,6 @@ def main(dist, scan):
   outputFile.close()
 
 
-def getDesc(filepath):
-    desc = ""
-    # open file
-    file = open(filepath,'rU').read()
-    if file:
-        # scan for div id="description
-        m = re.search(r'<div\s+id="description">(.*?)</div>', file,
-                         re.IGNORECASE|re.DOTALL)
-        if m:
-            desc = m.group(1)
-            desc = re.sub("\n"," ",desc)
-            desc = desc.strip()
-    else:
-        print "Failed to open filepath: ", filepath
-    # return text
-
-    return desc
-
-
 
 if __name__ == '__main__':
   try:
@@ -117,10 +87,7 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
-    dist = args[0]
-    scan = args[1]
-
-    main(dist, scan)
+    main(args[0], args[1])
 
   except KeyboardInterrupt:
     print
