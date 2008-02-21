@@ -1,84 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.enableApplicationLayout" : false,
-      "qx.boxModelCorrection" : false,
-      "qx.application" : "BasicSample"      
-    };
-  </script>
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
-  <style type="text/css">
-    body {
-      font: 11px Tahoma, sans-serif;
-    }
-  </style>
+  <script type="text/javascript" src="../../script/demobrowser.demo.ui.BasicLayout_2.js"></script>
 </head>
 <body>
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
 
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      doc = new qx.ui.root.Application(document);
-
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      var borderColor = "black";
-      var border = new qx.ui.decoration.Basic(3, "solid", borderColor);
-
-      w1 = new qx.ui.core.Widget().set({
-        backgroundColor: "red",
-        decorator: border,
-        paddingLeft: 10,
-        paddingRight: 10,
-        minHeight: 200
-      });
-
-      w2 = new qx.ui.core.Widget().set({
-        backgroundColor: "blue",
-        decorator: border,
-        height: 300
-      });
-
-      w3 = new qx.ui.core.Widget().set({
-        backgroundColor: "green",
-        decorator: border,
-        padding: 3
-      });
-
-      w4 = new qx.ui.core.Widget().set({
-        backgroundColor: "yellow",
-        decorator: border,
-        padding: 10,
-        width: 1000
-      });
-
-      layout = new qx.ui.layout.Basic();
-
-      layout.add(w1, 10, 10);
-      layout.add(w2, 200, 20);
-      layout.add(w3, 350, 50);
-      layout.add(w4, 50, 200);
-
-      var container = new qx.ui.core.Widget();
-      container.setLayout(layout);
-
-      doc.add(container, 0, 0, 0, 0);
-    }
-  }
-});
-
-  </script>
 </body>
 </html>
