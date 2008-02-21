@@ -1,83 +1,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qooxdoo &raquo; Demo Browser</title>
-  <script type="text/javascript">
-    qxsettings = {
-      "qx.enableApplicationLayout" : false,
-      "qx.boxModelCorrection" : false,
-      "qx.application" : "BasicSample"
-    };
-  </script>
-  <script type="text/javascript" src="../../script/demo.js"></script>
-  <script type="text/javascript" src="../util.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.ui.ApplicationRoot_1.js"></script>
 </head>
 <body>
-  <div id="description">
-  </div>
-
   <div id="test"></div>
-
-  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
-
-  <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Abstract,
-
-  members :
-  {
-    main : function()
-    {
-      this.base(arguments);
-
-      var doc = new qx.ui.root.Application(document);
-
-      var border = new qx.ui.decoration.Basic(1, "solid", "black")
-
-      // doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
-
-      doc.setDecorator(border);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      var w1 = new qx.ui.core.Widget().set({
-        backgroundColor: "red",
-        decorator: border,
-        padding: 10
-      });
-
-      var w2 = new qx.ui.core.Widget().set({
-        backgroundColor: "blue",
-        decorator: border
-      });
-
-      var w3 = new qx.ui.core.Widget().set({
-        backgroundColor: "green",
-        decorator: border
-      });
-
-      var w4 = new qx.ui.core.Widget().set({
-        backgroundColor: "yellow",
-        decorator: border
-      });
-
-
-      var layout = new qx.ui.layout.HBox();
-
-      layout.add(w1);
-      layout.add(w2);
-      layout.add(w3);
-      layout.add(w4);
-
-      var container = new qx.ui.core.Widget();
-      container.setLayout(layout);
-
-      doc.add(container, 0, 0, 0, 0);
-    }
-  }
-});
-
-  </script>
 </body>
 </html>
