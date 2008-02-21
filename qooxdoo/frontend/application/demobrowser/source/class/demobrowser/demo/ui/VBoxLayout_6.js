@@ -28,7 +28,34 @@ qx.Class.define("demobrowser.demo.ui.VBoxLayout_6",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+
+      // auto size with limited height
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", maxWidth : 100});
+      var layout1 = new qx.ui.layout.VBox();
+
+      layout1.setSpacing(5);
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+
+      w1.setWidth(200);
+      w2.setWidth(300);
+      w3.setWidth(400);
+
+      layout1.add(w1);
+      layout1.add(w2);
+      layout1.add(w3);
+
+      box1.setLayout(layout1);
+      doc.add(box1, 10, 10);
     }
   }
 });

@@ -28,7 +28,88 @@ qx.Class.define("demobrowser.demo.ui.Spacer_1",
     {
       this.base(arguments);
 
+      doc = new qx.ui.root.Application(document);
 
+      doc.setTextColor("black");
+      doc.setBackgroundColor("white");
+
+      doc.add(this.getSpacerWithoutFlex(), 10, 10);
+      doc.add(this.getSpacerWithFlex(), 10, 70);
+      doc.add(this.getAddSpacer(), 10, 140);
+      doc.add(this.getAddRemoveSpacer(), 10, 210);
+    },
+
+
+    getSpacerWithoutFlex : function()
+    {
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      // spacer without flex
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow"});
+      var layout1 = new qx.ui.layout.HBox();
+
+      layout1.setSpacing(5);
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}));
+      layout1.add(new qx.ui.core.Spacer(30, 40));
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}));
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}));
+
+      box1.setLayout(layout1);
+      return box1;
+    },
+
+    getSpacerWithFlex : function()
+    {
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      // spacer with flex
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", minHeight: 60, width: 500});
+      var layout1 = new qx.ui.layout.HBox();
+
+      layout1.setSpacing(5);
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "top" });
+      layout1.add(new qx.ui.core.Spacer(30, 40), {flex: 1});
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "middle" });
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
+      box1.setLayout(layout1);
+      return box1;
+    },
+
+    getAddSpacer : function()
+    {
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      // addSpacer
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", minHeight: 60, width: 500});
+      var layout1 = new qx.ui.layout.HBox();
+
+      layout1.setSpacing(5);
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "top" });
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "middle" });
+      layout1.addSpacer();
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
+
+      box1.setLayout(layout1);
+      return box1;
+    },
+
+    getAddRemoveSpacer : function()
+    {
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      // addSpacer and remove
+      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", minHeight: 60, width: 500});
+      var layout1 = new qx.ui.layout.HBox();
+
+      layout1.setSpacing(5);
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "top" });
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "middle" });
+      var spacer = layout1.addSpacer();
+      layout1.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
+
+      layout1.remove(spacer);
+      box1.setLayout(layout1);
+      return box1;
     }
   }
 });
