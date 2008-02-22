@@ -36,7 +36,7 @@ qx.Mixin.define("qx.legacy.application.MGuiCompat",
      */
     compat : function()
     {
-      this.debug("Enabling 0.7x application compatibility mode.");
+      this.debug("Enabling 0.7x application compat");
 
       // this is needed to verify that the application developer has called the
       // overridden main method.
