@@ -64,6 +64,9 @@ qx.Class.define("showcase.Application",
     {
       this.base(arguments);
 
+      // Initialize 0.7 compatibility
+      this.compat();
+
       var barView = new qx.legacy.ui.pageview.buttonview.ButtonView;
 
       barView.setLocation(10, 10);
