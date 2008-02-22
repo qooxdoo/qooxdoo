@@ -43,6 +43,8 @@ qx.Class.define("apiviewer.Application",
     {
       this.base(arguments);
 
+      this.compat();
+
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path
