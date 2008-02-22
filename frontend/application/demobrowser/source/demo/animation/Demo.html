@@ -19,10 +19,19 @@
 
   var elementStyle = 'opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:110px;top:102px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
   var myElement;
+  var cbResetStyle;
 
   function resetElement(el)
   {
     qx.bom.element.Style.setCss(el,  elementStyle);
+  }
+
+
+  function checkForRestore()
+  {
+    if ( cbResetStyle.getChecked() ) {
+      resetElement(myElement);
+    }
   }
 
   qx.Class.define("AnimationDemo",
@@ -37,7 +46,6 @@
         this.base(arguments);
         var doc = doc = qx.legacy.ui.core.ClientDocument.getInstance();
         myElement = qx.bom.Element.create('div', { style : elementStyle });
-
         document.body.appendChild(myElement);
 
         myElement.id = "testDiv";
@@ -63,8 +71,9 @@
          * Effect for fading out the div container
         */
         var animHide = new qx.fx.effect.core.Fade(myElement).set({
-        	duration : 1,
-        	to : 0
+          duration : 1,
+          from : 1,
+          to : 0
         });
 
         /*
@@ -90,11 +99,12 @@
         * In opposite to the linear transition, this one differs between the values
         * Just take a look at this transition behavior to get the idea. ;-)
         */
-        var animFadeInWobble = new qx.fx.effect.core.Fade(myElement).set({
+        var animFadeInWobble = new qx.fx.effect.core.Fade(myElement);
+        animFadeInWobble.set({
           from : 0,
           to : 1,
           duration : 6,
-          transition : qx.fx.Transition.wobble
+          transition : "wobble"
         });
 
         /*
@@ -105,7 +115,7 @@
           scaleTo : 200,
           duration : 4,
           delay : 2,
-          transition : qx.fx.Transition.sinoidal
+          transition : "sinoidal"
         });
 
         /*
@@ -123,7 +133,7 @@
         animMoveAway.set({
           x : 600,
           y : 300,
-          transition : qx.fx.Transition.sinoidal,
+          transition : "sinoidal",
           mode : "absolute"
         });
 
@@ -135,7 +145,7 @@
         animMoveBack.set({
           x : 110,
           y : 102,
-          transition : qx.fx.Transition.spring,
+          transition : "spring",
           mode : "absolute"
         });
 
@@ -168,7 +178,7 @@
         animAHigh.set({
           startColor : "#134275",
           endColor : "#7CFC00",
-          transition : qx.fx.Transition.wobble,
+          transition : "wobble",
           duration : 3
         });
 
@@ -203,9 +213,9 @@
         var btnColorFlow = new qx.legacy.ui.form.Button("ColorFlow");
         var btnShrink = new qx.legacy.ui.form.Button("Shrink");
         var btnDropOut = new qx.legacy.ui.form.Button("DropOut");
-
         var btnReset = new qx.legacy.ui.form.Button("Reset element");
 
+        cbResetStyle = new qx.legacy.ui.form.CheckBox("Reset element after effect");
 
         var buttonBar1 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
           height: "auto",
@@ -224,9 +234,18 @@
           left: 25,
           spacing: 10
         });
-        buttonBar2.add(btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnDropOut, btnReset);
+        buttonBar2.add(btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnDropOut);
         buttonBar2.addToDocument();
 
+        var buttonBar3 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
+          height: "auto",
+          width: "auto",
+          top: 95,
+          left: 25,
+          spacing: 10
+        });
+        buttonBar3.add(cbResetStyle, btnReset);
+        buttonBar3.addToDocument();
 
         /* Events */
         btnShow.addListener("execute", function(){
@@ -268,6 +287,7 @@
 
         btnGrow.addListener("execute", function(){
           animGrow.start();
+          checkForRestore();
         });
 
         btnShake.addListener("execute", function(){
