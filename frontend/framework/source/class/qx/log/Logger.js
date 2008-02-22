@@ -260,7 +260,7 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "instance":
-          text = value.classname + "[" + value.$$hash + "]";
+          text = value.basename + "[" + value.$$hash + "]";
           break;
 
         case "class":
