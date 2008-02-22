@@ -19,7 +19,10 @@
 
 /**
  * Super simple application which executes the global methods
- * <code>qxready</code> (on load replacement) and <code>qxshutdown</code>.
+ * <code>qxmain</code> (at load) and <code>qxterminate</code> (at shutdown).
+ *
+ * The methods are executed in context of this application which means
+ * that all feature of <code>qx.core.Object</code> and co are available.
  */
 qx.Class.define("qx.application.Simple",
 {
@@ -44,8 +47,8 @@ qx.Class.define("qx.application.Simple",
      */
     main : function()
     {
-      if (window.qxready) {
-        window.qxready.call(this);
+      if (window.qxmain) {
+        window.qxmain.call(this);
       }
     },
 
@@ -58,8 +61,8 @@ qx.Class.define("qx.application.Simple",
      */
     terminate : function()
     {
-      if (window.qxshutdown) {
-        window.qxshutdown.call(this);
+      if (window.qxterminate) {
+        window.qxterminate.call(this);
       }
     }
   }
