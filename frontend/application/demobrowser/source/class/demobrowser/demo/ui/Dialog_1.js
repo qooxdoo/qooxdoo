@@ -91,7 +91,6 @@ qx.Class.define("demobrowser.demo.ui.Dialog_1",
             height: 200
           });
         }
-        console.log(pane);
         grow = !grow;
       });
     }

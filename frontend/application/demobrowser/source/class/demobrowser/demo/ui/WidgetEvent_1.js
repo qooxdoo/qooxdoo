@@ -57,15 +57,15 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
       docLayout.add(a1);
 
       a1.addListener("click", function() {
-        console.log("click1")
+        this.debug("click1")
       }, this, false);
 
       a1.addListener("click", function(e) {
-        console.log("click2", e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
+        this.debug("click2", e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
       }, this);
 
       a1.addListener("mouseout", function(e) {
-        console.log("mouseout", e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
+        this.debug("mouseout", e.getRelatedTarget(), e.getTarget(), e.getCurrentTarget(), e.getDomTarget());
       }, this);
 
       var a2 = new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
@@ -84,22 +84,23 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
 
 
       a2.addListener("losecapture", function() {
-        console.log("lose capture!")
+        this.debug("lose capture!")
       }, this);
 
 
       a2.addListener("mousemove", function(e) {
-        console.log("move", e);
+        this.debug("move", e);
       }, this);
 
 
-        docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         iconPosition : "right",
         padding : 5,
         allowGrowY: false
       }));
+
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img_date, 48, 48).set({
         backgroundColor : "gray",

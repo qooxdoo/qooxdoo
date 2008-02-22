@@ -25,12 +25,16 @@
 qx.Class.define("demobrowser.demo.ui.Embed_2",
 {
   extend : demobrowser.Demo,
+  include : qx.legacy.application.MGuiCompat,
 
   members :
   {
     main: function()
     {
       this.base(arguments);
+      this.compat();
+
+      qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
 
       // Create button
       var button = new qx.legacy.ui.form.Button("Open 0.8 widget dialog", "icon/32/status/dialog-information.png").set({
@@ -112,7 +116,6 @@ qx.Class.define("demobrowser.demo.ui.Embed_2",
             height: 200
           });
         }
-        console.log(pane);
         grow = !grow;
       });
 
