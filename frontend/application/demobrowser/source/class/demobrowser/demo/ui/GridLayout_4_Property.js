@@ -10,7 +10,8 @@ qx.Class.define("demobrowser.demo.ui.GridLayout_4_Property",
 
   members :
   {
-    update : function(value) {
+    update : function(value)
+    {
       var properties = {};
       properties[this._propName] = Math.round(value);
       this._element.set(properties);
