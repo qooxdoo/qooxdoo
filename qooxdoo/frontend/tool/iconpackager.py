@@ -92,7 +92,7 @@ def copyFile(source, target, names, size):
     name = names[0]
     
     # Get pixmap (may return None!)
-    pixmap = getPixmapSmart(source, names, size)
+    pixmap = getPixmap(source, names, size)
     if not pixmap:
         return
         
@@ -121,12 +121,8 @@ def copyFile(source, target, names, size):
     except OSError: pass
 
 
-def getPixmapSmart(path, names, size):
-    pixmap = getPixmap(path, names, size)
-    if pixmap:
-        return pixmap
-
-    scale = getScalable(path, names)
+def getPixmap(path, names, size):
+    scale = getScalable(path, names, size)
     if scale:
         if os.path.splitext(scale)[-1] == ".svgz":
             console.debug("Decompressing source...")
@@ -152,22 +148,26 @@ def getPixmapSmart(path, names, size):
     return None
 
 
-def getPixmap(path, names, size):
-    return getFile(path, names, "%sx%s" % (size, size), [ "png" ])
-
-
-def getScalable(path, names):
-    return getFile(path, names, "scalable", [ "svg", "svgz" ])
-
-
-def getFile(path, names, size, extensions):
+def getScalable(path, names, size):
+    extensions = [ "svg", "svgz" ]
+    optimized = SIZES[SIZES.index(size):]
+    
     for name in names:
+        category = name[:name.index("/")]
+        filename = name[name.index("/")+1:]
+        
+        files = []
         for ext in extensions:
-            fileName = os.path.join(path, size, ("%s.%s" % (name, ext)))
+            for optsize in optimized:
+                files.append("scalable/%s/small/%sx%s/%s.%s" % (category, optsize, optsize, filename, ext))
 
+            files.append("scalable/%s/%s.%s" % (category, filename, ext))
+        
+        for name in files:
+            fullname = os.path.join(path, name)
             try:
-                os.stat(fileName)
-                return fileName
+                os.stat(fullname)
+                return fullname
 
             except OSError:
                 pass
