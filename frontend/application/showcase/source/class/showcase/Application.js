@@ -88,7 +88,7 @@ qx.Class.define("showcase.Application",
       this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo);
       this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo, true);
       this._createPage(barView, "SplitPane", "icon/32/apps/office-writer.png", this._createSplitPaneDemo, true);
-      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo);
+      this._createPage(barView, "Localization", "icon/32/apps/utilities-file-archiver.png", this._createLocalizationDemo);
       this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo);
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo, true);
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
@@ -307,7 +307,7 @@ qx.Class.define("showcase.Application",
       c1.setToolTip(new qx.legacy.ui.popup.ToolTip("Look at this"));
       main.add(c1);
 
-      var c2 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
+      var c2 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/apps/utilities-file-archiver.png");
       c2.setPadding(5);
       c2.setBorder("outset");
       c2.setBackgroundColor("#D1DFAD");
@@ -346,7 +346,7 @@ qx.Class.define("showcase.Application",
       var mb1_02 = new qx.legacy.ui.menu.Button("Open", "icon/16/actions/document-open.png");
       var mb1_03 = new qx.legacy.ui.menu.Button("Save", "icon/16/actions/document-save.png");
       var mb1_04 = new qx.legacy.ui.menu.Button("Save as", "icon/16/actions/document-save-as.png");
-      var mb1_05 = new qx.legacy.ui.menu.Button("Close", "icon/16/actions/stop.png");
+      var mb1_05 = new qx.legacy.ui.menu.Button("Close", "icon/16/apps/preferences-desktop-accessibility.png");
       var mb1_06 = new qx.legacy.ui.menu.Button("Restore last saved", "icon/16/actions/view-refresh.png");
       m1.add(mb1_01, mb1_02, mb1_03, mb1_04, mb1_05, mb1_06);
 
@@ -1644,7 +1644,7 @@ qx.Class.define("showcase.Application",
       var win = new qx.legacy.util.NativeWindow("http://qooxdoo.org");
       win.setDimension(600, 400);
 
-      var openBt = new qx.legacy.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
+      var openBt = new qx.legacy.ui.form.Button("Open Native Window", "icon/16/apps/office-spreadsheet.png");
 
       openBt.addListener("click", function() {
         win.open();
