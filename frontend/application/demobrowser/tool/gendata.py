@@ -11,9 +11,9 @@ def main(dist, scan):
 
   firstCategory = True
   for category in os.listdir(scan):
-    if category == ".svn":
+    if category in [".svn", ".DS_Store"]:
       continue
-      
+
     if os.path.splitext(category)[1] == ".html":
         continue
 
