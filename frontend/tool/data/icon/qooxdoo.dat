@@ -1,3 +1,7 @@
+actions/application-exit
+actions/bookmark-new
+actions/contact-new
+
 actions/dialog-cancel:actions/gtk-cancel,actions/cancel,actions/button_cancel
 actions/dialog-close:actions/gtk-close,actions/window-close,actions/close
 actions/dialog-ok:actions/gtk-ok,actions/ok,actions/button_ok
@@ -5,17 +9,24 @@ actions/dialog-apply:actions/dialog-ok-apply,actions/gtk-apply,actions/apply
 
 actions/document-new:actions/filenew
 actions/document-open:actions/fileopen
+actions/document-open-recent
 actions/document-print:actions/fileprint
+actions/document-properties
+actions/document-revert
 actions/document-save:actions/filesave,actions/gtk-save
 actions/document-save-as:actions/filesaveas,actions/gtk-save-as
 
+actions/edit-clear:actions/editclear
 actions/edit-copy:actions/editcopy
 actions/edit-cut:actions/editcut
 actions/edit-delete:actions/editdelete
 actions/edit-find:actions/find
 actions/edit-paste:actions/editpaste
 actions/edit-redo:actions/redo
+actions/edit-select-all
 actions/edit-undo:actions/undo
+
+actions/folder-new
 
 actions/format-indent-less:actions/unindent,actions/format_decreaseindent
 actions/format-indent-more:actions/indent,actions/format_increaseindent
@@ -33,6 +44,8 @@ actions/format-text-underline:actions/text_under
 actions/go-bottom:actions/bottom
 actions/go-down:actions/down
 actions/go-first:actions/start
+actions/go-home
+actions/go-jump
 actions/go-last:actions/finish
 actions/go-next:actions/forward
 actions/go-previous:actions/back
@@ -45,22 +58,47 @@ actions/help-contents:apps/help_index,apps/help-browser
 actions/insert-image
 actions/insert-text
 
+actions/list-add
+actions/list-remove
+
 actions/mail-forward
+actions/mail-mark-important
+actions/mail-mark-read
+actions/mail-mark-unread
 actions/mail-message-new
 actions/mail-reply-all
 actions/mail-reply-sender
 actions/mail-send
 
+actions/media-eject
+actions/media-playback-pause
+actions/media-playback-start
+actions/media-playback-stop
+actions/media-record
+actions/media-seek-backward
+actions/media-seek-forward
+actions/media-skip-backward
+actions/media-skip-forward
+
 actions/object-rotate-left
 actions/object-rotate-right
 
+actions/process-stop
 actions/system-log-out
 actions/system-run
 actions/system-search
+actions/system-shutdown
 
+actions/tab-new
+actions/tools-check-spelling
+
+actions/view-fullscreen
 actions/view-refresh
 actions/view-sort-ascending
 actions/view-sort-descending
+
+actions/window-close
+actions/window-new
 
 actions/zoom-fit-best:actions/zoom-best-fit,actions/viewmagfit
 actions/zoom-in:actions/viewmag+
@@ -70,7 +108,8 @@ actions/zoom-out:actions/viewmag-
 apps/photo-album:apps/digikam,apps/f-spot
 apps/feed-reader:apps/akregator,apps/feed
 apps/video-player:apps/kaffeine,apps/mplayer
-apps/graphics-viewer-document:apps/kview,apps/gwenview,apps/eog
+apps/graphics-viewer:apps/kview,apps/gwenview,apps/eog
+apps/graphics-editor:apps/inkscape,apps/gimp-2
 apps/internet-mail:apps/email
 apps/internet-web-browser:apps/browser
 apps/office-address-book:apps/kaddressbook,apps/kontact,apps/emesene
@@ -78,20 +117,24 @@ apps/office-calendar:apps/kontact
 apps/office-database:apps/kexi,apps/ooo-base,mimetypes/openofficeorg-20-oasis-spreadsheet-template
 apps/office-writer:apps/kword,apps/ooo-writer,mimetypes/openofficeorg-20-oasis-text
 apps/office-spreadsheet:apps/gnome-gnumeric,apps/kchart,apps/ooo-math,mimetypes/openofficeorg-20-oasis-spreadsheet
-apps/office-graphics:apps/inkscape
-apps/utilities-file-archiver:apps/ark,apps/file-roller
-apps/utilities-terminal:apps/terminal
-apps/utilities-notes:apps/knotes,apps/gnome-sticky-notes-applet
-apps/utilities-text-editor:accessories-text-editor,apps/kate,apps/kedit
-apps/utilities-color-chooser:apps/kcolorchooser,apps/colors,apps/gnome-color-browser
-apps/utilities-calculator:apps/accessories-calculator,apps/kcalc
-apps/utilities-character-map:apps/accessories-character-map,apps/kcharselect,apps/gucharmap
-apps/utilities-dictionary:apps/accessories-dictionary,apps/kdict
+apps/accessories-calculator
+apps/accessories-character-map
+apps/accessories-dictionary
+apps/accessories-text-editor
+apps/help-browser
+apps/instant-messenger:apps/konversation
+apps/network-manager:apps/krfb
+apps/utilities-system-monitor
+apps/utilities-terminal
 
-apps/preferences-desktop-accessibility
-apps/preferences-desktop-keyboard
-apps/preferences-desktop-locale
-apps/preferences-desktop-theme
+apps/preferences-accessibility:apps/preferences-desktop-accessibility
+apps/preferences-keyboard:apps/preferences-desktop-keyboard
+apps/preferences-locale:apps/preferences-desktop-locale
+apps/preferences-font:apps/preferences-desktop-font
+apps/preferences-display:apps/preferences-desktop-screensaver
+apps/preferences-sound:apps/preferences-desktop-sound
+apps/preferences-theme:apps/preferences-desktop-theme
+apps/preferences-wallpaper:apps/preferences-desktop-wallpaper
 
 categories/development:categories/applications-development,apps/package_development
 categories/engineering:categories/applications-engineering
@@ -104,6 +147,8 @@ categories/science:categories/applications-science
 categories/system:categories/applications-system,apps/package_system
 categories/utilities:categories/applications-utilities,apps/package_utilities,categories/applications-accessories
 
+devices/audio-card
+devices/audio-input-microphone
 devices/battery
 devices/camera-photo
 devices/camera-web
@@ -117,8 +162,10 @@ devices/media-optical
 devices/multimedia-player
 devices/network-wired
 devices/network-wireless
+devices/pda
 devices/phone
 devices/printer
+devices/video-display
 
 emblems/emblem-favorite
 emblems/emblem-important
@@ -130,7 +177,6 @@ mimetypes/audio-x-generic:mimetypes/sound
 mimetypes/image-x-generic:mimetypes/image
 mimetypes/text-html
 mimetypes/text-plain:mimetypes/ascii,mimetypes/text-x-generic
-mimetypes/text-x-generic:mimetypes/txt
 mimetypes/video-x-generic:mimetypes/video
 mimetypes/x-office-address-book:mimetypes/x-office-contact,mimetypes/vcard,apps/kaddressbook
 mimetypes/x-office-calendar:mimetypes/vcalendar
@@ -143,6 +189,7 @@ places/folder-remote
 places/network-server
 places/network-workgroup
 places/user-trash
+places/user-trash-full:status/user-trash-full
 places/user-home
 places/user-desktop
 
