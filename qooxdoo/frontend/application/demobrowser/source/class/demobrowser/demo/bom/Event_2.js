@@ -25,7 +25,6 @@
 #require(qx.event.handler.Keyboard)
 #require(qx.event.handler.Mouse)
 #require(qx.event.handler.Element)
-#require(qx.event.handler.Iframe)
 
 ************************************************************************ */
 

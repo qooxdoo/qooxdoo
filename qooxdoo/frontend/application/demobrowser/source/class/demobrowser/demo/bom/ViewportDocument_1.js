@@ -18,6 +18,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.dispatch.DomBubbling)
+#require(qx.event.handler.Mouse)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.bom.ViewportDocument_1",
 {
   extend : demobrowser.Demo,
@@ -28,12 +35,18 @@ qx.Class.define("demobrowser.demo.bom.ViewportDocument_1",
     {
       this.base(arguments);
 
-      document.body.onclick = qx.lang.Function.bind(function()
-      {
-        this.debug("Document Dimension: " + qx.bom.Document.getWidth() + "x" + qx.bom.Document.getHeight());
-        this.debug("Viewport Dimension: " + qx.bom.Viewport.getWidth() + "x" + qx.bom.Viewport.getHeight());
-        this.debug("Viewport Scroll: " + qx.bom.Viewport.getScrollLeft() + "x" + qx.bom.Viewport.getScrollTop());
-      }, this);
+      qx.event.Registration.addListener(
+        document.body,
+        "click",
+        function()
+        {
+          this.debug("Document Dimension: " + qx.bom.Document.getWidth() + "x" + qx.bom.Document.getHeight());
+          this.debug("Viewport Dimension: " + qx.bom.Viewport.getWidth() + "x" + qx.bom.Viewport.getHeight());
+          this.debug("Viewport Scroll: " + qx.bom.Viewport.getScrollLeft() + "x" + qx.bom.Viewport.getScrollTop());
+        },
+        this
+      );
     }
+
   }
 });

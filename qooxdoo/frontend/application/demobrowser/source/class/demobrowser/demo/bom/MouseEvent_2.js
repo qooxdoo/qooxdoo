@@ -25,7 +25,8 @@
 #require(qx.event.handler.Keyboard)
 #require(qx.event.handler.Mouse)
 #require(qx.event.handler.Element)
-#require(qx.event.handler.Iframe)
+#require(qx.event.handler.Input)
+#require(qx.event.handler.ViewportLeave)
 
 ************************************************************************ */
 
@@ -97,7 +98,8 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_2",
     },
 
 
-    __changeCheckbox : function(e) {
+    __changeCheckbox : function(e)
+    {
       var type = e.getTarget().id.split("_")[1];
       var checked = e.getTarget().checked;
       var mouseDiv = document.getElementById("mouse");
@@ -115,7 +117,8 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_2",
         qx.event.Registration.removeListener(
           mouseDiv,
           type,
-          this.logMouseEvent
+          this.logMouseEvent,
+          this
         )
 
       }
