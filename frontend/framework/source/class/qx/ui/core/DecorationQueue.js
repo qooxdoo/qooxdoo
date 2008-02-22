@@ -76,7 +76,9 @@ qx.Class.define("qx.ui.core.DecorationQueue",
         if (widget)
         {
           var size = widget.getComputedLayout();
-          widget.updateDecoration(size.width, size.height);
+          if (size) {
+            widget.updateDecoration(size.width, size.height);
+          }
         }
       }
 
