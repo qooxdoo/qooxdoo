@@ -51,7 +51,7 @@
     {
       "apiviewer.resourceUri" : "./resource"
     },
-    
+
     "source" :
     {
       "file" : "./source/script/apiviewer.js"
@@ -87,7 +87,6 @@
     "extend" : ["common"],
 
     "include" : ["qx.*"],
-    "exclude" : ["=qx.legacy.*"],
 
     "api" :
     {
@@ -102,7 +101,7 @@
 
     "include" : ["qx.*"],
     "exclude" : ["=qx.legacy.*"],
-    
+
     "api" :
     {
       "path" : "build/script"
