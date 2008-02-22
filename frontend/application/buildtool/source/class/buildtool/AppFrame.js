@@ -381,14 +381,14 @@ qx.Class.define("buildtool.AppFrame",
       this.widgets["toolrun.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.legacy.ui.toolbar.Button("Generate Application", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Generate Application", "icon/16/actions/system-run.png");
       mb.add(this.runbutton);
       this.widgets["toolrun.runb"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunBuild);
       this.runbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Generate Application"));
 
       // -- open generated app in browser
-      var openb = new qx.legacy.ui.toolbar.Button("Open Application", "icon/16/places/www.png");
+      var openb = new qx.legacy.ui.toolbar.Button("Open Application", "icon/16/places/network-workgroup.png");
       mb.add(openb);
       this.widgets["toolrun.openb"] = openb;
       this.__bindCommand(openb, this._cmdOpenPage);
@@ -422,7 +422,7 @@ qx.Class.define("buildtool.AppFrame",
       this.widgets["buttrun.bar"] = buttview.getBar();
 
       // First Page
-      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-plain.png");
       this.widgets["buttrun.demopage.button"] = bsb1;
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1);
@@ -477,7 +477,7 @@ qx.Class.define("buildtool.AppFrame",
       buttview.getBar().getManager().addEventListener("changeSelected",this.__ehLeftSelection,this);
 
       // First Pane
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Edit Configuration", "icon/16/actions/view-pane-tree.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Edit Configuration", "icon/16/apps/office-database.png");
       buttview.getBar().add(bsb1);
       this.widgets["treeview.bedit"] = bsb1;
       bsb1.setShow("icon");
@@ -758,7 +758,7 @@ qx.Class.define("buildtool.AppFrame",
       this.widgets["tooledit.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.legacy.ui.toolbar.Button("Save", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Save", "icon/16/actions/system-run.png");
       mb.add(this.runbutton);
       this.widgets["tooledit.runbutton"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunSave);

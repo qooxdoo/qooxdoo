@@ -78,7 +78,7 @@
  * treeRowStructure = qx.legacy.ui.tree.TreeRowStructure.getInstance().newRow();
  *
  * // A left-justified icon
- * obj = new qx.legacy.ui.basic.Image("icon/16/apps/accessories-alarm.png");
+ * obj = new qx.legacy.ui.basic.Image("icon/16/apps/office-calendar.png");
  * treeRowStructure.addObject(obj, true);
  *
  * // Here's our indentation and tree-lines
