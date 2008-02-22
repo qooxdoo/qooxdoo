@@ -65,9 +65,6 @@ def main():
     console.info("Target folder: %s" % target)    
     console.indent()
 
-    # Load legacy alternatives
-    mapping = getMapping()
-    
     # Process entries
     for entry in data:
         name = entry[0]
@@ -81,9 +78,6 @@ def main():
         short = name.split("/")[1]
         names = []
         names.extend(entry)
-        if mapping.has_key(short):
-            for sub in mapping[short]:
-                names.append(pre + "/" + sub)        
             
         # Copy images in different sizes
         for size in SIZES:
@@ -92,21 +86,6 @@ def main():
         console.outdent()
 
     console.outdent()
-
-
-def getMapping():
-    legacyFile = os.path.join(filetool.root(), "data", "icon", "legacy-icon-mapping.xml")
-    tree = ElementTree.parse(legacyFile)
-    
-    ret = {}
-    for icon in tree.findall("//icon"):
-        altlist = []
-        for alt in icon.findall("link"):
-            altlist.append(alt.text)
-            
-        ret[icon.get("name")] = altlist
-
-    return ret
 
 
 def copyFile(source, target, names, size):
