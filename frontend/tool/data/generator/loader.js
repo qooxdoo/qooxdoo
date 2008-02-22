@@ -33,10 +33,8 @@ window.qxloader =
     }
 
     if (window.qx && qx.core && qx.log.Logger) {
-      return qx.log.Logger[type](msg);
-    }
-
-    if (window.console && console[type]) {
+      qx.log.Logger[type](msg);
+    } else if (window.console && console[type]) {
       console[type](msg);
     }
   },
@@ -191,8 +189,10 @@ window.qxloader =
       }
 
       // Is this the boot module? => start init process
-      if (part == this.boot && this._pageLoaded && window.qx && qx.core && qx.core.Init) {
-        qx.core.Init.getInstance()._onload();
+      if (part == this.boot)
+      {
+        this._bootLoaded = true;
+        this._fireReady();
       }
 
       // Finally return
@@ -203,6 +203,14 @@ window.qxloader =
     var next = queue.shift();
 
     this.loadScript(next, this._flushQueue, this);
+  },
+
+
+  _fireReady : function()
+  {
+    if (this._bootLoaded && this._pageLoaded && window.qx && qx.event && qx.event.handler && qx.event.handler.Application) {
+      qx.event.handler.Application.ready();
+    }
   },
 
 
@@ -261,13 +269,14 @@ window.qxloader =
 
   _pageLoad : function()
   {
-    qxloader._pageLoaded = true;
-
     if (window.addEventListener) {
       window.removeEventListener("load", qxloader._pageLoad, false);
     } else {
       window.detachEvent("onload", qxloader._pageLoad);
     }
+
+    qxloader._pageLoaded = true;
+    qxloader._fireReady();
   },
 
 

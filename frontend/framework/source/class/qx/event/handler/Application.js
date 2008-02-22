@@ -47,6 +47,10 @@ qx.Class.define("qx.event.handler.Application",
 
     // Initialize observers
     this._initObserver();
+
+    // Store instance (only supported for main app window, this
+    // is the reason why this is OK here)
+    qx.event.handler.Application.$$instance = this;
   },
 
 
@@ -62,7 +66,19 @@ qx.Class.define("qx.event.handler.Application",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+    /**
+     *
+     *
+     */
+    ready : function()
+    {
+      var inst = qx.event.handler.Application.$$instance;
+      if (inst) {
+        inst.ready();
+      }
+    }
   },
 
 
@@ -120,6 +136,24 @@ qx.Class.define("qx.event.handler.Application",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      USER ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    ready : function()
+    {
+      // Wrapper qxloader needed to be compatible with old generator
+      if (!this.__ready)
+      {
+        this.__ready = true;
+
+        // Fire user event
+        qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "ready", false ]);
+      }
+    },
+
 
 
 
@@ -173,7 +207,8 @@ qx.Class.define("qx.event.handler.Application",
      */
     _onNativeLoad : function(e)
     {
-      if (!this.__ready)
+      // Wrapper qxloader needed to be compatible with old generator
+      if (!this.__ready && !window.qxloader)
       {
         this.__ready = true;
 
@@ -215,8 +250,7 @@ qx.Class.define("qx.event.handler.Application",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     this._stopObserver();
   },
 
