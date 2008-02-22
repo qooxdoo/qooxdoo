@@ -33,9 +33,9 @@ qx.Class.define("demobrowser.demo.bom.Iframe_1",
         src : "http://google.com"
       });
 
-      qx.event.Registration.addListener(iframe, "load", function(e) {
-        console.log("Content loaded.");
-      });
+      qx.bom.Element.addListener(iframe, "load", function(e) {
+        this.debug("Content loaded.");
+      }, this);
 
       document.body.appendChild(iframe);
     }

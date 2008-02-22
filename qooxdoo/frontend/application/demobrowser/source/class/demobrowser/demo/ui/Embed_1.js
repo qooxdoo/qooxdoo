@@ -24,12 +24,16 @@
 qx.Class.define("demobrowser.demo.ui.Embed_1",
 {
   extend : demobrowser.Demo,
+  include : qx.legacy.application.MGuiCompat,
 
   members :
   {
     main: function()
     {
       this.base(arguments);
+      this.compat();
+
+      qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
 
       // Create button
       var button1 = new qx.legacy.ui.form.Button("Resize HBox");
