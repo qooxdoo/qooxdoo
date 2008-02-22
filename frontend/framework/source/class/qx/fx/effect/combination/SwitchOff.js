@@ -58,7 +58,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
   construct : function(element)
   {
     this.base(arguments, element);
-    this.setTransition(qx.fx.Transition.flicker);
+    this.setTransition("flicker");
 
     var scaleEffect = this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
 

@@ -60,9 +60,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
   {
     this.base(arguments, element);
 
-    this.setScaleTransition(qx.fx.Transition.sinoidal);
-    this.setMoveTransition(qx.fx.Transition.sinoidal);
-
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
 
@@ -97,8 +94,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
      */
     scaleTransition :
     {
-      init : null,
-      check : "Function"
+      init : "sinoidal",
+      check : qx.fx.Transition.allowedNames
     },
 
     /**
@@ -106,8 +103,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
      */
     moveTransition :
     {
-      init : null,
-      check : "Function"
+      init : "sinoidal",
+      check : qx.fx.Transition.allowedNames
     }
 
   },
