@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.ui.Atom_1",
 
       doc.add(container, 0, 0);
 
-      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-archiver.png";
+      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/utilities-file-archiver.png";
       var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
       var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
       var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";

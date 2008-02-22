@@ -23,10 +23,10 @@
 /* ************************************************************************
 
 #module(apiviewer)
-#embed(qx.icontheme/22/apps/accessories-archiver.png)
-#embed(qx.icontheme/22/apps/system-users.png)
-#embed(qx.icontheme/22/actions/stop.png)
-#embed(qx.icontheme/22/actions/decrypt.png)
+#embed(qx.icontheme/22/apps/utilities-file-archiver.png)
+#embed(qx.icontheme/22/apps/office-spreadsheet.png)
+#embed(qx.icontheme/22/apps/preferences-desktop-accessibility.png)
+#embed(qx.icontheme/22/apps/utilities-calculator.png)
 
 ************************************************************************ */
 
@@ -193,7 +193,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Expand",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/apps/accessories-archiver.png",
+        "icon/22/apps/utilities-file-archiver.png",
         "Expand properties",
         false,
         "btn_expand"
@@ -201,7 +201,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Inherited",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/apps/system-users.png",
+        "icon/22/apps/office-spreadsheet.png",
         "Show inherited items",
         false,
         "btn_inherited"
@@ -209,7 +209,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Protected",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/actions/stop.png",
+        "icon/22/apps/preferences-desktop-accessibility.png",
         "Show protected items",
         false,
         "btn_protected"
@@ -217,7 +217,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Private",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/actions/decrypt.png",
+        "icon/22/apps/utilities-calculator.png",
         "Show private/internal items",
         false,
         "btn_private"
