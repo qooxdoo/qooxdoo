@@ -47,6 +47,7 @@ qx.Class.define("demobrowser.Demo",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -55,19 +56,24 @@ qx.Class.define("demobrowser.Demo",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     main : function()
     {
       this.base(arguments);
 
-
+      var text = "*{margin:0;padding:0} html,body{font:11px Verdana,sans-serif;}";
+      qx.bom.Stylesheet.createElement(text);
     }
   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
 
   defer : function(statics) {
     statics.__initTitle();
