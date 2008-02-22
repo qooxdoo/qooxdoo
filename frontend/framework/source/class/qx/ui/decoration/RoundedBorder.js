@@ -13,7 +13,6 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
@@ -507,7 +506,7 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
           ];
         }
 
-        this.debug(qx.bom.String.escape(template.join('')));
+        //this.debug(qx.bom.String.escape(template.join('')));
         decorationElement.setAttribute("html", template.join(''));
       },
 

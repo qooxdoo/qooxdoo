@@ -164,11 +164,15 @@ qx\.Theme=qx.legacy.Theme
 \bqx\.dev\.TimeTracker\b=qx.legacy.dev.TimeTracker
 \bqx\.util\.range\.IntegerRange\b=qx.legacy.util.IntegerRange
 
-
-
 #
 # New logging API
 #
 
 \bqx\.log\b=qx.legacy.log
 \bqx\.log2\b=qx.log
+
+#
+# Introduced object registry
+#
+
+\bqx\.core\.Object\.toHashCode\b=qx.core.ObjectRegistry.toHashCode

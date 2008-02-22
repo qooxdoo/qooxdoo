@@ -241,7 +241,7 @@ qx.Class.define("qx.dom.Hierarchy",
         }
 
         var known = {};
-        var obj = qx.core.Object;
+        var obj = qx.core.ObjectRegistry;
         var h1, h2;
 
         while (element1 || element2)
