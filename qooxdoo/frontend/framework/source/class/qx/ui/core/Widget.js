@@ -863,17 +863,19 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      // height for width
-      if (this.__heightForWidth) {
-        sizeHint.height != null ? sizeHint.height : this.__heightForWidth;
-      }
-
       this.__limitAndStretchSizeHint(sizeHint);
 
       // remember that the height value is determined only by user set properties
       // and not by the content hint. If this is the case we can ignore
       // "height for width".
       this._hasUserHeight = sizeHint.height != null;
+
+      // height for width
+      if (this.__heightForWidth && sizeHint.height == null)
+      {
+        sizeHint.height = this.__heightForWidth;
+        this.__limitAndStretchSizeHint(sizeHint);
+      }
 
       // the content hint is only needed if any of the size hint fields is
       // still null.
