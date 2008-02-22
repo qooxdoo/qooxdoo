@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #module(ui_tree)
-#embed(qx.icontheme/16/status/folder-open.png)
+#embed(qx.icontheme/16/places/folder-open.png)
 #embed(qx.icontheme/16/places/folder.png)
 
 ************************************************************************ */
@@ -154,7 +154,7 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     iconSelected :
     {
       refine : true,
-      init : "icon/16/status/folder-open.png"
+      init : "icon/16/places/folder-open.png"
     },
 
 
