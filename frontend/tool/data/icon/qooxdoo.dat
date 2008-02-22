@@ -44,8 +44,6 @@ actions/format-text-underline:actions/text_under
 actions/go-bottom:actions/bottom
 actions/go-down:actions/down
 actions/go-first:actions/start
-actions/go-home
-actions/go-jump
 actions/go-last:actions/finish
 actions/go-next:actions/forward
 actions/go-previous:actions/back
@@ -108,7 +106,7 @@ actions/zoom-out:actions/viewmag-
 apps/photo-album:apps/digikam,apps/f-spot
 apps/feed-reader:apps/akregator,apps/feed
 apps/video-player:apps/kaffeine,apps/mplayer
-apps/graphics-viewer:apps/kview,apps/gwenview,apps/eog
+apps/graphics-viewer:apps/kview,apps/gwenview,apps/eog,apps/kuickshow
 apps/graphics-editor:apps/inkscape,apps/gimp-2
 apps/internet-mail:apps/email
 apps/internet-web-browser:apps/browser
