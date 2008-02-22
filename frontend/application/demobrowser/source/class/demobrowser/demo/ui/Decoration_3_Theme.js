@@ -26,7 +26,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
   {
     "round1" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -40,7 +40,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round2" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -54,7 +54,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round3" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -68,7 +68,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round4" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -82,7 +82,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round5" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -96,7 +96,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round6" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -110,7 +110,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round7" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -124,7 +124,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_3_Theme",
 
     "round8" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
