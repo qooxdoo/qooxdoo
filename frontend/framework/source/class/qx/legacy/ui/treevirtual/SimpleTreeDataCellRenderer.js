@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(treevirtual)
-#embed(qx.icontheme/16/status/folder-open.png)
+#embed(qx.icontheme/16/places/folder-open.png)
 #embed(qx.icontheme/16/places/folder.png)
 #embed(qx.icontheme/16/actions/document-open.png)
 #embed(qx.icontheme/16/actions/document-new.png)
@@ -285,7 +285,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
         {
           imageUrl =
             (node.bSelected
-             ? "icon/16/status/folder-open.png"
+             ? "icon/16/places/folder-open.png"
              : "icon/16/places/folder.png");
         }
       }
