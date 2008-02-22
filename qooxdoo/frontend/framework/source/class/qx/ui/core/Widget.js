@@ -595,7 +595,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (widgetKey)
         {
           // dereference "weak" reference to the widget.
-          return qx.core.Object.getObjectByHashCode(widgetKey);
+          return qx.core.ObjectRegistry.fromHashCode(widgetKey);
         }
 
         element = element.parentNode;

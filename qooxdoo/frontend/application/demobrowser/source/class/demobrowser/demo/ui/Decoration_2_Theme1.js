@@ -26,7 +26,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_2_Theme1",
   {
     "black" :
     {
-      clazz : qx.ui.decoration.Basic,
+      decorator : qx.ui.decoration.Basic,
 
       style :
       {
@@ -37,7 +37,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_2_Theme1",
 
     "special" :
     {
-      clazz : qx.ui.decoration.Basic,
+      decorator : qx.ui.decoration.Basic,
 
       style :
       {
@@ -50,7 +50,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_2_Theme1",
 
     "round" :
     {
-      clazz : qx.ui.decoration.RoundedBorder,
+      decorator : qx.ui.decoration.RoundedBorder,
 
       style :
       {
@@ -64,7 +64,7 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_2_Theme1",
 
     "inset" :
     {
-      clazz : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.DoubleBorder,
 
       style :
       {

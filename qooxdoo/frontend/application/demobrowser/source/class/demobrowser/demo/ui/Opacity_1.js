@@ -71,7 +71,6 @@ qx.Class.define("demobrowser.demo.ui.Opacity_1",
         for (var y=0; y<rows; y++)
         {
           layout.add(new qx.ui.core.Widget().set({
-            decorator: border,
             backgroundColor: "green",
             height: boxSize,
             width: boxSize,
