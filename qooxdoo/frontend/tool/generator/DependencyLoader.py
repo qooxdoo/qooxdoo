@@ -53,7 +53,7 @@ class DependencyLoader:
             self._console.info("Including all known classes")
             result = self._classes.keys()
 
-            # In this case the block works like an exclicit exclude
+            # In this case the block works like an explicit exclude
             # because all classes are included like an explicit include.
             for classId in block:
                 result.remove(classId)
@@ -76,7 +76,7 @@ class DependencyLoader:
         # support blocking
         if item in block:
             return
-            
+
         # check if already in
         if item in result:
             return
@@ -287,11 +287,11 @@ class DependencyLoader:
 
         # reading dependencies
         deps = self.getCombinedDeps(classId, variants)
-        
+
         # path is needed for recursion detection
         if not classId in path:
             path.append(classId)
-        
+
         # process loadtime requirements
         for item in deps["load"]:
             if item in available and not item in result:
@@ -299,7 +299,7 @@ class DependencyLoader:
                     other = self.getCombinedDeps(item, variants)
                     self._console.warn("Detected circular dependency between: %s and %s" % (classId, item))
                     self._console.indent()
-                    self._console.debug("%s depends on: %s" % (classId, ", ".join(deps["load"])))                    
+                    self._console.debug("%s depends on: %s" % (classId, ", ".join(deps["load"])))
                     self._console.debug("%s depends on: %s" % (item, ", ".join(other["load"])))
                     self._console.outdent()
                     sys.exit(1)
@@ -309,7 +309,7 @@ class DependencyLoader:
         if not classId in result:
             # remove element from path
             path.remove(classId)
-            
+
             # print "Add: %s" % classId
             result.append(classId)
 
