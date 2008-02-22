@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.ui.ChildrenHandling_1",
         decorator: deco
       });
 
-      button.addListener(function()
+      button.addListener("click", function()
       {
         if (doRemove) {
           this._hbox.getLayout().remove(widget);
