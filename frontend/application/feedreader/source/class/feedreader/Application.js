@@ -121,20 +121,13 @@ qx.Class.define("feedreader.Application",
       // React on theme selection changes
       qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._applyCssTheme, this);
       this._applyCssTheme();
+
+      // Load data file
+      qx.event.Timer.once(this._load, this, 0);
     },
 
-
-    /**
-     * Executes after the preloading of images and initial layout rendering is done.
-     * It is always a good idea to load data in the next step because the GUI feels better then (Outlook effect).
-     *
-     * @type member
-     * @return {void}
-     */
-    _postload : function()
+    _load : function()
     {
-      this.base(arguments);
-
       // Fetch feed data
       this._fetchData();
     },
