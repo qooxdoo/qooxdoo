@@ -49,24 +49,24 @@ qx.Class.define("feedreader.view.ToolBar",
     removeFeedCmd.addListener("execute", this._controller.showRemoveFeed, this._controller);
 
     // Add buttons
-    var addBtn = new qx.legacy.ui.toolbar.Button(this.tr("Add feed"), "icon/16/actions/dialog-ok.png");
+    var addBtn = new qx.legacy.ui.toolbar.Button(this.tr("Add feed"), "icon/22/actions/dialog-ok.png");
     addBtn.setCommand(addFeedCmd);
     this.add(addBtn);
 
-    var removeBtn = new qx.legacy.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/actions/dialog-cancel.png");
+    var removeBtn = new qx.legacy.ui.toolbar.Button(this.tr("Remove feed"), "icon/22/actions/dialog-cancel.png");
     removeBtn.setCommand(removeFeedCmd);
     this.add(removeBtn);
 
     this.add(new qx.legacy.ui.toolbar.Separator());
 
-    var reloadBtn = new qx.legacy.ui.toolbar.Button(this.tr("Reload"), "icon/16/actions/view-refresh.png");
+    var reloadBtn = new qx.legacy.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
     reloadBtn.setCommand(reloadCmd);
     reloadBtn.setToolTip(new qx.legacy.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reloadCmd.toString())));
     this.add(reloadBtn);
 
     this.add(new qx.legacy.ui.toolbar.Separator());
 
-    var prefBtn = new qx.legacy.ui.toolbar.Button(this.tr("Preferences"), "icon/16/apps/preferences.png");
+    var prefBtn = new qx.legacy.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-desktop-theme.png");
     prefBtn.setCommand(prefCmd);
     prefBtn.setToolTip(new qx.legacy.ui.popup.ToolTip(this.tr("Open preferences window.")));
     this.add(prefBtn);
@@ -109,9 +109,9 @@ qx.Class.define("feedreader.view.ToolBar",
     });
 
     lang_menu.addToDocument();
-    this.add(new qx.legacy.ui.toolbar.MenuButton(null, lang_menu, "feedreader/images/locale.png"));
+    this.add(new qx.legacy.ui.toolbar.MenuButton(null, lang_menu, "icon/22/apps/preferences-desktop-locale.png"));
 
-    var about_btn = new qx.legacy.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
+    var about_btn = new qx.legacy.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
     about_btn.setCommand(aboutCmd);
     about_btn.setToolTip(new qx.legacy.ui.popup.ToolTip("(" + aboutCmd.toString() + ")"));
     this.add(about_btn);

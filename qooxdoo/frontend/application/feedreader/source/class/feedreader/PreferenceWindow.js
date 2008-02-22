@@ -31,7 +31,7 @@ qx.Class.define("feedreader.PreferenceWindow",
 
   construct : function()
   {
-    this.base(arguments, this.tr("Preferences"), "icon/16/apps/preferences.png");
+    this.base(arguments, this.tr("Preferences"), "icon/16/apps/preferences-desktop-theme.png");
 
     this.set(
     {
