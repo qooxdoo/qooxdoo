@@ -60,9 +60,6 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
   {
     this.base(arguments, element);
 
-    this.setForwardTransition(qx.fx.Transition.linear);
-    this.setBackwardTransition(qx.fx.Transition.linear);
-
     this._highlightEffects = [
       new qx.fx.effect.core.Highlight(this._element),
       new qx.fx.effect.core.Highlight(this._element)
@@ -105,8 +102,8 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
      */
     forwardTransition :
     {
-      init  : null,
-      check : "Function"
+      check : qx.fx.Transition.allowedNames,
+      init : "linear"
     },
 
 
@@ -115,8 +112,8 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
      */
     backwardTransition :
     {
-      init  : null,
-      check : "Function"
+      check : qx.fx.Transition.allowedNames,
+      init : "linear"
     },
 
 
