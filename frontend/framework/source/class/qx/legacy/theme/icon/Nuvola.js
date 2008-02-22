@@ -36,6 +36,6 @@ qx.Theme.define("qx.legacy.theme.icon.Nuvola",
   title : "Nuvola",
 
   icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola"
+    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/oxygen"
   }
 });
