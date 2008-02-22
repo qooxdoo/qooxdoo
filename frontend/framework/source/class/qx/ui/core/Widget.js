@@ -45,6 +45,8 @@
  * |                    |
  * ----------------------
  *  </pre>
+ *
+ * @appearance widget
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -64,6 +66,8 @@ qx.Class.define("qx.ui.core.Widget",
     this._containerElement = this._createContainerElement();
     this._contentElement = this._createContentElement();
     this._containerElement.add(this._contentElement);
+
+    this.initAppearance();
   },
 
 
@@ -568,6 +572,16 @@ qx.Class.define("qx.ui.core.Widget",
       init : -1,
       apply : "_applyTabIndex",
       event : "changeTabIndex"
+    },
+
+
+    /** The widget's appearance id */
+    appearance :
+    {
+      check : "String",
+      init : "widget",
+      apply : "_applyAppearance",
+      event : "changeAppearance"
     }
   },
 
@@ -726,8 +740,6 @@ qx.Class.define("qx.ui.core.Widget",
           container.setStyle("width", width + pixel);
           container.setStyle("height", height + pixel);
 
-          content.setStyle("left", insets.left + pixel);
-          content.setStyle("top", insets.top + pixel);
           content.setStyle("width", innerWidth + pixel);
           content.setStyle("height", innerHeight + pixel);
 
@@ -738,6 +750,9 @@ qx.Class.define("qx.ui.core.Widget",
         // the size has not changed
         if (sizeChange || !this._hasValidLayout)
         {
+          content.setStyle("left", insets.left + pixel);
+          content.setStyle("top", insets.top + pixel);
+
           var layout = this.getLayout();
           if (layout && layout.hasChildren()) {
             layout.renderLayout(innerWidth, innerHeight);
@@ -1634,7 +1649,192 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleBackgroundColor : function(color) {
       this._containerElement.setStyle("backgroundColor", color);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      STATE HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns whether a state is set.
+     *
+     * @type member
+     * @param vState {String} the state to check.
+     * @return {Boolean} whether the state is set.
+     */
+    hasState : function(vState) {
+      return this.__states && this.__states[vState] ? true : false;
+    },
+
+
+    /**
+     * Sets a state.
+     *
+     * @type member
+     * @param vState {var} TODOC
+     * @return {void}
+     */
+    addState : function(vState)
+    {
+      if (!this.__states) {
+        this.__states = {};
+      }
+
+      if (!this.__states[vState])
+      {
+        this.__states[vState] = true;
+        this.__renderAppearance();
+      }
+    },
+
+
+    /**
+     * Clears a state.
+     *
+     * @type member
+     * @param vState {String} the state to clear.
+     * @return {void}
+     */
+    removeState : function(vState)
+    {
+      if (this.__states && this.__states[vState])
+      {
+        delete this.__states[vState];
+        this.__renderAppearance();
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPEARANCE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Style multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Map} a map of property values. The key is the name of the property.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    __styleFromMap : function(data)
+    {
+      var styler = qx.core.Property.$$method.style;
+      var unstyler = qx.core.Property.$$method.unstyle;
+      var value;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        for (var prop in data)
+        {
+          if (!this[styler[prop]]) {
+            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+          }
+        }
+      }
+
+      for (var prop in data)
+      {
+        value = data[prop];
+        value === "undefined" ? this[unstyler[prop]]() : this[styler[prop]](value);
+      }
+    },
+
+
+    /**
+     * Unstyle multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Array} a array of property names.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    __unstyleFromArray : function(data)
+    {
+      var unstyler = qx.core.Property.$$method.unstyle;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        for (var i=0, l=data.length; i<l; i++)
+        {
+          if (!this[unstyler[data[i]]]) {
+            throw new Error(this.classname + ' has no themeable property "' + data[i] + '"');
+          }
+        }
+      }
+
+      for (var i=0, l=data.length; i<l; i++) {
+        this[unstyler[data[i]]]();
+      }
+    },
+
+
+    /**
+     * Renders the appearance using the current widget states.
+     *
+     * @internal
+     * @type member
+     */
+    __renderAppearance : function()
+    {
+      if (!this.__states) {
+        this.__states = {};
+      }
+
+      var appearance = this.getAppearance();
+
+      if (appearance)
+      {
+        var r = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, this.__states);
+
+        if (r) {
+          this.__styleFromMap(r);
+        }
+      }
+    },
+
+
+    // property apply
+    _applyAppearance : function(value, old)
+    {
+      if (!this.__states) {
+        this.__states = {};
+      }
+
+      var appearanceManager = qx.theme.manager.Appearance.getInstance();
+
+      if (value)
+      {
+        var newAppearanceProperties = appearanceManager.styleFrom(value, this.__states) || {};
+      }
+
+      if (old)
+      {
+        var oldAppearanceProperties = appearanceManager.styleFrom(old, this.__states) || {};
+
+        var unstyleList = [];
+        for (var prop in oldAppearanceProperties)
+        {
+          if (!newAppearanceProperties || !(prop in newAppearanceProperties)) {
+            unstyleList.push(prop);
+          }
+        }
+      }
+
+      if (unstyleList) {
+        this.__unstyleFromArray(unstyleList);
+      }
+
+      if (newAppearanceProperties) {
+        this.__styleFromMap(newAppearanceProperties);
+      }
     }
+
   },
 
 

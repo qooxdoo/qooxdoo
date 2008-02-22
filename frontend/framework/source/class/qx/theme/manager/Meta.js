@@ -34,7 +34,7 @@ qx.Class.define("qx.theme.manager.Meta",
   properties :
   {
     /**
-     * Meta theme. Applies the defined color, border, widget, ... themes to
+     * Meta theme. Applies the defined color, widget, ... themes to
      * the corresponding managers.
      */
     theme :
@@ -70,7 +70,7 @@ qx.Class.define("qx.theme.manager.Meta",
     _applyTheme : function(value, old)
     {
       var color = null;
-      var border = null;
+      var decoration = null;
       var font = null;
       var widget = null;
       var icon = null;
@@ -79,7 +79,7 @@ qx.Class.define("qx.theme.manager.Meta",
       if (value)
       {
         color = value.meta.color || null;
-        border = value.meta.border || null;
+        decoration = value.meta.decoration || null;
         font = value.meta.font || null;
         widget = value.meta.widget || null;
         icon = value.meta.icon || null;
@@ -91,14 +91,14 @@ qx.Class.define("qx.theme.manager.Meta",
       }
 
       var colorMgr = qx.theme.manager.Color.getInstance();
-      var borderMgr = qx.theme.manager.Border.getInstance();
+      var decorationMgr = qx.theme.manager.Decoration.getInstance();
       var fontMgr = qx.theme.manager.Font.getInstance();
       var iconMgr = qx.theme.manager.Icon.getInstance();
       var widgetMgr = qx.theme.manager.Widget.getInstance();
       var appearanceMgr = qx.theme.manager.Appearance.getInstance();
 
-      colorMgr.setColorTheme(color);
-      borderMgr.setBorderTheme(border);
+      colorMgr.setTheme(color);
+      decorationMgr.setTheme(decoration);
       fontMgr.setFontTheme(font);
       widgetMgr.setWidgetTheme(widget);
       iconMgr.setIconTheme(icon);
@@ -118,7 +118,7 @@ qx.Class.define("qx.theme.manager.Meta",
         qx.theme.manager.Icon.getInstance().syncIconTheme();
         qx.theme.manager.Widget.getInstance().syncWidgetTheme();
         qx.theme.manager.Font.getInstance().syncFontTheme();
-        qx.theme.manager.Border.getInstance().syncBorderTheme();
+        qx.theme.manager.Decoration.getInstance().syncDecorationTheme();
         qx.theme.manager.Color.getInstance().syncColorTheme();
       }
     },
@@ -154,18 +154,18 @@ qx.Class.define("qx.theme.manager.Meta",
           throw new Error("The color theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Color.getInstance().setColorTheme(obj);
+        qx.theme.manager.Color.getInstance().setTheme(obj);
       }
 
-      theme = setting.get("qx.borderTheme");
+      theme = setting.get("qx.decorationTheme");
       if (theme)
       {
         obj = qx.Theme.getByName(theme);
         if (!obj) {
-          throw new Error("The border theme to use is not available: " + theme);
+          throw new Error("The decoration theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Border.getInstance().setBorderTheme(obj);
+        qx.theme.manager.Decoration.getInstance().setTheme(obj);
       }
 
       theme = setting.get("qx.fontTheme");
@@ -260,13 +260,13 @@ qx.Class.define("qx.theme.manager.Meta",
 
 
     /**
-     * Returns a list of all registered border themes
+     * Returns a list of all registered decoration themes
      *
      * @type static
-     * @return {Theme[]} list of border themes
+     * @return {Theme[]} list of decoration themes
      */
-    getBorderThemes : function() {
-      return this.__queryThemes("borders");
+    getDecorationThemes : function() {
+      return this.__queryThemes("decorations");
     },
 
 
@@ -325,9 +325,9 @@ qx.Class.define("qx.theme.manager.Meta",
 
   settings :
   {
-    "qx.theme"           : "qx.theme.ClassicRoyale",
+    "qx.theme"           : "qx.theme.Classic",
     "qx.colorTheme"      : null,
-    "qx.borderTheme"     : null,
+    "qx.decorationTheme" : null,
     "qx.fontTheme"       : null,
     "qx.widgetTheme"     : null,
     "qx.appearanceTheme" : null,
