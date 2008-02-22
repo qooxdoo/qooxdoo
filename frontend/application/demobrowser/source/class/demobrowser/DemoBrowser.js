@@ -209,11 +209,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdSampleInOwnWindow.addListener("execute", function(e)
       {
         var sampUrl = this.f1.getContentWindow().location.href;
-        var nw = new qx.legacy.Window(sampUrl, "Sample");
-        this.widgets["nativewindow"] = nw;
-        nw.setDimension(700, 550);
-        nw.open();
-        return;
+        window.open(sampUrl, "Sample", "width=700,height=550");
       }, this);
 
       this._cmdLoadProfile = new qx.event.Command();
@@ -303,9 +299,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __setStateLoading : function() 
+    __setStateLoading : function()
     {
-      return;      
+      return;
       this.__states.isLoading = true;
       this.__setStateInitialized();
       if (!this.isPlayAll()) {
