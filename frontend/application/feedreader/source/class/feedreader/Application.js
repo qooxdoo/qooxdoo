@@ -92,6 +92,7 @@ qx.Class.define("feedreader.Application",
     {
       this.base(arguments);
 
+      // Initialize 0.7 compatibility
       this.compat();
 
       // Initialize data field

@@ -58,6 +58,9 @@ qx.Class.define("testrunner.runner.Application",
     {
       this.base(arguments);
 
+      // Initialize 0.7 compatibility
+      this.compat();
+
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
 
