@@ -1,0 +1,2 @@
+\bqx\.application\.Gui\b=Please be sure to update your application to extend from qx.application.Abstract and include the helper Mixin qx.legacy.application.MGuiCompat
+\bqx\.application\.Abstract\b=Please be sure to update your application to extend from qx.application.Abstract and include the helper Mixin qx.legacy.application.MGuiCompat

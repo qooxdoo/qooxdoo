@@ -35,7 +35,8 @@
  */
 qx.Class.define("feedreader.Application",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Abstract,
+  include : [ qx.legacy.application.MGuiCompat ],
 
 
 
