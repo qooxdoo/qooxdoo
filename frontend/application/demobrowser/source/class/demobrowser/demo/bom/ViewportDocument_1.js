@@ -18,13 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.dispatch.DomBubbling)
-#require(qx.event.handler.Mouse)
-
-************************************************************************ */
-
 qx.Class.define("demobrowser.demo.bom.ViewportDocument_1",
 {
   extend : demobrowser.Demo,
@@ -35,7 +28,7 @@ qx.Class.define("demobrowser.demo.bom.ViewportDocument_1",
     {
       this.base(arguments);
 
-      qx.event.Registration.addListener(
+      qx.bom.Element.addListener(
         document.body,
         "click",
         function()

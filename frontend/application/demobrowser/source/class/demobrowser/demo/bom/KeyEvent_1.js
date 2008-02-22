@@ -18,15 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.dispatch.Direct)
-#require(qx.event.dispatch.DomBubbling)
-#require(qx.event.handler.Keyboard)
-#require(qx.event.handler.Mouse)
-
-************************************************************************ */
-
 /**
  * Keyhandler test converted to use the low level event API.
  */
@@ -44,8 +35,6 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
         "<table><tr>" +
         "<th>Event</th>" +
         "<th>key identifier</th>" +
-        //"<th>key code</th>" +
-        //"<th>char code</th>" +
         "<th>Shift</th>" +
         "<th>Ctrl</th>" +
         "<th>Alt</th>" +
@@ -59,7 +48,7 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
       var events = ["keydown", "keypress", "keyup"];
       for (var i=0; i<events.length; i++)
       {
-        qx.event.Registration.addListener(
+        qx.bom.Element.addListener(
           document.documentElement,
           events[i],
           this.logKeyEvent,
@@ -67,7 +56,7 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
         )
       }
 
-      qx.event.Registration.addListener(
+      qx.bom.Element.addListener(
         document.getElementById("btnClear"),
         "click",
         this.initializeLogger,
@@ -88,8 +77,6 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
       var eventCopy = {
 				type: keyEvent.getType(),
 				iden: keyEvent.getKeyIdentifier(),
-				//keyCode: keyEvent._keyCode,
-				//charCode: type == "keypress" ? "" : keyEvent.getCharCode(),
 				shift: keyEvent.isShiftPressed(),
 				alt: keyEvent.isAltPressed(),
 				ctrl: keyEvent.isCtrlPressed()
@@ -104,10 +91,6 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
 				str.push("</td><td>");
 				str.push(e.iden);
 				str.push("</td><td>");
-				//str.push(e.keyCode);
-				//str.push("</td><td>");
-				//str.push(e.charCode);
-				//str.push("</td><td>");
 				str.push(e.shift);
 				str.push("</td><td>");
 				str.push(e.ctrl);

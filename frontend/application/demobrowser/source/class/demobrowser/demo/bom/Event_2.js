@@ -20,11 +20,11 @@
 
 /* ************************************************************************
 
-#require(qx.event.dispatch.Direct)
-#require(qx.event.dispatch.DomBubbling)
-#require(qx.event.handler.Keyboard)
-#require(qx.event.handler.Mouse)
-#require(qx.event.handler.Element)
+#use(qx.event.dispatch.Direct)
+#use(qx.event.dispatch.DomBubbling)
+#use(qx.event.handler.Keyboard)
+#use(qx.event.handler.Mouse)
+#use(qx.event.handler.Element)
 
 ************************************************************************ */
 

@@ -20,12 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.event.dispatch.Direct)
-#require(qx.event.dispatch.DomBubbling)
-#require(qx.event.handler.Keyboard)
-#require(qx.event.handler.Mouse)
-#require(qx.event.handler.Element)
-#require(qx.event.handler.Input)
+#use(qx.event.handler.Input)
 
 ************************************************************************ */
 
@@ -56,19 +51,19 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       {
         var elem = document.getElementById("check_" + events[i])
         if (elem.checked) {
-          qx.event.Registration.addListener(
+          qx.bom.Element.addListener(
             mouseDiv,
             events[i],
             this.logMouseEvent,
             this
           )
         }
-        qx.event.Registration.addListener(elem, "change", this.__changeCheckbox, this);
+        qx.bom.Element.addListener(elem, "change", this.__changeCheckbox, this);
       }
 
       var captureDiv = document.getElementById("capture");
       captureDiv.checked = false;
-      qx.event.Registration.addListener(captureDiv, "change", function(e) {
+      qx.bom.Element.addListener(captureDiv, "change", function(e) {
         var checked = e.getTarget().checked;
         if (checked) {
           qx.bom.Element.capture(mouseDiv);
@@ -78,7 +73,7 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       }, this);
 
 
-      qx.event.Registration.addListener(
+      qx.bom.Element.addListener(
         mouseDiv,
         "losecapture",
         function(e) { captureDiv.checked = false; },
@@ -86,7 +81,7 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       );
 
       /*
-      qx.event.Registration.addListener(
+      qx.bom.Element.addListener(
         document.body,
         "selectstart",
         function(e) { e.preventDefault(); },
@@ -94,7 +89,7 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       )
       */
 
-      qx.event.Registration.addListener(
+      qx.bom.Element.addListener(
         document.getElementById("btnClear"),
         "click",
         this.initializeLogger,
@@ -111,7 +106,7 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       var mouseDiv = document.getElementById("mouse");
 
       if (checked) {
-        qx.event.Registration.addListener(
+        qx.bom.Element.addListener(
           mouseDiv,
           type,
           this.logMouseEvent,
@@ -120,7 +115,7 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       }
       else
       {
-        qx.event.Registration.removeListener(
+        qx.bom.Element.removeListener(
           mouseDiv,
           type,
           this.logMouseEvent,
