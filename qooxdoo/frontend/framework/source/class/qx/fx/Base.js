@@ -34,6 +34,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.legacy.event.WidgetBubbling)
+
+************************************************************************ */
+
+
 /**
  * Basic class for all core and combination effects.
  */
@@ -57,7 +64,6 @@ qx.Class.define("qx.fx.Base",
     
     this.setQueue( qx.fx.queue.Manager.getInstance().getDefaultQueue() );
 
-    this.setTransition(qx.fx.Transition.linear);
     this._element = element;
 
     this.init();
@@ -164,9 +170,8 @@ qx.Class.define("qx.fx.Base",
       */
      transition :
      {
-       init   : null,
-       //check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
-       check : "Function"
+       init   : "linear",
+       check  : qx.fx.Transition.allowedNames
      }
 
   },
@@ -200,7 +205,6 @@ qx.Class.define("qx.fx.Base",
   members :
   {
 
-    
     init : function()
     {
       this._currentFrame = 0;
@@ -300,7 +304,7 @@ qx.Class.define("qx.fx.Base",
 
       if(this._state == qx.fx.Base.EffectState.RUNNING)
       {
-        this._position = this.getTransition()(pos) * this._fromToDelta + this.getFrom();
+        this._position = qx.fx.Transition.get(this.getTransition())(pos) * this._fromToDelta + this.getFrom();
 
         this.beforeUpdateInternal();
         this.beforeUpdate();

@@ -76,7 +76,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
         duration : duration,
         to : ( (counter % 2) != 0) ? 1 : 0,
         from : ( (counter % 2) != 0) ? 0 : 1,
-        transition: qx.fx.Transition.sinoidal
+        transition: "sinoidal"
       });
       counter++;
     }
