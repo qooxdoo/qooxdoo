@@ -96,16 +96,16 @@ qx.Class.define("demobrowser.demo.ui.GridLayout_4",
           from: 50,
           to: 200,
           duration: duration,
-          transition: qx.fx.Transition.sinoidal
+          transition: "sinoidal"
         }));
         effects.push(new demobrowser.demo.ui.GridLayout_4_Property(widget, "height").set({
           from: 50,
           to: 200,
           duration: duration,
-          transition: qx.fx.Transition.sinoidal
+          transition: "sinoidal"
         }));
 
-        var effect = new qx.fx.effect.core.Parallel(effects);
+        var effect = new qx.fx.effect.core.Parallel(effects[0], effects[1]);
         effect.start();
 
         this._active = widget;
