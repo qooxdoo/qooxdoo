@@ -35,6 +35,36 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
   appearances :
   {
+    widget : {},
 
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON
+    ---------------------------------------------------------------------------
+    */
+
+    "button" :
+    {
+      style : function(states)
+      {
+        if (states.pressed || states.checked || states.abandoned) {
+          var decorator = "inset";
+        } else {
+          var decorator = "outset";
+        }
+
+        if (states.pressed || states.abandoned) {
+          var padding = [ 4, 3, 2, 5 ];
+        } else {
+          var padding = [ 3, 4 ];
+        }
+
+        return {
+          backgroundColor : states.abandoned ? "button-abandoned" : states.over ? "button-hover" : "button",
+          decorator : decorator,
+          padding : padding
+        };
+      }
+    }
   }
 });

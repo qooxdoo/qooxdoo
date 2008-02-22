@@ -103,7 +103,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         this.__cache[this._currentTheme.name] = {};
       }
 
-      qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
+      //qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
 
       if (this._oldTheme) {
         delete this.__cache[this._oldTheme.name];

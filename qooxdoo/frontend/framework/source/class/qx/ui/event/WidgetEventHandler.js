@@ -158,6 +158,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      */
     _dispatchEvent : function(target, event)
     {
+      if (event.getType() == "mousedown");
       if (target.isAnonymous() || (!target.isEnabled())) {
         return;
       }
