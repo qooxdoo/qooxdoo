@@ -133,7 +133,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   statics :
   {
-    Img_PlayAll_Default : "icon/16/actions/media-seek-forward.png",
+    Img_PlayAll_Default : "icon/16/actions/go-last.png",
     Img_PlayAll_Stop    : "icon/16/actions/media-playback-stop.png"
   },
 
@@ -547,7 +547,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Sample", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Sample", "icon/16/actions/system-run.png");
       mb.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunSample);
@@ -561,14 +561,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       playallb.setToolTip(new qx.legacy.ui.popup.ToolTip("Run all examples"));
 
       // -- previous navigation
-      var prevbutt = new qx.legacy.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-left.png");
+      var prevbutt = new qx.legacy.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-previous.png");
       mb.add(prevbutt);
       this.widgets["toolbar.prevbutt"] = prevbutt;
       this.__bindCommand(prevbutt, this._cmdPrevSample);
       prevbutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Run the previous sample"));
 
       // -- next navigation
-      var nextbutt = new qx.legacy.ui.toolbar.Button("Next Sample", "icon/16/actions/go-right.png");
+      var nextbutt = new qx.legacy.ui.toolbar.Button("Next Sample", "icon/16/actions/go-next.png");
       mb.add(nextbutt);
       this.widgets["toolbar.nextbutt"] = nextbutt;
       this.__bindCommand(nextbutt, this._cmdNextSample);
@@ -599,7 +599,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       gb.setEnabled(false);
 
       // profiling
-      var sb0 = new qx.legacy.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", this._cmdProfile.getUserData("checked"));
+      var sb0 = new qx.legacy.ui.toolbar.CheckBox("Profile", "icon/16/apps/office-calendar.png", this._cmdProfile.getUserData("checked"));
       gb.add(sb0);
 
       this.__bindCommand(sb0, this._cmdProfile);
@@ -607,7 +607,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.profile"] = sb0;
 
       // object summary
-      var sb1 = new qx.legacy.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
+      var sb1 = new qx.legacy.ui.toolbar.Button("Object Summary", "icon/16/apps/office-spreadsheet.png");
       gb.add(sb1);
 
       sb1.set(
@@ -621,7 +621,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       sb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Sample Object Summary"));
 
       // -- sample: global pollution
-      var sb2 = new qx.legacy.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
+      var sb2 = new qx.legacy.ui.toolbar.Button("Global Pollution", "icon/16/places/network-workgroup.png");
       gb.add(sb2);
       this.__bindCommand(sb2, this._cmdNamespacePollution)
 
@@ -736,7 +736,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // Second Page
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
+      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-plain.png");
       buttview.getBar().add(bsb2);
 
       var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
@@ -775,7 +775,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Source Code", "icon/16/apps/graphics-snapshot.png");
+      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Source Code", "icon/16/apps/photo-album.png");
       buttview.getBar().add(bsb3);
 
       // -- Tab Pane
@@ -828,7 +828,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["treeview"] = buttview;
 
       // full view
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/apps/office-database.png");
       buttview.getBar().add(bsb1);
       this.widgets["treeview.bsb1"] = bsb1;
       bsb1.setShow("icon");
@@ -876,7 +876,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this);
 
       // flat view
-      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
+      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/apps/office-writer.png");
 
       // buttview.getBar().add(bsb2);
       this.widgets["treeview.bsb2"] = bsb2;
