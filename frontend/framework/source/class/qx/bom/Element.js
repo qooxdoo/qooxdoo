@@ -199,7 +199,7 @@ qx.Class.define("qx.bom.Element",
      * @return {Boolean} Whether the element has event listeners of the given type.
      */
     hasListeners : function(element, type, capture) {
-      return qx.event.Registration.getManager(element).hasListeners(element, type, capture);
+      return qx.event.Registration.hasListeners(element, type, capture);
     },
 
 
