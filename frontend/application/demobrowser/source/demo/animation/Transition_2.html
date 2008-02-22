@@ -108,7 +108,7 @@
         btnShow.addListener("execute", function(){
           var transition = combo.getSelected().getLabel();
           animMove.set({
-            transition : qx.fx.Transition[transition],
+            transition : transition,
             duration : spDuration.getValue()
           });
 
