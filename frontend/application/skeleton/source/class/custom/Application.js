@@ -25,6 +25,7 @@
 qx.Class.define("custom.Application",
 {
   extend : qx.application.Abstract,
+  include : [ qx.legacy.application.MGuiCompat ],
 
 
 

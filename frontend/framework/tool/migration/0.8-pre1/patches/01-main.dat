@@ -65,9 +65,9 @@
 \bqx\.html\b=qx.legacy.html
 \bqx\.ui\b=qx.legacy.ui
 \bqx\.io\.image\b=qx.legacy.io.image
-\bqx\.application\b=qx.legacy.application
 \bqx\.theme\b=qx.legacy.theme
-
+\bqx\.application\.Basic\b=qx.application.Abstract
+\bqx\.application\.Gui\b=qx.application.Abstract
 
 
 

@@ -20,46 +20,12 @@
 
 /* ************************************************************************
 
-#module(ui_core)
 #use(qx.application.Abstract)
 
 ************************************************************************ */
 
-/**
- * This is the base class for all GUI qooxdoo applications.
- *
- * All applications using qooxdoo widgets should be derived from
- * this class. Normally at least the {@link #main} method will
- * be overridden to define the GUI.
- */
-qx.Class.define("qx.legacy.application.Gui",
+qx.Mixin.define("qx.legacy.application.MGuiCompat",
 {
-  extend : qx.core.Object,
-  include : [ qx.locale.MTranslation ],
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** Whether the user interfacce has already been rendered */
-    uiReady :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyUiReady"
-    }
-  },
-
-
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -74,9 +40,9 @@ qx.Class.define("qx.legacy.application.Gui",
      *
      * @type member
      */
-    main : function()
+    compat : function()
     {
-      this.warn("Using legacy application class!");
+      this.debug("Enabling 0.7x application compatibility mode.");
 
       // this is needed to verify that the application developer has called the
       // overridden main method.
@@ -100,34 +66,6 @@ qx.Class.define("qx.legacy.application.Gui",
 
 
     /**
-     * Called in the document.onbeforeunload event of the browser. If the method
-     * returns a string value, the user will be asked by the browser, whether
-     * he really wants to leave the page. The return string will be displayed in
-     * the message box.
-     *
-     * @type member
-     * @return {String?null} message text on unloading the page
-     */
-    close : function() {},
-
-
-    /**
-     * Called in the document.onunload event of the browser. This method contains the last
-     * code which is run inside the page and may contain cleanup code.
-     *
-     * @type member
-     */
-    terminate : function() {},
-
-
-    _applyUiReady : function(value)
-    {
-      // Hack to make compatible with new init()
-      qx.legacy.ui.core.Widget.$$uiReady = true;
-    },
-
-
-    /**
      * Start pre loading of the initially visible images.
      */
     _preload : function()
@@ -137,13 +75,14 @@ qx.Class.define("qx.legacy.application.Gui",
       this.__preloader.start();
     },
 
+
     /**
      * Callback which is called once the pre loading of the required images
      * is completed.
      */
     _preloaderDone : function()
     {
-      this.setUiReady(true);
+      qx.legacy.ui.core.Widget.$$uiReady = true;
 
       this.__preloader.dispose();
       this.__preloader = null;
