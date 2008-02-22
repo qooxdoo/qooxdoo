@@ -55,7 +55,13 @@ qx.Class.define("demobrowser.demo.ui.Spacer_2",
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       // auto size
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow"});
+      var box = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "yellow",
+        allowGrowX: false,
+        allowGrowY: false
+      });
+
       var layout = new qx.ui.layout.Grid();
 
       layout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}), 0, 0);
@@ -81,7 +87,12 @@ qx.Class.define("demobrowser.demo.ui.Spacer_2",
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       // auto size
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", allowGrowX: false});
+      var box = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "yellow",
+        allowGrowX: false,
+        allowGrowY: false
+      });
       var layout = new qx.ui.layout.Grid();
 
       layout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}), 0, 0);
