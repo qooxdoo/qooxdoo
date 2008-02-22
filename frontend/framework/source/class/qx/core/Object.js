@@ -21,7 +21,6 @@
 
 /* ************************************************************************
 
-#optional(qx.dev.StackTrace)
 #require(qx.core.Property)
 #require(qx.core.ObjectRegistry)
 #use(qx.event.dispatch.Direct)
@@ -59,8 +58,7 @@ qx.Class.define("qx.core.Object",
    *
    * @type constructor
    */
-  construct : function()
-  {
+  construct : function() {
     qx.core.ObjectRegistry.register(this);
   },
 
