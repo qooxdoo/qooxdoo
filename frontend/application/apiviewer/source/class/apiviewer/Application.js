@@ -43,6 +43,7 @@ qx.Class.define("apiviewer.Application",
     {
       this.base(arguments);
 
+      // Initialize 0.7 compatibility
       this.compat();
 
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
