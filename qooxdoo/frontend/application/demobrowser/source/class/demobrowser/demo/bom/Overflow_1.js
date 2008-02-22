@@ -18,17 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.dispatch.Direct)
-#require(qx.event.dispatch.DomBubbling)
-#require(qx.event.handler.Keyboard)
-#require(qx.event.handler.Mouse)
-#require(qx.event.handler.Element)
-#require(qx.event.handler.Iframe)
-
-************************************************************************ */
-
 qx.Class.define("demobrowser.demo.bom.Overflow_1",
 {
   extend : demobrowser.Demo,
