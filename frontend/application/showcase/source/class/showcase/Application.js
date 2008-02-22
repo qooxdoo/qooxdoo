@@ -79,17 +79,17 @@ qx.Class.define("showcase.Application",
 
       this._states = {};
 
-      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo);
+      this._createPage(barView, "Form", "icon/32/apps/office-writer.png", this._createFormDemo);
       this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo);
-      this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo);
+      this._createPage(barView, "Menu and Toolbar", "icon/32/devices/camera-web.png", this._createToolbarDemo);
       this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo, true);
       this._createPage(barView, "Tree", "icon/32/apps/office-database.png", this._createTreeDemo);
-      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo);
-      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo);
-      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo, true);
+      this._createPage(barView, "List", "icon/32/categories/engineering.png", this._createListDemo);
+      this._createPage(barView, "ListView", "icon/32/categories/graphics.png", this._createListViewDemo);
+      this._createPage(barView, "Table", "icon/32/categories/multimedia.png", this._createTableDemo, true);
       this._createPage(barView, "SplitPane", "icon/32/apps/office-writer.png", this._createSplitPaneDemo, true);
       this._createPage(barView, "Localization", "icon/32/apps/utilities-file-archiver.png", this._createLocalizationDemo);
-      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo);
+      this._createPage(barView, "Native Window", "icon/32/devices/camera-web.png", this._createNativeWindowDemo);
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo, true);
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
 
@@ -238,7 +238,7 @@ qx.Class.define("showcase.Application",
       combo.add(new qx.legacy.ui.form.ListItem("PDA")); // , "icon/16/pda.png"));
       combo.add(new qx.legacy.ui.form.ListItem("Printer")); // , "icon/16/devices/printer.png"));
       combo.add(new qx.legacy.ui.form.ListItem("Scanner")); // , "icon/16/devices/scanner.png"));
-      combo.add(new qx.legacy.ui.form.ListItem("TV")); // , "icon/16/devices/video-display.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("TV")); // , "icon/16/devices/camera-web.png"));
       gl.add(combo, 1, 2);
 
       gl.add(new qx.legacy.ui.basic.Label("E-Mail"), 0, 3);
@@ -734,11 +734,11 @@ qx.Class.define("showcase.Application",
 
       main.add(bs);
 
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Display", "icon/16/devices/camera-web.png");
       var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
       var bsb3 = new qx.legacy.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
       var bsb4 = new qx.legacy.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
-      var bsb5 = new qx.legacy.ui.pageview.buttonview.Button("System", "icon/16/devices/video-display.png");
+      var bsb5 = new qx.legacy.ui.pageview.buttonview.Button("System", "icon/16/devices/camera-web.png");
 
       bsb1.setChecked(true);
 
@@ -1821,21 +1821,21 @@ qx.Class.define("showcase.Application",
       vert.add(hor);
       hor.add(tf3, btn3);
 
-      var btn4 = new qx.legacy.ui.form.Button("Center to screen", "icon/16/devices/video-display.png");
+      var btn4 = new qx.legacy.ui.form.Button("Center to screen", "icon/16/devices/camera-web.png");
       btn4.setWidth("100%");
 
       btn4.addListener("click", function() {
         win.centerToScreen();
       });
 
-      var btn5 = new qx.legacy.ui.form.Button("Center to screen area", "icon/16/devices/video-display.png");
+      var btn5 = new qx.legacy.ui.form.Button("Center to screen area", "icon/16/devices/camera-web.png");
       btn5.setWidth("100%");
 
       btn5.addListener("click", function() {
         win.centerToScreenArea();
       });
 
-      var btn6 = new qx.legacy.ui.form.Button("Center to opener", "icon/16/devices/video-display.png");
+      var btn6 = new qx.legacy.ui.form.Button("Center to opener", "icon/16/devices/camera-web.png");
       btn6.setWidth("100%");
 
       btn6.addListener("click", function() {

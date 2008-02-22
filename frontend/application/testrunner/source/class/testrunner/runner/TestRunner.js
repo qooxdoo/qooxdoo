@@ -297,7 +297,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var buttview = new qx.legacy.ui.pageview.tabview.TabView();
       buttview.set({ height : "1*" });
 
-      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Test Results", "icon/16/devices/camera-web.png");
       var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/photo-album.png");
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1, bsb2);
