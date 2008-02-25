@@ -73,7 +73,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
     this._scaleEffect.set({
       scaleTo            : 1.0,
-      duration           : 0.3,
+      duration           : this.getDuration() * 0.3,
       scaleFromCenter    : true,
       scaleX             : false,
       scaleContent       : false,
@@ -81,7 +81,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     });
 
     this._appearEffect.set({
-      duration : this.getDuration(),
+      duration : this.getDuration() * 0.4,
       from : this.getFrom(),
       to : 1
     });
@@ -103,7 +103,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     */
     duration :
     {
-      init : 0.4,
+      init   : 0.7,
       refine : true
     },
 
@@ -162,6 +162,14 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     {
       this.base(arguments);
       this._appearEffect.start();
+    },
+    
+    _applyDuration : function(value, old)
+    {
+      this._scaleEffect.setDuration(value * 0.3);
+      this._appearEffect.setDuration(value * 0.4);
+
+      value *= 0.7;
     }
 
   },
