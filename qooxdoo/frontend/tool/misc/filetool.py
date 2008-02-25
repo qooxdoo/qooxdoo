@@ -125,7 +125,7 @@ def read(filePath, encoding="utf_8"):
 
 
 def root():
-    modulepath = str(roothelper).split()[3][1:-2]
+    modulepath = str(roothelper).split(None,3)[3][1:-2]
     
     miscfolder = os.path.dirname(modulepath)
     toolfolder = os.path.dirname(miscfolder)
