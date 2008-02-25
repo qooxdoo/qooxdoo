@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.basic.Atom",
     },
 
 
-    /** Any URI String supported by qx.ui.core.Image to display a icon */
+    /** Any URI String supported by qx.ui.basic.Image to display a icon */
     icon :
     {
       check : "String",
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * Any URI String supported by qx.ui.core.Image to display a disabled icon.
+     * Any URI String supported by qx.ui.basic.Image to display a disabled icon.
      * <p>
      * If not set the normal icon is shown transparently.
      */
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (this._icon) {
         this._icon.setSource(value);
       } else {
-        this._icon = new qx.ui.core.Image(value, this.getIconWidth(), this.getIconHeight());
+        this._icon = new qx.ui.basic.Image(value, this.getIconWidth(), this.getIconHeight());
       }
 
       this._handleIcon();
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (this._disabledIcon) {
         this._disabledIcon.setSource(value);
       } else {
-        this._disabledIcon = new qx.ui.core.Image(value);
+        this._disabledIcon = new qx.ui.basic.Image(value);
       }
 
       this._handleIcon();
