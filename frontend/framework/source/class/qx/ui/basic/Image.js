@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.Image",
+qx.Class.define("qx.ui.basic.Image",
 {
   extend : qx.ui.core.Widget,
 
