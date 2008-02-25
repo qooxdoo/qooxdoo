@@ -36,7 +36,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
   members :
   {
   
-  
     _toggleEnable : function()
     {
       var status = (this._groupBoxes.gbxBase.getEnabled() === false);
@@ -52,16 +51,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       this.compat();
 
       /* Demo element */
-      this._demoElementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:240px;top:90px;position:absolute;width:200px;height:55px;border:2px #000000 solid;background-color:#134275;z-Index:2;';
-      this._demoElement = qx.bom.Element.create(
-        'div',
-        {
-          style     : this._demoElementStyle,
-          id        : "testDiv",
-          innerHTML : 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!'
-        }
-      );
-      
+      this._demoElement = document.getElementById("testDiv");
+
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
       
       /* UI elements: */
@@ -135,7 +126,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       }
       
       doc.add(main)
-      document.body.appendChild(this._demoElement);
       
       
       /* Effects: */
