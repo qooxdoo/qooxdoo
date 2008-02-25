@@ -42,17 +42,22 @@ qx.Class.define("demobrowser.demo.ui.Button_1",
 
       doc.add(container, 0, 0);
 
-      var img1 = "../../../../../framework/source/resource/icon/gtango/48/apps/feed-reader.png";
-      var img2 = "../../../../../framework/source/resource/icon/gtango/48/apps/internet-mail.png";
-      var img3 = "../../../../../framework/source/resource/icon/gtango/48/apps/internet-web-browser.png";
-      var img4 = "../../../../../framework/source/resource/icon/gtango/48/apps/photo-album.png";
+      var img1 = "../../../../../framework/source/resource/icon/tango/48/apps/feed-reader.png";
+      var img2 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-mail.png";
+      var img3 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-web-browser.png";
+      var img4 = "../../../../../framework/source/resource/icon/tango/48/apps/photo-album.png";
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       docLayout.add(new qx.ui.form.Button("Juhu", img1, 48, 48));
       docLayout.add(new qx.ui.form.Button("Juhu", img2, 48, 48));
       docLayout.add(new qx.ui.form.Button("Juhu", img3, 48, 48));
-      docLayout.add(new qx.ui.form.Button("Juhu", img4, 48, 48));
+
+      var b4 = new qx.ui.form.RepeatButton("Juhu", img4, 48, 48);
+      b4.addListener("execute", function() {
+        console.log("repeat button execute!");
+      });
+      docLayout.add(b4);
     }
   }
 });

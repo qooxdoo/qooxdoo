@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#use(qx.legacy.theme.ClassicRoyale)
+
+************************************************************************ */
+
 /**
  * This example embeds a top level dialog based on the 0.8 ui widgets into a
  * legacy qooxdoo application.
@@ -33,8 +39,6 @@ qx.Class.define("demobrowser.demo.ui.Embed_2",
     {
       this.base(arguments);
       this.compat();
-
-      qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
 
       // Create button
       var button = new qx.legacy.ui.form.Button("Open 0.8 widget dialog", "icon/32/status/dialog-information.png").set({
