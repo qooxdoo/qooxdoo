@@ -116,89 +116,44 @@ qx.Class.define("qx.fx.effect.combination.Shake",
         left   : qx.bom.element.Location.getLeft(this._element, "scroll")
       };
     },
-/*
+
     start : function()
     {
       this.base(arguments);
-
+      
       var distance = parseFloat(this.getDistance());
       var split = parseFloat(this.getDuration()) / 10.0;
-      var counter = 0;
-
-      if(this.getDirection() == "horizontal")
-      {
-        this._effects[0].set({ x : distance,    y : 0, duration : split});
-        this._effects[1].set({ x : -distance*2, y : 0, duration : split*2});
-        this._effects[2].set({ x : distance*2,  y : 0, duration : split*2});
-        this._effects[3].set({ x : -distance*2, y : 0, duration : split*2});
-        this._effects[4].set({ x : distance*2,  y : 0, duration : split*2});
-        this._effects[5].set({ x : -distance,   y : 0, duration : split*2});
-      }
-      else if(this.getDirection() == "vertical")
-      {
-        this._effects[0].set({ y : distance,    x : 0, duration : split});
-        this._effects[1].set({ y : -distance*2, x : 0, duration : split*2});
-        this._effects[2].set({ y : distance*2,  x : 0, duration : split*2});
-        this._effects[3].set({ y : -distance*2, x : 0, duration : split*2});
-        this._effects[4].set({ y : distance*2,  x : 0, duration : split*2});
-        this._effects[5].set({ y : -distance,   x : 0, duration : split*2});
-      }
-
-      var effects = this._effects;
-      for (var i=0, len=this._effects.length; i<len; i++)
-      {
-        this._effects[i].id = counter;
-        if (counter < 5)
-        {
-          this._effects[i].afterFinishInternal = function(){
-            effects[this.id + 1].start();
-          };
-        }
-        else
-        {
-          this._effects[i].afterFinishInternal = function(){
-            for(var property in this._oldStyle) {
-              qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-            }
-          };
-        }
-        counter++;
-
-      }
-      this._effects[0].start();
-
+      
+      this._effect.set({ y : distance,    x : 0, duration : split});
+      this._effect.start();
+      
+      qx.lang.Function.delay(function(){
+        this._effect.set({ y : -distance*2, x : 0, duration : split*2});
+        this._effect.start();
+      }, split*1000, this);
+      
+      qx.lang.Function.delay(function(){
+        this._effect.set({ y : distance*2,  x : 0, duration : split*2});
+        this._effect.start();
+      }, split*2000, this);
+      
+      qx.lang.Function.delay(function(){
+        this._effect.set({ y : -distance*2, x : 0, duration : split*2});
+        this._effect.start();
+      }, split*4000, this);
+      
+      qx.lang.Function.delay(function(){
+        this._effect.set({ y : distance*2,  x : 0, duration : split*2});
+        this._effect.start();
+      }, split*6000, this);
+      
+      qx.lang.Function.delay(function(){
+        this._effect.set({ y : -distance,   x : 0, duration : split*2});
+        this._effect.start();
+      }, split*8000, this);
+      
     }
-*/
-      start : function()
-      {
-        this.base(arguments);
-  
-        var distance = parseFloat(this.getDistance());
-        var split = parseFloat(this.getDuration()) / 10.0;
 
-        this._effect.set({ y : distance,    x : 0, duration : split});
-        this._effect.start();
-
-        this._effect.set({ y : -distance*2, x : 0, duration : split*2, delay : split});
-        this._effect.start();
-
-        this._effect.set({ y : distance*2,  x : 0, duration : split*2, delay : split*2});
-        this._effect.start();
-
-        this._effect.set({ y : -distance*2, x : 0, duration : split*2, delay : split*2});
-        this._effect.start();
-
-        this._effect.set({ y : distance*2,  x : 0, duration : split*2, delay : split*2});
-        this._effect.start();
-
-        this._effect.set({ y : -distance,   x : 0, duration : split*2, delay : split*2});
-        this._effect.start();
-
-        for(var property in this._oldStyle) {
-          qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-        }
-
-      }
    },
 
 
