@@ -76,7 +76,8 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
         duration : duration,
         to : ( (counter % 2) != 0) ? 1 : 0,
         from : ( (counter % 2) != 0) ? 0 : 1,
-        transition: "sinoidal"
+        transition: "sinoidal",
+        modifyDisplay : false
       });
       counter++;
     }
@@ -113,6 +114,12 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
    members :
    {
+    
+    beforeSetup : function()
+    {
+      this._oldValue = qx.bom.element.Style.get(this._element, "opacity");
+    },
+
 
     start : function()
     {
@@ -133,6 +140,12 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
         counter++;
       }
       this._fadeEffects[0].start();
+    },
+
+
+    afterFinish : function()
+    {
+      qx.bom.element.Style.set(this._element, "opacity", this._oldValue);
     }
 
    },
