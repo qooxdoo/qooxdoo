@@ -123,34 +123,67 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       
       var distance = parseFloat(this.getDistance());
       var split = parseFloat(this.getDuration()) / 10.0;
-      
-      this._effect.set({ y : distance,    x : 0, duration : split});
-      this._effect.start();
-      
-      qx.lang.Function.delay(function(){
-        this._effect.set({ y : -distance*2, x : 0, duration : split*2});
+
+      if(this.getDirection() == "vertical")
+      {
+        this._effect.set({ y : distance,      x : 0, duration : split});
         this._effect.start();
-      }, split*1000, this);
-      
-      qx.lang.Function.delay(function(){
-        this._effect.set({ y : distance*2,  x : 0, duration : split*2});
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ y : -distance*2, x : 0, duration : split*2});
+          this._effect.start();
+        }, split*1000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ y : distance*2,  x : 0, duration : split*2});
+          this._effect.start();
+        }, split*2000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ y : -distance*2, x : 0, duration : split*2});
+          this._effect.start();
+        }, split*4000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ y : distance*2,  x : 0, duration : split*2});
+          this._effect.start();
+        }, split*6000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ y : -distance,   x : 0, duration : split*2});
+          this._effect.start();
+        }, split*8000, this);
+      }
+      else if(this.getDirection() == "horizontal")
+      {
+        this._effect.set({ x : distance,      y : 0, duration : split});
         this._effect.start();
-      }, split*2000, this);
-      
-      qx.lang.Function.delay(function(){
-        this._effect.set({ y : -distance*2, x : 0, duration : split*2});
-        this._effect.start();
-      }, split*4000, this);
-      
-      qx.lang.Function.delay(function(){
-        this._effect.set({ y : distance*2,  x : 0, duration : split*2});
-        this._effect.start();
-      }, split*6000, this);
-      
-      qx.lang.Function.delay(function(){
-        this._effect.set({ y : -distance,   x : 0, duration : split*2});
-        this._effect.start();
-      }, split*8000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ x : -distance*2, y : 0, duration : split*2});
+          this._effect.start();
+        }, split*1000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ x : distance*2,  y : 0, duration : split*2});
+          this._effect.start();
+        }, split*2000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ x : -distance*2, y : 0, duration : split*2});
+          this._effect.start();
+        }, split*4000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ x : distance*2,  y : 0, duration : split*2});
+          this._effect.start();
+        }, split*6000, this);
+        
+        qx.lang.Function.delay(function(){
+          this._effect.set({ x : -distance,   y : 0, duration : split*2});
+          this._effect.start();
+        }, split*8000, this);
+      }
       
     }
 
