@@ -96,9 +96,9 @@ qx.Class.define("qx.fx.effect.core.Fade",
    *****************************************************************************
    */
 
-   members :
-   {
-     
+  members :
+  {
+
     update : function(position)
     {
       this.base(arguments);
@@ -109,6 +109,9 @@ qx.Class.define("qx.fx.effect.core.Fade",
 
     beforeSetup : function(effect)
     {
+      if ( (this.getModifyDisplay()) && (this.getTo() > 0) ){
+        qx.bom.element.Style.set(this._element, "display", "block");
+      }
       qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
     },
 
@@ -118,16 +121,8 @@ qx.Class.define("qx.fx.effect.core.Fade",
       if ( (this.getModifyDisplay()) && (this.getTo() == 0) ){
         qx.bom.element.Style.set(this._element, "display", "none");
       }
-    },
-
-
-    beforeSetup : function()
-    {
-      if ( (this.getModifyDisplay()) && (this.getTo() > 0) ){
-        qx.bom.element.Style.set(this._element, "display", "block");
-      }
     }
 
-   }
+  }
 
 });
