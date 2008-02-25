@@ -181,15 +181,13 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     start : function()
     {
+      this.setDuration(this.getForwardDuration() + this.getDelayBetween() + this.getBackwardDuration());
       this.base(arguments);
 
       this._oldStyle = {
         backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
         backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
       };
-
-      var counter = 0;
-      var highlightEffectsReference = this._highlightEffects;
 
       this._highlightEffects[0].set({
         startColor          : this.getStartColor(),
@@ -205,47 +203,18 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         endColor            : this.getStartColor(),
         duration            : this.getBackwardDuration(),
         transition          : this.getBackwardTransition(),
-        restoreBackground   : false,
+        restoreBackground   : this.getRestoreBackground(),
         keepBackgroundImage : this.getKeepBackgroundImage(),
         delay               : this.getDelayBetween()
       });
 
-      for(var effect in this._highlightEffects)
-      {
-        counter++;
-        this._highlightEffects[effect].id = counter;
-
-        if (counter == 1)
-        {
-          this._highlightEffects[effect].afterFinishInternal = function() {
-            highlightEffectsReference[1].start();
-          };
-        }
-        this._highlightEffects[effect].finish = function(){};
+      var self = this;
+      this._highlightEffects[0].afterFinishInternal = function() {
+        self._highlightEffects[1].start();
       }
-
+      
       this._highlightEffects[0].start();
-
-    },
-
-
-    finish : function()
-    {
-      this.base(arguments);
-
-      if (this.getRestoreBackground()) {
-        qx.lang.Function.delay(this._restore, 1000, this);
-      }
-    },
-
-
-    _restore : function()
-    {
-      for(var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
-      }
     }
-
   },
 
 
