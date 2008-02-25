@@ -202,10 +202,11 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       }, this);
 
       btnBackground.addListener("execute", function(){
-        var status = qx.bom.element.Style.get(this._demoElement, "backgroundColor");
+        var status = qx.util.ColorUtil.cssStringToRgb(qx.bom.element.Style.get(this._demoElement, "backgroundColor")).toString();
+
         backgroundToggle.set({
-          startColor        : (status == "rgb(19, 66, 117)") ? "#134275" : "#7CFC00",
-          endColor          : (status == "rgb(19, 66, 117)") ? "#7CFC00" : "#134275",
+          startColor        : (status == "19,66,117") ? "#134275" : "#7CFC00",
+          endColor          : (status == "19,66,117") ? "#7CFC00" : "#134275",
           restoreBackground : false
         });
         backgroundToggle.start();
@@ -240,10 +241,11 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       }, this);
 
       btnColorFlow.addListener("execute", function(){
-        var status = qx.bom.element.Style.get(this._demoElement, "backgroundColor");
+        var status = qx.util.ColorUtil.cssStringToRgb(qx.bom.element.Style.get(this._demoElement, "backgroundColor")).toString();
+
         colorFlow.set({
-          startColor : (status == "rgb(19, 66, 117)") ? "#134275" : "#7CFC00",
-          endColor   : (status == "rgb(19, 66, 117)") ? "#7CFC00" : "#134275"
+          startColor : (status == "19,66,117") ? "#134275" : "#7CFC00",
+          endColor   : (status == "19,66,117") ? "#7CFC00" : "#134275"
         });
         colorFlow.start();
       }, this);
