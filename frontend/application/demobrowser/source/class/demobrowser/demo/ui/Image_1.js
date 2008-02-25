@@ -33,10 +33,10 @@ qx.Class.define("demobrowser.demo.ui.Image_1",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      w1 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/utilities-file-archiver.png", 48, 48);
-      w2 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png", 48, 48);
-      w3 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png", 48, 48);
-      w4 = new qx.ui.core.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png", 48, 48);
+      w1 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/utilities-file-archiver.png", 48, 48);
+      w2 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png", 48, 48);
+      w3 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png", 48, 48);
+      w4 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png", 48, 48);
 
       layout = new qx.ui.layout.Basic();
 
