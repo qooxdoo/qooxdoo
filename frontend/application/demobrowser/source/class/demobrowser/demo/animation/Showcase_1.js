@@ -13,8 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
-     * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -36,305 +35,350 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
   members :
   {
+  
+  
+    _toggleEnable : function()
+    {
+      var status = (this._groupBoxes.gbxBase.getEnabled() === false);
+
+      for (var box in this._groupBoxes) {
+        this._groupBoxes[box].setEnabled(status);
+      }
+    },
+  
     main : function()
     {
       this.base(arguments);
-
       this.compat();
 
-      this._elementStyle = 'font-size:12pt;opacity:0.0;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:110px;top:102px;position:absolute;width:200px;height:55px;border:2px #000000 solid;background-color:#134275;z-Index:2;';
-      this._element = qx.bom.Element.create(
+      /* Demo element */
+      this._demoElementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:240px;top:90px;position:absolute;width:200px;height:55px;border:2px #000000 solid;background-color:#134275;z-Index:2;';
+      this._demoElement = qx.bom.Element.create(
         'div',
         {
-          style     : this._elementStyle,
+          style     : this._demoElementStyle,
           id        : "testDiv",
           innerHTML : 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!'
         }
       );
+      
+      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
+      
+      /* UI elements: */
+      var main = new qx.legacy.ui.layout.VerticalBoxLayout();
+      main.setPadding(10);
+      main.setWidth(140);
 
-      document.body.appendChild(this._element);
+      this._groupBoxes = {
+        gbxBase : new qx.legacy.ui.groupbox.GroupBox("Base effects"),
+        gbxAttention : new qx.legacy.ui.groupbox.GroupBox("Attention effects"),
+        gbxVanish : new qx.legacy.ui.groupbox.GroupBox("Vanish effects"),
+        gbxAppear : new qx.legacy.ui.groupbox.GroupBox("Appear effects")
+      };
 
-
-      /*
-       * Each effect needs
-       * 1. an HTML element to modify
-       * 2. a map with effect spcific options
-       */
-
-
-      /*
-       * Effect for fading in the div container
-      */
-      var animShow = new qx.fx.effect.core.Fade(this._element).set({
-        from : 0,
-        to : 1,
-        duration : 1
+      var vbxBase = new qx.legacy.ui.layout.VerticalBoxLayout();
+      vbxBase.set({
+        spacing : 5,
+        minWidth : 110
       });
 
-      /*
-       * Effect for fading out the div container
-      */
-      var animHide = new qx.fx.effect.core.Fade(this._element).set({
-        duration : 1,
-        from : 1,
-        to : 0
+      var btnOpacity = new qx.legacy.ui.form.Button("Toggle Opacity");
+      var btnDimensions = new qx.legacy.ui.form.Button("Toggle Size");
+      var btnPosition = new qx.legacy.ui.form.Button("Toggle Position");
+      var btnBackground = new qx.legacy.ui.form.Button("Toggle Background");
+
+      vbxBase.add(btnOpacity, btnDimensions, btnPosition, btnBackground);
+      this._groupBoxes.gbxBase.add(vbxBase);
+
+      
+      var vbxAttention = new qx.legacy.ui.layout.VerticalBoxLayout();
+      vbxAttention.set({
+        spacing : 5,
+        minWidth : 110
       });
 
-      /*
-       * Effect for increasing the dimensions of the div container
-      */
-      var animIncrease = new qx.fx.effect.core.Scale(this._element);
-      animIncrease.set({
-        scaleTo : 200,
-        duration : 2
-      });
-
-      /*
-       * Effect for reduce the dimensions of the div container
-      */
-      var animDecrease = new qx.fx.effect.core.Scale(this._element);
-      animDecrease.set({
-        scaleTo : 50,
-        duration : 2
-      });
-
-      /*
-      * This FadeIn effect demonstrates a different transition: wobble
-      * In opposite to the linear transition, this one differs between the values
-      * Just take a look at this transition behavior to get the idea. ;-)
-      */
-      var animFadeInWobble = new qx.fx.effect.core.Fade(this._element);
-      animFadeInWobble.set({
-        from : 0,
-        to : 1,
-        duration : 6,
-        transition : "wobble"
-      });
-
-      /*
-      * This Scale effect shows the sinoidal transition.
-      */
-      var animIncreaseSinoidal = new qx.fx.effect.core.Scale(this._element);
-      animIncreaseSinoidal.set({
-        scaleTo : 200,
-        duration : 4,
-        delay : 2,
-        transition : "sinoidal"
-      });
-
-      /*
-      * This is one of the combination effect.
-      * Puff will scale and fade out the given element and looks
-      * as if it the element explodes.
-      */
-      var animPuff = new qx.fx.effect.combination.Puff(this._element);
-
-      /*
-      * This move effect moves the element to the given coordinates
-      * Note that you these coordinates can be absolute to the document or relative to the element's position.
-      */
-      var animMoveAway = new qx.fx.effect.core.Move(this._element);
-      animMoveAway.set({
-        x : 600,
-        y : 300,
-        transition : "sinoidal",
-        mode : "absolute"
-      });
-
-      /*
-      * This move effect moves the element back to the start coordinates.
-      * It uses a nicely transition, which bounces the element.
-      */
-      var animMoveBack = new qx.fx.effect.core.Move(this._element);
-      animMoveBack.set({
-        x : 110,
-        y : 102,
-        transition : "spring",
-        mode : "absolute"
-      });
-
-      /*
-      * Grow is another combination effect. Internally, it uses
-      * the FadeIn, Scale and Move effect.
-      */
-      var animGrow = new qx.fx.effect.combination.Grow(this._element);
-      animGrow.setDirection("center");
-
-      var animShake = new qx.fx.effect.combination.Shake(this._element);
-
-      var animPulsate = new qx.fx.effect.combination.Pulsate(this._element);
-
-      /*
-      * Shake is a combination effect without options
-      */
-      var animShake = new qx.fx.effect.combination.Shake(this._element);
-      var animSwitchOff = new qx.fx.effect.combination.SwitchOff(this._element);
-      var animFold = new qx.fx.effect.combination.Fold(this._element);
-
-      var animHigh = new qx.fx.effect.core.Highlight(this._element);
-      animHigh.set({
-        startColor : "#134275",
-        endColor : "#7CFC00",
-        duration : 1
-      });
-
-      var animAHigh = new qx.fx.effect.core.Highlight(this._element);
-      animAHigh.set({
-        startColor : "#134275",
-        endColor : "#7CFC00",
-        transition : "wobble",
-        duration : 3
-      });
-
-      var animColorFlow = new qx.fx.effect.combination.ColorFlow(this._element);
-      animColorFlow.set({
-        startColor : "#134275",
-        endColor : "#7CFC00",
-        backwardDuration : 3
-      });
-
-      var animShrink = new qx.fx.effect.combination.Shrink(this._element);
-      animShrink.setDirection("center");
-
-      var animDropOut = new qx.fx.effect.combination.DropOut(this._element);
-
-      /* Buttons */
-      var btnShow = new qx.legacy.ui.form.Button("Fade in");
-      var btnHide = new qx.legacy.ui.form.Button("Fade out");
-      var btnIncrease = new qx.legacy.ui.form.Button("Increase");
-      var btnDecrease = new qx.legacy.ui.form.Button("Decrease");
-      var btnCombination = new qx.legacy.ui.form.Button("Fade in & increase");
-      var btnPuff = new qx.legacy.ui.form.Button("Puff");
-      var btnMoveAway = new qx.legacy.ui.form.Button("Move away");
-      var btnMoveBack = new qx.legacy.ui.form.Button("Move back");
-      var btnGrow = new qx.legacy.ui.form.Button("Grow");
       var btnShake = new qx.legacy.ui.form.Button("Shake");
-      var btnPulsate = new qx.legacy.ui.form.Button("Pulsate");
-      var btnSwitchOff = new qx.legacy.ui.form.Button("Switch off");
-      var btnFold = new qx.legacy.ui.form.Button("Fold");
-      var btnHigh = new qx.legacy.ui.form.Button("Highlight");
-      var btnAHigh = new qx.legacy.ui.form.Button("Annoying Highlight ;-)");
       var btnColorFlow = new qx.legacy.ui.form.Button("ColorFlow");
-      var btnShrink = new qx.legacy.ui.form.Button("Shrink");
+      var btnPulsate = new qx.legacy.ui.form.Button("Pulsate");
+      vbxAttention.add(btnShake, btnColorFlow, btnPulsate);
+      this._groupBoxes.gbxAttention.add(vbxAttention);
+
+
+      var vbxVanish = new qx.legacy.ui.layout.VerticalBoxLayout();
+      vbxVanish.set({
+        spacing : 5,
+        minWidth : 110
+      });
+
+      var btnPuff = new qx.legacy.ui.form.Button("Puff");
       var btnDropOut = new qx.legacy.ui.form.Button("DropOut");
-      var btnReset = new qx.legacy.ui.form.Button("Reset element");
+      var btnShrink = new qx.legacy.ui.form.Button("Shrink");
+      var btnSwitchOff = new qx.legacy.ui.form.Button("SwitchOff");
+      vbxVanish.add(btnPuff, btnDropOut, btnShrink, btnSwitchOff);
+      this._groupBoxes.gbxVanish.add(vbxVanish);
 
-      cbResetStyle = new qx.legacy.ui.form.CheckBox("Reset element after effect");
-
-      var buttonBar1 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
-        height: "auto",
-        width: "auto",
-        top: 25,
-        left: 25,
-        spacing: 10
-      });
-      buttonBar1.add(btnShow, btnHide, btnIncrease, btnDecrease, btnCombination, btnPuff, btnMoveAway, btnMoveBack, btnGrow, btnShake);
-      buttonBar1.addToDocument();
-
-      var buttonBar2 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
-        height: "auto",
-        width: "auto",
-        top: 60,
-        left: 25,
-        spacing: 10
-      });
-      buttonBar2.add(btnSwitchOff, btnPulsate, btnFold, btnHigh, btnAHigh, btnColorFlow, btnShrink, btnDropOut);
-      buttonBar2.addToDocument();
-
-      var buttonBar3 = new qx.legacy.ui.layout.HorizontalBoxLayout().set({
-        height: "auto",
-        width: "auto",
-        top: 95,
-        left: 25,
-        spacing: 10
-      });
-      buttonBar3.add(cbResetStyle, btnReset);
-      buttonBar3.addToDocument();
-
-      /* Events */
-      btnShow.addListener("execute", function(){
-        animShow.start();
+      var vbxAppear = new qx.legacy.ui.layout.VerticalBoxLayout();
+      vbxAppear.set({
+        spacing : 5,
+        minWidth : 110
       });
 
-      btnShow.addListener("appear", function(){
-        btnShow.focus();
-      });
+      var btnGrow = new qx.legacy.ui.form.Button("Grow");
+      var btnFadeIn = new qx.legacy.ui.form.Button("FadeIn");
+      vbxAppear.add(btnGrow, btnFadeIn);
+      this._groupBoxes.gbxAppear.add(vbxAppear);
 
-      btnHide.addListener("execute", function(){
-        animHide.start();
-      });
+      for(var box in this._groupBoxes)
+      {
+        this._groupBoxes[box].setDimension("auto", "auto");
+        main.add(this._groupBoxes[box]);
+      }
+      
+      doc.add(main)
+      document.body.appendChild(this._demoElement);
+      
+      
+      /* Effects: */
+      
+      var fadeToggle = new qx.fx.effect.core.Fade(this._demoElement);
 
-      btnIncrease.addListener("execute", function(){
-        animIncrease.start();
-      });
+      fadeToggle.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
 
-      btnDecrease.addListener("execute", function(){
-        animDecrease.start();
-      });
+      fadeToggle.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
 
-      btnCombination.addListener("execute", function(){
-        animFadeInWobble.start();
-        animIncreaseSinoidal.start();
-      });
+      btnOpacity.addListener("execute", function(){
+        var status = qx.bom.element.Style.get(this._demoElement, "display");
+        fadeToggle.set({
+          from : (status == "block") ? 1 : 0,
+          to   : (status == "block") ? 0 : 1
+        });
+        fadeToggle.start();
+      }, this);
+      
+      
+      
+      var dimensionsToggle = new qx.fx.effect.core.Scale(this._demoElement);
 
-      btnPuff.addListener("execute", function(){
-        animPuff.start();
-      });
+      dimensionsToggle.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
 
-      btnMoveAway.addListener("execute", function(){
-        animMoveAway.start();
-      });
+      dimensionsToggle.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
 
-      btnMoveBack.addListener("execute", function(){
-        animMoveBack.start();
-      });
+      btnDimensions.addListener("execute", function(){
+        var status = qx.bom.element.Dimension.getWidth(this._demoElement);
+        dimensionsToggle.setScaleTo((status > 200) ? 80 : 120);
+        dimensionsToggle.start();
+      }, this);
+     
+      
+      
+      var positionToggle = new qx.fx.effect.core.Move(this._demoElement);
 
-      btnGrow.addListener("execute", function(){
-        animGrow.start();
-      });
+      positionToggle.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      positionToggle.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnPosition.addListener("execute", function(){
+        var status = qx.bom.element.Location.getLeft(this._demoElement);
+        positionToggle.set({
+          x          : (status < 300) ? 300 : -300,
+          y          : (status < 300) ? 100 : -100,
+          transition : "spring"
+        });
+        positionToggle.start();
+      }, this);
+     
+      
+      
+      var backgroundToggle = new qx.fx.effect.core.Highlight(this._demoElement);
+
+      backgroundToggle.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      backgroundToggle.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnBackground.addListener("execute", function(){
+        var status = qx.bom.element.Style.get(this._demoElement, "backgroundColor");
+        backgroundToggle.set({
+          startColor        : (status == "rgb(19, 66, 117)") ? "#134275" : "#7CFC00",
+          endColor          : (status == "rgb(19, 66, 117)") ? "#7CFC00" : "#134275",
+          restoreBackground : false
+        });
+        backgroundToggle.start();
+      }, this);
+     
+      
+      
+      var shake = new qx.fx.effect.combination.Shake(this._demoElement);
+
+      shake.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      shake.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
 
       btnShake.addListener("execute", function(){
-        animShake.start();
+        shake.start();
       });
+     
+      
+      
+      var colorFlow = new qx.fx.effect.combination.ColorFlow(this._demoElement);
 
-      btnSwitchOff.addListener("execute", function(){
-        animSwitchOff.start();
-      });
+      colorFlow.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
 
-      btnPulsate.addListener("execute", function(){
-        animPulsate.start();
-      });
-
-      btnFold.addListener("execute", function(){
-        animFold.start();
-      });
-
-      btnHigh.addListener("execute", function(){
-        animHigh.start();
-      });
-
-      btnAHigh.addListener("execute", function(){
-        animAHigh.start();
-      });
+      colorFlow.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
 
       btnColorFlow.addListener("execute", function(){
-        animColorFlow.start();
-      });
+        var status = qx.bom.element.Style.get(this._demoElement, "backgroundColor");
+        colorFlow.set({
+          startColor : (status == "rgb(19, 66, 117)") ? "#134275" : "#7CFC00",
+          endColor   : (status == "rgb(19, 66, 117)") ? "#7CFC00" : "#134275"
+        });
+        colorFlow.start();
+      }, this);
+     
+      
+      
+      var pulsate = new qx.fx.effect.combination.Pulsate(this._demoElement);
 
-      btnShrink.addListener("execute", function(){
-        animShrink.start();
+      pulsate.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      pulsate.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnPulsate.addListener("execute", function(){
+        pulsate.start();
       });
+     
+      
+      
+      var puff = new qx.fx.effect.combination.Puff(this._demoElement);
+      puff.setModifyDisplay(false);
+
+      puff.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      puff.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnPuff.addListener("execute", function(){
+        puff.start();
+      });
+     
+      
+      
+      var dropOut = new qx.fx.effect.combination.DropOut(this._demoElement);
+      dropOut.setModifyDisplay(false);
+
+      dropOut.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      dropOut.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
 
       btnDropOut.addListener("execute", function(){
-        animDropOut.start();
+        dropOut.start();
+      });
+     
+      
+      
+      var shrink = new qx.fx.effect.combination.Shrink(this._demoElement);
+      shrink.setModifyDisplay(false);
+
+      shrink.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      shrink.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnShrink.addListener("execute", function(){
+        shrink.start();
+      });
+     
+      
+      
+      var switchoff = new qx.fx.effect.combination.SwitchOff(this._demoElement);
+      switchoff.setModifyDisplay(false);
+
+      switchoff.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      switchoff.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnSwitchOff.addListener("execute", function(){
+        switchoff.start();
+      });
+     
+      
+      
+      var grow = new qx.fx.effect.combination.Grow(this._demoElement);
+
+      grow.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      grow.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnGrow.addListener("execute", function(){
+        grow.start();
+      });
+     
+      
+      
+      var fade = new qx.fx.effect.core.Fade(this._demoElement);
+      fade.set({
+        from : 0,
+        to : 1,
+        modifyDisplay : false
       });
 
+      fade.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
 
-      btnReset.addListener("execute", function(){
-        qx.bom.element.Style.setCss(this._element,  this._elementStyle);
+      fade.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnFadeIn.addListener("execute", function(){
+        fade.start();
       });
 
-      btnReset.setBackgroundColor("#B22222");
     }
 
   }
