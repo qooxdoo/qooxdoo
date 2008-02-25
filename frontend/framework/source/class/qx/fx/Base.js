@@ -107,8 +107,9 @@ qx.Class.define("qx.fx.Base",
       */
      duration :
      {
-       init   : 1.0,
-       check  : "Number"
+       init   : 0.5,
+       check  : "Number",
+       apply : "_applyDuration"
      },
 
      /**
@@ -204,6 +205,8 @@ qx.Class.define("qx.fx.Base",
 
   members :
   {
+    
+    _applyDuration : function(){},
 
     init : function()
     {
@@ -257,7 +260,7 @@ qx.Class.define("qx.fx.Base",
     {
 
       if(this._state == qx.fx.Base.EffectState.RUNNING) {
-        this.end();
+        return;
       }
 
       this.init();
@@ -266,7 +269,7 @@ qx.Class.define("qx.fx.Base",
       this.beforeStart();
 
       if (!this.getSync()) {
-        var queue = this.getQueue(queue).add(this);
+        var queue = this.getQueue().add(this);
       }
 
     },
