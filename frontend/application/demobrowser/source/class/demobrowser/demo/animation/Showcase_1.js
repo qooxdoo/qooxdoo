@@ -50,8 +50,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       this.base(arguments);
       this.compat();
 
-      /* Demo element */
+      /* Demo elements */
       this._demoElement = document.getElementById("testDiv");
+      this._demoImage = document.getElementById("testImg");
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
       
@@ -151,7 +152,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       
       
       
-      var dimensionsToggle = new qx.fx.effect.core.Scale(this._demoElement);
+      var dimensionsToggle = new qx.fx.effect.core.Scale(this._demoImage);
 
       dimensionsToggle.addListener("setup", function(){
         this._toggleEnable();
@@ -162,8 +163,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       }, this);
 
       btnDimensions.addListener("execute", function(){
-        var status = qx.bom.element.Dimension.getWidth(this._demoElement);
-        dimensionsToggle.setScaleTo((status > 200) ? 80 : 120);
+        var status = qx.bom.element.Dimension.getWidth(this._demoImage);
+        dimensionsToggle.setScaleTo((status > 240) ? 80 : 120);
         dimensionsToggle.start();
       }, this);
      
@@ -268,7 +269,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
      
       
       
-      var puff = new qx.fx.effect.combination.Puff(this._demoElement);
+      var puff = new qx.fx.effect.combination.Puff(this._demoImage);
       puff.setModifyDisplay(false);
 
       puff.addListener("setup", function(){
@@ -302,7 +303,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
      
       
       
-      var shrink = new qx.fx.effect.combination.Shrink(this._demoElement);
+      var shrink = new qx.fx.effect.combination.Shrink(this._demoImage);
       shrink.setModifyDisplay(false);
 
       shrink.addListener("setup", function(){
@@ -321,6 +322,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       
       var switchoff = new qx.fx.effect.combination.SwitchOff(this._demoElement);
       switchoff.setModifyDisplay(false);
+      switchoff.setDuration(10)
 
       switchoff.addListener("setup", function(){
         this._toggleEnable();
@@ -336,7 +338,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
      
       
       
-      var grow = new qx.fx.effect.combination.Grow(this._demoElement);
+      var grow = new qx.fx.effect.combination.Grow(this._demoImage);
 
       grow.addListener("setup", function(){
         this._toggleEnable();
