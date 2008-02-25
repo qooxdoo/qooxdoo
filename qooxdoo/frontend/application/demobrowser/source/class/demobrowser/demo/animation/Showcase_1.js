@@ -38,10 +38,10 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
   
     _toggleEnable : function()
     {
-      var status = (this._groupBoxes.gbxBase.getEnabled() === false);
+      var status = (this._vBoxes[0].getEnabled() === false);
 
-      for (var box in this._groupBoxes) {
-        this._groupBoxes[box].setEnabled(status);
+      for (var i=0, l=this._vBoxes.length; i<l; i++) {
+        this._vBoxes[i].setEnabled(status);
       }
     },
   
@@ -55,24 +55,26 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       this._demoImage = document.getElementById("testImg");
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
+      this._vBoxes = [];
       
       /* UI elements: */
       var main = new qx.legacy.ui.layout.VerticalBoxLayout();
       main.setPadding(10);
       main.setWidth(140);
 
-      this._groupBoxes = {
+      var groupBoxes = {
         gbxBase : new qx.legacy.ui.groupbox.GroupBox("Base effects"),
         gbxAttention : new qx.legacy.ui.groupbox.GroupBox("Attention effects"),
         gbxVanish : new qx.legacy.ui.groupbox.GroupBox("Vanish effects"),
         gbxAppear : new qx.legacy.ui.groupbox.GroupBox("Appear effects")
       };
 
-      var vbxBase = new qx.legacy.ui.layout.VerticalBoxLayout();
+      var vbxBase = this.test = new qx.legacy.ui.layout.VerticalBoxLayout();
       vbxBase.set({
         spacing : 5,
-        minWidth : 110
+        minWidth : 120
       });
+      this._vBoxes.push(vbxBase);
 
       var btnOpacity = new qx.legacy.ui.form.Button("Toggle Opacity");
       var btnDimensions = new qx.legacy.ui.form.Button("Toggle Size");
@@ -80,50 +82,53 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       var btnBackground = new qx.legacy.ui.form.Button("Toggle Background");
 
       vbxBase.add(btnOpacity, btnDimensions, btnPosition, btnBackground);
-      this._groupBoxes.gbxBase.add(vbxBase);
+      groupBoxes.gbxBase.add(vbxBase);
 
       
       var vbxAttention = new qx.legacy.ui.layout.VerticalBoxLayout();
       vbxAttention.set({
         spacing : 5,
-        minWidth : 110
+        minWidth : 120
       });
+      this._vBoxes.push(vbxAttention);
 
       var btnShake = new qx.legacy.ui.form.Button("Shake");
       var btnColorFlow = new qx.legacy.ui.form.Button("ColorFlow");
       var btnPulsate = new qx.legacy.ui.form.Button("Pulsate");
       vbxAttention.add(btnShake, btnColorFlow, btnPulsate);
-      this._groupBoxes.gbxAttention.add(vbxAttention);
+      groupBoxes.gbxAttention.add(vbxAttention);
 
 
       var vbxVanish = new qx.legacy.ui.layout.VerticalBoxLayout();
       vbxVanish.set({
         spacing : 5,
-        minWidth : 110
+        minWidth : 120
       });
+      this._vBoxes.push(vbxVanish);
 
       var btnPuff = new qx.legacy.ui.form.Button("Puff");
       var btnDropOut = new qx.legacy.ui.form.Button("DropOut");
       var btnShrink = new qx.legacy.ui.form.Button("Shrink");
       var btnSwitchOff = new qx.legacy.ui.form.Button("SwitchOff");
       vbxVanish.add(btnPuff, btnDropOut, btnShrink, btnSwitchOff);
-      this._groupBoxes.gbxVanish.add(vbxVanish);
+      groupBoxes.gbxVanish.add(vbxVanish);
 
       var vbxAppear = new qx.legacy.ui.layout.VerticalBoxLayout();
       vbxAppear.set({
         spacing : 5,
-        minWidth : 110
+        minWidth : 120
       });
+      this._vBoxes.push(vbxAppear);
 
       var btnGrow = new qx.legacy.ui.form.Button("Grow");
       var btnFadeIn = new qx.legacy.ui.form.Button("FadeIn");
       vbxAppear.add(btnGrow, btnFadeIn);
-      this._groupBoxes.gbxAppear.add(vbxAppear);
+      groupBoxes.gbxAppear.add(vbxAppear);
 
-      for(var box in this._groupBoxes)
+      for(var box in groupBoxes)
       {
-        this._groupBoxes[box].setDimension("auto", "auto");
-        main.add(this._groupBoxes[box]);
+        groupBoxes[box].setDimension("auto", "auto");
+        main.add(groupBoxes[box]);
       }
       
       doc.add(main)
@@ -164,7 +169,10 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       btnDimensions.addListener("execute", function(){
         var status = qx.bom.element.Dimension.getWidth(this._demoImage);
-        dimensionsToggle.setScaleTo((status > 240) ? 80 : 120);
+        dimensionsToggle.set({
+          scaleTo  : ((status > 240) ? 80 : 120),
+          duration : 0.5
+        });
         dimensionsToggle.start();
       }, this);
      
@@ -322,7 +330,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       
       var switchoff = new qx.fx.effect.combination.SwitchOff(this._demoElement);
       switchoff.setModifyDisplay(false);
-      switchoff.setDuration(10)
 
       switchoff.addListener("setup", function(){
         this._toggleEnable();
