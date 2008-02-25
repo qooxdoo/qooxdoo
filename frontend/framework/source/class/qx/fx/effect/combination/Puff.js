@@ -107,15 +107,10 @@ qx.Class.define("qx.fx.effect.combination.Puff",
       this.base(arguments);
 
       var oldStyle = {
-        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width   : qx.bom.element.Dimension.getWidth(this._element),
-        height  : qx.bom.element.Dimension.getHeight(this._element),
-        opacity : qx.bom.element.Style.get(this._element, "opacity")
+        opacity  : qx.bom.element.Style.get(this._element, "opacity")
       };
 
-
-      this._scaleEffect.afterFinishInternal = function(effect)
+      this._fadeEffect.afterFinishInternal = function(effect)
       {
         for (var property in oldStyle) {
           qx.bom.element.Style.set(this._element, property, oldStyle[property]);
@@ -128,7 +123,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
         sync : true,
         scaleFromCenter : true,
         scaleContent : true,
-        restoreAfterFinish : false
+        restoreAfterFinish : true
       });
 
       this._fadeEffect.set({

@@ -102,6 +102,16 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
     {
       init : null,
       check : qx.fx.Transition.allowedNames
+    },
+
+    /**
+     * Flag indicating if the CSS attribute "display"
+     * should be modified by effect
+     */
+    modifyDisplay :
+    {
+      init : true,
+      check : "Boolean"
     }
 
   },
@@ -129,7 +139,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
       for (var property in this._oldStyle) {
         qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
       }
-      qx.bom.element.Style.set(this._element, "display", "none");
+
+      if (this.getModifyDisplay()) {
+        qx.bom.element.Style.set(this._element, "display", "none");
+      }
     },
 
     start : function()
@@ -139,10 +152,12 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
       var moveX, moveY;
 
       this._oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left   : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width  : qx.bom.element.Dimension.getWidth(this._element),
-        height : qx.bom.element.Dimension.getHeight(this._element)
+        top      : qx.bom.element.Location.getTop(this._element, "scroll"),
+        left     : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        width    : qx.bom.element.Dimension.getWidth(this._element),
+        height   : qx.bom.element.Dimension.getHeight(this._element),
+        fontSize : qx.bom.element.Style.get(this._element, "fontSize"),
+        opacity  : qx.bom.element.Style.get(this._element, "opacity")
       };
 
       switch (this.getDirection())

@@ -187,7 +187,7 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
       }
 
       this._moveEffect.set(moveEffectOptions);
-      this._moveEffect.afterFinishInternal = function()
+      this._fadeEffect.afterFinishInternal = function()
       {
         for (var property in oldStyle) {
           qx.bom.element.Style.set(this._element, property, oldStyle[property]);
