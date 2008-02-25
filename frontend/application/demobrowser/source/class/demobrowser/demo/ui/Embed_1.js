@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#use(qx.legacy.theme.ClassicRoyale)
+
+************************************************************************ */
+
 /**
  * This example embeds a 0.8 ui widget into a legacy qooxdoo layout.
  */
@@ -32,8 +38,6 @@ qx.Class.define("demobrowser.demo.ui.Embed_1",
     {
       this.base(arguments);
       this.compat();
-
-      qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
 
       // Create button
       var button1 = new qx.legacy.ui.form.Button("Resize HBox");
