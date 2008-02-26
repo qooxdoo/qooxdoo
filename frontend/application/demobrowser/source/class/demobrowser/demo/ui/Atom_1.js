@@ -41,21 +41,21 @@ qx.Class.define("demobrowser.demo.ui.Atom_1",
 
       doc.add(container, 0, 0);
 
-      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/utilities-file-archiver.png";
-      var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
-      var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
-      var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
+      var img1 = "../../../../../framework/source/resource/icon/tango/48/apps/feed-reader.png";
+      var img2 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-mail.png";
+      var img3 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-web-browser.png";
+      var img4 = "../../../../../framework/source/resource/icon/tango/48/apps/photo-album.png";
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         padding : 5,
         allowGrowY: false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clip, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img2, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         iconPosition : "top",
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.ui.Atom_1",
         allowGrowY: false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img_clock, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img3, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         iconPosition : "right",
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.ui.Atom_1",
         allowGrowY: false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img_date, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img4, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         iconPosition : "bottom",
@@ -79,13 +79,12 @@ qx.Class.define("demobrowser.demo.ui.Atom_1",
         allowGrowY: false
       }));
 
-
-      docLayout.add(at5 = new qx.ui.basic.Atom("Juhu", img_arch, 48, 48).set({
+      docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
         backgroundColor : "gray",
         decorator : border,
         show : "icon",
         padding : 5,
-        allowGrowX: false
+        allowGrowY: false
       }));
     }
   }

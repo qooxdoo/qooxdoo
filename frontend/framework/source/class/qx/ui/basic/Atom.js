@@ -91,20 +91,6 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * Any URI String supported by qx.ui.basic.Image to display a disabled icon.
-     * <p>
-     * If not set the normal icon is shown transparently.
-     */
-    disabledIcon :
-    {
-      check : "String",
-      apply : "_applyDisabledIcon",
-      nullable : true,
-      themeable : true
-    },
-
-
-    /**
      * The space between the icon and the label
      */
     gap :
@@ -162,10 +148,7 @@ qx.Class.define("qx.ui.basic.Atom",
     _handleLabel : function()
     {
       var show = this.getShow();
-      if (
-        this._label &&
-        (show == "both" || show == "label")
-      ) {
+      if (show == "both" || show == "label") {
         this.getLayout().setText(this._label);
       } else {
         this.getLayout().setText(null);
@@ -179,16 +162,9 @@ qx.Class.define("qx.ui.basic.Atom",
     _handleIcon : function()
     {
       var show = this.getShow();
-      if (show == "both" || show == "icon")
-      {
-        if (!this.getEnabled() && this._disabledIcon) {
-          this.getLayout().setIcon(this._disabledIcon);
-        } else {
-          this.getLayout().setIcon(this._icon || this._disabledIcon || null);
-        }
-      }
-      else
-      {
+      if (show == "both" || show == "icon") {
+        this.getLayout().setIcon(this._icon);
+      } else {
         this.getLayout().setIcon(null);
       }
     },
@@ -213,19 +189,6 @@ qx.Class.define("qx.ui.basic.Atom",
         this._icon.setSource(value);
       } else {
         this._icon = new qx.ui.basic.Icon(value);
-      }
-
-      this._handleIcon();
-    },
-
-
-    // property apply
-    _applyDisabledIcon : function(value, old)
-    {
-      if (this._disabledIcon) {
-        this._disabledIcon.setSource(value);
-      } else {
-        this._disabledIcon = new qx.ui.basic.Icon(value);
       }
 
       this._handleIcon();
