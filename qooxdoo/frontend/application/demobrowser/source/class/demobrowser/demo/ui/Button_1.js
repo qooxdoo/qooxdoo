@@ -42,22 +42,33 @@ qx.Class.define("demobrowser.demo.ui.Button_1",
 
       doc.add(container, 0, 0);
 
-      var img1 = "../../../../../framework/source/resource/icon/tango/48/apps/feed-reader.png";
-      var img2 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-mail.png";
-      var img3 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-web-browser.png";
-      var img4 = "../../../../../framework/source/resource/icon/tango/48/apps/photo-album.png";
+      var img1 = "icon/48/apps/feed-reader.png";
+      var img2 = "icon/48/apps/internet-mail.png";
+      var img3 = "icon/48/apps/internet-web-browser.png";
+      var img4 = "icon/48/apps/photo-album.png";
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      docLayout.add(new qx.ui.form.Button("Juhu", img1, 48, 48));
-      docLayout.add(new qx.ui.form.Button("Juhu", img2, 48, 48));
-      docLayout.add(new qx.ui.form.Button("Juhu", img3, 48, 48));
+      var btn1 = new qx.ui.form.Button("Oxygen Icons", img1, 48, 48);
+      docLayout.add(btn1);
+      var btn2 = new qx.ui.form.Button("Tango Icons", img2, 48, 48);
+      docLayout.add(btn2);
+      var btn3 = new qx.ui.form.Button("Juhu", img3, 48, 48);
+      docLayout.add(btn3);
+      var btn4 = new qx.ui.form.RepeatButton("Repeat Button", img4, 48, 48);
+      docLayout.add(btn4);
 
-      var b4 = new qx.ui.form.RepeatButton("Juhu", img4, 48, 48);
-      b4.addListener("execute", function() {
+      btn1.addListener("execute", function() {
+        qx.theme.manager.Icon.getInstance().setTheme(qx.theme.icon.Oxygen);
+      }, this);
+
+      btn2.addListener("execute", function() {
+        qx.theme.manager.Icon.getInstance().setTheme(qx.theme.icon.Tango);
+      }, this);
+
+      btn4.addListener("execute", function() {
         console.log("repeat button execute!");
       });
-      docLayout.add(b4);
     }
   }
 });
