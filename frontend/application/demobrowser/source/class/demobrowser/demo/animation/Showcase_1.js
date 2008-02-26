@@ -95,7 +95,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       var btnShake = new qx.legacy.ui.form.Button("Shake");
       var btnColorFlow = new qx.legacy.ui.form.Button("ColorFlow");
       var btnPulsate = new qx.legacy.ui.form.Button("Pulsate");
-      vbxAttention.add(btnShake, btnColorFlow, btnPulsate);
+      var btnFold = new qx.legacy.ui.form.Button("Fold");
+      vbxAttention.add(btnShake, btnColorFlow, btnPulsate, btnFold);
       groupBoxes.gbxAttention.add(vbxAttention);
 
 
@@ -191,6 +192,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       btnPosition.addListener("execute", function(){
         var status = qx.bom.element.Location.getLeft(this._demoElement);
         positionToggle.set({
+          duration   : 1,
           x          : (status < 300) ? 300 : -300,
           y          : (status < 300) ? 100 : -100,
           transition : "spring"
@@ -371,7 +373,23 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       btnSwitchOff.addListener("execute", function(){
         switchoff.start();
       });
-     
+      
+      
+      
+      var fold = new qx.fx.effect.combination.Fold(this._demoElement);
+      fold.setModifyDisplay(false);
+
+      fold.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      fold.addListener("finish", function(){
+        this._toggleEnable();
+      }, this);
+
+      btnFold.addListener("execute", function(){
+        fold.start();
+      });    
       
       
       var grow = new qx.fx.effect.combination.Grow(this._demoImage);
