@@ -123,13 +123,7 @@ qx.Class.define("qx.io.Alias",
       }
 
       // Update the corresponding objects (which use this alias)
-      for (var key in reg)
-      {
-        entry = reg[key];
-        if (paths[entry.value]) {
-          entry.callback.call(entry.object, dynamics[entry.value] || entry.value);
-        }
-      }
+      this._updateObjects();
     },
 
 

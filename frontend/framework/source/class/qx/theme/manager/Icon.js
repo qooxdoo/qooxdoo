@@ -37,12 +37,12 @@ qx.Class.define("qx.theme.manager.Icon",
   properties :
   {
     /** currently used icon theme */
-    iconTheme :
+    theme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyIconTheme",
-      event : "changeIconTheme"
+      apply : "_applyTheme",
+      event : "changeTheme"
     }
   },
 
@@ -57,7 +57,7 @@ qx.Class.define("qx.theme.manager.Icon",
 
   members :
   {
-    _applyIconTheme : function(value, old)
+    _applyTheme : function(value, old)
     {
       if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncIconTheme();
@@ -72,7 +72,7 @@ qx.Class.define("qx.theme.manager.Icon",
      */
     syncIconTheme : function()
     {
-      var value = this.getIconTheme();
+      var value = this.getTheme();
       var alias = qx.io.Alias.getInstance();
       value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
     }
