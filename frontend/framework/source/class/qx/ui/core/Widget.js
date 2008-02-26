@@ -47,6 +47,7 @@
  *  </pre>
  *
  * @appearance widget
+ * @state disabled Set by {@link qx.core.Object#enabled}
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -639,6 +640,22 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this._parent = parent;
       this.__toggleDisplay();
+    },
+
+
+    /**
+     * Returns all child widgets of the widget's layout.
+     *
+     * @return {Widget[]} The child widgets of the widget's layout.
+     */
+    getChildren : function()
+    {
+      var layout = this.getLayout();
+      if (layout) {
+        return layout.getChildren();
+      } else {
+        return [];
+      }
     },
 
 
@@ -1623,8 +1640,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyEnabled : function(value, old) {
-      // Nothing to do here, may be overridden
+    _applyEnabled : function(value, old)
+    {
+      if (value===false) {
+        this.addState("disabled");
+      } else {
+        this.removeState("disabled");
+      }
     },
 
 
