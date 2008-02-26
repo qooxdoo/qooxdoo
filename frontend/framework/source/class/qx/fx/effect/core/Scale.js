@@ -35,7 +35,6 @@
 ************************************************************************ */
 
 /**
- * Core effect "Scale"
  * This effect scales the specified element (and its content, optionally)
  * by given percentages.
  */
@@ -96,7 +95,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
      */
     scaleFrom :
     {
-      init : 100,
+      init : 100.0,
       check : "Number"
     },
 
@@ -105,7 +104,8 @@ qx.Class.define("qx.fx.effect.core.Scale",
      */
     scaleTo :
     {
-      init : 100
+      init : 100,
+      check : "Number"
     },
 
     /**
@@ -116,6 +116,14 @@ qx.Class.define("qx.fx.effect.core.Scale",
     {
       init : false,
       check : "Boolean"
+    },
+
+    /**
+     * Array containing sizes which will instead of element's dimensions, if filled.
+     */
+    alternateDimensions : {
+      init : [],
+      check : "Array"
     }
 
   },
@@ -179,17 +187,14 @@ qx.Class.define("qx.fx.effect.core.Scale",
         }
       }
 
-      var dims = this.getScaleTo();
-      if(typeof(dims) == "Number")
-      {
-        this._factor = (this.getScaleFrom()- this.getScaleTo()) / 100;
-        this._dims = [this._element.offsetHeight, this._element.offsetWidth];
-      }
-      else
-      {
-        this._factor = this._element.offsetWidth - dims[0] / 100;
+      this._factor = (this.getScaleTo() - this.getScaleFrom()) / 100;
+
+      var dims = this.getAlternateDimensions();
+
+      if (dims.length == 0) {
+        this._dims = [this._element.offsetWidth, this._element.offsetHeight];
+      } else {
         this._dims = dims;
-        console.info(this._factor, this._dims)
       }
 
     },
@@ -220,7 +225,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
      }
    },
 
-   _setDimensions : function(height, width)
+   _setDimensions : function(width, height)
    {
 
      var d = { };
@@ -238,8 +243,8 @@ qx.Class.define("qx.fx.effect.core.Scale",
      if (this.getScaleFromCenter())
      {
 
-       var topd  = (height - this._dims[0]) / 2;
-       var leftd = (width  - this._dims[1]) / 2;
+       var leftd = (width  - this._dims[0]) / 2;
+       var topd  = (height - this._dims[1]) / 2;
 
        if (this._elementPositioning == "absolute")
        {
