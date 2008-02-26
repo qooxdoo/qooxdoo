@@ -103,6 +103,15 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     },
 
     /**
+     * String indicating if element should drop in or out
+     */
+    mode :
+    {
+      init : "out",
+      check : [ "in", "out" ]
+    },
+    
+    /**
      * Flag indicating if the CSS attribute "display"
      * should be modified by effect
      */
@@ -195,10 +204,10 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
       };
 
       this._fadeEffect.set({
-        duration : 0.5,
-        sync : true,
-        to : 0,
-        from : oldStyle.opacity,
+        duration      : 0.5,
+        sync          : true,
+        to            : (this.getMode() == "out") ? 0 : 1,
+        from          : (this.getMode() == "out") ? 1 : 0,
         modifyDisplay : this.getModifyDisplay()
       });
 
