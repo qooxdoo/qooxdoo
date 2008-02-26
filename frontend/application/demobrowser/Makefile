@@ -75,7 +75,7 @@ build:
 	@echo "  * Generating Jobs Database"
 	@tool/genjson.sh build/script
 	@echo "  * Generating $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
-	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_BUILD_PATH)/demo
+	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
 	@$(CMD_PYTHON) ../../tool/generator.py -c demo.json -j build
 
 clean:
