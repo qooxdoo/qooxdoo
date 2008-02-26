@@ -96,6 +96,10 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onmouseover : function(e)
     {
+      if (!qx.dom.Hierarchy.contains(this._containerElement.getDomElement(), e.getDomTarget())) {
+        return;
+      }
+
       if (this.hasState("abandoned"))
       {
         this.removeState("abandoned");
@@ -119,14 +123,13 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onmouseout : function(e)
     {
+      if (!qx.dom.Hierarchy.contains(this._containerElement.getDomElement(), e.getDomTarget())) {
+        return;
+      }
       this.removeState("over");
 
       if (this.hasState("pressed"))
       {
-        // Activate capturing if the button get a mouseout while
-        // the button is pressed.
-        this.capture();
-
         this.removeState("pressed");
         this.addState("abandoned");
       }
@@ -149,6 +152,11 @@ qx.Class.define("qx.ui.form.Button",
       if (!e.isLeftPressed()) {
         return;
       }
+
+      // Activate capturing if the button get a mouseout while
+      // the button is pressed.
+      this.capture();
+
       this.removeState("abandoned");
       this.addState("pressed");
     },
