@@ -1595,7 +1595,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (color) {
         this._containerElement.setStyle("color", color);
       } else {
-        this._containerElement.resetStyle("color");
+        this._containerElement.removeStyle("color");
       }
     },
 

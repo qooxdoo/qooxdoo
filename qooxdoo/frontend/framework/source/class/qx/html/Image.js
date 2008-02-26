@@ -18,18 +18,14 @@ qx.Class.define("qx.html.Image",
     },
 
 
-    /**
-     * Internal helper to generate the DOM element
-     *
-     * @type member
-     */
+    // overridden
     _createDomElement : function()
     {
       this._element = qx.bom.Image.create(this._source);
       this._element.QxElement = this;
     },
 
-
+    // overridden
     _copyData : function()
     {
       this.base(arguments);
@@ -41,6 +37,7 @@ qx.Class.define("qx.html.Image",
       }
     },
 
+    // overridden
     _syncData : function()
     {
       this.base(arguments);

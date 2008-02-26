@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.ui.Icon_1",
       // toggle button
       var enable = false;
       var btn = new qx.ui.form.Button("Toggle enabled");
-      btn.addListener("click", function()
+      btn.addListener("execute", function()
       {
         container.setEnabled(enable);
         enable = !enable;
