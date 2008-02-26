@@ -54,7 +54,8 @@
       "file" : "build/script/demobrowser.demo.animation.Scroll_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.animation.Showcase_1" :
@@ -112,7 +113,8 @@
       "file" : "build/script/demobrowser.demo.animation.Showcase_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.animation.Transition_1" :
@@ -170,7 +172,8 @@
       "file" : "build/script/demobrowser.demo.animation.Transition_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.animation.Transition_2" :
@@ -228,7 +231,8 @@
       "file" : "build/script/demobrowser.demo.animation.Transition_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.AttributeStyle_1" :
@@ -286,7 +290,8 @@
       "file" : "build/script/demobrowser.demo.bom.AttributeStyle_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.AttributeStyle_2" :
@@ -344,7 +349,8 @@
       "file" : "build/script/demobrowser.demo.bom.AttributeStyle_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Clip_1" :
@@ -402,7 +408,8 @@
       "file" : "build/script/demobrowser.demo.bom.Clip_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Event_1" :
@@ -460,7 +467,8 @@
       "file" : "build/script/demobrowser.demo.bom.Event_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Event_2" :
@@ -518,7 +526,8 @@
       "file" : "build/script/demobrowser.demo.bom.Event_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Flash_1" :
@@ -576,7 +585,8 @@
       "file" : "build/script/demobrowser.demo.bom.Flash_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Focus_1" :
@@ -634,7 +644,8 @@
       "file" : "build/script/demobrowser.demo.bom.Focus_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Iframe_1" :
@@ -692,7 +703,8 @@
       "file" : "build/script/demobrowser.demo.bom.Iframe_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Input_1" :
@@ -750,7 +762,8 @@
       "file" : "build/script/demobrowser.demo.bom.Input_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.KeyEvent_1" :
@@ -808,7 +821,8 @@
       "file" : "build/script/demobrowser.demo.bom.KeyEvent_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Label_1" :
@@ -866,7 +880,8 @@
       "file" : "build/script/demobrowser.demo.bom.Label_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Location_1" :
@@ -924,7 +939,8 @@
       "file" : "build/script/demobrowser.demo.bom.Location_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Location_1_std" :
@@ -982,7 +998,8 @@
       "file" : "build/script/demobrowser.demo.bom.Location_1_std.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.MouseEvent_1" :
@@ -1040,7 +1057,8 @@
       "file" : "build/script/demobrowser.demo.bom.MouseEvent_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.Overflow_1" :
@@ -1098,7 +1116,8 @@
       "file" : "build/script/demobrowser.demo.bom.Overflow_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.ScrollIntoView_1" :
@@ -1156,7 +1175,8 @@
       "file" : "build/script/demobrowser.demo.bom.ScrollIntoView_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.ViewportDocument_1" :
@@ -1214,7 +1234,8 @@
       "file" : "build/script/demobrowser.demo.bom.ViewportDocument_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.bom.ViewportDocument_1_std" :
@@ -1272,7 +1293,8 @@
       "file" : "build/script/demobrowser.demo.bom.ViewportDocument_1_std.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.html.Element_1" :
@@ -1330,7 +1352,8 @@
       "file" : "build/script/demobrowser.demo.html.Element_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.html.Element_2" :
@@ -1388,7 +1411,8 @@
       "file" : "build/script/demobrowser.demo.html.Element_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.html.Element_3" :
@@ -1446,7 +1470,8 @@
       "file" : "build/script/demobrowser.demo.html.Element_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.html.Element_4" :
@@ -1504,7 +1529,8 @@
       "file" : "build/script/demobrowser.demo.html.Element_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.html.Element_5" :
@@ -1562,7 +1588,8 @@
       "file" : "build/script/demobrowser.demo.html.Element_5.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ApplicationRoot_1" :
@@ -1620,7 +1647,8 @@
       "file" : "build/script/demobrowser.demo.ui.ApplicationRoot_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Atom_1" :
@@ -1678,7 +1706,8 @@
       "file" : "build/script/demobrowser.demo.ui.Atom_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.BasicLayout_1" :
@@ -1736,7 +1765,8 @@
       "file" : "build/script/demobrowser.demo.ui.BasicLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.BasicLayout_2" :
@@ -1794,7 +1824,67 @@
       "file" : "build/script/demobrowser.demo.ui.BasicLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
+  }
+,
+
+
+  "common-demobrowser.demo.ui.Button_1" :
+  {
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path" : "../../framework/source",
+        "uri" : "../../../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "source",
+        "uri" : "../.."
+      }
+    ],
+
+    "include" : ["demobrowser.demo.ui.Button_1"],
+
+    "cache" :
+    {
+      "path" : "../../cache"
+    },
+
+    "settings" :
+    {
+      "qx.application" : "demobrowser.demo.ui.Button_1"
+    }
   },
+
+  "source-demobrowser.demo.ui.Button_1" :
+  {
+    "extend" : ["common-demobrowser.demo.ui.Button_1"],
+
+    "source" :
+    {
+      "file" : "source/script/demobrowser.demo.ui.Button_1.js"
+    }
+  },
+
+  "build-demobrowser.demo.ui.Button_1" :
+  {
+    "extend" : ["common-demobrowser.demo.ui.Button_1"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "build/script/demobrowser.demo.ui.Button_1.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }
+  }
+,
 
 
   "common-demobrowser.demo.ui.CanvasLayout_1" :
@@ -1852,7 +1942,8 @@
       "file" : "build/script/demobrowser.demo.ui.CanvasLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.CanvasLayout_2" :
@@ -1910,7 +2001,8 @@
       "file" : "build/script/demobrowser.demo.ui.CanvasLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.CanvasLayout_3" :
@@ -1968,7 +2060,8 @@
       "file" : "build/script/demobrowser.demo.ui.CanvasLayout_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.CanvasLayout_4" :
@@ -2026,7 +2119,8 @@
       "file" : "build/script/demobrowser.demo.ui.CanvasLayout_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ChildrenHandling_1" :
@@ -2084,7 +2178,8 @@
       "file" : "build/script/demobrowser.demo.ui.ChildrenHandling_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Cursor_1" :
@@ -2142,7 +2237,8 @@
       "file" : "build/script/demobrowser.demo.ui.Cursor_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Decoration_1" :
@@ -2200,7 +2296,8 @@
       "file" : "build/script/demobrowser.demo.ui.Decoration_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Decoration_2" :
@@ -2258,7 +2355,8 @@
       "file" : "build/script/demobrowser.demo.ui.Decoration_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Decoration_3" :
@@ -2316,7 +2414,8 @@
       "file" : "build/script/demobrowser.demo.ui.Decoration_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Dialog_1" :
@@ -2374,7 +2473,8 @@
       "file" : "build/script/demobrowser.demo.ui.Dialog_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Dialog_2" :
@@ -2432,7 +2532,8 @@
       "file" : "build/script/demobrowser.demo.ui.Dialog_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.DockLayout_1" :
@@ -2490,7 +2591,8 @@
       "file" : "build/script/demobrowser.demo.ui.DockLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.DockLayout_2" :
@@ -2548,7 +2650,8 @@
       "file" : "build/script/demobrowser.demo.ui.DockLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.DockLayout_3" :
@@ -2606,7 +2709,8 @@
       "file" : "build/script/demobrowser.demo.ui.DockLayout_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.DockLayout_4" :
@@ -2664,7 +2768,8 @@
       "file" : "build/script/demobrowser.demo.ui.DockLayout_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.DockLayout_5" :
@@ -2722,7 +2827,8 @@
       "file" : "build/script/demobrowser.demo.ui.DockLayout_5.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Embed_1" :
@@ -2780,7 +2886,8 @@
       "file" : "build/script/demobrowser.demo.ui.Embed_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Embed_2" :
@@ -2838,7 +2945,8 @@
       "file" : "build/script/demobrowser.demo.ui.Embed_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.GridLayout_1" :
@@ -2896,7 +3004,8 @@
       "file" : "build/script/demobrowser.demo.ui.GridLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.GridLayout_2" :
@@ -2954,7 +3063,8 @@
       "file" : "build/script/demobrowser.demo.ui.GridLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.GridLayout_3" :
@@ -3012,7 +3122,8 @@
       "file" : "build/script/demobrowser.demo.ui.GridLayout_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.GridLayout_4" :
@@ -3070,7 +3181,8 @@
       "file" : "build/script/demobrowser.demo.ui.GridLayout_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.GridLayout_5" :
@@ -3128,7 +3240,8 @@
       "file" : "build/script/demobrowser.demo.ui.GridLayout_5.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_1" :
@@ -3186,7 +3299,8 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_2" :
@@ -3244,7 +3358,8 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_3" :
@@ -3302,7 +3417,8 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_4" :
@@ -3360,7 +3476,8 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_5" :
@@ -3418,7 +3535,8 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_5.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_6" :
@@ -3476,7 +3594,8 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_6.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.HBoxLayout_7" :
@@ -3534,7 +3653,67 @@
       "file" : "build/script/demobrowser.demo.ui.HBoxLayout_7.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
+  }
+,
+
+
+  "common-demobrowser.demo.ui.Icon_1" :
+  {
+    "library" :
+    [
+      {
+        "encoding" : "utf-8",
+        "path" : "../../framework/source",
+        "uri" : "../../../../../framework/source"
+      },
+
+      {
+        "encoding" : "utf-8",
+        "path" : "source",
+        "uri" : "../.."
+      }
+    ],
+
+    "include" : ["demobrowser.demo.ui.Icon_1"],
+
+    "cache" :
+    {
+      "path" : "../../cache"
+    },
+
+    "settings" :
+    {
+      "qx.application" : "demobrowser.demo.ui.Icon_1"
+    }
   },
+
+  "source-demobrowser.demo.ui.Icon_1" :
+  {
+    "extend" : ["common-demobrowser.demo.ui.Icon_1"],
+
+    "source" :
+    {
+      "file" : "source/script/demobrowser.demo.ui.Icon_1.js"
+    }
+  },
+
+  "build-demobrowser.demo.ui.Icon_1" :
+  {
+    "extend" : ["common-demobrowser.demo.ui.Icon_1"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"]
+    },
+
+    "compile" :
+    {
+      "file" : "build/script/demobrowser.demo.ui.Icon_1.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }
+  }
+,
 
 
   "common-demobrowser.demo.ui.Image_1" :
@@ -3592,7 +3771,8 @@
       "file" : "build/script/demobrowser.demo.ui.Image_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.InlineRoot_1" :
@@ -3650,7 +3830,8 @@
       "file" : "build/script/demobrowser.demo.ui.InlineRoot_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Label_1" :
@@ -3708,7 +3889,8 @@
       "file" : "build/script/demobrowser.demo.ui.Label_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Label_2" :
@@ -3766,7 +3948,8 @@
       "file" : "build/script/demobrowser.demo.ui.Label_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.MenuEmu_1" :
@@ -3824,7 +4007,8 @@
       "file" : "build/script/demobrowser.demo.ui.MenuEmu_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Opacity_1" :
@@ -3882,7 +4066,8 @@
       "file" : "build/script/demobrowser.demo.ui.Opacity_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.PageRoot_1" :
@@ -3940,7 +4125,8 @@
       "file" : "build/script/demobrowser.demo.ui.PageRoot_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ResizeEvent_1" :
@@ -3998,7 +4184,8 @@
       "file" : "build/script/demobrowser.demo.ui.ResizeEvent_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ScrollArea_1" :
@@ -4056,7 +4243,8 @@
       "file" : "build/script/demobrowser.demo.ui.ScrollArea_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ScrollArea_2" :
@@ -4114,7 +4302,8 @@
       "file" : "build/script/demobrowser.demo.ui.ScrollArea_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ScrollArea_3" :
@@ -4172,7 +4361,8 @@
       "file" : "build/script/demobrowser.demo.ui.ScrollArea_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ScrollArea_4" :
@@ -4230,7 +4420,8 @@
       "file" : "build/script/demobrowser.demo.ui.ScrollArea_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Scrollbar_1" :
@@ -4288,7 +4479,8 @@
       "file" : "build/script/demobrowser.demo.ui.Scrollbar_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.SlideBar_1" :
@@ -4346,7 +4538,8 @@
       "file" : "build/script/demobrowser.demo.ui.SlideBar_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Spacer_1" :
@@ -4404,7 +4597,8 @@
       "file" : "build/script/demobrowser.demo.ui.Spacer_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Spacer_2" :
@@ -4462,7 +4656,8 @@
       "file" : "build/script/demobrowser.demo.ui.Spacer_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.StackLayout_1" :
@@ -4520,7 +4715,8 @@
       "file" : "build/script/demobrowser.demo.ui.StackLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.StackLayout_2" :
@@ -4578,7 +4774,8 @@
       "file" : "build/script/demobrowser.demo.ui.StackLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.Stress_1" :
@@ -4636,7 +4833,8 @@
       "file" : "build/script/demobrowser.demo.ui.Stress_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.ToolbarEmu_1" :
@@ -4694,7 +4892,8 @@
       "file" : "build/script/demobrowser.demo.ui.ToolbarEmu_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.VBoxLayout_1" :
@@ -4752,7 +4951,8 @@
       "file" : "build/script/demobrowser.demo.ui.VBoxLayout_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.VBoxLayout_2" :
@@ -4810,7 +5010,8 @@
       "file" : "build/script/demobrowser.demo.ui.VBoxLayout_2.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.VBoxLayout_3" :
@@ -4868,7 +5069,8 @@
       "file" : "build/script/demobrowser.demo.ui.VBoxLayout_3.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.VBoxLayout_4" :
@@ -4926,7 +5128,8 @@
       "file" : "build/script/demobrowser.demo.ui.VBoxLayout_4.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.VBoxLayout_5" :
@@ -4984,7 +5187,8 @@
       "file" : "build/script/demobrowser.demo.ui.VBoxLayout_5.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.VBoxLayout_6" :
@@ -5042,7 +5246,8 @@
       "file" : "build/script/demobrowser.demo.ui.VBoxLayout_6.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "common-demobrowser.demo.ui.WidgetEvent_1" :
@@ -5100,17 +5305,18 @@
       "file" : "build/script/demobrowser.demo.ui.WidgetEvent_1.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
-  },
+  }
+,
 
 
   "source" : {
     "run" : [
-      "source-demobrowser.demo.animation.Scroll_1", "source-demobrowser.demo.animation.Showcase_1", "source-demobrowser.demo.animation.Transition_1", "source-demobrowser.demo.animation.Transition_2", "source-demobrowser.demo.bom.AttributeStyle_1", "source-demobrowser.demo.bom.AttributeStyle_2", "source-demobrowser.demo.bom.Clip_1", "source-demobrowser.demo.bom.Event_1", "source-demobrowser.demo.bom.Event_2", "source-demobrowser.demo.bom.Flash_1", "source-demobrowser.demo.bom.Focus_1", "source-demobrowser.demo.bom.Iframe_1", "source-demobrowser.demo.bom.Input_1", "source-demobrowser.demo.bom.KeyEvent_1", "source-demobrowser.demo.bom.Label_1", "source-demobrowser.demo.bom.Location_1", "source-demobrowser.demo.bom.Location_1_std", "source-demobrowser.demo.bom.MouseEvent_1", "source-demobrowser.demo.bom.Overflow_1", "source-demobrowser.demo.bom.ScrollIntoView_1", "source-demobrowser.demo.bom.ViewportDocument_1", "source-demobrowser.demo.bom.ViewportDocument_1_std", "source-demobrowser.demo.html.Element_1", "source-demobrowser.demo.html.Element_2", "source-demobrowser.demo.html.Element_3", "source-demobrowser.demo.html.Element_4", "source-demobrowser.demo.html.Element_5", "source-demobrowser.demo.ui.ApplicationRoot_1", "source-demobrowser.demo.ui.Atom_1", "source-demobrowser.demo.ui.BasicLayout_1", "source-demobrowser.demo.ui.BasicLayout_2", "source-demobrowser.demo.ui.CanvasLayout_1", "source-demobrowser.demo.ui.CanvasLayout_2", "source-demobrowser.demo.ui.CanvasLayout_3", "source-demobrowser.demo.ui.CanvasLayout_4", "source-demobrowser.demo.ui.ChildrenHandling_1", "source-demobrowser.demo.ui.Cursor_1", "source-demobrowser.demo.ui.Decoration_1", "source-demobrowser.demo.ui.Decoration_2", "source-demobrowser.demo.ui.Decoration_3", "source-demobrowser.demo.ui.Dialog_1", "source-demobrowser.demo.ui.Dialog_2", "source-demobrowser.demo.ui.DockLayout_1", "source-demobrowser.demo.ui.DockLayout_2", "source-demobrowser.demo.ui.DockLayout_3", "source-demobrowser.demo.ui.DockLayout_4", "source-demobrowser.demo.ui.DockLayout_5", "source-demobrowser.demo.ui.Embed_1", "source-demobrowser.demo.ui.Embed_2", "source-demobrowser.demo.ui.GridLayout_1", "source-demobrowser.demo.ui.GridLayout_2", "source-demobrowser.demo.ui.GridLayout_3", "source-demobrowser.demo.ui.GridLayout_4", "source-demobrowser.demo.ui.GridLayout_5", "source-demobrowser.demo.ui.HBoxLayout_1", "source-demobrowser.demo.ui.HBoxLayout_2", "source-demobrowser.demo.ui.HBoxLayout_3", "source-demobrowser.demo.ui.HBoxLayout_4", "source-demobrowser.demo.ui.HBoxLayout_5", "source-demobrowser.demo.ui.HBoxLayout_6", "source-demobrowser.demo.ui.HBoxLayout_7", "source-demobrowser.demo.ui.Image_1", "source-demobrowser.demo.ui.InlineRoot_1", "source-demobrowser.demo.ui.Label_1", "source-demobrowser.demo.ui.Label_2", "source-demobrowser.demo.ui.MenuEmu_1", "source-demobrowser.demo.ui.Opacity_1", "source-demobrowser.demo.ui.PageRoot_1", "source-demobrowser.demo.ui.ResizeEvent_1", "source-demobrowser.demo.ui.ScrollArea_1", "source-demobrowser.demo.ui.ScrollArea_2", "source-demobrowser.demo.ui.ScrollArea_3", "source-demobrowser.demo.ui.ScrollArea_4", "source-demobrowser.demo.ui.Scrollbar_1", "source-demobrowser.demo.ui.SlideBar_1", "source-demobrowser.demo.ui.Spacer_1", "source-demobrowser.demo.ui.Spacer_2", "source-demobrowser.demo.ui.StackLayout_1", "source-demobrowser.demo.ui.StackLayout_2", "source-demobrowser.demo.ui.Stress_1", "source-demobrowser.demo.ui.ToolbarEmu_1", "source-demobrowser.demo.ui.VBoxLayout_1", "source-demobrowser.demo.ui.VBoxLayout_2", "source-demobrowser.demo.ui.VBoxLayout_3", "source-demobrowser.demo.ui.VBoxLayout_4", "source-demobrowser.demo.ui.VBoxLayout_5", "source-demobrowser.demo.ui.VBoxLayout_6", "source-demobrowser.demo.ui.WidgetEvent_1"]
+      "source-demobrowser.demo.animation.Scroll_1", "source-demobrowser.demo.animation.Showcase_1", "source-demobrowser.demo.animation.Transition_1", "source-demobrowser.demo.animation.Transition_2", "source-demobrowser.demo.bom.AttributeStyle_1", "source-demobrowser.demo.bom.AttributeStyle_2", "source-demobrowser.demo.bom.Clip_1", "source-demobrowser.demo.bom.Event_1", "source-demobrowser.demo.bom.Event_2", "source-demobrowser.demo.bom.Flash_1", "source-demobrowser.demo.bom.Focus_1", "source-demobrowser.demo.bom.Iframe_1", "source-demobrowser.demo.bom.Input_1", "source-demobrowser.demo.bom.KeyEvent_1", "source-demobrowser.demo.bom.Label_1", "source-demobrowser.demo.bom.Location_1", "source-demobrowser.demo.bom.Location_1_std", "source-demobrowser.demo.bom.MouseEvent_1", "source-demobrowser.demo.bom.Overflow_1", "source-demobrowser.demo.bom.ScrollIntoView_1", "source-demobrowser.demo.bom.ViewportDocument_1", "source-demobrowser.demo.bom.ViewportDocument_1_std", "source-demobrowser.demo.html.Element_1", "source-demobrowser.demo.html.Element_2", "source-demobrowser.demo.html.Element_3", "source-demobrowser.demo.html.Element_4", "source-demobrowser.demo.html.Element_5", "source-demobrowser.demo.ui.ApplicationRoot_1", "source-demobrowser.demo.ui.Atom_1", "source-demobrowser.demo.ui.BasicLayout_1", "source-demobrowser.demo.ui.BasicLayout_2", "source-demobrowser.demo.ui.Button_1", "source-demobrowser.demo.ui.CanvasLayout_1", "source-demobrowser.demo.ui.CanvasLayout_2", "source-demobrowser.demo.ui.CanvasLayout_3", "source-demobrowser.demo.ui.CanvasLayout_4", "source-demobrowser.demo.ui.ChildrenHandling_1", "source-demobrowser.demo.ui.Cursor_1", "source-demobrowser.demo.ui.Decoration_1", "source-demobrowser.demo.ui.Decoration_2", "source-demobrowser.demo.ui.Decoration_3", "source-demobrowser.demo.ui.Dialog_1", "source-demobrowser.demo.ui.Dialog_2", "source-demobrowser.demo.ui.DockLayout_1", "source-demobrowser.demo.ui.DockLayout_2", "source-demobrowser.demo.ui.DockLayout_3", "source-demobrowser.demo.ui.DockLayout_4", "source-demobrowser.demo.ui.DockLayout_5", "source-demobrowser.demo.ui.Embed_1", "source-demobrowser.demo.ui.Embed_2", "source-demobrowser.demo.ui.GridLayout_1", "source-demobrowser.demo.ui.GridLayout_2", "source-demobrowser.demo.ui.GridLayout_3", "source-demobrowser.demo.ui.GridLayout_4", "source-demobrowser.demo.ui.GridLayout_5", "source-demobrowser.demo.ui.HBoxLayout_1", "source-demobrowser.demo.ui.HBoxLayout_2", "source-demobrowser.demo.ui.HBoxLayout_3", "source-demobrowser.demo.ui.HBoxLayout_4", "source-demobrowser.demo.ui.HBoxLayout_5", "source-demobrowser.demo.ui.HBoxLayout_6", "source-demobrowser.demo.ui.HBoxLayout_7", "source-demobrowser.demo.ui.Icon_1", "source-demobrowser.demo.ui.Image_1", "source-demobrowser.demo.ui.InlineRoot_1", "source-demobrowser.demo.ui.Label_1", "source-demobrowser.demo.ui.Label_2", "source-demobrowser.demo.ui.MenuEmu_1", "source-demobrowser.demo.ui.Opacity_1", "source-demobrowser.demo.ui.PageRoot_1", "source-demobrowser.demo.ui.ResizeEvent_1", "source-demobrowser.demo.ui.ScrollArea_1", "source-demobrowser.demo.ui.ScrollArea_2", "source-demobrowser.demo.ui.ScrollArea_3", "source-demobrowser.demo.ui.ScrollArea_4", "source-demobrowser.demo.ui.Scrollbar_1", "source-demobrowser.demo.ui.SlideBar_1", "source-demobrowser.demo.ui.Spacer_1", "source-demobrowser.demo.ui.Spacer_2", "source-demobrowser.demo.ui.StackLayout_1", "source-demobrowser.demo.ui.StackLayout_2", "source-demobrowser.demo.ui.Stress_1", "source-demobrowser.demo.ui.ToolbarEmu_1", "source-demobrowser.demo.ui.VBoxLayout_1", "source-demobrowser.demo.ui.VBoxLayout_2", "source-demobrowser.demo.ui.VBoxLayout_3", "source-demobrowser.demo.ui.VBoxLayout_4", "source-demobrowser.demo.ui.VBoxLayout_5", "source-demobrowser.demo.ui.VBoxLayout_6", "source-demobrowser.demo.ui.WidgetEvent_1"]
   },
 
 
   "build" : {
     "run" : [
-      "build-demobrowser.demo.animation.Scroll_1", "build-demobrowser.demo.animation.Showcase_1", "build-demobrowser.demo.animation.Transition_1", "build-demobrowser.demo.animation.Transition_2", "build-demobrowser.demo.bom.AttributeStyle_1", "build-demobrowser.demo.bom.AttributeStyle_2", "build-demobrowser.demo.bom.Clip_1", "build-demobrowser.demo.bom.Event_1", "build-demobrowser.demo.bom.Event_2", "build-demobrowser.demo.bom.Flash_1", "build-demobrowser.demo.bom.Focus_1", "build-demobrowser.demo.bom.Iframe_1", "build-demobrowser.demo.bom.Input_1", "build-demobrowser.demo.bom.KeyEvent_1", "build-demobrowser.demo.bom.Label_1", "build-demobrowser.demo.bom.Location_1", "build-demobrowser.demo.bom.Location_1_std", "build-demobrowser.demo.bom.MouseEvent_1", "build-demobrowser.demo.bom.Overflow_1", "build-demobrowser.demo.bom.ScrollIntoView_1", "build-demobrowser.demo.bom.ViewportDocument_1", "build-demobrowser.demo.bom.ViewportDocument_1_std", "build-demobrowser.demo.html.Element_1", "build-demobrowser.demo.html.Element_2", "build-demobrowser.demo.html.Element_3", "build-demobrowser.demo.html.Element_4", "build-demobrowser.demo.html.Element_5", "build-demobrowser.demo.ui.ApplicationRoot_1", "build-demobrowser.demo.ui.Atom_1", "build-demobrowser.demo.ui.BasicLayout_1", "build-demobrowser.demo.ui.BasicLayout_2", "build-demobrowser.demo.ui.CanvasLayout_1", "build-demobrowser.demo.ui.CanvasLayout_2", "build-demobrowser.demo.ui.CanvasLayout_3", "build-demobrowser.demo.ui.CanvasLayout_4", "build-demobrowser.demo.ui.ChildrenHandling_1", "build-demobrowser.demo.ui.Cursor_1", "build-demobrowser.demo.ui.Decoration_1", "build-demobrowser.demo.ui.Decoration_2", "build-demobrowser.demo.ui.Decoration_3", "build-demobrowser.demo.ui.Dialog_1", "build-demobrowser.demo.ui.Dialog_2", "build-demobrowser.demo.ui.DockLayout_1", "build-demobrowser.demo.ui.DockLayout_2", "build-demobrowser.demo.ui.DockLayout_3", "build-demobrowser.demo.ui.DockLayout_4", "build-demobrowser.demo.ui.DockLayout_5", "build-demobrowser.demo.ui.Embed_1", "build-demobrowser.demo.ui.Embed_2", "build-demobrowser.demo.ui.GridLayout_1", "build-demobrowser.demo.ui.GridLayout_2", "build-demobrowser.demo.ui.GridLayout_3", "build-demobrowser.demo.ui.GridLayout_4", "build-demobrowser.demo.ui.GridLayout_5", "build-demobrowser.demo.ui.HBoxLayout_1", "build-demobrowser.demo.ui.HBoxLayout_2", "build-demobrowser.demo.ui.HBoxLayout_3", "build-demobrowser.demo.ui.HBoxLayout_4", "build-demobrowser.demo.ui.HBoxLayout_5", "build-demobrowser.demo.ui.HBoxLayout_6", "build-demobrowser.demo.ui.HBoxLayout_7", "build-demobrowser.demo.ui.Image_1", "build-demobrowser.demo.ui.InlineRoot_1", "build-demobrowser.demo.ui.Label_1", "build-demobrowser.demo.ui.Label_2", "build-demobrowser.demo.ui.MenuEmu_1", "build-demobrowser.demo.ui.Opacity_1", "build-demobrowser.demo.ui.PageRoot_1", "build-demobrowser.demo.ui.ResizeEvent_1", "build-demobrowser.demo.ui.ScrollArea_1", "build-demobrowser.demo.ui.ScrollArea_2", "build-demobrowser.demo.ui.ScrollArea_3", "build-demobrowser.demo.ui.ScrollArea_4", "build-demobrowser.demo.ui.Scrollbar_1", "build-demobrowser.demo.ui.SlideBar_1", "build-demobrowser.demo.ui.Spacer_1", "build-demobrowser.demo.ui.Spacer_2", "build-demobrowser.demo.ui.StackLayout_1", "build-demobrowser.demo.ui.StackLayout_2", "build-demobrowser.demo.ui.Stress_1", "build-demobrowser.demo.ui.ToolbarEmu_1", "build-demobrowser.demo.ui.VBoxLayout_1", "build-demobrowser.demo.ui.VBoxLayout_2", "build-demobrowser.demo.ui.VBoxLayout_3", "build-demobrowser.demo.ui.VBoxLayout_4", "build-demobrowser.demo.ui.VBoxLayout_5", "build-demobrowser.demo.ui.VBoxLayout_6", "build-demobrowser.demo.ui.WidgetEvent_1"]
+      "build-demobrowser.demo.animation.Scroll_1", "build-demobrowser.demo.animation.Showcase_1", "build-demobrowser.demo.animation.Transition_1", "build-demobrowser.demo.animation.Transition_2", "build-demobrowser.demo.bom.AttributeStyle_1", "build-demobrowser.demo.bom.AttributeStyle_2", "build-demobrowser.demo.bom.Clip_1", "build-demobrowser.demo.bom.Event_1", "build-demobrowser.demo.bom.Event_2", "build-demobrowser.demo.bom.Flash_1", "build-demobrowser.demo.bom.Focus_1", "build-demobrowser.demo.bom.Iframe_1", "build-demobrowser.demo.bom.Input_1", "build-demobrowser.demo.bom.KeyEvent_1", "build-demobrowser.demo.bom.Label_1", "build-demobrowser.demo.bom.Location_1", "build-demobrowser.demo.bom.Location_1_std", "build-demobrowser.demo.bom.MouseEvent_1", "build-demobrowser.demo.bom.Overflow_1", "build-demobrowser.demo.bom.ScrollIntoView_1", "build-demobrowser.demo.bom.ViewportDocument_1", "build-demobrowser.demo.bom.ViewportDocument_1_std", "build-demobrowser.demo.html.Element_1", "build-demobrowser.demo.html.Element_2", "build-demobrowser.demo.html.Element_3", "build-demobrowser.demo.html.Element_4", "build-demobrowser.demo.html.Element_5", "build-demobrowser.demo.ui.ApplicationRoot_1", "build-demobrowser.demo.ui.Atom_1", "build-demobrowser.demo.ui.BasicLayout_1", "build-demobrowser.demo.ui.BasicLayout_2", "build-demobrowser.demo.ui.Button_1", "build-demobrowser.demo.ui.CanvasLayout_1", "build-demobrowser.demo.ui.CanvasLayout_2", "build-demobrowser.demo.ui.CanvasLayout_3", "build-demobrowser.demo.ui.CanvasLayout_4", "build-demobrowser.demo.ui.ChildrenHandling_1", "build-demobrowser.demo.ui.Cursor_1", "build-demobrowser.demo.ui.Decoration_1", "build-demobrowser.demo.ui.Decoration_2", "build-demobrowser.demo.ui.Decoration_3", "build-demobrowser.demo.ui.Dialog_1", "build-demobrowser.demo.ui.Dialog_2", "build-demobrowser.demo.ui.DockLayout_1", "build-demobrowser.demo.ui.DockLayout_2", "build-demobrowser.demo.ui.DockLayout_3", "build-demobrowser.demo.ui.DockLayout_4", "build-demobrowser.demo.ui.DockLayout_5", "build-demobrowser.demo.ui.Embed_1", "build-demobrowser.demo.ui.Embed_2", "build-demobrowser.demo.ui.GridLayout_1", "build-demobrowser.demo.ui.GridLayout_2", "build-demobrowser.demo.ui.GridLayout_3", "build-demobrowser.demo.ui.GridLayout_4", "build-demobrowser.demo.ui.GridLayout_5", "build-demobrowser.demo.ui.HBoxLayout_1", "build-demobrowser.demo.ui.HBoxLayout_2", "build-demobrowser.demo.ui.HBoxLayout_3", "build-demobrowser.demo.ui.HBoxLayout_4", "build-demobrowser.demo.ui.HBoxLayout_5", "build-demobrowser.demo.ui.HBoxLayout_6", "build-demobrowser.demo.ui.HBoxLayout_7", "build-demobrowser.demo.ui.Icon_1", "build-demobrowser.demo.ui.Image_1", "build-demobrowser.demo.ui.InlineRoot_1", "build-demobrowser.demo.ui.Label_1", "build-demobrowser.demo.ui.Label_2", "build-demobrowser.demo.ui.MenuEmu_1", "build-demobrowser.demo.ui.Opacity_1", "build-demobrowser.demo.ui.PageRoot_1", "build-demobrowser.demo.ui.ResizeEvent_1", "build-demobrowser.demo.ui.ScrollArea_1", "build-demobrowser.demo.ui.ScrollArea_2", "build-demobrowser.demo.ui.ScrollArea_3", "build-demobrowser.demo.ui.ScrollArea_4", "build-demobrowser.demo.ui.Scrollbar_1", "build-demobrowser.demo.ui.SlideBar_1", "build-demobrowser.demo.ui.Spacer_1", "build-demobrowser.demo.ui.Spacer_2", "build-demobrowser.demo.ui.StackLayout_1", "build-demobrowser.demo.ui.StackLayout_2", "build-demobrowser.demo.ui.Stress_1", "build-demobrowser.demo.ui.ToolbarEmu_1", "build-demobrowser.demo.ui.VBoxLayout_1", "build-demobrowser.demo.ui.VBoxLayout_2", "build-demobrowser.demo.ui.VBoxLayout_3", "build-demobrowser.demo.ui.VBoxLayout_4", "build-demobrowser.demo.ui.VBoxLayout_5", "build-demobrowser.demo.ui.VBoxLayout_6", "build-demobrowser.demo.ui.WidgetEvent_1"]
   }
 }
