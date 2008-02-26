@@ -47,8 +47,6 @@ qx.Class.define("demobrowser.demo.ui.Button_1",
       var img3 = "icon/48/apps/internet-web-browser.png";
       var img4 = "icon/48/apps/photo-album.png";
 
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
       var btn1 = new qx.ui.form.Button("Oxygen Icons", img1, 48, 48);
       docLayout.add(btn1);
       var btn2 = new qx.ui.form.Button("Tango Icons", img2, 48, 48);
