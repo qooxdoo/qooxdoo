@@ -107,10 +107,10 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       this._vBoxes.push(vbxVanish);
 
       var btnPuff = new qx.legacy.ui.form.Button("Puff");
-      var btnDropOut = new qx.legacy.ui.form.Button("DropOut");
+      var btnDrop = new qx.legacy.ui.form.Button("Drop out");
       var btnShrink = new qx.legacy.ui.form.Button("Shrink");
       var btnSwitchOff = new qx.legacy.ui.form.Button("SwitchOff");
-      vbxVanish.add(btnPuff, btnDropOut, btnShrink, btnSwitchOff);
+      vbxVanish.add(btnPuff, btnDrop, btnShrink, btnSwitchOff);
       groupBoxes.gbxVanish.add(vbxVanish);
 
       var vbxAppear = new qx.legacy.ui.layout.VerticalBoxLayout();
@@ -294,19 +294,48 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
      
       
       
-      var dropOut = new qx.fx.effect.combination.DropOut(this._demoElement);
-      dropOut.setModifyDisplay(false);
+      var drop = new qx.fx.effect.combination.Drop(this._demoElement);
+      drop.set({
+        direction : "south",
+        yAmount : 90
+      });
 
-      dropOut.addListener("setup", function(){
+      var dropBtnNotifier;
+
+      btnDrop.addListener("insertDom", function(){
+        dropBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getElement());
+        dropBtnNotifier.set({
+          startColor   : this.getElement().style.backgroundColor,
+          endColor     : "#FFA823",
+          duration     : 2,
+          delayBetween : 1
+        });
+      });
+       
+
+      drop.addListener("setup", function(){
         this._toggleEnable();
       }, this);
 
-      dropOut.addListener("finish", function(){
+      drop.addListener("finish", function(){
         this._toggleEnable();
+
+        if(btnDrop.getLabel() == "Drop out")
+        {
+          btnDrop.setLabel("Drop in");
+          drop.setMode("in");
+        }
+        else
+        {
+          btnDrop.setLabel("Drop out");
+          drop.setMode("out");
+        }
+
+        dropBtnNotifier.start();
       }, this);
 
-      btnDropOut.addListener("execute", function(){
-        dropOut.start();
+      btnDrop.addListener("execute", function(){
+        drop.start();
       });
      
       
@@ -364,8 +393,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       var fade = new qx.fx.effect.core.Fade(this._demoElement);
       fade.set({
         from : 0,
-        to : 1,
-        modifyDisplay : false
+        to : 1
       });
 
       fade.addListener("setup", function(){
