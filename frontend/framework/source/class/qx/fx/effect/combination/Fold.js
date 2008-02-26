@@ -104,8 +104,8 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       this.base(arguments);
 
       var oldStyle = {
-        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
+        top     : qx.bom.element.Location.getTop(this._element),
+        left    : qx.bom.element.Location.getLeft(this._element),
         width   : qx.bom.element.Dimension.getWidth(this._element),
         height  : qx.bom.element.Dimension.getHeight(this._element),
         display : qx.bom.element.Style.get(this._element, "display")
