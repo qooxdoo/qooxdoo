@@ -44,10 +44,8 @@ qx.Class.define("qx.ui.basic.Atom",
   /**
    * @param label {String} label of the atom
    * @param icon {String?null} Icon URL of the atom
-   * @param iconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
-   * @param iconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
    */
-  construct : function(label, iconUrl, iconWidth, iconHeight)
+  construct : function(label, iconUrl)
   {
     this.base(arguments);
 
@@ -59,14 +57,6 @@ qx.Class.define("qx.ui.basic.Atom",
 
     if (iconUrl) {
       this.setIcon(iconUrl);
-    }
-
-    if (iconWidth) {
-      this.setIconWidth(iconWidth);
-    }
-
-    if (iconHeight) {
-      this.setIconHeight(iconHeight);
     }
   },
 
@@ -101,36 +91,6 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * The width of the icon.
-     *
-     * If configured, this makes qx.ui.basic.Atom a little bit faster as it
-     * does not need to wait until the image loading is finished.
-     */
-    iconWidth :
-    {
-      check : "Integer",
-      themeable : true,
-      apply : "_applyIconWidth",
-      nullable : true
-    },
-
-
-    /**
-     * The height of the icon
-     *
-     * If configured, this makes qx.ui.basic.Atom a little bit faster as it
-     * does not need to wait until the image loading is finished.
-     */
-    iconHeight :
-    {
-      check : "Integer",
-      themeable : true,
-      apply : "_applyIconHeight",
-      nullable : true
-    },
-
-
-    /**
      * Any URI String supported by qx.ui.basic.Image to display a disabled icon.
      * <p>
      * If not set the normal icon is shown transparently.
@@ -156,6 +116,7 @@ qx.Class.define("qx.ui.basic.Atom",
       init : 4
     },
 
+
     /**
      * Configure the visibility of the sub elements/widgets.
      *  Possible values: both, text, icon, none
@@ -170,6 +131,7 @@ qx.Class.define("qx.ui.basic.Atom",
       apply : "_applyShow",
       event : "changeShow"
     },
+
 
     /**
      * The position of the icon in relation to the text.
@@ -250,7 +212,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (this._icon) {
         this._icon.setSource(value);
       } else {
-        this._icon = new qx.ui.basic.Image(value, this.getIconWidth(), this.getIconHeight());
+        this._icon = new qx.ui.basic.Icon(value);
       }
 
       this._handleIcon();
@@ -263,26 +225,10 @@ qx.Class.define("qx.ui.basic.Atom",
       if (this._disabledIcon) {
         this._disabledIcon.setSource(value);
       } else {
-        this._disabledIcon = new qx.ui.basic.Image(value);
+        this._disabledIcon = new qx.ui.basic.Icon(value);
       }
 
       this._handleIcon();
-    },
-
-
-    // property apply
-    _applyIconWidth : function(value, old) {
-      if (this._icon) {
-        this._icon.setWidth(value);
-      }
-    },
-
-
-    // property apply
-    _applyIconHeight : function(value, old) {
-      if (this._icon) {
-        this._icon.setHeight(value);
-      }
     },
 
 
