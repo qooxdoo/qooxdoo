@@ -24,13 +24,19 @@ from misc import filetool
 from generator.Log import Log
 from elementtree import ElementTree
 
-
 # Supported icon sizes
 SIZES = [ 16, 22, 32, 48, 64, 128 ]
 
+# Select the SVG processor
+# * batik.local (Batik renderer, requires JRE>=1.4, in working folder under batik)
+# * inkscape.cmd (Inkscape installed in path)
+# * inkscape.dmg (Mac Inkscape in /Application folder)
+# * rsvg.cmd (rsvg-convert command line tool)
+SVG = "inkscape.mac"
+
 # Temporary file names
-TMPSVG = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.svg")
 TMPPNG = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.png")
+TMPOUT = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.png")
 
 
 def main():
@@ -117,32 +123,30 @@ def copyFile(source, target, names, size):
     try: os.remove(TMPPNG)
     except OSError: pass
 
-    try: os.remove(TMPSVG)
-    except OSError: pass
-
 
 def getPixmap(path, names, size):
     scale = getScalable(path, names, size)
     if scale:
-        if os.path.splitext(scale)[-1] == ".svgz":
-            console.debug("Decompressing source...")
-            gztmp = file(TMPSVG, "wb")
-            gzreturn = subprocess.Popen(["gzip", "-d", "-c", scale], stdout=gztmp).wait()
-            if gzreturn != 0:
-                console.error("Could not extract file: %s" % scale)
-                sys.exit(1)
-
-            gztmp.flush()
-            scale = gztmp.name
-
         console.debug("Rendering image...")
-        svgtmp = file(TMPPNG, "wb")
-        svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-o", svgtmp.name, scale]).wait()
+        pngtmp = file(TMPPNG, "wb")
+        outtmp = file(TMPOUT, "wb")
+        
+        if SVG == "rsvg.cmd":
+            svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-a", "-o", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
+        elif SVG == "inkscape.cmd":
+            svgreturn = subprocess.Popen(["inkscape", "-z", "-w", str(size), "-h", str(size), "-z", "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
+        elif SVG == "inkscape.mac":
+            svgreturn = subprocess.Popen(["/Applications/Inkscape.app/Contents/Resources/bin/inkscape", "-z", "-w", str(size), "-h", str(size), "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
+        elif SVG == "batik.local":
+            svgreturn = subprocess.Popen(["java", "-jar", "batik/batik-rasterizer.jar", "-w", str(size), "-h", str(size), "-m", "image/png", "-d", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
+        else:
+            svgreturn = 1
+            
         if svgreturn != 0:
             console.error("Could not convert SVG file: %s" % scale)
             sys.exit(1)
 
-        return svgtmp.name
+        return pngtmp.name
 
     console.warn("Missing %spx icon" % size)
     return None
@@ -167,6 +171,7 @@ def getScalable(path, names, size):
             fullname = os.path.join(path, name)
             try:
                 os.stat(fullname)
+                console.debug("Size %s uses SVG source: %s" % (size, name))
                 return fullname
 
             except OSError:
