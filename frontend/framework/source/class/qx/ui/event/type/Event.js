@@ -24,6 +24,8 @@
 qx.Class.define("qx.ui.event.type.Event",
 {
   extend : qx.event.type.Event,
+  include : qx.ui.event.type.MWidgetEvent,
+
 
   /*
   *****************************************************************************
@@ -43,19 +45,6 @@ qx.Class.define("qx.ui.event.type.Event",
      */
     getTarget : function() {
       return qx.ui.core.Widget.getWidgetByElement(this._target);
-    },
-
-
-    /**
-     * Returns the DOM event target to which the event was originally
-     * dispatched.
-     *
-     * @type member
-     * @return {Element} DOM element to which the event was originally
-     *       dispatched.
-     */
-    getDomTarget : function() {
-      return this._target;
     }
   }
 });

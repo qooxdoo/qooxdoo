@@ -19,14 +19,10 @@
 ************************************************************************ */
 
 /**
- * Event class for key sequence events dispatched on a widget.
+ * Collection of common widget event methods.
  */
-qx.Class.define("qx.ui.event.type.KeySequence",
+qx.Mixin.define("qx.ui.event.type.MWidgetEvent",
 {
-  extend : qx.event.type.KeySequence,
-  include : qx.ui.event.type.MWidgetEvent,
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -36,15 +32,32 @@ qx.Class.define("qx.ui.event.type.KeySequence",
   members :
   {
     /**
-     * Returns the widget event target to which the event was originally
+     * Returns whether the DOM node of the event target is inside of the given
+     * widget.
+     *
+     * @param widget {qx.ui.core.Widget} container widget to check for.
+     * @return {Boolean} Whether the DOM node of the event target is inside of
+     *     the given widget.
+     */
+    isTargetInsideWidget : function(widget)
+    {
+      return qx.dom.Hierarchy.contains(
+        widget._containerElement.getDomElement(),
+        this._target
+      );
+    },
+
+
+    /**
+     * Returns the DOM event target to which the event was originally
      * dispatched.
      *
      * @type member
-     * @return {qx.ui.core.Wodget} widget to which the event was originally
+     * @return {Element} DOM element to which the event was originally
      *       dispatched.
      */
-    getTarget : function() {
-      return qx.ui.core.Widget.getWidgetByElement(this._target);
+    getDomTarget : function() {
+      return this._target;
     }
   }
 });

@@ -24,6 +24,8 @@
 qx.Class.define("qx.ui.event.type.Mouse",
 {
   extend : qx.event.type.Mouse,
+  include : qx.ui.event.type.MWidgetEvent,
+
 
   /*
   *****************************************************************************
@@ -47,15 +49,19 @@ qx.Class.define("qx.ui.event.type.Mouse",
 
 
     /**
-     * Returns the DOM event target to which the event was originally
-     * dispatched.
+     * Returns whether the DOM node of the event's related target is inside of
+     * the given widget.
      *
-     * @type member
-     * @return {Element} DOM element to which the event was originally
-     *       dispatched.
+     * @param widget {qx.ui.core.Widget} container widget to check for.
+     * @return {Boolean} Whether the DOM node of the event target is inside of
+     *     the given widget.
      */
-    getDomTarget : function() {
-      return this._target;
+    isRelatedTargetInsideWidget : function(widget)
+    {
+      return qx.dom.Hierarchy.contains(
+        widget._containerElement.getDomElement(),
+        this.getDomRelatedTarget()
+      );
     },
 
 
