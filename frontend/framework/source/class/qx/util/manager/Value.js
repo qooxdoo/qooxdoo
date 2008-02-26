@@ -211,7 +211,7 @@ qx.Class.define("qx.util.manager.Value",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return this._dynamic[value] !== undefined;
+      return !!this._dynamic[value];
     },
 
 
