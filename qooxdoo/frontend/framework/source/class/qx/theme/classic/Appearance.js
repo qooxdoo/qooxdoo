@@ -65,6 +65,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : padding
         };
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ICON
+    ---------------------------------------------------------------------------
+    */
+
+    "icon" :
+    {
+      style : function(states)
+      {
+        return {
+          opacity : states.disabled ? 0.3 : 1
+        }
+      }
     }
   }
 });
