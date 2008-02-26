@@ -1,5 +1,15 @@
 #!/bin/bash
 
+################################################################################
+# Preparing generation of demo applications:
+# - scans for html files of demos (in source/demo)
+# - creates corresponding entry in JSON 'jobs' file
+# - copys corresponding .js file in 'script' dir (from source/class/..., for
+#   the 'View Source' function in DemoBrowser)
+################################################################################
+
+js_target=$1
+
 JSON="demo.json"
 
 source=""
@@ -22,6 +32,12 @@ do
   class=demobrowser.demo.$category.$name
   source="$source \"source-$class\","
   build="$build \"build-$class\","
+
+  # copy js source file
+  if [ -n "$js_target" ]; then
+    mkdir -p $js_target
+    cp source/class/${class//\./\/}.js $js_target/$class.src.js
+  fi
 
   # concat all
   cat tool/json.tmpl | sed s:XXX:$class:g >> $JSON
