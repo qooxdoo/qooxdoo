@@ -82,6 +82,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
           opacity : states.disabled ? 0.3 : 1
         }
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FORM FIELDS
+    ---------------------------------------------------------------------------
+    */
+
+    "text-field" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "inset",
+          padding         : [ 1, 3 ],
+          textColor       : states.disabled ? "text-disabled" : "undefined",
+          backgroundColor : "field"
+        };
+      }
+    },
+
+    "text-area" : {
+      include : "text-field"
     }
+
   }
 });

@@ -106,7 +106,7 @@ qx.Class.define("qx.bom.Input",
      * @type static
      * @signature function(element, value)
      * @param element {Element} DOM element to modify
-     * @param value {
+     * @param value {var} the new value
      */
     setValue : qx.core.Variant.select("qx.client",
     {

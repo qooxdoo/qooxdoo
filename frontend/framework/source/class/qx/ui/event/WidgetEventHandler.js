@@ -23,6 +23,7 @@
 #require(qx.ui.event.type.KeySequence)
 #require(qx.ui.event.type.KeyInput)
 #require(qx.ui.event.type.Event)
+#require(qx.ui.event.type.Data)
 */
 
 /**
