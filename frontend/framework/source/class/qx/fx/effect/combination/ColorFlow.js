@@ -212,7 +212,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       this._highlightEffects[0].afterFinishInternal = function() {
         self._highlightEffects[1].start();
       }
-      
+
       this._highlightEffects[0].start();
     }
   },

@@ -114,7 +114,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
    members :
    {
-    
+
     beforeSetup : function()
     {
       this._oldValue = qx.bom.element.Style.get(this._element, "opacity");

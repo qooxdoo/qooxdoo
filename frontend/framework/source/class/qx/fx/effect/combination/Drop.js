@@ -110,7 +110,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
       init : "out",
       check : [ "in", "out" ]
     },
-    
+
     /**
      * Flag indicating if the CSS attribute "display"
      * should be modified by effect
@@ -139,7 +139,7 @@ qx.Class.define("qx.fx.effect.combination.Drop",
 
       // Element must be visible for move effect
       qx.bom.element.Style.set(this._element, "display", "block");
-      
+
       var xAmount = this.getXAmount();
       var yAmount = this.getYAmount();
 
