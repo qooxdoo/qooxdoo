@@ -188,6 +188,7 @@ qx.Class.define("qx.ui.basic.Icon",
       {
         this._contentElement.removeStyle("filter", filter);
         this._contentElement.removeStyle("backgroundImage", filter);
+        return;
       }
 
       var isPng = qx.lang.String.endsWith(iconUrl, ".png");
@@ -242,7 +243,19 @@ qx.Class.define("qx.ui.basic.Icon",
 
 
     // property apply
-    _applySource : function(value, old)
+    _applySource : function(value, old) {
+      qx.io.Alias.getInstance().connect(this._syncSource, this, value);
+    },
+
+
+    /**
+     * Connects a callback method to the value manager to ensure
+     * that changes to the source are handled by the image instance
+     *
+     * @type member
+     * @param value {String} new icon source
+     */
+    _syncSource : function(value)
     {
       if (this.getEnabled()) {
         this._applyVisibleSource(value);
@@ -251,7 +264,19 @@ qx.Class.define("qx.ui.basic.Icon",
 
 
     // property apply
-    _applyDisabledSource : function(value, old)
+    _applyDisabledSource : function(value, old) {
+      qx.io.Alias.getInstance().connect(this._syncDisabledSource, this, value);
+    },
+
+
+    /**
+     * Connects a callback method to the value manager to ensure
+     * that changes to the source are handled by the image instance
+     *
+     * @type member
+     * @param value {String} new disabled icon source
+     */
+    _syncDisabledSource : function(value)
     {
       if (!this.getEnabled()) {
         this._applyVisibleSource(value);
@@ -329,9 +354,9 @@ qx.Class.define("qx.ui.basic.Icon",
       );
 
       if (iconUri == this.getSource()) {
-        this._applySource(iconUri)
+        this._syncSource(iconUri)
       } else {
-        this._applyDisabledSource(iconUri)
+        this._syncDisabledSource(iconUri)
       }
     },
 
