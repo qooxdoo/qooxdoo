@@ -47,13 +47,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        if (states.pressed || states.checked || states.abandoned) {
+        if (states.pressed) {
           var decorator = "inset";
         } else {
           var decorator = "outset";
         }
 
-        if (states.pressed || states.abandoned) {
+        if (states.pressed) {
           var padding = [ 4, 3, 2, 5 ];
         } else {
           var padding = [ 3, 4 ];

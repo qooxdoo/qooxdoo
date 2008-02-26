@@ -18,20 +18,21 @@
 
 ************************************************************************ */
 
-/**
- * Classic Windows Theme
- */
-qx.Theme.define("qx.theme.Classic",
-{
-  title : "Classic Windows",
+/* ************************************************************************
 
-  meta :
-  {
-    color : qx.theme.classic.Color,
-    decoration : qx.theme.classic.Decoration,
-    //font : qx.theme.classic.Font,
-    widget : qx.theme.classic.Widget,
-    appearance : qx.theme.classic.Appearance,
-    icon : qx.theme.icon.Tango
+#require(qx.io.Alias)
+#resource(qx.icontheme:icon/tango)
+
+************************************************************************ */
+
+/**
+ * Tango icons
+ */
+qx.Theme.define("qx.theme.icon.Tango",
+{
+  title : "Tango",
+
+  icons : {
+    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/tango"
   }
 });
