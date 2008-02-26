@@ -62,11 +62,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-
-    this._moveEffect.beforeStartInternal = function(){
-      qx.bom.element.Style.set(this._element, "visiblity", "visible");
-    };
-
     this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._scaleEffect);
 
   },
@@ -189,16 +184,18 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       });
 
       this._scaleEffect.set({
-        scaleTo : 100,
+        scaleTo : [ oldStyle.width, oldStyle.height ],
         sync: true,
         scaleFrom : 0,
         scaleFromCenter : false,
         transition: this.getScaleTransition()
       });
 
-      qx.bom.element.Style.set(this._element, "visiblity", "hidden");
       qx.bom.element.Style.set(this._element, "top", oldStyle.top + initialMoveY);
       qx.bom.element.Style.set(this._element, "left", oldStyle.left + initialMoveX);
+
+      qx.bom.element.Style.set(this._element, "height", "0px");
+      qx.bom.element.Style.set(this._element, "width", "0px");
 
       this._mainEffect.start();
     }
