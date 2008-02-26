@@ -61,10 +61,10 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     this._outerScaleEffect = new qx.fx.effect.core.Scale(this._element);
     this._innerScaleEffect = new qx.fx.effect.core.Scale(this._element);
 
-    var innerScaleEffectReference = this._innerScaleEffect;
+    var self = this;
 
     this._outerScaleEffect.afterFinishInternal = function() {
-      innerScaleEffectReference.start();
+      self._innerScaleEffect.start();
     };
 
   },
@@ -128,15 +128,17 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       };
 
       this._outerScaleEffect.set({
-        scaleTo : 5,
-        scaleContent: false,
-        scaleX: false
+        scaleTo      : 5,
+        scaleContent : false,
+        scaleX       : false,
+        duration     : this.getDuration() / 2
       });
 
       this._innerScaleEffect.set({
-        scaleTo : 5,
-        scaleContent: false,
-        scaleY: false
+        scaleTo      : 5,
+        scaleContent : false,
+        scaleY       : false,
+        duration     : this.getDuration() / 2
       });
 
       this._outerScaleEffect.start();
