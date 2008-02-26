@@ -19,11 +19,12 @@
 ************************************************************************ */
 
 /**
- * Event class for key input events dispatched on a widget.
+ * Event class for data events dispatched on a widget.
  */
 qx.Class.define("qx.ui.event.type.KeyInput",
 {
   extend : qx.event.type.KeyInput,
+  include : qx.ui.event.type.MWidgetEvent,
 
   /*
   *****************************************************************************
@@ -43,19 +44,6 @@ qx.Class.define("qx.ui.event.type.KeyInput",
      */
     getTarget : function() {
       return qx.ui.core.Widget.getWidgetByElement(this._target);
-    },
-
-
-    /**
-     * Returns the DOM event target to which the event was originally
-     * dispatched.
-     *
-     * @type member
-     * @return {Element} DOM element to which the event was originally
-     *       dispatched.
-     */
-    getDomTarget : function() {
-      return this._target;
     }
   }
 });

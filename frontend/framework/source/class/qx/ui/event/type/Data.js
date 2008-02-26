@@ -19,13 +19,12 @@
 ************************************************************************ */
 
 /**
- * Event class for key sequence events dispatched on a widget.
+ * Event class for data events dispatched on a widget.
  */
-qx.Class.define("qx.ui.event.type.KeySequence",
+qx.Class.define("qx.ui.event.type.Data",
 {
-  extend : qx.event.type.KeySequence,
+  extend : qx.event.type.Data,
   include : qx.ui.event.type.MWidgetEvent,
-
 
   /*
   *****************************************************************************
