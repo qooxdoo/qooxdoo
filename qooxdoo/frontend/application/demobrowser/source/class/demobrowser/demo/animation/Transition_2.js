@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_2",
         animMove.start();
       });
 
-	    doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
+      doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
     }
   }
 });
