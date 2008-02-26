@@ -127,7 +127,7 @@ qx.Class.define("qx.io.Alias",
       {
         entry = reg[key];
         if (paths[entry.value]) {
-          entry.callback.call(entry.object, dynamics[entry.value]);
+          entry.callback.call(entry.object, dynamics[entry.value] || entry.value);
         }
       }
     },
