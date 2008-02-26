@@ -24,9 +24,6 @@
 
 #module(apiviewer)
 #embed(qx.icontheme/22/apps/utilities-file-archiver.png)
-#embed(qx.icontheme/22/apps/office-spreadsheet.png)
-#embed(qx.icontheme/22/apps/preferences-desktop-accessibility.png)
-#embed(qx.icontheme/22/apps/utilities-calculator.png)
 
 ************************************************************************ */
 
@@ -201,7 +198,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Inherited",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/apps/office-spreadsheet.png",
+        "api/image/method_public_inherited18.gif",
         "Show inherited items",
         false,
         "btn_inherited"
@@ -209,7 +206,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Protected",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/apps/preferences-desktop-accessibility.png",
+        "api/image/method_protected18.gif",
         "Show protected items",
         false,
         "btn_protected"
@@ -217,7 +214,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Private",
         qx.legacy.ui.toolbar.CheckBox,
-        "icon/22/apps/utilities-calculator.png",
+        "api/image/method_private18.gif",
         "Show private/internal items",
         false,
         "btn_private"
