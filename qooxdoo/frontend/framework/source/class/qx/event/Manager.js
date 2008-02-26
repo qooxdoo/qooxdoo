@@ -188,7 +188,7 @@ qx.Class.define("qx.event.Manager",
 
       if (res)
       {
-        if (copy !== true) {
+        if (copy === false) {
           return res;
         } else {
           return res.concat();
