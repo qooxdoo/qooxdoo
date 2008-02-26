@@ -27,7 +27,7 @@
 qx.Class.define("qx.ui.form.Button",
 {
   extend : qx.ui.basic.Atom,
-
+  include : qx.ui.core.MExecutable,
 
 
   /*
@@ -36,9 +36,9 @@ qx.Class.define("qx.ui.form.Button",
   *****************************************************************************
   */
 
-  construct : function(label, iconUrl, iconWidth, iconHeight)
+  construct : function(label, iconUrl)
   {
-    this.base(arguments, label, iconUrl, iconWidth, iconHeight);
+    this.base(arguments, label, iconUrl);
 
     this.initTabIndex();
 
@@ -188,8 +188,7 @@ qx.Class.define("qx.ui.form.Button",
         this.addState("over");
 
         if (hasPressed) {
-          this.debug("Exceute");
-          //this.execute();
+          this.execute();
         }
       }
     },

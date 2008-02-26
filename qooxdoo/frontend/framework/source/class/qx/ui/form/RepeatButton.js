@@ -157,8 +157,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
         this.addState("over");
 
         if (this.hasState("pressed") && !this.__executed) {
-          this.debug("Exceute");
-          //this.execute();
+          this.execute();
         }
       }
 
