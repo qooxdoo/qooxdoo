@@ -61,7 +61,7 @@ qx.Class.define("qx.fx.Base",
   construct : function(element)
   {
     this.base(arguments);
-    
+
     this.setQueue( qx.fx.queue.Manager.getInstance().getDefaultQueue() );
 
     this._element = element;
@@ -205,7 +205,7 @@ qx.Class.define("qx.fx.Base",
 
   members :
   {
-    
+
     _applyDuration : function(){},
 
     init : function()
