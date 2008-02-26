@@ -112,6 +112,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
       if ( (this.getModifyDisplay()) && (this.getTo() > 0) ){
         qx.bom.element.Style.set(this._element, "display", "block");
       }
+      this._oldOpacity = qx.bom.element.Style.get(this._element, "opacity");
       qx.bom.element.Style.set(this._element, "opacity", this.getFrom());
     },
 
@@ -121,6 +122,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
       if ( (this.getModifyDisplay()) && (this.getTo() == 0) ){
         qx.bom.element.Style.set(this._element, "display", "none");
       }
+      qx.bom.element.Opacity.set(this._element, this._oldOpacity);
     }
 
   }

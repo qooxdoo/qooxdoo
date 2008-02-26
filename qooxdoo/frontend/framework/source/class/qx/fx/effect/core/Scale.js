@@ -96,7 +96,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
      */
     scaleFrom :
     {
-      init : 100.0,
+      init : 100,
       check : "Number"
     },
 
@@ -105,8 +105,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
      */
     scaleTo :
     {
-      init : 100,
-      check : "Number"
+      init : 100
     },
 
     /**
@@ -180,8 +179,18 @@ qx.Class.define("qx.fx.effect.core.Scale",
         }
       }
 
-      this._factor = (this.getScaleTo() - this.getScaleFrom()) / 100;
-      this._dims = [this._element.offsetHeight, this._element.offsetWidth];
+      var dims = this.getScaleTo();
+      if(typeof(dims) == "Number")
+      {
+        this._factor = (this.getScaleFrom()- this.getScaleTo()) / 100;
+        this._dims = [this._element.offsetHeight, this._element.offsetWidth];
+      }
+      else
+      {
+        this._factor = this._element.offsetWidth - dims[0] / 100;
+        this._dims = dims;
+        console.info(this._factor, this._dims)
+      }
 
     },
 
