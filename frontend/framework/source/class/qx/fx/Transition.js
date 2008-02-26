@@ -44,7 +44,7 @@
 
      Author:
        Robert Penner
-       
+
 
 ************************************************************************ */
 
@@ -57,9 +57,9 @@ qx.Class.define("qx.fx.Transition",
 
   statics :
   {
-  
+
     allowedNames : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"],
-  
+
     get : function(functionName)
     {
       return qx.fx.Transition[functionName] || false;

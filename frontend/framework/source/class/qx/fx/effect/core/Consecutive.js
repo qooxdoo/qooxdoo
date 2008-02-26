@@ -69,7 +69,7 @@ qx.Class.define("qx.fx.effect.core.Consecutive",
 
    members :
    {
-    
+
    },
 
 
