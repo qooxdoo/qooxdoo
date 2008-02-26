@@ -39,7 +39,7 @@
  *
  * The specified element will move to the given direction and fade out.
  */
-qx.Class.define("qx.fx.effect.combination.DropOut",
+qx.Class.define("qx.fx.effect.combination.Drop",
 {
 
   extend : qx.fx.Base,
@@ -137,13 +137,15 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
     {
       this.base(arguments);
 
+      // Element must be visible for move effect
+      qx.bom.element.Style.set(this._element, "display", "block");
+      
       var xAmount = this.getXAmount();
       var yAmount = this.getYAmount();
 
       var oldStyle = {
-        top     : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left    : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        opacity : qx.bom.element.Style.get(this._element, "opacity")
+        top     : qx.bom.element.Location.getTop(this._element),
+        left    : qx.bom.element.Location.getLeft(this._element)
       };
 
       var moveEffectOptions = {
@@ -195,6 +197,12 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
         break;
       }
 
+      if(this.getMode() == "in")
+      {
+        qx.bom.element.Style.set(this._element, "top", oldStyle.top - moveEffectOptions.y);
+        qx.bom.element.Style.set(this._element, "left", oldStyle.left - moveEffectOptions.x);
+      }
+
       this._moveEffect.set(moveEffectOptions);
       this._fadeEffect.afterFinishInternal = function()
       {
@@ -206,9 +214,9 @@ qx.Class.define("qx.fx.effect.combination.DropOut",
       this._fadeEffect.set({
         duration      : 0.5,
         sync          : true,
-        to            : (this.getMode() == "out") ? 0 : 1,
         from          : (this.getMode() == "out") ? 1 : 0,
-        modifyDisplay : this.getModifyDisplay()
+        to            : (this.getMode() == "out") ? 0 : 1,
+        modifyDisplay : true
       });
 
       this._mainEffect.start();
