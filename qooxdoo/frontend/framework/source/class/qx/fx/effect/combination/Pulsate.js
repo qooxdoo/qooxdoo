@@ -126,7 +126,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       this.base(arguments);
 
       var counter = 0;
-      var fadeEffectsReference = this._fadeEffects;
+      var self = this;
 
       for (var i=0, l=this._fadeEffects.length; i<l; i++)
       {
@@ -134,7 +134,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
         if (counter < 5)
         {
           this._fadeEffects[i].afterFinishInternal = function(){
-            fadeEffectsReference[this.id + 1].start();
+            self._fadeEffects[this.id + 1].start();
           };
         }
         counter++;
@@ -143,8 +143,7 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     },
 
 
-    afterFinish : function()
-    {
+    afterFinish : function() {
       qx.bom.element.Style.set(this._element, "opacity", this._oldValue);
     }
 

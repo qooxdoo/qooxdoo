@@ -177,25 +177,24 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       }
 
       this._moveEffect.set({
-        x: moveX,
-        y: moveY,
-        sync: true,
-        transition: this.getMoveTransition()
+        x          : moveX,
+        y          : moveY,
+        sync       : true,
+        transition : this.getMoveTransition()
       });
 
       this._scaleEffect.set({
-        scaleTo : [ oldStyle.width, oldStyle.height ],
-        sync: true,
-        scaleFrom : 0,
-        scaleFromCenter : false,
-        transition: this.getScaleTransition()
+        scaleTo              : 100,
+        sync                 : true,
+        scaleFrom            : 0,
+        scaleFromCenter      : false,
+        transition           : this.getScaleTransition(),
+        alternateDimensions  : [oldStyle.width, oldStyle.height]
       });
 
       qx.bom.element.Style.set(this._element, "top", oldStyle.top + initialMoveY);
       qx.bom.element.Style.set(this._element, "left", oldStyle.left + initialMoveX);
-
       qx.bom.element.Style.set(this._element, "height", "0px");
-      qx.bom.element.Style.set(this._element, "width", "0px");
 
       this._mainEffect.start();
     }
