@@ -19,6 +19,14 @@
 ************************************************************************ */
 
 /**
+ * A Button widget
+ *
+ * If the user presses the button by clicking on ito pressing the enter or
+ * space key, The button fires an {@link qx.ui.core.MExecutable#execute} event.
+ *
+ * If the {@link @link qx.ui.core.MExecutable#command} property is set, the
+ * command is executed as well.
+ *
  * @appearance button
  * @state abandoned
  * @state over
@@ -96,7 +104,7 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onmouseover : function(e)
     {
-      if (!qx.dom.Hierarchy.contains(this._containerElement.getDomElement(), e.getDomTarget())) {
+      if (!e.isTargetInsideWidget(this)) {
         return;
       }
 
@@ -123,9 +131,10 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onmouseout : function(e)
     {
-      if (!qx.dom.Hierarchy.contains(this._containerElement.getDomElement(), e.getDomTarget())) {
+      if (!e.isTargetInsideWidget(this)) {
         return;
       }
+
       this.removeState("over");
 
       if (this.hasState("pressed"))
