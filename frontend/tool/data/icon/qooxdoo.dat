@@ -10,6 +10,7 @@ actions/dialog-apply:actions/dialog-ok-apply,actions/gtk-apply,actions/apply
 actions/document-new:actions/filenew
 actions/document-open:actions/fileopen
 actions/document-open-recent
+actions/document-print-preview
 actions/document-print:actions/fileprint
 actions/document-properties
 actions/document-revert
@@ -55,6 +56,7 @@ actions/help-contents:apps/help_index,apps/help-browser
 
 actions/insert-image
 actions/insert-text
+actions/insert-table:actions/insert-object
 
 actions/list-add
 actions/list-remove
@@ -67,6 +69,7 @@ actions/mail-message-new
 actions/mail-reply-all
 actions/mail-reply-sender
 actions/mail-send
+actions/mail-receive:actions/mail-send-receive
 
 actions/media-eject
 actions/media-playback-pause
@@ -80,6 +83,10 @@ actions/media-skip-forward
 
 actions/object-rotate-left
 actions/object-rotate-right
+actions/object-flip-horizontal
+
+# TODO: still missing in oxygen, but work in progress
+actions/object-flip-vertical
 
 actions/process-stop
 actions/system-log-out
@@ -103,28 +110,30 @@ actions/zoom-in:actions/viewmag+
 actions/zoom-original:actions/viewmag1
 actions/zoom-out:actions/viewmag-
 
-apps/photo-album:apps/digikam,apps/f-spot
-apps/feed-reader:apps/akregator,apps/feed
-apps/video-player:apps/kaffeine,apps/mplayer
 apps/graphics-viewer:apps/kview,apps/gwenview,apps/eog,apps/kuickshow
 apps/graphics-editor:apps/inkscape,apps/gimp-2
-apps/internet-mail:apps/email
+apps/internet-mail:apps/email,apps/evolution
 apps/internet-web-browser:apps/browser
+apps/internet-messenger:apps/konversation,apps/kopete,apps/gaim
+apps/internet-telephony:apps/internet-phone,apps/ekiga
+apps/internet-feed-reader:apps/gnome-blog,apps/akregator,apps/feed
 apps/office-address-book:apps/kaddressbook,apps/kontact,apps/emesene
 apps/office-calendar:apps/kontact
-apps/office-database:apps/kexi,apps/ooo-base,mimetypes/openofficeorg-20-oasis-spreadsheet-template
-apps/office-writer:apps/kword,apps/ooo-writer,mimetypes/openofficeorg-20-oasis-text
-apps/office-spreadsheet:apps/gnome-gnumeric,apps/kchart,apps/ooo-math,mimetypes/openofficeorg-20-oasis-spreadsheet
+apps/office-database:apps/kexi
+apps/office-writer:apps/kword
+apps/office-spreadsheet:apps/gnome-gnumeric,apps/kchart
+apps/audio-player:apps/xmms,apps/amarok,apps/preferences-desktop-sound
+apps/video-player:apps/totem,apps/kaffeine,apps/kmplayer,apps/mplayer
+apps/photo-album:apps/digikam,apps/f-spot
 apps/accessories-calculator
 apps/accessories-character-map
 apps/accessories-dictionary
 apps/accessories-text-editor
-apps/help-browser
-apps/instant-messenger:apps/konversation
-apps/network-manager:apps/krfb
+apps/accessories-color-chooser:apps/gnome-color-browser,apps/kcolorchooser
+apps/accessories-notes:apps/sticky-notes,apps/tomboy,apps/knotes
 apps/utilities-system-monitor
 apps/utilities-terminal
-
+apps/utilities-log-viewer:apps/logviewer
 apps/preferences-accessibility:apps/preferences-desktop-accessibility
 apps/preferences-keyboard:apps/preferences-desktop-keyboard
 apps/preferences-locale:apps/preferences-desktop-locale
@@ -133,7 +142,12 @@ apps/preferences-display:apps/preferences-desktop-screensaver
 apps/preferences-sound:apps/preferences-desktop-sound
 apps/preferences-theme:apps/preferences-desktop-theme
 apps/preferences-wallpaper:apps/preferences-desktop-wallpaper
+apps/preferences-users:apps/system-users
+apps/keyring-manager:apps/seahorse,apps/preferences-desktop-user-password
+apps/help-browser
+apps/network-manager:apps/krfb
 
+categories/accessories:categories/applications-accessories
 categories/development:categories/applications-development,apps/package_development
 categories/engineering:categories/applications-engineering
 categories/games:categories/applications-games,apps/package_games
@@ -143,7 +157,7 @@ categories/multimedia:categories/applications-multimedia,apps/package_multimedia
 categories/office:categories/applications-office,apps/package_wordprocessing
 categories/science:categories/applications-science
 categories/system:categories/applications-system,apps/package_system
-categories/utilities:categories/applications-utilities,apps/package_utilities,categories/applications-accessories
+categories/utilities:categories/applications-utilities,apps/package_utilities
 
 devices/audio-card
 devices/audio-input-microphone
@@ -151,6 +165,7 @@ devices/battery
 devices/camera-photo
 devices/camera-web
 devices/computer
+devices/display:devices/video-display
 devices/drive-harddisk
 devices/drive-optical
 devices/input-keyboard
@@ -163,23 +178,25 @@ devices/network-wireless
 devices/pda
 devices/phone
 devices/printer
-devices/video-display
 
 emblems/emblem-favorite
 emblems/emblem-important
 emblems/emblem-symbolic-link
 
-mimetypes/application-x-archive:mimetypes/package-x-generic,mimetypes/tgz
-mimetypes/application-x-executable:mimetypes/binary
-mimetypes/audio-x-generic:mimetypes/sound
-mimetypes/image-x-generic:mimetypes/image
-mimetypes/text-html
-mimetypes/text-plain:mimetypes/ascii,mimetypes/text-x-generic
-mimetypes/video-x-generic:mimetypes/video
-mimetypes/x-office-address-book:mimetypes/x-office-contact,mimetypes/vcard,apps/kaddressbook
-mimetypes/x-office-calendar:mimetypes/vcalendar
-mimetypes/x-office-document:mimetypes/kword_kwd,mimetypes/document
-mimetypes/x-office-spreadsheet:mimetypes/kspread_ksp,mimetypes/spreadsheet
+mimetypes/archive:mimetypes/application-x-archive,mimetypes/package-x-generic,mimetypes/tgz
+mimetypes/executable:mimetypes/application-x-executable,mimetypes/binary
+
+mimetypes/media-image:mimetypes/image-x-generic,mimetypes/image
+mimetypes/media-audio:mimetypes/audio-x-generic,mimetypes/sound
+mimetypes/media-video:mimetypes/video-x-generic,mimetypes/video
+mimetypes/text-html:mimetypes/text-html
+mimetypes/text-plain:mimetypes/text-plain,mimetypes/ascii,mimetypes/text-x-generic
+mimetypes/office-contact:mimetypes/x-office-address-book,mimetypes/x-office-contact,mimetypes/vcard,apps/kaddressbook
+mimetypes/office-calendar:mimetypes/x-office-calendar,mimetypes/vcalendar
+mimetypes/office-document:mimetypes/x-office-document,mimetypes/kword_kwd,mimetypes/document
+mimetypes/office-spreadsheet:mimetypes/x-office-spreadsheet,mimetypes/kspread_ksp,mimetypes/spreadsheet
+mimetypes/office-illustration:mimetypes/x-office-drawing,mimetypes/application-x-kontour
+mimetypes/office-presentation:mimetypes/x-office-presentation,mimetypes/application-vnd.oasis.opendocument.presentation
 
 places/folder:filesystems/folder
 places/folder-open:status/folder-open,filesystems/folder_open
@@ -209,9 +226,6 @@ status/dialog-error:actions/messagebox_critical
 status/dialog-information:actions/messagebox_info
 status/dialog-warning:actions/messagebox_warning
 status/dialog-password
-
-status/mail-read
-status/mail-unread
 
 status/security-high
 status/security-low
