@@ -101,7 +101,7 @@ qx.Class.define("qx.theme.manager.Meta",
       decorationMgr.setTheme(decoration);
       fontMgr.setFontTheme(font);
       widgetMgr.setWidgetTheme(widget);
-      iconMgr.setIconTheme(icon);
+      iconMgr.setTheme(icon);
       appearanceMgr.setAppearanceTheme(appearance);
 
       if (old) {
@@ -198,7 +198,7 @@ qx.Class.define("qx.theme.manager.Meta",
           throw new Error("The icon theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Icon.getInstance().setIconTheme(obj);
+        qx.theme.manager.Icon.getInstance().setTheme(obj);
       }
 
       theme = setting.get("qx.appearanceTheme");

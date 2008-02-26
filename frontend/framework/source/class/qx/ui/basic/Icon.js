@@ -257,6 +257,7 @@ qx.Class.define("qx.ui.basic.Icon",
      */
     _syncSource : function(value)
     {
+      this.__source = value;
       if (this.getEnabled()) {
         this._applyVisibleSource(value);
       }
@@ -353,7 +354,7 @@ qx.Class.define("qx.ui.basic.Icon",
         this.__preloader.getWidth(), this.__preloader.getHeight()
       );
 
-      if (iconUri == this.getSource()) {
+      if (iconUri == this.__source) {
         this._syncSource(iconUri)
       } else {
         this._syncDisabledSource(iconUri)
