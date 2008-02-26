@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
   members :
   {
-  
+
     _toggleEnable : function()
     {
       var status = (this._vBoxes[0].getEnabled() === false);
@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         this._vBoxes[i].setEnabled(status);
       }
     },
-  
+
     main : function()
     {
       this.base(arguments);
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
       this._vBoxes = [];
-      
+
       /* UI elements: */
       var main = new qx.legacy.ui.layout.VerticalBoxLayout();
       main.setPadding(10);
@@ -65,8 +65,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       var groupBoxes = {
         gbxBase : new qx.legacy.ui.groupbox.GroupBox("Base effects"),
         gbxAttention : new qx.legacy.ui.groupbox.GroupBox("Attention effects"),
-        gbxVanish : new qx.legacy.ui.groupbox.GroupBox("Vanish effects"),
-        gbxAppear : new qx.legacy.ui.groupbox.GroupBox("Appear effects")
+        gbxVanish : new qx.legacy.ui.groupbox.GroupBox("Vanish effects")
       };
 
       var vbxBase = this.test = new qx.legacy.ui.layout.VerticalBoxLayout();
@@ -84,7 +83,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       vbxBase.add(btnOpacity, btnDimensions, btnPosition, btnBackground);
       groupBoxes.gbxBase.add(vbxBase);
 
-      
+
       var vbxAttention = new qx.legacy.ui.layout.VerticalBoxLayout();
       vbxAttention.set({
         spacing : 5,
@@ -109,34 +108,21 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       var btnPuff = new qx.legacy.ui.form.Button("Puff");
       var btnDrop = new qx.legacy.ui.form.Button("Drop out");
-      var btnShrink = new qx.legacy.ui.form.Button("Shrink");
-      var btnSwitchOff = new qx.legacy.ui.form.Button("SwitchOff");
-      vbxVanish.add(btnPuff, btnDrop, btnShrink, btnSwitchOff);
+      var btnSwitchOff = new qx.legacy.ui.form.Button("Switch Off");
+      vbxVanish.add(btnPuff, btnDrop, btnSwitchOff);
       groupBoxes.gbxVanish.add(vbxVanish);
-
-      var vbxAppear = new qx.legacy.ui.layout.VerticalBoxLayout();
-      vbxAppear.set({
-        spacing : 5,
-        minWidth : 120
-      });
-      this._vBoxes.push(vbxAppear);
-
-      var btnGrow = new qx.legacy.ui.form.Button("Grow");
-      var btnFadeIn = new qx.legacy.ui.form.Button("FadeIn");
-      vbxAppear.add(btnGrow, btnFadeIn);
-      groupBoxes.gbxAppear.add(vbxAppear);
 
       for(var box in groupBoxes)
       {
         groupBoxes[box].setDimension("auto", "auto");
         main.add(groupBoxes[box]);
       }
-      
+
       doc.add(main)
-      
-      
+
+
       /* Effects: */
-      
+
       var fadeToggle = new qx.fx.effect.core.Fade(this._demoElement);
 
       fadeToggle.addListener("setup", function(){
@@ -155,9 +141,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         });
         fadeToggle.start();
       }, this);
-      
-      
-      
+
+
+
       var dimensionsToggle = new qx.fx.effect.core.Scale(this._demoImage);
 
       dimensionsToggle.addListener("setup", function(){
@@ -176,9 +162,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         });
         dimensionsToggle.start();
       }, this);
-     
-      
-      
+
+
+
       var positionToggle = new qx.fx.effect.core.Move(this._demoElement);
 
       positionToggle.addListener("setup", function(){
@@ -199,9 +185,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         });
         positionToggle.start();
       }, this);
-     
-      
-      
+
+
+
       var backgroundToggle = new qx.fx.effect.core.Highlight(this._demoElement);
 
       backgroundToggle.addListener("setup", function(){
@@ -222,9 +208,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         });
         backgroundToggle.start();
       }, this);
-     
-      
-      
+
+
+
       var shake = new qx.fx.effect.combination.Shake(this._demoElement);
 
       shake.addListener("setup", function(){
@@ -238,9 +224,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       btnShake.addListener("execute", function(){
         shake.start();
       });
-     
-      
-      
+
+
+
       var colorFlow = new qx.fx.effect.combination.ColorFlow(this._demoElement);
 
       colorFlow.addListener("setup", function(){
@@ -260,9 +246,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         });
         colorFlow.start();
       }, this);
-     
-      
-      
+
+
+
       var pulsate = new qx.fx.effect.combination.Pulsate(this._demoElement);
 
       pulsate.addListener("setup", function(){
@@ -276,11 +262,24 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       btnPulsate.addListener("execute", function(){
         pulsate.start();
       });
-     
-      
-      
+
+
+
       var puff = new qx.fx.effect.combination.Puff(this._demoImage);
       puff.setModifyDisplay(false);
+      
+      var puffBtnNotifier;
+      var vanishEffect = puff;
+
+      btnPuff.addListener("insertDom", function(){
+        puffBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getElement());
+        puffBtnNotifier.set({
+          startColor   : "#EBE9ED",
+          endColor     : "#FFA823",
+          duration     : 2,
+          delayBetween : 1
+        });
+      });
 
       puff.addListener("setup", function(){
         this._toggleEnable();
@@ -288,14 +287,54 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       puff.addListener("finish", function(){
         this._toggleEnable();
+
+        if(btnPuff.getLabel() == "Puff")
+        {
+          btnPuff.setLabel("Shrink");
+          vanishEffect = shrink;
+        }
+        else
+        {
+          btnPuff.setLabel("Puff");
+          vanishEffect = puff;
+        }
+
+        puffBtnNotifier.start();
       }, this);
 
       btnPuff.addListener("execute", function(){
-        puff.start();
+        vanishEffect.start();
       });
-     
+
       
       
+      var shrink = new qx.fx.effect.combination.Shrink(this._demoImage);
+      shrink.setModifyDisplay(false);
+
+      shrink.addListener("setup", function(){
+        this._toggleEnable();
+      }, this);
+
+      shrink.addListener("finish", function(){
+        this._toggleEnable();
+
+        if(btnPuff.getLabel() == "Puff")
+        {
+          btnPuff.setLabel("Shrink");
+          vanishEffect = shrink;
+        }
+        else
+        {
+          btnPuff.setLabel("Puff");
+          vanishEffect = puff;
+        }
+
+        puffBtnNotifier.start();
+      }, this);
+
+
+
+
       var drop = new qx.fx.effect.combination.Drop(this._demoElement);
       drop.set({
         direction : "south",
@@ -307,13 +346,13 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       btnDrop.addListener("insertDom", function(){
         dropBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getElement());
         dropBtnNotifier.set({
-          startColor   : this.getElement().style.backgroundColor,
+          startColor   : "#EBE9ED",
           endColor     : "#FFA823",
           duration     : 2,
           delayBetween : 1
         });
       });
-       
+
 
       drop.addListener("setup", function(){
         this._toggleEnable();
@@ -339,43 +378,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       btnDrop.addListener("execute", function(){
         drop.start();
       });
-     
-      
-      
-      var shrink = new qx.fx.effect.combination.Shrink(this._demoImage);
-      shrink.setModifyDisplay(false);
 
-      shrink.addListener("setup", function(){
-        this._toggleEnable();
-      }, this);
 
-      shrink.addListener("finish", function(){
-        this._toggleEnable();
-      }, this);
 
-      btnShrink.addListener("execute", function(){
-        shrink.start();
-      });
-     
-      
-      
-      var switchoff = new qx.fx.effect.combination.SwitchOff(this._demoElement);
-      switchoff.setModifyDisplay(false);
-
-      switchoff.addListener("setup", function(){
-        this._toggleEnable();
-      }, this);
-
-      switchoff.addListener("finish", function(){
-        this._toggleEnable();
-      }, this);
-
-      btnSwitchOff.addListener("execute", function(){
-        switchoff.start();
-      });
-      
-      
-      
       var fold = new qx.fx.effect.combination.Fold(this._demoElement);
       fold.setModifyDisplay(false);
 
@@ -389,42 +394,27 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       btnFold.addListener("execute", function(){
         fold.start();
-      });    
-      
-      
-      var grow = new qx.fx.effect.combination.Grow(this._demoImage);
-
-      grow.addListener("setup", function(){
-        this._toggleEnable();
-      }, this);
-
-      grow.addListener("finish", function(){
-        this._toggleEnable();
-      }, this);
-
-      btnGrow.addListener("execute", function(){
-        grow.start();
-      });
-     
-      
-      
-      var fade = new qx.fx.effect.core.Fade(this._demoElement);
-      fade.set({
-        from : 0,
-        to : 1
       });
 
-      fade.addListener("setup", function(){
+
+
+      var switchoff = new qx.fx.effect.combination.Switch(this._demoElement);
+      switchoff.setModifyDisplay(false);
+
+      switchoff.addListener("setup", function(){
         this._toggleEnable();
       }, this);
 
-      fade.addListener("finish", function(){
+      switchoff.addListener("finish", function(){
         this._toggleEnable();
       }, this);
 
-      btnFadeIn.addListener("execute", function(){
-        fade.start();
+      btnSwitchOff.addListener("execute", function(){
+        switchoff.start();
       });
+
+
+
 
     }
 
