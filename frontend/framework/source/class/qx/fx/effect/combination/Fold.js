@@ -60,13 +60,6 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
     this._outerScaleEffect = new qx.fx.effect.core.Scale(this._element);
     this._innerScaleEffect = new qx.fx.effect.core.Scale(this._element);
-
-    var self = this;
-
-    this._outerScaleEffect.afterFinishInternal = function() {
-      self._innerScaleEffect.start();
-    };
-
   },
 
 
@@ -86,6 +79,15 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       {
         init : true,
         check : "Boolean"
+      },
+
+      /**
+       * String indicating if element should fold in or out
+       */
+      mode : 
+      {
+        init : "in",
+        check : [ "in", "out" ]
       }
 
    },
@@ -96,52 +98,107 @@ qx.Class.define("qx.fx.effect.combination.Fold",
    *****************************************************************************
    */
 
-   members :
-   {
+  members :
+  {
 
+    beforeStart : function()
+    {
+      if ( (this.getMode() == "out") && (this.getModifyDisplay()) ) {
+        qx.bom.element.Style.set(this._element, "display", "block");
+      }
+      console.info( this.getMode(), this.getModifyDisplay() )
+    },
+    
     start : function()
     {
       this.base(arguments);
-
-      var oldStyle = {
-        top     : qx.bom.element.Location.getTop(this._element),
-        left    : qx.bom.element.Location.getLeft(this._element),
-        width   : qx.bom.element.Dimension.getWidth(this._element),
-        height  : qx.bom.element.Dimension.getHeight(this._element),
-        display : qx.bom.element.Style.get(this._element, "display")
-      };
-
-      var modifyDisplay = this.getModifyDisplay();
-
+      
+      var self = this;
+      
+      this._oldStyle = this._getStyle();
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
-
-      this._innerScaleEffect.afterFinishInternal = function(effect)
+       
+      
+      if(this.getMode() == "in")
       {
-        qx.bom.element.Style.set(this._element, "display", "none");
-        qx.bom.element.Style.set(this._element, "overflow", "visible");
 
-        for (var property in oldStyle) {
-          if( (property != "display") || !modifyDisplay ){
-            qx.bom.element.Style.set(this._element, property, oldStyle[property]);
-          }
-        }
+        this._outerScaleEffect.set({
+          scaleTo      : 5,
+          scaleContent : false,
+          scaleX       : false,
+          duration     : this.getDuration() / 2
+        });
+        
+        this._innerScaleEffect.set({
+          scaleTo      : 5,
+          scaleContent : false,
+          scaleY       : false,
+          duration     : this.getDuration() / 2
+        });
+
+      }
+      else
+      {
+
+        this._outerScaleEffect.set({
+          scaleTo              : 100,
+          scaleFrom            : 0,
+          scaleFromCenter      : true,
+          scaleContent         : false,
+          scaleY               : false,
+          duration             : this.getDuration() / 2,
+          alternateDimensions  : [this._oldStyle.width, this._oldStyle.height]
+        });
+        
+        this._innerScaleEffect.set({
+          scaleTo              : 100,
+          scaleFrom            : 0,
+          scaleContent         : false,
+          scaleFromCenter      : false,
+          scaleX               : false,
+          duration             : this.getDuration() / 2,
+          alternateDimensions  : [this._oldStyle.width, this._oldStyle.height]
+        });
+
+        qx.bom.element.Style.set(this._element, "height", "0px");
+        qx.bom.element.Style.set(this._element, "width", "0px");
+
+      }
+      
+      this._outerScaleEffect.afterFinishInternal = function() {
+        self._innerScaleEffect.start();
       };
 
-      this._outerScaleEffect.set({
-        scaleTo      : 5,
-        scaleContent : false,
-        scaleX       : false,
-        duration     : this.getDuration() / 2
-      });
-
-      this._innerScaleEffect.set({
-        scaleTo      : 5,
-        scaleContent : false,
-        scaleY       : false,
-        duration     : this.getDuration() / 2
-      });
+      this._innerScaleEffect.afterFinishInternal = function(){
+        self._cleanUp();
+      }
 
       this._outerScaleEffect.start();
+    },
+
+
+    _cleanUp : function()
+    {
+      if ( (this.getMode() == "in") && (this.getModifyDisplay()) ) {
+        qx.bom.element.Style.set(this._element, "display", "none");
+      }
+
+      for (var property in this._oldStyle) {
+        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      }
+    },
+    
+    _getStyle : function()
+    {
+
+      return {
+        overflow : qx.bom.element.Style.get(this._element, "overflow"),
+        top      : qx.bom.element.Location.getTop(this._element),
+        left     : qx.bom.element.Location.getLeft(this._element),
+        width    : qx.bom.element.Dimension.getWidth(this._element),
+        height   : qx.bom.element.Dimension.getHeight(this._element)
+      };
+
     }
 
 
