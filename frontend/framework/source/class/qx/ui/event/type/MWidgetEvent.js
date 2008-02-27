@@ -42,7 +42,7 @@ qx.Mixin.define("qx.ui.event.type.MWidgetEvent",
     isTargetInsideWidget : function(widget)
     {
       return qx.dom.Hierarchy.contains(
-        widget._containerElement.getDomElement(),
+        widget.getContainerElement().getDomElement(),
         this._target
       );
     },

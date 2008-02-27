@@ -226,9 +226,9 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     __getEventTarget : function(widgetTarget, type)
     {
       if (this._eventTarget.content[type]) {
-        return widgetTarget._contentElement;
+        return widgetTarget.getContentElement();
       } else {
-        return widgetTarget._containerElement;
+        return widgetTarget.getContainerElement();
       }
     }
 
