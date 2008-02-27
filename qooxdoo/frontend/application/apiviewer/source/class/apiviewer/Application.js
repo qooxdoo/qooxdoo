@@ -59,7 +59,7 @@ qx.Class.define("apiviewer.Application",
       preloader.start();
 
       // Initialize the viewer
-      this.viewer = new apiviewer.Viewer;
+      this.viewer = new apiviewer.Viewer();
       this.controller = new apiviewer.Controller();
       this.viewer.addToDocument();
 
