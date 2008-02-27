@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.event.type.Mouse",
     isRelatedTargetInsideWidget : function(widget)
     {
       return qx.dom.Hierarchy.contains(
-        widget._containerElement.getDomElement(),
+        widget.getContainerElement().getDomElement(),
         this.getDomRelatedTarget()
       );
     },

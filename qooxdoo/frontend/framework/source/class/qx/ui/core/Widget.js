@@ -428,7 +428,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : null,
       apply : "_applyDecorator",
       event : "changeDecorator",
-      check : "Decoration",
+      check : 'value == null || qx.theme.manager.Decoration.getInstance().isDynamic(value) || qx.Class.hasInterface(value.constructor, qx.ui.decoration.IDecorator)',
       themeable : true
     },
 
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       init : "inherit",
       apply : "_applyFont",
-      check : "Font",
+      //check : 'value == null | qx.theme.manager.Font.getInstance().isDynamic(value) || value instanceof qx.html.Font',
       event : "changeFont",
       themeable : true,
       inheritable : true
@@ -1412,6 +1412,27 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Returns the element wrapper of the widget's container element.
+     * This method exposes widget internal and must be used with caution!
+     *
+     * @return {qx.html.Element} The widget's container element
+     */
+    getContainerElement : function() {
+      return this._containerElement;
+    },
+
+
+    /**
+     * Returns the element wrapper of the widget's content element.
+     * This method exposes widget internal and must be used with caution!
+     *
+     * @return {qx.html.Element} The widget's content element
+     */
+    getContentElement : function() {
+      return this._contentElement;
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1659,6 +1680,12 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyBackgroundColor : function(value) {
       qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
+    },
+
+
+    // property apply
+    _applyFont : function(value, old) {
+      // place holder
     },
 
 
