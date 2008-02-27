@@ -109,6 +109,12 @@ qx.Class.define("demobrowser.demo.ui.Input_1",
       });
       docLayout.add(input8);
 
+      var input9 = new qx.ui.form.TextArea("text\narea\nnowrap").set({
+        padding: 3,
+        wrap : false
+      });
+      docLayout.add(input9);
+
       var controls = new qx.ui.core.Widget();
       controls.setLayout(new qx.ui.layout.VBox());
 

@@ -44,6 +44,7 @@ qx.Class.define("qx.html.Input",
   {
     this.base(arguments);
     this.__type = type;
+    this.__inputJobs = {};
   },
 
 
@@ -56,6 +57,18 @@ qx.Class.define("qx.html.Input",
 
   members :
   {
+    /** {String} The input element type */
+    __type : null,
+
+    /** {String} The current value of the input element */
+    __value : "",
+
+    /** {Boolean} Whether text wrap is currently turned on */
+   __wrap : null,
+
+    /** {Map} Input element jobs */
+    __inputJobs : null,
+
 
     /**
      * Sets the value of the input element.
@@ -66,7 +79,7 @@ qx.Class.define("qx.html.Input",
     setValue : function(value)
     {
       this.__value = value;
-      this.__valueChanged = true;
+      this.__inputJobs.value = true;
       return this;
     },
 
@@ -86,6 +99,20 @@ qx.Class.define("qx.html.Input",
     },
 
 
+    /**
+     * Sets the text wrap behaviour of a text area element.
+     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
+     *
+     * @param wrap {Boolean} Whether to turn text wrap on or off.
+     */
+    setTextAreaWrap : function(wrap)
+    {
+      this.__wrap = wrap;
+      this.__inputJobs.wrap = true;
+      return this;
+    },
+
+
     // overridden
     _createDomElement : function()
     {
@@ -93,28 +120,36 @@ qx.Class.define("qx.html.Input",
       this._element.QxElement = this;
     },
 
+
+    /**
+     * Perform all input element jobs
+     */
+    __applyData : function()
+    {
+      var jobs = this.__inputJobs;
+
+      if (jobs.value) {
+        qx.bom.Input.setValue(this._element, this.__value);
+      }
+
+      if (jobs.wrap) {
+        qx.bom.Input.setTextAreaWrap(this._element, this.__wrap);
+      }
+    },
+
+
     // overridden
     _copyData : function()
     {
       this.base(arguments);
-
-      if (this.__valueChanged)
-      {
-        qx.bom.Input.setValue(this._element, this.__value);
-        delete this.__valueChanged;
-      }
+      this.__applyData();
     },
 
     // overridden
     _syncData : function()
     {
       this.base(arguments);
-
-      if (this.__valueChanged)
-      {
-        qx.bom.Input.setValue(this._element, this.__value);
-        delete this.__valueChanged;
-      }
+      this.__applyData();
     }
 
   }
