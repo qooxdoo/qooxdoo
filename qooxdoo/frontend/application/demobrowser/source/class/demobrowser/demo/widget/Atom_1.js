@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Atom_1",
+qx.Class.define("demobrowser.demo.widget.Atom_1",
 {
   extend : demobrowser.Demo,
 
