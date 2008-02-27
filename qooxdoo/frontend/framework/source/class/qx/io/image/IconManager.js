@@ -40,10 +40,6 @@ qx.Class.define("qx.io.image.IconManager",
     __registry : {},
 
 
-    /** {Boolean} whether the current browser is IE6 */
-    __isIE6 : qx.bom.Client.match("mshtml,version<7"),
-
-
     /**
      * Register information about an image.
      */
@@ -52,7 +48,8 @@ qx.Class.define("qx.io.image.IconManager",
       var isPng = qx.lang.String.endsWith(iconUri, ".png");
 
       // use clipped images unless the image is PNG and the browser IE6
-      if (isPng && this.__isIE6) {
+      var Engine = qx.bom.client.Engine;
+      if (isPng && Engine.MSHTML && Engine.VERSION < 7) {
         this.__registry[iconUri] = [iconUri, 0, 0, width, height];
       } else {
         this.__registry[iconUri] = [mappedUri, xOffset, yOffset, width, height];

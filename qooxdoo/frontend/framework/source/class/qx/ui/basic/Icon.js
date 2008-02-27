@@ -127,8 +127,6 @@ qx.Class.define("qx.ui.basic.Icon",
 
   members :
   {
-    __isIE6 : qx.bom.Client.match("mshtml,version<7"),
-
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -193,8 +191,14 @@ qx.Class.define("qx.ui.basic.Icon",
 
       var isPng = qx.lang.String.endsWith(iconUrl, ".png");
 
+      // TODO
+      // This is by far to simple as the method used here destroys an previously configured opacity
+      // in IE6. Also be should use variants here to filter code from gecko.
+      // It must also be absolutely safe when switching from GIF to PNG to GIF etc. which is not already done so.
+
       // use clipped images unless the image is PNG and the browser IE6
-      if (isPng && this.__isIE6)
+      var Engine = qx.bom.client.Engine;
+      if (isPng && Engine.MSHTML && Engine.VERSION < 7)
       {
         var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + iconUrl + "',sizingMethod='crop')";
         this._contentElement.setStyle("filter", filter);
