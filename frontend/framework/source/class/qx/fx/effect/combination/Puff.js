@@ -110,7 +110,7 @@ qx.Class.define("qx.fx.effect.combination.Puff",
         opacity  : qx.bom.element.Style.get(this._element, "opacity")
       };
 
-      this._fadeEffect.afterFinishInternal = function(effect)
+      this._fadeEffect.afterFinishInternal = function()
       {
         for (var property in oldStyle) {
           qx.bom.element.Style.set(this._element, property, oldStyle[property]);

@@ -165,8 +165,8 @@ qx.Class.define("qx.fx.effect.core.Scale",
         this._originalStyle[property] = this._element.style[property];
       }
 
-      this._originalTop = qx.bom.element.Location.getTop(this._element, "scroll"),
-      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "scroll")
+      this._originalTop = qx.bom.element.Location.getTop(this._element),
+      this._originalLeft = qx.bom.element.Location.getLeft(this._element)
 
       try {
         var fontSize = qx.bom.element.Style.get(this._element, "fontSize");
@@ -196,6 +196,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
       } else {
         this._dims = dims;
       }
+
 
     },
 
