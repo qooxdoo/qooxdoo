@@ -120,6 +120,35 @@ qx.Class.define("qx.bom.Input",
       "default" : function(element, value) {
         element.value = value;
       }
+    }),
+
+
+    /**
+     * Sets the text wrap behaviour of a text area element.
+     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
+     *
+     * @signature function(element, wrap)
+     * @param element {Element} DOM element to modify
+     * @param wrap {Boolean} Whether to turn text wrap on or off.
+     */
+    setTextAreaWrap : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element, wrap) {
+        element.wrap = wrap ? "soft" : "off";
+      },
+
+      "gecko" : function(element, wrap)
+      {
+        var wrapValue  = wrap ? "soft" : "off";
+        var styleValue = wrap ? ""     : "auto";
+
+        element.setAttribute('wrap', wrapValue);
+        element.style.overflow = styleValue;
+      },
+
+      "default" : function(element, wrap) {
+        element.style.whiteSpace = wrap ? "normal" : "nowrap";
+      }
     })
   }
 });
