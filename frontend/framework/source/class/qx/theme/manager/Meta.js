@@ -99,7 +99,7 @@ qx.Class.define("qx.theme.manager.Meta",
 
       colorMgr.setTheme(color);
       decorationMgr.setTheme(decoration);
-      fontMgr.setFontTheme(font);
+      fontMgr.setTheme(font);
       widgetMgr.setWidgetTheme(widget);
       iconMgr.setTheme(icon);
       appearanceMgr.setAppearanceTheme(appearance);
@@ -176,7 +176,7 @@ qx.Class.define("qx.theme.manager.Meta",
           throw new Error("The font theme to use is not available: " + theme);
         }
 
-        qx.theme.manager.Font.getInstance().setFontTheme(obj);
+        qx.theme.manager.Font.getInstance().setTheme(obj);
       }
 
       theme = setting.get("qx.widgetTheme");
