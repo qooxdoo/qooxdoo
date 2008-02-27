@@ -351,7 +351,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var cw = this.f1.getContentWindow();
 
-      if (cw && cw.qx)
+      if (cw && cw.qx && cw.qx.theme)
       {
         var menuButton = this.widgets["menu.appearance"];
         menuButton.setEnabled(true);
@@ -359,7 +359,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         var menu = menuButton.getMenu();
         menu.removeAll();
 
-        var mgr = cw.qx.theme.manager.Meta.getInstance();
+        try {
+					var mgr = cw.qx.theme.manager.Meta.getInstance();					
+				} catch (e) {
+	        menuButton.setEnabled(false);
+					return;
+				}
         var themes = mgr.getMetaThemes();
 
         var radioMgr = new qx.legacy.ui.selection.RadioManager();
