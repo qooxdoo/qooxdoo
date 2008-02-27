@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Decoration_3",
+qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
 {
   extend : demobrowser.Demo,
 
@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
-      qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.Decoration_3_Theme);
+      qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.RoundedBorder_1_Theme);
 
       docLayout.add(this.getGrid1());
 
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
 
     getGrid1 : function()
     {
-      var theme = demobrowser.demo.ui.Decoration_3_Theme;
+      var theme = demobrowser.demo.ui.RoundedBorder_1_Theme;
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(theme);

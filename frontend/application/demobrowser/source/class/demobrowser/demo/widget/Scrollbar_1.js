@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Scrollbar_1",
+qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
 {
   extend : demobrowser.Demo,
 
