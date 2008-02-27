@@ -41,7 +41,7 @@
  * fold in.
  */
 
-qx.Class.define("qx.fx.effect.combination.SwitchOff",
+qx.Class.define("qx.fx.effect.combination.Switch",
 {
 
   extend : qx.fx.Base,
@@ -70,21 +70,6 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     this._appearEffect.afterFinishInternal = function() {
       scaleEffect.start();
     };
-
-    this._scaleEffect.set({
-      scaleTo            : 1.0,
-      duration           : this.getDuration() / 2,
-      scaleFromCenter    : true,
-      scaleX             : false,
-      scaleContent       : false,
-      restoreAfterFinish : true
-    });
-
-    this._appearEffect.set({
-      duration : this.getDuration() / 2,
-      from : this.getFrom(),
-      to : 1
-    });
 
   },
 
@@ -117,6 +102,15 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     },
 
     /**
+     * Final opacity value
+     */
+    to :
+    {
+      init : 1.0,
+      refine : true
+    },
+
+    /**
      * Flag indicating if the CSS attribute "display"
      * should be modified by effect
      */
@@ -124,6 +118,12 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     {
       init : true,
       check : "Boolean"
+    },
+    
+    mode : 
+    {
+      init : "off",
+      check : [ "on", "off" ]
     }
 
   },
@@ -153,7 +153,7 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
 
     afterFinish : function()
     {
-      if (this.getModifyDisplay()) {
+      if (this.getModifyDisplay() && (this.getMode() == "off")) {
         qx.bom.element.Style.set(this._element, "display", "none");
       }
     },
@@ -161,9 +161,53 @@ qx.Class.define("qx.fx.effect.combination.SwitchOff",
     start : function()
     {
       this.base(arguments);
+      
+
+      if(this.getMode() == "off")
+      {
+        
+        this._scaleEffect.set({
+          scaleTo            : 1.0,
+          duration           : this.getDuration() / 2,
+          scaleFromCenter    : true,
+          scaleX             : false,
+          scaleContent       : false,
+          restoreAfterFinish : true
+        });
+    
+        this._appearEffect.set({
+          duration : this.getDuration() / 2,
+          from : this.getFrom(),
+          to : 1
+        });
+        
+      }
+      else
+      {
+
+        this._scaleEffect.set({
+          scaleFrom            : 0,
+          scaleTo              : 100,
+          duration             : this.getDuration() / 2,
+          scaleFromCenter      : true,
+          scaleX               : false,
+          scaleContent         : false,
+          restoreAfterFinish   : true,
+          alternateDimensions  : [ qx.bom.element.Dimension.getWidth(this._element),  qx.bom.element.Dimension.getHeight(this._element)]
+        });
+    
+        this._appearEffect.set({
+          duration : this.getDuration() / 2,
+          from : 0,
+          to : this.getTo()
+        });
+
+      }
+      
+      
       this._appearEffect.start();
     },
-    
+
     _applyDuration : function(value, old)
     {
       this._scaleEffect.setDuration(value / 2);
