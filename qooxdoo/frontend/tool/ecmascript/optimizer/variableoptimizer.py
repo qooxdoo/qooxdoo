@@ -27,12 +27,12 @@ def mapper(found):
     translations = {}
     
     for entry in found:
-        counter += 1
         repl = convert(counter)
+        counter += 1
         
         while repl in found:
-            counter += 1
             repl = convert(counter)
+            counter += 1
             
         translations[entry] = repl
 
