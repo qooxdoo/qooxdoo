@@ -62,12 +62,12 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       });
       docLayout.add(input3);
 
-      var input4 = new qx.ui.form.TextField("styled").set({
+      var input4 = new qx.ui.form.TextField("Web 2.0").set({
         decorator: "light-shadow",
         backgroundColor: "#FAEC84",
-        padding: 5,
-        width: 200,
-        height: 30
+        font: qx.html.Font.fromString("20px sans-serif"),
+        padding: 7,
+        width: 200
       });
       docLayout.add(input4);
 
@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       });
       docLayout.add(input8);
 
-      var input8 = new qx.ui.form.TextArea("text\narea").set({
+      var input9 = new qx.ui.form.TextArea("text\narea").set({
         padding: 3,
         decorator : new qx.ui.decoration.RoundedBorder().set({
           radius : 4,
@@ -107,13 +107,19 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
           backgroundColor : "#DFDFDF"
         })
       });
-      docLayout.add(input8);
+      docLayout.add(input9);
 
-      var input9 = new qx.ui.form.TextArea("text\narea\nnowrap").set({
+      var input10 = new qx.ui.form.TextArea("text\narea\nnowrap").set({
         padding: 3,
         wrap : false
       });
-      docLayout.add(input9);
+      docLayout.add(input10);
+
+      var input11 = new qx.ui.form.TextField("large font").set({
+        padding: 3,
+        font : qx.html.Font.fromString("24px sans-serif")
+      });
+      docLayout.add(input11);
 
       var controls = new qx.ui.core.Widget();
       controls.setLayout(new qx.ui.layout.VBox());

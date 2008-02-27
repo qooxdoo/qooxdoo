@@ -36,12 +36,12 @@ qx.Class.define("qx.theme.manager.Font",
   properties :
   {
     /** the currently selected font theme */
-    fontTheme :
+    theme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyFontTheme",
-      event : "changeFontTheme"
+      apply : "_applyTheme",
+      event : "changeTheme"
     }
   },
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.theme.manager.Font",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return value instanceof qx.ui.core.Font ? value : this._dynamic[value];
+      return value instanceof qx.html.Font ? value : this._dynamic[value];
     },
 
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.theme.manager.Font",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return value && (value instanceof qx.ui.core.Font || this._dynamic[value] !== undefined);
+      return value && (value instanceof qx.html.Font || this._dynamic[value] !== undefined);
     },
 
 
@@ -92,7 +92,7 @@ qx.Class.define("qx.theme.manager.Font",
     },
 
 
-    _applyFontTheme : function(value)
+    _applyTheme : function(value)
     {
       var dest = this._dynamic;
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.theme.manager.Font",
       if (value)
       {
         var source = value.fonts;
-        var font = qx.ui.core.Font;
+        var font = qx.html.Font;
 
         for (var key in source)
         {

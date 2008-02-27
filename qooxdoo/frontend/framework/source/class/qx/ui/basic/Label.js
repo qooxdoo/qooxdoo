@@ -87,6 +87,10 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
+    /** {qx.html.Font} The current label font */
+    __font : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -96,9 +100,14 @@ qx.Class.define("qx.ui.basic.Label",
     // overridden
     _getContentHint : function()
     {
+      var styles = {};
+      if (this.__font) {
+        styles = this.__font.getStyles();
+      }
+
       var measured = this._htmlMode ?
-        qx.bom.Label.getHtmlSize(this.getHtml() || "") :
-        qx.bom.Label.getTextSize(this.getText() || "");
+        qx.bom.Label.getHtmlSize(this.getHtml() || "", styles) :
+        qx.bom.Label.getTextSize(this.getText() || "", styles);
 
       return {
         width : measured.width,
@@ -138,8 +147,16 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-
-
+    // overridden
+    _applyFont : function(value, old)
+    {
+      qx.theme.manager.Font.getInstance().connect(function(font)
+      {
+        font ? font.render(this._contentElement) : qx.ui.core.Font.reset(this._contentElement);
+        this.__font = font;
+        this.scheduleLayoutUpdate();
+      }, this, value);
+    },
 
 
 

@@ -126,15 +126,11 @@ qx.Class.define("qx.ui.form.TextArea",
     // overridden
     _getContentHint : function()
     {
-      // TODO: Needs preloader implementation
-      return {
-        width : 120,
-        minWidth : 0,
-        maxWidth : Infinity,
-        height : 60,
-        minHeight : 0,
-        maxHeight : Infinity
-      };
+      var hint = this.base(arguments);
+      // four lines by default
+      hint.height = hint.height * 4;
+
+      return hint;
     }
 
   }
