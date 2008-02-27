@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
@@ -177,10 +178,21 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
+    /**
+     * Creates the input element. Derived classes may override this
+     * method, to create different input elements.
+     *
+     * @return {qx.html.Input} a new input element.
+     */
+    _createInputElement : function() {
+      return new qx.html.Input("text");
+    },
+
+
     // overridden
     _createContentElement : function()
     {
-      var el = new qx.html.Input("text");
+      var el = this._createInputElement();
 
       el.setStyles({
         "position": "absolute",
