@@ -32,6 +32,17 @@ qx.Class.define("qx.ui.form.TextArea",
   extend : qx.ui.form.TextField,
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(value)
+  {
+    this.base(arguments, value);
+    this.initWrap();
+  },
 
 
 
@@ -43,6 +54,14 @@ qx.Class.define("qx.ui.form.TextArea",
 
   properties :
   {
+    /** Controls whether text wrap is activated or not. */
+    wrap :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyWrap"
+    },
+
     appearance :
     {
       refine : true,
@@ -65,18 +84,6 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       refine : true,
       init : true
-    },
-
-
-    /**
-     * Controls whether text wrap is activated or not.
-     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
-     */
-    wrap :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyWrap"
     }
   },
 
@@ -105,7 +112,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
 
     _applyWrap : function(value, old) {
-      //this._contentElement.setWrap(value);
+      this._contentElement.setTextAreaWrap(value);
     },
 
 
