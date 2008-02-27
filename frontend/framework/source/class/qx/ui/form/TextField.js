@@ -166,12 +166,11 @@ qx.Class.define("qx.ui.form.TextField",
     // overridden
     _getContentHint : function()
     {
-      // TODO: Needs preloader implementation
       return {
         width : 120,
         minWidth : 0,
         maxWidth : Infinity,
-        height : 16,
+        height : this._textHeight || 16,
         minHeight : 0,
         maxHeight : Infinity
       };
@@ -226,6 +225,38 @@ qx.Class.define("qx.ui.form.TextField",
     {
       this.base(arguments, value, old);
       this._contentElement.setAttribute("disabled", value===false);
+    },
+
+
+    // overridden
+    _applyFont : function(value, old) {
+      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
+    },
+
+
+    /**
+     * Utility method to render the given font. Calls the
+     * {@link #_renderFont} method.
+     *
+     * @type member
+     * @param font {qx.html.Font} new font value to render
+     * @return {void}
+     */
+    _styleFont : function(font)
+    {
+      if (font)
+      {
+        font.render(this._contentElement);
+        this._textHeight = qx.bom.Label.getTextSize("A", font.getStyles()).height;
+      }
+      else
+      {
+        qx.ui.core.Font.reset(this._contentElement);
+        delete this._textHeight;
+      }
+
+      this.__font = font;
+      this.scheduleLayoutUpdate();
     },
 
 
