@@ -95,7 +95,7 @@ qx.Class.define("qx.bom.HttpRequest",
       {
         var fOnUnload = function()
         {
-          if (oRequest._object.readyState != cXMLHttpRequest.DONE) __cleanTransport(oRequest);
+          if (oRequest._object.readyState != qx.bom.HttpRequest.DONE) this.__cleanTransport(oRequest);
         };
 
         if (bAsync) window.attachEvent("onunload", fOnUnload);
@@ -108,44 +108,41 @@ qx.Class.define("qx.bom.HttpRequest",
         // Synchronize state
         oRequest.readyState = oRequest._object.readyState;
         //
-        __synchronizeValues(oRequest);
+        this.__synchronizeValues(oRequest);
 
         // BUGFIX: Firefox fires unneccesary DONE when aborting
         if (oRequest._aborted)
         {
           // Reset readyState to UNSENT
-          oRequest.readyState = cXMLHttpRequest.UNSENT;
+          oRequest.readyState = qx.bom.HttpRequest.UNSENT;
 
           // Return now
           return ;
         }
 
-        if (oRequest.readyState == cXMLHttpRequest.DONE)
+        if (oRequest.readyState == qx.bom.HttpRequest.DONE)
         {
           //
-          __cleanTransport(oRequest);
+          this.__cleanTransport(oRequest);
 
           // BUGFIX: IE - memory leak in interrupted
           if (bIE && bAsync) window.detachEvent("onunload", fOnUnload);
         }
 
         // BUGFIX: Some browsers (Internet Explorer, Gecko) fire OPEN readystate twice
-        if (nState != oRequest.readyState) __fireReadyStateChange(oRequest);
+        if (nState != oRequest.readyState) this.__fireReadyStateChange(oRequest);
 
         nState = oRequest.readyState;
       };
-
-      // Add method sniffer
-      if (cXMLHttpRequest.onopen) cXMLHttpRequest.onopen.apply(this, arguments);
 
       this._object.open(sMethod, sUrl, bAsync, sUser, sPassword);
 
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
       if (!bAsync && bGecko)
       {
-        this.readyState = cXMLHttpRequest.OPENED;
+        this.readyState = qx.bom.HttpRequest.OPENED;
 
-        __fireReadyStateChange(this);
+        this.__fireReadyStateChange(this);
       }
     },
 
@@ -159,9 +156,6 @@ qx.Class.define("qx.bom.HttpRequest",
      */
     send : function(vData)
     {
-      // Add method sniffer
-      if (cXMLHttpRequest.onsend) cXMLHttpRequest.onsend.apply(this, arguments);
-
       // BUGFIX: Safari - fails sending documents created/modified dynamically, so an explicit serialization required
       // BUGFIX: IE - rewrites any custom mime-type to "text/xml" in case an XMLNode is sent
       // BUGFIX: Gecko - fails sending Element (this is up to the implementation either to standard)
@@ -176,16 +170,16 @@ qx.Class.define("qx.bom.HttpRequest",
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
       if (bGecko && !this._async)
       {
-        this.readyState = cXMLHttpRequest.OPENED;
+        this.readyState = qx.bom.HttpRequest.OPENED;
 
         // Synchronize state
-        __synchronizeValues(this);
+        this.__synchronizeValues(this);
 
         // Simulate missing states
-        while (this.readyState < cXMLHttpRequest.DONE)
+        while (this.readyState < qx.bom.HttpRequest.DONE)
         {
           this.readyState++;
-          __fireReadyStateChange(this);
+          this.__fireReadyStateChange(this);
 
           // Check if we are aborted
           if (this._aborted) return;
@@ -202,16 +196,13 @@ qx.Class.define("qx.bom.HttpRequest",
      */
     abort : function()
     {
-      // Add method sniffer
-      if (cXMLHttpRequest.onabort) cXMLHttpRequest.onabort.apply(this, arguments);
-
       // BUGFIX: Gecko - unneccesary DONE when aborting
-      if (this.readyState > cXMLHttpRequest.UNSENT) this._aborted = true;
+      if (this.readyState > qx.bom.HttpRequest.UNSENT) this._aborted = true;
 
       this._object.abort();
 
       // BUGFIX: IE - memory leak
-      __cleanTransport(this);
+      this.__cleanTransport(this);
     },
 
 
@@ -308,7 +299,7 @@ qx.Class.define("qx.bom.HttpRequest",
       } catch(e) {}
 
       try {
-        oRequest.responseXML = __getDocument(oRequest._object);
+        oRequest.responseXML = this.__getDocument(oRequest._object);
       } catch(e) {}
 
       try {
