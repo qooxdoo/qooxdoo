@@ -125,8 +125,12 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     {
       this.base(arguments);
 
+      // Element must be visible for move effect
+      qx.bom.element.Style.set(this._element, "display", "block");
+
       var initialMoveX, initialMoveY;
       var moveX, moveY;
+      var self = this;
 
       var oldStyle = {
         top    : qx.bom.element.Location.getTop(this._element),
@@ -194,11 +198,13 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       qx.bom.element.Style.set(this._element, "top", oldStyle.top + initialMoveY);
       qx.bom.element.Style.set(this._element, "left", oldStyle.left + initialMoveX);
+
       qx.bom.element.Style.set(this._element, "height", "0px");
 
       this._mainEffect.start();
     }
 
+    
    },
 
 
