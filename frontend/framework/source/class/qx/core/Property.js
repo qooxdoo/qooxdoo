@@ -22,6 +22,7 @@
 
 #optional(qx.Interface)
 #use(qx.event.type.Change)
+#use(qx.event.dispatch.Direct)
 
 ************************************************************************ */
 
@@ -147,7 +148,7 @@ qx.Class.define("qx.core.Property",
       "Node"      : 'value !== null && value.nodeType !== undefined',
       "Element"   : 'value !== null && value.nodeType === 1 && value.attributes',
       "Document"  : 'value !== null && value.nodeType === 9 && value.documentElement',
-      "Window"    : 'value !== null && window.document',
+      "Window"    : 'value !== null && value.document',
       "Event"     : 'value !== null && value.type !== undefined',
 
       "Class"     : 'value !== null && value.$$type === "Class"',
