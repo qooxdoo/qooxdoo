@@ -289,7 +289,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
           startColor   : "#EBE9ED",
           endColor     : "#FFA823",
           duration     : 2,
-          delayBetween : 1
+          delayBetween : 0.5
         });
       });
 
@@ -363,7 +363,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
           startColor   : "#EBE9ED",
           endColor     : "#FFA823",
           duration     : 2,
-          delayBetween : 1
+          delayBetween : 0.5
         });
       });
 
