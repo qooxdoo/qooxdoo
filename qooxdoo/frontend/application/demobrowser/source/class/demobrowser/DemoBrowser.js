@@ -15,6 +15,7 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -736,7 +737,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // Second Page
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-plain.png");
+      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/utilities-log-viewer.png");
       buttview.getBar().add(bsb2);
 
       var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
@@ -775,7 +776,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Source Code", "icon/16/apps/photo-album.png");
+      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("HTML Code", "icon/16/mimetypes/text-html.png");
       buttview.getBar().add(bsb3);
 
       // -- Tab Pane
@@ -787,7 +788,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
       var f3 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
       p3.add(f3);
-      this.widgets["outputviews.sourcepage.page"] = f3;
+      this.widgets["outputviews.sourcepage.html.page"] = f3;
 
       f3.set(
       {
@@ -798,6 +799,32 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : "monospace"
       });
       f3.setHtmlProperty("id", "qx_srcview");
+			
+			// Fourth Page
+      // -- Tab Button
+      var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/mimetypes/text-plain.png");
+      buttview.getBar().add(bsb4);
+
+      // -- Tab Pane
+      var p4 = new qx.legacy.ui.pageview.tabview.Page(bsb4);
+      p4.set({ padding : [ 5 ] });
+      buttview.getPane().add(p4);
+
+      // -- Pane Content
+      //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
+      var f4 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      p4.add(f4);
+      this.widgets["outputviews.sourcepage.js.page"] = f4;
+
+      f4.set(
+      {
+        overflow : "auto",
+        width    : "100%",
+        height   : "100%",
+        border   : "dark-shadow",
+        font     : "monospace"
+      });
+      f4.setHtmlProperty("id", "qx_srcview");
 
       return buttview;
 
@@ -1361,37 +1388,58 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param url {var} TODOC
      * @return {String} TODOC
      */
-    __getPageSource : function(url)
-    {
+    __getPageSource : function(url) {
 
       if( typeof(url) != "string" ){
-        return ;
+        return;
       }
-
+      // create a and config request to the given url
       var req = new qx.io.remote.Request(url);
-
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addListener("completed", function(evt)
-      {
-        var loadEnd = new Date();
+      req.addListener("completed", function(evt) {
+        // debuging time
+				var loadEnd = new Date();
         this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
-
+        
+				// get the content of the request
         var content = evt.getContent();
-
+        // if there is a content
         if (content) {
-          //this.widgets["outputviews.sourcepage.page"].setValue(content);
-          this.widgets["outputviews.sourcepage.page"].setHtml(this.__beautySource(content));
-          this.__sourceCodeLoaded = 1;
-        }
-      },
-      this);
+					// extract the name of the js file
+					var firstSrcTagPosition = content.indexOf("<script");
+					var srcAttributeStart = content.indexOf("src", firstSrcTagPosition);
+	        var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
+					var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
+					var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
+					// get the javascript code 
+					var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
+          reqJSFile.setTimeout(180000);
+          reqJSFile.setProhibitCaching(false);
+          reqJSFile.addListener("completed", function(evt2) {
+            var jsCode = evt2.getContent();
+            if (jsCode) {
+						  // set the javascript code to the javascript page
+		          this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));											 	
+						}
+				  }, this);	
+		      // add a listener which handles the failure of the request
+		      reqJSFile.addListener("failed", function(evt) {
+		        this.error("Couldn't load file: " + url);
+		      }, this);					
+          // send the request for the javascript code
+          reqJSFile.send();
 
+          // write the html code to the html page
+          this.widgets["outputviews.sourcepage.html.page"].setHtml(this.__beautySource(content));
+        }
+      }, this);
+      // add a listener which handles the failure of the request
       req.addListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
-
+      // send the request for the html file
       var loadStart = new Date();
       req.send();
     },
@@ -1505,7 +1553,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __beautySource : function (src)
+    __beautySource : function (src, type)
     {
       var bsrc = "<pre>";
       var lines = [];
@@ -1516,6 +1564,13 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       src = src.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
       var lines = src.split('\n');
+
+      // if the source is a javascript file
+      if (type == "javascript") {
+				return "<pre><div class='script'>" + 
+				             qx.dev.Tokenizer.javaScriptToHtml(src) + 
+										 "</div></pre>";
+			}
 
       for (var i=0; i<lines.length; i++)
       {
