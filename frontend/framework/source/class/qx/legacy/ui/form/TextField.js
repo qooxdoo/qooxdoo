@@ -1078,9 +1078,16 @@ qx.Class.define("qx.legacy.ui.form.TextField",
 
         var el = this._inputElement;
 
-        if ( qx.legacy.util.Validation.isValidString(el.value) && this.getVisibility() ) {
-          el.selectionEnd = el.selectionStart + vLength;
-        }
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          if (qx.util.Validation.isValidString(el.value)) {
+            el.selectionEnd = el.selectionStart + vLength;
+          }
+        } catch (e) {}
       }
     }),
 
