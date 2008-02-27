@@ -107,7 +107,7 @@ qx.Class.define("qx.fx.effect.core.Fade",
     },
 
 
-    beforeSetup : function(effect)
+    beforeSetup : function()
     {
       if ( (this.getModifyDisplay()) && (this.getTo() > 0) ){
         qx.bom.element.Style.set(this._element, "display", "block");
