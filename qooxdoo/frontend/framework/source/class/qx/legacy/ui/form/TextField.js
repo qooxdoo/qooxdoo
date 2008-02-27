@@ -1001,6 +1001,19 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         vRange.select();
       },
 
+      "gecko" : function(vStart)
+      {
+        this._visualPropertyCheck();
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try {
+          this._inputElement.selectionStart = vStart;
+        } catch (e) {}
+      },
+
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
@@ -1039,6 +1052,24 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         return len - vRange.text.length;
       },
 
+      "gecko" : function()
+      {
+        this._visualPropertyCheck();
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          if (qx.util.Validation.isValidString(el.value)) {
+            return this._inputElement.selectionEnd;
+          }
+        } catch (e) {
+          return 0;
+        }
+      },
+
       "default" : function()
       {
         this._visualPropertyCheck();
@@ -1072,10 +1103,9 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         vSelectionRange.select();
       },
 
-      "default" : function(vLength)
+      "gecko" : function(vLength)
       {
         this._visualPropertyCheck();
-
         var el = this._inputElement;
 
         // the try catch block is neccesary because FireFox raises an exception
@@ -1088,6 +1118,16 @@ qx.Class.define("qx.legacy.ui.form.TextField",
             el.selectionEnd = el.selectionStart + vLength;
           }
         } catch (e) {}
+      },
+
+      "default" : function(vLength)
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        if (qx.util.Validation.isValidString(el.value)) {
+          el.selectionEnd = el.selectionStart + vLength;
+        }
       }
     }),
 
@@ -1114,10 +1154,23 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         return vSelectionRange.text.length;
       },
 
+      "gecko" : function()
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try {
+          return el.selectionEnd - el.selectionStart;
+        } catch (e) {}
+      },
+
       "default" : function()
       {
         this._visualPropertyCheck();
-
         var el = this._inputElement;
         return el.selectionEnd - el.selectionStart;
       }
@@ -1152,6 +1205,38 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         // recover selection (to behave the same gecko does)
         this.setSelectionStart(vStart);
         this.setSelectionLength(vText.length);
+      },
+
+
+      "gecko" : function(vText)
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          if (qx.util.Validation.isValidString(el.value))
+          {
+            var vOldText = el.value;
+            var vStart = el.selectionStart;
+
+            var vOldTextBefore = vOldText.substr(0, vStart);
+            var vOldTextAfter = vOldText.substr(el.selectionEnd);
+
+            var vValue = el.value = vOldTextBefore + vText + vOldTextAfter;
+
+            // recover selection
+            el.selectionStart = vStart;
+            el.selectionEnd = vStart + vText.length;
+
+            // apply new value to internal cache
+            this.setValue(vValue);
+          }
+        } catch (e) {}
       },
 
       "default" : function(vText)
@@ -1248,11 +1333,27 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         this.setSelectionLength(vEnd - vStart);
       },
 
+      "gecko" : function(vStart, vEnd)
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          el.selectionStart = vStart;
+          el.selectionEnd = vEnd;
+        } catch (e) {}
+      },
+
       "default" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-
         var el = this._inputElement;
+
         el.selectionStart = vStart;
         el.selectionEnd = vEnd;
       }
