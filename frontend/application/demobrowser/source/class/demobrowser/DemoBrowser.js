@@ -360,11 +360,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         menu.removeAll();
 
         try {
-					var mgr = cw.qx.theme.manager.Meta.getInstance();					
-				} catch (e) {
-	        menuButton.setEnabled(false);
-					return;
-				}
+          var mgr = cw.qx.theme.manager.Meta.getInstance();          
+        } catch (e) {
+          menuButton.setEnabled(false);
+          return;
+        }
         var themes = mgr.getMetaThemes();
 
         var radioMgr = new qx.legacy.ui.selection.RadioManager();
@@ -804,8 +804,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : "monospace"
       });
       f3.setHtmlProperty("id", "qx_srcview");
-			
-			// Fourth Page
+      
+      // Fourth Page
       // -- Tab Button
       var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/mimetypes/text-plain.png");
       buttview.getBar().add(bsb4);
@@ -1214,7 +1214,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       //this.widgets["outputviews.demopage.page"].setEnabled(false);
       
-			this.__setStateLoading();
+      this.__setStateLoading();
 
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
       if (iDoc)
@@ -1270,12 +1270,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (splitIndex != -1) {
         fpath = fpath.substring(0, splitIndex + 1);
       }
-      // local files in the IE use \ insted of /
-      if (window.location.protocol == "file:" && qx.core.Variant.isSet("qx.client", "mshtml")) {
-        var path = fpath.split("\\");				
-			} else {
-				var path = fpath.split("/");
-			}
+      // local files in the IE6 use \ insted of /
+      if (window.location.protocol == "file:" && 
+			    qx.bom.client.Engine.MSHTML == true &&
+					qx.bom.client.Engine.VERSION < 7) {
+        var path = fpath.split("\\");
+      } else {
+        var path = fpath.split("/");
+      }
 
       var furl = this.f1.getSource();
       //if (this._currentSampleUrl != this.defaultUrl)
@@ -1317,13 +1319,13 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.__setStateLoaded();
       try {
-        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()			
-			} catch (e) {
-				// if nothing is selected
-				var tabName = "Start";
-			}
-			this.widgets["outputviews.demopage.button"].setLabel(tabName);
-			// this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
+        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()      
+      } catch (e) {
+        // if nothing is selected
+        var tabName = "Start";
+      }
+      this.widgets["outputviews.demopage.button"].setLabel(tabName);
+      // this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
       this.debug("Demo loaded...");
   
       if (this.isPlayAll())
@@ -1357,7 +1359,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
-        var first = this._sampleToTreeNodeMap['example/Atom_1.html'];
+        var first = this._sampleToTreeNodeMap['ui/ApplicationRoot_1.html'];
         this.widgets["treeview.full"].setSelectedElement(first);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
@@ -1416,34 +1418,34 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       req.addListener("completed", function(evt) {
         // debuging time
-				var loadEnd = new Date();
+        var loadEnd = new Date();
         this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
         
-				// get the content of the request
+        // get the content of the request
         var content = evt.getContent();
         // if there is a content
         if (content) {
-					// extract the name of the js file
-					var firstSrcTagPosition = content.indexOf("<script");
-					var srcAttributeStart = content.indexOf("src", firstSrcTagPosition);
-	        var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
-					var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
-					var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
-					// get the javascript code 
-					var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
+          // extract the name of the js file
+          var firstSrcTagPosition = content.indexOf("<script");
+          var srcAttributeStart = content.indexOf("src", firstSrcTagPosition);
+          var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
+          var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
+          var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
+          // get the javascript code 
+          var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
           reqJSFile.setTimeout(180000);
           reqJSFile.setProhibitCaching(false);
           reqJSFile.addListener("completed", function(evt2) {
             var jsCode = evt2.getContent();
             if (jsCode) {
-						  // set the javascript code to the javascript page
-		          this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));											 	
-						}
-				  }, this);	
-		      // add a listener which handles the failure of the request
-		      reqJSFile.addListener("failed", function(evt) {
-		        this.error("Couldn't load file: " + url);
-		      }, this);					
+              // set the javascript code to the javascript page
+              this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));                         
+            }
+          }, this);  
+          // add a listener which handles the failure of the request
+          reqJSFile.addListener("failed", function(evt) {
+            this.error("Couldn't load file: " + url);
+          }, this);          
           // send the request for the javascript code
           reqJSFile.send();
 
@@ -1583,10 +1585,10 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // if the source is a javascript file
       if (type == "javascript") {
-				return "<pre><div class='script'>" + 
-				             qx.dev.Tokenizer.javaScriptToHtml(src) + 
-										 "</div></pre>";
-			}
+        return "<pre><div class='script'>" + 
+                     qx.dev.Tokenizer.javaScriptToHtml(src) + 
+                     "</div></pre>";
+      }
 
       for (var i=0; i<lines.length; i++)
       {
