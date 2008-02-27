@@ -81,6 +81,33 @@ qx.Class.define("demobrowser.demo.ui.Input_1",
       });
       docLayout.add(input6);
 
+      var input7 = new qx.ui.form.PasswordField("geheim").set({
+        padding: 5
+      });
+      docLayout.add(input7);
+
+      var input8 = new qx.ui.form.TextField("Juhu Kinners").set({
+        padding: [0, 10],
+        height: 20,
+        decorator : new qx.ui.decoration.RoundedBorder().set({
+          radius : 10,
+          width : 1,
+          color : "#ABABAB",
+          backgroundColor : "#DFDFDF"
+        })
+      });
+      docLayout.add(input8);
+
+      var input8 = new qx.ui.form.TextArea("text\narea").set({
+        padding: 3,
+        decorator : new qx.ui.decoration.RoundedBorder().set({
+          radius : 4,
+          width : 1,
+          color : "#ABABAB",
+          backgroundColor : "#DFDFDF"
+        })
+      });
+      docLayout.add(input8);
 
       var controls = new qx.ui.core.Widget();
       controls.setLayout(new qx.ui.layout.VBox());
