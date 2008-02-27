@@ -1213,8 +1213,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- Vars and Setup -----------------------
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       //this.widgets["outputviews.demopage.page"].setEnabled(false);
-
-      this.__setStateLoading();
+      
+			this.__setStateLoading();
 
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
       if (iDoc)
@@ -1241,7 +1241,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         url = this.defaultUrl;
       }
-
       // disable tree *after* setSelectedElement
       //this.widgets["treeview"].setEnabled(false);
 
@@ -1271,7 +1270,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (splitIndex != -1) {
         fpath = fpath.substring(0, splitIndex + 1);
       }
-      var path = fpath.split("/");
+      // local files in the IE use \ insted of /
+      if (window.location.protocol == "file:" && qx.core.Variant.isSet("qx.client", "mshtml")) {
+        var path = fpath.split("\\");				
+			} else {
+				var path = fpath.split("/");
+			}
 
       var furl = this.f1.getSource();
       //if (this._currentSampleUrl != this.defaultUrl)
@@ -1312,9 +1316,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       this.__setStateLoaded();
-      this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
+      try {
+        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()			
+			} catch (e) {
+				// if nothing is selected
+				var tabName = "Start";
+			}
+			this.widgets["outputviews.demopage.button"].setLabel(tabName);
+			// this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
       this.debug("Demo loaded...");
-
+  
       if (this.isPlayAll())
       {
         if (this.widgets["toolbar.nextbutt"].isEnabled())
