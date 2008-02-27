@@ -42,39 +42,37 @@ qx.Class.define("qx.bom.element.Overflow",
     _compile : qx.core.Variant.select("qx.client",
     {
       // gecko support differs
-      "gecko" : qx.bom.Client.select(
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
+
+      // older geckos do not support overflowX
+      function(prop, value)
       {
-        // older geckos do not support overflowX
-        "version<1.8" : function(prop, value)
-        {
-          // Fix for gecko < 1.6
-          if (value == "hidden") {
-            value = "-moz-scrollbars-none";
-          }
-
-          // Apply style
-          return "overflow:" + value + ";";
-        },
-
-        // gecko >= 1.8 supports overflowX, too
-        "default" : function(prop, value) {
-          return prop + ":" + value + ";";
+        // Fix for gecko < 1.6
+        if (value == "hidden") {
+          value = "-moz-scrollbars-none";
         }
-      }),
+
+        // Apply style
+        return "overflow:" + value + ";";
+      } :
+
+      // gecko >= 1.8 supports overflowX, too
+      function(prop, value) {
+        return prop + ":" + value + ";";
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(prop, value) {
-          return "overflow:" + value + ";";
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
 
-        // opera >=9.5 supports overflowX, too
-        "default" : function(prop, value) {
-          return prop + ":" + value + ";";
-        }
-      }),
+      // older versions of opera have no support for splitted overflow properties.
+      function(prop, value) {
+        return "overflow:" + value + ";";
+      } :
+
+      // opera >=9.5 supports overflowX, too
+      function(prop, value) {
+        return prop + ":" + value + ";";
+      },
 
       // use native overflowX property
       "default" : function(prop, value) {
@@ -135,41 +133,39 @@ qx.Class.define("qx.bom.element.Overflow",
     getX : qx.core.Variant.select("qx.client",
     {
       // gecko support differs
-      "gecko" : qx.bom.Client.select(
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
+
+      // older geckos do not support overflowX
+      // it's also more safe to translate hidden to -moz-scrollbars-none
+      // because of issues in older geckos
+      function(element, mode)
       {
-        // older geckos do not support overflowX
-        // it's also more safe to translate hidden to -moz-scrollbars-none
-        // because of issues in older geckos
-        "version<1.8" : function(element, mode)
-        {
-          var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
+        var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
 
-          if (overflow === "-moz-scrollbars-none") {
-            overflow = "hidden";
-          }
-
-          return overflow;
-        },
-
-        // gecko >= 1.8 supports overflowX, too
-        "default" : function(element, mode) {
-          return qx.bom.element.Style.get(element, "overflowX", mode, false);
+        if (overflow === "-moz-scrollbars-none") {
+          overflow = "hidden";
         }
-      }),
+
+        return overflow;
+      } :
+
+      // gecko >= 1.8 supports overflowX, too
+      function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflowX", mode, false);
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(element, mode) {
-          return qx.bom.element.Style.get(element, "overflow", mode, false);
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
 
-        // opera >=9.5 supports overflowX, too
-        "default" : function(element, mode) {
-          return qx.bom.element.Style.get(element, "overflowX", mode, false);
-        }
-      }),
+      // older versions of opera have no support for splitted overflow properties.
+      function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflow", mode, false);
+      } :
+
+      // opera >=9.5 supports overflowX, too
+      function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflowX", mode, false);
+      },
 
       // use native overflowX property
       "default" : function(element, mode) {
@@ -190,39 +186,37 @@ qx.Class.define("qx.bom.element.Overflow",
     setX : qx.core.Variant.select("qx.client",
     {
       // gecko support differs
-      "gecko" : qx.bom.Client.select(
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
+
+      // older geckos do not support overflowX
+      function(element, value)
       {
-        // older geckos do not support overflowX
-        "version<1.8" : function(element, value)
-        {
-          // Fix for gecko < 1.6
-          if (value == "hidden") {
-            value = "-moz-scrollbars-none";
-          }
-
-          // Apply style
-          element.style.overflow = value;
-        },
-
-        // gecko >= 1.8 supports overflowX, too
-        "default" : function(element, value) {
-          element.style.overflowX = value;
+        // Fix for gecko < 1.6
+        if (value == "hidden") {
+          value = "-moz-scrollbars-none";
         }
-      }),
+
+        // Apply style
+        element.style.overflow = value;
+      } :
+
+      // gecko >= 1.8 supports overflowX, too
+      function(element, value) {
+        element.style.overflowX = value;
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(element, value) {
-          element.style.overflow = value;
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
+      
+      // older versions of opera have no support for splitted overflow properties.
+      function(element, value) {
+        element.style.overflow = value;
+      } :
 
-        // opera >=9.5 supports overflowX, too
-        "default" : function(element, value) {
-          element.style.overflowX = value;
-        }
-      }),
+      // opera >=9.5 supports overflowX, too
+      function(element, value) {
+        element.style.overflowX = value;
+      },
 
       // use native overflowX property
       "default" : function(element, value) {
@@ -241,31 +235,29 @@ qx.Class.define("qx.bom.element.Overflow",
      */
     resetX : qx.core.Variant.select("qx.client",
     {
-      "gecko" : qx.bom.Client.select(
-      {
-        "version<1.8" : function(element) {
-          element.style.overflow = "";
-        },
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
 
-        // gecko >= 1.8 supports overflowX, too
-        "default" : function(element) {
-          element.style.overflowX = "";
-        }
-      }),
+      function(element) {
+        element.style.overflow = "";
+      } :
+
+      // gecko >= 1.8 supports overflowX, too
+      function(element) {
+        element.style.overflowX = "";
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(element, value) {
-          element.style.overflow = "";
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
 
-        // opera >=9.5 supports overflowX, too
-        "default" : function(element, value) {
-          element.style.overflowX = "";
-        }
-      }),
+      // older versions of opera have no support for splitted overflow properties.
+      function(element, value) {
+        element.style.overflow = "";
+      } :
+
+      // opera >=9.5 supports overflowX, too
+      function(element, value) {
+        element.style.overflowX = "";
+      },
 
       // use native overflowY property
       "default" : function(element) {
@@ -288,41 +280,39 @@ qx.Class.define("qx.bom.element.Overflow",
     getY : qx.core.Variant.select("qx.client",
     {
       // gecko support differs
-      "gecko" : qx.bom.Client.select(
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
+
+      // older geckos do not support overflowY
+      // it's also more safe to translate hidden to -moz-scrollbars-none
+      // because of issues in older geckos
+      function(element, mode)
       {
-        // older geckos do not support overflowY
-        // it's also more safe to translate hidden to -moz-scrollbars-none
-        // because of issues in older geckos
-        "version<1.8" : function(element, mode)
-        {
-          var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
+        var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
 
-          if (overflow === "-moz-scrollbars-none") {
-            overflow = "hidden";
-          }
-
-          return overflow;
-        },
-
-        // gecko >= 1.8 supports overflowY, too
-        "default" : function(element, mode) {
-          return qx.bom.element.Style.get(element, "overflowY", mode, false);
+        if (overflow === "-moz-scrollbars-none") {
+          overflow = "hidden";
         }
-      }),
+
+        return overflow;
+      } :
+
+      // gecko >= 1.8 supports overflowY, too
+      function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflowY", mode, false);
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(element, mode) {
-          return qx.bom.element.Style.get(element, "overflow", mode, false);
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
 
-        // opera >=9.5 supports overflowY, too
-        "default" : function(element, mode) {
-          return qx.bom.element.Style.get(element, "overflowY", mode, false);
-        }
-      }),
+      // older versions of opera have no support for splitted overflow properties.
+      function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflow", mode, false);
+      } :
+
+      // opera >=9.5 supports overflowY, too
+      function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflowY", mode, false);
+      },
 
       // use native overflowY property
       "default" : function(element, mode) {
@@ -343,41 +333,39 @@ qx.Class.define("qx.bom.element.Overflow",
     setY : qx.core.Variant.select("qx.client",
     {
       // gecko support differs
-      "gecko" : qx.bom.Client.select(
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
+
+      // older geckos do not support overflowY
+      // it's also more safe to translate hidden to -moz-scrollbars-none
+      // because of issues in older geckos
+      function(element, value)
       {
-        // older geckos do not support overflowY
-        // it's also more safe to translate hidden to -moz-scrollbars-none
-        // because of issues in older geckos
-        "version<1.8" : function(element, value)
-        {
-          // Fix for gecko < 1.6
-          if (value === "hidden") {
-            value = "-moz-scrollbars-none";
-          }
-
-          // Apply style
-          element.style.overflow = value;
-        },
-
-        // gecko >= 1.8 supports overflowY, too
-        "default" : function(element, value) {
-          element.style.overflowY = value;
+        // Fix for gecko < 1.6
+        if (value === "hidden") {
+          value = "-moz-scrollbars-none";
         }
-      }),
+
+        // Apply style
+        element.style.overflow = value;
+      } :
+
+      // gecko >= 1.8 supports overflowY, too
+      function(element, value) {
+        element.style.overflowY = value;
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(element, value) {
-          element.style.overflow = value;
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
 
-        // opera >=9.5 supports overflowX, too
-        "default" : function(element, value) {
-          element.style.overflowY = value;
-        }
-      }),
+      // older versions of opera have no support for splitted overflow properties.
+      function(element, value) {
+        element.style.overflow = value;
+      } :
+
+      // opera >=9.5 supports overflowX, too
+      function(element, value) {
+        element.style.overflowY = value;
+      },
 
       // use native overflowY property
       "default" : function(element, value) {
@@ -396,31 +384,29 @@ qx.Class.define("qx.bom.element.Overflow",
      */
     resetY : qx.core.Variant.select("qx.client",
     {
-      "gecko" : qx.bom.Client.select(
-      {
-        "version<1.8" : function(element) {
-          element.style.overflow = "";
-        },
+      "gecko" : qx.bom.client.Engine.VERSION < 1.8 ?
 
-        // gecko >= 1.8 supports overflowX, too
-        "default" : function(element) {
-          element.style.overflowY = "";
-        }
-      }),
+      function(element) {
+        element.style.overflow = "";
+      } :
+
+      // gecko >= 1.8 supports overflowX, too
+      function(element) {
+        element.style.overflowY = "";
+      },
 
       // opera support differs
-      "opera" : qx.bom.Client.select(
-      {
-        // older versions of opera have no support for splitted overflow properties.
-        "version<9.5" : function(element, value) {
-          element.style.overflow = "";
-        },
+      "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
 
-        // opera >=9.5 supports overflowX, too
-        "default" : function(element, value) {
-          element.style.overflowY = "";
-        }
-      }),
+      // older versions of opera have no support for splitted overflow properties.
+      function(element, value) {
+        element.style.overflow = "";
+      } :
+
+      // opera >=9.5 supports overflowX, too
+      function(element, value) {
+        element.style.overflowY = "";
+      },
 
       // use native overflowY property
       "default" : function(element) {
