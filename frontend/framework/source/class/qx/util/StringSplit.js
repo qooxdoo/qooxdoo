@@ -37,7 +37,7 @@
 /**
  * Implements an ECMA-compliant, uniform cross-browser split method
  */
-qx.Class.define("qx.util.StringSplit",
+qx.Bootstrap.define("qx.util.StringSplit",
 {
   statics :
   {
