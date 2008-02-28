@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         groupBoxes[box].setDimension("auto", "auto");
         main.add(groupBoxes[box]);
       }
-
+      
       doc.add(main)
 
 
@@ -242,8 +242,9 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         var status = qx.util.ColorUtil.cssStringToRgb(qx.bom.element.Style.get(this._demoElement, "backgroundColor")).toString();
 
         colorFlow.set({
-          startColor : (status == "19,66,117") ? "#134275" : "#7CFC00",
-          endColor   : (status == "19,66,117") ? "#7CFC00" : "#134275"
+          restoreBackground : false,
+          startColor        : (status == "19,66,117") ? "#134275" : "#7CFC00",
+          endColor          : (status == "19,66,117") ? "#7CFC00" : "#134275"
         });
         colorFlow.start();
       }, this);
@@ -455,6 +456,19 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
 
 
+      qx.legacy.ui.core.ClientDocument.getInstance().addListener("appear", function()
+      {
+        for(var box in groupBoxes)
+        {
+          groupBoxes[box].setDimension("auto", "auto");
+          groupBoxes[box].setFont("bold");
+          main.add(groupBoxes[box]);
+        }
+  
+        for (var i=0; i<this._vBoxes.length; i++) {
+          this._vBoxes[i].setFont("normal");
+        }
+      });
 
     }
 
