@@ -126,7 +126,6 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       ];
     },
 
-
     update : function(position)
     {
       this.base(arguments);
@@ -153,6 +152,10 @@ qx.Class.define("qx.fx.effect.core.Highlight",
     },
 
 
+    /**
+     * Helper function to restore style attributes
+     * to the state before the effect was started.
+     */
     _restore : function()
     {
       for(var property in this._oldStyle) {

@@ -70,7 +70,10 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    members :
    {
 
-    finish : function(position)
+    /**
+     * Finishes all child effects
+     */
+    finish : function()
     {
       this.base(arguments);
 
@@ -91,7 +94,12 @@ qx.Class.define("qx.fx.effect.core.Parallel",
       }
     },
 
-
+    /**
+     * Renders all child effects
+     * 
+     * @param position {Number} Animation setp
+     * as Number between 0 and 1.
+     */
     update : function(position)
     {
       this.base(arguments);

@@ -134,6 +134,8 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     afterFinishInternal : function()
     {
+      this.base(arguments);
+
       qx.bom.element.Style.set(this._element, "overflow", "visible");
 
       for (var property in this._oldStyle) {

@@ -187,6 +187,9 @@ qx.Class.define("qx.fx.Base",
   statics :
   {
 
+    /**
+     * State in which each effect can be
+     */
     EffectState :
     {
       IDLE     : 'idle',
@@ -205,9 +208,19 @@ qx.Class.define("qx.fx.Base",
 
   members :
   {
+    
+    /**
+     * Apply method for duration. Should be overwritten if needed. 
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     **/
+    _applyDuration : function(value, old){},
 
-    _applyDuration : function(){},
-
+    /**
+     * This internal function is used to update
+     * properties before the effect starts.
+     */
     init : function()
     {
       this._currentFrame = 0;
@@ -219,31 +232,128 @@ qx.Class.define("qx.fx.Base",
       this._totalFrames  = this.getFps() * this.getDuration();
     },
 
+    /**
+     * This internal function is called before
+     * "beforeFinished" and before the effect
+     * actually ends.
+     */
     beforeFinishInternal : function(){},
+    
+    /**
+     * This internal function is called before
+     * the effect actually ends.
+     */
     beforeFinish : function(){},
+
+    /**
+     * This internal function is called before
+     * "afterFinished" and after the effect
+     * actually has ended.
+     */
     afterFinishInternal : function(){},
+
+    /**
+     * This internal function is called after
+     * the effect actually has ended.
+     */
     afterFinish : function(){},
 
+    /**
+     * This internal function is called before
+     * "beforeSetup" and before the effect's
+     * "setup" method gets called.
+     */
     beforeSetupInternal : function(){},
+
+    /**
+     * This internal function is called before
+     * the effect's "setup" method gets called.
+     */
     beforeSetup : function(){},
+
+    /**
+     * This internal function is called before
+     * "afterSetup" and after the effect's
+     * "setup" method has been called.
+     */
     afterSetupInternal : function(){},
+
+    /**
+     * This internal function is after
+     * the effect's "setup" method has been called.
+     */
     afertSetup : function(){},
 
+    
+    /**
+     * This internal function is called before
+     * "beforeUpdateInternal" and each time before
+     * the effect's "update" method is called.
+     */
     beforeUpdateInternal : function(){},
+    
+    /**
+     * This internal function is each time before
+     * the effect's "update" method is called.
+     */
     beforeUpdate : function(){},
+
+    /**
+     * This internal function is called before
+     * "afterUpdate" and each time after
+     * the effect's "update" method is called.
+     */
     afterUpdateInternal : function(){},
+
+    /**
+     * This internal function is called
+     * each time after the effect's "update" method is called.
+     */
     afterUpdate : function(){},
 
+    /**
+     * This internal function is called before
+     * "beforeStartInternal" and before the effect
+     * actually starts.
+     */
     beforeStartInternal : function(){},
-    beforeStart : function(){},
+
+    /**
+     * This internal function is called
+     * before the effect actually starts.
+     */
+     beforeStart : function(){},
 
 
+   /**
+    * This internal function is called
+    * before the effect starts to configure
+    * the element or prepare other effects.
+    * 
+    * Fires "setup" event.
+    * 
+    */
     setup : function() {
       this.fireEvent("setup");
     },
 
 
-    update : function()
+    /**
+     * This internal function is called
+     * each time the effect performs an 
+     * step of the animation.
+     * 
+     * Sub classes will overwrite this to 
+     * perform the acutal changes on element
+     * properties.  
+     * 
+     * Fires "update" event.
+     * 
+     * @param position {Number} Animation setp
+     * as Number between 0 and 1.
+     * 
+     */
+    update : function(position)
     {
       if (this.hasListeners()) {
         this.fireEvent("update");
@@ -251,11 +361,21 @@ qx.Class.define("qx.fx.Base",
     },
 
 
+    /**
+     * This internal function is called
+     * when the effect has finished.
+     * 
+     * Fires "finish" event.
+     * 
+     */
     finish  : function() {
       this.fireEvent("finish");
     },
 
 
+    /**
+     * Starts the effect
+     */
     start : function()
     {
 
@@ -275,6 +395,9 @@ qx.Class.define("qx.fx.Base",
     },
 
 
+    /**
+     * Ends the effect
+     */
     end : function()
     {
       this.render(1.0);
@@ -289,7 +412,13 @@ qx.Class.define("qx.fx.Base",
       this.afterFinish();
     },
 
-
+    /**
+     * Calls update(), or invokes the effect, if not running.
+     * 
+     * @param pos {Number} Effect's step on duration between
+     * 0 (just started) and 1 (finished). The longer the duration
+     * is, the lower is each step.
+     */
     render : function(pos)
     {
       if(this._state == qx.fx.Base.EffectState.IDLE)
@@ -307,6 +436,8 @@ qx.Class.define("qx.fx.Base",
 
       if(this._state == qx.fx.Base.EffectState.RUNNING)
       {
+
+        // adjust position depending on transition function
         this._position = qx.fx.Transition.get(this.getTransition())(pos) * this._fromToDelta + this.getFrom();
 
         this.beforeUpdateInternal();
@@ -320,19 +451,29 @@ qx.Class.define("qx.fx.Base",
     },
 
 
+    /**
+     * Ivokes update() if effect's remaining duration is
+     * bigger than zero, or ends the effect otherwise.
+     *  
+     * @param timePos {Number} Effect's step on duration between
+     * 0 (just started) and 1 (finished). The longer the duration
+     * is, the lower is each step.
+     */
     loop : function(timePos)
     {
+      // check if effect should be rendered now
       if (timePos >= this._startOn)
       {
 
-        if (timePos >= this._finishOn)
-        {
+        // check if effect effect finish
+        if (timePos >= this._finishOn) {
           this.end();
         }
 
         var pos   = (timePos - this._startOn) / this._totalTime;
         var frame = Math.round(pos * this._totalFrames);
 
+        // check if effect has to be drawn in this frame
         if (frame > this._currentFrame)
         {
           this.render(pos);
@@ -343,6 +484,9 @@ qx.Class.define("qx.fx.Base",
     },
 
 
+    /**
+    * Removes effect from queue and sets state to finished.
+    */
     cancel : function()
     {
       if (!this.getSync()) {

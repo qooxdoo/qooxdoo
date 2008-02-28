@@ -141,6 +141,16 @@ qx.Class.define("qx.fx.effect.core.Scroll",
     },
 
 
+    /**
+     * Helper function verifying if scroll action can
+     * be performed or if scroll properties are at a limit.
+     * 
+     *  @param left {Number} Element's current offsetLeft
+     *  @param top {Number} Element's current offsetTop
+     *  @return {Boolean} true, if scroll properties are
+     *  at a limit, otherwise false: scrolling can be
+     *  performed.
+     */
     _atEndPosition : function(left, top)
     {
       var element = this._element;
