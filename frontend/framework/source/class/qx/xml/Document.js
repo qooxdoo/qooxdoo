@@ -32,10 +32,10 @@ qx.Bootstrap.define("qx.xml.Document",
   statics :
   {
     /** {String} ActiveX class name of DOMDocument (IE specific) */
-    DOMDocument : null,
+    DOMDOC : null,
 
     /** {String} ActiveX class name of XMLDOM (IE specific) */    
-    XMLDOM : null,
+    XMLDOC : null,
     
     /** {String} ActiveX class name of XMLHttpRequest (IE specific) */
     XMLHTTP : null,
@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.xml.Document",
     {
       "mshtml": function(namespaceUri, qualifiedName)
       {
-        var obj = new ActiveXObject(this.XMLDOM);
+        var obj = new ActiveXObject(this.XMLDOC);
         
         obj.async = false;
         obj.setProperty("SelectionLanguage", "XPath");
@@ -135,8 +135,8 @@ qx.Bootstrap.define("qx.xml.Document",
         }
         
         // Update static constants
-        statics.DOMDocument = domDoc[i];
-        statics.XMLDOM = xmlDoc[i];        
+        statics.DOMDOC = domDoc[i];
+        statics.XMLDOC = xmlDoc[i];        
         statics.XMLHTTP = httpReq[i];
         
         // Stop loop here

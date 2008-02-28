@@ -186,13 +186,13 @@ qx.Bootstrap.define("qx.bom.Request",
         return;
       }
 
+      // Fire real state change
+      this.__fireReadyStateChange();
+
       // Cleanup native object when done
       if (this.readyState == qx.bom.Request.DONE) {
         this.__cleanTransport();
       }
-
-      // Fire real state change
-      this.__fireReadyStateChange();
     },
 
 
@@ -392,7 +392,7 @@ qx.Bootstrap.define("qx.bom.Request",
         // Try parsing responseText
         if (doc && !doc.documentElement && this.__xmlhttp.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/))
         {
-          doc = new ActiveXObject(qx.xml.Document.XMLDOM);
+          doc = new ActiveXObject(qx.xml.Document.XMLDOC);
           doc.loadXML(this.__xmlhttp.responseText);
         }
         
@@ -448,12 +448,18 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     __cleanTransport : function()
     {
+      // Already done?
+      if (!this.__xmlhttp) {
+        return;
+      }
+      
       // BUGFIX: IE - memory leak (on-page leak)
       this.__xmlhttp.onreadystatechange = this.__dummyFunction;
 
       // Delete private properties
       delete this.__headers;
       delete this.__listener;
+      delete this.__xmlhttp;
     },
     
     
@@ -466,23 +472,5 @@ qx.Bootstrap.define("qx.bom.Request",
     __dummyFunction : function() {
       // empty
     }
-  },
-  
-  
-  
-  
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */  
-  
-  destruct : function()
-  {
-    if (this.__xmlhttp) {
-      this.__xmlhttp.onreadystatechange = this.__dummyFunction;
-    }
-    
-    this._disposeFields("__xmlhttp", "__headers", "__listener");
   }
 });
