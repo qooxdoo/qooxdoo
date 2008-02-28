@@ -57,22 +57,13 @@ qx.Class.define("qx.xml.Document",
       /*
         According to information on the Microsoft XML Team's WebLog
         it is recommended to check for availability of MSXML versions 6.0 and 3.0.
-        Other versions are included for completeness, 5.0 is excluded as it is
-        "off-by-default" in IE7 (which could trigger a goldbar).
 
         http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
         http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
       */
       "mshtml": function(namespaceUri, qualifiedName)
        {
-        var vServers =
-        [
-          "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.4.0",
-          "MSXML2.DOMDocument", // v3.0
-          "MSXML.DOMDocument", // v2.x
-          "Microsoft.XMLDOM" // v2.x
-        ];
-
+        var vServers = [ "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument.6.0" ];
         var vObject;
 
         for (var i=0, l=vServers.length; i<l; i++)
