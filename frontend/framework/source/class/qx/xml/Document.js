@@ -22,11 +22,9 @@
 /**
  * Cross browser XML Document API
  *
- * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9
- *
- * http://msdn2.microsoft.com/en-us/library/ms535918.aspx
- * http://msdn2.microsoft.com/en-us/library/ms764622.aspx
- * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
+ * * http://msdn2.microsoft.com/en-us/library/ms535918.aspx
+ * * http://msdn2.microsoft.com/en-us/library/ms764622.aspx
+ * * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
  */
 qx.Bootstrap.define("qx.xml.Document",
 {

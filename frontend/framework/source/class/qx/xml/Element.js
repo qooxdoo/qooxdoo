@@ -20,9 +20,7 @@
 ************************************************************************ */
 
 /**
- * XML Element
- *
- * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9
+ * Cross browser XML Element API
  *
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
@@ -37,22 +35,19 @@ qx.Class.define("qx.xml.Element",
      * @type static
      * @param element {Element | Document} The root of the subtree to be serialized. This could be any node, including a Document.
      * @return {String} TODOC
-     * @signature function(element)
      */
-    serialize : qx.lang.Object.select(window.XMLSerializer ? "hasXMLSerializer" : "noXMLSerializer",
+    serialize : function(element)
     {
-      "hasXMLSerializer": function(element)
-      {
-        var element = qx.dom.Node.isDocument(element) ? element.documentElement : element;
+      if (qx.dom.Node.isDocument(element)) {
+        element = element.documentElement; 
+      }
+      
+      if (window.XMLSerializer) {
         return (new XMLSerializer()).serializeToString(element);
-      },
-
-      "noXMLSerializer": function(element)
-      {
-        var element = qx.dom.Node.isDocument(element) ? element.documentElement : element;
+      } else {
         return element.xml || element.outerHTML;
       }
-    }),
+    },
 
 
     /**
@@ -66,31 +61,24 @@ qx.Class.define("qx.xml.Element",
      */
     selectSingleNode : qx.core.Variant.select("qx.client",
     {
-      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath",
-      {
-        "hasXPath": function(element, query)
-        {
-          if(!this.__xpe) {
-            this.__xpe = new XPathEvaluator();
-          }
-
-          var xpe = this.__xpe;
-
-          try {
-            return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-          } catch(err) {
-            throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
-          }
-        },
-
-        "noXPath": function() {
-          throw new Error("The browser does not support 'window.XPathEvaluator'");
-        }
-      }),
-
       "mshtml|opera": function(element, query) {
         return element.selectSingleNode(query);
-      }
+      },
+      
+      "default": function(element, query)
+      {
+        if(!this.__xpe) {
+          this.__xpe = new XPathEvaluator();
+        }
+
+        var xpe = this.__xpe;
+
+        try {
+          return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        } catch(err) {
+          throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
+        }
+      }      
     }),
 
 
@@ -105,38 +93,31 @@ qx.Class.define("qx.xml.Element",
      */
     selectNodes : qx.core.Variant.select("qx.client",
     {
-      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath",
-      {
-        "hasXPath": function(element, query)
-        {
-          if(!this.__xpe) {
-            this.__xpe = new XPathEvaluator();
-          }
-
-          var xpe = this.__xpe;
-
-          try {
-            var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-          } catch(err) {
-            throw new Error("selectNodes: query: " + query + ", element: " + element + ", error: " + err);
-          }
-
-          var nodes = [];
-          for (var i=0; i<result.snapshotLength; i++) {
-            nodes[i] = result.snapshotItem(i);
-          }
-
-          return nodes;
-        },
-
-        "noXPath": function() {
-          throw new Error("The browser does not support 'window.XPathEvaluator'");
-        }
-      }),
-
       "mshtml|opera": function(element, query) {
         return element.selectNodes(query);
-      }
+      },
+      
+      "default": function(element, query)
+      {
+        var xpe = this.__xpe;
+        
+        if(!xpe) {
+          this.__xpe = xpe = new XPathEvaluator();
+        }
+
+        try {
+          var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+        } catch(err) {
+          throw new Error("selectNodes: query: " + query + ", element: " + element + ", error: " + err);
+        }
+
+        var nodes = [];
+        for (var i=0; i<result.snapshotLength; i++) {
+          nodes[i] = result.snapshotItem(i);
+        }
+
+        return nodes;
+      }      
     }),
 
 
@@ -154,17 +135,6 @@ qx.Class.define("qx.xml.Element",
      */
     getElementsByTagNameNS : qx.core.Variant.select("qx.client",
     {
-      "default": qx.lang.Object.select(document.getElementsByTagNameNS ? "hasGetByNs" : "noGetByNs",
-      {
-        "hasGetByNs": function(element, namespaceURI, tagname) {
-          return element.getElementsByTagNameNS(namespaceURI, tagname);
-        },
-
-        "noGetByNs": function() {
-          throw new Error("The browser does not support 'document.getElementsByTagNameNS'");
-        }
-      }),
-
       "mshtml": function(element, namespaceURI, tagname)
       {
         var doc = element.ownerDocument || element;
@@ -173,7 +143,11 @@ qx.Class.define("qx.xml.Element",
         doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
 
         return qx.xml.Element.selectNodes(element, 'descendant-or-self::ns:' + tagname);
-      }
+      },
+      
+      "default": function(element, namespaceURI, tagname) {
+        return element.getElementsByTagNameNS(namespaceURI, tagname);
+      }      
     }),
 
 
