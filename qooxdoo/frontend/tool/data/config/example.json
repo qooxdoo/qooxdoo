@@ -57,6 +57,29 @@
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
   },
+  
+  
+  
+
+  "compile-ajax" :
+  {
+    "extend" : ["common"],
+
+    "include" : ["qx.bom.Request"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
+    },
+
+    "compile" :
+    {
+      "file" : "compile-ajax-{qx.client}.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }
+  },  
 
 
 
