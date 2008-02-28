@@ -344,7 +344,7 @@ qx.Bootstrap.define("qx.bom.Request",
       // fallback to XMLHTTP if ActiveX is disabled.
       "mshtml" : function() 
       {
-        if (window.ActiveXObject) {
+        if (window.ActiveXObject && qx.xml.Document.XMLHTTP) {
           return new ActiveXObject(qx.xml.Document.XMLHTTP);
         }
         
@@ -392,7 +392,7 @@ qx.Bootstrap.define("qx.bom.Request",
         // Try parsing responseText
         if (doc && !doc.documentElement && this.__xmlhttp.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/))
         {
-          doc = new ActiveXObject(qx.xml.Document.XMLDOC);
+          doc = new ActiveXObject(qx.xml.Document.DOMDOC);
           doc.loadXML(this.__xmlhttp.responseText);
         }
         

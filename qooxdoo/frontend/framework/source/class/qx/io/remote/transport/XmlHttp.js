@@ -110,7 +110,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // fallback to XMLHTTP if ActiveX is disabled.
       "mshtml" : function() 
       {
-        if (window.ActiveXObject) {
+        if (window.ActiveXObject && qx.xml.Document.XMLHTTP) {
           return new ActiveXObject(qx.xml.Document.XMLHTTP);
         }
         
