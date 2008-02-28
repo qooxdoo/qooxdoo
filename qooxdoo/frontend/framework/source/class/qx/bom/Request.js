@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.bom.Request",
   construct : function()
   {
     this.__headers = {};
-    this.__xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest : new window.ActiveXObject('Microsoft.XMLHTTP');
+    this.__xmlhttp = this.__createNative();
   },
 
 
@@ -319,6 +319,43 @@ qx.Bootstrap.define("qx.bom.Request",
 
 
     /**
+     * Internal helper to return a new native XMLHttpRequest object suitable for 
+     * the client.
+     *
+     * @type static
+     * @return {Object} TODOC
+     * @signature function()
+     */
+    __createNative : qx.core.Variant.select("qx.client",
+    {
+      "default" : function() {
+        return new XMLHttpRequest;
+      },
+
+      // IE7's native XmlHttp does not care about trusted zones. To make this
+      // work in the localhost scenario, you can use the following registry setting:
+      //
+      // [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\
+      // FeatureControl\FEATURE_XMLHTTP_RESPECT_ZONEPOLICY]
+      // "Iexplore.exe"=dword:00000001
+      // 
+      // Generally it seems that the ActiveXObject is more stable. jQuery 
+      // seems to use it always. We prefer the ActiveXObject for the moment, but allow
+      // fallback to XMLHTTP if ActiveX is disabled.
+      "mshtml" : function() 
+      {
+        if (window.ActiveXObject) {
+          return new ActiveXObject(qx.xml.Document.XMLHTTP);
+        }
+        
+        if (window.XMLHttpRequest) {
+          return new XMLHttpRequest;
+        }
+      }
+    }),
+    
+    
+    /**
      * Internal helper to "fire" the onreadystatechange function
      *
      * @type member
@@ -355,7 +392,7 @@ qx.Bootstrap.define("qx.bom.Request",
         // Try parsing responseText
         if (doc && !doc.documentElement && this.__xmlhttp.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/))
         {
-          doc = new ActiveXObject('Microsoft.XMLDOM');
+          doc = new ActiveXObject(qx.xml.Document.XMLDOM);
           doc.loadXML(this.__xmlhttp.responseText);
         }
         
