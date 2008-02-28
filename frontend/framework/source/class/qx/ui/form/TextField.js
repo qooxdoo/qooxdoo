@@ -183,8 +183,11 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @return {qx.html.Input} a new input element.
      */
-    _createInputElement : function() {
-      return new qx.html.Input("text");
+    _createInputElement : function()
+    {
+      var input =  new qx.html.Input("text");
+      input.setStyle("overflow", "hidden");
+      return input;
     },
 
 

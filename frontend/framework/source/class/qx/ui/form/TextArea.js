@@ -99,8 +99,11 @@ qx.Class.define("qx.ui.form.TextArea",
   members :
   {
     // overridden
-    _createInputElement : function() {
-      return new qx.html.Input("textarea");
+    _createInputElement : function()
+    {
+      var input = new qx.html.Input("textarea");
+      input.setStyle("overflow", "hidden");
+      return input;
     },
 
 
