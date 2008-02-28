@@ -41,8 +41,9 @@
  * it changes to opacity from a given value to another.
  * If target value is 0, it will hide the element, if value is
  * 1, it will show it using the "display" property.
+ * 
  * You can toggle this behavior using the "modifyDisplay" property:
- * {@link qx.fx.effect.core.Fade}.
+ * {@link qx.fx.effect.core.Fade#modifyDisplay}.
  */
 
 qx.Class.define("qx.fx.effect.core.Fade",
@@ -109,6 +110,8 @@ qx.Class.define("qx.fx.effect.core.Fade",
 
     beforeSetup : function()
     {
+      this.base(arguments);
+      
       if ( (this.getModifyDisplay()) && (this.getTo() > 0) ){
         qx.bom.element.Style.set(this._element, "display", "block");
       }

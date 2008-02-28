@@ -68,6 +68,10 @@ qx.Class.define("qx.fx.queue.Manager",
      }
     },
 
+    /**
+     * Returns existing default queue or creates a new queue object and returns it.
+     * @return {Class} The queue object.
+     */
     getDefaultQueue : function()
     {
       return this.getQueue("__default");
