@@ -186,6 +186,10 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     },
 
 
+    /**
+     * Restores style properties of animated element
+     * after effect has finished.
+     */
     _cleanUp : function()
     {
       if ( (this.getMode() == "in") && (this.getModifyDisplay()) ) {
@@ -198,6 +202,9 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       qx.bom.element.Style.set(this._element, "overflow", "visible");
     },
     
+    /**
+     * Retrieves style properties from element.
+     */
     _getStyle : function()
     {
       var hidden = (qx.bom.element.Style.get(this._element, "display") ==  "none");
