@@ -63,7 +63,7 @@ source:
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
 	@echo "  * Generating Jobs Database"
-	@tool/genjson.sh source/script
+	@tool/genjson.py source/script
 	@echo "  * Generating $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
 	@$(CMD_PYTHON) ../../tool/generator.py -c demo.json -j source
@@ -73,7 +73,7 @@ build:
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
 	@echo "  * Generating Jobs Database"
-	@tool/genjson.sh build/script
+	@tool/genjson.py build/script
 	@echo "  * Generating $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
 	@$(CMD_PYTHON) ../../tool/generator.py -c demo.json -j build
