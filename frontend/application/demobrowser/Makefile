@@ -63,20 +63,20 @@ source:
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
 	@echo "  * Generating Jobs Database"
-	@tool/genjson.py source/script
+	@$(CMD_PYTHON) tool/genjson.py source/script
 	@echo "  * Generating $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
-	@$(CMD_PYTHON) ../../tool/generator.py -c demo.json -j source
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j source
 	
 build:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
 	@echo "  * Generating Jobs Database"
-	@tool/genjson.py build/script
+	@$(CMD_PYTHON) tool/genjson.py build/script
 	@echo "  * Generating $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
-	@$(CMD_PYTHON) ../../tool/generator.py -c demo.json -j build
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j build
 
 clean:
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
