@@ -1359,7 +1359,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
-        var first = this._sampleToTreeNodeMap['ui/ApplicationRoot_1.html'];
+        var first = this._sampleToTreeNodeMap['ui/Cursor_1.html'];
         this.widgets["treeview.full"].setSelectedElement(first);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
