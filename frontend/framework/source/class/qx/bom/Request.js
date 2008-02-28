@@ -42,7 +42,7 @@
  * Cross browser compatible unified XMLHttp transport low-level implementation.
  *
  */
-qx.Class.define("qx.bom.HttpRequest",
+qx.Class.define("qx.bom.Request",
 {
   extend : qx.core.Object,
 
@@ -50,18 +50,36 @@ qx.Class.define("qx.bom.HttpRequest",
   {
     this.base(arguments);
 
-    this._object = window.XMLHttpRequest ? new window.XMLHttpRequest : new window.ActiveXObject('Microsoft.XMLHTTP');
+    this.__xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest : new window.ActiveXObject('Microsoft.XMLHTTP');
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
   statics :
   {
-    UNSENT           : 0,
-    OPENED           : 1,
-    HEADERS_RECEIVED : 2,
-    LOADING          : 3,
-    DONE             : 4
+    UNSENT  : 0,
+    OPENED  : 1,
+    HEADERS : 2,
+    LOADING : 3,
+    DONE    : 4
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
     readyState : 0,
@@ -95,18 +113,18 @@ qx.Class.define("qx.bom.HttpRequest",
       {
         var fOnUnload = function()
         {
-          if (oRequest._object.readyState != qx.bom.HttpRequest.DONE) this.__cleanTransport(oRequest);
+          if (oRequest.__xmlhttp.readyState != qx.bom.Request.DONE) this.__cleanTransport(oRequest);
         };
 
         if (bAsync) window.attachEvent("onunload", fOnUnload);
       }
 
-      this._object.onreadystatechange = function()
+      this.__xmlhttp.onreadystatechange = function()
       {
         if (bGecko && !bAsync) return;
 
         // Synchronize state
-        oRequest.readyState = oRequest._object.readyState;
+        oRequest.readyState = oRequest.__xmlhttp.readyState;
         //
         this.__synchronizeValues(oRequest);
 
@@ -114,13 +132,13 @@ qx.Class.define("qx.bom.HttpRequest",
         if (oRequest._aborted)
         {
           // Reset readyState to UNSENT
-          oRequest.readyState = qx.bom.HttpRequest.UNSENT;
+          oRequest.readyState = qx.bom.Request.UNSENT;
 
           // Return now
           return ;
         }
 
-        if (oRequest.readyState == qx.bom.HttpRequest.DONE)
+        if (oRequest.readyState == qx.bom.Request.DONE)
         {
           //
           this.__cleanTransport(oRequest);
@@ -135,12 +153,12 @@ qx.Class.define("qx.bom.HttpRequest",
         nState = oRequest.readyState;
       };
 
-      this._object.open(sMethod, sUrl, bAsync, sUser, sPassword);
+      this.__xmlhttp.open(sMethod, sUrl, bAsync, sUser, sPassword);
 
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
       if (!bAsync && bGecko)
       {
-        this.readyState = qx.bom.HttpRequest.OPENED;
+        this.readyState = qx.bom.Request.OPENED;
 
         this.__fireReadyStateChange(this);
       }
@@ -162,21 +180,21 @@ qx.Class.define("qx.bom.HttpRequest",
       if (vData && vData.nodeType)
       {
         vData = window.XMLSerializer ? new window.XMLSerializer().serializeToString(vData) : vData.xml;
-        if (!this._headers["Content-Type"]) this._object.setRequestHeader("Content-Type", "application/xml");
+        if (!this._headers["Content-Type"]) this.__xmlhttp.setRequestHeader("Content-Type", "application/xml");
       }
 
-      this._object.send(vData);
+      this.__xmlhttp.send(vData);
 
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
       if (bGecko && !this._async)
       {
-        this.readyState = qx.bom.HttpRequest.OPENED;
+        this.readyState = qx.bom.Request.OPENED;
 
         // Synchronize state
         this.__synchronizeValues(this);
 
         // Simulate missing states
-        while (this.readyState < qx.bom.HttpRequest.DONE)
+        while (this.readyState < qx.bom.Request.DONE)
         {
           this.readyState++;
           this.__fireReadyStateChange(this);
@@ -197,9 +215,9 @@ qx.Class.define("qx.bom.HttpRequest",
     abort : function()
     {
       // BUGFIX: Gecko - unneccesary DONE when aborting
-      if (this.readyState > qx.bom.HttpRequest.UNSENT) this._aborted = true;
+      if (this.readyState > qx.bom.Request.UNSENT) this._aborted = true;
 
-      this._object.abort();
+      this.__xmlhttp.abort();
 
       // BUGFIX: IE - memory leak
       this.__cleanTransport(this);
@@ -213,7 +231,7 @@ qx.Class.define("qx.bom.HttpRequest",
      * @return {var} TODOC
      */
     getAllResponseHeaders : function() {
-      return this._object.getAllResponseHeaders();
+      return this.__xmlhttp.getAllResponseHeaders();
     },
 
 
@@ -225,7 +243,7 @@ qx.Class.define("qx.bom.HttpRequest",
      * @return {var} TODOC
      */
     getResponseHeader : function(sName) {
-      return this._object.getResponseHeader(sName);
+      return this.__xmlhttp.getResponseHeader(sName);
     },
 
 
@@ -243,7 +261,7 @@ qx.Class.define("qx.bom.HttpRequest",
       if (!this._headers) this._headers = {};
       this._headers[sName] = sValue;
 
-      return this._object.setRequestHeader(sName, sValue);
+      return this.__xmlhttp.setRequestHeader(sName, sValue);
     },
 
 
@@ -265,23 +283,35 @@ qx.Class.define("qx.bom.HttpRequest",
      * TODOC
      *
      * @type member
-     * @param oRequest {Object} TODOC
      * @return {null | Object} TODOC
      */
-    __getDocument : function(oRequest)
+    __getDocument : function()
     {
-      var oDocument = oRequest.responseXML;
+      var doc = this.__xmlhttp.responseXML;
 
-      // Try parsing responseText
-      if (bIE && oDocument && !oDocument.documentElement && oRequest.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/))
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        oDocument = new ActiveXObject('Microsoft.XMLDOM');
-        oDocument.loadXML(oRequest.responseText);
+        // Try parsing responseText
+        if (doc && !doc.documentElement && this.__xmlhttp.getResponseHeader("Content-Type").match(/[^\/]+\/[^\+]+\+xml/))
+        {
+          doc = new ActiveXObject('Microsoft.XMLDOM');
+          doc.loadXML(this.__xmlhttp.responseText);
+        }
+        
+        // Check if there is no error in document
+        if (doc && doc.parseError != 0) {
+          return null;
+        }
+      }
+      else if (doc)
+      {
+        // Check if there is no error in document
+        if (doc.documentElement && doc.documentElement.tagName == "parsererror") {
+          return null;
+        }        
       }
 
-      // Check if there is no error in document
-      if (oDocument) if ((bIE && oDocument.parseError != 0) || (oDocument.documentElement && oDocument.documentElement.tagName == "parsererror")) return null;
-      return oDocument;
+      return doc;
     },
 
 
@@ -289,25 +319,26 @@ qx.Class.define("qx.bom.HttpRequest",
      * TODOC
      *
      * @type member
-     * @param oRequest {Object} TODOC
      * @return {void} 
      */
-    __synchronizeValues : function(oRequest)
+    __synchronizeValues : function()
     {
+      var xmlhttp = this.__xmlhttp;
+      
       try {
-        oRequest.responseText = oRequest._object.responseText;
+        this.responseText = xmlhttp.responseText;
       } catch(e) {}
 
       try {
-        oRequest.responseXML = this.__getDocument(oRequest._object);
+        this.responseXML = this.__getDocument();
       } catch(e) {}
 
       try {
-        oRequest.status = oRequest._object.status;
+        this.status = xmlhttp.status;
       } catch(e) {}
 
       try {
-        oRequest.statusText = oRequest._object.statusText;
+        this.statusText = xmlhttp.statusText;
       } catch(e) {}
     },
 
@@ -316,16 +347,33 @@ qx.Class.define("qx.bom.HttpRequest",
      * TODOC
      *
      * @type member
-     * @param oRequest {Object} TODOC
      * @return {void} 
      */
-    __cleanTransport : function(oRequest)
+    __cleanTransport : function()
     {
       // BUGFIX: IE - memory leak (on-page leak)
-      oRequest._object.onreadystatechange = new window.Function;
+      this.__xmlhttp.onreadystatechange = new Function;
 
       // Delete private properties
-      delete oRequest._headers;
+      delete this._headers;
     }
-  }
+  },
+  
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */  
+  
+  destruct : function()
+  {
+    if (this.__xmlhttp) 
+    {
+      this.__xmlhttp.onreadystatechange = new Function;
+      this.__xmlhttp = null;
+    }
+  }  
 });
