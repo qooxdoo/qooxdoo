@@ -152,7 +152,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
      */
     restoreBackground :
     {
-      init : false,
+      init : true,
       check : "Boolean"
     },
 
