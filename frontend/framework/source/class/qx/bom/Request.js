@@ -40,16 +40,23 @@
 
 /**
  * Cross browser compatible unified XMLHttp transport low-level implementation.
+ * Mimics an ideal browser without any quirks and is API identical to
+ * the W3C definition.
  *
+ * For an higher level implementation with some more comfort please have a look
+ * at the classes in <code>qx.io2</code>.
  */
-qx.Class.define("qx.bom.Request",
+qx.Bootstrap.define("qx.bom.Request",
 {
-  extend : qx.core.Object,
-
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */  
+  
   construct : function()
   {
-    this.base(arguments);
-
+    this.__headers = {};
     this.__xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest : new window.ActiveXObject('Microsoft.XMLHTTP');
   },
 
@@ -74,6 +81,7 @@ qx.Class.define("qx.bom.Request",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -82,132 +90,164 @@ qx.Class.define("qx.bom.Request",
   
   members :
   {
+    /** {Integer} Current ready state: 0=uninitialized, 1=sending request, 2=headers loaded, 3=loading result, 4=done */
     readyState : 0,
+    
+    /** {String} String version of data returned from server process */
     responseText : "",
+    
+    /** {Element} DOM-compatible document object of data returned from server process */
     responseXML : null,
+    
+    /** {Integer} Numeric code returned by server, such as 404 for "Not Found" or 200 for "OK" */
     status : 0,
+    
+    /** {String} String message accompanying the status code */
     statusText : "",
+    
 
-
-    /**
-     * TODOC
+    /** 
+     * Event handler for an event that fires at every state change. This method
+     * needs to be overwritten by the user to get informed about the communication
+     * progress.
      *
      * @type member
-     * @param sMethod {String} TODOC
-     * @param sUrl {String} TODOC
-     * @param bAsync {Boolean} TODOC
-     * @param sUser {String} TODOC
-     * @param sPassword {String} TODOC
+     * @return {void}
+     */
+    onreadystatechange : function() {
+      // empty
+    },
+    
+
+    /**
+     * Assigns destination URL, method, and other optional attributes of a pending request
+     *
+     * @type member
+     * @param method {String} The HTTP method to use. Valid values: GET, POST, PUT, HEAD and DELETE.
+     * @param url {String} The URL to open
+     * @param async {Boolean?false} Whether the request should be asynchronous
+     * @param username {String?null} Optional user name
+     * @param password {String?null} Optional password
      * @return {void} 
      */
-    open : function(sMethod, sUrl, bAsync, sUser, sPassword)
+    open : function(method, url, async, username, password)
     {
       // Save async parameter for fixing Gecko bug with missing readystatechange in synchronous requests
-      this._async = bAsync;
+      this.__async = async;
 
-      // Set the onreadystatechange handler
-      var oRequest = this, nState = this.readyState;
-
-      // BUGFIX: IE - memory leak on page unload (inter-page leak)
-      if (bIE)
-      {
-        var fOnUnload = function()
-        {
-          if (oRequest.__xmlhttp.readyState != qx.bom.Request.DONE) this.__cleanTransport(oRequest);
-        };
-
-        if (bAsync) window.attachEvent("onunload", fOnUnload);
-      }
-
-      this.__xmlhttp.onreadystatechange = function()
-      {
-        if (bGecko && !bAsync) return;
-
-        // Synchronize state
-        oRequest.readyState = oRequest.__xmlhttp.readyState;
-        //
-        this.__synchronizeValues(oRequest);
-
-        // BUGFIX: Firefox fires unneccesary DONE when aborting
-        if (oRequest._aborted)
-        {
-          // Reset readyState to UNSENT
-          oRequest.readyState = qx.bom.Request.UNSENT;
-
-          // Return now
-          return ;
-        }
-
-        if (oRequest.readyState == qx.bom.Request.DONE)
-        {
-          //
-          this.__cleanTransport(oRequest);
-
-          // BUGFIX: IE - memory leak in interrupted
-          if (bIE && bAsync) window.detachEvent("onunload", fOnUnload);
-        }
-
-        // BUGFIX: Some browsers (Internet Explorer, Gecko) fire OPEN readystate twice
-        if (nState != oRequest.readyState) this.__fireReadyStateChange(oRequest);
-
-        nState = oRequest.readyState;
-      };
-
-      this.__xmlhttp.open(sMethod, sUrl, bAsync, sUser, sPassword);
+      // Prepare and register native listener
+      this.__listener = qx.lang.Function.bind(this.__onNativeOnReadyStateChange, this)
+      this.__xmlhttp.onreadystatechange = this.__listener;
+      
+      // Natively open request
+      this.__xmlhttp.open(method, url, async, username, password);
 
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
-      if (!bAsync && bGecko)
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        this.readyState = qx.bom.Request.OPENED;
-
-        this.__fireReadyStateChange(this);
+        if (!async)
+        {
+          this.readyState = qx.bom.Request.OPENED;
+          this.__fireReadyStateChange();
+        }
       }
+    },
+    
+    
+    /** 
+     * Internal callback for native <code>onreadystatechange</code> event.
+     *
+     * @type member
+     * @return {void}
+     */
+    __onNativeOnReadyStateChange : function()
+    {
+      if (qx.core.Variant.isSet("qx.client", "gecko")) 
+      {
+        if (!this.__async) {
+          return;
+        }
+      }
+
+      // Synchronize state
+      this.readyState = this.__xmlhttp.readyState;
+      
+      // Synchronize values
+      this.__synchronizeValues();
+
+      // BUGFIX: Firefox fires unneccesary DONE when aborting
+      // As this may affect other clients as well, keep it for all here.
+      if (this.__aborted)
+      {
+        // Reset readyState to UNSENT
+        this.readyState = qx.bom.Request.UNSENT;
+
+        // Return now
+        return;
+      }
+
+      // Cleanup native object when done
+      if (this.readyState == qx.bom.Request.DONE) {
+        this.__cleanTransport();
+      }
+
+      // Fire real state change
+      this.__fireReadyStateChange();
     },
 
 
     /**
-     * TODOC
+     * Transmits the request, optionally with postable string or XML DOM object data
      *
      * @type member
-     * @param vData {var} TODOC
+     * @param data {String|Element?} String or XML DOM object data
      * @return {void} 
      */
-    send : function(vData)
+    send : function(data)
     {
       // BUGFIX: Safari - fails sending documents created/modified dynamically, so an explicit serialization required
       // BUGFIX: IE - rewrites any custom mime-type to "text/xml" in case an XMLNode is sent
       // BUGFIX: Gecko - fails sending Element (this is up to the implementation either to standard)
-      if (vData && vData.nodeType)
+      if (data && data.nodeType)
       {
-        vData = window.XMLSerializer ? new window.XMLSerializer().serializeToString(vData) : vData.xml;
-        if (!this._headers["Content-Type"]) this.__xmlhttp.setRequestHeader("Content-Type", "application/xml");
+        data = window.XMLSerializer ? new XMLSerializer().serializeToString(data) : data.xml;
+        
+        if (!this.__headers["Content-Type"]) {
+          this.__xmlhttp.setRequestHeader("Content-Type", "application/xml");
+        }
       }
 
-      this.__xmlhttp.send(vData);
+      // Finally send using native method
+      this.__xmlhttp.send(data);
 
       // BUGFIX: Gecko - missing readystatechange calls in synchronous requests
-      if (bGecko && !this._async)
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        this.readyState = qx.bom.Request.OPENED;
-
-        // Synchronize state
-        this.__synchronizeValues(this);
-
-        // Simulate missing states
-        while (this.readyState < qx.bom.Request.DONE)
+        if (!this.__async)
         {
-          this.readyState++;
-          this.__fireReadyStateChange(this);
+          this.readyState = qx.bom.Request.OPENED;
 
-          // Check if we are aborted
-          if (this._aborted) return;
+          // Synchronize state
+          this.__synchronizeValues(this);
+
+          // Simulate missing states
+          while (this.readyState < qx.bom.Request.DONE)
+          {
+            this.readyState++;
+            this.__fireReadyStateChange();
+
+            // Check if we are aborted
+            if (this.__aborted) {
+              return;
+            }
+          }
         }
       }
     },
 
 
     /**
-     * TODOC
+     * Stops the current request.
      *
      * @type member
      * @return {void} 
@@ -215,20 +255,23 @@ qx.Class.define("qx.bom.Request",
     abort : function()
     {
       // BUGFIX: Gecko - unneccesary DONE when aborting
-      if (this.readyState > qx.bom.Request.UNSENT) this._aborted = true;
+      if (this.readyState > qx.bom.Request.UNSENT) {
+        this.__aborted = true;
+      }
 
+      // Natively abort request
       this.__xmlhttp.abort();
-
-      // BUGFIX: IE - memory leak
-      this.__cleanTransport(this);
+      
+      // Cleanup listeners etc.
+      this.__cleanTransport();
     },
 
 
     /**
-     * TODOC
+     * Returns complete set of headers (labels and values) as a string
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} All headers
      */
     getAllResponseHeaders : function() {
       return this.__xmlhttp.getAllResponseHeaders();
@@ -236,54 +279,72 @@ qx.Class.define("qx.bom.Request",
 
 
     /**
-     * TODOC
+     * Returns the string value of a single header label
      *
      * @type member
-     * @param sName {String} TODOC
-     * @return {var} TODOC
+     * @param label {String} Name of the header label
+     * @return {String} The selected header's value.
      */
-    getResponseHeader : function(sName) {
-      return this.__xmlhttp.getResponseHeader(sName);
+    getResponseHeader : function(label) {
+      return this.__xmlhttp.getResponseHeader(label);
     },
 
 
     /**
-     * TODOC
+     * Assigns a label/value pair to the header to be sent with a request
      *
      * @type member
-     * @param sName {String} TODOC
-     * @param sValue {String} TODOC
-     * @return {var} TODOC
+     * @param label {String} Name of the header label
+     * @param value {String} Value of the header field
+     * @return {var} Native return value
      */
-    setRequestHeader : function(sName, sValue)
+    setRequestHeader : function(label, value)
     {
-      // BUGFIX: IE - cache issue
-      if (!this._headers) this._headers = {};
-      this._headers[sName] = sValue;
-
-      return this.__xmlhttp.setRequestHeader(sName, sValue);
+      // Store locally, native implementation misses a getter
+      this.__headers[name] = value;
+      return this.__xmlhttp.setRequestHeader(name, value);
+    },
+    
+    
+    /**
+     * Returns the value of a given header label.
+     *
+     * @type member
+     * @param label {String} Label of the header entry
+     * @return {String} The value or <code>null</code> when not defined.
+     */    
+    getRequestHeader : function(label) {
+      return this.__headers[label] || null;
     },
 
 
     /**
-     * TODOC
+     * Internal helper to "fire" the onreadystatechange function
      *
      * @type member
-     * @param oRequest {Object} TODOC
      * @return {void} 
      */
-    __fireReadyStateChange : function(oRequest)
+    __fireReadyStateChange : function()
     {
+      // BUGFIX: Some browsers (Internet Explorer, Gecko) fire OPEN readystate twice
+      if (this.__lastFired === this.readyState) {
+        return;
+      }
+      
       // Execute onreadystatechange
-      if (oRequest.onreadystatechange) oRequest.onreadystatechange.apply(oRequest);
+      this.onreadystatechange();
+      
+      // Store last fired
+      this.__lastFired = this.readyState;
     },
 
 
     /**
-     * TODOC
+     * Internal helper to preprocess the <code>responseXML</code> to get
+     * a valid XML document.
      *
      * @type member
-     * @return {null | Object} TODOC
+     * @return {Object} The document. If the document contained an error <code>null</code> instead.
      */
     __getDocument : function()
     {
@@ -303,12 +364,10 @@ qx.Class.define("qx.bom.Request",
           return null;
         }
       }
-      else if (doc)
-      {
-        // Check if there is no error in document
-        if (doc.documentElement && doc.documentElement.tagName == "parsererror") {
-          return null;
-        }        
+      
+      // Check if there is no error in document
+      else if (doc && doc.documentElement && doc.documentElement.tagName == "parsererror") {
+        return null;
       }
 
       return doc;
@@ -316,7 +375,8 @@ qx.Class.define("qx.bom.Request",
 
 
     /**
-     * TODOC
+     * Internal helper to store the values from the native object locally. This helps
+     * to omit exceptions when the user tries this directly.
      *
      * @type member
      * @return {void} 
@@ -344,7 +404,7 @@ qx.Class.define("qx.bom.Request",
 
 
     /**
-     * TODOC
+     * Cleans up the native transport object and some other internal stuff.
      *
      * @type member
      * @return {void} 
@@ -352,10 +412,22 @@ qx.Class.define("qx.bom.Request",
     __cleanTransport : function()
     {
       // BUGFIX: IE - memory leak (on-page leak)
-      this.__xmlhttp.onreadystatechange = new Function;
+      this.__xmlhttp.onreadystatechange = this.__dummyFunction;
 
       // Delete private properties
-      delete this._headers;
+      delete this.__headers;
+      delete this.__listener;
+    },
+    
+    
+    /**
+     * Dummy function as fallback for internal ready state listener
+     *
+     * @type member
+     * @return {void} 
+     */     
+    __dummyFunction : function() {
+      // empty
     }
   },
   
@@ -370,10 +442,10 @@ qx.Class.define("qx.bom.Request",
   
   destruct : function()
   {
-    if (this.__xmlhttp) 
-    {
-      this.__xmlhttp.onreadystatechange = new Function;
-      this.__xmlhttp = null;
+    if (this.__xmlhttp) {
+      this.__xmlhttp.onreadystatechange = this.__dummyFunction;
     }
-  }  
+    
+    this._disposeFields("__xmlhttp", "__headers", "__listener");
+  }
 });
