@@ -35,3 +35,7 @@
 #qx_srcview .html-tag-name {
   color: purple;
 }
+
+#qx_srcview .regexp {
+  color: darkred;
+}
