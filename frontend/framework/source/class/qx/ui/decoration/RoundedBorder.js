@@ -210,12 +210,12 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
     // overridden
     update : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(decorationElement, width, height)
+      "mshtml" : function(decorationElement, width, height, backgroundColor)
       {
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
 
-        var fillColor = this.getBackgroundColor();
+        var fillColor = backgroundColor || "white";
 
         // width shortcuts
         var tw = this.getWidthTop();
@@ -510,8 +510,8 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         decorationElement.setAttribute("html", template.join(''));
       },
 
-      "default" : function(decorationElement, width, height) {
-        this.base(arguments, decorationElement, width, height);
+      "default" : function(decorationElement, width, height, backgroundColor) {
+        this.base(arguments, decorationElement, width, height, backgroundColor);
       }
     })
   },

@@ -78,6 +78,7 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
       {
         layout.add(new qx.ui.basic.Label(key).set({
           decorator: key,
+          backgroundColor: "gray",
           padding: 20,
           height: 100,
           width: 100

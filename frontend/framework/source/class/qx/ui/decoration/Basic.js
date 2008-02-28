@@ -283,15 +283,6 @@ qx.Class.define("qx.ui.decoration.Basic",
       apply : "_applyColorLeft"
     },
 
-    /** The background color */
-    backgroundColor :
-    {
-      nullable : true,
-      init : "inherit",
-      check : "Color",
-      apply : "_applyBackgroundColor"
-    },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -429,7 +420,7 @@ qx.Class.define("qx.ui.decoration.Basic",
      * @param height {Integer} The widget's height
      * @return {Map} a map containing the computed CSS styles
      */
-    _getStyles : function(width, height)
+    _getStyles : function(width, height, backgroundColor)
     {
       var styles = {
         "borderTopWidth": this.getWidthTop(),
@@ -443,21 +434,23 @@ qx.Class.define("qx.ui.decoration.Basic",
         "borderBottomColor": this.__colorBottom,
         "borderLeftWidth": this.getWidthLeft(),
         "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": this.__colorLeft,
-        "backgroundColor": this.__bgColor
+        "borderLeftColor": this.__colorLeft
       }
       return styles;
     },
 
 
     // interface implementation
-    update : function(decorationElement, width, height)
+    update : function(decorationElement, width, height, backgroundColor)
     {
       if (this._needsUpdate)
       {
         decorationElement.setStyles(this._getStyles());
         this._needUpdate = false;
         this._updateManager.cancel();
+      }
+      if (backgroundColor) {
+        decorationElement.setStyle("backgroundColor", backgroundColor);
       }
       this._updateSize(decorationElement, width, height);
     },

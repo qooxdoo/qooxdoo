@@ -52,7 +52,6 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_2_Theme2",
       {
         radiusTopLeft: 10,
         radiusTopRight: 10,
-        backgroundColor: "gray",
         width: 2,
         style: "solid",
         color: "orange"
