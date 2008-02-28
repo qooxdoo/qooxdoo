@@ -1041,7 +1041,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       ) {
         this._lastMouseDownCell = {};
 
-        var cellEvent = qx.event.Registration.createEvent(qx.legacy.ui.table.pane.CellEvent, [this, evt, "cellClick"]);
+        var cellEvent = qx.event.Registration.createEvent(qx.legacy.ui.table.pane.CellEvent, [this, e, "cellClick"]);
         this.dispatchEvent(cellEvent, true);
       }
       this._focusIndicator.setAnonymous(true);
