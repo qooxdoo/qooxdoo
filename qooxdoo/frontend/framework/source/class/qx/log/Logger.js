@@ -304,7 +304,7 @@ qx.Class.define("qx.log.Logger",
     removeAppender : function(appender)
     {
       if (this._appenderArr != null) {
-        this._appenderArr.remove(appender);
+        qx.lang.Array.remove(this._appenderArr, appender);
       }
     },
 
