@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
 
       doc.add(container, 0, 0);
 
-      var img1 = "icon/48/apps/feed-reader.png";
+      var img1 = "icon/48/apps/video-player.png";
       var img2 = "icon/48/apps/internet-mail.png";
       var img3 = "icon/48/apps/internet-web-browser.png";
       var img4 = "icon/48/apps/photo-album.png";
@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
       docLayout.add(btn1);
       var btn2 = new qx.ui.form.Button("Tango Icons", img2, 48, 48);
       docLayout.add(btn2);
-      var btn3 = new qx.ui.form.Button("Juhu", img3, 48, 48);
+      var btn3 = new qx.ui.form.ToggleButton("Toggle", img3, 48, 48);
       docLayout.add(btn3);
       var btn4 = new qx.ui.form.RepeatButton("Repeat Button", img4, 48, 48);
       docLayout.add(btn4);
@@ -62,6 +62,10 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
 
       btn2.addListener("execute", function() {
         qx.theme.manager.Icon.getInstance().setTheme(qx.theme.icon.Tango);
+      }, this);
+
+      btn3.addListener("changeChecked", function(e) {
+        console.log("Checked: " + e.getValue());
       }, this);
 
       btn4.addListener("execute", function() {
