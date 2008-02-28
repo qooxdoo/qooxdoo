@@ -65,11 +65,11 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
       }, this);
 
       btn3.addListener("changeChecked", function(e) {
-        console.log("Checked: " + e.getValue());
+        this.debug("Checked: " + e.getValue());
       }, this);
 
       btn4.addListener("execute", function() {
-        console.log("repeat button execute!");
+        this.debug("repeat button execute!");
       });
     }
   }
