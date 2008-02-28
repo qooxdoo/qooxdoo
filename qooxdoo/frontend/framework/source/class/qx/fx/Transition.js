@@ -58,16 +58,13 @@ qx.Class.define("qx.fx.Transition",
   statics :
   {
 
-    /**
-     * Array containg all available transition functions. 
-     */
     allowedNames : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"],
 
     /**
      * Maps function name to function.
      * 
-     * @param functionName {String} Name of the function.
-     * @return {Function} Function belonging to the name or false,
+     * @param functionName {String} Name off the function.
+     * @return {Function|Boolean} Function belonging to the name or false,
      * function does not exist
      */
     get : function(functionName)
@@ -75,42 +72,104 @@ qx.Class.define("qx.fx.Transition",
       return qx.fx.Transition[functionName] || false;
     },
 
+    /**
+     * Returns the given effect position without
+     * changing it. This is the default transition
+     * function for most effects.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     linear : function(pos)
     {
       return pos;
     },
 
+    /**
+     * Using this function will accelerate the effect's
+     * impact exponentially.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     easeInQuad : function (pos)
     {
       return Math.pow(2, 10 * (pos - 1));
     },
 
+    /**
+     * Using this function will slow down the
+     * effect's impact exponentially.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     easeOutQuad : function (pos)
     {
       return (-Math.pow(2, -10 * pos) + 1);
     },
 
+    /**
+     * Using this function will accelerate the
+     * effect's impact sinusoidal.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     sinoidal : function(pos)
     {
       return ( -Math.cos(pos * Math.PI) / 2 ) + 0.5;
     },
 
+    /**
+     * Using this function will reverse the
+     * effect's impact.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     reverse: function(pos)
     {
       return 1 - pos;
     },
 
+    /**
+     * Using this function will alternate the
+     * effect's impact between start end value.
+     * 
+     * Looks only nice on color effects.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     flicker : function(pos)
     {
       var pos = ( (-Math.cos(pos * Math.PI) / 4) + 0.75) + Math.random() / 4;
       return pos > 1 ? 1 : pos;
     },
 
+    /**
+     * Using this function will bounce the
+     * effect's impact forwards and backwards
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     wobble : function(pos)
     {
       return ( -Math.cos(pos * Math.PI * (9 * pos)) / 2) + 0.5;
     },
 
+    /**
+     * Using this function will alternate rapidly the
+     * effect's impact between start end value.
+     * 
+     * Looks only nice on color effects.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @param pulses {Number} Amount of pulses
+     * @return {Number} Modified effect position
+     */
     pulse : function(pos, pulses)
     {
 
@@ -123,16 +182,37 @@ qx.Class.define("qx.fx.Transition",
         );
     },
 
+    /**
+     * Using this function will overshoot the
+     * target value and then move back the impact's
+     * impact.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     spring : function(pos)
     {
       return 1 - (Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6));
     },
 
+    /**
+     * Using this function the effect's impact will be zero.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     none : function(pos)
     {
       return 0;
     },
 
+    /**
+     * Using this function the effect's impact will be
+     * as if it has reached the end position.
+     * 
+     * @param pos {Number} Effect position in duration
+     * @return {Number} Modified effect position
+     */
     full : function(pos)
     {
       return 1;

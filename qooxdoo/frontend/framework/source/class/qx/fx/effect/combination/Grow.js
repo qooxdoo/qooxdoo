@@ -117,8 +117,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     setup : function()
     {
       this.base(arguments);
-
-      qx.bom.element.Style.set(this._element, "overflow", "hidden");
     },
 
     start : function()
@@ -127,6 +125,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       // Element must be visible for move effect
       qx.bom.element.Style.set(this._element, "display", "block");
+      qx.bom.element.Style.set(this._element, "overflow", "hidden");
 
       var initialMoveX, initialMoveY;
       var moveX, moveY;
@@ -136,7 +135,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         top    : qx.bom.element.Location.getTop(this._element),
         left   : qx.bom.element.Location.getLeft(this._element),
         width  : qx.bom.element.Dimension.getWidth(this._element),
-        height : qx.bom.element.Dimension.getHeight(this._element)
+        height : qx.bom.element.Dimension.getHeight(this._element),
+        overflow : "visible"
       };
 
       this._scaleEffect.afterFinishInternal = function()
@@ -200,6 +200,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       qx.bom.element.Style.set(this._element, "left", oldStyle.left + initialMoveX);
 
       qx.bom.element.Style.set(this._element, "height", "0px");
+      qx.bom.element.Style.set(this._element, "width", "0px");
 
       this._mainEffect.start();
     }
