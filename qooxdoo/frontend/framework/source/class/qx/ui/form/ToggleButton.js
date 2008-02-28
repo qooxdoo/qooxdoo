@@ -13,48 +13,46 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
-     * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann) 
 
 ************************************************************************ */
 
 /**
- * A Button widget
+ * A toggle Button widget
  *
  * If the user presses the button by clicking on ito pressing the enter or
- * space key, the button fires an {@link qx.ui.core.MExecutable#execute} event.
- *
- * If the {@link qx.ui.core.MExecutable#command} property is set, the
- * command is executed as well.
+ * space key, the button toggles beweteen the pressed an not pressed states. 
+ * There is no execute event, only a {@link qx.ui.form.ToggleButton#changeChecked} event.
  *
  * @appearance button
  * @state abandoned
  * @state over
  * @state pressed
  */
-qx.Class.define("qx.ui.form.Button",
+qx.Class.define("qx.ui.form.ToggleButton",
 {
   extend : qx.ui.basic.Atom,
-  include : qx.ui.core.MExecutable,
-
 
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-
-  construct : function(label, iconUrl)
-  {
+  /**
+   * Creates a new instance of a ToggleButton.
+   * @param label {String} The text on the button.
+   * @param iconUrl {String} An URI to the icon of the button.
+   */
+  construct : function(label, iconUrl) {
     this.base(arguments, label, iconUrl);
 
     this.initTabIndex();
-
+    // register mouse events
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mouseout", this._onmouseout);
     this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
-
+    // register keyboard events
     this.addListener("keydown", this._onkeydown);
     this.addListener("keyup", this._onkeyup);
   },
@@ -66,21 +64,25 @@ qx.Class.define("qx.ui.form.Button",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "button"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "button"
     },
 
-    tabIndex :
-    {
-      refine : true,
-      init : 1
+    tabIndex: {
+      refine: true,
+      init: 1
+    },
+
+    /** Boolean value signals if the button is checked */
+    checked: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyChecked",
+      event: "changeChecked"
     }
   },
-
 
 
   /*
@@ -92,7 +94,19 @@ qx.Class.define("qx.ui.form.Button",
   members :
   {
     /**
-     * Listener method for "mouseover" event
+     * Changes the state of the button dependent on the checked value.
+     * 
+     * @type member
+     * @param value {Boolean} Current value
+     * @param old {Boolean} Previous value
+     */
+    _applyChecked : function(value, old) {
+      value ? this.addState("pressed") : this.removeState("pressed");
+    },
+
+
+    /**
+     * Listener method for "mouseover" event.
      * <ul>
      * <li>Adds state "over"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
@@ -102,52 +116,48 @@ qx.Class.define("qx.ui.form.Button",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseover : function(e)
-    {
+    _onmouseover : function(e) {
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
-
-      if (this.hasState("abandoned"))
-      {
+      this.addState("over");
+      if (this.hasState("abandoned")) {
         this.removeState("abandoned");
         this.addState("pressed");
       }
-
-      this.addState("over");
     },
 
 
     /**
-     * Listener method for "mouseout" event
+     * Listener method for "mouseout" event.
      * <ul>
      * <li>Removes "over" state</li>
-     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
+     * <li>Adds "abandoned" state (if "pressed" state is set)</li>
+     * <li>Removes "pressed" state (if "pressed" state is set and button is not checked)
      * </ul>
      *
      * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseout : function(e)
-    {
+    _onmouseout : function(e) {
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
-
       this.removeState("over");
-
-      if (this.hasState("pressed"))
-      {
-        this.removeState("pressed");
+      if (this.hasState("pressed")) {
+        if (!this.getChecked()) {
+          this.removeState("pressed");
+        }
         this.addState("abandoned");
       }
     },
-
-
+    
+    
     /**
-     * Listener method for "mousedown" event
+     * Listener method for "mousedown" event.
      * <ul>
+     * <li>Activates capturing</li>
      * <li>Removes "abandoned" state</li>
      * <li>Adds "pressed" state</li>
      * </ul>
@@ -161,7 +171,6 @@ qx.Class.define("qx.ui.form.Button",
       if (!e.isLeftPressed()) {
         return;
       }
-
       // Activate capturing if the button get a mouseout while
       // the button is pressed.
       this.capture();
@@ -172,42 +181,35 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "mouseup" event
+     * Listener method for "mouseup" event.
      * <ul>
-     * <li>Removes "pressed" state (if set)</li>
+     * <li>Releases capturing</li>
+     * <li>Removes "pressed" state (if not "abandoned" state is set and "pressed" state is set)</li>
      * <li>Removes "abandoned" state (if set)</li>
-     * <li>Adds "over" state (if "abandoned" state is not set)</li>
-     *</ul>
+     * <li>Toggles {@link #checked} (if state "abandoned" is not set and state "pressed" is set)</li>
+     * </ul>
      *
      * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseup : function(e)
-    {
+    _onmouseup : function(e) {
+
       this.releaseCapture();
 
-      // We must remove the states before executing the command
-      // because in cases were the window lost the focus while
-      // executing we get the capture phase back (mouseout).
       var hasPressed = this.hasState("pressed");
       var hasAbandoned = this.hasState("abandoned");
 
-      if (hasPressed) {
+      if (!hasAbandoned && hasPressed) {
         this.removeState("pressed");
       }
 
-      if (hasAbandoned) {
+      if (hasAbandoned) {  
         this.removeState("abandoned");
       }
-
-      if (!hasAbandoned)
-      {
-        this.addState("over");
-
-        if (hasPressed) {
-          this.execute();
-        }
+      
+      if (!hasAbandoned && hasPressed) {
+        this.toggleChecked();
       }
     },
 
@@ -229,6 +231,7 @@ qx.Class.define("qx.ui.form.Button",
         case "Space":
           this.removeState("abandoned");
           this.addState("pressed");
+
           e.stopPropagation();
       }
     },
@@ -237,7 +240,7 @@ qx.Class.define("qx.ui.form.Button",
     /**
      * Listener method for "keyup" event.<br/>
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
-     * for the keys "Enter" or "Space"
+     * for the keys "Enter" or "Space". It also toggles the {@link #checked} property.
      *
      * @type member
      * @param e {Event} Key event
@@ -249,12 +252,12 @@ qx.Class.define("qx.ui.form.Button",
       {
         case "Enter":
         case "Space":
-          if (this.hasState("pressed"))
-          {
+          if (this.hasState("pressed")) {
+            
             this.removeState("abandoned");
-            this.removeState("pressed");
-            this.execute();
-            e.stopPropagation();
+            this.toggleChecked();
+            
+             e.stopPropagation();
           }
       }
     }
