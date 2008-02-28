@@ -33,7 +33,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.xml.Namespace",
+qx.Bootstrap.define("qx.xml.Namespace",
 {
   statics :
   {

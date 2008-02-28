@@ -20,7 +20,7 @@
 /**
  * Escaping and unescaping of XML strings.
  */
-qx.Class.define("qx.xml.String",
+qx.Bootstrap.define("qx.xml.String",
 {
   statics :
   {
