@@ -112,9 +112,10 @@ qx.Class.define("qx.bom.Input",
     {
       "mshtml" : function(element, value)
       {
-        element.__inValueSet = true;
+        // TODO: What is this code meant to do? It gives an error in IE
+        //element.__inValueSet = true;
         element.value = value;
-        delete element.__inValueSet;
+        //delete element.__inValueSet;
       },
 
       "default" : function(element, value) {
