@@ -25,6 +25,7 @@
  * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9
  *
  * http://msdn2.microsoft.com/en-us/library/ms535918.aspx
+ * http://msdn2.microsoft.com/en-us/library/ms764622.aspx
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
  */
 qx.Bootstrap.define("qx.xml.Document",
@@ -34,9 +35,6 @@ qx.Bootstrap.define("qx.xml.Document",
     /** {String} ActiveX class name of DOMDocument (IE specific) */
     DOMDOC : null,
 
-    /** {String} ActiveX class name of XMLDOM (IE specific) */    
-    XMLDOC : null,
-    
     /** {String} ActiveX class name of XMLHttpRequest (IE specific) */
     XMLHTTP : null,
         
@@ -55,14 +53,14 @@ qx.Bootstrap.define("qx.xml.Document",
     {
       "mshtml": function(namespaceUri, qualifiedName)
       {
-        var obj = new ActiveXObject(this.XMLDOC);
-        
-        obj.async = false;
+        var obj = new ActiveXObject(this.DOMDOC);
         obj.setProperty("SelectionLanguage", "XPath");
         
         if (qualifiedName)
         {
-          var str = qualifiedName;
+          var str = '<?xml version="1.0" encoding="utf-8"?>\n';
+          
+          str += qualifiedName;
 
           if (namespaceUri) {
             str += " xmlns='" + namespaceUri + "'";
@@ -108,6 +106,14 @@ qx.Bootstrap.define("qx.xml.Document",
   },
   
   
+  
+  
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+    
   defer : function(statics)
   {
     // Detecting available ActiveX implementations. 
@@ -117,7 +123,6 @@ qx.Bootstrap.define("qx.xml.Document",
       // it is recommended to check for availability of MSXML versions 6.0 and 3.0.
       // http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
       var domDoc = [ "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.3.0" ];
-      var xmlDoc = [ "MSXML2.XMLDOM.6.0", "MSXML2.XMLDOM.3.0" ];
       var httpReq = [ "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0" ];
       
       for (var i=0, l=domDoc.length; i<l; i++) 
@@ -127,7 +132,6 @@ qx.Bootstrap.define("qx.xml.Document",
           // Keep both objects in sync with the same version.
           // This is important as there were compabilitiy issues detected.
           new ActiveXObject(domDoc[i]);
-          new ActiveXObject(xmlDoc[i]);
           new ActiveXObject(httpReq[i]);
         }
         catch(ex) {
@@ -136,7 +140,6 @@ qx.Bootstrap.define("qx.xml.Document",
         
         // Update static constants
         statics.DOMDOC = domDoc[i];
-        statics.XMLDOC = xmlDoc[i];        
         statics.XMLHTTP = httpReq[i];
         
         // Stop loop here
