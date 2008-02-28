@@ -324,6 +324,15 @@ qx.Class.define("qx.legacy.ui.table.Table",
       apply : "_applyStatusBarVisible"
     },
 
+  
+    /** The Statusbartext, set it, if you want some more Information */
+    additionalStatusBarText :
+    {
+      nullable : true,
+      init : null,
+      apply : "_applyAdditionalStatusBarText"
+    },
+
     /** Whether to show the column visibility button */
     columnVisibilityButtonVisible :
     {
@@ -623,6 +632,22 @@ qx.Class.define("qx.legacy.ui.table.Table",
         this._updateStatusBar();
       }
     },
+
+    // property modifier
+    /**
+      * @type member
+      * @param value {var} Current value
+      * @param old {var} Previous value
+      */
+    _applyAdditionalStatusBarText : function(value, old)
+    {
+      this._additionalStatusBarText = value;
+    
+      if(value) {
+         this._updateStatusBar();
+      }
+    },
+
 
     // property modifier
     /**
@@ -1493,13 +1518,25 @@ qx.Class.define("qx.legacy.ui.table.Table",
 
         var text;
 
-        if (selectedRowCount == 0) {
-          text = this.trn("one row", "%1 rows", rowCount, rowCount);
-        } else {
-          text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
+        if(rowCount > 0) {
+          if (selectedRowCount == 0) {
+            text = this.trn("one row", "%1 rows", rowCount, rowCount);
+          } else {
+            text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
+          }
+        }
+     
+        if(this._additionalStatusBarText) {
+          if(text) {
+            text += this._additionalStatusBarText;
+          } else {
+            text = this._additionalStatusBarText;
+          }
         }
 
-        this._statusBar.setText(text);
+        if(text) {
+          this._statusBar.setText(text);
+        }
       }
     },
 
