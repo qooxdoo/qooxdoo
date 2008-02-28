@@ -35,7 +35,7 @@
 ************************************************************************ */
 
 /**
- * TODO
+ * Manager for access to effect queues.
  */
 qx.Class.define("qx.fx.queue.Manager",
 {

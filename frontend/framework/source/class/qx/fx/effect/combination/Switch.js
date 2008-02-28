@@ -120,10 +120,15 @@ qx.Class.define("qx.fx.effect.combination.Switch",
       check : "Boolean"
     },
     
+    /**
+     * Mode indicating if effect should switch
+     * element "on" or "off"
+     */
     mode : 
     {
       init : "off",
-      check : [ "on", "off" ]
+      check : [ "off" ]
+      //check : [ "on", "off" ]
     }
 
   },
@@ -184,24 +189,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
       }
       else
       {
-
-        this._scaleEffect.set({
-          scaleFrom            : 0,
-          scaleTo              : 100,
-          duration             : this.getDuration() / 2,
-          scaleFromCenter      : true,
-          scaleX               : false,
-          scaleContent         : false,
-          restoreAfterFinish   : true,
-          alternateDimensions  : [ qx.bom.element.Dimension.getWidth(this._element),  qx.bom.element.Dimension.getHeight(this._element)]
-        });
-    
-        this._appearEffect.set({
-          duration : this.getDuration() / 2,
-          from : 0,
-          to : this.getTo()
-        });
-
+        // maybe later...
       }
       
       

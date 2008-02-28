@@ -87,7 +87,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
         effects[i].beforeFinishInternal();
         effects[i].beforeFinish();
 
-        effects[i].finish(position);
+        effects[i].finish(1.0);
 
         effects[i].afterFinishInternal();
         effects[i].afterFinish();
