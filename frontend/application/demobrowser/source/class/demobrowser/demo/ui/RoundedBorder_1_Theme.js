@@ -31,7 +31,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: 5,
-        backgroundColor: "gray",
         width: 2,
         color: "blue",
         antiAlias: true
@@ -45,7 +44,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: 10,
-        backgroundColor: "gray",
         width: [2, 4, 8, 16],
         color: ["purple", "blue", "yellow", "green"],
         antiAlias: true
@@ -59,7 +57,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: [4, 8, 16, 32],
-        backgroundColor: "gray",
         width: 3,
         color: ["purple", "blue", "yellow", "green"],
         antiAlias: true
@@ -73,7 +70,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: [4, 8, 16, 32],
-        backgroundColor: "gray",
         width: [2, 4, 8, 16],
         color: ["purple", "blue", "yellow", "green"],
         antiAlias: true
@@ -87,7 +83,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: 10,
-        backgroundColor: "gray",
         width: [0, 0, 5, 5],
         color: ["purple", "blue", "yellow", "green"],
         antiAlias: true
@@ -101,7 +96,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: 10,
-        backgroundColor: "gray",
         width: [5, 5, 0, 5],
         color: ["purple", "blue", "yellow", "green"],
         antiAlias: true
@@ -115,7 +109,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: 10,
-        backgroundColor: "gray",
         width: 0,
         color: "gray",
         antiAlias: true
@@ -129,7 +122,6 @@ qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
       style :
       {
         radius: 0,
-        backgroundColor: "gray",
         width: 0,
         color: "gray",
         antiAlias: true

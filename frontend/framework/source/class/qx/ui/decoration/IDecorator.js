@@ -73,8 +73,9 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param decorationElement {qx.html.Element} The widget's decoration element.
      * @param height {Integer} The widget's new height
      * @param width {Integer} The widget's new width
+     * @param backgroundColor {String?null} an optional CSS background color value.
      */
-    update : function(decorationElement, height, width) {
+    update : function(decorationElement, height, width, backgroundColor) {
       return true;
     },
 

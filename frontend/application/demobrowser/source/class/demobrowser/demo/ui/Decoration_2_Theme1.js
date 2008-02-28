@@ -55,7 +55,6 @@ qx.Theme.define("demobrowser.demo.ui.Decoration_2_Theme1",
       style :
       {
         radius: [50, 30, 20, 20],
-        backgroundColor: "red",
         width: [10, 30, 20, 15],
         style: "solid",
         color: ["purple", "blue", "yellow", "green"]
