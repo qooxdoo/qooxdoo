@@ -170,7 +170,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * @return {var} TODOC
      */
     isSupported : function() {
-      return !!this.create();
+      return !!this.createRequestObject();
     },
 
 
