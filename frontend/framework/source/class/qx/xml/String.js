@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.xml.String",
      * @return {String} the escaped string
      */
     escape : function(str) {
-      return qx.util.StringEscape.escape(str, qx.xml.String.FROM_CHARCODE);
+      return qx.util.StringEscape.escape(str, this.FROM_CHARCODE);
     },
 
 
@@ -77,7 +77,7 @@ qx.Bootstrap.define("qx.xml.String",
      * @return {String} the unescaped string
      */
     unescape : function(str) {
-      return qx.util.StringEscape.unescape(str, qx.xml.String.TO_CHARCODE);
+      return qx.util.StringEscape.unescape(str, this.TO_CHARCODE);
     }
   }
 });
