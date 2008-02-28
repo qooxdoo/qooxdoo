@@ -629,6 +629,13 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
+    /** {qx.ui.decoration.IDecorator|null} the current decorator (may be null) */
+    __decorator : null,
+
+    /** {String} The current background color (CSS value) */
+    __backgroundColor : null,
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -1103,9 +1110,9 @@ qx.Class.define("qx.ui.core.Widget",
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
 
-      if (this._decorator)
+      if (this.__decorator)
       {
-        var inset = this._decorator.getInsets();
+        var inset = this.__decorator.getInsets();
 
         top += inset.top;
         right += inset.right;
@@ -1502,8 +1509,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     updateDecoration : function(width, height)
     {
-      if (this._decorator) {
-        this._decorator.update(this._decorationElement, width, height);
+      if (this.__decorator)
+      {
+        this.__decorator.update(
+          this._decorationElement,
+          width, height,
+          this.__backgroundColor
+        );
       }
 
       qx.ui.core.DecorationQueue.remove(this);
@@ -1534,7 +1546,13 @@ qx.Class.define("qx.ui.core.Widget",
     _styleDecorator : function(decorator)
     {
       // decorator life cycle management
-      var oldDecorator = this._decorator;
+      var oldDecorator = this.__decorator;
+      this.__decorator = decorator;
+
+      // sync background colors
+      if (!oldDecorator && this.__backgroundColor || !decorator) {
+        this._styleBackgroundColor();
+      }
 
       if (decorator && !this._decorationElement)
       {
@@ -1562,7 +1580,6 @@ qx.Class.define("qx.ui.core.Widget",
             decorator.init(this._decorationElement);
           }
         }
-        this._decorator = decorator;
       }
 
       var oldInsets = this._lastDecorationInsets || this._defaultDecorationInsets;
@@ -1683,21 +1700,33 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    // property apply
-    _applyFont : function(value, old) {
-      // place holder
-    },
-
-
     /**
-     * Callback for color manager connection
+     * Callback for color manager connection.
+     *
+     * If no decorator is set, the background color will be applied to the
+     * container element.
      *
      * @type member
      * @param color {Color} any CSS acceptable color value
      * @return {void}
      */
-    _styleBackgroundColor : function(color) {
-      this._containerElement.setStyle("backgroundColor", color);
+    _styleBackgroundColor : function(color)
+    {
+      if (color) {
+        this._containerElement.setStyle("backgroundColor", color);
+      } else {
+        this._containerElement.removeStyle("backgroundColor", color);
+      }
+      if (this.__decorator) {
+        qx.ui.core.DecorationQueue.add(this);
+      }
+      this.__backgroundColor = color;
+    },
+
+
+    // property apply
+    _applyFont : function(value, old) {
+      // place holder
     },
 
 
