@@ -214,7 +214,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
       this._setDimensions(this._dims[0] * currentScale, this._dims[1] * currentScale);
     },
 
-   finish : function(position)
+   finish : function()
    {
      this.base(arguments);
 
@@ -226,6 +226,13 @@ qx.Class.define("qx.fx.effect.core.Scale",
      }
    },
 
+   /**
+    * Internal helper function which sets element's
+    * dimensions to the given values and (optionally)
+    * moves it to scale centered.
+    * @param width {Number} Width in pixels
+    * @param height {Number} Height in pixels
+    */
    _setDimensions : function(width, height)
    {
 

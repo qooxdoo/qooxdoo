@@ -58,8 +58,18 @@ qx.Class.define("qx.fx.Transition",
   statics :
   {
 
+    /**
+     * Array containg all available transition functions. 
+     */
     allowedNames : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"],
 
+    /**
+     * Maps function name to function.
+     * 
+     * @param functionName {String} Name of the function.
+     * @return {Function} Function belonging to the name or false,
+     * function does not exist
+     */
     get : function(functionName)
     {
       return qx.fx.Transition[functionName] || false;
