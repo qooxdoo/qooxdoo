@@ -1712,14 +1712,14 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleBackgroundColor : function(color)
     {
-      if (color) {
+      if (this.__decorator) {
+        qx.ui.core.DecorationQueue.add(this);
+      } else if (color) {
         this._containerElement.setStyle("backgroundColor", color);
       } else {
         this._containerElement.removeStyle("backgroundColor", color);
       }
-      if (this.__decorator) {
-        qx.ui.core.DecorationQueue.add(this);
-      }
+      
       this.__backgroundColor = color;
     },
 
