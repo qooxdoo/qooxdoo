@@ -48,6 +48,11 @@ qx.Class.define("qx.event.handler.Application",
     // Initialize observers
     this._initObserver();
 
+    // Validate instanciation
+    if (qx.event.handler.Application.$$instance) {
+      throw new Error("Only one application could be initialized per qooxdoo instance!");
+    }
+    
     // Store instance (only supported for main app window, this
     // is the reason why this is OK here)
     qx.event.handler.Application.$$instance = this;
@@ -67,16 +72,32 @@ qx.Class.define("qx.event.handler.Application",
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    
+    
+    /**
+     * Returns the currently running application
+     *
+     * @type static
+     * @return {qx.application.Abstract}
+     */
+    getRunning : function() {
+      return qx.event.handler.Application.$$instance || null;
+    },
+
 
     /**
+     * Sends the currently running application the ready signal. Used
+     * exclusively by package loader system.
      *
-     *
+     * @internal
+     * @type static
+     * @return {void}
      */
     ready : function()
     {
       var inst = qx.event.handler.Application.$$instance;
       if (inst) {
-        inst.ready();
+        inst.__ready();
       }
     }
   },
@@ -142,7 +163,13 @@ qx.Class.define("qx.event.handler.Application",
     ---------------------------------------------------------------------------
     */
 
-    ready : function()
+    /**
+     * Fires a global ready event.
+     *
+     * @type member
+     * @return {void}
+     */
+    __ready : function()
     {
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__ready)
@@ -208,12 +235,8 @@ qx.Class.define("qx.event.handler.Application",
     _onNativeLoad : function(e)
     {
       // Wrapper qxloader needed to be compatible with old generator
-      if (!this.__ready && !window.qxloader)
-      {
-        this.__ready = true;
-
-        // Fire user event
-        qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "ready", false ]);
+      if (!window.qxloader) {
+        this.__ready();
       }
     },
 
@@ -243,7 +266,6 @@ qx.Class.define("qx.event.handler.Application",
 
 
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -253,8 +275,6 @@ qx.Class.define("qx.event.handler.Application",
   destruct : function() {
     this._stopObserver();
   },
-
-
 
 
 
