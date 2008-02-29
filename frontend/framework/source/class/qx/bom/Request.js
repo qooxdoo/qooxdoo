@@ -301,8 +301,8 @@ qx.Bootstrap.define("qx.bom.Request",
     setRequestHeader : function(label, value)
     {
       // Store locally, native implementation misses a getter
-      this.__headers[name] = value;
-      return this.__xmlhttp.setRequestHeader(name, value);
+      this.__headers[label] = value;
+      return this.__xmlhttp.setRequestHeader(label, value);
     },
     
     
