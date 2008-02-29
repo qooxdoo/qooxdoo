@@ -68,6 +68,10 @@ qx.Class.define("qx.ui.core.Widget",
     this._contentElement = this._createContentElement();
     this._containerElement.add(this._contentElement);
 
+    if (!qx.ui.core.Widget.__DEFAULT_DECORATION) {
+      qx.ui.core.Widget.__DEFAULT_DECORATION = new qx.ui.decoration.Basic(0);
+    }
+
     this.initAppearance();
   },
 
@@ -461,6 +465,22 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * The URI of the image file to use as background image.
+     *
+     * The property {@link #backgroundRepeat} controls how the background is
+     * displayed.
+     */
+    backgroundImage :
+    {
+      check : "String",
+      nullable : true,
+      init : null,
+      apply : "_applyBackgroundImage",
+      themeable : true
+    },
+
+
     /** The font property describes how to paint the font on the widget. */
     font :
     {
@@ -596,6 +616,14 @@ qx.Class.define("qx.ui.core.Widget",
 
   statics :
   {
+    /**
+     * {qx.ui.decoration.Basic} This decoration is used to render the background
+     *     color and background image, if no other decoration is set for the
+     *     widget.
+     */
+    __DEFAULT_DECORATION : null,
+
+
     /**
      * Returns the widget, which contains the given DOM element.
      *
@@ -1514,7 +1542,8 @@ qx.Class.define("qx.ui.core.Widget",
         this.__decorator.update(
           this._decorationElement,
           width, height,
-          this.__backgroundColor
+          this.__backgroundColor,
+          this.getBackgroundImage()
         );
       }
 
@@ -1547,12 +1576,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // decorator life cycle management
       var oldDecorator = this.__decorator;
-      this.__decorator = decorator;
-
-      // sync background colors
-      if (!oldDecorator && this.__backgroundColor || !decorator) {
-        this._styleBackgroundColor();
-      }
+      this.__decorator = decorator || qx.ui.core.Widget.__DEFAULT_DECORATION;
 
       if (decorator && !this._decorationElement)
       {
@@ -1712,15 +1736,16 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleBackgroundColor : function(color)
     {
-      if (this.__decorator) {
+      if (color) {
         qx.ui.core.DecorationQueue.add(this);
-      } else if (color) {
-        this._containerElement.setStyle("backgroundColor", color);
-      } else {
-        this._containerElement.removeStyle("backgroundColor", color);
       }
-      
       this.__backgroundColor = color;
+    },
+
+
+    // property apply
+    _applyBackgroundImage : function(value, old) {
+      qx.ui.core.DecorationQueue.add(this);
     },
 
 
