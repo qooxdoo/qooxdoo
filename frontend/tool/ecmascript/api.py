@@ -43,13 +43,12 @@ hasDocError = False
 def printDocError(node, msg):
     (line, column) = getLineAndColumnFromSyntaxItem(node)
     file = getFileFromSyntaxItem(node)
-    print
     if line != None or file != None:
-        print "    - Failed: %s\n      %s, Line: %s, Column: %s" % (
+        print "      - Failed: %s\n        %s, Line: %s, Column: %s" % (
             msg, str(file), str(line), str(column)
         )
     else:
-        print "    - Failed: %s" % msg
+        print "      - Failed: %s" % msg
 
     global hasDocError
     hasDocError = True
@@ -85,7 +84,10 @@ def createDoc(syntaxTree, docTree = None):
         handleClassDefinition(docTree, defineNode, variant)
 
     global hasDocError
-    return (docTree, hasDocError)
+    ret = (docTree, hasDocError)
+    hasDocError = False
+    
+    return ret
 
 
 def createPackageDoc(text, packageName, docTree = None):

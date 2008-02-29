@@ -29,9 +29,11 @@ class ApiLoader:
         tree = self._treeLoader.getTree(fileId)
         (data, hasError) = api.createDoc(tree)
         self._console.outdent()
-
+        
+        if hasError:
+            data = None
+        
         self._cache.write(cacheId, data)
-
         return data
 
 
@@ -61,14 +63,26 @@ class ApiLoader:
         self._console.indent()
 
         packages = []
+        hasErrors = False
         for pos, fileId in enumerate(include):
             self._console.progress(pos, length)
-            self._mergeApiNodes(docTree, self.getApi(fileId))
-            pkgId = self._classes[fileId]["package"]
-            if not pkgId in packages:
-                packages.append(pkgId)
-                
+            fileApi = self.getApi(fileId)
+            if fileApi == None:
+                hasErrors = True
+            
+            # Only continue merging if there were no errors
+            if not hasErrors:
+                self._mergeApiNodes(docTree, fileApi)
+                pkgId = self._classes[fileId]["package"]
+                if not pkgId in packages:
+                    packages.append(pkgId)
+
         self._console.outdent()
+
+        if hasErrors:
+            self._console.error("Found errornous API information. Please see above. Stopping!")
+            return
+                
         self._console.info("Loading package docs...")
         self._console.indent()
         
