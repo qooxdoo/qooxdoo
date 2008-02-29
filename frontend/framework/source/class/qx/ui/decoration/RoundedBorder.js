@@ -216,6 +216,11 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         // http://www.w3.org/TR/NOTE-VML
 
         var fillColor = backgroundColor || "white";
+        if (backgroundImage) {
+          fill = '<v:fill type="tile" src="'+backgroundImage+'"/>'
+        } else {
+          fill = "";
+        }
 
         // width shortcuts
         var tw = this.getWidthTop();
@@ -302,6 +307,14 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
             '<v:path v="m ', xl, ',', yt, ' ns ', lines.join(""), ' x e"/>',
             '</v:shape>'
           ];
+          if (fill) {
+            background.push(
+              '<v:shape style=";width:', w, ';height:', h, '">',
+              fill,
+              '<v:path v="m ', xl, ',', yt, ' ns ', lines.join(""), ' x e"/>',
+              '</v:shape>'
+            )
+          }
 
           if (!allBorderWidthsNull)
           {
@@ -519,14 +532,7 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
 
   defer : function()
   {
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
-    {
-      qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
-
-      if (!document.namespaces["v"]) {
-        document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
-      }
-    }
+    qx.bom.Vml.init();
   }
 
 });
