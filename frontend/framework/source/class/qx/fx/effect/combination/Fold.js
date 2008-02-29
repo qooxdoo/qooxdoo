@@ -108,7 +108,9 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return; 
+      }
 
       // Hack: the scale effects should be moved back to the constructor
       var self = this;
