@@ -59,9 +59,6 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
   {
     this.base(arguments, element);
 
-    this.setMoveTransition("sinoidal");
-    this.setScaleTransition("sinoidal");
-
     this._moveEffect = new qx.fx.effect.core.Move(this._element);
     this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
     this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._scaleEffect);
@@ -91,8 +88,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
      */
     moveTransition :
     {
-      init : null,
-      check : qx.fx.Transition.allowedNames
+      init : "sinoidal",
+
+      // keep this in sync with qx.fx.Transition!
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
     /**
@@ -100,8 +99,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
      */
     scaleTransition :
     {
-      init : null,
-      check : qx.fx.Transition.allowedNames
+      init : "sinoidal",
+
+      // keep this in sync with qx.fx.Transition!
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
     /**
