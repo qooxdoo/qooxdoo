@@ -102,8 +102,10 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
      */
     forwardTransition :
     {
-      check : qx.fx.Transition.allowedNames,
-      init : "linear"
+      init : "linear",
+
+      // keep this in sync with qx.fx.Transition!
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
 
@@ -112,8 +114,10 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
      */
     backwardTransition :
     {
-      check : qx.fx.Transition.allowedNames,
-      init : "linear"
+      init : "linear",
+
+      // keep this in sync with qx.fx.Transition!
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
 
