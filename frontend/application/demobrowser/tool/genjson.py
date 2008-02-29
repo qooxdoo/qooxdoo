@@ -84,7 +84,7 @@ def main():
         category = html.split(os.sep)[2]
         name     = (html.split(os.sep)[3]).split(".")[0]
 
-        print ">>> Processing: %s.%s..." % (category, name)
+        # print ">>> Processing: %s.%s..." % (category, name)
 
         # build classname
         clazz  = "demobrowser.demo.%s.%s" % (category,name)
