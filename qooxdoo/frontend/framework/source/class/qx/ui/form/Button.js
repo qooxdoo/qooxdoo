@@ -162,6 +162,10 @@ qx.Class.define("qx.ui.form.Button",
         return;
       }
 
+      if (!e.isTargetInsideWidget(this)) {
+        return;
+      }
+
       // Activate capturing if the button get a mouseout while
       // the button is pressed.
       this.capture();
