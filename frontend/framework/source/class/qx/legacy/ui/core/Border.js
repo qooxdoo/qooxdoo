@@ -18,17 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-
-************************************************************************ */
-
 /** Border implementation for qx.legacy.ui.core.Widget instances. */
 qx.Class.define("qx.legacy.ui.core.Border",
 {
   extend : qx.core.Object,
-  include : qx.util.manager.MConnectedObject,
 
 
 
@@ -769,7 +762,7 @@ qx.Class.define("qx.legacy.ui.core.Border",
      * @param edge {String} the edge which was updated
      */
     __informManager : function(edge) {
-      qx.legacy.theme.manager.Border.getInstance().updateObjectsEdge(this, edge);
+      qx.legacy.theme.manager.Border.getInstance().updateUsersOf(this);
     },
 
 

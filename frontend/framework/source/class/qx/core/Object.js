@@ -275,9 +275,7 @@ qx.Class.define("qx.core.Object",
      */
     addListener : function(type, func, obj, capture)
     {
-      if (!this.$$disposed)
-      {
-        this.__hasEventListeners = true;
+      if (!this.$$disposed) {
         qx.event.Registration.addListener(this, type, func, obj, !!capture);
       }
     },
@@ -481,10 +479,6 @@ qx.Class.define("qx.core.Object",
       // Mark as disposed (directly, not at end, to omit recursions)
       this.$$disposed = true;
 
-      if (this.__hasEventListeners) {
-        qx.event.Registration.getManager(this).removeAllListeners(this);
-      }
-
       // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -526,23 +520,23 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
         {
-          var vValue;
-          for (var vKey in this)
+          var key, value;
+          for (key in this)
           {
-            vValue = this[vKey];
+            value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (vValue !== null && typeof vValue === "object")
+            if (value !== null && typeof value === "object")
             {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
               // private variables (hint: checks in qx.Class.define). We accept both.
-              if (this.constructor.prototype[vKey] != null) {
+              if (this.constructor.prototype[key] != null) {
                 continue;
               }
 
-              qx.log.Logger.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
-              delete this[vKey];
+              qx.log.Logger.warn("Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+              delete this[key];
             }
           }
         }
@@ -566,7 +560,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     _disposeFields : function(varargs) {
-      qx.util.DisposeUtil.disposeFields(this, qx.lang.Array.fromArguments(arguments));
+      qx.util.DisposeUtil.disposeFields(this, arguments);
     },
 
 
@@ -579,7 +573,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     _disposeObjects : function(varargs) {
-      qx.util.DisposeUtil.disposeObjects(this, qx.lang.Array.fromArguments(arguments));
+      qx.util.DisposeUtil.disposeObjects(this, arguments);
     },
 
 
@@ -633,7 +627,17 @@ qx.Class.define("qx.core.Object",
 
   destruct : function()
   {
+    // Cleanup event listeners
+    qx.event.Registration.removeAllListeners(this);
+      
+    // Cleanup value managers
+    qx.util.manager.Value.disconnect(this);
+
+    // Cleanup object registry
+    qx.core.ObjectRegistry.unregister(this);
+
     // Cleanup properties
+    // TODO: Is this really needed for non DOM/JS links?
     var clazz = this.constructor;
     var properties;
     var store = qx.core.Property.$$store;
@@ -658,7 +662,5 @@ qx.Class.define("qx.core.Object",
 
       clazz = clazz.superclass;
     }
-
-    qx.core.ObjectRegistry.unregister(this);
   }
 });
