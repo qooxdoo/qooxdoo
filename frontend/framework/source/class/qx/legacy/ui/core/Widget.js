@@ -27,7 +27,7 @@
 #optional(qx.legacy.ui.popup.ToolTip)
 #optional(qx.legacy.ui.menu.Menu)
 #optional(qx.legacy.ui.basic.Inline)
-#require(qx.legacy.event.WidgetBubbling)
+#use(qx.legacy.event.WidgetBubbling)
 
 ************************************************************************ */
 
@@ -46,7 +46,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 {
   extend : qx.core.Object,
   type : "abstract",
-  include : [ qx.locale.MTranslation, qx.core.MUserData, qx.util.manager.MConnectedObject ],
+  include : [ qx.locale.MTranslation, qx.core.MUserData ],
 
 
   /*

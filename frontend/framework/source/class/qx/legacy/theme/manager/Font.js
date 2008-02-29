@@ -94,7 +94,7 @@ qx.Class.define("qx.legacy.theme.manager.Font",
      * @return {void}
      */
     syncFontTheme : function() {
-      this._updateObjects();
+      this.updateAll();
     },
 
 

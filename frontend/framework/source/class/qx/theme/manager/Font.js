@@ -88,7 +88,7 @@ qx.Class.define("qx.theme.manager.Font",
      * @return {void}
      */
     syncFontTheme : function() {
-      this._updateObjects();
+      this.updateAll();
     },
 
 

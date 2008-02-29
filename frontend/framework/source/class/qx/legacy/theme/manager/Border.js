@@ -61,7 +61,6 @@ qx.Class.define("qx.legacy.theme.manager.Border",
 
   members :
   {
-
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -93,19 +92,7 @@ qx.Class.define("qx.legacy.theme.manager.Border",
      * @return {void}
      */
     syncBorderTheme : function() {
-      this._updateObjects();
-    },
-
-
-    /**
-     * Update all objects which use the given border. Only updates one edge at each call.
-     *
-     * @type member
-     * @param border {qx.legacy.ui.core.Border} the border which have been modified
-     * @param edge {String} top, right, bottom or left
-     */
-    updateObjectsEdge : function(border, edge) {
-      this.syncConnectedObjects(border, edge);
+      this.updateAll();
     },
 
 

@@ -87,18 +87,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {void}
      */
     syncDecorationTheme : function() {
-      this._updateObjects();
-    },
-
-
-    /**
-     * Update all objects which use the given decoration.
-     *
-     * @type member
-     * @param decoration {qx.ui.core.Decoration} the decoration which have been modified
-     */
-    updateObjects : function(decoration) {
-      this.syncConnectedObjects(decoration);
+      this.updateAll();
     },
 
 

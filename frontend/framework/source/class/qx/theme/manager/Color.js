@@ -101,7 +101,7 @@ qx.Class.define("qx.theme.manager.Color",
      * @return {void}
      */
     syncColorTheme : function() {
-      this._updateObjects();
+      this.updateAll();
     }
   }
 });
