@@ -165,7 +165,9 @@ qx.Class.define("qx.fx.Base",
      transition :
      {
        init   : "linear",
-       check  : qx.fx.Transition.allowedNames
+
+       // keep this in sync with qx.fx.Transition!
+       check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
      }
 
   },

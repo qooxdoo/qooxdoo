@@ -90,7 +90,9 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     scaleTransition :
     {
       init : "sinoidal",
-      check : qx.fx.Transition.allowedNames
+
+      // keep this in sync with qx.fx.Transition!
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
     /**
@@ -99,7 +101,9 @@ qx.Class.define("qx.fx.effect.combination.Grow",
     moveTransition :
     {
       init : "sinoidal",
-      check : qx.fx.Transition.allowedNames
+
+      // keep this in sync with qx.fx.Transition!
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     }
 
   },
