@@ -144,11 +144,11 @@ qx.Class.define("qx.event.handler.Input",
           var type = target.type;
 
           if (type === "text" || tag === "textarea" || type === "checkbox" || type === "radio") {
-            qx.event.Registration.addNativeListener(target, "propertychange", this._onPropertyWrapper);
+            qx.bom.Event.addNativeListener(target, "propertychange", this._onPropertyWrapper);
           }
 
           if (type !== "checkbox" && type !== "radio") {
-            qx.event.Registration.addNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
 
           target.__inputHandlerAttached = true;
@@ -159,17 +159,17 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (type === "input")
         {
-          qx.event.Registration.addNativeListener(target, "input", this._onInputWrapper);
+          qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
         }
         else if (type === "change")
         {
           if (target.type === "radio" || target.type === "checkbox")
           {
-            qx.event.Registration.addNativeListener(target, "change", this._onChangeCheckedWrapper);
+            qx.bom.Event.addNativeListener(target, "change", this._onChangeCheckedWrapper);
           }
           else
           {
-            qx.event.Registration.addNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
         }
       }
@@ -190,11 +190,11 @@ qx.Class.define("qx.event.handler.Input",
           var type = target.type;
 
           if (type === "text" || tag === "textarea" || type === "checkbox" || type === "radio") {
-            qx.event.Registration.removeNativeListener(target, "propertychange", this._onPropertyWrapper);
+            qx.bom.Event.removeNativeListener(target, "propertychange", this._onPropertyWrapper);
           }
 
           if (type !== "checkbox" && type !== "radio") {
-            qx.event.Registration.removeNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
 
           delete target.__inputHandlerAttached;
@@ -205,17 +205,17 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (type === "input")
         {
-          qx.event.Registration.removeNativeListener(target, "input", this._onInputWrapper);
+          qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
         }
         else if (type === "change")
         {
           if (target.type === "radio" || target.type === "checkbox")
           {
-            qx.event.Registration.removeNativeListener(target, "change", this._onChangeCheckedWrapper);
+            qx.bom.Event.removeNativeListener(target, "change", this._onChangeCheckedWrapper);
           }
           else
           {
-            qx.event.Registration.removeNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
         }
       }

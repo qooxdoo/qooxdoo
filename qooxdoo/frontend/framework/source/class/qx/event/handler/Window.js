@@ -148,7 +148,7 @@ qx.Class.define("qx.event.handler.Window",
       this._onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
 
       for (var key in this._eventTypes) {
-        qx.event.Registration.addNativeListener(this._window, key, this._onNativeWrapper);
+        qx.bom.Event.addNativeListener(this._window, key, this._onNativeWrapper);
       }
     },
 
@@ -162,7 +162,7 @@ qx.Class.define("qx.event.handler.Window",
     _stopWindowObserver : function()
     {
       for (var key in this._eventTypes) {
-        qx.event.Registration.removeNativeListener(this._window, key, this._onNativeWrapper);
+        qx.bom.Event.removeNativeListener(this._window, key, this._onNativeWrapper);
       }
     },
 

@@ -240,10 +240,10 @@ qx.Class.define("qx.event.handler.ViewportLeave",
     _initMouseObserver : function()
     {
       this._onNativeMouseOutWrapper = qx.lang.Function.listener(this._onNativeMouseOut, this);
-      qx.event.Registration.addNativeListener(this._document.documentElement, "mouseout", this._onNativeMouseOutWrapper);
+      qx.bom.Event.addNativeListener(this._document.documentElement, "mouseout", this._onNativeMouseOutWrapper);
 
       this._onNativeMouseOverWrapper = qx.lang.Function.listener(this._onNativeMouseOver, this);
-      qx.event.Registration.addNativeListener(this._document.documentElement, "mouseover", this._onNativeMouseOverWrapper);
+      qx.bom.Event.addNativeListener(this._document.documentElement, "mouseover", this._onNativeMouseOverWrapper);
     },
 
 
@@ -255,8 +255,8 @@ qx.Class.define("qx.event.handler.ViewportLeave",
      */
     _stopMouseObserver : function()
     {
-      qx.event.Registration.removeNativeListener(this._document.documentElement, "mouseout", this._onNativeMouseOutWrapper);
-      qx.event.Registration.removeNativeListener(this._document.documentElement, "mouseover", this._onNativeMouseOverWrapper);
+      qx.bom.Event.removeNativeListener(this._document.documentElement, "mouseout", this._onNativeMouseOutWrapper);
+      qx.bom.Event.removeNativeListener(this._document.documentElement, "mouseover", this._onNativeMouseOverWrapper);
     }
   },
 
