@@ -441,13 +441,12 @@ qx.Class.define("qx.ui.decoration.Basic",
 
     _updateBackgroundImage : function(decorationElement, backgroundImage, backgroundRepeat)
     {
+      var styles = qx.html.ClippedImage.getStyles(backgroundImage);
+
       switch (backgroundRepeat)
       {
         case "tile":
-          decorationElement.setStyles({
-            "backgroundImage": "url(" + backgroundImage + ")",
-            "backgroundRepeat": "repeat"
-          });
+          styles.backgroundRepeat = "repeat";
           break;
 
         case "stretch":
@@ -455,12 +454,11 @@ qx.Class.define("qx.ui.decoration.Basic",
           break;
 
         case "image":
-          decorationElement.setStyles({
-            "backgroundImage": "url(" + backgroundImage + ")",
-            "backgroundRepeat": "no-repeat"
-          });
+          styles.backgroundRepeat = "no-repeat";
           break;
       }
+
+      decorationElement.setStyles(styles);
     },
 
 
