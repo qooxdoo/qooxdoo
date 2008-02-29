@@ -24,13 +24,11 @@ qx.Bootstrap.define("qx.bom.Event",
   {
     /**
      * Use the low level browser functionality to attach event listeners
-     * to DOM nodes. Uses <code>attachEvent</code> in IE and
-     * <code>addListener</code> in all other browsers.
+     * to DOM nodes.
      *
-     * Use this with caution. This is only thought for event handlers and
-     * not for the user.
+     * Use this with caution. This is only thought for event handlers and 
+     * qualified developers. These are not mem-leak protected!
      *
-     * @internal
      * @type static
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
@@ -51,13 +49,8 @@ qx.Bootstrap.define("qx.bom.Event",
 
     /**
      * Use the low level browser functionality to remove event listeners
-     * from DOM nodes. Uses <code>detachEvent</code> in IE and
-     * <code>removeListener</code> in all oother browsers.
+     * from DOM nodes.
      *
-     * Use this with caution. This is only thought for event handlers and
-     * not for the user.
-     *
-     * @internal
      * @type static
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
