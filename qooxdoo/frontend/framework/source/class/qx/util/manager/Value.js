@@ -35,10 +35,12 @@ qx.Class.define("qx.util.manager.Value",
   construct : function()
   {
     this.base(arguments);
+    
+    // Register value manager globally
+    qx.util.manager.Value.register(this);
 
     // Stores the objects
-    this._objectToValue = {};
-    this._valueToObjects = {};
+    this._registry = {};
 
     // Create empty dynamic map
     this._dynamic = {};
@@ -47,7 +49,37 @@ qx.Class.define("qx.util.manager.Value",
 
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
+  statics :
+  {
+    __managers : {},
+    
+    disconnect : function(obj)
+    {
+      var all = this.__managers;
+      for (var hc in all) {
+        all[hc].disconnectObject(obj);
+      }
+    },
+    
+    register : function(mgr) {
+      this.__managers[mgr.$$hash] = mgr;
+    },
+    
+    unregister : function(mgr) {
+      delete this.__managers[mgr.$$hash];
+    }
+  },
+  
+  
+  
+    
+    
   /*
   *****************************************************************************
      MEMBERS
@@ -56,35 +88,6 @@ qx.Class.define("qx.util.manager.Value",
 
   members :
   {
-    /**
-     * Disconnect all connections to the given object.
-     *
-     * @type member
-     * @param obj {qx.core.Object} The class, which should be disconnected.
-     */
-    disconnect : function(obj)
-    {
-      // Error checking
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!obj) {
-          throw new Error("Can not disconnect from an empty object");
-        }
-      }
-
-      // If value is disposed, it's already disconnected
-      if (this.isDisposed()) {
-        return;
-      }
-
-      // Otherwise disconnect from this value
-      var objectKey = obj.toHashCode();
-      var reg = this._objectToValue;
-
-      delete reg[objectKey];
-    },
-
-
     /**
      * Processing a value and handle callback execution on updates.
      *
@@ -107,20 +110,14 @@ qx.Class.define("qx.util.manager.Value",
           throw new Error("Can not connect to invalid object: " + obj);
         }
 
-        if (typeof obj.hasConnectionTo != "function") {
-          throw new Error("The Connected object '" + obj + "' must include the mixin 'qx.util.manager.MConnectedObject'!");
-        }
-
         if (value === undefined) {
           throw new Error("Undefined values are not allowed for connect: " + callback + "[" + obj + "]");
-        }
-
-        if (typeof value === "boolean") {
-          throw new Error("Boolean values are not allowed for connect: " + callback + "[" + obj + "]");
         }
       }
 
       // Preprocess value (if function is defined)
+      // Currently used by alias manager for some crazy translation stuff
+      // Need to keep an eye on this.
       if (value !== null && this._preprocess) {
         value = this._preprocess(value);
       }
@@ -129,23 +126,7 @@ qx.Class.define("qx.util.manager.Value",
       var objectKey = obj.toHashCode();
       var callbackKey = qx.core.ObjectRegistry.toHashCode(callback);
       var listenerKey = objectKey + "|" + callbackKey;
-      var objectToValue = this._objectToValue;
-      var valueToObjects = this._valueToObjects;
-
-
-      // remove old value from value2object map
-      if (objectToValue[objectKey] && objectToValue[objectKey][callbackKey])
-      {
-        var oldValue = this.resolveDynamic(objectToValue[objectKey][callbackKey].value);
-        if (oldValue instanceof qx.core.Object)
-        {
-          var connectedObjects = valueToObjects[oldValue.toHashCode()];
-          if (connectedObjects) {
-            delete connectedObjects[listenerKey];
-          }
-        }
-      }
-
+      var objectToValue = this._registry;
 
       // Callback handling
       if (this.isDynamic(value))
@@ -162,23 +143,7 @@ qx.Class.define("qx.util.manager.Value",
           value    : value
         };
 
-        var value = this.resolveDynamic(value);
-
-        // store value in value2objects map
-        if (value instanceof qx.core.Object)
-        {
-          var valueKey = value.toHashCode();
-          if (!valueToObjects[valueKey]) {
-            valueToObjects[valueKey] = {};
-          }
-
-          valueToObjects[valueKey][listenerKey] = {
-            callbackKey: callbackKey,
-            contextKey: objectKey
-          };
-        }
-
-        obj.hasConnectionTo(this);
+        value = this.resolveDynamic(value);
       }
       else if (objectToValue[objectKey] && objectToValue[objectKey][callbackKey])
       {
@@ -191,6 +156,24 @@ qx.Class.define("qx.util.manager.Value",
     },
 
 
+    /**
+     * Disconnect all connections to the given object.
+     *
+     * @type member
+     * @param obj {qx.core.Object} The class, which should be disconnected.
+     */
+    disconnectObject : function(obj)
+    {
+      // Remove object entry from registry
+      var reg = this._registry;
+      if (reg && reg[obj.$$hash]) 
+      {
+        this.debug("Disconnect: " + obj.toString());
+        delete reg[obj.$$hash];
+      }
+    },
+    
+    
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -221,52 +204,46 @@ qx.Class.define("qx.util.manager.Value",
      * also the arguments of the callbacks.
      *
      * @param value {var} a dynamic value
-     * @param varargs {var} a variable number of argiments, which are passed to
-     *     the callbacks
+     * @return {void}
      */
-    syncConnectedObjects : function(value, varargs)
+    updateUsersOf : function(value)
     {
-      var value = this.resolveDynamic(value) || value;
-      if (! value instanceof qx.core.Object) {
-        return;
-      }
+      var reg = this._registry;
+      var callbacks, entry;
 
-      var valueKey = value.toHashCode();
-      var callbackInfo = this._valueToObjects[valueKey];
-      if (!callbackInfo) {
-        return;
-      }
-
-      for (var key in callbackInfo)
+      for (var objectKey in reg)
       {
-        var contextKey = callbackInfo[key].contextKey;
-        var callbackKey = callbackInfo[key].callbackKey;
-        if (this._objectToValue[contextKey] && this._objectToValue[contextKey][callbackKey])
+        callbacks = reg[objectKey];
+        for (var callbackKey in callbacks)
         {
-          var entry = this._objectToValue[contextKey][callbackKey];
-          entry.callback.apply(entry.object, arguments);
-        } else {
-          delete this._valueToObjects[valueKey]
+          entry = callbacks[callbackKey];
+          if (entry.value == value) {
+            entry.callback.call(entry.object, this.resolveDynamic(entry.value));
+          }
         }
-      }
+      }      
     },
 
 
     /**
-     * Update all registered objects regarding the value switch
+     * Update all registered objects regarding a global change in
+     * interpretion of all values. This normally happens on whole
+     * changes of a e.g. theme, locale, etc.
      *
      * @type member
+     * @return {void}
      */
-    _updateObjects : function()
+    updateAll : function()
     {
-      var reg = this._objectToValue;
-      var entry;
+      var reg = this._registry;
+      var callbacks, entry;
 
       for (var objectKey in reg)
       {
-        for (var callbackKey in reg[objectKey])
+        callbacks = reg[objectKey];
+        for (var callbackKey in callbacks)
         {
-          entry = reg[objectKey][callbackKey];
+          entry = callbacks[callbackKey];
           entry.callback.call(entry.object, this.resolveDynamic(entry.value));
         }
       }
@@ -282,7 +259,11 @@ qx.Class.define("qx.util.manager.Value",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeFields("_objectToValue", "_dynamic");
+  destruct : function() 
+  {
+    this._disposeFields("_registry", "_dynamic");
+    
+    // Unregister value manager globally
+    qx.util.manager.Value.unregister(this);    
   }
 });

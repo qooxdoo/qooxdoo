@@ -52,7 +52,7 @@
 qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.ui.core.LayoutItem,
-  include : qx.util.manager.MConnectedObject,
+
 
   /*
   *****************************************************************************

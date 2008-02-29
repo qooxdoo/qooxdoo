@@ -33,7 +33,6 @@
 qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
 {
   extend : qx.core.Object,
-  include : qx.util.manager.MConnectedObject,
   implement : [qx.legacy.ui.table.IRowRenderer],
 
 
@@ -60,13 +59,14 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
     qx.legacy.theme.manager.Font.getInstance().connect(this._styleFont, this, "default");
 
     // link to color theme
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, "table-row-background-focused-selected");
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, "table-row-background-focused");
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, "table-row-background-selected");
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, "table-row-background-even");
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, "table-row-background-odd");
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColSelected, this, "table-row-selected");
-    qx.legacy.theme.manager.Color.getInstance().connect(this._styleColNormal, this, "table-row");
+    var colmgr = qx.legacy.theme.manager.Color.getInstance();
+    colmgr.connect(this._styleBgcolFocusedSelected, this, "table-row-background-focused-selected");
+    colmgr.connect(this._styleBgcolFocused, this, "table-row-background-focused");
+    colmgr.connect(this._styleBgcolSelected, this, "table-row-background-selected");
+    colmgr.connect(this._styleBgcolEven, this, "table-row-background-even");
+    colmgr.connect(this._styleBgcolOdd, this, "table-row-background-odd");
+    colmgr.connect(this._styleColSelected, this, "table-row-selected");
+    colmgr.connect(this._styleColNormal, this, "table-row");
   },
 
 

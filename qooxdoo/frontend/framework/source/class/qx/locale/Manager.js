@@ -262,7 +262,7 @@ qx.Class.define("qx.locale.Manager",
     {
       this._locale = value;
       this._language = this._extractLanguage(value);
-      this._updateObjects();
+      this.updateAll();
     },
 
 

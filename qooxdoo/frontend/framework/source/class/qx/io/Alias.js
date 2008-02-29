@@ -123,7 +123,7 @@ qx.Class.define("qx.io.Alias",
       }
 
       // Update the corresponding objects (which use this alias)
-      this._updateObjects();
+      this.updateAll();
     },
 
 
