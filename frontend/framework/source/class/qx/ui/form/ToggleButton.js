@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     // register mouse events
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mouseout", this._onmouseout);
-    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mousedown", this._onmousedown, this);
     this.addListener("mouseup", this._onmouseup);
     // register keyboard events
     this.addListener("keydown", this._onkeydown);
@@ -120,6 +120,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
+      
       this.addState("over");
       if (this.hasState("abandoned")) {
         this.removeState("abandoned");
@@ -171,12 +172,17 @@ qx.Class.define("qx.ui.form.ToggleButton",
       if (!e.isLeftPressed()) {
         return;
       }
+      
+      if (!e.isTargetInsideWidget(this)) {
+        return;
+      }
+      
       // Activate capturing if the button get a mouseout while
       // the button is pressed.
       this.capture();
-
+       
       this.removeState("abandoned");
-      this.addState("pressed");
+      this.addState("pressed");     
     },
 
 
@@ -194,7 +200,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @return {void}
      */
     _onmouseup : function(e) {
-
+      
       this.releaseCapture();
 
       var hasPressed = this.hasState("pressed");
