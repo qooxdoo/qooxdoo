@@ -1736,10 +1736,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleBackgroundColor : function(color)
     {
+      this.__backgroundColor = color;
       if (color) {
         qx.ui.core.DecorationQueue.add(this);
       }
-      this.__backgroundColor = color;
     },
 
 
