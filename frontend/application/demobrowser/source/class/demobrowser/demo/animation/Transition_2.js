@@ -41,7 +41,8 @@ qx.Class.define("demobrowser.demo.animation.Transition_2",
       this.compat();
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
-      myElement = qx.bom.Element.create('div', { style : elementStyle });
+      this._elementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
+      this._element = myElement = qx.bom.Element.create('div', { style : this._elementStyle });
 
       document.body.appendChild(myElement);
 
@@ -98,10 +99,9 @@ qx.Class.define("demobrowser.demo.animation.Transition_2",
       var animMove = new qx.fx.effect.core.Highlight(myElement);
       animMove.set({
         startColor : "#134275",
-        endColor : "#7CFC00",
-        mode : "absolute"
+        endColor : "#7CFC00"
       });
-      animMove.addListener("finish", resetElement);
+      animMove.addListener("finish", this._resetElement, this);
 
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);
@@ -119,6 +119,11 @@ qx.Class.define("demobrowser.demo.animation.Transition_2",
       });
 
       doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
+    },
+    
+    _resetElement : function() {
+      qx.bom.element.Style.setCss(this._element, this._elementStyle);
     }
+
   }
 });
