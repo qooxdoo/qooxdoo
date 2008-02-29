@@ -134,6 +134,19 @@ qx.Class.define("qx.ui.basic.Icon",
     */
 
     // overridden
+    _createContentElement : function()
+    {
+      var el = new qx.html.ClippedImage();
+
+      el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 10);
+      el.setStyle("overflow", "hidden");
+
+      return el;
+    },
+
+
+    // overridden
     _getContentHint : function()
     {
       // TODO: Needs preloader implementation
@@ -176,35 +189,11 @@ qx.Class.define("qx.ui.basic.Icon",
     */
 
 
-    /**
-     * Sets the CSS level icon source
-     * @param iconUrl {String} The icon source
-     */
-    __setIconSource : function(iconUrl)
+    __setClippedImage : function(source)
     {
-      if (!iconUrl)
-      {
-        this._contentElement.removeStyle("filter", filter);
-        this._contentElement.removeStyle("backgroundImage", filter);
-        return;
-      }
-
-      var isPng = qx.lang.String.endsWith(iconUrl, ".png");
-
-      // TODO
-      // This is by far to simple as the method used here destroys an previously configured opacity
-      // in IE6. Also be should use variants here to filter code from gecko.
-      // It must also be absolutely safe when switching from GIF to PNG to GIF etc. which is not already done so.
-
-      // use clipped images unless the image is PNG and the browser IE6
-      var Engine = qx.bom.client.Engine;
-      if (isPng && Engine.MSHTML && Engine.VERSION < 7)
-      {
-        var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + iconUrl + "',sizingMethod='crop')";
-        this._contentElement.setStyle("filter", filter);
-      } else {
-        this._contentElement.setStyle("backgroundImage", 'url(' + iconUrl + ')');
-      }
+      var el = this._contentElement;
+      el.setSource(source, false);
+      this.__setIconSize(el.getWidth(), el.getHeight());
     },
 
 
@@ -221,28 +210,6 @@ qx.Class.define("qx.ui.basic.Icon",
       }
       this.__iconWidth = width;
       this.__iconHeight = height;
-    },
-
-
-    /**
-     * Sets the icon's offset inside of a combined images
-     *
-     * @param xOffset {Integer} The icon's xOffset
-     * @param yOffset {Integer} The icon's yOffset
-     */
-    __setIconOffset : function(xOffset, yOffset) {
-      this._contentElement.setStyle("backgroundPosition", xOffset + "px " + yOffset + "px");
-    },
-
-
-    /**
-     * Reset the icon.
-     */
-    __resetIcon : function()
-    {
-      this.__setIconSize(0, 0);
-      this.__setIconOffset(0, 0);
-      this.__setIconSource(null);
     },
 
 
@@ -307,7 +274,7 @@ qx.Class.define("qx.ui.basic.Icon",
 
       if (!source)
       {
-        this.__resetIcon();
+        this._contentElement.resetSource();
         return;
       }
 
@@ -315,13 +282,8 @@ qx.Class.define("qx.ui.basic.Icon",
 
       var sprite = mgr.resolve(source);
 
-      var isPng = qx.lang.String.endsWith(source, ".png");
-
-      if (sprite)
-      {
-        this.__setIconSource(sprite[0]);
-        this.__setIconOffset(sprite[1], sprite[2]);
-        this.__setIconSize(sprite[3], sprite[4]);
+      if (sprite) {
+        this.__setClippedImage(source);
       }
       else
       {
@@ -374,7 +336,7 @@ qx.Class.define("qx.ui.basic.Icon",
     __onErrorPreloader : function(e)
     {
       this.warn("Error loading image: " + this.getSource());
-      this.__resetIcon();
+      this._contentElement.resetSource();
     }
   }
 });
