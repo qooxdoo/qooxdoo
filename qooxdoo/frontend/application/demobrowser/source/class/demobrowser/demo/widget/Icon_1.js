@@ -58,8 +58,7 @@ qx.Class.define("demobrowser.demo.widget.Icon_1",
       layout.add(new qx.ui.basic.Icon(base + "format-justify-right.png"));
       layout.add(new qx.ui.basic.Icon(base + "multimedia-player.png", base + "multimedia-player-disabled.png"));
 
-
-      /*
+/*
       var img = qx.bom.ClippedImage.create();
       qx.bom.ClippedImage.setSource(img, base + "format.png", 16, 16, -32, 0, 96, 0);
 
@@ -69,8 +68,7 @@ qx.Class.define("demobrowser.demo.widget.Icon_1",
       qx.bom.element.Style.set(img, "zIndex", 200);
 
       document.body.appendChild(img);
-      */
-
+*/
 
 
       // toggle button
