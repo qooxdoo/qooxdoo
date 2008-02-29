@@ -48,11 +48,6 @@ qx.Class.define("qx.event.handler.Application",
     // Initialize observers
     this._initObserver();
 
-    // Validate instanciation
-    if (qx.event.handler.Application.$$instance) {
-      throw new Error("Only one application could be initialized per qooxdoo instance!");
-    }
-    
     // Store instance (only supported for main app window, this
     // is the reason why this is OK here)
     qx.event.handler.Application.$$instance = this;
@@ -74,17 +69,6 @@ qx.Class.define("qx.event.handler.Application",
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
     
     
-    /**
-     * Returns the currently running application
-     *
-     * @type static
-     * @return {qx.application.Abstract}
-     */
-    getRunning : function() {
-      return qx.event.handler.Application.$$instance || null;
-    },
-
-
     /**
      * Sends the currently running application the ready signal. Used
      * exclusively by package loader system.
