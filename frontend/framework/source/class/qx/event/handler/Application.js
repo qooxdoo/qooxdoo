@@ -97,7 +97,7 @@ qx.Class.define("qx.event.handler.Application",
     {
       var inst = qx.event.handler.Application.$$instance;
       if (inst) {
-        inst.__ready();
+        inst.__fireReady();
       }
     }
   },
@@ -169,12 +169,12 @@ qx.Class.define("qx.event.handler.Application",
      * @type member
      * @return {void}
      */
-    __ready : function()
+    __fireReady : function()
     {
       // Wrapper qxloader needed to be compatible with old generator
-      if (!this.__ready)
+      if (!this.__isReady)
       {
-        this.__ready = true;
+        this.__isReady = true;
 
         // Fire user event
         qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "ready", false ]);
@@ -198,8 +198,11 @@ qx.Class.define("qx.event.handler.Application",
      */
     _initObserver : function()
     {
-      qx.event.Registration.addNativeListener(window, "load", this._onNativeLoad);
-      qx.event.Registration.addNativeListener(window, "unload", this._onNativeUnload);
+      this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
+      this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
+      
+      qx.event.Registration.addNativeListener(window, "load", this._onNativeLoadWrapped);
+      qx.event.Registration.addNativeListener(window, "unload", this._onNativeUnloadWrapped);
     },
 
 
@@ -211,8 +214,11 @@ qx.Class.define("qx.event.handler.Application",
      */
     _stopObserver : function()
     {
-      qx.event.Registration.removeNativeListener(window, "load", this._onNativeLoad);
-      qx.event.Registration.removeNativeListener(window, "unload", this._onNativeUnload);
+      qx.event.Registration.removeNativeListener(window, "load", this._onNativeLoadWrapped);
+      qx.event.Registration.removeNativeListener(window, "unload", this._onNativeUnloadWrapped);
+      
+      this._onNativeLoadWrapped = null;
+      this._onNativeUnloadWrapped = null;
     },
 
 
@@ -236,7 +242,7 @@ qx.Class.define("qx.event.handler.Application",
     {
       // Wrapper qxloader needed to be compatible with old generator
       if (!window.qxloader) {
-        this.__ready();
+        this.__fireReady();
       }
     },
 
@@ -250,9 +256,9 @@ qx.Class.define("qx.event.handler.Application",
      */
     _onNativeUnload : function(e)
     {
-      if (!this.__down)
+      if (!this.__isUnloaded)
       {
-        this.__down = true;
+        this.__isUnloaded = true;
 
         // Fire user event
         qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "shutdown", false ]);
