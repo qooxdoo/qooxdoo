@@ -62,9 +62,9 @@ source:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating Jobs Database"
+	@echo "  * Generating Jobs Database..."
 	@$(CMD_PYTHON) tool/genjson.py source/script
-	@echo "  * Generating $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
+	@echo "  * Generating Demo Datebase..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
 	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j source
 	
@@ -72,9 +72,9 @@ build:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating Jobs Database"
+	@echo "  * Generating Jobs Database..."
 	@$(CMD_PYTHON) tool/genjson.py build/script
-	@echo "  * Generating $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
+	@echo "  * Generating Demo Datebase..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
 	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j build
 
