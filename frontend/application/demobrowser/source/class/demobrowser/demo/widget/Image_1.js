@@ -27,16 +27,22 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
 
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      w1 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/utilities-file-archiver.png", 48, 48);
-      w2 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png", 48, 48);
-      w3 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png", 48, 48);
-      w4 = new qx.ui.basic.Image("../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png", 48, 48);
+      var img1 = qx.io.Alias.getInstance().resolve("icon/48/apps/video-player.png");
+      var img2 = qx.io.Alias.getInstance().resolve("icon/48/apps/internet-mail.png");
+      var img3 = qx.io.Alias.getInstance().resolve("icon/48/apps/internet-web-browser.png");
+      var img4 = qx.io.Alias.getInstance().resolve("icon/48/apps/photo-album.png");
+
+      w1 = new qx.ui.basic.Image(img1, 48, 48);
+      w2 = new qx.ui.basic.Image(img2, 48, 48);
+      w3 = new qx.ui.basic.Image(img3, 48, 48);
+      w4 = new qx.ui.basic.Image(img4, 48, 48);
 
       layout = new qx.ui.layout.Basic();
 

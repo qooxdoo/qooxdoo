@@ -41,20 +41,36 @@ qx.Class.define("demobrowser.demo.widget.Icon_1",
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var mgr = qx.io.image.IconManager.getInstance();
+      var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demo/icons/"
 
-      mgr.register("icons/feed-reader.png", "icons/feed-reader.png", 0, 0, 48, 48);
-      mgr.register("icons/graphics-viewer-document.png", "icons/graphics-viewer-document.png", 0, 0, 48, 48);
-      mgr.register("icons/format-justify-fill.png", "icons/format.png", -48, 0, 16, 16);
-      mgr.register("icons/format-justify-left.png", "icons/format.png", -64, 0, 16, 16);
+
+      mgr.register(base + "feed-reader.png", base + "feed-reader.png", 0, 0, 48, 48);
+      mgr.register(base + "graphics-viewer-document.png", base + "graphics-viewer-document.png", 0, 0, 48, 48);
+      mgr.register(base + "format-justify-fill.png", base + "format.png", -48, 0, 16, 16);
+      mgr.register(base + "format-justify-left.png", base + "format.png", -64, 0, 16, 16);
 
       layout.setSpacing(20);
 
-      layout.add(new qx.ui.basic.Icon("icons/feed-reader.png"));
-      layout.add(new qx.ui.basic.Icon("icons/graphics-viewer-document.png"));
-      layout.add(new qx.ui.basic.Icon("icons/format-justify-fill.png"));
-      layout.add(new qx.ui.basic.Icon("icons/format-justify-left.png"));
-      layout.add(new qx.ui.basic.Icon("icons/format-justify-right.png"));
-      layout.add(new qx.ui.basic.Icon("icons/multimedia-player.png", "icons/multimedia-player-disabled.png"));
+      layout.add(new qx.ui.basic.Icon(base + "feed-reader.png"));
+      layout.add(new qx.ui.basic.Icon(base + "graphics-viewer-document.png"));
+      layout.add(new qx.ui.basic.Icon(base + "format-justify-fill.png"));
+      layout.add(new qx.ui.basic.Icon(base + "format-justify-left.png"));
+      layout.add(new qx.ui.basic.Icon(base + "format-justify-right.png"));
+      layout.add(new qx.ui.basic.Icon(base + "multimedia-player.png", base + "multimedia-player-disabled.png"));
+
+
+      /*
+      var img = qx.bom.ClippedImage.create();
+      qx.bom.ClippedImage.setSource(img, base + "format.png", 16, 16, -32, 0, 96, 0);
+
+      qx.bom.element.Style.set(img, "position", "absolute");
+      qx.bom.element.Style.set(img, "top", 200);
+      qx.bom.element.Style.set(img, "left", 200);
+      qx.bom.element.Style.set(img, "zIndex", 200);
+
+      document.body.appendChild(img);
+      */
+
 
 
       // toggle button
