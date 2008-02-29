@@ -56,10 +56,9 @@ qx.Class.define("qx.fx.Base",
     this.base(arguments);
 
     this.setQueue( qx.fx.queue.Manager.getInstance().getDefaultQueue() );
+    this._state = qx.fx.Base.EffectState.IDLE;
 
     this._element = element;
-
-    this.init();
   },
 
 
@@ -165,7 +164,7 @@ qx.Class.define("qx.fx.Base",
      transition :
      {
        init   : "linear",
-
+       
        // keep this in sync with qx.fx.Transition!
        check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
      }
@@ -187,9 +186,10 @@ qx.Class.define("qx.fx.Base",
      */
     EffectState :
     {
-      IDLE     : 'idle',
-      FINISHED : 'finished',
-      RUNNING  : 'running'
+      IDLE      : 'idle',
+      PREPARING : 'preparing',
+      FINISHED  : 'finished',
+      RUNNING   : 'running'
     }
 
   },
@@ -218,8 +218,8 @@ qx.Class.define("qx.fx.Base",
      */
     init : function()
     {
+      this._state        = qx.fx.Base.EffectState.PREPARING;
       this._currentFrame = 0;
-      this._state        = qx.fx.Base.EffectState.IDLE;
       this._startOn      = this.getDelay() * 1000;
       this._finishOn     = this._startOn + (this.getDuration() * 1000);
       this._fromToDelta  = this.getTo() - this.getFrom();
@@ -374,8 +374,9 @@ qx.Class.define("qx.fx.Base",
     start : function()
     {
 
-      if(this._state == qx.fx.Base.EffectState.RUNNING) {
-        return;
+      if (this._state != qx.fx.Base.EffectState.IDLE) {
+        // Return a value to use this in overwritten start() methods 
+        return false;
       }
 
       this.init();
@@ -387,6 +388,7 @@ qx.Class.define("qx.fx.Base",
         var queue = this.getQueue().add(this);
       }
 
+      return true;
     },
 
 
@@ -395,6 +397,8 @@ qx.Class.define("qx.fx.Base",
      */
     end : function()
     {
+      
+      // render with "1.0" to have an intended finish state
       this.render(1.0);
       this.cancel();
 
@@ -416,7 +420,8 @@ qx.Class.define("qx.fx.Base",
      */
     render : function(pos)
     {
-      if(this._state == qx.fx.Base.EffectState.IDLE)
+      
+      if(this._state == qx.fx.Base.EffectState.PREPARING)
       {
         this._state = qx.fx.Base.EffectState.RUNNING
 
@@ -488,7 +493,7 @@ qx.Class.define("qx.fx.Base",
         this.getQueue().remove(this);
       }
 
-      this._state = qx.fx.Base.EffectState.FINISHED;
+      this._state = qx.fx.Base.EffectState.IDLE;
     }
 
 
