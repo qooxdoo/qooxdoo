@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       var eventTarget = this.__getEventTarget(target, type);
       var eventHandler = this.__eventHandler[target.$$hash];
 
-      if (eventHandler && eventTarget.hasListener(type, eventHandler, this, capture))
+      if (eventHandler && eventTarget.hasListeners(type, eventHandler, this, capture))
       {
         eventTarget.removeListener(type, eventHandler, this, capture);
         delete this.__eventHandler[target.$$hash]
