@@ -401,6 +401,7 @@ qx.Class.define("qx.event.Manager",
         var capture = (listener[1] == "capture");
         this.__unregisterAtHandler(target, type, capture);
       }
+      
       delete this.__listeners[targetKey];
     },
 

@@ -133,10 +133,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Remove an event listener from a from DOM node.
      *
-     * Note: All registered event listeners will automatically be removed from
-     *   the DOM at page unload so it is not necessary to detach events in the
-     *   destructor.
-     *
      * @type static
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event
@@ -151,6 +147,16 @@ qx.Bootstrap.define("qx.event.Registration",
       var mgr = this.getManager(target);
       mgr.removeListener(target, type, listener, self, capture);
     },
+    
+    
+    /**
+     * Remove all event listeners, which are attached to the given event target.
+     *
+     * @param target {Object} The event target to remove all event listeners from.
+     */
+    removeAllListeners : function(target) {
+      this.getManager(target).removeAllListeners(target);
+    },    
 
 
     /**
