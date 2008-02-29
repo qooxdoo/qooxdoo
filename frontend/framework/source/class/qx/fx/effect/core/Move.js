@@ -96,8 +96,17 @@ qx.Class.define("qx.fx.effect.core.Move",
     {
       this.base(arguments);
 
-      this._originalLeft = qx.bom.element.Location.getLeft(this._element, "box");
-      this._originalTop = qx.bom.element.Location.getTop(this._element, "box");
+      if(this._element.parentNode)
+      {
+        this._originalLeft = qx.bom.element.Location.getLeft(this._element) - qx.bom.element.Location.getLeft(this._element.parentNode);
+        this._originalTop = qx.bom.element.Location.getTop(this._element) - qx.bom.element.Location.getTop(this._element.parentNode);
+      }
+      else
+      {
+        this._originalLeft = qx.bom.element.Location.getLeft(this._element);
+        this._originalTop = qx.bom.element.Location.getTop(this._element);
+      }
+      this._originalPosition = qx.bom.element.Style.get(this._element, "position"); 
 
       if (this.getMode() == 'absolute') {
         this._x = this.getX() - this._originalLeft;
@@ -115,6 +124,11 @@ qx.Class.define("qx.fx.effect.core.Move",
 
       qx.bom.element.Style.set(this._element, "left", Math.round(this._x  * position + this._originalLeft));
       qx.bom.element.Style.set(this._element, "top", Math.round(this._y  * position + this._originalTop));
+    },
+    
+    afterFinishInternal : function()
+    {
+      qx.bom.element.Style.set(this._element, "position", this._originalPosition);
     }
 
   }
