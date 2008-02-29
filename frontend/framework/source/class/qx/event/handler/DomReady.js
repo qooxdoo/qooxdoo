@@ -155,7 +155,7 @@ qx.Class.define("qx.event.handler.DomReady",
 
       // Using most native method supported by Mozilla and Opera >= 9.0
       if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {
-        qx.event.Registration.addNativeListener(win, "DOMContentLoaded", nativeWrapper);
+        qx.bom.Event.addNativeListener(win, "DOMContentLoaded", nativeWrapper);
       }
 
       // Native implementation for webkit still missing by webkit. See also:
@@ -184,7 +184,7 @@ qx.Class.define("qx.event.handler.DomReady",
       }
 
       // Additional load listener as fallback
-      qx.event.Registration.addNativeListener(this._window, "load", nativeWrapper);
+      qx.bom.Event.addNativeListener(this._window, "load", nativeWrapper);
     },
 
 
@@ -199,10 +199,10 @@ qx.Class.define("qx.event.handler.DomReady",
       var win = this._window;
 
       if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {
-        qx.event.Registration.removeNativeListener(win, "DOMContentLoaded", this._onNativeWrapper);
+        qx.bom.Event.removeNativeListener(win, "DOMContentLoaded", this._onNativeWrapper);
       }
 
-      qx.event.Registration.removeNativeListener(this._window, "load", this._onNativeWrapper);
+      qx.bom.Event.removeNativeListener(this._window, "load", this._onNativeWrapper);
     },
 
 

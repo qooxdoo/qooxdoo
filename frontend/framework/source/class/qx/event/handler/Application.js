@@ -185,8 +185,8 @@ qx.Class.define("qx.event.handler.Application",
       this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
       this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
       
-      qx.event.Registration.addNativeListener(window, "load", this._onNativeLoadWrapped);
-      qx.event.Registration.addNativeListener(window, "unload", this._onNativeUnloadWrapped);
+      qx.bom.Event.addNativeListener(window, "load", this._onNativeLoadWrapped);
+      qx.bom.Event.addNativeListener(window, "unload", this._onNativeUnloadWrapped);
     },
 
 
@@ -198,8 +198,8 @@ qx.Class.define("qx.event.handler.Application",
      */
     _stopObserver : function()
     {
-      qx.event.Registration.removeNativeListener(window, "load", this._onNativeLoadWrapped);
-      qx.event.Registration.removeNativeListener(window, "unload", this._onNativeUnloadWrapped);
+      qx.bom.Event.removeNativeListener(window, "load", this._onNativeLoadWrapped);
+      qx.bom.Event.removeNativeListener(window, "unload", this._onNativeUnloadWrapped);
       
       this._onNativeLoadWrapped = null;
       this._onNativeUnloadWrapped = null;
