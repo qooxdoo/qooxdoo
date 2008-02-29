@@ -418,9 +418,8 @@ qx.Class.define("qx.ui.decoration.Basic",
      *
      * @param width {Integer} The widget's width
      * @param height {Integer} The widget's height
-     * @return {Map} a map containing the computed CSS styles
      */
-    _getStyles : function(width, height, backgroundColor)
+    _getStyles : function(width, height)
     {
       var styles = {
         "borderTopWidth": this.getWidthTop(),
@@ -440,14 +439,42 @@ qx.Class.define("qx.ui.decoration.Basic",
     },
 
 
+    _updateBackgroundImage : function(decorationElement, backgroundImage, backgroundRepeat)
+    {
+      switch (backgroundRepeat)
+      {
+        case "tile":
+          decorationElement.setStyles({
+            "backgroundImage": "url(" + backgroundImage + ")",
+            "backgroundRepeat": "repeat"
+          });
+          break;
+
+        case "stretch":
+          // TODO
+          break;
+
+        case "image":
+          decorationElement.setStyles({
+            "backgroundImage": "url(" + backgroundImage + ")",
+            "backgroundRepeat": "no-repeat"
+          });
+          break;
+      }
+    },
+
+
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor)
+    update : function(decorationElement, width, height, backgroundColor, backgroundImage, backgroundRepeat)
     {
       if (this._needsUpdate)
       {
         decorationElement.setStyles(this._getStyles());
         this._needUpdate = false;
         this._updateManager.cancel();
+      }
+      if (backgroundImage) {
+        this._updateBackgroundImage(decorationElement, backgroundImage, backgroundRepeat || "tile");
       }
       if (backgroundColor) {
         decorationElement.setStyle("backgroundColor", backgroundColor);
