@@ -27,6 +27,7 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
@@ -41,10 +42,10 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
 
       doc.add(container, 0, 0);
 
-      var img1 = "../../../../../framework/source/resource/icon/tango/48/apps/feed-reader.png";
-      var img2 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-mail.png";
-      var img3 = "../../../../../framework/source/resource/icon/tango/48/apps/internet-web-browser.png";
-      var img4 = "../../../../../framework/source/resource/icon/tango/48/apps/photo-album.png";
+      var img1 = "icon/48/apps/video-player.png";
+      var img2 = "icon/48/apps/internet-mail.png";
+      var img3 = "icon/48/apps/internet-web-browser.png";
+      var img4 = "icon/48/apps/photo-album.png";
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 

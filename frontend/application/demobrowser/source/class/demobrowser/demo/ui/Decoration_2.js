@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
     main: function()
     {
       this.base(arguments);
-      
+
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.Decoration_2_Theme1);
 
@@ -44,11 +44,11 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
       doc.add(container, 0, 0);
 
-      var img1 = "icon/48/apps/feed-reader.png";
+      var img1 = "icon/48/apps/video-player.png";
       var img2 = "icon/48/apps/internet-mail.png";
       var img3 = "icon/48/apps/internet-web-browser.png";
       var img4 = "icon/48/apps/photo-album.png";
-      
+
 
       var border = new qx.ui.decoration.Basic(2, "solid", "black");
       var special = new qx.ui.decoration.Basic().set({
