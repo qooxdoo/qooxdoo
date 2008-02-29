@@ -114,20 +114,18 @@ qx.Class.define("qx.fx.effect.combination.Shake",
    members :
    {
 
-    setup : function()
-    {
-      this.base(arguments);
-
-      this._oldStyle = {
-        top  : qx.bom.element.Location.getTop(this._element),
-        left : qx.bom.element.Location.getLeft(this._element)
-      };
-    },
-
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
 
+      var oldStyle = {
+          top    : qx.bom.element.Location.getTop(this._element),
+          left   : qx.bom.element.Location.getLeft(this._element)
+        };
+
+      
       var distance = parseFloat(this.getDistance());
       var split = parseFloat(this.getDuration()) / 10.0;
 
@@ -163,8 +161,8 @@ qx.Class.define("qx.fx.effect.combination.Shake",
         else
         {
           this._effects[i].afterFinishInternal = function(){
-            for(var property in this._oldStyle) {
-              qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+            for(var property in oldStyle) {
+              qx.bom.element.Style.set(this._element, property, oldStyle[property]);
             }
           };
         }

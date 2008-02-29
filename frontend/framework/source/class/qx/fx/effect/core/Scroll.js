@@ -93,6 +93,9 @@ qx.Class.define("qx.fx.effect.core.Scroll",
 
     start : function()
     {
+      if (!this.base(arguments)) {
+        return;
+      }
 
       this._startOffsets = {
         x : this._element.scrollLeft,
@@ -112,7 +115,6 @@ qx.Class.define("qx.fx.effect.core.Scroll",
         };
       }
 
-      this.base(arguments);
     },
 
 

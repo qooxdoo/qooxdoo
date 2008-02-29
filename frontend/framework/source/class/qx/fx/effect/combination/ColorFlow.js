@@ -185,8 +185,11 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
 
     start : function()
     {
+      if (!this.base(arguments)) {
+        return;
+      }
+
       this.setDuration(this.getForwardDuration() + this.getDelayBetween() + this.getBackwardDuration());
-      this.base(arguments);
 
       this._oldStyle = {
         backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),

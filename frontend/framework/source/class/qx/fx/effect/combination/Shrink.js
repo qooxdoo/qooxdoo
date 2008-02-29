@@ -150,7 +150,9 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
 
       var moveX, moveY;
 

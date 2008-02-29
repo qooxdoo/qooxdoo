@@ -114,7 +114,9 @@ qx.Class.define("qx.fx.effect.core.Parallel",
 
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
 
       var effects = this._effects;
 

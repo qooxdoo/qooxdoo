@@ -165,7 +165,9 @@ qx.Class.define("qx.fx.effect.combination.Switch",
 
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
       
 
       if(this.getMode() == "off")
