@@ -194,28 +194,6 @@ qx.Bootstrap.define("qx.Bootstrap",
     },
 
 
-    /**
-     * Returns the current timestamp
-     *
-     * @type static
-     * @return {Integer} Current timestamp (milliseconds)
-     */
-    time : function() {
-      return new Date().getTime();
-    },
-
-
-    /**
-     * Returns the time since initialisation
-     *
-     * @type static
-     * @return {Integer} milliseconds since load
-     */
-    since : function() {
-      return this.time() - this.LOADSTART;
-    },
-
-
     /** {Map} Stores all defined classes */
     $$registry : {}
   }
