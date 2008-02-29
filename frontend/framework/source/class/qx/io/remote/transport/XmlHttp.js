@@ -286,7 +286,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       //   Applying request header
       // --------------------------------------
       // Add a Referer header
-      vRequest.setRequestHeader('Referer', window.location.href);
+      
+      // At least in webkit this is not allowed for security reasons. Where is this line from. For what is this needed?
+      // Is any official statement available on this?
+      // vRequest.setRequestHeader('Referer', window.location.href);
 
       var vRequestHeaders = this.getRequestHeaders();
 
