@@ -229,59 +229,6 @@ qx.Bootstrap.define("qx.event.Registration",
     },
 
 
-    /**
-     * Use the low level browser functionality to attach event listeners
-     * to DOM nodes. Uses <code>attachEvent</code> in IE and
-     * <code>addListener</code> in all other browsers.
-     *
-     * Use this with caution. This is only thought for event handlers and
-     * not for the user.
-     *
-     * @internal
-     * @type static
-     * @param target {Object} Any valid native event target
-     * @param type {String} Name of the event
-     * @param listener {Function} The pointer to the function to assign
-     * @signature function(target, type, listener)
-     */
-    addNativeListener : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(target, type, listener) {
-        target.attachEvent("on" + type, listener);
-      },
-
-      "default" : function(target, type, listener) {
-        target.addEventListener(type, listener, false);
-      }
-    }),
-
-
-    /**
-     * Use the low level browser functionality to remove event listeners
-     * from DOM nodes. Uses <code>detachEvent</code> in IE and
-     * <code>removeListener</code> in all oother browsers.
-     *
-     * Use this with caution. This is only thought for event handlers and
-     * not for the user.
-     *
-     * @internal
-     * @type static
-     * @param target {Object} Any valid native event target
-     * @param type {String} Name of the event
-     * @param listener {Function} The pointer to the function to assign
-     * @signature function(target, type, listener)
-     */
-    removeNativeListener : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(target, type, listener) {
-        target.detachEvent("on" + type, listener);
-      },
-
-      "default" : function(target, type, listener) {
-        target.removeEventListener(type, listener, false);
-      }
-    }),
-
 
 
 

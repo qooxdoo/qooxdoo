@@ -94,7 +94,7 @@ qx.Class.define("qx.event.handler.Element",
       var elementId = qx.core.ObjectRegistry.toHashCode(target);
       var listener = qx.lang.Function.listener(this._onNative, this, elementId);
 
-      qx.event.Registration.addNativeListener(target, type, listener);
+      qx.bom.Event.addNativeListener(target, type, listener);
 
       var id = elementId + type;
 
@@ -113,7 +113,7 @@ qx.Class.define("qx.event.handler.Element",
       var id = qx.core.ObjectRegistry.toHashCode(target) + type;
 
       var eventData = this._registeredEvents[id];
-      qx.event.Registration.removeNativeListener(target, type, eventData.listener);
+      qx.bom.Event.removeNativeListener(target, type, eventData.listener);
 
       delete this._registeredEvents[id];
     },
@@ -185,15 +185,13 @@ qx.Class.define("qx.event.handler.Element",
 
   destruct : function()
   {
-    for (var id in this._registeredEvents)
+    var entry;
+    var events = this._registeredEvents;
+    
+    for (var id in events)
     {
-      var eventData = this._registeredEvents[id];
-
-      qx.event.Registration.removeNativeListener(
-        eventData.element,
-        eventData.type,
-        eventData.listener
-      );
+      entry = events[id];
+      qx.bom.Event.removeNativeListener(entry.element, entry.type, entry.listener);
     }
 
     this._disposeFields("_manager", "_registeredEvents");

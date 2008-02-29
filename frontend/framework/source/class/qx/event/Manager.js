@@ -51,7 +51,7 @@ qx.Class.define("qx.event.Manager",
     if (win != window)
     {
       this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
-      qx.event.Registration.addNativeListener(win, "unload", this.__disposeWrapper);
+      qx.bom.Event.addNativeListener(win, "unload", this.__disposeWrapper);
     }
 
     // Registry for event listeners
@@ -137,7 +137,7 @@ qx.Class.define("qx.event.Manager",
     */
 
     /**
-     * Generates a unique ID for a combination of target, type and capturing
+     * Generates a unique ID for a combination of type and capturing
      *
      * @type member
      * @param type {String} Event name
@@ -181,7 +181,8 @@ qx.Class.define("qx.event.Manager",
 
       var uniqueId = this.__generateUniqueId(type, capture);
       var res = this.__listeners[targetKey][uniqueId];
-      if (!res && create) {
+      if (!res && create) 
+      {
         res = [];
         this.__listeners[targetKey][uniqueId] = res;
       }
@@ -540,7 +541,9 @@ qx.Class.define("qx.event.Manager",
   destruct : function()
   {
     // Remove own unload listener
-    qx.event.Registration.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
+    if (this.__disposeWrapper) {
+      qx.bom.Event.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
+    }
 
     // Remove from manager list
     qx.event.Registration.removeManager(this);

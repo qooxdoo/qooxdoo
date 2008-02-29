@@ -36,7 +36,6 @@ qx.Bootstrap.define("qx.List",
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
-     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of processing the class declaration. It allows access to the declared statics, members and properties.</td></tr>
      *     </table>
      * @return {void}
      */
@@ -108,13 +107,6 @@ qx.Bootstrap.define("qx.List",
         }
       }
 
-      // Process defer
-      if (config.defer)
-      {
-        config.defer.self = clazz;
-        config.defer(clazz, proto);
-      }
-
       // Store class reference in global class registry
       this.$$registry[name] = clazz;
     },
@@ -142,8 +134,7 @@ qx.Bootstrap.define("qx.List",
       "on":
       {
         "statics"    : "object",    // Map
-        "members"    : "object",    // Map
-        "defer"      : "function"   // Function
+        "members"    : "object"     // Map
       },
 
       "default" : null
