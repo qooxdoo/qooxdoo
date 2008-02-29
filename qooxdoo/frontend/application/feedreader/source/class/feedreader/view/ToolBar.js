@@ -18,6 +18,17 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#embed(qx.icontheme/22/actions/dialog-ok.png)
+#embed(qx.icontheme/22/actions/dialog-cancel.png)
+#embed(qx.icontheme/22/actions/help-about.png)
+#embed(qx.icontheme/22/actions/view-refresh.png)
+#embed(qx.icontheme/22/apps/preferences-theme.png)
+#embed(qx.icontheme/22/apps/preferences-locale.png)
+
+************************************************************************ */
+
 qx.Class.define("feedreader.view.ToolBar",
 {
   extend : qx.legacy.ui.toolbar.ToolBar,
@@ -66,7 +77,7 @@ qx.Class.define("feedreader.view.ToolBar",
 
     this.add(new qx.legacy.ui.toolbar.Separator());
 
-    var prefBtn = new qx.legacy.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-desktop-theme.png");
+    var prefBtn = new qx.legacy.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(prefCmd);
     prefBtn.setToolTip(new qx.legacy.ui.popup.ToolTip(this.tr("Open preferences window.")));
     this.add(prefBtn);
@@ -109,7 +120,7 @@ qx.Class.define("feedreader.view.ToolBar",
     });
 
     lang_menu.addToDocument();
-    this.add(new qx.legacy.ui.toolbar.MenuButton(null, lang_menu, "icon/22/apps/preferences-desktop-locale.png"));
+    this.add(new qx.legacy.ui.toolbar.MenuButton(null, lang_menu, "icon/22/apps/preferences-locale.png"));
 
     var about_btn = new qx.legacy.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
     about_btn.setCommand(aboutCmd);
