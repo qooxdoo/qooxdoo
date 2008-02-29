@@ -27,6 +27,7 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
@@ -40,11 +41,6 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
       container.setLayout(docLayout);
 
       doc.add(container, 0, 0);
-
-      var img_arch = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/utilities-file-archiver.png";
-      var img_clip = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clipboard.png";
-      var img_clock = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-clock.png";
-      var img_date = "../../../../../framework/source/resource/icon/CrystalClear/48/apps/accessories-date.png";
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.RoundedBorder_1_Theme);
