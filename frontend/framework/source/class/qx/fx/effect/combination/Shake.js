@@ -119,8 +119,8 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       this.base(arguments);
 
       this._oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left   : qx.bom.element.Location.getLeft(this._element, "scroll")
+        top  : qx.bom.element.Location.getTop(this._element),
+        left : qx.bom.element.Location.getLeft(this._element)
       };
     },
 
@@ -130,7 +130,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
       var distance = parseFloat(this.getDistance());
       var split = parseFloat(this.getDuration()) / 10.0;
-      var counter = 0;
 
       if(this.getDirection() == "horizontal")
       {
@@ -154,8 +153,8 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       var effects = this._effects;
       for (var i=0, len=this._effects.length; i<len; i++)
       {
-        this._effects[i].id = counter;
-        if (counter < 5)
+        this._effects[i].id = i;
+        if (i < 5)
         {
           this._effects[i].afterFinishInternal = function(){
             effects[this.id + 1].start();
@@ -169,7 +168,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
             }
           };
         }
-        counter++;
 
       }
       this._effects[0].start();
