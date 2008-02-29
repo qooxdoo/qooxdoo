@@ -104,7 +104,9 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
 
       var oldStyle = {
         opacity  : qx.bom.element.Style.get(this._element, "opacity")

@@ -123,7 +123,9 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
 
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
 
       var counter = 0;
       var self = this;

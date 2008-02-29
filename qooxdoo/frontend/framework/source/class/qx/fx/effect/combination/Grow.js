@@ -125,7 +125,9 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
     start : function()
     {
-      this.base(arguments);
+      if (!this.base(arguments)) {
+        return;
+      }
 
       // Element must be visible for move effect
       qx.bom.element.Style.set(this._element, "display", "block");
