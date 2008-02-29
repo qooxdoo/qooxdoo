@@ -24,9 +24,6 @@
 #resource(feedreader.images:images)
 #embed(feedreader.css/*)
 #embed(feedreader.images/*)
-#embed(qx.icontheme/16/actions/help-about.png)
-#embed(qx.icontheme/16/actions/view-refresh.png)
-#embed(qx.icontheme/16/apps/preferences.png)
 
 ************************************************************************ */
 

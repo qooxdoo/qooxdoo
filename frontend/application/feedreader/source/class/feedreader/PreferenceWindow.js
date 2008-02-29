@@ -20,8 +20,7 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/actions/dialog-ok.png)
-#embed(qx.icontheme/16/actions/dialog-cancel.png)
+#embed(qx.icontheme/16/apps/preferences-theme.png)
 
 ************************************************************************ */
 
@@ -31,7 +30,7 @@ qx.Class.define("feedreader.PreferenceWindow",
 
   construct : function()
   {
-    this.base(arguments, this.tr("Preferences"), "icon/16/apps/preferences-desktop-theme.png");
+    this.base(arguments, this.tr("Preferences"), "icon/16/apps/preferences-theme.png");
 
     this.set(
     {
