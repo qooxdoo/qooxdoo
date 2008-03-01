@@ -168,7 +168,7 @@ qx.Class.define("qx.util.manager.Value",
       var reg = this._registry;
       if (reg && reg[obj.$$hash]) 
       {
-        this.debug("Disconnect: " + obj.toString());
+        // this.debug("Disconnect: " + obj.toString());
         delete reg[obj.$$hash];
       }
     },
