@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * state "pressed".
      *
      * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
+     * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * "execute" method get executed at least one time.
      *
      * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
+     * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
