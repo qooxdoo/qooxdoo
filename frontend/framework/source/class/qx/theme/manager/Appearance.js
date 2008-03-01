@@ -24,7 +24,7 @@
 qx.Class.define("qx.theme.manager.Appearance",
 {
   type : "singleton",
-  extend : qx.util.manager.Object,
+  extend : qx.core.Object,
 
 
 
