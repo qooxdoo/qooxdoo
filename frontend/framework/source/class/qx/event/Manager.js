@@ -21,13 +21,8 @@
 /**
  * Wrapper for browser DOM event handling for each browser window/frame.
  */
-qx.Class.define("qx.event.Manager",
+qx.Bootstrap.define("qx.event.Manager",
 {
-  extend : qx.core.Object,
-
-
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -41,18 +36,13 @@ qx.Class.define("qx.event.Manager",
    */
   construct : function(win)
   {
-    this.base(arguments);
-
     // Assign window object
     this.__window = win;
 
     // Register to the page unload event.
     // Only for iframes and other secondary documents.
-    if (win != window)
-    {
-      this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
-      qx.bom.Event.addNativeListener(win, "unload", this.__disposeWrapper);
-    }
+    this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
+    qx.bom.Event.addNativeListener(win, "unload", this.__disposeWrapper);
 
     // Registry for event listeners
     this.__listeners = {};
@@ -79,6 +69,27 @@ qx.Class.define("qx.event.Manager",
       HELPERS
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Local dispose method. Automatically executed when unloading of the
+     * attached window occours.
+     *
+     * @type member
+     * @return {void}
+     */
+    dispose : function() 
+    {
+      // Remove own unload listener
+      qx.bom.Event.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
+
+      // Remove from manager list
+      qx.event.Registration.removeManager(this);
+
+      // Dispose data fields
+      this.__listeners = this.__window = this.__handlers = 
+      this.__dispatchers = this.__disposeWrapper = null;
+    },
+    
 
     /**
      * Get the window instance the event manager is reponsible for
@@ -137,19 +148,6 @@ qx.Class.define("qx.event.Manager",
     */
 
     /**
-     * Generates a unique ID for a combination of type and capturing
-     *
-     * @type member
-     * @param type {String} Event name
-     * @param capture {Boolean ? false} Event for capture phase?
-     * @return {String} the unique ID
-     */
-    __generateUniqueId : function(type, capture) {
-      return type + (capture ? "|capture" : "|bubble");
-    },
-
-
-    /**
      * Get all event listeners for the given target, event type and phase.
      *
      * @type member
@@ -178,13 +176,12 @@ qx.Class.define("qx.event.Manager",
           return null;
         }
       }
-
-      var uniqueId = this.__generateUniqueId(type, capture);
+      
+      var uniqueId = type + (capture ? "|capture" : "|bubble");
       var res = this.__listeners[targetKey][uniqueId];
-      if (!res && create) 
-      {
-        res = [];
-        this.__listeners[targetKey][uniqueId] = res;
+      
+      if (!res && create) {
+        this.__listeners[targetKey][uniqueId] = res = [];
       }
 
       if (res)
@@ -303,7 +300,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
@@ -369,7 +366,7 @@ qx.Class.define("qx.event.Manager",
 
       if (!found)
       {
-        // this.warn("Cannot remove event listener: " + listener + " :: " + self);
+        // qx.log.Logger.warn("Cannot remove event listener: " + listener + " :: " + self);
         return;
       }
 
@@ -436,7 +433,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
@@ -465,17 +462,19 @@ qx.Class.define("qx.event.Manager",
      */
     dispatchEvent : function(target, event)
     {
-      if (this.isDisposed()) {
-        return;
-      }
-
       // Preparations
       var type = event.getType();
+      
+      if (!event.getBubbles() && !this.hasListeners(target, type)) 
+      {
+        // qx.log.Logger.warn("Useless dispatch found: " + type);
+        return;
+      }
 
       if (!event.getTarget()) {
         event.setTarget(target);
       }
-
+      
       // Interation data
       var classes = qx.event.Registration.getDispatchers();
       var instance;
@@ -502,53 +501,8 @@ qx.Class.define("qx.event.Manager",
         return;
       }
 
-      // The event handler may have disposed the app.
-      if (this.isDisposed()) {
-        return;
-      }
-
       // Release the event instance to the event pool
       qx.event.Pool.getInstance().poolEvent(event);
-    },
-
-
-    /**
-     * Create an event object and dispatch it on the given target.
-     *
-     * @type member
-     * @param target {Object} Any valid event target
-     * @param clazz {qx.event.type.Event} The event class
-     * @param args {Array} Array or arguments, which will be passed to
-     *       the event's init method.
-     * @return {void}
-     */
-    fireCustomEvent : function(target, clazz, args)
-    {
-      var event = qx.event.Registration.createEvent(clazz, args);
-      this.dispatchEvent(target, event);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    // Remove own unload listener
-    if (this.__disposeWrapper) {
-      qx.bom.Event.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
-    }
-
-    // Remove from manager list
-    qx.event.Registration.removeManager(this);
-
-    // Dispose data fields
-    this._disposeFields("__listeners", "__window", "__handlers", "__dispatchers");
   }
 });

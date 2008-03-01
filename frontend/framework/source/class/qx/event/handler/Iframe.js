@@ -50,7 +50,7 @@ qx.Class.define("qx.event.handler.Iframe",
      * @return {void}
      */
     onevent : function(target) {
-      qx.event.Registration.fireCustomEvent(target, qx.event.type.Event, ["load", false]);
+      qx.event.Registration.fireEvent(target, "load");
     }
   },
 

@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
       var hash = obj.$$hash;
       if (hash == null) {
-        hash = obj.$$hash = this.__nextHash++;
+        hash = obj.$$hash = (this.__nextHash++).toString(36);
       }
 
       if (!obj.dispose) {
@@ -110,7 +110,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         return obj.$$hash;
       }
 
-      return obj.$$hash = this.__nextHash++;
+      return obj.$$hash = (this.__nextHash++).toString(36);
     },
 
 
@@ -143,7 +143,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         hashes.push(hash);
       }
 
-      hashes.sort(function(a, b) { return b-a; });
+      hashes.sort(function(a, b) { 
+        return parseInt(b, 36)-parseInt(a, 36); 
+      });
 
       var obj, i=0, l=hashes.length;
       while(true)

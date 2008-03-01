@@ -34,13 +34,13 @@ qx.Class.define("qx.event.type.Native",
      *
      * @type member
      * @param nativeEvent {Event} The DOM event to use
-     * @param type {String} Type of the event (overrides native event type)
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(nativeEvent, type)
+    init : function(nativeEvent)
     {
-      this.base(arguments, type || nativeEvent.type, nativeEvent.bubbles);
-
+      this.base(arguments);
+      
+      this._bubbles = nativeEvent.bubbles;
       this._target = nativeEvent.target || nativeEvent.srcElement;
 
       if (nativeEvent.timeStamp) {

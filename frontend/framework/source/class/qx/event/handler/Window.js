@@ -184,16 +184,8 @@ qx.Class.define("qx.event.handler.Window",
      * @param e {Event} Native event
      * @return {void}
      */
-    _onNative : function(e)
-    {
-      if (!e) {
-        e = window.event;
-      }
-
-      var mgr = this._manager;
-      if (mgr) {
-        mgr.fireCustomEvent(this._window, qx.event.type.Event, [e.type, false]);
-      }
+    _onNative : function(e) {
+      qx.event.Registration.fireEvent(this._window, e.type);
     }
   },
 

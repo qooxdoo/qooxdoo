@@ -76,17 +76,17 @@ qx.Class.define("qx.event.type.Event",
      * it can be dispatched.
      *
      * @type member
-     * @param type {String} The name of the event (case-sensitive).
-     * @param bubbles {Boolean ? true} Whether or not an event is a bubbling event
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(type, bubbles)
+    init : function()
     {
-      this._type = type;
+      this._type = null;
       this._target = null;
       this._currentTarget = null;
       this._stopPropagation = false;
-      this._bubbles = bubbles !== false;
+      this._bubbles = false;
+      
+      // TODO: May this date compution too slow? (Opera sometimes had issues with "new Date")
       this._timeStamp = (new Date()).getTime();
 
       return this;

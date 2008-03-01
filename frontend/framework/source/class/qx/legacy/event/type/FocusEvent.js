@@ -60,20 +60,5 @@ qx.Class.define("qx.legacy.event.type.FocusEvent",
   members :
   {
 
-    init : function(type)
-    {
-      switch(type)
-      {
-        case "focusin":
-        case "focusout":
-          var bubbles = true;
-          break;
-
-        default:
-          var bubbles = false;
-      }
-
-      return this.base(arguments, type, bubbles);
-    }
   }
 });
