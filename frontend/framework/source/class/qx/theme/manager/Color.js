@@ -21,7 +21,7 @@
 qx.Class.define("qx.theme.manager.Color",
 {
   type : "singleton",
-  extend : qx.util.manager.Value,
+  extend : qx.util.ValueManager,
 
 
 

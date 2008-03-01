@@ -31,7 +31,7 @@
 qx.Class.define("qx.locale.Manager",
 {
   type : "singleton",
-  extend : qx.util.manager.Value,
+  extend : qx.util.ValueManager,
 
 
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
-     * Overridden method from {@link qx.util.manager.Value}.
+     * Overridden method from {@link qx.util.ValueManager}.
      *
      * @internal
      * @param text {LocalizedString|String} input text
@@ -362,7 +362,7 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
-     * Overridden method from {@link qx.util.manager.Value}.
+     * Overridden method from {@link qx.util.ValueManager}.
      *
      * @internal
      * @param text {LocalizedString} input text

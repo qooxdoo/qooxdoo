@@ -30,7 +30,7 @@
  * The registered objects can be retrieved by their qooxdoo hash code
  * returned by {@link qx.core.ObjectRegistry.toHashCode}.
  */
-qx.Class.define("qx.util.manager.Object",
+qx.Class.define("qx.legacy.util.ObjectManager",
 {
   extend : qx.core.Object,
 

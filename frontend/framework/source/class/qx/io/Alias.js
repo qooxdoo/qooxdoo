@@ -24,7 +24,7 @@
 qx.Class.define("qx.io.Alias",
 {
   type : "singleton",
-  extend : qx.util.manager.Value,
+  extend : qx.util.ValueManager,
 
 
 
