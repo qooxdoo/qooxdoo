@@ -48,7 +48,7 @@ qx.Class.define("testrunner.runner.Tree",
   destruct : function ()
   {
     this._disposeObjects("widgetLinkFull", "widgetLinkFlat", "parent");
-    this._disposeObjectDeep("children",1);
+    this._disposeArray("children");
   },
 
 
