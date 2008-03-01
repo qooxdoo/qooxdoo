@@ -1102,7 +1102,7 @@ qx.Bootstrap.define("qx.Class",
         // Store init value to prototype. This makes it possible to
         // overwrite this value in derived classes.
         if (config.init !== undefined) {
-          clazz.prototype["__init$" + name] = config.init;
+          clazz.prototype["$$init_" + name] = config.init;
         }
 
         // register event name
