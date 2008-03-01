@@ -513,11 +513,11 @@ qx.Class.define("qx.core.Property",
       var method = this.$$method;
       var store = this.$$store;
 
-      store.user[name] = "__user$" + name;
-      store.theme[name] = "__theme$" + name;
-      store.init[name] = "__init$" + name;
-      store.inherit[name] = "__inherit$" + name;
-      store.useinit[name] = "__useinit$" + name;
+      store.user[name] = "$$user_" + name;
+      store.theme[name] = "$$theme_" + name;
+      store.init[name] = "$$init_" + name;
+      store.inherit[name] = "$$inherit_" + name;
+      store.useinit[name] = "$$useinit_" + name;
 
       method.get[name] = prefix + "get" + postfix;
       members[method.get[name]] = function() {
