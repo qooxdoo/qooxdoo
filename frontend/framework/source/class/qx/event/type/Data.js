@@ -40,7 +40,6 @@ qx.Class.define("qx.event.type.Data",
      * Initializes an event onject.
      *
      * @type member
-     * @param type {String} Event type
      * @param data {var} Data to attach to the event
      * @return {qx.event.type.Data} the initialized instance.
      */
@@ -62,7 +61,6 @@ qx.Class.define("qx.event.type.Data",
      *     be configured using the data of this event instance. The event must be
      *     an instance of this event class. If the value is <code>null</code>,
      *     a new pooled instance is created.
-
      * @return {qx.event.type.Data} a copy of this object
      */
     clone : function(embryo)
