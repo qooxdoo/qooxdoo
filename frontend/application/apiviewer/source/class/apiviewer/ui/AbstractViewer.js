@@ -256,8 +256,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
   destruct : function()
   {
-    this._disposeFields("_classDescElem", "_titleElem");
-    this._disposeObjectDeep("_infoPanels", 1);
-    this._disposeObjectDeep("_infoPanelHash", 1);
+    this._disposeFields("_classDescElem", "_titleElem", "_infoPanelHash");
+    this._disposeArray("_infoPanels", 1);
   }
 });
