@@ -676,12 +676,12 @@ qx.Class.define("qx.util.fsm.State",
     */
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Value passed to setter
-     * @return {var} TODOC
-     * @throws TODOC
+     * @return {var} the final value
+     * @throws when an invalid value is detected
      */
     __transformName : function(value)
     {
@@ -696,12 +696,12 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {Function | var | null} TODOC
-     * @throws TODOC
+     * @return {var} the final value
+     * @throws when an invalid value is detected
      */
     __transformOnentry : function(value)
     {
@@ -724,12 +724,12 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {Function | var | null} TODOC
-     * @throws TODOC
+     * @return {var} the final value
+     * @throws when an invalid value is detected
      */
     __transformOnexit : function(value)
     {
@@ -752,12 +752,12 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {var} TODOC
-     * @throws TODOC
+     * @return {var} the final value
+     * @throws when an invalid value is detected
      */
     __transformEvents : function(value)
     {
@@ -827,11 +827,11 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {var} TODOC
+     * @return {var} the final value
      */
     __transformAutoActionsBeforeOnentry : function(value)
     {
@@ -842,11 +842,11 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {var} TODOC
+     * @return {var} the final value
      */
     __transformAutoActionsAfterOnentry : function(value)
     {
@@ -857,11 +857,11 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {var} TODOC
+     * @return {var} the final value
      */
     __transformAutoActionsBeforeOnexit : function(value)
     {
@@ -872,11 +872,11 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * TODOC
+     * Internal transform method
      *
      * @type member
      * @param value {var} Current value
-     * @return {var} TODOC
+     * @return {var} the final value
      */
     __transformAutoActionsAfterOnexit : function(value)
     {
@@ -904,8 +904,6 @@ qx.Class.define("qx.util.fsm.State",
      *   which is to be a part of this state.
      *
      * @return {void}
-     *
-     * @throws TODOC
      */
     addTransition : function(trans)
     {
