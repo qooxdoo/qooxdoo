@@ -55,6 +55,7 @@ def main():
 
     parser.add_option("--source", dest="source", metavar="DIRECTORY", help="Source directory of theme")
     parser.add_option("--target", dest="target", metavar="DIRECTORY", help="Target directory for theme")
+    parser.add_option("--sync", dest="sync", action="store_true", default=False)
 
     (options, args) = parser.parse_args(sys.argv[1:])
 
@@ -65,10 +66,11 @@ def main():
     data = getData()
     source = os.path.abspath(options.source)
     target = os.path.abspath(options.target)
+    sync = options.sync
     
     console.info("Processing theme...")
     console.info("Source folder: %s" % source)
-    console.info("Target folder: %s" % target)    
+    console.info("Target folder: %s" % target)
     console.indent()
 
     # Process entries
@@ -87,26 +89,49 @@ def main():
             
         # Copy images in different sizes
         for size in SIZES:
-            copyFile(source, target, entry, size)
+            copyFile(source, target, entry, size, sync)
 
         console.outdent()
 
     console.outdent()
 
 
-def copyFile(source, target, names, size):
+def copyFile(source, target, names, size, sync):
     name = names[0]
+    dest = os.path.join(target, str(size), name + ".png")
     
-    # Get pixmap (may return None!)
-    pixmap = getPixmap(source, names, size)
+    # Get scalable
+    scale = getScalable(source, names, size)
+    
+    if not scale:
+        console.warn("Missing %spx icon" % size)
+        return
+        
+
+    # Syncronization support
+    if sync:
+        process = True
+        try:
+            destTime = os.stat(dest).st_mtime
+            sourceTime = os.stat(scale).st_mtime
+            process = sourceTime > destTime
+            
+        except OSError:
+            # Ignore non existent files
+            pass
+            
+        if not process:
+            return
+
+        
+    # Convert to pixmap
+    pixmap = getPixmap(scale, size)
     if not pixmap:
         return
         
     if not isinstance(pixmap, basestring):
         keeper = pixmap
         pixmap = pixmap.name
-
-    dest = os.path.join(target, str(size), name + ".png")
 
     console.debug("copying: %s" % pixmap)
     console.debug("     to: %s" % dest)
@@ -124,32 +149,27 @@ def copyFile(source, target, names, size):
     except OSError: pass
 
 
-def getPixmap(path, names, size):
-    scale = getScalable(path, names, size)
-    if scale:
-        console.debug("Rendering image...")
-        pngtmp = file(TMPPNG, "wb")
-        outtmp = file(TMPOUT, "wb")
+def getPixmap(scale, size):
+    console.debug("Rendering image...")
+    pngtmp = file(TMPPNG, "wb")
+    outtmp = file(TMPOUT, "wb")
+    
+    if SVG == "rsvg.cmd":
+        svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-a", "-o", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
+    elif SVG == "inkscape.cmd":
+        svgreturn = subprocess.Popen(["inkscape", "-z", "-w", str(size), "-h", str(size), "-z", "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
+    elif SVG == "inkscape.mac":
+        svgreturn = subprocess.Popen(["/Applications/Inkscape.app/Contents/Resources/bin/inkscape", "-z", "-w", str(size), "-h", str(size), "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
+    elif SVG == "batik.local":
+        svgreturn = subprocess.Popen(["java", "-jar", "batik/batik-rasterizer.jar", "-w", str(size), "-h", str(size), "-m", "image/png", "-d", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
+    else:
+        svgreturn = 1
         
-        if SVG == "rsvg.cmd":
-            svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-a", "-o", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
-        elif SVG == "inkscape.cmd":
-            svgreturn = subprocess.Popen(["inkscape", "-z", "-w", str(size), "-h", str(size), "-z", "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
-        elif SVG == "inkscape.mac":
-            svgreturn = subprocess.Popen(["/Applications/Inkscape.app/Contents/Resources/bin/inkscape", "-z", "-w", str(size), "-h", str(size), "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
-        elif SVG == "batik.local":
-            svgreturn = subprocess.Popen(["java", "-jar", "batik/batik-rasterizer.jar", "-w", str(size), "-h", str(size), "-m", "image/png", "-d", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
-        else:
-            svgreturn = 1
-            
-        if svgreturn != 0:
-            console.error("Could not convert SVG file: %s" % scale)
-            sys.exit(1)
+    if svgreturn != 0:
+        console.error("Could not convert SVG file: %s" % scale)
+        sys.exit(1)
 
-        return pngtmp.name
-
-    console.warn("Missing %spx icon" % size)
-    return None
+    return pngtmp.name
 
 
 def getScalable(path, names, size):
