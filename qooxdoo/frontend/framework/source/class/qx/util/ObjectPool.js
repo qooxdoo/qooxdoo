@@ -132,13 +132,8 @@ qx.Class.define("qx.util.ObjectPool",
     {
       var obj = null;
 
-      if (this.__pool[classname])
-      {
-        obj = this.__pool[classname].pop();
-
-        if (obj == undefined) {
-          obj = null;
-        }
+      if (this.__pool[classname]) {
+        obj = this.__pool[classname].pop() || null;
       }
 
       return obj;
@@ -154,18 +149,11 @@ qx.Class.define("qx.util.ObjectPool",
      * It is assumed that no other references exist to this Object, and that it will
      * not be used at all while it is pooled.
      *
-     * @param vObject {Object} An Object instance to pool.
+     * @param obj {Object} An Object instance to pool.
      */
-    poolObject : function(vObject)
+    poolObject : function(obj)
     {
-      // Do some checks to make sure the caller has met their obligations.
-      if (vObject == null)
-      {
-        this.warn("poolObject() Cannot pool " + vObject);
-        return;
-      }
-
-      var classname = vObject.classname;
+      var classname = obj.classname;
 
       this._ensurePoolOfType(classname);
 
@@ -177,9 +165,9 @@ qx.Class.define("qx.util.ObjectPool",
 
       for (i=0, l=this.__pool[classname].length; i<l; i++)
       {
-        if (this.__pool[classname][i] == vObject)
+        if (this.__pool[classname][i] == obj)
         {
-          //this.warn("poolObject() Cannot pool " + vObject + " because it is already in the pool.");
+          //this.warn("poolObject() Cannot pool " + obj + " because it is already in the pool.");
           pooled = true;
           break;
         }
@@ -189,14 +177,14 @@ qx.Class.define("qx.util.ObjectPool",
       var full = this._isPoolFull(classname);
 
       if (full) {
-        //this.warn("poolObject() Cannot pool " + vObject + " because the pool is already full.");
+        //this.warn("poolObject() Cannot pool " + obj + " because the pool is already full.");
       }
 
       // Pool instance if possible
       if (!pooled && !full) {
-        this.__pool[classname].push(vObject);
+        this.__pool[classname].push(obj);
       } else {
-        //this.warn("poolObject() Cannot pool " + vObject + "; lost an instance of type " + classname);
+        //this.warn("poolObject() Cannot pool " + obj + "; lost an instance of type " + classname);
       }
     },
 
