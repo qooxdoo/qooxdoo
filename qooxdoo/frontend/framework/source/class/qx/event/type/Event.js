@@ -109,7 +109,7 @@ qx.Class.define("qx.event.type.Event",
       if (embryo) {
         var clone = embryo;
       } else {
-        var clone = qx.event.Pool.getInstance().getEventInstance(this.constructor);
+        var clone = qx.event.Pool.getInstance().getObject(this.constructor);
       }
 
       clone._type = this._type;

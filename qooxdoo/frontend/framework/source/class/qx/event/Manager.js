@@ -468,7 +468,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (!event.getBubbles() && !this.hasListeners(target, type)) 
       {
         // qx.log.Logger.warn("Useless dispatch found: " + type);
-        qx.event.Pool.getInstance().poolEvent(event);
+        qx.event.Pool.getInstance().poolObject(event);
         return;
       }
 
@@ -503,7 +503,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       // Release the event instance to the event pool
-      qx.event.Pool.getInstance().poolEvent(event);
+      qx.event.Pool.getInstance().poolObject(event);
     }
   }
 });
