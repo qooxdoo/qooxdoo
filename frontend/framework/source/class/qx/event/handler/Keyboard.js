@@ -180,7 +180,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireInputEvent : function(domEvent, charCode)
     {
-      var event = qx.event.Registration.createEvent(qx.event.type.KeyInput, [domEvent, charCode]);
+      var event = qx.event.Registration.createEvent("keyinput", qx.event.type.KeyInput, [domEvent, charCode]);
       var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
 
       if (target) {
@@ -198,7 +198,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
-      var event = qx.event.Registration.createEvent(qx.event.type.KeySequence, [domEvent, type, keyIdentifier]);
+      var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, keyIdentifier]);
       var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
 
       if (target) {

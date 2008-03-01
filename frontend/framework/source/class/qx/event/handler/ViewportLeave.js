@@ -128,11 +128,8 @@ qx.Class.define("qx.event.handler.ViewportLeave",
      * @param type {String} type og the event
      * @return {void}
      */
-    _fireEvent : function(domEvent, type)
-    {
-      var event = qx.event.Registration.createEvent(qx.event.type.Mouse, [ domEvent, type ]);
-      event.setBubbles(false);
-      this._manager.dispatchEvent(this._window, event);
+    __fireEvent : function(domEvent, type) {
+      qx.event.Registration.fireEvent(this._window, type);
     },
 
 
@@ -160,7 +157,7 @@ qx.Class.define("qx.event.handler.ViewportLeave",
         var relatedTarget = domEvent.fromElement;
 
         if (domEvent.clientX === -1 && domEvent.clientY === -1) {
-          this._fireEvent(domEvent, "viewportleave");
+          this.__fireEvent(domEvent, "viewportleave");
         }
       },
 
@@ -169,7 +166,7 @@ qx.Class.define("qx.event.handler.ViewportLeave",
         var relatedTarget = domEvent.relatedTarget;
 
         if (relatedTarget === null) {
-          this._fireEvent(domEvent, "viewportleave");
+          this.__fireEvent(domEvent, "viewportleave");
         }
       },
 
@@ -178,7 +175,7 @@ qx.Class.define("qx.event.handler.ViewportLeave",
         var target = domEvent.target;
 
         if (target === this._body) {
-          this._fireEvent(domEvent, "viewportenter");
+          this.__fireEvent(domEvent, "viewportenter");
         }
       }
     }),
@@ -199,7 +196,7 @@ qx.Class.define("qx.event.handler.ViewportLeave",
         var relatedTarget = domEvent.fromElement;
 
         if (relatedTarget === null) {
-          this._fireEvent(domEvent, "viewportenter");
+          this.__fireEvent(domEvent, "viewportenter");
         }
       },
 
@@ -208,7 +205,7 @@ qx.Class.define("qx.event.handler.ViewportLeave",
         var relatedTarget = domEvent.relatedTarget;
 
         if (relatedTarget === null) {
-          this._fireEvent(domEvent, "viewportenter");
+          this.__fireEvent(domEvent, "viewportenter");
         }
       },
 
@@ -217,7 +214,7 @@ qx.Class.define("qx.event.handler.ViewportLeave",
         var target = domEvent.target;
 
         if (target === this._body) {
-          this._fireEvent(domEvent, "viewportleave");
+          this.__fireEvent(domEvent, "viewportleave");
         }
       }
     }),

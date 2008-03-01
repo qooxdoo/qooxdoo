@@ -250,7 +250,8 @@ qx.Class.define("qx.legacy.ui.core.Parent",
       if (vBlurValid)
       {
         // Dispatch FocusOut
-        var vEventObject = qx.event.Registration.createEvent(qx.legacy.event.type.FocusEvent, ["focusout"]);
+        var vEventObject = qx.event.Registration.createEvent("focusout", qx.legacy.event.type.FocusEvent);
+        vEventObject.setBubbles(true);
 
         if (vFocusValid) {
           vEventObject.setRelatedTarget(value);
@@ -263,7 +264,8 @@ qx.Class.define("qx.legacy.ui.core.Parent",
       if (vFocusValid)
       {
         // Dispatch FocusIn
-        var vEventObject = qx.event.Registration.createEvent(qx.legacy.event.type.FocusEvent, ["focusin"]);
+        var vEventObject = qx.event.Registration.createEvent("focusin", qx.legacy.event.type.FocusEvent);
+        vEventObject.setBubbles(true);        
 
         if (vBlurValid) {
           vEventObject.setRelatedTarget(old);
@@ -281,7 +283,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
         old.setFocused(false);
 
         // Dispatch Blur
-        var vEventObject = qx.event.Registration.createEvent(qx.legacy.event.type.FocusEvent, ["blur"]);
+        var vEventObject = qx.event.Registration.createEvent("blur", qx.legacy.event.type.FocusEvent);
 
         if (vFocusValid) {
           vEventObject.setRelatedTarget(value);
@@ -306,7 +308,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
         qx.legacy.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
         // Dispatch Focus
-        var vEventObject = qx.event.Registration.createEvent(qx.legacy.event.type.FocusEvent, ["focus"]);
+        var vEventObject = qx.event.Registration.createEvent("focus", qx.legacy.event.type.FocusEvent);
 
         if (vBlurValid) {
           vEventObject.setRelatedTarget(old);

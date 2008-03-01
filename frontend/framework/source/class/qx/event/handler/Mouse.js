@@ -142,10 +142,13 @@ qx.Class.define("qx.event.handler.Mouse",
      * @param type {String} type og the event
      * @param target {Element} event target
      */
-    _fireEvent : function(domEvent, type, target)
+    __fireEvent : function(domEvent, type, target)
     {
-      var event = qx.event.Registration.createEvent(qx.event.type.Mouse, [domEvent, type]);
-      this._manager.dispatchEvent(target || domEvent.target || domEvent.srcElement, event);
+      if (!target) {
+        target = domEvent.target || domEvent.srcElement;
+      }
+      
+      qx.event.Registration.fireEvent(target, type, qx.event.type.Mouse, [domEvent]);
     },
 
 
@@ -297,7 +300,7 @@ qx.Class.define("qx.event.handler.Mouse",
      * @param domEvent {Event} DOM event
      */
     _onMoveEvent : function(domEvent) {
-      this._fireEvent(domEvent);
+      this.__fireEvent(domEvent);
     },
 
 
@@ -330,7 +333,7 @@ qx.Class.define("qx.event.handler.Mouse",
         this.__doubleClickFixPre(domEvent, type, target);
       }
 
-      this._fireEvent(domEvent, type, target);
+      this.__fireEvent(domEvent, type, target);
 
       if (this.__rightClickFixPost) {
         this.__rightClickFixPost(domEvent, type, target);
@@ -351,7 +354,7 @@ qx.Class.define("qx.event.handler.Mouse",
      * @param domEvent {Event} DOM event
      */
     _onWheelEvent : function(domEvent) {
-      this._fireEvent(domEvent, "mousewheel");
+      this.__fireEvent(domEvent, "mousewheel");
     },
 
 
@@ -386,8 +389,8 @@ qx.Class.define("qx.event.handler.Mouse",
       {
         if (type == "contextmenu")
         {
-          this._fireEvent(domEvent, "mousedown", target);
-          this._fireEvent(domEvent, "mouseup", target);
+          this.__fireEvent(domEvent, "mousedown", target);
+          this.__fireEvent(domEvent, "mouseup", target);
         }
       },
 
@@ -417,7 +420,7 @@ qx.Class.define("qx.event.handler.Mouse",
       "opera" : function(domEvent, type, target)
       {
         if (type =="mouseup" && domEvent.button == 2) {
-          this._fireEvent(domEvent, "contextmenu", target);
+          this.__fireEvent(domEvent, "contextmenu", target);
         }
       },
 
@@ -448,9 +451,9 @@ qx.Class.define("qx.event.handler.Mouse",
       "mshtml" : function(domEvent, type, target)
       {
         if (type == "mouseup" && this._lastEventType == "click") {
-          this._fireEvent(domEvent, "mousedown", target);
+          this.__fireEvent(domEvent, "mousedown", target);
         } else if (type == "dblclick") {
-          this._fireEvent(domEvent, "click", target);
+          this.__fireEvent(domEvent, "click", target);
         }
       },
 
@@ -487,7 +490,7 @@ qx.Class.define("qx.event.handler.Mouse",
             if (target !== this.__lastMouseDownTarget)
             {
               commonParent = qx.dom.Hierarchy.getCommonParent(target, this.__lastMouseDownTarget);
-              this._fireEvent(domEvent, "click", commonParent);
+              this.__fireEvent(domEvent, "click", commonParent);
             }
         }
       }

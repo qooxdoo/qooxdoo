@@ -78,7 +78,6 @@ qx.Class.define("qx.event.handler.DomReady",
     this.base(arguments);
 
     // Define shorthands
-    this._manager = manager;
     this._window = manager.getWindow();
 
     // Initialize observers
@@ -224,7 +223,7 @@ qx.Class.define("qx.event.handler.DomReady",
     {
       if (!this._fired)
       {
-        this._manager.fireCustomEvent(this._window, qx.event.type.Event, [ "domready", false ]);
+        qx.event.Registration.fireEvent(this._window, "domready");
         this._fired = true;
       }
     }
@@ -242,7 +241,7 @@ qx.Class.define("qx.event.handler.DomReady",
   destruct : function()
   {
     this._stopWindowObserver();
-    this._disposeFields("_manager", "_window");
+    this._disposeFields("_window");
   },
 
 

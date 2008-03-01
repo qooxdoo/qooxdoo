@@ -27,17 +27,7 @@
 ************************************************************************ */
 
 /**
- * Wrapper for browser DOM event handling.
- *
- * The following feature are supported in a browser independend way:
- * <ul>
- *   <li>cancelling of events <code>stopPropagation</code></li>
- *   <li>prevention of the browser's default behaviour <code>preventDefault</code>
- *   <li>unified event objects matching the DOM 2 event interface (<a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface">Reference</a>)</li>
- *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase</li>
- *   <li>Support for mouse event capturing (<a href="http://msdn2.microsoft.com/en-us/library/ms537630.aspx">Reference</a>)</li>
- *   <li>Support for normalized focus and activation handling</li>
- * </ul>
+ * Wrapper for browser generic event handling.
  *
  * Supported events differ from target to target. Generally the handlers
  * in {@link qx.event.handler} defines the available features.
@@ -125,10 +115,8 @@ qx.Bootstrap.define("qx.event.Registration",
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
      */
-    addListener : function(target, type, listener, self, capture)
-    {
-      var mgr = this.getManager(target);
-      mgr.addListener(target, type, listener, self, capture);
+    addListener : function(target, type, listener, self, capture) {
+      this.getManager(target).addListener(target, type, listener, self, capture);
     },
 
 
@@ -144,10 +132,8 @@ qx.Bootstrap.define("qx.event.Registration",
      * @param capture {Boolean} Whether to remove the event listener of
      *         the bubbling or of the capturing phase.
      */
-    removeListener : function(target, type, listener, self, capture)
-    {
-      var mgr = this.getManager(target);
-      mgr.removeListener(target, type, listener, self, capture);
+    removeListener : function(target, type, listener, self, capture) {
+      this.getManager(target).removeListener(target, type, listener, self, capture);
     },
     
     
@@ -183,25 +169,40 @@ qx.Bootstrap.define("qx.event.Registration",
      * {@link qx.event.type.Event#init}.
      *
      * @type static
-     * @param clazz {Object} The event class
-     * @param args {Array} Array or arguments, which will be passed to
+     * @param type {String} The type of the event to create
+     * @param clazz {Object?qx.event.type.Event} The event class to use
+     * @param args {Array?null} Array which will be passed to
      *       the event's init method.
      * @return {qx.event.type.Event} An instance of the given class.
      */
-    createEvent : function(clazz, args)
+    createEvent : function(type, clazz, args)
     {
+      // Fallback to default
+      if (!clazz) {
+        clazz = qx.event.type.Event;
+      }
+      
       var obj = qx.event.Pool.getInstance().getEventInstance(clazz);
 
-      if (args) {
-        obj.init.apply(obj, args);
+      // Initialize with given arguments
+      args ? obj.init.apply(obj, args) : obj.init();
+      
+      // Setup the type
+      // Note: Native event may setup this later or using init() above 
+      // using the native information.
+      if (type) {
+        obj.setType(type);
       }
-
+      
       return obj;
     },
 
 
     /**
      * Dispatch an event object on the given target.
+     *
+     * It is normally better to use {@link #fireEvent} because it uses
+     * the event pooling and is quite handy otherwise as well.
      *
      * @type static
      * @param target {Object} Any valid event target
@@ -220,12 +221,16 @@ qx.Bootstrap.define("qx.event.Registration",
      *
      * @type static
      * @param target {Object} Any valid event target
-     * @param clazz {Class} The event class
-     * @param args {Array} Array or arguments, which will be passed to
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
      *       the event's init method.
+     * @see #createEvent
      */
-    fireCustomEvent : function(target, clazz, args) {
-      this.getManager(target).fireCustomEvent(target, clazz, args);
+    fireEvent : function(target, type, clazz, args) 
+    {
+      var evt = this.createEvent(type, clazz, args);      
+      this.getManager(target).dispatchEvent(target, evt);
     },
 
 

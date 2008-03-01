@@ -240,7 +240,7 @@ qx.Class.define("qx.event.handler.Input",
     _onInput : function(e)
     {
       var target = e.target;
-      qx.event.Registration.fireCustomEvent(e.target, qx.event.type.Data, ["input", e.target.value]);
+      qx.event.Registration.fireEvent(e.target, "input", qx.event.type.Data, [e.target.value]);
     },
 
 
@@ -267,7 +267,7 @@ qx.Class.define("qx.event.handler.Input",
         }
       }
 
-      qx.event.Registration.fireCustomEvent(target, qx.event.type.Data, ["change", data]);
+      qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [data]);
     },
 
 
@@ -285,12 +285,12 @@ qx.Class.define("qx.event.handler.Input",
       if (target.type === "radio")
       {
         if (target.checked) {
-          qx.event.Registration.fireCustomEvent(target, qx.event.type.Data, ["change", target.value]);
+          qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
         }
       }
       else
       {
-        qx.event.Registration.fireCustomEvent(target, qx.event.type.Data, ["change", target.checked]);
+        qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.checked]);
       }
     },
 
@@ -313,15 +313,15 @@ qx.Class.define("qx.event.handler.Input",
         if (prop === "value" && (target.type === "text" || target.tagName.toLowerCase() === "textarea"))
         {
           if (!target.__inValueSet) {
-            qx.event.Registration.fireCustomEvent(target, qx.event.type.Data, ["input", target.value]);
+            qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
           }
         }
         else if (prop === "checked")
         {
           if (target.type === "checkbox") {
-            qx.event.Registration.fireCustomEvent(target, qx.event.type.Data, ["change", target.checked]);
+            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.checked]);
           } else if (target.checked) {
-            qx.event.Registration.fireCustomEvent(target, qx.event.type.Data, ["change", target.value]);
+            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
           }
         }
       },

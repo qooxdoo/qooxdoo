@@ -228,7 +228,7 @@ qx.Class.define("qx.io.image.Preloader",
       this._isLoaded = true;
       this._isErroneous = false;
 
-      this.fireEvent("load", true);
+      this.fireEvent("load");
     },
 
 
@@ -249,7 +249,7 @@ qx.Class.define("qx.io.image.Preloader",
       this._isLoaded = false;
       this._isErroneous = true;
 
-      this.fireEvent("error", true);
+      this.fireEvent("error");
     }
   },
 
