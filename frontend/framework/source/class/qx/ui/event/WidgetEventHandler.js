@@ -140,8 +140,9 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
     _cloneEvent : function(target, event)
     {
+      // TODO: Optimize this to a name map (dom type => widget type)
       var widgetEventClass = qx.Class.getByName("qx.ui.event.type." + event.basename);
-      var clone = qx.event.Pool.getInstance().getEventInstance(widgetEventClass);
+      var clone = qx.event.Pool.getInstance().getObject(widgetEventClass);
 
       event.clone(clone);
       clone.setBubbles(false);
@@ -185,7 +186,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       }
 
       // Release the event instance to the event pool
-      qx.event.Pool.getInstance().poolEvent(clone);
+      qx.event.Pool.getInstance().poolObject(clone);
     },
 
 

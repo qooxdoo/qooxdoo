@@ -14,11 +14,12 @@
 
    Authors:
      * Simon Bull (sbull)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
 /**
- * This singleton manages pooled Object instances.
+ * This class manages pooled Object instances.
  *
  * It exists mainly to minimise the amount of browser memory usage by reusing
  * window instances after they have been closed.  However, it could equally be
@@ -40,11 +41,18 @@ qx.Class.define("qx.util.ObjectPool",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param size {Integer} Size of each class pool
+   */
+  construct : function(size)
   {
     this.base(arguments);
 
     this.__pool = {};
+    
+    if (size !== undefined) {
+      this.setSize(size);
+    }
   },
 
 
@@ -69,9 +77,9 @@ qx.Class.define("qx.util.ObjectPool",
      *
      * A size of "null" represents an unlimited pool.
      */
-    poolSize :
+    size :
     {
-      check : "Number",
+      check : "Integer",
       init : null,
       nullable : true
     }
@@ -95,29 +103,6 @@ qx.Class.define("qx.util.ObjectPool",
     */
 
     /**
-     * Get the number of instance of type classname that are currently
-     * pooled.
-     *
-     * @param classname {String} The name of the Object type to count.
-     *
-     * @return {Integer} The number of instance of type classname that are currently
-     *         pooled.
-     */
-    countObjectsOfType : function(classname)
-    {
-      // this.debug("countObjectsOfType() classname=" + classname );
-      // this.debug("countObjectsOfType() this.__pool["+classname+"]=" + this.__pool[classname]);
-      var count = 0;
-
-      if (this.__pool[classname]) {
-        count = this.__pool[classname].length;
-      }
-
-      return count;
-    },
-
-
-    /**
      * This method finds and returns an instance of a requested type in the pool,
      * if there is one.  Note that the pool determines which instance (if any) to
      * return to the client.  The client cannot get a specific instance from the
@@ -128,12 +113,19 @@ qx.Class.define("qx.util.ObjectPool",
      * @return {Object} An instance of the requested type, or null if no such instance
      *         exists in the pool.
      */
-    getObjectOfType : function(classname)
+    getObject : function(clazz)
     {
       var obj = null;
+      var pool = this.__pool[clazz.classname];
 
-      if (this.__pool[classname]) {
-        obj = this.__pool[classname].pop() || null;
+      if (pool) {
+        obj = pool.pop();
+      }
+      
+      if (obj) {
+        obj.$$pooled = false;
+      } else {
+        obj = new clazz;
       }
 
       return obj;
@@ -141,9 +133,9 @@ qx.Class.define("qx.util.ObjectPool",
 
 
     /**
-     * This method places an Object in a pool of Objects of its type.  Note that
+     * This method places an Object in a pool of Objects of its type. Note that
      * once an instance has been pooled, there is no means to get that exact
-     * instance back.  The instance may be discarded for garbage collection if
+     * instance back. The instance may be discarded for garbage collection if
      * the pool of its type is already full.
      *
      * It is assumed that no other references exist to this Object, and that it will
@@ -154,85 +146,27 @@ qx.Class.define("qx.util.ObjectPool",
     poolObject : function(obj)
     {
       var classname = obj.classname;
-
-      this._ensurePoolOfType(classname);
-
-      // Check to see whether this instance is already in the pool
-      //
-      // Note that iterating over this.__pool[classname].length only works because
-      // there are never any empty Array elements in the pool.
-      var pooled = false;
-
-      for (i=0, l=this.__pool[classname].length; i<l; i++)
-      {
-        if (this.__pool[classname][i] == obj)
-        {
-          //this.warn("poolObject() Cannot pool " + obj + " because it is already in the pool.");
-          pooled = true;
-          break;
-        }
+      var pool = this.__pool[classname];
+      
+      if (obj.$$pooled) {
+        throw new Error("Object is already pooled: " + obj);
       }
-
+      
+      if (!pool) {
+        this.__pool[classname] = pool = [];
+      }
+      
       // Check to see whether the pool for this type is already full
-      var full = this._isPoolFull(classname);
-
-      if (full) {
-        //this.warn("poolObject() Cannot pool " + obj + " because the pool is already full.");
+      var size = this.getSize() || Infinity;
+      if (pool.length > size) 
+      {
+        this.warn("Cannot pool " + obj + " because the pool is already full.");
+        obj.dispose();
+        return;
       }
-
-      // Pool instance if possible
-      if (!pooled && !full) {
-        this.__pool[classname].push(obj);
-      } else {
-        //this.warn("poolObject() Cannot pool " + obj + "; lost an instance of type " + classname);
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      IMPL HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * This method checks whether the pool for a given class of Objects is
-     * already full.  As a side-effect of calling this method a pool will
-     * be created if it does not already exist.
-     *
-     * @param classname {String} The name of a type of Object.
-     *
-     * @return {Boolean} True if the pool is already full, otherwise false.  Note
-     *         that is no upper limit is defined for the type, this method will
-     *         always return false.
-     */
-    _isPoolFull : function(classname)
-    {
-      this._ensurePoolOfType(classname);
-
-      var isPoolFull = false;
-
-      if (this.getPoolSize() != null) {
-        isPoolFull = this.__pool[classname].length >= this.getPoolSize();
-      }
-
-      return isPoolFull;
-    },
-
-
-    /**
-     * This method ensures that there is a pool for Objects of a given type.  If a
-     * pool doesn't already exist, this method will create it.
-     *
-     * @param classname {String} The name of a type of Object.
-     */
-    _ensurePoolOfType : function(classname)
-    {
-      if (!this.__pool[classname]) {
-        this.__pool[classname] = [];
-      }
+      
+      obj.$$pooled = true;
+      pool.push(obj);
     }
   },
 
@@ -250,9 +184,9 @@ qx.Class.define("qx.util.ObjectPool",
   destruct : function()
   {
     var pool = this.__pool;
-    var i, l;
+    var classname, list, i, l;
 
-    for (var classname in pool)
+    for (classname in pool)
     {
       list = pool[classname];
       for (i=0, l=list.length; i<l; i++) {
@@ -260,6 +194,6 @@ qx.Class.define("qx.util.ObjectPool",
       }
     }
 
-    this.__pool = null;
+    delete this.__pool;
   }
 });
