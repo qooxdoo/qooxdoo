@@ -57,8 +57,17 @@ qx.Class.define("qx.util.ValueManager",
 
   statics :
   {
+    /** {Map} Map of all created value managers */
     __managers : {},
     
+    
+    /**
+     * Disconnect the given object from all registered value managers
+     *
+     * @type static
+     * @param obj {Object} any valid object
+     * @return {void}
+     */
     disconnect : function(obj)
     {
       var all = this.__managers;
@@ -67,10 +76,26 @@ qx.Class.define("qx.util.ValueManager",
       }
     },
     
+
+    /**
+     * Registers the given manager from the registry.
+     *
+     * @type static
+     * @param mgr {qx.util.ValueManager} value manager to remove
+     * @return {void}
+     */
     register : function(mgr) {
       this.__managers[mgr.$$hash] = mgr;
     },
     
+
+    /**
+     * Unregisters the given manager from the registry.
+     *
+     * @type static
+     * @param mgr {qx.util.ValueManager} value manager to remove
+     * @return {void}
+     */
     unregister : function(mgr) {
       delete this.__managers[mgr.$$hash];
     }
