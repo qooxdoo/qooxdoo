@@ -1,3 +1,0 @@
-/**
- * Some general purpose managers.
- */
