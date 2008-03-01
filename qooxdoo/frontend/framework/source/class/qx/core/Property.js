@@ -1243,12 +1243,9 @@ qx.Class.define("qx.core.Property",
         // Fire event
         if (config.event) {
           code.push(
-            "mgr = qx.event.Registration.getManager(this);",
-            "if(mgr.hasListeners(this, '", config.event, "')){",
-            "mgr.fireCustomEvent(",
-            "  this, qx.event.type.Change,",
-            "  ['", config.event, "', computed, old]",
-            ")}"
+            "reg = qx.event.Registration;",
+            "if(reg.hasListeners(this, '", config.event, "')){",
+            "reg.fireEvent(this, '", config.event, "', qx.event.type.Change, [computed, old]", ")}"
           );
         }
 

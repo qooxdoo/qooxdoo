@@ -161,15 +161,14 @@ qx.Class.define("qx.event.handler.Element",
      */
     _onNative : function(domEvent, elementId)
     {
-      var event = qx.event.Registration.createEvent(qx.event.type.Dom, [domEvent]);
-      event.setBubbles(false);
+      var evt = qx.event.Registration.createEvent(null, qx.event.type.Dom, [domEvent]);
 
-      var eventData = this._registeredEvents[elementId + event.getType()];
-      var element = eventData ? eventData.element : event.getTarget();
+      var eventData = this._registeredEvents[elementId + evt.getType()];
+      var element = eventData ? eventData.element : evt.getTarget();
 
-      event.setCurrentTarget(element);
+      evt.setCurrentTarget(element);
 
-      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
+      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, evt);
     }
   },
 

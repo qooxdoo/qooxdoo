@@ -261,6 +261,10 @@ qx.Class.define("qx.core.Object",
       EVENT HANDLING
     ---------------------------------------------------------------------------
     */
+    
+    /** {Class} Pointer to the regular event registration class */
+    __Registration : qx.event.Registration,
+    
 
     /**
      * Add event listener to this object.
@@ -276,7 +280,7 @@ qx.Class.define("qx.core.Object",
     addListener : function(type, func, obj, capture)
     {
       if (!this.$$disposed) {
-        qx.event.Registration.addListener(this, type, func, obj, !!capture);
+        this.__Registration.addListener(this, type, func, obj, !!capture);
       }
     },
 
@@ -293,7 +297,7 @@ qx.Class.define("qx.core.Object",
     removeListener : function(type, func, obj)
     {
       if (!this.$$disposed) {
-        qx.event.Registration.removeListener(this, type, func, obj, false);
+        this.__Registration.removeListener(this, type, func, obj, false);
       }
     },
 
@@ -306,7 +310,7 @@ qx.Class.define("qx.core.Object",
      * @return {var} TODOC
      */
     hasListeners : function(type) {
-      return qx.event.Registration.hasListeners(this, type);
+      return this.__Registration.hasListeners(this, type);
     },
 
 
@@ -320,24 +324,7 @@ qx.Class.define("qx.core.Object",
     dispatchEvent : function(evt)
     {
       if (!this.$$disposed) {
-        qx.event.Registration.dispatchEvent(this, evt);
-      }
-    },
-
-
-    /**
-     * Create an event object and dispatch it on this object.
-     *
-     * @type member
-     * @param clazz {qx.event.type.Event} The even class
-     * @param args {Array} Array or arguments, which will be passed to
-     *       the event's init method.
-     * @return {void}
-     */
-    fireCustomEvent : function(clazz, args)
-    {
-      if (!this.$$disposed) {
-        qx.event.Registration.fireCustomEvent(this, clazz, args);
+        this.__Registration.dispatchEvent(this, evt);
       }
     },
 
@@ -346,12 +333,16 @@ qx.Class.define("qx.core.Object",
      * Creates and dispatches an event on this object.
      *
      * @type member
-     * @param type {String} name of the event type
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {void}
      */
-    fireEvent : function(type)
+    fireEvent : function(type, clazz, args)
     {
       if (!this.$$disposed) {
-        qx.event.Registration.fireCustomEvent(this, qx.event.type.Event, [type, false]);
+        this.__Registration.fireEvent(this, type, clazz, args);
       }
     },
 
@@ -360,13 +351,14 @@ qx.Class.define("qx.core.Object",
      * Creates and dispatches an data event on this object.
      *
      * @type member
-     * @param type {String} name of the event type
-     * @param data {var} user defined data attached to the event object
+     * @param type {String} Event type to fire
+     * @param data {var} User defined data attached to the event object
+     * @return {void}
      */
     fireDataEvent : function(type, data)
     {
       if (!this.$$disposed) {
-        qx.event.Registration.fireCustomEvent(this, qx.event.type.Data, [type, data]);
+        this.__Registration.fireEvent(this, type, qx.event.type.Data, [data]);
       }
     },
 
@@ -378,6 +370,10 @@ qx.Class.define("qx.core.Object",
       DEBUG
     ---------------------------------------------------------------------------
     */
+    
+    /** {Class} Pointer to the regular logger class */
+    __Logger : qx.log.Logger,
+    
 
     /**
      * Logs a debug message.
@@ -388,7 +384,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     debug : function(msg) {
-      qx.log.Logger.debug(this, msg);
+      this.__Logger.debug(this, msg);
     },
 
 
@@ -401,7 +397,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     info : function(msg) {
-      qx.log.Logger.info(this, msg);
+      this.__Logger.info(this, msg);
     },
 
 
@@ -414,7 +410,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     warn : function(msg) {
-      qx.log.Logger.warn(this, msg);
+      this.__Logger.warn(this, msg);
     },
 
 
@@ -427,7 +423,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     error : function(msg) {
-      qx.log.Logger.error(this, msg);
+      this.__Logger.error(this, msg);
     },
 
 
@@ -438,7 +434,7 @@ qx.Class.define("qx.core.Object",
      * @return {void}
      */
     trace : function() {
-      qx.log.Logger.trace();
+      this.__Logger.trace();
     },
 
 

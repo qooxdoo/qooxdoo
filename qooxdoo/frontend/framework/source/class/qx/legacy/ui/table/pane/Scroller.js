@@ -1041,7 +1041,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       ) {
         this._lastMouseDownCell = {};
 
-        var cellEvent = qx.event.Registration.createEvent(qx.legacy.ui.table.pane.CellEvent, [this, e, "cellClick"]);
+        var cellEvent = qx.event.Registration.createEvent("cellClick", qx.legacy.ui.table.pane.CellEvent, [this, e]);
         this.dispatchEvent(cellEvent, true);
       }
       this._focusIndicator.setAnonymous(true);
@@ -1248,7 +1248,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
           this._lastMouseDownCell = {};
 
           table._getSelectionManager().handleClick(row, evt);
-          var cellEvent = qx.event.Registration.createEvent(qx.legacy.ui.table.pane.CellEvent, [this, evt, "cellClick"]);
+          var cellEvent = qx.event.Registration.createEvent("cellClick", qx.legacy.ui.table.pane.CellEvent, [this, evt]);
           this.dispatchEvent(cellEvent);
         }
       }
@@ -1275,7 +1275,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
         col == this._lastMouseDownCell.col
       ) {
         this._lastMouseDownCell = {};
-        var cellEvent = qx.event.Registration.createEvent(qx.legacy.ui.table.pane.CellEvent, [this, evt, "cellContextmenu"]);
+        var cellEvent = qx.event.Registration.createEvent("cellContextmenu", qx.legacy.ui.table.pane.CellEvent, [this, evt]);
         this.dispatchEvent(cellEvent, true);
       }
     },
@@ -1299,7 +1299,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       var row = this._getRowForPagePos(pageX, pageY);
       if (row != -1 && row != null)
       {
-        var cellEvent = qx.event.Registration.createEvent(qx.legacy.ui.table.pane.CellEvent, [this, evt, "cellDblClick"]);
+        var cellEvent = qx.event.Registration.createEvent("cellDblClick", qx.legacy.ui.table.pane.CellEvent, [this, evt]);
         this.dispatchEvent(cellEvent, true);
       }
     },

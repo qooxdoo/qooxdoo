@@ -161,7 +161,7 @@ qx.Class.define("qx.event.handler.Application",
         this.__isReady = true;
 
         // Fire user event
-        qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "ready", false ]);
+        qx.event.Registration.fireEvent(window, "ready");
       }
     },
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.event.handler.Application",
         this.__isUnloaded = true;
 
         // Fire user event
-        qx.event.Registration.fireCustomEvent(window, qx.event.type.Event, [ "shutdown", false ]);
+        qx.event.Registration.fireEvent(window, "shutdown");
 
         // Execute registry shutdown
         qx.core.ObjectRegistry.shutdown();

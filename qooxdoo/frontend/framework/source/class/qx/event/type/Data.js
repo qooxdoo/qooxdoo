@@ -44,9 +44,9 @@ qx.Class.define("qx.event.type.Data",
      * @param data {var} Data to attach to the event
      * @return {qx.event.type.Data} the initialized instance.
      */
-    init : function(type, data)
+    init : function(data)
     {
-      this.base(arguments, type, false);
+      this.base(arguments);
 
       this._data = data;
 

@@ -40,14 +40,13 @@ qx.Class.define("qx.event.type.Change",
      * Initializes an event onject.
      *
      * @type member
-     * @param type {String} the type name of the event
      * @param value {var} The property's new value
      * @param old {var} The property's old value
      * @return {qx.event.type.Change} the initialized instance.
      */
-    init : function(type, value, old)
+    init : function(value, old)
     {
-      this.base(arguments, type, false);
+      this.base(arguments);
 
       this._value = value;
       this._old = old;
