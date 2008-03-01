@@ -108,10 +108,9 @@ qx.Class.define("qx.util.ObjectPool",
      * return to the client.  The client cannot get a specific instance from the
      * pool.
      *
-     * @param classname {String} The name of the Object type to return.
-     *
-     * @return {Object} An instance of the requested type, or null if no such instance
-     *         exists in the pool.
+     * @param clazz {Class} A reference to a class from which an instance should be created.
+     * @return {Object} An instance of the requested type. If non existed in the pool a new
+     *   one is transparently created and returned.
      */
     getObject : function(clazz)
     {

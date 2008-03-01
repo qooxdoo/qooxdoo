@@ -30,7 +30,7 @@
 qx.Class.define("qx.legacy.theme.manager.Appearance",
 {
   type : "singleton",
-  extend : qx.util.manager.Object,
+  extend : qx.core.Object,
 
 
 
