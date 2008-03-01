@@ -27,7 +27,7 @@
 /** This singleton manages qx.legacy.ui.window.Windows */
 qx.Class.define("qx.legacy.ui.window.Manager",
 {
-  extend : qx.util.manager.Object,
+  extend : qx.legacy.util.ObjectManager,
 
 
 

@@ -28,7 +28,7 @@
 qx.Class.define("qx.legacy.ui.popup.ToolTipManager",
 {
   type : "singleton",
-  extend : qx.util.manager.Object,
+  extend : qx.legacy.util.ObjectManager,
 
 
 

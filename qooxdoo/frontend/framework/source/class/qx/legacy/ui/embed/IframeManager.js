@@ -29,7 +29,7 @@
 qx.Class.define("qx.legacy.ui.embed.IframeManager",
 {
   type : "singleton",
-  extend : qx.util.manager.Object,
+  extend : qx.legacy.util.ObjectManager,
 
 
 

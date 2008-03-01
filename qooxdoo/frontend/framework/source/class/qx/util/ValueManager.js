@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.util.manager.Value",
+qx.Class.define("qx.util.ValueManager",
 {
   type : "abstract",
   extend : qx.core.Object,
@@ -37,7 +37,7 @@ qx.Class.define("qx.util.manager.Value",
     this.base(arguments);
     
     // Register value manager globally
-    qx.util.manager.Value.register(this);
+    qx.util.ValueManager.register(this);
 
     // Stores the objects
     this._registry = {};
@@ -264,6 +264,6 @@ qx.Class.define("qx.util.manager.Value",
     this._disposeFields("_registry", "_dynamic");
     
     // Unregister value manager globally
-    qx.util.manager.Value.unregister(this);    
+    qx.util.ValueManager.unregister(this);    
   }
 });
