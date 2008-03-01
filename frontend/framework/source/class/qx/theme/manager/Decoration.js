@@ -22,7 +22,7 @@
 qx.Class.define("qx.theme.manager.Decoration",
 {
   type : "singleton",
-  extend : qx.util.manager.Value,
+  extend : qx.util.ValueManager,
 
 
 

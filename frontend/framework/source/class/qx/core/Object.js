@@ -627,7 +627,7 @@ qx.Class.define("qx.core.Object",
     qx.event.Registration.removeAllListeners(this);
       
     // Cleanup value managers
-    qx.util.manager.Value.disconnect(this);
+    qx.util.ValueManager.disconnect(this);
 
     // Cleanup object registry
     qx.core.ObjectRegistry.unregister(this);
