@@ -468,6 +468,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (!event.getBubbles() && !this.hasListeners(target, type)) 
       {
         // qx.log.Logger.warn("Useless dispatch found: " + type);
+        qx.event.Pool.getInstance().poolEvent(event);
         return;
       }
 
