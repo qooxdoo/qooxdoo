@@ -34,7 +34,7 @@ qx.Class.define("qx.theme.manager.Meta",
   properties :
   {
     /**
-     * Meta theme. Applies the defined color, widget, ... themes to
+     * Meta theme. Applies the defined color, decoration, ... themes to
      * the corresponding managers.
      */
     theme :
@@ -72,7 +72,6 @@ qx.Class.define("qx.theme.manager.Meta",
       var color = null;
       var decoration = null;
       var font = null;
-      var widget = null;
       var icon = null;
       var appearance = null;
 
@@ -81,7 +80,6 @@ qx.Class.define("qx.theme.manager.Meta",
         color = value.meta.color || null;
         decoration = value.meta.decoration || null;
         font = value.meta.font || null;
-        widget = value.meta.widget || null;
         icon = value.meta.icon || null;
         appearance = value.meta.appearance || null;
       }
@@ -94,13 +92,11 @@ qx.Class.define("qx.theme.manager.Meta",
       var decorationMgr = qx.theme.manager.Decoration.getInstance();
       var fontMgr = qx.theme.manager.Font.getInstance();
       var iconMgr = qx.theme.manager.Icon.getInstance();
-      var widgetMgr = qx.theme.manager.Widget.getInstance();
       var appearanceMgr = qx.theme.manager.Appearance.getInstance();
 
       colorMgr.setTheme(color);
       decorationMgr.setTheme(decoration);
       fontMgr.setTheme(font);
-      widgetMgr.setWidgetTheme(widget);
       iconMgr.setTheme(icon);
       appearanceMgr.setAppearanceTheme(appearance);
 
@@ -177,17 +173,6 @@ qx.Class.define("qx.theme.manager.Meta",
         }
 
         qx.theme.manager.Font.getInstance().setTheme(obj);
-      }
-
-      theme = setting.get("qx.widgetTheme");
-      if (theme)
-      {
-        obj = qx.Theme.getByName(theme);
-        if (!obj) {
-          throw new Error("The widget theme to use is not available: " + theme);
-        }
-
-        qx.theme.manager.Widget.getInstance().setWidgetTheme(obj);
       }
 
       theme = setting.get("qx.iconTheme");
@@ -282,17 +267,6 @@ qx.Class.define("qx.theme.manager.Meta",
 
 
     /**
-     * Returns a list of all registered widget themes
-     *
-     * @type static
-     * @return {Theme[]} list of widget themes
-     */
-    getWidgetThemes : function() {
-      return this.__queryThemes("widgets");
-    },
-
-
-    /**
      * Returns a list of all registered icon themes
      *
      * @type static
@@ -329,7 +303,6 @@ qx.Class.define("qx.theme.manager.Meta",
     "qx.colorTheme"      : null,
     "qx.decorationTheme" : null,
     "qx.fontTheme"       : null,
-    "qx.widgetTheme"     : null,
     "qx.appearanceTheme" : null,
     "qx.iconTheme"       : null
   }
