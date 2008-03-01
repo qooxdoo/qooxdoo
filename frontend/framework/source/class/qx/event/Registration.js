@@ -182,7 +182,7 @@ qx.Bootstrap.define("qx.event.Registration",
         clazz = qx.event.type.Event;
       }
       
-      var obj = qx.event.Pool.getInstance().getEventInstance(clazz);
+      var obj = qx.event.Pool.getInstance().getObject(clazz);
 
       // Initialize with given arguments
       args ? obj.init.apply(obj, args) : obj.init();

@@ -27,21 +27,6 @@ qx.Class.define("qx.io.remote.Response",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(eventType)
-  {
-    this.base(arguments);
-    this.setType(eventType);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -56,25 +41,25 @@ qx.Class.define("qx.io.remote.Response",
 
     state :
     {
-      check : "Integer",
+      check    : "Integer",
       nullable : true
     },
-
 
     /** Status code of the response. */
     statusCode :
     {
-      check : "Integer",
+      check    : "Integer",
       nullable : true
     },
 
-    content : {
-      nullable : true
+    content : 
+    { 
+      nullable : true 
     },
 
     responseHeaders :
     {
-      check : "Object",
+      check    : "Object",
       nullable : true
     }
   },
@@ -125,16 +110,6 @@ qx.Class.define("qx.io.remote.Response",
       }
 
       return null;
-    },
-
-
-    /**
-     * @deprecated This method is no longer needed since the event object is now an
-     *     instance of the Response class.
-     */
-     getData : function()
-     {
-       return this;
-     }
+    }
   }
 });
