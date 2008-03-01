@@ -30,7 +30,6 @@ qx.Theme.define("qx.theme.Classic",
     color : qx.theme.classic.Color,
     decoration : qx.theme.classic.Decoration,
     font : qx.theme.classic.Font,
-    widget : qx.theme.classic.Widget,
     appearance : qx.theme.classic.Appearance,
     icon : qx.theme.icon.Tango
   }
