@@ -69,7 +69,7 @@ qx.Class.define("qx.html.Font",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.legacy.ui.core.Font} the created instance
+     * @return {qx.html.Font} the created instance
      */
     fromString : function(str)
     {
@@ -120,7 +120,7 @@ qx.Class.define("qx.html.Font",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.legacy.ui.core.Font} the created instance
+     * @return {qx.html.Font} the created instance
      */
     fromConfig : function(config)
     {
@@ -225,18 +225,20 @@ qx.Class.define("qx.html.Font",
     _applyFamily : function(value, old)
     {
       var family = "";
-      for (var i=0, l=value.length; i<l; i++) {
+      
+      for (var i=0, l=value.length; i<l; i++) 
+      {
         if (value[i].indexOf(" ") > 0) {
           family += '"' + value[i] + '"';
         } else {
-          // in FireFox 2 and WebKit fonts like 'serif' or 'sans-serif' must
-          // not be quoted!
           family += value[i];
         }
-        if (i != l-1) {
+        
+        if (i !== l-1) {
           family += ",";
         }
       }
+      
       this.__family = family;
     },
 

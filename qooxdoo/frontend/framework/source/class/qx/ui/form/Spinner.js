@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_form)
-
-************************************************************************ */
-
 /**
  * A *spinner* is a control that allows you to adjust a numerical value,
  * typically within an allowed range. An obvious example would be to specify the
@@ -46,7 +40,7 @@
  * A brief, but non-trivial example:
  *
  * <pre>
- * var s = new qx.legacy.ui.form.Spinner;
+ * var s = new qx.ui.form.Spinner;
  * s.set({
  *   max: 3000,
  *   min: -3000
@@ -63,12 +57,12 @@
  *
  * @appearance spinner
  *
- * @appearance spinner-field {qx.legacy.ui.form.TextField}
+ * @appearance spinner-field {qx.ui.form.TextField}
  *
- * @appearance spinner-button-up {qx.legacy.ui.basic.Image}
+ * @appearance spinner-button-up {qx.ui.basic.Image}
  * @state pressed {spinner-button-up}
  *
- * @appearance spinner-button-down {qx.legacy.ui.basic.Image}
+ * @appearance spinner-button-down {qx.ui.basic.Image}
  * @state pressed {spinner-button-down}
  */
 qx.Class.define("qx.ui.form.Spinner",
@@ -620,7 +614,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * invoking the increment management (resets increments, setup and start timer etc.).
      *
      * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
+     * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -687,7 +681,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * selects the text field.
      *
      * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} mouseWheel event
+     * @param e {qx.event.type.MouseEvent} mouseWheel event
      * @return {void}
      */
     _onmousewheel : function(e)
@@ -787,7 +781,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Calls the method of the "checkValueFunction" property
      *
      * @type member
-     * @param e {qx.legacy.event.type.FocusEvent} blur event
+     * @param e {qx.event.type.FocusEvent} blur event
      * @return {void}
      */
     _onblur : function(e) {
