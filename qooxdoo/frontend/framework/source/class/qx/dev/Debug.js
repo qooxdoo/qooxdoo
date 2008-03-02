@@ -141,7 +141,7 @@ qx.Class.define("qx.dev.Debug",
         "============================================================\n";
 
       // We've compiled the complete message.  Give 'em what they came for!
-      qx.log.Logger.debug(message);
+      qx.log.Logger.debug(this, message);
     },
 
 

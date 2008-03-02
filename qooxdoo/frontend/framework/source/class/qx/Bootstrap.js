@@ -38,7 +38,7 @@ qx =
   Bootstrap :
   {
     genericToString : function() {
-      return "[Bootstrap " + this.classname + "]";
+      return "[Class " + this.classname + "]";
     },
 
     createNamespace : function(name, object)

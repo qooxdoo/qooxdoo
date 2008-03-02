@@ -24,20 +24,49 @@
 
 ************************************************************************ */
 
+/**
+ * Feature-rich console appender for the qooxdoo logging system.
+ *
+ * Creates a small inline element which is placed in the top-right corner
+ * of the window. Prints all messages with a nice color highlighting.
+ * 
+ * * Allows user command inputs.
+ * * Command history enabled by default (Keyboard up/down arrows).
+ * * Lazy creation on first open.
+ * * Clearing the console using a button.
+ * * Display of offset (time after loading) of each message
+ * * Supports keyboard shortscuts F7 or Ctrl+Q to toggle the visibility
+ */
 qx.Bootstrap.define("qx.log.appender.Console",
 {
   statics :
   {
+    /*
+    ---------------------------------------------------------------------------
+      INITIALIZATION AND SHUTDOWN
+    ---------------------------------------------------------------------------
+    */
+        
+    /**
+     * Initializes the console, building HTML and pushing last
+     * log messages to the output window.
+     *
+     * @type static
+     * @return {void}
+     */
     init : function()
     {
       // Build style sheet content
       var style =
       [
-        '.qxconsole{z-index:10000;width:500px;height:250px;top:4px;right:4px;position:absolute;border:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
+        '.qxconsole{z-index:10000;width:500px;height:250px;top:0px;right:0px;position:absolute;border-left:1px solid black;color:black;border-bottom:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
         '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
         '.qxconsole .control a{text-decoration:none;color:black;}',
         '.qxconsole .messages{background:white;height:100%;width:100%;overflow-y:scroll;}',
         '.qxconsole .messages div{padding:0px 4px;}',
+        '.qxconsole .messages .usercommand{color:blue}',
+        '.qxconsole .messages .userresult{background:white}',
+        '.qxconsole .messages .usererror{background:#FFE2D5}',
         '.qxconsole .messages .level-debug{background:white}',
         '.qxconsole .messages .level-info{background:#DEEDFA}',
         '.qxconsole .messages .level-warn{background:#FFF7D5}',
@@ -63,7 +92,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
       var markup =
       [
         '<div class="qxconsole">',
-        '<div class="control"><a href="javascript:qx.log.Console.clear()">Clear</a> | <a href="javascript:qx.log.Console.toggle()">Hide</a></div>',
+        '<div class="control"><a href="javascript:qx.log.appender.Console.clear()">Clear</a> | <a href="javascript:qx.log.appender.Console.toggle()">Hide</a></div>',
         '<div class="messages">',
         '</div>',
         '<div class="command">',
@@ -86,21 +115,57 @@ qx.Bootstrap.define("qx.log.appender.Console",
       // Correct height of messages frame
       this.__onResize();
 
-      // Register to keyboard events
-      this.__initEvents();
-
-      // Hide initially
-      this.toggle();
-
       // Finally register to log engine
       qx.log.Logger.register(this);
+      
+      // Register to object manager
+      qx.core.ObjectRegistry.register(this);
     },
-
+    
+    
+    /**
+     * Used by the object registry to dispose this instance e.g. remove listeners etc.
+     *
+     * @type static
+     * @return {void}
+     */
     dispose : function()
     {
+      qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);      
       qx.log.Logger.unregister(this);
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INSERT & CLEAR
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Clears the current console output.
+     *
+     * @type static
+     * @return {void}
+     */
+    clear : function()
+    {
+      // Remove all messages
+      this.__log.innerHTML = "";
+    },    
+
+
+    /**
+     * Processes a single log entry
+     *
+     * @type static
+     * @signature function(entry)
+     * @param entry {Map} The entry to process
+     * @return {void}
+     */
     process : function(entry)
     {
       // Append new content
@@ -110,89 +175,38 @@ qx.Bootstrap.define("qx.log.appender.Console",
       this.__log.scrollTop = this.__log.scrollHeight;
     },
 
-    clear : function()
-    {
-      // Remove all messages
-      this.__log.innerHTML = "";
-    },
 
-    __visible : true,
-
-    toggle : function()
-    {
-      if (this.__main.style.display == "none")
-      {
-        this.__main.style.display = "block";
-        this.__log.scrollTop = this.__log.scrollHeight;
-      }
-      else
-      {
-        this.__main.style.display = "none";
-      }
-    },
-
-    __history : [],
-
-    execute : function()
-    {
-      var value = this.__cmd.value;
-      if (value == "") {
-        return;
-      }
-
-      this.__history.push(value);
-      qx.log.Logger.debug(">>> " + value)
-
-      var ret = window.eval(value);
-      if (ret !== undefined) {
-        qx.log.Logger.debug(ret);
-      }
-    },
-
-    __onResize : function()
-    {
-      this.__log.style.height = (this.__main.offsetHeight - this.__main.firstChild.offsetHeight - this.__main.lastChild.offsetHeight - 2) + "px";
-    },
-
-    __onKeyPress : function(e)
-    {
-      if (e.getKeyIdentifier() == "Q" && e.isCtrlPressed())
-      {
-        this.toggle();
-        e.preventDefault();
-      }
-
-      if (e.getKeyIdentifier() == "F7")
-      {
-        this.toggle();
-        e.preventDefault();
-      }
-
-      if (e.getKeyIdentifier() == "Enter" && this.__cmd.value != "")
-      {
-        this.execute();
-        this.__cmd.value = "";
-      }
-    },
-
-    __initEvents : function()
-    {
-      qx.event.Registration.addListener(document.documentElement, "keydown", this.__onKeyPress, this);
-
-    },
-
-    __toHtml : function(result)
+    /**
+     * Converts a single log entry to HTML
+     *
+     * @type static
+     * @signature function(entry)
+     * @param entry {Map} The entry to process
+     * @return {void}
+     */
+    __toHtml : function(entry)
     {
       var output = [];
-      var entry, msg, sub, list;
+      var item, msg, sub, list;
+      
+      output.push("<span class='offset'>", this.__formatOffset(entry.offset), "</span> ");
 
-      output.push("<span class='offset'>" + this.__formatOffset(result.offset) + "</span> ");
+      if (entry.object) 
+      {
+        var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
+        if (obj) {
+          output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "</span>: ");
+        }
+      }
+      else if (entry.clazz) {
+        output.push("<span class='object'>" + entry.clazz.classname, "</span>: ");
+      }      
 
-      var items = result.items;
+      var items = entry.items;
       for (var i=0, il=items.length; i<il; i++)
       {
-        entry = items[i];
-        msg = entry.text;
+        item = items[i];
+        msg = item.text;
 
         if (msg instanceof Array)
         {
@@ -203,9 +217,9 @@ qx.Bootstrap.define("qx.log.appender.Console",
             list.push("<span class='type-" + sub.type + "'>" + sub.text + "</span>");
           }
 
-          output.push("<span class='type-" + entry.type + "'>");
+          output.push("<span class='type-" + item.type + "'>");
 
-          if (entry.type === "map") {
+          if (item.type === "map") {
             output.push("{", list.join(", "), "}");
           } else {
             output.push("[", list.join(", "), "]");
@@ -215,18 +229,26 @@ qx.Bootstrap.define("qx.log.appender.Console",
         }
         else
         {
-          output.push("<span class='type-" + entry.type + "'>" + msg + "</span> ");
+          output.push("<span class='type-" + item.type + "'>" + msg + "</span> ");
         }
       }
 
       var wrapper = document.createElement("DIV");
       wrapper.innerHTML = output.join("");
-      wrapper.className = "level-" + result.level;
+      wrapper.className = "level-" + entry.level;
 
       return wrapper;
     },
 
 
+    /**
+     * Formats a numeric time offset to 8 characters.
+     *
+     * @type static
+     * @param offset {Integer} Current offset value
+     * @param length {Integer?8} Refine the length
+     * @return {String} Padded string
+     */
     __formatOffset : function(offset, length)
     {
       var str = offset.toString();
@@ -238,12 +260,164 @@ qx.Bootstrap.define("qx.log.appender.Console",
       }
 
       return pad+str;
+    },
+    
+  
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY TOGGLING
+    ---------------------------------------------------------------------------
+    */    
+
+    /** {Boolean} Flag to store last visibility status */
+    __visible : true,
+
+
+    /**
+     * Toggles the visibility of the console between visible and hidden.
+     *
+     * @type static
+     * @return {void}
+     */
+    toggle : function()
+    {
+      if (!this.__main)
+      {
+        this.init();
+      }
+      else if (this.__main.style.display == "none")
+      {
+        this.__main.style.display = "block";
+        this.__log.scrollTop = this.__log.scrollHeight;
+      }
+      else
+      {
+        this.__main.style.display = "none";
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMMAND LINE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Array} List of all previous commands. */
+    __history : [],
+
+
+    /** 
+     * Executes the currently given command
+     *
+     * @type static
+     * @return {void}
+     */
+    execute : function()
+    {
+      var value = this.__cmd.value;
+      if (value == "") {
+        return;
+      }
+      
+      if (value == "clear") {
+        return this.clear();
+      }
+
+      var command = document.createElement("div");
+      command.innerHTML = ">>> " + value;
+      command.className = "usercommand";
+
+      this.__history.push(value);
+      this.__lastCommand = this.__history.length;
+      this.__log.appendChild(command);
+      
+      try {
+        var ret = window.eval(value);
+      } 
+      catch (ex) {
+        qx.log.Logger.error(null, ex);
+      }
+      
+      if (ret !== undefined) {
+        qx.log.Logger.debug(null, ret);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Event handler for resize listener
+     * 
+     * @type static
+     * @param e {Event} Event object
+     * @return {void}
+     */
+    __onResize : function(e)
+    {
+      this.__log.style.height = (this.__main.offsetHeight - this.__main.firstChild.offsetHeight - this.__main.lastChild.offsetHeight - 2) + "px";
+    },
+
+
+    /**
+     * Event handler for keypress listener
+     * 
+     * @type static
+     * @param e {Event} Event object
+     * @return {void}
+     */
+    __onKeyPress : function(e)
+    {
+      var iden = e.getKeyIdentifier();
+
+      // Console toggling
+      if ((iden == "F7") || (iden == "D" && e.isCtrlPressed()))
+      {
+        this.toggle();
+        e.preventDefault();
+      }
+
+      // Command execution
+      if (iden == "Enter" && this.__cmd.value != "")
+      {
+        this.execute();
+        this.__cmd.value = "";
+      }
+      
+      // History managment
+      if (iden == "Up" || iden == "Down") 
+      {
+        this.__lastCommand += iden == "Up" ? -1 : 1;
+        this.__lastCommand = Math.min(Math.max(0, this.__lastCommand), this.__history.length);
+        
+        var entry = this.__history[this.__lastCommand];
+        this.__cmd.value = entry || "";
+      }
     }
   },
 
-  defer : function(statics)
-  {
-    qx.event.Registration.addListener(window, "load", statics.init, statics);
-    qx.event.Registration.addListener(window, "unload", statics.dispose, statics);
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+  
+  defer : function(statics) {
+    qx.event.Registration.addListener(document.documentElement, "keydown", statics.__onKeyPress, statics);
   }
 });
