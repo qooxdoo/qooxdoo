@@ -144,7 +144,7 @@ qx.Class.define("qx.dev.StackTrace",
         var knownFunction = {};
         while (fcn)
         {
-          var fcnName = this.getFunctionName(fcn);
+          var fcnName = qx.lang.Function.getName(fcn);
           trace.push(fcnName);
 
           try {
@@ -243,83 +243,7 @@ qx.Class.define("qx.dev.StackTrace",
       "default": function() {
         return [];
       }
-
     }),
-
-
-    /**
-     * Try to get a sensible textual description of a function object.
-     * This may be the class/mixin and method name of a function
-     * or at least the signature of the function.
-     *
-     * @param fcn {Function} function the get the name for.
-     * @return {String} Name of the function.
-     */
-    getFunctionName : function(fcn)
-    {
-      if (fcn.$$original) {
-        return fcn.classname + ":constructor wrapper";
-      }
-
-      if (fcn.wrapper) {
-        return fcn.wrapper.classname + ":constructor";
-      }
-
-      if (fcn.classname) {
-        return fcn.classname + ":constructor";
-      }
-
-      if (fcn.mixin)
-      {
-        //members
-        for(var key in fcn.mixin.$$members)
-        {
-          if (fcn.mixin.$$members[key] == fcn) {
-            return fcn.mixin.name + ":" + key;
-          }
-        }
-        // statics
-        for(var key in fcn.mixin)
-        {
-          if (fcn.mixin[key] == fcn) {
-            return fcn.mixin.name + ":" + key;
-          }
-        }
-      }
-
-      if (fcn.self)
-      {
-        var clazz = fcn.self.constructor;
-        if (clazz)
-        {
-          // members
-          for(var key in clazz.prototype)
-          {
-            if (clazz.prototype[key] == fcn) {
-              return clazz.classname + ":" + key;
-            }
-          }
-          // statics
-          for(var key in clazz)
-          {
-            if (clazz[key] == fcn) {
-              return clazz.classname + ":" + key;
-            }
-          }
-        }
-      }
-
-      var fcnReResult = fcn.toString().match(/(function\s*\w*\(.*?\))/);
-      if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
-        return fcnReResult[1];
-      }
-      var fcnReResult = fcn.toString().match(/(function\s*\(.*?\))/);
-      if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
-        return "anonymous: " + fcnReResult[1];
-      }
-
-      return 'anonymous';
-    },
 
 
     /**
