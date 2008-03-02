@@ -20,22 +20,12 @@ window.qxloader =
   // Simple log wrapper
   _log : function(msg, type)
   {
-    if (window.qxvariants && qxvariants["qx.debug"] == "off") {
-      return;
-    }
-
-    if (window.qx && qx.core && qx.core.Variant && qx.core.Variant.get("qx.debug") == "off") {
-      return;
-    }
-
     if (!type) {
       type = "debug";
     }
 
     if (window.qx && qx.core && qx.log.Logger) {
-      qx.log.Logger[type](msg);
-    } else if (window.console && console[type]) {
-      console[type](msg);
+      qx.log.Logger[type](null, msg);
     }
   },
 
