@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.bom.Event)
+
+************************************************************************ */
+
 /**
  * Wrapper for browser DOM event handling for each browser window/frame.
  */
@@ -462,6 +468,10 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     dispatchEvent : function(target, event)
     {
+      if (!event) {
+        return;
+      }
+      
       // Preparations
       var type = event.getType();
       
