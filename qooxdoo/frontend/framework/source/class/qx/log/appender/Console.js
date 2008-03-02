@@ -198,7 +198,8 @@ qx.Bootstrap.define("qx.log.appender.Console",
           output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "</span>: ");
         }
       }
-      else if (entry.clazz) {
+      else if (entry.clazz) 
+      {
         output.push("<span class='object'>" + entry.clazz.classname, "</span>: ");
       }      
 
@@ -214,7 +215,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
           for (var j=0, jl=msg.length; j<jl; j++)
           {
             sub = msg[j];
-            list.push("<span class='type-" + sub.type + "'>" + sub.text + "</span>");
+            list.push("<span class='type-" + sub.type + "'>" + this.__escapeHTML(sub.text) + "</span>");
           }
 
           output.push("<span class='type-" + item.type + "'>");
@@ -229,7 +230,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
         }
         else
         {
-          output.push("<span class='type-" + item.type + "'>" + msg + "</span> ");
+          output.push("<span class='type-" + item.type + "'>" + this.__escapeHTML(msg) + "</span> ");
         }
       }
 
@@ -262,7 +263,40 @@ qx.Bootstrap.define("qx.log.appender.Console",
       return pad+str;
     },
     
-  
+    
+    /**
+     * Escapes the HTML in the given value
+     *
+     * @type static
+     * @param value {String} value to escape
+     * @return {String} escaped value
+     */
+    __escapeHTML : function(value) {
+      return String(value).replace(/[<>&"']/g, this.__escapeHTMLReplace);
+    }, 
+    
+    
+    /**
+     * Internal replacement helper for HTML escape.
+     *
+     * @type static
+     * @return {String} Replaced item
+     */
+    __escapeHTMLReplace : function(ch) 
+    {
+      var map = 
+      {
+        "<" : "&lt;",
+        ">" : "&gt;",
+        "&" : "&amp;",
+        "'" : "&#39;",
+        '"' : "&quot;"
+      };
+          
+      return map[ch] || "?";
+    },
+    
+    
     
     
     
@@ -330,7 +364,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
       }
 
       var command = document.createElement("div");
-      command.innerHTML = ">>> " + value;
+      command.innerHTML = this.__escapeHTML(">>> " + value);
       command.className = "usercommand";
 
       this.__history.push(value);
@@ -341,11 +375,11 @@ qx.Bootstrap.define("qx.log.appender.Console",
         var ret = window.eval(value);
       } 
       catch (ex) {
-        qx.log.Logger.error(null, ex);
+        qx.log.Logger.error(ex);
       }
       
       if (ret !== undefined) {
-        qx.log.Logger.debug(null, ret);
+        qx.log.Logger.debug(ret);
       }
     },
 
@@ -404,6 +438,12 @@ qx.Bootstrap.define("qx.log.appender.Console",
         
         var entry = this.__history[this.__lastCommand];
         this.__cmd.value = entry || "";
+        
+        // TODO
+        // Would be great to select all text after popping items from history in.
+        // This seems not to work in Webkit and Gecko
+        // Waiting for low level selection API :)
+        this.__cmd.select();
       }
     }
   },

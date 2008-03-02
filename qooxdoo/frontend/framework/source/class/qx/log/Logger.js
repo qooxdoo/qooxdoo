@@ -235,9 +235,10 @@ qx.Bootstrap.define("qx.log.Logger",
       }
 
       // Serialize and cache
-      var object = args[0];
+      var object = args.length < 2 ? null : args[0];
+      var start = object ? 1 : 0;
       var items = [];
-      for (var i=1, l=args.length; i<l; i++) {
+      for (var i=start, l=args.length; i<l; i++) {
         items.push(this.__serialize(args[i], true));
       }
 

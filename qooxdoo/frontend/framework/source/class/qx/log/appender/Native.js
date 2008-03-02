@@ -74,6 +74,8 @@ qx.Bootstrap.define("qx.log.appender.Native",
     {
       var output = [];
       
+      output.push(entry.offset + "ms");
+      
       if (entry.object) 
       {
         var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
@@ -86,8 +88,29 @@ qx.Bootstrap.define("qx.log.appender.Native",
       }      
 
       var items = entry.items;
-      for (var i=0, l=items.length; i<l; i++) {
-        output.push(items[i].text);
+      var item, msg;
+      for (var i=0, il=items.length; i<il; i++) 
+      {
+        item = items[i];
+        msg = item.text;
+        
+        if (msg instanceof Array)
+        {
+          var list = [];
+          for (var j=0, jl=msg.length; j<jl; j++) {
+            list.push(msg[j].text);
+          }           
+
+          if (item.type === "map") {
+            output.push("{", list.join(", "), "}");
+          } else {
+            output.push("[", list.join(", "), "]");
+          }          
+        }
+        else
+        {        
+          output.push(msg);
+        }
       }
 
       return output;
