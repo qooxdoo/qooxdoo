@@ -114,6 +114,10 @@ qx.Class.define("qx.util.ObjectPool",
      */
     getObject : function(clazz)
     {
+      if (this.$$disposed) {
+        return;
+      }
+      
       var obj = null;
       var pool = this.__pool[clazz.classname];
 

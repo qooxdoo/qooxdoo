@@ -183,6 +183,9 @@ qx.Bootstrap.define("qx.event.Registration",
       }
       
       var obj = qx.event.Pool.getInstance().getObject(clazz);
+      if (!obj) {
+        return;
+      }
 
       // Initialize with given arguments
       args ? obj.init.apply(obj, args) : obj.init();
