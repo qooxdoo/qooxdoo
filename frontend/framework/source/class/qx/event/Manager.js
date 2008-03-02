@@ -300,7 +300,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn(this, "There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
@@ -366,7 +366,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       if (!found)
       {
-        // qx.log.Logger.warn("Cannot remove event listener: " + listener + " :: " + self);
+        // qx.log.Logger.warn(this, "Cannot remove event listener: " + listener + " :: " + self);
         return;
       }
 
@@ -433,7 +433,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn(this, "There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
@@ -467,7 +467,7 @@ qx.Bootstrap.define("qx.event.Manager",
       
       if (!event.getBubbles() && !this.hasListeners(target, type)) 
       {
-        // qx.log.Logger.warn("Useless dispatch found: " + type);
+        // qx.log.Logger.warn(this, "Useless dispatch found: " + type);
         qx.event.Pool.getInstance().poolObject(event);
         return;
       }
@@ -498,7 +498,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       if (!dispatched)
       {
-        qx.log.Logger.error("No dispatcher can handle event of type " + type + " on " + target);
+        qx.log.Logger.error(this, "No dispatcher can handle event of type " + type + " on " + target);
         return;
       }
 

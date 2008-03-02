@@ -58,9 +58,6 @@
     }
   },
   
-  
-  
-
   "compile-ajax" :
   {
     "extend" : ["common"],
@@ -77,6 +74,26 @@
     "compile" :
     {
       "file" : "compile-ajax-{qx.client}.js",
+      "optimize" : [ "variables", "basecalls", "privates" ]
+    }
+  },  
+  
+  "compile-log" :
+  {
+    "extend" : ["common"],
+
+    "include" : ["qx.log.*"],
+
+    "variants" :
+    {
+      "qx.debug" : ["off"],
+      "qx.aspects" : ["off"],
+      "qx.client" : ["gecko","mshtml"]
+    },
+
+    "compile" :
+    {
+      "file" : "compile-log-{qx.client}.js",
       "optimize" : [ "variables", "basecalls", "privates" ]
     }
   },  

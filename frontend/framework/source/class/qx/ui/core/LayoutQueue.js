@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.core.LayoutQueue",
       // do flush while the layouts change during flush
       do
       {
-        // qx.log.Logger.debug("Flush layout queue");
+        // qx.log.Logger.debug(this, "Flush layout queue");
         delete this.__modifiedDuringFlush;
 
         // get sorted widgets to (re-)layout

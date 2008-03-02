@@ -65,7 +65,7 @@ qx.Class.define("testrunner.runner.Application",
       qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
 
       // Include CSS file
-      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("testrunner/css/testrunner.css"));
+      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("testrunner/css/testrunner.css"));
 
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;

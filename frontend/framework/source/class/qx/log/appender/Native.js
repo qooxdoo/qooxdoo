@@ -17,33 +17,75 @@
 
 ************************************************************************ */
 
+/**
+ * Processes the incoming log entry and displays it to the native
+ * logging capabilities of this client.
+ *
+ * * In Firefox using an installed FireBug.
+ * * In Opera using the <code>postError</code> function.
+ * * Internet Explorer and Safari is not yet supported.
+ */
 qx.Bootstrap.define("qx.log.appender.Native",
 {
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+    
   statics :
   {
+    /**
+     * Processes a single log entry
+     *
+     * @type static
+     * @signature function(entry)
+     * @param entry {Map} The entry to process
+     * @return {void}
+     */
     process : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(entry)
       {
         if (window.console && console.firebug) {
-          console[entry.level].apply(console, this.__toArguments(entry.items));
+          console[entry.level].apply(console, this.__toArguments(entry));
         }
       },
 
       "opera" : function(entry)
       {
         if (window.opera && opera.postError) {
-          opera.postError.apply(opera, this.__toArguments(entry.items));
+          opera.postError.apply(opera, this.__toArguments(entry));
         }
       },
 
       "default" : function(entry) {}
     }),
+    
 
-    __toArguments : function(items)
+    /**
+     * Internal helper to convert an log entry to a arguments list.
+     *
+     * @type static
+     * @param entry {Map} The entry to process
+     * @return {Array} Argument list ready message array.
+     */
+    __toArguments : function(entry)
     {
       var output = [];
+      
+      if (entry.object) 
+      {
+        var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
+        if (obj) {
+          output.push(obj.classname + "[" + obj.$$hash + "]:");
+        }
+      }
+      else if (entry.clazz) {
+        output.push(entry.clazz.classname + ":");
+      }      
 
+      var items = entry.items;
       for (var i=0, l=items.length; i<l; i++) {
         output.push(items[i].text);
       }
@@ -52,6 +94,15 @@ qx.Bootstrap.define("qx.log.appender.Native",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+  
   defer : function(statics) {
     qx.log.Logger.register(statics);
   }

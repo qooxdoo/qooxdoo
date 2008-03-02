@@ -328,9 +328,7 @@ qx.Class.define("qx.Interface",
       {
         function wrappedFunction()
         {
-          if (!preCondition.apply(this, arguments))
-          {
-            qx.log.Logger.trace();
+          if (!preCondition.apply(this, arguments)) {
             throw new Error('Pre condition of method "' + functionName + '" defined by "' + iface.name + '" failed.');
           }
 
@@ -338,7 +336,6 @@ qx.Class.define("qx.Interface",
         }
 
         origFunction.wrapper = wrappedFunction;
-
         return wrappedFunction;
       },
 
