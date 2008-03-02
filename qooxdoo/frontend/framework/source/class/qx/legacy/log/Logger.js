@@ -72,7 +72,7 @@ qx.Class.define("qx.legacy.log.Logger",
       {
         var logger = qx.legacy.log.Logger.getClassLogger(fcn.self||this);
 
-        var functionName = qx.dev.StackTrace.getFunctionName(fcn);
+        var functionName = qx.lang.Function.getName(fcn);
         var className = fcn.self ? fcn.self.classname : "unknown";
         logger.warn(
           "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
