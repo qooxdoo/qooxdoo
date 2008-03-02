@@ -24,34 +24,58 @@
 
 ************************************************************************ */
 
+/**
+ * Main qooxdoo logging class.
+ *
+ * Used as central logging feature by qx.core.Object.
+ *
+ * Extremely modular and lightweight to support logging at bootstrap and
+ * at shutdown as well.
+ *
+ * * Supports dynamic appenders to push the output to the user.
+ * * Supports buffering of the last 50 messages (configurable)
+ * * Support different debug level (debug, info, error and warn)
+ * * Simple data serialization for incoming messages
+ */
 qx.Bootstrap.define("qx.log.Logger",
 {
   statics :
   {
-    // PUBLIC SETTINGS
-    treshold : 100,
+    /*
+    ---------------------------------------------------------------------------
+      CONFIGURATION
+    ---------------------------------------------------------------------------
+    */    
+    
+    treshold : 50,
     level : "debug",
 
-    // INTERNAL DATA
-    __buffer : [],
-    __appender : {},
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPENDER MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Map of all known appenders by their ID */
+    __appender : {},    
+    
+    
+    /** {Integer} Last free appender ID */
     __id : 0,
-
-    __start : new Date,
-
-    __levels :
-    {
-      debug : 0,
-      info : 1,
-      warn : 2,
-      error : 3
-    },
-
-    __categories : {},
-
-
-
-
+    
+    
+    /**
+     * Registers the given appender and inserts the last
+     * cached messages.
+     *
+     * @type static
+     * @param appender {Class} A static appender class supporting at 
+     *   least <code>process</code> to handle incoming messages.
+     * @return {void}
+     */    
     register : function(appender)
     {
       if (appender.$$id) {
@@ -69,7 +93,15 @@ qx.Bootstrap.define("qx.log.Logger",
         appender.process(buffer[i]);
       }
     },
+    
 
+    /**
+     * Unregisters the given appender
+     *
+     * @type static
+     * @param appender {Class} A static appender class
+     * @return {void}
+     */
     unregister : function(appender)
     {
       var id = appender.$$id;
@@ -85,45 +117,116 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
 
-    enable : function(category) {
-      this.__categories[category] = true;
+    /*
+    ---------------------------------------------------------------------------
+      USER METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Sending a message at debug level to the logger.
+     *
+     * @type static
+     * @param object {Object} Contextual object (could be an instance or a static class)
+     * @param message {var} Multiple arguments are supported. Each could be any
+     *   JavaScript variable type. All data gets serialized directly and does not store
+     *   any references to objects anymore.
+     * @return {void}
+     */
+    debug : function(object, message) {
+      this.__log("debug", arguments);
     },
 
-    disable : function(category) {
-      delete this.__categories[category];
+
+    /**
+     * Sending a message at info level to the logger.
+     *
+     * @type static
+     * @param object {Object} Contextual object (could be an instance or a static class)
+     * @param message {var} Multiple arguments are supported. Each could be any
+     *   JavaScript variable type. All data gets serialized directly and does not store
+     *   any references to objects anymore.
+     * @return {void}
+     */
+    info : function(object, message) {
+      this.__log("info", arguments);
     },
 
 
-
-
-    debug : function() {
-      this.__log("debug", arguments)
+    /**
+     * Sending a message at warning level to the logger.
+     *
+     * @type static
+     * @param object {Object} Contextual object (could be an instance or a static class)
+     * @param message {var} Multiple arguments are supported. Each could be any
+     *   JavaScript variable type. All data gets serialized directly and does not store
+     *   any references to objects anymore.
+     * @return {void}
+     */
+    warn : function(object, message) {
+      this.__log("warn", arguments);
     },
 
-    info : function() {
-      this.__log("info", arguments)
+
+    /**
+     * Sending a message at error level to the logger.
+     *
+     * @type static
+     * @param object {Object} Contextual object (could be an instance or a static class)
+     * @param message {var} Multiple arguments are supported. Each could be any
+     *   JavaScript variable type. All data gets serialized directly and does not store
+     *   any references to objects anymore.
+     * @return {void}
+     */
+    error : function(object, message) {
+      this.__log("error", arguments);
     },
 
-    warn : function() {
-      this.__log("warn", arguments)
-    },
 
-    error : function() {
-      this.__log("error", arguments)
-    },
-
+    /**
+     * Deletes the current buffer. Has no influence on the message handling of the
+     * connected appenders.
+     *
+     * @type static
+     * @return {void}
+     */
     clear : function() {
       this.buffer.length = 0;
     },
 
-    trace : function() {
-      // TODO
-    },
 
 
 
-
-    __log : function(level, data)
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL LOGGING IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+    
+    /** {Array} Message buffer of previously fired messages. */
+    __buffer : [],
+    
+    
+    /** {Map} Numeric translation of log levels */
+    __levels :
+    {
+      debug : 0,
+      info : 1,
+      warn : 2,
+      error : 3
+    },    
+    
+    
+    /** 
+     * Internal logging main routine.
+     *
+     * @type static
+     * @param level {String} One of debug, info, warn or error
+     * @param args {Array} List of other arguments where the first is 
+     *   interpretected as a context object.
+     * @return {void}
+     */
+    __log : function(level, args)
     {
       // Filter according to level
       var levels = this.__levels;
@@ -132,9 +235,10 @@ qx.Bootstrap.define("qx.log.Logger",
       }
 
       // Serialize and cache
+      var object = args[0];
       var items = [];
-      for (var i=0, l=data.length; i<l; i++) {
-        items.push(this.__serialize(data[i], true));
+      for (var i=1, l=args.length; i<l; i++) {
+        items.push(this.__serialize(args[i], true));
       }
 
       // Build entry
@@ -142,15 +246,27 @@ qx.Bootstrap.define("qx.log.Logger",
       var entry =
       {
         time : time,
-        offset : time-this.__start,
+        offset : time-qx.Bootstrap.LOADSTART,
         level: level,
         items: items
       };
 
+      // Add relation fields
+      if (object) 
+      {
+        if (object instanceof qx.core.Object) {
+          entry.object = object.$$hash;
+        } else if (object.$$type) {
+          entry.clazz = object;
+        }      
+      } 
+
       // Update buffer
       var buffer = this.__buffer;
       buffer.push(entry);
-      buffer.splice(this.treshold);
+      if (buffer.length>(this.treshold+10)) {
+        buffer.splice(this.treshold);
+      }
 
       // Send to appenders
       var appender = this.__appender;
@@ -164,7 +280,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * Detects the type of the given variable.
      *
      * @type static
-     * @param item {var} Incoming value
+     * @param value {var} Incoming value
      * @return {String} Type of the incoming value
      */
     __detect : function(value)
@@ -193,6 +309,8 @@ qx.Bootstrap.define("qx.log.Logger",
           return "instance";
         } else if (value instanceof Array) {
           return "array";
+        } else if (value instanceof Error) {
+          return "error";
         } else {
           return "map";
         }
@@ -214,6 +332,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * @param value {var} Incoming value
      * @param deep {Boolean?false} Whether arrays and maps should be
      *    inspected for their content.
+     * @return {Map} Contains the keys <code>type</code> and <code>text</code>.
      */
     __serialize : function(value, deep)
     {
@@ -265,6 +384,7 @@ qx.Bootstrap.define("qx.log.Logger",
 
         case "class":
         case "stringify":
+        case "error":
           text = value.toString();
           break;
 

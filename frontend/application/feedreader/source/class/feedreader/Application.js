@@ -110,7 +110,7 @@ qx.Class.define("feedreader.Application",
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
 
       // Include CSS file
-      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
+      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
 
       // Increase parallel requests
       qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);

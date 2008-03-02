@@ -75,6 +75,8 @@ qx.Class.define("apiviewer.Controller",
 
   members :
   {
+    // overridden
+    $$logCategory : "application",
 
     /**
      * Loads the API doc tree from a URL. The URL must point to a JSON encoded

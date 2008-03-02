@@ -51,7 +51,7 @@ qx.Class.define("qx.application.Abstract",
      */
     __ready : function()
     {
-      qx.log.Logger.debug("Loaded application in " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
+      qx.log.Logger.debug(this, "Loaded application in " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
 
       var app = qx.core.Setting.get("qx.application");
       var clazz = qx.Class.getByName(app);
@@ -63,7 +63,7 @@ qx.Class.define("qx.application.Abstract",
         this.__application = new clazz;
         this.__application.main();
 
-        qx.log.Logger.debug("Executed main() in " + (new Date - start) + "ms");
+        qx.log.Logger.debug(this, "Executed main() in " + (new Date - start) + "ms");
       }
     },
 
@@ -125,7 +125,7 @@ qx.Class.define("qx.application.Abstract",
 
   defer : function(statics)
   {
-    qx.event.Registration.addListener(window, "ready", statics.__ready, this);
-    qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, this);
+    qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
+    qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, statics);
   }
 });

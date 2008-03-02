@@ -115,12 +115,12 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
 
     /**
-     * Get a object instance by its hash code as returned by {@link toHashCode}.
+     * Get a object instance by its hash code as returned by {@link #toHashCode}.
      * If the object is already disposed or the hashCode is invalid,
      * <code>null</code> is returned.
      *
      * @param hash {Integer} The object's hash code.
-     * @return {qx.core.Object|null} The corresponding object or <code>null</code>.
+     * @return {qx.core.Object} The corresponding object or <code>null</code>.
      */
     fromHashCode : function(hash) {
       return this.__registry[hash] || null;
@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         }
         catch(ex)
         {
-          qx.log.Logger.error("Could not dispose object " + obj.toString() + ": " + ex);
+          qx.log.Logger.error(this, "Could not dispose object " + obj.toString() + ": " + ex);
 
           if (i !== 0) {
             continue;
@@ -174,7 +174,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         break;
       }
 
-      qx.log.Logger.debug("Disposed " + l + " objects");
+      qx.log.Logger.debug(this, "Disposed " + l + " objects");
 
       delete this.__registry;
     }

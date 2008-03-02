@@ -421,7 +421,7 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     createStyleElement : function(vCssText) {
-      return qx.legacy.html.StyleSheet.createElement(vCssText);
+      return qx.bom.Stylesheet.createElement(vCssText);
     },
 
 
@@ -435,7 +435,7 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     addCssRule : function(vSheet, vSelector, vStyle) {
-      return qx.legacy.html.StyleSheet.addRule(vSheet, vSelector, vStyle);
+      return qx.bom.Stylesheet.addRule(vSheet, vSelector, vStyle);
     },
 
 
@@ -448,7 +448,7 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     removeCssRule : function(vSheet, vSelector) {
-      return qx.legacy.html.StyleSheet.removeRule(vSheet, vSelector);
+      return qx.bom.Stylesheet.removeRule(vSheet, vSelector);
     },
 
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     removeAllCssRules : function(vSheet) {
-      return qx.legacy.html.StyleSheet.removeAllRules(vSheet);
+      return qx.bom.Stylesheet.removeAllRules(vSheet);
     },
 
 
@@ -650,7 +650,7 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
       var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
       var contentBoxCss = boxSizingAttr.join(":content-box;") + ":content-box;";
 
-      qx.legacy.html.StyleSheet.createElement(
+      qx.bom.Stylesheet.createElement(
         "html,body { margin:0;border:0;padding:0; } " +
         "html { border:0 none; } " +
         "*{" + borderBoxCss +"} " +
@@ -659,7 +659,7 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     }
 
     if (qx.core.Setting.get("qx.enableApplicationLayout")) {
-      qx.legacy.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
+      qx.bom.Stylesheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
     }
   },
 

@@ -374,7 +374,7 @@ qx.Class.define("qx.core.Object",
     /** {Class} Pointer to the regular logger class */
     __Logger : qx.log.Logger,
     
-
+    
     /**
      * Logs a debug message.
      *
@@ -427,16 +427,6 @@ qx.Class.define("qx.core.Object",
     },
 
 
-    /**
-     * Logs the current stack trace as a debug message.
-     *
-     * @type member
-     * @return {void}
-     */
-    trace : function() {
-      this.__Logger.trace();
-    },
-
 
 
 
@@ -479,7 +469,7 @@ qx.Class.define("qx.core.Object",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-          qx.log.Logger.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.log.Logger.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -531,7 +521,7 @@ qx.Class.define("qx.core.Object",
                 continue;
               }
 
-              qx.log.Logger.warn("Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+              qx.log.Logger.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
               delete this[key];
             }
           }

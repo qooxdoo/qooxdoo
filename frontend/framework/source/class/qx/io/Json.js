@@ -410,7 +410,7 @@ qx.Class.define("qx.io.Json",
 
       // Debugging support
       if (qx.core.Setting.get("qx.jsonDebugging")) {
-        qx.log.Logger.debug("JSON request: " + result);
+        qx.log.Logger.debug(this, "JSON request: " + result);
       }
 
       return result;
@@ -483,7 +483,7 @@ qx.Class.define("qx.io.Json",
       /* Convert the result text into a result primitive or object */
 
       if (qx.core.Setting.get("qx.jsonDebugging")) {
-        qx.log.Logger.debug("JSON response: " + text);
+        qx.log.Logger.debug(this, "JSON response: " + text);
       }
 
       var obj = (text && text.length > 0) ? eval('(' + text + ')') : null;

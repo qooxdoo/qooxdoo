@@ -37,7 +37,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
     var clazz = this.self(arguments);
     if (!clazz.stylesheet)
     {
-      clazz.stylesheet = qx.legacy.html.StyleSheet.createElement(
+      clazz.stylesheet = qx.bom.Stylesheet.createElement(
         ".qooxdoo-table-cell {" +
         "  position: absolute;" +
         "  top: 0px;" +
