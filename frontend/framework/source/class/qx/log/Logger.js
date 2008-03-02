@@ -375,7 +375,7 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "function":
-          text = qx.dev.StackTrace.getFunctionName(value) || type;
+          text = qx.lang.Function.getName(value) || type;
           break;
 
         case "instance":
