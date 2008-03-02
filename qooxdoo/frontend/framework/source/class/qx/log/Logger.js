@@ -47,8 +47,55 @@ qx.Bootstrap.define("qx.log.Logger",
     ---------------------------------------------------------------------------
     */    
     
-    treshold : 50,
-    level : "debug",
+    __treshold : 50,
+    __level : "debug",
+    
+    
+    /**
+     * Configures the log level minimum required for new messages.
+     *
+     * @type static
+     * @param value {String} One of debug, info, warn or error.
+     * @return {void}
+     */
+    setLevel : function(value) {
+      this.__level = value;
+    },
+    
+    
+    /**
+     * Returns the currently configured debug level.
+     *
+     * @type static
+     * @return {Integer} Debug level
+     */    
+    getLevel : function() {
+      return this.__level;
+    },
+    
+
+    /**
+     * Configures the number of messages to kept in buffer.
+     *
+     * @type static
+     * @param value {Integer} Any positive integer
+     * @return {void}
+     */
+    setTreshold : function(value) {
+      this.__treshold = value;
+    },
+    
+    
+    /**
+     * Returns the currently configured treshold.
+     *
+     * @type static
+     * @return {Integer} Treshold value
+     */
+    getTreshold : function() {
+      return this.__treshold;
+    },
+    
 
 
 
@@ -230,7 +277,7 @@ qx.Bootstrap.define("qx.log.Logger",
     {
       // Filter according to level
       var levels = this.__levels;
-      if (levels[level] < levels[this.level]) {
+      if (levels[level] < levels[this.__level]) {
         return;
       }
 
@@ -265,8 +312,8 @@ qx.Bootstrap.define("qx.log.Logger",
       // Update buffer
       var buffer = this.__buffer;
       buffer.push(entry);
-      if (buffer.length>(this.treshold+10)) {
-        buffer.splice(this.treshold);
+      if (buffer.length>(this.__treshold+10)) {
+        buffer.splice(this.__treshold);
       }
 
       // Send to appenders
