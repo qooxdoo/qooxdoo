@@ -14,13 +14,45 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-
+     
 ************************************************************************ */
-
-qx.Bootstrap.define("qx.io2.JsonpRequest",
+     
+qx.Class.define("qx.io2.HttpRequest",
 {
-  statics :
+  extend : qx.core.Object,
+  
+  construct : function()
   {
-    // TODO
-  }
+    this.base(arguments);
+    
+    this.__req = new qx.bom.Request;
+  },
+  
+  properties :
+  {
+    url : 
+    {
+      check : "String",
+      init : "#"
+    },
+    
+    username : 
+    {
+      check : "String",
+      nullable : true
+    },
+    
+    password :
+    {
+      check : "String",
+      nullable : true
+    }
+  },
+  
+  members : 
+  {
+    
+    
+    
+  } 
 });

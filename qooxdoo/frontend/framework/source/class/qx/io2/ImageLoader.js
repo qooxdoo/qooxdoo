@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define("qx.io2.JsonpRequest",
+qx.Bootstrap.define("qx.io2.ImageLoader",
 {
   statics :
   {
