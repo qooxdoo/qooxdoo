@@ -339,9 +339,10 @@ class DependencyLoader:
         content = filetool.read(filePath, fileEntry["encoding"])
 
         meta["loadtimeDeps"] = self._extractLoadtimeDeps(content, fileId)
-        meta["runtimeDeps"] = self._extractRuntimeDeps(content, fileId)
+        meta["runtimeDeps"]  = self._extractRuntimeDeps(content, fileId)
         meta["optionalDeps"] = self._extractOptionalDeps(content)
-        meta["ignoreDeps"] = self._extractIgnoreDeps(content)
+        meta["ignoreDeps"]   = self._extractIgnoreDeps(content)
+        meta["assetDeps"]    = self._extractAssetDeps(content)
 
         self._console.outdent()
 
@@ -370,7 +371,8 @@ class DependencyLoader:
         "require" : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
         "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
         "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M)
+        "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "asset" : re.compile("^#embed\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M)
     }
 
 
@@ -421,3 +423,13 @@ class DependencyLoader:
                 ignores.append(item)
 
         return ignores
+
+
+    def _extractAssetDeps(self, data):
+        deps = []
+        
+        for item in self.HEAD["asset"].findall(data):
+            if not item in deps:
+                deps.append(item)
+        
+        return deps
