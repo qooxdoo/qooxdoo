@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     interval :
     {
       check : "Integer",
-      init : 100
+      init : 30
     },
 
     /**
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     firstInterval :
     {
       check : "Integer",
-      init : 500
+      init : 100
     }
   },
 
