@@ -1647,11 +1647,11 @@ qx.Class.define("qx.html.Element",
      * are not easily possible using styles and attributes.
      *
      * @type member
-     * @param key {String} Unique property identifier
+     * @param name {String} Unique property identifier
      * @param value {var} Any valid value (depends on the property)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    _applyProperty : function(key, value) {
+    _applyProperty : function(name, value) {
       return this;
     },
 

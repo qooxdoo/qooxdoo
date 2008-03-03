@@ -18,7 +18,8 @@
 ************************************************************************ */
 
 /**
- * DOM wrapper for input elements.
+ * A Input wrap any valid HTML input element and make it accessible
+ * through the normalized qooxdoo element interface.
  */
 qx.Class.define("qx.html.Input",
 {
@@ -95,8 +96,9 @@ qx.Class.define("qx.html.Input",
     /**
      * Sets the value of the input element.
      *
+     * @type member
      * @param value {var} the new value
-     * @return {qx.html.Label} This instance for for chaining support.
+     * @return {qx.html.Input} This instance for for chaining support.
      */
     setValue : function(value)
     {
@@ -108,6 +110,7 @@ qx.Class.define("qx.html.Input",
     /**
      * Get the current value.
      *
+     * @type member
      * @return {String} The element's current value.
      */
     getValue : function() {
@@ -120,8 +123,9 @@ qx.Class.define("qx.html.Input",
      *
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      *
+     * @type member
      * @param wrap {Boolean} Whether to turn text wrap on or off.
-     * @return {qx.html.Label} This instance for for chaining support.
+     * @return {qx.html.Input} This instance for for chaining support.
      */
     setWrap : function(wrap)
     {
@@ -140,6 +144,7 @@ qx.Class.define("qx.html.Input",
      *
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      *
+     * @type member
      * @return {Boolean} Whether wrapping is enabled or disabled.
      */
     getWrap : function()

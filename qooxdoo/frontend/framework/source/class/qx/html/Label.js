@@ -21,6 +21,14 @@ qx.Class.define("qx.html.Label",
 {
   extend : qx.html.Element,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /*
@@ -56,7 +64,14 @@ qx.Class.define("qx.html.Label",
     ---------------------------------------------------------------------------
     */
 
-    setHtmlMode : function(value)
+    /**
+     * Toggles the HTML mode
+     *
+     * @type member
+     * @param value {Boolean} Whether the HTML mode should be used.
+     * @return {qx.html.Label} This instance for for chaining support.
+     */
+    setMode : function(value)
     {
       if (!!this._htmlMode == value) {
         return;
@@ -70,12 +85,27 @@ qx.Class.define("qx.html.Label",
       return this;
     },
 
+
+    /**
+     * Sets the HTML/text content depending on the content mode.
+     *
+     * @type member
+     * @param value {Boolean} Whether the HTML mode should be used.
+     * @return {qx.html.Label} This instance for for chaining support.
+     */
     setContent : function(value)
     {
       this._setProperty("content", value);
       return this;
     },
 
+
+    /**
+     * Get the current content.
+     *
+     * @type member
+     * @return {String} The labels's content
+     */
     getContent : function() {
       return this._getProperty("content");
     }
