@@ -658,8 +658,11 @@ qx.Class.define("qx.ui.core.Widget",
     /** {qx.ui.decoration.IDecorator|null} the current decorator (may be null) */
     __decorator : null,
 
+
     /** {String} The current background color (CSS value) */
     __backgroundColor : null,
+
+
 
 
     /*
@@ -669,9 +672,18 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // overridden
-    setParent : function(parent)
+    setLayoutParent : function(parent)
     {
-      this._parent = parent;
+      if (this._parent) {
+        this._parent.getContentElement().remove(this._containerElement);
+      }
+
+      this._parent = parent || null;
+
+      if (this._parent) {
+        this._parent.getContentElement().add(this._containerElement);
+      }
+
       this.__toggleDisplay();
     },
 
@@ -681,7 +693,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Widget[]} The child widgets of the widget's layout.
      */
-    getChildren : function()
+    getLayoutChildren : function()
     {
       var layout = this.getLayout();
       if (layout) {
@@ -1265,7 +1277,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __toggleDisplay : function()
     {
-      if (this.getParent() && this.__layoutVisible && this.getVisibility() === "visible")
+      if (this._parent && this.__layoutVisible && this.getVisibility() === "visible")
       {
         this.$$visible = true;
 
@@ -1287,7 +1299,7 @@ qx.Class.define("qx.ui.core.Widget",
         // On parent removal it gets completely removed from DOM
         // which means we do not need to apply any display styles
         // on it.
-        if (this.getParent()) {
+        if (this._parent) {
           this._containerElement.hide();
         }
 
@@ -1467,28 +1479,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      NATIVE CHILDREN HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    nativeAddToParent : function(parent)
-    {
-      if (parent instanceof qx.ui.core.Widget) {
-        parent._contentElement.add(this._containerElement);
-      }
-    },
-
-
-    // overridden
-    nativeRemoveFromParent : function(parent)
-    {
-      if (parent instanceof qx.ui.core.Widget) {
-        parent._contentElement.remove(this._containerElement);
-      }
-    },
 
 
 
