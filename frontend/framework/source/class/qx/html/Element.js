@@ -538,6 +538,15 @@ qx.Class.define("qx.html.Element",
         Style.setCss(elem, Style.compile(data));
       }
 
+      // Copy misc
+      var data = this.__propertyValues;
+      if (data)
+      {
+        for (var key in data) {
+          this._applyProperty(key, data[key]);
+        }
+      }
+
       // Attach events
       var data = this.__eventValues;
       if (data)
@@ -620,6 +629,20 @@ qx.Class.define("qx.html.Element",
         }
 
         this.__styleJobs = null;
+      }
+
+      // Sync misc
+      var jobs = this.__propertyJobs;
+      if (jobs)
+      {
+        var data = this.__propertyValues;
+        if (data)
+        {
+          var value;
+          for (var key in jobs) {
+            this._applyProperty(key, data[key]);
+          }
+        }
       }
 
       // Note: Events are directly kept in sync
@@ -1605,6 +1628,114 @@ qx.Class.define("qx.html.Element",
 
       return this.__attribValues ? this.__attribValues[key] : null;
     },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Applies a special property with the given value.
+     *
+     * This property apply routine can be easily overwritten and
+     * extended by sub classes to add new low level features which
+     * are not easily possible using styles and attributes.
+     *
+     * @type member
+     * @param key {String} Unique property identifier
+     * @param value {var} Any valid value (depends on the property)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    _applyProperty : function(key, value) {
+      return this;
+    },
+
+
+    /**
+     * Set up the given property.
+     *
+     * @type member
+     * @param key {String} the name of the property
+     * @param value {var} the value
+     * @param direct {Boolean?false} Whether the value should be applied
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    _setProperty : function(key, value, direct)
+    {
+      if (!this.__propertyValues) {
+        this.__propertyValues = {};
+      }
+
+      if (this.__propertyValues[key] == value) {
+        return;
+      }
+
+      if (value == null) {
+        delete this.__propertyValues[key];
+      } else {
+        this.__propertyValues[key] = value;
+      }
+
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.
+      if (this._element)
+      {
+        // Omit queuing in direct mode
+        if (direct)
+        {
+          this._applyProperty(key, value);
+          return this;
+        }
+
+        // Dynamically create if needed
+        if (!this.__propertyJobs) {
+          this.__propertyJobs = {};
+        }
+
+        // Store job info
+        this.__propertyJobs[key] = true;
+
+        // Register modification
+        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Removes the given misc
+     *
+     * @type member
+     * @param key {String} the name of the misc
+     * @param direct {Boolean?false} Whether the value should be removed
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    _removeProperty : function(key, direct) {
+      this._setProperty(key, null, direct);
+    },
+
+
+    /**
+     * Get the value of the given misc.
+     *
+     * @type member
+     * @param key {String} name of the misc
+     * @return {var} the value of the misc
+     */
+    _getProperty : function(key) {
+      return this.__propertyValues ? this.__propertyValues[key] : null;
+    },
+
 
 
 

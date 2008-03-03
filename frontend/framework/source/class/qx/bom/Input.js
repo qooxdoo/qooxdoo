@@ -112,10 +112,12 @@ qx.Class.define("qx.bom.Input",
     {
       "mshtml" : function(element, value)
       {
-        // TODO: What is this code meant to do? It gives an error in IE
-        //element.__inValueSet = true;
+        // These flags are required to detect self-made property-change
+        // events during value modification. They are used by the Input
+        // event handler to filter events.
+        element.__inValueSet = true;
         element.value = value;
-        //delete element.__inValueSet;
+        element.__inValueSet = null;
       },
 
       "default" : function(element, value) {
@@ -132,7 +134,7 @@ qx.Class.define("qx.bom.Input",
      * @param element {Element} DOM element to modify
      * @param wrap {Boolean} Whether to turn text wrap on or off.
      */
-    setTextAreaWrap : qx.core.Variant.select("qx.client",
+    setWrap : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(element, wrap) {
         element.wrap = wrap ? "soft" : "off";
