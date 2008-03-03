@@ -527,12 +527,5 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         this.base(arguments, decorationElement, width, height, backgroundColor, backgroundImage, backgroundRepeat);
       }
     })
-  },
-
-
-  defer : function()
-  {
-    qx.bom.Vml.init();
   }
-
 });

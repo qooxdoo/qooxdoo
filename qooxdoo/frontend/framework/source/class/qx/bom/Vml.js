@@ -130,10 +130,12 @@ qx.Class.define("qx.bom.Vml",
       var yOrigin = yOffset ? (-yOffset) / (imageHeight) : 0;
       Attribute.set(fill, "origin", xOrigin.toFixed(2) + "," + yOrigin ,false);
     }
-
   },
 
-  defer : function(statics) {
-    statics.init();
+  defer : function(statics)
+  {
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      statics.init();
+    }
   }
 });
