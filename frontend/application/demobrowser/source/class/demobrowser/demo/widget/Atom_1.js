@@ -50,38 +50,38 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
-        backgroundColor : "gray",
+        backgroundColor : "#dedede",
         decorator : border,
         padding : 5,
         allowGrowY: false
       }));
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img2, 48, 48).set({
-        backgroundColor : "gray",
+        backgroundColor : "#dedede",
         decorator : border,
-        iconPosition : "top",
+        align : "top",
         padding : 5,
         allowGrowY: false
       }));
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img3, 48, 48).set({
-        backgroundColor : "gray",
+        backgroundColor : "#dedede",
         decorator : border,
-        iconPosition : "right",
+        align : "right",
         padding : 5,
         allowGrowY: false
       }));
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img4, 48, 48).set({
-        backgroundColor : "gray",
+        backgroundColor : "#dedede",
         decorator : border,
-        iconPosition : "bottom",
+        align : "bottom",
         padding : 5,
         allowGrowY: false
       }));
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
-        backgroundColor : "gray",
+        backgroundColor : "#dedede",
         decorator : border,
         show : "icon",
         padding : 5,
