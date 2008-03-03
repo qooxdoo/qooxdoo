@@ -44,19 +44,22 @@ qx.Class.define("demobrowser.demo.widget.Label_2",
 
       var label1 = new qx.ui.basic.Label().set({
         decorator: decor,
-        html: "Screenshots #1 and #2 show that the label can be reduced in size to 102 pixels horizontally or to 55 pixels vertically, so long as there is enough space in the other direction. Screenshot #3 shows what happens when the label is squeezed down to its minimum height and minimum width."
+        rich : true,
+        content: "Screenshots #1 and #2 show that the label can be reduced in size to 102 pixels horizontally or to 55 pixels vertically, so long as there is enough space in the other direction. Screenshot #3 shows what happens when the label is squeezed down to its minimum height and minimum width."
       });
       vbox.add(label1);
 
       var label2 = new qx.ui.basic.Label().set({
         decorator: decor,
-        html: "We would like QLabel to tell the layout that screenshot #1 and screenshot #2 are acceptable but that screenshot #3 is not. The sizeHint() and minimumSizeHint() functions cannot do this, so Qt provides a complementary mechanism: height-for-width."
+        rich : true,
+        content: "We would like QLabel to tell the layout that screenshot #1 and screenshot #2 are acceptable but that screenshot #3 is not. The sizeHint() and minimumSizeHint() functions cannot do this, so Qt provides a complementary mechanism: height-for-width."
       });
       vbox.add(label2);
 
       var label3 = new qx.ui.basic.Label().set({
         decorator: decor,
-        html: "Every widget's QSizePolicy contains a boolean height-for-width flag that indicates whether or not the widget is able to trade width for height and height for width. The layout will call the virtual function QWidget::heightForWidth() as necessary to determine the desired height for a height-for-width widget with a given width."
+        rich : true,
+        content: "Every widget's QSizePolicy contains a boolean height-for-width flag that indicates whether or not the widget is able to trade width for height and height for width. The layout will call the virtual function QWidget::heightForWidth() as necessary to determine the desired height for a height-for-width widget with a given width."
       });
 
       vbox.add(label3);
