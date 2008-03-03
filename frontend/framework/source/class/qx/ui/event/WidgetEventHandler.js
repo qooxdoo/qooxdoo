@@ -118,10 +118,6 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         // all elements
         select : 1,
 
-        // input elements
-        change : 1,
-        input : 1,
-
         // iframe elements
         load : 1
       }

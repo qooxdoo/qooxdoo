@@ -24,7 +24,7 @@
  *
  * On each key stroke the text field value is synchronized with the
  * {@link #value} property. Value changes can be monitored by listening on the
- * {@link #changeValue} event.
+ * {@link #input} or {@link #change} events.
  */
 qx.Class.define("qx.ui.form.TextField",
 {
@@ -50,9 +50,40 @@ qx.Class.define("qx.ui.form.TextField",
     }
 
     // Add listeners
-    this.addListener("input", this._oninput);
+    var inputElement = this._contentElement;
+    inputElement.addListener("input", this._onInput, this);
+    inputElement.addListener("change", this._onChange, this);
 
     this.initTabIndex();
+  },
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * This event is dispatched each time the user types a character into the
+     * text field.
+     *
+     * The method {@link qx.event.type.Data#getData} return the
+     * current text value of the text field.
+     */
+    "input" : "qx.event.type.Data",
+
+    /**
+     * This event is dispatched each time the text field looses focus and the
+     * text field values has changed.
+     *
+     * The method {@link qx.event.type.Data#getData} return the
+     * current text value of the text field.
+     */
+    "change" : "qx.event.type.Data"
   },
 
 
@@ -73,7 +104,6 @@ qx.Class.define("qx.ui.form.TextField",
     {
       check : "String",
       init : "",
-      event : "changeValue",
       apply : "_applyValue"
     },
 
@@ -187,6 +217,7 @@ qx.Class.define("qx.ui.form.TextField",
     {
       var input =  new qx.html.Input("text");
       input.setStyle("overflow", "hidden");
+
       return input;
     },
 
@@ -313,10 +344,30 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      */
-    _oninput : function()
+    _onInput : function()
     {
       var value = this._contentElement.getValue();
       this.setValue(value);
+
+      if (this.hasListeners("input")) {
+        this.fireDataEvent("input", value);
+      }
+
+    },
+
+    /**
+     * Change event handler.
+     *
+     * @type member
+     */
+    _onChange : function()
+    {
+      var value = this._contentElement.getValue();
+      this.setValue(value);
+
+      if (this.hasListeners("change")) {
+        this.fireDataEvent("change", value);
+      }
     }
 
   }
