@@ -18,12 +18,16 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.locale.Manager)
-
-************************************************************************ */
-
+/**
+ * The label class brings typical text content to the widget system.
+ *
+ * It supports simple text nodes, but complex HTML as well. The default
+ * content mode is for text. The mode is changable through the property
+ * {@link #htmlMode}.
+ *
+ * The label supports heightForWidth when used in HTML mode. This means
+ * that multiline HTML automatically computes the correct preferred height.
+ */
 qx.Class.define("qx.ui.basic.Label",
 {
   extend : qx.ui.core.Widget,
@@ -37,12 +41,12 @@ qx.Class.define("qx.ui.basic.Label",
   *****************************************************************************
   */
 
-  construct : function(text)
+  construct : function(content)
   {
     this.base(arguments);
 
-    if (text != null) {
-      this.setText(text);
+    if (content != null) {
+      this.setContent(content);
     }
   },
 
@@ -58,19 +62,31 @@ qx.Class.define("qx.ui.basic.Label",
 
   properties :
   {
-    text :
+    /**
+     * Switches between HTML and text content. The text mode supports
+     * advanced features like ellipsis when the available space is not
+     * enough. HTML mode supports multi-line content and all the
+     * markup features of HTML content.
+     */
+    htmlMode :
     {
-      check : "String",
-      apply : "_applyText",
-      event : "changeText",
-      nullable : true
+      check : "Boolean",
+      init : false,
+      apply : "_applyHtmlMode"
     },
 
-    html :
+
+    /**
+     * Contains the HTML or text content. Interpretation depends on the value
+     * of {@link #htmlMode}. In text mode entities and other HTML special content
+     * is not supported. But it is possible to use unicode escape sequences
+     * to insert symbols and other non ASCII characters.
+     */
+    content :
     {
       check : "String",
-      apply : "_applyHtml",
-      event : "changeHtml",
+      apply : "_applyContent",
+      event : "changeContent",
       nullable : true
     }
   },
@@ -87,38 +103,26 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
-    /** {qx.bom.Font} The current label font */
-    _styledFont : null,
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       WIDGET API
     ---------------------------------------------------------------------------
     */
 
-    _textSize : {
-      width : 0,
-      height : 0
-    },
-
     // overridden
     _getContentHint : function()
     {
-      if (this._invalidTextSize)
+      if (this.__invalidContentSize)
       {
-        this._computeTextSize();
-        delete this._invalidTextSize;
+        this.__computeContentSize();
+        delete this.__invalidContentSize;
       }
 
       return {
-        width : this._textSize.width,
+        width : this.__contentSize.width,
         minWidth : 0,
         maxWidth : Infinity,
-        height : this._textSize.height,
+        height : this.__contentSize.height,
         minHeight : 0,
         maxHeight : Infinity
       };
@@ -127,14 +131,14 @@ qx.Class.define("qx.ui.basic.Label",
 
     // overridden
     hasHeightForWidth : function() {
-      return !!this._htmlMode;
+      return this.getHtmlMode();
     },
 
 
     // overridden
     _getContentHeightForWidth : function(width)
     {
-      if (!this._htmlMode) {
+      if (!this.getHtmlMode()) {
         return null;
       }
 
@@ -147,8 +151,6 @@ qx.Class.define("qx.ui.basic.Label",
     {
       var el = new qx.html.Label;
 
-      el.setHtmlMode(!!this._htmlMode);
-
       el.setStyle("position", "relative");
       el.setStyle("zIndex", 10);
 
@@ -158,7 +160,28 @@ qx.Class.define("qx.ui.basic.Label",
 
     // overridden
     _applyFont : function(value, old) {
-      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
+      qx.theme.manager.Font.getInstance().connect(this.__styleFont, this, value);
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LABEL ADDONS
+    ---------------------------------------------------------------------------
+    */
+
+    /** {qx.bom.Font} The current label font */
+    __styledFont : null,
+
+
+    /** {Map} Internal fallback of label size when no font is defined */
+    __contentSize :
+    {
+      width : 0,
+      height : 0
     },
 
 
@@ -169,40 +192,48 @@ qx.Class.define("qx.ui.basic.Label",
      * @param font {qx.bom.Font} new font value to render
      * @return {void}
      */
-    _styleFont : function(font)
+    __styleFont : function(font)
     {
       // Apply
       var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
 
       // Store final value as well
-      this._styledFont = font;
+      this.__styledFont = font;
 
       // Invalidate text size
-      this._invalidTextSize = true;
+      this.__invalidContentSize = true;
 
       // Update layout
       this.scheduleLayoutUpdate();
     },
 
 
-    _computeTextSize : function()
+    /**
+     * Internal utility to compute the content dimensions.
+     *
+     * @type member
+     * @return {void}
+     */
+    __computeContentSize : function()
     {
-      var font = this._styledFont;
+      var font = this.__styledFont;
 
       // Compute text size
       if (font)
       {
         var Label = qx.bom.Label;
-        var styles = font.getStyles();
 
-        this._textSize = this._htmlMode ?
-          Label.getHtmlSize(this.getHtml() || "", styles) :
-          Label.getTextSize(this.getText() || "", styles);
+        var styles = font.getStyles();
+        var content = this.getContent() || "";
+
+        this.__contentSize = this.getHtmlMode() ?
+          Label.getHtmlSize(content, styles) :
+          Label.getTextSize(content, styles);
       }
       else
       {
-        delete this._textSize;
+        delete this.__contentSize;
       }
     },
 
@@ -215,54 +246,31 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-    _applyHtml : function(value, old)
+    // property apply
+    _applyHtmlMode : function(value)
     {
-      if (value) {
-        this._htmlMode = true;
-      } else {
-        delete this._htmlMode;
-      }
+      // Sync with content element
+      this._contentElement.setHtmlMode(value);
 
-      this._applyContent();
+      // Mark text size cache as invalid
+      this.__invalidContentSize = true;
+
+      // Update layout
+      this.scheduleLayoutUpdate();
     },
 
-    _applyText : function(value, old)
+
+    // property apply
+    _applyContent : function(value)
     {
-      if (value) {
-        delete this._htmlMode;
-      }
-
-      this._applyContent();
-    },
-
-    _applyContent : function()
-    {
-      var html = !!this._htmlMode;
-      var value = html ? this.getHtml() : this.getText();
-
-      this._contentElement.setHtmlMode(html);
+      // Sync with content element
       this._contentElement.setContent(value);
 
       // Mark text size cache as invalid
-      this._invalidTextSize = true;
+      this.__invalidContentSize = true;
 
       // Update layout
       this.scheduleLayoutUpdate();
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-
-
   }
 });

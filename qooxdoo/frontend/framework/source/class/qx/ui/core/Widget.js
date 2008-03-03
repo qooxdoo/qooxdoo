@@ -1107,6 +1107,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Returns the computed height for the given width.
+     *
+     * @type member
+     * @param width {Integer} Incoming width (as limitation)
+     * @return {Integer} Computed height while respecting the given width.
+     */
+    _getContentHeightForWidth : function(width) {
+      // empty
+    },
+
+
+    /**
      * Returns the technical size limits of this widget.
      *
      * Developer note: This method should be overwritten by derived classes
