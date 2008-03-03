@@ -423,7 +423,12 @@ qx.Bootstrap.define("qx.log.appender.Console",
       }
 
       // Not yet created
-      if (!this.__cmd) {
+      if (!this.__main) {
+        return;
+      }
+
+      // Active element not in console
+      if (!qx.dom.Hierarchy.contains(this.__main, e.getTarget())) {
         return;
       }
 
