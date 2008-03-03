@@ -147,7 +147,7 @@ qx.Class.define("qx.event.handler.Mouse",
       if (!target) {
         target = domEvent.target || domEvent.srcElement;
       }
-      
+
       qx.event.Registration.fireEvent(target, type, qx.event.type.Mouse, [domEvent]);
     },
 
@@ -300,7 +300,7 @@ qx.Class.define("qx.event.handler.Mouse",
      * @param domEvent {Event} DOM event
      */
     _onMoveEvent : function(domEvent) {
-      this.__fireEvent(domEvent);
+      this.__fireEvent(domEvent, "mousemove");
     },
 
 
