@@ -141,9 +141,9 @@ class PyRobocopier:
                 
         if self.__dir1=='' or self.__dir2=='':
             sys.exit("Argument Error: Directory arguments not given!")
-        if not os.path.isdir(self.__dir1):
+        if ((not os.path.isdir(self.__dir1)) and (not os.path.isfile(self.__dir1))):
             sys.exit("Argument Error: Source directory does not exist!")
-        if not self.__maketarget and not os.path.isdir(self.__dir2):
+        if not self.__maketarget and (not os.path.isdir(self.__dir2) or not os.path.isdir(os.path.dirname(self.__dir2))):
             sys.exit("Argument Error: Target directory %s does not exist! (Try the -c option)." % self.__dir2)
         if self.__mainfunc is None:
             sys.exit("Argument Error: Specify an action (Diff, Synchronize or Update) ")
@@ -171,6 +171,29 @@ class PyRobocopier:
     def __dowork(self, dir1, dir2, copyfunc = None, updatefunc = None):
         """ Private attribute for doing work """
         
+        # dir1 is a file?
+        try:
+            fmode1 = os.stat(dir1)
+            fmode2 = os.stat(dir2)
+        except os.error:
+            return
+        
+        if (stat.S_ISREG(fmode1.st_mode)):
+            # dir1 is file
+            if (stat.S_ISREG(fmode2.st_mode)):
+                # dir2 is also file
+                if copyfunc: copyfunc(os.path.basename(dir1), os.path.dirname(dir1),dir2)
+            else:
+                # dir2 is dir, see if it contains a file "dir1"
+                dir1rel = os.path.join(*(dir1.split(os.sep)[1:])) # HACK: strip root dir from dir1
+                file2 = os.path.join(dir2, dir1rel)  # and construct path under dir2
+                if (os.path.exists(file2) and os.path.isfile(file2)):
+                    if updatefunc: updatefunc(os.path.basename(dir1), os.path.dirname(dir1), dir2)
+                else:
+                    if copyfunc: copyfunc(os.path.basename(dir1),os.path.dirname(dir1),dir2)
+            return
+
+        # dir1 is a directory
         self.__console.debug('Source directory:  %s:' % dir1)
 
         self.__numdirs += 1
