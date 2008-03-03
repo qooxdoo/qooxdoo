@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyHtmlMode"
+      apply : "_applyRich"
     },
 
 
@@ -238,10 +238,10 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     // property apply
-    _applyHtmlMode : function(value)
+    _applyRich : function(value)
     {
       // Sync with content element
-      this._contentElement.setHtmlMode(value);
+      this._contentElement.setRich(value);
 
       // Mark text size cache as invalid
       this.__invalidContentSize = true;
