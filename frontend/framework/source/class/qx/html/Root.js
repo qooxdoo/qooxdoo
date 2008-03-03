@@ -64,8 +64,8 @@ qx.Class.define("qx.html.Root",
         throw new Error("Elements could not be replaced!");
       }
 
-      // Store reference to "this"
-      elem.QxElement = this;
+      // Store hashcode
+      elem.hc = this.$$hash;
 
       // Initialize based on given element
       this._element = elem;

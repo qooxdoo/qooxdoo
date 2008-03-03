@@ -66,10 +66,8 @@ qx.Class.define("qx.html.Input",
     */
 
     // overridden
-    _createDomElement : function()
-    {
-      this._element = qx.bom.Input.create(this.__type);
-      this._element.QxElement = this;
+    _createDomElement : function() {
+      return qx.bom.Input.create(this.__type);
     },
 
 
