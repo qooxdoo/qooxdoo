@@ -25,7 +25,7 @@ window.qxloader =
     }
 
     if (window.qx && qx.core && qx.log.Logger) {
-      qx.log.Logger[type](null, msg);
+      qx.log.Logger[type](msg);
     }
   },
 
