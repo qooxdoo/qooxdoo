@@ -45,7 +45,6 @@ class Generator:
         self._console = console
         self._variants = variants
         self._settings = settings
-        self._copier = robocopy.PyRobocopier(console)
 
         # Merge config deps and runtime deps
         require = self._mergeDicts(require, config.get("require", {}))
@@ -193,7 +192,7 @@ class Generator:
             self.runSource(parts, packages, boot, variants)
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
-            #self.runResources()
+            self.runResources()
 
 
 
@@ -222,8 +221,10 @@ class Generator:
         self._console.indent()
         for lib in libs:
             # Copy resources
-            resSource = os.path.join(lib['path'], "resource", lib['namespace'])
-            resTarget = os.path.join(resTargetRoot, "resource", lib['namespace'])
+            libpath = LibraryPath(lib,self._console)
+            ns = libpath.getNamespace()
+            resSource = os.path.join(lib['path'], "resource", ns)
+            resTarget = os.path.join(resTargetRoot, "resource", ns)
             self._copyResources(resSource, resTarget)
 
         self._console.outdent()
@@ -371,6 +372,23 @@ class Generator:
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
+
+        self._console.outdent()
+        
+        # Copy application files
+        appfiles = self._config.get("application-files")
+        buildRoot = "build"  # should probably come from config
+        sourceRoot = "source"
+        self._console.info("Copying application files...")        
+        self._console.indent()
+        for file in appfiles:
+            srcfile = os.path.join(sourceRoot, file)
+            self._console.debug("copying %s" % srcfile)
+            if (os.path.isdir(srcfile)):
+                destfile = os.path.join(buildRoot,file)
+            else:
+                destfile = os.path.join(buildRoot, os.path.dirname(file))
+            self._copyResources(srcfile, destfile)
 
         self._console.outdent()
 
@@ -735,5 +753,7 @@ class Generator:
 
 
     def _copyResources(self, srcPath, targPath):
+        self._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
+        self._copier = robocopy.PyRobocopier(self._console)
         self._copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
         self._copier.do_work()

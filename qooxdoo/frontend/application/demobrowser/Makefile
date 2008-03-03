@@ -41,7 +41,8 @@ APPLICATION_BUILD_LOG_LEVEL = error
 # INCLUDE CORE
 ####################################################################################
 
-ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
+#ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
+ifeq ('a','b')
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
 endif
@@ -58,7 +59,13 @@ error:
 # EXTENSIONS
 ################################################################################
 
+.PHONY: source build
+
 source:
+	@echo
+	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
+	@$(CMD_LINE)
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j source
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
@@ -69,6 +76,10 @@ source:
 	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j source
 	
 build:
+	@echo
+	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
+	@$(CMD_LINE)
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j build
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
