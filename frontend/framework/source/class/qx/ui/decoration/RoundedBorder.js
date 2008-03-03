@@ -532,8 +532,10 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
 
   defer : qx.core.Variant.select("qx.client",
   {
-    "mshtml" : function(statics) {
-      qx.bom.Vml.init();
+    "mshtml" : function(statics)
+    {
+      // Simple pointer to create a pseudo dependency.
+      qx.bom.Vml;
     },
 
     "default" : function(statics) {}
