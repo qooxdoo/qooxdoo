@@ -280,6 +280,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
      * Internal replacement helper for HTML escape.
      *
      * @type static
+     * @param ch {String} Single item to replace.
      * @return {String} Replaced item
      */
     __escapeHTMLReplace : function(ch)
