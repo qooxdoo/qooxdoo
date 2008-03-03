@@ -265,7 +265,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
       {
         // Dispatch FocusIn
         var vEventObject = qx.event.Registration.createEvent("focusin", qx.legacy.event.type.FocusEvent);
-        vEventObject.setBubbles(true);        
+        vEventObject.setBubbles(true);
 
         if (vBlurValid) {
           vEventObject.setRelatedTarget(old);
