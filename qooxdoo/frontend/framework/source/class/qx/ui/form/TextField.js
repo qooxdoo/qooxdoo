@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.form.TextField",
      * {@link #_renderFont} method.
      *
      * @type member
-     * @param font {qx.html.Font} new font value to render
+     * @param font {qx.bom.Font} new font value to render
      * @return {void}
      */
     _styleFont : function(font)

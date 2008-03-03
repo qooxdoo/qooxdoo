@@ -485,7 +485,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       init : "inherit",
       apply : "_applyFont",
-      //check : 'value == null | qx.theme.manager.Font.getInstance().isDynamic(value) || value instanceof qx.html.Font',
+      //check : 'value == null | qx.theme.manager.Font.getInstance().isDynamic(value) || value instanceof qx.bom.Font',
       event : "changeFont",
       themeable : true,
       inheritable : true
