@@ -103,25 +103,30 @@ class JpegFile:
             self.fp.seek(length-2, os.SEEK_CUR)
 
 
-def image_size(filename):
-    ''' Returns the image sizes os png, gif and pjed files as
-        (width, height) tuple '''
-    classes = [PngFile, GifFile, JpegFile]
-
-    for cls in classes:
-        img = cls(filename)
-        if img.verify():
-            size = img.size()
-            if size is not None:
-                img.close()
-                return size
-        img.close()
-
-    return None
+class ImgInfo(object):
+    def __init__(self, filename):
+        self.__filename = filename
+        
+    def getSize(self):
+        ''' Returns the image sizes os png, gif and pjed files as
+            (width, height) tuple '''
+        filename = self.__filename
+        classes = [PngFile, GifFile, JpegFile]
+    
+        for cls in classes:
+            img = cls(filename)
+            if img.verify():
+                size = img.size()
+                if size is not None:
+                    img.close()
+                    return size
+            img.close()
+    
+        return None
 
 
 def main(filename):
-    print image_size(filename)
+    print ImgInfo(filename).getSize()
 
 
 if __name__ == '__main__':
