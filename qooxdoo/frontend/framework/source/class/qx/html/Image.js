@@ -20,6 +20,9 @@
 /**
  * This is a simple image class using the low level image features of
  * qooxdoo and wraps it for the qx.html layer.
+ *
+ * Also have a look at the class {@link qx.html.ClippedImage} for network
+ * efficient clipped image support.
  */
 qx.Class.define("qx.html.Image",
 {
