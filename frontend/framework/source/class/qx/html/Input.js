@@ -43,9 +43,10 @@ qx.Class.define("qx.html.Input",
   construct : function(type)
   {
     this.base(arguments);
+
     this.__type = type;
-    this.__inputJobs = {};
   },
+
 
 
 
@@ -57,61 +58,11 @@ qx.Class.define("qx.html.Input",
 
   members :
   {
-    /** {String} The input element type */
-    __type : null,
-
-    /** {String} The current value of the input element */
-    __value : "",
-
-    /** {Boolean} Whether text wrap is currently turned on */
-   __wrap : null,
-
-    /** {Map} Input element jobs */
-    __inputJobs : null,
-
-
-    /**
-     * Sets the value of the input element.
-     *
-     * @param value {var} the new value
-     * @return {qx.html.Label} This instance for for chaining support.
-     */
-    setValue : function(value)
-    {
-      this.__value = value;
-      this.__inputJobs.value = true;
-      return this;
-    },
-
-
-    /**
-     * Get the current value.
-     *
-     * @return {String} The element's current value.
-     */
-    getValue : function()
-    {
-      if (this._element) {
-        return qx.bom.element.Attribute.get(this._element, "value");
-      } else {
-        return this.__value;
-      }
-    },
-
-
-    /**
-     * Sets the text wrap behaviour of a text area element.
-     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
-     *
-     * @param wrap {Boolean} Whether to turn text wrap on or off.
-     */
-    setTextAreaWrap : function(wrap)
-    {
-      this.__wrap = wrap;
-      this.__inputJobs.wrap = true;
-      return this;
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT API
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     _createDomElement : function()
@@ -121,36 +72,83 @@ qx.Class.define("qx.html.Input",
     },
 
 
+    // overridden
+    _applyProperty : function(name, value)
+    {
+      if (name === "value") {
+        qx.bom.Input.setValue(this._element, value);
+      } else if (name === "wrap") {
+        qx.bom.Input.setWrap(this._element, value);
+      }
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INPUT API
+    ---------------------------------------------------------------------------
+    */
+
     /**
-     * Perform all input element jobs
+     * Sets the value of the input element.
+     *
+     * @param value {var} the new value
+     * @return {qx.html.Label} This instance for for chaining support.
      */
-    __applyData : function()
+    setValue : function(value)
     {
-      var jobs = this.__inputJobs;
-
-      if (jobs.value) {
-        qx.bom.Input.setValue(this._element, this.__value);
-      }
-
-      if (jobs.wrap) {
-        qx.bom.Input.setTextAreaWrap(this._element, this.__wrap);
-      }
+      this._setProperty("value", value);
+      return this;
     },
 
 
-    // overridden
-    _copyData : function()
-    {
-      this.base(arguments);
-      this.__applyData();
+    /**
+     * Get the current value.
+     *
+     * @return {String} The element's current value.
+     */
+    getValue : function() {
+      return qx.bom.element.Attribute.get(this._element, "value");
     },
 
-    // overridden
-    _syncData : function()
+
+    /**
+     * Sets the text wrap behaviour of a text area element.
+     *
+     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
+     *
+     * @param wrap {Boolean} Whether to turn text wrap on or off.
+     * @return {qx.html.Label} This instance for for chaining support.
+     */
+    setWrap : function(wrap)
     {
-      this.base(arguments);
-      this.__applyData();
+      if (this.__type === "textarea") {
+        this._setProperty("wrap", wrap);
+      } else {
+        throw new Error("Text wrapping is only support by textareas!");
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Gets the text wrap behaviour of a text area element.
+     *
+     * This property uses the style property "wrap" (IE) respectively "whiteSpace"
+     *
+     * @return {Boolean} Whether wrapping is enabled or disabled.
+     */
+    getWrap : function()
+    {
+      if (this.__type === "textarea") {
+        return this._getProperty("wrap");
+      } else {
+        throw new Error("Text wrapping is only support by textareas!");
+      }
     }
-
   }
 });
