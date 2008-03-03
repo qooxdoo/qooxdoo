@@ -24,6 +24,8 @@
 
 #ignore(auto-use)
 
+
+
 ************************************************************************* */
 
 /**
@@ -106,7 +108,83 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "text-area" : {
       include : "text-field"
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      SPINNER
+    ---------------------------------------------------------------------------
+    */
+
+    "spinner" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "inset",
+          padding         : [ 1, 3 ],
+          textColor       : states.disabled ? "text-disabled" : "undefined",
+          backgroundColor : "field"
+        };
+      }
+    },
+
+    "spinner-text-field" :
+    {
+      include : "text-field",
+
+      style : function(states)
+      {
+        return {
+          backgroundColor : "transparent"
+        };
+      }
+    },
+
+    "spinner-button":
+    {
+      style : function(states)
+      {
+				if (states.pressed) {
+          var decorator = "inset";
+        } else {
+          var decorator = "outset";
+        }
+        return {
+          width : 16,
+          backgroundColor : "background",
+          decorator : decorator,
+          paddingLeft : 3,
+					height: 10
+        };
+      }
+    },
+
+    "spinner-button-up" :
+    {
+      include : "spinner-button",
+
+      style : function(states)
+      {
+        return {
+          // source : "decoration/Windows/arrows/up_small.gif"
+        }
+      }
+    },
+
+    "spinner-button-down" :
+    {
+      include : "spinner-button",
+
+      style : function(states)
+      {
+        return {
+          paddingTop : 1
+          // source : "decoration/Windows/arrows/down_small.gif"
+        };
+      }
     }
+
 
   }
 });
