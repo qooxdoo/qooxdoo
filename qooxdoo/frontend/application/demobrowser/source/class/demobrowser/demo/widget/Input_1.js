@@ -141,7 +141,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       btn2.addListener("execute", function() {
         var tempValue = input8.getValue();
 				input8.setValue(tempValue + "a");
-				this.info(tempValue + "a");
+				this.info(input8.getValue());
       }, this);
       controls.getLayout().add(btn2);
       // doc.add(controls, 300, 10);

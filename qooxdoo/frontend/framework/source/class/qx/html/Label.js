@@ -23,6 +23,39 @@ qx.Class.define("qx.html.Label",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT API
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _applyProperty : function(name, value)
+    {
+      this.base(arguments);
+
+      if (name == "content") {
+        qx.bom.Label.setContent(this._element, value);
+      }
+    },
+
+
+    // overridden
+    _createDomElement : function()
+    {
+      this._element = qx.bom.Label.create(this._content, this._htmlMode);
+      this._element.QxElement = this;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LABEL API
+    ---------------------------------------------------------------------------
+    */
+
     setHtmlMode : function(value)
     {
       if (!!this._htmlMode == value) {
@@ -39,45 +72,12 @@ qx.Class.define("qx.html.Label",
 
     setContent : function(value)
     {
-      this._content = value;
-      this._contentChanged = true;
+      this._setProperty("content", value);
       return this;
     },
 
-    getContent : function()
-    {
-      return this._content;
-      return this;
-    },
-
-    // overridden
-    _createDomElement : function()
-    {
-      this._element = qx.bom.Label.create(this._content, this._htmlMode);
-      this._element.QxElement = this;
-    },
-
-
-    _copyData : function()
-    {
-      this.base(arguments);
-
-      if (this._contentChanged)
-      {
-        qx.bom.Label.setContent(this._element, this._content);
-        delete this._contentChanged;
-      }
-    },
-
-    _syncData : function()
-    {
-      this.base(arguments);
-
-      if (this._contentChanged)
-      {
-        qx.bom.Label.setContent(this._element, this._content);
-        delete this._contentChanged;
-      }
+    getContent : function() {
+      return this._getProperty("content");
     }
   }
 });

@@ -107,16 +107,17 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-
     _applyWrap : function(value, old) {
-      this._contentElement.setTextAreaWrap(value);
+      this._contentElement.setWrap(value);
     },
+
 
 
 
@@ -135,6 +136,5 @@ qx.Class.define("qx.ui.form.TextArea",
 
       return hint;
     }
-
   }
 });
