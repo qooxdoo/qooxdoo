@@ -18,11 +18,11 @@
 ************************************************************************ */
 
 /**
- * A cross browser label instance with support for HTML and text labels.
+ * A cross browser label instance with support for rich HTML and text labels.
  *
  * Text labels supports ellipsis to reduce the text width.
  *
- * The mode html or text can be changed through the method {@link #setHtmlMode}
+ * The mode can be changed through the method {@link #setRich}
  * which accepts a boolean value. The default mode is "text" which is
  * a good choice because it has a better performance.
  */
@@ -59,7 +59,7 @@ qx.Class.define("qx.html.Label",
 
     // overridden
     _createDomElement : function() {
-      return qx.bom.Label.create(this._content, this._htmlMode);
+      return qx.bom.Label.create(this._content, this._richMode);
     },
 
 
@@ -72,23 +72,23 @@ qx.Class.define("qx.html.Label",
     */
 
     /**
-     * Toggles the HTML mode.
+     * Toggles between rich HTML mode and pure text mode.
      *
      * @type member
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    setHtmlMode : function(value)
+    setRich : function(value)
     {
-      if (!!this._htmlMode == value) {
+      if (!!this._richMode == value) {
         return;
       }
 
       if (this._element) {
-        throw new Error("The label HTML mode cannot be modified after initial creation");
+        throw new Error("The label mode cannot be modified after initial creation");
       }
 
-      this._htmlMode = value;
+      this._richMode = value;
       return this;
     },
 
