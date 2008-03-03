@@ -130,19 +130,16 @@ qx.Class.define("qx.bom.Font",
     },
 
 
-    /**
-     * Removes all fond styles from this widget
-     *
-     * @param widget {qx.ui.core.Widget} widget to reset
-     */
-    reset : function(widget)
-    {
-      var el = widget.getContentElement();
-      el.removeStyle("fontFamily");
-      el.removeStyle("fontSize");
-      el.removeStyle("fontWeight");
-      el.removeStyle("fontStyle");
-      el.removeStyle("textDecoration");
+    __defaultStyles : {
+      fontFamily: "",
+      fontSize: "",
+      fontWeight: "",
+      fontStyle: "",
+      textDecoration: ""
+    },
+
+    getDefaultStyles : function() {
+      return this.__defaultStyles;
     }
   },
 
@@ -157,7 +154,6 @@ qx.Class.define("qx.bom.Font",
 
   properties :
   {
-
     /** The font size (Unit: pixel) */
     size :
     {
@@ -216,10 +212,12 @@ qx.Class.define("qx.bom.Font",
     __italic : null,
     __decoration : null,
 
+
     // property apply
     _applySize : function(value, old) {
       this.__size = value === null ? null : value + "px";
     },
+
 
     // property apply
     _applyFamily : function(value, old)
@@ -244,29 +242,22 @@ qx.Class.define("qx.bom.Font",
       this.__family = family;
     },
 
+
     // property apply
     _applyBold : function(value, old) {
       this.__bold = value === null ? null : value ? "bold" : "normal";
     },
+
 
     // property apply
     _applyItalic : function(value, old) {
       this.__italic = value === null ? null : value ? "italic" : "normal";
     },
 
+
     // property apply
     _applyDecoration : function(value, old) {
       this.__decoration = value === null ? null : value;
-    },
-
-
-    /**
-     * Apply the font to the given HTML element.
-     *
-     * @param element {qx.html.Element} The element to apply the font to
-     */
-    render : function(element) {
-      element.setStyles(this.getStyles());
     },
 
 
