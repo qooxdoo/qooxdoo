@@ -53,8 +53,6 @@ qx.Class.define("qx.ui.form.TextField",
     var inputElement = this._contentElement;
     inputElement.addListener("input", this._onInput, this);
     inputElement.addListener("change", this._onChange, this);
-
-    this.initTabIndex();
   },
 
 
@@ -120,20 +118,6 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-    /**
-     * Whether the browser's build in spell check should be enabled
-     * for this text field. Currently affets only FireFox >= 2.
-     *
-     * Documented at http://developer.mozilla.org/en/docs/Controlling_spell_checking_in_HTML_forms
-     */
-    spellCheck :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applySpellCheck"
-    },
-
-
     /** Maximum number of characters in the text field. */
     maxLength :
     {
@@ -151,17 +135,10 @@ qx.Class.define("qx.ui.form.TextField",
       init : false
     },
 
-
     appearance :
     {
       refine : true,
       init : "text-field"
-    },
-
-    tabIndex :
-    {
-      refine : true,
-      init : 1
     },
 
     allowGrowY :
@@ -244,6 +221,8 @@ qx.Class.define("qx.ui.form.TextField",
         "appearance": "none"
       });
 
+      el.setAttribute("spellcheck", "off");
+
       // Emulate IE hard-coded margin
       // Mozilla by default emulates this IE handling, but in a wrong
       // way. IE adds the additional margin to the CSS margin where
@@ -319,12 +298,6 @@ qx.Class.define("qx.ui.form.TextField",
     // property apply
     _applyTextAlign : function(value, old) {
       this._contentElement.setStyle("textAlign", value || "");
-    },
-
-
-    // property apply
-    _applySpellCheck : function(value, old) {
-      this._contentElement.setAttribute("spellcheck", value.toString());
     },
 
 
