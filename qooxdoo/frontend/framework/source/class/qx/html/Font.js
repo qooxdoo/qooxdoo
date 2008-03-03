@@ -225,20 +225,22 @@ qx.Class.define("qx.html.Font",
     _applyFamily : function(value, old)
     {
       var family = "";
-      
-      for (var i=0, l=value.length; i<l; i++) 
+
+      for (var i=0, l=value.length; i<l; i++)
       {
+        // in FireFox 2 and WebKit fonts like 'serif' or 'sans-serif' must
+        // not be quoted!
         if (value[i].indexOf(" ") > 0) {
           family += '"' + value[i] + '"';
         } else {
           family += value[i];
         }
-        
+
         if (i !== l-1) {
           family += ",";
         }
       }
-      
+
       this.__family = family;
     },
 
@@ -274,11 +276,11 @@ qx.Class.define("qx.html.Font",
     getStyles : function()
     {
       return {
-      "fontFamily": this.__family,
-      "fontSize": this.__size,
-      "fontWeight": this.__bold,
-      "fontStyle": this.__italic,
-      "textDecoration": this.__decoration
+        "fontFamily": this.__family,
+        "fontSize": this.__size,
+        "fontWeight": this.__bold,
+        "fontStyle": this.__italic,
+        "textDecoration": this.__decoration
       }
     }
   }

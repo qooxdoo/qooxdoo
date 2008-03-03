@@ -123,6 +123,10 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Remove an event listener from a from DOM node.
      *
+     * Note: All registered event listeners will automatically be removed from
+     *   the DOM at page unload so it is not necessary to detach events in the
+     *   destructor.
+     *
      * @type static
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event
@@ -135,8 +139,8 @@ qx.Bootstrap.define("qx.event.Registration",
     removeListener : function(target, type, listener, self, capture) {
       this.getManager(target).removeListener(target, type, listener, self, capture);
     },
-    
-    
+
+
     /**
      * Remove all event listeners, which are attached to the given event target.
      *
@@ -144,7 +148,7 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     removeAllListeners : function(target) {
       this.getManager(target).removeAllListeners(target);
-    },    
+    },
 
 
     /**
@@ -181,7 +185,7 @@ qx.Bootstrap.define("qx.event.Registration",
       if (!clazz) {
         clazz = qx.event.type.Event;
       }
-      
+
       var obj = qx.event.Pool.getInstance().getObject(clazz);
       if (!obj) {
         return;
@@ -189,14 +193,14 @@ qx.Bootstrap.define("qx.event.Registration",
 
       // Initialize with given arguments
       args ? obj.init.apply(obj, args) : obj.init();
-      
+
       // Setup the type
-      // Note: Native event may setup this later or using init() above 
+      // Note: Native event may setup this later or using init() above
       // using the native information.
       if (type) {
         obj.setType(type);
       }
-      
+
       return obj;
     },
 
@@ -230,9 +234,9 @@ qx.Bootstrap.define("qx.event.Registration",
      *       the event's init method.
      * @see #createEvent
      */
-    fireEvent : function(target, type, clazz, args) 
+    fireEvent : function(target, type, clazz, args)
     {
-      var evt = this.createEvent(type, clazz, args);      
+      var evt = this.createEvent(type, clazz, args);
       this.getManager(target).dispatchEvent(target, evt);
     },
 
