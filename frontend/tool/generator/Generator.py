@@ -32,6 +32,7 @@ from generator.PartBuilder import PartBuilder
 from generator.TreeLoader import TreeLoader
 from generator.TreeCompiler import TreeCompiler
 from generator.LibraryPath import LibraryPath
+from generator.ImageInfo import ImageInfo
 import simplejson
 from robocopy import robocopy
 
@@ -54,13 +55,14 @@ class Generator:
         self.scanLibrary(config.split("library"))
 
         # Create tool chain instances
-        self._cache = Cache(config.split("cache"), self._console)
-        self._treeLoader = TreeLoader(self._classes, self._cache, self._console)
-        self._depLoader = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
-        self._treeCompiler = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._locale = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
-        self._apiLoader = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
-        self._partBuilder = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+        self._cache          = Cache(config.split("cache"), self._console)
+        self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
+        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
+        self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
+        self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
+        self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
+        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+        self._imageInfo      = ImageInfo(self._console)
 
         # Start job
         self.run()
@@ -190,9 +192,9 @@ class Generator:
             self.runApiData(packages)
             self._translationMaps = self.runTranslation(parts, packages, variants)
             self.runSource(parts, packages, boot, variants)
+            self.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
-            self.runResources()
 
 
 
@@ -330,6 +332,7 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
+        #bootBlocks.append(self.generateImageInfo())
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
         if format:
@@ -376,7 +379,7 @@ class Generator:
         self._console.outdent()
         
         # Copy application files
-        appfiles = self._config.get("application-files")
+        appfiles = self._config.get("application-files",[])
         buildRoot = "build"  # should probably come from config
         sourceRoot = "source"
         self._console.info("Copying application files...")        
@@ -501,6 +504,26 @@ class Generator:
             value = self._toJavaScript(variants[key])
             result += 'qxvariants["%s"]=%s;' % (key, value)
 
+        return result
+
+
+    def generateImageInfo(self, format=False):
+        """Pre-calculate image information (e.g. sizes)"""
+        result = 'if(!window.qximageinfo)qximageinfo={};'
+        resRoot = os.path.join("build","resource")  # TODO: should be from config
+
+        self._console.info("Analysing images...")
+        self._console.indent()
+        imageInfos = self._imageInfo.getImageInfos(resRoot)
+        self._console.outdent()
+        
+        for key in imageInfos:
+            if format:
+                result += "\n"
+            
+            value = repr(imageInfos[key])
+            result += 'qximageinfo["%s"]=%s;' % (key, value)
+            
         return result
 
 
