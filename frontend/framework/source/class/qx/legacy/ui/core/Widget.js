@@ -2107,6 +2107,32 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
 
     /**
+     * Return the array of all children
+     *
+     * Compat 0.8.x layer
+     *
+     * @type member
+     * @return {qx.legacy.ui.core.Widget[]} all children
+     */
+    getLayoutChildren : function() {
+      return this.getChildren();
+    },
+
+
+    /**
+     * Return the parent.
+     *
+     * Compat 0.8.x layer
+     *
+     * @type member
+     * @return {qx.legacy.ui.core.Widget[]} all children
+     */
+    getLayoutParent : function() {
+      return this.getParent();
+    },
+
+
+    /**
      * Get the number of children
      *
      * @signature function()
