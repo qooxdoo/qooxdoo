@@ -144,8 +144,6 @@ qx.Class.define("qx.ui.core.Widget",
     activate : "qx.ui.event.type.Event",
     deactivate : "qx.ui.event.type.Event",
 
-    // capture event
-
     /**
      * Fired is the widget becomes the capturing widget by a call to {@link #capture}.
      */
@@ -1576,15 +1574,16 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // decorator life cycle management
       var oldDecorator = this.__decorator;
-      this.__decorator = decorator || qx.ui.core.Widget.__DEFAULT_DECORATION;
+      decorator = decorator || qx.ui.core.Widget.__DEFAULT_DECORATION;
+      this.__decorator = decorator;
 
-      if (decorator && !this._decorationElement)
+      if (!this._decorationElement)
       {
         this._decorationElement = this._createDecorationElement();
         this._containerElement.add(this._decorationElement);
       }
 
-      if (decorator && decorator !== oldDecorator)
+      if (decorator !== oldDecorator)
       {
         if (!oldDecorator)
         {
@@ -1607,7 +1606,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var oldInsets = this._lastDecorationInsets || this._defaultDecorationInsets;
-      var currentInsets = decorator ? decorator.getInsets() : this._defaultDecorationInsets;
+      var currentInsets = decorator.getInsets();
 
       // Detect inset changes
       if (
@@ -1737,6 +1736,9 @@ qx.Class.define("qx.ui.core.Widget",
     _styleBackgroundColor : function(color)
     {
       this.__backgroundColor = color;
+      if (!this.__decorator) {
+        this._styleDecorator(null);
+      }
       if (color) {
         qx.ui.core.DecorationQueue.add(this);
       }
