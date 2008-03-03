@@ -193,14 +193,19 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
+    _textSize : {
+      width : 16,
+      height : 16
+    },
+
     // overridden
     _getContentHint : function()
     {
       return {
-        width : 120,
+        width : this._textSize.width * 10,
         minWidth : 0,
         maxWidth : Infinity,
-        height : this._textHeight || 16,
+        height : this._textSize.height || 16,
         minHeight : 0,
         maxHeight : Infinity
       };
@@ -268,8 +273,7 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * Utility method to render the given font. Calls the
-     * {@link #_renderFont} method.
+     * Utility method to render the given font.
      *
      * @type member
      * @param font {qx.bom.Font} new font value to render
@@ -277,20 +281,27 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _styleFont : function(font)
     {
-      if (font)
-      {
-        font.render(this._contentElement);
-        this._textHeight = qx.bom.Label.getTextSize("A", font.getStyles()).height;
-      }
-      else
-      {
-        qx.ui.core.Font.reset(this._contentElement);
-        delete this._textHeight;
+      // Apply
+      var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
+      this._contentElement.setStyles(styles);
+
+      // Compute text size
+      if (font) {
+        this._textSize = qx.bom.Label.getTextSize("A", font.getStyles());
+      } else {
+        delete this._textSize;
       }
 
-      this.__font = font;
+      // Store final value as well
+      this._styledFont = font;
+
+      // Update layout
       this.scheduleLayoutUpdate();
     },
+
+
+
+
 
 
     /*
@@ -304,20 +315,24 @@ qx.Class.define("qx.ui.form.TextField",
       this._contentElement.setValue(value);
     },
 
+
     // property apply
     _applyTextAlign : function(value, old) {
       this._contentElement.setStyle("textAlign", value || "");
     },
+
 
     // property apply
     _applySpellCheck : function(value, old) {
       this._contentElement.setAttribute("spellcheck", value.toString());
     },
 
+
     // property apply
     _applyMaxLength : function(value, old) {
       this._contentElement.setAttribute("maxLength", value == null ? "" : value);
     },
+
 
     // property apply
     _applyReadOnly : function(value, old)
@@ -330,6 +345,8 @@ qx.Class.define("qx.ui.form.TextField",
         this.removeState("readonly");
       }
     },
+
+
 
 
 
@@ -346,14 +363,16 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _onInput : function()
     {
+      // Synchronize value
       var value = this._contentElement.getValue();
       this.setValue(value);
 
+      // Fire input event
       if (this.hasListeners("input")) {
         this.fireDataEvent("input", value);
       }
-
     },
+
 
     /**
      * Change event handler.
@@ -362,13 +381,14 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _onChange : function()
     {
+      // Synchronize value
       var value = this._contentElement.getValue();
       this.setValue(value);
 
+      // Fire change event
       if (this.hasListeners("change")) {
         this.fireDataEvent("change", value);
       }
     }
-
   }
 });

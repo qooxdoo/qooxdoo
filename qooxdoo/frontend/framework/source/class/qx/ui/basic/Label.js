@@ -88,7 +88,10 @@ qx.Class.define("qx.ui.basic.Label",
   members :
   {
     /** {qx.bom.Font} The current label font */
-    __font : null,
+    _styledFont : null,
+
+
+
 
 
     /*
@@ -97,32 +100,38 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
+    _textSize : {
+      width : 0,
+      height : 0
+    },
+
     // overridden
     _getContentHint : function()
     {
-      var styles = {};
-      if (this.__font) {
-        styles = this.__font.getStyles();
+      if (this._invalidTextSize)
+      {
+        this._computeTextSize();
+        delete this._invalidTextSize;
       }
 
-      var measured = this._htmlMode ?
-        qx.bom.Label.getHtmlSize(this.getHtml() || "", styles) :
-        qx.bom.Label.getTextSize(this.getText() || "", styles);
-
       return {
-        width : measured.width,
+        width : this._textSize.width,
         minWidth : 0,
         maxWidth : Infinity,
-        height : measured.height,
+        height : this._textSize.height,
         minHeight : 0,
         maxHeight : Infinity
       };
     },
 
+
+    // overridden
     hasHeightForWidth : function() {
       return !!this._htmlMode;
     },
 
+
+    // overridden
     _getContentHeightForWidth : function(width)
     {
       if (!this._htmlMode) {
@@ -148,15 +157,55 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     // overridden
-    _applyFont : function(value, old)
-    {
-      qx.theme.manager.Font.getInstance().connect(function(font)
-      {
-        font ? font.render(this._contentElement) : qx.ui.core.Font.reset(this._contentElement);
-        this.__font = font;
-        this.scheduleLayoutUpdate();
-      }, this, value);
+    _applyFont : function(value, old) {
+      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
     },
+
+
+    /**
+     * Utility method to render the given font.
+     *
+     * @type member
+     * @param font {qx.bom.Font} new font value to render
+     * @return {void}
+     */
+    _styleFont : function(font)
+    {
+      // Apply
+      var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
+      this._contentElement.setStyles(styles);
+
+      // Store final value as well
+      this._styledFont = font;
+
+      // Invalidate text size
+      this._invalidTextSize = true;
+
+      // Update layout
+      this.scheduleLayoutUpdate();
+    },
+
+
+    _computeTextSize : function()
+    {
+      var font = this._styledFont;
+
+      // Compute text size
+      if (font)
+      {
+        var Label = qx.bom.Label;
+        var styles = font.getStyles();
+
+        this._textSize = this._htmlMode ?
+          Label.getHtmlSize(this.getHtml() || "", styles) :
+          Label.getTextSize(this.getText() || "", styles);
+      }
+      else
+      {
+        delete this._textSize;
+      }
+    },
+
 
 
 
@@ -194,6 +243,10 @@ qx.Class.define("qx.ui.basic.Label",
       this._contentElement.setHtmlMode(html);
       this._contentElement.setContent(value);
 
+      // Mark text size cache as invalid
+      this._invalidTextSize = true;
+
+      // Update layout
       this.scheduleLayoutUpdate();
     }
   },
