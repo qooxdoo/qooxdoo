@@ -19,10 +19,6 @@
 
 ************************************************************************ */
 
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
-{
-
 /**
  * Helper class to work with VML . If this class is used, it initialized VML
  * support.
@@ -141,5 +137,3 @@ qx.Class.define("qx.bom.Vml",
     statics.init();
   }
 });
-
-} // qx.core.Variant.isSet mshtml
