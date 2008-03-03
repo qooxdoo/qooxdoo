@@ -65,7 +65,7 @@ qx.Class.define("qx.html.Root",
       }
 
       // Store hashcode
-      elem.$$html = this.$$hash;
+      elem.$$hash = this.$$hash;
 
       // Initialize based on given element
       this._element = elem;
