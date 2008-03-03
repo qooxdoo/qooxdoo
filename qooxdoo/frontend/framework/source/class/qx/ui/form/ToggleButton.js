@@ -64,19 +64,17 @@ qx.Class.define("qx.ui.form.ToggleButton",
   *****************************************************************************
   */
 
-  properties: {
-    appearance: {
+  properties:
+  {
+    appearance:
+    {
       refine: true,
       init: "button"
     },
 
-    tabIndex: {
-      refine: true,
-      init: 1
-    },
-
     /** Boolean value signals if the button is checked */
-    checked: {
+    checked:
+    {
       check: "Boolean",
       init: false,
       apply: "_applyChecked",
@@ -116,13 +114,16 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseover : function(e) {
+    _onmouseover : function(e)
+    {
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
 
       this.addState("over");
-      if (this.hasState("abandoned")) {
+
+      if (this.hasState("abandoned"))
+      {
         this.removeState("abandoned");
         this.addState("pressed");
       }
@@ -141,12 +142,16 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseout : function(e) {
+    _onmouseout : function(e)
+    {
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
+
       this.removeState("over");
-      if (this.hasState("pressed")) {
+
+      if (this.hasState("pressed"))
+      {
         if (!this.getChecked()) {
           this.removeState("pressed");
         }
@@ -199,8 +204,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseup : function(e) {
-
+    _onmouseup : function(e)
+    {
       this.releaseCapture();
 
       var hasPressed = this.hasState("pressed");
