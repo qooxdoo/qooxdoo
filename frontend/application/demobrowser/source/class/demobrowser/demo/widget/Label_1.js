@@ -40,19 +40,20 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
       var label2 = new qx.ui.basic.Label("Hello World").set({
         decorator: decor,
         width: 50,
-        mode: "html"
+        rich : true
       });
       doc.add(label2, 20, 60);
 
       var label3 = new qx.ui.basic.Label().set({
-        html: "Returns the preferred height for this layout item, given the width w.",
+        content: "Returns the preferred height for this layout item, given the width w.",
         decorator: decor,
+        rich : true,
         width: 100
       });
       doc.add(label3, 20, 100);
 
+      this.debug("Height for Width (50): " + label3.getHeightForWidth(50));
       this.debug("Height for Width (100): " + label3.getHeightForWidth(100));
-      this.debug("Height for Width (150): " + label3.getHeightForWidth(150));
       this.debug("Height for Width (200): " + label3.getHeightForWidth(200));
     }
   }
