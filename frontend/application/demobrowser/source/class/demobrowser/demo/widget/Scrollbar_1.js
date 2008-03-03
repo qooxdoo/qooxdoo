@@ -32,10 +32,17 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var vbar = new qx.ui.core.ScrollBar("vertical");
-      vbar.setHeight(200);
-      vbar.setWidth(20);
+      var vbar = new qx.ui.core.ScrollBar("vertical").set({
+        height: 200,
+        width: 20,
+        maximum: 1000,
+        value: 100
+      })
       doc.add(vbar, 230, 10);
+
+      vbar.addListener("scroll", function(e) {
+        //this.debug("value: " + vbar.getValue());
+      }, this);
 
       var hbar = new qx.ui.core.ScrollBar("horizontal");
       hbar.setHeight(20);
