@@ -17,6 +17,15 @@
 
 ************************************************************************ */
 
+/**
+ * A cross browser label instance with support for HTML and text labels.
+ *
+ * Text labels supports ellipsis to reduce the text width.
+ *
+ * The mode html or text can be changed through the method {@link #setHtmlMode}
+ * which accepts a boolean value. The default mode is "text" which is
+ * a good choice because it has a better performance.
+ */
 qx.Class.define("qx.html.Label",
 {
   extend : qx.html.Element,
@@ -49,10 +58,8 @@ qx.Class.define("qx.html.Label",
 
 
     // overridden
-    _createDomElement : function()
-    {
-      this._element = qx.bom.Label.create(this._content, this._htmlMode);
-      this._element.QxElement = this;
+    _createDomElement : function() {
+      return qx.bom.Label.create(this._content, this._htmlMode);
     },
 
 
@@ -65,13 +72,13 @@ qx.Class.define("qx.html.Label",
     */
 
     /**
-     * Toggles the HTML mode
+     * Toggles the HTML mode.
      *
      * @type member
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    setMode : function(value)
+    setHtmlMode : function(value)
     {
       if (!!this._htmlMode == value) {
         return;

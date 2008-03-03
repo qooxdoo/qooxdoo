@@ -53,10 +53,8 @@ qx.Class.define("qx.html.Image",
 
 
     // overridden
-    _createDomElement : function()
-    {
-      this._element = qx.bom.Image.create(this._source);
-      this._element.QxElement = this;
+    _createDomElement : function() {
+      return qx.bom.Image.create(this._source);
     },
 
 
