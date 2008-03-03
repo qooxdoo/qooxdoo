@@ -205,8 +205,7 @@ qx.Class.define("qx.ui.form.TextField",
         "background": "transparent",
         "outline": "none",
         "resize": "none",
-        "WebkitAppearance": "none",
-        "MozAppearance": "none"
+        "appearance": "none"
       });
 
       // Emulate IE hard-coded margin

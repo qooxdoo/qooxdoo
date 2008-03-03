@@ -57,13 +57,26 @@ qx.Class.define("qx.bom.element.Style",
       // Style property name correction (at element.style level)
       styleNames :
       {
-        "float" : qx.bom.client.Engine.MSHTML ? "styleFloat" : "cssFloat"
+        "float" : qx.core.Variant.select("qx.client", {
+          "mshtml" : "styleFloat",
+          "default" : "cssFloat"
+        }),
+
+        "appearance" : qx.core.Variant.select("qx.client", {
+          "gecko" : "MozAppearance",
+          "webkit" : "WebkitAppearance",
+          "default" : "appearance"
+        })
       },
 
       // CSS property name correction (at HTML/CSS level)
       cssNames :
       {
-
+        "appearance" : qx.core.Variant.select("qx.client", {
+          "gecko" : "-moz-appearance",
+          "webkit" : "-webkit-appearance",
+          "default" : "appearance"
+        })
       },
 
       // Mshtml has propertiery pixel* properties for locations and dimensions
