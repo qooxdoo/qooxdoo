@@ -64,9 +64,6 @@ qx.Class.define("qx.html.Element",
 
     // {Array} Stores the children (each one is a qx.html.Element itself)
     this._children = [];
-
-    // Store hashcode as ID in debug mode
-    this.setAttribute("id", "hc" + this.$$hash);
   },
 
 
@@ -307,10 +304,8 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      */
-    _createDomElement : function()
-    {
-      this._element = qx.bom.Element.create(this._nodeName);
-      this._element.QxElement = this;
+    _createDomElement : function() {
+      return qx.bom.Element.create(this._nodeName);
     },
 
 
@@ -354,7 +349,9 @@ qx.Class.define("qx.html.Element",
 
       if (!this._element)
       {
-        this._createDomElement();
+        this._element = this._createDomElement();
+        this._element.hc = this.$$hash;
+
         this._copyData();
 
         if (length > 0) {
@@ -437,9 +434,9 @@ qx.Class.define("qx.html.Element",
       for (var i=domChildren.length-1; i>=0; i--)
       {
         domEl = domChildren[i];
-        dataEl = domEl.QxElement;
+        dataEl = qx.core.ObjectRegistry.fromHashCode(domEl.hc);
 
-        if (!dataEl._included || dataEl._parent !== this)
+        if (!dataEl || !dataEl._included || dataEl._parent !== this)
         {
           domParent.removeChild(domEl);
 
@@ -1872,7 +1869,6 @@ qx.Class.define("qx.html.Element",
   {
     if (this._element)
     {
-      this._element.QxElement = null;
       if (this.__hasDomEventListeners) {
         qx.event.Registration.getManager(this._element).removeAllListeners(this._element);
       }

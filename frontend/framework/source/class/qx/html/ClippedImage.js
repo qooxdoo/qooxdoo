@@ -22,6 +22,9 @@
  * A ClippedImage wraps a DOM element, which displays a clipped image.
  * All images shown with this class must be registered using
  * {@link qx.io.image.IconManager#register} before.
+ *
+ * Also have a look at the class {@link qx.html.ClippedImage} for network
+ * efficient clipped image support.
  */
 qx.Class.define("qx.html.ClippedImage",
 {
