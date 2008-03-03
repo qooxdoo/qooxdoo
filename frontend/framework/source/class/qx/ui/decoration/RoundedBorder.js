@@ -527,5 +527,15 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         this.base(arguments, decorationElement, width, height, backgroundColor, backgroundImage, backgroundRepeat);
       }
     })
-  }
+  },
+
+
+  defer : qx.core.Variant.select("qx.client",
+  {
+    "mshtml" : function(statics) {
+      qx.bom.Vml.init();
+    },
+
+    "default" : function(statics) {}
+  })
 });

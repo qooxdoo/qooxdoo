@@ -143,8 +143,8 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         hashes.push(hash);
       }
 
-      hashes.sort(function(a, b) { 
-        return parseInt(b, 36)-parseInt(a, 36); 
+      hashes.sort(function(a, b) {
+        return parseInt(b, 36)-parseInt(a, 36);
       });
 
       var obj, i=0, l=hashes.length;
