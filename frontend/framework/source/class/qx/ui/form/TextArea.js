@@ -72,12 +72,6 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       refine : true,
       init : true
-    },
-
-    spellCheck :
-    {
-      refine : true,
-      init : true
     }
   },
 
