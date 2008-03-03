@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.layout.Abstract",
       }
 
       this._options[child.$$hash] = options || {};
-      this._addToParent(child);
+      child.setLayoutParent(this.getWidget());
 
       // Invalidate layout cache
       this.scheduleWidgetLayoutUpdate();
@@ -253,44 +253,10 @@ qx.Class.define("qx.ui.layout.Abstract",
       }
 
       delete this._options[child.$$hash];
-      this._removeFromParent(child);
+      child.setLayoutParent(null);
 
       // Invalidate layout cache
       this.scheduleWidgetLayoutUpdate();
-    },
-
-
-    /**
-     * Helper to manage child insertion.
-     *
-     * @type member
-     * @param widget {qx.ui.core.Widget} Widget to insert
-     * @return {void}
-     */
-    _addToParent : function(widget)
-    {
-      var parent = this.getWidget();
-      if (parent) {
-        widget.nativeAddToParent(parent);
-        widget.setParent(parent);
-      }
-    },
-
-
-    /**
-     * Helper to manage child removal.
-     *
-     * @type member
-     * @param widget {qx.ui.core.Widget} Widget to remove
-     * @return {void}
-     */
-    _removeFromParent : function(widget)
-    {
-      var parent = this.getWidget();
-      if (parent) {
-        widget.nativeRemoveFromParent(parent);
-      }
-      widget.setParent(null);
     },
 
 
@@ -531,7 +497,7 @@ qx.Class.define("qx.ui.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          this._removeFromParent(child);
+          child.setLayoutParent(null);
         }
 
         old.scheduleLayoutUpdate();
@@ -542,7 +508,7 @@ qx.Class.define("qx.ui.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          this._addToParent(child);
+          child.setLayoutParent(this);
         }
 
         value.scheduleLayoutUpdate();

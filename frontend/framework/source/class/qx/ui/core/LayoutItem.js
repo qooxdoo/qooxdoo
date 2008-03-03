@@ -231,35 +231,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * Adds this widget to its parent on widget implementation level (e.g. DOM).
-     * Derived classes, which can have children, must implement this method.
-     *
-     * @internal
-     * @param parent {qx.ui.core.LayoutItem} The new parent
-     */
-    nativeAddToParent : function(parent) {
-    },
-
-
-    /**
-     * Removes this widget from its parent on widget implementation level (e.g. DOM).
-     * Derived classes, which can have children, must implement this method.
-     *
-     * @internal
-     * @param child {qx.ui.core.LayoutItem} the child to add
-     */
-    nativeRemoveFromParent : function() {
-    },
-
-
-    /**
      * Get the widget's parent widget. Even if the widget has been added to a
      * layout, the parent is always a child of the containing widget. The parent
      * widget may be <code>null</code>.
      *
      * @return {qx.ui.core.Widget|null} The widget's parent.
      */
-    getParent : function() {
+    getLayoutParent : function() {
       return this._parent || null;
     },
 
@@ -270,7 +248,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @internal: Should only be used by the layout managers
      * @param parent {qx.ui.core.Widget|null} The widget's new parent.
      */
-    setParent : function(parent) {
+    setLayoutParent : function(parent) {
       this._parent = parent;
     },
 

@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.core.LayoutQueue",
           {
             // invalidateLayoutCache parent. Since the level is > 0, the widget must
             // have a parent != null.
-            var parent = widget.getParent();
+            var parent = widget.getLayoutParent();
             if (!levels[level-1]) {
               levels[level-1] = {};
             }
