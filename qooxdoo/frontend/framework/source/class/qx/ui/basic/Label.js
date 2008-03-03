@@ -63,12 +63,12 @@ qx.Class.define("qx.ui.basic.Label",
   properties :
   {
     /**
-     * Switches between HTML and text content. The text mode supports
+     * Switches between rich HTML and text content. The text mode supports
      * advanced features like ellipsis when the available space is not
      * enough. HTML mode supports multi-line content and all the
      * markup features of HTML content.
      */
-    htmlMode :
+    rich :
     {
       check : "Boolean",
       init : false,
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * Contains the HTML or text content. Interpretation depends on the value
-     * of {@link #htmlMode}. In text mode entities and other HTML special content
+     * of {@link #rich}. In text mode (rich=off) entities and other HTML special content
      * is not supported. But it is possible to use unicode escape sequences
      * to insert symbols and other non ASCII characters.
      */
@@ -131,18 +131,18 @@ qx.Class.define("qx.ui.basic.Label",
 
     // overridden
     hasHeightForWidth : function() {
-      return this.getHtmlMode();
+      return this.getRich();
     },
 
 
     // overridden
     _getContentHeightForWidth : function(width)
     {
-      if (!this.getHtmlMode()) {
+      if (!this.getRich()) {
         return null;
       }
 
-      return qx.bom.Label.getHtmlSize(this.getHtml(), null, width).height;
+      return qx.bom.Label.getHtmlSize(this.getContent(), null, width).height;
     },
 
 
@@ -217,24 +217,15 @@ qx.Class.define("qx.ui.basic.Label",
      */
     __computeContentSize : function()
     {
+      var Label = qx.bom.Label;
+
       var font = this.__styledFont;
+      var styles = font ? font.getStyles() : null;
+      var content = this.getContent() || "";
 
-      // Compute text size
-      if (font)
-      {
-        var Label = qx.bom.Label;
-
-        var styles = font.getStyles();
-        var content = this.getContent() || "";
-
-        this.__contentSize = this.getHtmlMode() ?
-          Label.getHtmlSize(content, styles) :
-          Label.getTextSize(content, styles);
-      }
-      else
-      {
-        delete this.__contentSize;
-      }
+      this.__contentSize = this.getRich() ?
+        Label.getHtmlSize(content, styles) :
+        Label.getTextSize(content, styles);
     },
 
 
