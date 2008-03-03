@@ -70,8 +70,6 @@ qx.Class.define("qx.ui.form.Spinner",
   extend : qx.ui.core.Widget,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -104,7 +102,7 @@ qx.Class.define("qx.ui.form.Spinner",
 //    this._textfield.setHeight(null);
 //    this._textfield.setLiveUpdate(true);
 //    this._textfield.setVerticalAlign("middle");
-//    this._textfield.setAppearance("spinner-text-field");
+    this._textfield.setAppearance("spinner-text-field");
     this._mainLayout.add(this._textfield);
 
 
@@ -152,8 +150,8 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("keyup", this._onkeyup, this);
     this.addListener("mousewheel", this._onmousewheel, this);
 
-    this._textfield.addListener("changeValue", this._ontextchange, this);
-    this._textfield.addListener("input", this._oninput, this);
+//    this._textfield.addListener("changeValue", this._ontextchange, this);
+//    this._textfield.addListener("input", this._oninput, this);
     this._textfield.addListener("blur", this._onblur, this);
     this._upbutton.addListener("mousedown", this._onmousedown, this);
     this._downbutton.addListener("mousedown", this._onmousedown, this);
@@ -179,8 +177,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     this.initWidth();
-    this.initHeight();
-    
+    this.initHeight();    
 
     this._last_value = "";
   },
@@ -512,7 +509,11 @@ qx.Class.define("qx.ui.form.Spinner",
             }
 
             // supress all key events without modifier
-            if (e.getModifiers() == 0) {
+						
+            if (!e.isCtrlPressed() && 
+						    !e.isShiftPressed() &&
+								!e.isAltPressed() &&
+								!e.isMetaPressed()) {
               e.preventDefault();
             }
         }
@@ -622,11 +623,10 @@ qx.Class.define("qx.ui.form.Spinner",
       if (!e.isLeftPressed()) {
         return;
       }
-
+			
       this._checkValue(true);
 
       var vButton = e.getCurrentTarget();
-
 
       vButton.addState("pressed");
 
@@ -687,6 +687,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _onmousewheel : function(e)
     {
       this._checkValue(true);
+			
       if (this.getManager().incrementValue)
       {
         this.getManager().incrementValue(this.getWheelIncrementAmount() *
@@ -747,6 +748,7 @@ qx.Class.define("qx.ui.form.Spinner",
       if (this._numberFormat) {
         this._textfield.setValue(this._numberFormat.format(vValue));
       } else {
+				this.info(String(vValue));
         this._textfield.setValue(String(vValue));
       }
 
