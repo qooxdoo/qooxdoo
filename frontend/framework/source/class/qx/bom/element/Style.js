@@ -135,11 +135,11 @@ qx.Class.define("qx.bom.element.Style",
 
       for (name in map)
       {
-        // normalize name
-        name = names[name] || name;
-
         // read value
         value = map[name];
+
+        // normalize name
+        name = names[name] || name;
 
         // process special properties
         if (special[name])
