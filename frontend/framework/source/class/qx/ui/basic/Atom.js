@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * Configure the visibility of the sub elements/widgets.
-     *  Possible values: both, text, icon, none
+     * Possible values: both, text, icon, none
      */
     show :
     {
@@ -121,14 +121,14 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * The position of the icon in relation to the text.
-     *  Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
+     * Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
      */
-    iconPosition :
+    align :
     {
       init   : "left",
       check : [ "top", "right", "bottom", "left" ],
       themeable : true,
-      apply : "_applyIconPosition"
+      apply : "_applyAlign"
     }
   },
 
@@ -178,6 +178,7 @@ qx.Class.define("qx.ui.basic.Atom",
       } else {
         this._label = new qx.ui.basic.Label(value);
       }
+
       this._handleLabel();
     },
 
@@ -210,19 +211,8 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     // property apply
-    _applyIconPosition : function(value, old) {
-      this.getLayout().setIconPosition(value);
+    _applyAlign : function(value, old) {
+      this.getLayout().setAlign(value);
     }
-
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
   }
 });
