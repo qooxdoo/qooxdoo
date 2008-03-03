@@ -143,7 +143,7 @@ qx.Theme.define("demobrowser.demo.ui.Appearance",
           backgroundImage: states.pressed ? root + "background/glossy-pressed.png" : states.over ? root + "background/glossy-over.png" : root + "background/glossy.png",
           textColor: "#cad1e2",
           padding: [0, 15, 0, 15],
-          font: new qx.html.Font().set({
+          font: new qx.bom.Font().set({
             size: 14,
             family : ["Verdana", "sans-serif"]
           })

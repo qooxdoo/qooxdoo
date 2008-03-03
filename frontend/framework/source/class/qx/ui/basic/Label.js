@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
-    /** {qx.html.Font} The current label font */
+    /** {qx.bom.Font} The current label font */
     __font : null,
 
 
