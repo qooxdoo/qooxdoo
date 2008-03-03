@@ -350,7 +350,7 @@ qx.Class.define("qx.html.Element",
       if (!this._element)
       {
         this._element = this._createDomElement();
-        this._element.hc = this.$$hash;
+        this._element.$$hash = this.$$hash;
 
         this._copyData();
 
@@ -416,6 +416,8 @@ qx.Class.define("qx.html.Element",
      */
     _syncChildren : function()
     {
+      var ObjectRegistry = qx.core.ObjectRegistry;
+
       var dataChildren = this._children;
       var dataLength = dataChildren.length
       var dataChild;
@@ -434,7 +436,7 @@ qx.Class.define("qx.html.Element",
       for (var i=domChildren.length-1; i>=0; i--)
       {
         domEl = domChildren[i];
-        dataEl = qx.core.ObjectRegistry.fromHashCode(domEl.hc);
+        dataEl = ObjectRegistry.fromHashCode(domEl.$$hash);
 
         if (!dataEl || !dataEl._included || dataEl._parent !== this)
         {
