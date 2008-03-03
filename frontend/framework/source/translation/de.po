@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-18 15:14+0100\n"
+"POT-Creation-Date: 2008-03-03 09:46+0100\n"
 "PO-Revision-Date: 2007-01-23 17:53+0100\n"
 "Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 "Language-Team: German\n"
@@ -105,13 +105,13 @@ msgstr "Weiter suchen"
 msgid "Search items in list"
 msgstr "Liste durchsuchen"
 
-#: class/qx/legacy/ui/table/Table.js:1497
+#: class/qx/legacy/ui/table/Table.js:1523
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: class/qx/legacy/ui/table/Table.js:1499
+#: class/qx/legacy/ui/table/Table.js:1525
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
