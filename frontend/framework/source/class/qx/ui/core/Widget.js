@@ -485,7 +485,6 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       init : "inherit",
       apply : "_applyFont",
-      //check : 'value == null | qx.theme.manager.Font.getInstance().isDynamic(value) || value instanceof qx.bom.Font',
       event : "changeFont",
       themeable : true,
       inheritable : true
@@ -541,6 +540,8 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       init : null
     },
+
+
 
 
     /*
@@ -603,6 +604,8 @@ qx.Class.define("qx.ui.core.Widget",
       event : "changeAppearance"
     }
   },
+
+
 
 
 
@@ -685,6 +688,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__toggleDisplay();
+
+      qx.core.Property.refresh(this);
     },
 
 
