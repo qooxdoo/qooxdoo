@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.layout.Atom",
 
 
     /** The position of the icon in relation to the text */
-    iconPosition :
+    align :
     {
       check : [ "left", "top", "right", "bottom" ],
       init : "left",
@@ -120,18 +120,18 @@ qx.Class.define("qx.ui.layout.Atom",
     {
       var Util = qx.ui.layout.Util;
 
-      var iconPosition = this.getIconPosition();
+      var align = this.getAlign();
       var children;
 
-      if (iconPosition == "top" || iconPosition == "left") {
+      if (align == "top" || align == "left") {
         children = [this._icon, this._text];
       }
 
-      if (iconPosition == "bottom" || iconPosition == "right") {
+      if (align == "bottom" || align == "right") {
         children = [this._text, this._icon];
       }
 
-      if (iconPosition == "top" || iconPosition == "bottom")
+      if (align == "top" || align == "bottom")
       {
         // vertical
         var top = 0;
@@ -196,10 +196,10 @@ qx.Class.define("qx.ui.layout.Atom",
         var iconHint = this._icon.getSizeHint();
         var textHint = this._text.getSizeHint();
 
-        var iconPosition = this.getIconPosition();
+        var align = this.getAlign();
         var gap = this.getGap();
 
-        if (iconPosition === "top" || iconPosition === "bottom")
+        if (align === "top" || align === "bottom")
         {
           // Max of text and icon
           width = Math.max(iconHint.width, textHint.width);
