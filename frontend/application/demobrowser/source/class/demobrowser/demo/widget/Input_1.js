@@ -71,8 +71,11 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       });
       docLayout.add(input4);
 
-      input4.addListener("changeValue", function(e) {
-        this.debug("Value change: " + input4.getValue());
+      input4.addListener("change", function(e) {
+        this.debug("change event: " + e.getData());
+      });
+      input4.addListener("input", function(e) {
+        this.debug("input event: " + e.getData());
       });
 
       var input6 = new qx.ui.form.TextField("read only").set({
