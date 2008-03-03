@@ -277,7 +277,7 @@ qx.Class.define("qx.core.Property",
      */
     refresh : function(widget)
     {
-      var parent = widget.getParent();
+      var parent = widget.getLayoutParent();
 
       if (parent)
       {
@@ -1171,7 +1171,7 @@ qx.Class.define("qx.core.Property",
           if (variant === "refresh") {
             code.push('computed=value;');
           } else {
-            code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';');
+            code.push('var pa=this.getLayoutParent();if(pa)computed=pa.', this.$$store.inherit[name], ';');
           }
 
           // Fallback to init value if inheritance was unsuccessful
@@ -1251,9 +1251,9 @@ qx.Class.define("qx.core.Property",
 
         // Refresh children
         // Require the parent/children interface
-        if (config.inheritable && members.getChildren)
+        if (config.inheritable && members.getLayoutChildren)
         {
-          code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
+          code.push('var a=this.getLayoutChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
           code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(backup);');
           code.push('}');
         }
