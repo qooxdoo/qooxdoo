@@ -60,6 +60,9 @@ qx.Class.define("demobrowser.demo.bom.Event_1",
       qx.event.Registration.addListener(this._juhu, "click", this._onclick2, this);
       qx.event.Registration.addListener(this._juhu, "keydown", this._onclick2, this);
 
+      qx.event.Registration.addListener(this._juhu, "mouseover", this._onmouseover, this);
+      qx.event.Registration.addListener(this._juhu, "mouseout", this._onmouseout, this);
+
       qx.event.Registration.addListener(
         document.getElementById("input"),
         "keydown",
@@ -106,6 +109,14 @@ qx.Class.define("demobrowser.demo.bom.Event_1",
 
     _onkeyinput: function(e) {
       this.debug("keyinput: " + e.getCharCode());
+    },
+
+    _onmouseover : function(e) {
+      this.debug("mouse over");
+    },
+
+    _onmouseout : function(e) {
+      this.debug("mouse out");
     },
 
     _scroll: function(e) {
