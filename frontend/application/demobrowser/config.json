@@ -35,6 +35,8 @@
       "locales" : ["en", "de", "es", "it"]
     },
 
+		"application-files" : [ "index.html", "demo" ],
+
     "cache" :
     {
       "path" : "../../cache"
