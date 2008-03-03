@@ -18,7 +18,7 @@
 #
 ################################################################################
 
-import os, codecs, cPickle, sys
+import os, codecs, cPickle, sys, re
 import gzip as sys_gzip
 import textutil
 import roothelper
@@ -142,3 +142,15 @@ def root():
         pass
     
     return root
+
+
+def find(rootpath, pattern):
+    dirwalker = os.walk(rootpath)
+
+    for (path, dirlist, filelist) in dirwalker:
+        for filename in filelist:
+            if not re.search(pattern, filename):
+                continue
+
+            yield os.path.join(path,filename)
+
