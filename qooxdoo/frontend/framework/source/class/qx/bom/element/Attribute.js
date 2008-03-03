@@ -110,6 +110,13 @@ qx.Class.define("qx.bom.element.Attribute",
       // Interpreted as property (element.property)
       property :
       {
+        // Used by qx.html.Element
+        $$html      : 1,
+
+        // Used by qx.ui.core.Widget
+        $$widget    : 1,
+
+        // Native properties
         disabled    : 1,
         checked     : 1,
         readOnly    : 1,
