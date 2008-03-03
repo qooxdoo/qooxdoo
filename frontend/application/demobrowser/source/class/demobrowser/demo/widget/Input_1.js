@@ -55,11 +55,10 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       });
       docLayout.add(input2);
 
-      var input3 = new qx.ui.form.TextField("spell checked").set({
+      var input3 = new qx.ui.form.TextField("another").set({
         padding: 5,
         width: 200,
-        height: 30,
-        spellCheck: true
+        height: 30
       });
       docLayout.add(input3);
 
