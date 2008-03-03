@@ -23,7 +23,7 @@
  * A wrapper for CSS font styles. Fond objects can be aplpied to instances
  * of {@link qx.html.Element}.
  */
-qx.Class.define("qx.html.Font",
+qx.Class.define("qx.bom.Font",
 {
   extend : qx.core.Object,
 
@@ -69,11 +69,11 @@ qx.Class.define("qx.html.Font",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.html.Font} the created instance
+     * @return {qx.bom.Font} the created instance
      */
     fromString : function(str)
     {
-      var font = new qx.html.Font();
+      var font = new qx.bom.Font();
       var parts = str.split(/\s+/);
       var name = [];
       var part;
@@ -120,11 +120,11 @@ qx.Class.define("qx.html.Font",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.html.Font} the created instance
+     * @return {qx.bom.Font} the created instance
      */
     fromConfig : function(config)
     {
-      var font = new qx.html.Font;
+      var font = new qx.bom.Font;
       font.set(config);
       return font;
     },

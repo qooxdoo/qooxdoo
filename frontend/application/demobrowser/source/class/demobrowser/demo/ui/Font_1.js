@@ -59,23 +59,23 @@ qx.Class.define("demobrowser.demo.ui.Font_1",
       controls.getLayout().add(b5);
 
       b1.addListener("execute", function() {
-        label.setFont(qx.html.Font.fromString("16px serif"));
+        label.setFont(qx.bom.Font.fromString("16px serif"));
       });
 
       b2.addListener("execute", function() {
-        label.setFont(qx.html.Font.fromString("24px serif"));
+        label.setFont(qx.bom.Font.fromString("24px serif"));
       });
 
       b3.addListener("execute", function() {
-        label.setFont(qx.html.Font.fromString("16px sans-serif"));
+        label.setFont(qx.bom.Font.fromString("16px sans-serif"));
       });
 
       b4.addListener("execute", function() {
-        label.setFont(qx.html.Font.fromString("24px sans-serif"));
+        label.setFont(qx.bom.Font.fromString("24px sans-serif"));
       });
 
       b5.addListener("execute", function() {
-        label.setFont(qx.html.Font.fromString("24px sans-serif bold"));
+        label.setFont(qx.bom.Font.fromString("24px sans-serif bold"));
       });
     }
   }
