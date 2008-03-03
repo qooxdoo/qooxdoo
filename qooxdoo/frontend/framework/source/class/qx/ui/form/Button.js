@@ -48,8 +48,6 @@ qx.Class.define("qx.ui.form.Button",
   {
     this.base(arguments, label, iconUrl);
 
-    this.initTabIndex();
-
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mouseout", this._onmouseout);
     this.addListener("mousedown", this._onmousedown);
@@ -72,12 +70,6 @@ qx.Class.define("qx.ui.form.Button",
     {
       refine : true,
       init : "button"
-    },
-
-    tabIndex :
-    {
-      refine : true,
-      init : 1
     }
   },
 

@@ -577,24 +577,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * Set this to a positive value makes the widget able to get the focus
-     * and makes it reachable by using the tab-key.
-     *
-     * Widgets with the same tabIndex are handled through their position
-     * in the document.
-     *
-     * Setting the tabIndex to -1 deactivates focus handling for the widget.
-     */
-    tabIndex :
-    {
-      check : "Integer",
-      init : -1,
-      apply : "_applyTabIndex",
-      event : "changeTabIndex"
-    },
-
-
     /** The widget's appearance id */
     appearance :
     {
@@ -1716,12 +1698,6 @@ qx.Class.define("qx.ui.core.Widget",
       } else {
         this.removeState("disabled");
       }
-    },
-
-
-    // property apply
-    _applyTabIndex : function(value, old) {
-      // TODO
     },
 
 

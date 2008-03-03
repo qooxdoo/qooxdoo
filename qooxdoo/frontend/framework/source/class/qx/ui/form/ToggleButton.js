@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Martin Wittemann (martinwittemann) 
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -21,7 +21,7 @@
  * A toggle Button widget
  *
  * If the user presses the button by clicking on ito pressing the enter or
- * space key, the button toggles beweteen the pressed an not pressed states. 
+ * space key, the button toggles beweteen the pressed an not pressed states.
  * There is no execute event, only a {@link qx.ui.form.ToggleButton#changeChecked} event.
  *
  * @appearance button
@@ -46,12 +46,12 @@ qx.Class.define("qx.ui.form.ToggleButton",
   construct : function(label, iconUrl) {
     this.base(arguments, label, iconUrl);
 
-    this.initTabIndex();
     // register mouse events
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mouseout", this._onmouseout);
     this.addListener("mousedown", this._onmousedown, this);
     this.addListener("mouseup", this._onmouseup);
+
     // register keyboard events
     this.addListener("keydown", this._onkeydown);
     this.addListener("keyup", this._onkeyup);
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
   {
     /**
      * Changes the state of the button dependent on the checked value.
-     * 
+     *
      * @type member
      * @param value {Boolean} Current value
      * @param old {Boolean} Previous value
@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
-      
+
       this.addState("over");
       if (this.hasState("abandoned")) {
         this.removeState("abandoned");
@@ -153,8 +153,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
         this.addState("abandoned");
       }
     },
-    
-    
+
+
     /**
      * Listener method for "mousedown" event.
      * <ul>
@@ -172,17 +172,17 @@ qx.Class.define("qx.ui.form.ToggleButton",
       if (!e.isLeftPressed()) {
         return;
       }
-      
+
       if (!e.isTargetInsideWidget(this)) {
         return;
       }
-      
+
       // Activate capturing if the button get a mouseout while
       // the button is pressed.
       this.capture();
-       
+
       this.removeState("abandoned");
-      this.addState("pressed");     
+      this.addState("pressed");
     },
 
 
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @return {void}
      */
     _onmouseup : function(e) {
-      
+
       this.releaseCapture();
 
       var hasPressed = this.hasState("pressed");
@@ -210,10 +210,10 @@ qx.Class.define("qx.ui.form.ToggleButton",
         this.removeState("pressed");
       }
 
-      if (hasAbandoned) {  
+      if (hasAbandoned) {
         this.removeState("abandoned");
       }
-      
+
       if (!hasAbandoned && hasPressed) {
         this.toggleChecked();
       }
@@ -259,10 +259,10 @@ qx.Class.define("qx.ui.form.ToggleButton",
         case "Enter":
         case "Space":
           if (this.hasState("pressed")) {
-            
+
             this.removeState("abandoned");
             this.toggleChecked();
-            
+
              e.stopPropagation();
           }
       }
