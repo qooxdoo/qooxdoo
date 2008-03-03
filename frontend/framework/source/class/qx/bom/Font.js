@@ -130,6 +130,7 @@ qx.Class.define("qx.bom.Font",
     },
 
 
+    /** {Map} Default (empty) CSS styles */
     __defaultStyles : {
       fontFamily: "",
       fontSize: "",
@@ -138,6 +139,16 @@ qx.Class.define("qx.bom.Font",
       textDecoration: ""
     },
 
+
+    /**
+     * Returns a map of all properties in empty state.
+     *
+     * This is useful for resetting previously configured
+     * font styles.
+     *
+     * @type static
+     * @return {Map} Default styles
+     */
     getDefaultStyles : function() {
       return this.__defaultStyles;
     }
@@ -267,11 +278,11 @@ qx.Class.define("qx.bom.Font",
     getStyles : function()
     {
       return {
-        "fontFamily": this.__family,
-        "fontSize": this.__size,
-        "fontWeight": this.__bold,
-        "fontStyle": this.__italic,
-        "textDecoration": this.__decoration
+        fontFamily : this.__family,
+        fontSize : this.__size,
+        fontWeight : this.__bold,
+        fontStyle : this.__italic,
+        textDecoration : this.__decoration
       }
     }
   }
