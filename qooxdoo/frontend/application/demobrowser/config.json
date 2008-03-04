@@ -67,6 +67,14 @@
   },
 
 
+  "resource-copy" :
+  {
+    "extend" : ["common"],
+
+    "copy-target" : "build"
+  },
+
+
   "api-data" :
   {
     "extend" : ["common"],
