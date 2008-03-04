@@ -1304,6 +1304,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       // calculate row heights
       var rowHeights = this._getRowHeights();
+			
       var minHeight=0, height=0, maxHeight=0;
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
