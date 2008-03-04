@@ -18,14 +18,16 @@
 
 ************************************************************************ */
 
-/*
+/* ************************************************************************
+
 #require(qx.ui.event.WidgetEventHandler)
-*/
+
+************************************************************************ */
 
 /**
  * This is the base class for all widgets.
  *
- * A widget consists of at least three DOM elements. The container element,
+ * A widget consists of at least three HTML elements. The container element,
  * which is
  * added to the parent widget has two child Element: The "decoration" and the
  * "content" element. The decoration element has a lower z-Index and contains
@@ -47,7 +49,7 @@
  *  </pre>
  *
  * @appearance widget
- * @state disabled Set by {@link qx.core.Object#enabled}
+ * @state disabled Set by {@link #enabled}
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -64,13 +66,9 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this.base(arguments);
 
-    this._containerElement = this._createContainerElement();
-    this._contentElement = this._createContentElement();
+    this._containerElement = this.__createContainerElement();
+    this._contentElement = this.__createContentElement();
     this._containerElement.add(this._contentElement);
-
-    if (!qx.ui.core.Widget.__DEFAULT_DECORATION) {
-      qx.ui.core.Widget.__DEFAULT_DECORATION = new qx.ui.decoration.Basic(0);
-    }
 
     this.initAppearance();
   },
@@ -86,7 +84,10 @@ qx.Class.define("qx.ui.core.Widget",
 
   events :
   {
+    /** Fired when the combination of parent, visibility and layout visibility results into a switch to <code>true</code>. */
     show : "qx.event.type.Event",
+
+    /** Fired when the combination of parent, visibility and layout visibility results into a switch to <code>false</code>. */
     hide : "qx.event.type.Event",
 
     /** Fired after a visibility/parent change when the widget finally appears on the screen. */
@@ -154,8 +155,8 @@ qx.Class.define("qx.ui.core.Widget",
      * {@link #releaseCapture} or a mouse click.
      */
     losecapture : "qx.ui.event.type.Event"
-
   },
+
 
 
 
@@ -479,6 +480,19 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * The background repeat mode.
+     */
+    backgroundRepeat :
+    {
+      check : [ "no-repeat", "repeat-x", "repeat-y", "repeat" ],
+      nullable : true,
+      init : null,
+      apply : "_applyBackgroundRepeat",
+      themeable : true
+    },
+
+
     /** The font property describes how to paint the font on the widget. */
     font :
     {
@@ -591,9 +605,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
   /*
   *****************************************************************************
-     MEMBERS
+     STATICS
   *****************************************************************************
   */
 
@@ -604,7 +620,7 @@ qx.Class.define("qx.ui.core.Widget",
      *     color and background image, if no other decoration is set for the
      *     widget.
      */
-    __DEFAULT_DECORATION : null,
+    DEFAULT_DECORATION : new qx.ui.decoration.Basic(0),
 
 
     /**
@@ -620,7 +636,7 @@ qx.Class.define("qx.ui.core.Widget",
         var widgetKey = element.$$widget;
 
         // dereference "weak" reference to the widget.
-        if (widgetKey) {
+        if (widgetKey != null) {
           return qx.core.ObjectRegistry.fromHashCode(widgetKey);
         }
 
@@ -630,6 +646,9 @@ qx.Class.define("qx.ui.core.Widget",
       return null;
     }
   },
+
+
+
 
 
 
@@ -1411,7 +1430,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {qx.html.Element} The container HTML element
      */
-    _createContainerElement : function()
+    __createContainerElement : function()
     {
       var el = new qx.html.Element("div");
       el.setStyle("position", "absolute");
@@ -1425,34 +1444,53 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Create the widget's content HTML element.
+     * Create the widget's decoration HTML element.
      *
-     * @return {qx.html.Element} The content HTML element
+     * @return {qx.html.Element} The decoration HTML element
      */
-    _createContentElement : function()
+    __createDecorationElement : function()
     {
       var el = new qx.html.Element("div");
 
+      el.setStyle("zIndex", 5);
       el.setStyle("position", "absolute");
-      el.setStyle("zIndex", 10);
-      el.setStyle("overflow", "hidden");
+      el.setStyle("left", 0);
+      el.setStyle("top", 0);
 
       return el;
     },
 
 
     /**
-     * Create the widget's decoration HTML element.
+     * Create the widget's content HTML element.
      *
-     * @return {qx.html.Element} The decoration HTML element
+     * @return {qx.html.Element} The content HTML element
      */
-    _createDecorationElement : function()
+    __createContentElement : function()
+    {
+      var el = this._createContentElement();
+
+      el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 10);
+
+      return el;
+    },
+
+
+    /**
+     * Creates the content element. The style properties
+     * position and zIndex are modified from the Widget
+     * core.
+     *
+     * This function may be overridden to customize a class
+     * content.
+     */
+    _createContentElement : function()
     {
       var el = new qx.html.Element("div");
-      el.setStyle("zIndex", 5);
-      el.setStyle("position", "absolute");
-      el.setStyle("left", 0);
-      el.setStyle("top", 0);
+
+      el.setStyle("overflow", "hidden");
+
       return el;
     },
 
@@ -1477,6 +1515,7 @@ qx.Class.define("qx.ui.core.Widget",
     getContentElement : function() {
       return this._contentElement;
     },
+
 
 
 
@@ -1507,6 +1546,9 @@ qx.Class.define("qx.ui.core.Widget",
     releaseCapture : function() {
       this._containerElement.releaseCapture();
     },
+
+
+
 
 
 
@@ -1548,7 +1590,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * {Map} Default zero values for all insets
      */
-    _defaultDecorationInsets : {
+    __defaultDecorationInsets : {
       top : 0, right : 0, bottom : 0, left : 0
     },
 
@@ -1564,12 +1606,12 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // decorator life cycle management
       var oldDecorator = this.__decorator;
-      decorator = decorator || qx.ui.core.Widget.__DEFAULT_DECORATION;
+      decorator = decorator || qx.ui.core.Widget.DEFAULT_DECORATION;
       this.__decorator = decorator;
 
       if (!this._decorationElement)
       {
-        this._decorationElement = this._createDecorationElement();
+        this._decorationElement = this.__createDecorationElement();
         this._containerElement.add(this._decorationElement);
       }
 
@@ -1590,12 +1632,13 @@ qx.Class.define("qx.ui.core.Widget",
             if (this._decorationElement) {
               oldDecorator.reset(this._decorationElement);
             }
+
             decorator.init(this._decorationElement);
           }
         }
       }
 
-      var oldInsets = this._lastDecorationInsets || this._defaultDecorationInsets;
+      var oldInsets = this._lastDecorationInsets || this.__defaultDecorationInsets;
       var currentInsets = decorator.getInsets();
 
       // Detect inset changes
@@ -1618,6 +1661,7 @@ qx.Class.define("qx.ui.core.Widget",
         qx.ui.core.DecorationQueue.add(this);
       }
     },
+
 
 
 
@@ -1720,9 +1764,11 @@ qx.Class.define("qx.ui.core.Widget",
     _styleBackgroundColor : function(color)
     {
       this.__backgroundColor = color;
+
       if (!this.__decorator) {
         this._styleDecorator(null);
       }
+
       if (color) {
         qx.ui.core.DecorationQueue.add(this);
       }
@@ -1739,6 +1785,10 @@ qx.Class.define("qx.ui.core.Widget",
     _applyFont : function(value, old) {
       // place holder
     },
+
+
+
+
 
 
     /*
@@ -1797,6 +1847,9 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       APPEARANCE SUPPORT
@@ -1827,10 +1880,11 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+      var undef = "undefined";
       for (var prop in data)
       {
         value = data[prop];
-        value === "undefined" ? this[unstyler[prop]]() : this[styler[prop]](value);
+        value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
       }
     },
 
@@ -1895,16 +1949,15 @@ qx.Class.define("qx.ui.core.Widget",
         this.__states = {};
       }
 
-      var appearanceManager = qx.theme.manager.Appearance.getInstance();
+      var manager = qx.theme.manager.Appearance.getInstance();
 
-      if (value)
-      {
-        var newAppearanceProperties = appearanceManager.styleFrom(value, this.__states) || {};
+      if (value) {
+        var newAppearanceProperties = manager.styleFrom(value, this.__states) || {};
       }
 
       if (old)
       {
-        var oldAppearanceProperties = appearanceManager.styleFrom(old, this.__states) || {};
+        var oldAppearanceProperties = manager.styleFrom(old, this.__states) || {};
 
         var unstyleList = [];
         for (var prop in oldAppearanceProperties)
@@ -1923,7 +1976,6 @@ qx.Class.define("qx.ui.core.Widget",
         this.__styleFromMap(newAppearanceProperties);
       }
     }
-
   },
 
 
