@@ -119,12 +119,9 @@ qx.Class.define("qx.ui.root.Page",
 
 
     // overridden
-    _createContentElement : function()
-    {
-      var elem = new qx.html.Element();
-      elem.setStyle("position", "absolute");
-
-      return elem;
+    // we do not want overflow=hidden for the page root
+    _createContentElement : function() {
+      return new qx.html.Element("div");
     },
 
 
