@@ -170,7 +170,8 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
-    _textSize : {
+    _textSize :
+    {
       width : 16,
       height : 16
     },
@@ -180,11 +181,7 @@ qx.Class.define("qx.ui.form.TextField",
     {
       return {
         width : this._textSize.width * 10,
-        minWidth : 0,
-        maxWidth : Infinity,
-        height : this._textSize.height || 16,
-        minHeight : 0,
-        maxHeight : Infinity
+        height : this._textSize.height || 16
       };
     },
 
@@ -209,6 +206,10 @@ qx.Class.define("qx.ui.form.TextField",
     {
       var el = this._createInputElement();
 
+      // Disable non-crossbrowser spellcheck
+      el.setAttribute("spellcheck", "off");
+
+      // Apply styles
       el.setStyles({
         "border": "0 none",
         "padding": 0,
@@ -218,8 +219,6 @@ qx.Class.define("qx.ui.form.TextField",
         "resize": "none",
         "appearance": "none"
       });
-
-      el.setAttribute("spellcheck", "off");
 
       // Emulate IE hard-coded margin
       // Mozilla by default emulates this IE handling, but in a wrong
