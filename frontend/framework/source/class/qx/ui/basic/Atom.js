@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (this._icon) {
         this._icon.setSource(value);
       } else {
-        this._icon = new qx.ui.basic.Icon(value);
+        this._icon = new qx.ui.basic.Image(value);
       }
 
       this._handleIcon();

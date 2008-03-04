@@ -19,7 +19,7 @@
 
 /**
  * The IconManager contains a registry for image sizes and information about
- * clipped images. The {@link qx.ui.basic.Icon} class uses this information to
+ * clipped images. The {@link qx.ui.basic.Image} class uses this information to
  * render icons.
  */
 qx.Class.define("qx.io.image.IconManager",
