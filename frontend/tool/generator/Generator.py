@@ -782,28 +782,68 @@ class Generator:
         self._copier.do_work()
 
 
-    def _findAllResources(self, classes=[]):
-        """Find relevant resources/assets, implementing shaddowing of resources"""
+    def _findAllResources(self, filter=None):
+        """Find relevant resources/assets, implementing shaddowing of resources.
+           Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
         
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
         libs = (self._config.get("library", []))[:]
+        libs.reverse()
 
-        for lib in libs.reverse():
-            libpath = LibraryPath(lib, self._console)
-            for rsrc in self._filterResources(lib['path'], classes):
+        for lib in libs:
+            #libpath = LibraryPath(lib, self._console)
+            for rsrc in filetool.find(lib['path']):
+                if (filter and not filter(rsrc)):
+                    continue
                 res = []
-                res[0] = rsrc
-                res[1] = os.path.join(lib['uri'],rsrc)
+                relpath = (rsrc.split(lib['path']))[1]
+                if relpath[0] == os.sep:
+                    relpath = relpath[1:]
+                res.append(rsrc)
+                res.append(os.path.join(lib['uri'],relpath))
                 result.append(res)
         
         return result
 
 
-    def _filterResources(rootDir, classes):
-        # later, use classes to filter resources found in the directory tree
+    def _filterResourcesByClasslist(self, classes):
+        # returns a function that takes a resource path and return true if on
+        # of the classes needs it
+        # -- currently just always returns true
 
-        for file in filetool.find(rootDir):
-            yield file
+        def filter(respath):
+            return True
+        
+        return filter
+    
+    
+    def _filterResourcesByFilepath(self):
+        #imgpatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
+        imgpatt = re.compile(r'.*/resource/.*')
+        
+        def filter(respath):
+            if re.search(imgpatt,respath):
+                return True
+            else:
+                return False
+        
+        return filter
+    
 
+    def _getResourcelistFromClasslist(self, classList):
+        """Return a consolidated list of resource fileId's of all classes in classList"""
+        result = []
+
+        self._console.info("Compiling resource list...")
+        self._console.indent()
+        for clazz in classList:
+            classRes = (self._depLoader.getMeta(clazz))['assetDeps']
+            self._console.debug("%s: %s" % (clazz, repr(classRes)))
+            for res in classRes:
+                if res not in result:
+                    result.append(res)
+
+        self._console.outdent()
+        return result
