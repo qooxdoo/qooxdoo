@@ -87,10 +87,10 @@ qx.Class.define("qx.ui.layout.Atom",
 
 
     /**
-     * Sets the text widget of the atom layout. If the icon is <code>null</code>,
-     * the icon is removed from the layout.
+     * Sets the text widget of the atom layout. If the text is <code>null</code>,
+     * the text is removed from the layout.
      *
-     * @param icon {qx.ui.core.Widget|null} The icon widget.
+     * @param text {qx.ui.core.Widget|null} The text widget.
      */
     setText : function(text)
     {
@@ -131,53 +131,55 @@ qx.Class.define("qx.ui.layout.Atom",
         children = [this._text, this._icon];
       }
 
+      var left, top, width, height;
+      var child, hint;
+
       if (align == "top" || align == "bottom")
       {
         // vertical
-        var top = 0;
+        top = 0;
         for (var i=0,l=children.length; i<l; i++)
         {
-          var child = children[i];
+          child = children[i];
           if (!child) {
             continue;
           }
-          var childHint = child.getSizeHint();
 
+          hint = child.getSizeHint();
           if (child == this._text) {
-            var childWidth = Math.max(childHint.minWidth, Math.min(childHint.width, availWidth));
+            width = Math.max(hint.minWidth, Math.min(hint.width, availWidth));
           } else {
-            childWidth = childHint.width;
+            width = hint.width;
           }
-          var childHeight = childHint.height;
-          var childLeft = Util.computeHorizontalAlignOffset("center", childWidth, availWidth);
 
-          child.renderLayout(childLeft, top, childWidth, childHeight);
+          left = Util.computeHorizontalAlignOffset("center", width, availWidth);
+          child.renderLayout(left, top, width, hint.height);
 
-          top += this.getGap() + childHeight;
+          top += this.getGap() + hint.height;
         }
       }
       else
       {
         // horizontal
-        var left = 0;
+        left = 0;
         for (var i=0,l=children.length; i<l; i++)
         {
           var child = children[i];
           if (!child) {
             continue;
           }
-          var childHint = child.getSizeHint();
 
+          hint = child.getSizeHint();
           if (child == this._text) {
-            var childWidth = Math.max(childHint.minWidth, Math.min(childHint.width, availWidth));
+            width = Math.max(hint.minWidth, Math.min(hint.width, availWidth));
           } else {
-            childWidth = childHint.width;
+            width = hint.width;
           }
-          var childTop = Util.computeVerticalAlignOffset("middle", childHint.height, availHeight);
 
-          child.renderLayout(left, childTop, childWidth, childHint.height);
+          top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
+          child.renderLayout(left, top, width, hint.height);
 
-          left += this.getGap() + childWidth;
+          left += this.getGap() + width;
         }
       }
     },
@@ -219,16 +221,6 @@ qx.Class.define("qx.ui.layout.Atom",
           width = iconHint.width + textHint.width + gap;
           minWidth = iconHint.minWidth + textHint.minWidth + gap;
         }
-
-
-        // Limit to integer and min/max range
-        /*
-        minWidth = Math.min(Math.max(0, minWidth));
-        width = Math.min(minWidth, Math.max(0, width, maxWidth));
-        minHeight = Math.min(Math.max(0, minHeight));
-        height = Math.min(minHeight, Math.max(0, height, maxHeight));
-        */
-
 
         // Build hint
         hint = {
