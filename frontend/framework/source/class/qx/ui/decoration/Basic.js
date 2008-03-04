@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.util.DeferredCall)
+
+************************************************************************ */
+
 /**
  * A basic decorator featuring background colors and simple borders based on
  * CSS styles.
@@ -48,12 +54,10 @@ qx.Class.define("qx.ui.decoration.Basic",
 
     this._needUpdate = true;
 
-    var decorationManager = qx.theme.manager.Decoration.getInstance();
-    
     // TODO: What the hell is the deferred call here needed for?
     var self = this;
     this._updateManager = new qx.util.DeferredCall(function() {
-      decorationManager.updateUsersOf(self);
+      qx.theme.manager.Decoration.getInstance().updateUsersOf(self);
     });
 
     if (width !== undefined) {
@@ -67,8 +71,9 @@ qx.Class.define("qx.ui.decoration.Basic",
     if (color !== undefined) {
       this.setColor(color);
     }
-
   },
+
+
 
 
 
