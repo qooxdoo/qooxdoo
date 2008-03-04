@@ -367,7 +367,8 @@ qx.Class.define("qx.ui.decoration.Basic",
     {
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        if (qx.bom.client.Feature.CONTENT_BOX) {
+        if (qx.bom.client.Feature.CONTENT_BOX)
+        {
           this._useContentBox = true;
           return;
         }
@@ -376,6 +377,9 @@ qx.Class.define("qx.ui.decoration.Basic",
       {
         decorationElement.setStyle("boxSizing", "border-box");
       }
+
+      // TODO
+      // width, height 100% performs really bad in IE
       decorationElement.setStyle("width", "100%");
       decorationElement.setStyle("height", "100%");
     },

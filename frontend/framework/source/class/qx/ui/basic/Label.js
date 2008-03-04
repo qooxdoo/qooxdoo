@@ -120,11 +120,7 @@ qx.Class.define("qx.ui.basic.Label",
 
       return {
         width : this.__contentSize.width,
-        minWidth : 0,
-        maxWidth : Infinity,
-        height : this.__contentSize.height,
-        minHeight : 0,
-        maxHeight : Infinity
+        height : this.__contentSize.height
       };
     },
 

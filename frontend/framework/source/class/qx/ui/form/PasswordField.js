@@ -25,7 +25,6 @@ qx.Class.define("qx.ui.form.PasswordField",
 {
   extend : qx.ui.form.TextField,
 
-
   members :
   {
     // overridden
