@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.core.DisplayQueue",
      * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @type member
-     * @param widget {qx.ui.core.Widget}
+     * @param widget {qx.ui.core.Widget} The widget to add.
      * @return {void}
      */
     add : function(widget)
