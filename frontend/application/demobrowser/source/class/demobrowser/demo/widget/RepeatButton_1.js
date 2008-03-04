@@ -15,10 +15,11 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Button_1",
+qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
 {
   extend : demobrowser.Demo,
 
@@ -42,28 +43,25 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
 
       doc.add(container, 0, 0);
 
-      var img1 = "icon/48/apps/video-player.png";
-      var img2 = "icon/48/apps/internet-mail.png";
-      var img3 = "icon/48/apps/internet-web-browser.png";
-
-      var btn1 = new qx.ui.form.Button("Oxygen Icons", img1, 48, 48);
+      // ----- RepeatButton 1 -----
+      var img1 = "icon/48/actions/list-add.png";
+      var btn1 = new qx.ui.form.RepeatButton(null, img1, 48, 48);
       docLayout.add(btn1);
-      var btn2 = new qx.ui.form.Button("Tango Icons", img2, 48, 48);
-      docLayout.add(btn2);
-      var btn3 = new qx.ui.form.ToggleButton("Toggle", img3, 48, 48);
-      docLayout.add(btn3);
-
+			// Label for the repeat button 1
+			var l1 = new qx.ui.basic.Label("0");
+      doc.add(l1, 20, 80);
+      // listener for the repeatbutton 1
       btn1.addListener("execute", function() {
-        qx.theme.manager.Icon.getInstance().setTheme(qx.theme.icon.Oxygen);
-      }, this);
-
-      btn2.addListener("execute", function() {
-        qx.theme.manager.Icon.getInstance().setTheme(qx.theme.icon.Tango);
-      }, this);
-
-      btn3.addListener("changeChecked", function(e) {
-        this.debug("Checked: " + e.getValue());
-      }, this);
+        var tempValue = parseInt(l1.getContent());
+				l1.setContent((tempValue + 1) + "");				
+      });
+			btn1.addListener("press", function() {
+        l1.setBackgroundColor("#AAAAAA");
+			}, this);
+			btn1.addListener("release", function() {
+				l1.setBackgroundColor("#FFFFFF");
+			}, this);
+			// --------------------------
     }
   }
 });
