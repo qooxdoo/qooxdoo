@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/*
+#use(qx.event.handler.DragDrop)
+*/
+
 /**
  * A preliminary scroll bar for the scroll pane. This is nothing more than
  * an early prototype.
@@ -44,17 +48,20 @@ qx.Class.define("qx.ui.core.ScrollBar",
       backgroundColor : "blue"
     });
     this._barPane.getLayout().add(this._slider);
-    this._slider.addListener("mousedown", this._onMousedownSlider, this);
+    this._slider.getContainerElement().addListener("dragstart", this._onDragstartSlider, this);
+    this._slider.getContainerElement().addListener("dragmove", this._onDragmoveSlider, this);
+    this._slider.getContainerElement().addListener("dragstop", this._onDragstopSlider, this);
+/*    this._slider.addListener("mousedown", this._onMousedownSlider, this);
     this._slider.addListener("mouseup", this._onMouseupSlider, this);
     this._slider.addListener("losecapture", this._onMouseupSlider, this);
+*/
 
-
-    this._btnBegin = new qx.ui.form.RepeatButton("S").set({
+    this._btnBegin = new qx.ui.form.RepeatButton().set({
       backgroundColor : "gray",
       padding : 3
     });
 
-    this._btnEnd = new qx.ui.form.RepeatButton("E").set({
+    this._btnEnd = new qx.ui.form.RepeatButton().set({
       backgroundColor : "gray",
       padding : 3
     });
@@ -111,6 +118,31 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
+    _onDragstartSlider : function(e) {
+      console.log("drag start");
+      this._sliderStartPos = this._sliderPos;
+    },
+
+
+    _onDragstopSlider : function(e) {
+      console.log("drag stop");
+    },
+
+
+    _onDragmoveSlider : function(e)
+    {
+      var dragOffsetLeft = e.getDragOffsetLeft();
+      var dragOffsetTop = e.getDragOffsetTop();
+
+      console.log("drag move", dragOffsetLeft, dragOffsetTop);
+
+      var isHorizontal = this.getOrientation() === "horizontal";
+      var sliderPos = isHorizontal ? this._sliderStartPos + dragOffsetLeft : this._sliderStartPos + dragOffsetTop;
+
+      this._setSliderPosition(sliderPos, true);
+    },
+
+/*
     _onMousedownSlider : function(e)
     {
       this._slider.capture();
@@ -144,6 +176,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       this._setSliderPosition(sliderPos, true);
     },
+*/
 
 
     _setSliderPosition : function(sliderPosition, updateValue)
