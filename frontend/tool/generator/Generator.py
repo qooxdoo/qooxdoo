@@ -52,10 +52,10 @@ class Generator:
         use = self._mergeDicts(use, config.get("use", {}))
 
         # Scanning given library paths
-        self.scanLibrary(config.split("library"))
+        self.scanLibrary(config.extract("library"))
 
         # Create tool chain instances
-        self._cache          = Cache(config.split("cache"), self._console)
+        self._cache          = Cache(config.extract("cache"), self._console)
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
@@ -214,12 +214,12 @@ class Generator:
 
     def runResources(self):
         # only run for compile jobs
-        if not self._config.get("compile/file", False):
+        if not self._config.get("copy-target", False):
             return
 
-        resTargetRoot = "build"   # should probably come from config
-        libs = self._config.get("library")
         self._console.info("Copying resources...")
+        resTargetRoot = self._config.get("resource-copy/target", "build")
+        libs = self._config.get("library")
         self._console.indent()
         for lib in libs:
             # Copy resources
@@ -332,7 +332,7 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        #bootBlocks.append(self.generateImageInfo())
+        bootBlocks.append(self.generateImageInfoCode(settings, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
         if format:
@@ -507,7 +507,7 @@ class Generator:
         return result
 
 
-    def generateImageInfo(self, format=False):
+    def generateImageInfoCode(self, settings, format=False):
         """Pre-calculate image information (e.g. sizes)"""
         result = 'if(!window.qximageinfo)qximageinfo={};'
         resRoot = os.path.join("build","resource")  # TODO: should be from config
@@ -780,3 +780,30 @@ class Generator:
         self._copier = robocopy.PyRobocopier(self._console)
         self._copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
         self._copier.do_work()
+
+
+    def _findAllResources(self, classes=[]):
+        """Find relevant resources/assets, implementing shaddowing of resources"""
+        result = []
+        
+        # go through all libs (weighted) and collect necessary resources
+        # fallback: take all resources
+        libs = (self._config.get("library", []))[:]
+
+        for lib in libs.reverse():
+            libpath = LibraryPath(lib, self._console)
+            for rsrc in self._filterResources(lib['path'], classes):
+                res = []
+                res[0] = rsrc
+                res[1] = os.path.join(lib['uri'],rsrc)
+                result.append(res)
+        
+        return result
+
+
+    def _filterResources(rootDir, classes):
+        # later, use classes to filter resources found in the directory tree
+
+        for file in filetool.find(rootDir):
+            yield file
+

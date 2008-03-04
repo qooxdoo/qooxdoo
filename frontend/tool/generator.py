@@ -104,7 +104,7 @@ def main():
     # Processing jobs...
     for job in expandedjobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.split(job), console, variants, settings, require, use)
+        Generator(config.extract(job), console, variants, settings, require, use)
 
 
 
