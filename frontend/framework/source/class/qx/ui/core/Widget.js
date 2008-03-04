@@ -620,7 +620,7 @@ qx.Class.define("qx.ui.core.Widget",
      *     color and background image, if no other decoration is set for the
      *     widget.
      */
-    DEFAULT_DECORATION : new qx.ui.decoration.Basic(0),
+    DEFAULT_DECORATION : null,
 
 
     /**
@@ -1604,6 +1604,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleDecorator : function(decorator)
     {
+      if (!qx.ui.core.Widget.DEFAULT_DECORATION) {
+        qx.ui.core.Widget.DEFAULT_DECORATION = new qx.ui.decoration.Basic(0);
+      }
+
       // decorator life cycle management
       var oldDecorator = this.__decorator;
       decorator = decorator || qx.ui.core.Widget.DEFAULT_DECORATION;
