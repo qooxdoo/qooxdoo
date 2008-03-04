@@ -55,7 +55,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
       event : "changeVisibility",
       nullable : false
     }
-
   },
 
 

@@ -82,7 +82,9 @@ qx.Class.define("qx.ui.core.DecorationQueue",
         }
       }
 
-      this.__queue = {};
+      if (widget) {
+        this.__queue = {};
+      }
     }
   }
 });

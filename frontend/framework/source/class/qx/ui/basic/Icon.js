@@ -144,14 +144,16 @@ qx.Class.define("qx.ui.basic.Icon",
     // overridden
     _getContentHint : function()
     {
-      // TODO: Needs preloader implementation
+      var width = this.__iconWidth || 0;
+      var height = this.__iconHeight || 0;
+
       return {
-        width : this.__iconWidth || 0,
-        minWidth : 0,
-        maxWidth : Infinity,
-        height : this.__iconHeight || 0,
-        minHeight : 0,
-        maxHeight : Infinity
+        width : width,
+        minWidth : width,
+        maxWidth : width,
+        height : height,
+        minHeight : height,
+        maxHeight : height
       };
     },
 
@@ -177,12 +179,12 @@ qx.Class.define("qx.ui.basic.Icon",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       ICON API
     ---------------------------------------------------------------------------
     */
-
 
     __setClippedImage : function(source)
     {

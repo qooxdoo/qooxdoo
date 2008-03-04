@@ -33,17 +33,21 @@ qx.Class.define("qx.ui.form.ToggleButton",
 {
   extend : qx.ui.basic.Atom,
 
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
+
   /**
    * Creates a new instance of a ToggleButton.
    * @param label {String} The text on the button.
    * @param iconUrl {String} An URI to the icon of the button.
    */
-  construct : function(label, iconUrl) {
+  construct : function(label, iconUrl)
+  {
     this.base(arguments, label, iconUrl);
 
     // register mouse events
@@ -56,6 +60,9 @@ qx.Class.define("qx.ui.form.ToggleButton",
     this.addListener("keydown", this._onkeydown);
     this.addListener("keyup", this._onkeyup);
   },
+
+
+
 
 
   /*
@@ -155,6 +162,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         if (!this.getChecked()) {
           this.removeState("pressed");
         }
+
         this.addState("abandoned");
       }
     },
@@ -263,12 +271,13 @@ qx.Class.define("qx.ui.form.ToggleButton",
       {
         case "Enter":
         case "Space":
-          if (this.hasState("pressed")) {
+          if (this.hasState("pressed"))
+          {
 
             this.removeState("abandoned");
             this.toggleChecked();
 
-             e.stopPropagation();
+            e.stopPropagation();
           }
       }
     }
