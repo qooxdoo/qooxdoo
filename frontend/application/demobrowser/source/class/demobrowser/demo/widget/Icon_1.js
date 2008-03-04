@@ -51,12 +51,12 @@ qx.Class.define("demobrowser.demo.widget.Icon_1",
 
       layout.setSpacing(20);
 
-      layout.add(new qx.ui.basic.Icon(base + "feed-reader.png"));
-      layout.add(new qx.ui.basic.Icon(base + "graphics-viewer-document.png"));
-      layout.add(new qx.ui.basic.Icon(base + "format-justify-fill.png"));
-      layout.add(new qx.ui.basic.Icon(base + "format-justify-left.png"));
-      layout.add(new qx.ui.basic.Icon(base + "format-justify-right.png"));
-      layout.add(new qx.ui.basic.Icon(base + "multimedia-player.png", base + "multimedia-player-disabled.png"));
+      layout.add(new qx.ui.basic.Image(base + "feed-reader.png"));
+      layout.add(new qx.ui.basic.Image(base + "graphics-viewer-document.png"));
+      layout.add(new qx.ui.basic.Image(base + "format-justify-fill.png"));
+      layout.add(new qx.ui.basic.Image(base + "format-justify-left.png"));
+      layout.add(new qx.ui.basic.Image(base + "format-justify-right.png"));
+      layout.add(new qx.ui.basic.Image(base + "multimedia-player.png", base + "multimedia-player-disabled.png"));
 
 /*
       var img = qx.bom.ClippedImage.create();
