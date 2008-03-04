@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.form.Spinner",
     //   TEXTFIELD
     this._textfield = new qx.ui.form.TextField();
     this._textfield.setAppearance("spinner-text-field");
-    this._mainLayout.add(this._textfield, 0, 0, {colSpan: 2});
+    this._mainLayout.add(this._textfield, 0, 0, {rowSpan: 2});
 
     //   UP-BUTTON
     this._upbutton = new qx.ui.basic.Icon();
@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._downbutton = new qx.ui.basic.Icon();
     this._downbutton.setAppearance("spinner-button-down");
     this._mainLayout.add(this._downbutton, 1, 1);
- 
+
     //   TIMER
     this._timer = new qx.event.Timer(this.getInterval());
 
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     this._checkValue = this.__checkValue;
-    this._numberFormat = null; 
+    this._numberFormat = null;
 
     this._last_value = "";
   },
@@ -419,8 +419,8 @@ qx.Class.define("qx.ui.form.Spinner",
             }
 
             // supress all key events without modifier
-						
-            if (!e.isCtrlPressed() && 
+
+            if (!e.isCtrlPressed() &&
 						    !e.isShiftPressed() &&
 								!e.isAltPressed() &&
 								!e.isMetaPressed()) {
@@ -533,7 +533,7 @@ qx.Class.define("qx.ui.form.Spinner",
       if (!e.isLeftPressed()) {
         return;
       }
-			
+
       this._checkValue(true);
 
       var vButton = e.getCurrentTarget();
@@ -597,7 +597,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _onmousewheel : function(e)
     {
       this._checkValue(true);
-			
+
       if (this.getManager().incrementValue)
       {
         this.getManager().incrementValue(this.getWheelIncrementAmount() *
