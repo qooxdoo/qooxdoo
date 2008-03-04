@@ -210,8 +210,6 @@ qx.Class.define("qx.ui.form.TextField",
       var el = this._createInputElement();
 
       el.setStyles({
-        "position": "absolute",
-        "zIndex": 10,
         "border": "0 none",
         "padding": 0,
         "margin": 0,
