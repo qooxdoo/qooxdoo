@@ -253,6 +253,18 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
       decorationElement.removeAt(0);
       this.base(arguments, decorationElement)
     },
+		
+		
+		// interface implementation
+    getInsets : function()
+    {
+      return {
+        top : this.getWidthTop() + this.getInnerWidthTop(),
+        right : this.getWidthRight() + this.getInnerWidthRight(),
+        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
+        left : this.getWidthLeft() + this.getInnerWidthLeft()
+      }
+    },
 
 
     /*

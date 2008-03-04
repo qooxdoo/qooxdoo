@@ -122,7 +122,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : "inset",
-          padding         : [ 1, 3 ],
           textColor       : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : "field"
         };
@@ -131,31 +130,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner-text-field" :
     {
-      include : "text-field",
+      // include : "text-field",
 
       style : function(states)
       {
         return {
-          backgroundColor : "transparent"
+          padding: [1, 3]
+					// backgroundColor : "transparent"					
         };
       }
     },
 
     "spinner-button":
     {
-      style : function(states)
+      include : "button",
+			
+			style : function(states)
       {
-				if (states.pressed) {
-          var decorator = "inset";
-        } else {
-          var decorator = "outset";
-        }
         return {
-          width : 16,
-          backgroundColor : "background",
-          decorator : decorator,
-          paddingLeft : 3,
-					height: 10
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
         };
       }
     },
@@ -167,7 +160,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          source : "decoration/Windows/arrows/up_small.gif"
+          icon : qx.core.Setting.get("qx.resourceUri") + "/decoration/Windows/arrows/up_small.gif"
         }
       }
     },
@@ -178,9 +171,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        return {
-          paddingTop : 1,
-          source : "decoration/Windows/arrows/down_small.gif"
+        return {          
+          icon : qx.core.Setting.get("qx.resourceUri") + "/decoration/Windows/arrows/down_small.gif"
         };
       }
     }
