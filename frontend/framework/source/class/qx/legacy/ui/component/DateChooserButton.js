@@ -58,6 +58,8 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     this.base(arguments, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash);
     this.set({ height : 20 });
 
+    this.setChooserTitle(this.tr("Choose a date"));
+		
     // create dateFormat instance
     //
     this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(this.getDateFormatSize()));
@@ -118,7 +120,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
 
     /** The title of the date chooser window. */
     chooserTitle : {
-      init : qx.locale.Manager.tr("Choose a date")
+      init : ""
     },
 
     /** The date format size according to the size parameter in {@link qx.locale.Date#getDateFormat}. */
