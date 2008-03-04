@@ -82,22 +82,28 @@ qx.Class.define("qx.ui.form.Spinner",
 
     //   MAIN LAYOUT
     this._mainLayout = new qx.ui.layout.Grid();
-		this._mainLayout.setColumnFlex(0, 1);
+    this._mainLayout.setColumnFlex(0, 1);
+    this._mainLayout.setRowFlex(0,1);
+    this._mainLayout.setRowFlex(1,1);
     this.setLayout(this._mainLayout);
     //   TEXTFIELD
     this._textfield = new qx.ui.form.TextField();
     this._textfield.setAppearance("spinner-text-field");
+    this._textfield.setWidth(40);
     this._mainLayout.add(this._textfield, 0, 0, {rowSpan: 2});
-
+		
     //   UP-BUTTON
-    this._upbutton = new qx.ui.basic.Image();
+    this._upbutton = new qx.ui.form.RepeatButton();
     this._upbutton.setAppearance("spinner-button-up");
     this._mainLayout.add(this._upbutton, 0, 1);
 
     //   DOWN-BUTTON
-    this._downbutton = new qx.ui.basic.Image();
+    this._downbutton = new qx.ui.form.RepeatButton();
     this._downbutton.setAppearance("spinner-button-down");
     this._mainLayout.add(this._downbutton, 1, 1);
+
+    console.log(this.getSizeHint(), this._textfield.getSizeHint(), this._downbutton.getSizeHint());
+
 
     //   TIMER
     this._timer = new qx.event.Timer(this.getInterval());
@@ -115,8 +121,8 @@ qx.Class.define("qx.ui.form.Spinner",
 //    this._textfield.addListener("changeValue", this._ontextchange, this);
 //    this._textfield.addListener("input", this._oninput, this);
     this._textfield.addListener("blur", this._onblur, this);
-    this._upbutton.addListener("mousedown", this._onmousedown, this);
-    this._downbutton.addListener("mousedown", this._onmousedown, this);
+    //this._upbutton.addListener("mousedown", this._onmousedown, this);
+    //this._downbutton.addListener("mousedown", this._onmousedown, this);
     this._timer.addListener("interval", this._oninterval, this);
 
     //   INITIALIZATION

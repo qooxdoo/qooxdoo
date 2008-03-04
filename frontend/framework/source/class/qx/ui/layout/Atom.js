@@ -235,6 +235,8 @@ qx.Class.define("qx.ui.layout.Atom",
       else if (this._icon)
       {
         hint = this._icon.getSizeHint();
+        hint.maxWidth = Infinity;
+        hint.maxHeight = Infinity;
       }
       else if (this._text)
       {
