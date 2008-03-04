@@ -117,8 +117,6 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         targetList.push(bubbleListeners);
       }
 
-
-
       // Cache list for CAPTURING_PHASE and BUBBLING_PHASE
       var parent = this._getParent(target);
 
