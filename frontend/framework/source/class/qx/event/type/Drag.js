@@ -49,21 +49,45 @@ qx.Class.define("qx.event.type.Drag",
     },
 
 
+    /**
+     * Get the difference between the current left mouse position and the mouse
+     * position at drag start.
+     *
+     * @return {Integer} The left drag offset.
+     */
     getDragOffsetLeft : function() {
       return this._dragOffsetLeft;
     },
 
 
+    /**
+     * Set the difference between the current left mouse position and the mouse
+     * position at drag start.
+     *
+     * @param dragOffsetLeft {Integer} The left drag offset.
+     */
     setDragOffsetLeft : function(dragOffsetLeft) {
       this._dragOffsetLeft = dragOffsetLeft;
     },
 
 
+    /**
+     * Get the difference between the current top mouse position and the mouse
+     * position at drag start.
+     *
+     * @return {Integer} The top drag offset.
+     */
     getDragOffsetTop : function() {
       return this._dragOffsetTop;
     },
 
 
+    /**
+     * Set the difference between the current top mouse position and the mouse
+     * position at drag start.
+     *
+     * @param dragOffsetLeft {Integer} The top drag offset.
+     */
     setDragOffsetTop : function(dragOffsetTop) {
       this._dragOffsetTop = dragOffsetTop;
     }
