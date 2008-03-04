@@ -956,7 +956,7 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-        return this.getTopLevelWidget().getDocumentElement().selection.createRange();
+        return window.document.selection.createRange();
       },
 
       "default" : null
