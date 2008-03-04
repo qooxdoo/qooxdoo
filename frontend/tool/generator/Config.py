@@ -25,7 +25,7 @@ class Config:
         return result
         
         
-    def split(self, key):
+    def extract(self, key):
         return Config(self.get(key, {}))
         
     
