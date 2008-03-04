@@ -73,7 +73,8 @@ qx.Class.define("qx.ui.basic.Icon",
       init : null,
       nullable : true,
       event : "changeSource",
-      apply : "_applySource"
+      apply : "_applySource",
+			themable : true
     },
 
     /** The URL of the disabled icon */
@@ -83,7 +84,8 @@ qx.Class.define("qx.ui.basic.Icon",
       init : null,
       nullable : true,
       event : "changeDisabledSource",
-      apply : "_applyDisabledSource"
+      apply : "_applyDisabledSource",
+			themable : true
     },
 
     appearance :

@@ -59,10 +59,10 @@
  *
  * @appearance spinner-field {qx.ui.form.TextField}
  *
- * @appearance spinner-button-up {qx.ui.basic.Icon}
+ * @appearance spinner-button-up {qx.ui.basic.Image}
  * @state pressed {spinner-button-up}
  *
- * @appearance spinner-button-down {qx.ui.basic.Icon}
+ * @appearance spinner-button-down {qx.ui.basic.Image}
  * @state pressed {spinner-button-down}
  */
 qx.Class.define("qx.ui.form.Spinner",
@@ -80,71 +80,33 @@ qx.Class.define("qx.ui.form.Spinner",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   BEHAVIOR
-    // ************************************************************************
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      this.setStyleProperty("fontSize", "0px");
-    }
-
-    // ************************************************************************
     //   MAIN LAYOUT
-    // ************************************************************************
-    this._mainLayout = new qx.ui.layout.HBox();
+    this._mainLayout = new qx.ui.layout.Grid();
+		this._mainLayout.setColumnFlex(0, 1);
     this.setLayout(this._mainLayout);
-    // ************************************************************************
     //   TEXTFIELD
-    // ************************************************************************
     this._textfield = new qx.ui.form.TextField();
-//    this._textfield.setBorder(null);
-//    this._textfield.setWidth("1*");
-//    this._textfield.setAllowStretchY(true);
-//    this._textfield.setHeight(null);
-//    this._textfield.setLiveUpdate(true);
-//    this._textfield.setVerticalAlign("middle");
     this._textfield.setAppearance("spinner-text-field");
-    this._mainLayout.add(this._textfield);
+    this._mainLayout.add(this._textfield, 0, 0, {colSpan: 2});
 
-
-
-    // ************************************************************************
-    //   BUTTON LAYOUT
-    // ************************************************************************
-    this._buttonlayoutwidget = new qx.ui.core.Widget();
-		this._buttonlayout = new qx.ui.layout.VBox();
-		this._buttonlayoutwidget.setLayout(this._buttonlayout);
-//    this._buttonlayout.setWidth("auto");
-    this._mainLayout.add(this._buttonlayoutwidget);
-
-    // ************************************************************************
     //   UP-BUTTON
-    // ************************************************************************
     this._upbutton = new qx.ui.basic.Icon();
     this._upbutton.setAppearance("spinner-button-up");
-//    this._upbutton.setHeight("1*");
-    this._buttonlayout.add(this._upbutton);
+    this._mainLayout.add(this._upbutton, 0, 1);
 
-    // ************************************************************************
     //   DOWN-BUTTON
-    // ************************************************************************
     this._downbutton = new qx.ui.basic.Icon();
     this._downbutton.setAppearance("spinner-button-down");
-//    this._downbutton.setHeight("1*");
-    this._buttonlayout.add(this._downbutton);
-    // ************************************************************************
+    this._mainLayout.add(this._downbutton, 1, 1);
+ 
     //   TIMER
-    // ************************************************************************
     this._timer = new qx.event.Timer(this.getInterval());
 
-    // ************************************************************************
     //   MANAGER
-    // ************************************************************************
     this.setManager(new qx.util.range.Range());
     this.initWrap();
 
-    // ************************************************************************
     //   EVENTS
-    // ************************************************************************
     this.addListener("keypress", this._onkeypress, this);
     this.addListener("keydown", this._onkeydown, this);
     this.addListener("keyup", this._onkeyup, this);
@@ -157,9 +119,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._downbutton.addListener("mousedown", this._onmousedown, this);
     this._timer.addListener("interval", this._oninterval, this);
 
-    // ************************************************************************
     //   INITIALIZATION
-    // ************************************************************************
     if (vMin != null) {
       this.setMin(vMin);
     }
@@ -173,11 +133,7 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     this._checkValue = this.__checkValue;
-    this._numberFormat = null;
-
-
-    this.initWidth();
-    this.initHeight();
+    this._numberFormat = null; 
 
     this._last_value = "";
   },
@@ -222,20 +178,6 @@ qx.Class.define("qx.ui.form.Spinner",
       refine : true,
       init : "spinner"
     },
-
-    width :
-    {
-      refine : true,
-      init : 60
-    },
-
-    height :
-    {
-      refine : true,
-      init : 22
-    },
-
-
 
 
     /** The amount to increment on each event (keypress or mousedown). */
@@ -416,38 +358,6 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /*
     ---------------------------------------------------------------------------
-      PREFERRED DIMENSIONS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the prefered inner width for the spinner widget. Currently this
-     * method returns 50.
-     *
-     * @type member
-     * @return {Integer} prefered inner width for the spinner widget
-     */
-    _computePreferredInnerWidth : function() {
-      return 50;
-    },
-
-
-    /**
-     * Return the prefered inner height for the spinner widget. Currently this
-     * method returns 14
-     *
-     * @type member
-     * @return {Integer} prefered inner height for the spinner widget
-     */
-    _computePreferredInnerHeight : function() {
-      return 14;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       KEY EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
@@ -509,8 +419,8 @@ qx.Class.define("qx.ui.form.Spinner",
             }
 
             // supress all key events without modifier
-
-            if (!e.isCtrlPressed() &&
+						
+            if (!e.isCtrlPressed() && 
 						    !e.isShiftPressed() &&
 								!e.isAltPressed() &&
 								!e.isMetaPressed()) {
@@ -623,7 +533,7 @@ qx.Class.define("qx.ui.form.Spinner",
       if (!e.isLeftPressed()) {
         return;
       }
-
+			
       this._checkValue(true);
 
       var vButton = e.getCurrentTarget();
@@ -687,7 +597,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _onmousewheel : function(e)
     {
       this._checkValue(true);
-
+			
       if (this.getManager().incrementValue)
       {
         this.getManager().incrementValue(this.getWheelIncrementAmount() *
@@ -748,7 +658,6 @@ qx.Class.define("qx.ui.form.Spinner",
       if (this._numberFormat) {
         this._textfield.setValue(this._numberFormat.format(vValue));
       } else {
-				this.info(String(vValue));
         this._textfield.setValue(String(vValue));
       }
 

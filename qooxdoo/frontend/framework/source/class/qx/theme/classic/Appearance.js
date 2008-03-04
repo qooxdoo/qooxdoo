@@ -167,7 +167,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          // source : "decoration/Windows/arrows/up_small.gif"
+          source : "decoration/Windows/arrows/up_small.gif"
         }
       }
     },
@@ -179,8 +179,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          paddingTop : 1
-          // source : "decoration/Windows/arrows/down_small.gif"
+          paddingTop : 1,
+          source : "decoration/Windows/arrows/down_small.gif"
         };
       }
     }
