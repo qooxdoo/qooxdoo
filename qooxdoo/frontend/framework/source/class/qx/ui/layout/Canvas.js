@@ -271,90 +271,81 @@ qx.Class.define("qx.ui.layout.Canvas",
     // overridden
     _computeSizeHint : function()
     {
-      var hint = {
-        width : 0,
-        minWidth : 0,
-        maxWidth : Infinity,
-        height : 0,
-        minHeight : 0,
-        maxHeight : Infinity
-      };
+      var neededWidth=0, neededMinWidth=0;
+      var neededHeight=0, neededMinHeight=0;
+
+      var childWidth, childMinWidth;
+      var childHeight, childMinHeight;
 
       var children = this.getLayoutChildren();
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
         var layout = this.getLayoutProperties(child);
+        var childHint = child.getSizeHint();
 
 
         // **************************************
         //   compute width
         // **************************************
 
-        var childWidth = 0;
-        var childMinWidth = 0;
+        childWidth = 0;
+        childMinWidth = 0;
 
         if (typeof layout.left == "number")
         {
           childWidth += layout.left;
           childMinWidth += layout.left;
         }
+
         if (typeof layout.right == "number")
         {
           childWidth += layout.right;
           childMinWidth += layout.right;
         }
-        if (typeof layout.width == "number")
-        {
-          childWidth += layout.width;
-          childMinWidth += layout.width;
-        }
-        else
-        {
-          var childHint = child.getSizeHint();
-          childWidth += childHint.width;
-          childMinWidth += childHint.minWidth;
-        }
 
-        hint.width = Math.max(hint.width, childWidth);
-        hint.minWidth = Math.max(hint.minWidth, childMinWidth);
+        childWidth += childHint.width;
+        childMinWidth += childHint.minWidth;
+
+        neededWidth = Math.max(neededWidth, childWidth);
+        neededMinWidth = Math.max(neededMinWidth, childMinWidth);
 
 
         // **************************************
         //   compute height
         // **************************************
 
-        var childHeight = 0;
-        var childMinHeight = 0;
+        childHeight = 0;
+        childMinHeight = 0;
 
         if (typeof layout.top == "number")
         {
           childHeight += layout.top;
           childMinHeight += layout.top;
         }
+
         if (typeof layout.bottom == "number")
         {
           childHeight += layout.bottom;
           childMinHeight += layout.bottom;
         }
-        if (typeof layout.height == "number")
-        {
-          childHeight += layout.width;
-          childMinHeight += layout.width;
-        }
-        else
-        {
-          var childHint = child.getSizeHint();
-          childHeight += childHint.height;
-          childMinHeight += childHint.minHeight;
-        }
 
-        hint.height = Math.max(hint.height, childHeight);
-        hint.minHeight = Math.max(hint.minHeight, childMinHeight);
+        childHeight += childHint.height;
+        childMinHeight += childHint.minHeight;
+
+        neededHeight = Math.max(neededHeight, childHeight);
+        neededMinHeight = Math.max(neededMinHeight, childMinHeight);
       }
+
+      var hint =
+      {
+        width : neededWidth,
+        minWidth : neededMinWidth,
+        height : neededHeight,
+        minHeight : neededMinHeight
+      };
 
       return hint;
     }
-
   }
 });
