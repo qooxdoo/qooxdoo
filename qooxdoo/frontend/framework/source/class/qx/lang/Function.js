@@ -32,6 +32,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.lang.Array)
+
+************************************************************************ */
+
 /**
  * Collection of helper methods operating on functions.
  */
@@ -50,7 +56,7 @@ qx.Bootstrap.define("qx.lang.Function",
     getCaller : function(args) {
       return args.caller ? args.caller.callee : args.callee.caller;
     },
-    
+
 
     /**
      * Try to get a sensible textual description of a function object.
@@ -83,7 +89,7 @@ qx.Bootstrap.define("qx.lang.Function",
             return fcn.mixin.name + ":" + key;
           }
         }
-        
+
         // statics
         for(var key in fcn.mixin)
         {
@@ -125,7 +131,7 @@ qx.Bootstrap.define("qx.lang.Function",
       }
 
       return 'anonymous';
-    },    
+    },
 
 
     /**
