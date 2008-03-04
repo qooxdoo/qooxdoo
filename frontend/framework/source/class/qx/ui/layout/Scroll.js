@@ -46,12 +46,8 @@ qx.Class.define("qx.ui.layout.Scroll",
       var hint = this.getContent().getSizeHint();
 
       return {
-        minWidth : 0,
         width : hint.width,
-        maxWidth : Infinity,
-        minHeight : 0,
-        height : hint.height,
-        maxHeight : Infinity
+        height : hint.height
       };
     },
 

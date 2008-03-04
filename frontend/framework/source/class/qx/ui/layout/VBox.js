@@ -377,10 +377,8 @@ qx.Class.define("qx.ui.layout.VBox",
       return {
         minHeight : minHeight + gaps,
         height : height + gaps,
-        maxHeight : Infinity,
         minWidth : minWidth,
-        width : width,
-        maxWidth : Infinity
+        width : width
       };
     },
 
