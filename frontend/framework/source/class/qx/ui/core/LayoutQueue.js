@@ -110,7 +110,8 @@ qx.Class.define("qx.ui.core.LayoutQueue",
      * of <code>0</code>.
      *
      * @type static
-     * @return {Integer} The widgets nesting level.
+     * @param widget {qx.ui.core.Widget} The widget to query.
+     * @return {Integer} The nesting level
      */
     getNestingLevel : function(widget)
     {
