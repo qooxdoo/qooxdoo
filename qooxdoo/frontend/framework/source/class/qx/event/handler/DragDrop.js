@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- *
+ * Event handler, which supports drag events on DOM elements.
  */
 qx.Class.define("qx.event.handler.DragDrop",
 {
@@ -35,8 +35,6 @@ qx.Class.define("qx.event.handler.DragDrop",
   */
 
   /**
-   * Create a new instance
-   *
    * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
@@ -75,16 +73,25 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   members :
   {
+    /** {Map} all supported events */
     __eventTypes : {
       "dragstart": true,
       "dragmove": true,
       "dragstop": true
     },
 
+    /** {Map} information about all dragable DOM elements */
     __draggableElements : null,
 
 
-    enableDragEvents : function(element, minDragOffset)
+    /**
+     * Enable drag events for the given element
+     *
+     * @param element {Element} DOM element to enable drag events for
+     * @param minDragOffset {Integer} The minimum amount of pixel the curser has
+     *     to move from the drag start position before drag events are fired.
+     */
+    __enableDragEvents : function(element, minDragOffset)
     {
       var dragData = {
         element: element,
@@ -105,7 +112,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
-    disableDragEvents : function(element)
+    /**
+     * Disable the drag events for the given element
+     *
+     * @param element {Element} the DOM element to disable drag events for.
+     */
+    __disableDragEvents : function(element)
     {
       var elementKey = qx.core.ObjectRegistry.toHashCode(element);
       dragData = this.__draggableElements[elementKey];
@@ -135,17 +147,49 @@ qx.Class.define("qx.event.handler.DragDrop",
       var dragData = this.__draggableElements[elementKey];
 
       if (!dragData) {
-        throw new Error("Dragging is not enabled on this element! Please enable dragging using the 'initDraggable' method");
+        this.__enableDragEvents(target, 1);
       }
     },
 
 
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
-      // Nothing needs to be done here
+    unregisterEvent : function(target, type, capture)
+    {
+      var elementKey = qx.core.ObjectRegistry.toHashCode(target);
+      var dragData = this.__draggableElements[elementKey];
+
+      if (dragData)
+      {
+        var removeDragEvents = true;
+        for (var dragtype in this.__eventTypes)
+        {
+          if (dragtype == "type") {
+            continue;
+          }
+          if (this._manager.hasListeners(target, dragtype, capture)) {
+            removeDragEvents = false;
+            break;
+          }
+        }
+        if (removeDragEvents) {
+          this.__disableDragEvents(target);
+        }
+      }
     },
 
 
+    /**
+     * Creates a drag event object from a mouse event
+     *
+     * @param type {String} the event type (name)
+     * @param mouseEvent {qx.event.type.Mouse} The mouse event the drag event
+     *     should be based on
+     * @param dragOffsetLeft {Integer} The difference between the current left mouse
+     *     position and the mouse position at drag start.
+     * @param dragOffsetTop {Integer} The difference between the current top mouse
+     *     position and the mouse position at drag start.
+     * @return {qx.event.type.Drag} The configure drag event
+     */
     __createDragEvent : function(type, mouseEvent, dragOffsetLeft, dragOffsetTop)
     {
       var dragEvent = qx.event.Pool.getInstance().getObject(qx.event.type.Drag);
@@ -158,6 +202,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Mouse down event handler
+     *
+     * @param dragData {Map} the current drag session
+     * @param e {qx.event.type.Mouse} The mouse down event object
+     */
     _onMousedown : function(dragData, e)
     {
       qx.bom.Element.capture(dragData.element);
@@ -170,6 +220,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * The loose capture event handler
+     *
+     * @param dragData {Map} the current drag session
+     * @param e {qx.event.type.Event} The loose capture event object
+     */
     _onLoosecapture : function(dragData, e)
     {
       this._manager.removeListener(dragData.element, "mousemove", dragData.mousemoveHandler);
@@ -188,6 +244,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Mouse up event handler
+     *
+     * @param dragData {Map} the current drag session
+     * @param e {qx.event.type.Mouse} The mouse up event object
+     */
     _onMouseup : function(dragData, e)
     {
       qx.bom.Element.releaseCapture(dragData.element);
@@ -206,6 +268,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Mouse move event handler
+     *
+     * @param dragData {Map} the current drag session
+     * @param e {qx.event.type.Mouse} The mouse move event object
+     */
     _onMousemove : function(dragData, e)
     {
       var dragOffsetLeft = e.getDocumentLeft() - dragData.dragStartLeft;
