@@ -1000,11 +1000,10 @@ qx.Class.define("qx.ui.layout.Grid",
 
           minHeight = Math.max(minHeight, cellSize.minHeight);
           height = Math.max(height, cellSize.height);
-          maxHeight = Math.max(maxHeight, cellSize.maxHeight);
         }
 
         var minHeight = Math.max(minHeight, this.getRowMinHeight(row));
-        var maxHeight = Math.min(maxHeight, this.getRowMaxHeight(row));
+        var maxHeight = this.getRowMaxHeight(row);
 
         if (this.getRowHeight() !== null) {
           var height = this.getRowHeight();
@@ -1068,11 +1067,10 @@ qx.Class.define("qx.ui.layout.Grid",
 
           minWidth = Math.max(minWidth, cellSize.minWidth);
           width = Math.max(width, cellSize.width);
-          maxWidth = Math.max(maxWidth, cellSize.maxWidth);
         }
 
         var minWidth = Math.max(minWidth, this.getColumnMinWidth(col));
-        var maxWidth = Math.min(maxWidth, this.getColumnMaxWidth(col));
+        var maxWidth = this.getColumnMaxWidth(col);
 
         if (this.getColumnWidth() !== null) {
           var width = this.getColumnWidth();
@@ -1292,27 +1290,25 @@ qx.Class.define("qx.ui.layout.Grid",
       // calculate col widths
       var colWidths = this._getColWidths();
 
-      var minWidth=0, width=0, maxWidth=0;
+      var minWidth=0, width=0;
 
       for (var i=0, l=colWidths.length; i<l; i++)
       {
         var col = colWidths[i];
         minWidth += col.minWidth;
         width += col.width;
-        maxWidth += col.maxWidth;
       }
 
       // calculate row heights
       var rowHeights = this._getRowHeights();
-			
-      var minHeight=0, height=0, maxHeight=0;
+
+      var minHeight=0, height=0;
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
         var row = rowHeights[i];
 
         minHeight += row.minHeight;
         height += row.height;
-        maxHeight += row.maxHeight;
       }
 
       var spacingX = this.getHorizontalSpacing() * (colWidths.length - 1);
@@ -1321,10 +1317,8 @@ qx.Class.define("qx.ui.layout.Grid",
       var hint = {
         minWidth : minWidth + spacingX,
         width : width + spacingX,
-        maxWidth : maxWidth + spacingX,
         minHeight : minHeight + spacingY,
-        height : height + spacingY,
-        maxHeight : maxHeight + spacingY
+        height : height + spacingY
       };
 
       return hint;
