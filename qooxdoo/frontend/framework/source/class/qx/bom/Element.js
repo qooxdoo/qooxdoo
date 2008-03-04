@@ -272,6 +272,16 @@ qx.Class.define("qx.bom.Element",
      */
     releaseCapture : function(element) {
       qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
+    },
+
+    enableDragEvents : function(element, minDragOffset) {
+      qx.event.Registration.getManager(element).getHandler(qx.event.handler.DragDrop).enableDragEvents(element, minDragOffset);
+    },
+
+    disableDragEvents : function(element) {
+      qx.event.Registration.getManager(element).getHandler(qx.event.handler.DragDrop).disableDragEvents(element);
     }
+
+
   }
 });
