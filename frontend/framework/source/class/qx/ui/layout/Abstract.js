@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.layout.Abstract",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          child.setLayoutParent(this);
+          child.setLayoutParent(this.getWidget());
         }
 
         value.scheduleLayoutUpdate();
