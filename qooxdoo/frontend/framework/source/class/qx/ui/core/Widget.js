@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this.base(arguments);
 
-    this._containerElement = this.__createContainerElement();
+    this._containerElement = this._createContainerElement();
     this._contentElement = this.__createContentElement();
     this._containerElement.add(this._contentElement);
 
@@ -1430,7 +1430,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {qx.html.Element} The container HTML element
      */
-    __createContainerElement : function()
+    _createContainerElement : function()
     {
       var el = new qx.html.Element("div");
       el.setStyle("position", "absolute");
