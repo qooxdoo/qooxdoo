@@ -148,7 +148,7 @@ qx.Class.define("qx.event.handler.Mouse",
         target = domEvent.target || domEvent.srcElement;
       }
 
-      qx.event.Registration.fireEvent(target, type||domEvent.type, qx.event.type.Mouse, [domEvent]);
+      qx.event.Registration.fireEvent(target, type||domEvent.type, qx.event.type.Mouse, [domEvent, true]);
     },
 
 
