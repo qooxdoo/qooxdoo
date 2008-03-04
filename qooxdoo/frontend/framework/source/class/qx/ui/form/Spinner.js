@@ -90,12 +90,12 @@ qx.Class.define("qx.ui.form.Spinner",
     this._mainLayout.add(this._textfield, 0, 0, {rowSpan: 2});
 
     //   UP-BUTTON
-    this._upbutton = new qx.ui.basic.Icon();
+    this._upbutton = new qx.ui.basic.Image();
     this._upbutton.setAppearance("spinner-button-up");
     this._mainLayout.add(this._upbutton, 0, 1);
 
     //   DOWN-BUTTON
-    this._downbutton = new qx.ui.basic.Icon();
+    this._downbutton = new qx.ui.basic.Image();
     this._downbutton.setAppearance("spinner-button-down");
     this._mainLayout.add(this._downbutton, 1, 1);
 
