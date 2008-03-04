@@ -75,7 +75,7 @@ qx.Bootstrap.define("qx.event.Manager",
       HELPERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Local dispose method. Automatically executed when unloading of the
      * attached window occours.
@@ -83,7 +83,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * @type member
      * @return {void}
      */
-    dispose : function() 
+    dispose : function()
     {
       // Remove own unload listener
       qx.bom.Event.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
@@ -92,10 +92,10 @@ qx.Bootstrap.define("qx.event.Manager",
       qx.event.Registration.removeManager(this);
 
       // Dispose data fields
-      this.__listeners = this.__window = this.__handlers = 
+      this.__listeners = this.__window = this.__handlers =
       this.__dispatchers = this.__disposeWrapper = null;
     },
-    
+
 
     /**
      * Get the window instance the event manager is reponsible for
@@ -182,10 +182,10 @@ qx.Bootstrap.define("qx.event.Manager",
           return null;
         }
       }
-      
+
       var uniqueId = type + (capture ? "|capture" : "|bubble");
       var res = this.__listeners[targetKey][uniqueId];
-      
+
       if (!res && create) {
         this.__listeners[targetKey][uniqueId] = res = [];
       }
@@ -405,7 +405,7 @@ qx.Bootstrap.define("qx.event.Manager",
         var capture = (listener[1] == "capture");
         this.__unregisterAtHandler(target, type, capture);
       }
-      
+
       delete this.__listeners[targetKey];
     },
 
@@ -471,11 +471,11 @@ qx.Bootstrap.define("qx.event.Manager",
       if (!event) {
         return;
       }
-      
+
       // Preparations
       var type = event.getType();
-      
-      if (!event.getBubbles() && !this.hasListeners(target, type)) 
+
+      if (!event.getBubbles() && !this.hasListeners(target, type))
       {
         // qx.log.Logger.warn(this, "Useless dispatch found: " + type);
         qx.event.Pool.getInstance().poolObject(event);
@@ -485,7 +485,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (!event.getTarget()) {
         event.setTarget(target);
       }
-      
+
       // Interation data
       var classes = qx.event.Registration.getDispatchers();
       var instance;
