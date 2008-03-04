@@ -50,10 +50,8 @@ qx.Class.define("qx.event.type.KeySequence",
      */
     init : function(domEvent, identifier)
     {
-      this.base(arguments, domEvent);
-
+      this.base(arguments, domEvent, true);
       this._identifier = identifier;
-
       return this;
     },
 

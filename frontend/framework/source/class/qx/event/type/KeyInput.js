@@ -50,10 +50,8 @@ qx.Class.define("qx.event.type.KeyInput",
      */
     init : function(domEvent, charCode)
     {
-      this.base(arguments, domEvent);
-
+      this.base(arguments, domEvent, true);
       this._charCode = charCode;
-
       return this;
     },
 
