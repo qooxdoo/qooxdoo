@@ -134,15 +134,8 @@ qx.Class.define("qx.ui.basic.Icon",
     */
 
     // overridden
-    _createContentElement : function()
-    {
-      var el = new qx.html.ClippedImage();
-
-      el.setStyle("position", "absolute");
-      el.setStyle("zIndex", 10);
-      el.setStyle("overflow", "hidden");
-
-      return el;
+    _createContentElement : function() {
+      return new qx.html.ClippedImage();
     },
 
 

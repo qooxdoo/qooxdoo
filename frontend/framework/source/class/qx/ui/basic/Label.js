@@ -147,14 +147,8 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     // overridden
-    _createContentElement : function()
-    {
-      var el = new qx.html.Label;
-
-      el.setStyle("position", "relative");
-      el.setStyle("zIndex", 10);
-
-      return el;
+    _createContentElement : function() {
+      return new qx.html.Label;
     },
 
 
