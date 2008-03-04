@@ -377,10 +377,8 @@ qx.Class.define("qx.ui.layout.HBox",
       return {
         minWidth : minWidth + gaps,
         width : width + gaps,
-        maxWidth : Infinity,
         minHeight : minHeight,
-        height : height,
-        maxHeight : Infinity
+        height : height
       };
     },
 

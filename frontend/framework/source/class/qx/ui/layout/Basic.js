@@ -116,12 +116,8 @@ qx.Class.define("qx.ui.layout.Basic",
 
       // Return hint
       return {
-        minWidth : 0,
         width : neededWidth,
-        maxWidth : Infinity,
-        minHeight : 0,
-        height : neededHeight,
-        maxHeight : Infinity
+        height : neededHeight
       };
     }
   }
