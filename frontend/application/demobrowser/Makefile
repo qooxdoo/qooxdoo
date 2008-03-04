@@ -45,8 +45,8 @@ APPLICATION_BUILD_PATH = ./build
 # INCLUDE CORE
 ####################################################################################
 
-#ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
-ifeq ('a','b')
+ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
+#ifeq ('a','b')
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
 endif
