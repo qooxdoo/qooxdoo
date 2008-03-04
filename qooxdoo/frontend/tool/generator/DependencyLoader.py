@@ -372,7 +372,7 @@ class DependencyLoader:
         "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
         "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
         "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "asset" : re.compile("^#embed\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M)
+        "asset" : re.compile("^#embed\(\s*([\.a-zA-Z0-9/_-]+?)\s*\)", re.M)
     }
 
 
