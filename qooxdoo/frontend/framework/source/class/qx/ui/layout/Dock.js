@@ -445,10 +445,8 @@ qx.Class.define("qx.ui.layout.Dock",
       return {
         minWidth : Math.max(minWidthX, minWidthY),
         width : Math.max(widthX, widthY),
-        maxWidth : Infinity,
         minHeight : Math.max(minHeightX, minHeightY),
-        height : Math.max(heightX, heightY),
-        maxHeight : Infinity
+        height : Math.max(heightX, heightY)
       };
     },
 

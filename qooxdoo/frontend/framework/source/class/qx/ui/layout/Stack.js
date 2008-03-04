@@ -132,10 +132,8 @@ qx.Class.define("qx.ui.layout.Stack",
         return {
           minWidth : minWidth,
           width : width,
-          maxWidth : Infinity,
           minHeight : minHeight,
-          height : height,
-          maxHeight : Infinity
+          height : height
         };
       }
     }

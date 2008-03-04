@@ -192,8 +192,8 @@ qx.Class.define("qx.ui.layout.Atom",
 
       if (this._icon && this._text)
       {
-        var minWidth=0, width=0, maxWidth=0;
-        var minHeight=0, height=0, maxHeight=0;
+        var minWidth=0, width=0;
+        var minHeight=0, height=0;
 
         var iconHint = this._icon.getSizeHint();
         var textHint = this._text.getSizeHint();
@@ -226,31 +226,27 @@ qx.Class.define("qx.ui.layout.Atom",
         hint = {
           minWidth : minWidth,
           width : width,
-          maxWidth : Infinity,
           minHeight : minHeight,
-          height : height,
-          maxHeight : Infinity
+          height : height
         };
       }
       else if (this._icon)
       {
         hint = this._icon.getSizeHint();
-        hint.maxWidth = Infinity;
-        hint.maxHeight = Infinity;
+        delete hint.maxWidth;
+        delete hint.maxHeight;
       }
       else if (this._text)
       {
         hint = this._text.getSizeHint();
+        delete hint.maxWidth;
+        delete hint.maxHeight;
       }
       else
       {
         hint = {
-          minWidth : 0,
           width : 0,
-          maxWidth : Infinity,
-          minHeight : 0,
-          height : 0,
-          maxHeight : Infinity
+          height : 0
         };
       }
 
