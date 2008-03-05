@@ -71,9 +71,9 @@ COMPUTED_SOURCE_SCRIPT_NAME = $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SC
 
 COMPUTED_BUILD_RESOURCE = --copy-resources \
   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(FRAMEWORK_NAMESPACE) \
+  --resource-output $(APPLICATION_BUILD_PATH)/resource \
   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE)
+  --resource-output $(APPLICATION_BUILD_PATH)/resource
 
 ifeq ($(APPLICATION_RESOURCE_FILTER),true)
   COMPUTED_BUILD_RESOURCE += --enable-resource-filter

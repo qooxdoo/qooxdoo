@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #module(apiviewer)
-#resource(apiviewer.css:css)
-#resource(apiviewer.image:image)
+#resource(apiviewer.css:apiviewer/css)
+#resource(apiviewer.image:apiviewer/image)
 #embed(apiviewer.css/*)
 
 ************************************************************************ */
