@@ -49,7 +49,7 @@ qx.Class.define("apiviewer.Application",
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
+      qx.io.Alias.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri") + "/apiviewer");
 
       // Include CSS file
       qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("api/css/apiviewer.css"));
