@@ -215,6 +215,5 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorLeft : "border-dark-shadow"
       }
     }
-
   }
 });
