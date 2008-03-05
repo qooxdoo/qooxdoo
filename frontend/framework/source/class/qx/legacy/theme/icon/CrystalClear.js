@@ -36,6 +36,6 @@ qx.Theme.define("qx.legacy.theme.icon.CrystalClear",
   title : "CrystalClear",
 
   icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/oxygen"
+    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/oxygen"
   }
 });
