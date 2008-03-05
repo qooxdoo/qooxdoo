@@ -62,7 +62,7 @@ qx.Class.define("testrunner.runner.Application",
       this.compat();
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
+      qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri") + "/testrunner");
 
       // Include CSS file
       qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("testrunner/css/testrunner.css"));

@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.Application",
       this.compat();
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
+      qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser");
 
       // Include CSS files
       qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/style.css"));
