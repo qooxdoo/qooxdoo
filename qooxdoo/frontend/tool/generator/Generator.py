@@ -63,6 +63,7 @@ class Generator:
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._imageInfo      = ImageInfo(self._console)
+        self._resourceLister = _ResourceLister(self)
 
         # Start job
         self.run()
@@ -186,6 +187,10 @@ class Generator:
                 boot = "boot"
                 parts = { "boot" : [0] }
                 packages = [classList]
+
+
+            # TEST CODE
+            #self._resourceLister.findAllResources(self._resourceLister.filterResourcesByClasslist(classList))
 
 
             # Execute real tasks
@@ -782,18 +787,25 @@ class Generator:
         self._copier.do_work()
 
 
-    def _findAllResources(self, filter=None):
+
+
+class _ResourceLister(object):
+    def __init__(self, generatorobj):
+        self._genobj = generatorobj
+
+
+    def findAllResources(self, filter=None):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
         
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
-        libs = (self._config.get("library", []))[:]
+        libs = (self._genobj._config.get("library", []))[:]
         libs.reverse()
 
         for lib in libs:
-            #libpath = LibraryPath(lib, self._console)
+            #libpath = LibraryPath(lib, self._genobj._console)
             for rsrc in filetool.find(lib['path']):
                 if (filter and not filter(rsrc)):
                     continue
@@ -808,18 +820,25 @@ class Generator:
         return result
 
 
-    def _filterResourcesByClasslist(self, classes):
-        # returns a function that takes a resource path and return true if on
+    def filterResourcesByClasslist(self, classes):
+        # returns a function that takes a resource path and return true if one
         # of the classes needs it
         # -- currently just always returns true
 
         def filter(respath):
             return True
+
+        resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
+        def filter1(respath):
+            for res in resList:
+                if re.search(res, respath):  # this might need a better 'match' algorithm
+                    return True
+            return False
         
         return filter
     
     
-    def _filterResourcesByFilepath(self):
+    def filterResourcesByFilepath(self):
         #imgpatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
         imgpatt = re.compile(r'.*/resource/.*')
         
@@ -836,14 +855,15 @@ class Generator:
         """Return a consolidated list of resource fileId's of all classes in classList"""
         result = []
 
-        self._console.info("Compiling resource list...")
-        self._console.indent()
+        self._genobj._console.info("Compiling resource list...")
+        self._genobj._console.indent()
         for clazz in classList:
-            classRes = (self._depLoader.getMeta(clazz))['assetDeps']
-            self._console.debug("%s: %s" % (clazz, repr(classRes)))
+            classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps']
+            self._genobj._console.debug("%s: %s" % (clazz, repr(classRes)))
             for res in classRes:
+                # here it might need some massaging of 'res' before lookup and append
                 if res not in result:
                     result.append(res)
 
-        self._console.outdent()
+        self._genobj._console.outdent()
         return result
