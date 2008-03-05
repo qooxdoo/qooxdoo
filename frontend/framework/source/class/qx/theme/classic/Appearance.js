@@ -20,14 +20,6 @@
 
 ************************************************************************* */
 
-/* ************************************************************************
-
-#ignore(auto-use)
-
-
-
-************************************************************************* */
-
 /**
  * The classic qooxdoo appearance theme.
  */
@@ -37,7 +29,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
   appearances :
   {
-    widget : {},
+    /*
+    ---------------------------------------------------------------------------
+      CORE
+    ---------------------------------------------------------------------------
+    */
+
+    "widget" : {},
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -70,6 +70,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       ICON
@@ -85,6 +88,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+
+
+
 
 
     /*
@@ -109,6 +115,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "text-area" : {
       include : "text-field"
     },
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -136,7 +146,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding: [1, 3]
-					// backgroundColor : "transparent"					
         };
       }
     },
@@ -144,7 +153,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "spinner-button":
     {
       include : "button",
-			
+
 			style : function(states)
       {
         return {
@@ -171,12 +180,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        return {          
+        return {
           icon : qx.core.Setting.get("qx.resourceUri") + "/decoration/Windows/arrows/down_small.gif"
         };
       }
     }
-
-
   }
 });
