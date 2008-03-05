@@ -32,6 +32,6 @@ qx.Theme.define("qx.theme.icon.Oxygen",
   title : "Oxygen",
 
   icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/oxygen"
+    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/oxygen"
   }
 });

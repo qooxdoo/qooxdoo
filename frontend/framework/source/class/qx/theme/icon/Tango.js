@@ -32,6 +32,6 @@ qx.Theme.define("qx.theme.icon.Tango",
   title : "Tango",
 
   icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/tango"
+    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/tango"
   }
 });
