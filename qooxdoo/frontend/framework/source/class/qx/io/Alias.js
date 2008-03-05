@@ -43,7 +43,7 @@ qx.Class.define("qx.io.Alias",
     this._aliases = {};
 
     // Define static alias from setting
-    this.add("static", qx.core.Setting.get("qx.resourceUri") + "/static");
+    this.add("static", qx.core.Setting.get("qx.resourceUri") + "/qx/static");
   },
 
 
