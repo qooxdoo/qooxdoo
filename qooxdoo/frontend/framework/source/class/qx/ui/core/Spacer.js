@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.core.Spacer",
      * @return {void}
      */
     _applyLayoutChange : function() {
-      this.scheduleLayoutUpdate();
+      qx.ui.core.LayoutQueue.add(this);
     }
   }
 });

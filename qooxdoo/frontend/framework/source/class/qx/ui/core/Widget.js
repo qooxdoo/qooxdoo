@@ -66,11 +66,15 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this.base(arguments);
 
+    // Create basic element structure
     this._containerElement = this._createContainerElement();
     this._contentElement = this.__createContentElement();
     this._containerElement.add(this._contentElement);
 
+    // Initialize states map
     this.__states = {};
+
+    // Add to appearance queue for initial apply of styles
     qx.ui.core.AppearanceQueue.add(this);
   },
 
@@ -350,6 +354,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       PADDING
@@ -579,19 +584,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * If you switch this to true, the widget doesn't receive any user input
-     * events like key, mouse or focus events.
-     */
-    anonymous :
-    {
-      check : "Boolean",
-      init: false,
-      inheritable : true,
-      event : "changeAnonymous"
-    },
-
-
     /** The widget's appearance id */
     appearance :
     {
@@ -734,7 +726,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (left == null || top == null || width == null || height == null)
         {
-          this.trace();
           this.debug("left: " + left + ", top: " + top + ", width: " + width + ", height: " + height);
           throw new Error("Something went wrong with the layout of " + this.toString() + "!");
         }
@@ -1127,11 +1118,13 @@ qx.Class.define("qx.ui.core.Widget",
           };
         }
       }
-
-      return {
-        width : 100,
-        height : 50
-      };
+      else
+      {
+        return {
+          width : 100,
+          height : 50
+        };
+      }
     },
 
 
