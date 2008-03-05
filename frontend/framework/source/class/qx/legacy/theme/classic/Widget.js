@@ -33,6 +33,6 @@ qx.Theme.define("qx.legacy.theme.classic.Widget",
   title : "Windows",
 
   widgets : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Windows"
+    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic"
   }
 });
