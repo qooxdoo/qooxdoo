@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.basic.Image",
     _syncSource : function(value)
     {
       this.__source = value;
-      if (this.getEnabled()) {
+      if (this.getEnabled() || !this.getDisabledSource()) {
         this._applyVisibleSource(value);
       }
     },

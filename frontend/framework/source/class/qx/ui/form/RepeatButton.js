@@ -122,6 +122,27 @@ qx.Class.define("qx.ui.form.RepeatButton",
   */
   members :
   {
+		
+		press: function() {
+      this.removeState("abandoned");
+      if (!this.hasState("pressed")) { 
+	      this.__startInternalTimer();				
+			}
+      this.addState("pressed");
+		},
+		
+		release: function() {
+	    if (this.hasState("pressed")) {
+	      if (!this.__executed) {
+	        this.execute();             
+	      }
+	      this.removeState("pressed");
+	      this.removeState("abandoned");
+	      this.__stopInternalTimer();
+      }			
+		},
+		
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
