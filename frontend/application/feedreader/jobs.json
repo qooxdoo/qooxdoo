@@ -28,11 +28,6 @@
 
     "include" : ["feedreader.*", "qx.legacy.theme.Ext"],
 
-    "require" :
-    {
-      "qx.log.Logger" : ["qx.log.appender.Native"]
-    },
-
     "settings" :
     {
       "qx.application" : "feedreader.Application",
