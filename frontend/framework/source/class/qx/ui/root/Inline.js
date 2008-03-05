@@ -49,16 +49,16 @@ qx.Class.define("qx.ui.root.Inline",
    */
   construct : function(el)
   {
-    // Symbolic links
+    // Temporary storage of element to use
     this._elem = el;
 
     // Base call
     this.base(arguments);
 
-    // Make relative
-    el.style.position = "relative";
-
+    // Use static layout
     this.setLayout(new qx.ui.layout.Basic());
+
+    // Directly schedule layout for root element
     this.scheduleLayoutUpdate();
   },
 
@@ -111,8 +111,13 @@ qx.Class.define("qx.ui.root.Inline",
     // overridden
     _createContainerElement : function()
     {
-      var root = new qx.html.Root(this._elem);
+      var el = this._elem;
       delete this._elem;
+
+      var root = new qx.html.Root(el);
+
+      // Make relative
+      el.style.position = "relative";
 
       return root;
     }
