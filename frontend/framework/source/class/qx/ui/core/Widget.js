@@ -1908,18 +1908,17 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Style multiple properties at once by using a property list
+     * Style multiple themed properties at once by using a property list
      *
      * @type member
      * @param data {Map} a map of property values. The key is the name of the property.
      * @return {Object} this instance.
      * @throws an error if the incoming data field is not a map.
      */
-    __styleFromMap : function(data)
+    __styleProperties : function(data)
     {
       var styler = qx.core.Property.$$method.style;
       var unstyler = qx.core.Property.$$method.unstyle;
-      var value;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -1932,6 +1931,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var undef = "undefined";
+      var value;
+
       for (var prop in data)
       {
         value = data[prop];
@@ -1941,35 +1942,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Unstyle multiple properties at once by using a property list
-     *
-     * @type member
-     * @param data {Array} a array of property names.
-     * @return {Object} this instance.
-     * @throws an error if the incoming data field is not a map.
-     */
-    __unstyleFromArray : function(data)
-    {
-      var unstyler = qx.core.Property.$$method.unstyle;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        for (var i=0, l=data.length; i<l; i++)
-        {
-          if (!this[unstyler[data[i]]]) {
-            throw new Error(this.classname + ' has no themeable property "' + data[i] + '"');
-          }
-        }
-      }
-
-      for (var i=0, l=data.length; i<l; i++) {
-        this[unstyler[data[i]]]();
-      }
-    },
-
-
-    /**
      * Renders the appearance using the current widget states.
+     *
+     * Used exlusively by {qx.ui.core.AppearanceQueue}.
      *
      * @internal
      * @type member
@@ -1983,7 +1958,7 @@ qx.Class.define("qx.ui.core.Widget",
         var props = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, this.__states);
 
         if (props) {
-          this.__styleFromMap(props);
+          this.__styleProperties(props);
         }
       }
     },
@@ -1993,6 +1968,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyAppearance : function(value, old)
     {
       var manager = qx.theme.manager.Appearance.getInstance();
+      var unstyler = qx.core.Property.$$method.unstyle;
 
       if (value) {
         var newAppearanceProperties = manager.styleFrom(value, this.__states) || {};
@@ -2000,23 +1976,20 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (old)
       {
+        // TODO: This procedure may be problematic when introducing sub-widgets
         var oldAppearanceProperties = manager.styleFrom(old, this.__states) || {};
 
         var unstyleList = [];
         for (var prop in oldAppearanceProperties)
         {
           if (!newAppearanceProperties || !(prop in newAppearanceProperties)) {
-            unstyleList.push(prop);
+            this[unstyler[prop]]();
           }
         }
       }
 
-      if (unstyleList) {
-        this.__unstyleFromArray(unstyleList);
-      }
-
       if (newAppearanceProperties) {
-        this.__styleFromMap(newAppearanceProperties);
+        this.__styleProperties(newAppearanceProperties);
       }
     }
   },
