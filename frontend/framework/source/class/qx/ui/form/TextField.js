@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.form.TextField",
       this._styledFont = font;
 
       // Update layout
-      this.scheduleLayoutUpdate();
+      qx.ui.core.LayoutQueue.add(this);
     },
 
 

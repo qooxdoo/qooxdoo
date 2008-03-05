@@ -122,18 +122,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Indicate that the widget has layout changes and propagate this information
-     * up the widget hierarchy.
-     *
-     * @internal
-     * @type member
-     */
-    scheduleLayoutUpdate : function() {
-      qx.ui.core.LayoutQueue.add(this);
-    },
-
-
-    /**
      * Whether the layout of this widget (to layout the children)
      * is valid.
      *

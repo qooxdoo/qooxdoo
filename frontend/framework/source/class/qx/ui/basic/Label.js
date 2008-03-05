@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.basic.Label",
       this.__invalidContentSize = true;
 
       // Update layout
-      this.scheduleLayoutUpdate();
+      qx.ui.core.LayoutQueue.add(this);
     },
 
 
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.basic.Label",
       this.__invalidContentSize = true;
 
       // Update layout
-      this.scheduleLayoutUpdate();
+      qx.ui.core.LayoutQueue.add(this);
     },
 
 
@@ -251,7 +251,7 @@ qx.Class.define("qx.ui.basic.Label",
       this.__invalidContentSize = true;
 
       // Update layout
-      this.scheduleLayoutUpdate();
+      qx.ui.core.LayoutQueue.add(this);
     }
   }
 });

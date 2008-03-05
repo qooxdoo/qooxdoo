@@ -500,7 +500,7 @@ qx.Class.define("qx.ui.layout.Abstract",
           child.setLayoutParent(null);
         }
 
-        old.scheduleLayoutUpdate();
+        qx.ui.core.LayoutQueue.add(old);
       }
 
       if (value)
@@ -511,7 +511,7 @@ qx.Class.define("qx.ui.layout.Abstract",
           child.setLayoutParent(value);
         }
 
-        value.scheduleLayoutUpdate();
+        qx.ui.core.LayoutQueue.add(value);
       }
     },
 
