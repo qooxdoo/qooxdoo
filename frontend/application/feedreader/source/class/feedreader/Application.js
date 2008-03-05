@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#resource(feedreader.css:css)
-#resource(feedreader.images:images)
+#resource(feedreader.css:feedreader/css)
+#resource(feedreader.images:feedreader/images)
 #embed(feedreader.css/*)
 #embed(feedreader.images/*)
 

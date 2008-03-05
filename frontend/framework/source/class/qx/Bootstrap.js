@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#resource(qx.static:static)
+#resource(qx.static:qx/static)
 #use(qx.lang.Core)
 #use(qx.lang.Generics)
 
