@@ -63,7 +63,7 @@ class Generator:
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._imageInfo      = ImageInfo(self._console)
-        self._resourceLister = _ResourceLister(self)
+        self._resourceHandler= _ResourceHandler(self)
 
         # Start job
         self.run()
@@ -190,14 +190,14 @@ class Generator:
 
 
             # TEST CODE
-            #self._resourceLister.findAllResources(self._resourceLister.filterResourcesByClasslist(classList))
+            self._resourceHandler.findAllResources(self._resourceHandler.filterResourcesByClasslist(classList))
 
 
             # Execute real tasks
             self.runApiData(packages)
             self._translationMaps = self.runTranslation(parts, packages, variants)
             self.runSource(parts, packages, boot, variants)
-            self.runResources()  # run before runCompiled, to get image infos
+            self._resourceHandler.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
 
@@ -214,27 +214,6 @@ class Generator:
             apiContent.extend(classes)
 
         self._apiLoader.storeApi(apiContent, apiPath)
-
-
-
-    def runResources(self):
-        # only run for compile jobs
-        if not self._config.get("copy-target", False):
-            return
-
-        self._console.info("Copying resources...")
-        resTargetRoot = self._config.get("resource-copy/target", "build")
-        libs = self._config.get("library")
-        self._console.indent()
-        for lib in libs:
-            # Copy resources
-            libpath = LibraryPath(lib,self._console)
-            ns = libpath.getNamespace()
-            resSource = os.path.join(lib['path'], "resource", ns)
-            resTarget = os.path.join(resTargetRoot, "resource", ns)
-            self._copyResources(resSource, resTarget)
-
-        self._console.outdent()
 
 
 
@@ -780,18 +759,42 @@ class Generator:
         return compiler.compile(restree, options)
 
 
+
     def _copyResources(self, srcPath, targPath):
-        self._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
-        self._copier = robocopy.PyRobocopier(self._console)
-        self._copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
-        self._copier.do_work()
+        generator = self
+        generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
+        copier = robocopy.PyRobocopier(generator._console)
+        copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
+        copier.do_work()
 
 
 
-
-class _ResourceLister(object):
+class _ResourceHandler(object):
     def __init__(self, generatorobj):
         self._genobj = generatorobj
+
+
+    def runResources(self):
+        generator = self._genobj
+
+        # only run for compile jobs
+        if not generator._config.get("copy-target", False):
+            return
+
+        generator._console.info("Copying resources...")
+        resTargetRoot = generator._config.get("resource-copy/target", "build")
+        libs = generator._config.get("library")
+        generator._console.indent()
+        for lib in libs:
+            # Copy resources
+            libpath = LibraryPath(lib,self._console)
+            ns = libpath.getNamespace()
+            resSource = os.path.join(lib['path'], "resource", ns)
+            resTarget = os.path.join(resTargetRoot, "resource", ns)
+            generator._copyResources(resSource, resTarget)
+
+        generator._console.outdent()
+
 
 
     def findAllResources(self, filter=None):
@@ -867,3 +870,5 @@ class _ResourceLister(object):
 
         self._genobj._console.outdent()
         return result
+
+
