@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.root.Page",
     this.base(arguments);
 
     this.setLayout(new qx.ui.layout.Basic());
-    this.scheduleLayoutUpdate();
+    qx.ui.core.LayoutQueue.add(this);
   },
 
 

@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.root.Inline",
     this.setLayout(new qx.ui.layout.Basic());
 
     // Directly schedule layout for root element
-    this.scheduleLayoutUpdate();
+    qx.ui.core.LayoutQueue.add(this);
   },
 
 
