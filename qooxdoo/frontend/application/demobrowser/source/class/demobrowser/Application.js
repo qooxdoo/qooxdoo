@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#resource(demobrowser.css:css)
-#resource(demobrowser.image:image)
+#resource(demobrowser.css:demobrowser/css)
+#resource(demobrowser.image:demobrowser/image)
 
 #embed(qx.icontheme/16/*)
 #embed(demobrowser.image/*)

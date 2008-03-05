@@ -469,9 +469,9 @@ exec-api-build:
 	  --optimize-strings --optimize-variables \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_API_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	  --resource-output $(APPLICATION_API_PATH)/resource \
 	  --resource-input $(APIVIEWER_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_API_PATH)/resource/$(APIVIEWER_NAMESPACE_PATH) \
+	  --resource-output $(APPLICATION_API_PATH)/resource \
 	  --enable-resource-filter \
 	  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:resource/$(FRAMEWORK_NAMESPACE_PATH) \
 	  --use-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE_PATH) \
@@ -522,11 +522,11 @@ exec-tests-build:
 	  --include $(APPLICATION_NAMESPACE).* \
 	  --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	  --resource-output $(APPLICATION_TEST_PATH)/resource \
 	  --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(TESTRUNNER_NAMESPACE_PATH) \
+	  --resource-output $(APPLICATION_TEST_PATH)/resource \
 	  --resource-input $(APPLICATION_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_TEST_PATH)/resource/$(APPLICATION_NAMESPACE_PATH) \
+	  --resource-output $(APPLICATION_TEST_PATH)/resource \
 	  --use-setting qx.minLogLevel:700 \
 	  --use-setting qx.application:testrunner.TestLoader \
 	  --use-setting qx.theme:qx.theme.ClassicRoyale \
@@ -550,11 +550,11 @@ exec-tests-source:
 	   --include $(APPLICATION_NAMESPACE).* \
 	   --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
 	   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource \
 	   --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
-	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(TESTRUNNER_NAMESPACE_PATH) \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource \
 	   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
-	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(APPLICATION_NAMESPACE_PATH) \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource \
 	   --use-setting qx.minLogLevel:700 \
 	   --use-setting qx.application:testrunner.TestLoader \
 	   --use-setting qx.theme:qx.theme.ClassicRoyale \

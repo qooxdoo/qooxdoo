@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #require(qx.io.Alias)
-#resource(qx.widgettheme:widget/Ext)
+#resource(qx.widgettheme:qx/decoration/Ext)
 
 ************************************************************************* */
 

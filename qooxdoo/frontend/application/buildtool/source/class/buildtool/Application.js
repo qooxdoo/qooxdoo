@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #module(buildtool)
-#resource(buildtool.css:css)
-#resource(buildtool.image:image)
+#resource(buildtool.css:buildtool/css)
+#resource(buildtool.image:buildtool/image)
 
 #embed(qx.icontheme/16/*)
 #embed(buildtool.image/*)
