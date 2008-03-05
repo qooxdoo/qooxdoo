@@ -551,7 +551,6 @@ qx.Class.define("qx.html.Element",
       if (data)
       {
         var Event = qx.event.Registration;
-        this.__hasDomEventListeners = true;
 
         var entry;
         for (var key in data)
@@ -1869,14 +1868,12 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    if (this._element)
-    {
-      if (this.__hasDomEventListeners) {
-        qx.event.Registration.getManager(this._element).removeAllListeners(this._element);
-      }
+    var el = this._element;
+    if (el) {
+      qx.event.Registration.getManager(el).removeAllListeners(el);
     }
 
     this._disposeArray("_children");
-    this._disposeFields("__attribValues", "__styleValues", "__eventValues", "__attribJobs", "__styleJobs", "_element");
+    this._disposeFields("__attribValues", "__styleValues", "__eventValues", "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs", "_element");
   }
 });
