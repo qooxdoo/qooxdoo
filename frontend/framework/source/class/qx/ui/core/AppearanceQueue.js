@@ -19,10 +19,10 @@
 ************************************************************************ */
 
 /**
- * The DisplayQueue fires <code>appear</code> and <code>disappear</code>
- * events for widgets which changed their visibility or parent.
+ * The AppearanceQueue registers all widgets which are influences through
+ * state changes.
  */
-qx.Class.define("qx.ui.core.DisplayQueue",
+qx.Class.define("qx.ui.core.AppearanceQueue",
 {
   statics :
   {
@@ -46,13 +46,12 @@ qx.Class.define("qx.ui.core.DisplayQueue",
       }
 
       this.__queue[widget.$$hash] = widget;
-      qx.ui.core.QueueManager.scheduleFlush("display");
+      qx.ui.core.QueueManager.scheduleFlush("appearance");
     },
 
 
     /**
-     * Flushes the display queue. This queue fires <code>appear</code> and
-     * <code>disappear</code> events.
+     * Flushes the appearance queue.
      *
      * This is used exclusively by the {@link qx.ui.core.QueueManager}.
      *
@@ -62,27 +61,13 @@ qx.Class.define("qx.ui.core.DisplayQueue",
     flush : function()
     {
       var queue = this.__queue;
-      var widget, visible, type;
+      var widget;
 
       // Process children...
       for (var hash in queue)
       {
         widget = queue[hash];
-        displayed = widget.$$visible;
-
-        if ((!!widget.$$displayed) !== displayed)
-        {
-          type = displayed ? "appear" : "disappear";
-          if (widget.hasListeners(type)) {
-            widget.fireEvent(type);
-          }
-
-          if (displayed) {
-            widget.$$displayed = true;
-          } else {
-            delete widget.$$displayed;
-          }
-        }
+        widget.syncAppearance();
       }
 
       // Only recreate when there was at least one child.
