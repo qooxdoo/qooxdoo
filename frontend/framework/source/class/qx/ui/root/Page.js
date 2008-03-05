@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.root.Page",
    */
   construct : function(doc)
   {
-    // Symbolic links
+    // Temporary storage of element to use
     this._doc = doc;
 
     this.base(arguments);
