@@ -87,10 +87,10 @@ qx.Class.define("qx.ui.form.Spinner",
     this._mainLayout.setRowFlex(1,1);
     this.setLayout(this._mainLayout);
     //   TEXTFIELD
-    this._textfield = new qx.ui.form.TextField();
-    this._textfield.setAppearance("spinner-text-field");
-    this._textfield.setWidth(40);
-    this._mainLayout.add(this._textfield, 0, 0, {rowSpan: 2});
+    this._textField = new qx.ui.form.TextField();
+    this._textField.setAppearance("spinner-text-field");
+    this._textField.setWidth(40);
+    this._mainLayout.add(this._textField, 0, 0, {rowSpan: 2});
 		
     //   UP-BUTTON
     this._upbutton = new qx.ui.form.RepeatButton();
@@ -102,28 +102,16 @@ qx.Class.define("qx.ui.form.Spinner",
     this._downbutton.setAppearance("spinner-button-down");
     this._mainLayout.add(this._downbutton, 1, 1);
 
-    console.log(this.getSizeHint(), this._textfield.getSizeHint(), this._downbutton.getSizeHint());
-
-
-    //   TIMER
-    this._timer = new qx.event.Timer(this.getInterval());
-
-    //   MANAGER
-    this.setManager(new qx.util.range.Range());
-    this.initWrap();
-
     //   EVENTS
-    this.addListener("keypress", this._onkeypress, this);
-    this.addListener("keydown", this._onkeydown, this);
-    this.addListener("keyup", this._onkeyup, this);
+    this.addListener("keydown", this._onKeyDown, this);
+    this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onmousewheel, this);
 
-//    this._textfield.addListener("changeValue", this._ontextchange, this);
-//    this._textfield.addListener("input", this._oninput, this);
-    this._textfield.addListener("blur", this._onblur, this);
-    //this._upbutton.addListener("mousedown", this._onmousedown, this);
-    //this._downbutton.addListener("mousedown", this._onmousedown, this);
-    this._timer.addListener("interval", this._oninterval, this);
+    this._textField.addListener("change", this._onTextChange, this);
+    this._textField.addListener("input", this._onInput, this);
+    this._textField.addListener("blur", this._onBlur, this);
+    this._upbutton.addListener("execute", this._countUp, this);
+		this._downbutton.addListener("execute", this._countDown, this);
 
     //   INITIALIZATION
     if (vMin != null) {
@@ -138,10 +126,10 @@ qx.Class.define("qx.ui.form.Spinner",
       this.setValue(vValue);
     }
 
-    this._checkValue = this.__checkValue;
-    this._numberFormat = null;
+//    this._checkValue = this.__checkValue;
+//    this._numberFormat = null;
 
-    this._last_value = "";
+//    this._last_value = "";
   },
 
 
@@ -171,94 +159,64 @@ qx.Class.define("qx.ui.form.Spinner",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       PROPERTIES
     ---------------------------------------------------------------------------
     */
-
-    appearance :
-    {
+    appearance: {
       refine : true,
       init : "spinner"
     },
 
-
     /** The amount to increment on each event (keypress or mousedown). */
-    incrementAmount :
-    {
-      check : "Number",
-      init : 1,
-      apply : "_applyIncrementAmount"
-    },
-
-
-    /** The amount to increment on each event (keypress or mousedown). */
-    wheelIncrementAmount :
-    {
+    singleStep: {
       check : "Number",
       init : 1
     },
 
+    /** The amount to increment on each event (keypress or mousedown). */
+    wheelStep: {
+      check : "Number",
+      init : 1
+    },
 
     /** The amount to increment on each pageup / pagedown keypress */
-    pageIncrementAmount :
-    {
+    pageStep: {
       check : "Number",
       init : 10
     },
 
+    /** minimal value of the Range object */
+    min: {
+      check : "Number",
+      apply : "_applyMin",
+      event : "change",
+      init : 0
+    },
 
-    /** The current value of the interval (this should be used internally only). */
-    interval :
-    {
-      check : "Integer",
+    /** current value of the Range object */
+    value: {
+      check : "Number",
+      apply : "_applyValue",
+      init : 0,
+      event : "change"
+    },
+
+    /** maximal value of the Range object */
+    max: {
+      check : "Number",
+      apply : "_applyMax",
+      event : "change",
       init : 100
     },
 
-
-    /** The first interval on event based shrink/growth of the value. */
-    firstInterval :
-    {
-      check : "Integer",
-      init : 500
-    },
-
-
-    /** This configures the minimum value for the timer interval. */
-    minTimer :
-    {
-      check : "Integer",
-      init : 20
-    },
-
-
-    /** Decrease of the timer on each interval (for the next interval) until minTimer reached. */
-    timerDecrease :
-    {
-      check : "Integer",
-      init : 2
-    },
-
-
-    /** If minTimer was reached, how much the amount of each interval should grow (in relation to the previous interval). */
-    amountGrowth :
-    {
-      check : "Number",
-      init : 1.01
-    },
-
-
     /** whether the value should wrap around */
-    wrap :
-    {
+    wrap: {
       check : "Boolean",
-      init : false,
-      apply : "_applyWrap"
+      init : false
     },
-
 
     /** Controls whether the textfield of the spinner is editable or not */
     editable :
@@ -268,40 +226,24 @@ qx.Class.define("qx.ui.form.Spinner",
       apply : "_applyEditable"
     },
 
-
-    /** Range manager */
-    manager :
-    {
-      check : "qx.util.range.IRange",
-      apply : "_applyManager",
-      dispose : true
-    },
-
-
-    /** Holding a reference to the protected {@link _checkValue} method */
-    checkValueFunction :
-    {
-      apply : "_applyCheckValueFunction"
-    },
-
-
-    /**  */
-    numberFormat :
-    {
+    numberFormat : {
       check : "qx.util.format.NumberFormat",
-      apply : "_applyNumberFormat"
+      apply : "_applyNumberFormat",
+			nullable : true
     },
 
-
-    /**  */
-    selectTextOnInteract :
+    allowGrowY :
     {
-      check : "Boolean",
-      init : true
-    }
+      refine : true,
+      init : false
+    },
+
+    allowShrinkY :
+    {
+      refine : true,
+      init : false
+    }		
   },
-
-
 
 
   /*
@@ -312,53 +254,63 @@ qx.Class.define("qx.ui.form.Spinner",
 
   members :
   {
-
-    _applyIncrementAmount : function(value, old) {
-      this._computedIncrementAmount = value;
+    /*
+    ---------------------------------------------------------------------------
+      APPLY METHODS
+    ---------------------------------------------------------------------------
+    */
+    _applyMin : function(value, old) {
+      this.setValue(Math.max(this.getValue(), value));
     },
+		
+    _applyMax : function(value, old) {
+      this.setValue(Math.min(this.getValue(), value));
+    },
+		
+		_applyValue: function(value, old) {			
+			// if the spinner should wrap around
+			if (!this.getWrap()) {
+				if (value > this.getMax()) {
+					this.setValue(this.getMax());
+					return;
+				} else if(value < this.getMin()) {				
+					this.setValue(this.getMin());
+					return;
+				}
+				
+			} else {
+        if (value > this.getMax()) {
+          var tmp = value - this.getMax(); 
+					this.setValue(this.getMin() + tmp - 1);
+          return;
+        } else if(value < this.getMin()) {        
+          var tmp = value - this.getMin(); 
+          this.setValue(this.getMax() + tmp + 1);
+          return;
+        }				
+			}
+			this._lastValidValue = value;
+			
+			if (this.getNumberFormat()) {
+				this._textField.setValue(this.getNumberFormat().format(value));
+			} else {
+        this._textField.setValue(String(value));						
+			}
+		},		
 
 
     _applyEditable : function(value, old)
     {
-      if (this._textfield) {
-        this._textfield.setReadOnly(! value);
+      if (this._textField) {
+        this._textField.setReadOnly(!value);
       }
-    },
-
-
-    _applyWrap : function(value, old)
-    {
-      this.getManager().setWrap(value);
-      this._onchange();
-    },
-
-
-    _applyManager : function(value, old)
-    {
-      if (old)
-      {
-        old.removeListener("change", this._onchange, this);
-      }
-
-      if (value)
-      {
-        value.addListener("change", this._onchange, this);
-      }
-
-      // apply initital value
-      this._onchange();
-    },
-
-
-    _applyCheckValueFunction : function(value, old) {
-      this._checkValue = value;
     },
 
 
     _applyNumberFormat : function(value, old) {
-      this._numberFormat = value;
-      this.getManager().setPrecision(value.getMaximumFractionDigits());
-      this._onchange();
+//      this._numberFormat = value;
+//      this.getManager().setPrecision(value.getMaximumFractionDigits());
+//      this._onchange();
     },
 
 
@@ -367,76 +319,6 @@ qx.Class.define("qx.ui.form.Spinner",
       KEY EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Callback for the "keyPress" event.<br/>
-     * Perform action when "Enter" (without "Alt"), control keys
-     * and numeric (0-9) keys are pressed. Suppress all key events for
-     * events without modifiers.
-     *
-     * @type member
-     * @param e {qx.event.type.KeyEvent} keyPress event
-     * @return {void}
-     */
-    _onkeypress : function(e)
-    {
-      var vIdentifier = e.getKeyIdentifier();
-
-      if (vIdentifier == "Enter" && !e.isAltPressed())
-      {
-        this._checkValue(true, false);
-        if (this.getSelectTextOnInteract()) {
-//          this._textfield.selectAll();
-        }
-      }
-      else
-      {
-        switch(vIdentifier)
-        {
-          case "Up":
-          case "Down":
-          case "Left":
-          case "Right":
-          case "Shift":
-          case "Control":
-          case "Alt":
-          case "Escape":
-          case "Delete":
-          case "Backspace":
-          case "Insert":
-          case "Home":
-          case "End":
-          case "PageUp":
-          case "PageDown":
-          case "NumLock":
-          case "Tab":
-            break;
-
-          default:
-            if ((vIdentifier >= "0" && vIdentifier <= "9") ||
-                (vIdentifier == '-')) {
-              return;
-            }
-            if (this._numberFormat) {
-              var locale = this._numberFormat._locale;
-              if ((vIdentifier == qx.locale.Number.getGroupSeparator(locale)) ||
-                  (vIdentifier == qx.locale.Number.getDecimalSeparator(locale)))
-                return;
-            }
-
-            // supress all key events without modifier
-
-            if (!e.isCtrlPressed() &&
-						    !e.isShiftPressed() &&
-								!e.isAltPressed() &&
-								!e.isMetaPressed()) {
-              e.preventDefault();
-            }
-        }
-      }
-    },
-
-
     /**
      * Callback for "keyDown" event.<br/>
      * Controls the interval mode ("single" or "page")
@@ -449,41 +331,21 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param e {qx.event.type.KeyEvent} keyDown event
      * @return {void}
      */
-    _onkeydown : function(e)
-    {
-      var vIdentifier = e.getKeyIdentifier();
-
-      if (this._intervalIncrease == null)
-      {
-        switch(vIdentifier)
-        {
-          case "Up":
-          case "Down":
-            this._intervalIncrease = vIdentifier == "Up";
-            this._intervalMode = "single";
-
-            this._resetIncrements();
-            this._checkValue(true, false);
-
-            this._increment();
-            this._timer.startWith(this.getFirstInterval());
-
-            break;
-
-          case "PageUp":
-          case "PageDown":
-            this._intervalIncrease = vIdentifier == "PageUp";
-            this._intervalMode = "page";
-
-            this._resetIncrements();
-            this._checkValue(true, false);
-
-            this._pageIncrement();
-            this._timer.startWith(this.getFirstInterval());
-
-            break;
-        }
+    _onKeyDown: function(e) {      
+      switch(e.getKeyIdentifier()) {
+        case "PageUp":
+				  this._pageUpMode = true;
+        case "Up":				  
+          this._upbutton.press();
+				  break;
+					
+        case "PageDown":
+				  this._pageDownMode = true;
+        case "Down":				
+          this._downbutton.press();
+          break;
       }
+			e.stopPropagation();
     },
 
 
@@ -498,25 +360,25 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param e {qx.event.type.KeyEvent} keyUp event
      * @return {void}
      */
-    _onkeyup : function(e)
-    {
-      if (this._intervalIncrease != null)
-      {
-        switch(e.getKeyIdentifier())
-        {
-          case "Up":
-          case "Down":
-          case "PageUp":
-          case "PageDown":
-            this._timer.stop();
-
-            this._intervalIncrease = null;
-            this._intervalMode = null;
-        }
-      }
+    _onKeyUp: function(e) {
+      switch(e.getKeyIdentifier()) {
+        case "PageUp":
+				  this._upbutton.release();
+					this._pageUpMode = false;
+					break;
+        case "Up":
+          this._upbutton.release();
+          break;
+          
+        case "PageDown":
+          this._downbutton.release();
+				  this._pageDownMode = false;
+				  break;
+        case "Down":
+          this._downbutton.release();
+          break;
+      }			
     },
-
-
 
 
     /*
@@ -524,73 +386,6 @@ qx.Class.define("qx.ui.form.Spinner",
       MOUSE EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Callback method for the "mouseDown" event of the spinner buttons.<br/>
-     * State handling, registering event listeners at the spinner button and
-     * invoking the increment management (resets increments, setup and start timer etc.).
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouseDown event
-     * @return {void}
-     */
-    _onmousedown : function(e)
-    {
-      if (!e.isLeftPressed()) {
-        return;
-      }
-
-      this._checkValue(true);
-
-      var vButton = e.getCurrentTarget();
-
-      vButton.addState("pressed");
-
-      vButton.addListener("mouseup", this._onmouseup, this);
-      vButton.addListener("mouseout", this._onmouseup, this);
-
-      this._intervalIncrease = vButton == this._upbutton;
-      this._resetIncrements();
-      this._increment();
-
-      if (this.getSelectTextOnInteract()) {
-//        this._textfield.selectAll();
-      }
-
-      this._timer.setInterval(this.getFirstInterval());
-      this._timer.start();
-    },
-
-
-    /**
-     * Callback method for the "mouseUp" event of the spinner buttons.<br/>
-     * State handling, removing event listeners at the spinner button, focusing
-     * the text field and resetting the interval management (stopping timer,
-     * resetting interval increase).
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouseUp event
-     * @return {void}
-     */
-    _onmouseup : function(e)
-    {
-      var vButton = e.getCurrentTarget();
-
-      vButton.removeState("pressed");
-
-      vButton.removeListener("mouseup", this._onmouseup, this);
-      vButton.removeListener("mouseout", this._onmouseup, this);
-
-      if (this.getSelectTextOnInteract()) {
-//        this._textfield.selectAll();
-      }
-//      this._textfield.setFocused(true);
-
-      this._timer.stop();
-      this._intervalIncrease = null;
-    },
-
-
     /**
      * Callback method for the "mouseWheel" event.<br/>
      * Delegates the in-/decrementing to the manager and
@@ -600,27 +395,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param e {qx.event.type.MouseEvent} mouseWheel event
      * @return {void}
      */
-    _onmousewheel : function(e)
-    {
-      this._checkValue(true);
-
-      if (this.getManager().incrementValue)
-      {
-        this.getManager().incrementValue(this.getWheelIncrementAmount() *
-                                         e.getWheelDelta());
-      }
-      else
-      {
-        var value = this.getManager().getValue() +
-                                   (this.getWheelIncrementAmount() *
-                                    e.getWheelDelta())
-        value = this.getManager().limit(value);
-        this.getManager().setValue(value);
-      }
-//      this._textfield.selectAll();
+    _onmousewheel: function(e) {
+        this.setValue(this.getValue() + this.getWheelStep() * e.getWheelDelta());
     },
-
-
 
 
     /*
@@ -628,9 +405,24 @@ qx.Class.define("qx.ui.form.Spinner",
       OTHER EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
-
-    _ontextchange : function(e) {
-      this._last_value = e.getOldValue();
+    _onTextChange: function(e) {
+			if (this.getNumberFormat()) {
+				try {
+				  var value = this.getNumberFormat().parse(e.getTarget().getValue());
+	        this.setValue(value);               
+          return;
+				} catch(e) {
+				}
+			} 
+			
+			var value = parseInt(e.getTarget().getValue(), 10);			
+		
+	    if (!isNaN(value)) {
+			  this.setValue(value);								
+		  } else {
+			  this._textField.setValue(String(this._lastValidValue));					
+		  }
+			
     },
 
     /**
@@ -642,9 +434,14 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param e {qx.event.type.Data} input event
      * @return {void}
      */
-    _oninput : function(e) {
-      this._checkValue(true, true);
+    _onInput: function(e) {
+      // this.info("input");
+			// this._checkValue(true, true);
     },
+
+    _onBlur: function(e) {
+			this._onTextChange(e);
+		},
 
 
     /**
@@ -662,16 +459,16 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       var vValue = this.getManager().getValue();
       if (this._numberFormat) {
-        this._textfield.setValue(this._numberFormat.format(vValue));
+        this._textField.setValue(this._numberFormat.format(vValue));
       } else {
-        this._textfield.setValue(String(vValue));
+        this._textField.setValue(String(vValue));
       }
 
       if (vValue == this.getMin() && !this.getWrap())
       {
         this._downbutton.removeState("pressed");
         this._downbutton.setEnabled(false);
-        this._timer.stop();
+//        this._timer.stop();
       }
       else
       {
@@ -682,7 +479,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         this._upbutton.removeState("pressed");
         this._upbutton.setEnabled(false);
-        this._timer.stop();
+//        this._timer.stop();
       }
       else
       {
@@ -693,165 +490,26 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    /**
-     * Callback method for the "blur" event.<br/>
-     * Calls the method of the "checkValueFunction" property
-     *
-     * @type member
-     * @param e {qx.event.type.FocusEvent} blur event
-     * @return {void}
-     */
-    _onblur : function(e) {
-      this._checkValue(false);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MAPPING TO RANGE MANAGER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Mapping to the "setValue" method of the Range manager
-     *
-     * @type member
-     * @param nValue {Number} new value of the spinner
-     * @return {void}
-     */
-    setValue : function(nValue) {
-      this.getManager().setValue(this.getManager().limit(nValue));
-    },
-
-
-    /**
-     * Mapping to the "getValue" method of the Range manager
-     *
-     * @type member
-     * @return {Number} Current value of the spinner
-     */
-    getValue : function()
-    {
-      // make sure the manager is uptodate with what is on screen
-      this._checkValue(true);
-      return this.getManager().getValue();
-    },
-
-
-    /**
-     * Mapping to the "resetValue" method of the Range manager
-     *
-     * @type member
-     * @return {void}
-     */
-    resetValue : function() {
-      this.getManager().resetValue();
-    },
-
-
-    /**
-     * Mapping to the "setMax" method of the Range manager
-     *
-     * @type member
-     * @param vMax {Number} new max value of the spinner
-     * @return {Number} new max value of the spinner
-     */
-    setMax : function(vMax) {
-      return this.getManager().setMax(vMax);
-    },
-
-
-    /**
-     * Mapping to the "getMax" method of the Range manager
-     *
-     * @type member
-     * @return {Number} current max value of the spinner
-     */
-    getMax : function() {
-      return this.getManager().getMax();
-    },
-
-
-    /**
-     * Mapping to the "setMin" method of the Range manager
-     *
-     * @type member
-     * @param vMin {Number} new min value of the spinner
-     * @return {Number} new min value of the spinner
-     */
-    setMin : function(vMin) {
-      return this.getManager().setMin(vMin);
-    },
-
-
-    /**
-     * Mapping to the "getMin" method of the Range manager
-     *
-     * @type member
-     * @return {Number} current min value of the spinner
-     */
-    getMin : function() {
-      return this.getManager().getMin();
-    },
-
 
     /*
     ---------------------------------------------------------------------------
       INTERVAL HANDLING
     ---------------------------------------------------------------------------
     */
-
-    _intervalIncrease : null,
-
-
-    /**
-     * Callback method for the "interval" event.<br/>
-     * Stops the timer and sets a new interval. Executes the increment
-     * of the spinner depending on the intervalMode and restarts the timer with
-     * the new interval.
-     *
-     * @type member
-     * @param e {qx.event.type.Event} interval event
-     * @return {void}
-     */
-    _oninterval : function(e)
-    {
-      this._timer.stop();
-      this.setInterval(Math.max(this.getMinTimer(), this.getInterval() - this.getTimerDecrease()));
-      if (this._intervalMode == "page")
-      {
-        this._pageIncrement();
-      }
-      else
-      {
-        if (this.getInterval() == this.getMinTimer()) {
-          this._computedIncrementAmount = this.getAmountGrowth() * this._computedIncrementAmount;
-        }
-
-        this._increment();
-      }
-
-      var wrap = this.getManager().getWrap();
-
-      switch(this._intervalIncrease)
-      {
-        case true:
-          if (this.getValue() == this.getMax() && !wrap) {
-            return;
-          }
-
-        case false:
-          if (this.getValue() == this.getMin() && !wrap) {
-            return;
-          }
-      }
-
-      this._timer.restartWith(this.getInterval());
-    },
-
-
+    _countUp: function() {
+			if (this._pageUpMode) {
+			  this.setValue(this.getValue() + this.getPageStep());				
+			} else {
+        this.setValue(this.getValue() + this.getSingleStep());       
+			}
+		},
+		
+		_countDown: function() {
+      if (this._pageDownMode) {
+        this.setValue(this.getValue() - this.getPageStep());        
+      } else {
+        this.setValue(this.getValue() - this.getSingleStep());       
+      }		},
 
 
     /*
@@ -869,7 +527,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {void}
      */
     __checkValue : function(acceptEmpty, acceptEdit) {
-      var el = this._textfield;
+      var el = this._textField;
       if ((el.value == "") || (el.value == "-"))
       {
         if (!acceptEmpty)
@@ -916,7 +574,7 @@ qx.Class.define("qx.ui.form.Spinner",
         if (isNaN(val) || (limitedVal != val) || (val != parsable_str))
         {
           if (acceptEdit) {
-            this._textfield.setValue(this._last_value);
+            this._textField.setValue(this._last_value);
           } else {
             if (isNaN(limitedVal)) {
               // reset to last correct value
@@ -941,76 +599,12 @@ qx.Class.define("qx.ui.form.Spinner",
           // "silently" update the displayed value as it won't get
           // updated by the range manager since it considers the value as
           // unchanged.
-          this._textfield.setValue(formattedValue);
+          this._textField.setValue(formattedValue);
         }
 
         // inform manager
         this.getManager().setValue(fixedVal);
       }
-    },
-
-
-    /**
-     * Performs a normal increment
-     *
-     * @type member
-     * @return {void}
-     */
-    _increment : function()
-    {
-      if (this.getManager().incrementValue)
-      {
-        this.getManager().incrementValue((this._intervalIncrease ? 1 : -1) *
-                                         this._computedIncrementAmount);
-      }
-      else
-      {
-        var value = this.getManager().getValue() +
-                                   ((this._intervalIncrease ? 1 : -1) *
-                                    this._computedIncrementAmount);
-
-        value = this.getManager().limit(value);
-
-        this.getManager().setValue(value);
-      }
-    },
-
-
-    /**
-     * Performs a page increment
-     *
-     * @type member
-     * @return {void}
-     */
-    _pageIncrement : function()
-    {
-      if (this.getManager().pageIncrementValue)
-      {
-        this.getManager().pageIncrementValue();
-      }
-      else
-      {
-        var value = this.getManager().getValue() +
-                                   ((this._intervalIncrease ? 1 : -1) *
-                                    this.getPageIncrementAmount());
-
-        value = this.getManager().limit(value);
-
-        this.getManager().setValue(value);
-      }
-    },
-
-
-    /**
-     * Reset the increments
-     *
-     * @type member
-     * @return {void}
-     */
-    _resetIncrements : function()
-    {
-      this._computedIncrementAmount = this.getIncrementAmount();
-      this.resetInterval();
     }
   },
 
@@ -1030,7 +624,6 @@ qx.Class.define("qx.ui.form.Spinner",
       mgr.dispose();
     }
 
-    this._disposeObjects("_textfield", "_buttonlayout", "_upbutton", "_downbutton",
-      "_timer");
+    this._disposeObjects("_textField", "_buttonlayout", "_upbutton", "_downbutton");
   }
 });
