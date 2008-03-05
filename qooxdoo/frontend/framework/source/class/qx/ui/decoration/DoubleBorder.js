@@ -84,6 +84,8 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY: INNER COLOR
@@ -117,6 +119,9 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
       nullable : true,
       apply : "_applyInnerColorLeft"
     },
+
+
+
 
     /**
      * Property group for the inner color properties.
@@ -159,6 +164,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
         decorationElement.setStyle("boxSizing", "border-box");
         innerElement.setStyle("boxSizing", "border-box");
       }
+
       decorationElement.setStyle("width", "100%");
       decorationElement.setStyle("height", "100%");
 
@@ -199,11 +205,13 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     init : function(decorationElement)
     {
       var innerElement = new qx.html.Element();
+
       innerElement.setStyles({
         position: "absolute",
         top: 0,
         left: 0
       });
+
       decorationElement.add(innerElement);
 
       this.base(arguments, decorationElement);
@@ -231,6 +239,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
         "backgroundColor": this.__bgColor,
         "borderStyle": "solid"
       }
+
       return styles;
     },
 
@@ -243,6 +252,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
         var innerElement = decorationElement.getChild(0);
         innerElement.setStyles(this._getInnerStyles());
       }
+
       this.base(arguments, decorationElement, width, height, backgroundColor, backgroundImage, backgroundRepeat);
     },
 
@@ -253,8 +263,8 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
       decorationElement.removeAt(0);
       this.base(arguments, decorationElement)
     },
-		
-		
+
+
 		// interface implementation
     getInsets : function()
     {
@@ -265,6 +275,8 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
         left : this.getWidthLeft() + this.getInnerWidthLeft()
       }
     },
+
+
 
 
     /*

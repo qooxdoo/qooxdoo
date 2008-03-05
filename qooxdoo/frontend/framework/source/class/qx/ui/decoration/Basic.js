@@ -77,84 +77,6 @@ qx.Class.define("qx.ui.decoration.Basic",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      UTILITY
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Converts a typical CSS border definition string to an border object
-     *
-     * @type static
-     * @param str {String} the CSS string
-     * @return {qx.ui.core.Decoration} the created instance
-     */
-    fromString : function(str)
-    {
-      var border = new qx.ui.decoration.Basic;
-      var parts = str.split(/\s+/);
-      var part, temp;
-
-      for (var i=0, l=parts.length; i<l; i++)
-      {
-        part = parts[i];
-
-        switch(part)
-        {
-          case "groove":
-          case "ridge":
-          case "inset":
-          case "outset":
-          case "solid":
-          case "dotted":
-          case "dashed":
-          case "double":
-          case "none":
-            border.setStyle(part);
-            break;
-
-          default:
-            temp = parseInt(part);
-
-            if (temp === part || qx.lang.String.contains(part, "px")) {
-              border.setWidth(temp);
-            } else {
-              border.setColor(part);
-            }
-
-            break;
-        }
-      }
-
-      return border;
-    },
-
-
-    /**
-     * Converts a map property definition into a border object.
-     *
-     * @type static
-     * @param config {Map} map of property values
-     * @return {qx.ui.core.Decoration} the created instance
-     */
-    fromConfig : function(config)
-    {
-      var border = new qx.ui.decoration.Basic;
-      border.set(config);
-      return border;
-    }
-
-  },
-
 
   /*
   *****************************************************************************
@@ -319,6 +241,7 @@ qx.Class.define("qx.ui.decoration.Basic",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY GROUP: TYPE
@@ -410,6 +333,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     init : function(decorationElement)
     {
       this._initSize(decorationElement);
+
       decorationElement.setStyles({
         "position": "absolute",
         "top": 0,
@@ -482,12 +406,15 @@ qx.Class.define("qx.ui.decoration.Basic",
         this._needUpdate = false;
         this._updateManager.cancel();
       }
+
       if (backgroundImage) {
         this._updateBackgroundImage(decorationElement, backgroundImage, backgroundRepeat || "tile");
       }
+
       if (backgroundColor) {
         decorationElement.setStyle("backgroundColor", backgroundColor);
       }
+
       this._updateSize(decorationElement, width, height);
     },
 
@@ -657,7 +584,6 @@ qx.Class.define("qx.ui.decoration.Basic",
       this._needsUpdate = true;
       this._updateManager.schedule();
     }
-
   },
 
 

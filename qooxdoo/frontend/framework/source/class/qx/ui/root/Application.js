@@ -57,7 +57,10 @@ qx.Class.define("qx.ui.root.Application",
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
+    // Use static layout
     this.setLayout(new qx.ui.layout.Canvas());
+
+    // Directly schedule layout for root element
     this.scheduleLayoutUpdate();
   },
 
