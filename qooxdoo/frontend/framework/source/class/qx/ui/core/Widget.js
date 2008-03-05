@@ -70,7 +70,8 @@ qx.Class.define("qx.ui.core.Widget",
     this._contentElement = this.__createContentElement();
     this._containerElement.add(this._contentElement);
 
-    this.initAppearance();
+    this.__states = {};
+    qx.ui.core.AppearanceQueue.add(this);
   },
 
 
@@ -1855,11 +1856,11 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns whether a state is set.
      *
      * @type member
-     * @param vState {String} the state to check.
+     * @param state {String} the state to check.
      * @return {Boolean} whether the state is set.
      */
-    hasState : function(vState) {
-      return this.__states && this.__states[vState] ? true : false;
+    hasState : function(state) {
+      return !!this.__states[state];
     },
 
 
@@ -1867,19 +1868,15 @@ qx.Class.define("qx.ui.core.Widget",
      * Sets a state.
      *
      * @type member
-     * @param vState {var} TODOC
+     * @param state {var} TODOC
      * @return {void}
      */
-    addState : function(vState)
+    addState : function(state)
     {
-      if (!this.__states) {
-        this.__states = {};
-      }
-
-      if (!this.__states[vState])
+      if (!this.__states[state])
       {
-        this.__states[vState] = true;
-        this.__renderAppearance();
+        this.__states[state] = true;
+        qx.ui.core.AppearanceQueue.add(this);
       }
     },
 
@@ -1888,15 +1885,15 @@ qx.Class.define("qx.ui.core.Widget",
      * Clears a state.
      *
      * @type member
-     * @param vState {String} the state to clear.
+     * @param state {String} the state to clear.
      * @return {void}
      */
-    removeState : function(vState)
+    removeState : function(state)
     {
-      if (this.__states && this.__states[vState])
+      if (this.__states[state])
       {
-        delete this.__states[vState];
-        this.__renderAppearance();
+        delete this.__states[state];
+        qx.ui.core.AppearanceQueue.add(this);
       }
     },
 
@@ -1977,20 +1974,16 @@ qx.Class.define("qx.ui.core.Widget",
      * @internal
      * @type member
      */
-    __renderAppearance : function()
+    syncAppearance : function()
     {
-      if (!this.__states) {
-        this.__states = {};
-      }
-
       var appearance = this.getAppearance();
 
       if (appearance)
       {
-        var r = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, this.__states);
+        var props = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, this.__states);
 
-        if (r) {
-          this.__styleFromMap(r);
+        if (props) {
+          this.__styleFromMap(props);
         }
       }
     },
@@ -1999,10 +1992,6 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyAppearance : function(value, old)
     {
-      if (!this.__states) {
-        this.__states = {};
-      }
-
       var manager = qx.theme.manager.Appearance.getInstance();
 
       if (value) {
