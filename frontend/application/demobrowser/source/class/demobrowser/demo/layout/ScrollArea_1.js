@@ -27,10 +27,11 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
+      doc.setTextColor("text");
+      doc.setBackgroundColor("background");
 
       scrollArea = new qx.ui.core.ScrollArea();
       scrollArea.set({
@@ -42,13 +43,12 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
       scrollArea.setContent(this.generateBoxes());
       doc.add(scrollArea, 10, 10);
 
-      var toggle = new qx.ui.basic.Label("Toggle size").set({
-        padding : 5,
-        backgroundColor: "orange"
+      var toggle = new qx.ui.form.Button("Toggle size").set({
+        padding : 5
       });
 
       var grow = true;
-      toggle.addListener("click", function()
+      toggle.addListener("execute", function()
       {
         scrollArea.setWidth(grow ? 800 : 300);
         grow = !grow;

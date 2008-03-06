@@ -30,7 +30,6 @@ qx.Class.define("demobrowser.demo.bom.DragDrop_1",
 
       this._el = document.getElementById("drag");
 
-      qx.bom.Element.enableDragEvents(this._el, 2);
       qx.bom.Element.addListener(this._el, "dragstart", this._onDragstart, this);
       qx.bom.Element.addListener(this._el, "dragmove", this._onDragmove, this);
       qx.bom.Element.addListener(this._el, "dragstop", this._onDragstop, this);
