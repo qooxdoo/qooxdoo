@@ -27,10 +27,11 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
+      doc.setTextColor("text");
+      doc.setBackgroundColor("background");
 
       var vbar = new qx.ui.core.ScrollBar("vertical").set({
         height: 200,
@@ -45,9 +46,19 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
       }, this);
 
       var hbar = new qx.ui.core.ScrollBar("horizontal");
-      hbar.setHeight(20);
       hbar.setWidth(200);
       doc.add(hbar, 10, 230);
+
+
+      slider = new qx.ui.slider.Slider("vertical");
+      doc.add(slider, 300, 10);
+
+      var label = new qx.ui.basic.Label("Value:");
+      doc.add(label, 330, 10);
+
+      slider.addListener("changeValue", function() {
+        label.setContent("Value: " + slider.getValue());
+      });
     }
   }
 });

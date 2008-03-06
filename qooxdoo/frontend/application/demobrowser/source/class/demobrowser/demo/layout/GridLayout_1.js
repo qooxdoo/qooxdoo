@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
     {
       this.base(arguments);
 
-doc = new qx.ui.root.Application(document);
+      doc = new qx.ui.root.Application(document);
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
@@ -44,6 +44,7 @@ doc = new qx.ui.root.Application(document);
       docLayout.add(this.getGrid1());
       docLayout.add(this.getGrid2());
       docLayout.add(this.getGrid3());
+      docLayout.add(this.getGrid4());
     },
 
 
@@ -129,6 +130,53 @@ doc = new qx.ui.root.Application(document);
       layout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}), 0, 1);
       layout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}), 1, 0);
       layout.add((new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"}), 1, 1);
+
+      return box;
+    },
+
+
+    getGrid4 : function()
+    {
+      // flex columns
+      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+
+      var box = (new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "yellow",
+        allowShrinkX: false,
+        allowShrinkY: false,
+        allowGrowX: false,
+        allowGrowY: false
+      });
+
+      var layout = new qx.ui.layout.Grid();
+      layout.setColumnFlex(0, 1);
+      layout.setRowFlex(0, 1);
+      layout.setRowFlex(1, 1);
+      layout.setSpacing(1);
+      box.setLayout(layout);
+
+      layout.add((new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        height: 20,
+        maxHeight: 20,
+        minHeight: 20
+      }), 0, 0, {rowSpan: 2});
+
+      layout.add((new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        maxHeight: 3,
+        width: 10
+      }), 0, 1);
+
+      layout.add((new qx.ui.core.Widget).set({
+        decorator: border,
+        backgroundColor: "green",
+        maxHeight: 3,
+        width: 10
+      }), 1, 1);
 
       return box;
     }
