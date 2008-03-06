@@ -110,10 +110,10 @@ def space(force=True):
     if not force and not pretty:
         return
 
-    if afterDoc or afterBreak or afterLine or result.endswith(" ") or result.endswith("\n"):
+    if afterDoc or afterBreak or afterLine or result[-1].endswith(" ") or result[-1].endswith("\n"):
         return
 
-    result += " "
+    result[-1] += " "
 
 
 def write(txt=""):
@@ -128,8 +128,8 @@ def write(txt=""):
     global afterArea
 
     # strip remaining whitespaces
-    if (afterLine or afterBreak or afterDivider or afterArea) and result.endswith(" "):
-        result = result.rstrip()
+    if (afterLine or afterBreak or afterDivider or afterArea) and result[-1].endswith(" "):
+        result[-1] = result[-1].rstrip()
 
     if pretty:
         # handle new line wishes
@@ -146,12 +146,12 @@ def write(txt=""):
         else:
             nr = 0
 
-        while not result.endswith("\n" * nr):
-            result += "\n"
+        while not result[-1].endswith("\n" * nr):
+            result[-1] += "\n"
 
-    elif breaks and not result.endswith("\n"):
+    elif breaks and not result[-1].endswith("\n"):
         if afterArea or afterDivider or afterDoc or afterBreak or afterLine:
-            result += "\n"
+            result[-1] += "\n"
 
     # reset
     afterLine = False
@@ -161,12 +161,15 @@ def write(txt=""):
     afterArea = False
 
     # add indent (if needed)
-    if pretty and result.endswith("\n"):
+    if pretty and result[-1].endswith("\n"):
         #result += (" " * (INDENTSPACES * indent))
-        result += (options.prettypIndentString * indent)
+        result[-1] += (options.prettypIndentString * indent)
 
     # append given text
-    result += txt
+    if len(txt)<4:
+        result[-1] += txt
+    else:
+        result.append(txt)
 
 
 def area():
@@ -229,11 +232,11 @@ def semicolon():
 
     noline()
 
-    if not (result.endswith("\n") or result.endswith(";")):
+    if not (result[-1].endswith("\n") or result[-1].endswith(";")):
         write(";")
 
         if breaks:
-            result += "\n"
+            result[-1] += "\n"
 
 
 def comma():
@@ -242,11 +245,11 @@ def comma():
 
     noline()
 
-    if not (result.endswith("\n") or result.endswith(",")):
+    if not (result[-1].endswith("\n") or result[-1].endswith(",")):
         write(",")
 
         if breaks:
-            result += "\n"
+            result[-1] += "\n"
 
 
 def commentNode(node):
@@ -298,10 +301,10 @@ def getInlineCommentPadding(options, keepColumn):
     if options.prettypCommentsTrailingKeepColumn:
 
         # Find length of last line
-        posReturn = result.rfind("\n")
+        posReturn = result[-1].rfind("\n")
         if posReturn == -1:
             posReturn = 0
-        lineLength = (len(result) - posReturn - 1)
+        lineLength = (len(result[-1]) - posReturn - 1)
 
         # Work out padding to keep column at same position
         if keepColumn > lineLength:
@@ -312,10 +315,10 @@ def getInlineCommentPadding(options, keepColumn):
 
         # Find length of last line, but only if not already done
         if lineLength == -1:
-            posReturn = result.rfind("\n")
+            posReturn = result[-1].rfind("\n")
             if posReturn == -1:
                 posReturn = 0
-            lineLength = (len(result) - posReturn - 1)
+            lineLength = (len(result[-1]) - posReturn - 1)
 
         # Work out preferred position of text
         for commentCol in options.prettypCommentsTrailingCommentCols:
@@ -408,7 +411,7 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
         pass
 
     indent       = 0
-    result       = u""
+    result       = [u""]
     pretty       = opts.prettyPrint
     verbose      = enableVerbose
     breaks       = enableBreaks
@@ -423,10 +426,10 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
 
     compileNode(node,opts)
 
-    if not result.endswith("\n"):
-        result += "\n"
+    if not result[-1].endswith("\n"):
+        result[-1] += "\n"
 
-    return result
+    return u"".join(result)
 
 
 
@@ -876,7 +879,7 @@ def compileNode(node,optns):
                 noline()
                 space()
             # the next two: bugzilla#454
-            if node.getFirstChild().type == "commentsBefore" and not result.endswith("\n"):
+            if node.getFirstChild().type == "commentsBefore" and not result[-1].endswith("\n"):
                 line()
 
         write("catch")
