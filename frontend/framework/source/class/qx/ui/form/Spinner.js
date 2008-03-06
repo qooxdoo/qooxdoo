@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textField.setAppearance("spinner-text-field");
     this._textField.setWidth(40);
     this._mainLayout.add(this._textField, 0, 0, {rowSpan: 2});
-		
+    
     //   UP-BUTTON
     this._upbutton = new qx.ui.form.RepeatButton();
     this._upbutton.setAppearance("spinner-button-up");
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textField.addListener("input", this._onInput, this);
     this._textField.addListener("blur", this._onBlur, this);
     this._upbutton.addListener("execute", this._countUp, this);
-		this._downbutton.addListener("execute", this._countDown, this);
+    this._downbutton.addListener("execute", this._countDown, this);
 
     //   INITIALIZATION
     if (vMin != null) {
@@ -125,11 +125,6 @@ qx.Class.define("qx.ui.form.Spinner",
     if (vValue != null) {
       this.setValue(vValue);
     }
-
-//    this._checkValue = this.__checkValue;
-//    this._numberFormat = null;
-
-//    this._last_value = "";
   },
 
 
@@ -229,7 +224,7 @@ qx.Class.define("qx.ui.form.Spinner",
     numberFormat : {
       check : "qx.util.format.NumberFormat",
       apply : "_applyNumberFormat",
-			nullable : true
+      nullable : true
     },
 
     allowGrowY :
@@ -242,7 +237,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       refine : true,
       init : false
-    }		
+    }    
   },
 
 
@@ -262,41 +257,63 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyMin : function(value, old) {
       this.setValue(Math.max(this.getValue(), value));
     },
-		
+    
     _applyMax : function(value, old) {
       this.setValue(Math.min(this.getValue(), value));
     },
-		
-		_applyValue: function(value, old) {			
-			// if the spinner should wrap around
-			if (!this.getWrap()) {
-				if (value > this.getMax()) {
-					this.setValue(this.getMax());
-					return;
-				} else if(value < this.getMin()) {				
-					this.setValue(this.getMin());
-					return;
-				}
-				
-			} else {
+    
+    _applyValue: function(value, old) {      
+      // if the spinner should NOT wrap around
+      if (!this.getWrap()) {
+        // if the value is greater than the max value
+        if (value > this.getMax()) {
+          // set the value to the max value and return
+          this.setValue(this.getMax());          
+          return;          
+        // if the value is lower than the max value
+        } else if(value < this.getMin()) {
+          // set the min value and return        
+          this.setValue(this.getMin());
+          return;
+        }
+        
+      } else {
         if (value > this.getMax()) {
           var tmp = value - this.getMax(); 
-					this.setValue(this.getMin() + tmp - 1);
+          this.setValue(this.getMin() + tmp - 1);
           return;
         } else if(value < this.getMin()) {        
           var tmp = value - this.getMin(); 
           this.setValue(this.getMax() + tmp + 1);
           return;
-        }				
-			}
-			this._lastValidValue = value;
-			
-			if (this.getNumberFormat()) {
-				this._textField.setValue(this.getNumberFormat().format(value));
-			} else {
-        this._textField.setValue(String(value));						
-			}
-		},		
+        }        
+      }
+      
+      
+      if (value < this.getMax()) {
+        this._upbutton.setEnabled(true);
+      } else {
+        // disable the up button
+        this._upbutton.setEnabled(false);
+        this._upbutton.release();        
+      }
+      
+      if (value > this.getMin()) {
+        this._downbutton.setEnabled(true);
+      } else {
+        // disable the down button
+        this._downbutton.setEnabled(false);
+        this._downbutton.release();
+      }
+      
+      this._lastValidValue = value;
+      
+      if (this.getNumberFormat()) {
+        this._textField.setValue(this.getNumberFormat().format(value));
+      } else {
+        this._textField.setValue(String(value));            
+      }
+    },    
 
 
     _applyEditable : function(value, old)
@@ -307,10 +324,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    _applyNumberFormat : function(value, old) {
-//      this._numberFormat = value;
-//      this.getManager().setPrecision(value.getMaximumFractionDigits());
-//      this._onchange();
+    _applyNumberFormat : function(value, old) {      
+      this._textField.setValue(this.getNumberFormat().format(this._lastValidValue));      
     },
 
 
@@ -329,23 +344,24 @@ qx.Class.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {qx.event.type.KeyEvent} keyDown event
-     * @return {void}
      */
     _onKeyDown: function(e) {      
       switch(e.getKeyIdentifier()) {
         case "PageUp":
-				  this._pageUpMode = true;
-        case "Up":				  
+          this._pageUpMode = true;
+        case "Up":          
+          this.__adoptText(e);
           this._upbutton.press();
-				  break;
-					
+          break;
+          
         case "PageDown":
-				  this._pageDownMode = true;
-        case "Down":				
+          this._pageDownMode = true;
+        case "Down":        
+          this.__adoptText(e);
           this._downbutton.press();
           break;
       }
-			e.stopPropagation();
+      e.stopPropagation();
     },
 
 
@@ -363,21 +379,21 @@ qx.Class.define("qx.ui.form.Spinner",
     _onKeyUp: function(e) {
       switch(e.getKeyIdentifier()) {
         case "PageUp":
-				  this._upbutton.release();
-					this._pageUpMode = false;
-					break;
+          this._upbutton.release();
+          this._pageUpMode = false;
+          break;
         case "Up":
           this._upbutton.release();
           break;
           
         case "PageDown":
           this._downbutton.release();
-				  this._pageDownMode = false;
-				  break;
+          this._pageDownMode = false;
+          break;
         case "Down":
           this._downbutton.release();
           break;
-      }			
+      }      
     },
 
 
@@ -406,24 +422,9 @@ qx.Class.define("qx.ui.form.Spinner",
     ---------------------------------------------------------------------------
     */
     _onTextChange: function(e) {
-			if (this.getNumberFormat()) {
-				try {
-				  var value = this.getNumberFormat().parse(e.getTarget().getValue());
-	        this.setValue(value);               
-          return;
-				} catch(e) {
-				}
-			} 
-			
-			var value = parseInt(e.getTarget().getValue(), 10);			
-		
-	    if (!isNaN(value)) {
-			  this.setValue(value);								
-		  } else {
-			  this._textField.setValue(String(this._lastValidValue));					
-		  }
-			
+      this.__adoptText(e);
     },
+    
 
     /**
      * Callback method for the "input" event.<br/>
@@ -436,59 +437,12 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onInput: function(e) {
       // this.info("input");
-			// this._checkValue(true, true);
+      // this._checkValue(true, true);
     },
 
     _onBlur: function(e) {
-			this._onTextChange(e);
-		},
-
-
-    /**
-     * Callback method for the "change" event.<br/>
-     * Sets the value of the text field and enables/disables
-     * the up-/down-buttons of the min-/max-value are reached
-     * (additionally stops the timer of the min-/max-boundaries are reached)
-     * Dispatched the "change" event.
-     *
-     * @type member
-     * @param e {qx.event.type.Change} change event
-     * @return {void}
-     */
-    _onchange : function(e)
-    {
-      var vValue = this.getManager().getValue();
-      if (this._numberFormat) {
-        this._textField.setValue(this._numberFormat.format(vValue));
-      } else {
-        this._textField.setValue(String(vValue));
-      }
-
-      if (vValue == this.getMin() && !this.getWrap())
-      {
-        this._downbutton.removeState("pressed");
-        this._downbutton.setEnabled(false);
-//        this._timer.stop();
-      }
-      else
-      {
-        this._downbutton.resetEnabled();
-      }
-
-      if (vValue == this.getMax() && !this.getWrap())
-      {
-        this._upbutton.removeState("pressed");
-        this._upbutton.setEnabled(false);
-//        this._timer.stop();
-      }
-      else
-      {
-        this._upbutton.resetEnabled();
-      }
-
-      this.fireDataEvent("change", vValue);
+      this._onTextChange(e);
     },
-
 
 
     /*
@@ -497,19 +451,20 @@ qx.Class.define("qx.ui.form.Spinner",
     ---------------------------------------------------------------------------
     */
     _countUp: function() {
-			if (this._pageUpMode) {
-			  this.setValue(this.getValue() + this.getPageStep());				
-			} else {
-        this.setValue(this.getValue() + this.getSingleStep());       
-			}
-		},
-		
-		_countDown: function() {
-      if (this._pageDownMode) {
-        this.setValue(this.getValue() - this.getPageStep());        
+      if (this._pageUpMode) {
+        this.setValue(this.getValue() + this.getPageStep());
       } else {
-        this.setValue(this.getValue() - this.getSingleStep());       
-      }		},
+        this.setValue(this.getValue() + this.getSingleStep());
+      }
+    },
+    
+    _countDown: function() {
+      if (this._pageDownMode) {
+        this.setValue(this.getValue() - this.getPageStep());
+      } else {
+        this.setValue(this.getValue() - this.getSingleStep());
+      }
+    },
 
 
     /*
@@ -517,95 +472,25 @@ qx.Class.define("qx.ui.form.Spinner",
       UTILITY
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Default check value utility method
-     *
-     * @type member
-     * @param acceptEmpty {Boolean} Whether empty values are allowed or not.
-     * @param acceptEdit {Boolean} Whether editing is accepted or not.
-     * @return {void}
-     */
-    __checkValue : function(acceptEmpty, acceptEdit) {
-      var el = this._textField;
-      if ((el.value == "") || (el.value == "-"))
-      {
-        if (!acceptEmpty)
-        {
-          this.setValue(this.getMax());
-          this.resetValue();
+    __adoptText: function(e) {
+      if (this.getNumberFormat()) {
+        try {
+          var value = this.getNumberFormat().parse(this._textField.getValue());
+          this.setValue(value);               
           return;
+        } catch(e) {
         }
-      }
-      else
-      {
-        // cache original value
-        var str_val = el.value;
-
-        // prepare for parsing. We don't use numberFormat itself to parse the
-        // string, as we want to be a little more liberal at this point since
-        // we might be currently editing the string. For example, we accept
-        // things like "4000."
-        var parsable_str;
-
-        if (this._numberFormat)
-        {
-          var groupSepEsc =
-    qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._numberFormat._locale) + "");
-          var decimalSepEsc =
-    qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._numberFormat._locale) + "");
-          parsable_str = str_val.replace(new RegExp(decimalSepEsc), ".");
-          parsable_str = parsable_str.replace(new RegExp(groupSepEsc, "g"), "");
-        }
-        else
-        {
-          parsable_str = str_val;
-        }
-
-        // parse the string
-        var val = parseFloat(parsable_str);
-        var limitedVal = this.getManager().limit(val);
-        var oldValue = this.getManager().getValue();
-        var fixedVal = limitedVal;
-
-        // NaN means we had a parse error, but we'll be more picky than
-        // parseFloat (refuse stuff like 5.55-12.5 which parseFloat
-        // parses as 5.55). We also refuse values outside the range.
-        if (isNaN(val) || (limitedVal != val) || (val != parsable_str))
-        {
-          if (acceptEdit) {
-            this._textField.setValue(this._last_value);
-          } else {
-            if (isNaN(limitedVal)) {
-              // reset to last correct value
-              fixedVal = oldValue;
-            } else {
-              fixedVal = limitedVal;
-            }
-          }
-        }
-        if (acceptEdit)
-          return;
-
-        var formattedValue;
-
-        if (this._numberFormat) {
-          formattedValue = this._numberFormat.format(fixedVal);
-        } else {
-          formattedValue = String(fixedVal);
-        }
-
-        if ((fixedVal === oldValue) && (str_val !== formattedValue)) {
-          // "silently" update the displayed value as it won't get
-          // updated by the range manager since it considers the value as
-          // unchanged.
-          this._textField.setValue(formattedValue);
-        }
-
-        // inform manager
-        this.getManager().setValue(fixedVal);
-      }
+      } 
+      
+      var value = parseFloat(this._textField.getValue(), 10);     
+    
+      if (!isNaN(value)) {
+        this.setValue(value);               
+      } else {
+        this._textField.setValue(String(this._lastValidValue));         
+      }     
     }
+
   },
 
 
