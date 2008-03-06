@@ -57,14 +57,14 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * as long as the user holds down the mouse button.
      */
     "execute" : "qx.event.type.Event",
-		/**
-		 * This event gets dispatched when the button is pressed.
-		 */
-		"press" : "qx.event.type.Event",
-		/**
-		 * This event gets dispatched when the button is released.
-		 */
-		"release" : "qx.event.type.Event"
+    /**
+     * This event gets dispatched when the button is pressed.
+     */
+    "press" : "qx.event.type.Event", 
+    /**
+     * This event gets dispatched when the button is released.
+     */
+    "release" : "qx.event.type.Event"
   },
 
 
@@ -122,28 +122,55 @@ qx.Class.define("qx.ui.form.RepeatButton",
   */
   members :
   {
-    press: function()
-    {
-      this.removeState("abandoned");
-      if (!this.hasState("pressed")) { 
-	      this.__startInternalTimer();				
+    
+    /**
+     * Calling this function is like a click from the user on the 
+     * button with all consequences. 
+     * <span style='color: red'>Be shure to call the {@link #release} function.</span>
+     * 
+     * @type member
+     */
+    press: function() {
+      // only if the button is enabeld
+      if (this.isEnabled()) {
+        // if the state pressed must be applied (first call)
+        if (!this.hasState("pressed")) { 
+          // start the timer
+          this.__startInternalTimer();
+        }
+        // set the states
+        this.removeState("abandoned");
+        this.addState("pressed");
       }
-      this.addState("pressed");
     },
-		
-    release: function()
-    {
-      if (this.hasState("pressed"))
-      {
-        if (!this.__executed) {
-        this.execute();             
-	   }
-	      this.removeState("pressed");
-	      this.removeState("abandoned");
-	      this.__stopInternalTimer();
-      }			
-		},
-		
+    
+
+    /**
+     * Calling this function is like a release from the user on the 
+     * button with all consequences. 
+     * Usually the {@link #release} function will be called before the call of 
+     * this function.
+     * 
+     * @type member
+     */
+    release: function() {
+      // only if the button is enabled
+      if (this.isEnabled()) {
+        // only if the button is pressed
+        if (this.hasState("pressed")) {
+          // if the button hast not been executed
+          if (!this.__executed) {
+            this.execute();
+          }
+          // set the button the the reight states
+          this.removeState("pressed");
+          this.removeState("abandoned");
+          // stopp the repeat timer and therefore the execution
+          this.__stopInternalTimer();
+        }
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -159,7 +186,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -170,7 +196,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
       if (this.hasState("abandoned")) {
         this.removeState("abandoned");
         this.addState("pressed");
-				this.__timer.start();
+        this.__timer.start();
       }
 
       this.addState("over");
@@ -186,7 +212,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onmouseout : function(e)
     {
@@ -200,7 +225,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
         this.removeState("pressed");
         this.addState("abandoned");
         this.__timer.stop();
-				this._currentInterval = this.getInterval();
+        this._currentInterval = this.getInterval();
       }
     },
 
@@ -213,7 +238,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseDown event
-     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -237,10 +261,9 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseUp event
-     * @return {void}
      */
-    _onmouseup : function(e)
-    {
+    _onmouseup : function(e) {
+            
       this.releaseCapture();
 
       if (!this.hasState("abandoned")) {
@@ -252,7 +275,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
       this.__stopInternalTimer();
     },
-
+    
 
     /**
      * Listener method for "keyup" event.<br/>
@@ -262,7 +285,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} Key event
-     * @return {void}
      */
     _onkeyup : function(e)
     {
@@ -271,18 +293,18 @@ qx.Class.define("qx.ui.form.RepeatButton",
         case "Enter":
         case "Space":
           if (this.hasState("pressed")) {
-						if (!this.__executed) {
-	            this.execute();
-						}
+            if (!this.__executed) {
+              this.execute();              
+            }
             this.removeState("pressed");
-						this.removeState("abandoned");
+            this.removeState("abandoned");
             e.stopPropagation();
-						this.__stopInternalTimer();
+            this.__stopInternalTimer();
           }
       }
-    },
+    },    
 
-
+    
     /**
      * Listener method for "keydown" event.<br/>
      * Removes "abandoned" and adds "pressed" state
@@ -292,35 +314,34 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @type member
      * @param e {Event} Key event
      * @return {void}
-     */
-		_onkeydown: function(e) {
+     */    
+    _onkeydown: function(e) {
       switch(e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":
           this.removeState("abandoned");
           this.addState("pressed");
-          e.stopPropagation();
+          e.stopPropagation();        
           this.__startInternalTimer();
-      }
+      }      
     },
-
+    
 
     /**
      * Callback for the interval event.<br/>
      * Stops the timer and starts it with a new interval
-     * (value of the "interval" property - value of the "timerDecrease" property).
+     * (value of the "interval" property - value of the "timerDecrease" property). 
      * Dispatches the "execute" event.
      *
      * @type member
      * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
-    _oninterval : function(e)
-    {
+    _oninterval : function(e) {
       this.__timer.stop();
-
-      // if the current interval is not set
+      
+      // if the current interval is not set     
       if (this._currentInterval == null) {
         // set the current interval to the given interval
         this._currentInterval = this.getInterval();
@@ -332,24 +353,22 @@ qx.Class.define("qx.ui.form.RepeatButton",
       // fire the execute event
       this.__executed = true;
       this.fireEvent("execute");
-    },
-
+    },    
+    
 
     /*
     ---------------------------------------------------------------------------
       INTERNAL TIMER
     ---------------------------------------------------------------------------
     */
-
-	/**
-     * Starts the internal timer which causes firing of execution
-     * events in an interval. It also presses the button.
+    /**
+     * Starts the internal timer which causes firing of execution 
+     * events in an interval. It also presses the button. 
      *
      * @type member
      * @return {void}
-     */
-    __startInternalTimer: function()
-    {
+     */   
+    __startInternalTimer: function() {
       this.fireEvent("press");
 
       this.__executed = false;
@@ -358,23 +377,22 @@ qx.Class.define("qx.ui.form.RepeatButton",
       this.__timer.start();
 
       this.removeState("abandoned");
-      this.addState("pressed");
+      this.addState("pressed");      
     },
-
-
+    
+    
     /**
      * Stops the internal timer and releases the button.
      */
-    __stopInternalTimer: function()
-    {
+    __stopInternalTimer: function() {
       this.fireEvent("release");
-
+      
       this.__timer.stop();
 
       this._currentInterval = null;
 
       this.removeState("abandoned");
-      this.removeState("pressed");
+      this.removeState("pressed");      
     }
   },
 
