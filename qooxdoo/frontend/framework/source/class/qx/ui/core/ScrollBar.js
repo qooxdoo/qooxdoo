@@ -23,8 +23,7 @@
 */
 
 /**
- * A preliminary scroll bar for the scroll pane. This is nothing more than
- * an early prototype.
+ * A scroll bar for the scroll pane.
  */
 qx.Class.define("qx.ui.core.ScrollBar",
 {
@@ -34,40 +33,39 @@ qx.Class.define("qx.ui.core.ScrollBar",
   {
     this.base(arguments);
 
-    this._barPane = new qx.ui.core.Widget();
-    this._barPane.setBackgroundColor("#EEE");
-    this._barPane.setLayout(new qx.ui.layout.Canvas());
+    this._barPane = new qx.ui.core.Widget().set({
+      appearance : "scrollbar-slider-pane",
+      layout : new qx.ui.layout.Canvas()
+    });
 
-    this._barPane.addListener("resize", this._updateSliderLength, this);
     this._barPane.addListener("click", this._onClickBarPane, this);
+    this._barPane.addListener("resize", this._onResizeBarPane, this);
+
 
     this._sliderPos = 0;
     this._scrollSize = 0;
     this._sliderSize = 0;
     this._slider = new qx.ui.core.Widget().set({
-      backgroundColor : "blue"
+      appearance : "scrollbar-slider"
     });
     this._barPane.getLayout().add(this._slider);
+
     this._slider.getContainerElement().addListener("dragstart", this._onDragstartSlider, this);
     this._slider.getContainerElement().addListener("dragmove", this._onDragmoveSlider, this);
     this._slider.getContainerElement().addListener("dragstop", this._onDragstopSlider, this);
-/*    this._slider.addListener("mousedown", this._onMousedownSlider, this);
-    this._slider.addListener("mouseup", this._onMouseupSlider, this);
-    this._slider.addListener("losecapture", this._onMouseupSlider, this);
-*/
+
 
     this._btnBegin = new qx.ui.form.RepeatButton().set({
-      backgroundColor : "gray",
-      padding : 3
+      appearance : "scrollbar-button-start"
     });
+    this._btnBegin.addListener("execute", this._scrollToBegin, this);
+
 
     this._btnEnd = new qx.ui.form.RepeatButton().set({
-      backgroundColor : "gray",
-      padding : 3
+      appearance : "scrollbar-button-end"
     });
-
-    this._btnBegin.addListener("execute", this._scrollToBegin, this);
     this._btnEnd.addListener("execute", this._scrollToEnd, this);
+
 
     if (orientation != null) {
       this.setOrientation(orientation);
@@ -99,7 +97,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
       check : "Integer",
       init : 100,
       apply : "_applyMaximum"
+    },
+
+    appearance :
+    {
+      refine : true,
+      init : "scrollbar"
     }
+
   },
 
 
@@ -107,25 +112,42 @@ qx.Class.define("qx.ui.core.ScrollBar",
   {
     _onClickBarPane : function(e)
     {
+      if (e.getTarget() !== this._barPane) {
+        return;
+      }
+
       var paneLocation = qx.bom.element.Location.get(this._barPane.getContainerElement().getDomElement());
 
       var isHorizontal = this.getOrientation() === "horizontal";
+      var halfSliderSize = Math.round(this._sliderSize / 2);
       if (isHorizontal) {
-        this._setSliderPosition(e.getDocumentLeft() - paneLocation.left, true);
+        this._setSliderPosition(e.getDocumentLeft() - paneLocation.left - halfSliderSize, true);
       } else {
-        this._setSliderPosition(e.getDocumentTop() - paneLocation.top, true);
+        this._setSliderPosition(e.getDocumentTop() - paneLocation.top - halfSliderSize, true);
       }
     },
 
 
+    _onResizeBarPane : function(e)
+    {
+      var isHorizontal = this.getOrientation() === "horizontal";
+
+      var barPaneSize = this._barPane.getComputedLayout();
+      this._scrollSize = isHorizontal ? barPaneSize.width : barPaneSize.height;
+
+      var sliderSize = this._slider.getComputedLayout();
+      this._sliderSize = isHorizontal ? sliderSize.width : sliderSize.height;
+
+      this._updateSliderPosition();
+    },
+
+
     _onDragstartSlider : function(e) {
-      console.log("drag start");
       this._sliderStartPos = this._sliderPos;
     },
 
 
     _onDragstopSlider : function(e) {
-      console.log("drag stop");
     },
 
 
@@ -134,49 +156,11 @@ qx.Class.define("qx.ui.core.ScrollBar",
       var dragOffsetLeft = e.getDragOffsetLeft();
       var dragOffsetTop = e.getDragOffsetTop();
 
-      console.log("drag move", dragOffsetLeft, dragOffsetTop);
-
       var isHorizontal = this.getOrientation() === "horizontal";
       var sliderPos = isHorizontal ? this._sliderStartPos + dragOffsetLeft : this._sliderStartPos + dragOffsetTop;
 
       this._setSliderPosition(sliderPos, true);
     },
-
-/*
-    _onMousedownSlider : function(e)
-    {
-      this._slider.capture();
-      this._slider.addListener("mousemove", this._onMousemoveSlider, this);
-
-      this._sliderStartPos = this._sliderPos;
-
-      this._dragStartLeft = e.getDocumentLeft();
-      this._dragStartTop = e.getDocumentTop();
-    },
-
-
-    _onMouseupSlider : function(e)
-    {
-      this._slider.releaseCapture();
-      this._slider.removeListener("mousemove", this._onMousemoveSlider, this);
-    },
-
-
-    _onMousemoveSlider : function(e)
-    {
-      var el = this._barPane.getContainerElement().getDomElement();
-      //var panePosition = qx.bom.element.Location.get(el);
-      //console.log(e.getViewportTop() - panePosition.top);
-
-      var dragOffsetLeft = e.getDocumentLeft() - this._dragStartLeft;
-      var dragOffsetTop = e.getDocumentTop() - this._dragStartTop;
-
-      var isHorizontal = this.getOrientation() === "horizontal";
-      var sliderPos = isHorizontal ? this._sliderStartPos + dragOffsetLeft : this._sliderStartPos + dragOffsetTop;
-
-      this._setSliderPosition(sliderPos, true);
-    },
-*/
 
 
     _setSliderPosition : function(sliderPosition, updateValue)
@@ -214,15 +198,15 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       if (isHorizontal)
       {
+        this.addState("horizontal");
         slider.addState("horizontal");
-        slider.setMinWidth(10);
-        slider.setMinHeight(0);
+        this._barPane.addState("horizontal");
+        this._btnBegin.addState("horizontal");
+        this._btnEnd.addState("horizontal");
       }
       else
       {
         slider.removeState("horizontal");
-        slider.setMinWidth(0);
-        slider.setMinHeight(10);
       }
 
       var layout = this._barPane.getLayout();
@@ -235,27 +219,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       {
         layout.addLayoutProperty(slider, "left", 0);
         layout.addLayoutProperty(slider, "right", 0);
-      }
-    },
-
-
-    _updateSliderLength : function()
-    {
-      var isHorizontal = this.getOrientation() === "horizontal";
-      var parentSize = this._barPane.getComputedLayout();
-      if (!parentSize) {
-        return;
-      }
-
-      this._scrollSize = isHorizontal ? parentSize.width : parentSize.height;
-      //this._sliderSize = Math.round((this._scrollSize * this._scrollSize) / this.getMaximum());
-      this._sliderSize = 20;
-
-      if (isHorizontal)
-      {
-        this._slider.setWidth(this._sliderSize);
-      } else {
-        this._slider.setHeight(this._sliderSize);
       }
     },
 
@@ -275,12 +238,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       var layout = hori ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
       this.setLayout(layout);
-
-      if (hori) {
-        this._barPane.setHeight(18);
-      } else {
-        this._barPane.setWidth(18);
-      }
 
       // Add children to layout
       layout.add(this._btnBegin);
@@ -322,7 +279,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
     _applyMaximum : function(value, old) {
-      this._updateSliderLength();
     }
 
   }

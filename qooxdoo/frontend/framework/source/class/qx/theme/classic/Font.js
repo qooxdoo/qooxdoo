@@ -40,6 +40,12 @@ qx.Theme.define("qx.theme.classic.Font",
       bold : true
     },
 
+    "large" :
+    {
+      size : 16,
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+    },
+
     "monospace" :
     {
       size : 11,
