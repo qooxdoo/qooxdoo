@@ -282,9 +282,18 @@ class JsonRpcError
     {
         $error = $this;
         $id = $this->id;
+
         $ret = array("error" => $this->data,
                      "id"    => $id);
-        SendReply($this->json->encode($ret), $this->scriptTransportId);
+
+        if (function_exists("json_encode"))
+        {
+            SendReply(json_encode($ret), $this->scriptTransportId);
+        }
+        else
+        {
+            SendReply($this->json->encode($ret), $this->scriptTransportId);
+        }
         exit;
     }
 }
@@ -791,6 +800,14 @@ if (get_class($output) == "JsonRpcError")
 /* Give 'em what they came for! */
 $ret = array("result" => $output,
              "id"     => $jsonInput->id);
-SendReply($json->encode($ret), $scriptTransportId);
+
+if (function_exists("json_encode"))
+{
+    SendReply(json_encode($ret), $scriptTransportId);
+}
+else
+{
+    SendReply($json->encode($ret), $scriptTransportId);
+}
 
 ?>
