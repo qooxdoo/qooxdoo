@@ -140,8 +140,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner-text-field" :
     {
-      // include : "text-field",
-
       style : function(states)
       {
         return {
@@ -184,6 +182,107 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon : qx.core.Setting.get("qx.resourceUri") + "/decoration/Windows/arrows/down_small.gif"
         };
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLBAR
+    ---------------------------------------------------------------------------
+    */
+
+
+    "scrollbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator: "dark"
+        }
+      }
+    },
+
+    "scrollbar-slider" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          width: 10,
+          height: 10
+        }
+      }
+    },
+
+    "scrollbar-slider-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background"
+        }
+      }
+    },
+
+    "scrollbar-button-start" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.horizontal
+            ? qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/left_small.gif"
+            : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/up_small.gif",
+          align : states.horizontal ? "left" : "top"
+        }
+      }
+    },
+
+    "scrollbar-button-end" :
+    {
+      include : "scrollbar-button-start",
+
+      style : function(states)
+      {
+        return {
+          icon : states.horizontal
+            ? qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/right_small.gif"
+            : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/down_small.gif"
+        }
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SLIDER
+    ---------------------------------------------------------------------------
+    */
+
+    "slider" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background"
+        }
+      }
+    },
+
+    "slider-knob" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          width: 10,
+          height: 10
+        }
+      }
     }
+
   }
 });
