@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
   {
 
     /** {Map} Event which are dispatched on the container/content element */
-    _eventTarget :
+    __eventTarget :
     {
       container :
       {
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     {
       return (
         target instanceof qx.ui.core.Widget &&
-        (this._eventTarget.container[type] || this._eventTarget.content[type])
+        (this.__eventTarget.container[type] || this.__eventTarget.content[type])
       )
     },
 
@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      */
     __getEventTarget : function(widgetTarget, type)
     {
-      if (this._eventTarget.content[type]) {
+      if (this.__eventTarget.content[type]) {
         return widgetTarget.getContentElement();
       } else {
         return widgetTarget.getContainerElement();
