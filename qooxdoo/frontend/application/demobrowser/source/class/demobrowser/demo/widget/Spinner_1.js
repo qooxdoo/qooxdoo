@@ -91,12 +91,14 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
 
 
       // ----- Spinner 5 -----
-      var s5 = new qx.ui.form.Spinner( -200, null, -100);
+      s5 = new qx.ui.form.Spinner( -200, null, -100);
 			layout.add(new qx.ui.basic.Label("Null as value"), 0, row);
       layout.add(new qx.ui.basic.Label("-100"), 1, row);
       layout.add(s5, 2, row);
 			layout.add(new qx.ui.basic.Label("-200"), 3, row++);
 
+
+      this.info(s5.getValue());
 
       // ----- Spinner 6 -----
       var s6 = new qx.ui.form.Spinner(-200, null, -100).set({
@@ -110,12 +112,13 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
 
       // ----- Spinner 7 -----
       var s7 = new qx.ui.form.Spinner(-3000, 0, 3000);
+			s7.setSingleStep(0.5);
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);
       s7.setNumberFormat(nf);
       
-			layout.add(new qx.ui.basic.Label("With number format aaaaaaaaaaaaaaaaaaaaaaa"), 0, row);
+			layout.add(new qx.ui.basic.Label("With number format"), 0, row);
       layout.add(new qx.ui.basic.Label("3000"), 1, row);			
 			layout.add(s7, 2, row);
 			layout.add(new qx.ui.basic.Label("-3000"), 3, row++);

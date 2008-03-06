@@ -20,31 +20,8 @@
 /**
  * Superclass for formatters and parsers.
  */
-qx.Class.define("qx.util.format.Format",
+qx.Interface.define("qx.util.format.IFormat",
 {
-  extend : qx.core.Object,
-  type : "abstract",
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -58,7 +35,7 @@ qx.Class.define("qx.util.format.Format",
      * @throws the abstract function warning.
      */
     format : function(obj) {
-      throw new Error("format is abstract");
+      return true;
     },
 
 
@@ -72,7 +49,7 @@ qx.Class.define("qx.util.format.Format",
      * @throws the abstract function warning.
      */
     parse : function(str) {
-      throw new Error("parse is abstract");
+      return true;
     }
   }
 });

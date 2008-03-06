@@ -167,7 +167,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.core.Setting.get("qx.resourceUri") + "/decoration/Windows/arrows/up_small.gif"
+          icon : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/up_small.gif"
         }
       }
     },
@@ -179,7 +179,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.core.Setting.get("qx.resourceUri") + "/decoration/Windows/arrows/down_small.gif"
+          icon : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/down_small.gif"
         };
       }
     },
