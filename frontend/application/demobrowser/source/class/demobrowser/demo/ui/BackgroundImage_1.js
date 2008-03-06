@@ -55,11 +55,11 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
       layout.add(new qx.ui.form.Button("Juhu Kinners").set({
         appearance: "shaded-outset-button"
       }), 0, 2);
-
+/*
       layout.add(new qx.ui.form.Button("Juhu Kinners").set({
         appearance: "glossy"
       }), 1, 0);
-
+*/
     }
   }
 });
@@ -86,7 +86,7 @@ qx.Theme.define("demobrowser.demo.ui.Appearance",
     {
       style : function(states)
       {
-        var root = qx.core.Setting.get("demobrowser.resourceUri") + "/demo/";
+        var root = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/";
         return {
           padding: states.pressed ? [11, 10, 9, 10] : 10,
           backgroundColor: states.pressed ? "pressed" : states.over ? "over" : "normal",

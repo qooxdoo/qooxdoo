@@ -70,39 +70,23 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
             width: 50,
             height: 50
           });
-
-          /*
-          effects.shrinkX = new demobrowser.demo.layout.GridLayout_4_Property(this._active, "width", {
-            from: 200,
-            to: 50,
-            duration: duration
-          });
-          effects.shrinkY = new demobrowser.demo.layout.GridLayout_4_Property(this._active, "height", {
-            from: 200,
-            to: 50,
-            duration: duration
-          });
-          */
-
         }
 
         widget.set({
             backgroundColor : "orange"
-            //width: 200,
-            //height: 200
         });
 
         effects.push(new demobrowser.demo.layout.GridLayout_4_Property(widget, "width").set({
           from: 50,
           to: 200,
           duration: duration,
-          transition: "sinoidal"
+          transition: "spring"
         }));
         effects.push(new demobrowser.demo.layout.GridLayout_4_Property(widget, "height").set({
           from: 50,
           to: 200,
           duration: duration,
-          transition: "sinoidal"
+          transition: "spring"
         }));
 
         var effect = new qx.fx.effect.core.Parallel(effects[0], effects[1]);
