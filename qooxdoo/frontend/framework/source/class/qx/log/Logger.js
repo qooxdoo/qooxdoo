@@ -45,12 +45,12 @@ qx.Bootstrap.define("qx.log.Logger",
     ---------------------------------------------------------------------------
       CONFIGURATION
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     __treshold : 50,
     __level : "debug",
-    
-    
+
+
     /**
      * Configures the log level minimum required for new messages.
      *
@@ -61,18 +61,18 @@ qx.Bootstrap.define("qx.log.Logger",
     setLevel : function(value) {
       this.__level = value;
     },
-    
-    
+
+
     /**
      * Returns the currently configured debug level.
      *
      * @type static
      * @return {Integer} Debug level
-     */    
+     */
     getLevel : function() {
       return this.__level;
     },
-    
+
 
     /**
      * Configures the number of messages to kept in buffer.
@@ -84,8 +84,8 @@ qx.Bootstrap.define("qx.log.Logger",
     setTreshold : function(value) {
       this.__treshold = value;
     },
-    
-    
+
+
     /**
      * Returns the currently configured treshold.
      *
@@ -95,7 +95,7 @@ qx.Bootstrap.define("qx.log.Logger",
     getTreshold : function() {
       return this.__treshold;
     },
-    
+
 
 
 
@@ -107,22 +107,22 @@ qx.Bootstrap.define("qx.log.Logger",
     */
 
     /** {Map} Map of all known appenders by their ID */
-    __appender : {},    
-    
-    
+    __appender : {},
+
+
     /** {Integer} Last free appender ID */
     __id : 0,
-    
-    
+
+
     /**
      * Registers the given appender and inserts the last
      * cached messages.
      *
      * @type static
-     * @param appender {Class} A static appender class supporting at 
+     * @param appender {Class} A static appender class supporting at
      *   least <code>process</code> to handle incoming messages.
      * @return {void}
-     */    
+     */
     register : function(appender)
     {
       if (appender.$$id) {
@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.log.Logger",
         appender.process(buffer[i]);
       }
     },
-    
+
 
     /**
      * Unregisters the given appender
@@ -169,7 +169,7 @@ qx.Bootstrap.define("qx.log.Logger",
       USER METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Sending a message at debug level to the logger.
      *
@@ -231,6 +231,17 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
+     * Prints the current stak trace
+     *
+     * @type static
+     * @param object {Object} Contextual object (could be an instance or a static class)
+     */
+    printStackTrace : function(object) {
+      this.__log("info", [object, qx.dev.StackTrace.getStackTrace().join("\n")]);
+    },
+
+
+    /**
      * Deletes the current buffer. Has no influence on the message handling of the
      * connected appenders.
      *
@@ -249,11 +260,11 @@ qx.Bootstrap.define("qx.log.Logger",
       INTERNAL LOGGING IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Array} Message buffer of previously fired messages. */
     __buffer : [],
-    
-    
+
+
     /** {Map} Numeric translation of log levels */
     __levels :
     {
@@ -261,15 +272,15 @@ qx.Bootstrap.define("qx.log.Logger",
       info : 1,
       warn : 2,
       error : 3
-    },    
-    
-    
-    /** 
+    },
+
+
+    /**
      * Internal logging main routine.
      *
      * @type static
      * @param level {String} One of debug, info, warn or error
-     * @param args {Array} List of other arguments where the first is 
+     * @param args {Array} List of other arguments where the first is
      *   interpretected as a context object.
      * @return {void}
      */
@@ -300,14 +311,14 @@ qx.Bootstrap.define("qx.log.Logger",
       };
 
       // Add relation fields
-      if (object) 
+      if (object)
       {
         if (object instanceof qx.core.Object) {
           entry.object = object.$$hash;
         } else if (object.$$type) {
           entry.clazz = object;
-        }      
-      } 
+        }
+      }
 
       // Update buffer
       var buffer = this.__buffer;

@@ -261,10 +261,10 @@ qx.Class.define("qx.core.Object",
       EVENT HANDLING
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Class} Pointer to the regular event registration class */
     __Registration : qx.event.Registration,
-    
+
 
     /**
      * Add event listener to this object.
@@ -370,11 +370,11 @@ qx.Class.define("qx.core.Object",
       DEBUG
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Class} Pointer to the regular logger class */
     __Logger : qx.log.Logger,
-    
-    
+
+
     /**
      * Logs a debug message.
      *
@@ -426,6 +426,15 @@ qx.Class.define("qx.core.Object",
       this.__Logger.error(this, msg);
     },
 
+
+    /**
+     * Prints the current stak trace
+     *
+     * @type member
+     */
+    printStackTrace : function() {
+      this.__Logger.printStackTrace(this);
+    },
 
 
 
@@ -615,7 +624,7 @@ qx.Class.define("qx.core.Object",
   {
     // Cleanup event listeners
     qx.event.Registration.removeAllListeners(this);
-      
+
     // Cleanup value managers
     qx.util.ValueManager.disconnect(this);
 
