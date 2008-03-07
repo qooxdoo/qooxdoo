@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       var row = 0;
 
       // ----- Spinner 1 -----
-      s1 = new qx.ui.form.Spinner(0, 50, 100);
+      var s1 = new qx.ui.form.Spinner(0, 50, 100);
       s1.set({
         editable: false
       });
@@ -98,8 +98,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       layout.add(new qx.ui.basic.Label("-200"), 3, row++);
 
 
-      this.info(s5.getValue());
-
       // ----- Spinner 6 -----
       var s6 = new qx.ui.form.Spinner(-200, null, -100).set({
         enabled: false
@@ -111,7 +109,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
 
 
       // ----- Spinner 7 -----
-      var s7 = new qx.ui.form.Spinner(-3000, 0, 3000);
+      var s7 = new qx.ui.form.Spinner(0, 2000, 3000);
       s7.setSingleStep(0.5);
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
@@ -121,7 +119,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       layout.add(new qx.ui.basic.Label("With number format"), 0, row);
       layout.add(new qx.ui.basic.Label("3000"), 1, row);      
       layout.add(s7, 2, row);
-      layout.add(new qx.ui.basic.Label("-3000"), 3, row++);
+      layout.add(new qx.ui.basic.Label("0"), 3, row++);
     }
   }
 });
