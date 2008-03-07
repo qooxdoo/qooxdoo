@@ -85,6 +85,43 @@ qx.Class.define("testrunner.test.core.Property",
       this.debug("child2: " + child1.getColor());
       this.debug("child1: " + child2.getColor());
       this.debug("root: " + root.getColor());
+    },
+
+
+    testRecursive : function()
+    {
+      qx.Class.define("testrunner.Node",
+      {
+        extend : qx.core.Object,
+
+        construct : function() {
+          this._min = 0;
+        },
+
+        properties :
+        {
+          value : { apply : "applyValue" }
+        },
+
+        members :
+        {
+        
+          applyValue: function(value, old) {
+            if (value < this._min) {
+              this.setValue(this._min);
+            }
+          }
+        }
+      });
+
+      var root = new testrunner.Node();
+      
+      root.setValue(100);
+      this.assertEquals(100, root.getValue());
+      
+      root.setValue(-100);
+      this.assertEquals(0, root.getValue());
+      
     }
   }
 });
