@@ -29,7 +29,7 @@
  * current value can also be changed by editing the display field directly, or
  * using mouse wheel and cursor keys.
  *
- * An optional {@link #numberFormat} property allows you to control the format of 
+ * An optional {@link #numberFormat} property allows you to control the format of
  * how a value can be entered and will be displayed.
  *
  * A brief, but non-trivial example:
@@ -50,14 +50,9 @@
  * values and behaviour.
  *
  * @appearance spinner
- *
  * @appearance spinner-field {qx.ui.form.TextField}
- *
  * @appearance spinner-button-up {qx.ui.form.Button}
- * @state pressed {spinner-button-up}
- *
  * @appearance spinner-button-down {qx.ui.form.Button}
- * @state pressed {spinner-button-down}
  */
 qx.Class.define("qx.ui.form.Spinner",
 {
@@ -74,29 +69,30 @@ qx.Class.define("qx.ui.form.Spinner",
   {
     this.base(arguments);
 
-    //   MAIN LAYOUT
+    // MAIN LAYOUT
     this._mainLayout = new qx.ui.layout.Grid();
     this._mainLayout.setColumnFlex(0, 1);
     this._mainLayout.setRowFlex(0,1);
     this._mainLayout.setRowFlex(1,1);
     this.setLayout(this._mainLayout);
-    //   TEXTFIELD
+
+    // TEXTFIELD
     this._textField = new qx.ui.form.TextField();
     this._textField.setAppearance("spinner-text-field");
     this._textField.setWidth(40);
     this._mainLayout.add(this._textField, 0, 0, {rowSpan: 2});
-    
-    //   UP-BUTTON
+
+    // UP-BUTTON
     this._upbutton = new qx.ui.form.RepeatButton();
     this._upbutton.setAppearance("spinner-button-up");
     this._mainLayout.add(this._upbutton, 0, 1);
 
-    //   DOWN-BUTTON
+    // DOWN-BUTTON
     this._downbutton = new qx.ui.form.RepeatButton();
     this._downbutton.setAppearance("spinner-button-down");
     this._mainLayout.add(this._downbutton, 1, 1);
 
-    //   EVENTS
+    // EVENTS
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onmousewheel, this);
@@ -201,7 +197,7 @@ qx.Class.define("qx.ui.form.Spinner",
     wrap: {
       check : "Boolean",
       init : false,
-      apply : "_applyWrap"      
+      apply : "_applyWrap"
     },
 
     /** Controls whether the textfield of the spinner is editable or not */
@@ -231,7 +227,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       refine : true,
       init : false
-    }    
+    }
   },
 
 
@@ -252,7 +248,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Apply routine for the min property.<br/>
      * It sets the value of the spinner to the maximum of the current spinner
      * value and the given min property value.
-     * 
+     *
      * @type member
      * @param value {Number} The new value of the min property
      * @param old {Number} The old value of the min property
@@ -264,13 +260,13 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /**
      * Apply routine for the max property.<br/>
-     * It sets the value of the spinner to the minnimum of the current spinner 
+     * It sets the value of the spinner to the minnimum of the current spinner
      * value and the given max property value.
-     * 
+     *
      * @type member
      * @param value {Number} The new value of the max property
      * @param old {Number} The old value of the max property
-     */    
+     */
     _applyMax : function(value, old) {
       this.setValue(Math.min(this.getValue(), value));
     },
@@ -279,81 +275,80 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Apply routine for the value property.<br/>
      * It checks the min and max values, disables / enables the
-     * buttons and handles the wrap around. 
-     * 
+     * buttons and handles the wrap around.
+     *
      * @type member
      * @param value {Number} The new value of the spinner
      * @param old {Number} The former value of the spinner
      */
-    _applyValue: function(value, old) {
+    _applyValue: function(value, old)
+    {
       // if the spinner should NOT wrap around
-      if (!this.getWrap()) {
+      if (!this.getWrap())
+      {
         // if the value is greater than the max value
-        if (value > this.getMax()) {
-          // ATTENTION!!!
-          // Set the new value in a timer to avoid endles recursion becaus 
-          // of the peroperty system!
-          var self = this;
-          window.setTimeout(function() {
-            // set the value to the max value and return
-            self.setValue(self.getMax());
-          }, 0);
+        if (value > this.getMax())
+        {
+          this.setValue(this.getMax());
           return;
         // if the value is lower than the max value
-        } else if(value < this.getMin()) {
-          // ATTENTION!!!
-          // Set the new value in a timer to avoid endles recursion becaus 
-          // of the peroperty system!
-          var self = this;
-          window.setTimeout(function() {
-            // set the min value and return
-            self.setValue(self.getMin());
-          }, 0);
+        }
+        else if(value < this.getMin())
+        {
+          this.setValue(this.getMin());
           return;
         }
-      // if the spinner should wrapp around  
-      } else {
+      // if the spinner should wrapp around
+      }
+      else
+      {
         // if the valus is over the max value
-        if (value > this.getMax()) {
+        if (value > this.getMax())
+        {
           // set the new value and reuturn
-          var tmp = value - this.getMax(); 
+          var tmp = value - this.getMax();
           this.setValue(this.getMin() + tmp - 1);
           return;
         // if the value is lower than the min value
-        } else if(value < this.getMin()) {
+        }
+        else if(value < this.getMin())
+        {
           // set the new value and return
-          var tmp = value - this.getMin(); 
+          var tmp = value - this.getMin();
           this.setValue(this.getMax() + tmp + 1);
           return;
-        }        
+        }
       }
-      
+
       // up button enabled/disabled
-      if (value < this.getMax()) {
+      if (value < this.getMax())
+      {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
           this._upbutton.setEnabled(true);
         }
-      } else {
+      }
+      else
+      {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
-          // first release the button
-          this._upbutton.release();
           // then disable the up button
           this._upbutton.setEnabled(false);
         }
       }
+
       // down button enabled/disabled
-      if (value > this.getMin()) {
+      if (value > this.getMin())
+      {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
           this._downbutton.setEnabled(true);
         }
-      } else {
+      }
+      else
+      {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
-          // first release the button
-          this._downbutton.release();
           // then disable the down button
           this._downbutton.setEnabled(false);
         }
@@ -361,12 +356,12 @@ qx.Class.define("qx.ui.form.Spinner",
 
       // save the last valid value of the spinner
       this._lastValidValue = value;
-      
+
       // write the value of the spinner to the textfield
       if (this.getNumberFormat()) {
         this._textField.setValue(this.getNumberFormat().format(value));
       } else {
-        this._textField.setValue(String(value));            
+        this._textField.setValue(String(value));
       }
     },
 
@@ -374,7 +369,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Apply routine for the editable property.<br/>
      * It sets the textfield of the spinner to not read only.
-     * 
+     *
      * @type member
      * @param value {Boolean} The new value of the editable property
      * @param old {Boolean} The former value of the editable property
@@ -390,7 +385,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Apply routine for the wrap property.<br/>
      * Enables all buttons if the wrapping is enabled.
-     * 
+     *
      * @type member
      * @param value {Boolean} The new value of the wrap property
      * @param old {Boolean} The former value of the wrap property
@@ -407,26 +402,30 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /**
      * Apply routine for the numberFormat property.<br/>
-     * When setting a number format, the display of the 
+     * When setting a number format, the display of the
      * value in the textfield will be changed immediately.
-     * 
+     *
      * @type member
      * @param value {Boolean} The new value of the numberFormat property
      * @param old {Boolean} The former value of the numberFormat property
      */
     _applyNumberFormat : function(value, old) {
-      this._textField.setValue(this.getNumberFormat().format(this._lastValidValue));      
+      this._textField.setValue(this.getNumberFormat().format(this._lastValidValue));
     },
 
     // overridden
-    _applyEnabled : function(value, old) {
-      if (value === false) {
+    _applyEnabled : function(value, old)
+    {
+      if (value === false)
+      {
         // disable the spinner
         this.addState("disabled");
-        // diable the buttons separately becaus they will be enabled explicit 
+        // diable the buttons separately becaus they will be enabled explicit
         this._upbutton.setEnabled(false);
         this._downbutton.setEnabled(false);
-      } else {
+      }
+      else
+      {
         // enable the spinner
         this.removeState("disabled");
         // enable the buttons separately becaus they will be disabled explicit
@@ -441,6 +440,7 @@ qx.Class.define("qx.ui.form.Spinner",
       KEY EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
+
     /**
      * Callback for "keyDown" event.<br/>
      * Controls the interval mode ("single" or "page")
@@ -451,21 +451,21 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param e {qx.event.type.KeyEvent} keyDown event
      */
-    _onKeyDown: function(e) {
-      switch(e.getKeyIdentifier()) {
+    _onKeyDown: function(e)
+    {
+      switch(e.getKeyIdentifier())
+      {
         case "PageUp":
           // mark that the spinner is in page mode and process further
           this._pageUpMode = true;
         case "Up":
-          this.__adoptText(e);
           this._upbutton.press();
           break;
-          
+
         case "PageDown":
           // mark that the spinner is in page mode and process further
           this._pageDownMode = true;
-        case "Down":        
-          this.__adoptText(e);
+        case "Down":
           this._downbutton.press();
           break;
       }
@@ -476,14 +476,16 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback for "keyUp" event.<br/>
      * Detecting "Up"/"Down" and "PageUp"/"PageDown" keys.<br/>
-     * Releases the button and disabled the page mode, if necessary. 
+     * Releases the button and disabled the page mode, if necessary.
      *
      * @type member
      * @param e {qx.event.type.KeyEvent} keyUp event
      * @return {void}
      */
-    _onKeyUp: function(e) {
-      switch(e.getKeyIdentifier()) {
+    _onKeyUp: function(e)
+    {
+      switch(e.getKeyIdentifier())
+      {
         case "PageUp":
           this._upbutton.release();
           this._pageUpMode = false;
@@ -491,7 +493,7 @@ qx.Class.define("qx.ui.form.Spinner",
         case "Up":
           this._upbutton.release();
           break;
-          
+
         case "PageDown":
           this._downbutton.release();
           this._pageDownMode = false;
@@ -508,6 +510,7 @@ qx.Class.define("qx.ui.form.Spinner",
       MOUSE EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
+
     /**
      * Callback method for the "mouseWheel" event.<br/>
      * Increments or decrements the value of the spinner.
@@ -525,22 +528,23 @@ qx.Class.define("qx.ui.form.Spinner",
       OTHER EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
+
     /**
      * Callback method for the "change" event of the textfield.<br/>
      * Just calls the internal {#__adoptText} method.
-     * 
+     *
      * @type member
      * @param e {qx.ui.event.type.Event} text change event or blur event
      */
     _onTextChange: function(e) {
-      this.__adoptText(e);
+      this.__adoptText();
     },
 
 
     /**
      * Callback method for the "blur" event of the textfield.<br/>
      * Just calls the internal {#_onTextChange} method with the event as parameter.
-     * 
+     *
      * @type member
      * @param e {qx.ui.event.type.Event} blur event
      */
@@ -554,13 +558,15 @@ qx.Class.define("qx.ui.form.Spinner",
       INTERVAL HANDLING
     ---------------------------------------------------------------------------
     */
+
     /**
-     * Checks if the spinner is in page mode and couts  either the single 
+     * Checks if the spinner is in page mode and couts  either the single
      * or page Step up.
-     * 
+     *
      * @type member
      */
-    _countUp: function() {
+    _countUp: function()
+    {
       if (this._pageUpMode) {
         this.setValue(this.getValue() + this.getPageStep());
       } else {
@@ -570,12 +576,13 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * Checks if the spinner is in page mode and couts  either the single 
+     * Checks if the spinner is in page mode and couts  either the single
      * or page Step down.
-     * 
+     *
      * @type member
      */
-    _countDown: function() {
+    _countDown: function()
+    {
       if (this._pageDownMode) {
         this.setValue(this.getValue() - this.getPageStep());
       } else {
@@ -589,14 +596,16 @@ qx.Class.define("qx.ui.form.Spinner",
       UTILITY
     ---------------------------------------------------------------------------
     */
+
     /**
-     * Tryes to parse the current text in the textfield and set it as 
-     * spinner value. If the value can be not be parsed, the last valid value 
+     * Tryes to parse the current text in the textfield and set it as
+     * spinner value. If the value can be not be parsed, the last valid value
      * will be set to the textfield as well as to the spinner value.
-     * 
+     *
      * @type member
      */
-    __adoptText: function(e) {
+    __adoptText: function()
+    {
       // if a number format is set
       if (this.getNumberFormat()) {
         // try to parse the current number using the number format
@@ -608,8 +617,8 @@ qx.Class.define("qx.ui.form.Spinner",
         } catch(e) {
           // otherwise, process further
         }
-      } 
-      
+      }
+
       // try to parse the number as a float
       var value = parseFloat(this._textField.getValue(), 10);
       // if the result is a number
