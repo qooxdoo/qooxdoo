@@ -36,7 +36,7 @@ qx.Class.define("qx.io2.HttpRequest",
   {
     this.base(arguments);
     
-    // Request headers
+    // Header cache
     this.__headers = {};
     
     // Add url
@@ -97,7 +97,7 @@ qx.Class.define("qx.io2.HttpRequest",
      */
     refresh : 
     {
-      check : "Booleam",
+      check : "Boolean",
       init : false
     },
     
@@ -218,15 +218,9 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
-     * @return {var} Native return value
      */        
-    setRequestHeader : function(label, value)
-    {
-      if (value == null) {
-        delete this.__headers[label];
-      } else {
-        this.__headers[label] = value;
-      }
+    setRequestHeader : function(label, value) {
+      this.__headers[label] = value;
     },
     
     
@@ -407,7 +401,7 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @return {Integer} Ready state of the request
      */
-    getState : function() 
+    getReadyState : function() 
     {
       var req = this.__req;
       if (req) {
@@ -424,6 +418,16 @@ qx.Class.define("qx.io2.HttpRequest",
      */
     send : function()
     {
+      // Disposing old request object
+      if (this.__req) 
+      {
+        if (this.getReadyState() !== 4) {
+          throw new Error("Request is still pending at ready state: " + this.getReadyState());
+        }
+        
+        this.__req.dispose();
+      }
+      
       // Create low level object
       var req = this.__req = new qx.bom.Request;
       
@@ -447,24 +451,35 @@ qx.Class.define("qx.io2.HttpRequest",
       // Read url
       var url = this.getUrl();
       
+      // Open request
+      req.open(this.getMethod(), url, this.getAsync(), username, password);
+      
+      // Add timeout
+      req.timeout = this.getTimeout();
+
       // Add modified since hint
       if (this.getRefresh()) {
         req.setRequestHeader("If-Modified-Since",	qx.io2.HttpRequest.__modified[url] || "Thu, 01 Jan 1970 00:00:00 GMT" );      
       }
       
-      // Add timeout
-      req.timeout = this.getTimeout();
+      // Set header so the called script knows that it's an XMLHttpRequest
+      req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       
-      // Open request
-      req.open(this.getMethod(), url, this.getAsync(), username, password);
+      // Set content type to post data type
+      if (this.getMethod() === "POST") {
+        req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      }
       
-      // Syncronize headers
+      // Set accept header to selected mimetype
+      req.setRequestHeader("Accept", this.getMime());
+      
+      // Synchronize headers
       var headers = this.__headers;
       for (var name in headers) {
         req.setRequestHeader(key, headers[name]);
       }
       
-      // TODO Collect data
+      // TODO Collect data, process parameters?
       var data = "";
       
       // Finally send request
@@ -502,16 +517,28 @@ qx.Class.define("qx.io2.HttpRequest",
      */    
     __onchange : function() 
     {
+      // Debug
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        var success = this.isSuccessful() ? "success" : "failed";
+        this.debug("Reaching ready state " + this.getReadyState() + ": " + success);
+      }
+      
       // Fire user event
-      this.fireDataEvent("change", this.getState());
+      this.fireDataEvent("change", this.getReadyState());
       
       // Store modification date
       // It is important that this is stored after the user event.
       // Otherwise the modification field gets written to early.
-      if (this.readyState === 4 && this.getRefresh() && this.isSuccessful())
+      if (this.getRefresh() && this.getReadyState() === 4 && this.isSuccessful())
       {
         var modified = this.getResponseHeader("Last-Modified");
-        if (modified) {
+        if (modified) 
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on")) {          
+            this.debug("Store last modified: " + modified);
+          }
+          
           qx.io2.HttpRequest.__modified[this.getUrl()] = modified;
         }
       }      
