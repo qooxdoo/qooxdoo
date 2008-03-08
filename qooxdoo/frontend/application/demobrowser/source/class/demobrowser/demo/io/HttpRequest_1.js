@@ -34,8 +34,13 @@ qx.Class.define("demobrowser.demo.io.HttpRequest_1",
       var req = new qx.io2.HttpRequest("HttpRequest_1.html");
       req.addListener("change", function()
       {
-        if (this.getState() == 4) {
-          el.value = this.getResponseText();
+        if (this.getReadyState() == 4) 
+        {
+          if (this.isSuccessful()) {
+            el.value = this.getResponseText();
+          } else {
+            el.value = "Failed!"; 
+          }           
         }
       });
       

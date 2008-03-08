@@ -252,6 +252,8 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     send : function(data)
     {
+      var headers = this.__headers;
+      
       // BUGFIX: Safari - fails sending documents created/modified dynamically, so an explicit serialization required
       // BUGFIX: IE - rewrites any custom mime-type to "text/xml" in case an XMLNode is sent
       // BUGFIX: Gecko - fails sending Element (this is up to the implementation either to standard)
@@ -259,9 +261,14 @@ qx.Bootstrap.define("qx.bom.Request",
       {
         data = window.XMLSerializer ? new XMLSerializer().serializeToString(data) : data.xml;
         
-        if (!this.__headers["Content-Type"]) {
-          this.__xmlhttp.setRequestHeader("Content-Type", "application/xml");
+        if (!headers["Content-Type"]) {
+          headers["Content-Type"] = "application/xml";
         }
+      }
+      
+      // Sync request headers
+      for (var label in headers) {
+        this.__xmlhttp.setRequestHeader(label, headers[label]);
       }
       
       // Attach timeout
@@ -343,18 +350,22 @@ qx.Bootstrap.define("qx.bom.Request",
 
 
     /**
-     * Assigns a label/value pair to the header to be sent with a request
+     * Assigns a label/value pair to the header to be sent with a request.
+     *
+     * Uses local cache to omit dependency to <code>open()</code> call.
      *
      * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
      * @return {var} Native return value
      */
-    setRequestHeader : function(label, value)
+    setRequestHeader : function(label, value) 
     {
-      // Store locally, native implementation misses a getter
-      this.__headers[label] = value;
-      return this.__xmlhttp.setRequestHeader(label, value);
+      if (value == null) {
+        delete this.__headers[label];
+      } else {
+        this.__headers[label] = value;
+      }
     },
     
     
