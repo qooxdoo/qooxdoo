@@ -489,6 +489,20 @@ qx.Bootstrap.define("qx.bom.Request",
       try {
         this.statusText = xmlhttp.statusText;
       } catch(e) {}
+      
+      // Kudos do jquery team for this code.
+      // IE error sometimes returns 1223 when it should be 204 so treat it as success, see jquery bug #1450
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+      {
+        if (this.status === 1223) {
+          this.status = 204;
+        }
+      }
+      
+      // Accept local transports without status code
+      if (!this.status && location.protocol === "file:") {
+        this.status = 204;
+      }
     },
 
 
