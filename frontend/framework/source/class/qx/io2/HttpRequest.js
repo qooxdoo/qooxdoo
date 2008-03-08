@@ -48,6 +48,19 @@ qx.Class.define("qx.io2.HttpRequest",
 
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    /** Cached for modification dates of already loaded URLs */
+    __modified : {}
+  },
+  
+
 
 
   /*
@@ -77,6 +90,18 @@ qx.Class.define("qx.io2.HttpRequest",
   
   properties :
   {
+    /**
+     * Allow the request to be successful only if the response has changed since 
+     * the last request. This is done by checking the Last-Modified header. Default 
+     * value is false, ignoring the header.
+     */
+    refresh : 
+    {
+      check : "Booleam",
+      init : false
+    },
+    
+    
     /**
      * Determines what type of request to issue (GET or POST).
      */
@@ -301,6 +326,44 @@ qx.Class.define("qx.io2.HttpRequest",
       MAIN CONTROL
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Wether the currently running or finished request returns modified results.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the request contains modified results.
+     */    
+    isNotModified : function()
+    {
+      var req = this.__req;
+      
+      if (!req) {
+        return false;
+      }
+      
+      var modified = req.getResponseHeader("Last-Modified");
+      return req.status === 304 || qx.io2.HttpRequest.__modified[this.getUrl()] === modified;
+    },
+    
+    
+    /**
+     * Wether the currently running or finished request is successful.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the request is successful.
+     */
+    isSuccessful : function()
+    {
+      var req = this.__req;
+      
+      if (!req) {
+        return true;
+      }
+      
+      var status = req.status;
+      return status === 304 || (status >= 200 && status < 300);
+    },
+    
       
     /**
      * Returns the response status code.
@@ -381,11 +444,19 @@ qx.Class.define("qx.io2.HttpRequest",
         username = password = null;
       }
       
+      // Read url
+      var url = this.getUrl();
+      
+      // Add modified since hint
+      if (this.getRefresh()) {
+        req.setRequestHeader("If-Modified-Since",	qx.io2.HttpRequest.__modified[url] || "Thu, 01 Jan 1970 00:00:00 GMT" );      
+      }
+      
       // Add timeout
       req.timeout = this.getTimeout();
       
       // Open request
-      req.open(this.getMethod(), this.getUrl(), this.getAsync(), username, password);
+      req.open(this.getMethod(), url, this.getAsync(), username, password);
       
       // Syncronize headers
       var headers = this.__headers;
@@ -429,8 +500,21 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @return {void}
      */    
-    __onchange : function() {
-      this.fireDataEvent("change", this.readyState);
+    __onchange : function() 
+    {
+      // Fire user event
+      this.fireDataEvent("change", this.getState());
+      
+      // Store modification date
+      // It is important that this is stored after the user event.
+      // Otherwise the modification field gets written to early.
+      if (this.readyState === 4 && this.getRefresh() && this.isSuccessful())
+      {
+        var modified = this.getResponseHeader("Last-Modified");
+        if (modified) {
+          qx.io2.HttpRequest.__modified[this.getUrl()] = modified;
+        }
+      }      
     },
     
     
