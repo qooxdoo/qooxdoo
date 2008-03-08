@@ -62,7 +62,7 @@
   {
     "extend" : ["common"],
 
-    "include" : ["qx.bom.Request"],
+    "include" : ["qx.io2.*"],
 
     "variants" :
     {
@@ -78,46 +78,6 @@
     }
   },  
   
-  "compile-log" :
-  {
-    "extend" : ["common"],
-
-    "include" : ["qx.log.*"],
-
-    "variants" :
-    {
-      "qx.debug" : ["off"],
-      "qx.aspects" : ["off"],
-      "qx.client" : ["gecko","mshtml"]
-    },
-
-    "compile" :
-    {
-      "file" : "compile-log-{qx.client}.js",
-      "optimize" : [ "variables", "basecalls", "privates" ]
-    }
-  },  
-
-  "compile-object" :
-  {
-    "extend" : ["common"],
-
-    "include" : ["qx.core.Object"],
-
-    "variants" :
-    {
-      "qx.debug" : ["off"],
-      "qx.aspects" : ["off"],
-      "qx.client" : ["gecko","mshtml"]
-    },
-
-    "compile" :
-    {
-      "file" : "compile-object-{qx.client}.js",
-      "optimize" : [ "variables", "basecalls", "privates" ]
-    }
-  },
-
 
 
 
