@@ -235,8 +235,9 @@ qx.Bootstrap.define("qx.log.Logger",
      *
      * @type static
      * @param object {Object} Contextual object (could be an instance or a static class)
+     * @return {void}
      */
-    printStackTrace : function(object) {
+    trace : function(object) {
       this.__log("info", [object, qx.dev.StackTrace.getStackTrace().join("\n")]);
     },
 
