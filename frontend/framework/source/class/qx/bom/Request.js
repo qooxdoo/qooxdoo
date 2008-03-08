@@ -43,8 +43,12 @@
  * Mimics an ideal browser without any quirks and is API identical to
  * the W3C definition.
  *
+ * Additional support for {@link #getRequestHeader}, the <code>timeout</code> 
+ * property (first seen in IE8 beta 1) and the <code>ontimeout</code> event
+ * were added.
+ *
  * For an higher level implementation with some more comfort please have a look
- * at the classes in <code>qx.io2</code>.
+ * at {@link qx.io2.HttpRequest}.
  */
 qx.Bootstrap.define("qx.bom.Request",
 {
@@ -105,6 +109,9 @@ qx.Bootstrap.define("qx.bom.Request",
     /** {String} String message accompanying the status code */
     statusText : "",
     
+    /** {Integer} Number of milliseconds until a timeout occour */
+    timeout : 0,
+    
 
     /** 
      * Event handler for an event that fires at every state change. This method
@@ -115,6 +122,18 @@ qx.Bootstrap.define("qx.bom.Request",
      * @return {void}
      */
     onreadystatechange : function() {
+      // empty
+    },
+    
+    
+    /** 
+     * Event handler for an event that fires when the timeout limit is reached. This method
+     * needs to be overwritten by the user to get informed about the timeout.
+     *
+     * @type member
+     * @return {void}
+     */
+    ontimeout : function() {
       // empty
     },
     
@@ -135,10 +154,19 @@ qx.Bootstrap.define("qx.bom.Request",
       // Save async parameter for fixing Gecko bug with missing readystatechange in synchronous requests
       this.__async = async;
 
-      // Prepare and register native listener
-      this.__listener = qx.lang.Function.bind(this.__onNativeOnReadyStateChange, this)
-      this.__xmlhttp.onreadystatechange = this.__listener;
+      // Prepare and register native listeners
+      this.__stateListener = qx.lang.Function.bind(this.__onNativeReadyStateChange, this);
+      this.__xmlhttp.onreadystatechange = this.__stateListener;
+
+      this.__timeoutListener = qx.lang.Function.bind(this.__onNativeTimeout, this);
+      this.__xmlhttp.ontimeout = this.__timeoutListener;      
       
+      // Store timeout to request
+      // Currently only supported by IE8 beta
+      if (this.timeout != null && this.timeout > 0) {
+        this.__xmlhttp.timeout = this.timeout;
+      }
+    
       // Natively open request
       this.__xmlhttp.open(method, url, async, username, password);
 
@@ -155,12 +183,12 @@ qx.Bootstrap.define("qx.bom.Request",
     
     
     /** 
-     * Internal callback for native <code>onreadystatechange</code> event.
+     * Internal callback for native <code>readystatechange</code> event.
      *
      * @type member
      * @return {void}
      */
-    __onNativeOnReadyStateChange : function()
+    __onNativeReadyStateChange : function()
     {
       if (qx.core.Variant.isSet("qx.client", "gecko")) 
       {
@@ -194,7 +222,26 @@ qx.Bootstrap.define("qx.bom.Request",
         this.__cleanTransport();
       }
     },
-
+    
+    
+    /** 
+     * Internal callback for native <code>timeout</code> event.
+     *
+     * @type member
+     * @return {void}
+     */
+    __onNativeTimeout : function()
+    {
+      // Synchronize again
+      this.__synchronizeValues();
+      
+      // Aborting request
+      this.abort();
+      
+      // Fire user visible event
+      this.ontimeout();
+    },
+    
 
     /**
      * Transmits the request, optionally with postable string or XML DOM object data
@@ -216,7 +263,12 @@ qx.Bootstrap.define("qx.bom.Request",
           this.__xmlhttp.setRequestHeader("Content-Type", "application/xml");
         }
       }
-
+      
+      // Attach timeout
+      if (this.timeout != null && this.timeout > 0) {      
+        this.__timeoutHandle = window.setTimeout(this.__timeoutListener, this.timeout);
+      }
+      
       // Finally send using native method
       this.__xmlhttp.send(data);
 
@@ -452,14 +504,20 @@ qx.Bootstrap.define("qx.bom.Request",
       if (!this.__xmlhttp) {
         return;
       }
+
+      // Clear timeout handle
+      window.clearTimeout(this.__timeoutHandle);
       
       // BUGFIX: IE - memory leak (on-page leak)
       this.__xmlhttp.onreadystatechange = this.__dummyFunction;
-
+      this.__xmlhttp.ontimeout = this.__dummyFunction;      
+      
       // Delete private properties
-      delete this.__headers;
-      delete this.__listener;
+      delete this.__timeoutHandle;
+      delete this.__stateListener;
+      delete this.__timeoutListener;
       delete this.__xmlhttp;
+      delete this.__headers;
     },
     
     
