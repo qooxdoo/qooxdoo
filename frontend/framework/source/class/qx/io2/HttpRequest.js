@@ -21,14 +21,48 @@ qx.Class.define("qx.io2.HttpRequest",
 {
   extend : qx.core.Object,
   
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
     
     // Request headers
     this.__headers = {};
+  },
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    
     
   },
+  
+  
+  
+  
+  
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
   
   properties :
   {
@@ -125,8 +159,195 @@ qx.Class.define("qx.io2.HttpRequest",
     } 
   },
   
+  
+  
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members : 
   {
+    /*
+    ---------------------------------------------------------------------------
+      REQUEST DATA
+    ---------------------------------------------------------------------------
+    */
+        
+    /**
+     * Assigns a label/value pair to the header to be sent with a request
+     *
+     * @type member
+     * @param label {String} Name of the header label
+     * @param value {String} Value of the header field
+     * @return {var} Native return value
+     */        
+    setRequestHeader : function(label, value)
+    {
+      if (value == null) {
+        delete this.__headers[label];
+      } else {
+        this.__headers[label] = value;
+      }
+    },
+    
+    
+    /**
+     * Returns the value of a given header label.
+     *
+     * @type member
+     * @param label {String} Label of the header entry
+     * @return {String} The value or <code>null</code> when not defined.
+     */     
+    getRequestHeader : function(label) 
+    {
+      var value = this.__headers[label];
+      if (value === undefined) {
+        value = null;
+      }
+      
+      return value;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      RESPONSE DATA
+    ---------------------------------------------------------------------------
+    */
+      
+    /**
+     * Returns the (currently downloaded) response text.
+     *
+     * @type member
+     * @return {String} String version of data returned from server process
+     */      
+    getResponseText : function() 
+    {
+      var req = this.__req;
+      if (req) {
+        return req.responseText;
+      }
+    },
+
+    
+    /**
+     * Returns the XML document of the response (only available if content in mimetype application/xml was send).
+     *
+     * @type member
+     * @return {Element} DOM-compatible document object of data returned from server process
+     */      
+    getResponseXml : function() 
+    {
+      var req = this.__req;
+      if (req) {
+        return req.responseXML;
+      }
+    },        
+      
+    
+    /**
+     * Returns the string value of a single header label
+     *
+     * @type member
+     * @param label {String} Name of the header label
+     * @return {String} The selected header's value.
+     */
+    getResponseHeader : function(label)
+    {
+      var req = this.__req;
+      if (req) {
+        return req.getResponseHeader(label);
+      }      
+    },
+    
+
+    /**
+     * Returns complete set of headers (labels and values) as a string
+     *
+     * @type member
+     * @return {String} All headers
+     */    
+    getAllResponseHeaders : function()
+    {
+      var req = this.__req;
+      if (req) {
+        return req.getAllResponseHeaders();
+      }      
+    },
+    
+    
+    
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MAIN CONTROL
+    ---------------------------------------------------------------------------
+    */
+      
+    /**
+     * Returns the response status code.
+     * 
+     * @type member
+     * @return {Integer} Numeric code returned by server, such as 404 for "Not Found" or 200 for "OK"
+     */
+    getStatusCode : function() 
+    {
+      var req = this.__req;
+      if (req) {
+        return req.status;
+      }
+    },
+    
+    
+    /**
+     * Returns the response status text. This is the human readable version of {@link #getStatusCode}.
+     *
+     * @type member
+     * @return {String} String message accompanying the status code
+     */
+    getStatusText : function() 
+    {
+      var req = this.__req;
+      if (req) {
+        return req.statusText;
+      }
+    }, 
+    
+          
+    /**
+     * Returns the current request state.
+     * 
+     * * 0 = uninitialized
+     * * 1 = sending request
+     * * 2 = headers loaded
+     * * 3 = loading result
+     * * 4 = done
+     * 
+     * @type member
+     * @return {Integer} Ready state of the request
+     */
+    getState : function() 
+    {
+      var req = this.__req;
+      if (req) {
+        return req.readyState;
+      }
+    },
+
+        
+    /** 
+     * Sends the configured request
+     *
+     * @type member
+     * @return {void}
+     */
     send : function()
     {
       // Create low level object
@@ -167,103 +388,38 @@ qx.Class.define("qx.io2.HttpRequest",
       req.send(data);
     },
     
-    __onchange : function(e) {
-      this.fireDataEvent("change", e.readyState);
-    },
-    
-    
-    
-    
-    
         
-    getReadyState : function() 
-    {
-      var req = this.__req;
-      if (req) {
-        return req.readyState;
-      }
-    },
-    
-    getResponseText : function() 
-    {
-      var req = this.__req;
-      if (req) {
-        return req.responseText;
-      }
-    },
-    
-    getResponseXml : function() 
-    {
-      var req = this.__req;
-      if (req) {
-        return req.responseXML;
-      }
-    },        
-  
-    getStatusCode : function() 
-    {
-      var req = this.__req;
-      if (req) {
-        return req.status;
-      }
-    },
-    
-    getStatusText : function() 
-    {
-      var req = this.__req;
-      if (req) {
-        return req.statusText;
-      }
-    },     
-    
-    getResponseHeader : function(name)
-    {
-      var req = this.__req;
-      if (req) {
-        return req.getResponseHeader(name);
-      }      
-    },
-    
-    getAllResponseHeaders : function(name)
-    {
-      var req = this.__req;
-      if (req) {
-        return req.getAllResponseHeaders();
-      }      
-    },
-    
-    
-    
-     
-    
-    
-    setRequestHeader : function(name, value)
-    {
-      if (value == null) {
-        delete this.__headers[name];
-      } else {
-        this.__headers[name] = value;
-      }
-    },
-    
-    getRequestHeader : function(name) 
-    {
-      var value = this.__headers[name];
-      if (value === undefined) {
-        value = null;
-      }
-      
-      return value;
-    },
-    
-    
-    
-    
+    /**
+     * Aborts a running request
+     *
+     * @type member
+     * @return {void}
+     */
     abort : function()
     {
       if (this.__req) {
         this.__req.abort();      
       }
-    }
+    },
+    
+    
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Internal change listener
+     *
+     * @type member
+     * @param e {Event} Native event object
+     * @return {void}
+     */    
+    __onchange : function(e) {
+      this.fireDataEvent("change", e.readyState);
+    }    
   } 
 });

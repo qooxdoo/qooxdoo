@@ -126,11 +126,13 @@ qx =
  * bring all engines to at least JavaScript 1.6.
  *
  * Does support:
+ *
  * * Statics
  * * Members
  * * Defer
  *
  * Does not support:
+ *
  * * Custom extends
  * * Super class calls
  * * Mixins, Interfaces, Properties, ...

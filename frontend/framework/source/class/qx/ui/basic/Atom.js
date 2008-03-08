@@ -40,7 +40,6 @@ qx.Class.define("qx.ui.basic.Atom",
   *****************************************************************************
   */
 
-
   /**
    * @param label {String} label of the atom
    * @param icon {String?null} Icon URL of the atom
