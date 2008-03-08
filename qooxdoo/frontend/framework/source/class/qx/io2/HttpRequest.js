@@ -29,12 +29,20 @@ qx.Class.define("qx.io2.HttpRequest",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param url {String} URL to load
+   */
+  construct : function(url)
   {
     this.base(arguments);
     
     // Request headers
     this.__headers = {};
+    
+    // Add url
+    if (url != null) {
+      this.setUrl(url);
+    }
   },
 
 
@@ -44,14 +52,17 @@ qx.Class.define("qx.io2.HttpRequest",
 
   /*
   *****************************************************************************
-     STATICS
+     EVENTS
   *****************************************************************************
   */
   
-  statics : 
+  events : 
   {
+    /** Fires when the request change its state, data field contains the state. */
+    "change" : "qx.event.type.Data",
     
-    
+    /** Fires when the request reached the timeout limit. */
+    "timeout" : "qx.event.type.Event"
   },
   
   
@@ -358,23 +369,23 @@ qx.Class.define("qx.io2.HttpRequest",
       req.ontimeout = qx.lang.Function.bind(this.__ontimeout, this);      
             
       // Authentification
-      var user = this.getUserName();
-      var passwd = this.getPassword();
+      var username = this.getUsername();
+      var password = this.getPassword();
       
       if (this.getAuth() == "basic")
       {
         // Add headers
-        req.setRequestHeader('Authorization', 'Basic ' + qx.util.Base64.encode(this.getUsername() + ':' + this.getPassword()));
+        req.setRequestHeader('Authorization', 'Basic ' + qx.util.Base64.encode(username + ':' + password));
         
         // Reset Http
-        user = password = null;
+        username = password = null;
       }
       
       // Add timeout
       req.timeout = this.getTimeout();
       
       // Open request
-      req.open(this.getMethod(), this.getUrl(), this.getAsync(), user, password);
+      req.open(this.getMethod(), this.getUrl(), this.getAsync(), username, password);
       
       // Syncronize headers
       var headers = this.__headers;
@@ -416,11 +427,10 @@ qx.Class.define("qx.io2.HttpRequest",
      * Internal change listener
      *
      * @type member
-     * @param e {Event} Native event object
      * @return {void}
      */    
-    __onchange : function(e) {
-      this.fireDataEvent("change", e.readyState);
+    __onchange : function() {
+      this.fireDataEvent("change", this.readyState);
     },
     
     
@@ -428,11 +438,10 @@ qx.Class.define("qx.io2.HttpRequest",
      * Internal timeout listener
      *
      * @type member
-     * @param e {Event} Native event object
      * @return {void}
      */    
-    __ontimeout : function(e) {
-      this.fireDataEvent("timeout", this.getTimeout());
+    __ontimeout : function() {
+      this.fireEvent("timeout");
     }     
   },
   
