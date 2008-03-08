@@ -500,17 +500,21 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     __cleanTransport : function()
     {
-      // Already done?
-      if (!this.__xmlhttp) {
-        return;
-      }
-
       // Clear timeout handle
-      window.clearTimeout(this.__timeoutHandle);
+      if (this.__timeoutHandle) {
+        window.clearTimeout(this.__timeoutHandle);
+      }
       
       // BUGFIX: IE - memory leak (on-page leak)
-      this.__xmlhttp.onreadystatechange = this.__dummyFunction;
-      this.__xmlhttp.ontimeout = this.__dummyFunction;      
+      if (this.__xmlhttp) 
+      {
+        this.__xmlhttp.onreadystatechange = this.__dummyFunction;
+        this.__xmlhttp.ontimeout = this.__dummyFunction; 
+      }
+      
+      // Remove user listeners
+      delete this.onreadystatechange;
+      delete this.ontimeout;     
       
       // Delete private properties
       delete this.__timeoutHandle;
