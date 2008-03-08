@@ -353,8 +353,9 @@ qx.Class.define("qx.io2.HttpRequest",
       // Create low level object
       var req = this.__req = new qx.bom.Request;
       
-      // Bind listener
+      // Bind listeners
       req.onreadystatechange = qx.lang.Function.bind(this.__onchange, this);
+      req.ontimeout = qx.lang.Function.bind(this.__ontimeout, this);      
             
       // Authentification
       var user = this.getUserName();
@@ -369,7 +370,7 @@ qx.Class.define("qx.io2.HttpRequest",
         user = password = null;
       }
       
-      // Add timeout (Following IE8 Beta idea)
+      // Add timeout
       req.timeout = this.getTimeout();
       
       // Open request
@@ -407,7 +408,7 @@ qx.Class.define("qx.io2.HttpRequest",
 
     /*
     ---------------------------------------------------------------------------
-      EVENT LISTENER
+      EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
     
@@ -420,6 +421,32 @@ qx.Class.define("qx.io2.HttpRequest",
      */    
     __onchange : function(e) {
       this.fireDataEvent("change", e.readyState);
-    }    
-  } 
+    },
+    
+    
+    /**
+     * Internal timeout listener
+     *
+     * @type member
+     * @param e {Event} Native event object
+     * @return {void}
+     */    
+    __ontimeout : function(e) {
+      this.fireDataEvent("timeout", this.getTimeout());
+    }     
+  },
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+  
+  destruct : function()
+  {  
+    this._disposeObjects("_req");
+    this._disposeFields("__headers");    
+  }
 });
