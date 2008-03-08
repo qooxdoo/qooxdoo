@@ -101,7 +101,7 @@ qx.Class.define("qx.legacy.log.Logger",
           "The method class '"+className+"' is deprecated: " +
           msg || "Please consult the API documentation of this class for alternatives."
         );
-        logger.printStackTrace();
+        logger.trace();
       }
     },
 

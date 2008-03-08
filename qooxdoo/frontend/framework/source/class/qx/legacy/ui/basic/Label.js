@@ -287,7 +287,7 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     getHtml : function()
     {
       this.warn("Deprecated: please use getText() instead.");
-      this.printStackTrace();
+      this.trace();
       return this.getText();
     },
 

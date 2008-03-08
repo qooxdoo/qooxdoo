@@ -431,9 +431,10 @@ qx.Class.define("qx.core.Object",
      * Prints the current stak trace
      *
      * @type member
+     * @return {void}
      */
-    printStackTrace : function() {
-      this.__Logger.printStackTrace(this);
+    trace : function() {
+      this.__Logger.trace(this);
     },
 
 
