@@ -33,12 +33,31 @@ qx.Class.define("demobrowser.demo.bom.Request_1",
       
       var req = new qx.bom.Request;
       req.open("GET", "Request_1.html", true);
+      
       req.onreadystatechange = function()
       {
+        qx.log.Logger.debug("Event: readystatechange: " + req.readyState);
         if (req.readyState == 4) {
           el.value = req.responseText;
         }
       }
+      
+      req.onload = function() {
+        qx.log.Logger.debug("Event: load");
+      }
+      
+      req.onerror = function() {
+        qx.log.Logger.debug("Event: error");
+      }
+      
+      req.ontimeout = function() {
+        qx.log.Logger.debug("Event: timeout");
+      }
+      
+      req.onabort = function() {
+        qx.log.Logger.debug("Event: abort");
+      }            
+      
       req.send("");      
     }
   }
