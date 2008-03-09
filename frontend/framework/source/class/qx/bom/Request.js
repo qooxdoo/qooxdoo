@@ -425,8 +425,13 @@ qx.Bootstrap.define("qx.bom.Request",
      * @type member
      * @return {String} All headers
      */
-    getAllResponseHeaders : function() {
-      return this.__xmlhttp.getAllResponseHeaders();
+    getAllResponseHeaders : function() 
+    {
+      try {
+        return this.__xmlhttp.getAllResponseHeaders();
+      } catch(ex) {
+        return null;
+      }
     },
 
 
@@ -437,8 +442,13 @@ qx.Bootstrap.define("qx.bom.Request",
      * @param label {String} Name of the header label
      * @return {String} The selected header's value.
      */
-    getResponseHeader : function(label) {
-      return this.__xmlhttp.getResponseHeader(label);
+    getResponseHeader : function(label) 
+    {
+      try {      
+        return this.__xmlhttp.getResponseHeader(label);
+      } catch(ex) {
+        return null;
+      }
     },
 
 

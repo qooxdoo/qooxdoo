@@ -596,8 +596,11 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @return {void}
      */    
-    __ontimeout : function() {
-      this.fireEvent("timeout");
+    __ontimeout : function() 
+    {
+      if (this.hasListeners("timeout")) {
+        this.fireEvent("timeout");
+      }
     },
     
     
@@ -607,8 +610,11 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @return {void}
      */    
-    __onload : function() {
-      this.fireEvent("load");
+    __onload : function() 
+    {
+      if (this.hasListeners("load")) {
+        this.fireEvent("load");
+      }
     },
     
     
@@ -618,8 +624,11 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @return {void}
      */    
-    __onerror : function() {
-      this.fireEvent("error");
+    __onerror : function() 
+    {
+      if (this.hasListeners("error")) {
+        this.fireEvent("error");
+      }
     },
     
     
@@ -629,8 +638,11 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @return {void}
      */    
-    __onabort : function() {
-      this.fireEvent("abort");
+    __onabort : function() 
+    {
+      if (this.hasListeners("abort")) {
+        this.fireEvent("abort");
+      }
     }   
   },
   
