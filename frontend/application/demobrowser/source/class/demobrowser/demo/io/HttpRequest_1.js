@@ -33,8 +33,10 @@ qx.Class.define("demobrowser.demo.io.HttpRequest_1",
       
       var req = new qx.io2.HttpRequest("HttpRequest_1.html");
       
-      req.addListener("change", function() {
-        this.debug("Change to state: " + this.getReadyState())
+      req.addListener("change", function() 
+      {
+        this.debug("Change to state: " + this.getReadyState());
+        // this.debug("Incoming content type: " + this.getResponseHeader("Content-Type"));
       });
 
       req.addListener("load", function() 
