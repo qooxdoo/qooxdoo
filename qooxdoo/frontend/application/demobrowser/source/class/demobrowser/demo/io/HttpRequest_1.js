@@ -32,16 +32,21 @@ qx.Class.define("demobrowser.demo.io.HttpRequest_1",
       el.value = "Loading...";
       
       var req = new qx.io2.HttpRequest("HttpRequest_1.html");
-      req.addListener("change", function()
+      
+      req.addListener("change", function() {
+        this.debug("Change to state: " + this.getReadyState())
+      });
+
+      req.addListener("load", function() 
       {
-        if (this.getReadyState() == 4) 
-        {
-          if (this.isSuccessful()) {
-            el.value = this.getResponseText();
-          } else {
-            el.value = "Failed!"; 
-          }           
-        }
+        this.debug("Fired load event");
+        el.value = this.getResponseText();
+      });
+
+      req.addListener("error", function() 
+      {
+        this.debug("Fired error event");        
+        el.value = "Error";
       });
       
       req.send();      
