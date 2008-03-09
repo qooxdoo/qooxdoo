@@ -89,8 +89,8 @@ endif
 # ==============================================================================
 
 COMPUTED_BUILD_SETTING = \
-  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource/$(FRAMEWORK_NAMESPACE) \
-  --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource/$(APPLICATION_NAMESPACE)
+  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource \
+  --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource
 
 COMPUTED_SOURCE_SETTING = \
   --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
@@ -129,70 +129,6 @@ ifeq ($(APPLICATION_ENABLE_GUI),true)
 
   COMPUTED_SOURCE_SETTING += $(COMPUTED_THEME_SETTING)
   COMPUTED_BUILD_SETTING += $(COMPUTED_THEME_SETTING)
-endif
-
-ifneq ($(APPLICATION_SOURCE_LOG_LEVEL),)
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),all)
-    JS_SOURCE_LOG_LEVEL = 0
-  endif
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),debug)
-    JS_SOURCE_LOG_LEVEL = 200
-  endif
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),info)
-    JS_SOURCE_LOG_LEVEL = 500
-  endif
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),warn)
-    JS_SOURCE_LOG_LEVEL = 600
-  endif
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),error)
-    JS_SOURCE_LOG_LEVEL = 700
-  endif
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),fatal)
-    JS_SOURCE_LOG_LEVEL = 800
-  endif
-  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),off)
-    JS_SOURCE_LOG_LEVEL = 1000
-  endif
-
-  ifneq ($(JS_SOURCE_LOG_LEVEL),)
-    COMPUTED_SOURCE_SETTING += --use-setting qx.minLogLevel:$(JS_SOURCE_LOG_LEVEL)
-  endif
-endif
-
-ifneq ($(APPLICATION_BUILD_LOG_LEVEL),)
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),all)
-    JS_BUILD_LOG_LEVEL = 0
-  endif
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),debug)
-    JS_BUILD_LOG_LEVEL = 200
-  endif
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),info)
-    JS_BUILD_LOG_LEVEL = 500
-  endif
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),warn)
-    JS_BUILD_LOG_LEVEL = 600
-  endif
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),error)
-    JS_BUILD_LOG_LEVEL = 700
-  endif
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),fatal)
-    JS_BUILD_LOG_LEVEL = 800
-  endif
-  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),off)
-    JS_BUILD_LOG_LEVEL = 1000
-  endif
-
-  ifneq ($(JS_BUILD_LOG_LEVEL),)
-    COMPUTED_BUILD_SETTING += --use-setting qx.minLogLevel:$(JS_BUILD_LOG_LEVEL)
-  endif
-endif
-
-ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
-  COMPUTED_SOURCE_SETTING += --use-setting qx.logAppender:$(APPLICATION_SOURCE_LOG_APPENDER)
-endif
-
-ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
-  COMPUTED_BUILD_SETTING += --use-setting qx.logAppender:$(APPLICATION_BUILD_LOG_APPENDER)
 endif
 
 COMPUTED_SOURCE_SETTING += --use-setting qx.application:$(APPLICATION_NAMESPACE).$(APPLICATION_CLASSNAME)
@@ -309,19 +245,6 @@ endif
 # Compute dependencies
 # ==============================================================================
 
-# Make the appender available to enable classes to log at load time
-ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
-  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.legacy.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
-else
-  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.legacy.log.Logger:qx.legacy.log.appender.Native
-endif
-
-ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
-  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.legacy.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
-else
-  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.legacy.log.Logger:qx.legacy.log.appender.Native
-endif
-
 # profiler requires
 ifeq ($(APPLICATION_PROFILE_SOURCE),true)
 	COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.Class:qx.dev.Profile
@@ -346,7 +269,7 @@ endif
 # Compute variant configuration
 # ==============================================================================
 
-COMPUTED_BUILD_VARIANT = --use-variant qx.domEditDistance:off --use-variant qx.deprecationWarnings:off
+COMPUTED_BUILD_VARIANT = --use-variant qx.deprecationWarnings:off
 COMPUTED_SOURCE_VARIANT =
 
 ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
@@ -400,14 +323,6 @@ ifeq ($(APPLICATION_OPTIMIZE_BASE_CALL),true)
   COMPUTED_BUILD_OPTIONS += --optimize-base-call
 endif
 
-ifeq ($(APPLICATION_OBFUSCATE_ACCESSORS),true)
-  COMPUTED_BUILD_OPTIONS += --obfuscate-accessors
-endif
-
-ifeq ($(APPLICATION_OPTIMIZE_PRIVATE),true)
-  COMPUTED_BUILD_OPTIONS += --optimize-private
-endif
-
 ifeq ($(APPLICATION_LINEBREAKS_SOURCE),true)
   COMPUTED_SOURCE_OPTIONS += --add-new-lines --add-file-ids
 endif
@@ -431,28 +346,6 @@ endif
 ifneq ($(COMPUTED_SOURCE_DEPENDENCIES),)
   COMPUTED_BUILD_OPTIONS += $(COMPUTED_BUILD_DEPENDENCIES)
 endif
-
-
-
-
-
-
-
-
-# ==============================================================================
-# Compute template configuration
-# ==============================================================================
-
-COMPUTED_TEMPLATE =
-
-ifneq ($(APPLICATION_TEMPLATE_INPUT),)
-  COMPUTED_TEMPLATE += --source-template-input-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TEMPLATE_INPUT) --source-template-output-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TEMPLATE_OUTPUT)
-
-  ifneq ($(APPLICATION_TEMPLATE_REPLACE),)
-    COMPUTED_TEMPLATE += --source-template-replace "$(APPLICATION_TEMPLATE_REPLACE)"
-  endif
-endif
-
 
 
 
