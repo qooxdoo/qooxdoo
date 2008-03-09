@@ -43,11 +43,18 @@
  * Mimics an ideal browser without any quirks and is API identical to
  * the W3C definition.
  *
- * Additional support for {@link #getRequestHeader}, the <code>timeout</code> 
- * property (first seen in IE8 beta 1) and the <code>ontimeout</code> event
- * were added.
+ * Additional support for:
+ * 
+ * * the methods {@link #getRequestHeader} and {@link #removeRequestHeader}
+ * * the <code>timeout</code> property and the <code>ontimeout</code> event
+ * * the <code>onabort</code> event
+ * * the <code>onload</code> event
+ * * the <code>onerror</code> event
  *
- * For an higher level implementation with some more comfort please have a look
+ * These features are being considered for a future version of the XMLHttpRequest 
+ * specification by the W3C at http://www.w3.org/TR/XMLHttpRequest/.
+ *
+ * For an higher level implementation with additional comfort please have a look
  * at {@link qx.io2.HttpRequest}.
  */
 qx.Bootstrap.define("qx.bom.Request",
@@ -77,7 +84,7 @@ qx.Bootstrap.define("qx.bom.Request",
   {
     UNSENT  : 0,
     OPENED  : 1,
-    HEADERS : 2,
+    HEADERS_RECEIVED : 2,
     LOADING : 3,
     DONE    : 4
   },
@@ -113,10 +120,20 @@ qx.Bootstrap.define("qx.bom.Request",
     timeout : 0,
     
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+    
     /** 
-     * Event handler for an event that fires at every state change. This method
-     * needs to be overwritten by the user to get informed about the communication
-     * progress.
+     * Event handler for an event that fires at every state change. 
+     *
+     * This method needs to be overwritten by the user to get 
+     * informed about the communication progress.
      *
      * @type member
      * @return {void}
@@ -127,8 +144,10 @@ qx.Bootstrap.define("qx.bom.Request",
     
     
     /** 
-     * Event handler for an event that fires when the timeout limit is reached. This method
-     * needs to be overwritten by the user to get informed about the timeout.
+     * Event handler for an event that fires when the timeout limit is reached. 
+     *
+     * This method needs to be overwritten by the user to get 
+     * informed about the timeout.
      *
      * @type member
      * @return {void}
@@ -137,6 +156,57 @@ qx.Bootstrap.define("qx.bom.Request",
       // empty
     },
     
+    
+    /** 
+     * Method which is executed when the request was finished successfully.
+     *
+     * This method needs to be overwritten by the user to get 
+     * informed about the successful load of the request.
+     *
+     * @type member
+     * @return {void}
+     */
+    onload : function() {
+      // empty
+    },    
+    
+    
+    /** 
+     * Method which is executed when the request fails.
+     *
+     * This method needs to be overwritten by the user to get 
+     * informed about the failure of the running request.
+     *
+     * @type member
+     * @return {void}
+     */
+    onerror : function() {
+      // empty
+    },
+    
+    
+    /** 
+     * Method which is executed when the user aborts the running request.
+     *
+     * This method needs to be overwritten by the user to get 
+     * informed about the user abort.
+     *
+     * @type member
+     * @return {void}
+     */
+    onabort : function() {
+      // empty
+    },      
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      MAIN CONTROL
+    ---------------------------------------------------------------------------
+    */    
 
     /**
      * Assigns destination URL, method, and other optional attributes of a pending request
@@ -182,67 +252,6 @@ qx.Bootstrap.define("qx.bom.Request",
     },
     
     
-    /** 
-     * Internal callback for native <code>readystatechange</code> event.
-     *
-     * @type member
-     * @return {void}
-     */
-    __onNativeReadyStateChange : function()
-    {
-      if (qx.core.Variant.isSet("qx.client", "gecko")) 
-      {
-        if (!this.__async) {
-          return;
-        }
-      }
-
-      // Synchronize state
-      this.readyState = this.__xmlhttp.readyState;
-      
-      // Synchronize values
-      this.__synchronizeValues();
-
-      // BUGFIX: Firefox fires unneccesary DONE when aborting
-      // As this may affect other clients as well, keep it for all here.
-      if (this.__aborted)
-      {
-        // Reset readyState to UNSENT
-        this.readyState = qx.bom.Request.UNSENT;
-
-        // Return now
-        return;
-      }
-
-      // Fire real state change
-      this.__fireReadyStateChange();
-
-      // Cleanup native object when done
-      if (this.readyState == qx.bom.Request.DONE) {
-        this.__cleanTransport();
-      }
-    },
-    
-    
-    /** 
-     * Internal callback for native <code>timeout</code> event.
-     *
-     * @type member
-     * @return {void}
-     */
-    __onNativeTimeout : function()
-    {
-      // Synchronize again
-      this.__synchronizeValues();
-      
-      // Aborting request
-      this.abort();
-      
-      // Fire user visible event
-      this.ontimeout();
-    },
-    
-
     /**
      * Transmits the request, optionally with postable string or XML DOM object data
      *
@@ -306,6 +315,19 @@ qx.Bootstrap.define("qx.bom.Request",
 
 
     /**
+     * Wether the currently running or finished request is successful.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the request is successful.
+     */
+    isSuccessful : function()
+    {
+      var status = this.status;
+      return status === 304 || (status >= 200 && status < 300);
+    },
+    
+    
+    /**
      * Stops the current request.
      *
      * @type member
@@ -313,19 +335,90 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     abort : function()
     {
-      // BUGFIX: Gecko - unneccesary DONE when aborting
-      if (this.readyState > qx.bom.Request.UNSENT) {
-        this.__aborted = true;
+      // Execute abort helper
+      this.__abortHelper();
+      
+      // Call listener
+      this.onabort();
+    },    
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      NATIVE EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */    
+    
+    /** 
+     * Internal callback for native <code>readystatechange</code> event.
+     *
+     * @type member
+     * @return {void}
+     */
+    __onNativeReadyStateChange : function()
+    {
+      if (qx.core.Variant.isSet("qx.client", "gecko")) 
+      {
+        if (!this.__async) {
+          return;
+        }
       }
 
-      // Natively abort request
-      this.__xmlhttp.abort();
+      // Synchronize state
+      this.readyState = this.__xmlhttp.readyState;
       
-      // Cleanup listeners etc.
-      this.__cleanTransport();
+      // Synchronize values
+      this.__synchronizeValues();
+
+      // BUGFIX: Firefox fires unneccesary DONE when aborting
+      // As this may affect other clients as well, keep it for all here.
+      if (this.__aborted)
+      {
+        // Reset readyState to UNSENT
+        this.readyState = qx.bom.Request.UNSENT;
+
+        // Return now
+        return;
+      }
+
+      // Fire real state change
+      this.__fireReadyStateChange();
+
+      // Cleanup native object when done
+      if (this.readyState == qx.bom.Request.DONE) {
+        this.__cleanTransport();
+      }
     },
+    
+    
+    /** 
+     * Internal callback for native <code>timeout</code> event.
+     *
+     * @type member
+     * @return {void}
+     */
+    __onNativeTimeout : function()
+    {
+      // Execute abort helper
+      this.__abortHelper();
+
+      // Fire user visible event
+      this.ontimeout();
+    },
+    
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      RESPONSE HEADERS
+    ---------------------------------------------------------------------------
+    */  
+    
     /**
      * Returns complete set of headers (labels and values) as a string
      *
@@ -349,6 +442,15 @@ qx.Bootstrap.define("qx.bom.Request",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      REQUEST HEADERS
+    ---------------------------------------------------------------------------
+    */  
+    
     /**
      * Assigns a label/value pair to the header to be sent with a request.
      *
@@ -357,7 +459,7 @@ qx.Bootstrap.define("qx.bom.Request",
      * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
-     * @return {var} Native return value
+     * @return {void}
      */
     setRequestHeader : function(label, value) 
     {
@@ -367,6 +469,21 @@ qx.Bootstrap.define("qx.bom.Request",
         this.__headers[label] = value;
       }
     },
+    
+    
+    /**
+     * Removes a label from the header to be sent with a request.
+     *
+     * Uses local cache to omit dependency to <code>open()</code> call.
+     *
+     * @type member
+     * @param label {String} Name of the header label
+     * @param value {String} Value of the header field
+     * @return {void}
+     */
+    removeRequestHeader : function(label, value) {
+      delete this.__headers[label];
+    },    
     
     
     /**
@@ -381,6 +498,40 @@ qx.Bootstrap.define("qx.bom.Request",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL HELPERS
+    ---------------------------------------------------------------------------
+    */    
+        
+    /**
+     * Internal helper for all aborting actions.
+     *
+     * @type member
+     * @return {void}
+     */
+    __abortHelper : function()
+    {
+      // Synchronize values again
+      this.__synchronizeValues();
+      
+      // BUGFIX: Gecko - unneccesary DONE when aborting
+      if (this.readyState > qx.bom.Request.UNSENT) {
+        this.__aborted = true;
+      }
+
+      // Natively abort request
+      this.__xmlhttp.abort();
+      
+      // Cleanup listeners etc.
+      this.__cleanTransport();      
+    },
+    
+    
     /**
      * Internal helper to return a new native XMLHttpRequest object suitable for 
      * the client.
@@ -436,6 +587,16 @@ qx.Bootstrap.define("qx.bom.Request",
       
       // Store last fired
       this.__lastFired = this.readyState;
+
+      // Fire other events
+      if (this.readyState === 4)
+      {
+        if (this.isSuccessful()) {
+          this.onload();
+        } else {
+          this.onerror();
+        }
+      }      
     },
 
 
@@ -540,6 +701,9 @@ qx.Bootstrap.define("qx.bom.Request",
       // Remove user listeners
       delete this.onreadystatechange;
       delete this.ontimeout;     
+      delete this.onload;     
+      delete this.onerror;     
+      delete this.onabort;     
       
       // Delete private properties
       delete this.__timeoutHandle;

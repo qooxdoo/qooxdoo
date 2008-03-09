@@ -57,7 +57,7 @@ qx.Class.define("qx.io2.HttpRequest",
   statics : 
   {
     /** Cached for modification dates of already loaded URLs */
-    __modified : {}
+    __modified : {}  
   },
   
 
@@ -75,7 +75,16 @@ qx.Class.define("qx.io2.HttpRequest",
     "change" : "qx.event.type.Data",
     
     /** Fires when the request reached the timeout limit. */
-    "timeout" : "qx.event.type.Event"
+    "timeout" : "qx.event.type.Event",
+
+    /** Fires when the request was completed successfully. */
+    "load" : "qx.event.type.Event",
+
+    /** Fires when the request was completed with an error. */
+    "error" : "qx.event.type.Event",
+    
+    /** Fires when the request was aborted by the user. */
+    "abort" : "qx.event.type.Event"
   },
   
   
@@ -103,11 +112,29 @@ qx.Class.define("qx.io2.HttpRequest",
     
     
     /**
+     * Data which should be send to the server.
+     *
+     * Supported types:
+     *
+     * String => Encode data using UTF-8 for transmission.
+     *
+     * Document => Serialize data into a namespace well-formed XML document and 
+     *   encoded using the encoding given by data.xmlEncoding, if specified, or 
+     *   UTF-8 otherwise. Or, if this fails because the Document cannot be 
+     *   serialized act as if data is null.
+     */
+    data :
+    {
+      nullable : true
+    },
+    
+    
+    /**
      * Determines what type of request to issue (GET or POST).
      */
     method :
     {
-      check : [ "GET", "POST", "PUT", "HEAD", "DELETE" ],
+      check : [ "GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS" ],
       init : "GET"
     },
 
@@ -140,6 +167,7 @@ qx.Class.define("qx.io2.HttpRequest",
       check : "String",
       init : ""
     },
+    
     
     /**
      * Username to use for HTTP authentication.
@@ -218,10 +246,23 @@ qx.Class.define("qx.io2.HttpRequest",
      * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
+     * @return {void}
      */        
     setRequestHeader : function(label, value) {
       this.__headers[label] = value;
     },
+    
+    
+    /**
+     * Deletes a header label which should be send previously.
+     *
+     * @type member
+     * @param label {String} Name of the header label
+     * @return {void}
+     */        
+    removeRequestHeader : function(label) {
+      delete this.__headers[label];
+    },    
     
     
     /**
@@ -284,6 +325,10 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Returns the string value of a single header label
      *
+     * Should output something similar to the following text:
+     * 
+     * Content-Type: text/plain; charset=utf-8
+     *
      * @type member
      * @param label {String} Name of the header label
      * @return {String} The selected header's value.
@@ -299,6 +344,15 @@ qx.Class.define("qx.io2.HttpRequest",
 
     /**
      * Returns complete set of headers (labels and values) as a string
+     *
+     * Should output something similar to the following text:
+     *
+     * Date: Sun, 24 Oct 2004 04:58:38 GMT
+     * Server: Apache/1.3.31 (Unix)
+     * Keep-Alive: timeout=15, max=99
+     * Connection: Keep-Alive
+     * Transfer-Encoding: chunked
+     * Content-Type: text/plain; charset=utf-8
      *
      * @type member
      * @return {String} All headers
@@ -349,13 +403,7 @@ qx.Class.define("qx.io2.HttpRequest",
     isSuccessful : function()
     {
       var req = this.__req;
-      
-      if (!req) {
-        return true;
-      }
-      
-      var status = req.status;
-      return status === 304 || (status >= 200 && status < 300);
+      return !req || req.isSuccessful();
     },
     
       
@@ -433,7 +481,10 @@ qx.Class.define("qx.io2.HttpRequest",
       
       // Bind listeners
       req.onreadystatechange = qx.lang.Function.bind(this.__onchange, this);
-      req.ontimeout = qx.lang.Function.bind(this.__ontimeout, this);      
+      req.ontimeout = qx.lang.Function.bind(this.__ontimeout, this);
+      req.onload = qx.lang.Function.bind(this.__onload, this);
+      req.onerror = qx.lang.Function.bind(this.__onerror, this);
+      req.onabort = qx.lang.Function.bind(this.__onabort, this);                  
             
       // Authentification
       var username = this.getUsername();
@@ -451,6 +502,15 @@ qx.Class.define("qx.io2.HttpRequest",
       // Read url
       var url = this.getUrl();
       
+      if (this.getCache()) {
+        // TODO: Any header we can set in this case?
+      } 
+      else 
+      {
+        req.setRequestHeader("Cache-Control", "no-cache");
+        // TODO: Add timestamp to URL
+      }
+
       // Open request
       req.open(this.getMethod(), url, this.getAsync(), username, password);
       
@@ -479,11 +539,8 @@ qx.Class.define("qx.io2.HttpRequest",
         req.setRequestHeader(key, headers[name]);
       }
       
-      // TODO Collect data, process parameters?
-      var data = "";
-      
       // Finally send request
-      req.send(data);
+      req.send(this.getData());
     },
     
         
@@ -517,13 +574,6 @@ qx.Class.define("qx.io2.HttpRequest",
      */    
     __onchange : function() 
     {
-      // Debug
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
-      {
-        var success = this.isSuccessful() ? "success" : "failed";
-        this.debug("Reaching ready state " + this.getReadyState() + ": " + success);
-      }
-      
       // Fire user event
       this.fireDataEvent("change", this.getReadyState());
       
@@ -533,12 +583,7 @@ qx.Class.define("qx.io2.HttpRequest",
       if (this.getRefresh() && this.getReadyState() === 4 && this.isSuccessful())
       {
         var modified = this.getResponseHeader("Last-Modified");
-        if (modified) 
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {          
-            this.debug("Store last modified: " + modified);
-          }
-          
+        if (modified) {
           qx.io2.HttpRequest.__modified[this.getUrl()] = modified;
         }
       }      
@@ -553,7 +598,40 @@ qx.Class.define("qx.io2.HttpRequest",
      */    
     __ontimeout : function() {
       this.fireEvent("timeout");
-    }     
+    },
+    
+    
+    /**
+     * Internal timeout listener
+     *
+     * @type member
+     * @return {void}
+     */    
+    __onload : function() {
+      this.fireEvent("load");
+    },
+    
+    
+    /**
+     * Internal timeout listener
+     *
+     * @type member
+     * @return {void}
+     */    
+    __onerror : function() {
+      this.fireEvent("error");
+    },
+    
+    
+    /**
+     * Internal timeout listener
+     *
+     * @type member
+     * @return {void}
+     */    
+    __onabort : function() {
+      this.fireEvent("abort");
+    }   
   },
   
   
