@@ -53,11 +53,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
     var vScrollBar = this._vScrollBar = new qx.ui.core.ScrollBar("vertical");
 
     hScrollBar.exclude();
-    hScrollBar.addListener("scroll", this._onHorizontalScroll, this);
+    hScrollBar.addListener("changeValue", this._onHorizontalScroll, this);
     hScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
 
     vScrollBar.exclude();
-    vScrollBar.addListener("scroll", this._onVerticalScroll, this);
+    vScrollBar.addListener("changeValue", this._onVerticalScroll, this);
     vScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
 
     var grid = new qx.ui.layout.Grid();
