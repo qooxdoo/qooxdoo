@@ -26,9 +26,21 @@ qx.Mixin.define("demobrowser.MDemoApplication",
   {
     initDemo : function()
     {
+      this.__updateTitle();
       this.__insertSourceLink();
     },
 
+
+    __updateTitle : function()
+    {
+      var splits = location.href.split("/");
+      var length = splits.length;
+      var div = " " + String.fromCharCode(187) + " ";
+      var category = splits[length-2].toUpperCase();
+      var file = splits[length-1].replace(".html", "").replace("_", " ");
+
+      document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
+    },
 
     __insertSourceLink : function()
     {
@@ -47,38 +59,5 @@ qx.Mixin.define("demobrowser.MDemoApplication",
         document.body.appendChild(div);
       }
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "demobrowser.resourceUri" : "../../resource"
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    var splits = location.href.split("/");
-    var length = splits.length;
-    var div = " " + String.fromCharCode(187) + " ";
-    var category = splits[length-2].toUpperCase();
-    var file = splits[length-1].replace(".html", "").replace("_", " ");
-
-    document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
   }
 });
