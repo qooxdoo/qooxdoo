@@ -54,12 +54,6 @@ qx.Class.define("qx.ui.decoration.Basic",
 
     this._needUpdate = true;
 
-    // TODO: What the hell is the deferred call here needed for?
-    var self = this;
-    this._updateManager = new qx.util.DeferredCall(function() {
-      qx.theme.manager.Decoration.getInstance().updateUsersOf(self);
-    });
-
     if (width !== undefined) {
       this.setWidth(width);
     }
@@ -398,22 +392,22 @@ qx.Class.define("qx.ui.decoration.Basic",
 
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor, backgroundImage, backgroundRepeat)
+    update : function(decorationElement, width, height, backgroundColor)
     {
       if (this._needsUpdate)
       {
         decorationElement.setStyles(this._getStyles());
         this._needUpdate = false;
-        this._updateManager.cancel();
+        qx.ui.core.DecoratorQueue.remove(this);
       }
 
+      /*
       if (backgroundImage) {
         this._updateBackgroundImage(decorationElement, backgroundImage, backgroundRepeat || "tile");
       }
+      */
 
-      if (backgroundColor) {
-        decorationElement.setStyle("backgroundColor", backgroundColor);
-      }
+      decorationElement.setStyle("backgroundColor", backgroundColor || null);
 
       this._updateSize(decorationElement, width, height);
     },
@@ -582,20 +576,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     __informManager : function()
     {
       this._needsUpdate = true;
-      this._updateManager.schedule();
+      qx.ui.core.DecoratorQueue.add(this);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_updateManager");
   }
 });
