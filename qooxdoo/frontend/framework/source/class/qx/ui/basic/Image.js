@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.basic.Image",
     __setIconSize : function(width, height)
     {
       if (width !== this.__iconWidth || height !== this.__iconHeight) {
-        qx.ui.core.LayoutQueue.add(this);
+        qx.ui.core.queue.Layout.add(this);
       }
 
       this.__iconWidth = width;

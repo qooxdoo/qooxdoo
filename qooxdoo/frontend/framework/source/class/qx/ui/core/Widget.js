@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.core.Widget",
     this.__states = {};
 
     // Add to appearance queue for initial apply of styles
-    qx.ui.core.AppearanceQueue.add(this);
+    qx.ui.core.queue.Appearance.add(this);
   },
 
 
@@ -753,7 +753,7 @@ qx.Class.define("qx.ui.core.Widget",
           if (height !== flowHeight)
           {
             this.__computedHeightForWidth = flowHeight;
-            qx.ui.core.LayoutQueue.add(this);
+            qx.ui.core.queue.Layout.add(this);
 
             // Fabian thinks this works flawlessly
             return;
@@ -784,12 +784,11 @@ qx.Class.define("qx.ui.core.Widget",
 
           content.setStyle("width", innerWidth + pixel);
           content.setStyle("height", innerHeight + pixel);
-
-          this.updateDecoration(width, height);
         }
 
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
+        this.updateDecoration(width, height);
 
         var layout = this.getLayout();
         if (layout && layout.hasChildren()) {
@@ -1288,7 +1287,7 @@ qx.Class.define("qx.ui.core.Widget",
           parentLayout.childExcludeModified(this);
         }
 
-        qx.ui.core.LayoutQueue.add(parent);
+        qx.ui.core.queue.Layout.add(parent);
       }
     },
 
@@ -1324,7 +1323,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._containerElement.show();
 
         // Prepare for "appear" event
-        qx.ui.core.DisplayQueue.add(this);
+        qx.ui.core.queue.Display.add(this);
 
         // Fire "show" event
         if (this.hasListeners("show")) {
@@ -1343,7 +1342,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         // Prepare for "disappear" event
-        qx.ui.core.DisplayQueue.add(this);
+        qx.ui.core.queue.Display.add(this);
 
         // Fire "hide" event
         if (this.hasListeners("hide")) {
@@ -1595,22 +1594,12 @@ qx.Class.define("qx.ui.core.Widget",
           this.__backgroundColor
         );
       }
-
-      qx.ui.core.DecorationQueue.remove(this);
     },
 
 
     // property apply
     _applyDecorator : function(value, old) {
       qx.theme.manager.Decoration.getInstance().connect(this._styleDecorator, this, value);
-    },
-
-
-    /**
-     * {Map} Default zero values for all insets
-     */
-    __defaultDecorationInsets : {
-      top : 0, right : 0, bottom : 0, left : 0
     },
 
 
@@ -1668,28 +1657,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      var oldInsets = this._lastDecorationInsets || this.__defaultDecorationInsets;
-      var currentInsets = decorator ? decorator.getInsets() : this.__defaultDecorationInsets;
-
-      // Detect inset changes
-      if (
-        oldInsets.top != currentInsets.top ||
-        oldInsets.right != currentInsets.right ||
-        oldInsets.bottom != currentInsets.bottom ||
-        oldInsets.left != currentInsets.left
-      )
-      {
-        // Create copy and store for next modification.
-        this._lastDecorationInsets = qx.lang.Object.copy(currentInsets);
-
-        // Inset changes requires a layout update
-        qx.ui.core.LayoutQueue.add(this);
-      }
-      else
-      {
-        // Style changes are happy with a simple decoration update
-        qx.ui.core.DecorationQueue.add(this);
-      }
+      qx.ui.core.queue.Layout.add(this);
     },
 
 
@@ -1739,7 +1707,7 @@ qx.Class.define("qx.ui.core.Widget",
      * generic property apply method for layout relevant properties
      */
     _applyLayoutChange : function() {
-      qx.ui.core.LayoutQueue.add(this);
+      qx.ui.core.queue.Layout.add(this);
     },
 
 
@@ -1798,7 +1766,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!this.__decorator) {
         this._containerElement.setStyle("backgroundColor", color || null);
       } else {
-        qx.ui.core.DecorationQueue.add(this);
+        qx.ui.core.queue.Layout.add(this);
       }
     },
 
@@ -1843,7 +1811,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!this.__states[state])
       {
         this.__states[state] = true;
-        qx.ui.core.AppearanceQueue.add(this);
+        qx.ui.core.queue.Appearance.add(this);
       }
     },
 
@@ -1860,7 +1828,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (this.__states[state])
       {
         delete this.__states[state];
-        qx.ui.core.AppearanceQueue.add(this);
+        qx.ui.core.queue.Appearance.add(this);
       }
     },
 
@@ -1911,7 +1879,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Renders the appearance using the current widget states.
      *
-     * Used exlusively by {qx.ui.core.AppearanceQueue}.
+     * Used exlusively by {qx.ui.core.queue.Appearance}.
      *
      * @internal
      * @type member

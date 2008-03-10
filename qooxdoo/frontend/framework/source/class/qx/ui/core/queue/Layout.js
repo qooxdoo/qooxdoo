@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.LayoutQueue",
+qx.Class.define("qx.ui.core.queue.Layout",
 {
   statics :
   {
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.core.LayoutQueue",
       if (this.__inFlush) {
         this.__modifiedDuringFlush = true;
       } else {
-        qx.ui.core.QueueManager.scheduleFlush("layout");
+        qx.ui.core.queue.Manager.scheduleFlush("layout");
       }
     },
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.core.LayoutQueue",
     /**
      * Update the layout of all widgets, which layout is marked as invalid.
      *
-     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
      * @type static
      * @return {void}

@@ -22,7 +22,7 @@
  * This class maintains a list of all decorators, which need an update their
  * connected widgets. All decoration changes can then be done at once.
  */
-qx.Class.define("qx.ui.core.DecoratorQueue",
+qx.Class.define("qx.ui.core.queue.Decorator",
 {
   statics :
   {
@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.core.DecoratorQueue",
     add : function(deco)
     {
       this.__queue[deco.$$hash] = deco;
-      qx.ui.core.QueueManager.scheduleFlush("decorator");
+      qx.ui.core.queue.Manager.scheduleFlush("decorator");
     },
 
 
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.core.DecoratorQueue",
     /**
      * Update all connected widgets.
      *
-     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
      * @type static
      * @return {void}

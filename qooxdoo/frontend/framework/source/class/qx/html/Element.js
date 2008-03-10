@@ -129,7 +129,7 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Schedule a deferred element queue flush. If the widget subsystem is used
-     * this method gets overwritten by {@link qx.ui.core.QueueManager}.
+     * this method gets overwritten by {@link qx.ui.core.queue.Manager}.
      *
      * @param job {String} The job descriptor. Should always be <code>"element"</code>.
      */
