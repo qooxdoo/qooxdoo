@@ -27,24 +27,19 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_6",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
 
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
-
       // auto size with limited height
-      var box1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", maxHeight : 100});
+      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", maxHeight : 100});
       var layout1 = new qx.ui.layout.HBox();
 
       layout1.setSpacing(5);
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
       w1.setHeight(200);
       w2.setHeight(300);

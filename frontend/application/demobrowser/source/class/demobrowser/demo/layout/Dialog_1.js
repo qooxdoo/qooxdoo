@@ -30,17 +30,14 @@ qx.Class.define("demobrowser.demo.layout.Dialog_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
       doc.setPadding(20);
-
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       var dialog = new qx.ui.core.Widget().set({
          backgroundColor: "yellow",
-         decorator: border,
+         decorator: "black",
          padding: 10
       });
       doc.add(dialog);
@@ -55,7 +52,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_1",
         backgroundColor : "green",
         width: 600,
         height: 300,
-        decorator: border,
+        decorator: "black",
         padding: 10
       });
 
@@ -63,14 +60,14 @@ qx.Class.define("demobrowser.demo.layout.Dialog_1",
 
       var ok = new qx.ui.basic.Label("OK").set({
         backgroundColor : "green",
-        decorator: border,
+        decorator: "black",
         padding: [2, 5]
       });
       layout.add(ok, 1, 1);
 
       var cancel = new qx.ui.basic.Label("Cancel").set({
         backgroundColor : "green",
-        decorator: border,
+        decorator: "black",
         padding: [2, 5]
       });
       layout.add(cancel, 1, 2);

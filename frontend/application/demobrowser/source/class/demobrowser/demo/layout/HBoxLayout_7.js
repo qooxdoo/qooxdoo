@@ -27,11 +27,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       this.test1(doc);
       this.test2(doc);
@@ -41,14 +39,12 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     test1 : function(doc)
     {
       // interactive reversed
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", height : 80 });
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height : 80 });
       var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxHeight: 50});
-      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 50});
-      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxHeight: 50});
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       layout.add(w1, { align : "top" });
       layout.add(w2, { align : "middle" });
@@ -68,14 +64,12 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     test2 : function(doc)
     {
       // interactive margin 1
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", height : 80 });
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height : 80 });
       var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxHeight: 50});
-      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 50});
-      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxHeight: 50});
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       layout.add(w1, { align : "top", marginLeft : 10 });
       layout.add(w2, { align : "middle", marginLeft : 10 });
@@ -97,14 +91,12 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     test3 : function(doc)
     {
       // interactive margin 2
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", height : 80 });
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height : 80 });
       var layout = new qx.ui.layout.HBox();
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue", maxHeight: 50});
-      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green", maxHeight: 50});
-      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "grey", maxHeight: 50});
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       layout.add(w1, { align : "top", marginLeft : 10 });
       layout.add(w2, { align : "middle", marginLeft : 10 });

@@ -30,17 +30,14 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
       doc.setPadding(20);
-
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       var dialog = new qx.ui.core.Widget().set({
          backgroundColor: "#EEE",
-         decorator: border,
+         decorator: "black",
          padding: 10
       });
       doc.add(dialog);
@@ -54,7 +51,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       var pane = new qx.ui.core.Widget().set({
         backgroundColor : "#FFF",
         width: 600,
-        decorator: border,
+        decorator: "black",
         padding: 10
       });
 
@@ -64,7 +61,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
 
       var btn_toggle = new qx.ui.basic.Label("Toggle first paragraph").set({
         backgroundColor : "#CCC",
-        decorator: border,
+        decorator: "black",
         padding: [4, 8]
       });
       layout.add(btn_toggle, 1, 1);
@@ -73,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       btn_toggle.addListener("click", function()
       {
         var label = pane.getLayout().getChildren()[0];
-        label.setHtml(
+        label.setContent(
           growText ?
             "qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed."
           :
@@ -84,7 +81,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
 
       var btn_resize = new qx.ui.basic.Label("Resize Pane").set({
         backgroundColor : "#CCC",
-        decorator: border,
+        decorator: "black",
         padding: [4, 8]
       });
       layout.add(btn_resize, 1, 2);
@@ -106,16 +103,22 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       var vbox = new qx.ui.layout.VBox;
       vbox.setSpacing(14);
 
-      var label1 = new qx.ui.basic.Label();
-      label1.setHtml("qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed.");
+      var label1 = new qx.ui.basic.Label().set({
+        rich: true,
+        content: "qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed."
+      });
       vbox.add(label1);
 
-      var label2 = new qx.ui.basic.Label();
-      label2.setHtml("It includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license.");
+      var label2 = new qx.ui.basic.Label().set({
+        rich: true,
+        content: "It includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license."
+      });
       vbox.add(label2);
 
-      var label3 = new qx.ui.basic.Label();
-      label3.setHtml("qooxdoo (pronounced [’ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license.");
+      var label3 = new qx.ui.basic.Label().set({
+        rich: true,
+        content: "qooxdoo (pronounced [’ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license."
+      });
       vbox.add(label3);
 
       return vbox;

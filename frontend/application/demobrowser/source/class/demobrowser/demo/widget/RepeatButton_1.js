@@ -31,8 +31,6 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
@@ -47,6 +45,7 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       var img1 = "icon/48/actions/list-add.png";
       var btn1 = new qx.ui.form.RepeatButton(null, img1, 48, 48);
       docLayout.add(btn1);
+
       // Label for the repeat button 1
       var l1 = new qx.ui.basic.Label("0");
       doc.add(l1, 20, 80);

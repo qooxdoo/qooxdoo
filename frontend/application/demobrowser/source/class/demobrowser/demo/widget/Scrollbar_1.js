@@ -30,8 +30,6 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("text");
-      doc.setBackgroundColor("white");
 
       var sliders = []
 
@@ -65,18 +63,12 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
 
       btn.addListener("execute", function()
       {
-        var oldLayout = container.getLayout();
-
         if (isHorizontal) {
           container.setLayout(this._createVerticalLayout(sliders));
         } else {
           container.setLayout(this._createHorizontalLayout(sliders));
         }
         isHorizontal = !isHorizontal;
-
-        if (oldLayout) {
-          oldLayout.dispose();
-        }
       }, this);
 
     },
