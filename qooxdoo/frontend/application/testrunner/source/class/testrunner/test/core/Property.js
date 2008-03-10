@@ -61,6 +61,11 @@ qx.Class.define("testrunner.test.core.Property",
           },
 
 
+          getLayoutParent : function() {
+            return this.getParent();
+          },
+
+
           /**
            * TODOC
            *
