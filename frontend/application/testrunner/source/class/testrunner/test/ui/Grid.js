@@ -26,7 +26,6 @@ qx.Class.define("testrunner.test.ui.Grid",
 
     setUp : function()
     {
-      this.base(arguments);
       this._gridWidget = new qx.ui.core.Widget();
       this._gridLayout = new qx.ui.layout.Grid();
 
@@ -37,7 +36,6 @@ qx.Class.define("testrunner.test.ui.Grid",
 
     tearDown : function()
     {
-      this.base(arguments);
       this.getRoot().getLayout().remove(this._gridWidget);
       this._gridWidget.dispose();
     },
