@@ -18,15 +18,13 @@
 ************************************************************************ */
 
 /**
- * Super simple application which executes the global methods
- * <code>qxmain</code> (at load) and <code>qxterminate</code> (at shutdown).
- *
- * The methods are executed in context of this application which means
- * that all feature of <code>qx.core.Object</code> and co are available.
+ * This class is the base class for all non-GUI qooxdoo applications.
+ * It is ideal for low-level DOM/BOM operations and AJAX communication.
  */
-qx.Class.define("qx.application.Simple",
+qx.Class.define("qx.application.Native",
 {
-  extend : qx.application.Native,
+  extend : qx.core.Object,
+  implement : [qx.application.IApplication],
 
 
 
@@ -39,25 +37,17 @@ qx.Class.define("qx.application.Simple",
 
   members :
   {
-    // overridden
+    // interface method
     main : function()
     {
-      this.base(arguments);
-
-      if (window.qxmain) {
-        window.qxmain.call(this);
-      }
+      // empty
     },
 
 
-    // overridden
+    // interface method
     terminate : function()
     {
-      this.base(arguments);
-
-      if (window.qxterminate) {
-        window.qxterminate.call(this);
-      }
+      // empty
     }
   }
 });
