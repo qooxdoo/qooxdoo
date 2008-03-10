@@ -35,8 +35,7 @@
  */
 qx.Class.define("testrunner.runner.Application",
 {
-  extend : qx.application.Abstract,
-  include : [ qx.legacy.application.MGuiCompat ],
+  extend : qx.legacy.application.Gui,
 
 
 
@@ -57,9 +56,6 @@ qx.Class.define("testrunner.runner.Application",
     main : function()
     {
       this.base(arguments);
-
-      // Initialize 0.7 compatibility
-      this.compat();
 
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri") + "/testrunner");
