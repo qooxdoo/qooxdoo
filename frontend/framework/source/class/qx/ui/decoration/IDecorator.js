@@ -74,16 +74,8 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param height {Integer} The widget's new height
      * @param width {Integer} The widget's new width
      * @param backgroundColor {String?null} an optional CSS background color value.
-     * @param backgroundImage {String?null} the URL to an optional background image
-     * @param backgroundRepeat {String?"tile"} if a background image is given,
-     *     this argument defines how the image is displayed. Valid arguments are:
-     *     <ul>
-     *       <li><b>tile</b>: The background image is repeated along the x- and y-axis.</li>
-     *       <li><b>stretch</b>: The background image is stretched to fill the background.</li>
-     *       <li><b>image</b>: The image is not repeated and not stretched.</li>
-     *     </ul>
      */
-    update : function(decorationElement, height, width, backgroundColor, backgroundImage, backgroundRepeat) {
+    update : function(decorationElement, height, width, backgroundColor) {
       return true;
     },
 

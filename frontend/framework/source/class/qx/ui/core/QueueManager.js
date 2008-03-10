@@ -77,6 +77,14 @@ qx.Class.define("qx.ui.core.QueueManager",
         //qx.log.Logger.debug(this, "Layout queue runtime: " + (new Date - start) + "ms");
       }
 
+      if (jobs.decorator)
+      {
+        //var start = new Date;
+        qx.ui.core.DecoratorQueue.flush();
+        jobs.decorator = false;
+        //qx.log.Logger.debug(this, "Decorator queue runtime: " + (new Date - start) + "ms");
+      }
+
       if (jobs.layout)
       {
         //var start = new Date;
@@ -85,7 +93,7 @@ qx.Class.define("qx.ui.core.QueueManager",
         //qx.log.Logger.debug(this, "Layout queue runtime: " + (new Date - start) + "ms");
       }
 
-      if (jobs.decoration)
+      if (jobs.renderDecoration)
       {
         //var start = new Date;
         qx.ui.core.DecorationQueue.flush();

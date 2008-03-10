@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.ui.event.WidgetEventHandler)
+#use(qx.ui.event.WidgetEventHandler)
 
 ************************************************************************ */
 
@@ -36,7 +36,7 @@
  * inside the "container" element to respect paddings and contains the "real"
  * widget element.
  *
- *  <pre>
+ * <pre>
  * -container------------
  * |                    |
  * |  -decoration----   |
@@ -46,10 +46,10 @@
  * |    --------------  |
  * |                    |
  * ----------------------
- *  </pre>
+ * </pre>
  *
  * @appearance widget
- * @state disabled Set by {@link #enabled}
+ * @state disabled set by {@link #enabled}
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -353,6 +353,22 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /** Allow growing and shringking in the horizontal direction */
+    allowStretchX :
+    {
+      group : [ "allowGrowX", "allowShrinkX" ],
+      mode : "shorthand",
+      themeable: true
+    },
+
+
+    /** Allow growing and shringking in the vertical direction */
+    allowStretchY :
+    {
+      group : [ "allowGrowY", "allowShrinkY" ],
+      mode : "shorthand",
+      themeable: true
+    },
 
 
     /*
@@ -470,35 +486,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * The URI of the image file to use as background image.
-     *
-     * The property {@link #backgroundRepeat} controls how the background is
-     * displayed.
-     */
-    backgroundImage :
-    {
-      check : "String",
-      nullable : true,
-      init : null,
-      apply : "_applyBackgroundImage",
-      themeable : true
-    },
-
-
-    /**
-     * The background repeat mode.
-     */
-    backgroundRepeat :
-    {
-      check : [ "no-repeat", "repeat-x", "repeat-y", "repeat" ],
-      nullable : true,
-      init : null,
-      apply : "_applyBackgroundRepeat",
-      themeable : true
-    },
-
-
     /** The font property describes how to paint the font on the widget. */
     font :
     {
@@ -608,14 +595,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   statics :
   {
-    /**
-     * {qx.ui.decoration.Basic} This decoration is used to render the background
-     *     color and background image, if no other decoration is set for the
-     *     widget.
-     */
-    DEFAULT_DECORATION : null,
-
-
     /**
      * Returns the widget, which contains the given DOM element.
      *
@@ -784,6 +763,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       var sizeChange = (width !== computed.width || height !== computed.height);
 
+      // If the current layout is invalid force a relayout even if
+      // the size has not changed
       if (sizeChange || !this._hasValidLayout)
       {
         // Compute inner width
@@ -807,20 +788,15 @@ qx.Class.define("qx.ui.core.Widget",
           this.updateDecoration(width, height);
         }
 
-        // If the current layout is invalid force a relayout even if
-        // the size has not changed
-        if (sizeChange || !this._hasValidLayout)
-        {
-          content.setStyle("left", insets.left + pixel);
-          content.setStyle("top", insets.top + pixel);
+        content.setStyle("left", insets.left + pixel);
+        content.setStyle("top", insets.top + pixel);
 
-          var layout = this.getLayout();
-          if (layout && layout.hasChildren()) {
-            layout.renderLayout(innerWidth, innerHeight);
-          }
-
-          this._hasValidLayout = true;
+        var layout = this.getLayout();
+        if (layout && layout.hasChildren()) {
+          layout.renderLayout(innerWidth, innerHeight);
         }
+
+        this._hasValidLayout = true;
       }
 
       // After doing the layout fire change events
@@ -1616,8 +1592,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.__decorator.update(
           this._decorationElement,
           width, height,
-          this.__backgroundColor,
-          this.getBackgroundImage()
+          this.__backgroundColor
         );
       }
 
@@ -1648,26 +1623,33 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleDecorator : function(decorator)
     {
-      if (!qx.ui.core.Widget.DEFAULT_DECORATION) {
-        qx.ui.core.Widget.DEFAULT_DECORATION = new qx.ui.decoration.Basic(0);
-      }
-
       // decorator life cycle management
       var oldDecorator = this.__decorator;
-      decorator = decorator || qx.ui.core.Widget.DEFAULT_DECORATION;
       this.__decorator = decorator;
 
-      if (!this._decorationElement)
+      if (decorator && !this._decorationElement)
       {
         this._decorationElement = this.__createDecorationElement();
         this._containerElement.add(this._decorationElement);
       }
 
-      if (decorator !== oldDecorator)
+      if (!decorator)
+      {
+        if (oldDecorator) {
+          oldDecorator.reset(this._decorationElement);
+        }
+        if (this.__backgroundColor) {
+          this._containerElement.setStyle("backgroundColor", this.__backgroundColor);
+        }
+      }
+      else if (decorator !== oldDecorator)
       {
         if (!oldDecorator)
         {
           decorator.init(this._decorationElement);
+          if (this.__backgroundColor) {
+            this._containerElement.removeStyle("backgroundColor");
+          }
         }
         else
         {
@@ -1687,7 +1669,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var oldInsets = this._lastDecorationInsets || this.__defaultDecorationInsets;
-      var currentInsets = decorator.getInsets();
+      var currentInsets = decorator ? decorator.getInsets() : this.__defaultDecorationInsets;
 
       // Detect inset changes
       if (
@@ -1814,18 +1796,10 @@ qx.Class.define("qx.ui.core.Widget",
       this.__backgroundColor = color;
 
       if (!this.__decorator) {
-        this._styleDecorator(null);
-      }
-
-      if (color) {
+        this._containerElement.setStyle("backgroundColor", color || null);
+      } else {
         qx.ui.core.DecorationQueue.add(this);
       }
-    },
-
-
-    // property apply
-    _applyBackgroundImage : function(value, old) {
-      qx.ui.core.DecorationQueue.add(this);
     },
 
 
