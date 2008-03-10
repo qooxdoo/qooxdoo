@@ -46,10 +46,10 @@ qx.Class.define("testrunner.test.ui.Grid",
       widget.set({
         width: 200,
         height: 100,
-        maxWidth : "pref",
-        minWidth : "pref",
-        maxHeight : "pref",
-        minHeight : "pref"
+        allowGrowX: false,
+        allowShrinkX: false,
+        allowGrowY: false,
+        allowShrinkY: false
       });
       return widget;
     },
