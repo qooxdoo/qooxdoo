@@ -22,7 +22,7 @@
  * The DisplayQueue fires <code>appear</code> and <code>disappear</code>
  * events for widgets which changed their visibility or parent.
  */
-qx.Class.define("qx.ui.core.DisplayQueue",
+qx.Class.define("qx.ui.core.queue.Display",
 {
   statics :
   {
@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.core.DisplayQueue",
       }
 
       this.__queue[widget.$$hash] = widget;
-      qx.ui.core.QueueManager.scheduleFlush("display");
+      qx.ui.core.queue.Manager.scheduleFlush("display");
     },
 
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.core.DisplayQueue",
      * Flushes the display queue. This queue fires <code>appear</code> and
      * <code>disappear</code> events.
      *
-     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
      * @internal
      * @return {void}

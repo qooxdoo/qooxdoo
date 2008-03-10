@@ -22,7 +22,7 @@
  * The AppearanceQueue registers all widgets which are influences through
  * state changes.
  */
-qx.Class.define("qx.ui.core.AppearanceQueue",
+qx.Class.define("qx.ui.core.queue.Appearance",
 {
   statics :
   {
@@ -46,14 +46,14 @@ qx.Class.define("qx.ui.core.AppearanceQueue",
       }
 
       this.__queue[widget.$$hash] = widget;
-      qx.ui.core.QueueManager.scheduleFlush("appearance");
+      qx.ui.core.queue.Manager.scheduleFlush("appearance");
     },
 
 
     /**
      * Flushes the appearance queue.
      *
-     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
+     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
      * @internal
      * @return {void}

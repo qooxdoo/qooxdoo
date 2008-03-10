@@ -51,7 +51,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
 
     assertSize : function(widget, width, height, msg)
     {
-      qx.ui.core.QueueManager.flush();
+      qx.ui.core.queue.Manager.flush();
       var size = widget.getComputedLayout();
       this.assertEquals(width, size.width, msg);
       this.assertEquals(height, size.height, msg);
@@ -60,7 +60,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
 
     assertPadding : function(widget, top, right, bottom, left, msg)
     {
-      qx.ui.core.QueueManager.flush();
+      qx.ui.core.queue.Manager.flush();
       var container = widget.getContainerElement().getDomElement();
       var width = parseInt(container.style.width) || 0;
       var height = parseInt(container.style.height) || 0;
@@ -81,7 +81,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
 
     assertStyle : function(widget, style, value)
     {
-      qx.ui.core.QueueManager.flush();
+      qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
       this.assertEquals(value, widgetStyle);
     },
@@ -89,7 +89,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
 
     assertContentStyle : function(widget, style, value)
     {
-      qx.ui.core.QueueManager.flush();
+      qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
       this.assertEquals(value, widgetStyle);
     },
@@ -97,7 +97,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
 
     assertDecoratorStyle : function(widget, style, value)
     {
-      qx.ui.core.QueueManager.flush();
+      qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget._decorationElement.getDomElement().style[style];
       this.assertEquals(value, widgetStyle);
     }

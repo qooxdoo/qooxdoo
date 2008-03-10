@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.decoration.Basic",
       {
         decorationElement.setStyles(this._getStyles());
         this._needUpdate = false;
-        qx.ui.core.DecoratorQueue.remove(this);
+        qx.ui.core.queue.Decorator.remove(this);
       }
 
       /*
@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     __informManager : function()
     {
       this._needsUpdate = true;
-      qx.ui.core.DecoratorQueue.add(this);
+      qx.ui.core.queue.Decorator.add(this);
     }
   }
 });

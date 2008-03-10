@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.root.Application",
     this.setLayout(new qx.ui.layout.Canvas());
 
     // Directly schedule layout for root element
-    qx.ui.core.LayoutQueue.add(this);
+    qx.ui.core.queue.Layout.add(this);
   },
 
 
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.root.Application",
      * @return {void}
      */
     _onResize : function(e) {
-      qx.ui.core.LayoutQueue.add(this);
+      qx.ui.core.queue.Layout.add(this);
     },
 
 
