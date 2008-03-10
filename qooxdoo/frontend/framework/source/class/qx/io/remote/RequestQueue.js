@@ -208,11 +208,27 @@ qx.Class.define("qx.io.remote.RequestQueue",
       vTransport.addEventListener("timeout", this._oncompleted, this);
       vTransport.addEventListener("failed", this._oncompleted, this);
 
-      // Store send timestamp
-      vTransport._start = (new Date).valueOf();
 
-      // Send
-      vTransport.send();
+      var returnValue = true;
+
+      try
+      {
+        // Send
+        returnValue = vTransport.send();
+      }
+      catch (exc)
+      {
+        returnValue = exc;
+      }
+
+      // if we got an exception remove it from the queue by using the failed 
+      // handler
+      if (returnValue !== true)
+      {
+        var response = new qx.io.remote.Response('failed');
+        response.setContent(returnValue);
+        vTransport.dispatchEvent(response);
+      }
 
       // Retry
       if (this._queue.length > 0) {
@@ -233,14 +249,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
       // Remove from active transports
       qx.lang.Array.remove(this._active, vTransport);
 
-      // Dispose transport object
-      vTransport.dispose();
-
       // Check again
       this._check();
     },
-
-
 
 
     /*
@@ -271,8 +282,11 @@ qx.Class.define("qx.io.remote.RequestQueue",
           this.debug("ActiveCount: " + this._activeCount);
         }
       }
-    },
 
+      // Store send timestamp
+      vTransport._start = (new Date()).valueOf();
+    },
+    
 
     /**
      * TODOC
@@ -295,7 +309,13 @@ qx.Class.define("qx.io.remote.RequestQueue",
         }
       }
 
-      this._remove(e.getTarget());
+      var vTransport = e.getTarget();
+
+      // remove from queue
+      this._remove(vTransport);
+
+      // Dispose transport object
+      vTransport.dispose();
     },
 
 
@@ -324,7 +344,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
         return;
       }
 
-      var vCurrent = (new Date).valueOf();
       var vTransport;
       var vRequest;
       var vDefaultTimeout = this.getDefaultTimeout();
@@ -340,8 +359,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
         {
           vTimeout = vRequest.getTimeout();
 
-          // if timer is disabled...
-          if (vTimeout == 0)
+          // if timer is disabled or transport not sended ignore it
+          if (vTimeout == 0 || vTransport._start == null)
           {
             // then ignore it.
             continue;
@@ -351,7 +370,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
             vTimeout = vDefaultTimeout;
           }
 
-          vTime = vCurrent - vTransport._start;
+          vTime = (new Date).valueOf() - vTransport._start;
 
           if (vTime > vTimeout)
           {
