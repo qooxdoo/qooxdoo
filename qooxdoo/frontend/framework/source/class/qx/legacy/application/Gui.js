@@ -18,7 +18,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.legacy.application.MGuiCompat",
+/* ************************************************************************
+
+#require(qx.core.Init)
+
+************************************************************************ */
+
+qx.Class.define("qx.legacy.application.Gui",
 {
   extend : qx.core.Object,
   implement : [qx.application.IApplication],

@@ -34,17 +34,13 @@
  */
 qx.Class.define("apiviewer.Application",
 {
-  extend : qx.application.Abstract,
-  include : [ qx.legacy.application.MGuiCompat ],
+  extend : qx.legacy.application.Gui,
 
   members :
   {
     main : function()
     {
       this.base(arguments);
-
-      // Initialize 0.7 compatibility
-      this.compat();
 
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
