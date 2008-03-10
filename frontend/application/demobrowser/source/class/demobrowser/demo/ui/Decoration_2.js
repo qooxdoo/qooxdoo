@@ -20,13 +20,17 @@
 
 qx.Class.define("demobrowser.demo.ui.Decoration_2",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Standalone,
+  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.Decoration_2_Theme1);
