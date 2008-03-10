@@ -228,13 +228,13 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     _getInnerStyles : function(width, height)
     {
       var styles = {
-        "borderTopWidth": this.getInnerWidthTop(),
+        "borderTopWidth": this.getInnerWidthTop() + "px",
         "borderTopColor": this.__innerColorTop,
-        "borderRightWidth": this.getInnerWidthRight(),
+        "borderRightWidth": this.getInnerWidthRight() + "px",
         "borderRightColor": this.__innerColorRight,
-        "borderBottomWidth": this.getInnerWidthBottom(),
+        "borderBottomWidth": this.getInnerWidthBottom() + "px",
         "borderBottomColor": this.__innerColorBottom,
-        "borderLeftWidth": this.getInnerWidthLeft(),
+        "borderLeftWidth": this.getInnerWidthLeft() + "px",
         "borderLeftColor": this.__innerColorLeft,
         "backgroundColor": this.__bgColor,
         "borderStyle": "solid"
