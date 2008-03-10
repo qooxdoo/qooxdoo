@@ -118,16 +118,20 @@ qx.Class.define("qx.bom.Label",
       {
         var el = win.document.createElement("div");
         el.style.whiteSpace = "normal";
+        el.useHtml = true;
       }
 
       // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
       // for text overflow. We use this feature from XUL instead.
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        var el = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+        var el = win.document.createElement("div");
+        var xulel = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 
-        el.style.display = "block";
-        el.setAttribute("crop", "end");
+        xulel.style.display = "block";
+        xulel.setAttribute("crop", "end");
+
+        el.appendChild(xulel);
       }
       else
       {
@@ -142,10 +146,6 @@ qx.Class.define("qx.bom.Label",
 
         el.style.overflow = "hidden";
         el.style.whiteSpace = "nowrap";
-      }
-
-      if (html) {
-        el.useHtml = true;
       }
 
       if (content) {
@@ -175,7 +175,7 @@ qx.Class.define("qx.bom.Label",
       }
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        element.setAttribute("value", value);
+        element.firstChild.setAttribute("value", value);
       }
       else
       {
@@ -199,7 +199,7 @@ qx.Class.define("qx.bom.Label",
       }
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        return element.getAttribute("value") || "";
+        return element.firstChild.getAttribute("value") || "";
       }
       else
       {
