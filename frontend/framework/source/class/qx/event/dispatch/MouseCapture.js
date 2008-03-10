@@ -19,10 +19,9 @@
 
 /* ************************************************************************
 
-#require(qx.event.handler.Focus)
-#require(qx.event.handler.Window)
-#require(qx.event.handler.Capture)
-#require(qx.event.handler.ViewportLeave)
+#use(qx.event.handler.Focus)
+#use(qx.event.handler.Window)
+#use(qx.event.handler.Capture)
 
 ************************************************************************ */
 
