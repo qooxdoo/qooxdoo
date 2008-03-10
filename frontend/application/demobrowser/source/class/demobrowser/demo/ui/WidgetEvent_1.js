@@ -115,7 +115,6 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
         padding : 5,
         allowGrowX: false
       }));
-
     }
   }
 });
