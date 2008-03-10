@@ -49,19 +49,56 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     },
 
 
-    assertSize : function(widget, width, height)
+    assertSize : function(widget, width, height, msg)
     {
       qx.ui.core.QueueManager.flush();
       var size = widget.getComputedLayout();
-      this.assertEquals(width, size.width);
-      this.assertEquals(height, size.height);
+      this.assertEquals(width, size.width, msg);
+      this.assertEquals(height, size.height, msg);
+    },
+
+
+    assertPadding : function(widget, top, right, bottom, left, msg)
+    {
+      qx.ui.core.QueueManager.flush();
+      var container = widget.getContainerElement().getDomElement();
+      var width = parseInt(container.style.width) || 0;
+      var height = parseInt(container.style.height) || 0;
+
+      var content = widget.getContentElement().getDomElement();
+      var innerWidth = parseInt(content.style.width) || 0;
+      var innerHeight = parseInt(content.style.height) || 0;
+      var innerTop = parseInt(content.style.top) || 0;
+      var innerLeft = parseInt(content.style.left) || 0;
+
+      this.assertEquals(top, innerTop, msg);
+      this.assertEquals(right, width-innerWidth-left, msg);
+
+      this.assertEquals(bottom, height-innerHeight-top, msg);
+      this.assertEquals(left, innerLeft, msg);
     },
 
 
     assertStyle : function(widget, style, value)
     {
       qx.ui.core.QueueManager.flush();
-      var widgetStyle = widget._containerElement._element.style[style];
+      var widgetStyle = widget.getContainerElement().getDomElement().style[style];
+      this.assertEquals(value, widgetStyle);
+    },
+
+
+    assertContentStyle : function(widget, style, value)
+    {
+      qx.ui.core.QueueManager.flush();
+      var widgetStyle = widget.getContainerElement().getDomElement().style[style];
+      this.assertEquals(value, widgetStyle);
+    },
+
+
+    assertDecoratorStyle : function(widget, style, value)
+    {
+      qx.ui.core.QueueManager.flush();
+      var widgetStyle = widget._decorationElement.getDomElement().style[style];
       this.assertEquals(value, widgetStyle);
     }
 
