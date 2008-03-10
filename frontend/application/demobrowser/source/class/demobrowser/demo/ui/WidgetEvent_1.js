@@ -27,12 +27,9 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
     main: function()
     {
       this.base(arguments);
-
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
@@ -48,11 +45,9 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
       var img3 = "icon/48/apps/internet-web-browser.png";
       var img4 = "icon/48/apps/photo-album.png";
 
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
       var a1 = new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
         backgroundColor : "gray",
-        decorator : border,
+        decorator : "black",
         padding : 5,
         allowGrowY: false
       })
@@ -72,7 +67,7 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
 
       var a2 = new qx.ui.basic.Atom("Juhu", img2, 48, 48).set({
         backgroundColor : "gray",
-        decorator : border,
+        decorator : "black",
         iconPosition : "top",
         padding : 5,
         allowGrowY: false
@@ -97,7 +92,7 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img3, 48, 48).set({
         backgroundColor : "gray",
-        decorator : border,
+        decorator : "black",
         iconPosition : "right",
         padding : 5,
         allowGrowY: false
@@ -106,7 +101,7 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img4, 48, 48).set({
         backgroundColor : "gray",
-        decorator : border,
+        decorator : "black",
         iconPosition : "bottom",
         padding : 5,
         allowGrowY: false
@@ -115,7 +110,7 @@ qx.Class.define("demobrowser.demo.ui.WidgetEvent_1",
 
       docLayout.add(at5 = new qx.ui.basic.Atom("Juhu", img5, 48, 48).set({
         backgroundColor : "gray",
-        decorator : border,
+        decorator : "black",
         show : "icon",
         padding : 5,
         allowGrowX: false

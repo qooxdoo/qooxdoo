@@ -27,10 +27,9 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       slideBar = new qx.ui.view.HSlideBar();
       slideBar.set({
