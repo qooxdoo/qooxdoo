@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.core.DecorationQueue",
      * Should only be used by {@link qx.ui.core.Widget}.
      *
      * @type static
-     * @param widget {qx.ui.core.Widget} Widget to add.
+     * @param widget {qx.ui.core.Widget} Widget to remove.
      * @return {void}
      */
     remove : function(widget) {

@@ -135,10 +135,19 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
+     * Indicate that the widget has layout changes and propagate this information
+     * up the widget hierarchy.
+     *
+     * @type member
+     */
+    scheduleLayoutUpdate : function() {
+      qx.ui.core.LayoutQueue.add(this);
+    },
+
+
+    /**
      * Called by the layout manager to mark this widget's layout as invalid.
      * This function should clear all layout relevant caches.
-     *
-     * @internal
      */
     invalidateLayoutCache : function() {
       throw new Error("Abstract method call");
