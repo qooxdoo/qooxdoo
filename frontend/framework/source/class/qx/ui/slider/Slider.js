@@ -66,6 +66,7 @@ qx.Class.define("qx.ui.slider.Slider",
 
   properties :
   {
+    /** Whether the slider is horizontal or vertical. */
     orientation :
     {
       check : [ "horizontal", "vertical" ],
@@ -73,6 +74,7 @@ qx.Class.define("qx.ui.slider.Slider",
       apply : "_applyOrientation"
     },
 
+    /** The current slider value */
     value :
     {
       check : "Integer",
@@ -81,6 +83,10 @@ qx.Class.define("qx.ui.slider.Slider",
       event : "changeValue"
     },
 
+    /**
+     * The minimum slider value (may be nagative). This value must be smaller
+     * than {@link #maximum}.
+     */
     minimum :
     {
       check : "Integer",
@@ -88,6 +94,9 @@ qx.Class.define("qx.ui.slider.Slider",
       apply : "_applyMinimum"
     },
 
+    /**
+     * The maximum slider value. This value must be larger than {@link #minimum}.
+     */
     maximum :
     {
       check : "Integer",
@@ -95,16 +104,24 @@ qx.Class.define("qx.ui.slider.Slider",
       apply : "_applyMaximum"
     },
 
+    /** The amount to increment on each event (keypress or mousedown) */
     singleStep :
     {
       check : "Integer",
       init : 1
     },
 
+    /** The amount to increment on each pageup/pagedown keypress */
     pageStep :
     {
       check : "Integer",
       init : 10
+    },
+
+    /** The amount to increment on a mouse wheel event*/
+    wheelStep: {
+      check : "Number",
+      init : 1
     },
 
     appearance :
@@ -117,19 +134,40 @@ qx.Class.define("qx.ui.slider.Slider",
 
   members :
   {
+    __valueToPixel : function(value)
+    {
+      var sliderRange = this._scrollSize - this._sliderSize;
+      var valueRange = (this.getMaximum() - this.getMinimum()) / this.getSingleStep();
+
+      return Math.round(sliderRange * ((value - this.getMinimum()) / this.getSingleStep()) / valueRange);
+    },
+
+
+    __pixelToValue : function(pixelValue)
+    {
+      var sliderRange = this._scrollSize - this._sliderSize;
+      var valueRange = (this.getMaximum() - this.getMinimum()) / this.getSingleStep();
+
+      return Math.round(valueRange * pixelValue / sliderRange) * this.getSingleStep() + this.getMinimum();
+    },
+
+
     // overridden
     _getContentHint : function()
     {
       var isHorizontal = this.getOrientation() === "horizontal";
       var sliderHint = this._slider.getSizeHint();
-      if (isHorizontal) {
+      if (isHorizontal)
+      {
         return {
           minWidth: sliderHint.minWidth,
           width: 200,
           minHeight: sliderHint.minHeight,
           height: sliderHint.height
         }
-      } else {
+      }
+      else
+      {
         return {
           minWidth: sliderHint.minWidth,
           width: sliderHint.width,
@@ -187,7 +225,7 @@ qx.Class.define("qx.ui.slider.Slider",
 
       var halfSliderSize = Math.round(this._sliderSize / 2);
       var difference = relativeClickPosition - this._sliderPos;
-      var pixelPageStep = Math.round(this._scrollSize * this.getPageStep() / this.getMaximum());
+      var pixelPageStep = this.__valueToPixel(this.getPageStep());
 
       if (
         Math.abs(difference) <= pixelPageStep ||
@@ -199,9 +237,9 @@ qx.Class.define("qx.ui.slider.Slider",
       else
       {
         if (difference > 0) {
-          this._scrollPageForward();
+          this.scrollPageForward();
         } else {
-          this._scrollPageBack();
+          this.scrollPageBack();
         }
       }
     },
@@ -209,11 +247,11 @@ qx.Class.define("qx.ui.slider.Slider",
 
     _onMousewheel : function(e)
     {
-      var step = Math.round(-e.getWheelDelta() * this.getSingleStep());
-      if (step == 0) {
-        step = e.getWheelDelta() <= 0 ? this.getSingleStep() : -this.getSingleStep();
+      var wheelIncrement = Math.round(-e.getWheelDelta());
+      if (wheelIncrement == 0) {
+        wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
-      this.scrollBy(step);
+      this.scrollBy(wheelIncrement * this.getWheelStep());
     },
 
 
@@ -264,7 +302,7 @@ qx.Class.define("qx.ui.slider.Slider",
           if (!isHorizontal) {
             break;
           }
-          this._scrollStepForward();
+          this.scrollStepForward();
           e.stopPropagation();
           break;
 
@@ -272,7 +310,7 @@ qx.Class.define("qx.ui.slider.Slider",
           if (!isHorizontal) {
             break;
           }
-          this._scrollStepBack();
+          this.scrollStepBack();
           e.stopPropagation();
           break;
 
@@ -280,7 +318,7 @@ qx.Class.define("qx.ui.slider.Slider",
           if (isHorizontal) {
             break;
           }
-          this._scrollStepForward();
+          this.scrollStepForward();
           e.stopPropagation();
           break;
 
@@ -288,17 +326,17 @@ qx.Class.define("qx.ui.slider.Slider",
           if (isHorizontal) {
             break;
           }
-          this._scrollStepBack();
+          this.scrollStepBack();
           e.stopPropagation();
           break;
 
         case "PageDown":
-          this._scrollPageForward();
+          this.scrollPageForward();
           e.stopPropagation();
           break;
 
         case "PageUp":
-          this._scrollPageBack();
+          this.scrollPageBack();
           e.stopPropagation();
           break;
       }
@@ -320,17 +358,13 @@ qx.Class.define("qx.ui.slider.Slider",
       }
 
       if (updateValue) {
-        this.scrollTo(Math.round(this.getMaximum() * sliderPosition / range));
+        this.scrollTo(this.__pixelToValue(sliderPosition));
       }
     },
 
 
-    _updateSliderPosition : function()
-    {
-      var value = this.getValue();
-
-      var range = this._scrollSize - this._sliderSize;
-      this._setSliderPosition(Math.round(range * value / this.getMaximum()), false);
+    _updateSliderPosition : function() {
+      this._setSliderPosition(this.__valueToPixel(this.getValue()), false);
     },
 
 
@@ -371,28 +405,27 @@ qx.Class.define("qx.ui.slider.Slider",
     {
       var hori = value === "horizontal";
 
-      this.setAllowGrowX(hori);
-      this.setAllowShrinkX(hori);
-      this.setAllowGrowY(!hori);
-      this.setAllowShrinkY(!hori);
+      this.setAllowStretchX(hori);
+      this.setAllowStretchY(!hori);
 
       this._updateSliderOrientation(hori);
       this.scheduleLayoutUpdate();
     },
 
-    _scrollStepForward : function() {
+
+    scrollStepForward : function() {
       this.scrollBy(this.getSingleStep());
     },
 
-    _scrollStepBack : function() {
+    scrollStepBack : function() {
       this.scrollBy(-this.getSingleStep());
     },
 
-    _scrollPageForward : function() {
+    scrollPageForward : function() {
       this.scrollBy(this.getPageStep());
     },
 
-    _scrollPageBack : function() {
+    scrollPageBack : function() {
       this.scrollBy(-this.getPageStep());
     },
 
