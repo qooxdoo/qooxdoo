@@ -31,7 +31,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var doc = new qx.ui.root.Application(document);
-      doc.setBackgroundColor("background");
 
       var layout = new qx.ui.layout.Grid();
       layout.setRowAlign(0, "left", "bottom");

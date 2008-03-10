@@ -27,10 +27,9 @@ qx.Class.define("demobrowser.demo.ui.Cursor_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
@@ -47,10 +46,8 @@ qx.Class.define("demobrowser.demo.ui.Cursor_1",
 
     getGrid1 : function()
     {
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
       // auto size
-      var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow"});
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(20);
 
@@ -76,7 +73,7 @@ qx.Class.define("demobrowser.demo.ui.Cursor_1",
       for (var i=0; i<15; i++)
       {
         layout.add(new qx.ui.basic.Label(cursors[i]).set({
-          decorator: border,
+          decorator: "black",
           backgroundColor: "green",
           cursor: cursors[i],
           padding: 5,

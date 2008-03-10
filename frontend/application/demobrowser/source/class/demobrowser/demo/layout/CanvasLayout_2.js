@@ -27,11 +27,9 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_2",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
-doc = new qx.ui.root.Application(document);
-
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
+      doc = new qx.ui.root.Application(document);
 
       var border = new qx.ui.decoration.Basic(3, "solid", "black");
 

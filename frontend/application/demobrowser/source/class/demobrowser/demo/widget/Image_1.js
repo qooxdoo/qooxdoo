@@ -27,11 +27,9 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       layout = new qx.ui.layout.HBox();
       var container = new qx.ui.core.Widget();
@@ -56,19 +54,6 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       layout.add(new qx.ui.basic.Image(base + "format-justify-left.png"));
       layout.add(new qx.ui.basic.Image(base + "format-justify-right.png"));
       layout.add(new qx.ui.basic.Image(base + "multimedia-player.png", base + "multimedia-player-disabled.png"));
-
-/*
-      var img = qx.bom.ClippedImage.create();
-      qx.bom.ClippedImage.setSource(img, base + "format.png", 16, 16, -32, 0, 96, 0);
-
-      qx.bom.element.Style.set(img, "position", "absolute");
-      qx.bom.element.Style.set(img, "top", 200);
-      qx.bom.element.Style.set(img, "left", 200);
-      qx.bom.element.Style.set(img, "zIndex", 200);
-
-      document.body.appendChild(img);
-*/
-
 
       // toggle button
       var enable = false;
