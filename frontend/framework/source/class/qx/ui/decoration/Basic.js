@@ -357,16 +357,16 @@ qx.Class.define("qx.ui.decoration.Basic",
     _getStyles : function(width, height)
     {
       var styles = {
-        "borderTopWidth": this.getWidthTop(),
+        "borderTopWidth": this.getWidthTop() + "px",
         "borderTopStyle": this.getStyleTop() || "none",
         "borderTopColor": this.__colorTop,
-        "borderRightWidth": this.getWidthRight(),
+        "borderRightWidth": this.getWidthRight() + "px",
         "borderRightStyle": this.getStyleRight() || "none",
         "borderRightColor": this.__colorRight,
-        "borderBottomWidth": this.getWidthBottom(),
+        "borderBottomWidth": this.getWidthBottom() + "px",
         "borderBottomStyle": this.getStyleBottom() || "none",
         "borderBottomColor": this.__colorBottom,
-        "borderLeftWidth": this.getWidthLeft(),
+        "borderLeftWidth": this.getWidthLeft() + "px",
         "borderLeftStyle": this.getStyleLeft() || "none",
         "borderLeftColor": this.__colorLeft
       }
