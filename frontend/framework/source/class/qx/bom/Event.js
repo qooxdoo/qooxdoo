@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.bom.Event",
      * Use the low level browser functionality to attach event listeners
      * to DOM nodes.
      *
-     * Use this with caution. This is only thought for event handlers and 
+     * Use this with caution. This is only thought for event handlers and
      * qualified developers. These are not mem-leak protected!
      *
      * @type static
@@ -67,5 +67,5 @@ qx.Bootstrap.define("qx.bom.Event",
         target.removeEventListener(type, listener, false);
       }
     })
-  }  
+  }
 });

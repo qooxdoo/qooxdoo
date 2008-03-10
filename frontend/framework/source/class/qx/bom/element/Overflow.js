@@ -207,7 +207,7 @@ qx.Class.define("qx.bom.element.Overflow",
 
       // opera support differs
       "opera" : qx.bom.client.Engine.VERSION < 9.5 ?
-      
+
       // older versions of opera have no support for splitted overflow properties.
       function(element, value) {
         element.style.overflow = value;

@@ -186,7 +186,7 @@ qx.Class.define("qx.event.handler.Element",
   {
     var entry;
     var events = this._registeredEvents;
-    
+
     for (var id in events)
     {
       entry = events[id];

@@ -60,27 +60,27 @@ qx.Class.define("demobrowser.Demo",
     {
       this.base(arguments);
 
-			// if the current frame is the top frame
-			if(window.top == window) {
+      // if the current frame is the top frame
+      if(window.top == window) {
         this.__showSourceLink();
-			}
+      }
 
       var text = "*{margin:0;padding:0} html,body{font:11px Verdana,sans-serif;}";
       qx.bom.Stylesheet.createElement(text);
     },
 
-		__showSourceLink: function() {
-			// create a dvi
-	    div = qx.bom.Element.create("div");
+    __showSourceLink: function() {
+      // create a dvi
+      div = qx.bom.Element.create("div");
       // set the css
-			qx.bom.element.Style.setCss(div, "position: absolute; top: 0; right: 0; z-index: 5000; padding: 5px");
-			// create the URI to the source script
-			var jsFileURL = "../../script/" + this.constructor.classname + ".src.js";
-			// set the link
-			div.innerHTML ="<a href='" + jsFileURL + "' target='_blank'>Show Javascript Source</a>";
-			// append the div to the document
-			document.body.appendChild(div);
-		}
+      qx.bom.element.Style.setCss(div, "position: absolute; top: 0; right: 0; z-index: 5000; padding: 5px");
+      // create the URI to the source script
+      var jsFileURL = "../../script/" + this.constructor.classname + ".src.js";
+      // set the link
+      div.innerHTML ="<a href='" + jsFileURL + "' target='_blank'>Show Javascript Source</a>";
+      // append the div to the document
+      document.body.appendChild(div);
+    }
   },
 
 

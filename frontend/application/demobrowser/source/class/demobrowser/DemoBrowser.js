@@ -360,7 +360,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         menu.removeAll();
 
         try {
-          var mgr = cw.qx.theme.manager.Meta.getInstance();          
+          var mgr = cw.qx.theme.manager.Meta.getInstance();
         } catch (e) {
           menuButton.setEnabled(false);
           return;
@@ -804,7 +804,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : "monospace"
       });
       f3.setHtmlProperty("id", "qx_srcview");
-      
+
       // Fourth Page
       // -- Tab Button
       var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/mimetypes/text-plain.png");
@@ -1213,7 +1213,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- Vars and Setup -----------------------
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       //this.widgets["outputviews.demopage.page"].setEnabled(false);
-      
+
       this.__setStateLoading();
 
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
@@ -1271,9 +1271,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         fpath = fpath.substring(0, splitIndex + 1);
       }
       // local files in the IE6 use \ insted of /
-      if (window.location.protocol == "file:" && 
-			    qx.bom.client.Engine.MSHTML == true &&
-					qx.bom.client.Engine.VERSION < 7) {
+      if (window.location.protocol == "file:" &&
+          qx.bom.client.Engine.MSHTML == true &&
+          qx.bom.client.Engine.VERSION < 7) {
         var path = fpath.split("\\");
       } else {
         var path = fpath.split("/");
@@ -1319,7 +1319,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.__setStateLoaded();
       try {
-        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()      
+        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()
       } catch (e) {
         // if nothing is selected
         var tabName = "Start";
@@ -1327,7 +1327,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.demopage.button"].setLabel(tabName);
       // this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
       this.debug("Demo loaded...");
-  
+
       if (this.isPlayAll())
       {
         if (this.widgets["toolbar.nextbutt"].isEnabled())
@@ -1420,7 +1420,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         // debuging time
         var loadEnd = new Date();
         this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
-        
+
         // get the content of the request
         var content = evt.getContent();
         // if there is a content
@@ -1431,7 +1431,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
           var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
           var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
-          // get the javascript code 
+          // get the javascript code
           var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
           reqJSFile.setTimeout(180000);
           reqJSFile.setProhibitCaching(false);
@@ -1439,13 +1439,13 @@ qx.Class.define("demobrowser.DemoBrowser",
             var jsCode = evt2.getContent();
             if (jsCode) {
               // set the javascript code to the javascript page
-              this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));                         
+              this.widgets["outputviews.sourcepage.js.page"].setHtml(this.__beautySource(jsCode, "javascript"));
             }
-          }, this);  
+          }, this);
           // add a listener which handles the failure of the request
           reqJSFile.addListener("failed", function(evt) {
             this.error("Couldn't load file: " + url);
-          }, this);          
+          }, this);
           // send the request for the javascript code
           reqJSFile.send();
 
@@ -1585,8 +1585,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // if the source is a javascript file
       if (type == "javascript") {
-        return "<pre><div class='script'>" + 
-                     qx.dev.Tokenizer.javaScriptToHtml(src) + 
+        return "<pre><div class='script'>" +
+                     qx.dev.Tokenizer.javaScriptToHtml(src) +
                      "</div></pre>";
       }
 

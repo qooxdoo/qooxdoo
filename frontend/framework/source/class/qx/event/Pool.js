@@ -38,8 +38,8 @@ qx.Class.define("qx.event.Pool",
   construct : function() {
     this.base(arguments, 30);
   },
-  
-  
+
+
 
 
   /*
@@ -57,8 +57,8 @@ qx.Class.define("qx.event.Pool",
       "qx.legacy.event.type.MouseEvent" : 1,
       "qx.legacy.event.type.KeyEvent" : 1
     },
-    
-    
+
+
     /**
      * This method places an Object in a pool of Objects of its type. Note that
      * once an instance has been pooled, there is no means to get that exact
@@ -76,8 +76,8 @@ qx.Class.define("qx.event.Pool",
       if (this.__filter[obj.classname]) {
         return;
       }
-      
+
       this.base(arguments, obj);
     }
-  }        
+  }
 });

@@ -115,13 +115,13 @@ qx.Class.define("qx.dev.Tokenizer",
         if (token.match(re_line_comment)) {
           tokens.push({type: "linecomment", value: token});
         }
-				else if (token.match(re_full_comment)) {
+        else if (token.match(re_full_comment)) {
           tokens.push({type: "fullcomment", value: token});
         }
-				else if (token.match(re_re)) {
+        else if (token.match(re_re)) {
           tokens.push({type: "regexp", value: token});
         }
-				else if (token.match(re_singlequote)) {
+        else if (token.match(re_singlequote)) {
           tokens.push({type: "qstr", value: token});
         }
         else if (token.match(re_doublequote)) {

@@ -105,7 +105,7 @@ qx.Class.define("testrunner.test.core.Property",
 
         members :
         {
-        
+
           applyValue: function(value, old) {
             if (value < this._min) {
               this.setValue(this._min);
@@ -115,13 +115,13 @@ qx.Class.define("testrunner.test.core.Property",
       });
 
       var root = new testrunner.Node();
-      
+
       root.setValue(100);
       this.assertEquals(100, root.getValue());
-      
+
       root.setValue(-100);
       this.assertEquals(0, root.getValue());
-      
+
     }
   }
 });

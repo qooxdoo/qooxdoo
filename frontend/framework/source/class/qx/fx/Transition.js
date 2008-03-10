@@ -59,7 +59,7 @@ qx.Class.define("qx.fx.Transition",
   {
     /**
      * Maps function name to function.
-     * 
+     *
      * @param functionName {String} Name off the function.
      * @return {Function|Boolean} Function belonging to the name or false,
      * function does not exist
@@ -73,7 +73,7 @@ qx.Class.define("qx.fx.Transition",
      * Returns the given effect position without
      * changing it. This is the default transition
      * function for most effects.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -85,7 +85,7 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will accelerate the effect's
      * impact exponentially.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -97,7 +97,7 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will slow down the
      * effect's impact exponentially.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -109,7 +109,7 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will accelerate the
      * effect's impact sinusoidal.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -121,7 +121,7 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will reverse the
      * effect's impact.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -133,9 +133,9 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will alternate the
      * effect's impact between start end value.
-     * 
+     *
      * Looks only nice on color effects.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -148,7 +148,7 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will bounce the
      * effect's impact forwards and backwards
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -160,9 +160,9 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function will alternate rapidly the
      * effect's impact between start end value.
-     * 
+     *
      * Looks only nice on color effects.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @param pulses {Number} Amount of pulses
      * @return {Number} Modified effect position
@@ -183,7 +183,7 @@ qx.Class.define("qx.fx.Transition",
      * Using this function will overshoot the
      * target value and then move back the impact's
      * impact.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -194,7 +194,7 @@ qx.Class.define("qx.fx.Transition",
 
     /**
      * Using this function the effect's impact will be zero.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
@@ -206,7 +206,7 @@ qx.Class.define("qx.fx.Transition",
     /**
      * Using this function the effect's impact will be
      * as if it has reached the end position.
-     * 
+     *
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */

@@ -173,9 +173,9 @@ qx.Class.define("demobrowser.demo.bom.Event_1",
 
   defer : function()
   {
-	  var domReady = function() {
-			qx.log.Logger.debug("DOM Ready... juhi :)")
-		}
+    var domReady = function() {
+      qx.log.Logger.debug("DOM Ready... juhi :)")
+    }
 
     qx.event.Registration.addListener(window, "domready", domReady, this);
   }

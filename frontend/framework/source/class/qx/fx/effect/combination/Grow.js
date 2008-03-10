@@ -211,7 +211,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       this._mainEffect.start();
     }
 
-    
+
    },
 
 

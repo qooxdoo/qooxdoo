@@ -49,7 +49,7 @@ qx.Class.define("qx.util.ObjectPool",
     this.base(arguments);
 
     this.__pool = {};
-    
+
     if (size !== undefined) {
       this.setSize(size);
     }
@@ -117,14 +117,14 @@ qx.Class.define("qx.util.ObjectPool",
       if (this.$$disposed) {
         return;
       }
-      
+
       var obj = null;
       var pool = this.__pool[clazz.classname];
 
       if (pool) {
         obj = pool.pop();
       }
-      
+
       if (obj) {
         obj.$$pooled = false;
       } else {
@@ -150,24 +150,24 @@ qx.Class.define("qx.util.ObjectPool",
     {
       var classname = obj.classname;
       var pool = this.__pool[classname];
-      
+
       if (obj.$$pooled) {
         throw new Error("Object is already pooled: " + obj);
       }
-      
+
       if (!pool) {
         this.__pool[classname] = pool = [];
       }
-      
+
       // Check to see whether the pool for this type is already full
       var size = this.getSize() || Infinity;
-      if (pool.length > size) 
+      if (pool.length > size)
       {
         this.warn("Cannot pool " + obj + " because the pool is already full.");
         obj.dispose();
         return;
       }
-      
+
       obj.$$pooled = true;
       pool.push(obj);
     }

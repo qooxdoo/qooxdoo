@@ -27,31 +27,31 @@ qx.Class.define("demobrowser.demo.io.HttpRequest_1",
     main: function()
     {
       this.base(arguments);
-      
+
       var el = document.getElementById("content");
       el.value = "Loading...";
-      
+
       var req = new qx.io2.HttpRequest("HttpRequest_1.html");
-      
-      req.addListener("change", function() 
+
+      req.addListener("change", function()
       {
         this.debug("Change to state: " + this.getReadyState());
         // this.debug("Incoming content type: " + this.getResponseHeader("Content-Type"));
       });
 
-      req.addListener("load", function() 
+      req.addListener("load", function()
       {
         this.debug("Fired load event");
         el.value = this.getResponseText();
       });
 
-      req.addListener("error", function() 
+      req.addListener("error", function()
       {
-        this.debug("Fired error event");        
+        this.debug("Fired error event");
         el.value = "Error";
       });
-      
-      req.send();      
+
+      req.send();
     }
   }
 });

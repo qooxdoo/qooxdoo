@@ -52,9 +52,9 @@ qx.Class.define("qx.io.remote.Response",
       nullable : true
     },
 
-    content : 
-    { 
-      nullable : true 
+    content :
+    {
+      nullable : true
     },
 
     responseHeaders :

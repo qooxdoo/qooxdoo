@@ -26,12 +26,12 @@ qx.Class.define("demobrowser.demo.bom.ScrollIntoView_1",
   {
     test : function()
     {
-    	var ids = [ "z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8" ];
+      var ids = [ "z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8" ];
 
       for (var i=0, l=ids.length; i<l; i++)
       {
-    	  var el = document.getElementById(ids[i]);
-    	  console.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
+        var el = document.getElementById(ids[i]);
+        console.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
         console.log("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
       }
     }
