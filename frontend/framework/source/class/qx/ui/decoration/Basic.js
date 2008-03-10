@@ -398,7 +398,6 @@ qx.Class.define("qx.ui.decoration.Basic",
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
         "backgroundRepeat": this.getBackgroundRepeat()
       }
-      console.log(styles);
       return styles;
     },
 
