@@ -30,7 +30,8 @@
  */
 qx.Class.define("demobrowser.demo.animation.Showcase_1",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Standalone,
+  include : [demobrowser.MDemoApplication],
   include : [ qx.legacy.application.MGuiCompat ],
 
   members :
