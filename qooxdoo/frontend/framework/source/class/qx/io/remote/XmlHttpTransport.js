@@ -298,7 +298,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
         }
         else
         {
-          this.error("Failed to send data: " + ex, "send");
+          this.error("Failed to send data: " + ex, ex);
           this.failed();
         }
 
