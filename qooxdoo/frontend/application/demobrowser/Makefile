@@ -23,21 +23,11 @@
 
 QOOXDOO_PATH = ../../..
 APPLICATION_NAMESPACE = demobrowser
-APPLICATION_CLASSNAME = Application
-APPLICATION_MAKE_TITLE = DEMO BROWSER
-APPLICATION_API_TITLE = Demo Browser
 APPLICATION_FILES = index.html demo
 APPLICATION_RESOURCE_FILTER = true
-APPLICATION_LINEBREAKS_BUILD = true
-APPLICATION_LINEBREAKS_SOURCE = true
 APPLICATION_COMPLETE_BUILD = false
 APPLICATION_COMPLETE_SOURCE = false
-APPLICATION_BUILD_LOG_LEVEL = error
-APPLICATION_SOURCE_PATH = ./source
-APPLICATION_SCRIPT_FOLDERNAME = script
-CMD_PYTHON = python
-CMD_REMOVE = rm
-APPLICATION_BUILD_PATH = ./build
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
 
 
@@ -46,7 +36,6 @@ APPLICATION_BUILD_PATH = ./build
 ####################################################################################
 
 ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
-#ifeq ('a','b')
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
 endif
@@ -63,13 +52,13 @@ error:
 # EXTENSIONS
 ################################################################################
 
-.PHONY: source build
+.PHONY: source build clean
 
 source:
-	@echo
-	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
-	@$(CMD_LINE)
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j source
+	@#echo
+	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
+	@#$(CMD_LINE)
+	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j source
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
@@ -78,12 +67,12 @@ source:
 	@echo "  * Generating Demo Datebase..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
 	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j source
-	
+
 build:
-	@echo
-	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
-	@$(CMD_LINE)
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j build
+	@#echo
+	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
+	@#$(CMD_LINE)
+	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j build
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
