@@ -21,7 +21,7 @@
 /**
  * This class performs the auto flush of all layout relevant queues.
  */
-qx.Class.define("qx.ui.core.QueueManager",
+qx.Class.define("qx.ui.core.queue.Manager",
 {
   statics :
   {
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.core.QueueManager",
      */
     scheduleFlush : function(job)
     {
-      var clazz = qx.ui.core.QueueManager;
+      var clazz = qx.ui.core.queue.Manager;
 
       clazz.__jobs[job] = true;
 
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.core.QueueManager",
      */
     flush : function()
     {
-      var jobs = qx.ui.core.QueueManager.__jobs;
+      var jobs = qx.ui.core.queue.Manager.__jobs;
 
       // No else blocks here because each flush can influence the
       // following flushes!
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.core.QueueManager",
       if (jobs.appearance)
       {
         //var start = new Date;
-        qx.ui.core.AppearanceQueue.flush();
+        qx.ui.core.queue.Appearance.flush();
         jobs.appearance = false;
         //qx.log.Logger.debug(this, "Layout queue runtime: " + (new Date - start) + "ms");
       }
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.core.QueueManager",
       if (jobs.decorator)
       {
         //var start = new Date;
-        qx.ui.core.DecoratorQueue.flush();
+        qx.ui.core.queue.Decorator.flush();
         jobs.decorator = false;
         //qx.log.Logger.debug(this, "Decorator queue runtime: " + (new Date - start) + "ms");
       }
@@ -88,17 +88,9 @@ qx.Class.define("qx.ui.core.QueueManager",
       if (jobs.layout)
       {
         //var start = new Date;
-        qx.ui.core.LayoutQueue.flush();
+        qx.ui.core.queue.Layout.flush();
         jobs.layout = false;
         //qx.log.Logger.debug(this, "Layout queue runtime: " + (new Date - start) + "ms");
-      }
-
-      if (jobs.renderDecoration)
-      {
-        //var start = new Date;
-        qx.ui.core.DecorationQueue.flush();
-        jobs.decoration = false;
-        //qx.log.Logger.debug(this, "Decoration queue runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.element)
@@ -112,12 +104,12 @@ qx.Class.define("qx.ui.core.QueueManager",
       if (jobs.display)
       {
         //var start = new Date;
-        qx.ui.core.DisplayQueue.flush();
+        qx.ui.core.queue.Display.flush();
         jobs.display = false;
         //qx.log.Logger.debug(this, "Display queue runtime: " + (new Date - start) + "ms");
       }
 
-      qx.ui.core.QueueManager.__scheduled = false;
+      qx.ui.core.queue.Manager.__scheduled = false;
     }
   },
 

@@ -407,7 +407,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     {
       var widget = this.getWidget();
       if (widget) {
-        qx.ui.core.LayoutQueue.add(widget);
+        qx.ui.core.queue.Layout.add(widget);
       }
     },
 
@@ -500,7 +500,7 @@ qx.Class.define("qx.ui.layout.Abstract",
           child.setLayoutParent(null);
         }
 
-        qx.ui.core.LayoutQueue.add(old);
+        qx.ui.core.queue.Layout.add(old);
       }
 
       if (value)
@@ -511,7 +511,7 @@ qx.Class.define("qx.ui.layout.Abstract",
           child.setLayoutParent(value);
         }
 
-        qx.ui.core.LayoutQueue.add(value);
+        qx.ui.core.queue.Layout.add(value);
       }
     },
 
