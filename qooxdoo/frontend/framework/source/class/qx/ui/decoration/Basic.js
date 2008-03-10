@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.decoration.Basic",
 
     // property apply
     _applyBorderChange : function(value, old, name) {
-      this.__informManager();
+      this._informManager();
     },
 
     // property apply
@@ -505,7 +505,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     _changeColorTop : function(value)
     {
       this.__colorTop = value;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -518,7 +518,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     _changeColorRight : function(value)
     {
       this.__colorRight = value;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -531,7 +531,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     _changeColorBottom : function(value)
     {
       this.__colorBottom = value;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -544,7 +544,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     _changeColorLeft : function(value)
     {
       this.__colorLeft = value;
-      this.__informManager();
+      this._informManager();
     },
 
     /**
@@ -557,7 +557,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     _changeBackgroundColor : function(color)
     {
       this.__bgColor = color;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -573,7 +573,7 @@ qx.Class.define("qx.ui.decoration.Basic",
      *
      * @type member
      */
-    __informManager : function()
+    _informManager : function()
     {
       this._needsUpdate = true;
       qx.ui.core.queue.Decorator.add(this);
