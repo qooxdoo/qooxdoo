@@ -26,6 +26,7 @@ qx.Class.define("testrunner.test.ui.Grid",
 
     setUp : function()
     {
+      this.base(arguments);
       this._gridWidget = new qx.ui.core.Widget();
       this._gridLayout = new qx.ui.layout.Grid();
 
@@ -36,7 +37,9 @@ qx.Class.define("testrunner.test.ui.Grid",
 
     tearDown : function()
     {
+      this.base(arguments);
       this.getRoot().getLayout().remove(this._gridWidget);
+      this._gridWidget.dispose();
     },
 
 
@@ -104,6 +107,7 @@ qx.Class.define("testrunner.test.ui.Grid",
       this.assertSize(this._gridWidget, 860, 100);
     },
 
+
     testVisibility : function()
     {
       var a = this._getFixedWidget();
@@ -156,6 +160,30 @@ qx.Class.define("testrunner.test.ui.Grid",
       this.assertStyle(b, "display", "none");
       this.assertStyle(c, "display", "");
       this.assertStyle(d, "display", "");
+    },
+
+
+    testCellSize : function()
+    {
+      this._gridLayout.setRowHeight(0, 40);
+      this._gridLayout.setRowHeight(1, 150);
+      this._gridLayout.setColumnWidth(0, 70);
+      this._gridLayout.setColumnWidth(1, 290);
+
+      var a = new qx.ui.core.Widget();
+      var b = new qx.ui.core.Widget();
+      var c = new qx.ui.core.Widget();
+      var d = new qx.ui.core.Widget();
+
+      this._gridLayout.add(a, 0, 0);
+      this._gridLayout.add(b, 0, 1);
+      this._gridLayout.add(c, 1, 0);
+      this._gridLayout.add(d, 1, 1);
+
+      this.assertSize(a, 70, 40);
+      this.assertSize(b, 290, 40);
+      this.assertSize(c, 70, 150);
+      this.assertSize(d, 290, 150);
     }
 
 

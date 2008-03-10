@@ -52,9 +52,11 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     assertSize : function(widget, width, height, msg)
     {
       qx.ui.core.queue.Manager.flush();
-      var size = widget.getComputedLayout();
-      this.assertEquals(width, size.width, msg);
-      this.assertEquals(height, size.height, msg);
+      var el = widget.getContainerElement().getDomElement();
+      var elHeight = parseInt(el.style.height);
+      var elWidth = parseInt(el.style.width);
+      this.assertEquals(width, elWidth, msg);
+      this.assertEquals(height, elHeight, msg);
     },
 
 
