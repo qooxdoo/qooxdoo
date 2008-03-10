@@ -155,9 +155,6 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      */
     _dispatchEvent : function(target, event)
     {
-      // TODO: What should this do?
-      if (event.getType() == "mousedown");
-
       if (!target.isEnabled()) {
         return;
       }
