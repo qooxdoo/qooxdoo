@@ -100,7 +100,7 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Array} A list of all supported (post) actions */
-    _supportedActions : [ "deactivate", "blur", "activate", "focus", "capture", "releaseCapture" ],
+    _supportedActions : [ "activate", "focus", "capture" ],
 
 
     /** {Map} Map of attributes where the computed value should be preferred over the configured value */
@@ -1355,8 +1355,10 @@ qx.Class.define("qx.html.Element",
      */
     blur : function()
     {
-      qx.html.Element._actions.blur = this;
-      qx.html.Element._scheduleFlush("element");
+      var el = this._element;
+      if (el) {
+        qx.bom.Element.blur(el);
+      }
     },
 
 
@@ -1381,8 +1383,10 @@ qx.Class.define("qx.html.Element",
      */
     deactivate : function()
     {
-      qx.html.Element._actions.deactivate = this;
-      qx.html.Element._scheduleFlush("element");
+      var el = this._element;
+      if (el) {
+        qx.bom.Element.deactivate(el);
+      }
     },
 
 
@@ -1401,9 +1405,14 @@ qx.Class.define("qx.html.Element",
      */
     releaseCapture : function()
     {
-      qx.html.Element._actions.releaseCapture = this;
-      qx.html.Element._scheduleFlush("element");
+      var el = this._element;
+      if (el) {
+        qx.bom.Element.releaseCapture(el);
+      }
     },
+
+
+
 
 
     /*
