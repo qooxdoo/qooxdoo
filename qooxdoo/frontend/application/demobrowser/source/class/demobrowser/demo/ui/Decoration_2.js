@@ -32,8 +32,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.Decoration_2_Theme1);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("#EEE");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
