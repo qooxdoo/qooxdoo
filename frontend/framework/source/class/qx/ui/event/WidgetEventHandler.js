@@ -73,7 +73,6 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
   members :
   {
-
     /** {Map} Event which are dispatched on the container/content element */
     __eventTarget :
     {
