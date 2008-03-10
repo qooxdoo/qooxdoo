@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.bom.Location_1_std",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -28,6 +28,9 @@ qx.Class.define("demobrowser.demo.bom.Location_1_std",
     main : function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       var links = document.getElementById("list").getElementsByTagName("a");
       for (var i=0, l=links.length; i<l; i++) {
