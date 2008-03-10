@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #module(core)
-#resource(testrunner.data:data)
+#resource(testrunner.data:testrunner/data)
 #embed(testrunner.data/*)
 
 ************************************************************************ */
