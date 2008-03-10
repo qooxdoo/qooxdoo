@@ -1926,6 +1926,35 @@ qx.Class.define("qx.ui.core.Widget",
       if (newAppearanceProperties) {
         this.__styleProperties(newAppearanceProperties);
       }
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ENHANCED DISPOSE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Removes this widget from its parent and dispose it.
+     *
+     * Please note that the widget is not disposed synchronously. The
+     * real dispose happens after the next queue flush.
+     *
+     * @type member
+     * @return {void}
+     */
+    destroy : function()
+    {
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.remove(this);
+      }
+
+      qx.ui.core.queue.Dispose.add(this);
     }
   },
 
