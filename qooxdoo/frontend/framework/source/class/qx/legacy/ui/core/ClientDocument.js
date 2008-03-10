@@ -53,6 +53,26 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
   {
     this.base(arguments);
 
+    // CSS fix
+    if (qx.core.Setting.get("qx.boxModelCorrection"))
+    {
+      var boxSizingAttr = qx.legacy.core.Client.getInstance().getEngineBoxSizingAttributes();
+      var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
+      var contentBoxCss = boxSizingAttr.join(":content-box;") + ":content-box;";
+
+      qx.bom.Stylesheet.createElement(
+        "html,body { margin:0;border:0;padding:0; } " +
+        "html { border:0 none; } " +
+        "*{" + borderBoxCss +"} " +
+        "img{" + contentBoxCss + "}"
+      );
+    }
+
+    if (qx.core.Setting.get("qx.enableApplicationLayout")) {
+      qx.bom.Stylesheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
+    }
+
+
     this._window = window;
     this._document = window.document;
 
@@ -632,36 +652,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     "qx.boxModelCorrection"      : true
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function()
-  {
-    // CSS fix
-    if (qx.core.Setting.get("qx.boxModelCorrection"))
-    {
-      var boxSizingAttr = qx.legacy.core.Client.getInstance().getEngineBoxSizingAttributes();
-      var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
-      var contentBoxCss = boxSizingAttr.join(":content-box;") + ":content-box;";
-
-      qx.bom.Stylesheet.createElement(
-        "html,body { margin:0;border:0;padding:0; } " +
-        "html { border:0 none; } " +
-        "*{" + borderBoxCss +"} " +
-        "img{" + contentBoxCss + "}"
-      );
-    }
-
-    if (qx.core.Setting.get("qx.enableApplicationLayout")) {
-      qx.bom.Stylesheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
-    }
-  },
 
 
 
