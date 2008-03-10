@@ -23,13 +23,18 @@
  */
 qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Standalone,
+  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
+
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var MenuItem = demobrowser.demo.layout.MenuEmu_1_MenuItem;

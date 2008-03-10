@@ -29,7 +29,8 @@
  */
 qx.Class.define("demobrowser.demo.animation.Transition_2",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Standalone,
+  include : [demobrowser.MDemoApplication],
   include : [ qx.legacy.application.MGuiCompat ],
 
   members :

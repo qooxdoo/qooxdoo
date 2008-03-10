@@ -20,13 +20,17 @@
 
 qx.Class.define("demobrowser.demo.bom.Clip_1",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Native,
+  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main : function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       window.APPLICATION = this;
 
