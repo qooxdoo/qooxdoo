@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.core.Init)
+
+************************************************************************ */
+
 /**
  * This class is the base class for all non-GUI qooxdoo applications.
  * It is ideal for low-level DOM/BOM operations and AJAX communication.

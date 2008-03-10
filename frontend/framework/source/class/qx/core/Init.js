@@ -37,6 +37,12 @@ qx.Class.define("qx.core.Init",
 
   statics :
   {
+    /**
+     * Returns the instanciated qooxdoo application.
+     *
+     * @type static
+     * @return {qx.core.Object} The application instance.
+     */
     getApplication : function() {
       return this.__application || null;
     },
