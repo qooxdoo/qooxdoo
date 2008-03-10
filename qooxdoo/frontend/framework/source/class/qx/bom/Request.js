@@ -30,7 +30,7 @@
 
      Authors:
        * Sergey Ilinsky
-       
+
      Comment:
        Sergey has allowed us, infact me, Sebastian Werner, to use
        his Apache licensed software and put it under a MIT license.
@@ -44,14 +44,14 @@
  * the W3C definition.
  *
  * Additional support for:
- * 
+ *
  * * the methods {@link #getRequestHeader} and {@link #removeRequestHeader}
  * * the <code>timeout</code> property and the <code>ontimeout</code> event
  * * the <code>onabort</code> event
  * * the <code>onload</code> event
  * * the <code>onerror</code> event
  *
- * These features are being considered for a future version of the XMLHttpRequest 
+ * These features are being considered for a future version of the XMLHttpRequest
  * specification by the W3C at http://www.w3.org/TR/XMLHttpRequest/.
  *
  * For an higher level implementation with additional comfort please have a look
@@ -63,8 +63,8 @@ qx.Bootstrap.define("qx.bom.Request",
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
-  */  
-  
+  */
+
   construct : function()
   {
     this.__headers = {};
@@ -79,7 +79,7 @@ qx.Bootstrap.define("qx.bom.Request",
      STATICS
   *****************************************************************************
   */
-  
+
   statics :
   {
     UNSENT  : 0,
@@ -98,27 +98,27 @@ qx.Bootstrap.define("qx.bom.Request",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /** {Integer} Current ready state: 0=uninitialized, 1=sending request, 2=headers loaded, 3=loading result, 4=done */
     readyState : 0,
-    
+
     /** {String} String version of data returned from server process */
     responseText : "",
-    
+
     /** {Element} DOM-compatible document object of data returned from server process */
     responseXML : null,
-    
+
     /** {Integer} Numeric code returned by server, such as 404 for "Not Found" or 200 for "OK" */
     status : 0,
-    
+
     /** {String} String message accompanying the status code */
     statusText : "",
-    
+
     /** {Integer} Number of milliseconds until a timeout occour */
     timeout : 0,
-    
+
 
 
 
@@ -128,11 +128,11 @@ qx.Bootstrap.define("qx.bom.Request",
       EVENT LISTENER
     ---------------------------------------------------------------------------
     */
-    
-    /** 
-     * Event handler for an event that fires at every state change. 
+
+    /**
+     * Event handler for an event that fires at every state change.
      *
-     * This method needs to be overwritten by the user to get 
+     * This method needs to be overwritten by the user to get
      * informed about the communication progress.
      *
      * @type member
@@ -141,12 +141,12 @@ qx.Bootstrap.define("qx.bom.Request",
     onreadystatechange : function() {
       // empty
     },
-    
-    
-    /** 
-     * Event handler for an event that fires when the timeout limit is reached. 
+
+
+    /**
+     * Event handler for an event that fires when the timeout limit is reached.
      *
-     * This method needs to be overwritten by the user to get 
+     * This method needs to be overwritten by the user to get
      * informed about the timeout.
      *
      * @type member
@@ -155,12 +155,12 @@ qx.Bootstrap.define("qx.bom.Request",
     ontimeout : function() {
       // empty
     },
-    
-    
-    /** 
+
+
+    /**
      * Method which is executed when the request was finished successfully.
      *
-     * This method needs to be overwritten by the user to get 
+     * This method needs to be overwritten by the user to get
      * informed about the successful load of the request.
      *
      * @type member
@@ -168,13 +168,13 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     onload : function() {
       // empty
-    },    
-    
-    
-    /** 
+    },
+
+
+    /**
      * Method which is executed when the request fails.
      *
-     * This method needs to be overwritten by the user to get 
+     * This method needs to be overwritten by the user to get
      * informed about the failure of the running request.
      *
      * @type member
@@ -183,12 +183,12 @@ qx.Bootstrap.define("qx.bom.Request",
     onerror : function() {
       // empty
     },
-    
-    
-    /** 
+
+
+    /**
      * Method which is executed when the user aborts the running request.
      *
-     * This method needs to be overwritten by the user to get 
+     * This method needs to be overwritten by the user to get
      * informed about the user abort.
      *
      * @type member
@@ -196,17 +196,17 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     onabort : function() {
       // empty
-    },      
-    
-    
-    
-    
-    
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       MAIN CONTROL
     ---------------------------------------------------------------------------
-    */    
+    */
 
     /**
      * Assigns destination URL, method, and other optional attributes of a pending request
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.bom.Request",
      * @param async {Boolean?false} Whether the request should be asynchronous
      * @param username {String?null} Optional user name
      * @param password {String?null} Optional password
-     * @return {void} 
+     * @return {void}
      */
     open : function(method, url, async, username, password)
     {
@@ -229,14 +229,14 @@ qx.Bootstrap.define("qx.bom.Request",
       this.__xmlhttp.onreadystatechange = this.__stateListener;
 
       this.__timeoutListener = qx.lang.Function.bind(this.__onNativeTimeout, this);
-      this.__xmlhttp.ontimeout = this.__timeoutListener;      
-      
+      this.__xmlhttp.ontimeout = this.__timeoutListener;
+
       // Store timeout to request
       // Currently only supported by IE8 beta
       if (this.timeout != null && this.timeout > 0) {
         this.__xmlhttp.timeout = this.timeout;
       }
-    
+
       // Natively open request
       this.__xmlhttp.open(method, url, async, username, password);
 
@@ -250,41 +250,41 @@ qx.Bootstrap.define("qx.bom.Request",
         }
       }
     },
-    
-    
+
+
     /**
      * Transmits the request, optionally with postable string or XML DOM object data
      *
      * @type member
      * @param data {String|Element?} String or XML DOM object data
-     * @return {void} 
+     * @return {void}
      */
     send : function(data)
     {
       var headers = this.__headers;
-      
+
       // BUGFIX: Safari - fails sending documents created/modified dynamically, so an explicit serialization required
       // BUGFIX: IE - rewrites any custom mime-type to "text/xml" in case an XMLNode is sent
       // BUGFIX: Gecko - fails sending Element (this is up to the implementation either to standard)
       if (data && data.nodeType)
       {
         data = window.XMLSerializer ? new XMLSerializer().serializeToString(data) : data.xml;
-        
+
         if (!headers["Content-Type"]) {
           headers["Content-Type"] = "application/xml";
         }
       }
-      
+
       // Sync request headers
       for (var label in headers) {
         this.__xmlhttp.setRequestHeader(label, headers[label]);
       }
-      
+
       // Attach timeout
-      if (this.timeout != null && this.timeout > 0) {      
+      if (this.timeout != null && this.timeout > 0) {
         this.__timeoutHandle = window.setTimeout(this.__timeoutListener, this.timeout);
       }
-      
+
       // Finally send using native method
       this.__xmlhttp.send(data);
 
@@ -325,34 +325,34 @@ qx.Bootstrap.define("qx.bom.Request",
       var status = this.status;
       return status === 304 || (status >= 200 && status < 300);
     },
-    
-    
+
+
     /**
      * Stops the current request.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     abort : function()
     {
       // Execute abort helper
       this.__abortHelper();
-      
+
       // Call listener
       this.onabort();
-    },    
-    
-    
-    
-    
-    
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       NATIVE EVENT HANDLER
     ---------------------------------------------------------------------------
-    */    
-    
-    /** 
+    */
+
+    /**
      * Internal callback for native <code>readystatechange</code> event.
      *
      * @type member
@@ -360,7 +360,7 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     __onNativeReadyStateChange : function()
     {
-      if (qx.core.Variant.isSet("qx.client", "gecko")) 
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         if (!this.__async) {
           return;
@@ -369,7 +369,7 @@ qx.Bootstrap.define("qx.bom.Request",
 
       // Synchronize state
       this.readyState = this.__xmlhttp.readyState;
-      
+
       // Synchronize values
       this.__synchronizeValues();
 
@@ -392,9 +392,9 @@ qx.Bootstrap.define("qx.bom.Request",
         this.__cleanTransport();
       }
     },
-    
-    
-    /** 
+
+
+    /**
      * Internal callback for native <code>timeout</code> event.
      *
      * @type member
@@ -408,7 +408,7 @@ qx.Bootstrap.define("qx.bom.Request",
       // Fire user visible event
       this.ontimeout();
     },
-    
+
 
 
 
@@ -417,15 +417,15 @@ qx.Bootstrap.define("qx.bom.Request",
     ---------------------------------------------------------------------------
       RESPONSE HEADERS
     ---------------------------------------------------------------------------
-    */  
-    
+    */
+
     /**
      * Returns complete set of headers (labels and values) as a string
      *
      * @type member
      * @return {String} All headers
      */
-    getAllResponseHeaders : function() 
+    getAllResponseHeaders : function()
     {
       try {
         return this.__xmlhttp.getAllResponseHeaders();
@@ -442,9 +442,9 @@ qx.Bootstrap.define("qx.bom.Request",
      * @param label {String} Name of the header label
      * @return {String} The selected header's value.
      */
-    getResponseHeader : function(label) 
+    getResponseHeader : function(label)
     {
-      try {      
+      try {
         return this.__xmlhttp.getResponseHeader(label);
       } catch(ex) {
         return null;
@@ -459,8 +459,8 @@ qx.Bootstrap.define("qx.bom.Request",
     ---------------------------------------------------------------------------
       REQUEST HEADERS
     ---------------------------------------------------------------------------
-    */  
-    
+    */
+
     /**
      * Assigns a label/value pair to the header to be sent with a request.
      *
@@ -471,7 +471,7 @@ qx.Bootstrap.define("qx.bom.Request",
      * @param value {String} Value of the header field
      * @return {void}
      */
-    setRequestHeader : function(label, value) 
+    setRequestHeader : function(label, value)
     {
       if (value == null) {
         delete this.__headers[label];
@@ -479,8 +479,8 @@ qx.Bootstrap.define("qx.bom.Request",
         this.__headers[label] = value;
       }
     },
-    
-    
+
+
     /**
      * Removes a label from the header to be sent with a request.
      *
@@ -493,16 +493,16 @@ qx.Bootstrap.define("qx.bom.Request",
      */
     removeRequestHeader : function(label, value) {
       delete this.__headers[label];
-    },    
-    
-    
+    },
+
+
     /**
      * Returns the value of a given header label.
      *
      * @type member
      * @param label {String} Label of the header entry
      * @return {String} The value or <code>null</code> when not defined.
-     */    
+     */
     getRequestHeader : function(label) {
       return this.__headers[label] || null;
     },
@@ -516,8 +516,8 @@ qx.Bootstrap.define("qx.bom.Request",
     ---------------------------------------------------------------------------
       INTERNAL HELPERS
     ---------------------------------------------------------------------------
-    */    
-        
+    */
+
     /**
      * Internal helper for all aborting actions.
      *
@@ -528,7 +528,7 @@ qx.Bootstrap.define("qx.bom.Request",
     {
       // Synchronize values again
       this.__synchronizeValues();
-      
+
       // BUGFIX: Gecko - unneccesary DONE when aborting
       if (this.readyState > qx.bom.Request.UNSENT) {
         this.__aborted = true;
@@ -536,14 +536,14 @@ qx.Bootstrap.define("qx.bom.Request",
 
       // Natively abort request
       this.__xmlhttp.abort();
-      
+
       // Cleanup listeners etc.
-      this.__cleanTransport();      
+      this.__cleanTransport();
     },
-    
-    
+
+
     /**
-     * Internal helper to return a new native XMLHttpRequest object suitable for 
+     * Internal helper to return a new native XMLHttpRequest object suitable for
      * the client.
      *
      * @type static
@@ -562,28 +562,28 @@ qx.Bootstrap.define("qx.bom.Request",
       // [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\
       // FeatureControl\FEATURE_XMLHTTP_RESPECT_ZONEPOLICY]
       // "Iexplore.exe"=dword:00000001
-      // 
-      // Generally it seems that the ActiveXObject is more stable. jQuery 
+      //
+      // Generally it seems that the ActiveXObject is more stable. jQuery
       // seems to use it always. We prefer the ActiveXObject for the moment, but allow
       // fallback to XMLHTTP if ActiveX is disabled.
-      "mshtml" : function() 
+      "mshtml" : function()
       {
         if (window.ActiveXObject && qx.xml.Document.XMLHTTP) {
           return new ActiveXObject(qx.xml.Document.XMLHTTP);
         }
-        
+
         if (window.XMLHttpRequest) {
           return new XMLHttpRequest;
         }
       }
     }),
-    
-    
+
+
     /**
      * Internal helper to "fire" the onreadystatechange function
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __fireReadyStateChange : function()
     {
@@ -591,10 +591,10 @@ qx.Bootstrap.define("qx.bom.Request",
       if (this.__lastFired === this.readyState) {
         return;
       }
-      
+
       // Execute onreadystatechange
       this.onreadystatechange();
-      
+
       // Store last fired
       this.__lastFired = this.readyState;
 
@@ -606,7 +606,7 @@ qx.Bootstrap.define("qx.bom.Request",
         } else {
           this.onerror();
         }
-      }      
+      }
     },
 
 
@@ -629,13 +629,13 @@ qx.Bootstrap.define("qx.bom.Request",
           doc = new ActiveXObject(qx.xml.Document.DOMDOC);
           doc.loadXML(this.__xmlhttp.responseText);
         }
-        
+
         // Check if there is no error in document
         if (doc && doc.parseError != 0) {
           return null;
         }
       }
-      
+
       // Check if there is no error in document
       else if (doc && doc.documentElement && doc.documentElement.tagName == "parsererror") {
         return null;
@@ -650,12 +650,12 @@ qx.Bootstrap.define("qx.bom.Request",
      * to omit exceptions when the user tries this directly.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __synchronizeValues : function()
     {
       var xmlhttp = this.__xmlhttp;
-      
+
       try {
         this.responseText = xmlhttp.responseText;
       } catch(e) {}
@@ -671,16 +671,16 @@ qx.Bootstrap.define("qx.bom.Request",
       try {
         this.statusText = xmlhttp.statusText;
       } catch(e) {}
-      
+
       // Kudos do jquery team for this code.
       // IE error sometimes returns 1223 when it should be 204 so treat it as success, see jquery bug #1450
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         if (this.status === 1223) {
           this.status = 204;
         }
       }
-      
+
       // Accept local transports without status code
       if (!this.status && location.protocol === "file:") {
         this.status = 204;
@@ -692,7 +692,7 @@ qx.Bootstrap.define("qx.bom.Request",
      * Cleans up the native transport object and some other internal stuff.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __cleanTransport : function()
     {
@@ -700,21 +700,21 @@ qx.Bootstrap.define("qx.bom.Request",
       if (this.__timeoutHandle) {
         window.clearTimeout(this.__timeoutHandle);
       }
-      
+
       // BUGFIX: IE - memory leak (on-page leak)
-      if (this.__xmlhttp) 
+      if (this.__xmlhttp)
       {
         this.__xmlhttp.onreadystatechange = this.__dummyFunction;
-        this.__xmlhttp.ontimeout = this.__dummyFunction; 
+        this.__xmlhttp.ontimeout = this.__dummyFunction;
       }
-      
+
       // Remove user listeners
       delete this.onreadystatechange;
-      delete this.ontimeout;     
-      delete this.onload;     
-      delete this.onerror;     
-      delete this.onabort;     
-      
+      delete this.ontimeout;
+      delete this.onload;
+      delete this.onerror;
+      delete this.onabort;
+
       // Delete private properties
       delete this.__timeoutHandle;
       delete this.__stateListener;
@@ -722,14 +722,14 @@ qx.Bootstrap.define("qx.bom.Request",
       delete this.__xmlhttp;
       delete this.__headers;
     },
-    
-    
+
+
     /**
      * Dummy function as fallback for internal ready state listener
      *
      * @type member
-     * @return {void} 
-     */     
+     * @return {void}
+     */
     __dummyFunction : function() {
       // empty
     }

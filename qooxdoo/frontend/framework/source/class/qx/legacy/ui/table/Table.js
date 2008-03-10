@@ -324,7 +324,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
       apply : "_applyStatusBarVisible"
     },
 
-  
+
     /** The Statusbartext, set it, if you want some more Information */
     additionalStatusBarText :
     {
@@ -642,7 +642,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     _applyAdditionalStatusBarText : function(value, old)
     {
       this._additionalStatusBarText = value;
-    
+
       if(value) {
          this._updateStatusBar();
       }
@@ -1525,7 +1525,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
             text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
           }
         }
-     
+
         if(this._additionalStatusBarText) {
           if(text) {
             text += this._additionalStatusBarText;

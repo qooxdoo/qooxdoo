@@ -67,8 +67,8 @@ qx.Class.define("qx.event.handler.Application",
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-    
-    
+
+
     /**
      * Sends the currently running application the ready signal. Used
      * exclusively by package loader system.
@@ -184,7 +184,7 @@ qx.Class.define("qx.event.handler.Application",
     {
       this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
       this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
-      
+
       qx.bom.Event.addNativeListener(window, "load", this._onNativeLoadWrapped);
       qx.bom.Event.addNativeListener(window, "unload", this._onNativeUnloadWrapped);
     },
@@ -200,7 +200,7 @@ qx.Class.define("qx.event.handler.Application",
     {
       qx.bom.Event.removeNativeListener(window, "load", this._onNativeLoadWrapped);
       qx.bom.Event.removeNativeListener(window, "unload", this._onNativeUnloadWrapped);
-      
+
       this._onNativeLoadWrapped = null;
       this._onNativeUnloadWrapped = null;
     },

@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_2",
 
       doc.add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
     },
-    
+
     _resetElement : function() {
       qx.bom.element.Style.setCss(this._element, this._elementStyle);
     }

@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
      STATICS
   *****************************************************************************
   */
-    
+
   statics :
   {
     /**
@@ -61,7 +61,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
 
       "default" : function(entry) {}
     }),
-    
+
 
     /**
      * Internal helper to convert an log entry to a arguments list.
@@ -73,10 +73,10 @@ qx.Bootstrap.define("qx.log.appender.Native",
     __toArguments : function(entry)
     {
       var output = [];
-      
+
       output.push(entry.offset + "ms");
-      
-      if (entry.object) 
+
+      if (entry.object)
       {
         var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
         if (obj) {
@@ -85,30 +85,30 @@ qx.Bootstrap.define("qx.log.appender.Native",
       }
       else if (entry.clazz) {
         output.push(entry.clazz.classname + ":");
-      }      
+      }
 
       var items = entry.items;
       var item, msg;
-      for (var i=0, il=items.length; i<il; i++) 
+      for (var i=0, il=items.length; i<il; i++)
       {
         item = items[i];
         msg = item.text;
-        
+
         if (msg instanceof Array)
         {
           var list = [];
           for (var j=0, jl=msg.length; j<jl; j++) {
             list.push(msg[j].text);
-          }           
+          }
 
           if (item.type === "map") {
             output.push("{", list.join(", "), "}");
           } else {
             output.push("[", list.join(", "), "]");
-          }          
+          }
         }
         else
-        {        
+        {
           output.push(msg);
         }
       }
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
      DEFER
   *****************************************************************************
   */
-  
+
   defer : function(statics) {
     qx.log.Logger.register(statics);
   }

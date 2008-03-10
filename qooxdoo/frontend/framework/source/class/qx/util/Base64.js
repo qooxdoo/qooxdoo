@@ -14,7 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     
+
 ************************************************************************ */
 
 qx.Class.define("qx.util.Base64",
@@ -22,7 +22,7 @@ qx.Class.define("qx.util.Base64",
   statics :
   {
     __keystr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-    
+
     encode : function(input)
     {
       var keyStr = this.__keystr;

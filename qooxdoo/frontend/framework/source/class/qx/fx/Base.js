@@ -164,7 +164,7 @@ qx.Class.define("qx.fx.Base",
      transition :
      {
        init   : "linear",
-       
+
        // keep this in sync with qx.fx.Transition!
        check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
      }
@@ -203,9 +203,9 @@ qx.Class.define("qx.fx.Base",
 
   members :
   {
-    
+
     /**
-     * Apply method for duration. Should be overwritten if needed. 
+     * Apply method for duration. Should be overwritten if needed.
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
@@ -233,7 +233,7 @@ qx.Class.define("qx.fx.Base",
      * actually ends.
      */
     beforeFinishInternal : function(){},
-    
+
     /**
      * This internal function is called before
      * the effect actually ends.
@@ -279,14 +279,14 @@ qx.Class.define("qx.fx.Base",
      */
     afertSetup : function(){},
 
-    
+
     /**
      * This internal function is called before
      * "beforeUpdateInternal" and each time before
      * the effect's "update" method is called.
      */
     beforeUpdateInternal : function(){},
-    
+
     /**
      * This internal function is each time before
      * the effect's "update" method is called.
@@ -324,9 +324,9 @@ qx.Class.define("qx.fx.Base",
     * This internal function is called
     * before the effect starts to configure
     * the element or prepare other effects.
-    * 
+    *
     * Fires "setup" event.
-    * 
+    *
     */
     setup : function() {
       this.fireEvent("setup");
@@ -335,18 +335,18 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * This internal function is called
-     * each time the effect performs an 
+     * each time the effect performs an
      * step of the animation.
-     * 
-     * Sub classes will overwrite this to 
+     *
+     * Sub classes will overwrite this to
      * perform the acutal changes on element
-     * properties.  
-     * 
+     * properties.
+     *
      * Fires "update" event.
-     * 
+     *
      * @param position {Number} Animation setp
      * as Number between 0 and 1.
-     * 
+     *
      */
     update : function(position)
     {
@@ -359,9 +359,9 @@ qx.Class.define("qx.fx.Base",
     /**
      * This internal function is called
      * when the effect has finished.
-     * 
+     *
      * Fires "finish" event.
-     * 
+     *
      */
     finish  : function() {
       this.fireEvent("finish");
@@ -375,7 +375,7 @@ qx.Class.define("qx.fx.Base",
     {
 
       if (this._state != qx.fx.Base.EffectState.IDLE) {
-        // Return a value to use this in overwritten start() methods 
+        // Return a value to use this in overwritten start() methods
         return false;
       }
 
@@ -397,7 +397,7 @@ qx.Class.define("qx.fx.Base",
      */
     end : function()
     {
-      
+
       // render with "1.0" to have an intended finish state
       this.render(1.0);
       this.cancel();
@@ -413,14 +413,14 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * Calls update(), or invokes the effect, if not running.
-     * 
+     *
      * @param pos {Number} Effect's step on duration between
      * 0 (just started) and 1 (finished). The longer the duration
      * is, the lower is each step.
      */
     render : function(pos)
     {
-      
+
       if(this._state == qx.fx.Base.EffectState.PREPARING)
       {
         this._state = qx.fx.Base.EffectState.RUNNING
@@ -454,7 +454,7 @@ qx.Class.define("qx.fx.Base",
     /**
      * Ivokes update() if effect's remaining duration is
      * bigger than zero, or ends the effect otherwise.
-     *  
+     *
      * @param timePos {Number} Effect's step on duration between
      * 0 (just started) and 1 (finished). The longer the duration
      * is, the lower is each step.

@@ -3,30 +3,30 @@
  *
  * * Supports cross-domain communication
  * * Automatically "embeds" script so when the loaded event occours the new features are useable as well
- * 
- * All request relevant data is given through {@link #load}. Pooling of 
+ *
+ * All request relevant data is given through {@link #load}. Pooling of
  * an instance for multiple usage should possible.
  */
 qx.Bootstrap.define("qx.io2.ScriptLoader",
 {
-  construct : function() 
+  construct : function()
   {
     this.__oneventWrapped = qx.lang.Function.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
   },
-  
+
   statics :
   {
     __pool : [],
-    
+
     get : function() {
       return this.__pool.pop() || new qx.io2.ScriptLoader;
     },
-    
+
     pool : function(loader) {
       this.__pool.push(loader);
     },
-    
+
     load : function(url, callback, context)
     {
       var loader = this.get();
@@ -34,11 +34,11 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
       {
         callback.call(context||window, status);
         this.pool(loader);
-      }, 
+      },
       this);
     }
   },
-  
+
   members :
   {
     /**
@@ -58,22 +58,22 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
       if (this.__running) {
         throw new Error("Another request is still running!");
       }
-      
+
       this.__running = true;
-      
+
       // Place script element into head
       var head = document.getElementsByTagName("head")[0];
 
       // Create script element
       var script = this.__elem;
-      
+
       // Store user data
       this.__callback = callback || null;
       this.__context = context || window;
-      
+
       // Define mimetype
       script.type = "text/javascript";
-      
+
       // Attach handlers for all browsers
       script.onerror = script.onload = script.onreadystatechange = this.__oneventWrapped;
 
@@ -84,22 +84,22 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
       // This will execute the script content
       head.appendChild(script);
     },
-    
-    
-    /** 
+
+
+    /**
      * Aborts a currently running process.
      *
      * @type member
      * @return {void}
      */
-    abort : function() 
+    abort : function()
     {
       if (this.__running) {
         this.__cleanup("abort");
       }
     },
-    
-    
+
+
     /**
      * Internal cleanup method used after every successful
      * or failed loading attempt.
@@ -108,25 +108,25 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
      * @param status {String} Any of success, fail or abort.
      * @return {void}
      */
-    __cleanup : function(status) 
+    __cleanup : function(status)
     {
       // Get script
       var script = this.__elem;
-      
+
       // Clear out listeners
       script.onerror = script.onload = script.onreadystatechange = null;
-      
+
       // Remove script from head
       document.getElementsByTagName("head")[0].removeChild(script);
-      
+
       // Free object
       delete this.__running;
 
       // Execute user callback
       this.__callback.call(this.__context, status);
-    },    
-    
-        
+    },
+
+
     /**
      * Internal event listener for load and error events.
      *
@@ -145,7 +145,7 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
       } else {
         return;
       }
-      
+
       this.__cleanup();
     }
   }

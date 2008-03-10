@@ -47,21 +47,21 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       var img1 = "icon/48/actions/list-add.png";
       var btn1 = new qx.ui.form.RepeatButton(null, img1, 48, 48);
       docLayout.add(btn1);
-			// Label for the repeat button 1
-			var l1 = new qx.ui.basic.Label("0");
+      // Label for the repeat button 1
+      var l1 = new qx.ui.basic.Label("0");
       doc.add(l1, 20, 80);
       // listener for the repeatbutton 1
       btn1.addListener("execute", function() {
         var tempValue = parseInt(l1.getContent());
-				l1.setContent((tempValue + 1) + "");				
+        l1.setContent((tempValue + 1) + "");
       });
-			btn1.addListener("press", function() {
+      btn1.addListener("press", function() {
         l1.setBackgroundColor("#AAAAAA");
-			}, this);
-			btn1.addListener("release", function() {
-				l1.setBackgroundColor("#FFFFFF");
-			}, this);
-			// --------------------------
+      }, this);
+      btn1.addListener("release", function() {
+        l1.setBackgroundColor("#FFFFFF");
+      }, this);
+      // --------------------------
     }
   }
 });

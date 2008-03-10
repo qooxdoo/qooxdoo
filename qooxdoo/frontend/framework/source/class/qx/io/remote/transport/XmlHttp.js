@@ -83,8 +83,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     requestObjects : [],
     requestObjectCount : 0,
-    
-    
+
+
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
@@ -104,16 +104,16 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\
       // FeatureControl\FEATURE_XMLHTTP_RESPECT_ZONEPOLICY]
       // "Iexplore.exe"=dword:00000001
-      // 
-      // Generally it seems that the ActiveXObject is more stable. jQuery 
+      //
+      // Generally it seems that the ActiveXObject is more stable. jQuery
       // seems to use it always. We prefer the ActiveXObject for the moment, but allow
       // fallback to XMLHTTP if ActiveX is disabled.
-      "mshtml" : function() 
+      "mshtml" : function()
       {
         if (window.ActiveXObject && qx.xml.Document.XMLHTTP) {
           return new ActiveXObject(qx.xml.Document.XMLHTTP);
         }
-        
+
         if (window.XMLHttpRequest) {
           return new XMLHttpRequest;
         }
@@ -286,7 +286,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       //   Applying request header
       // --------------------------------------
       // Add a Referer header
-      
+
       // At least in webkit this is not allowed for security reasons. Where is this line from. For what is this needed?
       // Is any official statement available on this?
       // vRequest.setRequestHeader('Referer', window.location.href);

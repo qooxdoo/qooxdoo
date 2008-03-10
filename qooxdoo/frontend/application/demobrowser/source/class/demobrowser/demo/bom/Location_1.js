@@ -28,10 +28,10 @@ qx.Class.define("demobrowser.demo.bom.Location_1",
     {
       this.base(arguments);
 
-  		var links = document.getElementById("list").getElementsByTagName("a");
-  	  for (var i=0, l=links.length; i<l; i++) {
+      var links = document.getElementById("list").getElementsByTagName("a");
+      for (var i=0, l=links.length; i<l; i++) {
         links[i].onclick = demobrowser.demo.bom.Location_1.jump;
-  	  }
+      }
     }
   },
 
@@ -49,29 +49,29 @@ qx.Class.define("demobrowser.demo.bom.Location_1",
         event.preventDefault();
       }
 
-    	var href = this.href;
-    	var id = href.substr(href.indexOf('#')+1);
+      var href = this.href;
+      var id = href.substr(href.indexOf('#')+1);
 
-    	var elem = document.getElementById(id);
-    	var location = qx.bom.element.Location.get(elem, document.getElementById("mode").value);
+      var elem = document.getElementById(id);
+      var location = qx.bom.element.Location.get(elem, document.getElementById("mode").value);
 
-    	var moveable = document.getElementById("moveable");
+      var moveable = document.getElementById("moveable");
       moveable.style.left = location.left + "px";
-    	moveable.style.top = location.top + "px";
+      moveable.style.top = location.top + "px";
 
-    	if (qx.bom.client.Feature.BORDER_BOX)
-    	{
+      if (qx.bom.client.Feature.BORDER_BOX)
+      {
         moveable.style.width = (location.right - location.left) + "px";
         moveable.style.height = (location.bottom - location.top) + "px";
-    	}
-    	else
-    	{
-    	  var clazz = qx.bom.element.Location;
+      }
+      else
+      {
+        var clazz = qx.bom.element.Location;
         moveable.style.width = (location.right - location.left - clazz.__num(moveable, "borderLeftWidth") - clazz.__num(moveable, "borderRightWidth")) + "px";
         moveable.style.height = (location.bottom - location.top - clazz.__num(moveable, "borderTopWidth") - clazz.__num(moveable, "borderBottomWidth")) + "px";
       }
 
-    	return false;
+      return false;
     },
 
     randomize : function()

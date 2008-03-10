@@ -39,11 +39,11 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
         "<th>Ctrl</th>" +
         "<th>Alt</th>" +
         "</tr>";
-  		this.keyEvents = [];
-  		this.maxLogSize = 50;
-  		this.logDiv = document.getElementById("keylogger");
+      this.keyEvents = [];
+      this.maxLogSize = 50;
+      this.logDiv = document.getElementById("keylogger");
 
-  		this.initializeLogger();
+      this.initializeLogger();
 
       var events = ["keydown", "keypress", "keyup"];
       for (var i=0; i<events.length; i++)
@@ -67,40 +67,40 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
 
     initializeLogger: function()
     {
-			this.logDiv.innerHTML = this.tableHead + "</table>";
-			this.keyEvents = [];
-		},
+      this.logDiv.innerHTML = this.tableHead + "</table>";
+      this.keyEvents = [];
+    },
 
     logKeyEvent: function(keyEvent)
     {
       var type = keyEvent.getType();
       var eventCopy = {
-				type: keyEvent.getType(),
-				iden: keyEvent.getKeyIdentifier(),
-				shift: keyEvent.isShiftPressed(),
-				alt: keyEvent.isAltPressed(),
-				ctrl: keyEvent.isCtrlPressed()
-			}
-			this.keyEvents.unshift(eventCopy);
-			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
-			str = [this.tableHead];
-			for (var i=0; i<this.keyEvents.length; i++) {
-				var e = this.keyEvents[i];
-				str.push("<tr><td>");
-				str.push(e.type);
-				str.push("</td><td>");
-				str.push(e.iden);
-				str.push("</td><td>");
-				str.push(e.shift);
-				str.push("</td><td>");
-				str.push(e.ctrl);
-				str.push("</td><td>");
-				str.push(e.alt);
-				str.push("</td></tr>");
-			}
-			str.push("</table>");
-			this.logDiv.innerHTML = str.join("");
-			this.logDiv.scrollTop = 0;
-		}
+        type: keyEvent.getType(),
+        iden: keyEvent.getKeyIdentifier(),
+        shift: keyEvent.isShiftPressed(),
+        alt: keyEvent.isAltPressed(),
+        ctrl: keyEvent.isCtrlPressed()
+      }
+      this.keyEvents.unshift(eventCopy);
+      this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
+      str = [this.tableHead];
+      for (var i=0; i<this.keyEvents.length; i++) {
+        var e = this.keyEvents[i];
+        str.push("<tr><td>");
+        str.push(e.type);
+        str.push("</td><td>");
+        str.push(e.iden);
+        str.push("</td><td>");
+        str.push(e.shift);
+        str.push("</td><td>");
+        str.push(e.ctrl);
+        str.push("</td><td>");
+        str.push(e.alt);
+        str.push("</td></tr>");
+      }
+      str.push("</table>");
+      this.logDiv.innerHTML = str.join("");
+      this.logDiv.scrollTop = 0;
+    }
   }
 });

@@ -59,7 +59,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     this.set({ height : 20 });
 
     this.setChooserTitle(this.tr("Choose a date"));
-		
+
     // create dateFormat instance
     //
     this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(this.getDateFormatSize()));

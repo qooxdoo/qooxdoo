@@ -85,7 +85,7 @@ qx.Class.define("qx.event.type.Event",
       this._currentTarget = null;
       this._stopPropagation = false;
       this._bubbles = false;
-      
+
       // TODO: May this date compution too slow? (Opera sometimes had issues with "new Date")
       this._timeStamp = (new Date()).getTime();
 

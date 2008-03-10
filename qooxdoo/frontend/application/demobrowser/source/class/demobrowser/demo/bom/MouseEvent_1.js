@@ -38,11 +38,11 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       this.base(arguments);
 
       this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>phase</th><th>relatedTarget</th></tr>";
-  		this.keyEvents = [];
-  		this.maxLogSize = 50;
-  		this.logDiv = document.getElementById("keylogger");
+      this.keyEvents = [];
+      this.maxLogSize = 50;
+      this.logDiv = document.getElementById("keylogger");
 
-  		this.initializeLogger();
+      this.initializeLogger();
 
       var mouseDiv = document.getElementById("mouse");
 
@@ -128,9 +128,9 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
 
     initializeLogger: function()
     {
-			this.logDiv.innerHTML = this.tableHead + "</table>";
-			this.keyEvents = [];
-		},
+      this.logDiv.innerHTML = this.tableHead + "</table>";
+      this.keyEvents = [];
+    },
 
 
     logMouseEvent: function(mouseEvent)
@@ -138,50 +138,50 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
       mouseEvent.preventDefault();
       var eventCopy = {
         target: mouseEvent.getTarget().id,
-				type: mouseEvent.getType(),
-				button: mouseEvent.getButton(),
+        type: mouseEvent.getType(),
+        button: mouseEvent.getButton(),
         documentX: mouseEvent.getDocumentLeft(),
         documentY: mouseEvent.getDocumentTop(),
-				screenX: mouseEvent.getScreenLeft(),
+        screenX: mouseEvent.getScreenLeft(),
         screenY: mouseEvent.getScreenTop(),
         viewportX: mouseEvent.getViewportLeft(),
         viewportY: mouseEvent.getViewportTop(),
         relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : "",
         phase: mouseEvent.getEventPhase()
-			}
-			this.keyEvents.unshift(eventCopy);
-			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
-			str = [this.tableHead];
-			for (var i=0; i<this.keyEvents.length; i++) {
-				var e = this.keyEvents[i];
-				str.push("<tr><td>");
-				str.push(e.target);
-				str.push("</td><td>");
-				str.push(e.type);
-				str.push("</td><td>");
-				str.push(e.button);
-				str.push("</td><td>");
-				str.push(e.documentX);
-				str.push("</td><td>");
-				str.push(e.documentY);
-				str.push("</td><td>");
-				str.push(e.viewportX);
-				str.push("</td><td>");
-				str.push(e.viewportY);
-				str.push("</td><td>");
-				str.push(e.screenX);
-				str.push("</td><td>");
-				str.push(e.screenY);
-				str.push("</td><td>");
-				str.push(e.phase);
-				str.push("</td><td>");
-				str.push(e.relatedTarget);
-				str.push("</td></tr>");
-			}
-			str.push("</table>");
-			this.logDiv.innerHTML = str.join("");
-			this.logDiv.scrollTop = 0;
-		}
+      }
+      this.keyEvents.unshift(eventCopy);
+      this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
+      str = [this.tableHead];
+      for (var i=0; i<this.keyEvents.length; i++) {
+        var e = this.keyEvents[i];
+        str.push("<tr><td>");
+        str.push(e.target);
+        str.push("</td><td>");
+        str.push(e.type);
+        str.push("</td><td>");
+        str.push(e.button);
+        str.push("</td><td>");
+        str.push(e.documentX);
+        str.push("</td><td>");
+        str.push(e.documentY);
+        str.push("</td><td>");
+        str.push(e.viewportX);
+        str.push("</td><td>");
+        str.push(e.viewportY);
+        str.push("</td><td>");
+        str.push(e.screenX);
+        str.push("</td><td>");
+        str.push(e.screenY);
+        str.push("</td><td>");
+        str.push(e.phase);
+        str.push("</td><td>");
+        str.push(e.relatedTarget);
+        str.push("</td></tr>");
+      }
+      str.push("</table>");
+      this.logDiv.innerHTML = str.join("");
+      this.logDiv.scrollTop = 0;
+    }
 
   }
 });

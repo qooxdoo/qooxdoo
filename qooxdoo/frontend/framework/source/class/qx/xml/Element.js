@@ -39,9 +39,9 @@ qx.Class.define("qx.xml.Element",
     serialize : function(element)
     {
       if (qx.dom.Node.isDocument(element)) {
-        element = element.documentElement; 
+        element = element.documentElement;
       }
-      
+
       if (window.XMLSerializer) {
         return (new XMLSerializer()).serializeToString(element);
       } else {
@@ -64,7 +64,7 @@ qx.Class.define("qx.xml.Element",
       "mshtml|opera": function(element, query) {
         return element.selectSingleNode(query);
       },
-      
+
       "default": function(element, query)
       {
         if(!this.__xpe) {
@@ -78,7 +78,7 @@ qx.Class.define("qx.xml.Element",
         } catch(err) {
           throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
         }
-      }      
+      }
     }),
 
 
@@ -96,11 +96,11 @@ qx.Class.define("qx.xml.Element",
       "mshtml|opera": function(element, query) {
         return element.selectNodes(query);
       },
-      
+
       "default": function(element, query)
       {
         var xpe = this.__xpe;
-        
+
         if(!xpe) {
           this.__xpe = xpe = new XPathEvaluator();
         }
@@ -117,7 +117,7 @@ qx.Class.define("qx.xml.Element",
         }
 
         return nodes;
-      }      
+      }
     }),
 
 
@@ -144,10 +144,10 @@ qx.Class.define("qx.xml.Element",
 
         return qx.xml.Element.selectNodes(element, 'descendant-or-self::ns:' + tagname);
       },
-      
+
       "default": function(element, namespaceURI, tagname) {
         return element.getElementsByTagNameNS(namespaceURI, tagname);
-      }      
+      }
     }),
 
 

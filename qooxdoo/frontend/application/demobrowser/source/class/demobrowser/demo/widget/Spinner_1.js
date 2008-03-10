@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       var layout = new qx.ui.layout.Grid();
       layout.setRowAlign(0, "left", "bottom");
       layout.setRowAlign(1, "left", "middle");
-      layout.setRowAlign(2, "left", "middle");      
+      layout.setRowAlign(2, "left", "middle");
       layout.setRowAlign(3, "left", "top");
       layout.setHorizontalSpacing(15);
       layout.setVerticalSpacing(3);
@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
         wrap: true
       });
       layout.add(new qx.ui.basic.Label("Wrap"), 0, row);
-      layout.add(new qx.ui.basic.Label("30"), 1, row);      
+      layout.add(new qx.ui.basic.Label("30"), 1, row);
       layout.add(s2, 2, row);
       layout.add(new qx.ui.basic.Label("-30"), 3, row++);
 
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
         enabled: false
       });
       layout.add(new qx.ui.basic.Label("Disabled"), 0, row);
-      layout.add(new qx.ui.basic.Label("-100"), 1, row);      
+      layout.add(new qx.ui.basic.Label("-100"), 1, row);
       layout.add(s6, 2, row);
       layout.add(new qx.ui.basic.Label("-200"), 3, row++);
 
@@ -115,9 +115,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);
       s7.setNumberFormat(nf);
-      
+
       layout.add(new qx.ui.basic.Label("With number format"), 0, row);
-      layout.add(new qx.ui.basic.Label("3000"), 1, row);      
+      layout.add(new qx.ui.basic.Label("3000"), 1, row);
       layout.add(s7, 2, row);
       layout.add(new qx.ui.basic.Label("0"), 3, row++);
     }
