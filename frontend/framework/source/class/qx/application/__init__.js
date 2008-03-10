@@ -1,3 +1,4 @@
 /**
- * The qx.application package.
+ * This package contains qooxdoo applications to choose from.
+ *
  */

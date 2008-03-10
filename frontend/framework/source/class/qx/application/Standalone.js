@@ -18,15 +18,16 @@
 ************************************************************************ */
 
 /**
- * Super simple application which executes the global methods
- * <code>qxmain</code> (at load) and <code>qxterminate</code> (at shutdown).
- *
- * The methods are executed in context of this application which means
- * that all feature of <code>qx.core.Object</code> and co are available.
+ * Base call for all GUI applications which should be used
+ * without fundamental parts of HTML code e.g. like an real
+ * native application. A standalone application normally
+ * creates all content dynamically and is normally executed for
+ * more than 15 minutes (updates happen through AJAX).
  */
-qx.Class.define("qx.application.Simple",
+qx.Class.define("qx.application.Standalone",
 {
-  extend : qx.application.Native,
+  extend : qx.core.Object,
+  implement : [qx.application.IApplication],
 
 
 
@@ -39,25 +40,19 @@ qx.Class.define("qx.application.Simple",
 
   members :
   {
-    // overridden
+    // interface method
     main : function()
     {
-      this.base(arguments);
+      // Initialize themes
+      qx.theme.manager.Meta.getInstance().initialize();
 
-      if (window.qxmain) {
-        window.qxmain.call(this);
-      }
     },
 
 
-    // overridden
+    // interface method
     terminate : function()
     {
-      this.base(arguments);
-
-      if (window.qxterminate) {
-        window.qxterminate.call(this);
-      }
+      // empty
     }
   }
 });
