@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#resource(qx.icontheme:qx/icon/tango)
+#resource(qx.icontheme:qx/icon/Tango)
 
 ************************************************************************ */
 
@@ -32,6 +32,6 @@ qx.Theme.define("qx.theme.icon.Tango",
   title : "Tango",
 
   icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/tango"
+    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Tango"
   }
 });
