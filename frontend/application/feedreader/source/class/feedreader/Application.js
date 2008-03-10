@@ -32,8 +32,7 @@
  */
 qx.Class.define("feedreader.Application",
 {
-  extend : qx.application.Abstract,
-  include : [ qx.legacy.application.MGuiCompat ],
+  extend : qx.legacy.application.Gui,
 
 
 
@@ -88,9 +87,6 @@ qx.Class.define("feedreader.Application",
     main : function()
     {
       this.base(arguments);
-
-      // Initialize 0.7 compatibility
-      this.compat();
 
       // Initialize data field
       this._feeds = {};

@@ -34,8 +34,7 @@
  */
 qx.Class.define("demobrowser.Application",
 {
-  extend : qx.application.Abstract,
-  include : [ qx.legacy.application.MGuiCompat ],
+  extend : qx.legacy.application.Gui,
 
 
 
@@ -57,9 +56,6 @@ qx.Class.define("demobrowser.Application",
     main : function()
     {
       this.base(arguments);
-
-      // Initialize 0.7 compatibility
-      this.compat();
 
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser");

@@ -36,8 +36,7 @@
 
 qx.Class.define("showcase.Application",
 {
-  extend : qx.application.Abstract,
-  include : [ qx.legacy.application.MGuiCompat ],
+  extend : qx.legacy.application.Gui,
 
 
   events :
@@ -63,9 +62,6 @@ qx.Class.define("showcase.Application",
     main : function()
     {
       this.base(arguments);
-
-      // Initialize 0.7 compatibility
-      this.compat();
 
       var barView = new qx.legacy.ui.pageview.buttonview.ButtonView;
 
