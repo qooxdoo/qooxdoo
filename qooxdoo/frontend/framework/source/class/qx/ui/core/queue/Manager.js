@@ -109,6 +109,14 @@ qx.Class.define("qx.ui.core.queue.Manager",
         //qx.log.Logger.debug(this, "Display queue runtime: " + (new Date - start) + "ms");
       }
 
+      if (jobs.dispose)
+      {
+        //var start = new Date;
+        qx.ui.core.queue.Dispose.flush();
+        jobs.dispose = false;
+        //qx.log.Logger.debug(this, "Dispose queue runtime: " + (new Date - start) + "ms");
+      }
+
       qx.ui.core.queue.Manager.__scheduled = false;
     }
   },
