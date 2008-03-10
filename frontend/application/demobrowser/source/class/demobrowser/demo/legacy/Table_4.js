@@ -63,9 +63,9 @@ qx.Class.define("demobrowser.demo.legacy.Table_4",
         table.getTableColumnModel().setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
         table.getTableColumnModel().setDataCellRenderer(4, new qx.legacy.ui.table.cellrenderer.Html());
         table.addToDocument();
-    
+
         table.setAdditionalStatusBarText(", additional Status.");
-      
+
       }
     }
   });

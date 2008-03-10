@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.CallTrace", 
+qx.Class.define("demobrowser.CallTrace",
 {
   statics :
   {

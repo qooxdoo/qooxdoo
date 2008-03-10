@@ -267,7 +267,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param type {String} Name of the event to fire
      * @return {void}
      */
-    _fireBubblingEvent : function(target, type) 
+    _fireBubblingEvent : function(target, type)
     {
       var Registration = qx.event.Registration;
       var evt = Registration.createEvent(type);

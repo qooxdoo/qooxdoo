@@ -82,7 +82,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       /**
        * String indicating if element should fold in or out
        */
-      mode : 
+      mode :
       {
         init : "in",
         check : [ "in", "out" ]
@@ -105,11 +105,11 @@ qx.Class.define("qx.fx.effect.combination.Fold",
         qx.bom.element.Style.set(this._element, "display", "block");
       }
     },
-    
+
     start : function()
     {
       if (!this.base(arguments)) {
-        return; 
+        return;
       }
 
       // Hack: the scale effects should be moved back to the constructor
@@ -125,12 +125,12 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       this._innerScaleEffect.afterFinishInternal = function(){
         self._cleanUp();
       }
-      
-      
+
+
       this._oldStyle = this._getStyle();
       qx.bom.element.Style.set(this._element, "overflow", "hidden");
-       
-      
+
+
       if(this.getMode() == "in")
       {
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
           scaleFromCenter      : true,
           alternateDimensions  : []
         });
-        
+
         this._innerScaleEffect.set({
           scaleTo              : 5,
           scaleContent         : false,
@@ -167,7 +167,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
           scaleFromCenter      : true,
           alternateDimensions  : [this._oldStyle.width, this._oldStyle.height]
         });
-        
+
         this._innerScaleEffect.set({
           scaleTo              : 100,
           scaleContent         : false,
@@ -203,7 +203,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       }
       qx.bom.element.Style.set(this._element, "overflow", "visible");
     },
-    
+
     /**
      * Retrieves style properties from element.
      */

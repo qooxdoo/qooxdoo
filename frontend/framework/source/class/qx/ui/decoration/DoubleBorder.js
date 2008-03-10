@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     },
 
 
-		// interface implementation
+    // interface implementation
     getInsets : function()
     {
       return {

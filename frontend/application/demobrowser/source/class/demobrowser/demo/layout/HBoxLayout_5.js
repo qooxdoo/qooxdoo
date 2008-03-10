@@ -43,9 +43,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, { width: "50%" });
       layout1.add(w2, { flex : 1 });
@@ -63,9 +63,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "30%", flex: 1});
       layout1.add(w2, {width: "30%", flex: 1});
@@ -83,9 +83,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "33.3%"});
       layout1.add(w2, {width: "33.3%"});
@@ -103,9 +103,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "33.3%"});
       layout1.add(w2, {width: "33.3%"});
@@ -125,9 +125,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "50%"});
       layout1.add(w2, {flex: 1});
@@ -144,9 +144,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "33.3%"});
       layout1.add(w2, {width: "33.3%"});
@@ -163,9 +163,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "33%", flex: 1});
       layout1.add(w2, {width: "33%", flex: 1});
@@ -183,9 +183,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "33%", flex: 1});
       layout1.add(w2, {width: "33%", flex: 1});
@@ -204,9 +204,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       layout1.setSpacing(5);
 
-			var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-			var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
 
       layout1.add(w1, {width: "33%", flex: 1});
       layout1.add(w2, {width: "33%", flex: 1});

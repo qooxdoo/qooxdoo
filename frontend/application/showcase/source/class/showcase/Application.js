@@ -571,7 +571,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
-        this.fireDataEvent("changeSize", 32);        
+        this.fireDataEvent("changeSize", 32);
       }, this);
 
       vert.add(button);

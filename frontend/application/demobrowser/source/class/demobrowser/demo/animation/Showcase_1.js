@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         groupBoxes[box].setDimension("auto", "auto");
         main.add(groupBoxes[box]);
       }
-      
+
       doc.add(main)
 
 
@@ -464,7 +464,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
           groupBoxes[box].setFont("bold");
           main.add(groupBoxes[box]);
         }
-  
+
         for (var i=0; i<this._vBoxes.length; i++) {
           this._vBoxes[i].setFont("normal");
         }

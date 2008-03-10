@@ -14,7 +14,7 @@
  *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase</li>
  *   <li>Support for mouse event capturing (<a href="http://msdn2.microsoft.com/en-us/library/ms537630.aspx">Reference</a>)</li>
  *   <li>Support for normalized focus and activation handling</li>
- * </ul> 
+ * </ul>
  *
  * The central class is {@link qx.event.Registration}, which provides the event
  * registration and de-registration functionality.

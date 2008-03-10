@@ -125,7 +125,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
           left   : qx.bom.element.Location.getLeft(this._element)
         };
 
-      
+
       var distance = parseFloat(this.getDistance());
       var split = parseFloat(this.getDuration()) / 10.0;
 

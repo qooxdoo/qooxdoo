@@ -14,13 +14,13 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     
+
 ************************************************************************ */
-     
+
 qx.Class.define("qx.io2.HttpRequest",
 {
   extend : qx.core.Object,
-  
+
 
 
   /*
@@ -35,10 +35,10 @@ qx.Class.define("qx.io2.HttpRequest",
   construct : function(url)
   {
     this.base(arguments);
-    
+
     // Header cache
     this.__headers = {};
-    
+
     // Add url
     if (url != null) {
       this.setUrl(url);
@@ -53,13 +53,13 @@ qx.Class.define("qx.io2.HttpRequest",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** Cached for modification dates of already loaded URLs */
-    __modified : {}  
+    __modified : {}
   },
-  
+
 
 
 
@@ -68,12 +68,12 @@ qx.Class.define("qx.io2.HttpRequest",
      EVENTS
   *****************************************************************************
   */
-  
-  events : 
+
+  events :
   {
     /** Fires when the request change its state, data field contains the state. */
     "change" : "qx.event.type.Data",
-    
+
     /** Fires when the request reached the timeout limit. */
     "timeout" : "qx.event.type.Event",
 
@@ -82,35 +82,35 @@ qx.Class.define("qx.io2.HttpRequest",
 
     /** Fires when the request was completed with an error. */
     "error" : "qx.event.type.Event",
-    
+
     /** Fires when the request was aborted by the user. */
     "abort" : "qx.event.type.Event"
   },
-  
-  
-  
-  
-  
+
+
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  
+
   properties :
   {
     /**
-     * Allow the request to be successful only if the response has changed since 
-     * the last request. This is done by checking the Last-Modified header. Default 
+     * Allow the request to be successful only if the response has changed since
+     * the last request. This is done by checking the Last-Modified header. Default
      * value is false, ignoring the header.
      */
-    refresh : 
+    refresh :
     {
       check : "Boolean",
       init : false
     },
-    
-    
+
+
     /**
      * Data which should be send to the server.
      *
@@ -118,17 +118,17 @@ qx.Class.define("qx.io2.HttpRequest",
      *
      * String => Encode data using UTF-8 for transmission.
      *
-     * Document => Serialize data into a namespace well-formed XML document and 
-     *   encoded using the encoding given by data.xmlEncoding, if specified, or 
-     *   UTF-8 otherwise. Or, if this fails because the Document cannot be 
+     * Document => Serialize data into a namespace well-formed XML document and
+     *   encoded using the encoding given by data.xmlEncoding, if specified, or
+     *   UTF-8 otherwise. Or, if this fails because the Document cannot be
      *   serialized act as if data is null.
      */
     data :
     {
       nullable : true
     },
-    
-    
+
+
     /**
      * Determines what type of request to issue (GET or POST).
      */
@@ -147,18 +147,18 @@ qx.Class.define("qx.io2.HttpRequest",
       check : "Boolean",
       init : true
     },
-    
-    
+
+
     /**
      * Response mimetype
      */
-    mime : 
+    mime :
     {
       check : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ],
       init : "text/plain"
     },
-    
-    
+
+
     /**
      * Target url to issue the request to.
      */
@@ -167,8 +167,8 @@ qx.Class.define("qx.io2.HttpRequest",
       check : "String",
       init : ""
     },
-    
-    
+
+
     /**
      * Username to use for HTTP authentication.
      * Set to NULL if HTTP authentication is not used.
@@ -189,18 +189,18 @@ qx.Class.define("qx.io2.HttpRequest",
       check : "String",
       nullable : true
     },
-    
-    
+
+
     /**
      * Authentification method to use.
      */
-    auth : 
+    auth :
     {
       check : [ "http", "basic" ],
       init : "http"
     },
-    
-    
+
+
     /**
      * Number of millieseconds before the request is being timed out.
      */
@@ -220,11 +220,11 @@ qx.Class.define("qx.io2.HttpRequest",
     {
       check : "Boolean",
       init : false
-    } 
+    }
   },
-  
-  
-  
+
+
+
 
   /*
   *****************************************************************************
@@ -232,14 +232,14 @@ qx.Class.define("qx.io2.HttpRequest",
   *****************************************************************************
   */
 
-  members : 
+  members :
   {
     /*
     ---------------------------------------------------------------------------
       REQUEST DATA
     ---------------------------------------------------------------------------
     */
-        
+
     /**
      * Assigns a label/value pair to the header to be sent with a request
      *
@@ -247,38 +247,38 @@ qx.Class.define("qx.io2.HttpRequest",
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
      * @return {void}
-     */        
+     */
     setRequestHeader : function(label, value) {
       this.__headers[label] = value;
     },
-    
-    
+
+
     /**
      * Deletes a header label which should be send previously.
      *
      * @type member
      * @param label {String} Name of the header label
      * @return {void}
-     */        
+     */
     removeRequestHeader : function(label) {
       delete this.__headers[label];
-    },    
-    
-    
+    },
+
+
     /**
      * Returns the value of a given header label.
      *
      * @type member
      * @param label {String} Label of the header entry
      * @return {String} The value or <code>null</code> when not defined.
-     */     
-    getRequestHeader : function(label) 
+     */
+    getRequestHeader : function(label)
     {
       var value = this.__headers[label];
       if (value === undefined) {
         value = null;
       }
-      
+
       return value;
     },
 
@@ -291,14 +291,14 @@ qx.Class.define("qx.io2.HttpRequest",
       RESPONSE DATA
     ---------------------------------------------------------------------------
     */
-      
+
     /**
      * Returns the (currently downloaded) response text.
      *
      * @type member
      * @return {String} String version of data returned from server process
-     */      
-    getResponseText : function() 
+     */
+    getResponseText : function()
     {
       var req = this.__req;
       if (req) {
@@ -306,27 +306,27 @@ qx.Class.define("qx.io2.HttpRequest",
       }
     },
 
-    
+
     /**
      * Returns the XML document of the response (only available if content in mimetype application/xml was send).
      *
      * @type member
      * @return {Element} DOM-compatible document object of data returned from server process
-     */      
-    getResponseXml : function() 
+     */
+    getResponseXml : function()
     {
       var req = this.__req;
       if (req) {
         return req.responseXML;
       }
-    },        
-      
-    
+    },
+
+
     /**
      * Returns the string value of a single header label
      *
      * Should output something similar to the following text:
-     * 
+     *
      * Content-Type: text/plain; charset=utf-8
      *
      * @type member
@@ -338,9 +338,9 @@ qx.Class.define("qx.io2.HttpRequest",
       var req = this.__req;
       if (req) {
         return req.getResponseHeader(label);
-      }      
+      }
     },
-    
+
 
     /**
      * Returns complete set of headers (labels and values) as a string
@@ -356,17 +356,17 @@ qx.Class.define("qx.io2.HttpRequest",
      *
      * @type member
      * @return {String} All headers
-     */    
+     */
     getAllResponseHeaders : function()
     {
       var req = this.__req;
       if (req) {
         return req.getAllResponseHeaders();
-      }      
+      }
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -374,26 +374,26 @@ qx.Class.define("qx.io2.HttpRequest",
       MAIN CONTROL
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Wether the currently running or finished request returns modified results.
      *
      * @type member
      * @return {Boolean} Returns <code>true</code> when the request contains modified results.
-     */    
+     */
     isNotModified : function()
     {
       var req = this.__req;
-      
+
       if (!req) {
         return false;
       }
-      
+
       var modified = req.getResponseHeader("Last-Modified");
       return req.status === 304 || qx.io2.HttpRequest.__modified[this.getUrl()] === modified;
     },
-    
-    
+
+
     /**
      * Wether the currently running or finished request is successful.
      *
@@ -405,51 +405,51 @@ qx.Class.define("qx.io2.HttpRequest",
       var req = this.__req;
       return !req || req.isSuccessful();
     },
-    
-      
+
+
     /**
      * Returns the response status code.
-     * 
+     *
      * @type member
      * @return {Integer} Numeric code returned by server, such as 404 for "Not Found" or 200 for "OK"
      */
-    getStatusCode : function() 
+    getStatusCode : function()
     {
       var req = this.__req;
       if (req) {
         return req.status;
       }
     },
-    
-    
+
+
     /**
      * Returns the response status text. This is the human readable version of {@link #getStatusCode}.
      *
      * @type member
      * @return {String} String message accompanying the status code
      */
-    getStatusText : function() 
+    getStatusText : function()
     {
       var req = this.__req;
       if (req) {
         return req.statusText;
       }
-    }, 
-    
-          
+    },
+
+
     /**
      * Returns the current request state.
-     * 
+     *
      * * 0 = uninitialized
      * * 1 = sending request
      * * 2 = headers loaded
      * * 3 = loading result
      * * 4 = done
-     * 
+     *
      * @type member
      * @return {Integer} Ready state of the request
      */
-    getReadyState : function() 
+    getReadyState : function()
     {
       var req = this.__req;
       if (req) {
@@ -457,8 +457,8 @@ qx.Class.define("qx.io2.HttpRequest",
       }
     },
 
-        
-    /** 
+
+    /**
      * Sends the configured request
      *
      * @type member
@@ -467,45 +467,45 @@ qx.Class.define("qx.io2.HttpRequest",
     send : function()
     {
       // Disposing old request object
-      if (this.__req) 
+      if (this.__req)
       {
         if (this.getReadyState() !== 4) {
           throw new Error("Request is still pending at ready state: " + this.getReadyState());
         }
-        
+
         this.__req.dispose();
       }
-      
+
       // Create low level object
       var req = this.__req = new qx.bom.Request;
-      
+
       // Bind listeners
       req.onreadystatechange = qx.lang.Function.bind(this.__onchange, this);
       req.ontimeout = qx.lang.Function.bind(this.__ontimeout, this);
       req.onload = qx.lang.Function.bind(this.__onload, this);
       req.onerror = qx.lang.Function.bind(this.__onerror, this);
-      req.onabort = qx.lang.Function.bind(this.__onabort, this);                  
-            
+      req.onabort = qx.lang.Function.bind(this.__onabort, this);
+
       // Authentification
       var username = this.getUsername();
       var password = this.getPassword();
-      
+
       if (this.getAuth() == "basic")
       {
         // Add headers
         req.setRequestHeader('Authorization', 'Basic ' + qx.util.Base64.encode(username + ':' + password));
-        
+
         // Reset Http
         username = password = null;
       }
-      
+
       // Read url
       var url = this.getUrl();
-      
+
       if (this.getCache()) {
         // TODO: Any header we can set in this case?
-      } 
-      else 
+      }
+      else
       {
         req.setRequestHeader("Cache-Control", "no-cache");
         // TODO: Add timestamp to URL
@@ -513,37 +513,37 @@ qx.Class.define("qx.io2.HttpRequest",
 
       // Open request
       req.open(this.getMethod(), url, this.getAsync(), username, password);
-      
+
       // Add timeout
       req.timeout = this.getTimeout();
 
       // Add modified since hint
       if (this.getRefresh()) {
-        req.setRequestHeader("If-Modified-Since",	qx.io2.HttpRequest.__modified[url] || "Thu, 01 Jan 1970 00:00:00 GMT" );      
+        req.setRequestHeader("If-Modified-Since",  qx.io2.HttpRequest.__modified[url] || "Thu, 01 Jan 1970 00:00:00 GMT" );
       }
-      
+
       // Set header so the called script knows that it's an XMLHttpRequest
       req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-      
+
       // Set content type to post data type
       if (this.getMethod() === "POST") {
         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       }
-      
+
       // Set accept header to selected mimetype
       req.setRequestHeader("Accept", this.getMime());
-      
+
       // Synchronize headers
       var headers = this.__headers;
       for (var name in headers) {
         req.setRequestHeader(key, headers[name]);
       }
-      
+
       // Finally send request
       req.send(this.getData());
     },
-    
-        
+
+
     /**
      * Aborts a running request
      *
@@ -553,11 +553,11 @@ qx.Class.define("qx.io2.HttpRequest",
     abort : function()
     {
       if (this.__req) {
-        this.__req.abort();      
+        this.__req.abort();
       }
     },
-    
-    
+
+
 
 
     /*
@@ -565,18 +565,18 @@ qx.Class.define("qx.io2.HttpRequest",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Internal change listener
      *
      * @type member
      * @return {void}
-     */    
-    __onchange : function() 
+     */
+    __onchange : function()
     {
       // Fire user event
       this.fireDataEvent("change", this.getReadyState());
-      
+
       // Store modification date
       // It is important that this is stored after the user event.
       // Otherwise the modification field gets written to early.
@@ -586,77 +586,77 @@ qx.Class.define("qx.io2.HttpRequest",
         if (modified) {
           qx.io2.HttpRequest.__modified[this.getUrl()] = modified;
         }
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Internal timeout listener
      *
      * @type member
      * @return {void}
-     */    
-    __ontimeout : function() 
+     */
+    __ontimeout : function()
     {
       if (this.hasListeners("timeout")) {
         this.fireEvent("timeout");
       }
     },
-    
-    
+
+
     /**
      * Internal timeout listener
      *
      * @type member
      * @return {void}
-     */    
-    __onload : function() 
+     */
+    __onload : function()
     {
       if (this.hasListeners("load")) {
         this.fireEvent("load");
       }
     },
-    
-    
+
+
     /**
      * Internal timeout listener
      *
      * @type member
      * @return {void}
-     */    
-    __onerror : function() 
+     */
+    __onerror : function()
     {
       if (this.hasListeners("error")) {
         this.fireEvent("error");
       }
     },
-    
-    
+
+
     /**
      * Internal timeout listener
      *
      * @type member
      * @return {void}
-     */    
-    __onabort : function() 
+     */
+    __onabort : function()
     {
       if (this.hasListeners("abort")) {
         this.fireEvent("abort");
       }
-    }   
+    }
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-  
+
   destruct : function()
-  {  
+  {
     this._disposeObjects("_req");
-    this._disposeFields("__headers");    
+    this._disposeFields("__headers");
   }
 });

@@ -152,7 +152,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       include : "button",
 
-			style : function(states)
+      style : function(states)
       {
         return {
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]

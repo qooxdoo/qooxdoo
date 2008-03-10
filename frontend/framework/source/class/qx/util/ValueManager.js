@@ -35,7 +35,7 @@ qx.Class.define("qx.util.ValueManager",
   construct : function()
   {
     this.base(arguments);
-    
+
     // Register value manager globally
     qx.util.ValueManager.register(this);
 
@@ -59,8 +59,8 @@ qx.Class.define("qx.util.ValueManager",
   {
     /** {Map} Map of all created value managers */
     __managers : {},
-    
-    
+
+
     /**
      * Disconnect the given object from all registered value managers
      *
@@ -75,7 +75,7 @@ qx.Class.define("qx.util.ValueManager",
         all[hc].disconnectObject(obj);
       }
     },
-    
+
 
     /**
      * Registers the given manager from the registry.
@@ -87,7 +87,7 @@ qx.Class.define("qx.util.ValueManager",
     register : function(mgr) {
       this.__managers[mgr.$$hash] = mgr;
     },
-    
+
 
     /**
      * Unregisters the given manager from the registry.
@@ -100,11 +100,11 @@ qx.Class.define("qx.util.ValueManager",
       delete this.__managers[mgr.$$hash];
     }
   },
-  
-  
-  
-    
-    
+
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -191,14 +191,14 @@ qx.Class.define("qx.util.ValueManager",
     {
       // Remove object entry from registry
       var reg = this._registry;
-      if (reg && reg[obj.$$hash]) 
+      if (reg && reg[obj.$$hash])
       {
         // this.debug("Disconnect: " + obj.toString());
         delete reg[obj.$$hash];
       }
     },
-    
-    
+
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -246,7 +246,7 @@ qx.Class.define("qx.util.ValueManager",
             entry.callback.call(entry.object, this.resolveDynamic(entry.value));
           }
         }
-      }      
+      }
     },
 
 
@@ -284,11 +284,11 @@ qx.Class.define("qx.util.ValueManager",
   *****************************************************************************
   */
 
-  destruct : function() 
+  destruct : function()
   {
     this._disposeFields("_registry", "_dynamic");
-    
+
     // Unregister value manager globally
-    qx.util.ValueManager.unregister(this);    
+    qx.util.ValueManager.unregister(this);
   }
 });

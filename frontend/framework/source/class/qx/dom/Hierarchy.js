@@ -342,8 +342,8 @@ qx.Class.define("qx.dom.Hierarchy",
 
       return element;
     },
-    
-    
+
+
     /**
      * Returns the last child that is an element. This is opposed to lastChild DOM
      * property which will return any node (whitespace in most usual cases).

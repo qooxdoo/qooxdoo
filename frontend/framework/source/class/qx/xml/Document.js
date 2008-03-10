@@ -35,8 +35,8 @@ qx.Bootstrap.define("qx.xml.Document",
 
     /** {String} ActiveX class name of XMLHttpRequest (IE specific) */
     XMLHTTP : null,
-        
-    
+
+
     /**
      * Create an XML document.
      * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
@@ -53,11 +53,11 @@ qx.Bootstrap.define("qx.xml.Document",
       {
         var obj = new ActiveXObject(this.DOMDOC);
         obj.setProperty("SelectionLanguage", "XPath");
-        
+
         if (qualifiedName)
         {
           var str = '<?xml version="1.0" encoding="utf-8"?>\n';
-          
+
           str += qualifiedName;
 
           if (namespaceUri) {
@@ -70,10 +70,10 @@ qx.Bootstrap.define("qx.xml.Document",
 
         return obj;
       },
-      
+
       "default": function(namespaceUri, qualifiedName) {
         return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
-      }      
+      }
     }),
 
 
@@ -91,30 +91,30 @@ qx.Bootstrap.define("qx.xml.Document",
       {
         var dom = qx.xml.Document.create();
         dom.loadXML(str);
-        
+
         return dom;
       },
-      
+
       "default": function(str)
       {
         var parser = new DOMParser();
         return parser.parseFromString(str, "text/xml");
-      }      
+      }
     })
   },
-  
-  
-  
-  
+
+
+
+
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
-    
+
   defer : function(statics)
   {
-    // Detecting available ActiveX implementations. 
+    // Detecting available ActiveX implementations.
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
       // According to information on the Microsoft XML Team's WebLog
@@ -122,8 +122,8 @@ qx.Bootstrap.define("qx.xml.Document",
       // http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
       var domDoc = [ "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.3.0" ];
       var httpReq = [ "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0" ];
-      
-      for (var i=0, l=domDoc.length; i<l; i++) 
+
+      for (var i=0, l=domDoc.length; i<l; i++)
       {
         try
         {
@@ -135,11 +135,11 @@ qx.Bootstrap.define("qx.xml.Document",
         catch(ex) {
           continue;
         }
-        
+
         // Update static constants
         statics.DOMDOC = domDoc[i];
         statics.XMLHTTP = httpReq[i];
-        
+
         // Stop loop here
         break;
       }
