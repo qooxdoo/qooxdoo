@@ -139,13 +139,8 @@ qx.Class.define("qx.ui.form.Spinner",
   *****************************************************************************
   */
 
-  properties: {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-    /** Defines the apperance of the widget. (initial "spinner") */
+  properties:
+  {
     appearance: {
       refine : true,
       init : "spinner"
@@ -157,13 +152,13 @@ qx.Class.define("qx.ui.form.Spinner",
       init : 1
     },
 
-    /** The amount to increment on each event (keypress or mousedown) */
+    /** The amount to increment on a mouse wheel event*/
     wheelStep: {
       check : "Number",
       init : 1
     },
 
-    /** The amount to increment on each pageup / pagedown keypress */
+    /** The amount to increment on each pageup/pagedown keypress */
     pageStep: {
       check : "Number",
       init : 10
