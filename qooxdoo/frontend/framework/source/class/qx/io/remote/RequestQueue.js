@@ -283,6 +283,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
         }
       }
 
+      var vTransport = e.getTarget();
+      
       // Store send timestamp
       vTransport._start = (new Date()).valueOf();
     },
