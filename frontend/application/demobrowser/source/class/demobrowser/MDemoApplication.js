@@ -24,7 +24,13 @@ qx.Mixin.define("demobrowser.MDemoApplication",
 {
   members :
   {
-    insertSourceLink : function()
+    initDemo : function()
+    {
+      this.__insertSourceLink();
+    },
+
+
+    __insertSourceLink : function()
     {
       // if the current frame is the top frame
       if(window.top == window)
@@ -40,27 +46,9 @@ qx.Mixin.define("demobrowser.MDemoApplication",
         // append the div to the document
         document.body.appendChild(div);
       }
-    },
-
-
-    insertStyle : function()
-    {
-      var text = "*{margin:0;padding:0} html,body{font:11px Verdana,sans-serif;}";
-      qx.bom.Stylesheet.createElement(text);
-    },
-
-
-    updateTitle : function()
-    {
-      var splits = location.href.split("/");
-      var length = splits.length;
-      var div = " " + String.fromCharCode(187) + " ";
-      var category = splits[length-2].toUpperCase();
-      var file = splits[length-1].replace(".html", "").replace("_", " ");
-
-      document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
     }
   },
+
 
 
 
@@ -72,5 +60,25 @@ qx.Mixin.define("demobrowser.MDemoApplication",
 
   settings : {
     "demobrowser.resourceUri" : "../../resource"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var splits = location.href.split("/");
+    var length = splits.length;
+    var div = " " + String.fromCharCode(187) + " ";
+    var category = splits[length-2].toUpperCase();
+    var file = splits[length-1].replace(".html", "").replace("_", " ");
+
+    document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
   }
 });
