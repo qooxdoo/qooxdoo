@@ -315,7 +315,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     _changeInnerColorTop : function(value)
     {
       this.__innerColorTop = value;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     _changeInnerColorRight : function(value)
     {
       this.__innerColorRight = value;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     _changeInnerColorBottom : function(value)
     {
       this.__innerColorBottom = value;
-      this.__informManager();
+      this._informManager();
     },
 
 
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     _changeInnerColorLeft : function(value)
     {
       this.__innerColorLeft = value;
-      this.__informManager();
+      this._informManager();
     }
   }
 });
