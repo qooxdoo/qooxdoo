@@ -31,7 +31,8 @@
 
 qx.Class.define("demobrowser.demo.bom.Event_2",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Standalone,
+  include : [demobrowser.MDemoApplication],
 
   members :
   {

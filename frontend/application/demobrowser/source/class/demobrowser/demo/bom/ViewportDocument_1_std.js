@@ -21,12 +21,16 @@
 
 qx.Class.define("demobrowser.demo.bom.ViewportDocument_1_std",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Native,
+  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
+      // Call demo mixin init
+      this.initDemo();
+
       qx.bom.Element.addListener(
         document.body,
         "click",

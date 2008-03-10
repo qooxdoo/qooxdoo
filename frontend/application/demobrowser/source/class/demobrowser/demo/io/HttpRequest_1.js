@@ -20,13 +20,16 @@
 
 qx.Class.define("demobrowser.demo.io.HttpRequest_1",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Native,
 
   members :
   {
     main: function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       var el = document.getElementById("content");
       el.value = "Loading...";

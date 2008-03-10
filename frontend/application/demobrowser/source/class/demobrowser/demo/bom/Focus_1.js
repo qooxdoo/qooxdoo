@@ -20,7 +20,8 @@
 
 qx.Class.define("demobrowser.demo.bom.Focus_1",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Standalone,
+  include : [demobrowser.MDemoApplication],
 
   members :
   {

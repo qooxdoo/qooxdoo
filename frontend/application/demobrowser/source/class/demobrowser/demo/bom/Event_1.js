@@ -30,7 +30,8 @@
 
 qx.Class.define("demobrowser.demo.bom.Event_1",
 {
-  extend : demobrowser.Demo,
+  extend : qx.application.Native,
+  include : [demobrowser.MDemoApplication],
 
 
   members :
@@ -38,6 +39,9 @@ qx.Class.define("demobrowser.demo.bom.Event_1",
     main : function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       qx.event.Registration.addListener(window, "resize", this._onResize, this);
 
