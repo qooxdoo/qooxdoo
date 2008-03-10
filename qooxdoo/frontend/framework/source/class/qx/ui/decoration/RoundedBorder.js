@@ -120,16 +120,16 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         var style = this.base(arguments, width, height);
 
         var topLeft = this.getRadiusTopLeft();
-        style.MozBorderRadiusTopleft = topLeft instanceof Array ? topLeft.join(" ") : topLeft;
+        style.MozBorderRadiusTopleft = (topLeft instanceof Array ? topLeft.join("px ") : topLeft) + "px";
 
         var topRight = this.getRadiusTopRight();
-        style.MozBorderRadiusTopright = topRight instanceof Array ? topRight.join(" ") : topRight;
+        style.MozBorderRadiusTopright = (topRight instanceof Array ? topRight.join("px ") : topRight) + "px";
 
         var bottomRight = this.getRadiusBottomRight();
-        style.MozBorderRadiusBottomright = bottomRight instanceof Array ? bottomRight.join(" ") : bottomRight;
+        style.MozBorderRadiusBottomright = (bottomRight instanceof Array ? bottomRight.join("px ") : bottomRight) + "px";
 
         var bottomLeft = this.getRadiusBottomLeft();
-        style.MozBorderRadiusBottomleft = bottomLeft instanceof Array ? bottomLeft.join(" ") : bottomLeft;
+        style.MozBorderRadiusBottomleft = (bottomLeft instanceof Array ? bottomLeft.join("px ") : bottomLeft) + "px";
 
         return style;
       },
@@ -139,16 +139,16 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         var style = this.base(arguments, width, height);
 
         var topLeft = this.getRadiusTopLeft();
-        style.WebkitBorderTopLeftRadius = topLeft instanceof Array ? topLeft.join(" ") : topLeft;
+        style.WebkitBorderTopLeftRadius = (topLeft instanceof Array ? topLeft.join("px ") : topLeft) + "px";
 
         var topRight = this.getRadiusTopRight();
-        style.WebkitBorderTopRightRadius = topRight instanceof Array ? topRight.join(" ") : topRight;
+        style.WebkitBorderTopRightRadius = (topRight instanceof Array ? topRight.join("px ") : topRight) + "px";
 
         var bottomRight = this.getRadiusBottomRight();
-        style.WebkitBorderBottomRightRadius = bottomRight instanceof Array ? bottomRight.join(" ") : bottomRight;
+        style.WebkitBorderBottomRightRadius = (bottomRight instanceof Array ? bottomRight.join("px ") : bottomRight) + "px";
 
         var bottomLeft = this.getRadiusBottomLeft();
-        style.WebkitBorderBottomLeftRadius = bottomLeft instanceof Array ? bottomLeft.join(" ") : bottomLeft;
+        style.WebkitBorderBottomLeftRadius = (bottomLeft instanceof Array ? bottomLeft.join("px ") : bottomLeft) + "px";
 
         return style;
       },
@@ -215,12 +215,16 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
 
-        var fillColor = backgroundColor || "white";
+        var fillColor = this.__bgColor || backgroundColor || "white";
+
+        // VML currently only supports the "imageRepeat" = "repeat"
+        var backgroundImage = this.getBackgroundImage();
         if (backgroundImage) {
           fill = '<v:fill type="tile" src="'+backgroundImage+'"/>'
         } else {
           fill = "";
         }
+
 
         // width shortcuts
         var tw = this.getWidthTop();

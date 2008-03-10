@@ -205,6 +205,36 @@ qx.Class.define("qx.ui.decoration.Basic",
       apply : "_applyColorLeft"
     },
 
+    /** The background color */
+    backgroundColor :
+    {
+      nullable : true,
+      init : "inherit",
+      check : "Color",
+      apply : "_applyBackgroundColor"
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY: BACKGROUND IMAGE
+    ---------------------------------------------------------------------------
+    */
+
+    backgroundImage :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBorderChange"
+    },
+
+
+    backgroundRepeat :
+    {
+      check : ["repeat", "repeat-x", "repeat-y", "no-repeat"],
+      init : "repeat",
+      apply : "_applyBorderChange"
+    },
 
 
     /*
@@ -350,6 +380,8 @@ qx.Class.define("qx.ui.decoration.Basic",
      */
     _getStyles : function(width, height)
     {
+      var bgImage = this.getBackgroundImage();
+
       var styles = {
         "borderTopWidth": this.getWidthTop() + "px",
         "borderTopStyle": this.getStyleTop() || "none",
@@ -362,52 +394,26 @@ qx.Class.define("qx.ui.decoration.Basic",
         "borderBottomColor": this.__colorBottom,
         "borderLeftWidth": this.getWidthLeft() + "px",
         "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": this.__colorLeft
+        "borderLeftColor": this.__colorLeft,
+        "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
+        "backgroundRepeat": this.getBackgroundRepeat()
       }
+      console.log(styles);
       return styles;
-    },
-
-
-    _updateBackgroundImage : function(decorationElement, backgroundImage, backgroundRepeat)
-    {
-      var styles = qx.html.ClippedImage.getStyles(backgroundImage);
-
-      switch (backgroundRepeat)
-      {
-        case "tile":
-          styles.backgroundRepeat = "repeat";
-          break;
-
-        case "stretch":
-          // TODO
-          break;
-
-        case "image":
-          styles.backgroundRepeat = "no-repeat";
-          break;
-      }
-
-      decorationElement.setStyles(styles);
     },
 
 
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
-      if (this._needsUpdate)
-      {
+      //if (this._needsUpdate)
+      //{
         decorationElement.setStyles(this._getStyles());
-        this._needUpdate = false;
+        //this._needUpdate = false;
         qx.ui.core.queue.Decorator.remove(this);
-      }
+      //}
 
-      /*
-      if (backgroundImage) {
-        this._updateBackgroundImage(decorationElement, backgroundImage, backgroundRepeat || "tile");
-      }
-      */
-
-      decorationElement.setStyle("backgroundColor", backgroundColor || null);
+      decorationElement.setStyle("backgroundColor", this.__bgColor || backgroundColor || null);
 
       this._updateSize(decorationElement, width, height);
     },
@@ -430,6 +436,8 @@ qx.Class.define("qx.ui.decoration.Basic",
         "borderLeftStyle": null,
         "borderLeftColor": null,
         "backgroundColor": null,
+        "backgroundImage": null,
+        "backgroundRepeat": null,
         "width": null,
         "height": null,
         "position": "absolute",
