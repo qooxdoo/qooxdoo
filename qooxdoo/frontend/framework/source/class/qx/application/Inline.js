@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.core.Init)
+
+************************************************************************ */
+
 /**
  * Base call for all GUI applications which are used in conjunction with
  * HTML code on a normal website. This is the ideal environment for
