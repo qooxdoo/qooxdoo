@@ -29,9 +29,8 @@
  */
 qx.Class.define("demobrowser.demo.animation.Transition_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.legacy.application.Gui,
   include : [demobrowser.MDemoApplication],
-  include : [ qx.legacy.application.MGuiCompat ],
 
   members :
   {
@@ -39,7 +38,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
     {
       this.base(arguments);
 
-      this.compat();
+      this.initDemo();
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 

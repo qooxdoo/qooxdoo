@@ -29,7 +29,7 @@
  */
 qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -37,6 +37,9 @@ qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
     main : function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>phase</th><th>relatedTarget</th></tr>";
       this.keyEvents = [];

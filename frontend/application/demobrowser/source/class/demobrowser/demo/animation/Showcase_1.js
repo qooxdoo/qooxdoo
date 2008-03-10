@@ -30,13 +30,12 @@
  */
 qx.Class.define("demobrowser.demo.animation.Showcase_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.legacy.application.Gui,
   include : [demobrowser.MDemoApplication],
-  include : [ qx.legacy.application.MGuiCompat ],
+
 
   members :
   {
-
     _toggleEnable : function()
     {
       var status = (this._vBoxes[0].getEnabled() === false);
@@ -49,7 +48,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
     main : function()
     {
       this.base(arguments);
-      this.compat();
+
+      this.initDemo();
 
       /* Demo elements */
       this._demoElement = document.getElementById("testDiv");

@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.bom.Label_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -28,6 +28,9 @@ qx.Class.define("demobrowser.demo.bom.Label_1",
     main : function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       var label1 = qx.bom.Label.create("Quite a long label text");
       label1.style.border = "1px solid red";
