@@ -32,6 +32,6 @@ qx.Theme.define("qx.legacy.theme.ClassicLunaSilver",
     font : qx.legacy.theme.classic.font.Default,
     widget : qx.legacy.theme.classic.Widget,
     appearance : qx.legacy.theme.classic.Appearance,
-    icon : qx.legacy.theme.icon.Nuvola
+    icon : qx.legacy.theme.icon.CrystalClear
   }
 });
