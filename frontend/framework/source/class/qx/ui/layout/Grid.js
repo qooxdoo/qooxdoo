@@ -991,6 +991,8 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
+          // ignore rows with row spans at this place
+          // these rows will be taken into account later
           var widgetRowSpan = this.getLayoutProperty(widget, "rowSpan");
           if (widgetRowSpan > 1) {
             continue;
@@ -1005,8 +1007,8 @@ qx.Class.define("qx.ui.layout.Grid",
         var minHeight = Math.max(minHeight, this.getRowMinHeight(row));
         var maxHeight = this.getRowMaxHeight(row);
 
-        if (this.getRowHeight() !== null) {
-          var height = this.getRowHeight();
+        if (this.getRowHeight(row) !== null) {
+          var height = this.getRowHeight(row);
         } else {
           var height = Math.max(minHeight, Math.min(height, maxHeight));
         }
@@ -1058,6 +1060,8 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
+          // ignore columns with col spans at this place
+          // these columns will be taken into account later
           var widgetColSpan = this.getLayoutProperty(widget, "colSpan");
           if (widgetColSpan > 1) {
             continue;
@@ -1072,8 +1076,8 @@ qx.Class.define("qx.ui.layout.Grid",
         var minWidth = Math.max(minWidth, this.getColumnMinWidth(col));
         var maxWidth = this.getColumnMaxWidth(col);
 
-        if (this.getColumnWidth() !== null) {
-          var width = this.getColumnWidth();
+        if (this.getColumnWidth(col) !== null) {
+          var width = this.getColumnWidth(col);
         } else {
           var width = Math.max(minWidth, Math.min(width, maxWidth));
         }
