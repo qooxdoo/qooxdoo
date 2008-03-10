@@ -27,10 +27,9 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.Grid();
       docLayout.setSpacing(20);
@@ -40,8 +39,6 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
       container.setLayout(docLayout);
 
       doc.add(container, 0, 0);
-
-      this._border = new qx.ui.decoration.Basic(1, "solid", "black");
 
       docLayout.add(this.getAnimGrid(), 0, 0);
     },
@@ -101,7 +98,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
 
     getAnimGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", width: 500, height: 500});
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", width: 500, height: 500});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 

@@ -30,8 +30,6 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);

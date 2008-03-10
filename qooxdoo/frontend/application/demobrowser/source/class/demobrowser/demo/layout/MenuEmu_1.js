@@ -30,21 +30,17 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var MenuItem = demobrowser.demo.layout.MenuEmu_1_MenuItem;
       var Menu = demobrowser.demo.layout.MenuEmu_1_Menu;
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
       doc.setPadding(20);
 
       var docLayout = new qx.ui.layout.Grid();
       docLayout.setColumnFlex(0, 0);
       docLayout.setSpacing(20);
-
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
 
       var menu = new Menu();
       menu.add(new MenuItem("New", "Ctrl-N"));

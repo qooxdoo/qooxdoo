@@ -27,11 +27,9 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var container = new qx.ui.core.Widget();
       var containerLayout = new qx.ui.layout.HBox();
@@ -39,18 +37,16 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_1",
       container.setLayout(containerLayout);
       doc.add(container, 0, 0);
 
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
       // "normal" size, auto-sized
-      var widget1 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow"});
+      var widget1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
       var layout1 = new qx.ui.layout.Stack();
 
       var widgets1 = [];
-      widgets1[0] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "red", height: 300});
-      widgets1[1] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue"});
-      widgets1[2] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "orange", width: 200});
-      widgets1[3] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-      widgets1[4] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "fuchsia"});
+      widgets1[0] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red", height: 300});
+      widgets1[1] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue"});
+      widgets1[2] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "orange", width: 200});
+      widgets1[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      widgets1[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
       for (var i=0; i<widgets1.length; i++)
       {
@@ -82,16 +78,16 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_1",
 
 
       // resize to selected, auto-sized
-      var widget2 = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", allowGrowY: false});
+      var widget2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowY: false});
       layout2 = new qx.ui.layout.Stack();
       layout2.setResizeToSelected(true);
 
       var widgets2 = [];
-      widgets2[0] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "red", height: 300});
-      widgets2[1] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "blue"});
-      widgets2[2] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "orange", width: 200});
-      widgets2[3] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "green"});
-      widgets2[4] = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "fuchsia"});
+      widgets2[0] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red", height: 300});
+      widgets2[1] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue"});
+      widgets2[2] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "orange", width: 200});
+      widgets2[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      widgets2[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
       for (var i=0; i<widgets2.length; i++)
       {

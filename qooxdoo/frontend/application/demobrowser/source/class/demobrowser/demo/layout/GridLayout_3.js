@@ -30,10 +30,9 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.Grid();
       docLayout.setSpacing(20);
@@ -44,8 +43,6 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
       doc.add(container, 0, 0);
 
-      this._border = new qx.ui.decoration.Basic(1, "solid", "black");
-
       docLayout.add(this.getCellAlignGrid(), 0, 0);
       docLayout.add(this.getRowColumnAlignGrid(), 0, 1);
       docLayout.add(this.getColumnAlignGrid(), 0, 2);
@@ -55,7 +52,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getNewWidget : function() {
       var widget = new qx.ui.core.Widget().set({
-        decorator: this._border,
+        decorator: "black",
         backgroundColor: "green",
         allowGrowX: false,
         allowGrowY: false,
@@ -68,7 +65,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getColumnAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
@@ -90,7 +87,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getRowAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
@@ -112,7 +109,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getCellAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 
@@ -153,7 +150,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
       // hAlign is taken from the row
       // vAlign is taken from the column
 
-      var box = (new qx.ui.core.Widget).set({decorator: this._border, backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
 

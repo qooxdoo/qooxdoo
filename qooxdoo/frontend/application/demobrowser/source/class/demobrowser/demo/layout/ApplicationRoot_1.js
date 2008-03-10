@@ -27,34 +27,31 @@ qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var doc = new qx.ui.root.Application(document);
 
-      var border = new qx.ui.decoration.Basic(1, "solid", "black")
-
-      doc.setDecorator(border);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
+      doc.setDecorator("black");
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: border,
+        decorator: "black",
         padding: 10
       });
 
       var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: border
+        decorator: "black"
       });
 
       var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: border
+        decorator: "black"
       });
 
       var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: border
+        decorator: "black"
       });
 
 

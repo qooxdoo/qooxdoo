@@ -30,8 +30,6 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("text");
-      doc.setBackgroundColor("background");
 
       scrollArea = new qx.ui.core.ScrollArea();
       scrollArea.set({

@@ -27,18 +27,13 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       doc = new qx.ui.root.Application(document);
 
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
-
-      var borderColor = "black";
-      var border = new qx.ui.decoration.Basic(3, "solid", borderColor);
-
       w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: border,
+        decorator: "black",
         paddingLeft: 10,
         paddingRight: 10,
         minHeight: 200
@@ -46,19 +41,19 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
 
       w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: border,
+        decorator: "black",
         height: 300
       });
 
       w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: border,
+        decorator: "black",
         padding: 3
       });
 
       w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: border,
+        decorator: "black",
         padding: 10,
         width: 1000
       });

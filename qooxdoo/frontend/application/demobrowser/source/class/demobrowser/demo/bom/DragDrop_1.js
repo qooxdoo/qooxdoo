@@ -42,8 +42,8 @@ qx.Class.define("demobrowser.demo.bom.DragDrop_1",
       this._left = Math.max(0, left);
       this._top = Math.max(0, top);
 
-      qx.bom.element.Style.set(this._el, "top", this._top);
-      qx.bom.element.Style.set(this._el, "left", this._left);
+      qx.bom.element.Style.set(this._el, "top", this._top + "px");
+      qx.bom.element.Style.set(this._el, "left", this._left + "px");
       this._el.innerHTML = "drag me (" + this._left + ", " + this._top + ")";
     },
 
