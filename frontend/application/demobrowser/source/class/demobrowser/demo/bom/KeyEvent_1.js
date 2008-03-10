@@ -23,7 +23,7 @@
  */
 qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -31,6 +31,9 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
     main : function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       this.tableHead =
         "<table><tr>" +

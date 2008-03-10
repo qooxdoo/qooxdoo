@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.bom.Request_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -28,6 +28,9 @@ qx.Class.define("demobrowser.demo.bom.Request_1",
     main: function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       var el = document.getElementById("content");
       el.value = "Loading...";

@@ -31,7 +31,7 @@
 
 qx.Class.define("demobrowser.demo.bom.Event_2",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -39,6 +39,9 @@ qx.Class.define("demobrowser.demo.bom.Event_2",
     main: function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       var iframe = qx.bom.Iframe.create({
         name : "iframe",

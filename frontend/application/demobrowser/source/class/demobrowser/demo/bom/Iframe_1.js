@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.bom.Iframe_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Native,
   include : [demobrowser.MDemoApplication],
 
   members :
@@ -28,6 +28,9 @@ qx.Class.define("demobrowser.demo.bom.Iframe_1",
     main: function()
     {
       this.base(arguments);
+
+      // Call demo mixin init
+      this.initDemo();
 
       var iframe = qx.bom.Iframe.create({
         name : "testFrame",
