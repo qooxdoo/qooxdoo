@@ -623,7 +623,8 @@ qx.Class.define("qx.io.remote.Exchange",
           }
           catch(ex)
           {
-            return this.error("Request handler throws error", ex);
+            this.error("Request handler throws error", ex);
+            return ex;
           }
         }
       }
@@ -850,11 +851,8 @@ qx.Class.define("qx.io.remote.Exchange",
       switch(value)
       {
         case "sending":
-          this.createDispatchEvent("sending");
-          break;
-
         case "receiving":
-          this.createDispatchEvent("receiving");
+          this.createDispatchEvent(value);
           break;
 
         case "completed":
@@ -902,37 +900,11 @@ qx.Class.define("qx.io.remote.Exchange",
             vResponse.setResponseHeaders(vImpl.getResponseHeaders());
 
             this.dispatchEvent(vResponse);
-            // this.debug("Result Text: " + vResponse.getTextContent());
-            //var vEventType;
-
-            /*
-            switch(value)
-            {
-              case "completed":
-                vEventType = "completed";
-                break;
-
-              case "aborted":
-                vEventType = "aborted";
-                break;
-
-              case "timeout":
-                vEventType = "timeout";
-                break;
-
-              case "failed":
-                vEventType = "failed";
-                break;
-            }
-            */
           }
 
           // Disconnect and dispose implementation
           this.setImplementation(null);
           vImpl.dispose();
-
-          // Fire event to listeners
-          //this.createDispatchDataEvent(vEventType, vResponse);
 
           break;
       }
