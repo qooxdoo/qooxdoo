@@ -192,17 +192,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
       // Debug output
       this._debug();
 
-      // Establish event connection between qx.io.remote.Exchange instance and
-      // qx.io.remote.Request
-      vTransport.addEventListener("sending", vRequest._onsending, vRequest);
-      vTransport.addEventListener("receiving", vRequest._onreceiving, vRequest);
-      vTransport.addEventListener("completed", vRequest._oncompleted, vRequest);
-      vTransport.addEventListener("aborted", vRequest._onaborted, vRequest);
-      vTransport.addEventListener("timeout", vRequest._ontimeout, vRequest);
-      vTransport.addEventListener("failed", vRequest._onfailed, vRequest);
-
       // Establish event connection between qx.io.remote.Exchange and me.
       vTransport.addEventListener("sending", this._onsending, this);
+      vTransport.addEventListener("receiving", this._onreceiving, this);
       vTransport.addEventListener("completed", this._oncompleted, this);
       vTransport.addEventListener("aborted", this._oncompleted, this);
       vTransport.addEventListener("timeout", this._oncompleted, this);
@@ -284,11 +276,25 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
 
       var vTransport = e.getTarget();
-      
+      vTransport.getRequest()._onsending(e);
+
       // Store send timestamp
       vTransport._start = (new Date()).valueOf();
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onreceiving : function(e)
+    {
+      e.getTarget().getRequest()._onreceiving(e);
+    },
+
 
     /**
      * TODOC
@@ -315,6 +321,13 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
       // remove from queue
       this._remove(vTransport);
+
+      // call user handler
+      var vRequest = vTransport.getRequest();
+      if (vRequest['_on' + e.getType()])
+      {
+        vRequest['_on' + e.getType()](e);
+      }
 
       // Dispose transport object
       vTransport.dispose();
@@ -364,7 +377,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
           // if timer is disabled or transport not sended ignore it
           if (vTimeout == 0 || vTransport._start == null)
           {
-            // then ignore it.
             continue;
           }
 
