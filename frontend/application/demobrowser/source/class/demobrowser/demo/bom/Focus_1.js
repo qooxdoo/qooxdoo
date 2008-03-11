@@ -21,16 +21,12 @@
 qx.Class.define("demobrowser.demo.bom.Focus_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      // Call demo mixin init
-      this.initDemo();
 
       qx.event.Registration.addListener(document.documentElement, "activate", this._onActivate, this, true);
       qx.event.Registration.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
