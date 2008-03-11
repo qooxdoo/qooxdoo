@@ -58,6 +58,19 @@ qx.Class.define("qx.util.ImageRegistry",
 
 
     /**
+     * Whether the image registry has informations about the given
+     * image URL.
+     *
+     * @type member
+     * @param iconUri {String} The icon to get the information for
+     * @return {Boolean} <code>true</code> when the image is known.
+     */
+    has : function(iconUri) {
+      return !!this.__registry[iconUri];
+    },
+
+
+    /**
      * Get information about an icon.
      *
      * @param iconUri {String} The icon to get the information for
@@ -68,7 +81,6 @@ qx.Class.define("qx.util.ImageRegistry",
     resolve : function(iconUri) {
       return this.__registry[iconUri] || null;
     }
-
   },
 
 

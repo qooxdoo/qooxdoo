@@ -201,18 +201,17 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      var sprite = qx.util.ImageRegistry.getInstance().resolve(source);
-      if (sprite)
+      var Registry = qx.util.ImageRegistry.getInstance();
+
+      // Detect if the image registry knows this image
+      if (Registry.has(source))
       {
-        // Try to find a disabled image
-        // TODO: Support other states e.g. hover as well?
+        // Try to find a disabled image in registry
         if (!this.getEnabled())
         {
-          var disabledSource = source.replace(/\.([a-z]+)$/, "-disabled.$1");
-          var disabledSprite = qx.util.ImageRegistry.getInstance().resolve(disabledSource);
-
-          if (disabledSprite) {
-            source = disabledSource;
+          var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
+          if (Registry.has(disabled)) {
+            source = disabled;
           }
         }
 
@@ -257,7 +256,7 @@ qx.Class.define("qx.ui.basic.Image",
       // Dynamically register image
       qx.util.ImageRegistry.getInstance().register(source, source, 0, 0, size.width, size.height);
 
-      // Update image
+      // Update image (again)
       this._syncSource(source);
     }
   }
