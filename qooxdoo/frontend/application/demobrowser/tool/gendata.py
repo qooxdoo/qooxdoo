@@ -14,8 +14,9 @@ def main(dist, scan):
     if category in [".svn", ".DS_Store"]:
       continue
 
-    if os.path.splitext(category)[1] == ".html":
-        continue
+    ext = os.path.splitext(category)[1]
+    if ext == ".html" or ext == ".js":
+      continue
 
     if not firstCategory:
       res += "},"
