@@ -640,13 +640,7 @@ qx.Class.define("qx.ui.form.Spinner",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    var mgr = this.getManager();
-    if (mgr) {
-      mgr.dispose();
-    }
-
+  destruct : function() {
     this._disposeObjects("_textField", "_buttonlayout", "_upbutton", "_downbutton");
   }
 });
