@@ -101,17 +101,5 @@
     {
       "target" : "build"
     }
-  },
-
-
-  /*
-  source-script
-
-  build-script
-  build-resources
-  build-files
-
-  build : build-script,build-resources,build-files
-  source: source-script
-  */
+  }
 }
