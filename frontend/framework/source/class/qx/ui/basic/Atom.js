@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.basic.Atom",
     _applyLabel : function(value, old)
     {
       if (this._label) {
-        this._label.setText(value);
+        this._label.setContent(value);
       } else {
         this._label = new qx.ui.basic.Label(value);
       }
