@@ -399,9 +399,7 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        import cProfile
-        cProfile.runctx("sourceBlocks.append(self.generateImageInfoCode(settings, format))",globals(),locals())
-        #sourceBlocks.append(self.generateImageInfoCode(settings, format))
+        sourceBlocks.append(self.generateImageInfoCode(settings, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
