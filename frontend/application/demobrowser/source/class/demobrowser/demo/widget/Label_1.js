@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
         decorator: decor
       });
       this.getRoot().add(label1, 20, 20);
-      
+
       var label2 = new qx.ui.basic.Label("My First Long Label").set({
         decorator: decor
       });
