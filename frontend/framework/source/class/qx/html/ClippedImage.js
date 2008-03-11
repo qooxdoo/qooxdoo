@@ -165,8 +165,8 @@ qx.Class.define("qx.html.ClippedImage",
 
       if (resize !== false)
       {
-        this.setStyle("width", this.__width);
-        this.setStyle("height", this.__width);
+        this.setStyle("width", this.__width + "px");
+        this.setStyle("height", this.__height + "px");
       }
 
       this._source = source;
