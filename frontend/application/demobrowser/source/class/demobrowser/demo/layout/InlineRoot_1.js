@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.layout.InlineRoot_1",
 {
   extend : qx.application.Standalone,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {

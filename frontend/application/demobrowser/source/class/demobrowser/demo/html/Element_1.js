@@ -21,16 +21,12 @@
 qx.Class.define("demobrowser.demo.html.Element_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      // Call demo mixin init
-      this.initDemo();
 
       var doc = new qx.html.Root(document.getElementById("test"));
       doc.setAttribute("id", "doc");

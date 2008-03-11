@@ -21,16 +21,12 @@
 qx.Class.define("demobrowser.demo.bom.Flash_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      // Call demo mixin init
-      this.initDemo();
 
       var movie = qx.bom.Flash.create("Flash_1.swf");
 
