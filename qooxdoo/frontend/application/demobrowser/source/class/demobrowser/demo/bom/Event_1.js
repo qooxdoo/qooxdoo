@@ -39,9 +39,6 @@ qx.Class.define("demobrowser.demo.bom.Event_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       qx.event.Registration.addListener(window, "resize", this._onResize, this);
 
       var cmd = new qx.event.Command("Shift-Meta-F1");

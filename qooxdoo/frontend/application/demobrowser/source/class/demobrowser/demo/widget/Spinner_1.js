@@ -29,9 +29,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var doc = new qx.ui.root.Application(document);

@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.bom.Location_1_std",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       var links = document.getElementById("list").getElementsByTagName("a");
       for (var i=0, l=links.length; i<l; i++) {
         links[i].onclick = demobrowser.demo.bom.Location_1_std.jump;
