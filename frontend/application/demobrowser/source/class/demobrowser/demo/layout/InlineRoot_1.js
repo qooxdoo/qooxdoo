@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.layout.InlineRoot_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Inline,
 
   members :
   {
@@ -28,36 +28,32 @@ qx.Class.define("demobrowser.demo.layout.InlineRoot_1",
     {
       this.base(arguments);
 
-var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
       var isle = new qx.ui.root.Inline(document.getElementById("isle")).set({
-        decorator: border,
+        decorator: "black",
         padding: 10,
         textColor: "black",
         backgroundColor: "white"
       });
-      //isle.getElement().setStyle("font", "11px Tahoma, sans-serif");
-
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: border,
+        decorator: "black",
         padding: 10
       });
 
       var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: border
+        decorator: "black"
       });
 
       var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: border
+        decorator: "black"
       });
 
       var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: border
+        decorator: "black"
       });
 
       var layout = new qx.ui.layout.HBox();

@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.layout.PageRoot_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Inline,
 
   members :
   {
@@ -31,9 +31,6 @@ qx.Class.define("demobrowser.demo.layout.PageRoot_1",
       var doc = new qx.ui.root.Page(document);
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
-
-      // this.getRoot().getElement().setStyle("font", "11px Tahoma, sans-serif");
-      this.getRoot().setTextColor("black");
 
       var box = new qx.ui.core.Widget();
       var layout = new qx.ui.layout.HBox();
