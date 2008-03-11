@@ -21,7 +21,7 @@
 
 qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
 {
-  extend : qx.application.Native,
+  extend : qx.application.Standalone,
 
   members :
   {
