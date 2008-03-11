@@ -30,15 +30,12 @@
 qx.Class.define("demobrowser.demo.animation.Transition_2",
 {
   extend : qx.legacy.application.Gui,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      this.initDemo();
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
       this._elementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';

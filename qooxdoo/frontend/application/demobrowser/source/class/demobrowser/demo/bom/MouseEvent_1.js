@@ -30,7 +30,6 @@
 qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {

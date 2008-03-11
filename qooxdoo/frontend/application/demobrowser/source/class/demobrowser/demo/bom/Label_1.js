@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.bom.Label_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {

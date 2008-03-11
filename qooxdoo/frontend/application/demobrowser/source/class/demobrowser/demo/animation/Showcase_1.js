@@ -31,8 +31,6 @@
 qx.Class.define("demobrowser.demo.animation.Showcase_1",
 {
   extend : qx.legacy.application.Gui,
-  include : [demobrowser.MDemoApplication],
-
 
   members :
   {
@@ -48,8 +46,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
     main : function()
     {
       this.base(arguments);
-
-      this.initDemo();
 
       /* Demo elements */
       this._demoElement = document.getElementById("testDiv");
