@@ -35,7 +35,10 @@ qx.Class.define("qx.bom.Vml",
 
   statics :
   {
-    init : function()
+    /**
+     * Initialize VML support
+     */
+    __init : function()
     {
       if (this.__initialized) {
         return;
@@ -49,6 +52,15 @@ qx.Class.define("qx.bom.Vml",
       }
     },
 
+
+    /**
+     * Create VML element
+     *
+     * @param type {String} The VML element type
+     * @param attributes {Map?null} An optional map of element attributes
+     * @param win {var?null} The browser window element, in which the element
+     *     should be created.
+     */
     create : function(type, attributes, win)
     {
       var win = win || window;
@@ -135,7 +147,7 @@ qx.Class.define("qx.bom.Vml",
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      statics.init();
+      statics.__init();
     }
   }
 });

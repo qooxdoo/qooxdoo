@@ -86,7 +86,7 @@ qx.Class.define("qx.event.type.Drag",
      * Set the difference between the current top mouse position and the mouse
      * position at drag start.
      *
-     * @param dragOffsetLeft {Integer} The top drag offset.
+     * @param dragOffsetTop {Integer} The top drag offset.
      */
     setDragOffsetTop : function(dragOffsetTop) {
       this._dragOffsetTop = dragOffsetTop;
