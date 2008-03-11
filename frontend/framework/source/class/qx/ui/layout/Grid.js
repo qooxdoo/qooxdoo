@@ -634,7 +634,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * The default value is <code>Infinity</code>.
      *
      * @param column {Integer} The column index
-     * @param maxWidth {Integer} The column's width
+     * @param width {Integer} The column's width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setColumnWidth : function(column, width)
@@ -721,7 +721,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * The default value is <code>Infinity</code>.
      *
      * @param row {Integer} The row index
-     * @param maxHeight {Integer} The row's width
+     * @param height {Integer} The row's width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
     setRowHeight : function(row, height)

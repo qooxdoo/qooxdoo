@@ -18,9 +18,9 @@
 ************************************************************************ */
 
 /**
- * The IconManager contains a registry for image sizes and information about
+ * The image registry contains information about image sizes and information about
  * clipped images. The {@link qx.ui.basic.Image} class uses this information to
- * render icons.
+ * render images.
  */
 qx.Class.define("qx.util.ImageRegistry",
 {
@@ -42,6 +42,15 @@ qx.Class.define("qx.util.ImageRegistry",
 
     /**
      * Register information about an image.
+     *
+     * @param iconUri {String} The URI of the image to register information about.
+     * @param mappedUri {String} The image URI, which should be used to display
+     *     the image. This can be either the same as the image URI or the URI
+     *     of a combined image containing several images.
+     * @param xOffset {Integer} The horizontal start offset of the image.
+     * @param yOffset {Integer} The vertical start offset of the image.
+     * @param width {Integer} The image width
+     * @param height {Integer} The image height
      */
     register : function(iconUri, mappedUri, xOffset, yOffset, width, height)
     {
