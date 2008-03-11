@@ -30,7 +30,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
 
 
     /**
-     * Whether the given image is loaded.
+     * Whether the given image has previously been loaded using the
+     * {@link #load} method.
      *
      * @type static
      * @param source {String} Image source to query
