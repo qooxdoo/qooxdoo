@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       this.test1(doc);
       this.test2(doc);
       this.test3(doc);
@@ -50,7 +48,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
       layout.add(w3, { align : "bottom" });
 
       box.setLayout(layout);
-      doc.add(box, 10, 10);
+      this.getRoot().add(box, 10, 10);
 
       reversed = true;
       box.addListener("mousedown", function(e)
@@ -75,7 +73,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
       layout.add(w3, { align : "bottom", marginLeft : 10 });
 
       box.setLayout(layout);
-      doc.add(box, 10, 100);
+      this.getRoot().add(box, 10, 100);
 
       before = true;
       box.addListener("mousedown", function(e)
@@ -102,7 +100,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
       layout.add(w3, { align : "bottom", marginLeft : 10 });
 
       box.setLayout(layout);
-      doc.add(box, 10, 190);
+      this.getRoot().add(box, 10, 190);
 
       large = true;
       box.addListener("mousedown", function(e)

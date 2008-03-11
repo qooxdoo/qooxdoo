@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_3",
     {
       this.base(arguments);
 
-      var doc = new qx.ui.root.Application(document);
-
-
       // auto height + reversed
       var box1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "yellow", width: 120});
       var layout1 = new qx.ui.layout.VBox();
@@ -47,7 +44,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_3",
       layout1.add(w3, { align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
     }
   }
 });

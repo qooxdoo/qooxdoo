@@ -32,8 +32,8 @@ qx.Class.define("demobrowser.demo.layout.PageRoot_1",
 
       var border = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      // doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
-      doc.setTextColor("black");
+      // this.getRoot().getElement().setStyle("font", "11px Tahoma, sans-serif");
+      this.getRoot().setTextColor("black");
 
       var box = new qx.ui.core.Widget();
       var layout = new qx.ui.layout.HBox();
@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.layout.PageRoot_1",
       layout.add(w3);
       layout.add(w4);
 
-      doc.add(box, 30, 120);
+      this.getRoot().add(box, 30, 120);
     }
   }
 });

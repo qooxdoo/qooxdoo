@@ -29,8 +29,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
     {
       this.base(arguments);
 
-      var doc = new qx.ui.root.Application(document);
-
       var layout = new qx.ui.layout.Grid();
       layout.setRowAlign(0, "left", "bottom");
       layout.setRowAlign(1, "left", "middle");
@@ -43,7 +41,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
         layout: layout,
         padding: 10
       });
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
 
       var row = 0;
 

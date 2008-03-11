@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_3",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       // auto width + reversed
       var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height: 80});
       var layout1 = new qx.ui.layout.HBox();
@@ -46,7 +44,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_3",
       layout1.add(w3, { align : "bottom" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
     }
   }
 });

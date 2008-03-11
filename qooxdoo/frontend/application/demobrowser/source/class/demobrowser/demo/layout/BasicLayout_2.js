@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
         decorator: "black",
@@ -67,7 +65,7 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
       var container = new qx.ui.core.Widget();
       container.setLayout(layout);
 
-      doc.add(container, 0, 0, 0, 0);
+      this.getRoot().add(container, 0, 0, 0, 0);
     }
   }
 });

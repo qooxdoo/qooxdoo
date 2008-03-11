@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       scrollArea = new qx.ui.core.ScrollArea();
       scrollArea.set({
         width: 200,
@@ -37,7 +35,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
         backgroundColor : "yellow"
       });
 
-      doc.add(scrollArea, 10, 10);
+      this.getRoot().add(scrollArea, 10, 10);
       scrollArea.setContent(this.generateBox());
 
       var toggle = new qx.ui.basic.Label("Toggle size").set({
@@ -53,7 +51,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
         grow = !grow;
       });
 
-      doc.add(toggle, 10, 400);
+      this.getRoot().add(toggle, 10, 400);
     },
 
     generateBox : function()

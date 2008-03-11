@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var border = new qx.ui.decoration.Basic(3, "solid", "black");
 
       w1 = new qx.ui.core.Widget().set({
@@ -77,7 +75,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_1",
       });
       container.setLayout(layout);
 
-      doc.add(container, 0, 0, 0, 0);
+      this.getRoot().add(container, 0, 0, 0, 0);
     }
   }
 });

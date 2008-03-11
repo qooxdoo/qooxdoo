@@ -34,8 +34,7 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
       var MenuItem = demobrowser.demo.layout.MenuEmu_1_MenuItem;
       var Menu = demobrowser.demo.layout.MenuEmu_1_Menu;
 
-      doc = new qx.ui.root.Application(document);
-      doc.setPadding(20);
+      this.getRoot().setPadding(20);
 
       var docLayout = new qx.ui.layout.Grid();
       docLayout.setColumnFlex(0, 0);
@@ -67,7 +66,7 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
       var container = new qx.ui.core.Widget();
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
     }
   }
 });

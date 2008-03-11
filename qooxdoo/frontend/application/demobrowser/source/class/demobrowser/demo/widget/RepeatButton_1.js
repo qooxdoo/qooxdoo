@@ -29,8 +29,6 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
 
@@ -38,7 +36,7 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       container.setPadding(20);
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
 
       // ----- RepeatButton 1 -----
       var img1 = "icon/48/actions/list-add.png";
@@ -47,7 +45,7 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
 
       // Label for the repeat button 1
       var l1 = new qx.ui.basic.Label("0");
-      doc.add(l1, 20, 80);
+      this.getRoot().add(l1, 20, 80);
       // listener for the repeatbutton 1
       btn1.addListener("execute", function() {
         var tempValue = parseInt(l1.getContent());

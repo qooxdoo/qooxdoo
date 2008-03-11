@@ -28,12 +28,11 @@ qx.Class.define("demobrowser.demo.layout.Spacer_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
-      doc.add(this.getSpacerWithoutFlex(), 10, 10);
-      doc.add(this.getSpacerWithFlex(), 10, 70);
-      doc.add(this.getAddSpacer(), 10, 140);
-      doc.add(this.getAddRemoveSpacer(), 10, 210);
+      var root = this.getRoot();
+      root.add(this.getSpacerWithoutFlex(), 10, 10);
+      root.add(this.getSpacerWithFlex(), 10, 70);
+      root.add(this.getAddSpacer(), 10, 140);
+      root.add(this.getAddRemoveSpacer(), 10, 210);
     },
 
 
