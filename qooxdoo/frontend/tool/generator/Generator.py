@@ -818,7 +818,7 @@ class _ResourceHandler(object):
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, None, True)
             if liblist == None:
-                liblist = filetool.find(lib['path'])
+                liblist = filetool.find(os.path.join(lib['path'],'resource'))
                 inCache = False
                 llist   = []
             else:
