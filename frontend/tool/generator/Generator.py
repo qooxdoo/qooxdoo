@@ -317,6 +317,7 @@ class Generator:
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
         bootBlocks.append(self.generateImageInfoCode(settings, format))
+        bootBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
         if format:
@@ -400,6 +401,7 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
+        sourceBlocks.append(self.generateImageInfoCode(settings, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
