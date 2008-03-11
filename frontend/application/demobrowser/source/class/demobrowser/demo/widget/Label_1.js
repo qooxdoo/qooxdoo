@@ -30,29 +30,33 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
 
       var decor = new qx.ui.decoration.Basic(1, "solid", "black");
 
-      var label1 = new qx.ui.basic.Label("Hello World").set({
+      var label1 = new qx.ui.basic.Label("My Label").set({
         decorator: decor
       });
       this.getRoot().add(label1, 20, 20);
-
-      var label2 = new qx.ui.basic.Label("Hello World").set({
-        decorator: decor,
-        width: 50,
-        rich : true
+      
+      var label2 = new qx.ui.basic.Label("My First Long Label").set({
+        decorator: decor
       });
       this.getRoot().add(label2, 20, 60);
 
-      var label3 = new qx.ui.basic.Label().set({
-        content: "Returns the preferred height for this layout item, given the width w.",
+      var label3 = new qx.ui.basic.Label("My First Long Label").set({
         decorator: decor,
-        rich : true,
-        width: 100
+        width: 80
       });
       this.getRoot().add(label3, 20, 100);
 
-      this.debug("Height for Width (50): " + label3.getHeightForWidth(50));
-      this.debug("Height for Width (100): " + label3.getHeightForWidth(100));
-      this.debug("Height for Width (200): " + label3.getHeightForWidth(200));
+      var label4 = new qx.ui.basic.Label().set({
+        content: "A long label text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
+        decorator: decor,
+        rich : true,
+        width: 120
+      });
+      this.getRoot().add(label4, 20, 140);
+
+      this.debug("Height for Width (50): " + label4.getHeightForWidth(50));
+      this.debug("Height for Width (100): " + label4.getHeightForWidth(100));
+      this.debug("Height for Width (200): " + label4.getHeightForWidth(200));
     }
   }
 });

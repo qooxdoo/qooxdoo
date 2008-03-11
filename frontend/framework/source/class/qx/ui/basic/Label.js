@@ -137,8 +137,11 @@ qx.Class.define("qx.ui.basic.Label",
       if (!this.getRich()) {
         return null;
       }
+      
+      var font = this.__font;
+      var styles = font ? font.getStyles() : null;      
 
-      return qx.bom.Label.getHtmlSize(this.getContent(), null, width).height;
+      return qx.bom.Label.getHtmlSize(this.getContent(), styles, width).height;
     },
 
 
@@ -164,7 +167,7 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     /** {qx.bom.Font} The current label font */
-    __styledFont : null,
+    __font : null,
 
 
     /** {Map} Internal fallback of label size when no font is defined */
@@ -189,7 +192,7 @@ qx.Class.define("qx.ui.basic.Label",
       this._contentElement.setStyles(styles);
 
       // Store final value as well
-      this.__styledFont = font;
+      this.__font = font;
 
       // Invalidate text size
       this.__invalidContentSize = true;
@@ -209,13 +212,24 @@ qx.Class.define("qx.ui.basic.Label",
     {
       var Label = qx.bom.Label;
 
-      var font = this.__styledFont;
+      var font = this.__font;
       var styles = font ? font.getStyles() : null;
       var content = this.getContent() || "";
+      var rich = this.getRich();
 
-      this.__contentSize = this.getRich() ?
+      this.__contentSize = rich ?
         Label.getHtmlSize(content, styles) :
         Label.getTextSize(content, styles);
+        
+      // XUL labels are seems to need a magic tolerance addition
+      // here to omit ellipsis symbol for labels where not needed.
+      // This was detected as of Firefox 3 beta4 (gecko 1.9)
+      if (qx.core.Variant.isSet("qx.client", "gecko")) 
+      {
+        if (!rich) {
+          this.__contentSize.width++;
+        }
+      }      
     },
 
 

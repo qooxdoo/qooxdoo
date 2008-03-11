@@ -117,7 +117,6 @@ qx.Class.define("qx.bom.Label",
       if (html)
       {
         var el = win.document.createElement("div");
-        el.style.whiteSpace = "normal";
         el.useHtml = true;
       }
 
@@ -136,16 +135,6 @@ qx.Class.define("qx.bom.Label",
       else
       {
         var el = win.document.createElement("div");
-
-        el.style.textOverflow = "ellipsis";
-
-        // Opera as of 9.2.x only supports -o-text-overflow
-        if (qx.core.Variant.isSet("qx.client", "opera")) {
-          el.style.OTextOverflow = "ellipsis";
-        }
-
-        el.style.overflow = "hidden";
-        el.style.whiteSpace = "nowrap";
       }
 
       if (content) {
@@ -153,6 +142,42 @@ qx.Class.define("qx.bom.Label",
       }
 
       return el;
+    },
+    
+    
+    /**
+     * Returns a map of all styles which should be applied as
+     * a basic set.
+     * 
+     * @type static
+     * @param html {Boolean?false} Whether HTML markup should be used.
+     * @return {Map} Initial styles which should be applied to a label element.
+     */
+    getStyles : function(html)
+    {
+      var styles = {};
+      
+      if (html)
+      {
+        styles.whiteSpace = "normal";
+      }
+      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        styles.display = "block";
+      }
+      else
+      {
+        styles.overflow = "hidden";
+        styles.whiteSpace = "nowrap";
+        styles.textOverflow = "ellipsis";
+
+        // Opera as of 9.2.x only supports -o-text-overflow
+        if (qx.core.Variant.isSet("qx.client", "opera")) {
+          styles.OTextOverflow = "ellipsis";
+        }
+      }      
+      
+      return styles;
     },
 
 
@@ -275,7 +300,7 @@ qx.Class.define("qx.bom.Label",
       } else {
         element.textContent = text;
       }
-
+      
       // compute size and return
       return {
         width : element.clientWidth,
