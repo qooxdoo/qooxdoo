@@ -42,6 +42,8 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       mgr.register(base + "graphics-viewer-document.png", base + "graphics-viewer-document.png", 0, 0, 48, 48);
       mgr.register(base + "format-justify-fill.png", base + "format.png", -48, 0, 16, 16);
       mgr.register(base + "format-justify-left.png", base + "format.png", -64, 0, 16, 16);
+      mgr.register(base + "multimedia-player.png", base + "multimedia-player.png", 0, 0, 128, 128);
+      mgr.register(base + "multimedia-player-disabled.png", base + "multimedia-player-disabled.png", 0, 0, 128, 128);
 
       layout.setSpacing(20);
 
@@ -50,7 +52,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       layout.add(new qx.ui.basic.Image(base + "format-justify-fill.png"));
       layout.add(new qx.ui.basic.Image(base + "format-justify-left.png"));
       layout.add(new qx.ui.basic.Image(base + "format-justify-right.png"));
-      layout.add(new qx.ui.basic.Image(base + "multimedia-player.png", base + "multimedia-player-disabled.png"));
+      layout.add(new qx.ui.basic.Image(base + "multimedia-player.png"));
 
       // toggle button
       var enable = false;
