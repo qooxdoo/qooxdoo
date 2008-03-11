@@ -30,12 +30,13 @@ class ImageInfo(object):
 
     def getImageInfos(self, rootDir):
         result = {}
-        imgpatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
+        imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
 
         for img in filetool.find(rootDir, imgpatt):
             self._console.debug("analysing image: %s" % img)
+            mo = imgpatt.search(img)
             imgInfo = ImgInfo(img).getSize()
             if imgInfo:
-                result[img] = {'width': imgInfo[0], 'height': imgInfo[1]}
+                result[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'filetype': mo.group(1)}
 
         return result
