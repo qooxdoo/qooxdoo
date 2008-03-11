@@ -133,6 +133,13 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     },
 
 
+    /**
+     * Clone the given event and return a {@link qx.ui.event.type.Event} instance.
+     *
+     * @param target {Object} the current target
+     * @param event {qx.event.type.Event} The event to clone.
+     * @return {qx.ui.event.type.Event} The cloned event.
+     */
     _cloneEvent : function(target, event)
     {
       // TODO: Optimize this to a name map (dom type => widget type)
@@ -214,7 +221,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      * Get the {@link qx.html.Element} target, to which the event handler must
      * be connected.
      *
-     * @param target {qx.ui.core.Widget} The widget event target
+     * @param widgetTarget {qx.ui.core.Widget} The widget event target
      * @param type {String} The event type
      * @return {qx.html.Element} The html element the event must be attached to.
      */
