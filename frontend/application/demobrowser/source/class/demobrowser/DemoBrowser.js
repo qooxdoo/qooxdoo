@@ -1426,8 +1426,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         // if there is a content
         if (content) {
           // extract the name of the js file
-          var firstSrcTagPosition = content.indexOf("<script");
-          var srcAttributeStart = content.indexOf("src", firstSrcTagPosition);
+          var secondSrcTagPosition = content.indexOf("<script", content.indexOf("<script")+7);
+          var srcAttributeStart = content.indexOf("src", secondSrcTagPosition);
           var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
           var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
           var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
