@@ -835,9 +835,10 @@ class _ResourceHandler(object):
             return True
 
         resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
+        respatt = re.compile(r'[^/]+?/')
         def filter1(respath):
             for res in resList:
-                res1 = re.sub(r'[^/]+/','',res,1)
+                res1 = respatt.sub('',res,1)
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
             return False
