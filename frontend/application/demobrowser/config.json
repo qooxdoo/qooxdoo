@@ -3,6 +3,7 @@
   {
     "let" :
     [
+			["APPLICATION", "demobrowser"],
       ["QOOXDOO_PATH", "../.."],
       ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
     ],
@@ -24,7 +25,7 @@
 
     "include" :
     [
-      "demobrowser.Application",
+      "${APPLICATION}.Application",
       "qx.legacy.theme.ClassicRoyale"
     ],
 
@@ -33,6 +34,13 @@
 		  "index.html",
 		  "demo"
 		],
+
+    "settings" :
+    {
+      "qx.version" : "0.8",
+      "qx.application" : "${APPLICATION}.Application",
+      "${APPLICATION}.resourceUri" : "resource"
+    },
 
     "cache" :
     {
@@ -47,15 +55,12 @@
 
     "settings" :
     {
-      "qx.version" : "0.8",
-      "qx.application" : "demobrowser.Application",
-      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-      "demobrowser.resourceUri" : "resource"
+      "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
     },
 
     "source" :
     {
-      "file" : "./source/script/demobrowser.js"
+      "file" : "./source/script/${APPLICATION}.js"
     }
   },
 
@@ -66,16 +71,13 @@
 
     "settings" :
     {
-      "qx.version" : "0.8",
-      "qx.application" : "demobrowser.Application",
-      "qx.resourceUri" : "resource",
-      "demobrowser.resourceUri" : "resource"
+      "qx.resourceUri" : "resource"
     },
 
     "compile" :
     {
-      "file" : "./build/script/demobrowser.js",
-      "uri"  : "script/demobrowser.js"
+      "file" : "./build/script/${APPLICATION}.js",
+      "uri"  : "script/${APPLICATION}.js"
     }
   },
 
