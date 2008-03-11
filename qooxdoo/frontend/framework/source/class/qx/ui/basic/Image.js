@@ -155,9 +155,9 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     // property apply, overridden
-    _applyEnabled : function(value)
+    _applyEnabled : function(value, old)
     {
-      this.base(arguments);
+      this.base(arguments, value, old);
       this._styleSource();
     },
 
@@ -210,8 +210,14 @@ qx.Class.define("qx.ui.basic.Image",
         if (!this.getEnabled())
         {
           var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
-          if (Registry.has(disabled)) {
+          if (Registry.has(disabled))
+          {
             source = disabled;
+            this.addState("replacement");
+          }
+          else
+          {
+            this.removeState("replacement");
           }
         }
 
