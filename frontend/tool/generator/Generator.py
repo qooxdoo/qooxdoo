@@ -158,6 +158,7 @@ class Generator:
             self._console.info("Resolving dependencies...")
             self._console.indent()
             classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._classList = classList
             self._console.outdent()
 
 
@@ -188,9 +189,6 @@ class Generator:
                 parts = { "boot" : [0] }
                 packages = [classList]
 
-
-            # TEST CODE
-            self._resourceHandler.findAllResources(self._resourceHandler.filterResourcesByClasslist(classList))
 
 
             # Execute real tasks
@@ -496,20 +494,24 @@ class Generator:
     def generateImageInfoCode(self, settings, format=False):
         """Pre-calculate image information (e.g. sizes)"""
         result = 'if(!window.qximageinfo)qximageinfo={};'
-        resRoot = os.path.join("build","resource")  # TODO: should be from config
+        imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
 
         self._console.info("Analysing images...")
         self._console.indent()
-        imageInfos = self._imageInfo.getImageInfos(resRoot)
-        self._console.outdent()
+        # self._resourceList = [[file1,uri1],[file2,uri2],...]
+        self._resourceList = self._resourceHandler.findAllResources(self._resourceHandler.filterResourcesByClasslist(self._classList))
         
-        for key in imageInfos:
+        for resource in [x for x in self._resourceList if imgpatt.search(x[0])]:
             if format:
                 result += "\n"
             
-            value = repr(imageInfos[key])
-            result += 'qximageinfo["%s"]=%s;' % (key, value)
+            imageInfo = self._imageInfo.getImageInfo(resource[0])
+            imageInfo["uri"] = resource[1]
+            value = simplejson.dumps(imageInfo)
+            result += 'qximageinfo["%s"]=%s;' % (resource[0], value)
             
+        self._console.outdent()
+
         return result
 
 
