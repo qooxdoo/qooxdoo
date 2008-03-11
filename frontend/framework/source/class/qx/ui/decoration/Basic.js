@@ -405,14 +405,10 @@ qx.Class.define("qx.ui.decoration.Basic",
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
-      //if (this._needsUpdate)
-      //{
-        decorationElement.setStyles(this._getStyles());
-        //this._needUpdate = false;
-        qx.ui.core.queue.Decorator.remove(this);
-      //}
+      decorationElement.setStyles(this._getStyles());
+      qx.ui.core.queue.Decorator.remove(this);
 
-      decorationElement.setStyle("backgroundColor", this.__bgColor || backgroundColor || null);
+      decorationElement.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
 
       this._updateSize(decorationElement, width, height);
     },
@@ -580,9 +576,7 @@ qx.Class.define("qx.ui.decoration.Basic",
      *
      * @type member
      */
-    _informManager : function()
-    {
-      this._needsUpdate = true;
+    _informManager : function() {
       qx.ui.core.queue.Decorator.add(this);
     }
   }
