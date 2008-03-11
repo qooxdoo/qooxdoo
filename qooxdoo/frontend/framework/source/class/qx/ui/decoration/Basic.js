@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.util.DeferredCall)
-
-************************************************************************ */
-
 /**
  * A basic decorator featuring background colors and simple borders based on
  * CSS styles.
@@ -221,6 +215,7 @@ qx.Class.define("qx.ui.decoration.Basic",
     ---------------------------------------------------------------------------
     */
 
+    /** The URL of the background image */
     backgroundImage :
     {
       check : "String",
@@ -228,7 +223,7 @@ qx.Class.define("qx.ui.decoration.Basic",
       apply : "_applyBorderChange"
     },
 
-
+    /** How the background should be repeated */
     backgroundRepeat :
     {
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat"],
@@ -356,12 +351,6 @@ qx.Class.define("qx.ui.decoration.Basic",
     // interface implementation
     init : function(decorationElement) {
       this._initSize(decorationElement);
-    },
-
-
-    // interface implementation
-    reuse : function(decorationElement) {
-      this.init(decorationElement);
     },
 
 

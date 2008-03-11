@@ -1643,20 +1643,12 @@ qx.Class.define("qx.ui.core.Widget",
           this._containerElement.removeStyle("backgroundColor");
         }
       }
-      else
+      else if (oldDecorator.classname !== decorator.classname)
       {
-        if (oldDecorator.classname == decorator.classname)
-        {
-          // of both decorators have the same type, reuse the decoration
-          decorator.reuse(this._decorationElement);
-        }
-        else
-        {
-          // if both have different types reset the old one and initialize the
-          // new dcorator
-          oldDecorator.reset(this._decorationElement);
-          decorator.init(this._decorationElement);
-        }
+        // if both have different types reset the old one and initialize the
+        // new dcorator
+        oldDecorator.reset(this._decorationElement);
+        decorator.init(this._decorationElement);
       }
 
       qx.ui.core.queue.Layout.add(this);

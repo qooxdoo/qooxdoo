@@ -32,10 +32,8 @@
  *     {@link init} method is called once for the widget nd gives the decorator
  *     the opportunity to initialize the widget's decortation element.
  *   </li><li><b>Reuse</b>: If the widget's old decorator was an instance of the
- *     same decorator class, the {@link #reset} method of the old decorator is
- *     <b>not</b> called. Instead the {@link #reuse} method of the new decorator
- *     is called. This gives the new decorator the chance to reuse the decoration
- *     element.
+ *     same decorator class, the {@link #reset} method of the old decorator
+ *     and the {@link #init} method of the new decorator are <b>not</b> called.
  *   </li><li><b>Change</b>: If the widget's old decorator was not an instance of the
  *     same decorator class, the {@link #reset} method of the old decorator and
  *     the {@link #init} method of the new decorator is called.
@@ -52,17 +50,6 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param decorationElement {qx.html.Element} The widget's decoration element.
      */
     init : function(decorationElement) {
-      return true;
-    },
-
-
-    /**
-     * Initialize or reuse the decoration element of the widget's former
-     * decorator with the same class.
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     */
-    reuse : function(decorationElement) {
       return true;
     },
 
