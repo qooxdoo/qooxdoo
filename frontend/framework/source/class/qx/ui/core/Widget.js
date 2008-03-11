@@ -1616,6 +1616,7 @@ qx.Class.define("qx.ui.core.Widget",
       var oldDecorator = this.__decorator;
       this.__decorator = decorator;
 
+      // create decotation element on demand
       if (decorator && !this._decorationElement)
       {
         this._decorationElement = this.__createDecorationElement();
@@ -1624,6 +1625,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (!decorator)
       {
+        // if the new decorator is null, reset the old decorator and apply the
+        // background color to the content element
         if (oldDecorator) {
           oldDecorator.reset(this._decorationElement);
         }
@@ -1631,29 +1634,28 @@ qx.Class.define("qx.ui.core.Widget",
           this._containerElement.setStyle("backgroundColor", this.__backgroundColor);
         }
       }
-      else if (decorator !== oldDecorator)
+      else if (!oldDecorator)
       {
-        if (!oldDecorator)
+        // if there was no old decorator, remove the background color from the
+        // container element and initialize the decorator
+        decorator.init(this._decorationElement);
+        if (this.__backgroundColor) {
+          this._containerElement.removeStyle("backgroundColor");
+        }
+      }
+      else
+      {
+        if (oldDecorator.classname == decorator.classname)
         {
-          decorator.init(this._decorationElement);
-          if (this.__backgroundColor) {
-            this._containerElement.removeStyle("backgroundColor");
-          }
+          // of both decorators have the same type, reuse the decoration
+          decorator.reuse(this._decorationElement);
         }
         else
         {
-          if (oldDecorator.classname == decorator.classname)
-          {
-            decorator.reuse(this._decorationElement);
-          }
-          else
-          {
-            if (this._decorationElement) {
-              oldDecorator.reset(this._decorationElement);
-            }
-
-            decorator.init(this._decorationElement);
-          }
+          // if both have different types reset the old one and initialize the
+          // new dcorator
+          oldDecorator.reset(this._decorationElement);
+          decorator.init(this._decorationElement);
         }
       }
 
