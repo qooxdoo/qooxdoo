@@ -137,9 +137,9 @@ qx.Class.define("qx.ui.basic.Label",
       if (!this.getRich()) {
         return null;
       }
-      
+
       var font = this.__font;
-      var styles = font ? font.getStyles() : null;      
+      var styles = font ? font.getStyles() : null;
 
       return qx.bom.Label.getHtmlSize(this.getContent(), styles, width).height;
     },
@@ -220,16 +220,16 @@ qx.Class.define("qx.ui.basic.Label",
       this.__contentSize = rich ?
         Label.getHtmlSize(content, styles) :
         Label.getTextSize(content, styles);
-        
+
       // XUL labels are seems to need a magic tolerance addition
       // here to omit ellipsis symbol for labels where not needed.
       // This was detected as of Firefox 3 beta4 (gecko 1.9)
-      if (qx.core.Variant.isSet("qx.client", "gecko")) 
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         if (!rich) {
           this.__contentSize.width++;
         }
-      }      
+      }
     },
 
 
