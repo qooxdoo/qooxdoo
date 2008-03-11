@@ -354,15 +354,8 @@ qx.Class.define("qx.ui.decoration.Basic",
 
 
     // interface implementation
-    init : function(decorationElement)
-    {
+    init : function(decorationElement) {
       this._initSize(decorationElement);
-
-      decorationElement.setStyles({
-        "position": "absolute",
-        "top": 0,
-        "left": 0
-      })
     },
 
 
@@ -434,10 +427,7 @@ qx.Class.define("qx.ui.decoration.Basic",
         "backgroundImage": null,
         "backgroundRepeat": null,
         "width": null,
-        "height": null,
-        "position": "absolute",
-        "top": 0,
-        "left": 0
+        "height": null
       });
     },
 
