@@ -399,7 +399,9 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateImageInfoCode(settings, format))
+        import cProfile
+        cProfile.runctx("sourceBlocks.append(self.generateImageInfoCode(settings, format))",globals(),locals())
+        #sourceBlocks.append(self.generateImageInfoCode(settings, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
@@ -805,6 +807,7 @@ class _ResourceHandler(object):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
+        inCache = False
         
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
@@ -812,8 +815,20 @@ class _ResourceHandler(object):
         libs.reverse()
 
         for lib in libs:
-            #libpath = LibraryPath(lib, self._genobj._console)
-            for rsrc in filetool.find(lib['path']):
+            #lib = [path, uri]
+            ns = (LibraryPath(lib, self._genobj._console)).getNamespace()
+            cacheId = "resinlib-%s" % ns
+            liblist = self._genobj._cache.read(cacheId, None, True)
+            if liblist == None:
+                liblist = filetool.find(lib['path'])
+                inCache = False
+                llist   = []
+            else:
+                inCache = True
+
+            for rsrc in liblist:
+                if not inCache:
+                    llist.append(rsrc)
                 if (filter and not filter(rsrc)):
                     continue
                 res = []
@@ -823,6 +838,9 @@ class _ResourceHandler(object):
                 res.append(rsrc)
                 res.append(os.path.join(lib['uri'],relpath))
                 result.append(res)
+
+            if not inCache:
+                self._genobj._cache.write(cacheId, llist, True)
         
         return result
 
