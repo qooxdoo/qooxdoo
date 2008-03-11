@@ -1,2 +1,4 @@
 \bqx\.util\.manager\.Value\b=qx.util.ValueManager
 \bqx\.util\.manager\.Object\b=qx.legacy.util.ObjectManager
+
+\bqx\.io\.image\b=qx.io.image
