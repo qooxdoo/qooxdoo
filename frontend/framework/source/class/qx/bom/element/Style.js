@@ -66,7 +66,13 @@ qx.Class.define("qx.bom.element.Style",
           "gecko" : "MozAppearance",
           "webkit" : "WebkitAppearance",
           "default" : "appearance"
-        })
+        }),
+        
+        "userSelect" : qx.core.Variant.select("qx.client", {
+          "gecko" : "MozUserSelect",
+          "webkit" : "WebkitUserSelect",
+          "default" : "userSelect"
+        })        
       },
 
       // CSS property name correction (at HTML/CSS level)
@@ -76,7 +82,13 @@ qx.Class.define("qx.bom.element.Style",
           "gecko" : "-moz-appearance",
           "webkit" : "-webkit-appearance",
           "default" : "appearance"
-        })
+        }),
+        
+       "userSelect" : qx.core.Variant.select("qx.client", {
+          "gecko" : "-moz-user-select",
+          "webkit" : "-webkit-user-select",
+          "default" : "user-select"
+        })        
       },
 
       // Mshtml has propertiery pixel* properties for locations and dimensions
@@ -140,7 +152,7 @@ qx.Class.define("qx.bom.element.Style",
 
         // normalize name
         name = names[name] || name;
-
+        
         // process special properties
         if (special[name])
         {
