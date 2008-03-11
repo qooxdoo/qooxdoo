@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Base call for all GUI applications which should be used
+ * Base class for all GUI applications which should be used
  * without fundamental parts of HTML code e.g. like an real
  * native application. A standalone application normally
  * creates all content dynamically and is normally executed for
@@ -32,8 +32,7 @@
  */
 qx.Class.define("qx.application.Standalone",
 {
-  extend : qx.core.Object,
-  implement : [qx.application.IApplication],
+  extend : qx.application.AbstractGui,
 
 
 
@@ -46,19 +45,9 @@ qx.Class.define("qx.application.Standalone",
 
   members :
   {
-    // interface method
-    main : function()
+    _createRootWidget : function()
     {
-      // Initialize themes
-      qx.theme.manager.Meta.getInstance().initialize();
-
-    },
-
-
-    // interface method
-    terminate : function()
-    {
-      // empty
+      return new qx.ui.root.Application(document);
     }
   }
 });

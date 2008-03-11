@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
-
       // different flex dimensions
       var box1 = (new qx.ui.core.Widget).set({width: 500, decorator: "black", backgroundColor: "yellow"});
       var layout1 = new qx.ui.layout.HBox();
@@ -41,7 +38,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 10, 70);
+      this.getRoot().add(box1, 10, 70);
 
 
 
@@ -56,7 +53,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
       layout2.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), { flex : 2 });
       layout2.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:150}), { flex : 3 });
       box2.setLayout(layout2);
-      doc.add(box2, 10, 130);
+      this.getRoot().add(box2, 10, 130);
 
 
       // different flex dimensions + rounding issues
@@ -73,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
       }
 
       box2.setLayout(layout2);
-      doc.add(box2, 10, 190);
+      this.getRoot().add(box2, 10, 190);
 
 
 
@@ -87,7 +84,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth: 120}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth: 120}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 10, 250);
+      this.getRoot().add(box1, 10, 250);
 
 
       // container width < layout min width
@@ -100,7 +97,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 10, 310);
+      this.getRoot().add(box1, 10, 310);
 
 
 
@@ -114,7 +111,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 10, 370);
+      this.getRoot().add(box1, 10, 370);
     }
   }
 });

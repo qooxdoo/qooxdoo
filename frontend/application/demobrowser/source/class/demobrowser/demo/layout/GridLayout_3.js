@@ -31,8 +31,6 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var docLayout = new qx.ui.layout.Grid();
       docLayout.setSpacing(20);
 
@@ -40,7 +38,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
       container.setPadding(20);
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
 
       docLayout.add(this.getCellAlignGrid(), 0, 0);
       docLayout.add(this.getRowColumnAlignGrid(), 0, 1);

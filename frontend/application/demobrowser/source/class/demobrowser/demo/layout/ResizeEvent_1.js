@@ -28,13 +28,11 @@ qx.Class.define("demobrowser.demo.layout.ResizeEvent_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var red = new qx.ui.core.Widget().set({backgroundColor: "red", width: 80});
       var blue = new qx.ui.core.Widget().set({backgroundColor: "blue"});
 
-      doc.add(red, 10, 10);
-      doc.add(blue, 10, 110);
+      this.getRoot().add(red, 10, 10);
+      this.getRoot().add(blue, 10, 110);
 
       red.addListener("resize", function(e) {
         this.debug("Resize red");

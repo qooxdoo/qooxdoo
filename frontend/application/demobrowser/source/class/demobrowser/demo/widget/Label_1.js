@@ -28,21 +28,19 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
     {
       this.base(arguments);
 
-      var doc = new qx.ui.root.Application(document);
-
       var decor = new qx.ui.decoration.Basic(1, "solid", "black");
 
       var label1 = new qx.ui.basic.Label("Hello World").set({
         decorator: decor
       });
-      doc.add(label1, 20, 20);
+      this.getRoot().add(label1, 20, 20);
 
       var label2 = new qx.ui.basic.Label("Hello World").set({
         decorator: decor,
         width: 50,
         rich : true
       });
-      doc.add(label2, 20, 60);
+      this.getRoot().add(label2, 20, 60);
 
       var label3 = new qx.ui.basic.Label().set({
         content: "Returns the preferred height for this layout item, given the width w.",
@@ -50,7 +48,7 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
         rich : true,
         width: 100
       });
-      doc.add(label3, 20, 100);
+      this.getRoot().add(label3, 20, 100);
 
       this.debug("Height for Width (50): " + label3.getHeightForWidth(50));
       this.debug("Height for Width (100): " + label3.getHeightForWidth(100));

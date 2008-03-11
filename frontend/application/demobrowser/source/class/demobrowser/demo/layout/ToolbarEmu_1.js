@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.ToolbarEmu_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       // toolbar like with one "button" which does not stretch
       var layout = new qx.ui.layout.HBox();
 
@@ -72,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.ToolbarEmu_1",
       });
       layout.add(w4);
 
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
     }
   }
 });

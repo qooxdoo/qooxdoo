@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       // auto size
       var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
       var layout1 = new qx.ui.layout.VBox();
@@ -40,7 +38,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
 
 
       // container wider, horizontal alignment
@@ -53,7 +51,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth: 40}), { align : "center" });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth: 40}), { align : "right" });
       box1.setLayout(layout1);
-      doc.add(box1, 130, 10);
+      this.getRoot().add(box1, 130, 10);
 
 
       // container higher, vertical alignment = bottom
@@ -66,7 +64,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       box1.setLayout(layout1);
-      doc.add(box1, 210, 10);
+      this.getRoot().add(box1, 210, 10);
 
 
       // container higher, vertical alignment = middle
@@ -79,7 +77,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       box1.setLayout(layout1);
-      doc.add(box1, 330, 10);
+      this.getRoot().add(box1, 330, 10);
 
 
       // auto size + vertical margins
@@ -97,7 +95,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add(w3, { marginBottom : 10 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 450, 10);
+      this.getRoot().add(box1, 450, 10);
 
 
 
@@ -118,7 +116,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add(w3, { marginBottom : 10 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 570, 10);
+      this.getRoot().add(box1, 570, 10);
 
 
 
@@ -138,7 +136,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       layout1.add(w3, { marginBottom : 10 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 690, 10);
+      this.getRoot().add(box1, 690, 10);
     }
   }
 });

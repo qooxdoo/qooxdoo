@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var container = new qx.ui.core.Widget();
       var layout = new qx.ui.layout.VBox();
       layout.setSpacing(10);
@@ -75,7 +73,7 @@ qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
 
       container.getLayout().add(buttons);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
     },
 
     createRemoveButton : function(widget, widgetIndex)

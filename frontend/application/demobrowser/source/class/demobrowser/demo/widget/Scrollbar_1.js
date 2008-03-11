@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var sliders = []
 
       sliders.push(this._createSliderGroup(new qx.ui.core.ScrollBar().set({
@@ -53,12 +51,12 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
 
       var container = new qx.ui.core.Widget();
       container.setLayout(this._createVerticalLayout(sliders));
-      doc.add(container, 20, 60);
+      this.getRoot().add(container, 20, 60);
 
 
       var isHorizontal = false;
       var btn = new qx.ui.form.Button("Toggle orientation");
-      doc.add(btn, 20, 10)
+      this.getRoot().add(btn, 20, 10)
 
       btn.addListener("execute", function()
       {

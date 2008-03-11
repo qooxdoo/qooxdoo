@@ -30,8 +30,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.Decoration_2_Theme1);
 
-      doc = new qx.ui.root.Application(document);
-
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
 
@@ -39,7 +37,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       container.setPadding(20);
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
 
       var img1 = "icon/48/apps/video-player.png";
       var img2 = "icon/48/apps/internet-mail.png";

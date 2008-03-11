@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       slideBar = new qx.ui.view.HSlideBar();
       slideBar.set({
         width: 300,
@@ -51,8 +49,8 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
         grow = !grow;
       });
 
-      doc.add(toggle, 10, 100);
-      doc.add(slideBar, 10, 10);
+      this.getRoot().add(toggle, 10, 100);
+      this.getRoot().add(slideBar, 10, 10);
     },
 
     generateBoxes : function()

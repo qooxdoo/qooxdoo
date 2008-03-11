@@ -28,19 +28,17 @@ qx.Class.define("demobrowser.demo.ui.Font_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var label = new qx.ui.basic.Label("Hello World").set({
         decorator: new qx.ui.decoration.Basic(1, "solid", "red")
       });
-      doc.add(label, 20, 48);
+      this.getRoot().add(label, 20, 48);
 
       var controls = new qx.ui.core.Widget().set({
         layout: new qx.ui.layout.VBox().set({
           spacing: 10
         })
       });
-      doc.add(controls, 200, 48);
+      this.getRoot().add(controls, 200, 48);
 
       var b1 = new qx.ui.form.Button("Serif, 16px");
       controls.getLayout().add(b1);

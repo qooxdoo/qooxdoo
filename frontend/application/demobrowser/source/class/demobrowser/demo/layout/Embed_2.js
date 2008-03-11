@@ -30,7 +30,7 @@
  */
 qx.Class.define("demobrowser.demo.layout.Embed_2",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Inline,
   include : [qx.legacy.application.MGuiCompat],
 
   members :
@@ -47,9 +47,8 @@ qx.Class.define("demobrowser.demo.layout.Embed_2",
       });
       button.addToDocument();
 
-      var doc = new qx.ui.root.Page(document);
       var dlg = this.getDialog();
-      doc.add(dlg, 100, 100);
+      this.getRoot().add(dlg, 100, 100);
       dlg.hide();
 
       // Add an event listener
