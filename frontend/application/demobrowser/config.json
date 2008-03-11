@@ -29,12 +29,6 @@
       "qx.legacy.theme.ClassicRoyale"
     ],
 
-		"application-files" :
-		[
-		  "index.html",
-		  "demo"
-		],
-
     "settings" :
     {
       "qx.version" : "0.8",
@@ -82,10 +76,42 @@
   },
 
 
-  "resource-copy" :
+  "build-files" :
   {
     "extend" : ["common"],
 
-    "copy-target" : "build"
-  }
+    "copy-files" :
+    {
+  		"files" :
+  		[
+  		  "index.html",
+  		  "demo"
+  		],
+
+      "target" : "build"
+    }
+  },
+
+
+  "build-resource":
+  {
+    "extend" : ["common"],
+
+    "copy-resources" :
+    {
+      "target" : "build"
+    }
+  },
+
+
+  /*
+  source-script
+
+  build-script
+  build-resources
+  build-files
+
+  build : build-script,build-resources,build-files
+  source: source-script
+  */
 }
