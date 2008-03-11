@@ -46,9 +46,8 @@ qx.Class.define("qx.bom.Image",
 
       var el = win.document.createElement("img");
 
-
       if (source) {
-        el.source = source;
+        el.src = source;
       }
 
       return el;
