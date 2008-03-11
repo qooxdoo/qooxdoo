@@ -56,7 +56,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.STATIC_IMAGE_URI = Am.getInstance().resolve("static/image/");
 
     // Get the preloader manager singleton
-    var preloader = qx.io.image.PreloaderManager.getInstance();
+    var preloader = qx.legacy.io.image.PreloaderManager.getInstance();
 
     // Pre-load the tree widgets so they always show up quickly
     var uri = this.WIDGET_TREE_URI;
