@@ -170,12 +170,15 @@ qx.Class.define("qx.bom.Label",
         styles.overflow = "hidden";
         styles.whiteSpace = "nowrap";
         styles.textOverflow = "ellipsis";
-
+        
         // Opera as of 9.2.x only supports -o-text-overflow
         if (qx.core.Variant.isSet("qx.client", "opera")) {
           styles.OTextOverflow = "ellipsis";
         }
       }      
+      
+      styles.userSelect = "none";
+      styles.cursor = "default";
       
       return styles;
     },
