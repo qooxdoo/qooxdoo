@@ -29,8 +29,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       var doc = new qx.ui.root.Application(document);
 
       var layout = new qx.ui.layout.Grid();

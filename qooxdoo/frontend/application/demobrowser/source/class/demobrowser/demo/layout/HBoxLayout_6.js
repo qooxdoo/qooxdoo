@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_6",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       // auto size with limited height

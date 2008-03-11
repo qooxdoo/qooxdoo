@@ -31,8 +31,6 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       var MenuItem = demobrowser.demo.layout.MenuEmu_1_MenuItem;
       var Menu = demobrowser.demo.layout.MenuEmu_1_Menu;
 

@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_5",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       doc.add(this.getGrid(), 0, 0, 0, 0);

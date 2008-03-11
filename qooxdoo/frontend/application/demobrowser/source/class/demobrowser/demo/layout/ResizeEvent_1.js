@@ -28,12 +28,10 @@ qx.Class.define("demobrowser.demo.layout.ResizeEvent_1",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
-      var red = (new qx.ui.core.Widget).set({backgroundColor: "red", width: 80});
-      var blue = (new qx.ui.core.Widget).set({backgroundColor: "blue"});
+      var red = new qx.ui.core.Widget().set({backgroundColor: "red", width: 80});
+      var blue = new qx.ui.core.Widget().set({backgroundColor: "blue"});
 
       doc.add(red, 10, 10);
       doc.add(blue, 10, 110);
