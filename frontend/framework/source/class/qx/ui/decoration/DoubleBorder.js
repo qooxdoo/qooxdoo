@@ -247,11 +247,8 @@ qx.Class.define("qx.ui.decoration.DoubleBorder",
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
-      if (this._needsUpdate)
-      {
-        var innerElement = decorationElement.getChild(0);
-        innerElement.setStyles(this._getInnerStyles());
-      }
+      var innerElement = decorationElement.getChild(0);
+      innerElement.setStyles(this._getInnerStyles());
 
       this.base(arguments, decorationElement, width, height, backgroundColor);
     },
