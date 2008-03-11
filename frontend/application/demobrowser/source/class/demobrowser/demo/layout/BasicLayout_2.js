@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       w1 = new qx.ui.core.Widget().set({

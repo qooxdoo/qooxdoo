@@ -28,7 +28,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.Decoration_2_Theme1);
 
       doc = new qx.ui.root.Application(document);

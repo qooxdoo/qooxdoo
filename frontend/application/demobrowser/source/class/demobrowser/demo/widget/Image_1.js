@@ -28,16 +28,12 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       layout = new qx.ui.layout.HBox();
       var container = new qx.ui.core.Widget();
       container.setLayout(layout);
       doc.add(container, 0, 0, 0, 0);
-
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
       var mgr = qx.util.ImageRegistry.getInstance();
       var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/icons/"

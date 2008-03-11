@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       // auto size
