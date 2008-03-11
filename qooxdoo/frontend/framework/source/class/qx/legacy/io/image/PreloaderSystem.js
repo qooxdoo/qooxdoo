@@ -23,7 +23,7 @@
  * which are needed later. Once all images are pre loaded a "complete"
  * event is fired.
  */
-qx.Class.define("qx.io.image.PreloaderSystem",
+qx.Class.define("qx.legacy.io.image.PreloaderSystem",
 {
   extend : qx.core.Object,
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
       for (var vSource in this._list)
       {
-        var vPreloader = qx.io.image.PreloaderManager.getInstance().create(qx.io.Alias.getInstance().resolve(vSource));
+        var vPreloader = qx.legacy.io.image.PreloaderManager.getInstance().create(qx.io.Alias.getInstance().resolve(vSource));
 
         if (vPreloader.isErroneous() || vPreloader.isLoaded()) {
           delete this._list[vSource];

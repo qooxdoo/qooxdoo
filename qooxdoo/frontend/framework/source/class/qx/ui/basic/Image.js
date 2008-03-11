@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      var mgr = qx.io.image.IconManager.getInstance();
+      var mgr = qx.legacy.io.image.IconManager.getInstance();
 
       var sprite = mgr.resolve(source);
 
@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.basic.Image",
       {
         // if no icon information is available, use the preloader to determin
         // the icon size
-        this.__preloader = qx.io.image.PreloaderManager.getInstance().create(source);
+        this.__preloader = qx.legacy.io.image.PreloaderManager.getInstance().create(source);
         if (this.__preloader.isLoaded())
         {
           this.__onLoadPreloader();
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.basic.Image",
       var iconUri = this.__preloader.getSource();
 
       // store image information
-      qx.io.image.IconManager.getInstance().register(
+      qx.legacy.io.image.IconManager.getInstance().register(
         iconUri,
         iconUri,
         0, 0,

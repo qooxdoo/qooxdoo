@@ -169,7 +169,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /** The assigned preloader instance of the image. */
     preloader :
     {
-      check : "qx.io.image.Preloader",
+      check : "qx.legacy.io.image.Preloader",
       apply : "_applyPreloader",
       nullable : true
     },
@@ -249,7 +249,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     */
 
     /**
-     * Registers an image at the image manager (qx.io.image.Manager) and increases the
+     * Registers an image at the image manager (qx.legacy.io.image.Manager) and increases the
      * visible counter
      *
      * @type member
@@ -260,7 +260,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
       var source = this.getSource();
       if (source)
       {
-        qx.io.image.Manager.getInstance().show(source);
+        qx.legacy.io.image.Manager.getInstance().show(source);
         this._registeredAsVisible = true;
       }
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
 
 
     /**
-     * Registers an image at the image manager (qx.io.image.Manager) and reduces the
+     * Registers an image at the image manager (qx.legacy.io.image.Manager) and reduces the
      * visible counter
      *
      * @type member
@@ -280,7 +280,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
       var source = this.getSource();
       if (source && this._registeredAsVisible)
       {
-        qx.io.image.Manager.getInstance().hide(source);
+        qx.legacy.io.image.Manager.getInstance().hide(source);
         delete this._registeredAsVisible;
       }
 
@@ -305,7 +305,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      */
     _applySource : function(value, old)
     {
-      var imageMgr = qx.io.image.Manager.getInstance();
+      var imageMgr = qx.legacy.io.image.Manager.getInstance();
 
       if (old)
       {
@@ -361,7 +361,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
       }
       else
       {
-        var preloader = qx.io.image.PreloaderManager.getInstance().create(value);
+        var preloader = qx.legacy.io.image.PreloaderManager.getInstance().create(value);
         this.setPreloader(preloader);
       }
     },

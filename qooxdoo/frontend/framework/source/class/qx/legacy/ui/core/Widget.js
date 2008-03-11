@@ -6099,7 +6099,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     _applyBackgroundImage : function(value, old)
     {
-      var imageMgr = qx.io.image.Manager.getInstance();
+      var imageMgr = qx.legacy.io.image.Manager.getInstance();
       var aliasMgr = qx.io.Alias.getInstance();
 
       if (old) {
