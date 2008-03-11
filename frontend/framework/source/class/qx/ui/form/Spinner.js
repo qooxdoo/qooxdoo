@@ -513,8 +513,13 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseWheel event
      */
-    _onmousewheel: function(e) {
-        this.setValue(this.getValue() + this.getWheelStep() * e.getWheelDelta());
+    _onmousewheel: function(e)
+    {
+      var wheelIncrement = Math.round(-e.getWheelDelta());
+      if (wheelIncrement == 0) {
+        wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
+      }
+      this.setValue(this.getValue() + wheelIncrement * this.getWheelStep());
     },
 
 
