@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
 {
-  extend : qx.application.Native,
+  extend : qx.application.Standalone,
 
   members :
   {
