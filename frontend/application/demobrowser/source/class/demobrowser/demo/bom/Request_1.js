@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.bom.Request_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       var el = document.getElementById("content");
       el.value = "Loading...";
 

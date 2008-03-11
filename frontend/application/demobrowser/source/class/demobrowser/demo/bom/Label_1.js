@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.bom.Label_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       var label1 = qx.bom.Label.create("Quite a long label text");
       label1.style.border = "1px solid red";
       label1.style.width = "80px";

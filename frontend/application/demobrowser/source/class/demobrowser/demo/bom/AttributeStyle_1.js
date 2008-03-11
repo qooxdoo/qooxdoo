@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.bom.AttributeStyle_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       var util = qx.bom.element.Visibility;
       var attrib = qx.bom.element.Attribute;
       var style = qx.bom.element.Style;

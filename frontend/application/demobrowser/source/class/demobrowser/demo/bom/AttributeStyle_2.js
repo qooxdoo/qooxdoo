@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.bom.AttributeStyle_2",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       var chk = qx.bom.Element.create("input", {
         type : "checkbox",
         checked : true,
