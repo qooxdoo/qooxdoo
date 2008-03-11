@@ -96,7 +96,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          opacity : states.disabled ? 0.3 : 1
+          opacity : !states.replacement && states.disabled ? 0.3 : 1
         }
       }
     },
