@@ -31,9 +31,6 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       this.tableHead =
         "<table><tr>" +
         "<th>Event</th>" +

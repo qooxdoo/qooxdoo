@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       qx.Theme.patch(qx.theme.classic.Color, demobrowser.demo.ui.BackgroundImage_1_Color);
       qx.Theme.patch(qx.theme.classic.Decoration, demobrowser.demo.ui.BackgroundImage_1_Decoration);
       qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_1_Appearance);

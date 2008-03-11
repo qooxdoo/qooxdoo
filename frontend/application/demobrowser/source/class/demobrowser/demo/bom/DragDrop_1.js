@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.bom.DragDrop_1",
     {
       this.base(arguments);
 
-      // Call demo mixin init
-      this.initDemo();
-
       this._el = document.getElementById("drag");
 
       qx.bom.Element.addListener(this._el, "dragstart", this._onDragstart, this);
