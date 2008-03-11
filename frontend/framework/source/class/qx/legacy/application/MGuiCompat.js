@@ -65,7 +65,7 @@ qx.Mixin.define("qx.legacy.application.MGuiCompat",
     _preload : function()
     {
       this.debug("preloading visible images...");
-      this.__preloader = new qx.io.image.PreloaderSystem(qx.io.image.Manager.getInstance().getVisibleImages(), this._preloaderDone, this);
+      this.__preloader = new qx.legacy.io.image.PreloaderSystem(qx.legacy.io.image.Manager.getInstance().getVisibleImages(), this._preloaderDone, this);
       this.__preloader.start();
     },
 
@@ -102,7 +102,7 @@ qx.Mixin.define("qx.legacy.application.MGuiCompat",
     _postload : function()
     {
       this.debug("preloading hidden images...");
-      this.__postloader = new qx.io.image.PreloaderSystem(qx.io.image.Manager.getInstance().getHiddenImages(), this._postloaderDone, this);
+      this.__postloader = new qx.legacy.io.image.PreloaderSystem(qx.legacy.io.image.Manager.getInstance().getHiddenImages(), this._postloaderDone, this);
       this.__postloader.start();
     },
 

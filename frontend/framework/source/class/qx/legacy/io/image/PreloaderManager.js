@@ -18,8 +18,8 @@
 
 ************************************************************************ */
 
-/** This singleton manage all qx.io.image.Preloader instances. */
-qx.Class.define("qx.io.image.PreloaderManager",
+/** This singleton manage all qx.legacy.io.image.Preloader instances. */
+qx.Class.define("qx.legacy.io.image.PreloaderManager",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -52,10 +52,10 @@ qx.Class.define("qx.io.image.PreloaderManager",
   members :
   {
     /**
-     * Adds a qx.io.image.Preloader instance to the manager
+     * Adds a qx.legacy.io.image.Preloader instance to the manager
      *
      * @type member
-     * @param vObject {Preloader} qx.io.image.Preloader instance
+     * @param vObject {Preloader} qx.legacy.io.image.Preloader instance
      * @return {void}
      */
     add : function(vObject) {
@@ -64,10 +64,10 @@ qx.Class.define("qx.io.image.PreloaderManager",
 
 
     /**
-     * Removes a qx.io.image.Preloader instance from the manager
+     * Removes a qx.legacy.io.image.Preloader instance from the manager
      *
      * @type member
-     * @param vObject {Preloader} qx.io.image.Preloader instance
+     * @param vObject {Preloader} qx.legacy.io.image.Preloader instance
      * @return {void}
      */
     remove : function(vObject) {
@@ -92,7 +92,7 @@ qx.Class.define("qx.io.image.PreloaderManager",
      *
      * @type member
      * @param vSource {String} Source of preloader image instance
-     * @return {Preloader} qx.io.image.Preloader instance
+     * @return {Preloader} qx.legacy.io.image.Preloader instance
      */
     get : function(vSource) {
       return this._objects[vSource];
@@ -100,11 +100,11 @@ qx.Class.define("qx.io.image.PreloaderManager",
 
 
     /**
-     * Create new qx.io.image.preloader instance with given source
+     * Create new qx.legacy.io.image.preloader instance with given source
      *
      * @type member
      * @param vSource {String} Source of preloader image instance
-     * @return {Preloader} new qx.io.image.Preloader instance
+     * @return {Preloader} new qx.legacy.io.image.Preloader instance
      */
     create : function(vSource)
     {
@@ -112,7 +112,7 @@ qx.Class.define("qx.io.image.PreloaderManager",
         return this._objects[vSource];
       }
 
-      return new qx.io.image.Preloader(vSource);
+      return new qx.legacy.io.image.Preloader(vSource);
     }
   },
 

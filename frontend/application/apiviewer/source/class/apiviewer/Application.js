@@ -51,7 +51,7 @@ qx.Class.define("apiviewer.Application",
       qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("api/css/apiviewer.css"));
 
       // preload images
-      var preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
+      var preloader = new qx.legacy.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
       preloader.start();
 
       // Initialize the viewer

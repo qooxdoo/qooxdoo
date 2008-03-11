@@ -21,7 +21,7 @@
 /**
  * A ClippedImage wraps a DOM element, which displays a clipped image.
  * All images shown with this class must be registered using
- * {@link qx.io.image.IconManager#register} before.
+ * {@link qx.legacy.io.image.IconManager#register} before.
  */
 qx.Class.define("qx.html.ClippedImage",
 {
@@ -145,7 +145,7 @@ qx.Class.define("qx.html.ClippedImage",
 
     /**
      * Sets the image source. The image must be registered using
-     * {@link qx.io.image.IconManager#register} before.
+     * {@link qx.legacy.io.image.IconManager#register} before.
      *
      * @param source {String} the image URL
      * @param resize {Boolean?true} Whether the element should be resized to
@@ -153,9 +153,9 @@ qx.Class.define("qx.html.ClippedImage",
      */
     setSource : function(source, resize)
     {
-      var sprite = qx.io.image.IconManager.getInstance().resolve(source);
+      var sprite = qx.legacy.io.image.IconManager.getInstance().resolve(source);
       if (!sprite) {
-        throw new Error("The image '" + source + "' must be registered at the qx.io.image.IconManager!");
+        throw new Error("The image '" + source + "' must be registered at the qx.legacy.io.image.IconManager!");
       }
 
       this.__width = sprite[3];
