@@ -830,7 +830,6 @@ class _ResourceHandler(object):
     def filterResourcesByClasslist(self, classes):
         # returns a function that takes a resource path and return true if one
         # of the classes needs it
-        # -- currently just always returns true
 
         def filter(respath):
             return True
@@ -838,11 +837,12 @@ class _ResourceHandler(object):
         resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
         def filter1(respath):
             for res in resList:
-                if re.search(res, respath):  # this might need a better 'match' algorithm
+                res1 = re.sub(r'[^/]+/','',res,1)
+                if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
             return False
         
-        return filter
+        return filter1
     
     
     def filterResourcesByFilepath(self):
