@@ -131,6 +131,11 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
 
     this.addListener("mouseout", this._onmouseout, this);
 
+    // Set up wrapper if required
+    if (!this._onintervalWrapper) {
+      this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
+    }
+
     this.initScrollTimeout();
   },
 
@@ -665,6 +670,19 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       this._header._updateContent();
       this._updateHorScrollBarMaximum();
       this._updateVerScrollBarMaximum();
+
+      // after the Scroller appears we start the interval again
+      this._startInterval();
+    },
+
+
+    // overridden
+    _beforeDisappear : function()
+    {
+      this.base(arguments);
+
+      // before the Scroller disappears we need to stop it
+      this._stopInterval();
     },
 
 
@@ -2013,19 +2031,43 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     // property apply method
     _applyScrollTimeout : function(value, old)
     {
+      this._startInterval(value);
+    },
+
+
+    /**
+     * starts the current running interval
+     *
+     * @type member
+     * @return {void}
+     */
+    _startInterval : function (value)
+    {
+      value = (value != null) ? value : this.getScrollTimeout();
+
+      // stops the current one
+      this._stopInterval();
+
+      // Set up new timer if interval is non-zero
+      if (value) {
+        this._updateInterval = window.setInterval(this._onintervalWrapper, value);
+      }
+    },
+
+
+    /**
+     * stops the current running interval
+     *
+     * @type member
+     * @return {void}
+     */
+    _stopInterval : function ()
+    {
       // Clear old timer if it's present
       if (this._updateInterval)
       {
         window.clearInterval(this._updateInterval);
         this._updateInterval = null;
-      }
-      // Set up wrapper if required
-      if (!this._onintervalWrapper) {
-        this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-      }
-      // Set up new timer if interval is non-zero
-      if (value) {
-        this._updateInterval = window.setInterval(this._onintervalWrapper, value);
       }
     },
 
@@ -2163,11 +2205,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       this.getElement().onselectstart = null;
     }
 
-    if (this._updateInterval)
-    {
-      window.clearInterval(this._updateInterval);
-      this._updateInterval = null;
-    }
+    this._stopInterval();
 
     // this object was created by the table on init so we have to clean it up.
     var tablePaneModel = this.getTablePaneModel();
