@@ -28,7 +28,6 @@
 
 ************************************************************************ */
 
-
 qx.Class.define("demobrowser.demo.bom.Event_2",
 {
   extend : qx.application.Native,

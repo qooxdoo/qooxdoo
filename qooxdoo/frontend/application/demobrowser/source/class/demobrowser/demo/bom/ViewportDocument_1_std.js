@@ -27,9 +27,6 @@ qx.Class.define("demobrowser.demo.bom.ViewportDocument_1_std",
   {
     main: function()
     {
-      // Call demo mixin init
-      this.initDemo();
-
       qx.bom.Element.addListener(
         document.body,
         "click",
