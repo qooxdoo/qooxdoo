@@ -28,12 +28,10 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       layout = new qx.ui.layout.HBox();
       var container = new qx.ui.core.Widget();
       container.setLayout(layout);
-      doc.add(container, 0, 0, 0, 0);
+      this.getRoot().add(container, 0, 0, 0, 0);
 
       var mgr = qx.util.ImageRegistry.getInstance();
       var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/icons/"
@@ -63,7 +61,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
         enable = !enable;
       });
 
-      doc.add(btn, 10, 140);
+      this.getRoot().add(btn, 10, 140);
     }
   }
 });

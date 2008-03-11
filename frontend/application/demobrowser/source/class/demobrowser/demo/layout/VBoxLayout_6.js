@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_6",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
-
       // auto size with limited height
       var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", maxWidth : 100});
       var layout1 = new qx.ui.layout.VBox();
@@ -50,7 +47,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_6",
       layout1.add(w3);
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
     }
   }
 });

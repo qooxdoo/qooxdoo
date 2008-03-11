@@ -28,13 +28,11 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var container = new qx.ui.core.Widget();
       var containerLayout = new qx.ui.layout.VBox();
       containerLayout.setSpacing(20);
       container.setLayout(containerLayout);
-      doc.add(container, 20, 20);
+      this.getRoot().add(container, 20, 20);
 
       // default layout, auto-sized
       var widget1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});

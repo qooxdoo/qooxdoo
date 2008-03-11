@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
-
       // one percent child which is not flexible
       var box1 = (new qx.ui.core.Widget).set({width: 500, decorator: "black", backgroundColor: "yellow"});
       var layout1 = new qx.ui.layout.HBox();
@@ -46,7 +43,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, { flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
 
 
 
@@ -66,7 +63,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {width: "30%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 70);
+      this.getRoot().add(box1, 10, 70);
 
 
 
@@ -86,7 +83,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {width: "33.3%"});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 130);
+      this.getRoot().add(box1, 10, 130);
 
 
 
@@ -106,7 +103,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {width: "33.3%", flex : 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 190);
+      this.getRoot().add(box1, 10, 190);
 
 
 
@@ -128,7 +125,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 250);
+      this.getRoot().add(box1, 10, 250);
 
 
 
@@ -148,7 +145,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 310);
+      this.getRoot().add(box1, 10, 310);
 
 
       // all child in percents + auto sizing + flex enabled
@@ -166,7 +163,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {width: "33%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 370);
+      this.getRoot().add(box1, 10, 370);
 
 
 
@@ -186,7 +183,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {width: "33%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 430);
+      this.getRoot().add(box1, 10, 430);
 
 
 
@@ -207,7 +204,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       layout1.add(w3, {width: "33%", flex: 1});
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 490);
+      this.getRoot().add(box1, 10, 490);
     }
   }
 });

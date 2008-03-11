@@ -33,8 +33,6 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
       qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_1_Appearance);
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
-      doc = new qx.ui.root.Application(document);
-
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
 
@@ -42,7 +40,7 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
       container.setPadding(20);
       container.setLayout(layout);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
 
       layout.add(new qx.ui.form.Button("Juhu Kinners").set({
         appearance: "shaded-button"

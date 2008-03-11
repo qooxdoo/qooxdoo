@@ -30,16 +30,14 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
     main: function()
     {
       this.base(arguments);
-
-      doc = new qx.ui.root.Application(document);
-      doc.setPadding(20);
+      this.getRoot().setPadding(20);
 
       var dialog = new qx.ui.core.Widget().set({
          backgroundColor: "#EEE",
          decorator: "black",
          padding: 10
       });
-      doc.add(dialog);
+      this.getRoot().add(dialog);
 
       var layout = new qx.ui.layout.Grid();
       layout.setColumnFlex(0, 1);

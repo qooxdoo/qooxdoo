@@ -29,7 +29,7 @@
  */
 qx.Class.define("demobrowser.demo.layout.Embed_1",
 {
-  extend : qx.application.Standalone,
+  extend : qx.application.Inline,
   include : [qx.legacy.application.MGuiCompat],
 
   members :

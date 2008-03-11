@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var borderColor = "black";
       var border = new qx.ui.decoration.Basic(3, "solid", borderColor);
 
@@ -72,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
       var container = new qx.ui.core.Widget();
       container.setLayout(layout);
 
-      doc.add(container, 0, 0, 0, 0);
+      this.getRoot().add(container, 0, 0, 0, 0);
     }
   }
 });

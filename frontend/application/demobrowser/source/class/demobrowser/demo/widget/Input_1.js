@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       var docLayout = new qx.ui.layout.VBox();
       docLayout.setSpacing(10);
 
@@ -37,7 +35,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       container.setPadding(20);
       container.setLayout(docLayout);
 
-      doc.add(container, 0, 0);
+      this.getRoot().add(container, 0, 0);
 
       var input1 = new qx.ui.form.TextField("max5").set({
         maxLength: 5
@@ -130,7 +128,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
         enable = !enable;
       });
       controls.getLayout().add(btn);
-      doc.add(controls, 300, 10);
+      this.getRoot().add(controls, 300, 10);
     }
   }
 });

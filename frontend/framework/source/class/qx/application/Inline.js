@@ -27,13 +27,13 @@
  * Base call for all GUI applications which are used in conjunction with
  * HTML code on a normal website. This is the ideal environment for
  * typical portal sites which just use a few GUI components.
+ *
+ * This class is typically used in combination with {qx.ui.root.Inline} widgets
+ * to embed qooxdoo widgets into the page flow.
  */
 qx.Class.define("qx.application.Inline",
 {
-  extend : qx.core.Object,
-  implement : [qx.application.IApplication],
-
-
+  extend : qx.application.AbstractGui,
 
 
   /*
@@ -44,19 +44,8 @@ qx.Class.define("qx.application.Inline",
 
   members :
   {
-    // interface method
-    main : function()
-    {
-      // Initialize themes
-      qx.theme.manager.Meta.getInstance().initialize();
-
-    },
-
-
-    // interface method
-    terminate : function()
-    {
-      // empty
+    _createRootWidget : function() {
+      return new qx.ui.root.Page(document);
     }
   }
 });

@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
       // one percent child which is not flexible
       var box1 = new qx.ui.core.Widget().set({height: 300, decorator: "black", backgroundColor: "yellow"});
       var layout1 = new qx.ui.layout.VBox();
@@ -45,7 +43,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
 
 
 
@@ -65,7 +63,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "30%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 130, 10);
+      this.getRoot().add(box1, 130, 10);
 
 
 
@@ -85,7 +83,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "33.3%" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 250, 10);
+      this.getRoot().add(box1, 250, 10);
 
 
 
@@ -105,7 +103,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "33.3%" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 370, 10);
+      this.getRoot().add(box1, 370, 10);
 
 
 
@@ -127,7 +125,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 490, 10);
+      this.getRoot().add(box1, 490, 10);
 
 
 
@@ -146,7 +144,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "33%" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 610, 10);
+      this.getRoot().add(box1, 610, 10);
 
 
       // all child in percents + auto sizing + flex enabled
@@ -164,7 +162,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "33%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 730, 10);
+      this.getRoot().add(box1, 730, 10);
 
 
 
@@ -184,7 +182,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "33%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 850, 10);
+      this.getRoot().add(box1, 850, 10);
 
 
 
@@ -205,7 +203,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       layout1.add(w3, { height : "33%", flex : 1 });
 
       box1.setLayout(layout1);
-      doc.add(box1, 970, 10);
+      this.getRoot().add(box1, 970, 10);
     }
   }
 });

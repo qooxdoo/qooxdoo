@@ -28,10 +28,8 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_2",
     {
       this.base(arguments);
 
-      var doc = new qx.ui.root.Application(document);
-
-      doc.add(this.getGrid1(), 20, 10);
-      doc.add(this.getGrid2(), 260, 10);
+      this.getRoot().add(this.getGrid1(), 20, 10);
+      this.getRoot().add(this.getGrid2(), 260, 10);
     },
 
 

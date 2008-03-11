@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
-
       // auto size + negative margins
       var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", width:180});
       var layout1 = new qx.ui.layout.VBox();
@@ -44,7 +41,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
       layout1.add(w3, { marginTop : -10, align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
 
 
 
@@ -62,7 +59,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
       layout1.add(w3, { marginTop : -10, align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 210, 10);
+      this.getRoot().add(box1, 210, 10);
 
 
 
@@ -80,7 +77,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
       layout1.add(w3, { flex : 1, marginTop : -10, align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 410, 10);
+      this.getRoot().add(box1, 410, 10);
 
 
 
@@ -99,7 +96,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
       layout1.add(w3, { flex : 3, marginTop : -10, align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 610, 10);
+      this.getRoot().add(box1, 610, 10);
 
 
 
@@ -116,7 +113,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
       layout1.add(w3, { height : "3*", marginTop : -10, align : "right" });
 
       box1.setLayout(layout1);
-      doc.add(box1, 810, 10);
+      this.getRoot().add(box1, 810, 10);
     }
   }
 });

@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
     {
       this.base(arguments);
 
-      doc = new qx.ui.root.Application(document);
-
-
       // different flex dimensions
       var box1 = (new qx.ui.core.Widget).set({height: 300, decorator: "black", backgroundColor: "yellow"});
       var layout1 = new qx.ui.layout.VBox();
@@ -41,7 +38,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 10, 10);
+      this.getRoot().add(box1, 10, 10);
 
 
 
@@ -56,7 +53,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
       layout2.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), { flex : 2 });
       layout2.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight:100}), { flex : 3 });
       box2.setLayout(layout2);
-      doc.add(box2, 130, 10);
+      this.getRoot().add(box2, 130, 10);
 
 
       // different flex dimensions + rounding issues
@@ -70,7 +67,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
       }
 
       box2.setLayout(layout2);
-      doc.add(box2, 250, 10);
+      this.getRoot().add(box2, 250, 10);
 
 
 
@@ -84,7 +81,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 60}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 370, 10);
+      this.getRoot().add(box1, 370, 10);
 
 
       // container height < layout min height
@@ -97,7 +94,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minHeight: 60}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 490, 10);
+      this.getRoot().add(box1, 490, 10);
 
 
 
@@ -111,7 +108,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minHeight: 60}), { flex : 2 });
       layout1.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", minHeight: 60}), { flex : 3 });
       box1.setLayout(layout1);
-      doc.add(box1, 610, 10);
+      this.getRoot().add(box1, 610, 10);
     }
   }
 });
