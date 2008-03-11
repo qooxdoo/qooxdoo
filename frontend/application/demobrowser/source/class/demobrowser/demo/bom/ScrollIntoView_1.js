@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.bom.ScrollIntoView_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   statics :
   {

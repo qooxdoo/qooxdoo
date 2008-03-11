@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.bom.Location_1_std",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {

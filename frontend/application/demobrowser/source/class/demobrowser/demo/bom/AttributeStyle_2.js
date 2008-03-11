@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.bom.AttributeStyle_2",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
