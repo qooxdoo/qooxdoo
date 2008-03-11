@@ -22,7 +22,7 @@
  * clipped images. The {@link qx.ui.basic.Image} class uses this information to
  * render icons.
  */
-qx.Class.define("qx.legacy.io.image.IconManager",
+qx.Class.define("qx.util.ImageRegistry",
 {
   extend : qx.core.Object,
   type : "singleton",
