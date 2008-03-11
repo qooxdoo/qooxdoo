@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.decoration.RoundedBorder",
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
 
-        var fillColor = this.__bgColor || backgroundColor || "white";
+        var fillColor = backgroundColor || this.__bgColor || "white";
 
         // VML currently only supports the "imageRepeat" = "repeat"
         var backgroundImage = this.getBackgroundImage();
