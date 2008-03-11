@@ -14,18 +14,17 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
 /**
- * The icon class is a special image class used for buttons, toolbars, menus, ...
+ * The image class is used for buttons, toolbars, menus, ...
  *
- * Icons support image clipping, which means that multiple images can be combined
- * into one large image and the icon only displayes the relevant part.
+ * This class supports image clipping, which means that multiple images can be combined
+ * into one large image and only the relevant part is shown.
  *
- * Unlike images, icons cannot be stretched and cannot load images from external
- * resources.
- *
+ * Please note that this widget can not be stretched.
  */
 qx.Class.define("qx.ui.basic.Image",
 {
@@ -40,21 +39,17 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   /**
-   * @param source {String?} The URL of the icon to display.
-   * @param disabledSource {String?} The optional URL of the disabled icon.
+   * @param source {String?} The URL of the image to display.
    */
-  construct : function(source, disabledSource)
+  construct : function(source)
   {
     this.base(arguments);
 
     if (source) {
       this.setSource(source);
     }
-
-    if (disabledSource) {
-      this.setDisabledSource(disabledSource);
-    }
   },
+
 
 
 
@@ -66,7 +61,7 @@ qx.Class.define("qx.ui.basic.Image",
 
   properties :
   {
-    /** The URL of the icon */
+    /** The URL of the image */
     source :
     {
       check : "String",
@@ -77,41 +72,40 @@ qx.Class.define("qx.ui.basic.Image",
       themeable : true
     },
 
-    /** The URL of the disabled icon */
-    disabledSource :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      event : "changeDisabledSource",
-      apply : "_applyDisabledSource",
-      themeable : true
-    },
 
+    // overridden
     appearance :
     {
       refine : true,
-      init : "icon"
+      init : "image"
     },
 
+
+    // overridden
     allowGrowX :
     {
       refine : true,
       init : false
     },
 
+
+    // overridden
     allowShrinkX :
     {
       refine : true,
       init : false
     },
 
+
+    // overridden
     allowGrowY :
     {
       refine : true,
       init : false
     },
 
+
+    // overridden
     allowShrinkY :
     {
       refine : true,
@@ -144,73 +138,24 @@ qx.Class.define("qx.ui.basic.Image",
     // overridden
     _getContentHint : function()
     {
-      // TODO: Needs preloader implementation
       return {
-        width : this.__iconWidth || 0,
-        minWidth : 0,
-        maxWidth : Infinity,
-        height : this.__iconHeight || 0,
-        minHeight : 0,
-        maxHeight : Infinity
+        width : this.__width || 0,
+        height : this.__height || 0
       };
     },
 
 
-    // property apply
-    _applyEnabled : function(value, old)
-    {
-      var disabledIcon = this.getDisabledSource();
-      if (!value && disabledIcon)
-      {
-        // if disabled icon is defined, don't call base functions and don't set
-        // state to disabled
-        this._applyVisibleSource(disabledIcon);
-      }
-      else
-      {
-        // reset to enabled icon
-        if (value && disabledIcon) {
-          this._applyVisibleSource(this.getSource());
-        }
-        this.base(arguments, value, old);
-      }
-    },
+
 
 
     /*
     ---------------------------------------------------------------------------
-      ICON API
+      IMAGE API
     ---------------------------------------------------------------------------
     */
 
-
-    __setClippedImage : function(source)
-    {
-      var el = this._contentElement;
-      el.setSource(source, false);
-      this.__setIconSize(el.getWidth(), el.getHeight());
-    },
-
-
-    /**
-     * Sets the icon size
-     *
-     * @param width {Integer} the icon's width
-     * @param height {Integer} the icon's height
-     */
-    __setIconSize : function(width, height)
-    {
-      if (width !== this.__iconWidth || height !== this.__iconHeight) {
-        qx.ui.core.queue.Layout.add(this);
-      }
-
-      this.__iconWidth = width;
-      this.__iconHeight = height;
-    },
-
-
     // property apply
-    _applySource : function(value, old) {
+    _applySource : function(value) {
       qx.io.Alias.getInstance().connect(this._syncSource, this, value);
     },
 
@@ -220,81 +165,38 @@ qx.Class.define("qx.ui.basic.Image",
      * that changes to the source are handled by the image instance
      *
      * @type member
-     * @param value {String} new icon source
+     * @param source {String} new icon source
+     * @return {void}
      */
-    _syncSource : function(value)
+    _syncSource : function(source)
     {
-      this.__source = value;
-      if (this.getEnabled() || !this.getDisabledSource()) {
-        this._applyVisibleSource(value);
-      }
-    },
-
-
-    // property apply
-    _applyDisabledSource : function(value, old) {
-      qx.io.Alias.getInstance().connect(this._syncDisabledSource, this, value);
-    },
-
-
-    /**
-     * Connects a callback method to the value manager to ensure
-     * that changes to the source are handled by the image instance
-     *
-     * @type member
-     * @param value {String} new disabled icon source
-     */
-    _syncDisabledSource : function(value)
-    {
-      if (!this.getEnabled()) {
-        this._applyVisibleSource(value);
-      }
-    },
-
-
-    /**
-     * Sets the visible icon to the given source. Either by using the data from
-     * the {@link qx.ui.basic.IconManager} of by using the preloader system.
-     *
-     * @param source {String} The icon's url as given by the user.
-     */
-    _applyVisibleSource : function(source)
-    {
-      if (this.__preloader)
-      {
-        // get rid of the old preloader
-        this.__preloader.removeListener("load", this.__onLoadPreloader, this);
-        this.__preloader.removeListener("error", this.__onErrorPreloader, this);
-        this.__preloader = null;
-      }
+      var el = this._contentElement;
 
       if (!source)
       {
-        this._contentElement.resetSource();
+        el.resetSource();
         return;
       }
 
-      var mgr = qx.util.ImageRegistry.getInstance();
+      var sprite = qx.util.ImageRegistry.getInstance().resolve(source);
+      if (sprite)
+      {
+        el.setSource(source, false);
 
-      var sprite = mgr.resolve(source);
+        var width = el.getWidth();
+        var height = el.getHeight();
 
-      if (sprite) {
-        this.__setClippedImage(source);
+        if (width !== this.__width || height !== this.__height)
+        {
+          this.__width = width;
+          this.__height = height;
+
+          qx.ui.core.queue.Layout.add(this);
+        }
       }
       else
       {
-        // if no icon information is available, use the preloader to determin
-        // the icon size
-        this.__preloader = qx.legacy.io.image.PreloaderManager.getInstance().create(source);
-        if (this.__preloader.isLoaded())
-        {
-          this.__onLoadPreloader();
-        }
-        else
-        {
-          this.__preloader.addListener("load", this.__onLoadPreloader, this);
-          this.__preloader.addListener("error", this.__onErrorPreloader, this);
-        }
+        qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
       }
     },
 
@@ -302,37 +204,18 @@ qx.Class.define("qx.ui.basic.Image",
     /**
      * Event handler fired after the preloader has finished loading the icon
      *
-     * @param e {qx.event.type.Event} the event object
+     * @type member
+     * @param source {String} Image source which was loaded
+     * @param size {Map} Dimensions of the loaded image
+     * @return {void}
      */
-    __onLoadPreloader : function(e)
+    __loaderCallback : function(source, size)
     {
-      var iconUri = this.__preloader.getSource();
+      // Dynamically register image
+      qx.util.ImageRegistry.getInstance().register(source, source, 0, 0, size.width, size.height);
 
-      // store image information
-      qx.util.ImageRegistry.getInstance().register(
-        iconUri,
-        iconUri,
-        0, 0,
-        this.__preloader.getWidth(), this.__preloader.getHeight()
-      );
-
-      if (iconUri == this.__source) {
-        this._syncSource(iconUri)
-      } else {
-        this._syncDisabledSource(iconUri)
-      }
-    },
-
-
-    /**
-     * Event handler fired after the preloader has failed loading the icon
-     *
-     * @param e {qx.event.type.Event} the event object
-     */
-    __onErrorPreloader : function(e)
-    {
-      this.warn("Error loading image: " + this.getSource());
-      this._contentElement.resetSource();
+      // Update image
+      this._syncSource(source);
     }
   }
 });
