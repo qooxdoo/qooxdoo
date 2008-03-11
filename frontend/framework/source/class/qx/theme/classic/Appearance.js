@@ -38,6 +38,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "widget" : {},
 
 
+    "root" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          textColor : "text",
+          font : "default"
+        };
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
