@@ -21,16 +21,12 @@
 qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
 {
   extend : qx.application.Standalone,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      // Call demo mixin init
-      this.initDemo();
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 

@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.Template",
 {
   extend : qx.application.Standalone,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
