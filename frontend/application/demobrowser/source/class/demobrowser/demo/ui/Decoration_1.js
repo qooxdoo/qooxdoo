@@ -29,8 +29,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       this.base(arguments);
 
       doc = new qx.ui.root.Application(document);
-      doc.setTextColor("black");
-      doc.setBackgroundColor("white");
 
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
@@ -47,13 +45,10 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
 
     getGrid1 : function()
     {
-      var theme = qx.theme.classic.Decoration;
-
-      qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
-      qx.theme.manager.Decoration.getInstance().setTheme(theme);
+      var theme = qx.theme.manager.Decoration.getInstance().getTheme();
 
       // auto size
-      var box = (new qx.ui.core.Widget).set({
+      var box = new qx.ui.core.Widget().set({
         decorator: "outset",
         padding: 5,
         backgroundColor: "#CCC"
