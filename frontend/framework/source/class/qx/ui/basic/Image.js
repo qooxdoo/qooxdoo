@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      var mgr = qx.legacy.io.image.IconManager.getInstance();
+      var mgr = qx.util.ImageRegistry.getInstance();
 
       var sprite = mgr.resolve(source);
 
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.basic.Image",
       var iconUri = this.__preloader.getSource();
 
       // store image information
-      qx.legacy.io.image.IconManager.getInstance().register(
+      qx.util.ImageRegistry.getInstance().register(
         iconUri,
         iconUri,
         0, 0,

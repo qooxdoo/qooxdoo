@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
-      var mgr = qx.legacy.io.image.IconManager.getInstance();
+      var mgr = qx.util.ImageRegistry.getInstance();
       var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/icons/"
 
       mgr.register(base + "feed-reader.png", base + "feed-reader.png", 0, 0, 48, 48);
