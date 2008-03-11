@@ -37,15 +37,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
   {
     "black" :
     {
-      style :
-      {
-        width: 1,
-        color: "black"
-      }
-    },
+      decorator: qx.ui.decoration.UniformBorder,
 
-    "black" :
-    {
       style :
       {
         width : 1,
@@ -55,6 +48,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "white" :
     {
+      decorator: qx.ui.decoration.UniformBorder,
+
       style :
       {
         width : 1,
@@ -64,6 +59,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "dark-shadow" :
     {
+      decorator: qx.ui.decoration.UniformBorder,
+
       style :
       {
         width : 1,
@@ -73,6 +70,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "light-shadow" :
     {
+      decorator: qx.ui.decoration.UniformBorder,
+
       style :
       {
         width : 1,
@@ -82,6 +81,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "light" :
     {
+      decorator: qx.ui.decoration.UniformBorder,
+
       style :
       {
         width : 1,
@@ -91,6 +92,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "dark" :
     {
+      decorator: qx.ui.decoration.UniformBorder,
+
       style :
       {
         width : 1,
