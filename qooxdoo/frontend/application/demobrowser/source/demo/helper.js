@@ -26,7 +26,7 @@
     style.position = "absolute";
     style.top = "0";
     style.right = "0";
-    style.zIndex = "absolute";
+    style.zIndex = "5000";
     style.padding = "5px";
 
     // create the URI to the source script
