@@ -58,18 +58,18 @@ qx.Class.define("qx.html.Label",
 
 
     // overridden
-    _createDomElement : function() 
+    _createDomElement : function()
     {
       var rich = this.__rich;
       var el = qx.bom.Label.create(this._content, rich);
-      
+
       // Styles must be stored locally to work together with
       // synchronisation in flush().
-      var styles = qx.bom.Label.getStyles(rich);      
+      var styles = qx.bom.Label.getStyles(rich);
       for (var key in styles) {
         this.setStyle(key, styles[key]);
       }
-      
+
       return el;
     },
 
@@ -94,9 +94,9 @@ qx.Class.define("qx.html.Label",
       if (this._element) {
         throw new Error("The label mode cannot be modified after initial creation");
       }
-      
+
       value = !!value;
-      
+
       if (this.__rich == value) {
         return;
       }
