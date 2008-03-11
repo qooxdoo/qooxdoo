@@ -154,6 +154,14 @@ qx.Class.define("qx.ui.basic.Image",
     ---------------------------------------------------------------------------
     */
 
+    // property apply, overridden
+    _applyEnabled : function(value)
+    {
+      this.base(arguments);
+      this._styleSource();
+    },
+
+
     // property apply
     _applySource : function(value) {
       qx.io.Alias.getInstance().connect(this._syncSource, this, value);
@@ -170,6 +178,21 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _syncSource : function(source)
     {
+      this._source = source;
+      this._styleSource();
+    },
+
+
+    /**
+     * Applies the source to the clipped image instance or preload
+     * a image to detect sizes and apply it afterwards.
+     *
+     * @type member
+     * @return {void}
+     */
+    _styleSource : function()
+    {
+      var source = this._source;
       var el = this._contentElement;
 
       if (!source)
@@ -181,11 +204,31 @@ qx.Class.define("qx.ui.basic.Image",
       var sprite = qx.util.ImageRegistry.getInstance().resolve(source);
       if (sprite)
       {
+        // Try to find a disabled image
+        // TODO: Support other states e.g. hover as well?
+        if (!this.getEnabled())
+        {
+          var disabledSource = source.replace(/\.([a-z]+)$/, "-disabled.$1");
+          var disabledSprite = qx.util.ImageRegistry.getInstance().resolve(disabledSource);
+
+          if (disabledSprite) {
+            source = disabledSource;
+          }
+        }
+
+        // Optimize case for enabled changes when no disabled image was found
+        if (el.getSource() === source) {
+          return;
+        }
+
+        // Apply source to ClippedImage instance
         el.setSource(source, false);
 
+        // Query dimensions
         var width = el.getWidth();
         var height = el.getHeight();
 
+        // Compare with old sizes and relayout if necessary
         if (width !== this.__width || height !== this.__height)
         {
           this.__width = width;
