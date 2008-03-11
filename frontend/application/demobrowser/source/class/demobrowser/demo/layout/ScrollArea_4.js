@@ -33,8 +33,6 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_4",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       scrollArea = new qx.ui.core.ScrollArea();

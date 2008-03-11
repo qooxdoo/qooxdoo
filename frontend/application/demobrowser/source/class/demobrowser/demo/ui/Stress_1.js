@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.ui.Stress_1",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
 
       var docLayout = new qx.ui.layout.HBox();

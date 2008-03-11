@@ -31,8 +31,6 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       doc = new qx.ui.root.Application(document);
       doc.setPadding(20);
 
