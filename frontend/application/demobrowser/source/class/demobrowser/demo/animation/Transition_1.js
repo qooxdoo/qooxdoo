@@ -30,15 +30,12 @@
 qx.Class.define("demobrowser.demo.animation.Transition_1",
 {
   extend : qx.legacy.application.Gui,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      this.initDemo();
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
 

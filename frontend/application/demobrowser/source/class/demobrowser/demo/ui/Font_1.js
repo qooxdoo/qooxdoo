@@ -21,7 +21,6 @@
 qx.Class.define("demobrowser.demo.ui.Font_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {

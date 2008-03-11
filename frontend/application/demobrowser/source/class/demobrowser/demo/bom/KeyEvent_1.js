@@ -24,7 +24,6 @@
 qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
 {
   extend : qx.application.Native,
-  include : [demobrowser.MDemoApplication],
 
   members :
   {
