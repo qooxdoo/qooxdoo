@@ -27,6 +27,9 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,
 
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -97,38 +100,9 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
 
   members :
   {
-    /** {String} border color */
-    __color : "",
-
-    /** {String} background color */
-    __bgColor: "",
-
-
-    /**
-     * Initialize the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     */
-    _initSize : function(decorationElement)
-    {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (qx.bom.client.Feature.CONTENT_BOX)
-        {
-          this._useContentBox = true;
-          return;
-        }
-      }
-      else
-      {
-        decorationElement.setStyle("boxSizing", "border-box");
-      }
-    },
-
-
     // interface implementation
     init : function(decorationElement) {
-      this._initSize(decorationElement);
+      // empty
     },
 
 
@@ -136,25 +110,28 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
     update : function(decorationElement, width, height, backgroundColor)
     {
       var borderWidth = this.getWidth();
-      if (this._useContentBox)
+
+      var elWidth = width;
+      var elHeight = height;
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        var elWidth = width - 2 * borderWidth;
-        var elHeight = height - 2 * borderWidth;
-      }
-      else
-      {
-        var elWidth = width;
-        var elHeight = height;
+        if (qx.bom.client.Feature.CONTENT_BOX)
+        {
+          elWidth -= 2 * borderWidth;
+          elHeight -= 2 * borderWidth;
+        }
       }
 
       var bgImage = this.getBackgroundImage();
       decorationElement.setStyles({
-        "border": this.getWidth() + "px " + this.getStyle() + " " + this.__color,
+        "border": borderWidth + "px " + this.getStyle() + " " + (this.__color || ""),
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
         "backgroundRepeat": this.getBackgroundRepeat(),
-        "backgroundColor": backgroundColor || this.__bgColor,
+        "backgroundColor": backgroundColor || this.__bgColor || "",
         "width": elWidth + "px",
-        "height": elHeight + "px"
+        "height": elHeight + "px",
+        "boxSizing" : "border-box"
       });
     },
 
@@ -166,7 +143,10 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
         "border": null,
         "backgroundImage": null,
         "backgroundRepeat": null,
-        "backgroundColor": null
+        "backgroundColor": null,
+        "width" : null,
+        "height" : null,
+        "boxSizing" : null
       });
     },
 
@@ -185,6 +165,7 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -192,7 +173,7 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
     */
 
     // property apply
-    _applyBorderChange : function(value, old, name) {
+    _applyBorderChange : function() {
       qx.ui.core.queue.Decorator.add(this);
     },
 
@@ -205,6 +186,8 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
     _applyBackgroundColor : function(value) {
       qx.theme.manager.Color.getInstance().connect(this._changeBackgroundColor, this, value);
     },
+
+
 
 
     /*
@@ -221,16 +204,12 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
      */
     _changeColor : function(value)
     {
-      if (value) {
-        this.__color = value;
-      } else {
-        delete this.__color;
-      }
+      this.__color = value;
       qx.ui.core.queue.Decorator.add(this);
     },
 
 
-     /**
+    /**
      * Callback for color manager connection
      *
      * @type member
@@ -239,11 +218,7 @@ qx.Class.define("qx.ui.decoration.UniformBorder",
      */
     _changeBackgroundColor : function(color)
     {
-      if (color) {
-        this.__bgColor = color;
-      } else {
-        delete this.__bgColor;
-      }
+      this.__bgColor = color;
       qx.ui.core.queue.Decorator.add(this);
     }
   }
