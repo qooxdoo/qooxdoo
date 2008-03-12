@@ -57,6 +57,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       // Examples
       var deco1 = new qx.ui.decoration.Grid(base + "button.png");
       var widget1 = new qx.ui.core.Widget;
+      widget1.setWidth(200);
+      widget1.setHeight(200);
       widget1.setDecorator(deco1);
       containerLayout.add(widget1);
     }
