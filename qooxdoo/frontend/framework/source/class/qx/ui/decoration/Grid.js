@@ -154,96 +154,111 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
 
+    // TODO: Make dynamic from image data
+    __topWidth : 16,
+    __rightWidth : 16,
+    __bottomWidth : 16,
+    __leftWidth : 16,
+
+
+
+    __createInnerElement : function()
+    {
+      var pixel = "px";
+      var topWidth = this.__topWidth;
+      var rightWidth = this.__rightWidth;
+      var bottomWidth = this.__bottomWidth;
+      var leftWidth = this.__leftWidth;
+
+      // Create edges and vertical sides
+      // Order: tl, t, tr, bl, b, bt, l, c, r
+      var html = [];
+      html.push('<div style="position:absolute;top:0;left:0;"></div>');
+      html.push('<div style="position:absolute;top:0;"></div>');
+      html.push('<div style="position:absolute;top:0;right:0;"></div>');
+      html.push('<div style="position:absolute;bottom:0;left:0;"></div>');
+      html.push('<div style="position:absolute;bottom:0;"></div>');
+      html.push('<div style="position:absolute;bottom:0;right:0;"></div>');
+      html.push('<div style="position:absolute;left:0"></div>');
+      html.push('<div style="position:absolute"></div>');
+      html.push('<div style="position:absolute;right:0"></div>');
+
+      var content = document.createElement("div");
+      content.innerHTML = html.join("");
+
+      // TODO: Move these to the markup above
+      content.childNodes[0].style.width = leftWidth + pixel;
+      content.childNodes[0].style.height = topWidth + pixel;
+
+      content.childNodes[1].style.left = leftWidth + pixel;
+      content.childNodes[1].style.height = topWidth + pixel;
+
+      content.childNodes[2].style.width = rightWidth + pixel;
+      content.childNodes[2].style.height = topWidth + pixel;
+
+      content.childNodes[3].style.width = leftWidth + pixel;
+      content.childNodes[3].style.height = bottomWidth + pixel;
+
+      content.childNodes[4].style.left = leftWidth + pixel;
+      content.childNodes[4].style.height = bottomWidth + pixel;
+
+      content.childNodes[5].style.width = rightWidth + pixel;
+      content.childNodes[5].style.height = bottomWidth + pixel;
+
+      content.childNodes[6].style.top = topWidth + pixel;
+      content.childNodes[6].style.width = leftWidth + pixel;
+
+      content.childNodes[7].style.top = topWidth + pixel;
+      content.childNodes[7].style.left = leftWidth + pixel;
+
+      content.childNodes[8].style.top = topWidth + pixel;
+      content.childNodes[8].style.width = rightWidth + pixel;
+
+      return content;
+    },
+
+
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
       var init = !decorationElement._element || !decorationElement._element.firstChild;
+      var content = init ? this.__createInnerElement() : decorationElement._element.firstChild;
 
-      // Not yet created
-      if (init)
-      {
-        // Create edges and vertical sides
-        // Order: tl, t, tr, bl, b, bt, l, c, r
-        var html = [];
-        html.push('<div style="position:absolute;top:0;left:0;"></div>');
-        html.push('<div style="position:absolute;top:0;"></div>');
-        html.push('<div style="position:absolute;top:0;right:0;"></div>');
-        html.push('<div style="position:absolute;bottom:0;left:0;"></div>');
-        html.push('<div style="position:absolute;bottom:0;"></div>');
-        html.push('<div style="position:absolute;bottom:0;right:0;"></div>');
-        html.push('<div style="position:absolute;left:0"></div>');
-        html.push('<div style="position:absolute"></div>');
-        html.push('<div style="position:absolute;right:0"></div>');
-
-        var content = document.createElement("div");
-        content.innerHTML = html.join("");
-      }
+      var pixel = "px";
+      var topWidth = this.__topWidth;
+      var rightWidth = this.__rightWidth;
+      var bottomWidth = this.__bottomWidth;
+      var leftWidth = this.__leftWidth;
 
 
-      decorationElement.setStyle("width", width + "px");
-      decorationElement.setStyle("height", height + "px");
+      // Sync width/height of outer element
+      decorationElement.setStyle("width", width + pixel);
+      decorationElement.setStyle("height", height + pixel);
 
 
-      // Border widths
-      // TODO: Make dynamic from image data
-      var topWidth = 10;
-      var rightWidth = 10;
-      var bottomWidth = 10;
-      var leftWidth = 10;
-
-      // Order: tl, t, tr
-      content.childNodes[0].style.width = leftWidth + "px";
-      content.childNodes[0].style.height = topWidth + "px";
-
-      content.childNodes[1].style.left = leftWidth + "px";
-      content.childNodes[1].style.width = (width-leftWidth-rightWidth) + "px";
-      content.childNodes[1].style.height = topWidth + "px";
-
-      content.childNodes[2].style.width = rightWidth + "px";
-      content.childNodes[2].style.height = topWidth + "px";
+      // Dimension dependending styles
+      content.childNodes[1].style.width = (width-leftWidth-rightWidth) + pixel;
+      content.childNodes[4].style.width = (width-leftWidth-rightWidth) + pixel;
+      content.childNodes[6].style.height = (height-topWidth-bottomWidth) + pixel;
+      content.childNodes[7].style.height = (height-topWidth-bottomWidth) + pixel;
+      content.childNodes[7].style.width = (width-leftWidth-rightWidth) + pixel;
+      content.childNodes[8].style.height = (height-topWidth-bottomWidth) + pixel;
 
 
-      // Order: bl, b, bt
-      content.childNodes[3].style.width = leftWidth + "px";
-      content.childNodes[3].style.height = bottomWidth + "px";
-
-      content.childNodes[4].style.left = leftWidth + "px";
-      content.childNodes[4].style.width = (width-leftWidth-rightWidth) + "px";
-      content.childNodes[4].style.height = bottomWidth + "px";
-
-      content.childNodes[5].style.width = rightWidth + "px";
-      content.childNodes[5].style.height = bottomWidth + "px";
-
-
-      // Order: l, c, r
-      content.childNodes[6].style.top = topWidth + "px";
-      content.childNodes[6].style.width = leftWidth + "px";
-      content.childNodes[6].style.height = (height-topWidth-bottomWidth) + "px";
-
-      content.childNodes[7].style.top = topWidth + "px";
-      content.childNodes[7].style.left = leftWidth + "px";
-      content.childNodes[7].style.height = (height-topWidth-bottomWidth) + "px";
-      content.childNodes[7].style.width = (width-leftWidth-rightWidth) + "px";
-
-      content.childNodes[8].style.top = topWidth + "px";
-      content.childNodes[8].style.width = rightWidth + "px";
-      content.childNodes[8].style.height = (height-topWidth-bottomWidth) + "px";
-
+      // TODO: Move offsets
 
 
       // Test elements
       // Order: tl, t, tr, bl, b, bt, l, c, r
       content.childNodes[0].style.backgroundColor = "red";
       content.childNodes[1].style.backgroundColor = "maroon";
-      content.childNodes[2].style.backgroundColor = "purple";
+      content.childNodes[2].style.backgroundColor = "orange";
       content.childNodes[3].style.backgroundColor = "fuchsia";
       content.childNodes[4].style.backgroundColor = "green";
       content.childNodes[5].style.backgroundColor = "lime";
       content.childNodes[6].style.backgroundColor = "aqua";
       content.childNodes[7].style.backgroundColor = "yellow";
       content.childNodes[8].style.backgroundColor = "blue";
-
-
 
 
       // Sync to HTML attribute
