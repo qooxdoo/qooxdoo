@@ -221,6 +221,11 @@ qx.Class.define("qx.io.remote.RequestQueue",
         response.setContent(returnValue);
         vTransport.dispatchEvent(response);
       }
+      else
+      {
+        // Store send timestamp
+        vTransport._start = (new Date()).valueOf();
+      }
 
       // Retry
       if (this._queue.length > 0) {
@@ -277,9 +282,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
       var vTransport = e.getTarget();
       vTransport.getRequest()._onsending(e);
-
-      // Store send timestamp
-      vTransport._start = (new Date()).valueOf();
     },
 
 
