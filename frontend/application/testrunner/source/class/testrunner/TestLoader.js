@@ -27,7 +27,7 @@
 
 qx.Class.define("testrunner.TestLoader",
 {
-  extend : qx.application.Abstract,
+  extend : qx.application.Native,
 
 
 
