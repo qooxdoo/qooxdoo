@@ -173,46 +173,21 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
       var html = [];
-      html.push('<div style="position:absolute;top:0;left:0;"></div>');
-      html.push('<div style="position:absolute;top:0;"></div>');
-      html.push('<div style="position:absolute;top:0;right:0;"></div>');
-      html.push('<div style="position:absolute;bottom:0;left:0;"></div>');
-      html.push('<div style="position:absolute;bottom:0;"></div>');
-      html.push('<div style="position:absolute;bottom:0;right:0;"></div>');
-      html.push('<div style="position:absolute;left:0"></div>');
-      html.push('<div style="position:absolute"></div>');
-      html.push('<div style="position:absolute;right:0"></div>');
+      html.push('<div style="position:absolute;top:0;left:0;width:', leftWidth, 'px;height:', topWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;top:0;left:', leftWidth, 'px;height:', topWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;top:0;right:0;width:', rightWidth, 'px;height:', topWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;bottom:0;left:0;width:', leftWidth, 'px;height:', bottomWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;bottom:0;left:', leftWidth ,'px;height:', bottomWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;bottom:0;right:0;width:', rightWidth, 'px;height:', bottomWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;left:0;top:', topWidth, 'px;width:', leftWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;top:', topWidth, 'px;left:', leftWidth, 'px;"></div>');
+      html.push('<div style="position:absolute;right:0;top:', topWidth, 'px;width:', rightWidth, 'px;"></div>');
 
       var content = document.createElement("div");
       content.innerHTML = html.join("");
 
-      // TODO: Move these to the markup above
-      content.childNodes[0].style.width = leftWidth + pixel;
-      content.childNodes[0].style.height = topWidth + pixel;
 
-      content.childNodes[1].style.left = leftWidth + pixel;
-      content.childNodes[1].style.height = topWidth + pixel;
 
-      content.childNodes[2].style.width = rightWidth + pixel;
-      content.childNodes[2].style.height = topWidth + pixel;
-
-      content.childNodes[3].style.width = leftWidth + pixel;
-      content.childNodes[3].style.height = bottomWidth + pixel;
-
-      content.childNodes[4].style.left = leftWidth + pixel;
-      content.childNodes[4].style.height = bottomWidth + pixel;
-
-      content.childNodes[5].style.width = rightWidth + pixel;
-      content.childNodes[5].style.height = bottomWidth + pixel;
-
-      content.childNodes[6].style.top = topWidth + pixel;
-      content.childNodes[6].style.width = leftWidth + pixel;
-
-      content.childNodes[7].style.top = topWidth + pixel;
-      content.childNodes[7].style.left = leftWidth + pixel;
-
-      content.childNodes[8].style.top = topWidth + pixel;
-      content.childNodes[8].style.width = rightWidth + pixel;
 
 
       // Test elements
@@ -234,8 +209,8 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
-      var init = !decorationElement._element || !decorationElement._element.firstChild;
-      var content = init ? this.__createInnerElement() : decorationElement._element.firstChild;
+      var init = !decorationElement._element;
+      var content = init ? this.__createInnerElement() : decorationElement._element;
       var pixel = "px";
 
       // Sync width/height of outer element
@@ -244,14 +219,14 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       // Dimension dependending styles
       content.childNodes[1].style.width =
-        content.childNodes[4].style.width =
-        content.childNodes[7].style.width =
-        (width - this.__leftWidth - this.__rightWidth) + pixel;
+      content.childNodes[4].style.width =
+      content.childNodes[7].style.width =
+      (width - this.__leftWidth - this.__rightWidth) + pixel;
 
       content.childNodes[6].style.height =
-        content.childNodes[7].style.height =
-        content.childNodes[8].style.height =
-        (height - this.__topWidth - this.__bottomWidth) + pixel;
+      content.childNodes[7].style.height =
+      content.childNodes[8].style.height =
+      (height - this.__topWidth - this.__bottomWidth) + pixel;
 
       // Sync to HTML attribute
       if (init) {
