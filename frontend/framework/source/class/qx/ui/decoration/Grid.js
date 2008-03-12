@@ -75,16 +75,16 @@ qx.Class.define("qx.ui.decoration.Grid",
      * These image names are used:
      *
      * * tl (top-left edge)
+     * * t (top side)
      * * tr (top-right edge)
+
      * * bl (bottom-left edge)
+     * * b (bottom side)
      * * br (bottom-right edge)
      *
-     * * t (top side)
-     * * r (right side)
-     * * b (bottom side)
      * * l (left side)
-     *
      * * c (center image)
+     * * r (right side)
      */
     baseImage :
     {
@@ -139,12 +139,16 @@ qx.Class.define("qx.ui.decoration.Grid",
   {
     _changeBaseImage : function(value)
     {
+      this.__markup = null;
+      this.__images = null;
 
+      // TODO: Queue update?
     },
 
     _changeBorderVisibility : function(value)
     {
-
+      this.__markup = null;
+      // TODO: Queue update?
     },
 
 
@@ -154,57 +158,87 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
 
-    // TODO: Make dynamic from image data
-    __topWidth : 16,
-    __rightWidth : 16,
-    __bottomWidth : 16,
-    __leftWidth : 16,
-
-
-
-    __createInnerElement : function()
+    __computeMarkup : function()
     {
-      var pixel = "px";
-      var topWidth = this.__topWidth;
-      var rightWidth = this.__rightWidth;
-      var bottomWidth = this.__bottomWidth;
-      var leftWidth = this.__leftWidth;
+      // Compute image names
+      var images = this.__images || this.__computeImages();
+
+      // Resolve image data
+      var reg = qx.util.ImageRegistry.getInstance();
+      var tl = reg.resolve(images.tl);
+      var t  = reg.resolve(images.t);
+      var tr = reg.resolve(images.tr);
+      var bl = reg.resolve(images.bl);
+      var b  = reg.resolve(images.b);
+      var br = reg.resolve(images.br);
+      var l  = reg.resolve(images.l);
+      var c  = reg.resolve(images.c);
+      var r  = reg.resolve(images.r);
+
+      // Store dimensions
+      this.__insets =
+      {
+        top : t[4],
+        bottom : b[4],
+        left : l[3],
+        right : r[3]
+      };
+
+      var middleWidth = l[3] + c[3] + r[3];
+
+      var topWidth = this.__insets.top;
+      var bottomWidth = this.__insets.bottom;
+      var leftWidth = this.__insets.left;
+      var rightWidth = this.__insets.right;
 
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
+      var pixel = "px";
       var html = [];
-      html.push('<div style="position:absolute;top:0;left:0;width:', leftWidth, 'px;height:', topWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;top:0;left:', leftWidth, 'px;height:', topWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;top:0;right:0;width:', rightWidth, 'px;height:', topWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;bottom:0;left:0;width:', leftWidth, 'px;height:', bottomWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;bottom:0;left:', leftWidth ,'px;height:', bottomWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;bottom:0;right:0;width:', rightWidth, 'px;height:', bottomWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;left:0;top:', topWidth, 'px;width:', leftWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;top:', topWidth, 'px;left:', leftWidth, 'px;"></div>');
-      html.push('<div style="position:absolute;right:0;top:', topWidth, 'px;width:', rightWidth, 'px;"></div>');
 
-      var content = document.createElement("div");
-      content.innerHTML = html.join("");
+      html.push('<div style="position:absolute;top:0;left:0;width:', leftWidth, 'px;height:', topWidth, 'px;background:url(', tl[0] ,') no-repeat ', tl[1], 'px ', tl[2], 'px;"></div>');
+      html.push('<div style="position:absolute;top:0;left:', leftWidth, 'px;height:', topWidth, 'px;background:url(', t[0] ,') repeat-x ', t[1], 'px ', t[2], 'px;"></div>');
+      html.push('<div style="position:absolute;top:0;right:0;width:', rightWidth, 'px;height:', topWidth, 'px;background:url(', tr[0] ,') no-repeat ', tr[1], 'px ', tr[2], 'px;"></div>');
+      html.push('<div style="position:absolute;bottom:0;left:0;width:', leftWidth, 'px;height:', bottomWidth, 'px;background:url(', bl[0] ,') no-repeat ', bl[1], 'px ', bl[2], 'px;"></div>');
+      html.push('<div style="position:absolute;bottom:0;left:', leftWidth ,'px;height:', bottomWidth, 'px;background:url(', b[0] ,') repeat-x ', b[1], 'px ', b[2], 'px;"></div>');
+      html.push('<div style="position:absolute;bottom:0;right:0;width:', rightWidth, 'px;height:', bottomWidth, 'px;background:url(', br[0] ,') no-repeat ', br[1], 'px ', br[2], 'px;"></div>');
+      html.push('<img src="', l[0], '" style="position:absolute;left:0;top:', topWidth, 'px;width:', middleWidth, 'px;"></div>');
+      html.push('<img src="', c[0], '" style="z-index:1;position:absolute;top:', topWidth, 'px;left:', leftWidth, 'px;"></div>');
+      html.push('<img src="', r[0], '" style="position:absolute;right:0;top:', topWidth, 'px;width:', middleWidth, 'px;"></div>');
 
-
-
-
-
-      // Test elements
-      // Order: tl, t, tr, bl, b, bt, l, c, r
-      content.childNodes[0].style.backgroundColor = "red";
-      content.childNodes[1].style.backgroundColor = "maroon";
-      content.childNodes[2].style.backgroundColor = "orange";
-      content.childNodes[3].style.backgroundColor = "fuchsia";
-      content.childNodes[4].style.backgroundColor = "green";
-      content.childNodes[5].style.backgroundColor = "lime";
-      content.childNodes[6].style.backgroundColor = "aqua";
-      content.childNodes[7].style.backgroundColor = "yellow";
-      content.childNodes[8].style.backgroundColor = "blue";
-
-      return content;
+      return this.__markup = html.join("");
     },
 
+
+    __computeImages : function()
+    {
+      var base = this.getBaseImage();
+      var split = /(.*)(\.[a-z]+)$/.exec(base);
+      var prefix = split[1];
+      var ext = split[2];
+
+      return this.__images =
+      {
+        tl : prefix + "-tl" + ext,
+        t : prefix + "-t" + ext,
+        tr : prefix + "-tr" + ext,
+
+        bl : prefix + "-bl" + ext,
+        b : prefix + "-b" + ext,
+        br : prefix + "-br" + ext,
+
+        l : prefix + "-l" + ext,
+        c : prefix + "-c" + ext,
+        r : prefix + "-r" + ext
+      };
+    },
+
+    __createInnerElement : function()
+    {
+      var content = document.createElement("div");
+      content.innerHTML = this.__markup || this.__computeMarkup();
+      return content;
+    },
 
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
@@ -216,17 +250,42 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Sync width/height of outer element
       decorationElement.setStyle("width", width + pixel);
       decorationElement.setStyle("height", height + pixel);
+      decorationElement.setStyle("overflow", "hidden");
+
+      var innerWidth = width - this.__insets.left - this.__insets.right;
+      var innerHeight = height - this.__insets.top - this.__insets.bottom;
+
 
       // Dimension dependending styles
       content.childNodes[1].style.width =
       content.childNodes[4].style.width =
-      content.childNodes[7].style.width =
-      (width - this.__leftWidth - this.__rightWidth) + pixel;
+        innerWidth + pixel;
 
       content.childNodes[6].style.height =
       content.childNodes[7].style.height =
       content.childNodes[8].style.height =
-      (height - this.__topWidth - this.__bottomWidth) + pixel;
+        innerHeight + pixel;
+
+
+
+
+      var spriteLeft = qx.util.ImageRegistry.getInstance().resolve(this.__images.l);
+      var spriteCenter = qx.util.ImageRegistry.getInstance().resolve(this.__images.c);
+      var spriteRight = qx.util.ImageRegistry.getInstance().resolve(this.__images.r);
+
+      var imageWidth = spriteLeft[3] + spriteCenter[3] + spriteRight[3];
+      var scalingFactor = Math.ceil(width / spriteCenter[3]);
+      var finalWidth = imageWidth * scalingFactor;
+
+      content.childNodes[7].style.width = finalWidth + pixel;
+      content.childNodes[7].style.marginLeft = (-spriteLeft[3] * scalingFactor) + pixel;
+
+      qx.bom.element.Clip.set(content.childNodes[7], {
+        left : spriteLeft[3] * scalingFactor,
+        top : null,
+        width : innerWidth,
+        height : null
+      });
 
       // Sync to HTML attribute
       if (init) {
@@ -248,12 +307,11 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     getInsets : function()
     {
-      return {
-        top : this.__topWidth,
-        right : this.__rightWidth,
-        bottom : this.__bottomWidth,
-        left : this.__leftWidth
+      if (!this.__insets) {
+        this.__computeMarkup();
       }
+
+      return this.__insets;
     }
   }
 });
