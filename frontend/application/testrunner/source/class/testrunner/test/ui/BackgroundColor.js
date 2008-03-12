@@ -174,13 +174,18 @@ qx.Class.define("testrunner.test.ui.BackgroundColor",
 
       // change deco color
       deco.setBackgroundColor("red");
+      this.assertDecoratorStyle(widget, "backgroundColor", "green");
+      this.assertStyle(widget, "backgroundColor", "");
+
+      // remove deco color
+      widget.setBackgroundColor(null);
       this.assertDecoratorStyle(widget, "backgroundColor", "red");
       this.assertStyle(widget, "backgroundColor", "");
 
       // remove decoration
       widget.setDecorator(null);
       this.assertDecoratorStyle(widget, "backgroundColor", "");
-      this.assertStyle(widget, "backgroundColor", "green");
+      this.assertStyle(widget, "backgroundColor", "");
 
       this.getRoot().getLayout().remove(widget);
       widget.dispose();
