@@ -39,7 +39,9 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
 
       // Fill registry
+      var mgr = qx.util.ImageRegistry.getInstance();
       var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/grid_decoration/"
+
       mgr.register(base + "button-tl.png", base + "button-combined.png", 0, 0, 2, 2);
       mgr.register(base + "button-tr.png", base + "button-combined.png", 0, -2, 2, 2);
       mgr.register(base + "button-br.png", base + "button-combined.png", 0, -4, 2, 2);
@@ -53,18 +55,10 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
 
       // Examples
-      containerLayout.add(this.getWidget1());
-    },
-
-
-    getWidget1 : function()
-    {
-      var deco = new qx.ui.decoration.Grid(base + "button.png");
-
-      var widget = new qx.ui.core.Widget;
-      widget.setDecoration(deco);
-
-      return widget;
+      var deco1 = new qx.ui.decoration.Grid(base + "button.png");
+      var widget1 = new qx.ui.core.Widget;
+      widget1.setDecorator(deco1);
+      containerLayout.add(widget1);
     }
   }
 });
