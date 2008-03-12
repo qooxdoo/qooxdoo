@@ -22,9 +22,9 @@
  * the native CSS features are used. In Internet Explorer the borders are
  * rendered using VML.
  */
-qx.Class.define("qx.ui.decoration.RoundedBorder",
+qx.Class.define("qx.ui.decoration.Rounded",
 {
-  extend : qx.ui.decoration.Basic,
+  extend : qx.ui.decoration.Single,
 
 
 

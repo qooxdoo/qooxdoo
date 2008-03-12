@@ -22,7 +22,7 @@
  * A basic decorator featuring background colors and simple borders based on
  * CSS styles.
  */
-qx.Class.define("qx.ui.decoration.Basic",
+qx.Class.define("qx.ui.decoration.Single",
 {
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,

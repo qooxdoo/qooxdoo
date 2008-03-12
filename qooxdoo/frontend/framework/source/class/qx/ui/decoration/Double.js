@@ -23,9 +23,9 @@
  * independent from each other. This decorator is used to create 3D effects like
  * <code>inset</code>, <code>outset</code> or <code>ridge</code>.
  */
-qx.Class.define("qx.ui.decoration.DoubleBorder",
+qx.Class.define("qx.ui.decoration.Double",
 {
-  extend : qx.ui.decoration.Basic,
+  extend : qx.ui.decoration.Single,
 
 
 
