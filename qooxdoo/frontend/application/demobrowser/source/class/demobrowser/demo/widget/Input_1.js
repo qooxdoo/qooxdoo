@@ -51,8 +51,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
 
       var input3 = new qx.ui.form.TextField("another").set({
         padding: 5,
-        width: 200,
-        height: 30
+        width: 200
       });
       docLayout.add(input3);
 
@@ -85,7 +84,6 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
 
       var input8 = new qx.ui.form.TextField("A").set({
         padding: [0, 10],
-        height: 20,
         backgroundColor : "#DFDFDF",
         decorator : new qx.ui.decoration.Rounded().set({
           radius : 10,
