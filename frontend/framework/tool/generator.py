@@ -1167,7 +1167,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         scriptBlocks = ""
         scriptBlocks += '<script type="text/javascript">%s</script>' % "".join(inlineSourceCode)
         for fileId in sortedIncludeList:
-            if fileDb[fileId]["meta"]:
+            if 'meta' in fileDb[fileId] and fileDb[fileId]["meta"]:
               continue
 
             if fileDb[fileId]["classUri"] == None:
