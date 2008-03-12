@@ -28,7 +28,7 @@ import struct
 # http://www.w3.org/Graphics/GIF/spec-gif89a.txt
 class GifFile:
     def __init__(self, filename):
-        self.fp = open(filename, "r")
+        self.fp = open(filename, "rb")
 
     def close(self):
         self.fp.close()
@@ -50,7 +50,7 @@ class GifFile:
 # http://www.libmng.com/pub/png/spec/1.2/png-1.2-pdg.html#Structure
 class PngFile:
     def __init__(self, filename):
-        self.fp = open(filename, "r")
+        self.fp = open(filename, "rb")
 
     def close(self):
         self.fp.close()
@@ -74,7 +74,7 @@ class PngFile:
 # http://www.obrador.com/essentialjpeg/HeaderInfo.htm
 class JpegFile:
     def __init__(self, filename):
-        self.fp = open(filename, "r")
+        self.fp = open(filename, "rb")
 
     def close(self):
         self.fp.close()
@@ -106,13 +106,13 @@ class JpegFile:
 class ImgInfo(object):
     def __init__(self, filename):
         self.__filename = filename
-        
+
     def getSize(self):
         ''' Returns the image sizes os png, gif and pjed files as
             (width, height) tuple '''
         filename = self.__filename
         classes = [PngFile, GifFile, JpegFile]
-    
+
         for cls in classes:
             img = cls(filename)
             if img.verify():
@@ -121,7 +121,7 @@ class ImgInfo(object):
                     img.close()
                     return size
             img.close()
-    
+
         return None
 
 
