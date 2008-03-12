@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_3",
         backgroundColor: "blue",
         textColor: "white",
         padding: 10,
-        decorator: new qx.ui.decoration.Basic(4, "solid", "black")
+        decorator: new qx.ui.decoration.Single(4, "solid", "black")
       });
       return box;
     }

@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
     {
       this.base(arguments);
 
-      var decor = new qx.ui.decoration.Basic(1, "solid", "black");
+      var decor = new qx.ui.decoration.Single(1, "solid", "black");
 
       var label1 = new qx.ui.basic.Label("My Label").set({
         decorator: decor

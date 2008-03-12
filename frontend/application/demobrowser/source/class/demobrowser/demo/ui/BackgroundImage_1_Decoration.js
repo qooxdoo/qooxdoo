@@ -31,7 +31,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
 
     "shaded-round" :
     {
-      decorator: qx.ui.decoration.RoundedBorder,
+      decorator: qx.ui.decoration.Rounded,
 
       style :
       {
@@ -46,7 +46,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
 
     "shaded-round-pressed" :
     {
-      decorator: qx.ui.decoration.RoundedBorder,
+      decorator: qx.ui.decoration.Rounded,
 
       style :
       {
@@ -62,7 +62,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
 
     "shaded-double" :
     {
-      decorator: qx.ui.decoration.DoubleBorder,
+      decorator: qx.ui.decoration.Double,
 
       style :
       {
@@ -77,7 +77,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
 
     "shaded-double-pressed" :
     {
-      decorator: qx.ui.decoration.DoubleBorder,
+      decorator: qx.ui.decoration.Double,
 
       style :
       {

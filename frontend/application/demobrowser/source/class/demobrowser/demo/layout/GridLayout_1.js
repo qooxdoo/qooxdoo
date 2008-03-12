@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
 
     getGrid1 : function()
     {
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       // auto size
       var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", minHeight:300});
@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
 
     getGrid2 : function()
     {
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       // auto size
       var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow", allowGrowX: false});
@@ -105,7 +105,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
     getGrid3 : function()
     {
       // flex columns
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       var box = (new qx.ui.core.Widget).set({
         decorator: border,
@@ -134,7 +134,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
     getGrid4 : function()
     {
       // flex columns
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       var box = (new qx.ui.core.Widget).set({
         decorator: border,

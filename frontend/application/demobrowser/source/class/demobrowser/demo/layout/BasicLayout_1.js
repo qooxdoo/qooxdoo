@@ -29,7 +29,7 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
       this.base(arguments);
 
       var borderColor = "black";
-      var border = new qx.ui.decoration.Basic(3, "solid", borderColor);
+      var border = new qx.ui.decoration.Single(3, "solid", borderColor);
 
       w1 = new qx.ui.basic.Label("Toggle border color.").set({
         backgroundColor: "red",

@@ -12,7 +12,7 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1_Menu",
     this._layout.setHorizontalSpacing(0);
     this.setLayout(this._layout);
 
-    var border = new qx.ui.decoration.Basic(1, "solid", "black");
+    var border = new qx.ui.decoration.Single(1, "solid", "black");
     this.setDecorator(border);
 
     this._menuItems = [];

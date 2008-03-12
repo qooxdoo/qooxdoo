@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_4",
     {
       this.base(arguments);
 
-      var border = new qx.ui.decoration.Basic(3, "solid", "black");
+      var border = new qx.ui.decoration.Single(3, "solid", "black");
 
       w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
