@@ -37,7 +37,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
   {
     "black" :
     {
-      decorator: qx.ui.decoration.UniformBorder,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -48,7 +48,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "white" :
     {
-      decorator: qx.ui.decoration.UniformBorder,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -59,7 +59,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "dark-shadow" :
     {
-      decorator: qx.ui.decoration.UniformBorder,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -70,7 +70,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "light-shadow" :
     {
-      decorator: qx.ui.decoration.UniformBorder,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -81,7 +81,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "light" :
     {
-      decorator: qx.ui.decoration.UniformBorder,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -92,7 +92,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "dark" :
     {
-      decorator: qx.ui.decoration.UniformBorder,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -103,7 +103,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "inset" :
     {
-      decorator : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.Double,
 
       style :
       {
@@ -116,7 +116,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "outset" :
     {
-      decorator : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.Double,
 
       style :
       {
@@ -129,7 +129,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "groove" :
     {
-      decorator : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.Double,
 
       style :
       {
@@ -142,7 +142,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "ridge" :
     {
-      decorator : qx.ui.decoration.DoubleBorder,
+      decorator : qx.ui.decoration.Double,
 
       style :
       {
@@ -155,6 +155,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "inset-thin" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         width : 1,
@@ -164,6 +166,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "outset-thin" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         width : 1,
@@ -173,6 +177,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "line-left" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         widthLeft : 1,
@@ -182,6 +188,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "line-right" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         widthRight : 1,
@@ -191,6 +199,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "line-top" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         widthTop : 1,
@@ -200,6 +210,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "line-bottom" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         widthBottom : 1,
@@ -209,6 +221,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "divider-vertical" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         widthTop : 1,
@@ -218,6 +232,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "divider-horizontal" :
     {
+      decorator : qx.ui.decoration.Single,
+
       style :
       {
         widthLeft : 1,
