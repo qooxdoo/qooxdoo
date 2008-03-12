@@ -317,6 +317,15 @@ qx.Class.define("qx.io.remote.Rpc",
     {
       check : "Boolean",
       nullable : true
+    },
+
+    /**
+     * The raw, unstringified response when an error occurs.  This property is
+     * overwritten with each error, but is never cleared, so should only be
+     * inspected immediately after getting an error indication.
+     */
+    responseError :
+    {
     }
   },
 
@@ -522,6 +531,9 @@ qx.Class.define("qx.io.remote.Rpc",
         }
 
         var exTest = response["error"];
+
+        // Save the unstringified object in case the user wants it.
+        setResponseError(exText);
 
         if (exTest != null)
         {
