@@ -490,7 +490,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     /*
      * For POST data, the only acceptable content type is application/json.
      */
-    switch($_SERVER["CONTENT_TYPE"])
+    switch(substr($_SERVER["CONTENT_TYPE"],
+                  0,
+                  strcspn($_SERVER["CONTENT_TYPE"], ";"))
     {
     case "application/json":
         /* We found literal POSTed json-rpc data (we hope) */
