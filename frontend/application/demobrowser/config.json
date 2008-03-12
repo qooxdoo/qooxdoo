@@ -43,7 +43,7 @@
   },
 
 
-  "source" :
+  "source-script" :
   {
     "extend" : ["common"],
 
@@ -59,7 +59,13 @@
   },
 
 
-  "build" :
+	"source" :
+	{
+		"run" : [ "source-script" ]
+	},
+
+
+  "build-script" :
   {
     "extend" : ["common"],
 
@@ -101,5 +107,16 @@
     {
       "target" : "build"
     }
-  }
+  },
+
+
+	"build" :
+	{
+		"run" : 
+		[ 
+			"build-script", 
+			"build-resources", 
+			"build-files" 
+		]
+	}
 }
