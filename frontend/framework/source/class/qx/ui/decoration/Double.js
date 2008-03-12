@@ -144,36 +144,6 @@ qx.Class.define("qx.ui.decoration.Double",
   members :
   {
     /**
-     * Initialize the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     */
-    _initSize : function(decorationElement)
-    {
-      var innerElement = decorationElement.getChild(0);
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (qx.bom.client.Feature.CONTENT_BOX) {
-          this._useContentBox = true;
-          return;
-        }
-      }
-      else
-      {
-        decorationElement.setStyle("boxSizing", "border-box");
-        innerElement.setStyle("boxSizing", "border-box");
-      }
-
-      decorationElement.setStyle("width", "100%");
-      decorationElement.setStyle("height", "100%");
-
-      innerElement.setStyle("width", "100%");
-      innerElement.setStyle("height", "100%");
-    },
-
-
-    /**
      * Update the element's size
      *
      * @param decorationElement {qx.html.Element} The widget's decoration element.
@@ -245,12 +215,27 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor)
+    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
     {
       var innerElement = decorationElement.getChild(0);
-      innerElement.setStyles(this._getInnerStyles());
 
-      this.base(arguments, decorationElement, width, height, backgroundColor);
+      if (updateStyles)
+      {
+        innerElement.setStyles(this._getInnerStyles());
+      }
+
+      if (updateSize)
+      {
+        var innerWidth = width - (this.getWidthLeft() + this.getWidthRight());
+        var hInsets = this.getInnerWidthLeft() + this.getInnerWidthRight();
+
+        var innerHeight = height - (this.getWidthTop() + this.getWidthBottom());
+        var vInsets = this.getInnerWidthTop() + this.getInnerWidthBottom();
+
+        qx.ui.decoration.Util.updateSize(innerElement, innerWidth, innerHeight, hInsets, vInsets);
+      }
+
+      this.base(arguments, decorationElement, width, height, backgroundColor, updateSize, updateStyles);
     },
 
 

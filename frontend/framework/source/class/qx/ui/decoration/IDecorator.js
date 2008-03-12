@@ -61,8 +61,12 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param height {Integer} The widget's new height
      * @param width {Integer} The widget's new width
      * @param backgroundColor {String?null} an optional CSS background color value.
+     * @param updateSize {Boolean} Whether the size of the widget has changed and
+     *     the decoration size needs to be updated.
+     * @param updateStyles {Boolean} Whether one of the decorator properties have
+     *     changed and the styling of the decoration needs to be updatet.
      */
-    update : function(decorationElement, height, width, backgroundColor) {
+    update : function(decorationElement, height, width, backgroundColor, updateSize, updateStyles) {
       return true;
     },
 

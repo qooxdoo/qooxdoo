@@ -107,32 +107,29 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor)
+    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
     {
-      var borderWidth = this.getWidth();
-
-      var elWidth = width;
-      var elHeight = height;
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (updateStyles)
       {
-        if (qx.bom.client.Feature.CONTENT_BOX)
-        {
-          elWidth -= 2 * borderWidth;
-          elHeight -= 2 * borderWidth;
-        }
+        var bgImage = this.getBackgroundImage();
+        decorationElement.setStyles({
+          "border": this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""),
+          "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
+          "backgroundRepeat": this.getBackgroundRepeat()
+        });
       }
 
-      var bgImage = this.getBackgroundImage();
-      decorationElement.setStyles({
-        "border": borderWidth + "px " + this.getStyle() + " " + (this.__color || ""),
-        "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
-        "backgroundRepeat": this.getBackgroundRepeat(),
-        "backgroundColor": backgroundColor || this.__bgColor || "",
-        "width": elWidth + "px",
-        "height": elHeight + "px",
-        "boxSizing" : "border-box"
-      });
+      decorationElement.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
+
+      if (updateSize)
+      {
+        var inset = 2 * this.getWidth();
+        qx.ui.decoration.Util.updateSize(
+          decorationElement,
+          width, height,
+          inset, inset
+        );
+      }
     },
 
 
@@ -143,10 +140,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
         "border": null,
         "backgroundImage": null,
         "backgroundRepeat": null,
-        "backgroundColor": null,
-        "width" : null,
-        "height" : null,
-        "boxSizing" : null
+        "backgroundColor": null
       });
     },
 
