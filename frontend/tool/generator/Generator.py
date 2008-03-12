@@ -509,6 +509,9 @@ class Generator:
             
             imageInfo         = self._imageInfo.getImageInfo(resource[0])
             # imageInfo = {width, height, filetype}
+            if not 'width' in imageInfo or not 'height' in imageInfo or not 'filetype' in imageInfo:
+                self._console.error("Unable to get image info from file: %s" % resource[0])
+                sys.exit(1)
             imageInfo['path'] = resource[0]
             imageInfo["uri"]  = resource[1]
             iInfo   = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
