@@ -62,36 +62,6 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       });
 
       this.getRoot().add(btn, 10, 140);
-
-
-
-      var base2 = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/grid_decoration/"
-      mgr.register(base2 + "button-tl.png", base2 + "button-combined.png", 0, 0, 2, 2);
-      mgr.register(base2 + "button-tr.png", base2 + "button-combined.png", 0, -2, 2, 2);
-      mgr.register(base2 + "button-br.png", base2 + "button-combined.png", 0, -4, 2, 2);
-      mgr.register(base2 + "button-bl.png", base2 + "button-combined.png", 0, -6, 2, 2);
-      mgr.register(base2 + "button-t.png", base2 + "button-combined.png", 0, -8, 2, 2);
-      mgr.register(base2 + "button-b.png", base2 + "button-combined.png", 0, -10, 2, 2);
-
-      mgr.register(base2 + "button-l.png", base2 + "button-center-combined.png", 0, 0, 2, 16);
-      mgr.register(base2 + "button-c.png", base2 + "button-center-combined.png", -2, 0, 2, 16);
-      mgr.register(base2 + "button-r.png", base2 + "button-center-combined.png", -4, 0, 2, 16);
-
-      var layout = new qx.ui.layout.Grid();
-      layout.add(new qx.ui.basic.Image(base2 + "button-tl.png"), 0, 0);
-      layout.add(new qx.ui.basic.Image(base2 + "button-t.png"), 0, 1);
-      layout.add(new qx.ui.basic.Image(base2 + "button-tr.png"), 0, 2);
-      layout.add(new qx.ui.basic.Image(base2 + "button-l.png"), 1, 0);
-      layout.add(new qx.ui.basic.Image(base2 + "button-c.png"), 1, 1);
-      layout.add(new qx.ui.basic.Image(base2 + "button-r.png"), 1, 2);
-      layout.add(new qx.ui.basic.Image(base2 + "button-bl.png"), 2, 0);
-      layout.add(new qx.ui.basic.Image(base2 + "button-b.png"), 2, 1);
-      layout.add(new qx.ui.basic.Image(base2 + "button-br.png"), 2, 2);
-
-      this.getRoot().add(new qx.ui.core.Widget().set({
-        layout: layout
-      }), 100, 200);
-
     }
   }
 });
