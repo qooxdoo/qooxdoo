@@ -20,12 +20,12 @@
 
 /**
  * A very complex decoration using two, partly combined and clipped images
- * to render a graphically impressive border with gradients.
+ * to render a graphically impressive borders with gradients.
  *
  * The decoration supports all forms of vertical gradients. The gradients must
  * be stretchable to support different heights.
  *
- * The edges could use different forms of rounded borders. Even different
+ * The edges could use different styles of rounded borders. Even different
  * edge sizes are supported. The sizes are automatically detected by
  * the build system using the image metadata.
  *
@@ -71,7 +71,8 @@ qx.Class.define("qx.ui.decoration.Grid",
     baseImage :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      apply : "_changeBaseImage"
     },
 
     /** Whether the top border should be visible */
@@ -118,6 +119,17 @@ qx.Class.define("qx.ui.decoration.Grid",
 
   members :
   {
+    _changeBaseImage : function(value)
+    {
+
+    },
+
+    _changeBorderVisibility : function(value)
+    {
+
+    },
+
+
     // interface implementation
     init : function(decorationElement) {
       // empty
