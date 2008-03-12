@@ -492,7 +492,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
      */
     switch(substr($_SERVER["CONTENT_TYPE"],
                   0,
-                  strcspn($_SERVER["CONTENT_TYPE"], ";"))
+                  strcspn($_SERVER["CONTENT_TYPE"], ";")))
     {
     case "application/json":
         /* We found literal POSTed json-rpc data (we hope) */
