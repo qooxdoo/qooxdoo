@@ -11,7 +11,7 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1_MenuItem",
     this._text.setPadding(4);
 
     if (!MenuItem.menuDecoration) {
-      MenuItem.menuDecoration = new qx.ui.decoration.Basic();
+      MenuItem.menuDecoration = new qx.ui.decoration.Single();
     }
 
     this._text.setDecorator(MenuItem.menuDecoration);

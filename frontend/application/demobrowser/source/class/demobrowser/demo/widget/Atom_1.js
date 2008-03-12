@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       var img3 = "icon/48/apps/internet-web-browser.png";
       var img4 = "icon/48/apps/photo-album.png";
 
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
         backgroundColor : "#dedede",

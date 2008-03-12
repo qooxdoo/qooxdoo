@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.PageRoot_1",
 
       var doc = new qx.ui.root.Page(document);
 
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       var box = new qx.ui.core.Widget();
       var layout = new qx.ui.layout.HBox();

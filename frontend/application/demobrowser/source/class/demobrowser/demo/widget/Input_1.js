@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
         padding: [0, 10],
         height: 20,
         backgroundColor : "#DFDFDF",
-        decorator : new qx.ui.decoration.RoundedBorder().set({
+        decorator : new qx.ui.decoration.Rounded().set({
           radius : 10,
           width : 1,
           color : "#ABABAB"
@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       var input9 = new qx.ui.form.TextArea("text\narea").set({
         padding: 3,
         backgroundColor : "#DFDFDF",
-        decorator : new qx.ui.decoration.RoundedBorder().set({
+        decorator : new qx.ui.decoration.Rounded().set({
           radius : 4,
           width : 1,
           color : "#ABABAB"
