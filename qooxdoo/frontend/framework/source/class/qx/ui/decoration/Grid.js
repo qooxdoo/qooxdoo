@@ -236,31 +236,22 @@ qx.Class.define("qx.ui.decoration.Grid",
     {
       var init = !decorationElement._element || !decorationElement._element.firstChild;
       var content = init ? this.__createInnerElement() : decorationElement._element.firstChild;
-
       var pixel = "px";
-      var topWidth = this.__topWidth;
-      var rightWidth = this.__rightWidth;
-      var bottomWidth = this.__bottomWidth;
-      var leftWidth = this.__leftWidth;
-
 
       // Sync width/height of outer element
       decorationElement.setStyle("width", width + pixel);
       decorationElement.setStyle("height", height + pixel);
 
-
       // Dimension dependending styles
-      content.childNodes[1].style.width = (width-leftWidth-rightWidth) + pixel;
-      content.childNodes[4].style.width = (width-leftWidth-rightWidth) + pixel;
-      content.childNodes[7].style.width = (width-leftWidth-rightWidth) + pixel;
+      content.childNodes[1].style.width =
+        content.childNodes[4].style.width =
+        content.childNodes[7].style.width =
+        (width - this.__leftWidth - this.__rightWidth) + pixel;
 
-      content.childNodes[6].style.height = (height-topWidth-bottomWidth) + pixel;
-      content.childNodes[7].style.height = (height-topWidth-bottomWidth) + pixel;
-      content.childNodes[8].style.height = (height-topWidth-bottomWidth) + pixel;
-
-
-      // TODO: Move offsets
-
+      content.childNodes[6].style.height =
+        content.childNodes[7].style.height =
+        content.childNodes[8].style.height =
+        (height - this.__topWidth - this.__bottomWidth) + pixel;
 
       // Sync to HTML attribute
       if (init) {
