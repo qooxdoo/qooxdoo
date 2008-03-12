@@ -214,6 +214,19 @@ qx.Class.define("qx.ui.decoration.Grid",
       content.childNodes[8].style.top = topWidth + pixel;
       content.childNodes[8].style.width = rightWidth + pixel;
 
+
+      // Test elements
+      // Order: tl, t, tr, bl, b, bt, l, c, r
+      content.childNodes[0].style.backgroundColor = "red";
+      content.childNodes[1].style.backgroundColor = "maroon";
+      content.childNodes[2].style.backgroundColor = "orange";
+      content.childNodes[3].style.backgroundColor = "fuchsia";
+      content.childNodes[4].style.backgroundColor = "green";
+      content.childNodes[5].style.backgroundColor = "lime";
+      content.childNodes[6].style.backgroundColor = "aqua";
+      content.childNodes[7].style.backgroundColor = "yellow";
+      content.childNodes[8].style.backgroundColor = "blue";
+
       return content;
     },
 
@@ -239,26 +252,14 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Dimension dependending styles
       content.childNodes[1].style.width = (width-leftWidth-rightWidth) + pixel;
       content.childNodes[4].style.width = (width-leftWidth-rightWidth) + pixel;
+      content.childNodes[7].style.width = (width-leftWidth-rightWidth) + pixel;
+
       content.childNodes[6].style.height = (height-topWidth-bottomWidth) + pixel;
       content.childNodes[7].style.height = (height-topWidth-bottomWidth) + pixel;
-      content.childNodes[7].style.width = (width-leftWidth-rightWidth) + pixel;
       content.childNodes[8].style.height = (height-topWidth-bottomWidth) + pixel;
 
 
       // TODO: Move offsets
-
-
-      // Test elements
-      // Order: tl, t, tr, bl, b, bt, l, c, r
-      content.childNodes[0].style.backgroundColor = "red";
-      content.childNodes[1].style.backgroundColor = "maroon";
-      content.childNodes[2].style.backgroundColor = "orange";
-      content.childNodes[3].style.backgroundColor = "fuchsia";
-      content.childNodes[4].style.backgroundColor = "green";
-      content.childNodes[5].style.backgroundColor = "lime";
-      content.childNodes[6].style.backgroundColor = "aqua";
-      content.childNodes[7].style.backgroundColor = "yellow";
-      content.childNodes[8].style.backgroundColor = "blue";
 
 
       // Sync to HTML attribute
@@ -273,8 +274,7 @@ qx.Class.define("qx.ui.decoration.Grid",
     {
       decorationElement.setStyles({
         "width" : null,
-        "height" : null,
-        "boxSizing" : null
+        "height" : null
       });
     },
 
@@ -282,13 +282,11 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     getInsets : function()
     {
-      // TODO
-      var width = 0;
       return {
-        top : width,
-        right : width,
-        bottom : width,
-        left : width
+        top : this.__topWidth,
+        right : this.__rightWidth,
+        bottom : this.__bottomWidth,
+        left : this.__leftWidth
       }
     }
   }
