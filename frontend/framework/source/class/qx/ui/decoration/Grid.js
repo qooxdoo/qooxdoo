@@ -39,6 +39,24 @@ qx.Class.define("qx.ui.decoration.Grid",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(baseImage)
+  {
+    this.base(arguments);
+
+    if (baseImage) {
+      this.setBaseImage(baseImage);
+    }
+  },
+
+
+
+
 
   /*
   *****************************************************************************
@@ -56,10 +74,10 @@ qx.Class.define("qx.ui.decoration.Grid",
      *
      * These image names are used:
      *
-     * * lt (left top edge)
-     * * rt (right top edge)
-     * * lb (left bottom edge)
-     * * rb (right bottom edge)
+     * * tl (top-left edge)
+     * * tr (top-right edge)
+     * * bl (bottom-left edge)
+     * * br (bottom-right edge)
      *
      * * t (top side)
      * * r (right side)

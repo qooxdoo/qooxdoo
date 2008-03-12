@@ -39,15 +39,18 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
 
       // Examples
-      containerLayout.add(this.getGrid1());
+      containerLayout.add(this.getWidget1());
     },
 
 
-    getGrid1 : function()
+    getWidget1 : function()
     {
+      var deco = new qx.ui.decoration.Grid("grid_decoration.png");
 
+      var widget = new qx.ui.core.Widget;
+      widget.setDecoration(deco);
 
-
+      return widget;
     }
   }
 });
