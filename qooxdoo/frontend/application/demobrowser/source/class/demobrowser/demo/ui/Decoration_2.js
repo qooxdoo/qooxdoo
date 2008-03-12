@@ -61,6 +61,22 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       widget1.setHeight(200);
       widget1.setDecorator(deco1);
       containerLayout.add(widget1);
+
+
+      var layout = new qx.ui.layout.Grid();
+      layout.add(new qx.ui.basic.Image(base2 + "button-tl.png"), 0, 0);
+      layout.add(new qx.ui.basic.Image(base2 + "button-t.png"), 0, 1);
+      layout.add(new qx.ui.basic.Image(base2 + "button-tr.png"), 0, 2);
+      layout.add(new qx.ui.basic.Image(base2 + "button-l.png"), 1, 0);
+      layout.add(new qx.ui.basic.Image(base2 + "button-c.png"), 1, 1);
+      layout.add(new qx.ui.basic.Image(base2 + "button-r.png"), 1, 2);
+      layout.add(new qx.ui.basic.Image(base2 + "button-bl.png"), 2, 0);
+      layout.add(new qx.ui.basic.Image(base2 + "button-b.png"), 2, 1);
+      layout.add(new qx.ui.basic.Image(base2 + "button-br.png"), 2, 2);
+
+      containerLayout.add(new qx.ui.core.Widget().set({
+        layout: layout
+      }));
     }
   }
 });
