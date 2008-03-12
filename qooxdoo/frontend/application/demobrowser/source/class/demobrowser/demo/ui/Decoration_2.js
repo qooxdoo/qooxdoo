@@ -38,6 +38,20 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       this.getRoot().add(container, 0, 0);
 
 
+      // Fill registry
+      var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/grid_decoration/"
+      mgr.register(base + "button-tl.png", base + "button-combined.png", 0, 0, 2, 2);
+      mgr.register(base + "button-tr.png", base + "button-combined.png", 0, -2, 2, 2);
+      mgr.register(base + "button-br.png", base + "button-combined.png", 0, -4, 2, 2);
+      mgr.register(base + "button-bl.png", base + "button-combined.png", 0, -6, 2, 2);
+      mgr.register(base + "button-t.png", base + "button-combined.png", 0, -8, 2, 2);
+      mgr.register(base + "button-b.png", base + "button-combined.png", 0, -10, 2, 2);
+
+      mgr.register(base + "button-l.png", base + "button-center-combined.png", 0, 0, 2, 16);
+      mgr.register(base + "button-c.png", base + "button-center-combined.png", -2, 0, 2, 16);
+      mgr.register(base + "button-r.png", base + "button-center-combined.png", -4, 0, 2, 16);
+
+
       // Examples
       containerLayout.add(this.getWidget1());
     },
@@ -45,7 +59,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
     getWidget1 : function()
     {
-      var deco = new qx.ui.decoration.Grid("grid_decoration.png");
+      var deco = new qx.ui.decoration.Grid(base + "button.png");
 
       var widget = new qx.ui.core.Widget;
       widget.setDecoration(deco);
