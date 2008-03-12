@@ -499,16 +499,21 @@ class Generator:
         self._console.info("Analysing images...")
         self._console.indent()
         # self._resourceList = [[file1,uri1],[file2,uri2],...]
-        self._resourceList = self._resourceHandler.findAllResources(self._resourceHandler.filterResourcesByClasslist(self._classList))
+        #self._resourceList = self._resourceHandler.findAllResources(self._resourceHandler.filterResourcesByClasslist(self._classList))
+        self._resourceList = self._resourceHandler.findAllResources(None)
         
         for resource in [x for x in self._resourceList if imgpatt.search(x[0])]:
+            # resource = [path, uri]
             if format:
                 result += "\n"
             
-            imageInfo = self._imageInfo.getImageInfo(resource[0])
-            imageInfo["uri"] = resource[1]
-            value = simplejson.dumps(imageInfo)
-            result += 'qximageinfo["%s"]=%s;' % (resource[0], value)
+            imageInfo         = self._imageInfo.getImageInfo(resource[0])
+            # imageInfo = {width, height, filetype}
+            imageInfo['path'] = resource[0]
+            imageInfo["uri"]  = resource[1]
+            iInfo   = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
+            value   = simplejson.dumps(iInfo)
+            result += 'qximageinfo["%s"]=%s;' % (imageInfo['uri'], value)
             
         self._console.outdent()
 
@@ -824,13 +829,21 @@ class _ResourceHandler(object):
             else:
                 inCache = True
 
+            libpath = lib['path']
+            # normalize "./..."
+            if libpath.startswith('.'+os.sep):
+                libpath = libpath[2:]
+
             for rsrc in liblist:
                 if not inCache:
                     llist.append(rsrc)
                 if (filter and not filter(rsrc)):
                     continue
                 res = []
-                relpath = (rsrc.split(lib['path']))[1]
+                # normalize "./..."
+                if rsrc.startswith('.'+os.sep):
+                    rsrc = rsrc[2:]
+                relpath = (rsrc.split(libpath,1))[1]
                 if relpath[0] == os.sep:
                     relpath = relpath[1:]
                 res.append(rsrc)
