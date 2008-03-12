@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.layout.Embed_1",
 
     getGrid : function()
     {
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       // auto size
       var box = (new qx.ui.core.Widget).set({decorator: border, backgroundColor: "yellow"});

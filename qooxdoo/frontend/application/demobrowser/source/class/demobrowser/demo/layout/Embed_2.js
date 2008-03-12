@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.layout.Embed_2",
 
     getDialog : function()
     {
-      var border = new qx.ui.decoration.Basic(1, "solid", "black");
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       var dialog = new qx.ui.core.Widget().set({
          backgroundColor: "yellow",
