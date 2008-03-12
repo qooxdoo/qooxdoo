@@ -157,28 +157,39 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
-      var html = [];
+      var init = !decorationElement._element || !decorationElement._element.firstChild;
 
-      // INIT CODE
-      // Create edges and vertical sides
-      html.push('<div style="position:absolute;top:0;left:0;"></div>');
-      html.push('<div style="position:absolute;top:0;"></div>');
-      html.push('<div style="position:absolute;top:0;right:0;"></div>');
-      html.push('<div style="position:absolute;bottom:0;left:0;"></div>');
-      html.push('<div style="position:absolute;bottom:0;"></div>');
-      html.push('<div style="position:absolute;bottom:0;right:0;"></div>');
-      html.push('<div style="position:absolute;left:0"></div>');
-      html.push('<div style="position:absolute"></div>');
-      html.push('<div style="position:absolute;right:0"></div>');
+      // Not yet created
+      if (init)
+      {
+        // Create edges and vertical sides
+        // Order: tl, t, tr, bl, b, bt, l, c, r
+        var html = [];
+        html.push('<div style="position:absolute;top:0;left:0;"></div>');
+        html.push('<div style="position:absolute;top:0;"></div>');
+        html.push('<div style="position:absolute;top:0;right:0;"></div>');
+        html.push('<div style="position:absolute;bottom:0;left:0;"></div>');
+        html.push('<div style="position:absolute;bottom:0;"></div>');
+        html.push('<div style="position:absolute;bottom:0;right:0;"></div>');
+        html.push('<div style="position:absolute;left:0"></div>');
+        html.push('<div style="position:absolute"></div>');
+        html.push('<div style="position:absolute;right:0"></div>');
+
+        var content = document.createElement("div");
+        content.innerHTML = html.join("");
+      }
+
+
+      decorationElement.setStyle("width", width + "px");
+      decorationElement.setStyle("height", height + "px");
 
 
       // Border widths
+      // TODO: Make dynamic from image data
       var topWidth = 10;
       var rightWidth = 10;
       var bottomWidth = 10;
       var leftWidth = 10;
-
-      var content = TODO;
 
       // Order: tl, t, tr
       content.childNodes[0].style.width = leftWidth + "px";
@@ -186,6 +197,7 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       content.childNodes[1].style.left = leftWidth + "px";
       content.childNodes[1].style.width = (width-leftWidth-rightWidth) + "px";
+      content.childNodes[1].style.height = topWidth + "px";
 
       content.childNodes[2].style.width = rightWidth + "px";
       content.childNodes[2].style.height = topWidth + "px";
@@ -197,22 +209,47 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       content.childNodes[4].style.left = leftWidth + "px";
       content.childNodes[4].style.width = (width-leftWidth-rightWidth) + "px";
+      content.childNodes[4].style.height = bottomWidth + "px";
 
       content.childNodes[5].style.width = rightWidth + "px";
       content.childNodes[5].style.height = bottomWidth + "px";
 
 
       // Order: l, c, r
+      content.childNodes[6].style.top = topWidth + "px";
       content.childNodes[6].style.width = leftWidth + "px";
       content.childNodes[6].style.height = (height-topWidth-bottomWidth) + "px";
 
-      content.childNodes[4].style.left = leftWidth + "px";
-      content.childNodes[4].style.top = topWidth + "px";
+      content.childNodes[7].style.top = topWidth + "px";
+      content.childNodes[7].style.left = leftWidth + "px";
       content.childNodes[7].style.height = (height-topWidth-bottomWidth) + "px";
       content.childNodes[7].style.width = (width-leftWidth-rightWidth) + "px";
 
+      content.childNodes[8].style.top = topWidth + "px";
       content.childNodes[8].style.width = rightWidth + "px";
       content.childNodes[8].style.height = (height-topWidth-bottomWidth) + "px";
+
+
+
+      // Test elements
+      // Order: tl, t, tr, bl, b, bt, l, c, r
+      content.childNodes[0].style.backgroundColor = "red";
+      content.childNodes[1].style.backgroundColor = "maroon";
+      content.childNodes[2].style.backgroundColor = "purple";
+      content.childNodes[3].style.backgroundColor = "fuchsia";
+      content.childNodes[4].style.backgroundColor = "green";
+      content.childNodes[5].style.backgroundColor = "lime";
+      content.childNodes[6].style.backgroundColor = "aqua";
+      content.childNodes[7].style.backgroundColor = "yellow";
+      content.childNodes[8].style.backgroundColor = "blue";
+
+
+
+
+      // Sync to HTML attribute
+      if (init) {
+        decorationElement.setAttribute("html", content.innerHTML);
+      }
     },
 
 
