@@ -157,7 +157,62 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     update : function(decorationElement, width, height, backgroundColor)
     {
+      var html = [];
 
+      // INIT CODE
+      // Create edges and vertical sides
+      html.push('<div style="position:absolute;top:0;left:0;"></div>');
+      html.push('<div style="position:absolute;top:0;"></div>');
+      html.push('<div style="position:absolute;top:0;right:0;"></div>');
+      html.push('<div style="position:absolute;bottom:0;left:0;"></div>');
+      html.push('<div style="position:absolute;bottom:0;"></div>');
+      html.push('<div style="position:absolute;bottom:0;right:0;"></div>');
+      html.push('<div style="position:absolute;left:0"></div>');
+      html.push('<div style="position:absolute"></div>');
+      html.push('<div style="position:absolute;right:0"></div>');
+
+
+      // Border widths
+      var topWidth = 10;
+      var rightWidth = 10;
+      var bottomWidth = 10;
+      var leftWidth = 10;
+
+      var content = TODO;
+
+      // Order: tl, t, tr
+      content.childNodes[0].style.width = leftWidth + "px";
+      content.childNodes[0].style.height = topWidth + "px";
+
+      content.childNodes[1].style.left = leftWidth + "px";
+      content.childNodes[1].style.width = (width-leftWidth-rightWidth) + "px";
+
+      content.childNodes[2].style.width = rightWidth + "px";
+      content.childNodes[2].style.height = topWidth + "px";
+
+
+      // Order: bl, b, bt
+      content.childNodes[3].style.width = leftWidth + "px";
+      content.childNodes[3].style.height = bottomWidth + "px";
+
+      content.childNodes[4].style.left = leftWidth + "px";
+      content.childNodes[4].style.width = (width-leftWidth-rightWidth) + "px";
+
+      content.childNodes[5].style.width = rightWidth + "px";
+      content.childNodes[5].style.height = bottomWidth + "px";
+
+
+      // Order: l, c, r
+      content.childNodes[6].style.width = leftWidth + "px";
+      content.childNodes[6].style.height = (height-topWidth-bottomWidth) + "px";
+
+      content.childNodes[4].style.left = leftWidth + "px";
+      content.childNodes[4].style.top = topWidth + "px";
+      content.childNodes[7].style.height = (height-topWidth-bottomWidth) + "px";
+      content.childNodes[7].style.width = (width-leftWidth-rightWidth) + "px";
+
+      content.childNodes[8].style.width = rightWidth + "px";
+      content.childNodes[8].style.height = (height-topWidth-bottomWidth) + "px";
     },
 
 
