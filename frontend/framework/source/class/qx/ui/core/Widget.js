@@ -640,6 +640,8 @@ qx.Class.define("qx.ui.core.Widget",
     __backgroundColor : null,
 
 
+    /** {Boolean} Whether the styles of the decoration needs to be updatet */
+   __updateDecoratorStyles : false,
 
 
     /*
@@ -788,7 +790,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
-        this.updateDecoration(width, height);
+        this.updateDecoration(width, height, sizeChange);
 
         var layout = this.getLayout();
         if (layout && layout.hasChildren()) {
@@ -1583,17 +1585,21 @@ qx.Class.define("qx.ui.core.Widget",
      * @internal Mainly for decoration queue
      * @param width {Integer} The widget's current width
      * @param height {Integer} The widget's current height
+     * @param updateSize {Boolean} Whether the decorator size needs to be updatet.
      */
-    updateDecoration : function(width, height)
+    updateDecoration : function(width, height, updateSize)
     {
       if (this.__decorator)
       {
         this.__decorator.update(
           this._decorationElement,
           width, height,
-          this.__backgroundColor
+          this.__backgroundColor,
+          updateSize,
+          this.__updateDecoratorStyles
         );
       }
+      delete this.__updateDecoratorStyles;
     },
 
 
@@ -1650,6 +1656,9 @@ qx.Class.define("qx.ui.core.Widget",
         oldDecorator.reset(this._decorationElement);
         decorator.init(this._decorationElement);
       }
+
+      // the decoration styles must be updatet
+      this.__updateDecoratorStyles = true;
 
       qx.ui.core.queue.Layout.add(this);
     },
