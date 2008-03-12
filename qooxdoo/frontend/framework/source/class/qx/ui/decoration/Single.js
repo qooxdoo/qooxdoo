@@ -300,57 +300,9 @@ qx.Class.define("qx.ui.decoration.Single",
 
   members :
   {
-    /**
-     * Initialize the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     */
-    _initSize : function(decorationElement)
-    {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (qx.bom.client.Feature.CONTENT_BOX)
-        {
-          this._useContentBox = true;
-          return;
-        }
-      }
-      else
-      {
-        decorationElement.setStyle("boxSizing", "border-box");
-      }
-
-      // TODO
-      // width, height 100% performs really bad in IE
-      decorationElement.setStyle("width", "100%");
-      decorationElement.setStyle("height", "100%");
-    },
-
-
-    /**
-     * Update the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     * @param height {Integer} The widget's new height
-     * @param width {Integer} The widget's new width
-     */
-    _updateSize : function(decorationElement, width, height)
-    {
-      if (!this._useContentBox) {
-        return;
-      }
-
-      var borderWidth = this.getWidthLeft() + this.getWidthRight();
-      var borderHeight = this.getWidthTop() + this.getWidthBottom();
-
-      decorationElement.setStyle("width", width - borderWidth);
-      decorationElement.setStyle("height", height - borderHeight);
-    },
-
-
     // interface implementation
     init : function(decorationElement) {
-      this._initSize(decorationElement);
+      // empty
     },
 
 
@@ -385,14 +337,22 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor)
+    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
     {
-      decorationElement.setStyles(this._getStyles());
-      qx.ui.core.queue.Decorator.remove(this);
+      if (updateStyles) {
+        decorationElement.setStyles(this._getStyles());
+      }
 
       decorationElement.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
 
-      this._updateSize(decorationElement, width, height);
+      if (updateSize) {
+        qx.ui.decoration.Util.updateSize(
+          decorationElement,
+          width, height,
+          this.getWidthLeft() + this.getWidthRight(),
+          this.getWidthTop() + this.getWidthBottom()
+        );
+      }
     },
 
 
@@ -414,9 +374,7 @@ qx.Class.define("qx.ui.decoration.Single",
         "borderLeftColor": null,
         "backgroundColor": null,
         "backgroundImage": null,
-        "backgroundRepeat": null,
-        "width": null,
-        "height": null
+        "backgroundRepeat": null
       });
     },
 

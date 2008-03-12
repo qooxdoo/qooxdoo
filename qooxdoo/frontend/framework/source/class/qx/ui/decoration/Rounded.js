@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
     // overridden
     update : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(decorationElement, width, height, backgroundColor)
+      "mshtml" : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
       {
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
@@ -527,8 +527,8 @@ qx.Class.define("qx.ui.decoration.Rounded",
         decorationElement.setAttribute("html", template.join(''));
       },
 
-      "default" : function(decorationElement, width, height, backgroundColor) {
-        this.base(arguments, decorationElement, width, height, backgroundColor);
+      "default" : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles) {
+        this.base(arguments, decorationElement, width, height, backgroundColor, updateSize, updateStyles);
       }
     })
   },
