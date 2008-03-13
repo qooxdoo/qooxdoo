@@ -25,8 +25,9 @@ from misc import filetool
 from misc.imginfo import ImgInfo
 
 class ImageInfo(object):
-    def __init__(self, console):
+    def __init__(self, console, cache):
         self._console = console
+        self._cache = cache
 
     imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
 
@@ -34,7 +35,7 @@ class ImageInfo(object):
         result = {}
 
         for img in filetool.find(rootDir, imgpatt):
-            self._console.debug("analysing image: %s" % img)
+            self._console.debug("Analysing image: %s" % img)
             #mo = self.imgpatt.search(img)
             imgInfo = ImgInfo(img).getInfo()
             if imgInfo:
@@ -45,8 +46,8 @@ class ImageInfo(object):
     def getImageInfo(self, fileName):
         result = {}
         img    = fileName
-  
-        self._console.debug("analysing image: %s" % img)
+        
+        self._console.debug("Analysing image: %s" % img)
         #mo = self.imgpatt.search(img)
         imgInfo = ImgInfo(img).getInfo()
         if imgInfo:
