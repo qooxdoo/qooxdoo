@@ -48,16 +48,17 @@ class Cache:
             return None
 
 
-    def write(self, cacheId, content, memory=False):
+    def write(self, cacheId, content, memory=False, writeToFile=True):
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
 
-        try:
-            cPickle.dump(content, open(cacheFile, 'wb'), 2)
-
-        except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
-            self._console.error("Could not store cache to %s" % self._path)
-            sys.exit(1)
+        if writeToFile:
+            try:
+                cPickle.dump(content, open(cacheFile, 'wb'), 2)
+    
+            except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
+                self._console.error("Could not store cache to %s" % self._path)
+                sys.exit(1)
 
         if memory:
             memcache[cacheId] = content
