@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       html.push(
         '<div style="position:absolute;top:0;',
         'left:', leftWidth,
-        'px;height:',topWidth,
+        'px;height:', topWidth,
         'px;background:url(', t[0] ,') repeat-x ', t[1], 'px ', t[2], 'px;"></div>'
       );
       html.push(
@@ -234,15 +234,15 @@ qx.Class.define("qx.ui.decoration.Grid",
       );
       html.push(
         '<img src="', l[0], '" style="position:absolute;left:0;',
-        'top:', topWidth, 'px;width:', middleWidth, 'px;"></div>'
+        'top:', topWidth, 'px;width:', middleWidth, 'px;"/>'
       );
       html.push(
         '<img src="', c[0], '" style="z-index:1;position:absolute;',
-        'top:', topWidth, 'px;left:', leftWidth, 'px;"></div>'
+        'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
       );
       html.push(
         '<img src="', r[0], '" style="position:absolute;right:0;',
-        'top:', topWidth, 'px;width:', middleWidth, 'px;"></div>'
+        'top:', topWidth, 'px;width:', middleWidth, 'px;"/>'
       );
 
       return this.__markup = html.join("");
