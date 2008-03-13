@@ -196,15 +196,54 @@ qx.Class.define("qx.ui.decoration.Grid",
       var pixel = "px";
       var html = [];
 
-      html.push('<div style="position:absolute;top:0;left:0;width:', leftWidth, 'px;height:', topWidth, 'px;background:url(', tl[0] ,') no-repeat ', tl[1], 'px ', tl[2], 'px;"></div>');
-      html.push('<div style="position:absolute;top:0;left:', leftWidth, 'px;height:', topWidth, 'px;background:url(', t[0] ,') repeat-x ', t[1], 'px ', t[2], 'px;"></div>');
-      html.push('<div style="position:absolute;top:0;right:0;width:', rightWidth, 'px;height:', topWidth, 'px;background:url(', tr[0] ,') no-repeat ', tr[1], 'px ', tr[2], 'px;"></div>');
-      html.push('<div style="position:absolute;bottom:0;left:0;width:', leftWidth, 'px;height:', bottomWidth, 'px;background:url(', bl[0] ,') no-repeat ', bl[1], 'px ', bl[2], 'px;"></div>');
-      html.push('<div style="position:absolute;bottom:0;left:', leftWidth ,'px;height:', bottomWidth, 'px;background:url(', b[0] ,') repeat-x ', b[1], 'px ', b[2], 'px;"></div>');
-      html.push('<div style="position:absolute;bottom:0;right:0;width:', rightWidth, 'px;height:', bottomWidth, 'px;background:url(', br[0] ,') no-repeat ', br[1], 'px ', br[2], 'px;"></div>');
-      html.push('<img src="', l[0], '" style="position:absolute;left:0;top:', topWidth, 'px;width:', middleWidth, 'px;"></div>');
-      html.push('<img src="', c[0], '" style="z-index:1;position:absolute;top:', topWidth, 'px;left:', leftWidth, 'px;"></div>');
-      html.push('<img src="', r[0], '" style="position:absolute;right:0;top:', topWidth, 'px;width:', middleWidth, 'px;"></div>');
+      html.push(
+        '<div style="position:absolute;top:0;left:0;',
+        'width:', leftWidth,
+        'px;height:', topWidth,
+        'px;background:url(', tl[0] ,') no-repeat ', tl[1], 'px ', tl[2], 'px;"></div>'
+      );
+      html.push(
+        '<div style="position:absolute;top:0;',
+        'left:', leftWidth,
+        'px;height:',topWidth,
+        'px;background:url(', t[0] ,') repeat-x ', t[1], 'px ', t[2], 'px;"></div>'
+      );
+      html.push(
+        '<div style="position:absolute;top:0;right:0;',
+        'width:', rightWidth,
+        'px;height:', topWidth,
+        'px;background:url(', tr[0] ,') no-repeat ', tr[1], 'px ', tr[2], 'px;"></div>'
+      );
+      html.push(
+        '<div style="position:absolute;bottom:0;left:0;',
+        'width:', leftWidth,
+        'px;height:', bottomWidth,
+        'px;background:url(', bl[0] ,') no-repeat ', bl[1], 'px ', bl[2], 'px;"></div>'
+      );
+      html.push(
+        '<div style="position:absolute;bottom:0;',
+        'left:', leftWidth,
+        'px;height:', bottomWidth,
+        'px;background:url(', b[0] ,') repeat-x ', b[1], 'px ', b[2], 'px;"></div>'
+      );
+      html.push(
+        '<div style="position:absolute;bottom:0;right:0;',
+        'width:', rightWidth,
+        'px;height:', bottomWidth,
+        'px;background:url(', br[0] ,') no-repeat ', br[1], 'px ', br[2], 'px;"></div>'
+      );
+      html.push(
+        '<img src="', l[0], '" style="position:absolute;left:0;',
+        'top:', topWidth, 'px;width:', middleWidth, 'px;"></div>'
+      );
+      html.push(
+        '<img src="', c[0], '" style="z-index:1;position:absolute;',
+        'top:', topWidth, 'px;left:', leftWidth, 'px;"></div>'
+      );
+      html.push(
+        '<img src="', r[0], '" style="position:absolute;right:0;',
+        'top:', topWidth, 'px;width:', middleWidth, 'px;"></div>'
+      );
 
       return this.__markup = html.join("");
     },
