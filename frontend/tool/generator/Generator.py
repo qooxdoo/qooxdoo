@@ -457,7 +457,8 @@ class Generator:
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
         else:
-            sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
+            #sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
+            sourceContent = "".join(sourceBlocks)
         self._console.info("Done")
 
         # Construct file name
