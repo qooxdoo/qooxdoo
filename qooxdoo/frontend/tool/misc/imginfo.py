@@ -25,20 +25,28 @@ import os
 import struct
 
 
-# http://www.w3.org/Graphics/GIF/spec-gif89a.txt
-class GifFile:
+class ImgFile(object):
     def __init__(self, filename):
         self.fp = open(filename, "rb")
 
     def close(self):
         self.fp.close()
 
+    def __del__(self):
+        self.close()
+
+
+# http://www.w3.org/Graphics/GIF/spec-gif89a.txt
+class GifFile(ImgFile):
     def verify(self):
         self.fp.seek(0)
         header = self.fp.read(6)
         signature = struct.unpack("3s3s", header[:6])
         isGif = signature[0] == "GIF" and signature[1] in ["87a", "89a"]
         return isGif
+
+    def type(self):
+        return "gif"
 
     def size(self):
         self.fp.seek(0)
@@ -48,12 +56,12 @@ class GifFile:
 
 
 # http://www.libmng.com/pub/png/spec/1.2/png-1.2-pdg.html#Structure
-class PngFile:
+class PngFile(ImgFile):
     def __init__(self, filename):
-        self.fp = open(filename, "rb")
+        ImgFile.__init__(self, filename)
 
-    def close(self):
-        self.fp.close()
+    def type(self):
+        return "png"
 
     def verify(self):
         self.fp.seek(0)
@@ -61,6 +69,7 @@ class PngFile:
         signature = struct.pack("8B", 137, 80, 78, 71, 13, 10, 26, 10)
         isPng = header[:8] == signature
         return isPng
+
 
     def size(self):
         self.fp.seek(0)
@@ -72,18 +81,15 @@ class PngFile:
 
 
 # http://www.obrador.com/essentialjpeg/HeaderInfo.htm
-class JpegFile:
-    def __init__(self, filename):
-        self.fp = open(filename, "rb")
-
-    def close(self):
-        self.fp.close()
-
+class JpegFile(ImgFile):
     def verify(self):
         self.fp.seek(0)
         signature = struct.unpack("!H", self.fp.read(2))
         isJpeg = signature[0] == 0xFFD8
         return isJpeg
+
+    def type(self):
+        return "jpeg"
 
     def size(self):
         self.fp.seek(2)
@@ -107,11 +113,13 @@ class ImgInfo(object):
     def __init__(self, filename):
         self.__filename = filename
 
+    classes = [PngFile, GifFile, JpegFile]
+
     def getSize(self):
-        ''' Returns the image sizes os png, gif and pjed files as
+        ''' Returns the image sizes of png, gif and jpeg files as
             (width, height) tuple '''
         filename = self.__filename
-        classes = [PngFile, GifFile, JpegFile]
+        classes = self.classes
 
         for cls in classes:
             img = cls(filename)
@@ -123,10 +131,24 @@ class ImgInfo(object):
             img.close()
 
         return None
+    
+    def getInfo(self):
+        ''' Returns (width, height, "type") of the image'''
+        filename = self.__filename
+        classes = self.classes
+        
+        for cls in classes:
+            img = cls(filename)
+            if img.verify():
+                size = img.size()
+                if size is not None:
+                    return size + (img.type(),)
+
+        return None
 
 
 def main(filename):
-    print ImgInfo(filename).getSize()
+    print ImgInfo(filename).getInfo()
 
 
 if __name__ == '__main__':
