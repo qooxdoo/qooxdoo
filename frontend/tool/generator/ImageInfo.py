@@ -24,6 +24,8 @@ import re, os, sys, types
 from misc import filetool
 from misc.imginfo import ImgInfo
 
+memcache = {}
+
 class ImageInfo(object):
     def __init__(self, console, cache):
         self._console = console
@@ -44,13 +46,17 @@ class ImageInfo(object):
         return result
 
     def getImageInfo(self, fileName):
-        result = {}
-        img    = fileName
+        img = fileName
+        
+        if memcache.has_key(img):
+            return memcache[img]
         
         self._console.debug("Analysing image: %s" % img)
         #mo = self.imgpatt.search(img)
         imgInfo = ImgInfo(img).getInfo()
         if imgInfo:
-            result = {'width': imgInfo[0], 'height': imgInfo[1], 'filetype': imgInfo[2]}
+            result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'filetype': imgInfo[2]}
+        else:
+            result = {}
 
         return result
