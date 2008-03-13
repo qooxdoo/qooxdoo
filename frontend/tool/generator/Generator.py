@@ -818,6 +818,8 @@ class Generator:
 
 
     def _copyResources(self, srcPath, targPath):
+        # targPath *has* to be directory  -- there is now way of telling a
+        # non-existing target file from a non-existing target directory :-)
         generator = self
         generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
         copier = robocopy.PyRobocopier(generator._console)
