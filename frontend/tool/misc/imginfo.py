@@ -29,6 +29,15 @@ class ImgFile(object):
     def __init__(self, filename):
         self.fp = open(filename, "rb")
 
+    def verify(self):
+        raise NotImplementedError, "%s: %s" % (self.__class__, "verify()")
+
+    def type(self):
+        raise NotImplementedError, "%s: %s" % (self.__class__, "type()")
+
+    def size(self):
+        raise NotImplementedError, "%s: %s" % (self.__class__, "size()")
+
     def close(self):
         self.fp.close()
 
