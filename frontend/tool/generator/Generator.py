@@ -546,7 +546,7 @@ class Generator:
 
     def generateImageInfoCode(self, settings, resourceList, format=False):
         """Pre-calculate image information (e.g. sizes)"""
-        result = 'if(!window.qximageinfo)qximageinfo={};'
+        data = {}
         imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
 
         self._console.info("Analysing images...")
@@ -563,11 +563,14 @@ class Generator:
             if not 'width' in imageInfo or not 'height' in imageInfo or not 'filetype' in imageInfo:
                 self._console.error("Unable to get image info from file: %s" % resource[0])
                 sys.exit(1)
-            imageInfo['path'] = resource[0]
-            imageInfo["uri"]  = resource[1]
-            iInfo   = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
-            value   = simplejson.dumps(iInfo)
-            result += 'qximageinfo["%s"]=%s;' % (imageInfo['uri'], value)
+            #imageInfo['path'] = resource[0]
+            #imageInfo["uri"]  = resource[1]
+            #iInfo   = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
+            #value   = simplejson.dumps(iInfo)
+            #result += 'qximageinfo["%s"]=%s;' % (resource[1], value)
+            data[resource[1]] = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
+            
+        result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data) + ";"
             
         self._console.outdent()
 
