@@ -733,7 +733,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
           catch(ex)
           {
             this.error("Could not execute json: [" + vText + "]", ex);
-            return "<pre>Could not execute json: \n" + vText + "\n</pre>";
+            return null;
           }
 
         case qx.util.Mime.JAVASCRIPT:
