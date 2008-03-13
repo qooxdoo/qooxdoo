@@ -62,7 +62,7 @@ class Generator:
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-        self._imageInfo      = ImageInfo(self._console)
+        self._imageInfo      = ImageInfo(self._console, self._cache)
         self._resourceHandler= _ResourceHandler(self)
 
         # Start job
@@ -427,6 +427,7 @@ class Generator:
             return
 
         self._console.info("Generate source version...")
+        self._console.indent()
 
         # Read in base file name
         filePath = self._config.get("source/file")
@@ -441,7 +442,7 @@ class Generator:
         libs = self._config.get("library", [])
         #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
         resourceList = self._resourceHandler.findAllResources(libs, None)
-
+        
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
@@ -450,10 +451,14 @@ class Generator:
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
+        # TODO: Do we really need this optimization here. Could this be solved
+        # with less resources just through directly generating "good" code?
+        self._console.info("Generating boot loader...")
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
         else:
             sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
+        self._console.info("Done")
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -464,6 +469,7 @@ class Generator:
         if self._config.get("source/gzip"):
             filetool.gzip(resolvedFilePath, sourceContent)
 
+        self._console.outdent()
         self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
         self._console.outdent()
 
@@ -571,6 +577,8 @@ class Generator:
     def generateTranslationCode(self, translationMaps, format=False):
         if translationMaps == None:
             return ""
+
+        self._console.info("Generate translation code...")
 
         result = 'if(!window.qxlocales)qxlocales={};'
         locales = translationMaps[0]  # TODO: just one currently
