@@ -308,13 +308,18 @@ class Generator:
         # Read in settings
         settings = self.getSettings()
 
+        # Get resource list
+        libs = [{'path':'build', 'uri':'../build', 'encoding':'utf-8'}]  # use what's in the 'build' tree -- this depends on resource copying!!
+        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
+        resourceList = self._resourceHandler.findAllResources(libs, None)
+
         # Generating boot script
         self._console.info("Generating boot script...")
 
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateImageInfoCode(settings, format))
+        bootBlocks.append(self.generateImageInfoCode(settings, resourceList, format))
         bootBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
@@ -395,11 +400,16 @@ class Generator:
         # Read in settings
         settings = self.getSettings()
 
+        # Get resource list
+        libs = self._config.get("library", [])
+        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
+        resourceList = self._resourceHandler.findAllResources(libs, None)
+
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateImageInfoCode(settings, format))
+        sourceBlocks.append(self.generateImageInfoCode(settings, resourceList, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
@@ -491,18 +501,16 @@ class Generator:
         return result
 
 
-    def generateImageInfoCode(self, settings, format=False):
+    def generateImageInfoCode(self, settings, resourceList, format=False):
         """Pre-calculate image information (e.g. sizes)"""
         result = 'if(!window.qximageinfo)qximageinfo={};'
         imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
 
         self._console.info("Analysing images...")
         self._console.indent()
-        # self._resourceList = [[file1,uri1],[file2,uri2],...]
-        #self._resourceList = self._resourceHandler.findAllResources(self._resourceHandler.filterResourcesByClasslist(self._classList))
-        self._resourceList = self._resourceHandler.findAllResources(None)
         
-        for resource in [x for x in self._resourceList if imgpatt.search(x[0])]:
+        # resourceList = [[file1,uri1],[file2,uri2],...]
+        for resource in [x for x in resourceList if imgpatt.search(x[0])]:
             # resource = [path, uri]
             if format:
                 result += "\n"
@@ -809,7 +817,7 @@ class _ResourceHandler(object):
 
 
 
-    def findAllResources(self, filter=None):
+    def findAllResources(self, liblist, filter=None):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
@@ -817,12 +825,12 @@ class _ResourceHandler(object):
         
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
-        libs = (self._genobj._config.get("library", []))[:]
+        libs = liblist[:]
         libs.reverse()
 
         for lib in libs:
             #lib = [path, uri]
-            ns = (LibraryPath(lib, self._genobj._console)).getNamespace()
+            ns = lib['path']
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, None, True)
             if liblist == None:
