@@ -195,7 +195,7 @@ class Generator:
             self.runApiData(packages)
             self._translationMaps = self.runTranslation(parts, packages, variants)
             self.runSource(parts, packages, boot, variants)
-            self._resourceHandler.runResources()  # run before runCompiled, to get image infos
+            self.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
 
@@ -286,6 +286,43 @@ class Generator:
 
         self._console.outdent()
         return packageTranslation
+
+
+
+    def runResources(self):
+        generator = self
+
+        # only run for copy jobs
+        if not generator._config.get("copy-resources", False):
+            return
+
+        generator._console.info("Copying resources...")
+        resTargetRoot = generator._config.get("copy-resources/target", "build")
+        libs          = generator._config.get("library", [])
+        generator._console.indent()
+        # Copy resources
+        for lib in libs:
+            #libp = LibraryPath(lib,self._console)
+            #ns   = libp.getNamespace()
+            libpath = lib['path']
+            if libpath.startswith('.'+os.sep):
+                libpath = libpath[2:]
+
+            # get relevant resources for this lib
+            resList  = self._resourceHandler.findAllResources([lib], None)
+            for res in resList:
+                resSource = res[0][:]
+                if resSource.startswith('.'+os.sep):
+                    resSource = resSource[2:]
+                # relpath = respath - libprefix
+                relpath = (resSource.split(libpath,1))[1]
+                if relpath[0] == os.sep:
+                    relpath = relpath[1:]
+                #resTarget = os.path.join(resTargetRoot, "resource", ns, relpath)
+                resTarget = os.path.join(resTargetRoot, relpath)
+                generator._copyResources(res[0], os.path.dirname(resTarget))
+
+        generator._console.outdent()
 
 
 
@@ -794,30 +831,7 @@ class _ResourceHandler(object):
         self._genobj = generatorobj
 
 
-    def runResources(self):
-        generator = self._genobj
-
-        # only run for compile jobs
-        if not generator._config.get("copy-target", False):
-            return
-
-        generator._console.info("Copying resources...")
-        resTargetRoot = generator._config.get("resource-copy/target", "build")
-        libs = generator._config.get("library")
-        generator._console.indent()
-        for lib in libs:
-            # Copy resources
-            libpath = LibraryPath(lib,self._console)
-            ns = libpath.getNamespace()
-            resSource = os.path.join(lib['path'], "resource", ns)
-            resTarget = os.path.join(resTargetRoot, "resource", ns)
-            generator._copyResources(resSource, resTarget)
-
-        generator._console.outdent()
-
-
-
-    def findAllResources(self, liblist, filter=None):
+    def findAllResources(self, libraries, filter=None):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
@@ -825,7 +839,7 @@ class _ResourceHandler(object):
         
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
-        libs = liblist[:]
+        libs = libraries[:]
         libs.reverse()
 
         for lib in libs:
@@ -862,7 +876,7 @@ class _ResourceHandler(object):
                 result.append(res)
 
             if not inCache:
-                self._genobj._cache.write(cacheId, llist, True)
+                self._genobj._cache.write(cacheId, llist, True, False)
         
         return result
 

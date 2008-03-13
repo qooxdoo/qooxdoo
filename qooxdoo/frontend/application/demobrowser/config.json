@@ -114,8 +114,8 @@
 	{
 		"run" : 
 		[ 
-			"build-script", 
 			"build-resources", 
+			"build-script", 
 			"build-files" 
 		]
 	}
