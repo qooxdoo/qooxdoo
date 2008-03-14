@@ -209,9 +209,15 @@ qx.Class.define("qx.ui.progressive.Progressive",
   {
 
     /**
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
+     * Add a renderer that can be referenced by the data model.
+     *
+     * @param name {String}
+     *   Name referenced in the data model when this renderer is to be used.
+     *
+     * @param renderer {qx.ui.progressive.renderer.Abstract}
+     *   Renderer object used if the data model references the specified name.
+     *
+     * @return {Void}
      */
     addRenderer : function(name, renderer)
     {
@@ -219,6 +225,14 @@ qx.Class.define("qx.ui.progressive.Progressive",
       renderer.join(this, name);
     },
 
+    /**
+     * Remove a previosly added renderer.
+     *
+     * @param name {String}
+     *   Remove the renderer which was assigned this name.
+     *
+     * @return {Void}
+     */
     removeRenderer : function(name)
     {
       if (! this._renderers[name])
@@ -229,6 +243,16 @@ qx.Class.define("qx.ui.progressive.Progressive",
       delete this._renderer[name];
     },
 
+    /**
+     * Render the elements available from the data model.  Elements are
+     * rendered in batches of size {#batchSize}.  After each batch of
+     * elements are rendered, control is returned temporarily to the
+     * browser, so that actual screen updates can take place.  A timer is
+     * used to regain control a short while later, in order to render the
+     * next batch of element.
+     *
+     * @return {Void}
+     */
     render : function()
     {
       // Prevent render calls while we're already rendering
@@ -316,10 +340,20 @@ qx.Class.define("qx.ui.progressive.Progressive",
     _changeInnerWidth : function(newValue, oldValue)
     {
       this.base(arguments, newValue, oldValue);
-this.debug("Dispatching widthChanged event");
       this.createDispatchEvent("widthChanged");
     },
 
+    /**
+     * Called when the dataModel property is changed.
+     *
+     * @param value {qx.ui.progressive.model.Abstract}
+     *   The new data model.
+     *
+     * @param value {qx.ui.progressive.model.Abstract}
+     *   The old data model.
+     *
+     * @return {Void}
+     */
     _applyDataModel : function(value, old)
     {
       if (old)

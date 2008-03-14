@@ -45,7 +45,8 @@ qx.Class.define("qx.ui.progressive.model.Default",
   {
     /**
      * Add elements to be progressively renderered.  Each element must be an
-     * object which contains at least two members: renderer name and data.
+     * object which contains at least two members: renderer (the renderer
+     * name) and data.
      *
      * @param elems {Array}
      *   An array of elements to be added to the element queue
@@ -61,8 +62,8 @@ qx.Class.define("qx.ui.progressive.model.Default",
 
     /**
      * Add a single element to be progressively renderered.  The element must
-     * be an object which contains at least two members: renderer name and
-     * data.
+     * be an object which contains at least two members: renderer (the
+     * renderer name) and data.
      *
      * @param elem {Any}
      *   An element to be added to the element queue
