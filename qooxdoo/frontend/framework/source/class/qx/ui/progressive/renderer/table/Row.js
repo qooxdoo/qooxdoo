@@ -33,15 +33,19 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   /**
    */
-    construct : function(columnWidths, columnStyles)
+  construct : function(columnWidths, columnStyles)
   {
     this.base(arguments);
 
     // Save the column widths
     this._columnWidths = columnWidths;
 
-    // Save the column styles
-    this._columnStyles = columnStyles;
+    // Create space to store renderers for each column
+    this._renderers = { };
+
+    // We need a default cell renderer to use if none is specified
+    this._defaultCellRenderer =
+      new qx.ui.progressive.renderer.table.cell.Default();
 
     // We don't yet know who our Progressive will be
     this._progressive = null;
@@ -70,6 +74,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
          ? ''
          : ';-moz-user-select:none;')
   },
+
+
+  properties :
+  {
+    defaultRowHeight :
+    {
+      init : 16
+    }
+  },
+
 
   members :
   {
@@ -127,59 +141,84 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     },
 
+    addRenderer : function(column, renderer)
+    {
+      if (column < 0 || column >= this._columnWidths.length)
+      {
+        throw new Error("Column " +
+                        column +
+                        " out of range (max: " +
+                        (this._columnWidths.length - 1) +
+                        ")");
+      }
+
+      this._renderers[column] = renderer;
+    },
+
+    removeRenderer : function(column)
+    {
+      if (column < 0 || column >= this._columnWidths.length)
+      {
+        throw new Error("Column " +
+                        column +
+                        " out of range (max: " +
+                        (this._columnWidths.length - 1) +
+                        ")");
+      }
+
+      if (! this._renderers[column])
+      {
+        throw new Error("No existing renderer for column " + column);
+      }
+
+      delete this._renderers[column];
+    },
+
     /**
      */
     render : function(state, element)
-    {
-      var cell;
-      var style;
+    {  
       var data = element.data;
       var html = [ ];
+      var cellInfo;
+      var renderer;
+      var height = 0;
 
       // For each cell...
       for (i = 0; i < data.length; i++)
       {
         var stylesheet = "qx-progressive-" + this._hash + "-cell-" + i;
 
-        // Render this cell
-        html.push("<div class='" + stylesheet + "'");
+        // Determine what renderer to use for this column
+        renderer = this._renderers[i] || this._defaultCellRenderer;
 
-        // Use the user-specified column styles
-        if (this._columnStyles && this._columnStyles[i])
+        // Specify information that cell renderer will need
+        cellInfo =
         {
-          var styleHtml = [ ];
-          styles = this._columnStyles[i];
-          for (var attr in styles)
-          {
-            // Ignore width, min-width, and max-width.  They're handled by the
-            // columnWidths parameter to the constructor via style sheet
-            // changes.
-            if (attr == "width" || attr == "min-width" || attr == "max-width")
-            {
-              continue;
-            }
+          state      : state,
+          stylesheet : stylesheet,
+          cellData   : data[i],
+          element    : element,
+          dataIndex  : i,
+          height     : height
+        };
 
-            styleHtml.push(attr, ":", styles[attr], ";");
-          }
+        // Render this cell
+        html.push(renderer.render(cellInfo));
 
-          // If there were any styles specified...
-          if (styleHtml.length > 0)
-          {
-            // ... then add them to our html
-            html.push("style='", styleHtml.join(""), "'");
-          }
+
+        // If this cell's height was greater than our current maximum...
+        if (cellInfo.height > height)
+        {
+          // ... then it becomes our row height
+          height = cellInfo.height;
         }
-
-        // Add the data, and then we're alldone.
-        html.push(">",
-                  qx.html.String.escape(this._formatValue(data[i])),
-                  "</div>");
       }
 
       // Create the row div
       var div = document.createElement("div");
       div.style.position = "relative";
-      div.style.height = 16;
+      div.style.height = height > 0 ? height : this.getDefaultRowHeight();
       div.innerHTML = html.join("");
 
       // Add this row to the table
@@ -214,45 +253,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       default:
         throw new Error("Invalid location: " + element.location);
       }
-    },
-
-    /**
-     * Formats a value.
-     */
-    _formatValue : function(value)
-    {
-      var ret;
-
-      if (value == null)
-      {
-        return "";
-      }
-
-      if (typeof value == "string")
-      {
-        return value;
-      }
-      else if (typeof value == "number")
-      {
-        if (! qx.ui.progressive.renderer.table.Row._numberFormat)
-        {
-          var numberFormat = new qx.util.format.NumberFormat();
-          numberFormat.setMaximumFractionDigits(2);
-          qx.ui.progressive.renderer.table.Row._numberFormat = numberFormat;
-        }
-        ret =
-          qx.ui.progressive.renderer.table.Row._numberFormat.format(value);
-      }
-      else if (value instanceof Date)
-      {
-        ret = qx.util.format.DateFormat.getDateInstance().format(value);
-      }
-      else
-      {
-        ret = value;
-      }
-
-      return ret;
     },
 
     _resizeColumns : function(e)

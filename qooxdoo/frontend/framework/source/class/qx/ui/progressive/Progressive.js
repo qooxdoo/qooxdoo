@@ -202,6 +202,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     removeRenderer : function(name)
     {
+      if (! this._renderers[name])
+      {
+        throw new Error("No existing renderer named " + name);
+      }
+
       delete this._renderer[name];
     },
 
