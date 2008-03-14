@@ -42,16 +42,31 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
 
   events :
   {
-    /** This event is fired when new data has been added to the data model */
-    "dataAvailable" : "qx.event.type.Event"
+    /**
+     * This event is fired when new data has been added to the data model.  It
+     * informs Progressive to begin its rendering process.
+     *
+     * The event data is an integer: the number of elements now available on
+     * the element queue.
+     */
+    "dataAvailable" : "qx.event.type.DataEvent"
   },
 
 
   members :
   {
+    /**
+     */
+    getElementCount : function()
+    {
+      throw new Error("getElementCount() is abstract");
+    },
+
+    /**
+     */
     getNextElement : function()
     {
-      throw new Error("getElement() is abstract");
-    },
+      throw new Error("getNextElement() is abstract");
+    }
   }
 });

@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     // Create an object in which we'll track renderers that have been added
     this._renderer = { };
 
-    // We want to use a Vertical Box Layout for our container
+    // We want to use a Vertical Box Layout for our pane
     this.set(
       {
         left            : 20,
@@ -54,20 +54,40 @@ qx.Class.define("qx.ui.progressive.Progressive",
       });
 
     // Initialize properties
-    this.setContainer(this);
+    this.setPane(new qx.ui.layout.VerticalBoxLayout());
 
     // We've not yet done our initial render
     this.__bInitialRenderComplete = false;
 
     // We're not currently rendering
     this.__bRendering = false;
+
+    // Number of elements available to be rendered.  Useful for progress
+    // handlers, e.g. a progress bar or status counter.
+    this.__initialNumElements = 0;
   },
 
 
   events :
   {
     /**
+     * This event is fired after each element is rendered.
+     *
+     * The event data is an object with the following members:
+     * <dl>
+     *   <dt>initial</dt>
+     *   <dd>
+     *     The number of elements that were available at the start of this
+     *     rendering call.
+     *   </dd>
+     *
+     *   <dt>remaining</dt>
+     *   <dd>
+     *     The number of elements still remaining to be rendered.
+     *   </dd>
+     * </dl>
      */
+    "progress" : "qx.event.type.DataEvent"
   },
 
 
@@ -86,10 +106,18 @@ qx.Class.define("qx.ui.progressive.Progressive",
       apply : "_applyDataModel"
     },
 
-    /** Container object in which renderers render their data */
-    container :
+    /**
+     * Header object.
+     */
+    header :
     {
-      apply : "_applyContainer"
+      apply : "_applyHeader"
+    },
+
+    /** Pane object in which renderers render their data */
+    pane :
+    {
+      apply : "_applyPane"
     },
 
     /**
@@ -124,14 +152,14 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     __renderElementBatch : function(state)
     {
+      var current;
+      var element;
+
       for (var i = state.batchSize; i > 0; i--)
       {
         // Retrieve the current element
-        try
-        {
-          element = state.model.getNextElement();
-        }
-        catch (e)
+        current = state.model.getNextElement();
+        if (! current)
         {
           // No more elements.  We're done.
           this.debug("Render time: " + (new Date() - this.__t1) + "ms");
@@ -139,11 +167,21 @@ qx.Class.define("qx.ui.progressive.Progressive",
           return;
         }
 
+        // Get the element member
+        element = current.element;
+
         // Get the element's renderer
         renderer = this._renderer[element.renderer];
 
         // Render this element
         renderer.render(state, element);
+
+        // Notify any progress handlers that are listening
+        this.createDispatchDataEvent("progress",
+                                     {
+                                       initial   : this.__initialNumElements,
+                                       remaining : current.remaining
+                                     });
 
         // Increment to the next element
         ++state.current;
@@ -187,7 +225,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         model          : this.getDataModel(),
 
         // The widget in which the element data should be rendered
-        container      : this.getContainer(),
+        pane           : this.getPane(),
 
         // How many elements are rendered at a time, before yielding to the
         // browser
@@ -208,6 +246,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
       // timer started from this.__renderElementBatch().
       if (this.__bInitialRenderComplete)
       {
+        // Get the starting number of elements
+        this.__initialNumElements = state.model.getElementCount();
         this.__renderElementBatch(state);
       }
       else
@@ -220,6 +260,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
         //        (It's done with a timer like this in Table's Pane too.)
         qx.client.Timer.once(function()
                              {
+                               this.__initialNumElements =
+                                 state.model.getElementCount();
                                this.__renderElementBatch(state);
                                this.__bInitialRenderComplete = true;
                              },
@@ -227,27 +269,59 @@ qx.Class.define("qx.ui.progressive.Progressive",
       }
     },
 
+    __dataAvailable : function(e)
+    {
+      this.__initialNumElements = e.getData();
+      this.render();
+    },
+
     _applyDataModel : function(value, old)
     {
       if (old)
       {
-        old.removeEventListener("dataAvailable", this.render, this);
+        // Remove the old event listener
+        old.removeEventListener("dataAvailable", this.__dataAvailable, this);
+
+        // Dispose the old model
         old.dispose();
       }
 
-      value.addEventListener("dataAvailable", this.render, this);
+      // Add an event listener so we know when data is available in the model
+      value.addEventListener("dataAvailable", this.__dataAvailable, this);
     },
 
-    _applyContainer : function(value, old)
+    _applyHeader : function(value, old)
     {
-      if (old && old != this)
+      if (old)
       {
+        // Remove the oldheader from this Progressive.
         this.remove(old);
+
+        // Dispose the old header
         old.dispose();
       }
 
-      if (value != this)
+      if (value)
       {
+        // Add the new header to this Progressive.
+        this.addAtBegin(value);
+      }
+    },
+
+    _applyPane : function(value, old)
+    {
+      if (old)
+      {
+        // Remove the old pane from this Progressive.
+        this.remove(old);
+
+        // Dispose the old pane
+        old.dispose();
+      }
+
+      if (value)
+      {
+        // Add the new pane to this Progressive.
         this.add(value);
       }
     }

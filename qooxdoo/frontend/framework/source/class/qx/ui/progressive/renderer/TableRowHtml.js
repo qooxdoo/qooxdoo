@@ -171,13 +171,13 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
       switch(element.location)
       {
       case "end":
-        // Append our new row to the container.
-        state.container.getElement().appendChild(div);
+        // Append our new row to the pane.
+        state.pane.getElement().appendChild(div);
         break;
 
       case "start":
-        // Get the container element
-        var elem = state.container.getElement();
+        // Get the pane element
+        var elem = state.pane.getElement();
 
         // Get its children array
         var children = elem.childNodes;

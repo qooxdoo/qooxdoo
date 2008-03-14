@@ -105,11 +105,11 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowWidget",
       switch(element.location)
       {
       case "end":
-        state.container.add(row);
+        state.pane.add(row);
         break;
 
       case "start":
-        state.container.addAtBegin(row);
+        state.pane.addAtBegin(row);
         break;
 
       default:

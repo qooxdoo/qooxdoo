@@ -56,21 +56,32 @@ qx.Class.define("qx.ui.progressive.model.Default",
       this.__elements = this.__elements.concat(elems);
 
       // Tell Progressive that data is available
-      this.createDispatchEvent("dataAvailable");
+      this.createDispatchDataEvent("dataAvailable", this.__elements.length);
     },
 
     /**
      */
-    getNextElement : function(id)
+    getElementCount : function()
+    {
+      return this.__elements.length;
+    },
+
+    /**
+     */
+    getNextElement : function()
     {
       // Do we have any remaining elements?
       if (this.__elements.length > 0)
       {
         // Yup.  Give 'em the first one and remove it from our queue.
-        return this.__elements.shift();
+        return(
+          {
+            element   : this.__elements.shift(),
+            remaining : this.__elements.length
+          });
       }
 
-      throw "No more data";
+      return null;
     }
   }
 });
