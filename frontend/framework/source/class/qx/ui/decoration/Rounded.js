@@ -20,8 +20,8 @@
 /**
  * A decorator class, which supports (native) rounded borders.
  *
- * On Firefox and Webkit the native CSS features are used. In Internet
- * Explorer the borders are rendered using VML.
+ * In Firefox and Webkit the native CSS features are used. In Internet
+ * Explorer the borders are rendered using VML. Opera is not yet supported.
  */
 qx.Class.define("qx.ui.decoration.Rounded",
 {
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
     /** Radius of the top left corner */
     radiusTopLeft :
     {
-      check : "typeof(value) === 'number' || value instanceof Array",
+      check : "Integer",
       init : 0,
       apply : "_applyBorderChange"
     },
@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
     /** Radius of the top right corner */
     radiusTopRight :
     {
-      check : "typeof(value) === 'number' || value instanceof Array",
+      check : "Integer",
       init : 0,
       apply : "_applyBorderChange"
     },
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
     /** Radius of the bottom right corner */
     radiusBottomRight :
     {
-      check : "typeof(value) === 'number' || value instanceof Array",
+      check : "Integer",
       init : 0,
       apply : "_applyBorderChange"
     },
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
     /** Radius of the bottom left corner */
     radiusBottomLeft :
     {
-      check : "typeof(value) === 'number' || value instanceof Array",
+      check : "Integer",
       init : 0,
       apply : "_applyBorderChange"
     },
@@ -95,17 +95,10 @@ qx.Class.define("qx.ui.decoration.Rounded",
       {
         var style = this.base(arguments, width, height);
 
-        var topLeft = this.getRadiusTopLeft();
-        style.MozBorderRadiusTopleft = (topLeft instanceof Array ? topLeft.join("px ") : topLeft) + "px";
-
-        var topRight = this.getRadiusTopRight();
-        style.MozBorderRadiusTopright = (topRight instanceof Array ? topRight.join("px ") : topRight) + "px";
-
-        var bottomRight = this.getRadiusBottomRight();
-        style.MozBorderRadiusBottomright = (bottomRight instanceof Array ? bottomRight.join("px ") : bottomRight) + "px";
-
-        var bottomLeft = this.getRadiusBottomLeft();
-        style.MozBorderRadiusBottomleft = (bottomLeft instanceof Array ? bottomLeft.join("px ") : bottomLeft) + "px";
+        style.MozBorderRadiusTopleft = this.getRadiusTopLeft() + "px";
+        style.MozBorderRadiusTopright = this.getRadiusTopRight() + "px";
+        style.MozBorderRadiusBottomright = this.getRadiusBottomRight() + "px";
+        style.MozBorderRadiusBottomleft = this.getRadiusBottomLeft() + "px";
 
         return style;
       },
@@ -114,17 +107,10 @@ qx.Class.define("qx.ui.decoration.Rounded",
       {
         var style = this.base(arguments, width, height);
 
-        var topLeft = this.getRadiusTopLeft();
-        style.WebkitBorderTopLeftRadius = (topLeft instanceof Array ? topLeft.join("px ") : topLeft) + "px";
-
-        var topRight = this.getRadiusTopRight();
-        style.WebkitBorderTopRightRadius = (topRight instanceof Array ? topRight.join("px ") : topRight) + "px";
-
-        var bottomRight = this.getRadiusBottomRight();
-        style.WebkitBorderBottomRightRadius = (bottomRight instanceof Array ? bottomRight.join("px ") : bottomRight) + "px";
-
-        var bottomLeft = this.getRadiusBottomLeft();
-        style.WebkitBorderBottomLeftRadius = (bottomLeft instanceof Array ? bottomLeft.join("px ") : bottomLeft) + "px";
+        style.WebkitBorderTopLeftRadius = this.getRadiusTopLeft() + "px";
+        style.WebkitBorderTopRightRadius = this.getRadiusTopRight() + "px";
+        style.WebkitBorderBottomRightRadius = this.getRadiusBottomRight() + "px";
+        style.WebkitBorderBottomLeftRadius = this.getRadiusBottomLeft() + "px";
 
         return style;
       },
@@ -138,10 +124,11 @@ qx.Class.define("qx.ui.decoration.Rounded",
     // overridden
     reset : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(decorationElement)
+      "gecko" : function(element)
       {
-        this.base(arguments, decorationElement);
-        decorationElement.setStyles({
+        this.base(arguments, element);
+
+        element.setStyles({
           MozBorderRadiusTopleft: null,
           MozBorderRadiusTopright: null,
           MozBorderRadiusBottomright: null,
@@ -149,10 +136,11 @@ qx.Class.define("qx.ui.decoration.Rounded",
         });
       },
 
-      "webkit" : function(decorationElement)
+      "webkit" : function(element)
       {
-        this.base(arguments, decorationElement);
-        decorationElement.setStyles({
+        this.base(arguments, element);
+
+        element.setStyles({
           WebkitBorderTopRightRadius: null,
           WebkitBorderTopLeftRadius: null,
           WebkitBorderBottomRightRadius: null,
@@ -160,34 +148,24 @@ qx.Class.define("qx.ui.decoration.Rounded",
         });
       },
 
-      "mshtml" : function(decorationElement) {
-        decorationElement.setAttribute("html", null);
+      "mshtml" : function(element) {
+        element.setAttribute("html", null);
       },
 
-      "default" : function(decorationElement) {
-        return this.base(arguments, decorationElement);
+      "default" : function(element) {
+        return this.base(arguments, element);
       }
     }),
 
 
     // overridden
-    init : qx.core.Variant.select("qx.client",
+    render : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(decorationElement) {
-        decorationElement.setAttribute("html", null);
-      },
-
-      "default" : function(decorationElement) {
-        this.base(arguments, decorationElement);
-      }
-    }),
-
-
-    // overridden
-    update : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
+      "mshtml" : function(element, width, height, backgroundColor, updateSize, updateStyles)
       {
+        // Establish VML dependency
+        var Vml = qx.bom.Vml;
+
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
 
@@ -499,24 +477,12 @@ qx.Class.define("qx.ui.decoration.Rounded",
         }
 
         //this.debug(qx.bom.String.escape(template.join('')));
-        decorationElement.setAttribute("html", template.join(''));
+        element.setAttribute("html", template.join(''));
       },
 
-      "default" : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles) {
-        this.base(arguments, decorationElement, width, height, backgroundColor, updateSize, updateStyles);
+      "default" : function(element, width, height, backgroundColor, updateSize, updateStyles) {
+        this.base(arguments, element, width, height, backgroundColor, updateSize, updateStyles);
       }
     })
-  },
-
-
-  defer : qx.core.Variant.select("qx.client",
-  {
-    "mshtml" : function(statics)
-    {
-      // Simple pointer to create a pseudo dependency.
-      qx.bom.Vml;
-    },
-
-    "default" : function(statics) {}
-  })
+  }
 });

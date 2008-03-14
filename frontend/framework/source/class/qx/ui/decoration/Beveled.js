@@ -184,37 +184,34 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
 
-
     // interface implementation
-    init : function(decorationElement)
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
-      var frame = new qx.html.Element;
-      var horiz = new qx.html.Element;
-      var vert = new qx.html.Element;
-      var inner = new qx.html.Image;
-      var overlay = new qx.html.Element;
+      if (!element.getChild(0))
+      {
+        var frame = new qx.html.Element;
+        var horiz = new qx.html.Element;
+        var vert = new qx.html.Element;
+        var inner = new qx.html.Image;
+        var overlay = new qx.html.Element;
 
-      decorationElement.add(frame, horiz, vert);
-      vert.add(inner, overlay);
+        element.add(frame, horiz, vert);
+        vert.add(inner, overlay);
 
-      // Position
-      frame.setStyle("position", "absolute");
-      horiz.setStyle("position", "absolute");
-      vert.setStyle("position", "absolute");
-      inner.setStyle("position", "absolute");
-      overlay.setStyle("position", "absolute");
-    },
+        // Position
+        frame.setStyle("position", "absolute");
+        horiz.setStyle("position", "absolute");
+        vert.setStyle("position", "absolute");
+        inner.setStyle("position", "absolute");
+        overlay.setStyle("position", "absolute");
+      }
 
 
-
-    // interface implementation
-    update : function(decorationElement, width, height, backgroundColor)
-    {
       var pixel = "px";
 
-      var frame = decorationElement.getChild(0);
-      var horiz = decorationElement.getChild(1);
-      var vert = decorationElement.getChild(2);
+      var frame = element.getChild(0);
+      var horiz = element.getChild(1);
+      var vert = element.getChild(2);
       var inner = vert.getChild(0);
       var overlay = vert.getChild(1);
 
@@ -246,8 +243,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
       // Dimension
-      decorationElement.setStyle("width", width + pixel);
-      decorationElement.setStyle("height", height + pixel);
+      element.setStyle("width", width + pixel);
+      element.setStyle("height", height + pixel);
 
       frame.setStyle("width", (width-(outerBorder*2)) + pixel);
       frame.setStyle("height", (height-(outerBorder*2)) + pixel);
@@ -272,9 +269,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
     // interface implementation
-    reset : function(decorationElement)
+    reset : function(element)
     {
-      decorationElement.setStyles({
+      element.setStyles({
         "width" : null,
         "height" : null
       });
