@@ -1,0 +1,204 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings =
+    {
+      "qx.disposerDebugLevel"     : 0
+    };
+    qxvariants =
+    {
+      "qx.debug" : "on"
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>
+      Example of Progressive rendering of a table with fancy handling of
+      mouseover.  Try moving the mouse over the date column.  The
+      DateCellRenderer class which does the fancy handling is defined in
+      this example's source file.  Note that row height need not be constant!
+    </p>
+  </div>
+
+  <script type="text/javascript">
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+
+        var nextId = 0;
+        var createRandomRows = function(rowCount) {
+          var rowData = [];
+          var now = new Date().getTime();
+          var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+          for (var row = 0; row < rowCount; row++) {
+            var date = new Date(now + Math.random() * dateRange - dateRange / 2);
+            rowData.push(
+                         {
+                           renderer : "row",
+                           location : "start",
+                           data     : [
+                                       nextId++,
+                                       Math.random() * 10000,
+                                       date
+                                      ]
+                         });
+          }
+          return rowData;
+        };
+
+        var columnWidths = new qx.ui.util.column.Widths(3);
+        columnWidths.setWidth(0, 100);
+        columnWidths.setWidth(1, "1*");
+//        columnWidths.setMaxWidth(1, 200);
+        columnWidths.setWidth(2, 300);
+
+        var columnNames = [ "Id", "Number", "Date" ];
+
+        // Instantiate a Progressive with a default structure with header
+        var header = new qx.ui.progressive.headfoot.TableHeading(columnWidths,
+                                                                 columnNames);
+        var footer = new qx.ui.progressive.headfoot.Progress(columnWidths,
+                                                             columnNames);
+        var structure = new qx.ui.progressive.structure.Default(header,
+                                                                footer);
+        var progressive = new qx.ui.progressive.Progressive(structure);
+
+        // Instantiate a data model and populate it.
+        var dataModel = new qx.ui.progressive.model.Default();
+        var rowData = createRandomRows(500);
+        dataModel.addElements(rowData);
+
+        // Tell Progressive about its data model
+        progressive.setDataModel(dataModel);
+
+        // Specify the cell styles
+
+        // Column styles for rendering data.  Excludes width, min-width and
+        // max-width as those are handled by columnWidths.
+        var columnStyles = [ ];
+        columnStyles[1] =
+          {
+            "text-align" : "right"
+          };
+
+
+        // Instantiate a table row renderer
+        var rowRenderer =
+          new qx.ui.progressive.renderer.table.Row(columnWidths, columnStyles);
+
+        // Give Progressive the renderer, and assign a name
+        progressive.addRenderer("row", rowRenderer);
+
+        // Tell the row renderer to use our custom date cell renderer
+        rowRenderer.addRenderer(2, new DateCellRenderer());
+
+        d.add(progressive);
+
+        progressive.render();
+      }
+    }
+  });
+
+  qx.Class.define("DateCellRenderer",
+  {
+    extend     : qx.ui.progressive.renderer.table.cell.Default,
+
+
+    /**
+     */
+    construct : function()
+    {
+      this.base(arguments);
+    },
+
+
+    statics :
+    {
+      onmouseover : function(div, e)
+      {
+        // Save the original text color
+        div.__oldcolor = qx.html.Style.getStyleProperty(div, "color");
+
+        // Set the color temporarily to red
+        div.style.color = "rgb(255, 0, 0)";
+
+        // Resize the row to hold our expanded date
+        div.parentNode.style.height = 32;
+        
+        // Save the original text
+        div.__innerHTML = div.innerHTML;
+
+        // Generate an expanded date representation
+        var ms = Date.parse(div.attributes.getNamedItem("celldata").nodeValue);
+        var date = new Date(ms);
+        div.innerHTML = date.toUTCString() + "<br>" + date.toString();
+      },
+
+      onmouseout : function(div, event)
+      {
+        // Restore the original color
+        div.style.color = div.__oldcolor;
+
+        // Restore the original row height
+        div.parentNode.style.height = 16;
+
+        // Restore the original cell data
+        div.innerHTML = div.__innerHTML;
+      }
+    },
+
+
+    members :
+    {
+      /**
+       */
+      render : function(cellInfo)
+      {  
+        var html = [ ];
+        var ret;
+
+        // Save the cell data for reformatting upon mouseover
+        userData =
+          " celldata='" + cellInfo.cellData.toUTCString() + "'";
+
+        // Create some event handlers
+        eventHandlers =
+          " onmouseover='DateCellRenderer.onmouseover(this, event)'" +
+          " onmouseout='DateCellRenderer.onmouseout(this, event)'";
+
+        // Render this cell
+        html.push("<div class='" + cellInfo.stylesheet + "'",
+                  userData,
+                  eventHandlers,
+                  ">",
+                  qx.html.String.escape(this._formatValue(cellInfo.cellData)),
+                  "</div>");
+
+        // We could explicitly override the cell's height but doing so prevents
+        // global changes such as for increased font size.  We'll leave it at
+        // the default in this cell renderer.
+
+        // cellInfo.height = 16;
+
+        // Give 'em what they came for!
+        return html.join("");
+      }
+    }
+  });
+
+  qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
