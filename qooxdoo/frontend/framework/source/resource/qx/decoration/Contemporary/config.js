@@ -1,32 +1,3 @@
-/* ************************************************************************
-
-   qooxdoo - the new era of web development
-
-   http://qooxdoo.org
-
-   Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
-
-   License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
-
-   Authors:
-     * Sebastian Werner (wpbasti)
-     * Fabian Jakobs (fjakobs)
-
-************************************************************************ */
-
-/**
- * Temporary class until the image information is generated automatically
- */
-qx.Class.define("qx.theme.contemporary.Sprites",
-{
-  statics :
-  {
-    __data :
-    {
         "button/Button-Checked-Fokus-tl.png": ["button/Button-Combined.png", 0, 0, 4, 4],
         "button/Button-Checked-Fokus-t.png": ["button/Button-Combined.png", 0, -4, 4, 4],
         "button/Button-Checked-Fokus-tr.png": ["button/Button-Combined.png", 0, -8, 4, 4],
@@ -111,22 +82,4 @@ qx.Class.define("qx.theme.contemporary.Sprites",
         "pane/Pane-l.png": ["pane/Pane-Combined-Center.png", 0, 0, 6, 238],
         "pane/Pane-r.png": ["pane/Pane-Combined-Center.png", -6, 0, 6, 238],
         "pane/Pane-Combined-Center.png": ["pane/Pane-Combined-Center.png", 0, 0, 12, 238],
-        "pane/Pane-l.png": ["pane/Pane-l.png", 0, 0, 6, 238],
-        "pane/Pane-c.png": ["pane/Pane-c.png", 0, 0, 40, 238],
         "pane/Pane-r.png": ["pane/Pane-r.png", 0, 0, 6, 238]
-    }
-  },
-
-
-  defer : function(statics)
-  {
-    var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/";
-    var mgr = qx.util.ImageRegistry.getInstance();
-
-    for (var image in statics.__data)
-    {
-      var data = statics.__data[image]
-      mgr.register(base + image, base + data[0], data[1], data[2], data[3], data[4]);
-    }
-  }
-});

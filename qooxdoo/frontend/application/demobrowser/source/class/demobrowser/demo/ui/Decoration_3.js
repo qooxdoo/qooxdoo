@@ -39,12 +39,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
 
       var container = new qx.ui.core.Widget().set({
         layout: layout,
-        decorator: new qx.ui.decoration.Uniform().set({
-          width: 1,
-          color: "black",
-          backgroundImage: qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/source/Tab-Background.png",
-          backgroundRepeat: "repeat-x"
-        }),
+        decorator: "pane",
         padding: 16,
         backgroundColor: "pane"
       });
