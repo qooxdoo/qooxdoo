@@ -63,7 +63,7 @@
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();
         var rowData = createRandomRows(500);
-        dataModel.setElements(rowData);
+        dataModel.addElements(rowData);
 
         // Tell Progressive about its data model
         progressive.setDataModel(dataModel);

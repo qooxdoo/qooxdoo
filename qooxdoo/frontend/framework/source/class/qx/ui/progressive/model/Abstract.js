@@ -29,7 +29,7 @@
 qx.Class.define("qx.ui.progressive.model.Abstract",
 {
   type       : "abstract",
-  extend     : qx.core.Object,
+  extend     : qx.core.Target,
 
 
   /**
@@ -40,16 +40,18 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
   },
 
 
+  events :
+  {
+    /** This event is fired when new data has been added to the data model */
+    "dataAvailable" : "qx.event.type.Event"
+  },
+
+
   members :
   {
-    getElement : function(index)
+    getNextElement : function()
     {
       throw new Error("getElement() is abstract");
     },
-
-    preFetch   : function(startElement, numElements)
-    {
-      // The default implementation doesn't require any prefetching.
-    }
   }
 });

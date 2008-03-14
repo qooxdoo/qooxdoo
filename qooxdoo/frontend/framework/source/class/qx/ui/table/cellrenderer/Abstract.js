@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      * @type member
      * @param cellInfo {Map} cellInfo of the cell
      * @return {String} The table cell HTML classes as string.
-     */
+b     */
     _getCellClass : function(cellInfo) {
       return "qooxdoo-table-cell";
     },

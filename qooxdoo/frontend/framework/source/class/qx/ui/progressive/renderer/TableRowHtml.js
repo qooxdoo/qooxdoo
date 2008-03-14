@@ -171,20 +171,27 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
       switch(element.location)
       {
       case "end":
+        // Append our new row to the container.
         state.container.getElement().appendChild(div);
         break;
 
       case "start":
+        // Get the container element
         var elem = state.container.getElement();
+
+        // Get its children array
         var children = elem.childNodes;
+
+        // Are there any children?
         if (children.length > 0)
         {
+          // Yup.  Insert our new row before the first child
           elem.insertBefore(div, children[0]);
           break;
         }
         else
         {
-          /* No children yet. */
+          /* No children yet.  We can append our new row. */
           elem.appendChild(div);
         }
         break;

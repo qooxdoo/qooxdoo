@@ -55,6 +55,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     // Initialize properties
     this.setContainer(this);
+
+    // We've not yet done our initial render
+    this.__bInitialRenderComplete = false;
+
+    // We're not currently rendering
+    this.__bRendering = false;
   },
 
 
@@ -118,19 +124,18 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     __renderElementBatch : function(state)
     {
-      // Prefetch the next batch
-      state.model.preFetch(state.current + state.batchSize, state.batchSize);
-
       for (var i = state.batchSize; i > 0; i--)
       {
         // Retrieve the current element
-        element = state.model.getElement(state.current);
-
-        // Are we done?
-        if (! element)
+        try
         {
-          // Yup.
+          element = state.model.getNextElement();
+        }
+        catch (e)
+        {
+          // No more elements.  We're done.
           this.debug("Render time: " + (new Date() - this.__t1) + "ms");
+          this.__bRendering = false;
           return;
         }
 
@@ -164,8 +169,16 @@ qx.Class.define("qx.ui.progressive.Progressive",
       return rendererData;
     },
 
-    render : function(userData)
+    render : function()
     {
+      // Prevent render calls while we're already rendering
+      if (this.__bRendering)
+      {
+        return;
+      }
+
+      this.__bRendering = true;
+
       var element;
       var renderer;
       var state =
@@ -180,12 +193,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
         // browser
         batchSize      : this.getBatchSize(),
 
-        // Current element to be rendered, updated by renderer.
-        current        : 0,
-
-        // User's data
-        userData       : userData,
-
         // Add a place for renderers' private data.  Each renderer should
         // place its own private data in the the state object area reserved
         // for that renderer's use: state.rendererData[element.renderer],
@@ -194,30 +201,41 @@ qx.Class.define("qx.ui.progressive.Progressive",
         rendererData   : this.__createStateRendererData()
       };
 
-      // Prefetch the first batch of data
-      state.model.preFetch(0, state.batchSize);
-
       // Record render start time
       this.__t1 = new Date();
 
       // Render the first batch of elements.  Subsequent batches will be via
       // timer started from this.__renderElementBatch().
-      //
-      // Ensure we leave enough time that 'this' has been rendered, so that
-      // this.getElement() is valid and has properties.  It's needed by some
-      // renderers.
-      //
-      // FIXME: Why isn't an event listener for "appear" an adequate delay???
-      //        (It's done with a timer like this in Table's Pane too.)
-      qx.client.Timer.once(function()
-                           {
-                             this.__renderElementBatch(state);
-                           },
-                           this, 10);
+      if (this.__bInitialRenderComplete)
+      {
+        this.__renderElementBatch(state);
+      }
+      else
+      {
+        // Ensure we leave enough time that 'this' has been rendered, so that
+        // this.getElement() is valid and has properties.  It's needed by some
+        // renderers.
+        //
+        // FIXME: Why isn't an event listener for "appear" an adequate delay???
+        //        (It's done with a timer like this in Table's Pane too.)
+        qx.client.Timer.once(function()
+                             {
+                               this.__renderElementBatch(state);
+                               this.__bInitialRenderComplete = true;
+                             },
+                             this, 10);
+      }
     },
 
     _applyDataModel : function(value, old)
     {
+      if (old)
+      {
+        old.removeEventListener("dataAvailable", this.render, this);
+        old.dispose();
+      }
+
+      value.addEventListener("dataAvailable", this.render, this);
     },
 
     _applyContainer : function(value, old)

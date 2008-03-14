@@ -36,31 +36,41 @@ qx.Class.define("qx.ui.progressive.model.Default",
   construct : function()
   {
     this.base(arguments);
-  },
 
-
-  properties :
-  {
-    /**
-     * The elements to be progressively renderered.  Each array element must
-     * be an object which contains at least two members: renderer name and
-     * data.
-     */
-    elements :
-    {
-      check : "Array",
-      init : [ ]
-    }
+    this.__elements = [ ];
   },
 
 
   members :
   {
     /**
+     * Add elements to be progressively renderered.  Each element must be an
+     * object which contains at least two members: renderer name and data.
+     *
+     * @param elems {Array}
+     *   An array of elements to be added to the element queue
      */
-    getElement : function(id)
+    addElements : function(elems)
     {
-      return this.getElements()[id];
+      // Add the new elements to our elements queue.
+      this.__elements = this.__elements.concat(elems);
+
+      // Tell Progressive that data is available
+      this.createDispatchEvent("dataAvailable");
+    },
+
+    /**
+     */
+    getNextElement : function(id)
+    {
+      // Do we have any remaining elements?
+      if (this.__elements.length > 0)
+      {
+        // Yup.  Give 'em the first one and remove it from our queue.
+        return this.__elements.shift();
+      }
+
+      throw "No more data";
     }
   }
 });
