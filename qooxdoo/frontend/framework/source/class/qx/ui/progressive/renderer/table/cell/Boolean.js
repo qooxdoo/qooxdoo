@@ -5,6 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
      2008 Derrell Lipman
 
    License:
@@ -13,6 +14,8 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+     * Til Schneider (til132)
+     * Carsten Lergenmueller (carstenl)
      * Derrell Lipman (derrell)
 
 ************************************************************************ */
