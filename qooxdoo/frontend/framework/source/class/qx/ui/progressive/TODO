@@ -1,5 +1,3 @@
-- port Table's cell renderers to be usable by Progressive's tables
-
 - write an example of a Remote data model class
 
 - show how to use Progressive to implement incremental loading of a page
