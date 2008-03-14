@@ -20,8 +20,8 @@
     <p>
       Example of Progressive rendering of a table with fancy handling of
       mouseover.  Try moving the mouse over the date column.  The
-      DateCellRenderer class which does the fancy handling is defined in
-      this example's source file.  Note that row height need not be constant!
+      DateCellRenderer class which does the fancy handling is defined in the
+      source file of this example.  Note that row height need not be constant!
     </p>
   </div>
 
@@ -126,48 +126,47 @@
 
     statics :
     {
-      onmouseover : function(div, e)
+      onmouseover : function(cellDiv)
       {
         // Save the original text color
-        div.__oldcolor = qx.html.Style.getStyleProperty(div, "color");
+        cellDiv.__oldcolor = qx.html.Style.getStyleProperty(cellDiv, "color");
 
         // Set the color temporarily to red
-        div.style.color = "rgb(255, 0, 0)";
+        cellDiv.style.color = "rgb(255, 0, 0)";
 
         // Resize the row to hold our expanded date
-        div.parentNode.style.height = 32;
+        cellDiv.parentNode.style.height = 32;
         
         // Save the original text
-        div.__innerHTML = div.innerHTML;
+        cellDiv.__innerHTML = cellDiv.innerHTML;
 
         // Generate an expanded date representation
-        var ms = Date.parse(div.attributes.getNamedItem("celldata").nodeValue);
+        var ms =
+          Date.parse(cellDiv.attributes.getNamedItem("celldata").nodeValue);
         var date = new Date(ms);
-        div.innerHTML = date.toUTCString() + "<br>" + date.toString();
+        cellDiv.innerHTML = date.toUTCString() + "<br>" + date.toString();
       },
 
-      onmouseout : function(div, event)
+      onmouseout : function(cellDiv)
       {
         // Restore the original color
-        div.style.color = div.__oldcolor;
+        cellDiv.style.color = cellDiv.__oldcolor;
 
         // Restore the original row height
-        div.parentNode.style.height = 16;
+        cellDiv.parentNode.style.height = 16;
 
         // Restore the original cell data
-        div.innerHTML = div.__innerHTML;
+        cellDiv.innerHTML = cellDiv.__innerHTML;
       }
     },
 
 
     members :
     {
-      /**
-       */
+      // overridden
       render : function(cellInfo)
       {  
         var html = [ ];
-        var ret;
 
         // Save the cell data for reformatting upon mouseover
         userData =
@@ -175,8 +174,8 @@
 
         // Create some event handlers
         eventHandlers =
-          " onmouseover='DateCellRenderer.onmouseover(this, event)'" +
-          " onmouseout='DateCellRenderer.onmouseout(this, event)'";
+          " onmouseover='DateCellRenderer.onmouseover(this)'" +
+          " onmouseout='DateCellRenderer.onmouseout(this)'";
 
         // Render this cell
         html.push("<div class='" + cellInfo.stylesheet + "'",
@@ -185,12 +184,6 @@
                   ">",
                   qx.html.String.escape(this._formatValue(cellInfo.cellData)),
                   "</div>");
-
-        // We could explicitly override the cell's height but doing so prevents
-        // global changes such as for increased font size.  We'll leave it at
-        // the default in this cell renderer.
-
-        // cellInfo.height = 16;
 
         // Give 'em what they came for!
         return html.join("");
