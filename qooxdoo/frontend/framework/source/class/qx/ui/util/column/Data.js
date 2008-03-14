@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007 Derrell Lipman
+     2007-2008 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -19,16 +19,31 @@
 
 /* ************************************************************************
 
-#module(table)
+#module(column)
 
 ************************************************************************ */
 
 /**
- * All of the resizing information about a column.  This is just here for
- * backward compatibility.  New applications should directly instantiate
- * {@link qx.ui.util.column.Data}.
+ * All of the resizing information about a column.
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
+qx.Class.define("qx.ui.util.column.Data",
 {
-  extend : qx.ui.util.column.Data
+  extend : qx.ui.core.Widget,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    // Assume equal flex width for all columns
+    this.setWidth("1*");
+  }
 });
