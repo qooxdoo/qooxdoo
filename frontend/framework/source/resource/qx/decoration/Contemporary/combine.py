@@ -31,7 +31,7 @@ def get_file_info(filename):
     return (width, height)
     
     
-def split_grid(file, source, dest, top, right, bottom, left):
+def split_grid(file, source, dest, border):
     
     source_file = os.path.join(source, file) + ".png"
     dest_file = os.path.join(dest, file)
@@ -41,17 +41,17 @@ def split_grid(file, source, dest, top, right, bottom, left):
     crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
     
     # split
-    os.system(crop_cmd % (source_file, 4, 4, 0, 0, dest_file + "-tl.png"))
-    os.system(crop_cmd % (source_file, 4, 4, 4, 0, dest_file + "-t.png"))
-    os.system(crop_cmd % (source_file, 4, 4, width-4, 0, dest_file + "-tr.png"))
+    os.system(crop_cmd % (source_file, border, border, 0, 0, dest_file + "-tl.png"))
+    os.system(crop_cmd % (source_file, border, border, border, 0, dest_file + "-t.png"))
+    os.system(crop_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
 
-    os.system(crop_cmd % (source_file, 4, height-8, 0, 4, dest_file + "-l.png"))
-    os.system(crop_cmd % (source_file, 40, height-8, 4, 4, dest_file + "-c.png"))
-    os.system(crop_cmd % (source_file, 4, height-8, width-4, 4, dest_file + "-r.png"))
+    os.system(crop_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
+    os.system(crop_cmd % (source_file, 40, height-2*border, border, border, dest_file + "-c.png"))
+    os.system(crop_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
 
-    os.system(crop_cmd % (source_file, 4, 4, 0, height-4, dest_file + "-bl.png"))
-    os.system(crop_cmd % (source_file, 4, 4, 4, height-4, dest_file + "-b.png"))
-    os.system(crop_cmd % (source_file, 4, 4, width-4, height-4, dest_file + "-br.png"))
+    os.system(crop_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
+    os.system(crop_cmd % (source_file, border, border, border, height-border, dest_file + "-b.png"))
+    os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
         
 
 def combine_images(files, combined, horizontal, config):
@@ -84,6 +84,11 @@ def combine_images(files, combined, horizontal, config):
     config.append('"%s": ["%s", 0, 0, %s, %s]' % (combined, combined, width, height))
         
 
+def add_file(file, config):
+    width, height = get_file_info(file)
+    config.append('"%s": ["%s", 0, 0, %s, %s]' % (file, file, width, height))
+
+
 def main():
     files = [
         "Button-Checked-Fokus",
@@ -97,27 +102,39 @@ def main():
     ]
     
     for file in files:
-        split_grid(file, "source", "button", 4, 4, 4, 4)
+        split_grid(file, "source", "button", 4)
+
+    config = []
     
     clips = []
     for file in files:
         for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
             clips.append("button/%s-%s.png" % (file, suffix))
-
-    config = []
     combine_images(clips, "button/Button-Combined.png", False, config)
                    
     clips = []
     for file in files:
         for suffix in ["l", "r"]:
             clips.append("button/%s-%s.png" % (file, suffix))            
-
     combine_images(clips, "button/Button-Combined-Center.png", True, config)
     
     for file in files:
-        path = "button/%s-c.png" % file
-        width, height = get_file_info(path)
-        config.append('"%s": ["%s", 0, 0, %s, %s]' % (path, path, width, height))
+        add_file("button/%s-c.png" % file, config)
+
+    # pane
+    split_grid("Pane", "source", "pane", 6)
+    clips = []
+    for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
+        clips.append("pane/%s-%s.png" % ("Pane", suffix))
+    combine_images(clips, "pane/Pane-Combined.png", False, config)
+    
+    clips = []
+    for suffix in ["l", "r"]:
+        clips.append("pane/%s-%s.png" % ("Pane", suffix))            
+    combine_images(clips, "pane/Pane-Combined-Center.png", True, config)  
+
+    add_file("pane/Pane-r.png", config)  
+
 
     print "        " + ",\n        ".join(config)
     
