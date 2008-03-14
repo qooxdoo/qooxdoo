@@ -43,24 +43,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
   {
     /**
      */
-    render : function(cellInfo)
-    {  
-      var html = [ ];
-      var ret;
-
-      // Render this cell
-      html.push("<div class='" + cellInfo.stylesheet + "'>",
-                qx.html.String.escape(this._formatValue(cellInfo.cellData)),
-                "</div>");
-
-      // We could explicitly override the cell's height but doing so prevents
-      // global changes such as for increased font size.  We'll leave it at
-      // the default in this cell renderer.
-
-      // cellInfo.height = 16;
-
-      // Give 'em what they came for!
-      return html.join("");
+    _getContentHtml : function(cellInfo)
+    {
+      return qx.html.String.escape(this._formatValue(cellInfo.cellData));
     },
 
 

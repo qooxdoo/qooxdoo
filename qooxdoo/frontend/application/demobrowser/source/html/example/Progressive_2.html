@@ -115,15 +115,6 @@
   {
     extend     : qx.ui.progressive.renderer.table.cell.Default,
 
-
-    /**
-     */
-    construct : function()
-    {
-      this.base(arguments);
-    },
-
-
     statics :
     {
       onmouseover : function(cellDiv)
@@ -163,29 +154,17 @@
 
     members :
     {
-      // overridden
-      render : function(cellInfo)
-      {  
+      _getCellDivDetails : function(cellInfo)
+      {
         var html = [ ];
 
         // Save the cell data for reformatting upon mouseover
-        userData =
-          " celldata='" + cellInfo.cellData.toUTCString() + "'";
+        html.push("celldata='" + cellInfo.cellData.toUTCString() + "' ");
 
         // Create some event handlers
-        eventHandlers =
-          " onmouseover='DateCellRenderer.onmouseover(this)'" +
-          " onmouseout='DateCellRenderer.onmouseout(this)'";
+        html.push("onmouseover='DateCellRenderer.onmouseover(this);' ",
+                  "onmouseout='DateCellRenderer.onmouseout(this);' ");
 
-        // Render this cell
-        html.push("<div class='" + cellInfo.stylesheet + "'",
-                  userData,
-                  eventHandlers,
-                  ">",
-                  qx.html.String.escape(this._formatValue(cellInfo.cellData)),
-                  "</div>");
-
-        // Give 'em what they came for!
         return html.join("");
       }
     }

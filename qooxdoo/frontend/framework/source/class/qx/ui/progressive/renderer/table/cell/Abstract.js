@@ -28,6 +28,7 @@
  */
 qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
 {
+  type       : "abstract",
   extend     : qx.core.Object,
 
 
@@ -41,11 +42,32 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
 
   members :
   {
+    _getCellDivDetails : function(cellInfo)
+    {
+      return "";
+    },
+
+    _getContentHtml : function(cellInfo)
+    {
+      throw new Error("_getContentHtml() is abstract");
+    },
+
     /**
      */
     render : function(cellInfo)
     {  
-      throw new Error("render() is abstract");
+      var html = [ ];
+
+      // Render this cell
+      html.push("<div class='",
+                cellInfo.stylesheet,
+                "' ",
+                this._getCellDivDetails(cellInfo),
+                ">",
+                this._getContentHtml(cellInfo),
+                "</div>");
+
+      return html.join("");
     }
   }
 });
