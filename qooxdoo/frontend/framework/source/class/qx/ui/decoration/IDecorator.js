@@ -19,26 +19,14 @@
 ************************************************************************ */
 
 /**
- * A decoration renderer is responsible for rendering a widget's background and
+ * A decorator is responsible for rendering a widget's background and
  * border. It is passed the widget's decoration element {@link qx.html.Element}
  * and configures it to display the decoration. Each time a widget is resized
- * the decorator's {@link #update} gets called.
- *
- * All Decoration renderer must implement this interface.
- *
- * A decorators must support the following three life cycles:
- * <ul>
- *   <li><b>Init</b>: If the widget did not have a decorator before, the
- *     {@link init} method is called once for the widget nd gives the decorator
- *     the opportunity to initialize the widget's decortation element.
- *   </li><li><b>Reuse</b>: If the widget's old decorator was an instance of the
- *     same decorator class, the {@link #reset} method of the old decorator
- *     and the {@link #init} method of the new decorator are <b>not</b> called.
- *   </li><li><b>Change</b>: If the widget's old decorator was not an instance of the
- *     same decorator class, the {@link #reset} method of the old decorator and
- *     the {@link #init} method of the new decorator is called.
- *   </li>
- * </ul>
+ * the decorator's {@link #render} gets called. Each decorator must also support
+ * the method {@link #reset} which is called when the decoration changed to
+ * another class. Switches of a decoration object of the same class should
+ * be supported by the {@link #render} method as well. This means that every
+ * update must apply all relevant styles for the decoration.
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",
 {
@@ -50,11 +38,12 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param element {qx.html.Element} The widget's decoration element.
      * @param width {Integer} The widget's new width
      * @param height {Integer} The widget's new height
-     * @param backgroundColor {String?null} an optional CSS background color value.
+     * @param backgroundColor {String} an optional CSS background color value.
      * @param updateSize {Boolean} Whether the size of the widget has changed and
-     *     the decoration size needs to be updated.
+     *     the decoration size needs to be updated. Is also <code>true</code> when
+     *     this decoration should be applied initially.
      * @param updateStyles {Boolean} Whether one of the decorator properties have
-     *     changed and the styling of the decoration needs to be updatet.
+     *     changed and the styling of the decoration needs to be updated.
      */
     render : function(element, width, height, backgroundColor, updateSize, updateStyles) {
       return true;
@@ -65,9 +54,9 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * Reset all properties set by the decoration on the widget's decoration
      * element.
      *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
+     * @param element {qx.html.Element} The widget's decoration element.
      */
-    reset : function(decorationElement) {
+    reset : function(element) {
       return true;
     },
 
