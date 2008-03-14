@@ -35,6 +35,16 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
 
   decorations :
   {
+    "pane" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/pane/Pane.png"
+      }
+    },
+
+
     "button-normal" :
     {
       decorator : qx.ui.decoration.Grid,
