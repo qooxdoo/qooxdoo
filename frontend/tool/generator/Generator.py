@@ -309,7 +309,7 @@ class Generator:
                 libpath = libpath[2:]
 
             # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources([lib], None)
+            resList  = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
             for res in resList:
                 resSource = res[0][:]
                 if resSource.startswith('.'+os.sep):
@@ -347,8 +347,7 @@ class Generator:
 
         # Get resource list
         libs = [{'path':'build', 'uri':'../build', 'encoding':'utf-8'}]  # use what's in the 'build' tree -- this depends on resource copying!!
-        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
-        resourceList = self._resourceHandler.findAllResources(libs, None)
+        resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
 
         # Generating boot script
         self._console.info("Generating boot script...")
@@ -363,7 +362,8 @@ class Generator:
         if format:
             bootContent = "\n\n".join(bootBlocks)
         else:
-            bootContent = self._optimizeJavaScript("".join(bootBlocks))
+            #bootContent = self._optimizeJavaScript("".join(bootBlocks))
+            bootContent = "".join(bootBlocks)
 
         # Resolve file name variables
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -440,8 +440,7 @@ class Generator:
 
         # Get resource list
         libs = self._config.get("library", [])
-        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
-        resourceList = self._resourceHandler.findAllResources(libs, None)
+        resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
         
         # Add data from settings, variants and packages
         sourceBlocks = []
@@ -839,6 +838,17 @@ class Generator:
         copier.do_work()
 
 
+    def _getDefaultResourceFilter(self):
+        '''Just a utility function to easily switch between resource filters in
+           all invocations to findAllResources(); also shows how a filter argument
+           might look like'''
+        #return None
+        #return self._resourceHandler.filterResourcesByClasslist(self._classList)
+        #return self._resourceHandler.filterResourcesByFilepath()
+        return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), 
+                                                               lambda x: not x)
+
+
 
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
@@ -897,7 +907,7 @@ class _ResourceHandler(object):
 
     def filterResourcesByClasslist(self, classes):
         # returns a function that takes a resource path and return true if one
-        # of the classes needs it
+        # of the <classes> needs it
 
         def filter(respath):
             return True
@@ -914,12 +924,17 @@ class _ResourceHandler(object):
         return filter1
     
     
-    def filterResourcesByFilepath(self):
-        #imgpatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
-        imgpatt = re.compile(r'.*/resource/.*')
+    def filterResourcesByFilepath(self, filepatt=None, inversep=lambda x: x):
+        """Returns a filter function that takes a resource path and returns
+           True/False, depending on whether the resource should be included.
+           <filepatt> pattern to match against a resource path, <inversep> if
+           the match result should be reversed (for exclusions)"""
+        if not filepatt:
+            #filepatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
+            filepatt = re.compile(r'.*/resource/.*')
         
         def filter(respath):
-            if re.search(imgpatt,respath):
+            if inversep(re.search(filepatt,respath)):
                 return True
             else:
                 return False
