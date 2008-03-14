@@ -2,8 +2,6 @@
 
 - write an example of a Remote data model class
 
-- add lots of documentation
-
 - disposers in all classes
   - do we need an unjoin() to counter join(), to clear all of the references
     to Progressive? 
