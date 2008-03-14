@@ -454,5 +454,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
       return styleString.join("");
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields("numericAllowed",
+                        "betweenAllowed",
+                        "conditions",
+                        "_defaultTextAlign",
+                        "_defaultColor",
+                        "_defaultFontStyle",
+                        "_defaultFontWeight");
   }
 });

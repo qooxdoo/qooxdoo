@@ -50,19 +50,19 @@ qx.Class.define("qx.ui.progressive.State",
      * The {@link qx.ui.progressive.Progressive} with which this {@link
      * #State} is associated. This property should be treated as read-only.
      */
-    progressive    : { },
+    progressive    : { nullable : true },
 
     /**
      * The data model being used. This property should be treated as
      * read-only.
      */
-    model          : { },
+    model          : { nullable : true },
 
     /**
      * The widget in which the element data should be rendered.  This property
      * should be treated as read-only.
      */
-    pane           : { },
+    pane           : { nullable : true },
 
     /**
      * How many elements are rendered at a time, before yielding to the
@@ -77,13 +77,32 @@ qx.Class.define("qx.ui.progressive.State",
      * state.getRendererData()[element.renderer].  This property should be
      * accessed only by renderers, and all elements of the array other than a
      * renderer's own element should be treated as read-only.
+     *
+     * IMPORTANT NOTE:  It is the renderer's responsibility to clean up its
+     *                  own mess.  If the renderer places data here, it should
+     *                  also add an event listener for "renderEnd" so that it
+     *                  can clean up.
      */
     rendererData   : { },
 
     /**
      * User data.  This is useful, for example, by communication between
      * the renderStart event listener and the renderers.
+     *
+     * IMPORTANT NOTE:  It is the user's responsibility to clean up his
+     *                  own mess.  If you place data here, you should
+     *                  also add an event listener for "renderEnd" to
+     *                  dispose any objects you placed here.
      */
     userData       : { }
+  },
+
+
+  destruct : function()
+  {
+    // Remove references to other objects
+    this.setProgressive(null);
+    this.setModel(null);
+    this.setPane(null);
   }
 });

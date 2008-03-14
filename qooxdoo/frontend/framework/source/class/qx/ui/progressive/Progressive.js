@@ -119,9 +119,9 @@ qx.Class.define("qx.ui.progressive.Progressive",
     "renderStart" : "qx.event.type.DataEvent",
 
     /**
-     * Event fired when rendering ends.
+     * Event fired when rendering ends.  The data is the state object.
      */
-    "renderEnd"   : "qx.event.type.Event",
+    "renderEnd"   : "qx.event.type.DataEvent",
 
     /**
      * This event is fired after each batch of elements is rendered, and
@@ -375,8 +375,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
           this.__bRendering = false;
 
           // Notify any progress handlers that are listening
-          this.createDispatchEvent("renderEnd");
+          this.createDispatchDataEvent("renderEnd", state);
 
+          // We don't need our render state any longer
+          state.dispose();
+
+          // See ya!
           return;
         }
 
@@ -444,6 +448,14 @@ qx.Class.define("qx.ui.progressive.Progressive",
    */
   destruct : function()
   {
+    // For each renderer...
+    for (var name in this._renderer)
+    {
+      // ... dispose it
+      this._renderer[name].dispose();
+    }
+
+    // Clean up references
     this._disposeFields("_renderer");
   }
 });

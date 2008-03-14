@@ -37,10 +37,28 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     this.base(arguments, pane);
 
     // If no header was specified, use null header
-    this._header = header || new qx.ui.progressive.headfoot.Null();
+    if (! header)
+    {
+      this.__nullHeader = new qx.ui.progressive.headfoot.Null();
+      this._header = this.__nullHeader;
+    }
+    else
+    {
+      this.__nullHeader = null;
+      this._header = header;
+    }
 
     // If no footer was specified, use a null footer
-    this._footer = footer || new qx.ui.progressive.headfoot.Null();
+    if (! footer)
+    {
+      this.__nullFooter = new qx.ui.progressive.headfoot.Null();
+      this._footer = this.__nullFooter;
+    }
+    else
+    {
+      this.__nullFooter = null;
+      this._footer = footer;
+    }
   },
 
 
@@ -69,5 +87,21 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     {
       return this._footer;
     }
+  },
+
+  destruct : function()
+  {
+    if (this.__nullHeader)
+    {
+      this.__nullHeader.dispose();
+      this.__nullHeader = null;
+    }
+
+    if (this.__nullFooter)
+    {
+      this.__nullFooter.dispose();
+      this.__nullFooter = null;
+    }
   }
+
 });

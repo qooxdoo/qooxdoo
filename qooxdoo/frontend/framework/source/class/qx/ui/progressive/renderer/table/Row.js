@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       this._progressive = progressive;
 
       // Save the name that Progressive knows us by
-      this._name = progressive;
+      this._name = name;
 
       // Arrange to be called when the window appears or is resized, so we
       // can set each style sheet's left and width field appropriately.
@@ -421,9 +421,53 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
   },
 
 
-  /**
-   */
   destruct : function()
   {
+    var name;
+
+    this._disposeFields("_name");
+    this._disposeObjects("_defaultCellRenderer");
+
+    for (name in this._renderers)
+    {
+      this._renderers[name] = null;
+    }
+
+    // Remove any style sheets that we had added
+    var tr = qx.ui.progressive.renderer.table.Row;
+    var hash = this._progressive.toHashCode();
+    if (tr.__clazz && tr.__clazz[hash])
+    {
+      // Remove the row stylesheet
+      if (tr.__clazz[hash].rowstylesheet)
+      {
+        // Get the style sheet rule name for this row
+        var stylesheet = ".qx-progressive-" + this._hash + "-row";
+
+        // Remove the style rule for this row
+        var tr = qx.ui.progressive.renderer.table.Row;
+        qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].rowstylesheet,
+                                      stylesheet);
+
+      }
+
+      // Remove each of the column style sheets
+      if (tr.__clazz[hash].cellstylesheet)
+      {
+        for (var i = tr.__clazz[hash].cellstylesheet.length - 1; i >= 0; i--)
+        {
+          // Get the style sheet rule name for this cell
+          var stylesheet = ".qx-progressive-" + this._hash + "-cell-" + i;
+          var rule = tr.__clazz[this._hash].cellstylesheet[i];
+
+          // Remove the style rule for this column
+          var tr = qx.ui.progressive.renderer.table.Row;
+          qx.html.StyleSheet.removeRule(rule, stylesheet);
+        }
+      }
+    }
+
+    this._renderers = null;
+    this._progressive = null;
   }
 });

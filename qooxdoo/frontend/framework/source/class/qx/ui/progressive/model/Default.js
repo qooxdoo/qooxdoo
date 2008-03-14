@@ -97,5 +97,10 @@ qx.Class.define("qx.ui.progressive.model.Default",
 
       return null;
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields("_elements");
   }
 });

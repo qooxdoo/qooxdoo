@@ -121,5 +121,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
         "padding-top:4px;";
       return ret;
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields("_iconUrlTrue",
+                        "_iconUrlFalse",
+                        "_iconUrlNull");
   }
 });

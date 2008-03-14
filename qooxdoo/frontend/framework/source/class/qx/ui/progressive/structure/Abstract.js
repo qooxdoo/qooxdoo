@@ -34,7 +34,16 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
   construct : function(pane)
   {
     // If no pane was specified, use a vertical box layout
-    this._pane = pane || new qx.ui.layout.VerticalBoxLayout();
+    if (! pane)
+    {
+      this.__vBoxLayout = new qx.ui.layout.VerticalBoxLayout();
+      this._pane = this.__vBoxLayout;
+    }
+    else
+    {
+      this.__vBoxLayout = null;
+      this._pane = pane;
+    }
     this._pane.setHeight("1*");
     this._pane.setOverflow("auto");
   },
@@ -52,5 +61,16 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     {
       return this._pane;
     }
+  },
+
+  destruct : function()
+  {
+    if (this.__vBoxLayout)
+    {
+      this.__vBoxLayout.dispose();
+      this.__vBoxLayout = null;
+    }
+    
+    this._pane = null;
   }
 });

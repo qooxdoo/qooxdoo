@@ -110,5 +110,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
       return imageData;
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields("_imageWidth",
+                        "imageHeight");
   }
 });

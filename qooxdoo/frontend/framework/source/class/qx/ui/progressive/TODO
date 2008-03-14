@@ -2,10 +2,6 @@
 
 - write an example of a Remote data model class
 
-- disposers in all classes
-  - do we need an unjoin() to counter join(), to clear all of the references
-    to Progressive? 
-
 - convert to use appearances instead of hard-coded styles
 
 - Someone will have to test this in Safari.
