@@ -26,7 +26,7 @@
 /**
  * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
-qx.Class.define("qx.ui.progressive.renderer.TableRow",
+qx.Class.define("qx.ui.progressive.renderer.TableRowWidget",
 {
   extend     : qx.ui.progressive.renderer.Abstract,
 
@@ -46,27 +46,6 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
     border.setRight(1, "solid", "#dddddd");
     border.setBottom(1, "solid", "#dddddd");
     this._border = border;
-  },
-
-
-  events :
-  {
-    /**
-     */
-  },
-
-
-  statics :
-  {
-    /**
-     */
-  },
-
-
-  properties :
-  {
-    /**
-     */
   },
 
 

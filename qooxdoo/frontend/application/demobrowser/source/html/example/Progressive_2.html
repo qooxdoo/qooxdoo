@@ -18,7 +18,7 @@
 <body>
   <div id="description">
     <p>
-      Example of Progressive rendering of a table using widgets for the table
+      Example of Progressive rendering of a table using pure HTML for the table
       rows.
     </p>
   </div>
@@ -45,7 +45,8 @@
             rowData.push(
                          {
                            renderer : "row",
-                           location : row == rowCount - 1 ? "start" : "end",
+//                           location : row == rowCount - 1 ? "start" : "end",
+                           location : "end",
                            data     : [
                                        nextId++,
                                        Math.random() * 10000,
@@ -69,43 +70,12 @@
         progressive.setDataModel(dataModel);
 
         // Specify the cell styles
-        var cellStyles =
-          [
-            {
-              width     : 200
-            },
-            {
-              width     : 200
-            },
-            {
-              width     : "1*"
-            },
-            {
-              width     : 200
-            }
-          ];
-        
-        // Specify the label styles
-        var labelStyles =
-          [
-            {
-              textAlign : "right"
-            },
-            {
-              textAlign : "right"
-            },
-            {
-              textAlign : "center",
-              font      : new qx.ui.core.Font(null, [ "monospace" ])
-            },
-            {
-            }
-          ];
+
+        var widths = [ 100, 200, 300, 200 ];
 
         // Instantiate a table row renderer
         var renderer =
-          new qx.ui.progressive.renderer.TableRowWidget(cellStyles,
-                                                        labelStyles);
+          new qx.ui.progressive.renderer.TableRowHtml(widths);
 
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", renderer);

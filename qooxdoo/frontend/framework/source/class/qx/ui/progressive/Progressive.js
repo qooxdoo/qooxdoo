@@ -130,8 +130,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         if (! element)
         {
           // Yup.
-t2 = new Date();
-this.debug("Render time: ", t2 - t1);
+          this.debug("Render time: " + (new Date() - this.__t1) + "ms");
           return;
         }
 
@@ -182,11 +181,23 @@ this.debug("Render time: ", t2 - t1);
         rendererData   : this.__createStateRendererData()
       };
 
-t1 = new Date();
+      // Prefetch the first batch of data
+      state.model.preFetch(0, state.batchSize);
+
+      // Record render start time
+      this.__t1 = new Date();
 
       // Render the first batch of elements.  Subsequent batches will be via
-      // timer timeout.
-      this.__renderElementBatch(state);
+      // timer started from this.__renderElementBatch().
+      //
+      // Ensure we leave enough time that 'this' has been rendered, so that
+      // this.getElement() is valid and has properties.  It's needed by some
+      // renderers.
+      qx.client.Timer.once(function()
+                           {
+                             this.__renderElementBatch(state);
+                           },
+                           this, 10);
     },
 
     _applyDataModel : function(value, old)
@@ -195,13 +206,16 @@ t1 = new Date();
 
     _applyContainer : function(value, old)
     {
-      if (old && old !== this)
+      if (old && old != this)
       {
         this.remove(old);
         old.dispose();
       }
 
-      this.add(value);
+      if (value != this)
+      {
+        this.add(value);
+      }
     }
   },
 
