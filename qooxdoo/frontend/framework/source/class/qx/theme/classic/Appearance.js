@@ -117,7 +117,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : "inset",
-          padding         : [ 1, 3 ],
+          padding         : [ 2, 3 ],
           textColor       : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : "field"
         };

@@ -54,7 +54,9 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       mgr.register(base + "button-r.png", base + "button-center-combined.png", -4, 0, 2, 16);
 
 
-      // Examples
+
+
+      // Grid 1
       var deco1 = new qx.ui.decoration.Grid(base + "button.png");
 
       var widget1 = new qx.ui.core.Widget();
@@ -63,7 +65,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       widget1.setDecorator(deco1);
       containerLayout.add(widget1);
 
-
       var button1 = new qx.ui.form.Button("Juhu");
       button1.setDecorator(deco1);
       button1.setTextColor("white");
@@ -71,21 +72,43 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       containerLayout.add(button1);
 
 
+      // Beveled 1
+      var deco2 = new qx.ui.decoration.Beveled("#2D405A", "white");
+      deco2.setBackgroundImage(base + "button-c.png");
+      deco2.setInnerOpacity(0.15);
 
-      var layout = new qx.ui.layout.Grid();
-      layout.add(new qx.ui.basic.Image(base + "button-tl.png"), 0, 0);
-      layout.add(new qx.ui.basic.Image(base + "button-t.png"), 0, 1);
-      layout.add(new qx.ui.basic.Image(base + "button-tr.png"), 0, 2);
-      layout.add(new qx.ui.basic.Image(base + "button-l.png"), 1, 0);
-      layout.add(new qx.ui.basic.Image(base + "button-c.png"), 1, 1);
-      layout.add(new qx.ui.basic.Image(base + "button-r.png"), 1, 2);
-      layout.add(new qx.ui.basic.Image(base + "button-bl.png"), 2, 0);
-      layout.add(new qx.ui.basic.Image(base + "button-b.png"), 2, 1);
-      layout.add(new qx.ui.basic.Image(base + "button-br.png"), 2, 2);
+      var widget2 = new qx.ui.core.Widget;
+      widget2.setWidth(200);
+      widget2.setHeight(50);
+      widget2.setDecorator(deco2);
+      containerLayout.add(widget2);
 
-      containerLayout.add(new qx.ui.core.Widget().set({
-        layout: layout
-      }));
+
+      // Beveled 2
+      var deco3Normal = new qx.ui.decoration.Beveled("#2D405A", "black");
+      deco3Normal.setInnerOpacity(0.15);
+
+      var deco3Focus = new qx.ui.decoration.Beveled("#2D405A", "#92B1DC");
+      deco3Focus.setInnerOpacity(1);
+
+      var widget3 = new qx.ui.form.TextField;
+      widget3.setAllowGrowY(false);
+      widget3.setBackgroundColor("white");
+      widget3.setDecorator(deco3Normal);
+      widget3.setWidth(140);
+      containerLayout.add(widget3);
+
+      var widget4 = new qx.ui.form.TextField;
+      widget4.setAllowGrowY(false);
+      widget4.setBackgroundColor("white");
+      widget4.setDecorator(deco3Normal);
+      widget4.setWidth(140);
+      containerLayout.add(widget4);
+
+      widget3.addListener("click", function() {
+        this.setDecorator(this.getDecorator() == deco3Normal ? deco3Focus : deco3Normal);
+      });
+
     }
   }
 });
