@@ -35,6 +35,77 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
 
   decorations :
   {
+    "button-normal" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Normal.png"
+      }
+    },
+
+    "button-normal-focus" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Normal-Fokus.png"
+      }
+    },
+
+    "button-over" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Hover.png"
+      }
+    },
+
+    "button-pressed" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Pressed.png"
+      }
+    },
+
+    "button-ckecked" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Checked.png"
+      }
+    },
+
+    "button-ckecked-focus" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Checked-Fokus.png"
+      }
+    },
+
+    "button-default" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Default.png"
+      }
+    },
+
+    "button-default-focus" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Default-Fokus.png"
+      }
+    }
 
   }
 });
