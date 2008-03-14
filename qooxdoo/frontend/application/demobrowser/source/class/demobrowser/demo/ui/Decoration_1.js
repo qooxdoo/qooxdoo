@@ -47,9 +47,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
 
       // auto size
       var box = new qx.ui.core.Widget().set({
-        decorator: "outset",
         padding: 5,
-        backgroundColor: "#CCC"
+        backgroundColor: "background"
       });
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
