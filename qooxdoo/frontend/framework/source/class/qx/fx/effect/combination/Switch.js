@@ -147,11 +147,11 @@ qx.Class.define("qx.fx.effect.combination.Switch",
     {
       this.base(arguments);
 
-      this._oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
+      var oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
 
       this._scaleEffect.afterFinishInternal = function()
       {
-        qx.bom.element.Style.set(this._element, "overflow", this._oldOverflow);
+        qx.bom.element.Style.set(this._element, "overflow", oldOverflow);
       };
 
     },
