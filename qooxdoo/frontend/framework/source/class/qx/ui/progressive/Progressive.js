@@ -23,8 +23,22 @@
 
 ************************************************************************ */
 
-/**
- * Progressive Renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+/*
+ * <i>Progressive</i>.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ *
+ * Follow progressive instructions provided by a data model.  A variable
+ * number of instructions are executed at one time, after which control is
+ * returned briefly to the browser.  This allows browser rendering between
+ * batches of instructions, improving the visual experience.
+ *
+ * <i>Progressive</i> may be used for various purposes.  Two predefined
+ * purposes for which "renderers" are provided, are a progressively-rendered
+ * table which allows variable row height, and a program load/initialization
+ * renderer with progress bar.  (Note that the term "renderer" is interpreted
+ * quite broadly.  A renderer needn't actually render; rather it is just some
+ * set of activities that takes place at one time, e.g a row of table data or
+ * a single widget added to the document or a sending a request to a server,
+ * etc.)
  */
 qx.Class.define("qx.ui.progressive.Progressive",
 {
@@ -32,6 +46,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
 
   /**
+   * @param structure {qx.ui.progressive.structure.Abstract}
    */
   construct : function(structure)
   {
@@ -40,7 +55,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     // Create an object in which we'll track renderers that have been added
     this._renderer = { };
 
-    // We want to use a Vertical Box Layout for our pane
+    // Prepare to have our pane structure added to us.
     this.set(
       {
         left            : 20,
@@ -60,7 +75,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
                             this.createDispatchDataEvent("widthChanged");
                           });
 
-    // Prepare our displayable structure
+    // Prepare our pane structure
     this._structure = structure;
     structure.applyStructure(this);
 
@@ -154,14 +169,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     "progressDetail" : "qx.event.type.DataEvent",
 
+      /**
+       * This event is fired when the Progressive first appears, and whenever
+       * the width of this Progressive changes.
+       */
     "widthChanged"   : "qx.event.type.Event"
-  },
-
-
-  statics :
-  {
-    /**
-     */
   },
 
 
@@ -176,8 +188,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
     /**
      * Number of elements to render at one time.  After this number of
      * elements has been rendered, control will be yielded to the browser
-     * allowing the elements to actually be displayed.  A short-interval
-     * timer will be set to cause remaining of the next batch of elements.
+     * allowing the elements to actually be displayed.  A short-interval timer
+     * will be set, to regain control to render the next batch of elements.
      */
     batchSize :
     {
