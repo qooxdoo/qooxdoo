@@ -103,6 +103,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
         this.base(arguments, cellInfo) +
         "padding-top:4px;";
       return ret;
-    },
+    }
   }
 });

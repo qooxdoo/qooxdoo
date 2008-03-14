@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
 
     _getContentHtml : function(cellInfo)
     {
-      throw new Error("_getContentHtml() is abstract");
+      return cellInfo.cellData || "";
     },
 
     /**

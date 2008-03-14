@@ -38,32 +38,25 @@
         var d = qx.ui.core.ClientDocument.getInstance();
 
         var nextId = 0;
-        var createRandomRows = function(rowCount) {
-          var rowData = [];
-          var now = new Date().getTime();
-          var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
-          for (var row = 0; row < rowCount; row++) {
-            var date = new Date(now + Math.random() * dateRange - dateRange / 2);
+        var createRandomRows = function(rowCount)
+          {
+          var rowData = [ ];
+          for (var row = 0; row < rowCount; row++)
+          {
+            var x = Math.random() * 1000;
             rowData.push(
                          {
                            renderer : "row",
                            location : "end",
-                           data     : [
-                                       nextId++,
-                                       (Math.floor(Math.random() * 2) == 0
-                                        ? false
-                                        : true),
-                                      ]
+                           data     : [ row, x, x ]
                          });
           }
+          
           return rowData;
         };
 
         var columnWidths = new qx.ui.util.column.Widths(3);
-        columnWidths.setWidth(0, 100);
-        columnWidths.setWidth(1, 100);
-
-        var columnNames = [ "Id", "Boolean" ];
+        var columnNames = [ "ID", "Number 1", "Number 2" ];
 
         // Instantiate a Progressive with a default structure with header
         var header = new qx.ui.progressive.headfoot.TableHeading(columnWidths,
@@ -76,7 +69,7 @@
 
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();
-        var rowData = createRandomRows(20);
+        var rowData = createRandomRows(100);
         dataModel.addElements(rowData);
 
         // Tell Progressive about its data model
@@ -89,9 +82,32 @@
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", rowRenderer);
 
-        // Tell the row renderer to use a boolean renderer for column 1
-        var boolRenderer = new qx.ui.progressive.renderer.table.cell.Boolean();
-        rowRenderer.addRenderer(1, boolRenderer);
+        // Tell the row renderer to use a conditional renderer for column 2
+        var r = new qx.ui.progressive.renderer.table.cell.Conditional(
+          "right", "", "", "");
+        
+        r.addNumericCondition(">", 0,   null, "FF0000", null, null);
+        r.addNumericCondition(">", 50,  null, "EE0011", null, null);
+        r.addNumericCondition(">", 100, null, "DD0022", null, null);
+        r.addNumericCondition(">", 150, null, "CC0033", null, null);
+        r.addNumericCondition(">", 200, null, "BB0044", null, null);
+        r.addNumericCondition(">", 250, null, "AA0055", null, null);
+        r.addNumericCondition(">", 300, null, "990066", null, null);
+        r.addNumericCondition(">", 350, null, "880077", null, null);
+        r.addNumericCondition(">", 400, null, "770088", null, null);
+        r.addNumericCondition(">", 450, null, "660099", null, null);
+        r.addNumericCondition(">", 500, null, "5500AA", null, null);
+        r.addNumericCondition(">", 550, null, "4400BB", null, null);
+        r.addNumericCondition(">", 600, null, "3300CC", null, null);
+        r.addNumericCondition(">", 650, null, "2200DD", null, null);
+        r.addNumericCondition(">", 700, null, "1100EE", null, null);
+        r.addNumericCondition(">", 750, null, "0000FF", null, null);
+        r.addNumericCondition(">", 800, null, "0033FF", null, null);
+        r.addNumericCondition(">", 850, null, "0066FF", null, null);
+        r.addNumericCondition(">", 900, null, "0099FF", null, null);
+        r.addNumericCondition(">", 950, "center", "00CCFF", null, "bold");
+
+        rowRenderer.addRenderer(2, r);
 
         d.add(progressive);
 
