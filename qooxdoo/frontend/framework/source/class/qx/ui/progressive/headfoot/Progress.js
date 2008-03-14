@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
     this.setHeight(16);
 
-    this._border = new qx.ui.core.Border(1, "solid", "#eeeeee");
+    this._border = new qx.ui.core.Border(1, "solid", "#cccccc");
     this._border.setWidthTop(1);
     this._border.setWidthLeft(0);
     this._border.setWidthBottom(0);
