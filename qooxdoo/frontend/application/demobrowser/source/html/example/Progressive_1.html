@@ -1,0 +1,117 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings =
+    {
+      "qx.disposerDebugLevel"     : 0
+    };
+    qxvariants =
+    {
+      "qx.debug" : "on"
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>Initial example of the Progressive renderer.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+
+        var nextId = 0;
+        var createRandomRows = function(rowCount) {
+          var rowData = [];
+          var now = new Date().getTime();
+          var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+          for (var row = 0; row < rowCount; row++) {
+            var date = new Date(now + Math.random() * dateRange - dateRange / 2);
+            rowData.push(
+                         {
+                           renderer : "row",
+                           data     : [
+                                       nextId++,
+                                       Math.random() * 10000,
+                                       date,
+                                       (Math.random() > 0.5)
+                                      ]
+                         });
+          }
+          return rowData;
+        };
+
+        // Instantiate a Progressive
+        var progressive = new qx.ui.progressive.Progressive();
+
+        // Instantiate a data model and populate it.
+        var dataModel = new qx.ui.progressive.model.Default();
+        var rowData = createRandomRows(500);
+        dataModel.setElements(rowData);
+
+        // Tell Progressive about its data model
+        progressive.setDataModel(dataModel);
+        
+        // Specify the cell styles
+        var cellStyles =
+          [
+            {
+              width     : 200
+            },
+            {
+              width     : 200
+            },
+            {
+              width     : "1*"
+            },
+            {
+              width     : 200
+            }
+          ];
+        
+        // Specify the label styles
+        var labelStyles =
+          [
+            {
+              textAlign : "right"
+            },
+            {
+              textAlign : "right"
+            },
+            {
+              textAlign : "center",
+              font      : new qx.ui.core.Font(null, [ "monospace" ])
+            },
+            {
+            }
+          ];
+
+        // Instantiate a table row renderer
+        var renderer =
+          new qx.ui.progressive.renderer.TableRow(cellStyles, labelStyles);
+        // Give Progressive the renderer, and assign a name
+        progressive.addRenderer("row", renderer);
+
+        d.add(progressive);
+
+        progressive.render();
+      }
+    }
+  });
+
+  qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
