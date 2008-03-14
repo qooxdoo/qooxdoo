@@ -632,18 +632,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
-    /** {qx.ui.decoration.IDecorator|null} the current decorator (may be null) */
-    __decorator : null,
-
-
-    /** {String} The current background color (CSS value) */
-    __backgroundColor : null,
-
-
-    /** {Boolean} Whether the styles of the decoration needs to be updatet */
-   __updateDecoratorStyles : false,
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -1589,17 +1577,25 @@ qx.Class.define("qx.ui.core.Widget",
      */
     updateDecoration : function(width, height, updateSize)
     {
+      var updateDecorator = this.__updateDecorator;
+      var initDecorator = this.__initDecorator;
+
       if (this.__decorator)
       {
-        this.__decorator.update(
-          this._decorationElement,
-          width, height,
-          this.__backgroundColor,
-          updateSize,
-          this.__updateDecoratorStyles
+        this.__decorator.render(
+          this._decorationElement,  width, height, this.__backgroundColor,
+          initDecorator || updateSize,
+          initDecorator || updateDecorator
         );
       }
-      delete this.__updateDecoratorStyles;
+
+      if (updateDecorator) {
+        delete this.__updateDecorator;
+      }
+
+      if (initDecorator) {
+        delete this.__initDecorator;
+      }
     },
 
 
@@ -1616,50 +1612,62 @@ qx.Class.define("qx.ui.core.Widget",
      * @param decorator {qx.ui.decoration.IDecorator} the decorator object
      * @return {void}
      */
-    _styleDecorator : function(decorator)
+    _styleDecorator : function(value)
     {
-      // decorator life cycle management
-      var oldDecorator = this.__decorator;
-      this.__decorator = decorator;
+      // Value life cycle management
+      var old = this.__decorator;
+      this.__decorator = value;
 
-      // create decotation element on demand
-      if (decorator && !this._decorationElement)
+      // Shorthands
+      var container = this._containerElement;
+      var decoration = this._decorationElement;
+
+      // Create decoration element on demand
+      if (value && !decoration)
       {
-        this._decorationElement = this.__createDecorationElement();
-        this._containerElement.add(this._decorationElement);
+        decoration = this._decorationElement = this.__createDecorationElement();
+        container.add(decoration);
       }
 
-      if (!decorator)
+      // If the new decorator is null, reset the old decorator and apply the
+      // background color to the content element
+      if (!value)
       {
-        // if the new decorator is null, reset the old decorator and apply the
-        // background color to the content element
-        if (oldDecorator) {
-          oldDecorator.reset(this._decorationElement);
+        if (old) {
+          old.reset(decoration);
         }
+
         if (this.__backgroundColor) {
-          this._containerElement.setStyle("backgroundColor", this.__backgroundColor);
+          container.setStyle("backgroundColor", this.__backgroundColor);
         }
       }
-      else if (!oldDecorator)
+
+      // If there was no old decorator, remove the background color from the
+      // container element and initialize the decorator
+      else if (!old)
       {
-        // if there was no old decorator, remove the background color from the
-        // container element and initialize the decorator
-        decorator.init(this._decorationElement);
+        this.__initDecorator = true;
+
         if (this.__backgroundColor) {
-          this._containerElement.removeStyle("backgroundColor");
+          container.removeStyle("backgroundColor");
         }
       }
-      else if (oldDecorator.classname !== decorator.classname)
+
+      // If both have different types reset the old one and initialize the
+      // new dcorator
+      else if (old.classname !== value.classname)
       {
-        // if both have different types reset the old one and initialize the
-        // new dcorator
-        oldDecorator.reset(this._decorationElement);
-        decorator.init(this._decorationElement);
+        this.__initDecorator = true;
+        old.reset(decoration);
       }
 
-      // the decoration styles must be updatet
-      this.__updateDecoratorStyles = true;
+      // If the class is identical, but the styles where changed.
+      else
+      {
+        this.__updateDecorator = true;
+      }
 
+      // Add to layout queue
       qx.ui.core.queue.Layout.add(this);
     },
 

@@ -101,31 +101,25 @@ qx.Class.define("qx.ui.decoration.Uniform",
   members :
   {
     // interface implementation
-    init : function(decorationElement) {
-      // empty
-    },
-
-
-    // interface implementation
-    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
       if (updateStyles)
       {
         var bgImage = this.getBackgroundImage();
-        decorationElement.setStyles({
-          "border": this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""),
-          "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
-          "backgroundRepeat": this.getBackgroundRepeat()
+        element.setStyles({
+          border: this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""),
+          backgroundImage: bgImage ? "url(" + bgImage + ")" : null,
+          backgroundRepeat: this.getBackgroundRepeat()
         });
       }
 
-      decorationElement.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
+      element.setStyle("backgroundColor", backgroundColor || this.__background || null);
 
       if (updateSize)
       {
         var inset = 2 * this.getWidth();
         qx.ui.decoration.Util.updateSize(
-          decorationElement,
+          element,
           width, height,
           inset, inset
         );
@@ -133,15 +127,18 @@ qx.Class.define("qx.ui.decoration.Uniform",
     },
 
 
-    // interface implementation
-    reset : function(decorationElement)
+    _emptyStyles :
     {
-      decorationElement.setStyles({
-        "border": null,
-        "backgroundImage": null,
-        "backgroundRepeat": null,
-        "backgroundColor": null
-      });
+      border: null,
+      backgroundImage: null,
+      backgroundRepeat: null,
+      backgroundColor: null
+    },
+
+
+    // interface implementation
+    reset : function(element) {
+      element.setStyles(this._emptyStyles);
     },
 
 
@@ -212,7 +209,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
      */
     _changeBackgroundColor : function(color)
     {
-      this.__bgColor = color;
+      this.__background = color;
       qx.ui.core.queue.Decorator.add(this);
     }
   }
