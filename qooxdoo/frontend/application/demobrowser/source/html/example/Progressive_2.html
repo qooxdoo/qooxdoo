@@ -57,26 +57,19 @@
           return rowData;
         };
 
-        var columnStyles =
-          [
-            {
-              width : 100
-            },
-            {
-              width : 200,
-              "text-align" : "right"
-            },
-            {
-              width : 300
-            }
-          ];
+        columnWidths = [ ];
+        columnWidths[0] = new qx.ui.util.column.Data();
+        columnWidths[1] = new qx.ui.util.column.Data();
+        columnWidths[2] = new qx.ui.util.column.Data();
+        
+// Add a resize behavior class
 
         var columnNames = [ "Id", "Number", "Date" ];
 
         // Instantiate a Progressive with a default structure with header
-        var header = new qx.ui.progressive.headfoot.TableHeading(columnStyles,
+        var header = new qx.ui.progressive.headfoot.TableHeading(columnWidths,
                                                                  columnNames);
-        var footer = new qx.ui.progressive.headfoot.Progress(columnStyles,
+        var footer = new qx.ui.progressive.headfoot.Progress(columnWidths,
                                                              columnNames);
         var structure = new qx.ui.progressive.structure.Default(header,
                                                                 footer);
@@ -92,9 +85,27 @@
 
         // Specify the cell styles
 
+        // Column styles for rendering data.  Excludes width, min-width and
+        // max-width as those are handled by columnWidths.
+        var columnStyles =
+          [
+            {
+              width : 100
+            },
+            {
+              width : 200,
+              "text-align" : "right"
+            },
+            {
+              width : 300
+            }
+          ];
+
+
         // Instantiate a table row renderer
         var renderer =
-          new qx.ui.progressive.renderer.TableRowHtml(columnStyles);
+          new qx.ui.progressive.renderer.TableRowHtml(columnWidths,
+                                                      columnStyles);
 
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", renderer);

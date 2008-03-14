@@ -30,9 +30,10 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
-  construct : function(columnStyleArr, labelArr)
+  construct : function(columnWidths, labelArr)
   {
     this.base(arguments);
+    this._columnWidths = columnWidths;
 
     this.setHeight(16);
 
@@ -42,20 +43,6 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this._border.setWidthBottom(0);
     this.setBorder(this._border);
     
-    // Use the same default column width as the standard table row renderer
-    var defaultWidth = qx.ui.progressive.renderer.TableRowHtml.defaultWidth;
-    var width = 0;
-
-    // Determine the total width that we'll need
-    for (var i = 0; i < columnStyleArr.length; i++)
-    {
-      // Cumulate the width
-      width += (columnStyleArr[i].width || defaultWidth);
-    }
-
-    // Set the width of the progress bar
-    this.setWidth(width);
-
     // We're initially invisible
     this.setDisplay(false);
   },
@@ -66,6 +53,9 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     {
       // Save the progressive handle
       this.base(arguments, progressive);
+
+      // Save the Progressive to which we're joined
+      this._progressive = progressive;
 
       // Listen for the "renderStart" event, to save the number of elements on
       // the queue, and to set ourself visible
@@ -85,8 +75,10 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                        e.getData().remaining / this.__total;
                                      var borderWidth =
                                        Math.floor(this.getWidth() * complete);
-                                     this.debug("borderWidth",borderWidth);
-                                     this._border.setWidthRight(borderWidth);
+                                     if (! isNaN(borderWidth))
+                                     {
+                                       this._border.setWidthRight(borderWidth);
+                                     }
                                    },
                                    this);
 
@@ -97,6 +89,58 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                      this.setDisplay(false);
                                    },
                                    this);
+
+      // Arrange to be called when the window appears or is resized, so we
+      // can set each style sheet's left and width field appropriately.
+      progressive.addEventListener("widthChanged",
+                                   this._resizeColumns,
+                                   this);
+    },
+
+    _resizeColumns : function(e)
+    {
+      var width =
+        (! this._progressive.getElement()
+         ? 0
+         : this._progressive.getInnerWidth()) -
+        qx.ui.core.Widget.SCROLLBAR_SIZE
+
+      // Compute the column widths
+      qx.ui.util.column.FlexWidth.compute(this._columnWidths, width);
+
+      // Use the same default column width as the standard table row renderer
+      var width = 0;
+      var colWidth;
+      var columnData;
+
+      // Determine the total width that we'll need
+      for (var i = 0; i < columnWidths.length; i++)
+      {
+        // Get this column data
+        columnData = columnWidths[i];
+
+        // Is this column a flex width?
+        if (columnData._computedWidthTypeFlex)
+        {
+          // Yup.  Set the width to the calculated width value based on flex
+          colWidth = columnData._computedWidthFlexValue;
+        }
+        else if (columnData._computedWidthTypePercent)
+        {
+          // Set the width to the calculated width value based on percent
+          colWidth = columnData._computedWidthPercentValue;
+        }
+        else
+        {
+          colWidth = columnData.getWidth();
+        }
+
+        // Cumulate the width
+        width += colWidth;
+      }
+
+      // Set the width of the progress bar
+      this.setWidth(width);
     }
-  }
+  },
 });

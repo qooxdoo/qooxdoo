@@ -394,9 +394,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // Compute the column widths
       qx.ui.util.column.FlexWidth.compute(columns, width);
 
-      // *************************************************************
-      // 6. Set the column widths to what we have calculated
-      // *************************************************************
+      // ************************************************
+      // Set the column widths to what we have calculated
+      // ************************************************
       for (i=0; i<visibleColumnsLength; i++)
       {
         var colWidth;

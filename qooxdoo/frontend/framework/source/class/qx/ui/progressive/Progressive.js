@@ -53,6 +53,13 @@ qx.Class.define("qx.ui.progressive.Progressive",
         backgroundColor : "white"
       });
 
+    // Generate a widthChanged event when we first appear
+    this.addEventListener("appear",
+                          function(e)
+                          {
+                            this.createDispatchDataEvent("widthChanged");
+                          });
+
     // Prepare our displayable structure
     this._structure = structure;
     structure.applyStructure(this);
@@ -145,7 +152,9 @@ qx.Class.define("qx.ui.progressive.Progressive",
      *       changes such as progress bars are being updated, use the
      *       "progress" event.
      */
-    "progressDetail" : "qx.event.type.DataEvent"
+    "progressDetail" : "qx.event.type.DataEvent",
+
+    "widthChanged"   : "qx.event.type.Event"
   },
 
 
@@ -188,6 +197,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     addRenderer : function(name, renderer)
     {
       this._renderer[name] = renderer;
+      renderer.join(this);
     },
 
     removeRenderer : function(name)
@@ -291,6 +301,13 @@ qx.Class.define("qx.ui.progressive.Progressive",
                              },
                              this, 10);
       }
+    },
+
+    // overridden
+    _changeInnerWidth : function(newValue, oldValue)
+    {
+      this.base(arguments, newValue, oldValue);
+      this.createDispatchDataEvent("widthChanged");
     },
 
     _applyDataModel : function(value, old)

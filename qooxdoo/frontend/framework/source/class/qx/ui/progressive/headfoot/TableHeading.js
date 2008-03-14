@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
-  construct : function(columnStyleArr, labelArr)
+  construct : function(columnWidths, labelArr)
   {
     this.base(arguments);
 
@@ -44,9 +44,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     
     var label;
 
-    // Use the same default column width as the standard table row renderer
-    var defaultWidth = qx.ui.progressive.renderer.TableRowHtml.defaultWidth;
-
     // For each label...
     for (var i = 0; i < labelArr.length; i++)
     {
@@ -54,7 +51,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       label = new qx.ui.basic.Atom(labelArr[i]);
 
       // Use the width of the corresponding column
-      label.setWidth(columnStyleArr[i].width || defaultWidth);
+      label.setWidth(columnWidths[i].getWidth());
 
       // Set borders for the headings
       label.setBorder(border);

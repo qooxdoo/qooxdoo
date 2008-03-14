@@ -33,23 +33,18 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
 
   /**
    */
-  construct : function(columnStyleArr)
+    construct : function(columnWidthArr, columnStyleArr)
   {
     this.base(arguments);
 
-    // Save the column and label styles
-    this._columnStyle = columnStyleArr;
+    // Save the column widths
+    this._columnWidths = columnWidthArr;
 
-    var trh = qx.ui.progressive.renderer.TableRowHtml;
-    if (!trh.__clazz)
-    {
-      trh.__clazz = this.self(arguments);
-      var stylesheet =
-        ".qooxdoo-progressive-trh-cell {" +
-        trh.__tableCellStyleSheet +
-        "}";
-      trh.__clazz.stylesheet = qx.html.StyleSheet.createElement(stylesheet);
-    }
+    // Save the column styles
+    this._columnStyles = columnStyleArr;
+
+    // We don't yet know who our Progressive will be
+    this._progressive = null;
   },
 
 
@@ -74,50 +69,62 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         (qx.core.Variant.isSet("qx.client", "mshtml")
          ? ''
          : ';-moz-user-select:none;'),
-
-    /** Default column width, if not otherwise specified */
-    defaultWidth : 200
   },
 
   members :
   {
-    /**
-     * Formats a value.
-     */
-    _formatValue : function(value)
+    join : function(progressive)
     {
-      var ret;
-
-      if (value == null)
+      // Are we already joined?
+      if (this._progressive)
       {
-        return "";
+        // Yup.  Let 'em know they can't do that.
+        throw new Error("Renderer is already joined to a Progressive.");
       }
 
-      if (typeof value == "string")
+      // Save the Progressive to which we're joined
+      this._progressive = progressive;
+
+      // Arrange to be called when the window appears or is resized, so we
+      // can set each style sheet's left and width field appropriately.
+      progressive.addEventListener("widthChanged",
+                                   this._resizeColumns,
+                                   this);
+
+      // If we haven't created style sheets for this table yet...
+      var trh = qx.ui.progressive.renderer.TableRowHtml;
+      if (!trh.__clazz)
       {
-        return value;
+        trh.__clazz = { };
       }
-      else if (typeof value == "number")
+
+      var hash = progressive.toHashCode();
+      if (!trh.__clazz[hash])
       {
-        if (! qx.ui.progressive.renderer.TableRowHtml._numberFormat)
+        // ... then do it now.
+        trh.__clazz[hash] =
+          {
+            stylesheet : [ ]
+          };
+        for (var i = 0; i < this._columnWidths.length; i++)
         {
-          var numberFormat = new qx.util.format.NumberFormat();
-          numberFormat.setMaximumFractionDigits(2);
-          qx.ui.progressive.renderer.TableRowHtml._numberFormat = numberFormat;
+          var stylesheet =
+            ".qx-progressive-" + hash + "-cell-" + i + " {" +
+            trh.__tableCellStyleSheet +
+            "}";
+          trh.__clazz[hash].stylesheet[i] =
+            qx.html.StyleSheet.createElement(stylesheet);
         }
-        ret =
-          qx.ui.progressive.renderer.TableRowHtml._numberFormat.format(value);
-      }
-      else if (value instanceof Date)
-      {
-        ret = qx.util.format.DateFormat.getDateInstance().format(value);
-      }
-      else
-      {
-        ret = value;
-      }
 
-      return ret;
+        // Save the hash too
+        this._hash = hash;
+
+        // Arrange to be called when the window appears or is resized, so we
+        // can set each style sheet's left and width field appropriately.
+        progressive.addEventListener("widthChanged",
+                                     this._resizeColumns,
+                                     this);
+      }
     },
 
     /**
@@ -130,38 +137,41 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
       var html = [ ];
 
       // For each cell...
-      for (var left = 0,
-             i = 0;
-           i < data.length;
-           left += width,
-             i++)
+      for (i = 0; i < data.length; i++)
       {
-        var styles = this._columnStyle[i];
-
-        // Provide a default in case it's not provided
-        var width = qx.ui.progressive.renderer.TableRowHtml.defaultWidth;
+        var stylesheet = "qx-progressive-" + this._hash + "-cell-" + i;
 
         // Render this cell
-        html.push("<div class='qooxdoo-progressive-trh-cell'",
-                  "style='",
-                  "left:", left, "px;");
+        html.push("<div class='" + stylesheet + "'");
 
         // Use the user-specified column styles
-        for (var attr in styles)
+        if (this._columnStyles && this._columnStyles[i])
         {
-          if (attr == "width")
+          var styleHtml = [ ];
+          styles = this._columnStyles[i];
+          for (var attr in styles)
           {
-            width = styles[attr];
+            // Ignore width, min-width, and max-width.  They're handled by the
+            // columnWidths parameter to the constructor via style sheet
+            // changes.
+            if (attr == "width" || attr == "min-width" || attr == "max-width")
+            {
+              continue;
+            }
+
+            styleHtml.push(attr, ":", styles[attr], ";");
           }
-          else
+
+          // If there were any styles specified...
+          if (styleHtml.length > 0)
           {
-            html.push(attr, ":", styles[attr], ";");
+            // ... then add them to our html
+            html.push("style='", styleHtml.join(""), "'");
           }
         }
 
-        // Now that we have the width (provided or default), set it
-        html.push("width:", width,
-                  "'>",
+        // Add the data, and then we're alldone.
+        html.push(">",
                   qx.html.String.escape(this._formatValue(data[i])),
                   "</div>");
       }
@@ -203,6 +213,107 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
 
       default:
         throw new Error("Invalid location: " + element.location);
+      }
+    },
+
+    /**
+     * Formats a value.
+     */
+    _formatValue : function(value)
+    {
+      var ret;
+
+      if (value == null)
+      {
+        return "";
+      }
+
+      if (typeof value == "string")
+      {
+        return value;
+      }
+      else if (typeof value == "number")
+      {
+        if (! qx.ui.progressive.renderer.TableRowHtml._numberFormat)
+        {
+          var numberFormat = new qx.util.format.NumberFormat();
+          numberFormat.setMaximumFractionDigits(2);
+          qx.ui.progressive.renderer.TableRowHtml._numberFormat = numberFormat;
+        }
+        ret =
+          qx.ui.progressive.renderer.TableRowHtml._numberFormat.format(value);
+      }
+      else if (value instanceof Date)
+      {
+        ret = qx.util.format.DateFormat.getDateInstance().format(value);
+      }
+      else
+      {
+        ret = value;
+      }
+
+      return ret;
+    },
+
+    _resizeColumns : function(e)
+    {
+      var width =
+        (! this._progressive.getElement()
+         ? 0
+         : this._progressive.getInnerWidth()) -
+        qx.ui.core.Widget.SCROLLBAR_SIZE;
+      
+      // Compute the column widths
+      qx.ui.util.column.FlexWidth.compute(this._columnWidths, width);
+
+      // Reset each of the column style sheets to deal with width changes
+      for (var i = 0,
+             left = 0;
+           i < this._columnWidths.length;
+           i++,
+             left += width)
+      {
+        // Get the style sheet rule name for this cell
+        var stylesheet = ".qx-progressive-" + this._hash + "-cell-" + i;
+
+        // Remove the style rule for this column
+        var trh = qx.ui.progressive.renderer.TableRowHtml;
+        qx.html.StyleSheet.removeRule(trh.__clazz[this._hash].stylesheet[i],
+                                      stylesheet);
+
+        // Get this column data.
+        var columnData = this._columnWidths[i];
+
+        //
+        // Get the width of this column.
+        //
+        
+        // Is this column a flex width?
+        if (columnData._computedWidthTypeFlex)
+        {
+          // Yup.  Set the width to the calculated width value based on flex
+          width = columnData._computedWidthFlexValue;
+        }
+        else if (columnData._computedWidthTypePercent)
+        {
+          // Set the width to the calculated width value based on percent
+          width = columnData._computedWidthPercentValue;
+        }
+        else
+        {
+          width = columnData.getWidth();
+        }
+
+        // Create the new rule, based on calculated widths
+        var rule =
+          trh.__tableCellStyleSheet +
+          "left: " + left + ";" +
+          "width: " + width + ";";
+
+        // Apply the new rule
+        qx.html.StyleSheet.addRule(trh.__clazz[this._hash].stylesheet[i],
+                                   stylesheet,
+                                   rule);
       }
     }
   },
