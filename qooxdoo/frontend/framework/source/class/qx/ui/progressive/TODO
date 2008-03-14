@@ -1,7 +1,3 @@
-- move Progressive_1.html into example, and add text to indicate it's too slow
-
-- add TableRowWidget class directly into Progressive_1.html
-
 - namespace progressive.renderer.table.*
   - rename TableRowHtml to TableRow
   - add namespace progressive.renderer.cell
