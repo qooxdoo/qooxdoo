@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.util.column.Widths",
       this._columnData[column].setMinWidth(width);
     },
       
-    setMinWidth : function(column, width)
+    setMaxWidth : function(column, width)
     {
       if (column > this._columnData.length - 1 || column < 0)
       {

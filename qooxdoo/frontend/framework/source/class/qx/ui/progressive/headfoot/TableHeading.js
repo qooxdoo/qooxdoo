@@ -34,6 +34,8 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
   {
     this.base(arguments);
 
+    this._columnWidths = columnWidths;
+    
     this.setHeight(16);
 
     var border = new qx.ui.core.Border(1, "solid", "#eeeeee");
@@ -42,7 +44,10 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     border.setWidthBottom(2);
     border.setColorBottom("#aaaaaa");
     
-    var label;
+    // Create a place to put labels
+    this._labels = [ ];
+
+    // Get the column width data
     var data = columnWidths.getData();
 
     // For each label...
@@ -59,6 +64,68 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
       // Add the label to this heading.
       this.add(label);
+
+      // Save this label so we can resize it later
+      this._labels[i] = label;
+    }
+  },
+
+  members :
+  {
+    join : function(progressive)
+    {
+      // Save the progressive handle
+      this.base(arguments, progressive);
+
+      // Arrange to be called when the window appears or is resized, so we
+      // can set each style sheet's left and width field appropriately.
+      progressive.addEventListener("widthChanged",
+                                   this._resizeColumns,
+                                   this);
+    },
+
+    _resizeColumns : function(e)
+    {
+      var width =
+        (! this._progressive.getElement()
+         ? 0
+         : this._progressive.getInnerWidth()) -
+        qx.ui.core.Widget.SCROLLBAR_SIZE
+
+        // Compute the column widths
+        qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(),
+                                            width);
+
+
+      // Get the column width data
+      var data = this._columnWidths.getData();
+      var label;
+      var columnData;
+
+      // For each label...
+      for (var i = 0; i < data.length; i++)
+      {
+        // ... reset the width of the corresponding column (label)
+        columnData = data[i];
+
+        // Is this column a flex width?
+        if (columnData._computedWidthTypeFlex)
+        {
+          // Yup.  Set the width to the calculated width value based on flex
+          width = columnData._computedWidthFlexValue;
+        }
+        else if (columnData._computedWidthTypePercent)
+        {
+          // Set the width to the calculated width value based on percent
+          width = columnData._computedWidthPercentValue;
+        }
+        else
+        {
+          width = columnData.getWidth();
+        }
+
+        this._labels[i].setWidth(width);
+      }
     }
   }
 });

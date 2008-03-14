@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
     this.base(arguments);
 
     // Save the column widths
-    this._columnWidths = columnWidth;
+    this._columnWidths = columnWidths;
 
     // Save the column styles
     this._columnStyles = columnStyles;

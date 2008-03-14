@@ -54,9 +54,6 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       // Save the progressive handle
       this.base(arguments, progressive);
 
-      // Save the Progressive to which we're joined
-      this._progressive = progressive;
-
       // Listen for the "renderStart" event, to save the number of elements on
       // the queue, and to set ourself visible
       progressive.addEventListener("renderStart",
@@ -105,7 +102,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
          : this._progressive.getInnerWidth()) -
         qx.ui.core.Widget.SCROLLBAR_SIZE
 
-      // Compute the column widths
+        // Compute the column widths
         qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(),
                                             width);
 

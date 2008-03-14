@@ -58,6 +58,11 @@
         };
 
         var columnWidths = new qx.ui.util.column.Widths(3);
+        columnWidths.setWidth(0, 100);
+        columnWidths.setWidth(1, "1*");
+//        columnWidths.setMaxWidth(1, 200);
+        columnWidths.setWidth(2, 300);
+
         var columnNames = [ "Id", "Number", "Date" ];
 
         // Instantiate a Progressive with a default structure with header
@@ -81,19 +86,11 @@
 
         // Column styles for rendering data.  Excludes width, min-width and
         // max-width as those are handled by columnWidths.
-        var columnStyles =
-          [
-            {
-              width : 100
-            },
-            {
-              width : 200,
-              "text-align" : "right"
-            },
-            {
-              width : 300
-            }
-          ];
+        var columnStyles = [ ];
+        columnStyles[1] =
+          {
+            "text-align" : "right"
+          };
 
 
         // Instantiate a table row renderer
