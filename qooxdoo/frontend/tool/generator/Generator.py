@@ -845,8 +845,11 @@ class Generator:
         #return None
         #return self._resourceHandler.filterResourcesByClasslist(self._classList)
         #return self._resourceHandler.filterResourcesByFilepath()
-        return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), 
-                                                               lambda x: not x)
+        if self._config.get("copy-resources/resource-filter", False):
+            return self._resourceHandler.filterResourcesByClasslist(self._classList)
+        else:
+            return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), 
+                                                                   lambda x: not x)
 
 
 
@@ -913,10 +916,10 @@ class _ResourceHandler(object):
             return True
 
         resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
-        respatt = re.compile(r'[^/]+?/')
+        respatt = re.compile(r'[^/]+?/')  # everything before the first slash
         def filter1(respath):
             for res in resList:
-                res1 = respatt.sub('',res,1)
+                res1 = respatt.sub('',res,1)  # strip off e.g 'qx.icontheme/'...
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
             return False
@@ -953,6 +956,7 @@ class _ResourceHandler(object):
             self._genobj._console.debug("%s: %s" % (clazz, repr(classRes)))
             for res in classRes:
                 # here it might need some massaging of 'res' before lookup and append
+                res = re.sub(r'\*', ".*", res)
                 if res not in result:
                     result.append(res)
 
