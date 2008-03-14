@@ -115,7 +115,7 @@
 
             // Center ourself
             var d = qx.ui.core.ClientDocument.getInstance();
-            var progressive = e.getData().state.progressive;
+            var progressive = e.getData().state.getProgressive();
 
             var left = (d.getClientWidth() - progressive.getBoxWidth()) / 2;
             var top = (d.getClientHeight() - progressive.getBoxHeight()) / 2;
@@ -127,10 +127,10 @@
               });
 
             // Save our context in the userData field of the state object.
-            state.userData.context = this.context;
+            state.getUserData().context = this.context;
 
             // Also save the number of elements for our progress bar usage.
-            state.userData.initialNum = initialNum;
+            state.getUserData().initialNum = initialNum;
           },
           this);
 

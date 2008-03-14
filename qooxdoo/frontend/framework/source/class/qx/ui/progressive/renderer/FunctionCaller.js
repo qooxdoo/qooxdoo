@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.progressive.renderer.FunctionCaller",
      */
     render : function(state, element)
     {
-      element.data(state.userData);
+      element.data(state.getUserData());
     }
   }
 });

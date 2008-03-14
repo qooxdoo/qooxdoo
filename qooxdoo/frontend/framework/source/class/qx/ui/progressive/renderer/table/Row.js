@@ -201,9 +201,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       // Initialize row counter, if necessary.  We'll use this for shading
       // alternate rows.
-      if (state.rendererData[this._name] === undefined)
+      if (state.getRendererData()[this._name] === undefined)
       {
-        state.rendererData[this._name] =
+        state.getRendererData()[this._name] =
           {
             end   : 0,
             start : 1,
@@ -252,14 +252,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       div.innerHTML = html.join("");
 
       // Get a reference to our renderer data
-      var rendererData = state.rendererData[this._name];
+      var rendererData = state.getRendererData()[this._name];
 
       // Add this row to the table
       switch(element.location)
       {
       case "end":
         // Determine color of row based on state of last added row
-        var index = state.rendererData[this._name].end;
+        var index = state.getRendererData()[this._name].end;
 
         // Set the background color of this row
         div.style.backgroundColor =
@@ -269,12 +269,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         rendererData.end = (index == 0 ? 1 : 0);
 
         // Append our new row to the pane.
-        state.pane.getElement().appendChild(div);
+        state.getPane().getElement().appendChild(div);
         break;
 
       case "start":
         // Get the pane element
-        var elem = state.pane.getElement();
+        var elem = state.getPane().getElement();
 
         // Get its children array
         var children = elem.childNodes;

@@ -265,31 +265,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
       var element;
       var renderer;
-      var state =
-      {
-        // This Progressive
-        progressive    : this,
-
-        // The data model
-        model          : this.getDataModel(),
-
-        // The widget in which the element data should be rendered
-        pane           : this._structure.getPane(),
-
-        // How many elements are rendered at a time, before yielding to the
-        // browser
-        batchSize      : this.getBatchSize(),
-
-        // Add a place for renderers' private data.  If multiple renderers are
-        // being used, each renderer should place its own private data in the
-        // the state object area reserved for that renderer's use:
-        // state.rendererData[element.renderer].
-        rendererData   : this.__createStateRendererData(),
-
-        // User data.  This is useful, for example, by communication between
-        // the renderStart event listener and the renderers.
-        userData       : { }
-      };
+      var state = new qx.ui.progressive.State(this,
+                                              this.getDataModel(),
+                                              this._structure.getPane(),
+                                              this.getBatchSize(),
+                                              this.__createStateRendererData(),
+                                              { });
 
       // Record render start time
       this.__t1 = new Date();
@@ -299,7 +280,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
       if (this.__bInitialRenderComplete)
       {
         // Get the starting number of elements
-        this.__initialNumElements = state.model.getElementCount();
+        this.__initialNumElements = state.getModel().getElementCount();
 
         // Let listeners know we're beginning to render
         this.createDispatchDataEvent("renderStart",
@@ -322,7 +303,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         qx.client.Timer.once(function()
                              {
                                this.__initialNumElements =
-                                 state.model.getElementCount();
+                                 state.getModel().getElementCount();
                                this.createDispatchDataEvent(
                                  "renderStart",
                                  {
@@ -374,10 +355,10 @@ qx.Class.define("qx.ui.progressive.Progressive",
       var current;
       var element;
 
-      for (var i = state.batchSize; i > 0; i--)
+      for (var i = state.getBatchSize(); i > 0; i--)
       {
         // Retrieve the current element
-        current = state.model.getNextElement();
+        current = state.getModel().getNextElement();
         if (! current)
         {
           // No more elements.  We're done.
