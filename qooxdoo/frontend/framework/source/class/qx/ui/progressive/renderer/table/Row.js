@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       // Set properties for the row div
       div.style.position = "relative";
       div.style.height = height > 0 ? height : this.getDefaultRowHeight();
-      div.setAttribute("class", "qx-progressive-" + this._hash + "-row");
+      div.className = "qx-progressive-" + this._hash + "-row";
       div.innerHTML = html.join("");
 
       // Get a reference to our renderer data
