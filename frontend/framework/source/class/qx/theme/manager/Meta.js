@@ -112,7 +112,6 @@ qx.Class.define("qx.theme.manager.Meta",
       {
         qx.theme.manager.Appearance.getInstance().syncAppearanceTheme();
         qx.theme.manager.Icon.getInstance().syncIconTheme();
-        qx.theme.manager.Widget.getInstance().syncWidgetTheme();
         qx.theme.manager.Font.getInstance().syncFontTheme();
         qx.theme.manager.Decoration.getInstance().syncDecorationTheme();
         qx.theme.manager.Color.getInstance().syncColorTheme();

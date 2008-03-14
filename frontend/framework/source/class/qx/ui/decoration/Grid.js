@@ -196,6 +196,12 @@ qx.Class.define("qx.ui.decoration.Grid",
       var pixel = "px";
       var html = [];
 
+      var leftCombined = reg.resolve(l[0]);
+      leftImageWidth = leftCombined ? leftCombined[3] : l[3];
+
+      var rightCombined = reg.resolve(r[0]);
+      rightImageWidth = rightCombined ? rightCombined[3] : r[3];
+
       html.push(
         '<div style="position:absolute;top:0;left:0;',
         'width:', leftWidth,
@@ -205,7 +211,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       html.push(
         '<div style="position:absolute;top:0;',
         'left:', leftWidth,
-        'px;height:', topWidth,
+        'px;height:',topWidth,
         'px;background:url(', t[0] ,') repeat-x ', t[1], 'px ', t[2], 'px;"></div>'
       );
       html.push(
@@ -233,16 +239,18 @@ qx.Class.define("qx.ui.decoration.Grid",
         'px;background:url(', br[0] ,') no-repeat ', br[1], 'px ', br[2], 'px;"></div>'
       );
       html.push(
-        '<img src="', l[0], '" style="position:absolute;left:0;',
-        'top:', topWidth, 'px;width:', middleWidth, 'px;"/>'
+        '<img src="', l[0], '" style="position:absolute;left:' + l[1] + 'px;',
+        'top:', topWidth, 'px;width:', leftImageWidth,
+        'px;', qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),'"/>'
       );
       html.push(
-        '<img src="', c[0], '" style="z-index:1;position:absolute;',
+        '<img src="', c[0], '" style="position:absolute;',
         'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
       );
       html.push(
-        '<img src="', r[0], '" style="position:absolute;right:0;',
-        'top:', topWidth, 'px;width:', middleWidth, 'px;"/>'
+        '<img src="', r[0], '" style="position:absolute;',
+        'right:', rightWidth - (rightImageWidth + r[1]) , 'px;top:', topWidth, 'px;width:', rightImageWidth,
+        'px;', qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),'"/>'
       );
 
       return this.__markup = html.join("");
@@ -280,11 +288,24 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor)
+    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
     {
-      var init = !decorationElement._element;
-      var content = init ? this.__createInnerElement() : decorationElement._element;
+      if (updateStyles)
+      {
+        if (decorationElement._element)
+        {
+          var content = decorationElement._element;
+          content.innerHTML = this.__markup || this.__computeMarkup();
+        } else {
+          var content = this.__createInnerElement();
+        }
+      }
+
       var pixel = "px";
+
+      if (!content) {
+        var content = decorationElement._element ? decorationElement._element : this.__createInnerElement();
+      }
 
       // Sync width/height of outer element
       decorationElement.setStyle("width", width + pixel);
@@ -294,10 +315,10 @@ qx.Class.define("qx.ui.decoration.Grid",
       var innerWidth = width - this.__insets.left - this.__insets.right;
       var innerHeight = height - this.__insets.top - this.__insets.bottom;
 
-
       // Dimension dependending styles
       content.childNodes[1].style.width =
       content.childNodes[4].style.width =
+      content.childNodes[7].style.width =
         innerWidth + pixel;
 
       content.childNodes[6].style.height =
@@ -305,41 +326,16 @@ qx.Class.define("qx.ui.decoration.Grid",
       content.childNodes[8].style.height =
         innerHeight + pixel;
 
-
-
-
-      var spriteLeft = qx.util.ImageRegistry.getInstance().resolve(this.__images.l);
-      var spriteCenter = qx.util.ImageRegistry.getInstance().resolve(this.__images.c);
-      var spriteRight = qx.util.ImageRegistry.getInstance().resolve(this.__images.r);
-
-      var imageWidth = spriteLeft[3] + spriteCenter[3] + spriteRight[3];
-      var scalingFactor = Math.ceil(width / spriteCenter[3]);
-      var finalWidth = imageWidth * scalingFactor;
-
-      content.childNodes[7].style.width = finalWidth + pixel;
-      content.childNodes[7].style.marginLeft = (-spriteLeft[3] * scalingFactor) + pixel;
-
-      qx.bom.element.Clip.set(content.childNodes[7], {
-        left : spriteLeft[3] * scalingFactor,
-        top : null,
-        width : innerWidth,
-        height : null
-      });
-
       // Sync to HTML attribute
-      if (init) {
+      if (!decorationElement._element) {
         decorationElement.setAttribute("html", content.innerHTML);
       }
     },
 
 
     // interface implementation
-    reset : function(decorationElement)
-    {
-      decorationElement.setStyles({
-        "width" : null,
-        "height" : null
-      });
+    reset : function(decorationElement) {
+      decorationElement.setAttribute("html", "");
     },
 
 
