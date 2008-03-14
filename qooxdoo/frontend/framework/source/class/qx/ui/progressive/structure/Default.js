@@ -50,6 +50,10 @@ qx.Class.define("qx.ui.progressive.structure.Default",
      */
     applyStructure : function(progressive)
     {
+      // Tell the header/footer components who their Progressive is
+      this._header.join(progressive);
+      this._footer.join(progressive);
+
       // Add the header, pane, and footer to the Progressive.
       progressive.add(this._header,
                       this._pane,

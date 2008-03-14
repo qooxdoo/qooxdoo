@@ -76,7 +76,10 @@
         // Instantiate a Progressive with a default structure with header
         var header = new qx.ui.progressive.headfoot.TableHeading(columnStyles,
                                                                  columnNames);
-        var structure = new qx.ui.progressive.structure.Default(header);
+        var footer = new qx.ui.progressive.headfoot.Progress(columnStyles,
+                                                             columnNames);
+        var structure = new qx.ui.progressive.structure.Default(header,
+                                                                footer);
         var progressive = new qx.ui.progressive.Progressive(structure);
 
         // Instantiate a data model and populate it.

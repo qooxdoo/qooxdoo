@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         this.__initialNumElements = state.model.getElementCount();
 
         // Let listeners know we're beginning to render
-        this.dispatchDataEvent("renderStart", this.__initialNumElements);
+        this.createDispatchDataEvent("renderStart", this.__initialNumElements);
 
         // Begin rendering
         this.__renderElementBatch(state);
@@ -258,6 +258,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
                              {
                                this.__initialNumElements =
                                  state.model.getElementCount();
+                               this.createDispatchDataEvent("renderStart",
+                                                            this.__initialNumElements);
                                this.__renderElementBatch(state);
                                this.__bInitialRenderComplete = true;
                              },

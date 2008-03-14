@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * A header for a standing table
+ * A header for a standard table
  */
 qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 {

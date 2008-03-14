@@ -29,5 +29,13 @@
 qx.Class.define("qx.ui.progressive.headfoot.Abstract",
 {
   type       : "abstract",
-  extend     : qx.ui.layout.HorizontalBoxLayout
+  extend     : qx.ui.layout.HorizontalBoxLayout,
+
+  members    :
+  {
+    join : function(progressive)
+    {
+      this._progressive = progressive;
+    }
+  }
 });
