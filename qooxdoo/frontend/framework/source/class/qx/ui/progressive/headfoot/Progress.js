@@ -39,10 +39,15 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
     this._border = new qx.ui.core.Border(1, "solid", "#cccccc");
     this._border.setWidthTop(1);
-    this._border.setWidthLeft(0);
+    this._border.setWidthRight(0);
     this._border.setWidthBottom(0);
     this.setBorder(this._border);
     
+    this.setPadding(0);
+
+    this._percentDone = new qx.ui.basic.Atom("");
+    this.add(this._percentDone);
+
     // We're initially invisible
     this.setDisplay(false);
   },
@@ -69,12 +74,16 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                    function(e)
                                    {
                                      var complete =
-                                       e.getData().remaining / this.__total;
+                                       1.0 -
+                                       (e.getData().remaining / this.__total);
                                      var borderWidth =
                                        Math.floor(this.getWidth() * complete);
                                      if (! isNaN(borderWidth))
                                      {
-                                       this._border.setWidthRight(borderWidth);
+                                       var percent =
+                                         Math.floor(complete * 100) + "%";
+                                       this._percentDone.setLabel(percent);
+                                       this._border.setWidthLeft(borderWidth);
                                      }
                                    },
                                    this);
