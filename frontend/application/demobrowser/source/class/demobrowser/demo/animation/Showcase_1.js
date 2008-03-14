@@ -116,7 +116,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         main.add(groupBoxes[box]);
       }
 
-      this.getRoot().add(main)
+      main.addToDocument();
 
 
       /* Effects: */
