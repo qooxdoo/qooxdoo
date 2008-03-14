@@ -45,28 +45,18 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
   members :
   {
     /**
-     * Initialize the decoration for the given widget and decoration element.
+     * Render the decoration size of the given decoration element.
      *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     */
-    init : function(decorationElement) {
-      return true;
-    },
-
-
-    /**
-     * Update the decoration size of the given decoration element.
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     * @param height {Integer} The widget's new height
+     * @param element {qx.html.Element} The widget's decoration element.
      * @param width {Integer} The widget's new width
+     * @param height {Integer} The widget's new height
      * @param backgroundColor {String?null} an optional CSS background color value.
      * @param updateSize {Boolean} Whether the size of the widget has changed and
      *     the decoration size needs to be updated.
      * @param updateStyles {Boolean} Whether one of the decorator properties have
      *     changed and the styling of the decoration needs to be updatet.
      */
-    update : function(decorationElement, height, width, backgroundColor, updateSize, updateStyles) {
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles) {
       return true;
     },
 

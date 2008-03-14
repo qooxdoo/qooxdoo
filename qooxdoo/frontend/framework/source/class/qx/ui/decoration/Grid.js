@@ -142,21 +142,14 @@ qx.Class.define("qx.ui.decoration.Grid",
       this.__markup = null;
       this.__images = null;
 
-      // TODO: Queue update?
+      qx.ui.core.queue.Decorator.add(this);
     },
 
     _changeBorderVisibility : function(value)
     {
       this.__markup = null;
-      // TODO: Queue update?
+      qx.ui.core.queue.Decorator.add(this);
     },
-
-
-    // interface implementation
-    init : function(decorationElement) {
-      // empty
-    },
-
 
     __computeMarkup : function()
     {
@@ -288,29 +281,29 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
       if (updateStyles)
       {
-        if (decorationElement._element)
+        if (element._element)
         {
-          var content = decorationElement._element;
+          var content = element._element;
           content.innerHTML = this.__markup || this.__computeMarkup();
         } else {
           var content = this.__createInnerElement();
         }
       }
 
-      var pixel = "px";
-
       if (!content) {
-        var content = decorationElement._element ? decorationElement._element : this.__createInnerElement();
+        var content = element._element ? element._element : this.__createInnerElement();
       }
 
+      var pixel = "px";
+
       // Sync width/height of outer element
-      decorationElement.setStyle("width", width + pixel);
-      decorationElement.setStyle("height", height + pixel);
-      decorationElement.setStyle("overflow", "hidden");
+      element.setStyle("width", width + pixel);
+      element.setStyle("height", height + pixel);
+      element.setStyle("overflow", "hidden");
 
       var innerWidth = width - this.__insets.left - this.__insets.right;
       var innerHeight = height - this.__insets.top - this.__insets.bottom;
@@ -327,15 +320,15 @@ qx.Class.define("qx.ui.decoration.Grid",
         innerHeight + pixel;
 
       // Sync to HTML attribute
-      if (!decorationElement._element) {
-        decorationElement.setAttribute("html", content.innerHTML);
+      if (!element._element) {
+        element.setAttribute("html", content.innerHTML);
       }
     },
 
 
     // interface implementation
-    reset : function(decorationElement) {
-      decorationElement.setAttribute("html", "");
+    reset : function(element) {
+      element.setAttribute("html", "");
     },
 
 

@@ -120,9 +120,6 @@ qx.Class.define("qx.ui.decoration.Double",
       apply : "_applyInnerColorLeft"
     },
 
-
-
-
     /**
      * Property group for the inner color properties.
      */
@@ -144,51 +141,6 @@ qx.Class.define("qx.ui.decoration.Double",
   members :
   {
     /**
-     * Update the element's size
-     *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     * @param height {Integer} The widget's new height
-     * @param width {Integer} The widget's new width
-     */
-    _updateSize : function(decorationElement, width, height)
-    {
-      if (!this._useContentBox) {
-        return;
-      }
-      this.base(arguments, decorationElement, width, height)
-
-      var borderWidth =
-        this.getWidthLeft() + this.getWidthRight() +
-        this.getInnerWidthLeft() + this.getInnerWidthRight();
-
-      var borderHeight =
-        this.getWidthTop() + this.getWidthBottom() +
-        this.getInnerWidthTop() + this.getInnerWidthBottom();
-
-      var innerElement = decorationElement.getChild(0);
-      innerElement.setStyle("width", width - borderWidth);
-      innerElement.setStyle("height", height - borderHeight);
-    },
-
-
-    // overridden
-    init : function(decorationElement)
-    {
-      var innerElement = new qx.html.Element();
-
-      innerElement.setStyles({
-        position: "absolute",
-        top: 0,
-        left: 0
-      });
-
-      decorationElement.add(innerElement);
-
-      this.base(arguments, decorationElement);
-    },
-
-
-    /**
      * Get the CSS style map for the decoration
      *
      * @param width {Integer} The widget's width
@@ -198,26 +150,39 @@ qx.Class.define("qx.ui.decoration.Double",
     _getInnerStyles : function(width, height)
     {
       var styles = {
-        "borderTopWidth": this.getInnerWidthTop() + "px",
-        "borderTopColor": this.__innerColorTop,
-        "borderRightWidth": this.getInnerWidthRight() + "px",
-        "borderRightColor": this.__innerColorRight,
-        "borderBottomWidth": this.getInnerWidthBottom() + "px",
-        "borderBottomColor": this.__innerColorBottom,
-        "borderLeftWidth": this.getInnerWidthLeft() + "px",
-        "borderLeftColor": this.__innerColorLeft,
-        "backgroundColor": this.__bgColor,
-        "borderStyle": "solid"
-      }
+        borderTopWidth: this.getInnerWidthTop() + "px",
+        borderTopColor: this.__innerColorTop,
+        borderRightWidth: this.getInnerWidthRight() + "px",
+        borderRightColor: this.__innerColorRight,
+        borderBottomWidth: this.getInnerWidthBottom() + "px",
+        borderBottomColor: this.__innerColorBottom,
+        borderLeftWidth: this.getInnerWidthLeft() + "px",
+        borderLeftColor: this.__innerColorLeft,
+        backgroundColor: this.__bgColor,
+        borderStyle: "solid"
+      };
 
       return styles;
     },
 
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
-      var innerElement = decorationElement.getChild(0);
+      var innerElement = element.getChild(0);
+
+      if (!innerElement)
+      {
+        var innerElement = new qx.html.Element();
+
+        innerElement.setStyles({
+          position: "absolute",
+          top: 0,
+          left: 0
+        });
+
+        element.add(innerElement);
+      }
 
       if (updateStyles)
       {
@@ -235,15 +200,19 @@ qx.Class.define("qx.ui.decoration.Double",
         qx.ui.decoration.Util.updateSize(innerElement, innerWidth, innerHeight, hInsets, vInsets);
       }
 
-      this.base(arguments, decorationElement, width, height, backgroundColor, updateSize, updateStyles);
+      this.base(arguments, element, width, height, backgroundColor, updateSize, updateStyles);
     },
 
 
     // interface implementation
-    reset : function(decorationElement)
+    reset : function(element)
     {
-      decorationElement.removeAt(0);
-      this.base(arguments, decorationElement)
+      var innerElement = element.getChild(0);
+      if (innerElement) {
+        element.removeAt(0);
+      }
+
+      this.base(arguments, element);
     },
 
 
@@ -297,7 +266,7 @@ qx.Class.define("qx.ui.decoration.Double",
     _changeInnerColorTop : function(value)
     {
       this.__innerColorTop = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
 
@@ -310,7 +279,7 @@ qx.Class.define("qx.ui.decoration.Double",
     _changeInnerColorRight : function(value)
     {
       this.__innerColorRight = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
 
@@ -323,7 +292,7 @@ qx.Class.define("qx.ui.decoration.Double",
     _changeInnerColorBottom : function(value)
     {
       this.__innerColorBottom = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
 
@@ -336,7 +305,7 @@ qx.Class.define("qx.ui.decoration.Double",
     _changeInnerColorLeft : function(value)
     {
       this.__innerColorLeft = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     }
   }
 });

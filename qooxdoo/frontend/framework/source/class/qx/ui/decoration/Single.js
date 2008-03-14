@@ -74,7 +74,6 @@ qx.Class.define("qx.ui.decoration.Single",
 
   properties :
   {
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY: WIDTH
@@ -209,6 +208,7 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY: BACKGROUND IMAGE
@@ -230,6 +230,8 @@ qx.Class.define("qx.ui.decoration.Single",
       init : "repeat",
       apply : "_applyBorderChange"
     },
+
+
 
 
     /*
@@ -300,12 +302,6 @@ qx.Class.define("qx.ui.decoration.Single",
 
   members :
   {
-    // interface implementation
-    init : function(decorationElement) {
-      // empty
-    },
-
-
     /**
      * Get the CSS style map for the decoration
      *
@@ -316,7 +312,8 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       var bgImage = this.getBackgroundImage();
 
-      var styles = {
+      var styles =
+      {
         "borderTopWidth": this.getWidthTop() + "px",
         "borderTopStyle": this.getStyleTop() || "none",
         "borderTopColor": this.__colorTop,
@@ -331,23 +328,24 @@ qx.Class.define("qx.ui.decoration.Single",
         "borderLeftColor": this.__colorLeft,
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
         "backgroundRepeat": this.getBackgroundRepeat()
-      }
+      };
+
       return styles;
     },
 
 
     // interface implementation
-    update : function(decorationElement, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
       if (updateStyles) {
-        decorationElement.setStyles(this._getStyles());
+        element.setStyles(this._getStyles());
       }
 
-      decorationElement.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
+      element.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
 
       if (updateSize) {
         qx.ui.decoration.Util.updateSize(
-          decorationElement,
+          element,
           width, height,
           this.getWidthLeft() + this.getWidthRight(),
           this.getWidthTop() + this.getWidthBottom()
@@ -356,26 +354,29 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-    // interface implementation
-    reset : function(decorationElement)
+    _emptyStyles :
     {
-      decorationElement.setStyles({
-        "borderTopWidth": null,
-        "borderTopStyle": null,
-        "borderTopColor": null,
-        "borderRightWidth": null,
-        "borderRightStyle": null,
-        "borderRightColor": null,
-        "borderBottomWidth": null,
-        "borderBottomStyle": null,
-        "borderBottomColor": null,
-        "borderLeftWidth": null,
-        "borderLeftStyle": null,
-        "borderLeftColor": null,
-        "backgroundColor": null,
-        "backgroundImage": null,
-        "backgroundRepeat": null
-      });
+      borderTopWidth: null,
+      borderTopStyle: null,
+      borderTopColor: null,
+      borderRightWidth: null,
+      borderRightStyle: null,
+      borderRightColor: null,
+      borderBottomWidth: null,
+      borderBottomStyle: null,
+      borderBottomColor: null,
+      borderLeftWidth: null,
+      borderLeftStyle: null,
+      borderLeftColor: null,
+      backgroundColor: null,
+      backgroundImage: null,
+      backgroundRepeat: null
+    },
+
+
+    // interface implementation
+    reset : function(element) {
+      element.setStyles(this._emptyStyles);
     },
 
 
@@ -392,6 +393,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -400,7 +402,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
     // property apply
     _applyBorderChange : function(value, old, name) {
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
     // property apply
@@ -430,6 +432,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       COLOR MANAGER CONNECTION
@@ -445,7 +448,7 @@ qx.Class.define("qx.ui.decoration.Single",
     _changeColorTop : function(value)
     {
       this.__colorTop = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
 
@@ -458,7 +461,7 @@ qx.Class.define("qx.ui.decoration.Single",
     _changeColorRight : function(value)
     {
       this.__colorRight = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
 
@@ -471,7 +474,7 @@ qx.Class.define("qx.ui.decoration.Single",
     _changeColorBottom : function(value)
     {
       this.__colorBottom = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
 
@@ -484,7 +487,7 @@ qx.Class.define("qx.ui.decoration.Single",
     _changeColorLeft : function(value)
     {
       this.__colorLeft = value;
-      this._informManager();
+      qx.ui.core.queue.Decorator.add(this);
     },
 
     /**
@@ -497,23 +500,6 @@ qx.Class.define("qx.ui.decoration.Single",
     _changeBackgroundColor : function(color)
     {
       this.__bgColor = color;
-      this._informManager();
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BORDER MANAGER CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Send information to BorderManager
-     *
-     * @type member
-     */
-    _informManager : function() {
       qx.ui.core.queue.Decorator.add(this);
     }
   }
