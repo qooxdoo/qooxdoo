@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.progressive.renderer.TableRow",
 {
-  extend     : qx.core.Object,
+  extend     : qx.ui.progressive.renderer.Abstract,
 
 
   /**
@@ -74,10 +74,11 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
   {
     /**
      */
-    render : function(state, data)
+    render : function(state, element)
     {
       var cell;
       var style;
+      var data = element.data;
 
       // Instantiate a horizontal box for the row
       var row = new qx.ui.layout.HorizontalBoxLayout();
@@ -95,13 +96,18 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
         cell.set(
           {
             border  : this._border,
-            height  : 16
+            height  : "100%"
           });
 
         columnStyle = this._columnStyle[i];
         if (columnStyle)
         {
             cell.set(columnStyle);
+        }
+
+        if (state.current % 2 == 0 && i == 1)
+        {
+          cell.setHeight(32);
         }
 
         labelStyle = this._labelStyle[i];
@@ -117,7 +123,19 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
       }
 
       // Add this row to the table
-      state._progressive.container.add(row);
+      switch(element.location)
+      {
+      case "end":
+        state.container.add(row);
+        break;
+
+      case "start":
+        state.container.addAtBegin(row);
+        break;
+
+      default:
+        throw new Error("Invalid location: " + element.location);
+      }
     }
   },
 

@@ -42,6 +42,7 @@
             rowData.push(
                          {
                            renderer : "row",
+                           location : row == rowCount - 1 ? "start" : "end",
                            data     : [
                                        nextId++,
                                        Math.random() * 10000,
@@ -63,7 +64,7 @@
 
         // Tell Progressive about its data model
         progressive.setDataModel(dataModel);
-        
+
         // Specify the cell styles
         var cellStyles =
           [

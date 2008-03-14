@@ -43,13 +43,14 @@ qx.Class.define("qx.ui.progressive.Progressive",
     // We want to use a Vertical Box Layout for our container
     this.set(
       {
-        left     : 20,
-        top      : 20,
-        right    : 20,
-        bottom   : 20,
-        spacing  : 0,
-        border   : new qx.ui.core.Border(1, "solid", "#dddddd"),
-        overflow : "scrollY"
+        left            : 20,
+        top             : 20,
+        right           : 20,
+        bottom          : 20,
+        spacing         : 0,
+        border          : new qx.ui.core.Border(1, "solid", "#dddddd"),
+        overflow        : "scrollY",
+        backgroundColor : "white"
       });
 
     // Initialize properties
@@ -115,40 +116,53 @@ qx.Class.define("qx.ui.progressive.Progressive",
       delete this._renderer[name];
     },
 
-    __renderElement : function(state, elements)
+    __renderElementBatch : function(state)
     {
-      var current = state._progressive.current;
+      // Prefetch the next batch
+      state.model.preFetch(state.current + state.batchSize, state.batchSize);
 
-      for (var i = state._progressive.batchSize;
-           i > 0 && current < elements.length;
-           i--)
+      for (var i = state.batchSize; i > 0; i--)
       {
         // Retrieve the current element
-        element = elements[current];
+        element = state.model.getElement(state.current);
+
+        // Are we done?
+        if (! element)
+        {
+          // Yup.
+t2 = new Date();
+this.debug("Render time: ", t2 - t1);
+          return;
+        }
 
         // Get the element's renderer
         renderer = this._renderer[element.renderer];
 
         // Render this element
-        renderer.render(state, element.data);
+        renderer.render(state, element);
 
         // Increment to the next element
-        ++current;
+        ++state.current;
       }
 
-      // Save the new current element
-      state._progressive.current = current;
-        
-      // Are there more elements to render?
-      if (current < elements.length)
+      // Set a timer to render the next element
+      qx.client.Timer.once(function()
+                           {
+                             this.__renderElementBatch(state);
+                           },
+                           this, 0);
+    },
+
+    __createStateRendererData : function()
+    {
+      var rendererData = { };
+
+      for (var name in this._renderer)
       {
-        // Yup.  Set a time to render the next element
-        qx.client.Timer.once(function()
-                             {
-                               this.__renderElement(state, elements);
-                             },
-                             this, 0);
+        rendererData[name] = { };
       }
+
+      return rendererData;
     },
 
     render : function()
@@ -157,20 +171,22 @@ qx.Class.define("qx.ui.progressive.Progressive",
       var renderer;
       var state =
       {
-        _progressive :
-        {
-          container : this.getContainer(),
-          batchSize : this.getBatchSize(),
-          current   : 0
-        },
+        model     : this.getDataModel(),
+        container : this.getContainer(),
+        batchSize : this.getBatchSize(),
+        current   : 0,
+
+        // Add a place for renderers' private data.  Each renderer should
+        // place its own private data in the the state object area reserved
+        // for that renderer's use: state.rendererData[element.renderer]
+        rendererData   : this.__createStateRendererData()
       };
 
-      // Get the elements array from the data model.
-      var elements = this.getDataModel().getElements();
+t1 = new Date();
 
       // Render the first batch of elements.  Subsequent batches will be via
       // timer timeout.
-      this.__renderElement(state, elements);
+      this.__renderElementBatch(state);
     },
 
     _applyDataModel : function(value, old)

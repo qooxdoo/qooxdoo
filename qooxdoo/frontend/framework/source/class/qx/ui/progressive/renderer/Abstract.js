@@ -24,11 +24,12 @@
 ************************************************************************ */
 
 /**
- * Data Model for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
-qx.Class.define("qx.ui.progressive.model.Default",
+qx.Class.define("qx.ui.progressive.renderer.Abstract",
 {
-  extend     : qx.ui.progressive.model.Abstract,
+  type       : "abstract",
+  extend     : qx.core.Object,
 
 
   /**
@@ -39,28 +40,13 @@ qx.Class.define("qx.ui.progressive.model.Default",
   },
 
 
-  properties :
-  {
-    /**
-     * The elements to be progressively renderered.  Each array element must
-     * be an object which contains at least two members: renderer name and
-     * data.
-     */
-    elements :
-    {
-      check : "Array",
-      init : [ ]
-    }
-  },
-
-
   members :
   {
     /**
      */
-    getElement : function(id)
+    render : function(state, element)
     {
-      return this.getElements()[id];
+      throw new Error("render() is abstract");
     }
   }
 });

@@ -26,9 +26,10 @@
 /**
  * Data Model for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
-qx.Class.define("qx.ui.progressive.model.Default",
+qx.Class.define("qx.ui.progressive.model.Abstract",
 {
-  extend     : qx.ui.progressive.model.Abstract,
+  type       : "abstract",
+  extend     : qx.core.Object,
 
 
   /**
@@ -39,28 +40,16 @@ qx.Class.define("qx.ui.progressive.model.Default",
   },
 
 
-  properties :
-  {
-    /**
-     * The elements to be progressively renderered.  Each array element must
-     * be an object which contains at least two members: renderer name and
-     * data.
-     */
-    elements :
-    {
-      check : "Array",
-      init : [ ]
-    }
-  },
-
-
   members :
   {
-    /**
-     */
-    getElement : function(id)
+    getElement : function(index)
     {
-      return this.getElements()[id];
+      throw new Error("getElement() is abstract");
+    },
+
+    preFetch   : function(startElement, numElements)
+    {
+      // The default implementation doesn't require any prefetching.
     }
   }
 });
