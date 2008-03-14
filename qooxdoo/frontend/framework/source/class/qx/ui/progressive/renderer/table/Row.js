@@ -228,7 +228,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         // Render this cell
         html.push(renderer.render(cellInfo));
 
-
         // If this cell's height was greater than our current maximum...
         if (cellInfo.height > height)
         {
