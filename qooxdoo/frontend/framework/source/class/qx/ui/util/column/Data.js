@@ -31,14 +31,6 @@ qx.Class.define("qx.ui.util.column.Data",
   extend : qx.ui.core.Widget,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);

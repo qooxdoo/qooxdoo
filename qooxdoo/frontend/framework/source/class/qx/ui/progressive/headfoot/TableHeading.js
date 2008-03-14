@@ -43,15 +43,16 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     border.setColorBottom("#aaaaaa");
     
     var label;
+    var data = columnWidths.getData();
 
     // For each label...
-    for (var i = 0; i < labelArr.length; i++)
+    for (var i = 0; i < data.length; i++)
     {
       // ... create an atom to hold the label
       label = new qx.ui.basic.Atom(labelArr[i]);
 
       // Use the width of the corresponding column
-      label.setWidth(columnWidths[i].getWidth());
+      label.setWidth(data[i].getWidth());
 
       // Set borders for the headings
       label.setBorder(border);

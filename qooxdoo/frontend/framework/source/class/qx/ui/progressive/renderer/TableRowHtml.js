@@ -33,15 +33,15 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
 
   /**
    */
-    construct : function(columnWidthArr, columnStyleArr)
+    construct : function(columnWidths, columnStyles)
   {
     this.base(arguments);
 
     // Save the column widths
-    this._columnWidths = columnWidthArr;
+    this._columnWidths = columnWidth;
 
     // Save the column styles
-    this._columnStyles = columnStyleArr;
+    this._columnStyles = columnStyles;
 
     // We don't yet know who our Progressive will be
     this._progressive = null;
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
         (qx.core.Variant.isSet("qx.client", "mshtml")
          ? ''
-         : ';-moz-user-select:none;'),
+         : ';-moz-user-select:none;')
   },
 
   members :
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
           {
             stylesheet : [ ]
           };
-        for (var i = 0; i < this._columnWidths.length; i++)
+        for (var i = 0; i < this._columnWidths.getData().length; i++)
         {
           var stylesheet =
             ".qx-progressive-" + hash + "-cell-" + i + " {" +
@@ -264,12 +264,12 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         qx.ui.core.Widget.SCROLLBAR_SIZE;
       
       // Compute the column widths
-      qx.ui.util.column.FlexWidth.compute(this._columnWidths, width);
+      qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(), width);
 
       // Reset each of the column style sheets to deal with width changes
       for (var i = 0,
              left = 0;
-           i < this._columnWidths.length;
+           i < this._columnWidths.getData().length;
            i++,
              left += width)
       {
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
                                       stylesheet);
 
         // Get this column data.
-        var columnData = this._columnWidths[i];
+        var columnData = this._columnWidths.getData()[i];
 
         //
         // Get the width of this column.

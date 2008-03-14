@@ -57,13 +57,7 @@
           return rowData;
         };
 
-        columnWidths = [ ];
-        columnWidths[0] = new qx.ui.util.column.Data();
-        columnWidths[1] = new qx.ui.util.column.Data();
-        columnWidths[2] = new qx.ui.util.column.Data();
-        
-// Add a resize behavior class
-
+        var columnWidths = new qx.ui.util.column.Widths(3);
         var columnNames = [ "Id", "Number", "Date" ];
 
         // Instantiate a Progressive with a default structure with header

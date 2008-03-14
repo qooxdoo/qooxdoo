@@ -106,7 +106,8 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
         qx.ui.core.Widget.SCROLLBAR_SIZE
 
       // Compute the column widths
-      qx.ui.util.column.FlexWidth.compute(this._columnWidths, width);
+        qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(),
+                                            width);
 
       // Use the same default column width as the standard table row renderer
       var width = 0;
@@ -114,10 +115,10 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       var columnData;
 
       // Determine the total width that we'll need
-      for (var i = 0; i < columnWidths.length; i++)
+      for (var i = 0; i < this._columnWidths.getData().length; i++)
       {
         // Get this column data
-        columnData = columnWidths[i];
+        columnData = this._columnWidths.getData()[i];
 
         // Is this column a flex width?
         if (columnData._computedWidthTypeFlex)
@@ -142,5 +143,5 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       // Set the width of the progress bar
       this.setWidth(width);
     }
-  },
+  }
 });
