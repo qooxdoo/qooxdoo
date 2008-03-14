@@ -1,5 +1,3 @@
-- pass row div to cell renderer
-
 - provide simple formatting, e.g. alignment, in progressive.table.cell.Default
 
 - allow changing cell data and row height based on an event, e.g. mouseover
