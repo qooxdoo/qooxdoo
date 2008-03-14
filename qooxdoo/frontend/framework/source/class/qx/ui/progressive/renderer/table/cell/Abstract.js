@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Table Cell Renderer for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Cell Renderer for Progressive's Table.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
 qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
 {
@@ -32,16 +32,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
   extend     : qx.core.Object,
 
 
-  /**
-   */
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
-
   members :
   {
+    /**
+     * Retrieve any style characteristics the cell renderer wants applied to
+     * this cell.
+     *
+     * @param cellInfo {Object}
+     */
     _getCellStyle : function(cellInfo)
     {
       return "";

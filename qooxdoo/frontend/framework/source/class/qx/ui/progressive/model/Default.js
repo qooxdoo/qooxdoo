@@ -31,8 +31,6 @@ qx.Class.define("qx.ui.progressive.model.Default",
   extend     : qx.ui.progressive.model.Abstract,
 
 
-  /**
-   */
   construct : function()
   {
     this.base(arguments);
@@ -65,7 +63,7 @@ qx.Class.define("qx.ui.progressive.model.Default",
      * be an object which contains at least two members: renderer (the
      * renderer name) and data.
      *
-     * @param elem {Any}
+     * @param elem {var}
      *   An element to be added to the element queue
      */
     addElement : function(elem)
@@ -77,15 +75,13 @@ qx.Class.define("qx.ui.progressive.model.Default",
       this.createDispatchDataEvent("dataAvailable", this._elements.length);
     },
 
-    /**
-     */
+    // overridden
     getElementCount : function()
     {
       return this._elements.length;
     },
 
-    /**
-     */
+    // overridden
     getNextElement : function()
     {
       // Do we have any remaining elements?

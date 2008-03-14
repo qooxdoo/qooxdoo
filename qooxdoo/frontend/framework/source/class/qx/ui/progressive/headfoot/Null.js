@@ -24,15 +24,13 @@
 ************************************************************************ */
 
 /**
- * A null header/footer
+ * A null header/footer.  This is not displayed.
  */
 qx.Class.define("qx.ui.progressive.headfoot.Null",
 {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
 
-  /**
-   */
   construct : function()
   {
     this.base(arguments);

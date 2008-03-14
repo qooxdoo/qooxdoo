@@ -265,12 +265,15 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
       var element;
       var renderer;
-      var state = new qx.ui.progressive.State(this,
-                                              this.getDataModel(),
-                                              this._structure.getPane(),
-                                              this.getBatchSize(),
-                                              this.__createStateRendererData(),
-                                              { });
+      var state = new qx.ui.progressive.State(
+        {
+          progressive  : this,
+          model        : this.getDataModel(),
+          pane         : this._structure.getPane(),
+          batchSize    : this.getBatchSize(),
+          rendererData : this.__createStateRendererData(),
+          userData     : { }
+        });
 
       // Record render start time
       this.__t1 = new Date();
@@ -350,6 +353,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
       value.addEventListener("dataAvailable", this.__dataAvailable, this);
     },
 
+    /**
+     * Render a batch of elements.  The batch size is determined by the
+     * Progressive's batch size at the time that rendering began.  That
+     * batch size was copied into the {qx.ui.progressive.State} object and
+     * is used herein.
+     */
     __renderElementBatch : function(state)
     {
       var current;
@@ -404,6 +413,10 @@ qx.Class.define("qx.ui.progressive.Progressive",
                            this, 0);
     },
 
+      
+    /**
+     * Create the array of empty objects for use by the renderers.
+     */
     __createStateRendererData : function()
     {
       var rendererData = { };
@@ -416,6 +429,9 @@ qx.Class.define("qx.ui.progressive.Progressive",
       return rendererData;
     },
 
+    /**
+     * Event callback for the "dataAvailable" event.
+     */
     __dataAvailable : function(e)
     {
       this.__initialNumElements = e.getData();

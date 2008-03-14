@@ -24,7 +24,8 @@
 ************************************************************************ */
 
 /**
- * A header for a standard table
+ * The standard footer used with Progressive's Table renderer, to show
+ * progress of loading data into the table.
  */
 qx.Class.define("qx.ui.progressive.headfoot.Progress",
 {
@@ -33,10 +34,14 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
   construct : function(columnWidths, labelArr)
   {
     this.base(arguments);
+
+    // Save the column widths
     this._columnWidths = columnWidths;
 
+    // Set a default height for the progress bar
     this.setHeight(16);
 
+    // We show progress by continually increasing our border width.
     this._border = new qx.ui.core.Border(1, "solid", "#cccccc");
     this._border.set({
                        widthTop : 1,
@@ -47,6 +52,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     
     this.setPadding(0);
 
+    // We also like to show progress as a percentage done string.
     this._percentDone = new qx.ui.basic.Atom("");
     this.add(this._percentDone);
 
@@ -56,6 +62,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
   members :
   {
+    // overridden
     join : function(progressive)
     {
       // Save the progressive handle
@@ -105,6 +112,15 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                    this);
     },
 
+    /**
+     * Event handler for the "widthChanged" event.  We compute and sum the new
+     * widths of the columns of the table to determine our new width.
+     *
+     * @param e {qx.event.type.Event}
+     *   Ignored.
+     *
+     * @return {Void}
+     */
     _resizeColumns : function(e)
     {
       var width =

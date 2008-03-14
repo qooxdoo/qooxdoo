@@ -32,23 +32,56 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
   extend     : qx.core.Object,
 
 
-  /**
-   */
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
-
   members :
   {
     /**
+     * Render the provided element in the renderer's unique way.
+     *
+     * @param state {qx.ui.progressive.State}
+     *   Data relevant to the current rendering session.
+     *
+     * @param element {Object}
+     *   An object containing at least the following members:
+     *   <dl>
+     *     <dt>
+     *       renderer</dt>
+     *     <dd>
+     *       The name of a renderer.  That name is used by
+     *       {qx.ui.progressive.Progressive} to select the renderer to be used
+     *       to render this element.  The name should match one provided to
+     *       {qx.ui.progressive.Progressive#addRenderer}.
+     *     </dd>
+     *
+     *     <dt>
+     *       data
+     *     </dt>
+     *     <dd>
+     *       The data to be passed to the renderer.  The data may be of any
+     *       type that the renderer knows how to render.
+     *     </dd>
+     *   </dl>
+     *
+     * @return {Void}
      */
     render : function(state, element)
     {
       throw new Error("render() is abstract");
     },
 
+    /**
+     * Join this renderer to its {qx.ui.progressive.Progressive}.
+     *
+     * @param progressive {qx.ui.progressive.Progressive}
+     *   The Progressive object to which we are being joined.
+     *
+     * @param name {String}
+     *   The name by which the data model will reference this renderer.
+     *   This is important to know in order to access the appropriate member
+     *   of the {qx.ui.progressive.State}'s renderer array.  That array is
+     *   accessed from the renderer by
+     *   state.getRendererData()[element.renderer] where element.renderer
+     *   will be the name provided here.
+     */
     join : function(progressive, name)
     {
       // nothing to do in the default case

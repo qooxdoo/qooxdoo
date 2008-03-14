@@ -24,15 +24,13 @@
 ************************************************************************ */
 
 /**
- * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Table Row renderer for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
 qx.Class.define("qx.ui.progressive.renderer.table.Row",
 {
   extend     : qx.ui.progressive.renderer.Abstract,
 
 
-  /**
-   */
   construct : function(columnWidths)
   {
     this.base(arguments);
@@ -81,6 +79,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   properties :
   {
+    /** The default height of a row, if not altered by a cell renderer. */
     defaultRowHeight :
     {
       init : 16
@@ -90,6 +89,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   members :
   {
+    // overridden
     join : function(progressive, name)
     {
       // Are we already joined?
@@ -156,6 +156,18 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     },
 
+    /**
+     * Add a cell renderer for use within a row rendered by this row
+     * renderer.
+     *
+     * @param column {Integer}
+     *   The column number for which the cell renderer applies
+     *
+     * @param renderer {qx.ui.progressive.renderer.table.cell.Abstract}
+     *   The cell renderer for the specified column.
+     *
+     * @return {Void}
+     */
     addRenderer : function(column, renderer)
     {
       if (column < 0 || column >= this._columnWidths.length)
@@ -170,6 +182,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       this._renderers[column] = renderer;
     },
 
+    /**
+     * Remove a cell renderer previously added with {#addRenderer}.
+     *
+     * @param column {Integer}
+     *   The column for which the cell renderer is to be removed.
+     *
+     * @return {Void}
+     */
     removeRenderer : function(column)
     {
       if (column < 0 || column >= this._columnWidths.length)
@@ -189,8 +209,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       delete this._renderers[column];
     },
 
-    /**
-     */
+    // overridden
     render : function(state, element)
     {  
       var data = element.data;
@@ -311,6 +330,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       ++rendererData.rows;
     },
 
+    /**
+     * Event handler for the "widthChanged" event.  We recalculate the
+     * widths of each of the columns, and modify the stylesheet rule
+     * applicable to each column, to apply the new widths.
+     *
+     * @param e {qx.event.type.Event}
+     *   Ignored
+     *
+     * @return {Void}
+     */
     _resizeColumns : function(e)
     {
       var width =

@@ -24,12 +24,22 @@
 ************************************************************************ */
 
 /**
- * A header for a standard table
+ * A header for a standard table.
  */
 qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
+  /**
+   * @param columnWidths {qx.ui.util.column.Widths}
+   *   The set of widths, minimum widths, and maximum widths to be used for
+   *   each of the columns in the table.
+   *
+   * @param labelArr {Array}
+   *   Array of labels, one for each of the columns.
+   *
+   * @return {Void}
+   */
   construct : function(columnWidths, labelArr)
   {
     this.base(arguments);
@@ -72,6 +82,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
   members :
   {
+    // overridden
     join : function(progressive)
     {
       // Save the progressive handle
@@ -84,6 +95,15 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
                                    this);
     },
 
+    /**
+     * Event handler for the "widthChanged" event.  We recalculate and set the
+     * new widths of each of our columns.
+     *
+     * @param e {qx.event.type.Event}
+     *   Ignored.
+     *
+     * @return {Void}
+     */
     _resizeColumns : function(e)
     {
       var width =
