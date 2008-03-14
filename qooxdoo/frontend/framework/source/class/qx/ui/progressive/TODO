@@ -1,8 +1,5 @@
 - write an example of a Remote data model class
 
-- show how to use Progressive to implement incremental loading of a page
-  including a progress indicator.
-
 - add lots of documentation
 
 - disposers in all classes
