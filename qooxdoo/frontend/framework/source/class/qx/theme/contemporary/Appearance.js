@@ -73,7 +73,6 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
       style : function(states)
       {
         var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/";
-
         var decorator;
 
         if (states.checked && states.focus) {
