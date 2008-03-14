@@ -507,7 +507,7 @@ qx.Class.define("apiviewer.ui.SearchView",
           itemName = fullItemName.substring(hashPos + 1);
         }
 
-        var controller = qx.core.Init.getInstance().getApplication().controller;
+        var controller = qx.core.Init.getApplication().controller;
         var classViewer = controller._classViewer;
 
         // Display protected stated items
