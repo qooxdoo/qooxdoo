@@ -72,14 +72,27 @@ qx.Class.define("qx.ui.progressive.Progressive",
   events :
   {
     /**
-     * This event is fired after each element is rendered.
+     * Event fired when rendering begins.  The event data is the number of
+     * elements currently queued to be rendered.
+     */
+    "renderStart" : "qx.event.type.DataEvent",
+
+    /**
+     * Event fired when rendering ends.
+     */
+    "renderEnd"   : "qx.event.type.Event",
+
+    /**
+     * This event is fired after each batch of elements is rendered, and
+     * control is about to be yielded to the browser.  This is an appropriate
+     * event to listen for, to implement a progress bar.
      *
      * The event data is an object with the following members:
      * <dl>
      *   <dt>initial</dt>
      *   <dd>
      *     The number of elements that were available at the start of this
-     *     rendering call.
+     *     rendering request.
      *   </dd>
      *
      *   <dt>remaining</dt>
@@ -88,7 +101,39 @@ qx.Class.define("qx.ui.progressive.Progressive",
      *   </dd>
      * </dl>
      */
-    "progress" : "qx.event.type.DataEvent"
+    "progress" : "qx.event.type.DataEvent",
+
+    /**
+     * This event is fired after each element is rendered.
+     *
+     * The event data is an object with the following members:
+     * <dl>
+     *   <dt>initial</dt>
+     *   <dd>
+     *     The number of elements that were available at the start of this
+     *     rendering request.
+     *   </dd>
+     *
+     *   <dt>remaining</dt>
+     *   <dd>
+     *     The number of elements still remaining to be rendered.
+     *   </dd>
+     *
+     *   <dt>element</dt>
+     *   <dd>
+     *     The object, returned by the data model's getNextElement() method,
+     *     that was just rendered.
+     *   </dd>
+     * </dl>
+     *
+     * Note: Unless batchSize is set to 1 or we happen to be at the end of a
+     *       batch, widgets will not be rendered at this time.  Use this event
+     *       for programmatically processing rendered elements, but not for
+     *       such things as progress bars.  Instead, where only user-visible
+     *       changes such as progress bars are being updated, use the
+     *       "progress" event.
+     */
+    "progressDetail" : "qx.event.type.DataEvent"
   },
 
 
@@ -194,6 +239,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
       {
         // Get the starting number of elements
         this.__initialNumElements = state.model.getElementCount();
+
+        // Let listeners know we're beginning to render
+        this.dispatchDataEvent("renderStart", this.__initialNumElements);
+
+        // Begin rendering
         this.__renderElementBatch(state);
       }
       else
@@ -244,6 +294,10 @@ qx.Class.define("qx.ui.progressive.Progressive",
           // No more elements.  We're done.
           this.debug("Render time: " + (new Date() - this.__t1) + "ms");
           this.__bRendering = false;
+
+          // Notify any progress handlers that are listening
+          this.createDispatchEvent("renderEnd");
+
           return;
         }
 
@@ -256,16 +310,21 @@ qx.Class.define("qx.ui.progressive.Progressive",
         // Render this element
         renderer.render(state, element);
 
-        // Notify any progress handlers that are listening
-        this.createDispatchDataEvent("progress",
+        // Notify any progress detail handlers that are listening
+        this.createDispatchDataEvent("progressDetail",
                                      {
                                        initial   : this.__initialNumElements,
-                                       remaining : current.remaining
+                                       remaining : current.remaining,
+                                       element   : element
                                      });
-
-        // Increment to the next element
-        ++state.current;
       }
+
+      // Notify any progress handlers that are listening
+      this.createDispatchDataEvent("progress",
+                                   {
+                                     initial   : this.__initialNumElements,
+                                     remaining : current.remaining
+                                   });
 
       // Set a timer to render the next element
       qx.client.Timer.once(function()
