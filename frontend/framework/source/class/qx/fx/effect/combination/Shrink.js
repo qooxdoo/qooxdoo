@@ -143,7 +143,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
       for (var property in this._oldStyle)
       {
         value = this._oldStyle[property];
-        if( (property != "overflow") && (property != "fontSize") ) {
+        if(property != "overflow"){
           value += "px"; 
         }
         qx.bom.element.Style.set(this._element, property, value);
@@ -167,10 +167,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         left     : qx.bom.element.Location.getLeft(this._element, "scroll"),
         width    : qx.bom.element.Dimension.getWidth(this._element),
         height   : qx.bom.element.Dimension.getHeight(this._element),
-        fontSize : qx.bom.element.Style.get(this._element, "fontSize"),
         opacity  : qx.bom.element.Style.get(this._element, "opacity")
       };
 
+      
       switch (this.getDirection())
       {
 
