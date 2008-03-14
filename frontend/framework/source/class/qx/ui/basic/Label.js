@@ -88,6 +88,12 @@ qx.Class.define("qx.ui.basic.Label",
       apply : "_applyContent",
       event : "changeContent",
       nullable : true
+    },
+
+    appearance :
+    {
+      refine: true,
+      init: "label"
     }
   },
 
