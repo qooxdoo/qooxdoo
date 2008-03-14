@@ -194,12 +194,19 @@ qx.Class.define("qx.fx.effect.combination.Fold",
      */
     _cleanUp : function()
     {
+      var value;
+
       if ( (this.getMode() == "in") && (this.getModifyDisplay()) ) {
         qx.bom.element.Style.set(this._element, "display", "none");
       }
 
-      for (var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      for (var property in this._oldStyle)
+      {
+        value = this._oldStyle[property];
+        if (property != "overflow") {
+          value += "px"; 
+        }
+        qx.bom.element.Style.set(this._element, property, value);
       }
       qx.bom.element.Style.set(this._element, "overflow", "visible");
     },
