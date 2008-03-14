@@ -290,6 +290,9 @@ endif
 
 # profiler variants
 ifeq ($(APPLICATION_OPTIMIZE_REMOVE_ASPECTS),true)
+	ifneq ($(APPLICATION_PROFILE_SOURCE),true)
+	  COMPUTED_SOURCE_VARIANT += --use-variant qx.aspects:off
+	endif
 	ifneq ($(APPLICATION_PROFILE_BUILD),true)
 	  COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:off
 	endif
