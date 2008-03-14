@@ -205,21 +205,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
       delete this._renderer[name];
     },
 
-    getPane : function()
-    {
-      return this._pane;
-    },
-
-    getHeader : function()
-    {
-      return this._header;
-    },
-
-    getFooter : function()
-    {
-      return this._footer;
-    },
-
     render : function()
     {
       // Prevent render calls while we're already rendering
