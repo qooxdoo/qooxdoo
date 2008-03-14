@@ -42,7 +42,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
 
   members :
   {
-    _getCellDivDetails : function(cellInfo)
+    _getCellStyle : function(cellInfo)
+    {
+      return "";
+    },
+
+    _getCellExtras : function(cellInfo)
     {
       return "";
     },
@@ -57,12 +62,18 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
     render : function(cellInfo)
     {  
       var html = [ ];
+      var style = this._getCellStyle(cellInfo);
 
       // Render this cell
-      html.push("<div class='",
-                cellInfo.stylesheet,
-                "' ",
-                this._getCellDivDetails(cellInfo),
+      html.push("<div ",
+                "class='", cellInfo.stylesheet, "' ");
+
+      if (style)
+      {
+        html.push("style='", this._getCellStyle, "'");
+      }
+
+      html.push(this._getCellExtras(cellInfo),
                 ">",
                 this._getContentHtml(cellInfo),
                 "</div>");

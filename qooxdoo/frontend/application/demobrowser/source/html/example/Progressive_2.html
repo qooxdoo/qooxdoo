@@ -154,9 +154,12 @@
 
     members :
     {
-      _getCellDivDetails : function(cellInfo)
+      _getCellExtras : function(cellInfo)
       {
         var html = [ ];
+
+        // Add superclass extras
+        html.push(this.base(arguments));
 
         // Save the cell data for reformatting upon mouseover
         html.push("celldata='" + cellInfo.cellData.toUTCString() + "' ");
