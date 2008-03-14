@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         bottom          : 20,
         spacing         : 0,
         border          : new qx.ui.core.Border(1, "solid", "#dddddd"),
-        overflow        : "scrollY",
+        overflow        : "auto",
         backgroundColor : "white"
       });
 
@@ -164,20 +164,33 @@ qx.Class.define("qx.ui.progressive.Progressive",
       return rendererData;
     },
 
-    render : function()
+    render : function(userData)
     {
       var element;
       var renderer;
       var state =
       {
-        model     : this.getDataModel(),
-        container : this.getContainer(),
-        batchSize : this.getBatchSize(),
-        current   : 0,
+        // The data model
+        model          : this.getDataModel(),
+
+        // The widget in which the element data should be rendered
+        container      : this.getContainer(),
+
+        // How many elements are rendered at a time, before yielding to the
+        // browser
+        batchSize      : this.getBatchSize(),
+
+        // Current element to be rendered, updated by renderer.
+        current        : 0,
+
+        // User's data
+        userData       : userData,
 
         // Add a place for renderers' private data.  Each renderer should
         // place its own private data in the the state object area reserved
-        // for that renderer's use: state.rendererData[element.renderer]
+        // for that renderer's use: state.rendererData[element.renderer],
+        // possibly as an array to deal with the same renderer being used by
+        // multiple columns.
         rendererData   : this.__createStateRendererData()
       };
 
@@ -193,6 +206,9 @@ qx.Class.define("qx.ui.progressive.Progressive",
       // Ensure we leave enough time that 'this' has been rendered, so that
       // this.getElement() is valid and has properties.  It's needed by some
       // renderers.
+      //
+      // FIXME: Why isn't an event listener for "appear" an adequate delay???
+      //        (It's done with a timer like this in Table's Pane too.)
       qx.client.Timer.once(function()
                            {
                              this.__renderElementBatch(state);
