@@ -91,6 +91,7 @@
 
         // Tell the row renderer to use a boolean renderer for column 1
         var boolRenderer = new qx.ui.progressive.renderer.table.cell.Boolean();
+        boolRenderer.setAllowToggle(true);
         rowRenderer.addRenderer(1, boolRenderer);
 
         d.add(progressive);

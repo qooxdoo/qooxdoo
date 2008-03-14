@@ -49,6 +49,15 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
   },
 
 
+  properties :
+  {
+    allowToggle :
+    {
+      init : false
+    }
+  },
+
+
   members :
   {
     _identifyImage : function(cellInfo)
@@ -76,23 +85,26 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           break;
       }
 
-      // Toggle the boolean value if clicked
-      imageData.extras +=
-        "onclick=\"" +
-        "var node = this.attributes.getNamedItem('celldata'); " +
-        "var value = node.nodeValue; " +
-        "if (value == '0') " +
-        "{" +
-        "  this.src='" + this._iconUrlTrue + "'; " +
-        "  node.nodeValue='1'; " +
-        "}" +
-        "else " +
-        "{" +
-        "  this.src='" + this._iconUrlFalse + "'; " +
-        "  node.nodeValue='0'; " +
-        "}" +
+      if (this.getAllowToggle())
+      {
+        // Toggle the boolean value if clicked
+        imageData.extras +=
+          "onclick=\"" +
+          "var node = this.attributes.getNamedItem('celldata'); " +
+          "var value = node.nodeValue; " +
+          "if (value == '0') " +
+          "{" +
+          "  this.src='" + this._iconUrlTrue + "'; " +
+          "  node.nodeValue='1'; " +
+          "}" +
+          "else " +
+          "{" +
+          "  this.src='" + this._iconUrlFalse + "'; " +
+          "  node.nodeValue='0'; " +
+          "}" +
         "this.attributes.setNamedItem(node); " +
-        "\"";
+          "\"";
+      }
 
       return imageData;
     },
