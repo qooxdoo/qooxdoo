@@ -18,10 +18,7 @@
 <body>
   <div id="description">
     <p>
-      Example of Progressive rendering of a table with fancy handling of
-      mouseover.  Try moving the mouse over the date column.  The
-      DateCellRenderer class which does the fancy handling is defined in the
-      source file of this example.  Note that row height need not be constant!
+      Example of using the Boolean cell renderer with Progressive's Table.
     </p>
   </div>
 
@@ -59,7 +56,7 @@
           return rowData;
         };
 
-        var columnWidths = new qx.ui.util.column.Widths(3);
+        var columnWidths = new qx.ui.util.column.Widths(2);
         columnWidths.setWidth(0, 100);
         columnWidths.setWidth(1, 100);
 
@@ -73,6 +70,11 @@
         var structure = new qx.ui.progressive.structure.Default(header,
                                                                 footer);
         var progressive = new qx.ui.progressive.Progressive(structure);
+        progressive.set(
+          {
+            width : 200 + qx.ui.core.Widget.SCROLLBAR_SIZE,
+            right : null
+          });
 
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();

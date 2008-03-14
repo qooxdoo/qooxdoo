@@ -18,9 +18,8 @@
 <body>
   <div id="description">
     <p>
-      Example of Progressive rendering of a table using pure HTML for the table
-      rows.  Note that the last element is inserted at the top to show how that
-      is done.
+      Example of Progressive rendering of a table.  Note that the last element
+      is inserted at the top to show how that is done.
     </p>
   </div>
 
@@ -73,6 +72,14 @@
         var structure = new qx.ui.progressive.structure.Default(header,
                                                                 footer);
         var progressive = new qx.ui.progressive.Progressive(structure);
+
+        // Add a message
+        var message = new qx.ui.basic.Atom("Last item is intentionally " +
+                                           "inserted at the top to show how " +
+                                           "it's done");
+        message.setHeight(16);
+        message.getLabelObject().setTextColor("red");
+        progressive.add(message);
 
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();

@@ -85,6 +85,13 @@
             right : null
           });
 
+        // Add a message
+        var message =
+          new qx.ui.basic.Atom("Note variable row heights in this table.");
+        message.setHeight(16);
+        message.getLabelObject().setTextColor("red");
+        progressive.add(message);
+
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();
         var rowData = [ ];

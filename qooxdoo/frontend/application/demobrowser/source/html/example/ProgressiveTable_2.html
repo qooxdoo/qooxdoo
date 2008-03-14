@@ -75,6 +75,13 @@
                                                                 footer);
         var progressive = new qx.ui.progressive.Progressive(structure);
 
+        // Add a message
+        var message =
+          new qx.ui.basic.Atom("Move your mouse over the Date field");
+        message.setHeight(16);
+        message.getLabelObject().setTextColor("red");
+        progressive.add(message);
+
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();
         var rowData = createRandomRows(500);
