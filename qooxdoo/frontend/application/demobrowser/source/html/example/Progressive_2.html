@@ -50,8 +50,7 @@
                            data     : [
                                        nextId++,
                                        Math.random() * 10000,
-                                       date,
-                                       (Math.random() > 0.5)
+                                       date
                                       ]
                          });
           }
@@ -71,11 +70,23 @@
 
         // Specify the cell styles
 
-        var widths = [ 100, 200, 300, 200 ];
+        var columnStyles =
+          [
+            {
+              width : 100
+            },
+            {
+              width : 200,
+              "text-align" : "right"
+            },
+            {
+              width : 300
+            }
+          ];
 
         // Instantiate a table row renderer
         var renderer =
-          new qx.ui.progressive.renderer.TableRowHtml(widths);
+          new qx.ui.progressive.renderer.TableRowHtml(columnStyles);
 
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", renderer);

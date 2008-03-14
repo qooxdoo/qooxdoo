@@ -33,12 +33,12 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
 
   /**
    */
-  construct : function(columnWidthArr)
+  construct : function(columnStyleArr)
   {
     this.base(arguments);
 
     // Save the column and label styles
-    this._columnWidth = columnWidthArr;
+    this._columnStyle = columnStyleArr;
 
     var trh = qx.ui.progressive.renderer.TableRowHtml;
     if (!trh.__clazz)
@@ -48,7 +48,6 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         ".qooxdoo-progressive-trh-cell {" +
         trh.__tableCellStyleSheet +
         "}";
-      this.debug(stylesheet);
       trh.__clazz.stylesheet = qx.html.StyleSheet.createElement(stylesheet);
     }
   },
@@ -70,6 +69,8 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         "  border-bottom:1px solid #eeeeee;" +
         "  padding : 0px 6px;" +
         "  cursor:default;" +
+        "  font-size: 11px;" +
+        "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
         (qx.core.Variant.isSet("qx.client", "mshtml")
          ? ''
          : ';-moz-user-select:none;')
@@ -129,14 +130,32 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
       for (var left = 0,
              i = 0;
            i < data.length;
-           left += this._columnWidth[i],
+           left += width,
              i++)
       {
+        var styles = this._columnStyle[i];
+        var width = 200;      // default in case it's not provided
+
         // Render this cell
         html.push("<div class='qooxdoo-progressive-trh-cell'",
                   "style='",
-                  "left:", left, "px;",
-                  "width:", this._columnWidth[i], "px;",
+                  "left:", left, "px;");
+
+        // Use the user-specified column styles
+        for (var attr in styles)
+        {
+          if (attr == "width")
+          {
+            width = styles[attr];
+          }
+          else
+          {
+            html.push(attr, ":", styles[attr], ";");
+          }
+        }
+
+        // Now that we have the width (provided or default), set it
+        html.push("width:", width,
                   "'>",
                   qx.html.String.escape(this._formatValue(data[i])),
                   "</div>");
