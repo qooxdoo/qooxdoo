@@ -327,6 +327,7 @@ qx.Class.define("apiviewer.ui.SearchView",
      * @param spath {String} matched 2nd subexpression from _validateInput
      */
     _searchIndex : function(svalue, spath) {
+      
       var sresult = [];
       //Match object
 
@@ -336,30 +337,42 @@ qx.Class.define("apiviewer.ui.SearchView",
       var fullNames = this.apiindex.__fullNames__;
       var types = this.apiindex.__types__;
 
+      var icon, elemtype, fullname;
+      
       for (var key in index) {
         if (mo.test(key))
         {
-          for (var i=0, l=index[key].length; i<l; i++) {
-            var elemtype = types[index[key][i][0]].toUpperCase();
             if (spath) {
-              var fullname = fullNames[index[key][i][1]];
-              if (new RegExp(spath, "i").test(fullname)) {
-                var icon = apiviewer.TreeUtil["ICON_" + elemtype];
-                sresult.push([icon, fullname + key]);
+              for (var i=0, l=index[key].length; i<l; i++) {
+                fullname = fullNames[index[key][i][1]];
+                if (new RegExp(spath, "i").test(fullname)) {
+                  elemtype = types[index[key][i][0]].toUpperCase();
+                  icon = apiviewer.TreeUtil["ICON_" + elemtype];
+                  sresult.push([icon, fullname + key]);
+                }
               }
             } else {
-              var icon = apiviewer.TreeUtil["ICON_" + elemtype];
-              var addKey = "";
-              if (elemtype != "PACKAGE" && elemtype != "CLASS" && elemtype != "INTERFACE" && elemtype != "MIXIN") {
-                addKey = key;
+              
+              for (var i=0, l=index[key].length; i<l; i++) {
+                elemtype = types[index[key][i][0]].toUpperCase();
+                fullname = fullNames[index[key][i][1]];
+    
+                if (elemtype == "CLASS") {
+                  icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
+                } else {
+                  if (elemtype != "PACKAGE") {
+                    fullname += key;
+                  }
+                  icon = apiviewer.TreeUtil["ICON_" + elemtype];                
+                }
+                
+                sresult.push([icon, fullname]);
               }
-              var fullname = fullNames[index[key][i][1]] + addKey;
-              sresult.push([icon, fullname]);
             }
           }
         }
-      }
-      return sresult;
+
+        return sresult;
     },
 
 
