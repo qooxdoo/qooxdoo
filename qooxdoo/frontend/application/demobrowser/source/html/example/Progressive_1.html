@@ -82,20 +82,9 @@
         // Tell Progressive about its data model
         progressive.setDataModel(dataModel);
 
-        // Specify the cell styles
-
-        // Column styles for rendering data.  Excludes width, min-width and
-        // max-width as those are handled by columnWidths.
-        var columnStyles = [ ];
-        columnStyles[1] =
-          {
-            "text-align" : "right"
-          };
-
-
         // Instantiate a table row renderer
         var renderer =
-          new qx.ui.progressive.renderer.table.Row(columnWidths, columnStyles);
+          new qx.ui.progressive.renderer.table.Row(columnWidths);
 
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", renderer);

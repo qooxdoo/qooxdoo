@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
 
       if (style)
       {
-        html.push("style='", this._getCellStyle, "'");
+        html.push("style='", style, "'");
       }
 
       html.push(this._getCellExtras(cellInfo),

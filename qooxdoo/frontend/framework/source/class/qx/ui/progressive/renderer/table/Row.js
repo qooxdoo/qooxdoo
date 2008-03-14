@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   /**
    */
-  construct : function(columnWidths, columnStyles)
+  construct : function(columnWidths)
   {
     this.base(arguments);
 
