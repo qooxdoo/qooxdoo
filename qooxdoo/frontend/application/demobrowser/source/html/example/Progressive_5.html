@@ -41,16 +41,16 @@
           {
             renderer : "row",
             location : "end",
-            data     : [ nextId++, html ]
+            data     : [ html, html ]
           };
           return ret;
         };
 
-        var columnWidths = new qx.ui.util.column.Widths(3);
-        columnWidths.setWidth(0, 100);
+        var columnWidths = new qx.ui.util.column.Widths(2);
+        columnWidths.setWidth(0, "2*");
         columnWidths.setWidth(1, "1*");
 
-        var columnNames = [ "Id", "Html" ];
+        var columnNames = [ "Literal", "Html" ];
 
         // Instantiate a Progressive with a default structure with header
         var header = new qx.ui.progressive.headfoot.TableHeading(columnWidths,
@@ -93,7 +93,11 @@
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", rowRenderer);
 
-        // Tell the row renderer to use a boolean renderer for column 1
+        // Tell the row renderer to use a String renderer for column 0
+        var r = new qx.ui.progressive.renderer.table.cell.String();
+        rowRenderer.addRenderer(0, r);
+
+        // Tell the row renderer to use an HTML renderer for column 1
         var r = new qx.ui.progressive.renderer.table.cell.Html();
         rowRenderer.addRenderer(1, r);
 
