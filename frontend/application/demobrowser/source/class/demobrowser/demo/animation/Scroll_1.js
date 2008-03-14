@@ -113,7 +113,7 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
       });
 
 
-      this.getRoot().add(btnUp, btnDown, btnLeft, btnRight, btnGoto);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(btnUp, btnDown, btnLeft, btnRight, btnGoto);
     }
   }
 });
