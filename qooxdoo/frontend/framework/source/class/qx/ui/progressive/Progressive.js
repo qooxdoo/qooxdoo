@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     addRenderer : function(name, renderer)
     {
       this._renderer[name] = renderer;
-      renderer.join(this);
+      renderer.join(this, name);
     },
 
     removeRenderer : function(name)

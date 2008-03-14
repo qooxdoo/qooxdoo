@@ -54,6 +54,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   statics :
   {
+    /** Background colors of alternating rows */
+    BACKGROUND_COLOR : [ "rgb(238, 255, 255)", "rgb(255, 255, 255)" ],
+
     __clazz : null,
 
     __tableCellStyleSheet :
@@ -87,7 +90,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   members :
   {
-    join : function(progressive)
+    join : function(progressive, name)
     {
       // Are we already joined?
       if (this._progressive)
@@ -98,6 +101,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       // Save the Progressive to which we're joined
       this._progressive = progressive;
+
+      // Save the name that Progressive knows us by
+      this._name = progressive;
 
       // Arrange to be called when the window appears or is resized, so we
       // can set each style sheet's left and width field appropriately.
@@ -184,6 +190,21 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       var renderer;
       var height = 0;
 
+      // Initialize row counter, if necessary.  We'll use this for shading
+      // alternate rows.
+      if (state.rendererData[this._name] === undefined)
+      {
+        state.rendererData[this._name] =
+          {
+            end   : 0,
+            start : 1,
+            rows  : 0
+          };
+      }
+
+      // Create the div for this row
+      var div = document.createElement("div");
+
       // For each cell...
       for (i = 0; i < data.length; i++)
       {
@@ -196,6 +217,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         cellInfo =
         {
           state      : state,
+          rowDiv     : div,
           stylesheet : stylesheet,
           cellData   : data[i],
           element    : element,
@@ -215,16 +237,28 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         }
       }
 
-      // Create the row div
-      var div = document.createElement("div");
+      // Set properties for the row div
       div.style.position = "relative";
       div.style.height = height > 0 ? height : this.getDefaultRowHeight();
       div.innerHTML = html.join("");
+
+      // Get a reference to our renderer data
+      var rendererData = state.rendererData[this._name];
 
       // Add this row to the table
       switch(element.location)
       {
       case "end":
+        // Determine color of row based on state of last added row
+        var index = state.rendererData[this._name].end;
+
+        // Set the background color of this row
+        div.style.backgroundColor =
+          qx.ui.progressive.renderer.table.Row.BACKGROUND_COLOR[index];
+
+        // Update state for next time
+        rendererData.end = (index == 0 ? 1 : 0);
+
         // Append our new row to the pane.
         state.pane.getElement().appendChild(div);
         break;
@@ -239,7 +273,17 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         // Are there any children?
         if (children.length > 0)
         {
-          // Yup.  Insert our new row before the first child
+          // Yup.  Determine color of row based on state of last added row
+          var index = rendererData.start;
+
+          // Set the background color of this row
+          div.style.backgroundColor =
+            qx.ui.progressive.renderer.table.Row.BACKGROUND_COLOR[index];
+
+          // Update state for next time
+          rendererData.start = (index == 0 ? 1 : 0);
+
+          // Insert our new row before the first child.   
           elem.insertBefore(div, children[0]);
           break;
         }
@@ -253,6 +297,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       default:
         throw new Error("Invalid location: " + element.location);
       }
+
+      // Increment row count
+      ++rendererData.rows;
     },
 
     _resizeColumns : function(e)
