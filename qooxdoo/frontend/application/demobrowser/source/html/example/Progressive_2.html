@@ -19,7 +19,8 @@
   <div id="description">
     <p>
       Example of Progressive rendering of a table using pure HTML for the table
-      rows.
+      rows.  Note that the last element is inserted at the top to show how that
+      is done.
     </p>
   </div>
 
@@ -45,8 +46,7 @@
             rowData.push(
                          {
                            renderer : "row",
-//                           location : row == rowCount - 1 ? "start" : "end",
-                           location : "end",
+                           location : row == rowCount - 1 ? "start" : "end",
                            data     : [
                                        nextId++,
                                        Math.random() * 10000,

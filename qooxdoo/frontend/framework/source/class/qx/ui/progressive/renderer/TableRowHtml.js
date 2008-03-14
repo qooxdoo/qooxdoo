@@ -175,6 +175,18 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         break;
 
       case "start":
+        var elem = state.container.getElement();
+        var children = elem.childNodes;
+        if (children.length > 0)
+        {
+          elem.insertBefore(div, children[0]);
+          break;
+        }
+        else
+        {
+          /* No children yet. */
+          elem.appendChild(div);
+        }
         break;
 
       default:
