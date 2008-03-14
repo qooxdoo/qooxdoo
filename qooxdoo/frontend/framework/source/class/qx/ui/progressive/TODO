@@ -1,7 +1,5 @@
 - provide simple formatting, e.g. alignment, in progressive.table.cell.Default
 
-- allow changing cell data and row height based on an event, e.g. mouseover
-
 - disposers in all classes
   - do we need an unjoin() to counter join(), to clear all of the references
     to Progressive? 
@@ -16,3 +14,5 @@
   including a progress indicator.
 
 - add lots of documentation
+
+- Someone will have to test this in Safari.
