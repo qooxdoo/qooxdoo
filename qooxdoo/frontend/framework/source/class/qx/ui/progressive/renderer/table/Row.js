@@ -26,7 +26,7 @@
 /**
  * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
-qx.Class.define("qx.ui.progressive.renderer.TableRow",
+qx.Class.define("qx.ui.progressive.renderer.table.Row",
 {
   extend     : qx.ui.progressive.renderer.Abstract,
 
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
                                    this);
 
       // If we haven't created style sheets for this table yet...
-      var tr = qx.ui.progressive.renderer.TableRow;
+      var tr = qx.ui.progressive.renderer.table.Row;
       if (!tr.__clazz)
       {
         tr.__clazz = { };
@@ -234,14 +234,14 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
       }
       else if (typeof value == "number")
       {
-        if (! qx.ui.progressive.renderer.TableRow._numberFormat)
+        if (! qx.ui.progressive.renderer.table.Row._numberFormat)
         {
           var numberFormat = new qx.util.format.NumberFormat();
           numberFormat.setMaximumFractionDigits(2);
-          qx.ui.progressive.renderer.TableRow._numberFormat = numberFormat;
+          qx.ui.progressive.renderer.table.Row._numberFormat = numberFormat;
         }
         ret =
-          qx.ui.progressive.renderer.TableRow._numberFormat.format(value);
+          qx.ui.progressive.renderer.table.Row._numberFormat.format(value);
       }
       else if (value instanceof Date)
       {
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.progressive.renderer.TableRow",
         var stylesheet = ".qx-progressive-" + this._hash + "-cell-" + i;
 
         // Remove the style rule for this column
-        var tr = qx.ui.progressive.renderer.TableRow;
+        var tr = qx.ui.progressive.renderer.table.Row;
         qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].stylesheet[i],
                                       stylesheet);
 

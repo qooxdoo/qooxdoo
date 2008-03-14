@@ -1,5 +1,5 @@
 - namespace progressive.renderer.table.*
-  - add namespace progressive.renderer.cell
+  - add namespace progressive.renderer.table.cell
     - move cell rendering out of TableRow and into cell renderer classes
 
 - write an example of a Remote data model class
