@@ -222,11 +222,10 @@ qx.Class.define("qx.ui.progressive.Progressive",
         // browser
         batchSize      : this.getBatchSize(),
 
-        // Add a place for renderers' private data.  Each renderer should
-        // place its own private data in the the state object area reserved
-        // for that renderer's use: state.rendererData[element.renderer],
-        // possibly as an array to deal with the same renderer being used by
-        // multiple columns.
+        // Add a place for renderers' private data.  If multiple renderers are
+        // being used, each renderer should place its own private data in the
+        // the state object area reserved for that renderer's use:
+        // state.rendererData[element.renderer].
         rendererData   : this.__createStateRendererData()
       };
 
