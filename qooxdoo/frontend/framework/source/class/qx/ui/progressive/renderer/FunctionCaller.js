@@ -24,34 +24,21 @@
 ************************************************************************ */
 
 /**
- * Abstract renderer for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Function "renderer" for Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
-qx.Class.define("qx.ui.progressive.renderer.Abstract",
+qx.Class.define("qx.ui.progressive.renderer.FunctionCaller",
 {
-  type       : "abstract",
-  extend     : qx.core.Object,
-
-
-  /**
-   */
-  construct : function()
-  {
-    this.base(arguments);
-  },
+  extend     : qx.ui.progressive.renderer.Abstract,
 
 
   members :
   {
     /**
+     * A renderer that simply calls the function provided by the data element.
      */
     render : function(state, element)
     {
-      throw new Error("render() is abstract");
-    },
-
-    join : function(progressive, name)
-    {
-      // nothing to do in the default case
+      element.data(state.userData);
     }
   }
 });

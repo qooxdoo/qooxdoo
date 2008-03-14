@@ -72,8 +72,15 @@ qx.Class.define("qx.ui.progressive.Progressive",
     this.addEventListener("appear",
                           function(e)
                           {
-                            this.createDispatchDataEvent("widthChanged");
+                            this.createDispatchEvent("widthChanged");
                           });
+
+    // If no structure is provided...
+    if (! structure)
+    {
+      // ... then create a default one.
+      structure = new qx.ui.progressive.structure.Default();
+    }
 
     // Prepare our pane structure
     this._structure = structure;
@@ -309,7 +316,8 @@ qx.Class.define("qx.ui.progressive.Progressive",
     _changeInnerWidth : function(newValue, oldValue)
     {
       this.base(arguments, newValue, oldValue);
-      this.createDispatchDataEvent("widthChanged");
+this.debug("Dispatching widthChanged event");
+      this.createDispatchEvent("widthChanged");
     },
 
     _applyDataModel : function(value, old)

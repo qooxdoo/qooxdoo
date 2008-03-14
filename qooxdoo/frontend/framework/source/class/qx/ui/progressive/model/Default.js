@@ -60,6 +60,23 @@ qx.Class.define("qx.ui.progressive.model.Default",
     },
 
     /**
+     * Add a single element to be progressively renderered.  The element must
+     * be an object which contains at least two members: renderer name and
+     * data.
+     *
+     * @param elem {Any}
+     *   An element to be added to the element queue
+     */
+    addElement : function(elem)
+    {
+      // Add the new elements to our elements queue.
+      this.__elements.push(elem);
+
+      // Tell Progressive that data is available
+      this.createDispatchDataEvent("dataAvailable", this.__elements.length);
+    },
+
+    /**
      */
     getElementCount : function()
     {

@@ -79,6 +79,11 @@
         var structure = new qx.ui.progressive.structure.Default(header,
                                                                 footer);
         var progressive = new qx.ui.progressive.Progressive(structure);
+        progressive.set(
+          {
+            width : 400,
+            right : null
+          });
 
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();
