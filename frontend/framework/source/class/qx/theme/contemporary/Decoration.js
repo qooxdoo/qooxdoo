@@ -105,6 +105,28 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       style : {
         baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Default-Fokus.png"
       }
+    },
+
+    "textfield-normal" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor: "border",
+        innerColor: "white"
+      }
+    },
+
+    "textfield-focus" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor: "border",
+        innerColor: "focus"
+      }
     }
 
   }

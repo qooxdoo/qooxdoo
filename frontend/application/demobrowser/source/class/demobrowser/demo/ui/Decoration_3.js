@@ -29,18 +29,68 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       this.base(arguments);
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Contemporary);
 
-      var containerLayout = new qx.ui.layout.HBox();
-      containerLayout.setSpacing(10);
+      var layout = new qx.ui.layout.Grid();
+      layout.setColumnAlign(0, "right", "top");
+      layout.setHorizontalSpacing(9);
+      layout.setVerticalSpacing(5);
+      layout.setColumnWidth(1, 160);
+      layout.setColumnWidth(2, 160);
 
-      var container = new qx.ui.core.Widget();
-      container.setPadding(20);
-      container.setLayout(containerLayout);
-      this.getRoot().add(container, 0, 0);
+
+      var container = new qx.ui.core.Widget().set({
+        layout: layout,
+        decorator: new qx.ui.decoration.Uniform().set({
+          width: 1,
+          color: "black",
+          backgroundImage: qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/source/Tab-Background.png",
+          backgroundRepeat: "repeat-x"
+        }),
+        padding: 16,
+        backgroundColor: "pane"
+      });
+
+      this.getRoot().add(container, 40, 40);
+
+      labels = ["First Name", "Last Name", "City", "Country", "Notes"];
+      for (var i=0; i<labels.length; i++) {
+        layout.add(new qx.ui.basic.Label(labels[i]).set({
+          allowGrowX: false,
+          allowShrinkX: false,
+          paddingTop: 3
+        }), i, 0);
+      }
+
+      inputs = ["Helmut", "Schmidt", "Karlsruhe", "Germany"];
+      for (var i=0; i<inputs.length; i++) {
+        layout.add(new qx.ui.form.TextField(inputs[i]).set({
+        }), i, 1);
+      }
+
+      layout.add(new qx.ui.form.TextArea().set({
+        height: 250
+      }), 4, 1, {colSpan: 2});
 
 
-      var widget1 = new qx.ui.form.Button("OK");
-      widget1.setWidth(100);
-      containerLayout.add(widget1);
+      var buttonPane = new qx.ui.core.Widget().set({
+        layout: new qx.ui.layout.HBox().set({
+          spacing: 4
+        }),
+        paddingTop: 11
+      });
+      layout.add(buttonPane, 5, 0, {colSpan: 3});
+      buttonPane.getLayout().addSpacer();
+
+      okButton = new qx.ui.form.Button("OK").set({
+        minWidth: 80
+      });
+      okButton.addState("default");
+      buttonPane.getLayout().add(okButton);
+
+      cancelButton = new qx.ui.form.Button("Cancel").set({
+        minWidth: 80
+      });
+      buttonPane.getLayout().add(cancelButton);
+
     }
   }
 });
