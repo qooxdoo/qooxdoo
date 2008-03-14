@@ -33,21 +33,16 @@ qx.Class.define("qx.ui.progressive.State",
 
   /**
    */
-    construct : function(progressive,
-                         model,
-                         pane,
-                         batchSize,
-                         rendererData,
-                         userData)
+    construct : function(initialState)
   {
     this.base(arguments);
 
-    this.setProgressive(progressive);
-    this.setModel(model);
-    this.setPane(pane);
-    this.setBatchSize(batchSize);
-    this.setRendererData(rendererData);
-    this.setUserData(userData || { });
+    this.setProgressive(initialState.progressive);
+    this.setModel(initialState.model);
+    this.setPane(initialState.pane);
+    this.setBatchSize(initialState.batchSize);
+    this.setRendererData(initialState.rendererData);
+    this.setUserData(initialState.userData);
   },
 
 
