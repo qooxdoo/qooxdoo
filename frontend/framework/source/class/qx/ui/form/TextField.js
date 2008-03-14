@@ -226,9 +226,12 @@ qx.Class.define("qx.ui.form.TextField",
       // Mozilla replaces it. But this make it possible for the user
       // to overwrite the margin, which is not possible in IE.
       // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=73817
+      // TODO: Check this for FF3.0
+      /*
       if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit")) {
         el.setStyle("margin", "1px 0");
       }
+      */
 
       return el;
     },
