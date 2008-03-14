@@ -144,8 +144,8 @@ qx.Class.define("qx.fx.effect.combination.Drop",
       var yAmount = this.getYAmount();
 
       var oldStyle = {
-        top     : qx.bom.element.Location.getTop(this._element),
-        left    : qx.bom.element.Location.getLeft(this._element)
+        top  : qx.bom.element.Location.getTop(this._element),
+        left : qx.bom.element.Location.getLeft(this._element)
       };
 
       var moveEffectOptions = {
@@ -199,15 +199,15 @@ qx.Class.define("qx.fx.effect.combination.Drop",
 
       if(this.getMode() == "in")
       {
-        qx.bom.element.Style.set(this._element, "top", oldStyle.top - moveEffectOptions.y);
-        qx.bom.element.Style.set(this._element, "left", oldStyle.left - moveEffectOptions.x);
+        qx.bom.element.Style.set(this._element, "top", (oldStyle.top - moveEffectOptions.y) + "px");
+        qx.bom.element.Style.set(this._element, "left", (oldStyle.left - moveEffectOptions.x) + "px");
       }
 
       this._moveEffect.set(moveEffectOptions);
       this._fadeEffect.afterFinishInternal = function()
       {
         for (var property in oldStyle) {
-          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+          qx.bom.element.Style.set(this._element, property, oldStyle[property] + "px");
         }
       };
 

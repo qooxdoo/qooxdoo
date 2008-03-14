@@ -220,8 +220,10 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
      if (this.getRestoreAfterFinish())
      {
-       for(var property in this._originalStyle) {
-         qx.bom.element.Style.set(this._element, property, this._originalStyle[property]);
+       for(var property in this._originalStyle)
+       {
+         value = this._originalStyle[property];
+         qx.bom.element.Style.set(this._element, property, value);
        }
      }
    },

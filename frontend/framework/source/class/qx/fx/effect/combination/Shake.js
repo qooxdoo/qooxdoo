@@ -121,9 +121,9 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       }
 
       var oldStyle = {
-          top    : qx.bom.element.Location.getTop(this._element),
-          left   : qx.bom.element.Location.getLeft(this._element)
-        };
+        top  : qx.bom.element.Location.getTop(this._element),
+        left : qx.bom.element.Location.getLeft(this._element)
+      };
 
 
       var distance = parseFloat(this.getDistance());
@@ -162,7 +162,7 @@ qx.Class.define("qx.fx.effect.combination.Shake",
         {
           this._effects[i].afterFinishInternal = function(){
             for(var property in oldStyle) {
-              qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+              qx.bom.element.Style.set(this._element, property, (oldStyle[property] + "px"));
             }
           };
         }

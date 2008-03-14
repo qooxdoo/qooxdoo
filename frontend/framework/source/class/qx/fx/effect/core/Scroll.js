@@ -126,18 +126,18 @@ qx.Class.define("qx.fx.effect.core.Scroll",
       {
 
         if (this.getX() != 0) {
-          this._element.scrollLeft = this._startOffsets.x + (this.getX() * position);
+          this._element.scrollLeft = this._startOffsets.x + (this.getX() * position) + "px";
         }
 
         if (this.getY() != 0) {
-          this._element.scrollTop = this._startOffsets.y + (this.getY() * position);
+          this._element.scrollTop = this._startOffsets.y + (this.getY() * position) + "px";
         }
 
       }
       else
       {
-        this._element.scrollLeft = this._startOffsets.x + (this._deltaOffsets.left * position);
-        this._element.scrollTop = this._startOffsets.y + (this._deltaOffsets.top * position);
+        this._element.scrollLeft = this._startOffsets.x + (this._deltaOffsets.left * position) + "px";
+        this._element.scrollTop = this._startOffsets.y + (this._deltaOffsets.top * position) + "px";
       }
 
     },
