@@ -47,8 +47,8 @@ qx.Class.define("qx.ui.progressive.State",
   properties :
   {
     /**
-     * The {qx.ui.progressive.Progressive} with which this {#State} is
-     * associated. This property should be treated as read-only.
+     * The {@link qx.ui.progressive.Progressive} with which this {@link
+     * #State} is associated. This property should be treated as read-only.
      */
     progressive    : { },
 

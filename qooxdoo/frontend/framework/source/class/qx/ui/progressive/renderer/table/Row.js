@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * @param column {Integer}
      *   The column number for which the cell renderer applies
      *
-     * @param renderer {qx.ui.progressive.renderer.table.cell.Abstract}
+     * @param renderer {@link qx.ui.progressive.renderer.table.cell.Abstract}
      *   The cell renderer for the specified column.
      *
      * @return {Void}
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     },
 
     /**
-     * Remove a cell renderer previously added with {#addRenderer}.
+     * Remove a cell renderer previously added with {@link #addRenderer}.
      *
      * @param column {Integer}
      *   The column for which the cell renderer is to be removed.

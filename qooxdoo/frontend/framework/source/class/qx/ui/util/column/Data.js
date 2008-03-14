@@ -24,7 +24,8 @@
 ************************************************************************ */
 
 /**
- * All of the resizing information about a column.
+ * All of the resizing information about a column.  This is the class which
+ * {@link qx.ui.util.column.Widths} contains in its array of column data.
  */
 qx.Class.define("qx.ui.util.column.Data",
 {

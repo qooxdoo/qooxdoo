@@ -48,6 +48,8 @@ qx.Class.define("qx.ui.util.column.FlexWidth",
      *
      * @param width {Integer}
      *   The available width on which the column widths should be based.
+     *
+     * @return {Void}
      */
     compute : function(columns, width)
     {

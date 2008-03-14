@@ -34,7 +34,7 @@
  *     state
  *   </dt>
  *   <dd>
- *     The {qx.ui.progressive.State} object pertaining to this rendering
+ *     The {@link qx.ui.progressive.State} object pertaining to this rendering
  *     session.
  *   </dd>
  *
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * this cell.
      *
      * @param cellInfo {Object}
-     *   See {qx.ui.progressive.renderer.table.cell.Abstract} class
+     *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
      *   description for details 
      *
      * @return {String}
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * "onclick='handleClick()';"
      *
      * @param cellInfo {Object}
-     *   See {qx.ui.progressive.renderer.table.cell.Abstract} class
+     *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
      *   description for details 
      *
      * @return {String}
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * Retreve the HTML content to be added to the cell div.
      *
      * @param cellInfo {Object}
-     *   See {qx.ui.progressive.renderer.table.cell.Abstract} class
+     *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
      *   description for details 
      *
      * @return {String}
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * cell.
      *
      * @param cellInfo {Object}
-     *   See {qx.ui.progressive.renderer.table.cell.Abstract} class
+     *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
      *   description for details 
      *
      * @return {String}

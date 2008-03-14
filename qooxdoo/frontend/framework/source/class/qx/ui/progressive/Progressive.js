@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     /**
      * Render the elements available from the data model.  Elements are
-     * rendered in batches of size {#batchSize}.  After each batch of
+     * rendered in batches of size {@link #batchSize}.  After each batch of
      * elements are rendered, control is returned temporarily to the
      * browser, so that actual screen updates can take place.  A timer is
      * used to regain control a short while later, in order to render the
@@ -355,9 +355,9 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     /**
      * Render a batch of elements.  The batch size is determined by the
-     * Progressive's batch size at the time that rendering began.  That
-     * batch size was copied into the {qx.ui.progressive.State} object and
-     * is used herein.
+     * Progressive's batch size at the time that rendering began.  That batch
+     * size was copied into the {@link qx.ui.progressive.State} object and is
+     * used herein.
      */
     __renderElementBatch : function(state)
     {

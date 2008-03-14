@@ -66,10 +66,10 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
      *     <dt>
      *       renderer</dt>
      *     <dd>
-     *       The name of a renderer.  That name is used by
-     *       {qx.ui.progressive.Progressive} to select the renderer to be used
+     *       The name of a renderer.  That name is used by {@link
+     *       qx.ui.progressive.Progressive} to select the renderer to be used
      *       to render this element.  The name should match one provided to
-     *       {qx.ui.progressive.Progressive#addRenderer}.
+     *       {@link qx.ui.progressive.Progressive#addRenderer}.
      *     </dd>
      *
      *     <dt>
