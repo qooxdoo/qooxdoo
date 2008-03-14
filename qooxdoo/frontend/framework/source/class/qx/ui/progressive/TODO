@@ -1,6 +1,14 @@
+- pass row div to cell renderer
+
 - provide simple formatting, e.g. alignment, in progressive.table.cell.Default
 
 - allow changing cell data and row height based on an event, e.g. mouseover
+
+- disposers in all classes
+  - do we need an unjoin() to counter join(), to clear all of the references
+    to Progressive? 
+
+- convert to use appearances instead of hard-coded styles
 
 - port Table's cell renderers to be usable by Progressive's tables
 
