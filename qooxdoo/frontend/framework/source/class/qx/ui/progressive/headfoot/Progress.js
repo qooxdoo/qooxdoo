@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       progressive.addEventListener("renderStart",
                                    function(e)
                                    {
-                                     this.__total = e.getData();
+                                     this.__total = e.getData().initial;
                                      this.setDisplay(true);
                                    },
                                    this);

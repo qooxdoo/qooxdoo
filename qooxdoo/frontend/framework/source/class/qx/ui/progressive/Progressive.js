@@ -72,8 +72,20 @@ qx.Class.define("qx.ui.progressive.Progressive",
   events :
   {
     /**
-     * Event fired when rendering begins.  The event data is the number of
-     * elements currently queued to be rendered.
+     * Event fired when rendering begins.
+     *
+     * The event data is an object with the following members:
+     * <dl>
+     *   <dt>state</dt>
+     *   <dd>
+     *     The state object.  
+     *   </dd>
+     *
+     *   <dt>initial</dt>
+     *     The number of elements that are available to be rendered
+     *   <dd>
+     *   </dd>
+     * </dl>
      */
     "renderStart" : "qx.event.type.DataEvent",
 
@@ -212,6 +224,9 @@ qx.Class.define("qx.ui.progressive.Progressive",
       var renderer;
       var state =
       {
+        // This Progressive
+        progressive    : this,
+
         // The data model
         model          : this.getDataModel(),
 
@@ -226,7 +241,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
         // being used, each renderer should place its own private data in the
         // the state object area reserved for that renderer's use:
         // state.rendererData[element.renderer].
-        rendererData   : this.__createStateRendererData()
+        rendererData   : this.__createStateRendererData(),
+
+        // User data.  This is useful, for example, by communication between
+        // the renderStart event listener and the renderers.
+        userData       : { }
       };
 
       // Record render start time
@@ -240,7 +259,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
         this.__initialNumElements = state.model.getElementCount();
 
         // Let listeners know we're beginning to render
-        this.createDispatchDataEvent("renderStart", this.__initialNumElements);
+        this.createDispatchDataEvent("renderStart",
+                                     {
+                                       state   : state, 
+                                       initial : this.__initialNumElements
+                                     });
 
         // Begin rendering
         this.__renderElementBatch(state);
@@ -257,8 +280,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
                              {
                                this.__initialNumElements =
                                  state.model.getElementCount();
-                               this.createDispatchDataEvent("renderStart",
-                                                            this.__initialNumElements);
+                               this.createDispatchDataEvent(
+                                 "renderStart",
+                                 {
+                                   state   : state, 
+                                   initial : this.__initialNumElements
+                                 });
                                this.__renderElementBatch(state);
                                this.__bInitialRenderComplete = true;
                              },
