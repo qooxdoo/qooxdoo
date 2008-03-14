@@ -122,7 +122,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
         animMove.start();
       });
 
-      this.getRoot().add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
+      qx.legacy.ui.core.ClientDocument.getInstance().add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
     }
   }
 });
