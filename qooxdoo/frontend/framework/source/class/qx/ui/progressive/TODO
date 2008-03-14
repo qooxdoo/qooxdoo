@@ -1,0 +1,13 @@
+- move Progressive_1.html into example, and add text to indicate it's too slow
+
+- add TableRowWidget class directly into Progressive_1.html
+
+- namespace progressive.renderer.table.*
+  - rename TableRowHtml to TableRow
+  - add namespace progressive.renderer.cell
+    - move cell rendering out of TableRow and into cell renderer classes
+
+- write an example of a Remote data model class
+
+- show how to use Progressive to implement incremental loading of a page
+  including a progress indicator.
