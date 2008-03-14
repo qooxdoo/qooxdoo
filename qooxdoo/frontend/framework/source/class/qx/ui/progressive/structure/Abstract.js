@@ -24,29 +24,33 @@
 ************************************************************************ */
 
 /**
- * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Structure definition for Progressive
  */
-qx.Class.define("qx.ui.progressive.renderer.Abstract",
+qx.Class.define("qx.ui.progressive.structure.Abstract",
 {
   type       : "abstract",
   extend     : qx.core.Object,
 
-
-  /**
-   */
-  construct : function()
+  construct : function(pane)
   {
-    this.base(arguments);
+    // If no pane was specified, use a vertical box layout
+    this._pane = pane || new qx.ui.layout.VerticalBoxLayout();
+    this._pane.setHeight("1*");
+    this._pane.setOverflow("auto");
   },
-
 
   members :
   {
     /**
      */
-    render : function(state, element)
+    applyStructure : function(progressive)
     {
-      throw new Error("render() is abstract");
+      throw new Error("applyStructure() is abstract");
+    },
+
+    getPane : function()
+    {
+      return this._pane;
     }
   }
 });

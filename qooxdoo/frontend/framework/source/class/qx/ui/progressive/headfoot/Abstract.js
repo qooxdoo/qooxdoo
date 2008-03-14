@@ -24,29 +24,10 @@
 ************************************************************************ */
 
 /**
- * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * A null header/footer
  */
-qx.Class.define("qx.ui.progressive.renderer.Abstract",
+qx.Class.define("qx.ui.progressive.headfoot.Abstract",
 {
   type       : "abstract",
-  extend     : qx.core.Object,
-
-
-  /**
-   */
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
-
-  members :
-  {
-    /**
-     */
-    render : function(state, element)
-    {
-      throw new Error("render() is abstract");
-    }
-  }
+  extend     : qx.ui.layout.HorizontalBoxLayout
 });

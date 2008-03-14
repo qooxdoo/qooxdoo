@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2008 Derrell LIpman
+     2008 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html

@@ -57,19 +57,6 @@
           return rowData;
         };
 
-        // Instantiate a Progressive
-        var progressive = new qx.ui.progressive.Progressive();
-
-        // Instantiate a data model and populate it.
-        var dataModel = new qx.ui.progressive.model.Default();
-        var rowData = createRandomRows(500);
-        dataModel.addElements(rowData);
-
-        // Tell Progressive about its data model
-        progressive.setDataModel(dataModel);
-
-        // Specify the cell styles
-
         var columnStyles =
           [
             {
@@ -83,6 +70,24 @@
               width : 300
             }
           ];
+
+        var columnNames = [ "Id", "Number", "Date" ];
+
+        // Instantiate a Progressive with a default structure with header
+        var header = new qx.ui.progressive.headfoot.TableHeading(columnStyles,
+                                                                 columnNames);
+        var structure = new qx.ui.progressive.structure.Default(header);
+        var progressive = new qx.ui.progressive.Progressive(structure);
+
+        // Instantiate a data model and populate it.
+        var dataModel = new qx.ui.progressive.model.Default();
+        var rowData = createRandomRows(500);
+        dataModel.addElements(rowData);
+
+        // Tell Progressive about its data model
+        progressive.setDataModel(dataModel);
+
+        // Specify the cell styles
 
         // Instantiate a table row renderer
         var renderer =

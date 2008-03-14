@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2008 Derrell LIpman
+     2008 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
   /**
    */
-  construct : function()
+  construct : function(structure)
   {
     this.base(arguments);
 
@@ -49,12 +49,13 @@ qx.Class.define("qx.ui.progressive.Progressive",
         bottom          : 20,
         spacing         : 0,
         border          : new qx.ui.core.Border(1, "solid", "#dddddd"),
-        overflow        : "auto",
+        overflow        : "hidden",
         backgroundColor : "white"
       });
 
-    // Initialize properties
-    this.setPane(new qx.ui.layout.VerticalBoxLayout());
+    // Prepare our displayable structure
+    this._structure = structure;
+    structure.applyStructure(this);
 
     // We've not yet done our initial render
     this.__bInitialRenderComplete = false;
@@ -107,20 +108,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
     },
 
     /**
-     * Header object.
-     */
-    header :
-    {
-      apply : "_applyHeader"
-    },
-
-    /** Pane object in which renderers render their data */
-    pane :
-    {
-      apply : "_applyPane"
-    },
-
-    /**
      * Number of elements to render at one time.  After this number of
      * elements has been rendered, control will be yielded to the browser
      * allowing the elements to actually be displayed.  A short-interval
@@ -135,6 +122,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
   members :
   {
+
     /**
      * @type member
      * @param value {var} Current value
@@ -148,6 +136,98 @@ qx.Class.define("qx.ui.progressive.Progressive",
     removeRenderer : function(name)
     {
       delete this._renderer[name];
+    },
+
+    getPane : function()
+    {
+      return this._pane;
+    },
+
+    getHeader : function()
+    {
+      return this._header;
+    },
+
+    getFooter : function()
+    {
+      return this._footer;
+    },
+
+    render : function()
+    {
+      // Prevent render calls while we're already rendering
+      if (this.__bRendering)
+      {
+        return;
+      }
+
+      this.__bRendering = true;
+
+      var element;
+      var renderer;
+      var state =
+      {
+        // The data model
+        model          : this.getDataModel(),
+
+        // The widget in which the element data should be rendered
+        pane           : this._structure.getPane(),
+
+        // How many elements are rendered at a time, before yielding to the
+        // browser
+        batchSize      : this.getBatchSize(),
+
+        // Add a place for renderers' private data.  Each renderer should
+        // place its own private data in the the state object area reserved
+        // for that renderer's use: state.rendererData[element.renderer],
+        // possibly as an array to deal with the same renderer being used by
+        // multiple columns.
+        rendererData   : this.__createStateRendererData()
+      };
+
+      // Record render start time
+      this.__t1 = new Date();
+
+      // Render the first batch of elements.  Subsequent batches will be via
+      // timer started from this.__renderElementBatch().
+      if (this.__bInitialRenderComplete)
+      {
+        // Get the starting number of elements
+        this.__initialNumElements = state.model.getElementCount();
+        this.__renderElementBatch(state);
+      }
+      else
+      {
+        // Ensure we leave enough time that 'this' has been rendered, so that
+        // this.getElement() is valid and has properties.  It's needed by some
+        // renderers.
+        //
+        // FIXME: Why isn't an event listener for "appear" an adequate delay???
+        //        (It's done with a timer like this in Table's Pane too.)
+        qx.client.Timer.once(function()
+                             {
+                               this.__initialNumElements =
+                                 state.model.getElementCount();
+                               this.__renderElementBatch(state);
+                               this.__bInitialRenderComplete = true;
+                             },
+                             this, 10);
+      }
+    },
+
+    _applyDataModel : function(value, old)
+    {
+      if (old)
+      {
+        // Remove the old event listener
+        old.removeEventListener("dataAvailable", this.__dataAvailable, this);
+
+        // Dispose the old model
+        old.dispose();
+      }
+
+      // Add an event listener so we know when data is available in the model
+      value.addEventListener("dataAvailable", this.__dataAvailable, this);
     },
 
     __renderElementBatch : function(state)
@@ -207,123 +287,10 @@ qx.Class.define("qx.ui.progressive.Progressive",
       return rendererData;
     },
 
-    render : function()
-    {
-      // Prevent render calls while we're already rendering
-      if (this.__bRendering)
-      {
-        return;
-      }
-
-      this.__bRendering = true;
-
-      var element;
-      var renderer;
-      var state =
-      {
-        // The data model
-        model          : this.getDataModel(),
-
-        // The widget in which the element data should be rendered
-        pane           : this.getPane(),
-
-        // How many elements are rendered at a time, before yielding to the
-        // browser
-        batchSize      : this.getBatchSize(),
-
-        // Add a place for renderers' private data.  Each renderer should
-        // place its own private data in the the state object area reserved
-        // for that renderer's use: state.rendererData[element.renderer],
-        // possibly as an array to deal with the same renderer being used by
-        // multiple columns.
-        rendererData   : this.__createStateRendererData()
-      };
-
-      // Record render start time
-      this.__t1 = new Date();
-
-      // Render the first batch of elements.  Subsequent batches will be via
-      // timer started from this.__renderElementBatch().
-      if (this.__bInitialRenderComplete)
-      {
-        // Get the starting number of elements
-        this.__initialNumElements = state.model.getElementCount();
-        this.__renderElementBatch(state);
-      }
-      else
-      {
-        // Ensure we leave enough time that 'this' has been rendered, so that
-        // this.getElement() is valid and has properties.  It's needed by some
-        // renderers.
-        //
-        // FIXME: Why isn't an event listener for "appear" an adequate delay???
-        //        (It's done with a timer like this in Table's Pane too.)
-        qx.client.Timer.once(function()
-                             {
-                               this.__initialNumElements =
-                                 state.model.getElementCount();
-                               this.__renderElementBatch(state);
-                               this.__bInitialRenderComplete = true;
-                             },
-                             this, 10);
-      }
-    },
-
     __dataAvailable : function(e)
     {
       this.__initialNumElements = e.getData();
       this.render();
-    },
-
-    _applyDataModel : function(value, old)
-    {
-      if (old)
-      {
-        // Remove the old event listener
-        old.removeEventListener("dataAvailable", this.__dataAvailable, this);
-
-        // Dispose the old model
-        old.dispose();
-      }
-
-      // Add an event listener so we know when data is available in the model
-      value.addEventListener("dataAvailable", this.__dataAvailable, this);
-    },
-
-    _applyHeader : function(value, old)
-    {
-      if (old)
-      {
-        // Remove the oldheader from this Progressive.
-        this.remove(old);
-
-        // Dispose the old header
-        old.dispose();
-      }
-
-      if (value)
-      {
-        // Add the new header to this Progressive.
-        this.addAtBegin(value);
-      }
-    },
-
-    _applyPane : function(value, old)
-    {
-      if (old)
-      {
-        // Remove the old pane from this Progressive.
-        this.remove(old);
-
-        // Dispose the old pane
-        old.dispose();
-      }
-
-      if (value)
-      {
-        // Add the new pane to this Progressive.
-        this.add(value);
-      }
     }
   },
 

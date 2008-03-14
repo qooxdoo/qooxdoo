@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2008 Derrell LIpman
+     2008 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -73,7 +73,10 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
         (qx.core.Variant.isSet("qx.client", "mshtml")
          ? ''
-         : ';-moz-user-select:none;')
+         : ';-moz-user-select:none;'),
+
+    /** Default column width, if not otherwise specified */
+    defaultWidth : 200
   },
 
   members :
@@ -134,7 +137,9 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
              i++)
       {
         var styles = this._columnStyle[i];
-        var width = 200;      // default in case it's not provided
+
+        // Provide a default in case it's not provided
+        var width = qx.ui.progressive.renderer.TableRowHtml.defaultWidth;
 
         // Render this cell
         html.push("<div class='qooxdoo-progressive-trh-cell'",
