@@ -1,3 +1,7 @@
+- provide simple formatting, e.g. alignment, in progressive.table.cell.Default
+
+- allow changing cell data and row height based on an event, e.g. mouseover
+
 - port Table's cell renderers to be usable by Progressive's tables
 
 - write an example of a Remote data model class
