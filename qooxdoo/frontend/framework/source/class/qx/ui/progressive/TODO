@@ -1,5 +1,4 @@
 - namespace progressive.renderer.table.*
-  - rename TableRowHtml to TableRow
   - add namespace progressive.renderer.cell
     - move cell rendering out of TableRow and into cell renderer classes
 
