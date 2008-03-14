@@ -50,8 +50,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       mgr.register(base + "button-b.png", base + "button-combined.png", 0, -10, 2, 2);
 
       mgr.register(base + "button-l.png", base + "button-center-combined.png", 0, 0, 2, 16);
-      mgr.register(base + "button-c.png", base + "button-center-combined.png", -2, 0, 2, 16);
-      mgr.register(base + "button-r.png", base + "button-center-combined.png", -4, 0, 2, 16);
+      mgr.register(base + "button-c.png", base + "button-c.png", 0, 0, 2, 16);
+      mgr.register(base + "button-r.png", base + "button-center-combined.png", -2, 0, 2, 16);
 
 
 
