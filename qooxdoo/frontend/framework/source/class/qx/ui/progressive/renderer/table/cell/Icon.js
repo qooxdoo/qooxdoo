@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * Table Cell Icon Renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * Abstract Icon cell renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
 qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 {
@@ -35,8 +35,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
   extend     : qx.ui.progressive.renderer.table.cell.Abstract,
 
 
-  /**
-   */
   construct : function()
   {
     this.base(arguments);
@@ -48,35 +46,49 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 
   members :
   {
+    /**
+     * Identify the image to be displayed in the cell.
+     *
+     * @return {Object}
+     *   The returned object should contain at least the <i>url</i> field, but
+     *   may contain any others of these:
+     *
+     *   <dl>
+     *     <dt>
+     *       url
+     *     </dt>
+     *     <dd>
+     *       The URL of the image to be displayed
+     *     </dd>
+     *
+     *     <dt>
+     *       imageWidth
+     *     </dt>
+     *     <dd>
+     *       The width at which the image should be displayed
+     *     </dd>
+     *
+     *     <dt>
+     *       imageHeight
+     *     </dt>
+     *     <dd>
+     *       The height at which the image should be displayed
+     *     </dd>
+     *
+     *     <dt>
+     *       extras
+     *     </dt>
+     *     <dd>
+     *       Any extra attributes to be include in the 'image' tag.
+     *     </dd>
+     *   </dl>
+     */
     _identifyImage : function(cellInfo)
     {
       throw new Error("_identifyImage() is abstract");
     },
 
-    _getImageData : function(cellInfo)
-    {
-      // Query the subclass about image and tooltip
-      var imageData = this._identifyImage(cellInfo);
-
-      // If subclass refuses to give map, construct it
-      if (imageData == null || typeof imageData == "string")
-      {
-        imageData =
-        {
-          url     : imageData,
-          tooltip : null
-        };
-      }
-
-      // If subclass gave null as url, replace with url to empty image
-      if (imageData.url == null)
-      {
-        imageData.url = this.IMG_BLANK_URL;
-      }
-
-      return imageData;
-    },
-
+    // overridden
     _getCellStyle : function(cellInfo)
     {
       var ret =
@@ -96,7 +108,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
     _getContentHtml : function(cellInfo)
     {
       var html = [ ];
-      var imageData = this._getImageData(cellInfo);
+      var imageData = this.__getImageData(cellInfo);
 
       // Start the image tag
       html.push('<img ');
@@ -148,6 +160,30 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 
       // Give 'em what they came for
       return html.join("");
+    },
+
+    __getImageData : function(cellInfo)
+    {
+      // Query the subclass about image and tooltip
+      var imageData = this._identifyImage(cellInfo);
+
+      // If subclass refuses to give map, construct it
+      if (imageData == null || typeof imageData == "string")
+      {
+        imageData =
+        {
+          url     : imageData,
+          tooltip : null
+        };
+      }
+
+      // If subclass gave null as url, replace with url to empty image
+      if (imageData.url == null)
+      {
+        imageData.url = this.IMG_BLANK_URL;
+      }
+
+      return imageData;
     }
   }
 });

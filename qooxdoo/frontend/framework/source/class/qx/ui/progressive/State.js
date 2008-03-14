@@ -24,16 +24,14 @@
 ************************************************************************ */
 
 /**
- * Data Model for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
+ * State of renderering by Progressive.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
 qx.Class.define("qx.ui.progressive.State",
 {
   extend     : qx.core.Object,
 
 
-  /**
-   */
-    construct : function(initialState)
+  construct : function(initialState)
   {
     this.base(arguments);
 

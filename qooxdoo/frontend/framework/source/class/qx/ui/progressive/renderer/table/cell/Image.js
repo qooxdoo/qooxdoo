@@ -68,6 +68,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
   members :
   {
+    // overridden
     _identifyImage : function(cellInfo)
     {
       var imageData =

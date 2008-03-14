@@ -34,8 +34,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
   extend     : qx.ui.progressive.renderer.table.cell.Icon,
 
 
-  /**
-   */
   construct : function()
   {
     this.base(arguments);
@@ -51,6 +49,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
 
   properties :
   {
+    /**
+     * Whether to add code which will toggle the checkbox on/off.  (There is
+     * not yet code here to generate an event when this occurs, so it's not
+     * yet very useful.)
+     */
     allowToggle :
     {
       init : false
@@ -60,6 +63,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
 
   members :
   {
+    // overridden
     _identifyImage : function(cellInfo)
     {
       var imageData =
@@ -109,6 +113,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
       return imageData;
     },
 
+    // overridden
     _getCellStyle : function(cellInfo)
     {
       var ret =

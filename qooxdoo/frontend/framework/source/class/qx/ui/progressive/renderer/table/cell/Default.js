@@ -41,8 +41,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
 
   members :
   {
-    /**
-     */
+    // overridden
     _getContentHtml : function(cellInfo)
     {
       return qx.html.String.escape(this._formatValue(cellInfo.cellData));
@@ -50,7 +49,26 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
 
 
     /**
-     * Formats a value.
+     * Formats a value in a reasonably predictable fashion.
+     *
+     *
+     * @param value {var}
+     *   The value to be formatted
+     *
+     * @return {String}
+     * <ul>
+     *   <li>
+     *     Numbers are formatted with two fractional digits.
+     *   </li>
+     *   <li>
+     *     Dates areformated in the default format of
+     *     {qx.util.format.DateFormat.getDateInstance().format}.
+     *   </li>
+     *   <li>
+     *     Any type not otherwise handled, including String values, are
+     *     simply returned unaltered.
+     *   </li>
+     * </ul>
      */
     _formatValue : function(value)
     {

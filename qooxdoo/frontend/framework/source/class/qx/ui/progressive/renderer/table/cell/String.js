@@ -41,8 +41,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.String",
 
   members :
   {
-    /**
-     */
+    // overridden
     _getContentHtml : function(cellInfo)
     {
       return qx.html.String.escape(cellInfo.cellData);

@@ -247,9 +247,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           state      : state,
           rowDiv     : div,
           stylesheet : stylesheet,
-          cellData   : data[i],
           element    : element,
           dataIndex  : i,
+          cellData   : data[i],
           height     : height
         };
 
