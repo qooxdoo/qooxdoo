@@ -26,7 +26,7 @@
 /**
  * Table Row for Progressive renderer.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  */
-qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
+qx.Class.define("qx.ui.progressive.renderer.TableRow",
 {
   extend     : qx.ui.progressive.renderer.Abstract,
 
@@ -92,17 +92,17 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
                                    this);
 
       // If we haven't created style sheets for this table yet...
-      var trh = qx.ui.progressive.renderer.TableRowHtml;
-      if (!trh.__clazz)
+      var tr = qx.ui.progressive.renderer.TableRow;
+      if (!tr.__clazz)
       {
-        trh.__clazz = { };
+        tr.__clazz = { };
       }
 
       var hash = progressive.toHashCode();
-      if (!trh.__clazz[hash])
+      if (!tr.__clazz[hash])
       {
         // ... then do it now.
-        trh.__clazz[hash] =
+        tr.__clazz[hash] =
           {
             stylesheet : [ ]
           };
@@ -110,9 +110,9 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         {
           var stylesheet =
             ".qx-progressive-" + hash + "-cell-" + i + " {" +
-            trh.__tableCellStyleSheet +
+            tr.__tableCellStyleSheet +
             "}";
-          trh.__clazz[hash].stylesheet[i] =
+          tr.__clazz[hash].stylesheet[i] =
             qx.html.StyleSheet.createElement(stylesheet);
         }
 
@@ -234,14 +234,14 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
       }
       else if (typeof value == "number")
       {
-        if (! qx.ui.progressive.renderer.TableRowHtml._numberFormat)
+        if (! qx.ui.progressive.renderer.TableRow._numberFormat)
         {
           var numberFormat = new qx.util.format.NumberFormat();
           numberFormat.setMaximumFractionDigits(2);
-          qx.ui.progressive.renderer.TableRowHtml._numberFormat = numberFormat;
+          qx.ui.progressive.renderer.TableRow._numberFormat = numberFormat;
         }
         ret =
-          qx.ui.progressive.renderer.TableRowHtml._numberFormat.format(value);
+          qx.ui.progressive.renderer.TableRow._numberFormat.format(value);
       }
       else if (value instanceof Date)
       {
@@ -277,8 +277,8 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
         var stylesheet = ".qx-progressive-" + this._hash + "-cell-" + i;
 
         // Remove the style rule for this column
-        var trh = qx.ui.progressive.renderer.TableRowHtml;
-        qx.html.StyleSheet.removeRule(trh.__clazz[this._hash].stylesheet[i],
+        var tr = qx.ui.progressive.renderer.TableRow;
+        qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].stylesheet[i],
                                       stylesheet);
 
         // Get this column data.
@@ -306,12 +306,12 @@ qx.Class.define("qx.ui.progressive.renderer.TableRowHtml",
 
         // Create the new rule, based on calculated widths
         var rule =
-          trh.__tableCellStyleSheet +
+          tr.__tableCellStyleSheet +
           "left: " + left + ";" +
           "width: " + width + ";";
 
         // Apply the new rule
-        qx.html.StyleSheet.addRule(trh.__clazz[this._hash].stylesheet[i],
+        qx.html.StyleSheet.addRule(tr.__clazz[this._hash].stylesheet[i],
                                    stylesheet,
                                    rule);
       }
