@@ -29,6 +29,45 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
 
   appearances :
   {
+    /*
+    ---------------------------------------------------------------------------
+      CORE
+    ---------------------------------------------------------------------------
+    */
+
+    "widget" : {},
+
+
+    "root" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          textColor : "text",
+          font : "default"
+        };
+      }
+    },
+
+
+    "label" :
+    {
+      style : function(states)
+      {
+        return {
+          textColor : "label"
+        };
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON
+    ---------------------------------------------------------------------------
+    */
+
     "button" :
     {
       style : function(states)
@@ -48,7 +87,7 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
         } else if (states["default"] && states.focus) {
           decorator = "button-default-focus";
         } else if (states["default"]) {
-          decorator = "buton-default";
+          decorator = "button-default";
         } else if (states.focus) {
           decorator = "button-normal-focus";
         } else {
@@ -62,6 +101,29 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
           decorator: decorator
         }
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      FORM FIELDS
+    ---------------------------------------------------------------------------
+    */
+
+    "text-field" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator: states.focus ? "textfield-focus" : "textfield-normal",
+          padding: [ 1, 3 ],
+          textColor: states.disabled ? "text-disabled" : "input-text",
+          backgroundColor: "white"
+        };
+      }
+    },
+
+    "text-area" : {
+      include : "text-field"
     }
   }
 });

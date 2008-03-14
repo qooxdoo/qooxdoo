@@ -27,6 +27,16 @@ qx.Theme.define("qx.theme.contemporary.Color",
 
   colors :
   {
-    "background" : [ 235, 233, 237 ]
+    "background" : "#dfdfdf",
+
+    "label" : "#333333",
+    "text" : "black",
+    "input-text" : "black",
+    "text-disabled" : [ 167, 166, 170 ],
+
+    "border" : "#2D405A",
+    "focus" : "#92B1DC",
+
+    "pane" : "#ededed"
   }
 });
