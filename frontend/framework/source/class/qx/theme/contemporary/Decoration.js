@@ -114,7 +114,8 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       style :
       {
         outerColor: "border",
-        innerColor: "white"
+        innerColor: "white",
+        backgroundImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/Input.png"
       }
     },
 
