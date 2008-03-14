@@ -58,11 +58,12 @@
         };
 
         // Instantiate a Progressive
-        var progressive = new qx.ui.progressive.Progressive();
+        var structure = new qx.ui.progressive.structure.Default();
+        var progressive = new qx.ui.progressive.Progressive(structure);
 
         // Instantiate a data model and populate it.
         var dataModel = new qx.ui.progressive.model.Default();
-        var rowData = createRandomRows(500);
+        var rowData = createRandomRows(50);
         dataModel.addElements(rowData);
 
         // Tell Progressive about its data model
@@ -103,9 +104,7 @@
           ];
 
         // Instantiate a table row renderer
-        var renderer =
-          new qx.ui.progressive.renderer.TableRowWidget(cellStyles,
-                                                        labelStyles);
+        var renderer = new TableRowWidget(cellStyles, labelStyles);
 
         // Give Progressive the renderer, and assign a name
         progressive.addRenderer("row", renderer);
@@ -113,6 +112,99 @@
         d.add(progressive);
 
         progressive.render();
+      }
+    }
+  });
+
+  qx.Class.define("TableRowWidget",
+  {
+    extend     : qx.ui.progressive.renderer.Abstract,
+
+
+    /**
+     */
+    construct : function(columnStyleArr, labelStyleArr)
+    {
+      this.base(arguments);
+
+      // Save the column and label styles
+      this._columnStyle = columnStyleArr;
+      this._labelStyle = labelStyleArr;
+
+      // Create a border for cell style
+      var border = new qx.ui.core.Border();
+      border.setRight(1, "solid", "#dddddd");
+      border.setBottom(1, "solid", "#dddddd");
+      this._border = border;
+    },
+
+
+    members :
+    {
+      /**
+       */
+      render : function(state, element)
+      {
+        var cell;
+        var style;
+        var data = element.data;
+
+        // Instantiate a horizontal box for the row
+        var row = new qx.ui.layout.HorizontalBoxLayout();
+        row.set(
+          {
+            spacing : 4,
+            height  : "auto"
+          });
+
+        // For each cell...
+        for (var i = 0; i < data.length; i++)
+        {
+          // Render this cell
+          cell = new qx.ui.basic.Atom(data[i].toString());
+          cell.set(
+            {
+              border  : this._border,
+              height  : "100%"
+            });
+
+          columnStyle = this._columnStyle[i];
+          if (columnStyle)
+          {
+              cell.set(columnStyle);
+          }
+
+          if (state.current % 2 == 0 && i == 1)
+          {
+            cell.setHeight(32);
+          }
+
+          labelStyle = this._labelStyle[i];
+          if (labelStyle)
+          {
+            if (! labelStyle.width)
+            {
+              labelStyle.width = "100%";
+            }
+            cell.getLabelObject().set(labelStyle);
+          }
+          row.add(cell);
+        }
+
+        // Add this row to the table
+        switch(element.location)
+        {
+        case "end":
+          state.pane.add(row);
+          break;
+
+        case "start":
+          state.pane.addAtBegin(row);
+          break;
+
+        default:
+          throw new Error("Invalid location: " + element.location);
+        }
       }
     }
   });

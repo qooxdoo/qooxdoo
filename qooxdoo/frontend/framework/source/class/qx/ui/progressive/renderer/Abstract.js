@@ -47,6 +47,11 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
     render : function(state, element)
     {
       throw new Error("render() is abstract");
+    },
+
+    join : function(progressive)
+    {
+      // nothing to do in the default case
     }
   }
 });

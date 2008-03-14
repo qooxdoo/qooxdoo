@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     this.base(arguments, pane);
 
     // If no header was specified, use null header
-    this._header = header || new qx.ui.progressive.headfoot.TableHeading();
+    this._header = header || new qx.ui.progressive.headfoot.Null();
 
     // If no footer was specified, use a null footer
     this._footer = footer || new qx.ui.progressive.headfoot.Null();
