@@ -139,8 +139,14 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
 
       qx.bom.element.Style.set(this._element, "overflow", "visible");
 
-      for (var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      var value;
+      for (var property in this._oldStyle)
+      {
+        value = this._oldStyle[property];
+        if( (property != "overflow") && (property != "fontSize") ) {
+          value += "px"; 
+        }
+        qx.bom.element.Style.set(this._element, property, value);
       }
 
       if (this.getModifyDisplay()) {

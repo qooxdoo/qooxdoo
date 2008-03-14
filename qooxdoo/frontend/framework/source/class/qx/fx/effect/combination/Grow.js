@@ -147,8 +147,15 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       this._scaleEffect.afterFinishInternal = function()
       {
-        for (var property in oldStyle) {
-          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+        var value;
+
+        for (var property in oldStyle)
+        {
+          value = oldStyle[property];
+          if (property != "overflow") {
+            value += "px"; 
+          }
+          qx.bom.element.Style.set(this._element, property, value);
         }
       };
 
@@ -202,8 +209,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         alternateDimensions  : [oldStyle.width, oldStyle.height]
       });
 
-      qx.bom.element.Style.set(this._element, "top", oldStyle.top + initialMoveY);
-      qx.bom.element.Style.set(this._element, "left", oldStyle.left + initialMoveX);
+      qx.bom.element.Style.set(this._element, "top", (oldStyle.top + initialMoveY) + "px");
+      qx.bom.element.Style.set(this._element, "left", (oldStyle.left + initialMoveX) + "px");
 
       qx.bom.element.Style.set(this._element, "height", "0px");
       qx.bom.element.Style.set(this._element, "width", "0px");
