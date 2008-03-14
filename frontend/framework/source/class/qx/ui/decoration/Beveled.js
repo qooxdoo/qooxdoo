@@ -1,0 +1,295 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ *
+ */
+qx.Class.define("qx.ui.decoration.Beveled",
+{
+  extend : qx.core.Object,
+  implement : qx.ui.decoration.IDecorator,
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(outerColor, innerColor)
+  {
+    this.base(arguments);
+
+    if (outerColor) {
+      this.setOuterColor(outerColor);
+    }
+
+    if (innerColor) {
+      this.setInnerColor(innerColor);
+    }
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    innerColor :
+    {
+      check : "Color",
+      nullable : true,
+      apply : "_applyInnerColor"
+    },
+
+    innerOpacity :
+    {
+      check : "Number",
+      init : 1,
+      apply : "_applyInnerOpacity"
+    },
+
+    outerColor :
+    {
+      check : "Color",
+      nullable : true,
+      apply : "_applyOuterColor"
+    },
+
+    backgroundImage :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBackgroundImage"
+    },
+
+    backgroundColor :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBackgroundColor"
+    },
+
+    /** Whether the top border should be visible */
+    topBorder :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_changeBorderVisibility"
+    },
+
+    /** Whether the right border should be visible */
+    rightBorder :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_changeBorderVisibility"
+    },
+
+    /** Whether the bottom border should be visible */
+    bottomBorder :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_changeBorderVisibility"
+    },
+
+    /** Whether the left border should be visible */
+    leftBorder :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_changeBorderVisibility"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // property apply
+    _applyInnerColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._styleInnerColor, this, value);
+    },
+
+    // property apply
+    _applyOuterColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._styleOuterColor, this, value);
+    },
+
+    _styleInnerColor : function(value) {
+      this.__innerColor = value;
+    },
+
+    _styleOuterColor : function(value) {
+      this.__outerColor = value;
+    },
+
+
+
+    _applyBackgroundImage : function()
+    {
+
+    },
+
+    _applyBackgroundColor : function()
+    {
+
+    },
+
+
+
+    _applyInnerOpacity : function()
+    {
+
+    },
+
+
+
+    _changeBorderVisibility : function(value)
+    {
+      // TODO
+    },
+
+
+
+
+    // interface implementation
+    init : function(decorationElement)
+    {
+      var frame = new qx.html.Element;
+      var horiz = new qx.html.Element;
+      var vert = new qx.html.Element;
+      var inner = new qx.html.Image;
+      var overlay = new qx.html.Element;
+
+      decorationElement.add(frame, horiz, vert);
+      vert.add(inner, overlay);
+
+      // Position
+      frame.setStyle("position", "absolute");
+      horiz.setStyle("position", "absolute");
+      vert.setStyle("position", "absolute");
+      inner.setStyle("position", "absolute");
+      overlay.setStyle("position", "absolute");
+    },
+
+
+
+    // interface implementation
+    update : function(decorationElement, width, height, backgroundColor)
+    {
+      var pixel = "px";
+
+      var frame = decorationElement.getChild(0);
+      var horiz = decorationElement.getChild(1);
+      var vert = decorationElement.getChild(2);
+      var inner = vert.getChild(0);
+      var overlay = vert.getChild(1);
+
+      var outerStyle = "1px solid " + this.__outerColor;
+      var innerStyle = "1px solid " + this.__innerColor;
+
+
+      // Colors
+      frame.setStyle("border", outerStyle);
+      frame.setStyle("opacity", 0.35);
+
+      horiz.setStyle("borderLeft", outerStyle);
+      horiz.setStyle("borderRight", outerStyle);
+
+      vert.setStyle("borderTop", outerStyle);
+      vert.setStyle("borderBottom", outerStyle);
+
+      inner.setStyle("backgroundColor", backgroundColor || this.__backgroundColor || null);
+      inner.setAttribute("src", this.getBackgroundImage());
+
+      overlay.setStyle("border", innerStyle);
+      overlay.setStyle("opacity", this.getInnerOpacity());
+
+
+
+      // Border Widths
+      var outerBorder = 1;
+      var innerBorder = 1;
+
+
+      // Dimension
+      decorationElement.setStyle("width", width + pixel);
+      decorationElement.setStyle("height", height + pixel);
+
+      frame.setStyle("width", (width-(outerBorder*2)) + pixel);
+      frame.setStyle("height", (height-(outerBorder*2)) + pixel);
+
+      horiz.setStyle("width", (width-(outerBorder*2)) + pixel);
+      horiz.setStyle("height", (height-(outerBorder*2)) + pixel);
+      horiz.setStyle("left", "0px");
+      horiz.setStyle("top", outerBorder + pixel);
+
+      vert.setStyle("width", (width-(outerBorder*2)) + pixel);
+      vert.setStyle("height", (height-(outerBorder*2)) + pixel);
+      vert.setStyle("left", outerBorder + pixel);
+      vert.setStyle("top", "0px");
+
+      inner.setStyle("width", (width-(outerBorder*2)) + pixel);
+      inner.setStyle("height", (height-(outerBorder*2)) + pixel);
+
+      overlay.setStyle("width", (width-(outerBorder*2)-(innerBorder*2)) + pixel);
+      overlay.setStyle("height", (height-(outerBorder*2)-(innerBorder*2)) + pixel);
+
+    },
+
+
+    // interface implementation
+    reset : function(decorationElement)
+    {
+      decorationElement.setStyles({
+        "width" : null,
+        "height" : null
+      });
+    },
+
+
+    // interface implementation
+    getInsets : function()
+    {
+      return {
+        top : this.getTopBorder() ? 2 : 0,
+        right : this.getRightBorder() ? 2 : 0,
+        bottom : this.getBottomBorder() ? 2 : 0,
+        left : this.getLeftBorder() ? 2 : 0
+      };
+    }
+  }
+});

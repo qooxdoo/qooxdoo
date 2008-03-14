@@ -18,9 +18,10 @@
 ************************************************************************ */
 
 /**
- * A decorator class, which supports rounded borders. On FireFox and Webkit
- * the native CSS features are used. In Internet Explorer the borders are
- * rendered using VML.
+ * A decorator class, which supports (native) rounded borders.
+ *
+ * On Firefox and Webkit the native CSS features are used. In Internet
+ * Explorer the borders are rendered using VML.
  */
 qx.Class.define("qx.ui.decoration.Rounded",
 {
@@ -36,12 +37,6 @@ qx.Class.define("qx.ui.decoration.Rounded",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY: WIDTH
-    ---------------------------------------------------------------------------
-    */
-
     /** Radius of the top left corner */
     radiusTopLeft :
     {
@@ -74,33 +69,14 @@ qx.Class.define("qx.ui.decoration.Rounded",
       apply : "_applyBorderChange"
     },
 
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY GROUP: RADIUS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Property group for the border radius.
-     */
+    /** Property group for the border radius. */
     radius :
     {
       group : [ "radiusTopLeft", "radiusTopRight", "radiusBottomRight", "radiusBottomLeft" ],
       mode : "shorthand"
-    },
-
-    /**
-     * Only Internet Explorer: Toggle use of anti aliasing. FireFox 2 never uses
-     * anti aliasing. All other browsers will always use it.
-     */
-    antiAlias :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyBorderChange"
     }
-
   },
+
 
 
 
@@ -225,7 +201,6 @@ qx.Class.define("qx.ui.decoration.Rounded",
           fill = "";
         }
 
-
         // width shortcuts
         var tw = this.getWidthTop();
         var rw = this.getWidthRight();
@@ -263,7 +238,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
           (this.__colorRight == this.__colorBottom) &&
           (this.__colorLeft == this.__colorBottom);
 
-        var aa = this.getAntiAlias() && !allRadiiNull ? "true" : "false";
+        var aa = !allRadiiNull ? "true" : "false";
 
         // shortcut: if all border colors are equal and no border width if null,
         //     draw the border as one piece and draw the background over the
