@@ -28,6 +28,10 @@
 #embed(buildtool.image/*)
 #embed(buildtool.css/*)
 
+#asset(qx/icon/Oxygen/16/*)
+#asset(buildtool/image/*)
+#asset(buildtool/css/*)
+
 ************************************************************************ */
 
 /**

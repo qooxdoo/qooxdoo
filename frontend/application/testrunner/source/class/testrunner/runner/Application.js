@@ -28,6 +28,10 @@
 #embed(testrunner.image/*)
 #embed(testrunner.css/*)
 
+#asset(qx/icon/Oxygen/16/*)
+#asset(testrunner/image/*)
+#asset(testrunner/css/*)
+
 ************************************************************************ */
 
 /**

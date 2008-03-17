@@ -25,6 +25,8 @@
 #module(apiviewer)
 #embed(qx.icontheme/22/apps/utilities-file-archiver.png)
 
+#asset(qx/icon/Oxygen/22/apps/utilities-file-archiver.png)
+
 ************************************************************************ */
 
 /**

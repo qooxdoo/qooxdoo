@@ -25,6 +25,9 @@
 #embed(feedreader.css/*)
 #embed(feedreader.images/*)
 
+#asset(feedreader/css/*)
+#asset(feedreader/images/*)
+
 ************************************************************************ */
 
 /**
