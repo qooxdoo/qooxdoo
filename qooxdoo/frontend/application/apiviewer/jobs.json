@@ -100,7 +100,6 @@
     "extend" : ["common"],
 
     "include" : ["qx.*"],
-    "exclude" : ["=qx.legacy.*"],
 
     "api" :
     {
