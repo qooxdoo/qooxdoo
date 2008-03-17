@@ -27,6 +27,10 @@
 #embed(demobrowser.image/*)
 #embed(demobrowser.css/*)
 
+#asset(qx/icon/Oxygen/16/*)
+#asset(demobrowser/image/*)
+#asset(demobrowser/css/*)
+
 ************************************************************************ */
 
 /**

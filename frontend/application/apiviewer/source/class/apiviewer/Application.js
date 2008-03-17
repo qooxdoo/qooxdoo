@@ -27,6 +27,8 @@
 #resource(apiviewer.image:apiviewer/image)
 #embed(apiviewer.css/*)
 
+#asset(apiviewer/css/*)
+
 ************************************************************************ */
 
 /**

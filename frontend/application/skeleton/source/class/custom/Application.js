@@ -17,6 +17,9 @@
 #embed(qx.icontheme/32/status/dialog-information.png)
 #embed(custom.image/test.png)
 
+#asset(qx/icon/Oxygen/32/status/dialog-information.png)
+#asset(custom/image/test.png)
+
 ************************************************************************ */
 
 /**
