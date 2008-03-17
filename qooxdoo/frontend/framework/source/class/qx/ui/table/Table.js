@@ -313,6 +313,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Number",
       init : 20,
+      apply : "_applyRowHeight",
       event : "changeRowHeight"
     },
 
@@ -565,6 +566,26 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       value.addEventListener("changeSelection", this._onSelectionChanged, this);
+    },
+
+
+    // property modifier
+    /**
+     * Property modifier called when the rowHeight property value is
+     * changed.  We loop through each scroller and reset its vertical
+     * scrollbar's maximum value.
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyRowHeight : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i]._updateVerScrollBarMaximum();
+      }
     },
 
 
