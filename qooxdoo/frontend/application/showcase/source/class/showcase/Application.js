@@ -26,6 +26,11 @@
 #embed(qx.icontheme/32/*)
 #embed(qx.icontheme/48/*)
 
+#asset(qx/icon/Oxygen/16/*)
+#asset(qx/icon/Oxygen/22/*)
+#asset(qx/icon/Oxygen/32/*)
+#asset(qx/icon/Oxygen/48/*)
+
 #use(qx.legacy.theme.ClassicRoyale)
 #use(qx.legacy.theme.ClassicLunaBlue)
 #use(qx.legacy.theme.ClassicLunaGreen)

@@ -23,6 +23,7 @@
 #resource(testrunner.data:testrunner/data)
 #embed(testrunner.data/*)
 
+#asset(testrunner/data/*)
 ************************************************************************ */
 
 qx.Class.define("testrunner.TestLoader",

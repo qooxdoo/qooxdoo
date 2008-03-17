@@ -25,6 +25,7 @@
 #module(apiviewer)
 #embed(apiviewer.image/*)
 
+#asset(apiviewer/image/*)
 ************************************************************************ */
 
 /**
