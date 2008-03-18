@@ -197,6 +197,7 @@ class Generator:
             self.runSource(parts, packages, boot, variants)
             self.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(parts, packages, boot, variants)
+            self.runCopyFiles()
             self.runDependencyDebug(parts, packages, variants)
 
 
@@ -323,6 +324,30 @@ class Generator:
                 generator._copyResources(res[0], os.path.dirname(resTarget))
 
         generator._console.outdent()
+        
+        
+    def runCopyFiles(self):
+        # Copy application files
+        if not self._config.get("copy-files/files", False):
+            return
+
+        appfiles = self._config.get("copy-files/files",[])
+        if appfiles:
+            buildRoot = self._config.get("copy-files/target", "build")
+            sourceRoot = "source"
+            self._console.info("Copying application files...")        
+            self._console.indent()
+            for file in appfiles:
+                srcfile = os.path.join(sourceRoot, file)
+                self._console.debug("copying %s" % srcfile)
+                if (os.path.isdir(srcfile)):
+                    destfile = os.path.join(buildRoot,file)
+                else:
+                    destfile = os.path.join(buildRoot, os.path.dirname(file))
+                self._copyResources(srcfile, destfile)
+
+            self._console.outdent()
+
 
 
 
@@ -403,24 +428,6 @@ class Generator:
 
         self._console.outdent()
         
-        # Copy application files
-        appfiles = self._config.get("application-files",[])
-        buildRoot = "build"  # should probably come from config
-        sourceRoot = "source"
-        self._console.info("Copying application files...")        
-        self._console.indent()
-        for file in appfiles:
-            srcfile = os.path.join(sourceRoot, file)
-            self._console.debug("copying %s" % srcfile)
-            if (os.path.isdir(srcfile)):
-                destfile = os.path.join(buildRoot,file)
-            else:
-                destfile = os.path.join(buildRoot, os.path.dirname(file))
-            self._copyResources(srcfile, destfile)
-
-        self._console.outdent()
-
-
 
     def runSource(self, parts, packages, boot, variants):
         if not self._config.get("source/file"):
