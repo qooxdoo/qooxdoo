@@ -64,6 +64,7 @@ class Generator:
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._imageInfo      = ImageInfo(self._console, self._cache)
         self._resourceHandler= _ResourceHandler(self)
+        self._shellCmd       = _ShellCmd(self)
 
         # Start job
         self.run()
@@ -199,6 +200,7 @@ class Generator:
             self.runCompiled(parts, packages, boot, variants)
             self.runCopyFiles()
             self.runDependencyDebug(parts, packages, variants)
+            self.runShellCommands()
 
 
 
@@ -347,8 +349,21 @@ class Generator:
                 self._copyResources(srcfile, destfile)
 
             self._console.outdent()
+        
+        
+    def runShellCommands(self):
+        if not self._config.get("shell/command", False):
+            return
 
+        shellcmd = self._config.get("shell/command", "")
+        if shellcmd:
+            rc = 0
+            self._console.info("Executing shell command \"%s\"..." % shellcmd)
+            self._console.indent()
+            rc = self._shellCmd.execute(shellcmd)
+            self._console.debug("exist status from shell command: %s" % repr(rc))
 
+            self._console.outdent()
 
 
     def runCompiled(self, parts, packages, boot, variants):
@@ -577,7 +592,7 @@ class Generator:
             #result += 'qximageinfo["%s"]=%s;' % (resource[1], value)
             data[resource[1]] = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
             
-        result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data) + ";"
+        result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
         self._console.outdent()
 
@@ -926,7 +941,8 @@ class _ResourceHandler(object):
         respatt = re.compile(r'[^/]+?/')  # everything before the first slash
         def filter1(respath):
             for res in resList:
-                res1 = respatt.sub('',res,1)  # strip off e.g 'qx.icontheme/'...
+                #res1 = respatt.sub('',res,1)  # strip off e.g 'qx.icontheme/'...
+                res1 = res
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
             return False
@@ -963,11 +979,40 @@ class _ResourceHandler(object):
             self._genobj._console.debug("%s: %s" % (clazz, repr(classRes)))
             for res in classRes:
                 # here it might need some massaging of 'res' before lookup and append
-                res = re.sub(r'\*', ".*", res)
+                res = re.sub(r'\*', ".*", res)  # expand file glob into regexp
                 if res not in result:
                     result.append(res)
 
         self._genobj._console.outdent()
         return result
 
+
+class _ShellCmd(object):
+    def __init__(self, generatorobj):
+        self._genobj = generatorobj
+
+    
+    def eval_wait(self, rcode):
+        lb = (rcode << 8) >> 8 # get low-byte from 16-bit word
+        if (lb == 0):  # check low-byte for signal
+            rc = rcode >> 8  # high-byte has exit code
+        else:
+            rc = lb  # return signal/coredump val
+        return rc
+
+
+    def execute(self, shellcmd):
+        (cin,couterr) = os.popen4(shellcmd)
+        cin.close()  # no need to pass data to child
+        couterrNo = couterr.fileno()
+        stdoutNo  = sys.stdout.fileno()
+        while(1):
+            buf = os.read(couterrNo,50)
+            if buf == "":
+                break
+            os.write(stdoutNo,buf)
+        (pid,rcode) = os.wait()  # wish: (os.wait())[1] >> 8 -- unreliable on Windows
+        rc = self.eval_wait(rcode)
+
+        return rc
 
