@@ -99,7 +99,7 @@
   },
 
 
-  "build-resource":
+  "build-resources":
   {
     "extend" : ["common"],
 
