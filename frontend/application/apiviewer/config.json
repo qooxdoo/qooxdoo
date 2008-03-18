@@ -76,7 +76,7 @@
 
     "settings" :
     {
-      "${APPLICATION}.resourceUri" : "./resource/${APPLICATION}"
+      "${APPLICATION}.resourceUri" : "./resource"
     },
 
     "compile" :
