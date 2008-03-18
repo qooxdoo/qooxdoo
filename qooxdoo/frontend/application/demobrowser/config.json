@@ -144,10 +144,40 @@
   },
 
 
+	"build-data" :
+	{
+		"shell" : 
+		{
+			"command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
+		}
+	},
+
+
+	"build-demo-jobs" :
+	{
+		"shell" : 
+		{
+			"command" : "tool/genjson.py build/script"
+		}
+	},
+
+
+	"build-demos" :
+	{
+		"shell" : 
+		{
+			"command" : "../../../frontend/tool/generator.py -c demo.json -j build"
+		}
+	},
+
+
 	"build" :
 	{
 		"run" : 
 		[ 
+			"build-data",
+			"build-demo-jobs",
+			"build-demos",
 			"build-resources", 
 			"build-script", 
 			"build-files" 
