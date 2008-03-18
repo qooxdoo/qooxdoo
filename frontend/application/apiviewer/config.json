@@ -3,7 +3,7 @@
   {
     "let" :
     [
-      ["APPLICATION_NAMESPACE", "apiviewer"],
+      ["APPLICATION", "apiviewer"],
       ["QOOXDOO_PATH", "../.."],
       ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
     ],
@@ -25,7 +25,7 @@
 
     "settings" :
     {
-      "qx.application"  : "apiviewer.Application",
+      "qx.application"  : "${APPLICATION}.Application",
       "qx.resourceUri"  : "${QOOXDOO_URI}/framework/source/resource",
       "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
       "qx.version"      : "TODO"
@@ -42,44 +42,89 @@
 
 
 
-  "source" :
+  "source-script" :
   {
     "extend" : ["common"],
-    "include" : ["apiviewer.*","qx.legacy.theme.ClassicRoyale"],
+    "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
 
     "settings" :
     {
-      "apiviewer.resourceUri" : "./resource"
+      "${APPLICATION}.resourceUri" : "./resource"
     },
 
     "source" :
     {
-      "file" : "./source/script/apiviewer.js"
+      "file" : "./source/script/${APPLICATION}.js"
     }
   },
 
 
-  "build" :
+	"source" :
+	{
+		"run" : 
+		[ 
+			"source-script",
+			"source-data"
+		]
+	},
+
+
+  "build-script" :
   {
     "extend" : ["common"],
-    "include" : ["apiviewer.*","qx.legacy.theme.ClassicRoyale"],
+    "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
 
     "settings" :
     {
-      "apiviewer.resourceUri" : "./resource/apiviewer"
+      "${APPLICATION}.resourceUri" : "./resource/${APPLICATION}"
     },
 
     "compile" :
     {
-      "file" : "./build/script/apiviewer.js",
-      "uri"  : "script/apiviewer.js"
+      "file" : "./build/script/${APPLICATION}.js",
+      "uri"  : "script/${APPLICATION}.js"
     }
   },
 
 
+  "build-files" :
+  {
+    "extend" : ["common"],
+
+    "copy-files" :
+    {
+  		"files" :
+  		[
+  		  "index.html"
+  		],
+
+      "target" : "build"
+    }
+  },
 
 
+  "build-resources":
+  {
+    "extend" : ["common"],
 
+    "copy-resources" :
+    {
+      "target" : "build",
+			"resource-filter" : true
+    }
+  },
+
+
+	"build" :
+	{
+		"run" : 
+		[ 
+			"build-resources", 
+			"build-script", 
+			"build-files",
+			"build-data"
+		]
+	},
 
 
   "source-data" :
@@ -107,3 +152,4 @@
     }
   }
 }
+
