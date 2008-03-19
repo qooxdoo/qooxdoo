@@ -3,7 +3,7 @@
   {
     "let" :
     [
-			["APPLICATION", "demobrowser"],
+      ["APPLICATION", "demobrowser"],
       ["QOOXDOO_PATH", "../.."],
       ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
     ],
@@ -59,49 +59,49 @@
   },
 
 
-	"source" :
-	{
-		"run" : 
-		[
-			"source-script",
-			"source-data",
-			"source-demo-jobs",
-			"source-demos"
-		]
-	},
+  "source" :
+  {
+    "run" : 
+    [
+      "source-script",
+      "source-data",
+      "source-demo-jobs",
+      "source-demos"
+    ]
+  },
 
 
-	"source-data" :
-	{
+  "source-data" :
+  {
     "extend" : ["common"],
 
-		"shell" : 
-		{
-			"command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
-		}
-	},
+    "shell" : 
+    {
+      "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
+    }
+  },
 
 
-	"source-demo-jobs" :
-	{
+  "source-demo-jobs" :
+  {
     "extend" : ["common"],
 
-		"shell" : 
-		{
-			"command" : "tool/genjson.py source/script"
-		}
-	},
+    "shell" : 
+    {
+      "command" : "tool/genjson.py source/script"
+    }
+  },
 
 
-	"source-demos" :
-	{
+  "source-demos" :
+  {
     "extend" : ["common"],
 
-		"shell" : 
-		{
-			"command" : "../../../frontend/tool/generator.py -c demo.json -j source"
-		}
-	},
+    "shell" : 
+    {
+      "command" : "../../../frontend/tool/generator.py -c demo.json -j source"
+    }
+  },
 
 
   "build-script" :
@@ -127,11 +127,11 @@
 
     "copy-files" :
     {
-  		"files" :
-  		[
-  		  "index.html",
-  		  "demo"
-  		],
+      "files" :
+      [
+        "index.html",
+        "demo"
+      ],
 
       "target" : "build"
     }
@@ -145,54 +145,56 @@
     "copy-resources" :
     {
       "target" : "build",
-			"resource-filter" : true
+      "resource-filter" : true
     }
   },
 
 
-	"build-data" :
-	{
+  "build-data" :
+  {
     "extend" : ["common"],
 
-		"shell" : 
-		{
-			"command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
-		}
-	},
+    "shell" : 
+    {
+      "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
+    }
+  },
 
 
-	"build-demo-jobs" :
-	{
+  "build-demo-jobs" :
+  {
     "extend" : ["common"],
 
-		"shell" : 
-		{
-			"command" : "tool/genjson.py build/script"
-		}
-	},
+    "shell" : 
+    {
+      "command" : "tool/genjson.py build/script"
+    }
+  },
 
 
-	"build-demos" :
-	{
+  /* generate a build version of the demo apps */
+  "build-demos" :
+  {
     "extend" : ["common"],
 
-		"shell" : 
-		{
-			"command" : "../../../frontend/tool/generator.py -c demo.json -j build"
-		}
-	},
+    "shell" : 
+    {
+      "command" : "../../../frontend/tool/generator.py -c demo.json -j build"
+    }
+  },
 
 
-	"build" :
-	{
-		"run" : 
-		[ 
-			"build-data",
-			"build-demo-jobs",
-			"build-demos",
-			"build-resources", 
-			"build-script", 
-			"build-files" 
-		]
-	}
+	// putting it all together ...
+  "build" :
+  {
+    "run" : 
+    [ 
+      "build-data",
+      "build-demo-jobs",
+      "build-demos",
+      "build-resources", 
+      "build-script", 
+      "build-files" 
+    ]
+  }
 }

@@ -124,7 +124,12 @@ def JSONObject(match, context, _w=WHITESPACE.match):
     if nextchar == '}':
         return pairs, end + 1
     if nextchar != '"':
-        raise ValueError(errmsg("Expecting property name", s, end))
+        mo = JSONComment.regex.match(s[end:])
+        if mo:
+            end += mo.end()     # skip the comment
+            end = _w(s, end).end()  # and the whitespace after it
+        else:
+            raise ValueError(errmsg("Expecting property name", s, end))
     end += 1
     encoding = getattr(context, 'encoding', None)
     iterscan = JSONScanner.iterscan
@@ -148,9 +153,14 @@ def JSONObject(match, context, _w=WHITESPACE.match):
             raise ValueError(errmsg("Expecting , delimiter", s, end - 1))
         end = _w(s, end).end()
         nextchar = s[end:end + 1]
-        end += 1
         if nextchar != '"':
-            raise ValueError(errmsg("Expecting property name", s, end - 1))
+            mo = JSONComment.regex.match(s[end:])
+            if mo:
+                end += mo.end()     # skip the comment
+                end = _w(s, end).end()  # and the whitespace after it
+            else:
+                raise ValueError(errmsg("Expecting property name", s, end))
+        end += 1
     object_hook = getattr(context, 'object_hook', None)
     if object_hook is not None:
         pairs = object_hook(pairs)
@@ -182,6 +192,12 @@ def JSONArray(match, context, _w=WHITESPACE.match):
         end = _w(s, end).end()
     return values, end
 pattern(r'\[')(JSONArray)
+
+def JSONComment(match, context):
+    # comments are being ignored, just skip beyond them
+    return None, None
+
+pattern(r'(/\*.*?\*/|//.*?$)')(JSONComment)
  
 ANYTHING = [
     JSONObject,
@@ -189,6 +205,7 @@ ANYTHING = [
     JSONString,
     JSONConstant,
     JSONNumber,
+    JSONComment,
 ]
 
 JSONScanner = Scanner(ANYTHING)
