@@ -581,6 +581,11 @@ qx.Class.define("qx.ui.table.Table",
      */
     _applyRowHeight : function(value, old)
     {
+      if (! this.getTableModel())
+      {
+        return;
+      }
+
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
