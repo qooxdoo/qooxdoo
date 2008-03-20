@@ -179,6 +179,8 @@ def parsePart(part):
 
                     # work on single character tokens, otherwise concat to a bigger element
 
+                    if i>=len(item):
+                        continue
                     char = item[i]
                     i += 1
                     if lang.TOKENS.has_key(char):
