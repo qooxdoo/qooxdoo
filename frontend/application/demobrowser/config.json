@@ -1,4 +1,6 @@
 {
+	"extend" : ["../apiviewer/config.json"],
+
   "common" :
   {
     "let" :
