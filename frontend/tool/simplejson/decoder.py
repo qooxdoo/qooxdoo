@@ -177,18 +177,26 @@ def JSONArray(match, context, _w=WHITESPACE.match):
         return values, end + 1
     iterscan = JSONScanner.iterscan
     while True:
+        mo = JSONComment.regex.match(s[end:])
+        if mo:
+            end += mo.end()
+            end = _w(s, end).end()
         try:
             value, end = iterscan(s, idx=end, context=context).next()
         except StopIteration:
             raise ValueError(errmsg("Expecting object", s, end))
         values.append(value)
         end = _w(s, end).end()
+        mo = JSONComment.regex.match(s[end:])
+        if mo:
+            end += mo.end()     # skip the comment
+            end = _w(s, end).end()  # and the whitespace after it
         nextchar = s[end:end + 1]
         end += 1
         if nextchar == ']':
             break
         if nextchar != ',':
-            raise ValueError(errmsg("Expecting , delimiter", s, end))
+            raise ValueError(errmsg("Expecting , delimiter", s, end - 1))
         end = _w(s, end).end()
     return values, end
 pattern(r'\[')(JSONArray)
