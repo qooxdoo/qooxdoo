@@ -137,9 +137,20 @@ def _resolveExtends(console, config, jobs):
                 target[key] = source[key]
 
     def _resolveEntry(console, config, job):
+        # TODO: look up job in global list, to prevent circular references
         if not config.has_key(job):
-            console.warn("No such job: %s" % job)
-            sys.exit(1)
+            if job.find('#'):  # external reference
+                ecfgfile, ejob = job.split('#',1)
+                obj = open(ecfgfile)
+                econfig = simplejson.loads(obj.read())
+                obj.close()
+                _resolveEntry(console, econfig, ejob)
+                config[job] = econfig[ejob] 
+                # after this, the external job is fully resolved 
+                # (w.r.t. its own config) and is in the current config
+            else:
+                console.warn("No such job: %s" % job)
+                sys.exit(1)
 
         data = config[job]
 
