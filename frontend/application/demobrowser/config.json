@@ -189,9 +189,10 @@
   {
     "run" : 
     [ 
+			/* this all has to be done for the build */
       "build-data",
       "build-demo-jobs",
-      "build-demos",
+      "build-demos",    // create the demo apps
       "build-resources", 
       "build-script", 
       "build-files" 
