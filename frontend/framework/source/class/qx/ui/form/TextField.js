@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.form.TextField",
       var el = this._createInputElement();
 
       // Disable non-crossbrowser spellcheck
-      el.setAttribute("spellcheck", "off");
+      el.setAttribute("spellcheck", "false");
 
       // Apply styles
       el.setStyles({
