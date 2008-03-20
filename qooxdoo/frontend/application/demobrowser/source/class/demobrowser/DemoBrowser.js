@@ -1217,10 +1217,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__setStateLoading();
 
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
-      if (iDoc)
+      if (iDoc) 
       {
-        iDoc.body.innerHTML = "";
+        try {
+          iDoc.body.innerHTML = "";
+        } catch(ex) {}
       }
+      
       //this.widgets["outputviews.bar"].setEnabled(false);
       //this.widgets["outputviews"].setEnabled(false);
 
