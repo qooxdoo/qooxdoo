@@ -73,6 +73,14 @@ def main():
     config = simplejson.loads(obj.read())
     obj.close()
 
+    # resolve extends on the file level
+    if config.has_key('extend'):
+        for cfgfile in config['extend']:
+            obj = open(cfgfile)
+            econfig = simplejson.loads(obj.read())
+            obj.close()
+            config = _mapMerge(econfig, config)
+
     # Expanding jobs (support for "run" keyword)
     expandedjobs = []
     for job in options.jobs:
@@ -108,6 +116,16 @@ def main():
 
 
 
+def _mapMerge(source, target):
+    """merge source map into target, but don't overwrite existing
+       keys in target (unlike .update())"""
+    t = target.copy()
+    for (k,v) in source.items():
+        if not t.has_key(k):
+            t[k] = v
+    return t
+
+
 def _resolveExtends(console, config, jobs):
     def _listPrepend(source, target):
         """returns new list with source prepended to target"""
@@ -115,15 +133,6 @@ def _resolveExtends(console, config, jobs):
         for i in range(len(source)-1,-1,-1):
             l.insert(0,source[i])
         return l
-
-    def _mapMerge(source, target):
-        """merge source map into target, but don't overwrite existing
-           keys in target (unlike .update())"""
-        t = target.copy()
-        for (k,v) in source.items():
-            if not t.has_key(k):
-                t[k] = v
-        return t
 
     def _mergeEntry(target, source):
         for key in source:
