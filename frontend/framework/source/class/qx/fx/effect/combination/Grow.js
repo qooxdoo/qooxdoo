@@ -153,7 +153,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         {
           value = oldStyle[property];
           if (property != "overflow") {
-            value += "px"; 
+            value += "px";
           }
           qx.bom.element.Style.set(this._element, property, value);
         }
