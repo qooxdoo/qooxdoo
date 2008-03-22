@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
           layoutHeight = this.getLayoutProperty(child, "height");
           if (layoutHeight && util.FLEX_VALUE.test(layoutHeight)) {
-            flex = parseInt(layoutHeight);
+            flex = parseInt(layoutHeight, 10);
           } else {
             flex = this.getLayoutProperty(child, "flex", 0);
           }
@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.layout.VBox",
         // Detect if child is shrinkable and update minHeight
         layoutHeight = this.getLayoutProperty(child, "height");
         if (layoutHeight && util.FLEX_VALUE.test(layoutHeight)) {
-          flex = parseInt(layoutHeight);
+          flex = parseInt(layoutHeight, 10);
         } else {
           flex = this.getLayoutProperty(child, "flex", 0);
         }

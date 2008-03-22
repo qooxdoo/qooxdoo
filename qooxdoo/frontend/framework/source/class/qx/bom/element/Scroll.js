@@ -90,8 +90,8 @@ qx.Class.define("qx.bom.element.Scroll",
             parentOuterHeight = parent.offsetHeight;
             parentClientHeight = parent.clientHeight;
             parentScrollHeight = parent.scrollHeight;
-            parentTopBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderTopWidth")) || 0;
-            parentBottomBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderBottomWidth")) || 0;
+            parentTopBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderTopWidth"), 10) || 0;
+            parentBottomBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderBottomWidth"), 10) || 0;
             parentScrollBarHeight = parentOuterHeight - parentClientHeight - parentTopBorder - parentBottomBorder;
           }
 
@@ -205,8 +205,8 @@ qx.Class.define("qx.bom.element.Scroll",
             parentOuterWidth = parent.offsetWidth;
             parentClientWidth = parent.clientWidth;
             parentScrollWidth = parent.scrollWidth;
-            parentLeftBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderLeftWidth")) || 0;
-            parentRightBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderRightWidth")) || 0;
+            parentLeftBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderLeftWidth"), 10) || 0;
+            parentRightBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderRightWidth"), 10) || 0;
             parentScrollBarWidth = parentOuterWidth - parentClientWidth - parentLeftBorder - parentRightBorder;
           }
 
