@@ -131,19 +131,19 @@ qx.Class.define("qx.bom.element.Clip",
 
           // Convert to integer values
           if (top != null) {
-            top = parseInt(top);
+            top = parseInt(top, 10);
           }
 
           if (right != null) {
-            right = parseInt(right);
+            right = parseInt(right, 10);
           }
 
           if (bottom != null) {
-            bottom = parseInt(bottom);
+            bottom = parseInt(bottom, 10);
           }
 
           if (left != null) {
-            left = parseInt(left);
+            left = parseInt(left, 10);
           }
 
           // Compute width and height

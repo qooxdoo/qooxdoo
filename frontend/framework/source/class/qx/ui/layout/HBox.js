@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
           layoutWidth = this.getLayoutProperty(child, "width");
           if (layoutWidth && util.FLEX_VALUE.test(layoutWidth)) {
-            flex = parseInt(layoutWidth);
+            flex = parseInt(layoutWidth, 10);
           } else {
             flex = this.getLayoutProperty(child, "flex", 0);
           }
@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.layout.HBox",
         // Detect if child is shrinkable and update minWidth
         layoutWidth = this.getLayoutProperty(child, "width");
         if (layoutWidth && util.FLEX_VALUE.test(layoutWidth)) {
-          flex = parseInt(layoutWidth);
+          flex = parseInt(layoutWidth, 10);
         } else {
           flex = this.getLayoutProperty(child, "flex", 0);
         }

@@ -71,7 +71,7 @@ qx.Class.define("qx.bom.element.Location",
      * @return {Integer} Value of given style property
      */
     __num : function(elem, style) {
-      return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false)) || 0;
+      return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false), 10) || 0;
     },
 
 
