@@ -95,7 +95,7 @@ qx.Class.define("qx.bom.Font",
             break;
 
           default:
-            var temp = parseInt(part);
+            var temp = parseInt(part, 10);
 
             if (temp == part || qx.lang.String.contains(part, "px")) {
               font.setSize(temp);

@@ -134,9 +134,9 @@ qx.Bootstrap.define("qx.bom.client.Flash",
           if (typeof info != "undefined")
           {
             info = info.split(" ")[1].split(",");
-            full[0] = parseInt(info[0]);
-            full[1] = parseInt(info[1]);
-            full[2] = parseInt(info[2]);
+            full[0] = parseInt(info[0], 10);
+            full[1] = parseInt(info[1], 10);
+            full[2] = parseInt(info[2], 10);
           }
         }
 

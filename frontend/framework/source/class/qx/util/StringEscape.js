@@ -127,7 +127,7 @@ qx.Bootstrap.define("qx.util.StringEscape",
 
               // match hex number
               if (code.match(/^[0-9A-Fa-f]+$/gi)) {
-                chr = String.fromCharCode(parseInt("0x" + code));
+                chr = String.fromCharCode(parseInt(code, 16));
               }
             }
             else
@@ -136,7 +136,7 @@ qx.Bootstrap.define("qx.util.StringEscape",
 
               // match integer
               if (code.match(/^\d+$/gi)) {
-                chr = String.fromCharCode(parseInt(code));
+                chr = String.fromCharCode(parseInt(code, 10));
               }
             }
           }

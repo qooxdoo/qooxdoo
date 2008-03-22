@@ -722,11 +722,11 @@ qx.Class.define("qx.event.handler.Keyboard",
       statics._identifierToKeyCodeMap = {};
 
       for (var key in members._keyCodeToIdentifierMap) {
-        statics._identifierToKeyCodeMap[members._keyCodeToIdentifierMap[key]] = parseInt(key);
+        statics._identifierToKeyCodeMap[members._keyCodeToIdentifierMap[key]] = parseInt(key, 10);
       }
 
       for (var key in members._specialCharCodeMap) {
-        statics._identifierToKeyCodeMap[members._specialCharCodeMap[key]] = parseInt(key);
+        statics._identifierToKeyCodeMap[members._specialCharCodeMap[key]] = parseInt(key, 10);
       }
     }
 
