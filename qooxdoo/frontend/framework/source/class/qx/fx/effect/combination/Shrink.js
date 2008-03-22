@@ -144,7 +144,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
       {
         value = this._oldStyle[property];
         if(property != "overflow"){
-          value += "px"; 
+          value += "px";
         }
         qx.bom.element.Style.set(this._element, property, value);
       }
@@ -170,7 +170,7 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         opacity  : qx.bom.element.Style.get(this._element, "opacity")
       };
 
-      
+
       switch (this.getDirection())
       {
 
