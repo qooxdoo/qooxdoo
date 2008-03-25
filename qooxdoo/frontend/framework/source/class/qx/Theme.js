@@ -42,6 +42,7 @@ qx.Class.define("qx.Theme",
      * qx.Theme.define("name",
      * {
      *   title : "MyThemeTitle",
+     *   resource : "resourceFolderOrUri",
      *   extend : otherTheme,
      *   include : [MMixinTheme],
      *   colors : {},
@@ -88,6 +89,11 @@ qx.Class.define("qx.Theme",
       // Remember extend
       if (config.extend) {
         theme.supertheme = config.extend;
+      }
+
+      // Copy over resource path
+      if (config.resource) {
+        theme.resource = config.resource;
       }
 
       // Assign to namespace
@@ -268,6 +274,7 @@ qx.Class.define("qx.Theme",
       "on":
       {
         "title"       : "string", // String
+        "resource"    : "string", // String
         "type"        : "string", // String
         "extend"      : "object", // Theme
         "colors"      : "object", // Map
@@ -293,9 +300,9 @@ qx.Class.define("qx.Theme",
         "border" : "object",
         "decoration" : "object",
         "font" : "object",
-        "widget" : "object",
         "icon" : "object",
-        "appearance" : "object"
+        "appearance" : "object",
+        "widget" : "object"
       },
 
       "default" : null

@@ -25,17 +25,9 @@
 
 ************************************************************************ */
 
-/**
- * nuoveXT
- * Author: Alexandre Moore (alexandre.moore@gmail.com)
- * License: GPL & LGPL/EPL
- * Home: http://www.kde-look.org/content/show.php?content=26449
- */
 qx.Theme.define("qx.legacy.theme.icon.NuoveXT",
 {
   title : "NuoveXT",
-
-  icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen"
-  }
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen",
+  icons : {}
 });

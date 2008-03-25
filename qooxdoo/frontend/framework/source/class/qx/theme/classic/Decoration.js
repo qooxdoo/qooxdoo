@@ -32,6 +32,7 @@
 qx.Theme.define("qx.theme.classic.Decoration",
 {
   title : "Classic",
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic",
 
   decorations :
   {

@@ -86,7 +86,12 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @type member
      * @return {void}
      */
-    syncDecorationTheme : function() {
+    syncDecorationTheme : function()
+    {
+      var value = this.getTheme();
+      var alias = qx.io.Alias.getInstance();
+      value ? alias.add("decoration", value.resource) : alias.remove("decoration");
+
       this.updateAll();
     },
 
