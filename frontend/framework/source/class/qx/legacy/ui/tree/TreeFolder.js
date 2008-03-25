@@ -22,7 +22,6 @@
 
 /* ************************************************************************
 
-#module(ui_tree)
 #embed(qx.icontheme/16/places/folder-open.png)
 #embed(qx.icontheme/16/places/folder.png)
 

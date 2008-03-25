@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * The table pane that shows a certain section from a table. This class handles
  * the display of the data part of a table and is therefore the base for virtual
