@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.ui.form.List",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -38,8 +38,10 @@ qx.Class.define("qx.ui.form.List",
   {
     this.base(arguments);
 
-    this._manager = new qx.ui.selection.SelectionManager(this);
-    this._layout = new qx.ui.layout.VBox;
+    this._manager = new qx.ui.core.SelectionManager(this);
+
+    var layout = new qx.ui.layout.VBox;
+    this.setLayout(layout);
 
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mousedown", this._onmousedown);
@@ -534,8 +536,9 @@ qx.Class.define("qx.ui.form.List",
         sortitems.reverse();
       }
 
+      var layout = this.getLayout();
       for (var i=0; i<l; i++) {
-        this.addAt(sortitems[i].item, i);
+        layout.addAt(sortitems[i].item, i);
       }
     },
 
@@ -567,8 +570,9 @@ qx.Class.define("qx.ui.form.List",
         sortitems.reverse();
       }
 
+      var layout = this.getLayout();
       for (var i=0; i<l; i++) {
-        this.addAt(sortitems[i].item, i);
+        layout.addAt(sortitems[i].item, i);
       }
     }
   },
