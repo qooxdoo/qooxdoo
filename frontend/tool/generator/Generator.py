@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import re, os, sys, zlib, optparse, types
+import re, os, sys, zlib, optparse, types, subprocess
 
 from misc import filetool, textutil, idlist
 from ecmascript import treegenerator, tokenizer, compiler
@@ -1001,7 +1001,27 @@ class _ShellCmd(object):
         return rc
 
 
-    def execute(self, shellcmd):
+    def execute(self,cmd):
+        p = subprocess.Popen(cmd, shell=True,
+                             stdout=sys.stdout,
+                             #stderr=subprocess.STDOUT
+                             stderr=sys.stderr)
+        return p.wait()
+
+
+    def execute_piped(cmd):
+        p = subprocess.Popen(cmd, shell=True,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True)
+        output, errout = p.communicate()
+        rcode = p.returncode
+
+        return (rcode, output, errout)
+
+
+    def execute1(self, shellcmd):
+        # os-based version; bombs intermittendly due to os.wait() coming too late
         (cin,couterr) = os.popen4(shellcmd)
         cin.close()  # no need to pass data to child
         couterrNo = couterr.fileno()
