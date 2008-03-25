@@ -119,6 +119,10 @@ qx.Class.define("qx.ui.form.List",
       return this.getLayout().getPreviousSibling(listItem);
     },
 
+    getScrollTop : function() {
+      return 0;
+    },
+
 
 
 
