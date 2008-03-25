@@ -32,7 +32,7 @@ qx.Theme.define("qx.theme.contemporary.Color",
     "label" : "#333333",
     "text" : "black",
     "input-text" : "black",
-    "text-disabled" : [ 167, 166, 170 ],
+    "text-disabled" : [ 107, 106, 110 ],
 
     "border" : "#2D405A",
     "focus" : "#92B1DC",

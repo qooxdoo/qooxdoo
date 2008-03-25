@@ -59,6 +59,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "atom-label" :
+    {
+      style : function(states)
+      {
+        return {
+          textColor : states.disabled ? "text-disabled" : "black"
+        };
+      }
+    },
+
 
 
 
@@ -176,7 +186,80 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
+    "check-box":
+    {
+      style : function(states)
+      {
+        var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/form/";
 
+        var icon;
+        if (states.checked && states.focus) {
+          icon = "Checkbox-checked-focus";
+        } else if (states.checked && states.disabled) {
+          icon = "Checkbox-checked-disabled";
+        } else if (states.checked && states.pressed) {
+          icon = "Checkbox-checked-pressed";
+        } else if (states.checked && states.over) {
+          icon = "Checkbox-checked-over";
+        } else if (states.checked) {
+          icon = "Checkbox-checked-normal";
+        } else if (states.disabled) {
+          icon = "Checkbox-unchecked-disabled";
+        } else if (states.focus) {
+          icon = "Checkbox-unchecked-focus";
+        } else if (states.pressed) {
+          icon = "Checkbox-unchecked-pressed";
+        } else if (states.over) {
+          icon = "Checkbox-unchecked-over";
+        } else {
+          icon = "Checkbox-unchecked-normal";
+        }
+
+        return {
+          icon: base + icon + ".png",
+          align: "left",
+          gap: 6
+        }
+      }
+    },
+
+
+    "radio-button":
+    {
+      include : "check-box",
+
+      style : function(states)
+      {
+        var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/form/";
+
+        var icon;
+        if (states.checked && states.focus) {
+          icon = "Radio-checked-focus";
+        } else if (states.checked && states.disabled) {
+          icon = "Radio-checked-disabled";
+        } else if (states.checked && states.pressed) {
+          icon = "Radio-checked-pressed";
+        } else if (states.checked && states.over) {
+          icon = "Radio-checked-over";
+        } else if (states.checked) {
+          icon = "Radio-checked-normal";
+        } else if (states.disabled) {
+          icon = "Radio-unchecked-disabled";
+        } else if (states.focus) {
+          icon = "Radio-unchecked-focus";
+        } else if (states.pressed) {
+          icon = "Radio-unchecked-pressed";
+        } else if (states.over) {
+          icon = "Radio-unchecked-over";
+        } else {
+          icon = "Radio-unchecked-normal";
+        }
+
+        return {
+          icon: base + icon + ".png"
+        }
+      }
+    },
 
 
     /*

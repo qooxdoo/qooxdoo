@@ -74,22 +74,23 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       c3.setChecked(true);
       c4.setChecked(true);
 
-      c1.addEventListener("changeChecked", function(e) {
+/*
+      c1.addListener("changeChecked", function(e) {
         l1.getManager().setMultiSelection(e.getData());
       });
 
-      c2.addEventListener("changeChecked", function(e) {
+      c2.addListener("changeChecked", function(e) {
         l1.getManager().setDragSelection(e.getData());
       });
 
-      c3.addEventListener("changeChecked", function(e) {
+      c3.addListener("changeChecked", function(e) {
         l1.getManager().setCanDeselect(e.getData());
       });
 
-      c4.addEventListener("changeChecked", function(e) {
+      c4.addListener("changeChecked", function(e) {
         l1.setEnableInlineFind(e.getData());
       });
-
+*/
 
 
 
