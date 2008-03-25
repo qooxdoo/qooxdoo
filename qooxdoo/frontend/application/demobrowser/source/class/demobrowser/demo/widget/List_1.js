@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       l1.set({ height: 200, width: 150 });
 
       var item;
-      for( var i=1; i<=35; i++ )
+      for( var i=1; i<=25; i++ )
       {
         item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
 
