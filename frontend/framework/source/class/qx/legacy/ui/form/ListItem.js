@@ -132,12 +132,10 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
     {
       if (this.hasState("lead"))
       {
-        this.setStyleProperty("MozOutline", "1px dotted invert");
-        this.setStyleProperty("outline", "1px dotted invert");
+        this.setStyleProperty("outline", "1px dotted");
       }
       else
       {
-        this.removeStyleProperty("MozOutline");
         this.setStyleProperty("outline", "0px none");
       }
     },

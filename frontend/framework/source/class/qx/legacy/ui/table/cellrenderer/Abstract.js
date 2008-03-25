@@ -35,19 +35,28 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
     {
       clazz.stylesheet = qx.bom.Stylesheet.createElement(
         ".qooxdoo-table-cell {" +
-        "  position: absolute;" +
-        "  top: 0px;" +
-        "  height: 100%;" +
-        "  overflow:hidden;" +
-        "  text-overflow:ellipsis;" +
-        "  -o-text-overflow: ellipsis;" +
-        "  white-space:nowrap;" +
-        "  border-right:1px solid #eeeeee;" +
-        "  border-bottom:1px solid #eeeeee;" +
-        "  padding : 0px 6px;" +
-        "  cursor:default;" +
-        (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;') +
-        "}" +
+        " position:absolute;" +
+        " top:0px;" +
+        " height:100%;" +
+        " overflow:hidden;" +
+        " white-space:nowrap;" +
+        " border-right:1px solid #eeeeee;" +
+        " border-bottom:1px solid #eeeeee;" +
+        " padding:0px 6px;" +
+        " cursor:default;" +
+
+        // (deal text overflow)
+        // http://www.css3.info/preview/text-overflow/
+        (qx.core.Variant.isSet("qx.client", "mshtml|webkit") ? " text-overflow:ellipsis;" : "") +
+        (qx.core.Variant.isSet("qx.client", "opera") ? " -o-text-overflow:ellipsis;" : "") +
+
+        // (avoid text selection)
+        // http://www.xulplanet.com/references/elemref/ref_StyleProperties.html
+        (qx.core.Variant.isSet("qx.client", "gecko") ? " -moz-user-select:none;" : "") +
+        // http://www.colorjack.com/software/dhtml+color+picker.html
+        (qx.core.Variant.isSet("qx.client", "khtml") ? " -khtml-user-select:none;" : "") +
+        " }" +
+
         ".qooxdoo-table-cell-right {" +
         "  text-align:right" +
         " }" +
@@ -126,9 +135,11 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
         'left:', cellInfo.styleLeft, 'px;',
         'width:', cellInfo.styleWidth, 'px;',
         this._getCellStyle(cellInfo),
-        '">',
+        // deal with unselectable text in Opera 9.2x - not effective in 9.5 beta
+        // http://dev.fckeditor.net/ticket/21
+        (qx.core.Variant.isSet("qx.client", "opera") ? '" unselectable="on">' : '">'),
         this._getContentHtml(cellInfo),
-        "</div>"
+        '</div>'
       );
     }
 
