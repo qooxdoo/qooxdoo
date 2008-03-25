@@ -137,10 +137,11 @@ def _resolveExtends(console, config, jobs):
     def _mergeEntry(target, source):
         for key in source:
             # merge 'let' key rather than shadowing
-            if key == 'let'and target.has_key(key):
-                target[key] = _listPrepend(source[key],target[key])
-            # merge 'settings' key rather than shadowing
-            if key == 'settings'and target.has_key(key):
+            #if key == 'let'and target.has_key(key):
+            #    target[key] = _listPrepend(source[key],target[key])
+            
+            # merge 'settings' and 'let' key rather than shadowing
+            if (key in ['settings','let']) and target.has_key(key):
                 target[key] = _mapMerge(source[key],target[key])
             if not target.has_key(key):
                 target[key] = source[key]
@@ -187,8 +188,7 @@ def _resolveExtends(console, config, jobs):
 def _resolveMacros(console, config, jobs):
     def _expandString(s, map):
         templ = string.Template(s)
-        sub = templ.substitute(map)
-        console.debug("expanding: %s ==> %s" % (str(s),sub))
+        sub = templ.safe_substitute(map)
         return sub
 
     def _expandMacrosInValues(configElem, macroMap):
@@ -196,27 +196,31 @@ def _resolveMacros(console, config, jobs):
         # arrays
         if isinstance(configElem, types.ListType):
             for e in range(len(configElem)):
-                if (isinstance(configElem[e], types.StringTypes) and
-                    configElem[e].find(r'${')>-1):
+                if ((isinstance(configElem[e], types.StringTypes) and
+                        configElem[e].find(r'${')>-1)):
+                    old = configElem[e]
                     configElem[e] = _expandString(configElem[e], macroMap)
+                    console.debug("expanding: %s ==> %s" % (old, configElem[e]))
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
         # dicts
         elif isinstance(configElem, types.DictType):
             for e in configElem:
                 # expand in values
-                if (isinstance(configElem[e], types.StringTypes) and
-                    configElem[e].find(r'${')>-1):
+                if ((isinstance(configElem[e], types.StringTypes) and
+                        configElem[e].find(r'${')>-1)):
                     configElem[e] = _expandString(configElem[e], macroMap)
+                    console.debug("expanding: %s ==> %s" % (str(e), configElem[e]))
                 elif isinstance(configElem[e], (types.DictType, types.ListType)):
                     _expandMacrosInValues(configElem[e], macroMap)
 
                 # expand in keys
-                if (isinstance(e, types.StringTypes) and
-                    e.find(r'${')>-1):
+                if ((isinstance(e, types.StringTypes) and
+                        e.find(r'${')>-1)):
                     enew = _expandString(e, macroMap)
                     configElem[enew] = configElem[e]
                     del configElem[e]
+                    console.debug("expanding key: %s ==> %s" % (e, enew))
 
         # leave everything else alone
         else:
@@ -235,6 +239,20 @@ def _resolveMacros(console, config, jobs):
             dict[pair[0]] = v
         return dict
 
+
+    def _expandMacrosInLet1(letDict):
+        """ takes dict with macro definitions and expands all of them within the dict"""
+
+        keys = letDict.keys()
+        for k in keys:
+            kval = letDict[k]
+            for k1 in keys:
+                if k != k1 and letDict[k1].find(r'${')>-1:
+                    letDict[k1] = _expandString(letDict[k1], {k:kval})
+                    console.debug("expanding: %s ==> %s" % (k1, letDict[k1]))
+        return letDict
+
+
     console.info("Resolving macros...")
     console.indent()
 
@@ -244,11 +262,10 @@ def _resolveMacros(console, config, jobs):
             sys.exit(1)
         else:
             if config[job].has_key('let'):
-                # exand macros in the let and convert to dict
-                config[job]['_letmap_'] = _expandMacrosInLet(config[job]['let'])
+                # exand macros in the let
+                config[job]['let'] = _expandMacrosInLet1(config[job]['let'])
                 # apply dict to other values
-                _expandMacrosInValues(config[job], config[job]['_letmap_'])
-            #print simplejson.dumps(config[job], separators=(',',':'))
+                _expandMacrosInValues(config[job], config[job]['let'])
 
     console.outdent()
 
