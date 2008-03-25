@@ -19,11 +19,18 @@
 ************************************************************************ */
 
 /**
+ * The TextField is a multi-line text input field.
+ *
+ * On each key stroke the value is synchronized with the
+ * {@link #value} property. Value changes can be monitored by listening on the
+ * {@link #input} or {@link #change} events.
+ *
  * @appearance text-area
  */
 qx.Class.define("qx.ui.form.TextArea",
 {
-  extend : qx.ui.form.TextField,
+  extend : qx.ui.form.AbstractField,
+
 
 
   /*
@@ -37,6 +44,7 @@ qx.Class.define("qx.ui.form.TextArea",
     this.base(arguments, value);
     this.initWrap();
   },
+
 
 
 
@@ -56,22 +64,11 @@ qx.Class.define("qx.ui.form.TextArea",
       apply : "_applyWrap"
     },
 
+    // overridden
     appearance :
     {
       refine : true,
       init : "text-area"
-    },
-
-    allowGrowY :
-    {
-      refine : true,
-      init : true
-    },
-
-    allowShrinkY :
-    {
-      refine : true,
-      init : true
     }
   },
 
@@ -93,6 +90,7 @@ qx.Class.define("qx.ui.form.TextArea",
       input.setStyle("overflow", "hidden");
       return input;
     },
+
 
 
 
@@ -119,7 +117,8 @@ qx.Class.define("qx.ui.form.TextArea",
     _getContentHint : function()
     {
       var hint = this.base(arguments);
-      // four lines by default
+
+      // four lines of text by default
       hint.height = hint.height * 4;
 
       return hint;
