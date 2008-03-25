@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(treevirtual)
-
-************************************************************************ */
-
 /**
  * A selection manager. This is a helper class that handles all selection
  * related events and updates a SelectionModel.
