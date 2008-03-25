@@ -96,44 +96,6 @@ qx.Class.define("qx.ui.form.ListItem",
   {
     /*
     ---------------------------------------------------------------------------
-      STATE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets/removes the styleProperties "MozOutline" and "outline" whether the
-     * item has the state "lead" or not
-     *
-     * @type member
-     * @return {void}
-     */
-    handleStateChange : function()
-    {
-      if (this.hasState("lead"))
-      {
-        this.setStyleProperty("outline", "1px dotted invert");
-      }
-      else
-      {
-        this.setStyleProperty("outline", "0px none");
-      }
-    },
-
-
-    /**
-     * Remove default outline focus border - currently not implemented
-     *
-     * @type member
-     * @param vStates {var} states
-     * @return {void}
-     */
-    _applyStateStyleFocus : function(vStates) {},
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       UTILITIES
     ---------------------------------------------------------------------------
     */
