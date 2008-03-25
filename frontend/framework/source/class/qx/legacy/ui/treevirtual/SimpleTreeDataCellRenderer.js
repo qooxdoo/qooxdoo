@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(treevirtual)
 #embed(qx.icontheme/16/places/folder-open.png)
 #embed(qx.icontheme/16/places/folder.png)
 #embed(qx.icontheme/16/actions/document-open.png)

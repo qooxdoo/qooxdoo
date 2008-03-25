@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * The model of a table pane. This model works as proxy to a
  * {@link qx.legacy.ui.table.columnmodel.Basic} and manages the visual order of the columns shown in

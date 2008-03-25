@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * Shows a whole meta column. This includes a {@link TablePaneHeader},
  * a {@link TablePane} and the needed scroll bars. This class handles the

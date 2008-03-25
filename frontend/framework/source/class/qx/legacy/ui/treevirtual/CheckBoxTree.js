@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(treevirtual)
-
-************************************************************************ */
-
 /**
  * A "virtual" tree intended to use multiple selection.
  * The selected state is shown by means of checkboxes to the left of the icon, instead of the row background color

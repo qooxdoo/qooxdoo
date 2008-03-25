@@ -20,12 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_tree)
-
-************************************************************************ */
-
 /**
  * The Tree class implements a tree widget, with collapsable and expandable
  * container nodes and terminal leaf nodes. You instantiate a Tree object as the

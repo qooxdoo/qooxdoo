@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(treevirtual)
-
-************************************************************************ */
-
 /**
  * A "virtual" tree intended to use multiple selection.
  * The selected state of a branch depends on the select state of its leaves.
