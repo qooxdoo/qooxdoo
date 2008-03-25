@@ -1,150 +1,153 @@
 {
-  "common" :
+  "jobs: "
   {
-    "let" :
+    "common" :
     {
-      "APPLICATION": "apiviewer",
-      "QOOXDOO_PATH": "../..",
-      "QOOXDOO_URI": "../${QOOXDOO_PATH}"
-    },
-
-    "library" :
-    [
+      "let" :
       {
-        "encoding" : "utf-8",
-        "path"     : "${QOOXDOO_PATH}/framework/source",
-        "uri"      : "${QOOXDOO_URI}/framework/source"
+        "APPLICATION": "apiviewer",
+        "QOOXDOO_PATH": "../..",
+        "QOOXDOO_URI": "../${QOOXDOO_PATH}"
       },
 
+      "library" :
+      [
+        {
+          "encoding" : "utf-8",
+          "path"     : "${QOOXDOO_PATH}/framework/source",
+          "uri"      : "${QOOXDOO_URI}/framework/source"
+        },
+
+        {
+          "encoding" : "utf-8",
+          "path"     : "source",
+          "uri"      : "../source"
+        }
+      ],
+
+      "settings" :
       {
-        "encoding" : "utf-8",
-        "path"     : "source",
-        "uri"      : "../source"
+        "qx.application"  : "${APPLICATION}.Application",
+        "qx.resourceUri"  : "${QOOXDOO_URI}/framework/source/resource",
+        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
+        "qx.version"      : "TODO"
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
       }
-    ],
-
-    "settings" :
-    {
-      "qx.application"  : "${APPLICATION}.Application",
-      "qx.resourceUri"  : "${QOOXDOO_URI}/framework/source/resource",
-      "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
-      "qx.version"      : "TODO"
     },
 
-    "cache" :
+
+    "source-script" :
     {
-      "path" : "../../cache"
-    }
-  },
+      "extend" : ["common"],
+      "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
 
+      "settings" :
+      {
+        "${APPLICATION}.resourceUri" : "./resource"
+      },
 
-  "source-script" :
-  {
-    "extend" : ["common"],
-    "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
-
-    "settings" :
-    {
-      "${APPLICATION}.resourceUri" : "./resource"
+      "source" :
+      {
+        "file" : "./source/script/${APPLICATION}.js"
+      }
     },
+
 
     "source" :
     {
-      "file" : "./source/script/${APPLICATION}.js"
-    }
-  },
-
-
-	"source" :
-	{
-		"run" : 
-		[ 
-			"source-script",
-			"source-data"
-		]
-	},
-
-
-  "build-script" :
-  {
-    "extend" : ["common"],
-    "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
-
-    "settings" :
-    {
-      "${APPLICATION}.resourceUri" : "./resource"
+      "run" : 
+      [ 
+        "source-script",
+        "source-data"
+      ]
     },
 
-    "compile" :
+
+    "build-script" :
     {
-      "file" : "./build/script/${APPLICATION}.js",
-      "uri"  : "script/${APPLICATION}.js"
-    }
-  },
+      "extend" : ["common"],
+      "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
+
+      "settings" :
+      {
+        "${APPLICATION}.resourceUri" : "./resource"
+      },
+
+      "compile" :
+      {
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js"
+      }
+    },
 
 
-  "build-files" :
-  {
-    "extend" : ["common"],
-
-    "copy-files" :
+    "build-files" :
     {
-  		"files" :
-  		[
-  		  "index.html"
-  		],
+      "extend" : ["common"],
 
-      "target" : "build"
-    }
-  },
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html"
+        ],
+
+        "target" : "build"
+      }
+    },
 
 
-  "build-resources":
-  {
-    "extend" : ["common"],
-
-    "copy-resources" :
+    "build-resources":
     {
-      "target" : "build",
-			"resource-filter" : true
-    }
-  },
+      "extend" : ["common"],
+
+      "copy-resources" :
+      {
+        "target" : "build",
+        "resource-filter" : true
+      }
+    },
 
 
-	"build" :
-	{
-		"run" : 
-		[ 
-			"build-resources", 
-			"build-script", 
-			"build-files",
-			"build-data"
-		]
-	},
-
-
-  "source-data" :
-  {
-    "extend" : ["common"],
-
-    "include" : ["qx.*"],
-
-    "api" :
+    "build" :
     {
-      "path" : "source/script"
-    }
-  },
+      "run" : 
+      [ 
+        "build-resources", 
+        "build-script", 
+        "build-files",
+        "build-data"
+      ]
+    },
 
 
-  "build-data" :
-  {
-    "extend" : ["common"],
-
-    "include" : ["qx.*"],
-
-    "api" :
+    "source-data" :
     {
-      "path" : "build/script"
+      "extend" : ["common"],
+
+      "include" : ["qx.*"],
+
+      "api" :
+      {
+        "path" : "source/script"
+      }
+    },
+
+
+    "build-data" :
+    {
+      "extend" : ["common"],
+
+      "include" : ["qx.*"],
+
+      "api" :
+      {
+        "path" : "build/script"
+      }
     }
   }
 }
