@@ -27,6 +27,8 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
 {
   title : "Contemporary Appearance",
 
+  extend : qx.theme.classic.Appearance,
+
   appearances :
   {
     /*
@@ -121,8 +123,10 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
       }
     },
 
+
     "text-area" : {
       include : "text-field"
     }
+
   }
 });

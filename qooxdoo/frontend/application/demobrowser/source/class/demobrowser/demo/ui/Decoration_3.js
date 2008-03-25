@@ -31,10 +31,12 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
 
       var layout = new qx.ui.layout.Grid();
       layout.setColumnAlign(0, "right", "top");
+      layout.setColumnAlign(2, "right", "top");
       layout.setHorizontalSpacing(9);
       layout.setVerticalSpacing(5);
       layout.setColumnWidth(1, 160);
-      layout.setColumnWidth(2, 160);
+      layout.setColumnWidth(2, 72);
+      layout.setColumnWidth(3, 108);
 
 
       var container = new qx.ui.core.Widget().set({
@@ -61,18 +63,51 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
         }), i, 1);
       }
 
+
+      // text area
       layout.add(new qx.ui.form.TextArea().set({
         height: 250
-      }), 4, 1, {colSpan: 2});
+      }), 4, 1, {colSpan: 3});
 
 
+      // radio buttons
+      layout.add(new qx.ui.basic.Label("Sex").set({
+        allowGrowX: false,
+        allowShrinkX: false,
+        paddingTop: 3
+      }), 0, 2);
+
+      var female = new qx.ui.form.RadioButton("female");
+      var male = new qx.ui.form.RadioButton("male");
+
+      var mgr = new qx.ui.core.RadioManager();
+      mgr.add(female, male);
+
+      layout.add(female, 0, 3);
+      layout.add(male, 1, 3);
+      male.setChecked(true);
+
+
+      // check boxes
+      layout.add(new qx.ui.basic.Label("Hobbies").set({
+        allowGrowX: false,
+        allowShrinkX: false,
+        paddingTop: 3
+      }), 2, 2);
+      layout.add(new qx.ui.form.CheckBox("Reading"), 2, 3);
+      layout.add(new qx.ui.form.CheckBox("Swimming").set({
+        enabled: false
+      }), 3, 3);
+
+
+      // buttons
       var buttonPane = new qx.ui.core.Widget().set({
         layout: new qx.ui.layout.HBox().set({
           spacing: 4
         }),
         paddingTop: 11
       });
-      layout.add(buttonPane, 5, 0, {colSpan: 3});
+      layout.add(buttonPane, 5, 0, {colSpan: 4});
       buttonPane.getLayout().addSpacer();
 
       okButton = new qx.ui.form.Button("OK").set({
