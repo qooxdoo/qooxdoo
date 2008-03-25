@@ -5016,26 +5016,12 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     {
       "mshtml" : function(vStates) {},
 
-      "gecko" : function(vStates)
-      {
-        if (vStates.focused)
-        {
-          if (!qx.legacy.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
-            this.setStyleProperty("MozOutline", "1px dotted invert");
-          }
-        }
-        else
-        {
-          this.removeStyleProperty("MozOutline");
-        }
-      },
-
       "default" : function(vStates)
       {
         if (vStates.focused)
         {
           if (!qx.legacy.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
-            this.setStyleProperty("outline", "1px dotted invert");
+            this.setStyleProperty("outline", "1px dotted");
           }
         }
         else
