@@ -51,7 +51,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         ".qooxdoo-table-cell-bold {" +
         cr.__tableCellBoldStyleSheet +
         "} ";
-      this.debug(stylesheet);
       cr.__clazz.stylesheet = qx.html.StyleSheet.createElement(stylesheet);
     }
   },
