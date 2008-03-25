@@ -111,6 +111,15 @@ qx.Class.define("qx.ui.form.List",
       this.getLayout().remove(listItem);
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SELECTION MANAGER API
+    ---------------------------------------------------------------------------
+    */
+
     getNextSiblingOf : function(listItem) {
       return this.getLayout().getNextSibling(listItem);
     },
@@ -121,6 +130,20 @@ qx.Class.define("qx.ui.form.List",
 
     getScrollTop : function() {
       return 0;
+    },
+
+    setScrollTop : function(scroll) {
+      return;
+    },
+
+    getChildren : function() {
+      return this.getLayoutChildren();
+    },
+
+    getInnerHeight : function()
+    {
+      var computed = this.getComputedInnerSize();
+      return computed ? computed.height : 0;
     },
 
 
@@ -528,7 +551,7 @@ qx.Class.define("qx.ui.form.List",
      * @param vReverse {Boolean} Whether the items should be sorted reverse or not.
      * @return {void}
      */
-    sortItemsByString : function(vReverse)
+    sortItemsByLabel : function(vReverse)
     {
       var sortitems = [];
       var items = this.getChildren();

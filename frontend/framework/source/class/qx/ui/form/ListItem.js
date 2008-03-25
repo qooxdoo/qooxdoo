@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
   members :
   {
-    getOffsetTop : function()
+    getRenderedTop : function()
     {
       var computed = this.getComputedLayout();
       if (computed) {
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.form.ListItem",
     },
 
 
-    getOffsetHeight : function()
+    getRenderedHeight : function()
     {
       var computed = this.getComputedLayout();
       if (computed) {
@@ -201,11 +201,14 @@ qx.Class.define("qx.ui.form.ListItem",
      */
     _ondblclick : function(e)
     {
+      // TODO08: Command support in Widget still missing
+      /*
       var vCommand = this.getCommand();
 
       if (vCommand) {
         vCommand.execute();
       }
+      */
     }
   }
 });
