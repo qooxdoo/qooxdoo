@@ -73,7 +73,7 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
     {
       var value = this.getWidgetTheme();
       var alias = qx.io.Alias.getInstance();
-      value ? alias.add("widget", value.widgets.uri) : alias.remove("widget");
+      value ? alias.add("widget", value.resource) : alias.remove("widget");
     }
   }
 });

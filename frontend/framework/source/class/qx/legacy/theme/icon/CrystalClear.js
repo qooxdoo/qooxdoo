@@ -25,17 +25,9 @@
 
 ************************************************************************ */
 
-/**
- * Crystal Clear
- * Author: Everaldo (everaldo@everaldo.com)
- * License: LGPL
- * Home: http://www.kde-look.org/content/show.php?content=25668
- */
 qx.Theme.define("qx.legacy.theme.icon.CrystalClear",
 {
   title : "CrystalClear",
-
-  icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen"
-  }
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen",
+  icons : {}
 });

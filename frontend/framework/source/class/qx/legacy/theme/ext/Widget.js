@@ -33,8 +33,6 @@
 qx.Theme.define("qx.legacy.theme.ext.Widget",
 {
   title : "Ext",
-
-  widgets : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Ext"
-  }
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Ext",
+  widgets : {}
 });

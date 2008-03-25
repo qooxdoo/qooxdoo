@@ -32,6 +32,7 @@
 qx.Theme.define("qx.theme.contemporary.Decoration",
 {
   title : "Contemporary",
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary",
 
   decorations :
   {
@@ -40,7 +41,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/pane/Pane.png"
+        baseImage : "decoration/pane/Pane.png"
       }
     },
 
@@ -50,7 +51,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Normal.png"
+        baseImage : "decoration/button/Button-Normal.png"
       }
     },
 
@@ -59,7 +60,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Normal-Fokus.png"
+        baseImage : "decoration/button/Button-Normal-Fokus.png"
       }
     },
 
@@ -68,7 +69,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Hover.png"
+        baseImage : "decoration/button/Button-Hover.png"
       }
     },
 
@@ -77,7 +78,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Pressed.png"
+        baseImage : "decoration/button/Button-Pressed.png"
       }
     },
 
@@ -86,7 +87,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Checked.png"
+        baseImage : "decoration/button/Button-Checked.png"
       }
     },
 
@@ -95,7 +96,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Checked-Fokus.png"
+        baseImage : "decoration/button/Button-Checked-Fokus.png"
       }
     },
 
@@ -104,7 +105,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Default.png"
+        baseImage : "decoration/button/Button-Default.png"
       }
     },
 
@@ -113,7 +114,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/button/Button-Default-Fokus.png"
+        baseImage : "decoration/button/Button-Default-Fokus.png"
       }
     },
 
@@ -125,7 +126,7 @@ qx.Theme.define("qx.theme.contemporary.Decoration",
       {
         outerColor: "border",
         innerColor: "white",
-        backgroundImage : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/Input.png"
+        backgroundImage : "decoration/Input.png"
       }
     },
 
