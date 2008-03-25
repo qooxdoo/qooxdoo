@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_basic)
-
-************************************************************************ */
-
 /**
  * A CanvasLayout, which can be placed inside an arbitrary HTML DOM element.
  * This widget can be used to embed qooxdoo widgets inside a normal

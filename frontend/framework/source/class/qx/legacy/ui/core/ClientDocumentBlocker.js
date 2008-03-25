@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-
-************************************************************************ */
-
 /**
  * qx.legacy.ui.core.ClientDocumentBlocker blocks the inputs from the user.
  * This will be used internally to allow better modal dialogs for example.
