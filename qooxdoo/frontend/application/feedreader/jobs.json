@@ -2,11 +2,11 @@
   "common" :
   {
     "let" :
-    [
-      ["APPLICATION_NAMESPACE", "feedreader"],
-      ["QOOXDOO_PATH", "../.."],
-      ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
-    ],
+    {
+      "APPLICATION_NAMESPACE": "feedreader",
+      "QOOXDOO_PATH": "../..",
+      "QOOXDOO_URI": "../${QOOXDOO_PATH}"
+    },
 
     "library" :
     [
