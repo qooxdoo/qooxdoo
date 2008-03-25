@@ -27,6 +27,7 @@
  * This is useful for all types of buttons, tooltips, ...
  *
  * @appearance atom
+ * @appearance atom-label {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.basic.Atom",
 {
@@ -173,10 +174,14 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyLabel : function(value, old)
     {
-      if (this._label) {
+      if (this._label)
+      {
         this._label.setContent(value);
-      } else {
+      }
+      else
+      {
         this._label = new qx.ui.basic.Label(value);
+        this._label.setAppearance("atom-label");
       }
 
       this._handleLabel();
