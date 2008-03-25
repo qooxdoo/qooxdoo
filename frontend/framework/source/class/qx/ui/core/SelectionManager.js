@@ -73,10 +73,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
   properties :
   {
-    /** This contains the currently assigned widget (qx.legacy.ui.form.List, ...) */
+    /** This contains the currently assigned widget (qx.ui.form.List, ...) */
     boundedWidget :
     {
-      check : "qx.legacy.ui.core.Widget",
+      check : "qx.ui.core.Widget",
       nullable : true
     },
 
@@ -559,7 +559,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /**
      * Make a single item selected / not selected
      *
-     * #param vItem[qx.legacy.ui.core.Widget]: Item which should be selected / not selected
+     * #param vItem[qx.ui.core.Widget]: Item which should be selected / not selected
      * #param vSelected[Boolean]: Should this item be selected?
      *
      * @type member
@@ -875,8 +875,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /**
      * Select a range of items.
      *
-     * #param vItem1[qx.legacy.ui.core.Widget]: Start item
-     * #param vItem2[qx.legacy.ui.core.Widget]: Stop item
+     * #param vItem1[qx.ui.core.Widget]: Start item
+     * #param vItem2[qx.ui.core.Widget]: Stop item
      *
      * @type member
      * @param vItem1 {var} TODOC
@@ -908,8 +908,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * Sub method for selectItemRange. Handles the real work
      * to select a range of items.
      *
-     * #param vItem1[qx.legacy.ui.core.Widget]: Start item
-     * #param vItem2[qx.legacy.ui.core.Widget]: Stop item
+     * #param vItem1[qx.ui.core.Widget]: Start item
+     * #param vItem2[qx.ui.core.Widget]: Stop item
      * #param vDelect[Boolean]: Deselect currently selected items first?
      *
      * @type member
@@ -961,8 +961,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /**
      * Internal method for deselection of ranges.
      *
-     * #param vItem1[qx.legacy.ui.core.Widget]: Start item
-     * #param vItem2[qx.legacy.ui.core.Widget]: Stop item
+     * #param vItem1[qx.ui.core.Widget]: Start item
+     * #param vItem2[qx.ui.core.Widget]: Stop item
      *
      * @type member
      * @param vItem1 {var} TODOC
@@ -1330,7 +1330,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * Handles key event to perform selection and navigation
      *
      * @type member
-     * @param vDomEvent {qx.legacy.event.type.KeyEvent} event object
+     * @param vDomEvent {qx.event.type.KeyEvent} event object
      * @return {void}
      */
     handleKeyPress : function(vDomEvent)
@@ -1680,7 +1680,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /**
      * Jump a "page" up.
      *
-     * #param vItem[qx.legacy.ui.core.Widget]: Relative to this widget
+     * #param vItem[qx.ui.core.Widget]: Relative to this widget
      *
      * @type member
      * @param vItem {var} TODOC
@@ -1742,7 +1742,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /**
      * Jump a "page" down.
      *
-     * #param vItem[qx.legacy.ui.core.Widget]: Relative to this widget
+     * #param vItem[qx.ui.core.Widget]: Relative to this widget
      *
      * @type member
      * @param vItem {var} TODOC
