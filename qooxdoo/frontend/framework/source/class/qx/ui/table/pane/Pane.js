@@ -670,8 +670,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
         "width: ", rowWidth, "px;",
         "line-height: ", rowHeight, "px;",
         "overflow: hidden;",
-        "font-size: 11px;",
-        "font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;",
         "'>",
         this._getRowsHtml(firstRow, rowCount),
         "</div>"
