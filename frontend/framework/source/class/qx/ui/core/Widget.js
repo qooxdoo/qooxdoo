@@ -1444,6 +1444,10 @@ qx.Class.define("qx.ui.core.Widget",
       var el = new qx.html.Element("div");
       el.setStyle("position", "absolute");
 
+      if (qx.core.Setting.get("qx.layoutDebug") == "on") {
+        el.setStyle("outline", "1px solid red");
+      }
+
       // store "weak" reference to the widget in the DOM element.
       el.setAttribute("$$widget", this.toHashCode());
       el.setStyle("zIndex", 0);
@@ -1481,6 +1485,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 10);
+
+      if (qx.core.Setting.get("qx.layoutDebug") == "on") {
+        el.setStyle("outline", "1px solid green");
+      }
 
       return el;
     },
@@ -1556,6 +1564,21 @@ qx.Class.define("qx.ui.core.Widget",
       this._containerElement.releaseCapture();
     },
 
+
+    /**
+     * Focus this widget.
+     */
+    focus : function() {
+      this._containerElement.focus();
+    },
+
+
+    /**
+     * Remove focus from this widget
+     */
+    blur : function() {
+      this._containerElement.blur();
+    },
 
 
 
@@ -1970,7 +1993,10 @@ qx.Class.define("qx.ui.core.Widget",
   },
 
 
-
+  settings :
+  {
+    "qx.layoutDebug" : "off"
+  },
 
 
 
