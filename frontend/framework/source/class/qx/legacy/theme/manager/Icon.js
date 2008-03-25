@@ -74,7 +74,7 @@ qx.Class.define("qx.legacy.theme.manager.Icon",
     {
       var value = this.getIconTheme();
       var alias = qx.io.Alias.getInstance();
-      value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
+      value ? alias.add("icon", value.resource) : alias.remove("icon");
     }
   }
 });

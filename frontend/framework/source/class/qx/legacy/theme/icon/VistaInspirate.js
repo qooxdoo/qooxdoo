@@ -25,18 +25,9 @@
 
 ************************************************************************ */
 
-/**
- * Vista-Inspirate
- * Author: Alexandre Moore (alexandre.moore@gmail.com)
- * License: GPL & LGPL/EPL
- * Home: http://www.kde-look.org/content/show.php?content=31585
- * Comment: Based on nuoveXT by the same author
- */
 qx.Theme.define("qx.legacy.theme.icon.VistaInspirate",
 {
   title : "VistaInspirate",
-
-  icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen"
-  }
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen",
+  icons : {}
 });

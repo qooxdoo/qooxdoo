@@ -25,17 +25,9 @@
 
 ************************************************************************ */
 
-/**
- * Nuvola
- * Author: David Vignoni (david@icon-king.com)
- * License: LGPL
- * Home: http://www.kde-look.org/content/show.php?content=5358
- */
 qx.Theme.define("qx.legacy.theme.icon.Nuvola",
 {
   title : "Nuvola",
-
-  icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen"
-  }
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen",
+  icons : {}
 });
