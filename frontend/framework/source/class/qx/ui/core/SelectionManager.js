@@ -210,8 +210,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @type member
      * @return {var} TODOC
      */
-    _getFirst : function() {
-      return this.getBoundedWidget().getFirstVisibleChild();
+    _getFirst : function()
+    {
+      var children = this.getBoundedWidget().getChildren();
+      return children[0] || null;
     },
 
 
@@ -221,8 +223,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @type member
      * @return {var} TODOC
      */
-    _getLast : function() {
-      return this.getBoundedWidget().getLastVisibleChild();
+    _getLast : function()
+    {
+      var children = this.getBoundedWidget().getChildren();
+      return children[children.length-1] || null;
     },
 
 
@@ -392,7 +396,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      */
     scrollItemIntoView : function(vItem, vTopLeft)
     {
-      // 0.8 TODO
+      // TODO08: ScrollIntoView support still missing
       // vItem.scrollIntoView(vTopLeft);
     },
 
@@ -405,7 +409,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getItemOffset : function(vItem) {
-      return vItem.getOffsetTop();
+      return vItem.getRenderedTop();
     },
 
 
@@ -417,7 +421,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getItemSize : function(vItem) {
-      return vItem.getOffsetHeight();
+      return vItem.getRenderedHeight();
     },
 
 
@@ -1289,19 +1293,21 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * Handles key event to perform selection and navigation
      *
      * @type member
-     * @param vDomEvent {qx.event.type.KeyEvent} event object
+     * @param ev {qx.event.type.KeyEvent} event object
      * @return {void}
      */
-    handleKeyPress : function(vDomEvent)
+    handleKeyPress : function(ev)
     {
       var oldVal = this._getChangeValue();
+
+      // this.debug("KeyPress: " + ev.getKeyIdentifier());
 
       // Temporary disabling of event fire
       var oldFireChange = this.getFireChange();
       this.setFireChange(false);
 
       // Ctrl+A: Select all
-      if (vDomEvent.getKeyIdentifier() == "A" && vDomEvent.isCtrlPressed())
+      if (ev.getKeyIdentifier() == "A" && ev.isCtrlPressed())
       {
         if (this.getMultiSelection())
         {
@@ -1317,7 +1323,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
       else
       {
         var aIndex = this.getAnchorItem();
-        var itemToSelect = this.getItemToSelect(vDomEvent);
+        var itemToSelect = this.getItemToSelect(ev);
 
         // this.debug("Anchor: " + (aIndex ? aIndex.getLabel() : "null"));
         // this.debug("ToSelect: " + (itemToSelect ? itemToSelect.getLabel() : "null"));
@@ -1330,10 +1336,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
           this.scrollItemIntoView(itemToSelect);
 
           // Stop event handling
-          vDomEvent.preventDefault();
+          ev.preventDefault();
 
           // Select a range
-          if (vDomEvent.isShiftPressed() && this.getMultiSelection())
+          if (ev.isShiftPressed() && this.getMultiSelection())
           {
             // Make it a little bit more failsafe:
             // Set anchor if not given already. Allows us to select
@@ -1345,7 +1351,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
             // Select new range (and clear up current selection first)
             this._selectItemRange(this.getAnchorItem(), itemToSelect, true);
           }
-          else if (!vDomEvent.isCtrlPressed())
+          else if (!ev.isCtrlPressed())
           {
             // Clear current selection
             this._deselectAll();
@@ -1360,7 +1366,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
             // (allows following shift range selection)
             this.setAnchorItem(itemToSelect);
           }
-          else if (vDomEvent.getKeyIdentifier() == "Space")
+          else if (ev.getKeyIdentifier() == "Space")
           {
             if (this._selectedItems.contains(itemToSelect))
             {
@@ -1376,7 +1382,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
             else
             {
               // Clear current selection
-              if (!vDomEvent.isCtrlPressed() || !this.getMultiSelection()) {
+              if (!ev.isCtrlPressed() || !this.getMultiSelection()) {
                 this._deselectAll();
               }
 
@@ -1649,7 +1655,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     {
       var vBoundedWidget = this.getBoundedWidget();
       var vParentScrollTop = vBoundedWidget.getScrollTop();
-      var vParentClientHeight = vBoundedWidget.getClientHeight();
+      var vParentClientHeight = vBoundedWidget.getInnerHeight();
 
       // Find next item
       var nextItem = this.getLeadItem();
@@ -1711,7 +1717,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     {
       var vBoundedWidget = this.getBoundedWidget();
       var vParentScrollTop = vBoundedWidget.getScrollTop();
-      var vParentClientHeight = vBoundedWidget.getClientHeight();
+      var vParentClientHeight = vBoundedWidget.getInnerHeight();
 
       // this.debug("Bound: " + (vBoundedWidget._getTargetNode() != vBoundedWidget.getElement()));
       // this.debug("ClientHeight-1: " + vBoundedWidget._getTargetNode().clientHeight);
