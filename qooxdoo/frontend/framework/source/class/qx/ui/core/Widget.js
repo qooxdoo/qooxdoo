@@ -6146,24 +6146,19 @@ qx.Class.define("qx.ui.core.Widget",
 
       "webkit" : function(value, old)
       {
-        if (value) {
+        if (value)
+        {
           this.removeStyleProperty("WebkitUserSelect");
-        } else {
-          this.setStyleProperty("WebkitUserSelect", "none");
-        }
-      },
-
-      "khtml" : function(value, old)
-      {
-        if (value) {
           this.removeStyleProperty("KhtmlUserSelect");
-        } else {
+        }
+        else
+        {
+          this.setStyleProperty("WebkitUserSelect", "none");
           this.setStyleProperty("KhtmlUserSelect", "none");
         }
       },
 
       // Opera currently has no support to prohibit user selection
-
       "default" : function(value, old)
       {
         if (value) {
@@ -6215,8 +6210,6 @@ qx.Class.define("qx.ui.core.Widget",
         {
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
             this.removeStyleProperty("MozOpacity");
-          } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
-            this.removeStyleProperty("KhtmlOpacity");
           }
 
           this.removeStyleProperty("opacity");
@@ -6229,8 +6222,6 @@ qx.Class.define("qx.ui.core.Widget",
           // and limit the max value to 0.99?
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
             this.setStyleProperty("MozOpacity", value);
-          } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
-            this.setStyleProperty("KhtmlOpacity", value);
           }
 
           this.setStyleProperty("opacity", value);

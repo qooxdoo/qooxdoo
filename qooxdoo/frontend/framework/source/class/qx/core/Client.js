@@ -74,9 +74,12 @@ qx.Class.define("qx.core.Client",
       }
       else if (typeof vBrowserVendor === "string" && vBrowserVendor === "KDE" && /KHTML\/([0-9-\.]*)/.test(vBrowserUserAgent))
       {
-        vEngine = "khtml";
+        vEngine = "webkit";
         vBrowser = "konqueror";
-        vEngineVersion = RegExp.$1;
+
+        // Howto translate KDE Version to Webkit Version? Currently emulate Safari 3.0.x for all versions.
+        // vEngineVersion = RegExp.$1;
+        vEngineVersion = "420";
       }
       else if (vBrowserUserAgent.indexOf("AppleWebKit") != -1 && /AppleWebKit\/([^ ]+)/.test(vBrowserUserAgent))
       {
@@ -145,10 +148,6 @@ qx.Class.define("qx.core.Client",
       {
         case "gecko":
           vEngineBoxSizingAttr.push("-moz-box-sizing");
-          break;
-
-        case "khtml":
-          vEngineBoxSizingAttr.push("-khtml-box-sizing");
           break;
 
         case "webkit":
@@ -230,7 +229,6 @@ qx.Class.define("qx.core.Client",
       this._engineNameMshtml = vEngine === "mshtml";
       this._engineNameGecko = vEngine === "gecko";
       this._engineNameOpera = vEngine === "opera";
-      this._engineNameKhtml = vEngine === "khtml";
       this._engineNameWebkit = vEngine === "webkit";
 
       this._engineVersion = parseFloat(vEngineVersion);
@@ -409,7 +407,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is khtml
      */
     isKhtml : function() {
-      return this._engineNameKhtml;
+      return this._engineNameWebkit;
     },
 
 
@@ -646,6 +644,6 @@ qx.Class.define("qx.core.Client",
   defer : function(statics, members, properties)
   {
     statics.__init();
-    qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());
+    qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit" ], qx.core.Client.getInstance().getEngine());
   }
 });
