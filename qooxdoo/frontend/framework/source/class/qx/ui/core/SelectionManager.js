@@ -375,25 +375,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      MAPPING TO ITEM PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
-     */
-    getItemHashCode : function(vItem) {
-      return vItem.toHashCode();
-    },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -409,8 +390,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @param vTopLeft {var} TODOC
      * @return {void}
      */
-    scrollItemIntoView : function(vItem, vTopLeft) {
-      vItem.scrollIntoView(vTopLeft);
+    scrollItemIntoView : function(vItem, vTopLeft)
+    {
+      // 0.8 TODO
+      // vItem.scrollIntoView(vTopLeft);
     },
 
 
@@ -421,19 +404,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
-    getItemLeft : function(vItem) {
-      return vItem.getOffsetLeft();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
-     */
-    getItemTop : function(vItem) {
+    getItemOffset : function(vItem) {
       return vItem.getOffsetTop();
     },
 
@@ -445,19 +416,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
-    getItemWidth : function(vItem) {
-      return vItem.getOffsetWidth();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
-     */
-    getItemHeight : function(vItem) {
+    getItemSize : function(vItem) {
       return vItem.getOffsetHeight();
     },
 
@@ -1213,7 +1172,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
         if (this._activeDragSession)
         {
           // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
-          this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
+          this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
         }
 
         if (!this.getItemSelected(oItem)) {
@@ -1257,7 +1216,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
         }
 
         // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
-        this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
+        this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
       }
 
       // ********************************************************************
@@ -1705,7 +1664,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
       while (tryLoops < 2)
       {
-        while (nextItem && (this.getItemTop(nextItem) - this.getItemHeight(nextItem) >= vParentScrollTop)) {
+        while (nextItem && (this.getItemOffset(nextItem) - this.getItemSize(nextItem) >= vParentScrollTop)) {
           nextItem = this.getUp(nextItem);
         }
 
@@ -1725,8 +1684,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
         }
 
         // Update scrolling (this is normally the first step)
-        // this.debug("Scroll-Up: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem)));
-        vBoundedWidget.setScrollTop(vParentScrollTop - vParentClientHeight - this.getItemHeight(nextItem));
+        // this.debug("Scroll-Up: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemSize(nextItem)));
+        vBoundedWidget.setScrollTop(vParentScrollTop - vParentClientHeight - this.getItemSize(nextItem));
 
         // Use the real applied value instead of the calulated above
         vParentScrollTop = vBoundedWidget.getScrollTop();
@@ -1771,10 +1730,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
       while (tryLoops < 2)
       {
         // this.debug("Loop: " + tryLoops);
-        // this.debug("Info: " + nextItem + " :: " + (this.getItemTop(nextItem) + (2 * this.getItemHeight(nextItem))) + " <> " + (vParentScrollTop + vParentClientHeight));
+        // this.debug("Info: " + nextItem + " :: " + (this.getItemOffset(nextItem) + (2 * this.getItemSize(nextItem))) + " <> " + (vParentScrollTop + vParentClientHeight));
         // this.debug("Detail: " + vParentScrollTop + ", " + vParentClientHeight);
         // Find next
-        while (nextItem && ((this.getItemTop(nextItem) + (2 * this.getItemHeight(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
+        while (nextItem && ((this.getItemOffset(nextItem) + (2 * this.getItemSize(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
           nextItem = this.getDown(nextItem);
         }
 
@@ -1791,8 +1750,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
         }
 
         // Update scrolling (this is normally the first step)
-        // this.debug("Scroll-Down: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem)));
-        vBoundedWidget.setScrollTop(vParentScrollTop + vParentClientHeight - 2 * this.getItemHeight(nextItem));
+        // this.debug("Scroll-Down: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemSize(nextItem)));
+        vBoundedWidget.setScrollTop(vParentScrollTop + vParentClientHeight - 2 * this.getItemSize(nextItem));
 
         // Use the real applied value instead of the calulated above
         vParentScrollTop = vBoundedWidget.getScrollTop();

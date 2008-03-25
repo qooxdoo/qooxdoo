@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.core.SelectionStorage",
   */
 
   /**
-   * @param mgr {Object} a class which implements a getItemHashCode(item) method
+   * @param mgr {Object} a class which implements a method
    */
   construct : function(mgr)
   {
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.core.SelectionStorage",
      * @return {void}
      */
     add : function(item) {
-      this.__storage[this.getItemHashCode(item)] = item;
+      this.__storage[item.$$hash] = item;
     },
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.core.SelectionStorage",
      * @return {void}
      */
     remove : function(item) {
-      delete this.__storage[this.getItemHashCode(item)];
+      delete this.__storage[item.$$hash];
     },
 
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.core.SelectionStorage",
      * @return {Boolean} whether the selection contains the item
      */
     contains : function(item) {
-      return this.getItemHashCode(item) in this.__storage;
+      return !!this.__storage[item.$$hash];
     },
 
 
@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.core.SelectionStorage",
     {
       var res = [];
 
-      for (var key in this.__storage) {
-        res.push(this.__storage[key]);
+      for (var hc in this.__storage) {
+        res.push(this.__storage[hc]);
       }
 
       return res;
@@ -141,9 +141,10 @@ qx.Class.define("qx.ui.core.SelectionStorage",
      */
     getFirst : function()
     {
-      for (var key in this.__storage) {
-        return this.__storage[key];
+      for (var hc in this.__storage) {
+        return this.__storage[hc];
       }
+
       return null;
     },
 
@@ -164,18 +165,6 @@ qx.Class.define("qx.ui.core.SelectionStorage",
 
       sb.sort();
       return sb.join(";");
-    },
-
-
-    /**
-     * Compute a hash code for an item using the manager
-     *
-     * @type member
-     * @param item {var} the item
-     * @return {var} unique hash code for the item
-     */
-    getItemHashCode : function(item) {
-      return this.__manager.getItemHashCode(item);
     },
 
 
