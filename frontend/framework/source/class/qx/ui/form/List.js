@@ -111,6 +111,14 @@ qx.Class.define("qx.ui.form.List",
       this.getLayout().remove(listItem);
     },
 
+    getNextSiblingOf : function(listItem) {
+      return this.getLayout().getNextSibling(listItem);
+    },
+
+    getPreviousSiblingOf : function(listItem) {
+      return this.getLayout().getPreviousSibling(listItem);
+    },
+
 
 
 
@@ -142,10 +150,10 @@ qx.Class.define("qx.ui.form.List",
      * @param vItem {var} event target
      * @return {qx.ui.form.ListItem} List item
      */
-    getListItemTarget : function(vItem)
+    __getListItemTarget : function(vItem)
     {
-      while (vItem != null && vItem.getParent() != this) {
-        vItem = vItem.getParent();
+      while (vItem != null && vItem.getLayoutParent() != this) {
+        vItem = vItem.getLayoutParent();
       }
 
       return vItem;
@@ -192,7 +200,7 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmouseover : function(e)
     {
-      var vItem = this.getListItemTarget(e.getTarget());
+      var vItem = this.__getListItemTarget(e.getTarget());
 
       if (vItem) {
         this._manager.handleMouseOver(vItem, e);
@@ -210,7 +218,7 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmousedown : function(e)
     {
-      var vItem = this.getListItemTarget(e.getTarget());
+      var vItem = this.__getListItemTarget(e.getTarget());
 
       if (vItem) {
         this._manager.handleMouseDown(vItem, e);
@@ -228,7 +236,7 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmouseup : function(e)
     {
-      var vItem = this.getListItemTarget(e.getTarget());
+      var vItem = this.__getListItemTarget(e.getTarget());
 
       if (vItem) {
         this._manager.handleMouseUp(vItem, e);
@@ -246,7 +254,7 @@ qx.Class.define("qx.ui.form.List",
      */
     _onclick : function(e)
     {
-      var vItem = this.getListItemTarget(e.getTarget());
+      var vItem = this.__getListItemTarget(e.getTarget());
 
       if (vItem) {
         this._manager.handleClick(vItem, e);
@@ -264,7 +272,7 @@ qx.Class.define("qx.ui.form.List",
      */
     _ondblclick : function(e)
     {
-      var vItem = this.getListItemTarget(e.getTarget());
+      var vItem = this.__getListItemTarget(e.getTarget());
 
       if (vItem) {
         this._manager.handleDblClick(vItem, e);

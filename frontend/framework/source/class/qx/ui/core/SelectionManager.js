@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getItems : function() {
-      return this.getBoundedWidget().getChildren();
+      return this.getBoundedWidget().getLayoutChildren();
     },
 
 
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getNextSibling : function(vItem) {
-      return vItem.getNextSibling();
+      return this.getBoundedWidget().getNextSiblingOf(vItem);
     },
 
 
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getPreviousSibling : function(vItem) {
-      return vItem.getPreviousSibling();
+      return this.getBoundedWidget().getPreviousSiblingOf(vItem);
     },
 
 
@@ -1023,12 +1023,12 @@ qx.Class.define("qx.ui.core.SelectionManager",
       e.stopPropagation();
 
       // Only allow left and right button
-      if (!e.isLeftButtonPressed() && !e.isRightButtonPressed()) {
+      if (!e.isLeftPressed() && !e.isRightPressed()) {
         return;
       }
 
       // Keep selection on right click on already selected item
-      if (e.isRightButtonPressed() && this.getItemSelected(vItem)) {
+      if (e.isRightPressed() && this.getItemSelected(vItem)) {
         return;
       }
 
@@ -1057,7 +1057,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
       {
         // Add mouseup listener and register as capture widget
         this.getBoundedWidget().addListener("mouseup", this._ondragup, this);
-        this.getBoundedWidget().setCapture(true);
+        this.getBoundedWidget().capture();
       }
     },
 
@@ -1072,7 +1072,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     _ondragup : function(e)
     {
       this.getBoundedWidget().removeListener("mouseup", this._ondragup, this);
-      this.getBoundedWidget().setCapture(false);
+      this.getBoundedWidget().releaseCapture();
       this._activeDragSession = false;
     },
 
@@ -1087,7 +1087,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      */
     handleMouseUp : function(vItem, e)
     {
-      if (!e.isLeftButtonPressed()) {
+      if (!e.isLeftPressed()) {
         return;
       }
 
@@ -1098,7 +1098,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
       if (this._activeDragSession)
       {
         this._activeDragSession = false;
-        this.getBoundedWidget().setCapture(false);
+        this.getBoundedWidget().releaseCapture();
       }
     },
 

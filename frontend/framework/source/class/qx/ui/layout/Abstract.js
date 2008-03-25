@@ -125,6 +125,37 @@ qx.Class.define("qx.ui.layout.Abstract",
     },
 
 
+    getNextSibling : function(child)
+    {
+      var children = this.getLayoutChildren();
+      var length = children.length;
+
+      for (var i=0; i<length; i++)
+      {
+        if (children[i] === child) {
+          return children[i+1] || null;
+        }
+      }
+
+      return null;
+    },
+
+    getPreviousSibling : function(child)
+    {
+      var children = this.getLayoutChildren();
+      var length = children.length;
+
+      for (var i=0; i<length; i++)
+      {
+        if (children[i] === child) {
+          return i > 0 ? children[i-1] : null;
+        }
+      }
+
+      return null;
+    },
+
+
     /**
      * Returns the index position of the given widget if it is
      * a member of this layout. Otherwise it returns <code>-1</code>.
