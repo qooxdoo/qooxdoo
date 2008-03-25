@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_basic)
-
-************************************************************************ */
-
 /**
  * This widget can be used to create a horizontal spacing between
  * widgets in e.g. a {@link qx.legacy.ui.layout.HorizontalBoxLayout} or in

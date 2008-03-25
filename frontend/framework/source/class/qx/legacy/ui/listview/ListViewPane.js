@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_listview)
 #use(qx.legacy.ui.listview.ContentCellHtml)
 #use(qx.legacy.ui.listview.ContentCellIconHtml)
 #use(qx.legacy.ui.listview.ContentCellImage)

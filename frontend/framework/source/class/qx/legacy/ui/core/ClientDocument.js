@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_core)
 #optional(qx.legacy.util.NativeWindow)
 #optional(qx.legacy.ui.window.Window)
 #optional(qx.legacy.ui.popup.PopupManager)
