@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_form)
-
-************************************************************************ */
-
 /**
  * A *spinner* is a control that allows you to adjust a numerical value,
  * typically within an allowed range. An obvious example would be to specify the
