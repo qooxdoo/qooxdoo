@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_core)
-
-************************************************************************ */
-
 /**
  * Methods to get CSS style properties of DOM elements.
  * @deprecated: Should be replaced with qx.bom.element.Style which should

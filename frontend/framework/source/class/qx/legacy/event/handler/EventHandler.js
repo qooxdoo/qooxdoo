@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_core)
 #optional(qx.legacy.event.handler.DragAndDropHandler)
 #optional(qx.legacy.ui.menu.Manager)
 #optional(qx.legacy.event.handler.FocusHandler)
