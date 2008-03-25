@@ -98,6 +98,7 @@ qx.Class.define("qx.ui.basic.Atom",
       nullable : false,
       event : "changeGap",
       apply : "_applyGap",
+      themeable : true,
       init : 4
     },
 
