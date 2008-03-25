@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_menu)
-
-************************************************************************ */
-
 /** This singleton manages multiple instances of qx.legacy.ui.menu.Menu and their state. */
 qx.Class.define("qx.legacy.ui.menu.Manager",
 {
