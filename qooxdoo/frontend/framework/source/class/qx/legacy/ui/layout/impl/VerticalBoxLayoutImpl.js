@@ -18,13 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_basic)
-#module(ui_layout)
-
-************************************************************************ */
-
 qx.Class.define("qx.legacy.ui.layout.impl.VerticalBoxLayoutImpl",
 {
   extend : qx.legacy.ui.layout.impl.LayoutImpl,

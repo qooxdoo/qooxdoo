@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#module(ui_comboboxex)
 #embed(qx.icontheme/16/actions/edit-find.png)
 #embed(qx.icontheme/16/actions/dialog-ok.png)
 #embed(qx.icontheme/16/actions/dialog-cancel.png)

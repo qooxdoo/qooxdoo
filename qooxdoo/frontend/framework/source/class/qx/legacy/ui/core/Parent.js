@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_core)
 #optional(qx.legacy.event.handler.FocusHandler)
 #optional(qx.legacy.ui.popup.ToolTipManager)
 #optional(qx.legacy.ui.popup.PopupManager)

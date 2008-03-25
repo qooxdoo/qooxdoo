@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_resizer)
-
-************************************************************************ */
-
 /**
  * This class acts as a wrapper for other child, and allows it to be resized (not moved), normally in
  * the right and/or bottom directions.  Child can be e.g. a qx.legacy.ui.form.TextArea,
