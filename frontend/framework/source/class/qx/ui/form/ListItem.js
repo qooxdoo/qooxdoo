@@ -94,6 +94,29 @@ qx.Class.define("qx.ui.form.ListItem",
 
   members :
   {
+    getOffsetTop : function()
+    {
+      var computed = this.getComputedLayout();
+      if (computed) {
+        return computed.top;
+      }
+
+      return 0;
+    },
+
+
+    getOffsetHeight : function()
+    {
+      var computed = this.getComputedLayout();
+      if (computed) {
+        return computed.height;
+      }
+
+      return 0;
+    },
+
+
+
     /*
     ---------------------------------------------------------------------------
       UTILITIES
