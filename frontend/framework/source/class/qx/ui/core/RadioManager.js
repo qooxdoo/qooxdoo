@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.core.RadioManager",
   *****************************************************************************
   */
 
-  construct : function(vName, vMembers)
+  construct : function(vMembers)
   {
     // we don't need the manager data structures
     this.base(arguments);
@@ -42,27 +42,11 @@ qx.Class.define("qx.ui.core.RadioManager",
     // create item array
     this._items = [];
 
-    // apply name property
-    this.setName(vName != null ? vName : qx.ui.core.RadioManager.AUTO_NAME_PREFIX + this.toHashCode());
-
     if (vMembers != null)
     {
       // add() iterates over arguments, but vMembers is an array
       this.add.apply(this, vMembers);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics : {
-    AUTO_NAME_PREFIX : "qx-radio-"
   },
 
 
@@ -82,13 +66,6 @@ qx.Class.define("qx.ui.core.RadioManager",
       apply : "_applySelected",
       event : "changeSelected",
       check : "qx.core.Object"
-    },
-
-    name :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyName"
     }
   },
 
@@ -198,9 +175,6 @@ qx.Class.define("qx.ui.core.RadioManager",
         if (vItem.getChecked()) {
           this.setSelected(vItem);
         }
-
-        // Apply Make name the same
-        vItem.setName(this.getName());
       }
     },
 
@@ -252,23 +226,6 @@ qx.Class.define("qx.ui.core.RadioManager",
         value.setChecked(true);
       }
     },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyName : function(value, old)
-    {
-      for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
-        vItems[i].setName(value);
-      }
-    },
-
-
 
 
     /*
@@ -351,7 +308,7 @@ qx.Class.define("qx.ui.core.RadioManager",
       if (this._items[vIndex].getEnabled())
       {
         this.setSelected(this._items[vIndex]);
-        this._items[vIndex].setFocused(true);
+        this._items[vIndex].focus();
       }
     }
   },

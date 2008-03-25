@@ -28,6 +28,7 @@
  * @state abandoned
  * @state over
  * @state pressed
+ * @state checked
  */
 qx.Class.define("qx.ui.form.ToggleButton",
 {
@@ -53,7 +54,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     // register mouse events
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mouseout", this._onmouseout);
-    this.addListener("mousedown", this._onmousedown, this);
+    this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
 
     // register keyboard events
@@ -106,7 +107,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param old {Boolean} Previous value
      */
     _applyChecked : function(value, old) {
-      value ? this.addState("pressed") : this.removeState("pressed");
+      value ? this.addState("checked") : this.removeState("checked");
     },
 
 
