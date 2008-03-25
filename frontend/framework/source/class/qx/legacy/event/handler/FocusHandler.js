@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_core)
 #optional(qx.legacy.ui.core.Parent)
 #optional(qx.legacy.ui.basic.Terminator)
 
