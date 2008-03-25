@@ -66,7 +66,7 @@ def main():
     build  = ""
 
     JSON = open(fJSON,"w")
-    JSON.write('{\n')
+    JSON.write('{\n  "jobs":\n  {\n')
 
     jsontmplf = open(os.path.join('tool','json.tmpl'),"rU")
     json_tmpl = jsontmplf.read()
@@ -112,7 +112,7 @@ def main():
     JSON.write("""  "build" : {
         "run" : [
          %s]
-      }\n}""" % build[:-1] ) 
+      }\n  }\n}""" % build[:-1] ) 
 
     JSON.close()
 

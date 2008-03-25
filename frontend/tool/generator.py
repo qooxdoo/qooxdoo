@@ -71,21 +71,22 @@ def main():
     # Load from json configuration
     obj = open(options.config)
     config = simplejson.loads(obj.read())
+    jobsmap = config['jobs']
     obj.close()
 
-    # resolve extends on the file level
-    if config.has_key('extend'):
-        for cfgfile in config['extend']:
-            obj = open(cfgfile)
+    # Resolve "include"-Keys
+    if config.has_key('include'):
+        for cfgfile in config['include']:
+            obj = open(cfgfile[1])
             econfig = simplejson.loads(obj.read())
             obj.close()
-            config = _mapMerge(econfig, config)
+            jobsmap[cfgfile[0]] = econfig # external config becomes namespace'd entry in jobsmap
 
-    # Expanding jobs (support for "run" keyword)
+    # Resolve "run"-Key
     expandedjobs = []
     for job in options.jobs:
         if not job in expandedjobs:
-          entry = config[job]
+          entry = jobsmap[job]
           if entry.has_key("run"):
               expandedjobs.extend(entry["run"])
           else:
@@ -93,18 +94,15 @@ def main():
 
     console.debug("Expanded to %s jobs" % len(expandedjobs))
 
-    # Resolve "include"-Keys
-    # TODO
-
     # Resolve "extend"-Keys
-    _resolveExtends(console, config, expandedjobs)
+    _resolveExtends(console, jobsmap, expandedjobs)
 
     # Resolve "let"-Keys
-    _resolveMacros(console, config, expandedjobs)
-    # console.debug(simplejson.dumps(config, separators=(',',':')))
+    _resolveMacros(console, jobsmap, expandedjobs)
+    # console.debug(simplejson.dumps(jobsmap, separators=(',',':')))
 
     # Convert into Config class instance
-    config = Config(config)
+    config = Config(jobsmap)
 
     # Processing feature sets
     variants, settings, require, use = _executeFeatureSets(console, options)
