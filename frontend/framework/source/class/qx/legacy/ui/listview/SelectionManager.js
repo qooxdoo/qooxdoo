@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_listview)
-
-************************************************************************ */
-
 /** This class represents a selection and manage incoming events for widgets which need selection support. */
 qx.Class.define("qx.legacy.ui.listview.SelectionManager",
 {

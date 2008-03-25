@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_table)
 #embed(qx.widgettheme/table/boolean-true.png)
 #embed(qx.widgettheme/table/boolean-false.png)
 #embed(qx.static/image/blank.gif)
