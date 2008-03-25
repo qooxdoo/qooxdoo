@@ -37,8 +37,8 @@ qx.Class.define("qx.ui.form.ListItem",
   construct : function(vText, vIcon, vValue)
   {
     this.base(arguments, vText, vIcon);
-    this.setValue(vValue || null);
 
+    this.setValue(vValue || null);
     this.addListener("dblclick", this._ondblclick);
   },
 
@@ -51,7 +51,8 @@ qx.Class.define("qx.ui.form.ListItem",
   *****************************************************************************
   */
 
-  events: {
+  events:
+  {
     /** (Fired by {@link qx.ui.form.List}) */
     "action" : "qx.event.type.Event"
   },
@@ -71,24 +72,6 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       refine : true,
       init : "list-item"
-    },
-
-    minWidth :
-    {
-      refine : true,
-      init : "auto"
-    },
-
-    width :
-    {
-      refine : true,
-      init : null
-    },
-
-    allowStretchX :
-    {
-      refine : true,
-      init : true
     },
 
     /** Fires a "changeValue" (qx.event.type.Change) event */
@@ -128,17 +111,15 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       if (this.hasState("lead"))
       {
-        this.setStyleProperty("MozOutline", "1px dotted invert");
         this.setStyleProperty("outline", "1px dotted invert");
       }
       else
       {
-        this.removeStyleProperty("MozOutline");
         this.setStyleProperty("outline", "0px none");
       }
     },
 
-    // Remove default outline focus border
+
     /**
      * Remove default outline focus border - currently not implemented
      *
