@@ -2,11 +2,11 @@
   "common" : 
   {
     "let" :
-    [
-      [ "QOOXDOO_PATH" , "../.." ],
-      [ "QOOXDOO_URI"  , "${QOOXDOO_PATH}/.." ],
-      [ "APPLICATION_NAMESPACE" , "custom" ]
-    ],
+    {
+       "QOOXDOO_PATH" : "../.." ,
+       "QOOXDOO_URI"  : "${QOOXDOO_PATH}/.." ,
+       "APPLICATION_NAMESPACE" : "custom" 
+    },
 
     "library" :
     [

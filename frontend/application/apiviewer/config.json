@@ -2,11 +2,11 @@
   "common" :
   {
     "let" :
-    [
-      ["APPLICATION", "apiviewer"],
-      ["QOOXDOO_PATH", "../.."],
-      ["QOOXDOO_URI", "../${QOOXDOO_PATH}"]
-    ],
+    {
+      "APPLICATION": "apiviewer",
+      "QOOXDOO_PATH": "../..",
+      "QOOXDOO_URI": "../${QOOXDOO_PATH}"
+    },
 
     "library" :
     [
