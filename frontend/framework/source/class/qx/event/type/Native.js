@@ -88,12 +88,19 @@ qx.Class.define("qx.event.type.Native",
      */
     stopPropagation : function()
     {
+      // This native stuff is not needed for qooxdoo,
+      // but breaks the default behavior of e.g. the focus
+      // handling which relies on working mousedown-events
+      // for focus/active events.
+      /*
       if (this._native.stopPropagation) {
         this._native.stopPropagation();
       }
 
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
       this._native.cancelBubble = true;
+      */
+
       this._stopPropagation = true;
     },
 
