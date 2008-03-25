@@ -104,11 +104,11 @@ qx.Class.define("qx.ui.form.List",
     */
 
     add : function(listItem) {
-      this._layout.add(listItem);
+      this.getLayout().add(listItem);
     },
 
     remove : function(listItem) {
-      this._layout.remove(listItem);
+      this.getLayout().remove(listItem);
     },
 
 

@@ -37,7 +37,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "widget" : {},
 
-
     "root" :
     {
       style : function(states)
@@ -49,6 +48,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+
+    "label" :
+    {
+      style : function(states)
+      {
+        return {
+          textColor : states.disabled ? "text-disabled" : "undefined"
+        };
+      }
+    },
+
+
+
 
 
     /*
@@ -101,6 +113,41 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LIST
+    ---------------------------------------------------------------------------
+    */
+
+    "list" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "inset-thin",
+          backgroundColor : "white"
+        };
+      }
+    },
+
+    "list-item" :
+    {
+      style : function(states)
+      {
+        return {
+          align           : "left",
+          gap             : 4,
+          padding         : [ 3, 5 ],
+          backgroundColor : states.selected ? "selected" : "undefined",
+          textColor       : states.selected ? "text-selected" : "undefined"
+        };
+      }
+    },
 
 
 
@@ -197,6 +244,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       SCROLLBAR
@@ -265,6 +313,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+
+
 
 
     /*
