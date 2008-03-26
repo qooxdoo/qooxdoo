@@ -169,6 +169,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         return;
       }
 
+
       widgetTarget = widgetTarget.getEventTarget();
       if (!widgetTarget) {
         return;

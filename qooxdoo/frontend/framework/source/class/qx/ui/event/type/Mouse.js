@@ -51,23 +51,6 @@ qx.Class.define("qx.ui.event.type.Mouse",
 
 
     /**
-     * Returns whether the DOM node of the event's related target is inside of
-     * the given widget.
-     *
-     * @param widget {qx.ui.core.Widget} container widget to check for.
-     * @return {Boolean} Whether the DOM node of the event target is inside of
-     *     the given widget.
-     */
-    isRelatedTargetInsideWidget : function(widget)
-    {
-      return qx.dom.Hierarchy.contains(
-        widget.getContainerElement().getDomElement(),
-        this.getDomRelatedTarget()
-      );
-    },
-
-
-    /**
      * Get a secondary event target related to an UI event. This attribute is
      * used with the mouseover event to indicate the event target which the
      * pointing device exited and with the mouseout event to indicate the
