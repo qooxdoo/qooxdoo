@@ -36,7 +36,6 @@ qx.Class.define("qx.ui.form.CheckBox",
    *
    * @param label {String} The text on the button.
    */
-
   construct : function(label) {
     this.base(arguments, label);
   },
