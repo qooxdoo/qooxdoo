@@ -93,15 +93,19 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
 
 
-      var rd1 = new qx.ui.form.RadioButton("Show Label", "label");
-      var rd2 = new qx.ui.form.RadioButton("Show Icon", "icon");
-      var rd3 = new qx.ui.form.RadioButton("Show Both", "both");
+      var rd1 = new qx.ui.form.RadioButton("Show Label");
+      var rd2 = new qx.ui.form.RadioButton("Show Icon");
+      var rd3 = new qx.ui.form.RadioButton("Show Both");
+
+      rd1.setValue("label");
+      rd2.setValue("icon");
+      rd3.setValue("both");
+
+      rd3.setChecked(true);
 
       this.getRoot().add(rd1, 180, 128);
       this.getRoot().add(rd2, 180, 148);
       this.getRoot().add(rd3, 180, 168);
-
-      rd3.setChecked(true);
 
       var rbm = new qx.ui.core.RadioManager([rd1, rd2, rd3]);
 
