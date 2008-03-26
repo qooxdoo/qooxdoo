@@ -98,7 +98,7 @@
           "index.html"
         ],
 
-        "target" : "build"
+        "target" : "${BUILD_PATH}"
       }
     },
 
@@ -109,7 +109,7 @@
 
       "copy-resources" :
       {
-        "target" : "build",
+        "target" : "${BUILD_PATH}",
         "resource-filter" : true
       }
     },
@@ -148,7 +148,7 @@
 
       "api" :
       {
-        "path" : "build/script"
+        "path" : "${BUILD_PATH}/script"
       }
     }
   }
