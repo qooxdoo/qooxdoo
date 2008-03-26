@@ -1083,28 +1083,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
       this._onmouseevent(oItem, e, true);
     },
 
-    // currently unused placeholder
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    handleClick : function(vItem, e) {},
-
-    // currently unused placeholder
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    handleDblClick : function(vItem, e) {},
-
 
     /**
      * Internal handler for all mouse events bound to this manager.
