@@ -88,11 +88,23 @@ def main():
     expandedjobs = []
     for job in options.jobs:
         if not job in expandedjobs:
-          entry = jobsmap[job]
-          if entry.has_key("run"):
-              expandedjobs.extend(entry["run"])
-          else:
-              expandedjobs.append(job)
+            entry = jobsmap[job]
+            if entry.has_key("run"):
+                for subjob in entry["run"]:
+                    # make new job map job::subjob as copy of job, but extend[subjob]
+                    newjobname = job + '::' + subjob
+                    newjob = entry.copy()
+                    del newjob['run']       # remove 'run' key
+                    if 'extend' in newjob:  # add subjob to 'extend'
+                        newjob['extend'].append(subjob)
+                    else:
+                        newjob['extend'] = [subjob] # extend subjob
+                    # add to config
+                    jobsmap[newjobname] = newjob
+                    # add to job list
+                    expandedjobs.append(newjobname)
+            else:
+                expandedjobs.append(job)
 
     console.debug("Expanded to %s jobs" % len(expandedjobs))
 
