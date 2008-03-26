@@ -184,8 +184,18 @@ qx.Class.define("qx.event.handler.Window",
      * @param e {Event} Native event
      * @return {void}
      */
-    _onNative : function(e) {
-      qx.event.Registration.fireEvent(this._window, e.type);
+    _onNative : function(e)
+    {
+      var win = this._window;
+      var doc = win.document;
+      var html = doc.documentElement;
+
+      // At least Safari 3.1 and Opera 9.2.x have a bubbling scroll event
+      // which needs to be ignored here.
+      var target = e.target;
+      if (target === win || target === doc || target === html) {
+        qx.event.Registration.fireEvent(this._window, e.type);
+      }
     }
   },
 
