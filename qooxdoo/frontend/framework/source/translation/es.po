@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-05 10:55+0100\n"
+"POT-Creation-Date: 2008-03-26 09:03+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -79,37 +79,37 @@ msgstr "Año siguiente"
 msgid "Choose a date"
 msgstr "Seleccione una fecha"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:270
+#: class/qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "Description"
 msgstr "Descripción"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:270
+#: class/qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "ID"
 msgstr "Código"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:954
+#: class/qx/legacy/ui/form/ComboBoxEx.js:953
 msgid "Search"
 msgstr "Buscar"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1070
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1069
 msgid "Case sensitive"
 msgstr "Sensible a mayúscula"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1112
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1111
 msgid "Search next occurrence"
 msgstr "Buscar siguiente"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1156
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1155
 msgid "Search items in list"
 msgstr "Buscar elementos en la lista"
 
-#: class/qx/legacy/ui/table/Table.js:1523
+#: class/qx/legacy/ui/table/Table.js:1522
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/qx/legacy/ui/table/Table.js:1525
+#: class/qx/legacy/ui/table/Table.js:1524
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
