@@ -59,15 +59,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "atom-label" :
-    {
-      style : function(states)
-      {
-        return {
-          textColor : states.disabled ? "text-disabled" : "black"
-        };
-      }
-    },
 
 
 

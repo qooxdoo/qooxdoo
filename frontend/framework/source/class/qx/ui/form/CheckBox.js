@@ -24,15 +24,24 @@ qx.Class.define("qx.ui.form.CheckBox",
   extend : qx.ui.form.ToggleButton,
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
+  /**
+   * Creates a CheckBox.
+   *
+   * @param label {String} The text on the button.
+   */
+
   construct : function(label) {
     this.base(arguments, label);
   },
+
+
 
 
   /*
@@ -49,5 +58,4 @@ qx.Class.define("qx.ui.form.CheckBox",
       init : "check-box"
     }
   }
-
 });

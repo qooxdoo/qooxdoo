@@ -27,7 +27,6 @@
  * This is useful for all types of buttons, tooltips, ...
  *
  * @appearance atom
- * @appearance atom-label {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.basic.Atom",
 {
@@ -45,7 +44,7 @@ qx.Class.define("qx.ui.basic.Atom",
    * @param label {String} label of the atom
    * @param icon {String?null} Icon URL of the atom
    */
-  construct : function(label, iconUrl)
+  construct : function(label, icon)
   {
     this.base(arguments);
 
@@ -55,8 +54,8 @@ qx.Class.define("qx.ui.basic.Atom",
       this.setLabel(label);
     }
 
-    if (iconUrl) {
-      this.setIcon(iconUrl);
+    if (icon) {
+      this.setIcon(icon);
     }
   },
 
@@ -181,7 +180,6 @@ qx.Class.define("qx.ui.basic.Atom",
       else
       {
         this._label = new qx.ui.basic.Label(value);
-        this._label.setAppearance("atom-label");
       }
 
       this._handleLabel();
