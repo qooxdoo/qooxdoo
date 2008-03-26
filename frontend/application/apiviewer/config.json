@@ -98,7 +98,8 @@
           "index.html"
         ],
 
-        "target" : "${BUILD_PATH}"
+        "target" : "${BUILD_PATH}",
+				"source" : "${APP_ROOT}/source"
       }
     },
 

@@ -84,32 +84,14 @@ def main():
             #    _resolveEntry(console, econfig['jobs'], ejob)
             jobsmap[cfgfile[0]] = econfig # external config becomes namespace'd entry in jobsmap
 
-    # Resolve "run"-Key
-    expandedjobs = []
-    for job in options.jobs:
-        if not job in expandedjobs:
-            entry = jobsmap[job]
-            if entry.has_key("run"):
-                for subjob in entry["run"]:
-                    # make new job map job::subjob as copy of job, but extend[subjob]
-                    newjobname = job + '::' + subjob
-                    newjob = entry.copy()
-                    del newjob['run']       # remove 'run' key
-                    if 'extend' in newjob:  # add subjob to 'extend'
-                        newjob['extend'].append(subjob)
-                    else:
-                        newjob['extend'] = [subjob] # extend subjob
-                    # add to config
-                    jobsmap[newjobname] = newjob
-                    # add to job list
-                    expandedjobs.append(newjobname)
-            else:
-                expandedjobs.append(job)
 
+    # Resolve "extend"- and "run"-Keys
+    expandedjobs = options.jobs[:]
+    while ([x for x in expandedjobs if jobsmap[x].has_key('run')] or [y for y in expandedjobs if not jobsmap[y].has_key('resolved')]):
+        x = 1  # cheat pydb
+        _resolveExtends(console, jobsmap, expandedjobs)
+        _resolveRuns(console, jobsmap, expandedjobs)
     console.debug("Expanded to %s jobs" % len(expandedjobs))
-
-    # Resolve "extend"-Keys
-    _resolveExtends(console, jobsmap, expandedjobs)
 
     # Resolve "let"-Keys
     _resolveMacros(console, jobsmap, expandedjobs)
@@ -139,6 +121,8 @@ def _mapMerge(source, target):
 
 
 def _confGet(conf, key, default=None):
+    """Returns a (possibly nested) data element from dict <conf>
+    """
     data = conf
     splits = key.split("/")
 
@@ -150,6 +134,31 @@ def _confGet(conf, key, default=None):
 
     return data
         
+
+def _resolveRuns(console, jobsmap, jobs):
+    i,j = 0, len(jobs)
+    while i<j:
+        job = jobs[i]
+        entry = jobsmap[job]
+        if entry.has_key("run"):
+            sublist = []
+            for subjob in entry["run"]:
+                # make new job map job::subjob as copy of job, but extend[subjob]
+                newjobname = job + '::' + subjob.replace('/','::')
+                newjob = entry.copy()
+                del newjob['run']       # remove 'run' key
+                # we assume the initial 'run' job has already been resolved, so
+                # we reset it here and set the 'extend' to the subjob
+                if newjob.has_key('resolved'): del newjob['resolved']
+                newjob['extend'] = [subjob] # extend subjob
+                # add to config
+                jobsmap[newjobname] = newjob
+                # add to job list
+                sublist.append(newjobname)
+            jobs[i:i+1] = sublist  # replace old job by subjobs list
+            j = j + len(sublist) - 1
+        i += 1
+
 
 def _resolveExtends(console, config, jobs):
     def _listPrepend(source, target):
@@ -183,15 +192,24 @@ def _resolveExtends(console, config, jobs):
             return
 
         if data.has_key("extend"):
-            includes = data["extend"]
+            extends = data["extend"]
             if job.rfind('/')>-1:
-                jobcontext = _confGet(config, job[:job.rfind('/')]) # job context has the 'parent' key
+                parent = job[:job.rfind('/')]
+                jobcontext = _confGet(config, parent) # job context has the 'parent' key
             else:
+                parent = None
                 jobcontext = config  # we are top-level
 
-            for entry in includes:
+            for entry in extends:
+                pjob = _confGet(jobcontext, entry)
+                # resolve 'extend'
                 _resolveEntry(console, jobcontext, entry)
-                _mergeEntry(data, _confGet(jobcontext,entry))
+                # prepare for 'run'
+                if pjob.has_key('run') and entry.rfind('/')>-1:
+                    # prefix job names
+                    eparent = entry[:entry.rfind('/')]
+                    pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']]
+                _mergeEntry(data, pjob)
 
         data["resolved"] = True
 

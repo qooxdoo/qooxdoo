@@ -335,8 +335,8 @@ class Generator:
 
         appfiles = self._config.get("copy-files/files",[])
         if appfiles:
-            buildRoot = self._config.get("copy-files/target", "build")
-            sourceRoot = "source"
+            buildRoot  = self._config.get("copy-files/target", "build")
+            sourceRoot = self._config.get("copy-files/source", "source")
             self._console.info("Copying application files...")        
             self._console.indent()
             for file in appfiles:
