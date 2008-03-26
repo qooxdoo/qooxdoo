@@ -21,10 +21,6 @@
 /**
  * The TextField is a multi-line text input field.
  *
- * On each key stroke the value is synchronized with the
- * {@link #value} property. Value changes can be monitored by listening on the
- * {@link #input} or {@link #change} events.
- *
  * @appearance text-area
  */
 qx.Class.define("qx.ui.form.TextArea",
@@ -86,6 +82,7 @@ qx.Class.define("qx.ui.form.TextArea",
     // overridden
     _createInputElement : function()
     {
+      // TODO08: Overflow for textarea? How to support this? With native scrollbars?
       var input = new qx.html.Input("textarea");
       input.setStyle("overflow", "hidden");
       return input;
