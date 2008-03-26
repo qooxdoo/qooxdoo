@@ -87,8 +87,9 @@ qx.Class.define("qx.util.ImageRegistry",
      *   <code>mappedUri</code>, <code>xOffset</code>, <code>yOffset</code>,
      *   <code>width</code>, <code>height</code>.
      */
-    resolve : function(iconUri) {
-      return this.__registry[iconUri] || null;
+    resolve : function(iconUri)
+    {
+      return this.__registry[qx.io.Alias.getInstance().resolve(iconUri)] || null;
     }
   },
 
