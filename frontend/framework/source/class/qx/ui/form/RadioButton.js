@@ -19,6 +19,22 @@
 ************************************************************************ */
 
 /**
+ * Radio buttons can be used in radio groups to allow to the user to select
+ * exactly one item from a list. Radio groups are established by adding
+ * radio buttons to a radio manager {@link qx.ui.core.RadioManager}.
+ *
+ * Example:
+ * <code class="javascript">
+ *     var female = new qx.ui.form.RadioButton("female");
+ *     var male = new qx.ui.form.RadioButton("male");
+ *
+ *     var mgr = new qx.ui.core.RadioManager();
+ *     mgr.add(female, male);
+ *
+ *     layout.add(male);
+ *     layout.add(female);
+ * </code>
+ *
  * @appearance radio-button
  * @state checked
  */
@@ -35,8 +51,15 @@ qx.Class.define("qx.ui.form.RadioButton",
   *****************************************************************************
   */
 
+  /**
+   * @param label {String?null} An optional label for the radio button.
+   */
   construct : function(label)
   {
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this.assertArgumentsCount(arguments, 0, 1);
+    }
+
     this.base(arguments, label);
 
     this.addListener("execute", this._onexecute);
@@ -134,7 +157,6 @@ qx.Class.define("qx.ui.form.RadioButton",
      *
      * @type member
      * @param e {qx.event.type.Event} execute event
-     * @return {void}
      */
     _onexecute : function(e) {
       this.setChecked(true);
@@ -148,7 +170,6 @@ qx.Class.define("qx.ui.form.RadioButton",
      *
      * @type member
      * @param e {qx.event.type.KeyInput} keyPress event
-     * @return {null | true}
      */
     _onkeypress : function(e)
     {
