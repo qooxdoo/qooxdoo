@@ -479,7 +479,8 @@ exec-testrunner-build:
 	@( cd $(TESTRUNNER_PATH); \
 	   $(MAKE) -s -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
 		   --use-setting qx.testPageUri:html/tests.html \
-		   --use-setting qx.testNameSpace:$(APPLICATION_NAMESPACE)' \
+		   --use-setting qx.testNameSpace:$(APPLICATION_NAMESPACE) \
+		   --use-setting testrunner.title:$(APPLICATION_API_TITLE)' \
 		 build )
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/script
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/html
