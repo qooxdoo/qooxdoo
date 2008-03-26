@@ -18,6 +18,18 @@
 
 ************************************************************************ */
 
+/*
+function draghandler(e)
+{
+  qx.log.Logger.debug("Event: " + e.type);
+}
+
+dragevs = [ "dragstart", "dragdrop", "dragover", "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
+for (var i=0, l=dragevs.length; i<l; i++) {
+  window.addEventListener(dragevs[i], draghandler, false);
+}
+*/
+
 /**
  * @appearance list
  */
@@ -46,8 +58,6 @@ qx.Class.define("qx.ui.form.List",
     this.addListener("mouseover", this._onmouseover);
     this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
-    this.addListener("click", this._onclick);
-    this.addListener("dblclick", this._ondblclick);
 
     this.addListener("keydown", this._onkeydown);
     this.addListener("keypress", this._onkeypress);
@@ -169,25 +179,6 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * Traverses the widget tree upwards until a
-     * corresponding qx.ui.form.ListItem to given vItem
-     * (event target) is found.
-     *
-     * @type member
-     * @param vItem {var} event target
-     * @return {qx.ui.form.ListItem} List item
-     */
-    __getListItemTarget : function(vItem)
-    {
-      while (vItem != null && vItem.getLayoutParent() != this) {
-        vItem = vItem.getLayoutParent();
-      }
-
-      return vItem;
-    },
-
-
-    /**
      * Returns the first selected list item.
      *
      * @type member
@@ -227,11 +218,15 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmouseover : function(e)
     {
-      var vItem = this.__getListItemTarget(e.getTarget());
+      var target = e.getTarget();
 
-      if (vItem) {
-        this._manager.handleMouseOver(vItem, e);
+      // Only react on mouseover of the list-items:
+      // The list itself is not interesting for selection handling
+      if (target === this) {
+        return;
       }
+
+      this._manager.handleMouseOver(target, e);
     },
 
 
@@ -243,13 +238,8 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Mouse} mouseDown event
      * @return {void}
      */
-    _onmousedown : function(e)
-    {
-      var vItem = this.__getListItemTarget(e.getTarget());
-
-      if (vItem) {
-        this._manager.handleMouseDown(vItem, e);
-      }
+    _onmousedown : function(e) {
+      this._manager.handleMouseDown(e.getTarget(), e);
     },
 
 
@@ -261,50 +251,10 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Mouse} mouseUp event
      * @return {void}
      */
-    _onmouseup : function(e)
-    {
-      var vItem = this.__getListItemTarget(e.getTarget());
-
-      if (vItem) {
-        this._manager.handleMouseUp(vItem, e);
-      }
+    _onmouseup : function(e) {
+      this._manager.handleMouseUp(e.getTarget(), e);
     },
 
-
-    /**
-     * Delegates the event to the selection manager if a list item could be
-     * resolved out of the event target.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} click event
-     * @return {void}
-     */
-    _onclick : function(e)
-    {
-      var vItem = this.__getListItemTarget(e.getTarget());
-
-      if (vItem) {
-        this._manager.handleClick(vItem, e);
-      }
-    },
-
-
-    /**
-     * Delegates the event to the selection manager if a list item could be
-     * resolved out of the event target.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} double-click event
-     * @return {void}
-     */
-    _ondblclick : function(e)
-    {
-      var vItem = this.__getListItemTarget(e.getTarget());
-
-      if (vItem) {
-        this._manager.handleDblClick(vItem, e);
-      }
-    },
 
 
 
@@ -353,7 +303,7 @@ qx.Class.define("qx.ui.form.List",
     /** {Integer} Remember time of last key press */
     _lastKeyPress : 0,
 
-
+    /** {String} Currently collected string fragment */
     _pressedString : "",
 
 
