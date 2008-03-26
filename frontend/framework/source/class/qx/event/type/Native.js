@@ -36,14 +36,15 @@ qx.Class.define("qx.event.type.Native",
      * @param nativeEvent {Event} The DOM event to use
      * @param bubbles {Boolean} Whether the event should bubble up the element
      *     hierarchy.
+     * @param target {Object} Any possible event target
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(nativeEvent, bubbles)
+    init : function(nativeEvent, bubbles, target)
     {
       this.base(arguments);
 
-      this._bubbles = bubbles;
-      this._target = nativeEvent.target || nativeEvent.srcElement;
+      this._bubbles = !!bubbles;
+      this._target = target || nativeEvent.target || nativeEvent.srcElement;
 
       if (nativeEvent.timeStamp) {
         this._timeStamp = nativeEvent.timeStamp;

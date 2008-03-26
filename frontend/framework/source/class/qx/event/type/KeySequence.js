@@ -48,10 +48,12 @@ qx.Class.define("qx.event.type.KeySequence",
      * @param identifier {String} Key identifier
      * @return {qx.event.type.KeyEvent} The initialized key event instance
      */
-    init : function(domEvent, identifier)
+    init : function(domEvent, target, identifier)
     {
-      this.base(arguments, domEvent, true);
+      this.base(arguments, domEvent, true, target);
+
       this._identifier = identifier;
+
       return this;
     },
 
