@@ -22,10 +22,6 @@
 /**
  * The TextField is a single-line text input field.
  *
- * On each key stroke the value is synchronized with the
- * {@link #value} property. Value changes can be monitored by listening on the
- * {@link #input} or {@link #change} events.
- *
  * @appearance text-field
  */
 qx.Class.define("qx.ui.form.TextField",
