@@ -180,6 +180,7 @@ qx.Class.define("qx.ui.basic.Atom",
       else
       {
         this._label = new qx.ui.basic.Label(value);
+        this._label.setAnonymous(true);
       }
 
       this._handleLabel();
@@ -189,10 +190,14 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyIcon : function(value, old)
     {
-      if (this._icon) {
+      if (this._icon)
+      {
         this._icon.setSource(value);
-      } else {
+      }
+      else
+      {
         this._icon = new qx.ui.basic.Image(value);
+        this._icon.setAnonymous(true);
       }
 
       this._handleIcon();
