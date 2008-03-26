@@ -439,7 +439,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      THEMEABLE
+      STYLING PROPERTIES
     ---------------------------------------------------------------------------
     */
 
@@ -459,6 +459,19 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * The background color the rendered widget.
+     */
+    backgroundColor :
+    {
+      nullable : true,
+      check : "Color",
+      apply : "_applyBackgroundColor",
+      event : "changeBackgroundColor",
+      themeable : true
+    },
+
+
+    /**
      * The text color the rendered widget.
      */
     textColor :
@@ -470,19 +483,6 @@ qx.Class.define("qx.ui.core.Widget",
       event : "changeTextColor",
       themeable : true,
       inheritable : true
-    },
-
-
-    /**
-     * The background color the rendered widget.
-     */
-    backgroundColor :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyBackgroundColor",
-      event : "changeBackgroundColor",
-      themeable : true
     },
 
 
@@ -559,7 +559,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
-     * and don't receive user input events.
+     * and do not process user created events.
      */
     enabled :
     {
@@ -571,6 +571,15 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Whether the widget is anonymous.
+     *
+     * Anonymous widgets are ignored in the event hierarchy. This is useful
+     * for combined widgets where the internal structure do not have a custom
+     * appearance with a different styling from the element around. This is
+     * especially true for widgets like checkboxes or buttons where the text
+     * or icon are handled synchronously for state changes to the outer widget.
+     */
     anonymous :
     {
       init : false,
@@ -578,7 +587,10 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** The widget's appearance id */
+    /**
+     * The appearance ID. This ID is used to identify the appearance theme
+     * entry to use for this widget. This controls the styling of the element.
+     */
     appearance :
     {
       check : "String",
