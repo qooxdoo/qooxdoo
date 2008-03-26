@@ -43,8 +43,10 @@ qx.Class.define("qx.ui.event.type.Mouse",
      * @return {qx.ui.core.Wodget} widget to which the event was originally
      *       dispatched.
      */
-    getTarget : function() {
-      return qx.ui.core.Widget.getWidgetByElement(this._target);
+    getTarget : function()
+    {
+      var widget = qx.ui.core.Widget.getWidgetByElement(this._target);
+      return widget ? widget.getEventTarget() : null;
     },
 
 
@@ -73,9 +75,12 @@ qx.Class.define("qx.ui.event.type.Mouse",
      *
      * @return {qx.ui.core.Wodget} The secondary event target.
      */
-    getRelatedTarget : function() {
-      return qx.ui.core.Widget.getWidgetByElement(this.getDomRelatedTarget());
+    getRelatedTarget : function()
+    {
+      var widget = qx.ui.core.Widget.getWidgetByElement(this.getDomRelatedTarget());
+      return widget ? widget.getEventTarget() : null;
     },
+
 
     /**
      * Get a secondary event target related to an UI event. This attribute is
