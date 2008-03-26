@@ -87,8 +87,8 @@ def main():
 
     # Resolve "extend"- and "run"-Keys
     expandedjobs = options.jobs[:]
-    while ([x for x in expandedjobs if jobsmap[x].has_key('run')] or [y for y in expandedjobs if not jobsmap[y].has_key('resolved')]):
-        x = 1  # cheat pydb
+    while ([x for x in expandedjobs if jobsmap[x].has_key('run')] or 
+           [y for y in expandedjobs if not jobsmap[y].has_key('resolved')]):
         _resolveExtends(console, jobsmap, expandedjobs)
         _resolveRuns(console, jobsmap, expandedjobs)
     console.debug("Expanded to %s jobs" % len(expandedjobs))
