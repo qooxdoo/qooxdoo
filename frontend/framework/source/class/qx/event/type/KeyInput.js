@@ -48,10 +48,12 @@ qx.Class.define("qx.event.type.KeyInput",
      * @param charCode {Integer} the character code
      * @return {qx.event.type.KeyEvent} The initialized key event instance
      */
-    init : function(domEvent, charCode)
+    init : function(domEvent, target, charCode)
     {
-      this.base(arguments, domEvent, true);
+      this.base(arguments, domEvent, true, target);
+
       this._charCode = charCode;
+
       return this;
     },
 
