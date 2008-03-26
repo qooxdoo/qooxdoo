@@ -210,11 +210,11 @@
 		"api" :
 		{
 			"extend" : ["apiconf/jobs/build-script"],
-
-			"compile" :
+			
+			"let" :
 			{
-				"file" : "api/script/${APPLICATION}.js",
-				"uri"  : "script/${APPLICATION}.js"
+				"APP_ROOT" : "../apiviewer",
+				"BUILD_PATH" : "./api"
 			}
 		}
 	}

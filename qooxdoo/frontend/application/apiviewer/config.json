@@ -5,9 +5,11 @@
     {
       "let" :
       {
+				"APP_ROOT" : ".",
         "APPLICATION": "apiviewer",
         "QOOXDOO_PATH": "../..",
-        "QOOXDOO_URI": "../${QOOXDOO_PATH}"
+        "QOOXDOO_URI": "../${QOOXDOO_PATH}",
+				"BUILD_PATH" : "./build"
       },
 
       "library" :
@@ -20,7 +22,7 @@
 
         {
           "encoding" : "utf-8",
-          "path"     : "source",
+          "path"     : "${APP_ROOT}/source",
           "uri"      : "../source"
         }
       ],
@@ -79,7 +81,7 @@
 
       "compile" :
       {
-        "file" : "./build/script/${APPLICATION}.js",
+        "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js"
       }
     },
