@@ -19,10 +19,12 @@
 
 ************************************************************************ */
 
+/**
+ * A check box widget with an optional label.
+ */
 qx.Class.define("qx.ui.form.CheckBox",
 {
   extend : qx.ui.form.ToggleButton,
-
 
 
   /*
@@ -32,15 +34,16 @@ qx.Class.define("qx.ui.form.CheckBox",
   */
 
   /**
-   * Creates a CheckBox.
-   *
-   * @param label {String} The text on the button.
+   * @param label {String?null} An optional label for the ckeck box.
    */
-  construct : function(label) {
+  construct : function(label)
+  {
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this.assertArgumentsCount(arguments, 0, 1);
+    }
+
     this.base(arguments, label);
   },
-
-
 
 
   /*
