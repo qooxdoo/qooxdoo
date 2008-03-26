@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onmouseover : function(e)
     {
-      if (!e.isTargetInsideWidget(this)) {
+      if (e.getTarget() !== this) {
         return;
       }
 
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onmouseout : function(e)
     {
-      if (!e.isTargetInsideWidget(this)) {
+      if (e.getTarget() !== this) {
         return;
       }
 
@@ -162,9 +162,7 @@ qx.Class.define("qx.ui.form.Button",
         return;
       }
 
-      if (!e.isTargetInsideWidget(this)) {
-        return;
-      }
+      e.preventDefault();
 
       // Activate capturing if the button get a mouseout while
       // the button is pressed.
@@ -201,11 +199,11 @@ qx.Class.define("qx.ui.form.Button",
         this.removeState("pressed");
       }
 
-      if (hasAbandoned) {
+      if (hasAbandoned)
+      {
         this.removeState("abandoned");
       }
-
-      if (!hasAbandoned)
+      else
       {
         this.addState("over");
 

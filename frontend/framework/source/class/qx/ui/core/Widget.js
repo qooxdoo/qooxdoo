@@ -71,6 +71,9 @@ qx.Class.define("qx.ui.core.Widget",
     this._contentElement = this.__createContentElement();
     this._containerElement.add(this._contentElement);
 
+    // store "weak" reference to the widget in the DOM element.
+    this._containerElement.setAttribute("$$widget", this.toHashCode());
+
     // Initialize states map
     this.__states = {};
 
@@ -1483,8 +1486,6 @@ qx.Class.define("qx.ui.core.Widget",
         el.setStyle("outline", "1px solid red");
       }
 
-      // store "weak" reference to the widget in the DOM element.
-      el.setAttribute("$$widget", this.toHashCode());
       el.setStyle("zIndex", 0);
 
       return el;

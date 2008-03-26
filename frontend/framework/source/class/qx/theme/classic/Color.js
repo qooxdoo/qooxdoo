@@ -43,6 +43,6 @@ qx.Theme.define("qx.theme.classic.Color",
 
     "button" : [ 235, 233, 237 ],
     "button-hover" : [ 246, 245, 247 ],
-    "button-abandoned" : [ 235, 233, 237 ]
+    "button-abandoned" : [ 249, 248, 233 ]
   }
 });
