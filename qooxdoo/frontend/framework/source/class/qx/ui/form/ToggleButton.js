@@ -43,13 +43,14 @@ qx.Class.define("qx.ui.form.ToggleButton",
   */
 
   /**
-   * Creates a new instance of a ToggleButton.
+   * Creates a ToggleButton.
+   *
    * @param label {String} The text on the button.
-   * @param iconUrl {String} An URI to the icon of the button.
+   * @param icon {String} An URI to the icon of the button.
    */
-  construct : function(label, iconUrl)
+  construct : function(label, icon)
   {
-    this.base(arguments, label, iconUrl);
+    this.base(arguments, label, icon);
 
     // register mouse events
     this.addListener("mouseover", this._onmouseover);

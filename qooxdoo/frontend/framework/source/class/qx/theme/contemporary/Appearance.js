@@ -64,6 +64,7 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       BUTTON
@@ -104,6 +105,9 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
       }
     },
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       FORM FIELDS
@@ -127,6 +131,5 @@ qx.Theme.define("qx.theme.contemporary.Appearance",
     "text-area" : {
       include : "text-field"
     }
-
   }
 });
