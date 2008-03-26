@@ -74,7 +74,6 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       c3.setChecked(true);
       c4.setChecked(true);
 
-/*
       c1.addListener("changeChecked", function(e) {
         l1.getManager().setMultiSelection(e.getData());
       });
@@ -90,7 +89,6 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       c4.addListener("changeChecked", function(e) {
         l1.setEnableInlineFind(e.getData());
       });
-*/
 
 
 
@@ -105,12 +103,12 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       rd3.setChecked(true);
 
-      var rbm = new qx.ui.core.RadioManager( name, [rd1, rd2, rd3]);
+      var rbm = new qx.ui.core.RadioManager([rd1, rd2, rd3]);
 
-      rbm.addEventListener("changeSelected", function(e)
+      rbm.addListener("changeSelected", function(e)
       {
-        for( var i=0; i<l1.getChildrenLength(); i++ ) {
-          l1.getChildren()[i].setShow(e.getData().getValue());
+        for( var i=0; i<l1.getChildren().length; i++ ) {
+          l1.getChildren()[i].setShow(e.getValue().getValue());
         }
       });
     }
