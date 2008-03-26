@@ -18,13 +18,15 @@
 
 ************************************************************************ */
 
-/*
+/* ************************************************************************
+
 #require(qx.ui.event.type.Mouse)
 #require(qx.ui.event.type.KeySequence)
 #require(qx.ui.event.type.KeyInput)
 #require(qx.ui.event.type.Event)
 #require(qx.ui.event.type.Data)
-*/
+
+************************************************************************ */
 
 /**
  * The WidgetEventHandler connects the widgets to the browser DOM events.
@@ -44,6 +46,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
   construct : function()
   {
+    this.base(arguments);
     this.__manager = qx.event.Registration.getManager();
   },
 
@@ -72,53 +75,52 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
   members :
   {
-    /** {Map} Event which are dispatched on the container/content element */
-    __eventTarget :
+    /** {Map} Event which are dispatched on the container element */
+    __containerTarget :
     {
-      container :
-      {
-        // mouse events
-        mousemove : 1,
-        mouseover : 1,
-        mouseout : 1,
-        mousedown : 1,
-        mouseup : 1,
-        click : 1,
-        dblclick : 1,
-        contextmenu : 1,
-        mousewheel : 1,
+      // mouse events
+      mousemove : 1,
+      mouseover : 1,
+      mouseout : 1,
+      mousedown : 1,
+      mouseup : 1,
+      click : 1,
+      dblclick : 1,
+      contextmenu : 1,
+      mousewheel : 1,
 
-        // key events
-        keyup : 1,
-        keydown : 1,
-        keypress : 1,
-        keyinput : 1,
+      // key events
+      keyup : 1,
+      keydown : 1,
+      keypress : 1,
+      keyinput : 1,
 
-        // focus events (do bubble)
-        focusin : 1,
-        focusout : 1,
-        beforedeactivate : 1,
-        beforeactivate : 1,
-        activate : 1,
-        deactivate : 1,
+      // focus events (do bubble)
+      focusin : 1,
+      focusout : 1,
+      beforedeactivate : 1,
+      beforeactivate : 1,
+      activate : 1,
+      deactivate : 1,
 
-        // mouse capture
-        capture : 1,
-        losecapture : 1
-      },
+      // mouse capture
+      capture : 1,
+      losecapture : 1
+    },
 
-      content :
-      {
-        // focus, blur events (do not bubble)
-        focus : 1,
-        blur : 1,
 
-        // all elements
-        select : 1,
+    /** {Map} Event which are dispatched on the content element */
+    __contentTarget :
+    {
+      // focus, blur events (do not bubble)
+      focus : 1,
+      blur : 1,
 
-        // iframe elements
-        load : 1
-      }
+      // all elements
+      select : 1,
+
+      // iframe elements
+      load : 1
     },
 
 
@@ -127,7 +129,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     {
       return (
         target instanceof qx.ui.core.Widget &&
-        (this.__eventTarget.container[type] || this.__eventTarget.content[type])
+        (this.__containerTarget[type] || this.__contentTarget[type])
       )
     },
 
@@ -172,6 +174,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         return;
       }
 
+
       // EVENT RELATED TARGET
       if (event.getRelatedTarget)
       {
@@ -190,10 +193,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       }
 
 
-
-
-
-      // the DOM element
+      // PROCESSING EVENT
       var currentTarget = event.getCurrentTarget();
 
       var currentWidget = qx.ui.core.Widget.getWidgetByElement(currentTarget);
@@ -208,12 +208,14 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
       var capture = event.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var type = event.getType();
-      var listeners = this.__manager.getListeners(currentWidget, type, capture);
 
+      // Load listeners
+      var listeners = this.__manager.getListeners(currentWidget, type, capture);
       if (!listeners) {
         return;
       }
 
+      // Create cloned event with correct target and dispatch it on all listeners
       var clone = this._cloneEvent(currentWidget, event);
       for (var i=0, l=listeners.length; i<l; i++)
       {
@@ -221,6 +223,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         listeners[i].handler.call(context, clone);
       }
 
+      // synchronize propagation property
       if (clone.getPropagationStopped()) {
         event.stopPropagation();
       }
@@ -260,7 +263,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      */
     __getEventTarget : function(widgetTarget, type)
     {
-      if (this.__eventTarget.content[type]) {
+      if (this.__contentTarget[type]) {
         return widgetTarget.getContentElement();
       } else {
         return widgetTarget.getContainerElement();
