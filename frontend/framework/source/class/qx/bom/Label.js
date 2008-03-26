@@ -49,7 +49,7 @@ qx.Class.define("qx.bom.Label",
      */
     __prepareText : function()
     {
-      var el = qx.bom.Element.create("div");
+      var el = document.createElement("div");
       var style = el.style;
 
       style.width = style.height = "auto";
@@ -58,6 +58,12 @@ qx.Class.define("qx.bom.Label",
       style.position = "absolute";
       style.overflow = "visible";
       style.whiteSpace = "nowrap";
+
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        var inner = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+        el.appendChild(inner);
+      }
 
       document.body.insertBefore(el, document.body.firstChild);
 
@@ -298,7 +304,9 @@ qx.Class.define("qx.bom.Label",
       }
 
       // insert text
-      if (qx.core.Variant.isSet("qx.client", "mshtml|opera")) {
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        element.firstChild.setAttribute("value", text);
+      } else if (qx.core.Variant.isSet("qx.client", "mshtml|opera")) {
         element.innerText = text;
       } else {
         element.textContent = text;
