@@ -207,9 +207,21 @@
 		},
 
 
-		"api" :
+		"api-script" :
 		{
 			"extend" : ["apiconf/jobs/build-script"],
+			
+			"let" :
+			{
+				"APP_ROOT" : "../apiviewer",
+				"BUILD_PATH" : "./api"
+			}
+		},
+
+
+		"api-build" :
+		{
+			"extend" : ["apiconf/jobs/build"],
 			
 			"let" :
 			{
