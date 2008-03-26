@@ -80,6 +80,8 @@ def main():
             obj = open(cfgfile[1])
             econfig = simplejson.loads(obj.read())
             obj.close()
+            #for ejob in econfig['jobs']:
+            #    _resolveEntry(console, econfig['jobs'], ejob)
             jobsmap[cfgfile[0]] = econfig # external config becomes namespace'd entry in jobsmap
 
     # Resolve "run"-Key
@@ -124,6 +126,19 @@ def _mapMerge(source, target):
     return t
 
 
+def _confGet(conf, key, default=None):
+    data = conf
+    splits = key.split("/")
+
+    for item in splits:
+        if isinstance(data, types.DictType) and data.has_key(item):
+            data = data[item]
+        else:
+            return default
+
+    return data
+        
+
 def _resolveExtends(console, config, jobs):
     def _listPrepend(source, target):
         """returns new list with source prepended to target"""
@@ -146,31 +161,25 @@ def _resolveExtends(console, config, jobs):
 
     def _resolveEntry(console, config, job):
         # TODO: look up job in global list, to prevent circular references
-        if not config.has_key(job):
-            if job.find('#'):  # external reference
-                ecfgfile, ejob = job.split('#',1)
-                obj = open(ecfgfile)
-                econfig = simplejson.loads(obj.read())
-                obj.close()
-                _resolveEntry(console, econfig, ejob)
-                config[job] = econfig[ejob] 
-                # after this, the external job is fully resolved 
-                # (w.r.t. its own config) and is in the current config
-            else:
-                console.warn("No such job: %s" % job)
-                sys.exit(1)
+        if not _confGet(config,job,False):
+            console.warn("No such job: %s" % job)
+            sys.exit(1)
 
-        data = config[job]
+        data = _confGet(config,job)
 
         if data.has_key("resolved"):
             return
 
         if data.has_key("extend"):
             includes = data["extend"]
+            if job.rfind('/')>-1:
+                jobcontext = _confGet(config, job[:job.rfind('/')]) # job context has the 'parent' key
+            else:
+                jobcontext = config  # we are top-level
 
             for entry in includes:
-                _resolveEntry(console, config, entry)
-                _mergeEntry(config[job], config[entry])
+                _resolveEntry(console, jobcontext, entry)
+                _mergeEntry(data, _confGet(jobcontext,entry))
 
         data["resolved"] = True
 
