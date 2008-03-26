@@ -43,7 +43,12 @@ qx.Class.define("qx.core.Object",
 {
   extend : Object,
 
-
+  // include assertion in the debug version
+  include : qx.core.Variant.select("qx.debug",
+  {
+    "on" : [qx.dev.unit.MAssert],
+    "off" : []
+  }),
 
 
 
