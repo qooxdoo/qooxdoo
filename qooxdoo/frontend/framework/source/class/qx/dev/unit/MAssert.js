@@ -51,6 +51,17 @@ qx.Mixin.define("qx.dev.unit.MAssert",
     },
 
 
+    assertArgumentsCount : function(args, minCount, maxCount, msg)
+    {
+      var argCount = args.count;
+      this.__assert(
+        !(argCount >= minCount && argCount <= maxCount),
+        msg || "",
+        "Wrong number of arguments given. Expected '" + minCount + "' to '" + maxCount + "' arguments but found '" + arguments.length + "' arguments."
+      )
+    },
+
+
     /**
      * Asserts that the callback raises a matching exception.
      *
@@ -310,6 +321,18 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      */
     assertMap : function(value, msg) {
       this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found " + value + "!");
+    },
+
+    assertType : function(value, type, msg) {
+      this.__assert(typeof(value) === type, msg || "", "Expected value to be typeof '" + type + "' but found " + value + "!");
+    },
+
+    assertInstance : function(value, clazz, msg) {
+      this.__assert(value instanceof clazz, msg || "", "Expected value to be instanceof '" + clazz + "' but found " + value + "!");
+    },
+
+    assertInterface : function(object, iface, msg) {
+      this.__assert(qx.Class.hasInterface(object, iface), msg || "", "Expected object '" + object + "' to implement the interface '" + iface + "'!");
     },
 
 

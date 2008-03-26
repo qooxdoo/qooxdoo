@@ -125,19 +125,8 @@ qx.Class.define("qx.util.ValueManager",
      */
     connect : function(callback, obj, value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!callback) {
-          throw new Error("Can not connect to invalid callback: " + callback);
-        }
-
-        if (!obj) {
-          throw new Error("Can not connect to invalid object: " + obj);
-        }
-
-        if (value === undefined) {
-          throw new Error("Undefined values are not allowed for connect: " + callback + "[" + obj + "]");
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertArgumentsCount(arguments, 3, 3);
       }
 
       // Preprocess value (if function is defined)

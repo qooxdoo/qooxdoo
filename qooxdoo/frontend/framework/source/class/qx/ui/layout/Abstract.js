@@ -250,12 +250,9 @@ qx.Class.define("qx.ui.layout.Abstract",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!child || !(child instanceof qx.ui.core.LayoutItem)) {
-          throw new Error("Invalid widget to add: " + child);
-        }
-
-        if (options != null && typeof options !== "object") {
-          throw new Error("Invalid layout data: " + options);
+        this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
+        if (options) {
+          this.assertType(options, "object", "Invalid layout data: " + options);
         }
       }
 
