@@ -209,7 +209,7 @@
 
 		"api" :
 		{
-			"extend" : ["../apiviewer/config.json#build-script"],
+			"extend" : ["apiconf/jobs/build-script"],
 
 			"compile" :
 			{
