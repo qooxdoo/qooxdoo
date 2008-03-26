@@ -571,6 +571,13 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    anonymous :
+    {
+      init : false,
+      check : "Boolean"
+    },
+
+
     /** The widget's appearance id */
     appearance :
     {
@@ -637,6 +644,22 @@ qx.Class.define("qx.ui.core.Widget",
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
+
+    getEventTarget : function()
+    {
+      var target = this;
+
+      while (target.getAnonymous())
+      {
+        target = target.getLayoutParent();
+        if (!target) {
+          return null;
+        }
+      }
+
+      return target;
+    },
+
 
     // overridden
     setLayoutParent : function(parent)
