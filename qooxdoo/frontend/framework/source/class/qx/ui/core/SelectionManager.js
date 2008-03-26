@@ -981,10 +981,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
      */
     handleMouseDown : function(vItem, e)
     {
-      // stop propagation of the event here to prevent
-      // reaction of subwidgets
-      e.stopPropagation();
-
       // Only allow left and right button
       if (!e.isLeftPressed() && !e.isRightPressed()) {
         return;
@@ -1312,9 +1308,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
           // Scroll new item into view
           this.scrollItemIntoView(itemToSelect);
-
-          // Stop event handling
-          ev.preventDefault();
 
           // Select a range
           if (ev.isShiftPressed() && this.getMultiSelection())
