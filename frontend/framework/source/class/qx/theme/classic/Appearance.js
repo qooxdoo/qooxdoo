@@ -181,8 +181,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/form/";
-
         var icon;
         if (states.checked && states.focus) {
           icon = "Checkbox-checked-focus";
@@ -207,7 +205,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          icon: base + icon + ".png",
+          icon: "decoration/form/" + icon + ".png",
           align: "left",
           gap: 6
         }
@@ -221,8 +219,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/form/";
-
         var icon;
         if (states.checked && states.focus) {
           icon = "Radio-checked-focus";
@@ -247,7 +243,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          icon: base + icon + ".png"
+          icon: "decoration/form/" + icon + ".png"
         }
       }
     },
@@ -300,7 +296,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/up_small.gif"
+          icon : "decoration/arrows/up_small.gif"
         }
       }
     },
@@ -312,7 +308,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/down_small.gif"
+          icon : "decoration/arrows/down_small.gif"
         };
       }
     },
@@ -367,8 +363,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : states.horizontal
-            ? qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/left_small.gif"
-            : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/up_small.gif",
+            ? "decoration/arrows/left_small.gif"
+            : "decoration/arrows/up_small.gif",
           align : states.horizontal ? "left" : "top"
         }
       }
@@ -382,8 +378,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : states.horizontal
-            ? qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/right_small.gif"
-            : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic/arrows/down_small.gif"
+            ? "decoration/arrows/right_small.gif"
+            : "decoration/arrows/down_small.gif"
         }
       }
     },
@@ -419,6 +415,5 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     }
-
   }
 });
