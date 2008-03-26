@@ -43,13 +43,6 @@ qx.Class.define("qx.core.Object",
 {
   extend : Object,
 
-  // include assertion in the debug version
-  include : qx.core.Variant.select("qx.debug",
-  {
-    "on" : [qx.dev.unit.MAssert],
-    "off" : []
-  }),
-
 
 
   /*
@@ -616,6 +609,24 @@ qx.Class.define("qx.core.Object",
   settings : {
     "qx.disposerDebugLevel" : 0
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+  
+  defer : function(statics) 
+  {
+    // add asserts into each debug build
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      qx.Class.include(statics, qx.dev.unit.MAssert);
+    }
+  },
+
 
 
 
