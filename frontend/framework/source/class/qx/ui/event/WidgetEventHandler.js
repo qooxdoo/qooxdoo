@@ -44,7 +44,6 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
   construct : function()
   {
-    this.__eventHandler = {};
     this.__manager = qx.event.Registration.getManager();
   },
 
@@ -157,28 +156,68 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     /**
      * Dispatches a DOM event on a widget.
      *
-     * @param target {qx.ui.core.Widget} The widget event target
      * @param event {qx.event.type.Event} The event object to dispatch.
      */
-    _dispatchEvent : function(target, event)
+    _dispatchEvent : function(event)
     {
-      if (!target.isEnabled()) {
+      // EVENT TARGET
+      var domTarget = event.getTarget();
+      var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget);
+      if (!widgetTarget) {
+        return;
+      }
+
+      widgetTarget = widgetTarget.getEventTarget();
+      if (!widgetTarget) {
+        return;
+      }
+
+      // EVENT RELATED TARGET
+      if (event.getRelatedTarget)
+      {
+        var domRelatedTarget = event.getRelatedTarget();
+        var widgetRelatedTarget = qx.ui.core.Widget.getWidgetByElement(domRelatedTarget);
+
+        if (widgetRelatedTarget)
+        {
+          widgetRelatedTarget = widgetRelatedTarget.getEventTarget();
+
+          // If target and related target are identical ignore the event
+          if (widgetRelatedTarget === widgetTarget) {
+            return;
+          }
+        }
+      }
+
+
+
+
+
+      // the DOM element
+      var currentTarget = event.getCurrentTarget();
+
+      var currentWidget = qx.ui.core.Widget.getWidgetByElement(currentTarget);
+      if (!currentWidget) {
+        return;
+      }
+
+      currentWidget = currentWidget.getEventTarget();
+      if (!currentWidget) {
         return;
       }
 
       var capture = event.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var type = event.getType();
-      var listeners = this.__manager.getListeners(target, type, capture);
+      var listeners = this.__manager.getListeners(currentWidget, type, capture);
 
       if (!listeners) {
         return;
       }
 
-      var clone = this._cloneEvent(target, event);
-
+      var clone = this._cloneEvent(currentWidget, event);
       for (var i=0, l=listeners.length; i<l; i++)
       {
-        var context = listeners[i].context || target;
+        var context = listeners[i].context || currentWidget;
         listeners[i].handler.call(context, clone);
       }
 
@@ -192,28 +231,22 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
 
     // interface implementation
+    // target = widget ;)
     registerEvent : function(target, type, capture)
     {
+      // find responsible html element
       var eventTarget = this.__getEventTarget(target, type);
-
-      var eventHandler = qx.lang.Function.bind(this._dispatchEvent, this, target);
-      this.__eventHandler[target.$$hash] = eventHandler;
-
-      eventTarget.addListener(type, eventHandler, this, capture);
+      eventTarget.addListener(type, this._dispatchEvent, this, capture);
     },
 
 
     // interface implementation
+    // target = widget ;)
     unregisterEvent : function(target, type, capture)
     {
+      // find responsible html element
       var eventTarget = this.__getEventTarget(target, type);
-      var eventHandler = this.__eventHandler[target.$$hash];
-
-      if (eventHandler && eventTarget.hasListeners(type, eventHandler, this, capture))
-      {
-        eventTarget.removeListener(type, eventHandler, this, capture);
-        delete this.__eventHandler[target.$$hash]
-      }
+      eventTarget.removeListener(type, this._dispatchEvent, this, capture);
     },
 
 
@@ -246,7 +279,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("__eventHandler", "__manager");
+    this._disposeFields("__manager");
   },
 
 
