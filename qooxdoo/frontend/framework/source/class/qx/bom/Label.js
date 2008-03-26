@@ -311,11 +311,26 @@ qx.Class.define("qx.bom.Label",
       } else {
         element.textContent = text;
       }
+      
+      var width = element.clientWidth;
+      var height = element.clientHeight;
+      
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        // Under Mac at least with Firefox 3.0 alpha 6 and earlier
+        // there was an issue that the text size calculation returns
+        // a size which is a bit to small and results into ellipsis
+        // even under the measured size.
+        if (qx.bom.client.Platform.MAC) {
+          width++;
+        }
+      }
+      
 
       // compute size and return
       return {
-        width : element.clientWidth,
-        height : element.clientHeight
+        width : width,
+        height : height
       };
     }
   }
