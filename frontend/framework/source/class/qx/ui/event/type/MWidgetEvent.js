@@ -32,23 +32,6 @@ qx.Mixin.define("qx.ui.event.type.MWidgetEvent",
   members :
   {
     /**
-     * Returns whether the DOM node of the event target is inside of the given
-     * widget.
-     *
-     * @param widget {qx.ui.core.Widget} container widget to check for.
-     * @return {Boolean} Whether the DOM node of the event target is inside of
-     *     the given widget.
-     */
-    isTargetInsideWidget : function(widget)
-    {
-      return qx.dom.Hierarchy.contains(
-        widget.getContainerElement().getDomElement(),
-        this._target
-      );
-    },
-
-
-    /**
      * Returns the DOM event target to which the event was originally
      * dispatched.
      *
