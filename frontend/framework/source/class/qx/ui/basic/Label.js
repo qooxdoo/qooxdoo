@@ -63,9 +63,9 @@ qx.Class.define("qx.ui.basic.Label",
   properties :
   {
     /**
-     * Switches between rich HTML and text content. The text mode supports
+     * Switches between rich HTML and text content. The text mode (<code>false</code>) supports
      * advanced features like ellipsis when the available space is not
-     * enough. HTML mode supports multi-line content and all the
+     * enough. HTML mode (<code>true</code>) supports multi-line content and all the
      * markup features of HTML content.
      */
     rich :
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * Contains the HTML or text content. Interpretation depends on the value
-     * of {@link #rich}. In text mode (rich=off) entities and other HTML special content
+     * of {@link #rich}. In text mode entities and other HTML special content
      * is not supported. But it is possible to use unicode escape sequences
      * to insert symbols and other non ASCII characters.
      */
@@ -90,6 +90,8 @@ qx.Class.define("qx.ui.basic.Label",
       nullable : true
     },
 
+
+    // overridden
     appearance :
     {
       refine: true,
@@ -226,16 +228,6 @@ qx.Class.define("qx.ui.basic.Label",
       this.__contentSize = rich ?
         Label.getHtmlSize(content, styles) :
         Label.getTextSize(content, styles);
-
-      // XUL labels are seems to need a magic tolerance addition
-      // here to omit ellipsis symbol for labels where not needed.
-      // This was detected as of Firefox 3 beta4 (gecko 1.9)
-      if (qx.core.Variant.isSet("qx.client", "gecko"))
-      {
-        if (!rich) {
-          this.__contentSize.width++;
-        }
-      }
     },
 
 
