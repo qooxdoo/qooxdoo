@@ -210,6 +210,18 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       var capture = event.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var type = event.getType();
 
+
+      // ignore all events except "mouseover" and "mouseout" in the disabled
+      // state.
+      if (
+        !currentWidget.isEnabled() &&
+        type !== "mouseover" &&
+        type !== "mouseout"
+      ) {
+        return;
+      }
+
+
       // Load listeners
       var listeners = this.__manager.getListeners(currentWidget, type, capture);
       if (!listeners) {

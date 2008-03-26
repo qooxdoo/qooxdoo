@@ -113,10 +113,18 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired if the mouse curser moves over the widget. */
     mousemove : "qx.ui.event.type.Mouse",
 
-    /** Fired if the mouse curser enters the widget. */
+    /**
+     * Fired if the mouse curser enters the widget.
+     *
+     * Note: This event is also dispatched if the widget is disabled!
+     */
     mouseover : "qx.ui.event.type.Mouse",
 
-    /** Fired if the mouse curser leaves widget. */
+    /**
+     * Fired if the mouse curser leaves widget.
+     *
+     * Note: This event is also dispatched if the widget is disabled!
+     */
     mouseout : "qx.ui.event.type.Mouse",
 
     /** Fired if a mouse button is pressed on the widget. */
@@ -562,7 +570,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
-     * and do not process user created events.
+     * and do not process user created events. While in the disabled state most
+     * user input events are blocked. Only the {@link #mouseover} and
+     * {@link #mouseout} events will be dispatched.
      */
     enabled :
     {
@@ -625,17 +635,23 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getWidgetByElement : function(element)
     {
-      while(element)
+      // in FF 2 the related target of mouse events is sometimes an
+      // anonymous div inside of text area, which raise an exception if
+      // the parent node is read. This is why the try/catch block is needed.
+      try
       {
-        var widgetKey = element.$$widget;
+        while(element)
+        {
+          var widgetKey = element.$$widget;
 
-        // dereference "weak" reference to the widget.
-        if (widgetKey != null) {
-          return qx.core.ObjectRegistry.fromHashCode(widgetKey);
+          // dereference "weak" reference to the widget.
+          if (widgetKey != null) {
+            return qx.core.ObjectRegistry.fromHashCode(widgetKey);
+          }
+
+          element = element.parentNode;
         }
-
-        element = element.parentNode;
-      }
+      } catch(ex) {}
 
       return null;
     }
