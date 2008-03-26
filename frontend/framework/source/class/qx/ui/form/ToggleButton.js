@@ -66,7 +66,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -75,6 +74,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
   properties:
   {
+    // overridden
     appearance:
     {
       refine: true,
@@ -90,6 +90,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
       event: "changeChecked"
     }
   },
+
+
 
 
   /*
@@ -125,7 +127,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _onmouseover : function(e)
     {
-      if (!e.isTargetInsideWidget(this)) {
+      if (e.getTarget() !== this) {
         return;
       }
 
@@ -153,7 +155,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _onmouseout : function(e)
     {
-      if (!e.isTargetInsideWidget(this)) {
+      if (e.getTarget() !== this) {
         return;
       }
 
@@ -185,10 +187,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
     _onmousedown : function(e)
     {
       if (!e.isLeftPressed()) {
-        return;
-      }
-
-      if (!e.isTargetInsideWidget(this)) {
         return;
       }
 
@@ -227,9 +225,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
       if (hasAbandoned) {
         this.removeState("abandoned");
-      }
-
-      if (!hasAbandoned && hasPressed) {
+      } else if (hasPressed) {
         this.toggleChecked();
       }
     },
@@ -269,18 +265,18 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _onkeyup : function(e)
     {
+      if (!this.hasState("pressed")) {
+        return;
+      }
+
       switch(e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":
-          if (this.hasState("pressed"))
-          {
+          this.removeState("abandoned");
+          this.toggleChecked();
 
-            this.removeState("abandoned");
-            this.toggleChecked();
-
-            e.stopPropagation();
-          }
+          e.stopPropagation();
       }
     }
   }
