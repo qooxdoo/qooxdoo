@@ -87,6 +87,7 @@ def main():
 
     # Resolve "extend"- and "run"-Keys
     expandedjobs = options.jobs[:]
+    # while there are still 'run' jobs or unresolved jobs in the job list...
     while ([x for x in expandedjobs if jobsmap[x].has_key('run')] or 
            [y for y in expandedjobs if not jobsmap[y].has_key('resolved')]):
         _resolveExtends(console, jobsmap, expandedjobs)
