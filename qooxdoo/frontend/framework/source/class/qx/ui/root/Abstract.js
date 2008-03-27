@@ -37,6 +37,7 @@ qx.Class.define("qx.ui.root.Abstract",
     this.base(arguments);
 
 
+    this.addListener("mousedown", this._onmousedown, this, true);
   },
 
 
@@ -67,6 +68,27 @@ qx.Class.define("qx.ui.root.Abstract",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    _onmousedown : function(e)
+    {
+      var target = e.getTarget();
+
+      if (!target.isSelectable())
+      {
+        if (target.isTabable()) {
+          target.focus();
+        }
+
+        e.preventDefault();
+      }
+    },
+
+
     // overridden
     isRootWidget : function() {
       return true;

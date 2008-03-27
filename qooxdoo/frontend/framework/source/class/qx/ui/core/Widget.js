@@ -625,6 +625,44 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Defines the tab index of an widget. If widgets with tab indexes are part
+     * of the current focus root these elements are sorted in first priority. Afterwards
+     * the sorting continues by rendered position, zIndex and other criteria.
+     */
+    tabIndex :
+    {
+      check : "Integer",
+      nullable : true
+    },
+
+
+    /**
+     * Whether the widget is focusable e.g. rendering a focus border and visualize
+     * as active element.
+     *
+     * See also {#isTabable} which allows runtime checks for <code>isChecked</code>
+     * or other stuff to test whether the widget is reachable via the TAB key.
+     */
+    focusable :
+    {
+      check : "Boolean",
+      init : false
+    },
+
+
+    /**
+     * Whether the widget contains content which may be selected by the user.
+     *
+     * Normally only useful for forms fields, longer texts/documents, editors, etc.
+     */
+    selectable :
+    {
+      check : "Boolean",
+      init : false
+    },
+
+
+    /**
      * The appearance ID. This ID is used to identify the appearance theme
      * entry to use for this widget. This controls the styling of the element.
      */
@@ -699,22 +737,6 @@ qx.Class.define("qx.ui.core.Widget",
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
-
-    getEventTarget : function()
-    {
-      var target = this;
-
-      while (target.getAnonymous())
-      {
-        target = target.getLayoutParent();
-        if (!target) {
-          return null;
-        }
-      }
-
-      return target;
-    },
-
 
     // overridden
     setLayoutParent : function(parent)
@@ -2036,6 +2058,53 @@ qx.Class.define("qx.ui.core.Widget",
       if (newAppearanceProperties) {
         this.__styleProperties(newAppearanceProperties);
       }
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the next event target when bubbling up the parent chain. May
+     * also return the widget element itself if it is not anonymous.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} A working event target of this widget.
+     *    May be <code>null</code> as well.
+     */
+    getEventTarget : function()
+    {
+      var target = this;
+
+      while (target.getAnonymous())
+      {
+        target = target.getLayoutParent();
+        if (!target) {
+          return null;
+        }
+      }
+
+      return target;
+    },
+
+
+    /**
+     * Whether the widget is reachable by pressing the TAB key.
+     *
+     * Normally tests for both, the focusable property and a positive or
+     * undefined tabIndex property.
+     *
+     * @type member
+     * @return {Boolean}
+     */
+    isTabable : function() {
+      return this.isFocusable() && this.getTabIndex() !== -1;
     },
 
 
