@@ -186,6 +186,10 @@ qx.Class.define("qx.event.handler.Window",
      */
     _onNative : function(e)
     {
+      if (this.isDisposed()) {
+        return;
+      }
+
       var win = this._window;
       var doc = win.document;
       var html = doc.documentElement;
