@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.ui.root.Application",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.root.Abstract,
 
 
 
@@ -116,18 +116,6 @@ qx.Class.define("qx.ui.root.Application",
 
 
     // overridden
-    isRootWidget : function() {
-      return true;
-    },
-
-
-    // overridden
-    isLayoutRoot : function() {
-      return true;
-    },
-
-
-    // overridden
     _createContainerElement : function()
     {
       var doc = this._doc;
@@ -159,17 +147,6 @@ qx.Class.define("qx.ui.root.Application",
      */
     _onResize : function(e) {
       qx.ui.core.queue.Layout.add(this);
-    },
-
-
-    // overridden
-    _applyLayout : function(value, old)
-    {
-      if (old) {
-        throw new Error("You cannot change the layout of qx.ui.root.Application!");
-      }
-
-      this.base(arguments, value, old);
     },
 
 

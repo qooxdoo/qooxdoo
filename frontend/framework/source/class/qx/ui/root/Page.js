@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.ui.root.Page",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.root.Abstract,
 
 
 
@@ -59,22 +59,6 @@ qx.Class.define("qx.ui.root.Page",
     qx.ui.core.queue.Layout.add(this);
   },
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "root"
-    }
-  },
 
 
 
@@ -110,18 +94,6 @@ qx.Class.define("qx.ui.root.Page",
 
 
     // overridden
-    isRootWidget : function() {
-      return true;
-    },
-
-
-    // overridden
-    isLayoutRoot : function() {
-      return true;
-    },
-
-
-    // overridden
     _createContainerElement : function()
     {
       var elem = this._doc.createElement("div");
@@ -138,17 +110,6 @@ qx.Class.define("qx.ui.root.Page",
     // we do not want overflow=hidden for the page root
     _createContentElement : function() {
       return new qx.html.Element("div");
-    },
-
-
-    // overridden
-    _applyLayout : function(value, old)
-    {
-      if (old) {
-        throw new Error("You cannot change the layout of qx.ui.root.Page!");
-      }
-
-      this.base(arguments, value, old);
     },
 
 
