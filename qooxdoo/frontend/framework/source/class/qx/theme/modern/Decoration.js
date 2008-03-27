@@ -14,9 +14,9 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+   * Fabian Jakobs (fjakobs)
    * Sebastian Werner (wpbasti)
    * Andreas Ecker (ecker)
-   * Til Schneider (til132)
 
 ************************************************************************* */
 
@@ -41,17 +41,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/pane/Pane.png"
+        baseImage : "decoration/pane/pane.png"
       }
     },
-
 
     "button-normal" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Normal.png"
+        baseImage : "decoration/form/button-normal.png"
       }
     },
 
@@ -60,7 +59,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Normal-Fokus.png"
+        baseImage : "decoration/form/button-normal-focus.png"
       }
     },
 
@@ -69,7 +68,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Hover.png"
+        baseImage : "decoration/form/button-hover.png"
       }
     },
 
@@ -78,7 +77,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Pressed.png"
+        baseImage : "decoration/form/button-pressed.png"
       }
     },
 
@@ -87,7 +86,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Checked.png"
+        baseImage : "decoration/form/button-checked.png"
       }
     },
 
@@ -96,7 +95,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Checked-Fokus.png"
+        baseImage : "decoration/form/button-checked-focus.png"
       }
     },
 
@@ -105,7 +104,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Default.png"
+        baseImage : "decoration/form/button-default.png"
       }
     },
 
@@ -114,7 +113,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/button/Button-Default-Fokus.png"
+        baseImage : "decoration/form/button-default-focus.png"
       }
     },
 
@@ -126,7 +125,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         outerColor: "border",
         innerColor: "white",
-        backgroundImage : "decoration/Input.png"
+        backgroundImage : "decoration/form/input.png"
       }
     },
 
@@ -140,6 +139,5 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor: "focus"
       }
     }
-
   }
 });
