@@ -145,10 +145,34 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired if the mouse wheel is used over the widget. */
     mousewheel : "qx.ui.event.type.Mouse",
 
-    // key events
+    /**
+     * This event if fired if a keyboard button is released. This event is
+     * only fired once if the user keeps the key pressed for a while.
+     **/
     keyup : "qx.ui.event.type.KeySequence",
+
+    /**
+     * This event if fired if a keyboard button is pushed down. This event is
+     * only fired once if the user keeps the key pressed for a while.
+     */
     keydown : "qx.ui.event.type.KeySequence",
+
+    /**
+     * This event is fired anytime a key is pressed. It will be repeated if
+     * the user keeps the key pressed. The pressed key can be determined using
+     * {@link qx.ui.event.type.KeySequence#getKeyIdentifier}.
+     */
     keypress : "qx.ui.event.type.KeySequence",
+
+    /**
+     * This event is fired if the pressed key or keys result in a printable
+     * character. Since the character is not necessarily associated with a
+     * single physical key press, the event does not have a key identifier
+     * getter. This event gets repeated if the user keeps pressing the key(s).
+     *
+     * The unicode code of the pressed key can be read using
+     * {@link qx.ui.event.type.KeyInput#getKeyCode}.
+     */
     keyinput : "qx.ui.event.type.KeyInput",
 
     // focus events
