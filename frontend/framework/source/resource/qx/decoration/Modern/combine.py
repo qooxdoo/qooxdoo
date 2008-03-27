@@ -15,6 +15,7 @@ import subprocess
 
 
 def get_file_info(filename):
+    print filename
     if not os.path.exists(filename):
         print "Error: Unable to find file '%'" % filename
         sys.exit(1)
@@ -92,30 +93,30 @@ def add_file(file, config):
 
 def process_buttons(config):
     files = [
-        "button-checked-focus",
+        "button-checked-focused",
         "button-checked",
-        "button-preselected-focus",
+        "button-preselected-focused",
         "button-preselected",
         "button-pressed",
-        "button-hover",
-        "button-focus",
+        "button-hovered",
+        "button-focused",
         "button"
     ]
 
     for file in files:
-        split_grid(file, "source", "button", 4)
+        split_grid(file, "source", "form", 4)
 
 
     clips = []
     for file in files:
         for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
-            clips.append("button/%s-%s.png" % (file, suffix))
+            clips.append("form/%s-%s.png" % (file, suffix))
     combine_images(clips, "button-tb-combined.png", False, config)
 
     clips = []
     for file in files:
         for suffix in ["l", "r"]:
-            clips.append("button/%s-%s.png" % (file, suffix))
+            clips.append("form/%s-%s.png" % (file, suffix))
     combine_images(clips, "button-lr-combined.png", True, config)
 
     for file in files:
@@ -149,7 +150,7 @@ def main():
 
     process_buttons(config)
     process_panes(config)
-    process_form(config)
+    process_checkradio(config)
 
     print "        " + ",\n        ".join(config)
 
