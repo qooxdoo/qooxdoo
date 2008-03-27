@@ -22,7 +22,6 @@
 /* ************************************************************************
 
 #ignore(auto-use)
-#embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
 
 # Window
@@ -149,9 +148,6 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
     {
       style : function(states)
       {
-        // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
-        // (Visible) background tiles could be dramatically slow down mshtml!
-        // A background image or color is always needed for mshtml to block the events successfully.
         return {
           cursor : "default",
           backgroundImage : "static/image/blank.gif"
@@ -226,7 +222,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         }
 
         return {
-          backgroundImage : "widget/gradient/button_gradient.png",
+          backgroundImage : "widget/gradient/button.png",
 
           backgroundColor : states.over ? "button-hover" : "button",
           border          : border,
@@ -249,7 +245,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         return {
           border          : "toolbar",
           backgroundColor : "toolbar-background",
-          backgroundImage : "widget/gradient/toolbar_gradient.png",
+          backgroundImage : "widget/gradient/toolbar.png",
           padding : 1
         }
       }
@@ -445,7 +441,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
 
         return {
           backgroundColor : states.checked ? "button-view-button" : "undefined",
-          backgroundImage : states.checked ? "widget/gradient/barbutton_gradient.png" : null,
+          backgroundImage : states.checked ? "widget/gradient/barbutton.png" : null,
           iconPosition    : "top",
           margin          : margin,
           width           : width ,
@@ -526,7 +522,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         if (states.checked) {
           var vReturn = {
             textColor       : "tab-view-text",
-            backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
+            backgroundImage : states.barTop ? "widget/gradient/tabbutton.png" : "widget/gradient/tabbutton-reverse.png",
             backgroundColor : "tab-view-button-checked",
             zIndex          : 1,
             paddingTop      : 3,
@@ -542,7 +538,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         else {
           vReturn = {
             textColor       : "tab-view-text-disabled",
-            backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
+            backgroundImage : states.barTop ? "widget/gradient/tabbutton.png" : "widget/gradient/tabbutton-reverse.png",
             backgroundColor : "tab-view-button",
             zIndex          : 0,
             paddingLeft     : 6,
@@ -612,7 +608,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         return {
           textColor       : "tab-view-text",
           backgroundColor : states.checked ? "radio-view-button-checked" : "undefined",
-          backgroundImage : states.checked ? "widget/gradient/tabbutton_gradient.png" : "undefined",
+          backgroundImage : states.checked ? "widget/gradient/tabbutton.png" : "undefined",
           iconPosition    : "left",
           margin          : [ 0, 1 ],
           width           : "auto",
@@ -709,7 +705,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
       include : "window-captionbar-button",
 
       style : function(states) {
-        return { icon : states.active ? "widget/window/minimize.gif" : "widget/window/minimize_inactive.gif" }
+        return { icon : states.active ? "widget/window/minimize.gif" : "widget/window/minimize-inactive.gif" }
       }
     },
 
@@ -719,7 +715,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
       style : function(states) {
         return {
           marginLeft : 2,
-          icon : states.active ? "widget/window/restore.gif" : "widget/window/restore_inactive.gif"
+          icon : states.active ? "widget/window/restore.gif" : "widget/window/restore-inactive.gif"
         }
       }
     },
@@ -730,7 +726,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
       style : function(states) {
         return {
           marginLeft : 2,
-          icon : states.active ? "widget/window/maximize.gif" : "widget/window/maximize_inactive.gif"
+          icon : states.active ? "widget/window/maximize.gif" : "widget/window/maximize-inactive.gif"
         }
       }
     },
@@ -741,7 +737,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
       style : function(states) {
         return {
           marginLeft : 2,
-          icon       : states.active ? "widget/window/close.gif" : "widget/window/close_inactive.gif"
+          icon       : states.active ? "widget/window/close.gif" : "widget/window/close-inactive.gif"
         }
       }
     },
@@ -1274,7 +1270,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
           padding         : [ 2, 6 ],
           spacing         : 4,
           backgroundColor : states.over ? "list-view-header-cell-hover" : "undefined",
-          backgroundImage : "widget/gradient/button_gradient.png",
+          backgroundImage : "widget/gradient/button.png",
           paddingBottom   : states.over ? 0 : 2,
           border          : states.over ? qx.legacy.ui.core.Border.fromConfig({ bottom : [ 2, "solid", "list-view-header-border-hover" ] }) : "undefined"
         };
@@ -1790,7 +1786,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         return {
           backgroundColor : "general-border",
           cursor          : states.horizontal ? "col-resize" : "row-resize",
-          backgroundImage : states.horizontal ? "widget/gradient/splitter_horizontal_gradient.png" : "widget/gradient/splitter_vertical_gradient.png"
+          backgroundImage : states.horizontal ? "widget/gradient/splitter-horizontal.png" : "widget/gradient/splitter-vertical.png"
         };
       }
     },
