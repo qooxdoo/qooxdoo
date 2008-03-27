@@ -134,6 +134,7 @@ qx.Class.define("qx.bom.Label",
         var xulel = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 
         xulel.style.display = "block";
+        xulel.style.cursor = "inherit";
         xulel.setAttribute("crop", "end");
 
         el.appendChild(xulel);
@@ -184,7 +185,6 @@ qx.Class.define("qx.bom.Label",
       }
 
       styles.userSelect = "none";
-      styles.cursor = "default";
 
       return styles;
     },
