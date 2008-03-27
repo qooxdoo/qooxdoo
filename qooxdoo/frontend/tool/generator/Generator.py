@@ -577,9 +577,6 @@ class Generator:
         # resourceList = [[file1,uri1],[file2,uri2],...]
         for resource in [x for x in resourceList if imgpatt.search(x[0])]:
             # resource = [path, uri]
-            if format:
-                result += "\n"
-            
             imageInfo         = self._imageInfo.getImageInfo(resource[0])
             # imageInfo = {width, height, filetype}
             if not 'width' in imageInfo or not 'height' in imageInfo or not 'filetype' in imageInfo:
