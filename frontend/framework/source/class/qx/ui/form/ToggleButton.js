@@ -217,18 +217,13 @@ qx.Class.define("qx.ui.form.ToggleButton",
     {
       this.releaseCapture();
 
-      var hasPressed = this.hasState("pressed");
-      var hasAbandoned = this.hasState("abandoned");
-
-      if (!hasAbandoned && hasPressed) {
-        this.removeState("pressed");
-      }
-
-      if (hasAbandoned) {
+      if (this.hasState("abandoned")) {
         this.removeState("abandoned");
-      } else if (hasPressed) {
+      } else if (this.hasState("pressed")) {
         this.toggleChecked();
       }
+
+      this.removeState("pressed");
     },
 
 
