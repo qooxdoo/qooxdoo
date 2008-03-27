@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
     main: function()
     {
       this.base(arguments);
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Contemporary);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       var layout = new qx.ui.layout.Grid();
       layout.setColumnAlign(0, "right", "top");
