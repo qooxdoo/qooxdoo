@@ -982,19 +982,19 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
               // ... then if this is also the last (i.e. only) child, use no tree
               // lines; otherwise, use descender lines but no ascender.
               if (this.isLastChild() || vExclude === true) {
-                return this.getOpen() ? "only_minus" : "only_plus";
+                return this.getOpen() ? "only-minus" : "only-plus";
               } else {
-                return this.getOpen() ? "start_minus" : "start_plus";
+                return this.getOpen() ? "start-minus" : "start-plus";
               }
             }
           }
 
           if (vExclude === true) {
-            return this.getOpen() ? "only_minus" : "only_plus";
+            return this.getOpen() ? "only-minus" : "only-plus";
           } else if (this.isLastChild()) {
-            return this.getOpen() ? "end_minus" : "end_plus";
+            return this.getOpen() ? "end-minus" : "end-plus";
           } else {
-            return this.getOpen() ? "cross_minus" : "cross_plus";
+            return this.getOpen() ? "cross-minus" : "cross-plus";
           }
         }
         else if (vUseTreeLines && !(vExclude === true))
