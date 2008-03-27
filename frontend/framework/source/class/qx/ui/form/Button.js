@@ -29,7 +29,7 @@
  *
  * @appearance button
  * @state abandoned
- * @state over
+ * @state hovered
  * @state pressed
  */
 qx.Class.define("qx.ui.form.Button",
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.form.Button",
     /**
      * Listener method for "mouseover" event
      * <ul>
-     * <li>Adds state "over"</li>
+     * <li>Adds state "hovered"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
@@ -114,14 +114,14 @@ qx.Class.define("qx.ui.form.Button",
         this.addState("pressed");
       }
 
-      this.addState("over");
+      this.addState("hovered");
     },
 
 
     /**
      * Listener method for "mouseout" event
      * <ul>
-     * <li>Removes "over" state</li>
+     * <li>Removes "hovered" state</li>
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
      * </ul>
      *
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.form.Button",
         return;
       }
 
-      this.removeState("over");
+      this.removeState("hovered");
 
       if (this.hasState("pressed"))
       {
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.form.Button",
      * <ul>
      * <li>Removes "pressed" state (if set)</li>
      * <li>Removes "abandoned" state (if set)</li>
-     * <li>Adds "over" state (if "abandoned" state is not set)</li>
+     * <li>Adds "hovered" state (if "abandoned" state is not set)</li>
      *</ul>
      *
      * @type member
@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.form.Button",
       }
       else
       {
-        this.addState("over");
+        this.addState("hovered");
 
         if (hasPressed) {
           this.execute();

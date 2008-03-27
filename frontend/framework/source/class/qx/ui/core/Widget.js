@@ -1896,6 +1896,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!this.__states[state])
       {
+        this.debug("Add state: " + state);
         this.__states[state] = true;
         qx.ui.core.queue.Appearance.add(this);
       }

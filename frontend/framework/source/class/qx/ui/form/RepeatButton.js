@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     /**
      * Listener method for "mouseover" event
      * <ul>
-     * <li>Adds state "over"</li>
+     * <li>Adds state "hovered"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
@@ -199,14 +199,14 @@ qx.Class.define("qx.ui.form.RepeatButton",
         this.__timer.start();
       }
 
-      this.addState("over");
+      this.addState("hovered");
     },
 
 
     /**
      * Listener method for "mouseout" event
      * <ul>
-     * <li>Removes "over" state</li>
+     * <li>Removes "hovered" state</li>
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
      * </ul>
      *
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
         return;
       }
 
-      this.removeState("over");
+      this.removeState("hovered");
 
       if (this.hasState("pressed")) {
         this.removeState("pressed");
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
       this.releaseCapture();
 
       if (!this.hasState("abandoned")) {
-        this.addState("over");
+        this.addState("hovered");
         if (this.hasState("pressed") && !this.__executed) {
           this.execute();
         }

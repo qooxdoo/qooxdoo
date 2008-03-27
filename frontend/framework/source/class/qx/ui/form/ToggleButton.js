@@ -26,7 +26,7 @@
  *
  * @appearance button
  * @state abandoned
- * @state over
+ * @state hovered
  * @state pressed
  * @state checked
  */
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     /**
      * Listener method for "mouseover" event.
      * <ul>
-     * <li>Adds state "over"</li>
+     * <li>Adds state "hovered"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         return;
       }
 
-      this.addState("over");
+      this.addState("hovered");
 
       if (this.hasState("abandoned"))
       {
@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     /**
      * Listener method for "mouseout" event.
      * <ul>
-     * <li>Removes "over" state</li>
+     * <li>Removes "hovered" state</li>
      * <li>Adds "abandoned" state (if "pressed" state is set)</li>
      * <li>Removes "pressed" state (if "pressed" state is set and button is not checked)
      * </ul>
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         return;
       }
 
-      this.removeState("over");
+      this.removeState("hovered");
 
       if (this.hasState("pressed"))
       {

@@ -91,10 +91,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-pressed";
         }else if (states.over) {
           decorator = "button-over";
-        } else if (states["default"] && states.focused) {
-          decorator = "button-default-focused";
-        } else if (states["default"]) {
-          decorator = "button-default";
+        } else if (states.preselected && states.focused) {
+          decorator = "button-preselected-focused";
+        } else if (states.preselected) {
+          decorator = "button-preselected";
         } else if (states.focused) {
           decorator = "button-focused";
         } else {
