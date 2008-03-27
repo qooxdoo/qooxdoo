@@ -62,14 +62,14 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
     preloader.create(uri + "line.gif");
     preloader.create(uri + "minus.gif");
     preloader.create(uri + "plus.gif");
-    preloader.create(uri + "only_minus.gif");
-    preloader.create(uri + "only_plus.gif");
-    preloader.create(uri + "start_minus.gif");
-    preloader.create(uri + "start_plus.gif");
-    preloader.create(uri + "end_minus.gif");
-    preloader.create(uri + "end_plus.gif");
-    preloader.create(uri + "cross_minus.gif");
-    preloader.create(uri + "cross_plus.gif");
+    preloader.create(uri + "only-minus.gif");
+    preloader.create(uri + "only-plus.gif");
+    preloader.create(uri + "start-minus.gif");
+    preloader.create(uri + "start-plus.gif");
+    preloader.create(uri + "end-minus.gif");
+    preloader.create(uri + "end-plus.gif");
+    preloader.create(uri + "cross-minus.gif");
+    preloader.create(uri + "cross-plus.gif");
     preloader.create(uri + "end.gif");
     preloader.create(uri + "cross.gif");
     preloader.create(uri + "line.gif");
@@ -397,15 +397,15 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
             {
               // ... then use no tree lines.
               return (node.bOpened
-                      ? this.WIDGET_TREE_URI + "only_minus.gif"
-                      : this.WIDGET_TREE_URI + "only_plus.gif");
+                      ? this.WIDGET_TREE_URI + "only-minus.gif"
+                      : this.WIDGET_TREE_URI + "only-plus.gif");
             }
             else
             {
               // otherwise, use descender lines but no ascender.
               return (node.bOpened
-                      ? this.WIDGET_TREE_URI + "start_minus.gif"
-                      : this.WIDGET_TREE_URI + "start_plus.gif");
+                      ? this.WIDGET_TREE_URI + "start-minus.gif"
+                      : this.WIDGET_TREE_URI + "start-plus.gif");
             }
           }
 
@@ -416,15 +416,15 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
             // Yup.  Return an ending plus or minus, or blank if node.bOpened
             // so indicates.
             return (node.bOpened
-                    ? this.WIDGET_TREE_URI + "end_minus.gif"
-                    : this.WIDGET_TREE_URI + "end_plus.gif");
+                    ? this.WIDGET_TREE_URI + "end-minus.gif"
+                    : this.WIDGET_TREE_URI + "end-plus.gif");
           }
 
           // Otherwise, return a crossing plus or minus, or a blank if
           // node.bOpened so indicates.
           return (node.bOpened
-                  ? this.WIDGET_TREE_URI + "cross_minus.gif"
-                  : this.WIDGET_TREE_URI + "cross_plus.gif");
+                  ? this.WIDGET_TREE_URI + "cross-minus.gif"
+                  : this.WIDGET_TREE_URI + "cross-plus.gif");
         }
       }
 

@@ -796,7 +796,7 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
         if (!vUseTreeLines) {
           return this.getOpen() ? "minus" : "plus";
         } else {
-          return this.getOpen() ? "only_minus" : "only_plus";
+          return this.getOpen() ? "only-minus" : "only-plus";
         }
       }
       else
