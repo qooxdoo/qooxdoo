@@ -296,7 +296,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/up_small.gif"
+          icon : "decoration/arrows/up-small.gif"
         }
       }
     },
@@ -308,7 +308,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down_small.gif"
+          icon : "decoration/arrows/down-small.gif"
         };
       }
     },
@@ -363,8 +363,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : states.horizontal
-            ? "decoration/arrows/left_small.gif"
-            : "decoration/arrows/up_small.gif",
+            ? "decoration/arrows/left-small.gif"
+            : "decoration/arrows/up-small.gif",
           align : states.horizontal ? "left" : "top"
         }
       }
@@ -378,8 +378,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : states.horizontal
-            ? "decoration/arrows/right_small.gif"
-            : "decoration/arrows/down_small.gif"
+            ? "decoration/arrows/right-small.gif"
+            : "decoration/arrows/down-small.gif"
         }
       }
     },
