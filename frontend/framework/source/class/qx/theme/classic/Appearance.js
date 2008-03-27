@@ -183,25 +183,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var icon;
         if (states.checked && states.focus) {
-          icon = "Checkbox-checked-focus";
+          icon = "checkbox-checked-focus";
         } else if (states.checked && states.disabled) {
-          icon = "Checkbox-checked-disabled";
+          icon = "checkbox-checked-disabled";
         } else if (states.checked && states.pressed) {
-          icon = "Checkbox-checked-pressed";
+          icon = "checkbox-checked-pressed";
         } else if (states.checked && states.over) {
-          icon = "Checkbox-checked-over";
+          icon = "checkbox-checked-over";
         } else if (states.checked) {
-          icon = "Checkbox-checked-normal";
+          icon = "checkbox-checked-normal";
         } else if (states.disabled) {
-          icon = "Checkbox-unchecked-disabled";
+          icon = "checkbox-disabled";
         } else if (states.focus) {
-          icon = "Checkbox-unchecked-focus";
+          icon = "checkbox-focus";
         } else if (states.pressed) {
-          icon = "Checkbox-unchecked-pressed";
+          icon = "checkbox-pressed";
         } else if (states.over) {
-          icon = "Checkbox-unchecked-over";
+          icon = "checkbox-over";
         } else {
-          icon = "Checkbox-unchecked-normal";
+          icon = "checkbox-normal";
         }
 
         return {
@@ -221,25 +221,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var icon;
         if (states.checked && states.focus) {
-          icon = "Radio-checked-focus";
+          icon = "radio-checked-focus";
         } else if (states.checked && states.disabled) {
-          icon = "Radio-checked-disabled";
+          icon = "radio-checked-disabled";
         } else if (states.checked && states.pressed) {
-          icon = "Radio-checked-pressed";
+          icon = "radio-checked-pressed";
         } else if (states.checked && states.over) {
-          icon = "Radio-checked-over";
+          icon = "radio-checked-over";
         } else if (states.checked) {
-          icon = "Radio-checked-normal";
+          icon = "radio-checked-normal";
         } else if (states.disabled) {
-          icon = "Radio-unchecked-disabled";
+          icon = "radio-disabled";
         } else if (states.focus) {
-          icon = "Radio-unchecked-focus";
+          icon = "radio-focus";
         } else if (states.pressed) {
-          icon = "Radio-unchecked-pressed";
+          icon = "radio-pressed";
         } else if (states.over) {
-          icon = "Radio-unchecked-over";
+          icon = "radio-over";
         } else {
-          icon = "Radio-unchecked-normal";
+          icon = "radio-normal";
         }
 
         return {
