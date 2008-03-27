@@ -311,10 +311,10 @@ qx.Class.define("qx.bom.Label",
       } else {
         element.textContent = text;
       }
-      
+
       var width = element.clientWidth;
       var height = element.clientHeight;
-      
+
       if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         // Under Mac at least with Firefox 3.0 alpha 6 and earlier
@@ -325,7 +325,7 @@ qx.Class.define("qx.bom.Label",
           width++;
         }
       }
-      
+
 
       // compute size and return
       return {
