@@ -618,8 +618,8 @@ qx.Class.define("qx.core.Object",
      DEFER
   *****************************************************************************
   */
-  
-  defer : function(statics) 
+
+  defer : function(statics)
   {
     // add asserts into each debug build
     if (qx.core.Variant.isSet("qx.debug", "on")) {
