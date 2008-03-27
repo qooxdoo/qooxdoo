@@ -92,14 +92,14 @@ def add_file(file, config):
 
 def process_buttons(config):
     files = [
-        "Button-Checked-Fokus",
-        "Button-Checked",
-        "Button-Default-Fokus",
-        "Button-Default",
-        "Button-Hover",
-        "Button-Normal-Fokus",
-        "Button-Normal",
-        "Button-Pressed"
+        "button-checked-focus",
+        "button-checked",
+        "button-preselected-focus",
+        "button-preselected",
+        "button-pressed",
+        "button-hover",
+        "button-focus",
+        "button"
     ]
 
     for file in files:
@@ -110,36 +110,37 @@ def process_buttons(config):
     for file in files:
         for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
             clips.append("button/%s-%s.png" % (file, suffix))
-    combine_images(clips, "button/Button-Combined.png", False, config)
+    combine_images(clips, "button-tb-combined.png", False, config)
 
     clips = []
     for file in files:
         for suffix in ["l", "r"]:
             clips.append("button/%s-%s.png" % (file, suffix))
-    combine_images(clips, "button/Button-Combined-Center.png", True, config)
+    combine_images(clips, "button-lr-combined.png", True, config)
 
     for file in files:
-        add_file("button/%s-c.png" % file, config)
+        add_file("form/%s-c.png" % file, config)
 
 
 def process_panes(config):
-    split_grid("Pane", "source", "pane", 6)
+    split_grid("pane", "source", "pane", 6)
     clips = []
     for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
-        clips.append("pane/%s-%s.png" % ("Pane", suffix))
-    combine_images(clips, "pane/Pane-Combined.png", False, config)
+        clips.append("pane/%s-%s.png" % ("pane", suffix))
+    combine_images(clips, "pane-tb-combined.png", False, config)
 
     clips = []
     for suffix in ["l", "r"]:
-        clips.append("pane/%s-%s.png" % ("Pane", suffix))
-    combine_images(clips, "pane/Pane-Combined-Center.png", True, config)
+        clips.append("pane/%s-%s.png" % ("pane", suffix))
+    combine_images(clips, "pane-lr-combined.png", True, config)
 
-    add_file("pane/Pane-c.png", config)
+    add_file("pane/pane-c.png", config)
 
 
-def process_form(config):
-    files = glob.glob("form/*.png")
-    combine_images(files, "form/Form-Combined.png", True, config)
+def process_checkradio(config):
+    files = glob.glob("form/checkbox-*.png") + glob.glob("form/radiobutton-*.png")
+    combine_images(files, "checkradio-combined.png", True, config)
+
 
 
 def main():
