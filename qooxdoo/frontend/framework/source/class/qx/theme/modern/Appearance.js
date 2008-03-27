@@ -83,22 +83,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var base = "decoration/";
         var decorator;
 
-        if (states.checked && states.focus) {
-          decorator = "button-checked-focus";
+        if (states.checked && states.focused) {
+          decorator = "button-checked-focused";
         } else if (states.checked) {
           decorator = "button-checked";
         } else if (states.pressed) {
           decorator = "button-pressed";
         }else if (states.over) {
           decorator = "button-over";
-        } else if (states["default"] && states.focus) {
-          decorator = "button-default-focus";
+        } else if (states["default"] && states.focused) {
+          decorator = "button-default-focused";
         } else if (states["default"]) {
           decorator = "button-default";
-        } else if (states.focus) {
-          decorator = "button-normal-focus";
+        } else if (states.focused) {
+          decorator = "button-focused";
         } else {
-          decorator = "button-normal";
+          decorator = "button";
         }
 
         return {
@@ -106,7 +106,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textColor: "black",
           font: "default",
           decorator: decorator
-        }
+        };
       }
     },
 
@@ -124,7 +124,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator: states.focus ? "textfield-focus" : "textfield-normal",
+          decorator: states.focused ? "textfield-focused" : "textfield",
           padding: [ 1, 3 ],
           textColor: states.disabled ? "text-disabled" : "input-text",
           backgroundColor: "white"
