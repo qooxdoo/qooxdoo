@@ -87,7 +87,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.over ? "button-hover" : "button",
+          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : "button",
           decorator : decorator,
           padding : padding
         };
@@ -182,26 +182,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var icon;
-        if (states.checked && states.focus) {
-          icon = "checkbox-checked-focus";
+        if (states.checked && states.focused) {
+          icon = "checkbox-checked-focused";
         } else if (states.checked && states.disabled) {
           icon = "checkbox-checked-disabled";
         } else if (states.checked && states.pressed) {
           icon = "checkbox-checked-pressed";
-        } else if (states.checked && states.over) {
-          icon = "checkbox-checked-over";
+        } else if (states.checked && states.hovered) {
+          icon = "checkbox-checked-hovered";
         } else if (states.checked) {
-          icon = "checkbox-checked-normal";
+          icon = "checkbox-checked";
         } else if (states.disabled) {
           icon = "checkbox-disabled";
-        } else if (states.focus) {
-          icon = "checkbox-focus";
+        } else if (states.focused) {
+          icon = "checkbox-focused";
         } else if (states.pressed) {
           icon = "checkbox-pressed";
-        } else if (states.over) {
-          icon = "checkbox-over";
+        } else if (states.hovered) {
+          icon = "checkbox-hovered";
         } else {
-          icon = "checkbox-normal";
+          icon = "checkbox";
         }
 
         return {
@@ -220,26 +220,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var icon;
-        if (states.checked && states.focus) {
-          icon = "radio-checked-focus";
+        if (states.checked && states.focused) {
+          icon = "radiobutton-checked-focused";
         } else if (states.checked && states.disabled) {
-          icon = "radio-checked-disabled";
+          icon = "radiobutton-checked-disabled";
         } else if (states.checked && states.pressed) {
-          icon = "radio-checked-pressed";
-        } else if (states.checked && states.over) {
-          icon = "radio-checked-over";
+          icon = "radiobutton-checked-pressed";
+        } else if (states.checked && states.hovered) {
+          icon = "radiobutton-checked-hovered";
         } else if (states.checked) {
-          icon = "radio-checked-normal";
+          icon = "radiobutton-checked";
         } else if (states.disabled) {
-          icon = "radio-disabled";
-        } else if (states.focus) {
-          icon = "radio-focus";
+          icon = "radiobutton-disabled";
+        } else if (states.focused) {
+          icon = "radiobutton-focused";
         } else if (states.pressed) {
-          icon = "radio-pressed";
-        } else if (states.over) {
-          icon = "radio-over";
+          icon = "radiobutton-pressed";
+        } else if (states.hovered) {
+          icon = "radiobutton-hovered";
         } else {
-          icon = "radio-normal";
+          icon = "radiobutton";
         }
 
         return {
