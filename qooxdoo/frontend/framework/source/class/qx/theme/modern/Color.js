@@ -19,11 +19,11 @@
 ************************************************************************ */
 
 /**
- * Contemporary color theme
+ * Modern color theme
  */
-qx.Theme.define("qx.theme.contemporary.Color",
+qx.Theme.define("qx.theme.modern.Color",
 {
-  title : "Contemporary",
+  title : "Modern",
 
   colors :
   {

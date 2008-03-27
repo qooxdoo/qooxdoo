@@ -19,11 +19,11 @@
 ************************************************************************* */
 
 /**
- * The Contemporary font theme.
+ * The modern font theme.
  */
-qx.Theme.define("qx.theme.contemporary.Font",
+qx.Theme.define("qx.theme.modern.Font",
 {
-  title : "Contemporary",
+  title : "Modern",
 
   fonts :
   {

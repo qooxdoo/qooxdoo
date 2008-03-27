@@ -21,7 +21,7 @@
 /**
  * Temporary class until the image information is generated automatically
  */
-qx.Class.define("qx.theme.contemporary.Sprites",
+qx.Class.define("qx.theme.modern.Sprites",
 {
   statics :
   {
@@ -139,7 +139,7 @@ qx.Class.define("qx.theme.contemporary.Sprites",
 
   defer : function(statics)
   {
-    var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary/";
+    var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Modern/";
     var mgr = qx.util.ImageRegistry.getInstance();
 
     for (var image in statics.__data)
