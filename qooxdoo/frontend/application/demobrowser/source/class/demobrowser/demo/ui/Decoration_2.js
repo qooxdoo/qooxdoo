@@ -27,6 +27,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       var containerLayout = new qx.ui.layout.HBox();
       containerLayout.setSpacing(10);
@@ -38,26 +39,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       this.getRoot().add(container, 0, 0);
 
 
-      // Fill registry
-      var mgr = qx.util.ImageRegistry.getInstance();
-      var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/grid_decoration/"
-
-      mgr.register(base + "button-tl.png", base + "button-combined.png", 0, 0, 2, 2);
-      mgr.register(base + "button-tr.png", base + "button-combined.png", 0, -2, 2, 2);
-      mgr.register(base + "button-br.png", base + "button-combined.png", 0, -4, 2, 2);
-      mgr.register(base + "button-bl.png", base + "button-combined.png", 0, -6, 2, 2);
-      mgr.register(base + "button-t.png", base + "button-combined.png", 0, -8, 2, 2);
-      mgr.register(base + "button-b.png", base + "button-combined.png", 0, -10, 2, 2);
-
-      mgr.register(base + "button-l.png", base + "button-center-combined.png", 0, 0, 2, 16);
-      mgr.register(base + "button-c.png", base + "button-c.png", 0, 0, 2, 16);
-      mgr.register(base + "button-r.png", base + "button-center-combined.png", -2, 0, 2, 16);
-
-
-
-
       // Grid 1
-      var deco1 = new qx.ui.decoration.Grid(base + "button.png");
+      var deco1 = new qx.ui.decoration.Grid("decoration/form/button.png");
 
       var widget1 = new qx.ui.core.Widget();
       widget1.setWidth(200);
@@ -74,7 +57,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
 
       // Beveled 1
       var deco2 = new qx.ui.decoration.Beveled("#2D405A", "white");
-      deco2.setBackgroundImage(base + "button-c.png");
+      deco2.setBackgroundImage("decoration/form/button-c.png");
       deco2.setInnerOpacity(0.15);
 
       var widget2 = new qx.ui.core.Widget;
