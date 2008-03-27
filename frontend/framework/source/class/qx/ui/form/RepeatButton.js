@@ -32,18 +32,25 @@ qx.Class.define("qx.ui.form.RepeatButton",
 {
   extend : qx.ui.form.Button,
 
+
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
+
   construct : function(label, iconUrl, iconWidth, iconHeight)
   {
     this.base(arguments, label, iconUrl, iconWidth, iconHeight);
+
     // create the timer and add the listener
     this.__timer = new qx.event.Timer(this.getInterval());
     this.__timer.addListener("interval", this._oninterval, this);
   },
+
+
 
 
   /*
@@ -51,16 +58,20 @@ qx.Class.define("qx.ui.form.RepeatButton",
      EVENTS
   *****************************************************************************
   */
-  events: {
+
+  events :
+  {
     /**
      * This event gets dispatched with every interval. The timer gets executed
      * as long as the user holds down the mouse button.
      */
     "execute" : "qx.event.type.Event",
+
     /**
      * This event gets dispatched when the button is pressed.
      */
-    "press" : "qx.event.type.Event",
+    "press"   : "qx.event.type.Event",
+
     /**
      * This event gets dispatched when the button is released.
      */
@@ -68,11 +79,14 @@ qx.Class.define("qx.ui.form.RepeatButton",
   },
 
 
+
+
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
+
   properties :
   {
     /**
@@ -82,7 +96,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     interval :
     {
       check : "Integer",
-      init : 100
+      init  : 100
     },
 
 
@@ -94,25 +108,25 @@ qx.Class.define("qx.ui.form.RepeatButton",
     firstInterval :
     {
       check : "Integer",
-      init : 500
+      init  : 500
     },
-
 
     /** This configures the minimum value for the timer interval. */
     minTimer :
     {
       check : "Integer",
-      init : 20
+      init  : 20
     },
-
 
     /** Decrease of the timer on each interval (for the next interval) until minTimer reached. */
     timerDecrease :
     {
       check : "Integer",
-      init : 2
+      init  : 2
     }
   },
+
+
 
 
   /*
@@ -120,24 +134,29 @@ qx.Class.define("qx.ui.form.RepeatButton",
      MEMBERS
   *****************************************************************************
   */
+
   members :
   {
-
     /**
      * Calling this function is like a click from the user on the
      * button with all consequences.
      * <span style='color: red'>Be shure to call the {@link #release} function.</span>
      *
      * @type member
+     * @return {void}
      */
-    press: function() {
+    press : function()
+    {
       // only if the button is enabeld
-      if (this.isEnabled()) {
+      if (this.isEnabled())
+      {
         // if the state pressed must be applied (first call)
-        if (!this.hasState("pressed")) {
+        if (!this.hasState("pressed"))
+        {
           // start the timer
           this.__startInternalTimer();
         }
+
         // set the states
         this.removeState("abandoned");
         this.addState("pressed");
@@ -152,19 +171,25 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * this function.
      *
      * @type member
+     * @return {void}
      */
-    release: function() {
+    release : function()
+    {
       // only if the button is enabled
-      if (this.isEnabled()) {
+      if (this.isEnabled())
+      {
         // only if the button is pressed
-        if (this.hasState("pressed")) {
+        if (this.hasState("pressed"))
+        {
           // if the button hast not been executed
           if (!this.__executed) {
             this.execute();
           }
+
           // set the button the the reight states
           this.removeState("pressed");
           this.removeState("abandoned");
+
           // stopp the repeat timer and therefore the execution
           this.__stopInternalTimer();
         }
@@ -172,11 +197,14 @@ qx.Class.define("qx.ui.form.RepeatButton",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
+
     /**
      * Listener method for "mouseover" event
      * <ul>
@@ -186,6 +214,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} Mouse event
+     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -193,7 +222,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
         return;
       }
 
-      if (this.hasState("abandoned")) {
+      if (this.hasState("abandoned"))
+      {
         this.removeState("abandoned");
         this.addState("pressed");
         this.__timer.start();
@@ -212,6 +242,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} Mouse event
+     * @return {void}
      */
     _onmouseout : function(e)
     {
@@ -221,7 +252,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
       this.removeState("hovered");
 
-      if (this.hasState("pressed")) {
+      if (this.hasState("pressed"))
+      {
         this.removeState("pressed");
         this.addState("abandoned");
         this.__timer.stop();
@@ -231,13 +263,15 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * Callback method for the "mouseDown" method.<br/>
+     * Callback method for the "mouseDown" method.
+     *
      * Sets the interval of the timer (value of firstInterval property) and
      * starts the timer. Additionally removes the state "abandoned" and adds the
      * state "pressed".
      *
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseDown event
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -254,20 +288,24 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * Callback method for the "mouseUp" event.<br/>
+     * Callback method for the "mouseUp" event.
+     *
      * Handles the case that the user is releasing the mouse button
      * before the timer interval method got executed. This way the
      * "execute" method get executed at least one time.
      *
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseUp event
+     * @return {void}
      */
-    _onmouseup : function(e) {
-
+    _onmouseup : function(e)
+    {
       this.releaseCapture();
 
-      if (!this.hasState("abandoned")) {
+      if (!this.hasState("abandoned"))
+      {
         this.addState("hovered");
+
         if (this.hasState("pressed") && !this.__executed) {
           this.execute();
         }
@@ -278,13 +316,15 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * Listener method for "keyup" event.<br/>
+     * Listener method for "keyup" event.
+     *
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
      * for the keys "Enter" or "Space" and stopps the internal timer
      * (same like mouse up).
      *
      * @type member
      * @param e {Event} Key event
+     * @return {void}
      */
     _onkeyup : function(e)
     {
@@ -292,10 +332,12 @@ qx.Class.define("qx.ui.form.RepeatButton",
       {
         case "Enter":
         case "Space":
-          if (this.hasState("pressed")) {
+          if (this.hasState("pressed"))
+          {
             if (!this.__executed) {
               this.execute();
             }
+
             this.removeState("pressed");
             this.removeState("abandoned");
             e.stopPropagation();
@@ -306,7 +348,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * Listener method for "keydown" event.<br/>
+     * Listener method for "keydown" event.
+     *
      * Removes "abandoned" and adds "pressed" state
      * for the keys "Enter" or "Space". It also starts
      * the internal timer (same like mousedown).
@@ -315,7 +358,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {Event} Key event
      * @return {void}
      */
-    _onkeydown: function(e) {
+    _onkeydown : function(e)
+    {
       switch(e.getKeyIdentifier())
       {
         case "Enter":
@@ -329,7 +373,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * Callback for the interval event.<br/>
+     * Callback for the interval event.
+     *
      * Stops the timer and starts it with a new interval
      * (value of the "interval" property - value of the "timerDecrease" property).
      * Dispatches the "execute" event.
@@ -338,22 +383,29 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
-    _oninterval : function(e) {
+    _oninterval : function(e)
+    {
       this.__timer.stop();
 
       // if the current interval is not set
-      if (this._currentInterval == null) {
+      if (this._currentInterval == null)
+      {
         // set the current interval to the given interval
         this._currentInterval = this.getInterval();
       }
+
       // reduce the current interval
       this._currentInterval = (Math.max(this.getMinTimer(), this._currentInterval - this.getTimerDecrease()));
+
       // restert the timer
       this.__timer.restartWith(this._currentInterval);
+
       // fire the execute event
       this.__executed = true;
       this.fireEvent("execute");
     },
+
+
 
 
     /*
@@ -361,6 +413,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
       INTERNAL TIMER
     ---------------------------------------------------------------------------
     */
+
     /**
      * Starts the internal timer which causes firing of execution
      * events in an interval. It also presses the button.
@@ -368,7 +421,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @type member
      * @return {void}
      */
-    __startInternalTimer: function() {
+    __startInternalTimer : function()
+    {
       this.fireEvent("press");
 
       this.__executed = false;
@@ -383,8 +437,12 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
     /**
      * Stops the internal timer and releases the button.
+     *
+     * @type member
+     * @return {void}
      */
-    __stopInternalTimer: function() {
+    __stopInternalTimer : function()
+    {
       this.fireEvent("release");
 
       this.__timer.stop();
@@ -397,11 +455,13 @@ qx.Class.define("qx.ui.form.RepeatButton",
   },
 
 
+
+
   /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
+    *****************************************************************************
+       DESTRUCTOR
+    *****************************************************************************
+    */
 
   destruct : function() {
     this._disposeObjects("__timer");
