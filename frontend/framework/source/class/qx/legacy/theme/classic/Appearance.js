@@ -23,8 +23,10 @@
 /* ************************************************************************
 
 #ignore(auto-use)
-#embed(qx.static/image/dotted_white.gif)
+
+# Core
 #embed(qx.static/image/blank.gif)
+#embed(qx.widgettheme/core/dotted-white.gif)
 
 # Window
 #embed(qx.widgettheme/window/*)
@@ -163,7 +165,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
     {
       style : function(states)
       {
-        // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
+        // You could also use: "decoration/core/dotted-white.gif" for example as backgroundImage here
         // (Visible) background tiles could be dramatically slow down mshtml!
         // A background image or color is always needed for mshtml to block the events successfully.
         return {
@@ -345,7 +347,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
           padding : padding,
           verticalChildrenAlign : "middle",
           backgroundColor       : states.abandoned ? "button-abandoned" : "button",
-          backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
+          backgroundImage       : states.checked && !states.over ? "decoration/core/dotted-white.gif" : null
         };
       }
     },
@@ -1595,7 +1597,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
         var result =
         {
           backgroundColor : states.abandoned ? "button-abandoned" : "button",
-          backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null,
+          backgroundImage : (states.checked && !states.over) ? "decoration/core/dotted-white.gif" : null,
           spacing : 4,
           width : "auto",
           verticalChildrenAlign : "middle"
