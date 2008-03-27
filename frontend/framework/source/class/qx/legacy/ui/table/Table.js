@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#embed(qx.widgettheme/table/selectColumnOrder.png)
+#embed(qx.widgettheme/table/select-column-order.png)
 
 ************************************************************************ */
 

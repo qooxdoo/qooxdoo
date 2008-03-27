@@ -32,8 +32,8 @@
 #embed(qx.widgettheme/arrows/down.gif)
 
 # Spinner
-#embed(qx.widgettheme/arrows/up_small.gif)
-#embed(qx.widgettheme/arrows/down_small.gif)
+#embed(qx.widgettheme/arrows/up-small.gif)
+#embed(qx.widgettheme/arrows/down-small.gif)
 
 # ListView (HeaderCell)
 #embed(qx.widgettheme/arrows/up.gif)
@@ -1493,7 +1493,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         return {
           padding : [ 3, 4, 2 ],
           border  : border,
-          source : "widget/arrows/up_small.gif"
+          source : "widget/arrows/up-small.gif"
         }
       }
     },
@@ -1512,7 +1512,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         return {
           padding : [ 4, 4, 1 ],
           border  : border,
-          source  : "widget/arrows/down_small.gif"
+          source  : "widget/arrows/down-small.gif"
         };
       }
     },
@@ -1715,7 +1715,7 @@ qx.Theme.define("qx.legacy.theme.ext.Appearance",
         return {
           cursor                : "default",
           verticalChildrenAlign : "middle",
-          icon                  : "widget/table/selectColumnOrder.png",
+          icon                  : "widget/table/select-column-order.png",
           padding               : [ 0, 4, 0, 3 ],
           border                : border
         };

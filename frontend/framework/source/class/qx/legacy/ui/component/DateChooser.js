@@ -73,11 +73,11 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
       spacing : 1
     });
 
-    var lastYearBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/lastYear.png");
-    var lastMonthBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/lastMonth.png");
+    var lastYearBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/last-year.png");
+    var lastMonthBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/last-month.png");
     var monthYearLabel = new qx.legacy.ui.basic.Label;
-    var nextMonthBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
-    var nextYearBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
+    var nextMonthBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/next-month.png");
+    var nextYearBt = new qx.legacy.ui.toolbar.Button(null, "widget/datechooser/next-year.png");
 
     lastYearBt.set(
     {
