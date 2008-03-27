@@ -21,7 +21,7 @@
 /**
  * Keyhandler test converted to use the low level event API.
  */
-qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
+qx.Class.define("demobrowser.demo.bom.KeyEventLowLevel_1",
 {
   extend : qx.application.Native,
 
@@ -31,11 +31,15 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
     {
       this.base(arguments);
 
+      this.debug(qx.bom.client.Engine.VERSION);
+      this.debug(qx.bom.client.Engine.FULLVERSION);
+
       this.tableHead =
         "<table><tr>" +
         "<th>Event</th>" +
-        "<th>key identifier</th>" +
+        "<th>key code</th>" +
         "<th>char code</th>" +
+        "<th>key identifier</th>" +
         "<th>Shift</th>" +
         "<th>Ctrl</th>" +
         "<th>Alt</th>" +
@@ -46,22 +50,20 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
 
       this.initializeLogger();
 
-      var events = ["keydown", "keypress", "keyup", "keyinput"];
+      var events = ["keydown", "keypress", "keyup"];
       for (var i=0; i<events.length; i++)
       {
-        qx.bom.Element.addListener(
+        qx.bom.Event.addNativeListener(
           document.documentElement,
           events[i],
-          this.logKeyEvent,
-          this
+          qx.lang.Function.bind(this.logKeyEvent, this)
         )
       }
 
-      qx.bom.Element.addListener(
+      qx.bom.Event.addNativeListener(
         document.getElementById("btnClear"),
         "click",
-        this.initializeLogger,
-        this
+        qx.lang.Function.bind(this.initializeLogger, this)
       );
 
     },
@@ -74,15 +76,17 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
 
     logKeyEvent: function(keyEvent)
     {
-      var type = keyEvent.getType();
+      var type = keyEvent.type;
       var eventCopy = {
-        type: keyEvent.getType(),
-        iden: type !== "keyinput" ? keyEvent.getKeyIdentifier() : "",
-        charCode: type == "keyinput" ? String.fromCharCode(keyEvent.getCharCode()) + " (" + keyEvent.getCharCode() + ")" : "",
-        shift: keyEvent.isShiftPressed(),
-        alt: keyEvent.isAltPressed(),
-        ctrl: keyEvent.isCtrlPressed()
+        type: keyEvent.type,
+        keyCode: keyEvent.keyCode,
+        charCode: keyEvent.charCode,
+        keyIdentifier: keyEvent.keyIdentifier || "",
+        shift: keyEvent.shiftKey,
+        control: keyEvent.ctrlKey,
+        alt: keyEvent.altKey
       }
+
       this.keyEvents.unshift(eventCopy);
       this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
       str = [this.tableHead];
@@ -91,9 +95,11 @@ qx.Class.define("demobrowser.demo.bom.KeyEvent_1",
         str.push("<tr><td>");
         str.push(e.type);
         str.push("</td><td>");
-        str.push(e.iden);
+        str.push(e.keyCode);
         str.push("</td><td>");
         str.push(e.charCode);
+        str.push("</td><td>");
+        str.push(e.keyIdentifier);
         str.push("</td><td>");
         str.push(e.shift);
         str.push("</td><td>");
