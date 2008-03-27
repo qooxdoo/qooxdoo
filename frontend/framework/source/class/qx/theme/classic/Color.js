@@ -42,7 +42,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "text-selected" : "white",
 
     "button" : [ 235, 233, 237 ],
-    "button-hover" : [ 246, 245, 247 ],
+    "button-hovered" : [ 246, 245, 247 ],
     "button-abandoned" : [ 249, 248, 233 ]
   }
 });

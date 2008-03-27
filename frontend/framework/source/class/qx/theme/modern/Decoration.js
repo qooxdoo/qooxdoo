@@ -45,30 +45,30 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-normal" :
+    "button" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-normal.png"
+        baseImage : "decoration/form/button.png"
       }
     },
 
-    "button-normal-focus" :
+    "button-focused" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-normal-focus.png"
+        baseImage : "decoration/form/button-focused.png"
       }
     },
 
-    "button-over" :
+    "button-hovered" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-hover.png"
+        baseImage : "decoration/form/button-hovered.png"
       }
     },
 
@@ -90,12 +90,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-ckecked-focus" :
+    "button-ckecked-focused" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-checked-focus.png"
+        baseImage : "decoration/form/button-checked-focused.png"
       }
     },
 
@@ -108,16 +108,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-default-focus" :
+    "button-default-focused" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-default-focus.png"
+        baseImage : "decoration/form/button-default-focused.png"
       }
     },
 
-    "textfield-normal" :
+    "textfield" :
     {
       decorator : qx.ui.decoration.Beveled,
 
@@ -129,7 +129,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "textfield-focus" :
+    "textfield-focused" :
     {
       decorator : qx.ui.decoration.Beveled,
 
