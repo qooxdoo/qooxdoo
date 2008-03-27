@@ -5,7 +5,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Color",
   colors :
   {
     "normal" : "#4A7FDA",
-    "over" : "#6A93DA",
+    "hovered" : "#6A93DA",
     "pressed" : "#6A93DA"
   }
 });

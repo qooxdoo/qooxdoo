@@ -11,7 +11,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Appearance",
         var root = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/";
         return {
           padding: states.pressed ? [11, 10, 9, 10] : 10,
-          backgroundColor: states.pressed ? "pressed" : states.over ? "over" : "normal",
+          backgroundColor: states.pressed ? "pressed" : states.hovered ? "hovered" : "normal",
           font: "large",
           decorator: states.pressed ? "shaded-pressed" : "shaded"
         }
@@ -53,7 +53,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Appearance",
         return {
           width: 126,
           height: 35,
-          backgroundImage: states.pressed ? root + "background/glossy-pressed.png" : states.over ? root + "background/glossy-over.png" : root + "background/glossy.png",
+          backgroundImage: states.pressed ? root + "background/glossy-pressed.png" : states.hovered ? root + "background/glossy-over.png" : root + "background/glossy.png",
           textColor: "#cad1e2",
           padding: [0, 15, 0, 15],
           font: new qx.bom.Font().set({
