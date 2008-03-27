@@ -1,12 +1,17 @@
 {
+  "include" : 
+  [
+    ["apiconf", "../apiviewer/config.json"]
+  ],
+
+
   "jobs" :
   {
     "common" :
     {
       "let" :
       {
-        "ROOT"         : ".",
-        "APPLICATION"  : "apiviewer",
+        "ROOT"         : "."
         "QOOXDOO_PATH" : "../..",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
         "BUILD_PATH"   : "${ROOT}/build"
@@ -27,12 +32,17 @@
         }
       ],
 
+      "include" :
+      [
+        "${APPLICATION}.Application",
+        "qx.legacy.theme.ClassicRoyale"
+      ],
+
       "settings" :
       {
-        "qx.application"  : "${APPLICATION}.Application",
-        "qx.resourceUri"  : "${QOOXDOO_URI}/framework/source/resource",
-        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
-        "qx.version"      : "TODO"
+        "qx.version"                 : "0.8",
+        "qx.application"             : "${APPLICATION}.Application",
+        "${APPLICATION}.resourceUri" : "resource"
       },
 
       "cache" :
@@ -45,16 +55,15 @@
     "source-script" :
     {
       "extend" : ["common"],
-      "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
 
       "settings" :
       {
-        "${APPLICATION}.resourceUri" : "./resource"
+        "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
       },
 
       "source" :
       {
-        "file" : "./source/script/${APPLICATION}.js"
+        "file" : "${ROOT}/source/script/${APPLICATION}.js"
       }
     },
 
@@ -62,9 +71,8 @@
     "source" :
     {
       "run" : 
-      [ 
-        "source-script",
-        "source-data"
+      [
+        "source-script"
       ]
     },
 
@@ -72,11 +80,10 @@
     "build-script" :
     {
       "extend" : ["common"],
-      "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
 
       "settings" :
       {
-        "${APPLICATION}.resourceUri" : "./resource"
+        "qx.resourceUri" : "resource"
       },
 
       "compile" :
@@ -98,8 +105,7 @@
           "index.html"
         ],
 
-        "target" : "${BUILD_PATH}",
-        "source" : "${ROOT}/source"
+        "target" : "${BUILD_PATH}"
       }
     },
 
@@ -110,7 +116,7 @@
 
       "copy-resources" :
       {
-        "target" : "${BUILD_PATH}",
+        "target"          : "${BUILD_PATH}",
         "resource-filter" : true
       }
     },
@@ -122,36 +128,20 @@
       [ 
         "build-resources", 
         "build-script", 
-        "build-files",
-        "build-data"
+        "build-files" 
       ]
     },
 
 
-    "source-data" :
+    "api" :
     {
-      "extend" : ["common"],
-
-      "include" : ["qx.*"],
-
-      "api" :
+      "extend" : ["apiconf/jobs/build"],
+      
+      "let" :
       {
-        "path" : "source/script"
-      }
-    },
-
-
-    "build-data" :
-    {
-      "extend" : ["common"],
-
-      "include" : ["qx.*"],
-
-      "api" :
-      {
-        "path" : "${BUILD_PATH}/script"
+        "ROOT" : "../apiviewer",
+        "BUILD_PATH" : "./api"
       }
     }
   }
 }
-
