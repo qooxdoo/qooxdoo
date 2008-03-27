@@ -89,8 +89,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-checked";
         } else if (states.pressed) {
           decorator = "button-pressed";
-        } else if (states.over) {
-          decorator = "button-over";
+        } else if (states.hovered) {
+          decorator = "button-hovered";
         } else if (states.preselected && states.focused) {
           decorator = "button-preselected-focused";
         } else if (states.preselected) {
