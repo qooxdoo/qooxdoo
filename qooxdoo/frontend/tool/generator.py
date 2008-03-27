@@ -68,38 +68,21 @@ def main():
     console.debug("Jobs: %s" % ", ".join(options.jobs))
     console.outdent()
 
-    # Load from json configuration
-    obj = open(options.config)
-    config = simplejson.loads(obj.read())
-    jobsmap = config['jobs']
-    obj.close()
+    # Load configuration
+    config = Config(console, options.config)
 
     # Resolve "include"-Keys
-    if config.has_key('include'):
-        for cfgfile in config['include']:
-            obj = open(cfgfile[1])
-            econfig = simplejson.loads(obj.read())
-            obj.close()
-            #for ejob in econfig['jobs']:
-            #    _resolveEntry(console, econfig['jobs'], ejob)
-            jobsmap[cfgfile[0]] = econfig # external config becomes namespace'd entry in jobsmap
-
+    config.resolveIncludes()
 
     # Resolve "extend"- and "run"-Keys
-    expandedjobs = options.jobs[:]
-    # while there are still 'run' jobs or unresolved jobs in the job list...
-    while ([x for x in expandedjobs if jobsmap[x].has_key('run')] or 
-           [y for y in expandedjobs if not jobsmap[y].has_key('resolved')]):
-        _resolveExtends(console, jobsmap, expandedjobs)
-        _resolveRuns(console, jobsmap, expandedjobs)
+    expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
     console.debug("Expanded to %s jobs" % len(expandedjobs))
 
     # Resolve "let"-Keys
-    _resolveMacros(console, jobsmap, expandedjobs)
-    # console.debug(simplejson.dumps(jobsmap, separators=(',',':')))
+    config.resolveMacros(expandedjobs)
 
-    # Convert into Config class instance
-    config = Config(jobsmap)
+    # Convert to jobsmap
+    config = Config(console, config.getJobsMap())
 
     # Processing feature sets
     variants, settings, require, use = _executeFeatureSets(console, options)
