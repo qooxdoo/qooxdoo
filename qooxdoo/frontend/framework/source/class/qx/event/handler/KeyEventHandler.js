@@ -47,6 +47,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
   {
     this.base(arguments);
 
+    this._lastUpDownType = {};
+
     // DOM event wrapper
     this.__onkeypress = qx.lang.Function.bind(this._onkeypress, this);
     this.__onkeyupdown = qx.lang.Function.bind(this._onkeyupdown, this);
@@ -124,12 +126,12 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
         domEvent = window.event || domEvent;
 
         var keyCode = domEvent.keyCode;
-        var charcode = 0;
+        var charCode = 0;
         var type = domEvent.type;
 
         // Ignore the down in such sequences dp dp dp
         if (!(this._lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
-          this._idealKeyHandler(keyCode, charcode, type, domEvent);
+          this._idealKeyHandler(keyCode, charCode, type, domEvent);
         }
 
         // On non print-able character be sure to add a keypress event
@@ -138,7 +140,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
             keyCode == 8 ||  // backspace
             keyCode == 9     // tab
           ) {
-            this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
+            this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
           }
         }
 
@@ -174,43 +176,70 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
       "webkit" : function(domEvent)
       {
-        var keyCode = 0;
         var charCode = 0;
         var type = domEvent.type;
 
-        // prevent Safari from sending key signals twice
-        // This bug is fixed in recent Webkit builds so we need a revision check
-        // see http://trac.mochikit.com/ticket/182 for details
-        if (qx.core.Client.getInstance().getVersion() < 420)
+        // starting with Safari 3.1 (verion 525.13) Apple switched the key
+        // handling to match the IE behaviour.
+        if (qx.core.Client.getInstance().getVersion() < 525.13 )
         {
-          if (!this._lastCharCodeForType) {
-            this._lastCharCodeForType = {};
-          }
+          var keyCode = 0;
 
-          var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
-
-          if (isSafariSpecialKey)
+          // prevent Safari from sending key signals twice
+          // This bug is fixed in recent Webkit builds so we need a revision check
+          // see http://trac.mochikit.com/ticket/182 for details
+          if (qx.core.Client.getInstance().getVersion() < 420)
           {
-            this._lastCharCodeForType[type] = null;
-            return;
+            if (!this._lastCharCodeForType) {
+              this._lastCharCodeForType = {};
+            }
+
+            var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
+
+            if (isSafariSpecialKey)
+            {
+              this._lastCharCodeForType[type] = null;
+              return;
+            }
+
+            this._lastCharCodeForType[type] = domEvent.charCode;
           }
 
-          this._lastCharCodeForType[type] = domEvent.charCode;
-        }
+          if (type == "keyup" || type == "keydown") {
+            keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
+          }
+          else
+          {
+            if (this._charCode2KeyCode[domEvent.charCode]) {
+              keyCode = this._charCode2KeyCode[domEvent.charCode];
+            } else {
+              charCode = domEvent.charCode;
+            }
+          }
 
-        if (type == "keyup" || type == "keydown") {
-          keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
+          this._idealKeyHandler(keyCode, charCode, type, domEvent);
         }
         else
         {
-          if (this._charCode2KeyCode[domEvent.charCode]) {
-            keyCode = this._charCode2KeyCode[domEvent.charCode];
-          } else {
-            charCode = domEvent.charCode;
-          }
-        }
+          var keyCode = domEvent.keyCode;
 
-        this._idealKeyHandler(keyCode, charCode, type, domEvent);
+          // Ignore the down in such sequences dp dp dp
+          if (!(this._lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
+            this._idealKeyHandler(keyCode, charCode, type, domEvent);
+          }
+
+          // On non print-able character be sure to add a keypress event
+          if (type == "keydown")
+          {
+            // non-printable, backspace or tab
+            if (this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9) {
+              this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+            }
+          }
+
+          // Store last type
+          this._lastUpDownType[keyCode] = type;
+        }
       },
 
       "opera" : function(domEvent) {
@@ -273,43 +302,56 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
       "webkit" : function(domEvent)
       {
-        var keyCode = 0;
-        var charCode = 0;
-        var type = domEvent.type;
-
-        // prevent Safari from sending key signals twice
-        // This bug is fixed in recent Webkit builds so we need a revision check
-        // see http://trac.mochikit.com/ticket/182 for details
-        if (qx.core.Client.getInstance().getVersion() < 420)
+        // starting with Safari 3.1 (verion 525.13) Apple switched the key
+        // handling to match the IE behaviour.
+        if (qx.core.Client.getInstance().getVersion() < 525.13 )
         {
-          if (!this._lastCharCodeForType) {
-            this._lastCharCodeForType = {};
-          }
+          var keyCode = 0;
+          var charCode = 0;
+          var type = domEvent.type;
 
-          var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
-
-          if (isSafariSpecialKey)
+          // prevent Safari from sending key signals twice
+          // This bug is fixed in recent Webkit builds so we need a revision check
+          // see http://trac.mochikit.com/ticket/182 for details
+          if (qx.core.Client.getInstance().getVersion() < 420)
           {
-            this._lastCharCodeForType[type] = null;
-            return;
+            if (!this._lastCharCodeForType) {
+              this._lastCharCodeForType = {};
+            }
+
+            var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
+
+            if (isSafariSpecialKey)
+            {
+              this._lastCharCodeForType[type] = null;
+              return;
+            }
+
+            this._lastCharCodeForType[type] = domEvent.charCode;
           }
 
-          this._lastCharCodeForType[type] = domEvent.charCode;
-        }
+          if (type == "keyup" || type == "keydown") {
+            keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
+          }
+          else
+          {
+            if (this._charCode2KeyCode[domEvent.charCode]) {
+              keyCode = this._charCode2KeyCode[domEvent.charCode];
+            } else {
+              charCode = domEvent.charCode;
+            }
+          }
 
-        if (type == "keyup" || type == "keydown") {
-          keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
+          this._idealKeyHandler(keyCode, charCode, type, domEvent);
         }
         else
         {
-          if (this._charCode2KeyCode[domEvent.charCode]) {
-            keyCode = this._charCode2KeyCode[domEvent.charCode];
+          if (this._charCode2KeyCode[domEvent.keyCode]) {
+            this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
           } else {
-            charCode = domEvent.charCode;
+            this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
           }
         }
-
-        this._idealKeyHandler(keyCode, charCode, type, domEvent);
       },
 
       "opera" : function(domEvent)
@@ -642,14 +684,11 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       }
     }
 
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
-    {
-      members._lastUpDownType = {};
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       members._charCode2KeyCode = { 13 : 13, 27 : 27 };
     }
     else if (qx.core.Variant.isSet("qx.client", "gecko"))
     {
-      members._lastUpDownType = {};
       members._keyCodeFix = {
         12 : members._identifierToKeyCode("NumLock")
       };
