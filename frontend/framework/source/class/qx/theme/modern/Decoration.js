@@ -22,17 +22,17 @@
 
 /* ************************************************************************
 
-#resource(qx.icontheme:qx/decoration/Classic)
+#resource(qx.icontheme:qx/decoration/Modern)
 
 ************************************************************************ */
 
 /**
- * The Contemporary decoration theme.
+ * The modern decoration theme.
  */
-qx.Theme.define("qx.theme.contemporary.Decoration",
+qx.Theme.define("qx.theme.modern.Decoration",
 {
-  title : "Contemporary",
-  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Contemporary",
+  title : "Modern",
+  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Modern",
 
   decorations :
   {

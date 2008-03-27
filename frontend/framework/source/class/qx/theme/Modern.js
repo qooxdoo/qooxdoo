@@ -18,23 +18,19 @@
 
 ************************************************************************ */
 
-/*
-#use(qx.theme.contemporary.Sprites)
-*/
-
 /**
  * Contemporary Theme
  */
-qx.Theme.define("qx.theme.Contemporary",
+qx.Theme.define("qx.theme.Modern",
 {
-  title : "Contemporary",
+  title : "Modern",
 
   meta :
   {
-    color : qx.theme.contemporary.Color,
-    decoration : qx.theme.contemporary.Decoration,
-    font : qx.theme.contemporary.Font,
-    appearance : qx.theme.contemporary.Appearance,
-    icon : qx.theme.icon.Oxygen
+    color : qx.theme.modern.Color,
+    decoration : qx.theme.modern.Decoration,
+    font : qx.theme.modern.Font,
+    appearance : qx.theme.modern.Appearance,
+    icon : qx.theme.icon.Tango
   }
 });

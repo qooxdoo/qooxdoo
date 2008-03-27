@@ -20,13 +20,18 @@
 
 ************************************************************************* */
 
-/**
- * The classic qooxdoo appearance theme.
- */
-qx.Theme.define("qx.theme.contemporary.Appearance",
-{
-  title : "Contemporary Appearance",
+/* ************************************************************************
 
+#use(qx.theme.contemporary.Sprites)
+
+************************************************************************* */
+
+/**
+ * The modern appearance theme.
+ */
+qx.Theme.define("qx.theme.modern.Appearance",
+{
+  title : "Modern",
   extend : qx.theme.classic.Appearance,
 
   appearances :
