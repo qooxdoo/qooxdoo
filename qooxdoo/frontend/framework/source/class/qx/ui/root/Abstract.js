@@ -21,7 +21,7 @@
 /**
  * Shared implementation for all root widgets.
  */
-qx.Class.define("qx.ui.root.Application",
+qx.Class.define("qx.ui.root.Abstract",
 {
   extend : qx.ui.core.Widget,
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.root.Application",
       }
 
       this.base(arguments, value, old);
-    },
+    }
   },
 
 
