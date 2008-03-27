@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param old {Boolean} Previous value
      */
     _applyChecked : function(value, old) {
+      this.debug("Checked: " + value);
       value ? this.addState("checked") : this.removeState("checked");
     },
 
