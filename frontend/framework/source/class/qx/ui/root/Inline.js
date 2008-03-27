@@ -30,9 +30,7 @@
  */
 qx.Class.define("qx.ui.root.Inline",
 {
-  extend : qx.ui.core.Widget,
-
-
+  extend : qx.ui.root.Abstract,
 
 
 
@@ -93,18 +91,6 @@ qx.Class.define("qx.ui.root.Inline",
 
       // Chaining support
       return this;
-    },
-
-
-    // overridden
-    isRootWidget : function() {
-      return true;
-    },
-
-
-    // overridden
-    isLayoutRoot : function() {
-      return true;
     },
 
 
