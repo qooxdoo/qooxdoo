@@ -79,6 +79,12 @@ qx.Class.define("qx.ui.core.Widget",
 
     // Add to appearance queue for initial apply of styles
     qx.ui.core.queue.Appearance.add(this);
+
+    // Register focus/blur events
+    this._contentElement.addListener("focus", this._onfocus, this);
+    this._contentElement.addListener("blur", this._onblur, this);
+
+    this.initFocusable();
   },
 
 
@@ -663,7 +669,8 @@ qx.Class.define("qx.ui.core.Widget",
     focusable :
     {
       check : "Boolean",
-      init : false
+      init : false,
+      apply : "_applyFocusable"
     },
 
 
@@ -1683,42 +1690,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * Focus this widget.
-     */
-    focus : function()
-    {
-      if (this.isFocusable()) {
-        this._contentElement.focus();
-      }
-    },
 
-
-    /**
-     * Remove focus from this widget.
-     */
-    blur : function()
-    {
-      if (this.isFocusable()) {
-        this._contentElement.blur();
-      }
-    },
-
-
-    /**
-     * Activate this widget.
-     */
-    activate : function() {
-      this._contentElement.activate();
-    },
-
-
-    /**
-     * Deactivate this widget.
-     */
-    deactivate : function() {
-      this._contentElement.deactivate();
-    },
 
 
 
@@ -2176,6 +2148,78 @@ qx.Class.define("qx.ui.core.Widget",
     isTabable : function() {
       return this.isFocusable() && this.getTabIndex() !== -1;
     },
+
+
+    _onfocus : function(e)
+    {
+      this.debug("Focus");
+      this.addState("focused");
+
+      if (this.isFocusable()) {
+        this._contentElement.focus();
+      }
+    },
+
+    _onblur : function(e)
+    {
+      this.debug("Blur");
+      this.removeState("focused");
+
+    },
+
+    _applyFocusable : function(value)
+    {
+      if (value)
+      {
+        this._contentElement.setAttribute("tabIndex", 1);
+      }
+      else
+      {
+        this._contentElement.setAttribute("tabIndex", -1);
+      }
+
+
+    },
+
+
+    /**
+     * Focus this widget.
+     */
+    focus : function()
+    {
+      if (this.isFocusable()) {
+        this._contentElement.focus();
+      }
+    },
+
+
+    /**
+     * Remove focus from this widget.
+     */
+    blur : function()
+    {
+      if (this.isFocusable()) {
+        this._contentElement.blur();
+      }
+    },
+
+
+    /**
+     * Activate this widget.
+     */
+    activate : function() {
+      this._contentElement.activate();
+    },
+
+
+    /**
+     * Deactivate this widget.
+     */
+    deactivate : function() {
+      this._contentElement.deactivate();
+    },
+
+
 
 
 

@@ -166,7 +166,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator       : "inset",
           padding         : [ 2, 3 ],
-          textColor       : states.disabled ? "text-disabled" : "undefined",
+          textColor       : states.focused ? "red" : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : "field"
         };
       }

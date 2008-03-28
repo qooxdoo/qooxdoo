@@ -43,21 +43,30 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       var img4 = "icon/48/apps/photo-album.png";
 
       var border = new qx.ui.decoration.Single(1, "solid", "black");
+      var atom1, atom2;
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
+      docLayout.add(atom1=new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
         backgroundColor : "#dedede",
         decorator : border,
         padding : 5,
         allowGrowY: false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img2, 48, 48).set({
+      docLayout.add(atom2=new qx.ui.basic.Atom("Juhu", img2, 48, 48).set({
         backgroundColor : "#dedede",
         decorator : border,
         align : "top",
         padding : 5,
-        allowGrowY: false
+        allowGrowY: false,
+        enabled : false
       }));
+
+      this.debug("Root: " + this.getRoot().getEnabled());
+      this.debug("Container: " + container.getEnabled());
+      this.debug("Atom1: " + atom1.getEnabled());
+      this.debug("Atom2: " + atom2.getEnabled());
+
+      return;
 
       docLayout.add(new qx.ui.basic.Atom("Juhu", img3, 48, 48).set({
         backgroundColor : "#dedede",

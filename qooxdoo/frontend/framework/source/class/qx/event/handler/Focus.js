@@ -800,7 +800,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyActive : function(value, old)
     {
-      //this.debug("Active: " + value);
+      this.debug("Active: " + value);
       if (value) {
         value.style.outline = "1px solid red";
       }
@@ -829,7 +829,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
-      //this.debug("Focus: " + value);
+      this.debug("Focus: " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "focusout");
