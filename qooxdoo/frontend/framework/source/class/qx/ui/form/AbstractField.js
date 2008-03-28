@@ -134,6 +134,14 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       refine : true,
       init : true
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     }
   },
 
