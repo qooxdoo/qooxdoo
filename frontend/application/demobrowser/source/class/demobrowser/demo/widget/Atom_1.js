@@ -61,13 +61,6 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
         enabled : false
       }));
 
-      this.debug("Root: " + this.getRoot().getEnabled());
-      this.debug("Container: " + container.getEnabled());
-      this.debug("Atom1: " + atom1.getEnabled());
-      this.debug("Atom2: " + atom2.getEnabled());
-
-      return;
-
       docLayout.add(new qx.ui.basic.Atom("Juhu", img3, 48, 48).set({
         backgroundColor : "#dedede",
         decorator : border,
