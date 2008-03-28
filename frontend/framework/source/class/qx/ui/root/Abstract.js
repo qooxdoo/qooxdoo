@@ -55,6 +55,13 @@ qx.Class.define("qx.ui.root.Abstract",
     {
       refine : true,
       init : "root"
+    },
+
+    // overridden
+    enabled :
+    {
+      refine : true,
+      init : true
     }
   },
 
@@ -83,7 +90,18 @@ qx.Class.define("qx.ui.root.Abstract",
     {
       var target = e.getTarget();
 
-      if (!target.isSelectable())
+      // Stop native event
+      // This is need to block low-level event handler from interfering with widget
+      // focus system
+      e.stopPropagation(true);
+
+      // Directly ignore disabled widgets
+      if (!target.isEnabled()) {
+        e.preventDefault();
+      }
+
+      // Only process targets which are not selectable
+      else if (!target.isSelectable())
       {
         // According to MSDN:
         // An element with the UNSELECTABLE attribute set to on can be included
