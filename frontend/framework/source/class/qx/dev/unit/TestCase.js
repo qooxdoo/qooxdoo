@@ -20,5 +20,10 @@
 qx.Class.define("qx.dev.unit.TestCase",
 {
   extend  : qx.core.Object,
-  include : qx.dev.unit.MAssert
+  include : qx.core.Variant.select("qx.debug",
+  {
+    "on": [],
+     "off" : qx.dev.unit.MAssert
+   })
+
 });
