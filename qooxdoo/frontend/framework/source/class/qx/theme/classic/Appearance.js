@@ -414,6 +414,106 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height: 10
         }
       }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TREE
+    ---------------------------------------------------------------------------
+    */
+
+
+    "folder-open-button" :
+    {
+      style : function(states)
+      {
+        return {
+          source : states.opened
+            ? "decoration/tree/minus.gif"
+            : "decoration/tree/plus.gif"
+        }
+      }
+    },
+
+
+    "tree-folder" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [2, 3, 2, 0],
+          //backgroundColor : states.selected ? "selected" : "undefined",
+          //textColor : states.selected ? "text-selected" : "undefined",
+          icon : states.opened
+            ? "icon/16/places/folder-open.png"
+            : "icon/16/places/folder.png"
+        }
+      }
+    },
+
+
+    "tree-folder-icon" : {
+      style : function(states)
+      {
+        return {
+          padding : [0, 4, 0, 0]
+        }
+      }
+    },
+
+
+    "tree-folder-label" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : states.selected ? "selected" : "undefined",
+          textColor : states.selected ? "text-selected" : "undefined"
+        }
+      }
+    },
+
+
+    "tree-file" :
+    {
+      include : "tree-folder",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/mimetypes/text-plain.png"
+        }
+      }
+    },
+
+
+    "tree-file-icon" : {
+      style : function(states)
+      {
+        return {
+          padding : [0, 4, 0, 4]
+        }
+      }
+    },
+
+
+    "tree-file-label" : {
+      include : "tree-folder-label"
+    },
+
+
+    "tree" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "black"
+        }
+      }
     }
+
   }
 });
