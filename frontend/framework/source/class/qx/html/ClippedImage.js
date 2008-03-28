@@ -181,12 +181,12 @@ qx.Class.define("qx.html.ClippedImage",
     {
       "mshtml" : function()
       {
-        this.removeStyle("filter", filter);
-        this.removeStyle("backgroundImage", filter);
+        this.removeStyle("filter");
+        this.removeStyle("backgroundImage");
       },
 
       "default" : function() {
-        this.removeStyle("backgroundImage", filter);
+        this.removeStyle("backgroundImage");
       }
     }),
 
