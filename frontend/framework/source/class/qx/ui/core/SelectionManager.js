@@ -1091,7 +1091,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      */
     _onmouseevent : function(oItem, e, bOver)
     {
-      if (!this.getItemEnabled(oItem)) {
+      if (!oItem || !this.getItemEnabled(oItem)) {
         return;
       }
 
@@ -1137,19 +1137,14 @@ qx.Class.define("qx.ui.core.SelectionManager",
       // ********************************************************************
       if ((!vCtrlKey && !vShiftKey && !this._activeDragSession || !this.getMultiSelection()))
       {
-        if (!this.getItemEnabled(oItem)) {
-          return;
-        }
-
         // Remove current selection
         this._deselectAll();
 
         // Update anchor item
         this.setAnchorItem(oItem);
 
-        if (this._activeDragSession)
-        {
-          // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
+        // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
+        if (this._activeDragSession) {
           this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
         }
 
