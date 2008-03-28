@@ -181,9 +181,7 @@ qx.Class.define("qx.core.Property",
       "Class"     : true,
       "Mixin"     : true,
       "Interface" : true,
-      "Theme"     : true,
-      "Border"    : true,
-      "Font"      : true
+      "Theme"     : true
     },
 
 
@@ -283,8 +281,10 @@ qx.Class.define("qx.core.Property",
       {
         var clazz = widget.constructor;
         var inherit = this.$$store.inherit;
+        var init = this.$$store.init;
         var refresh = this.$$method.refresh;
         var properties;
+        var value;
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -305,14 +305,20 @@ qx.Class.define("qx.core.Property",
               // and whether it is inheritable in this class as well
               if (properties[name] && widget[refresh[name]])
               {
+                value = parent[inherit[name]];
+
+                if (value === undefined) {
+                  value = parent[init[name]];
+                }
+
                 if (qx.core.Variant.isSet("qx.debug", "on"))
                 {
                   if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
-                    widget.debug("Updating property: " + name + " to '" + parent[inherit[name]] + "'");
+                    widget.debug("Updating property: " + name + " to '" + value + "'");
                   }
                 }
 
-                widget[refresh[name]](parent[inherit[name]]);
+                widget[refresh[name]](value);
               }
             }
           }
