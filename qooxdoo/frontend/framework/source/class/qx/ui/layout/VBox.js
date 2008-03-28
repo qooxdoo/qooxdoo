@@ -42,7 +42,7 @@
  */
 qx.Class.define("qx.ui.layout.VBox",
 {
-  extend : qx.ui.layout.Abstract,
+  extend : qx.ui.layout.AbstractBox,
 
 
 
@@ -57,29 +57,11 @@ qx.Class.define("qx.ui.layout.VBox",
 
   properties :
   {
-    /** Spacing between two children */
-    spacing :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
-    },
-
-
     /** Vertical alignment of the whole children block */
     align :
     {
       check : [ "top", "middle", "bottom" ],
       init : "top",
-      apply : "_applyLayoutChange"
-    },
-
-
-    /** Whether the actual children data should be reversed for layout (bottom-to-top) */
-    reversed :
-    {
-      check : "Boolean",
-      init : false,
       apply : "_applyLayoutChange"
     }
   },
@@ -96,21 +78,6 @@ qx.Class.define("qx.ui.layout.VBox",
 
   members :
   {
-    /**
-     * Add a spacer at the current position to the layout. The spacer has a flex
-     * value of one and will stretch to the available space.
-     *
-     * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
-     *   to the spacer is needed to remove ths spacer from the layout.
-     */
-    addSpacer : function()
-    {
-      var spacer = new qx.ui.core.Spacer(0, 0);
-      this.add(spacer, {flex: 1});
-      return spacer;
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
