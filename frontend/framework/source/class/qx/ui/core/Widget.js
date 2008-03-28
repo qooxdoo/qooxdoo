@@ -1667,15 +1667,31 @@ qx.Class.define("qx.ui.core.Widget",
      * Focus this widget.
      */
     focus : function() {
-      this._containerElement.focus();
+      this._contentElement.focus();
     },
 
 
     /**
-     * Remove focus from this widget
+     * Remove focus from this widget.
      */
     blur : function() {
-      this._containerElement.blur();
+      this._contentElement.blur();
+    },
+
+
+    /**
+     * Activate this widget.
+     */
+    activate : function() {
+      this._contentElement.activate();
+    },
+
+
+    /**
+     * Deactivate this widget.
+     */
+    deactivate : function() {
+      this._contentElement.deactivate();
     },
 
 
@@ -2071,8 +2087,8 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Returns the next event target when bubbling up the parent chain. May
-     * also return the widget element itself if it is not anonymous.
+     * Returns the next event target in the parent chain. May
+     * also return the widget itself if it is not anonymous.
      *
      * @type member
      * @return {qx.ui.core.Widget} A working event target of this widget.
@@ -2083,6 +2099,30 @@ qx.Class.define("qx.ui.core.Widget",
       var target = this;
 
       while (target.getAnonymous())
+      {
+        target = target.getLayoutParent();
+        if (!target) {
+          return null;
+        }
+      }
+
+      return target;
+    },
+
+
+    /**
+     * Returns the next focus target in the parent chain. May
+     * also return the widget itself if it is not anonymous and focusable.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} A working focus target of this widget.
+     *    May be <code>null</code> as well.
+     */
+    getFocusTarget : function()
+    {
+      var target = this;
+
+      while (target.getAnonymous() || !target.getFocusable())
       {
         target = target.getLayoutParent();
         if (!target) {

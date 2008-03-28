@@ -126,6 +126,14 @@ qx.Class.define("qx.ui.form.AbstractField",
       check : "Boolean",
       apply : "_applyReadOnly",
       init : false
+    },
+
+
+    // overridden
+    selectable :
+    {
+      refine : true,
+      init : true
     }
   },
 
