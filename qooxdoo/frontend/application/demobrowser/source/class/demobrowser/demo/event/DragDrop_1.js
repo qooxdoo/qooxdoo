@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.bom.DragDrop_1",
+qx.Class.define("demobrowser.demo.event.DragDrop_1",
 {
   extend : qx.application.Native,
 

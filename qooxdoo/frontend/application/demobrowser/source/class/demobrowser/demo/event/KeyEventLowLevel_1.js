@@ -21,7 +21,7 @@
 /**
  * Keyhandler test converted to use the low level event API.
  */
-qx.Class.define("demobrowser.demo.bom.KeyEventLowLevel_1",
+qx.Class.define("demobrowser.demo.event.KeyEventLowLevel_1",
 {
   extend : qx.application.Native,
 
