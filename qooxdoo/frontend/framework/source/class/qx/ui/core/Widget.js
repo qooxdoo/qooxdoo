@@ -175,11 +175,28 @@ qx.Class.define("qx.ui.core.Widget",
      */
     keyinput : "qx.ui.event.type.KeyInput",
 
-    // focus events
+    /**
+     * The event is fired when the widget gets focused. Only widgets which are
+     * {@link #focusable} receive this event.
+     */
     focus : "qx.ui.event.type.Event",
+
+    /**
+     * The event is fired when the widget gets blured. Only widgets which are
+     * {@link #focusable} receive this event.
+     */
     blur : "qx.ui.event.type.Event",
+
+    /**
+     * Fired when the widget itself or any child of the widget receive the focus.
+     */
     focusin : "qx.ui.event.type.Event",
+
+    /**
+     * Fired when the widget itself or any child of the widget lost the focus.
+     */
     focusout : "qx.ui.event.type.Event",
+
     beforedeactivate : "qx.ui.event.type.Event",
     beforeactivate : "qx.ui.event.type.Event",
     activate : "qx.ui.event.type.Event",
@@ -1642,7 +1659,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Enables mouse event capturing. All mouse events will dispatched on this
      * widget until capturing is disabled using {@link #releaseCapture} or a
@@ -1666,16 +1682,22 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Focus this widget.
      */
-    focus : function() {
-      this._contentElement.focus();
+    focus : function()
+    {
+      if (this.isFocusable()) {
+        this._contentElement.focus();
+      }
     },
 
 
     /**
      * Remove focus from this widget.
      */
-    blur : function() {
-      this._contentElement.blur();
+    blur : function()
+    {
+      if (this.isFocusable()) {
+        this._contentElement.blur();
+      }
     },
 
 
