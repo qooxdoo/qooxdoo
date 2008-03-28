@@ -31,7 +31,7 @@ class Config:
         splits = key.split("/")
 
         for item in splits:
-            if data.has_key(item):
+            if isinstance(data, types.DictType) and data.has_key(item):
                 data = data[item]
             else:
                 return self._normalizeConfig(default)
