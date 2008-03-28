@@ -408,8 +408,14 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
-    getItemOffset : function(vItem) {
-      return vItem.getRenderedTop();
+    getItemOffset : function(vItem)
+    {
+      var computed = vItem.getComputedLayout();
+      if (computed) {
+        return computed.top;
+      }
+
+      return 0;
     },
 
 
@@ -420,8 +426,14 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
-    getItemSize : function(vItem) {
-      return vItem.getRenderedHeight();
+    getItemSize : function(vItem)
+    {
+      var computed = vItem.getComputedLayout();
+      if (computed) {
+        return computed.height;
+      }
+
+      return 0;
     },
 
 
