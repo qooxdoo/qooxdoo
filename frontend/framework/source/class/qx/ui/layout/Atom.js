@@ -74,6 +74,10 @@ qx.Class.define("qx.ui.layout.Atom",
      */
     setIcon : function(icon)
     {
+      if (this._icon === icon) {
+        return;
+      }
+
       if (this._icon) {
         this._removeHelper(this._icon);
       }
@@ -94,6 +98,10 @@ qx.Class.define("qx.ui.layout.Atom",
      */
     setText : function(text)
     {
+      if (this._text === text) {
+        return;
+      }
+
       if (this._text) {
         this._removeHelper(this._text);
       }
