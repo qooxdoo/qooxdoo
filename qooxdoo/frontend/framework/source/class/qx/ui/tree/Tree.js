@@ -315,6 +315,35 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     _onkeypress : function(e)
     {
+      var key = e.getKeyIdentifier();
+
+      if (key == "Left" || key == "Right")
+      {
+        var target = e.getTarget();
+        if (target !== this)
+        {
+          var treeItem = this._getTreeItem(target);
+
+          if (treeItem)
+          {
+            if (key == "Left")
+            {
+              if (treeItem.isOpen()) {
+                treeItem.setOpen(false);
+                e.stopPropagation();
+              }
+            }
+            else {
+              if (!treeItem.isOpen()) {
+                treeItem.setOpen(true);
+                e.stopPropagation();
+              }
+            }
+            return;
+          }
+        }
+      }
+
       // Give control to selectionManager
       this._manager.handleKeyPress(e);
     }
