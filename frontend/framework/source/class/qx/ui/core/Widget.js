@@ -758,6 +758,10 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     setLayoutParent : function(parent)
     {
+      if (this._parent === parent) {
+        return;
+      }
+
       if (this._parent) {
         this._parent.getContentElement().remove(this._containerElement);
       }
@@ -2144,10 +2148,14 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var target = this;
 
+      if (!target.getEnabled()) {
+        return null;
+      }
+
       while (target.getAnonymous() || !target.getFocusable())
       {
         target = target.getLayoutParent();
-        if (!target) {
+        if (!target || !target.getEnabled()) {
           return null;
         }
       }
