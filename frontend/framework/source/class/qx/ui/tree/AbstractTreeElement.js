@@ -146,6 +146,17 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
+    /**
+     * Called by the selection manager
+     */
+    handleStateChange : function()
+    {
+      if (this.hasState("selected")) {
+        this.activate();
+      }
+    },
+
+
     _applyIcon : function(value, old) {
       this._icon.setSource(value)
     },
