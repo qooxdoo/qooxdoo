@@ -93,6 +93,13 @@ qx.Class.define("qx.ui.form.List",
     {
       check : "Boolean",
       init : false
+    },
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     }
   },
 
