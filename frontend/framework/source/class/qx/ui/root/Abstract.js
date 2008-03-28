@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+// IE
+//document.ondragstart = document.onselectstart = function() {
+//  return false;
+//}
+
+
 /**
  * Shared implementation for all root widgets.
  */
@@ -51,6 +57,7 @@ qx.Class.define("qx.ui.root.Abstract",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
@@ -59,6 +66,13 @@ qx.Class.define("qx.ui.root.Abstract",
 
     // overridden
     enabled :
+    {
+      refine : true,
+      init : true
+    },
+
+    // overridden
+    focusable :
     {
       refine : true,
       init : true
@@ -93,35 +107,47 @@ qx.Class.define("qx.ui.root.Abstract",
       // Stop native event
       // This is need to block low-level event handler from interfering with widget
       // focus system
-      e.stopPropagation(true);
-
-      // Directly ignore disabled widgets
-      if (!target.isEnabled()) {
-        e.preventDefault();
+      /*
+      var nativeEvent = e.getNativeEvent();
+      if (nativeEvent.stopPropagation) {
+        nativeEvent.stopPropagation();
       }
+      nativeEvent.cancelBubble = true;
+      */
 
       // Only process targets which are not selectable
-      else if (!target.isSelectable())
+      if (target.isEnabled())
       {
-        // According to MSDN:
-        // An element with the UNSELECTABLE attribute set to on can be included
-        // in a selection that starts somewhere outside the element.
-        //
-        // This means we must stop the selection on the element which received
-        // the last mouse down. We handle this automatically and dynamically
-        // here following the user configured rule (property: selectable)
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        if (!target.isSelectable() && !target.isFocusable())
         {
-          var domTarget = e.getDomTarget();
+          // According to MSDN:
+          // An element with the UNSELECTABLE attribute set to on can be included
+          // in a selection that starts somewhere outside the element.
+          //
+          // This means we must stop the selection on the element which received
+          // the last mouse down. We handle this automatically and dynamically
+          // here following the user configured rule (property: selectable)
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+            var domTarget = e.getDomTarget();
 
-          if (this._lastMouseDown) {
-            this._lastMouseDown.unselectable = null;
+            if (this._lastMouseDown) {
+              this._lastMouseDown.unselectable = null;
+            }
+
+            this._lastMouseDown = domTarget;
+            domTarget.unselectable = "on";
           }
 
-          this._lastMouseDown = domTarget;
-          domTarget.unselectable = "on";
+          // Stop the native event as this may intialize native
+          // drag and drop which not the behavior we want to see here.
+          else
+          {
+            e.preventDefault();
+          }
         }
 
+        /*
         // The prevent of native events afterwards breaks the focus detection
         // of qx.event.handler.Focus which relies on native events. To fix
         // this we call the focus manually.
@@ -133,9 +159,10 @@ qx.Class.define("qx.ui.root.Abstract",
         // Finally activate real target
         // Must be done afterwards as focus also leads to activation of the given element.
         target.activate();
-
-        // stop the native event as this may intialize native
-        // drag and drop which not the behavior we want to see here.
+        */
+      }
+      else
+      {
         e.preventDefault();
       }
     },
