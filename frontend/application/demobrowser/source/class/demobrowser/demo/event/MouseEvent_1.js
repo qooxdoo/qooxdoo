@@ -27,7 +27,7 @@
 /**
  * Native mouse events
  */
-qx.Class.define("demobrowser.demo.bom.MouseEvent_1",
+qx.Class.define("demobrowser.demo.event.MouseEvent_1",
 {
   extend : qx.application.Native,
 
