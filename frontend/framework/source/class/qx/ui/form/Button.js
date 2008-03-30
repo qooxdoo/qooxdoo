@@ -74,10 +74,18 @@ qx.Class.define("qx.ui.form.Button",
       event : "changeValue"
     },
 
+    // overridden
     appearance :
     {
       refine : true,
       init : "button"
+    },
+    
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     }
   },
 
