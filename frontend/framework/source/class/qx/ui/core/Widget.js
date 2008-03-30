@@ -80,11 +80,12 @@ qx.Class.define("qx.ui.core.Widget",
     // Add to appearance queue for initial apply of styles
     qx.ui.core.queue.Appearance.add(this);
 
-    // Register focus/blur events
-    this._contentElement.addListener("focus", this._onfocus, this);
-    this._contentElement.addListener("blur", this._onblur, this);
-
+    // Initialize properties
     this.initFocusable();
+    
+    // Add listeners (for state changes)
+    this.addListener("focus", this._onfocus, this);
+    this.addListener("blur", this._onblur, this);    
   },
 
 
@@ -2150,35 +2151,28 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    _onfocus : function(e)
+    _onfocus : function(e) 
     {
-      this.debug("Focus");
+      this.debug("Widget focus");
       this.addState("focused");
-
-      if (this.isFocusable()) {
-        this._contentElement.focus();
-      }
     },
-
+    
     _onblur : function(e)
     {
-      this.debug("Blur");
-      this.removeState("focused");
-
+      this.debug("Widget blur");
+      this.removeState("focused");      
     },
+    
 
     _applyFocusable : function(value)
     {
-      if (value)
-      {
-        this._contentElement.setAttribute("tabIndex", 1);
+      if (value) {
+        value = this.getTabIndex() || 1;
+      } else {
+        value = -1;
       }
-      else
-      {
-        this._contentElement.setAttribute("tabIndex", -1);
-      }
-
-
+      
+      this._contentElement.setAttribute("tabIndex", value);
     },
 
 
