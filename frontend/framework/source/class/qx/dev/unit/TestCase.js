@@ -20,10 +20,11 @@
 qx.Class.define("qx.dev.unit.TestCase",
 {
   extend  : qx.core.Object,
-  include : qx.core.Variant.select("qx.debug",
-  {
-    "on": [],
-     "off" : qx.dev.unit.MAssert
-   })
 
+  defer : function(statics)
+  {
+    if (qx.core.Variant.isSet("qx.debug", "off")) {
+      qx.Class.include(statics, qx.dev.unit.MAssert);
+    }
+  }
 });
