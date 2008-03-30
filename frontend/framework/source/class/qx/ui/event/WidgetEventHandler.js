@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       keypress : 1,
       keyinput : 1,
 
-      // focus events (do bubble)
+      // focus events
       focusin : 1,
       focusout : 1,
       beforedeactivate : 1,
@@ -112,25 +112,21 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     /** {Map} Event which are dispatched on the content element */
     __contentTarget :
     {
-      // focus, blur events (do not bubble)
+      // focus events (do not bubble)
       focus : 1,
-      blur : 1,
-
-      // all elements
-      select : 1,
-
-      // iframe elements
-      load : 1
+      blur : 1
     },
 
 
     // interface implementation
     canHandleEvent : function(target, type)
     {
-      return (
-        target instanceof qx.ui.core.Widget &&
-        (this.__containerTarget[type] || this.__contentTarget[type])
-      )
+      if (!(target instanceof qx.ui.core.Widget)) {
+        return false;
+      }
+      
+      var ret = !!(this.__containerTarget[type] || this.__contentTarget[type]);
+      return ret;
     },
 
 
@@ -211,16 +207,10 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       var type = event.getType();
 
 
-      // ignore all events except "mouseover" and "mouseout" in the disabled
-      // state.
-      if (
-        !currentWidget.isEnabled() &&
-        type !== "mouseover" &&
-        type !== "mouseout"
-      ) {
+      // Ignore all events except "mouseover" and "mouseout" in the disabled state.
+      if (!currentWidget.isEnabled() && type !== "mouseover" && type !== "mouseout") {
         return;
       }
-
 
       // Load listeners
       var listeners = this.__manager.getListeners(currentWidget, type, capture);
