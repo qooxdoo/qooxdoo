@@ -2213,7 +2213,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     _onContainerFocusIn : function(e)
     {
-      this.debug("FocusIn...");
       e.stopPropagation();
 
       this.debug("Widget focus");
@@ -2223,7 +2222,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     _onContainerFocusOut : function(e)
     {
-      this.debug("FocusOut...");
       e.stopPropagation();
 
       this.debug("Widget blur");
