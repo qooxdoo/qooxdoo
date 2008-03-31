@@ -34,7 +34,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "border-dark" : [ 133, 135, 140 ],
     "border-dark-shadow" : [ 167, 166, 170 ],
 
-    "selected" : [ 51, 94, 168 ],
+    "selected" : "#3E6CA8",
     "field" : "white",
 
     "text" : "black",
