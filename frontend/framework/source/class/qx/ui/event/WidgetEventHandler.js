@@ -101,13 +101,6 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     },
 
 
-    /** {Map} Event which are dispatched on the content element */
-    __contentTarget :
-    {
-
-    },
-
-
     // interface implementation
     canHandleEvent : function(target, type)
     {
@@ -115,7 +108,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         return false;
       }
 
-      var ret = !!(this.__containerTarget[type] || this.__contentTarget[type]);
+      var ret = !!this.__containerTarget[type];
       return ret;
     },
 
@@ -254,13 +247,8 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      * @param type {String} The event type
      * @return {qx.html.Element} The html element the event must be attached to.
      */
-    __getEventTarget : function(widgetTarget, type)
-    {
-      if (this.__contentTarget[type]) {
-        return widgetTarget.getContentElement();
-      } else {
-        return widgetTarget.getContainerElement();
-      }
+    __getEventTarget : function(widgetTarget, type) {
+      return widgetTarget.getContainerElement();
     }
   },
 
