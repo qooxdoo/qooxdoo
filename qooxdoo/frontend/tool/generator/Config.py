@@ -235,20 +235,7 @@ class Config:
                 pass
 
 
-        def _expandMacrosInLet(letList):
-            """ takes array of pairs and returns dict with pair[0]:pair[1] entries
-                with macros expanded along the way"""
-
-            dict = {}
-            for pair in letList:
-                v = pair[1]
-                if (v.find(r'${')>-1):
-                    v = _expandString(pair[1], dict)  # apply what we have so far
-                dict[pair[0]] = v
-            return dict
-
-
-        def _expandMacrosInLet1(letDict):
+        def _expandMacrosInLet(letDict):
             """ takes dict with macro definitions and expands all of them within the dict"""
 
             keys = letDict.keys()
@@ -271,7 +258,7 @@ class Config:
             else:
                 if config[job].has_key('let'):
                     # exand macros in the let
-                    config[job]['let'] = _expandMacrosInLet1(config[job]['let'])
+                    config[job]['let'] = _expandMacrosInLet(config[job]['let'])
                     # apply dict to other values
                     _expandMacrosInValues(config[job], config[job]['let'])
 
