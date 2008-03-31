@@ -22,7 +22,12 @@
 //document.ondragstart = document.onselectstart = function() {
 //  return false;
 //}
-
+//
+// "ondragenter = return false" stops Drag&Drop in IE
+// "-webkit-user-drag = none stops Drag&Drop in Webkit
+// "ondragstart should work in gecko as well" / "dragdrop is also there, try capturing mode"
+// IE: hideFocus still missing to omit dotted border around focused elements.
+// IE: onresizestart/onresizeend??
 
 /**
  * Shared implementation for all root widgets.
