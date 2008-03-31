@@ -131,7 +131,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : states.focused ? "focused" : "inset",
-          backgroundColor : "white"
+          backgroundColor : states.focused ? "#F0F4FA" : "white"
         };
       }
     },
@@ -167,7 +167,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator       : states.focused ? "focused" : "inset",
           padding         : [ 2, 3 ],
           textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : "field"
+          backgroundColor : states.focused ? "#F0F4FA" : "field"
         };
       }
     },
