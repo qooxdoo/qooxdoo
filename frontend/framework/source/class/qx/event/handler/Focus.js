@@ -353,15 +353,11 @@ qx.Class.define("qx.event.handler.Focus",
         element = this._root;
       }
 
-      this.debug("Focus: START");
-
       // If focus is already correct, don't configure both
       // This is the case for all mousedown events normally
       if (element && this.getFocus() !== element) {
         this.setFocus(element);
       }
-
-      this.debug("Focus: DONE");
     },
 
 
@@ -738,7 +734,6 @@ qx.Class.define("qx.event.handler.Focus",
             break;
 
           default:
-            console.debug("DO ELEMENT FOCUS: ", e.target);
             this._doElementFocus(e.target);
         }
       },
@@ -766,6 +761,9 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeMouseDown : function(e)
     {
+
+      // TODO: Is this really needed? Try to fix without in Gecko first!
+
       if (!e) {
         e = window.event;
       }

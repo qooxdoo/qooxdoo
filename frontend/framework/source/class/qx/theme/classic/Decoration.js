@@ -250,8 +250,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
       {
         width : 1,
         innerWidth: 1,
-        color : [ "#033E61", "#D1EDFD", "#D1EDFD", "#033E61" ],
-        innerColor : [ "#055A8B", "#C5E8FD", "#C5E8FD", "#055A8B" ]
+        color : [ "#7CA0CF", "#BCCEE5", "#BCCEE5", "#7CA0CF" ],
+        innerColor : [ "#3E6CA8", "#A5BDDE", "#A5BDDE", "#3E6CA8" ]
       }
     }
   }
