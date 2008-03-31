@@ -85,8 +85,13 @@ qx.Class.define("qx.ui.core.Widget",
     this.initSelectable();
 
     // Add listeners (for state changes)
-    this.addListener("focus", this._onfocus, this);
-    this.addListener("blur", this._onblur, this);
+    // this.addListener("focus", this._onfocus, this);
+    // this.addListener("blur", this._onblur, this);
+
+    this._containerElement.addListener("activate", this._onContainerActivate, this);
+    this._containerElement.addListener("deactivate", this._onContainerDeactivate, this);
+    this._containerElement.addListener("focusin", this._onContainerFocusIn, this);
+    this._containerElement.addListener("focusout", this._onContainerFocusOut, this);
   },
 
 
@@ -1574,13 +1579,16 @@ qx.Class.define("qx.ui.core.Widget",
     _createContainerElement : function()
     {
       var el = new qx.html.Element("div");
+
       el.setStyle("position", "absolute");
-
-      if (qx.core.Setting.get("qx.layoutDebug") == "on") {
-        el.setStyle("outline", "1px solid red");
-      }
-
       el.setStyle("zIndex", 0);
+
+      // Omit IE specific dotted outline border
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        el.setAttribute("hideFocus", "true");
+      } else {
+        el.setStyle("outline", "none");
+      }
 
       return el;
     },
@@ -1615,15 +1623,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 10);
-
-      // Omit IE specific dotted outline border
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        el.setAttribute("hideFocus", "true");
-      }
-
-      if (qx.core.Setting.get("qx.layoutDebug") == "on") {
-        el.setStyle("outline", "1px solid green");
-      }
 
       return el;
     },
@@ -2160,42 +2159,77 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    _onfocus : function(e)
-    {
-      this.debug("Widget focus");
-      this.addState("focused");
-    },
 
-    _onblur : function(e)
-    {
-      this.debug("Widget blur");
-      this.removeState("focused");
-    },
+    // whether the default tabIndex allows focusing the element
+    _supportsNativeFocus : false,
 
     _applyFocusable : function(value)
     {
-      var tabIndex = value ? this.getTabIndex() || 1 : -1;
-      this._contentElement.setAttribute("tabIndex", tabIndex);
+      var tabIndex = value ? this.getTabIndex() || 1 : null;
+
+      if (tabIndex === -1 && !this._supportsNativeFocus) {
+        this._containerElement.removeAttribute("tabIndex", tabIndex);
+      } else {
+        this._containerElement.setAttribute("tabIndex", tabIndex);
+      }
     },
 
     _applyTabIndex : function(value)
     {
-      var focusable = this.isFocusable();
-      if ((value !== -1) !== focusable) {
-        throw new Error("Focusable needs to be activated first to enabled tabIndex support!");
-      }
+      return;
 
-      var tabIndex = focusable ? value : -1;
-      this._contentElement.setAttribute("tabIndex", tabIndex);
+
     },
 
     _applySelectable : function(value)
     {
+      return;
+
       if (qx.core.Variant.isSet("qx.client", "gecko|webkit")) {
         this._contentElement.setStyle("userSelect", value ? null : "none");
       }
 
     },
+
+
+
+
+
+    _onContainerActivate : function(e)
+    {
+      this.debug("Activating...");
+      e.stopPropagation();
+
+      //this.debug("Activating: DONE");
+    },
+
+    _onContainerDeactivate : function(e)
+    {
+      this.debug("Deactivating...");
+      e.stopPropagation();
+
+      //this.debug("Deactivating: DONE");
+    },
+
+    _onContainerFocusIn : function(e)
+    {
+      this.debug("FocusIn...");
+      e.stopPropagation();
+
+      this.debug("Widget focus");
+      this.addState("focused");
+
+    },
+
+    _onContainerFocusOut : function(e)
+    {
+      this.debug("FocusOut...");
+      e.stopPropagation();
+
+      this.debug("Widget blur");
+      this.removeState("focused");
+    },
+
 
 
 

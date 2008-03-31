@@ -353,11 +353,15 @@ qx.Class.define("qx.event.handler.Focus",
         element = this._root;
       }
 
+      this.debug("Focus: START");
+
       // If focus is already correct, don't configure both
       // This is the case for all mousedown events normally
       if (element && this.getFocus() !== element) {
         this.setFocus(element);
       }
+
+      this.debug("Focus: DONE");
     },
 
 
@@ -413,9 +417,6 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
-        this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
-        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
-
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
@@ -456,6 +457,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
 
         // Opera 9.2 ignores the event when capturing is enabled
+        // which is somewhat correct as blur/focus are non-bubbling events.
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, false);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, false);
 
@@ -502,8 +504,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function()
       {
-        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
-        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
+        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, false);
+        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, false);
       },
 
       "mshtml" : function()
@@ -736,6 +738,7 @@ qx.Class.define("qx.event.handler.Focus",
             break;
 
           default:
+            console.debug("DO ELEMENT FOCUS: ", e.target);
             this._doElementFocus(e.target);
         }
       },
@@ -777,12 +780,16 @@ qx.Class.define("qx.event.handler.Focus",
         }
       }
 
+      this.debug("!!! Mousedown: START");
+
       this.setActive(target);
 
       var focus = this.__findFocusNode(target);
       if (focus) {
         this.setFocus(focus);
       }
+
+      this.debug("!!! Mousedown: DONE");
     },
 
 
@@ -868,7 +875,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyActive : function(value, old)
     {
-      this.debug("Active: " + value);
+      this.debug("Active: " + old + " => " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "beforedeactivate");
@@ -891,7 +898,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
-      this.debug("Focus: " + value);
+      this.debug("Focus: " + old + " => " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "focusout");
