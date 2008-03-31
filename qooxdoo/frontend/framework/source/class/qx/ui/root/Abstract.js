@@ -104,6 +104,8 @@ qx.Class.define("qx.ui.root.Abstract",
     {
       var target = e.getTarget();
 
+      return;
+
       // Stop native event
       // This is need to block low-level event handler from interfering with widget
       // focus system
