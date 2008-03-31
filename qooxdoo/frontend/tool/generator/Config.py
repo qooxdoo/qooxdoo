@@ -26,8 +26,13 @@ class Config:
         self._fname = os.path.abspath(fname)
         
     
-    def get(self, key, default=None):
-        data = self._data
+    def get(self, key, default=None, confmap=None):
+        """Returns a (possibly nested) data element from dict <conf>
+        """
+        if confmap:
+            data = confmap
+        else:
+            data = self._data
         splits = key.split("/")
 
         for item in splits:
@@ -98,21 +103,6 @@ class Config:
         return t
 
 
-    def _confGet(self, conf, key, default=None):
-        """Returns a (possibly nested) data element from dict <conf>
-        """
-        data = conf
-        splits = key.split("/")
-
-        for item in splits:
-            if isinstance(data, types.DictType) and data.has_key(item):
-                data = data[item]
-            else:
-                return default
-
-        return data
-            
-
     def _resolveRuns(self, console, jobsmap, jobs):
         i,j = 0, len(jobs)
         while i<j:
@@ -160,11 +150,11 @@ class Config:
 
         def _resolveEntry(console, config, job):
             # TODO: look up job in global list, to prevent circular references
-            if not self._confGet(config,job,False):
+            if not self.get(job,False,config):
                 console.warn("No such job: %s" % job)
                 sys.exit(1)
 
-            data = self._confGet(config,job)
+            data = self.get(job,None,config)
 
             if data.has_key("resolved"):
                 return
@@ -173,13 +163,13 @@ class Config:
                 extends = data["extend"]
                 if job.rfind('/')>-1:
                     parent = job[:job.rfind('/')]
-                    jobcontext = self._confGet(config, parent) # job context has the 'parent' key
+                    jobcontext = self.get(parent,None,config) # job context has the 'parent' key
                 else:
                     parent = None
                     jobcontext = config  # we are top-level
 
                 for entry in extends:
-                    pjob = self._confGet(jobcontext, entry)
+                    pjob = self.get(entry, None, jobcontext )
                     # resolve 'extend'
                     _resolveEntry(console, jobcontext, entry)
                     # prepare for 'run'
