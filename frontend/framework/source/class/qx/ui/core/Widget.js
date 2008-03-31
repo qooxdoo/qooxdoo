@@ -82,10 +82,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     // Initialize properties
     this.initFocusable();
-    
+
     // Add listeners (for state changes)
     this.addListener("focus", this._onfocus, this);
-    this.addListener("blur", this._onblur, this);    
+    this.addListener("blur", this._onblur, this);
   },
 
 
@@ -683,7 +683,8 @@ qx.Class.define("qx.ui.core.Widget",
     selectable :
     {
       check : "Boolean",
-      init : false
+      init : false,
+      apply : "_applySelectable"
     },
 
 
@@ -1613,6 +1614,9 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 10);
 
+      // IE specific to omit dotted outline border
+      el.setAttribute("hideFocus", "true");
+
       if (qx.core.Setting.get("qx.layoutDebug") == "on") {
         el.setStyle("outline", "1px solid green");
       }
@@ -2151,18 +2155,18 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    _onfocus : function(e) 
+    _onfocus : function(e)
     {
       this.debug("Widget focus");
       this.addState("focused");
     },
-    
+
     _onblur : function(e)
     {
       this.debug("Widget blur");
-      this.removeState("focused");      
+      this.removeState("focused");
     },
-    
+
 
     _applyFocusable : function(value)
     {
@@ -2171,8 +2175,13 @@ qx.Class.define("qx.ui.core.Widget",
       } else {
         value = -1;
       }
-      
+
       this._contentElement.setAttribute("tabIndex", value);
+    },
+
+    _applySelectable : function(value)
+    {
+      this._contentElement
     },
 
 
