@@ -88,6 +88,13 @@ qx.Class.define("qx.ui.form.ToggleButton",
       init: false,
       apply: "_applyChecked",
       event: "changeChecked"
+    },
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     }
   },
 
