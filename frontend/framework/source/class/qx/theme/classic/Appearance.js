@@ -130,7 +130,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "inset-thin",
+          decorator       : states.focused ? "focused" : "inset",
           backgroundColor : "white"
         };
       }
@@ -164,9 +164,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "inset",
+          decorator       : states.focused ? "focused" : "inset",
           padding         : [ 2, 3 ],
-          textColor       : states.focused ? "red" : states.disabled ? "text-disabled" : "undefined",
+          textColor       : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : "field"
         };
       }

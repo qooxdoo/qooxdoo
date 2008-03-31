@@ -135,6 +135,7 @@ qx.Class.define("qx.bom.Label",
 
         xulel.style.display = "block";
         xulel.style.cursor = "inherit";
+
         xulel.setAttribute("crop", "end");
 
         el.appendChild(xulel);

@@ -245,8 +245,13 @@ qx.Class.define("qx.bom.element.Attribute",
         // as an attribute and sometimes as a property
         // This is the case for example tabIndex in Opera,
         // Safari and Gecko
-        if (hints.dual[name]) {
-          value = element.getAttribute(name) || element[name];
+        if (hints.dual[name])
+        {
+          value = element.getAttribute(name);
+
+          if (value == null) {
+            value = element[name];
+          }
         }
 
         // respect properties
