@@ -95,14 +95,6 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       keypress : 1,
       keyinput : 1,
 
-      // focus events
-      focusin : 1,
-      focusout : 1,
-      beforedeactivate : 1,
-      beforeactivate : 1,
-      activate : 1,
-      deactivate : 1,
-
       // mouse capture
       capture : 1,
       losecapture : 1
@@ -112,9 +104,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
     /** {Map} Event which are dispatched on the content element */
     __contentTarget :
     {
-      // focus events (do not bubble)
-      focus : 1,
-      blur : 1
+
     },
 
 
@@ -124,7 +114,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       if (!(target instanceof qx.ui.core.Widget)) {
         return false;
       }
-      
+
       var ret = !!(this.__containerTarget[type] || this.__contentTarget[type]);
       return ret;
     },
