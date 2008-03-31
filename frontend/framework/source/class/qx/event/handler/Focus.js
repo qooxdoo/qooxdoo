@@ -170,9 +170,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param element {Element} DOM element to focus
      * @return {void}
      */
-    focus : function(element) 
-    {
-      element.focus();
+    focus : function(element) {
       this.setFocus(element);
     },
 
@@ -198,12 +196,8 @@ qx.Class.define("qx.event.handler.Focus",
      */
     blur : function(element)
     {
-      if (this.getActive() === element) {
-        this.resetActive();
-      }
-
       if (this.getFocus() === element) {
-        element.blur();
+        this.resetFocus();
       }
     },
 
@@ -361,9 +355,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       // If focus is already correct, don't configure both
       // This is the case for all mousedown events normally
-      if (element && this.getFocus() !== element)
-      {
-        this.setActive(element);
+      if (element && this.getFocus() !== element) {
         this.setFocus(element);
       }
     },
@@ -378,15 +370,8 @@ qx.Class.define("qx.event.handler.Focus",
      */
     _doElementBlur : function(element)
     {
-      if (element)
-      {
-        if (this.getFocus() === element) {
-          this.resetFocus();
-        }
-
-        if (this.getActive() === element) {
-          this.resetActive();
-        }
+      if (element && this.getFocus() === element) {
+        this.resetFocus();
       }
     },
 
@@ -428,6 +413,9 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
+        this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
+        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
+
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
@@ -448,11 +436,11 @@ qx.Class.define("qx.event.handler.Focus",
         // The window blur can detected using focusout and look
         // for the relatedTarget which is empty in this case.
         this._document.attachEvent("onfocusin", this.__onNativeFocusInWrapper);
-        this._document.attachEvent("onfocusout", this.__onNativeFocusOutWrapper);    
-        
+        this._document.attachEvent("onfocusout", this.__onNativeFocusOutWrapper);
+
         // Additional activate/deactivate support
         this._document.attachEvent("onactivate", this.__onNativeActivateWrapper);
-        this._document.attachEvent("ondeactivate", this.__onNativeActivateWrapper);        
+        this._document.attachEvent("ondeactivate", this.__onNativeActivateWrapper);
       },
 
       "webkit|opera" : function()
@@ -460,12 +448,12 @@ qx.Class.define("qx.event.handler.Focus",
         // Bind methods
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
-        
+
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
-        
+
         this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
-        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);        
+        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
 
         // Opera 9.2 ignores the event when capturing is enabled
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, false);
@@ -474,10 +462,10 @@ qx.Class.define("qx.event.handler.Focus",
         // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
         this._document.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, false);
         this._document.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, false);
-        
+
         // Additional activate/deactivate support
         this._document.addEventListener("DOMActivate", this.__onNativeActivateWrapper, false);
-        this._document.addEventListener("DOMDeactivate", this.__onNativeActivateWrapper, false);        
+        this._document.addEventListener("DOMDeactivate", this.__onNativeActivateWrapper, false);
       }
     }),
 
@@ -521,10 +509,10 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function()
       {
         this._document.detachEvent("onfocusin", this.__onNativeFocusInWrapper);
-        this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);   
+        this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);
 
         this._document.detachEvent("onactivate", this.__onNativeActivateWrapper);
-        this._document.detachEvent("ondeactivate", this.__onNativeActivateWrapper);              
+        this._document.detachEvent("ondeactivate", this.__onNativeActivateWrapper);
       },
 
       "webkit|opera" : function()
@@ -534,9 +522,9 @@ qx.Class.define("qx.event.handler.Focus",
 
         this._document.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, false);
         this._document.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, false);
-        
+
         this._document.removeEventListener("DOMActivate", this.__onNativeActivateWrapper, false);
-        this._document.removeEventListener("DOMDeactivate", this.__onNativeActivateWrapper, false);         
+        this._document.removeEventListener("DOMDeactivate", this.__onNativeActivateWrapper, false);
       }
     }),
 
@@ -551,7 +539,7 @@ qx.Class.define("qx.event.handler.Focus",
       NATIVE FOCUS EVENT SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Native event listener for <code>DOMActivate</code> or <code>activate</code>
      * depending on the client's engine.
@@ -560,21 +548,26 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
-     */    
-    __onNativeActivate : function(e)
+     */
+    __onNativeActivate : qx.core.Variant.select("qx.client",
     {
-      if (!e) {
-        e = window.event;
+      "gecko" : null,
+
+      "default" : function(e)
+      {
+        if (!e) {
+          e = window.event;
+        }
+
+        var target = e.target || e.srcElement;
+
+        // this.debug("DOM-Activate: " + target);
+
+        this.setActive(target);
       }
-      
-      var target = e.target || e.srcElement;
-      
-      // this.debug("DOM-Activate: " + target);
-      
-      this.setActive(target);
-    },
-    
-    
+    }),
+
+
     /**
      * Native event listener for <code>DOMDeactivate</code> or <code>deactivate</code>
      * depending on the client's engine.
@@ -583,22 +576,27 @@ qx.Class.define("qx.event.handler.Focus",
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
-     */    
-    __onNativeDeactivate : function(e)
+     */
+    __onNativeDeactivate : qx.core.Variant.select("qx.client",
     {
-      if (!e) {
-        e = window.event;
+      "gecko" : null,
+
+      "default" : function(e)
+      {
+        if (!e) {
+          e = window.event;
+        }
+
+        var target = e.target || e.srcElement;
+
+        // this.debug("DOM-Deactivate: " + target);
+
+        if (this.getActive() === target) {
+          this.resetActive();
+        }
       }
-      
-      var target = e.target || e.srcElement;
-      
-      // this.debug("DOM-Deactivate: " + target);
-      
-      if (this.getActive() === target) {
-        this.resetActive();
-      }
-    },    
-    
+    }),
+
 
     /**
      * Native event listener for <code>DOMFocusOut</code> or <code>focusout</code>
@@ -769,16 +767,21 @@ qx.Class.define("qx.event.handler.Focus",
         e = window.event;
       }
 
-      var active = e.target || e.srcElement;
-      var focus = this.__findFocusNode(active);
+      var target = e.target || e.srcElement;
 
-      // this.debug("DOM-MouseDown: active=" + active + "; focus=" + focus);
+      // Ignore XUL elements
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        while (target.boxObject) {
+          target = target.parentNode;
+        }
+      }
 
-      this.setFocus(focus);
-      
-      // Check first, maybe a focus listener has already moved the focus to somewhere else
-      if (this.getFocus() === focus) {
-        this.setActive(active);
+      this.setActive(target);
+
+      var focus = this.__findFocusNode(target);
+      if (focus) {
+        this.setFocus(focus);
       }
     },
 
@@ -800,6 +803,11 @@ qx.Class.define("qx.event.handler.Focus",
           // The last one is needed for MSHTML, where every node
           // in document normally returns tabIndex=0 even if not set up
           // this way. The unmodified value return 32768 for unconfigured nodes
+
+          // From the W3C Spec:
+          // This attribute specifies the position of the current element in
+          // the tabbing order for the current document. This value must be a
+          // number between 0 and 32767.
           if (node.tabIndex !== undefined && node.tabIndex >= 0 && node.getAttribute("tabIndex", 2) !== 32768) {
             return node;
           }
@@ -813,7 +821,7 @@ qx.Class.define("qx.event.handler.Focus",
         return this._body;
       },
 
-      "opera|webkit" : function(node)
+      "default" : function(node)
       {
         var index;
         while (node && node.getAttribute)
@@ -833,23 +841,6 @@ qx.Class.define("qx.event.handler.Focus",
           }
 
           if (index >= 0) {
-            return node;
-          }
-
-          node = node.parentNode;
-        }
-
-        // This should be identical to the one which is selected when
-        // clicking into an empty page area. In mshtml this must be
-        // the body of the document.
-        return this._body;
-      },
-
-      "default" : function(node)
-      {
-        while (node)
-        {
-          if (node.tabIndex !== undefined && node.tabIndex >= 0) {
             return node;
           }
 

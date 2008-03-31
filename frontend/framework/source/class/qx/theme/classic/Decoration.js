@@ -240,6 +240,19 @@ qx.Theme.define("qx.theme.classic.Decoration",
         widthLeft : 1,
         colorLeft : "border-dark-shadow"
       }
+    },
+
+    "focused" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "#033E61", "#D1EDFD", "#D1EDFD", "#033E61" ],
+        innerColor : [ "#055A8B", "#C5E8FD", "#C5E8FD", "#055A8B" ]
+      }
     }
   }
 });
