@@ -130,7 +130,8 @@ qx.Class.define("qx.bom.element.Attribute",
         textContent : 1,
         htmlFor     : 1,
         scrollLeft  : 1,
-        scrollTop   : 1
+        scrollTop   : 1,
+        tabIndex    : 1
       },
 
       // Interpreted as property and attribute
