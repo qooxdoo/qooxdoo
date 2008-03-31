@@ -54,8 +54,11 @@ qx.Bootstrap.define("qx.log.appender.Native",
 
       "opera" : function(entry)
       {
-        if (window.opera && opera.postError) {
-          opera.postError.apply(opera, this.__toArguments(entry));
+        if (window.opera && opera.postError) 
+        {
+          // Opera's debugging as of 9.5 beta is not really useful
+          // Our own console makes a lot more sense
+          // opera.postError.apply(opera, this.__toArguments(entry));
         }
       },
 
