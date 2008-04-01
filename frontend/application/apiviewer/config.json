@@ -132,7 +132,7 @@
     {
       "extend" : ["common"],
 
-      "include" : ["qx.*"],
+      "api_include" : ["qx.*"],
 
       "api" :
       {
@@ -145,7 +145,7 @@
     {
       "extend" : ["common"],
 
-      "include" : ["qx.*"],
+      "api_include" : ["qx.*"],
 
       "api" :
       {
