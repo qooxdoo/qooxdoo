@@ -29,16 +29,16 @@
 ************************************************************************ */
 
 /**
- * qx.ui.tree.TreeFolder objects are tree rows which may contain
+ * qx.ui.tree2.TreeFolder objects are tree rows which may contain
  * sub-trees
  *
  * @appearance tree-folder {qx.ui.core.Widget}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
  * @appearance tree-folder-label {qx.ui.basic.Label}
  */
-qx.Class.define("qx.ui.tree.TreeFolder",
+qx.Class.define("qx.ui.tree2.TreeFolder",
 {
-  extend : qx.ui.tree.AbstractTreeElement,
+  extend : qx.ui.tree2.AbstractTreeElement,
 
 
 
@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     var treeRowStructure = this._getRowStructure(labelOrTreeRowStructure, icon, iconSelected);
 
     // add open button after indent
-    this._openButton = new qx.ui.tree.FolderOpenButton();
+    this._openButton = new qx.ui.tree2.FolderOpenButton();
     qx.lang.Array.insertAfter(treeRowStructure._fields, treeRowStructure._indentObject);
 
     this.base(arguments, treeRowStructure);
@@ -985,7 +985,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     _updateIndent : function()
     {
       // Intentionally bypass superclass; the _updateIndent we want is in TreeFile
-      qx.ui.tree.TreeFile.prototype._updateIndent.call(this);
+      qx.ui.tree2.TreeFile.prototype._updateIndent.call(this);
 
       if (!this._containerObject) {
         return;
