@@ -11,57 +11,45 @@
       background: white;
     }
 
-    body, div, span, h1, iframe, input, textarea {
+    body, #content div, #content span, #content h1, #content iframe, #content input, #content textarea {
       border : 1px solid black;
     }
 
-    body, div {
+    body, #content div {
       padding : 10px; margin: 5px
-    }
-
-    #log{
-      font-size: 10px;
-    }
-
-    #log div{
-      border: 0 none;
-      padding: 2px;
-      margin: 0;
     }
   </style>
 
-  <div id="log" style="height:200px;overflow:auto">
-  </div>
-
-  <h1 id="h1">TabIndex</h1>
-  <div id="hello" tabIndex="0">
-    <div id="bar">
-      <div id="foo" tabIndex="0">
-        text0
+  <div id="content">
+    <h1 id="h1">TabIndex</h1>
+    <div id="hello" tabIndex="0">
+      <div id="bar">
+        <div id="foo" tabIndex="0">
+          text0
+        </div>
+      </div>
+      <div id="world" tabIndex="0">
+        <span>text1</span>
+      </div>
+      <div id="world" tabIndex="0">
+        <span>text1</span>
       </div>
     </div>
-    <div id="world" tabIndex="0">
-      <span>text1</span>
-    </div>
-    <div id="world" tabIndex="0">
-      <span>text1</span>
-    </div>
+
+    <h1 id="h2">Fields</h1>
+
+    <input id="f1" type="text" value="text field"></input>
+
+    <textarea>hello</textarea>
+
+    <input type="checkbox" id="chk1"/><label for="chk1">Check 1</label>
+    <input type="radio" id="rd1"/><label for="rd1">Radio 1</label>
+    <input type="radio" id="rd2"/><label for="rd2">Radio 2</label>
+
+    <h1 id="h3">Iframe</h1>
+
+    <iframe src="Empty_1.html" style="width:200px;height:100px">
+    </iframe>
   </div>
-
-  <h1 id="h2">Fields</h1>
-
-  <input id="f1" type="text" value="text field"></input>
-
-  <textarea>hello</textarea>
-
-  <input type="checkbox" id="chk1"/><label for="chk1">Check 1</label>
-  <input type="radio" id="rd1"/><label for="rd1">Radio 1</label>
-  <input type="radio" id="rd2"/><label for="rd2">Radio 2</label>
-
-  <h1 id="h3">Iframe</h1>
-
-  <iframe src="Empty_1.html" style="width:200px;height:100px">
-  </iframe>
-
 </body>
 </html>

@@ -35,14 +35,6 @@ qx.Class.define("demobrowser.demo.event.Focus_1",
 
       qx.event.Registration.addListener(window, "focus", this._onWindowFocus, this);
       qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
-
-      var h2 = document.getElementById("h2");
-      qx.bom.Element.addListener(h2, "mouseup", this._onHeaderMouseUp, this);
-
-      var f1 = document.getElementById("f1");
-      qx.bom.Element.addListener(f1, "keydown", this._onInputKeyDown, this);
-
-      qx.bom.Element.addListener(document.body, "keydown", this._onAnyKeyDown, this);
     },
 
     _onWindowFocus : function(e)
@@ -90,36 +82,6 @@ qx.Class.define("demobrowser.demo.event.Focus_1",
       } else {
         e.getTarget().style.outline = "";
       }
-    },
-
-    _onHeaderMouseUp : function(e)
-    {
-      var f1 = document.getElementById("f1");
-
-      // These both should work identical
-      // qx.bom.Element.focus(f1);
-      f1.focus();
-    },
-
-    _onInputKeyDown : function(e)
-    {
-      this.debug("Input-Field: " + e.getKeyIdentifier());
-      if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape")
-      {
-        this.debug("Blur field");
-
-        // These both should work identical
-        // qx.bom.Element.blur(e.getTarget());
-
-        e.getTarget().blur();
-      }
-    },
-
-    _onAnyKeyDown : function(e)
-    {
-      this.debug("Key-Action on " + e.getTarget() + " [" + e.getKeyIdentifier() + "]");
-
     }
-
   }
 });
