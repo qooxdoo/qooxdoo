@@ -26,36 +26,51 @@
 
 # Core
 #embed(qx.static/image/blank.gif)
+#asset(qx/static/image/blank.gif)
 #embed(qx.widgettheme/core/dotted-white.gif)
+#asset(qx/decoration/Classic/core/dotted-white.gif)
 
 # Window
 #embed(qx.widgettheme/window/*)
+#asset(qx/decoration/Classic/window/*)
 
 # ComboBox, ComboBoxEx
 #embed(qx.widgettheme/arrows/down.gif)
+#asset(qx/decoration/Classic/arrows/down.gif)
 
 # Spinner
 #embed(qx.widgettheme/arrows/up-small.gif)
+#asset(qx/decoration/Classic/arrows/up-small.gif)
 #embed(qx.widgettheme/arrows/down-small.gif)
+#asset(qx/decoration/Classic/arrows/down-small.gif)
 
 # ListView (HeaderCell)
 #embed(qx.widgettheme/arrows/up.gif)
+#asset(qx/decoration/Classic/arrows/up.gif)
 #embed(qx.widgettheme/arrows/down.gif)
+#asset(qx/decoration/Classic/arrows/down.gif)
 
 # Menu
 #embed(qx.widgettheme/menu/radiobutton.gif)
+#asset(qx/decoration/Classic/menu/radiobutton.gif)
 #embed(qx.widgettheme/menu/checkbox.gif)
+#asset(qx/decoration/Classic/menu/checkbox.gif)
 #embed(qx.widgettheme/arrows/next.gif)
+#asset(qx/decoration/Classic/arrows/next.gif)
 
 # Cursor
 #embed(qx.widgettheme/cursors/*)
+#asset(qx/decoration/Classic/cursors/*)
 
 # Table (HeaderCell)
 #embed(qx.widgettheme/table/ascending.png)
+#asset(qx/decoration/Classic/table/ascending.png)
 #embed(qx.widgettheme/table/descending.png)
+#asset(qx/decoration/Classic/table/descending.png)
 
 # Splitpane
 #embed(qx.widgettheme/splitpane/*)
+#asset(qx/decoration/Classic/splitpane/*)
 
 ************************************************************************* */
 
