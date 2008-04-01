@@ -134,14 +134,6 @@ qx.Class.define("qx.bom.element.Attribute",
         tabIndex    : 1
       },
 
-      // Interpreted as property and attribute
-      // sometimes needed when locally non-allowed attributes are used
-      // e.g. tabIndex on all elements which are no input fields in Safari 3 and Opera
-      dual :
-      {
-        tabIndex : 1
-      },
-
       // Use getAttribute(name, 2) for these to query for the real value, not
       // the interpreted one.
       original :
@@ -241,26 +233,10 @@ qx.Class.define("qx.bom.element.Attribute",
         // normalize name
         name = hints.names[name] || name;
 
-        // Respect dual property/attributes
-        // where sometimes the value is stored under
-        // as an attribute and sometimes as a property
-        // This is the case for example tabIndex in Opera,
-        // Safari and Gecko
-        if (hints.dual[name])
-        {
-          value = element.getAttribute(name);
-
-          if (value == null) {
-            value = element[name];
-          }
-        }
-
         // respect properties
-        else if (hints.property[name]) {
+        if (hints.property[name]) {
           value = element[name];
-        }
-
-        else {
+        } else {
           value = element.getAttribute(name);
         }
 
