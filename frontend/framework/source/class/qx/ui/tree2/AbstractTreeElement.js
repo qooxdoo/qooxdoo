@@ -37,7 +37,7 @@
  * @appearance tree-element-icon {qx.ui.basic.Image}
  * @appearance tree-element-label {qx.ui.basic.Label}
  */
-qx.Class.define("qx.ui.tree.AbstractTreeElement",
+qx.Class.define("qx.ui.tree2.AbstractTreeElement",
 {
   type : "abstract",
   extend : qx.ui.core.Widget,
@@ -282,10 +282,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
    _getRowStructure : function(labelOrTreeRowStructure, icon, iconSelected)
    {
-      if (labelOrTreeRowStructure instanceof qx.ui.tree.TreeRowStructure) {
+      if (labelOrTreeRowStructure instanceof qx.ui.tree2.TreeRowStructure) {
         return labelOrTreeRowStructure;
       } else {
-        return qx.ui.tree.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, iconSelected);
+        return qx.ui.tree2.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, iconSelected);
       }
     },
 
@@ -592,7 +592,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
         {
           var vPrev = this.getPreviousVisibleSibling();
 
-          if (vPrev && vPrev instanceof qx.ui.tree.AbstractTreeElement) {
+          if (vPrev && vPrev instanceof qx.ui.tree2.AbstractTreeElement) {
             vPrev._updateIndent();
           }
         }
