@@ -91,7 +91,6 @@ qx.Class.define("qx.event.handler.Focus",
       nullable : true
     },
 
-
     /** The focussed DOM element */
     focus :
     {
@@ -371,12 +370,12 @@ qx.Class.define("qx.event.handler.Focus",
       if (element === this._document) {
         element = this._root;
       }
-            
+
       if (this.getFocus() === element) {
         this.resetFocus();
       }
     },
-    
+
 
 
 
@@ -439,8 +438,8 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.attachEvent("onfocusout", this.__onNativeFocusOutWrapper);
 
         // Additional activate/deactivate support
-        this._document.attachEvent("onactivate", this.__onNativeActivateWrapper);
-        this._document.attachEvent("ondeactivate", this.__onNativeActivateWrapper);
+        //this._document.attachEvent("onactivate", this.__onNativeActivateWrapper);
+        //this._document.attachEvent("ondeactivate", this.__onNativeActivateWrapper);
       },
 
       "webkit|opera" : function()
@@ -460,9 +459,9 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, false);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, false);
 
-        // Opera as of 9.5 supports DOMFocusOut which is needed to detect the 
+        // Opera as of 9.5 supports DOMFocusOut which is needed to detect the
         // element focus
-        // Safari as of 3.1 only supports DOMFocusIn and DOMFocusOut on natively 
+        // Safari as of 3.1 only supports DOMFocusIn and DOMFocusOut on natively
         // focusable elements e.g. input elements
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -701,7 +700,7 @@ qx.Class.define("qx.event.handler.Focus",
           case this._root:
             this._doWindowBlur();
             break;
-            
+
           default:
             this._doElementBlur(e.target);
         }
@@ -766,12 +765,12 @@ qx.Class.define("qx.event.handler.Focus",
 
       this.setActive(target);
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -787,7 +786,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __findFocusNode : function(node)
     {
-      while (node && node.getAttribute)
+      while (node)
       {
         if (node.tabIndex >= 0) {
           return node;
@@ -833,7 +832,7 @@ qx.Class.define("qx.event.handler.Focus",
       if (value) {
         this._fireBubblingEvent(value, "activate");
       }
-      
+
       // Lookup for next focusable parent element.
       if (value && value !== this.getFocus())
       {
@@ -851,7 +850,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.resetActive();
       } else if (value && !this.getActive()) {
         this.setActive(value);
-      }      
+      }
 
       //this.debug("Focus: " + value);
 
