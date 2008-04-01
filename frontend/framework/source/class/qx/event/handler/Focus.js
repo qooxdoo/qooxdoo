@@ -514,7 +514,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeDeactivate : qx.core.Variant.select("qx.client",
     {
-      "default" : function() {}
+      "default" : function(e) {}
     }),
 
 
@@ -536,7 +536,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "default" : function() {}
+      "default" : function(e) {}
     }),
 
 
@@ -570,7 +570,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.setFocus(target);
       },
 
-      "default" : function() {}
+      "default" : function(e) {}
     }),
 
 
@@ -596,7 +596,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "default" : function() {}
+      "default" : function(e) {}
     }),
 
 
@@ -640,7 +640,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "default" : function() {}
+      "default" : function(e) {}
     }),
 
 
@@ -665,13 +665,13 @@ qx.Class.define("qx.event.handler.Focus",
         this.setActive(target);
       },
 
-      "mshtml" : function()
+      "mshtml" : function(e)
       {
         this.setActive(window.event.srcElement);
         this._fromMouseDown = true;
       },
 
-      "default" : function() {}
+      "default" : function(e) {}
     }),
 
 
@@ -707,19 +707,6 @@ qx.Class.define("qx.event.handler.Focus",
       // clicking into an empty page area. In mshtml this must be
       // the body of the document.
       return this._body;
-    },
-
-    __normalizeTarget : function(target)
-    {
-      if (target.nodeType === 1) {
-        return target;
-      }
-
-      if (target === this._window || target === this._document) {
-        return this._body;
-      }
-
-      throw new Error("Could not normalize target: " + target);
     },
 
 
