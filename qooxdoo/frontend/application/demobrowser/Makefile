@@ -17,71 +17,19 @@
 #
 ################################################################################
 
-####################################################################################
-# BASIC SETTINGS
-####################################################################################
-
-QOOXDOO_PATH = ../../..
-APPLICATION_NAMESPACE = demobrowser
-APPLICATION_FILES = index.html demo resource
-APPLICATION_RESOURCE_FILTER = false
-APPLICATION_COMPLETE_BUILD = false
-APPLICATION_COMPLETE_SOURCE = false
-APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
-
-
-
-####################################################################################
-# INCLUDE CORE
-####################################################################################
-
-ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
-endif
-
-error:
-	@echo "  * Please configure QOOXDOO_PATH"
-
-
-
-
-
-
-################################################################################
-# EXTENSIONS
-################################################################################
-
-.PHONY: source build clean
+.PHONY: source build api
 
 source:
-	@#echo
-	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
-	@#$(CMD_LINE)
-	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j source
-	@echo
-	@echo "  GENERATION OF DEMO BROWSER DATA"
-	@$(CMD_LINE)
-	@echo "  * Generating Jobs Database..."
-	@$(CMD_PYTHON) tool/genjson.py source/script
-	@echo "  * Generating Demo Datebase..."
-	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j source
+	@../../tool/generator.py -c config.json -j source
 
 build:
-	@#echo
-	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
-	@#$(CMD_LINE)
-	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j build
-	@echo
-	@echo "  GENERATION OF DEMO BROWSER DATA"
-	@$(CMD_LINE)
-	@echo "  * Generating Jobs Database..."
-	@$(CMD_PYTHON) tool/genjson.py build/script
-	@echo "  * Generating Demo Datebase..."
-	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j build
+	@../../tool/generator.py -c config.json -j build
 
-clean:
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
-	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
+api:
+	@../../tool/generator.py -c config.json -j api
+
+# use old Makefile for other targets
+%: force
+	@$(MAKE) -s -f Makefile.gen1 $@
+
+force: ;
