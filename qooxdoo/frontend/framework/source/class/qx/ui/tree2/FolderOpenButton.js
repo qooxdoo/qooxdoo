@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.tree.FolderOpenButton",
+qx.Class.define("qx.ui.tree2.FolderOpenButton",
 {
   extend : qx.ui.basic.Image,
   include : qx.ui.core.MExecutable,
