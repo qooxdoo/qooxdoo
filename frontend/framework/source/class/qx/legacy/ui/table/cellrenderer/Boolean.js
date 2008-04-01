@@ -21,8 +21,11 @@
 /* ************************************************************************
 
 #embed(qx.widgettheme/table/boolean-true.png)
+#asset(qx/decoration/Classic/table/boolean-true.png)
 #embed(qx.widgettheme/table/boolean-false.png)
+#asset(qx/decoration/Classic/table/boolean-false.png)
 #embed(qx.static/image/blank.gif)
+#asset(qx/static/image/blank.gif)
 
 ************************************************************************ */
 

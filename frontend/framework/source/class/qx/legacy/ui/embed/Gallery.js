@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #embed(qx.static/image/blank.gif)
+#asset(qx/static/image/blank.gif)
 #optional(qx.legacy.ui.popup.ToolTipManager)
 
 ************************************************************************ */

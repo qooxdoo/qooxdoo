@@ -23,27 +23,38 @@
 
 #ignore(auto-use)
 #embed(qx.static/image/blank.gif)
+#asset(qx/static/image/blank.gif)
 
 # Window
 #embed(qx.widgettheme/window/*)
+#asset(qx/decoration/Ext/window/*)
 
 # ComboBox, ComboBoxEx
 #embed(qx.widgettheme/arrows/down.gif)
+#asset(qx/decoration/Ext/arrows/down.gif)
 
 # Spinner
 #embed(qx.widgettheme/arrows/up-small.gif)
+#asset(qx/decoration/Ext/arrows/up-small.gif)
 #embed(qx.widgettheme/arrows/down-small.gif)
+#asset(qx/decoration/Ext/arrows/down-small.gif)
 
 # ListView (HeaderCell)
 #embed(qx.widgettheme/arrows/up.gif)
+#asset(qx/decoration/Ext/arrows/up.gif)
 #embed(qx.widgettheme/arrows/down.gif)
+#asset(qx/decoration/Ext/arrows/down.gif)
 
 # Menu
 #embed(qx.widgettheme/menu/radiobutton.gif)
+#asset(qx/decoration/Ext/menu/radiobutton.gif)
 #embed(qx.widgettheme/menu/checkbox.gif)
+#asset(qx/decoration/Ext/menu/checkbox.gif)
 #embed(qx.widgettheme/arrows/next.gif)
+#asset(qx/decoration/Ext/arrows/next.gif)
 
 #embed(qx.widgettheme/gradient/*)
+#asset(qx/decoration/Ext/gradient/*)
 
 ************************************************************************* */
 
