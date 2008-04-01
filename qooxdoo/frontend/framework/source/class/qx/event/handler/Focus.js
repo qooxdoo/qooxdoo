@@ -400,7 +400,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-        this._window.addEventListener("DOMDeactivate", this.__onNativeActivateWrapper, true);
+        this._window.addEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
       },
 
       "opera" : function()
@@ -429,7 +429,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Additional activate/deactivate support
         this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-        this._window.addEventListener("DOMDeactivate", this.__onNativeActivateWrapper, true);
+        this._window.addEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
       }
     }),
 
@@ -483,14 +483,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       "opera" : function()
       {
-        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, false);
-        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, false);
 
-        this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
-        this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
-
-        this._window.removeEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-        this._window.removeEventListener("DOMDeactivate", this.__onNativeActivateWrapper, true);
       }
     }),
 
@@ -517,6 +510,18 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeActivate : qx.core.Variant.select("qx.client",
     {
+      "webkit" : function(e)
+      {
+        this.setActive(e.target);
+
+        this._fromActivate = true;
+
+        var focus = this.__findFocusNode(e.target);
+        this.setFocus(focus);
+
+        delete this._fromActivate;
+      },
+
       "default" : function(e) {}
     }),
 
@@ -554,9 +559,8 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : function(e)
-      {
-
+      "webkit" : function(e) {
+        this.resetFocus();
       },
 
       "default" : function(e) {}
@@ -595,7 +599,12 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e)
       {
-        this.debug("FocusIn: " + e.target);
+        var target = e.target;
+        this.setFocus(target);
+
+        if (!this._fromActivate) {
+          this.setActive(target);
+        }
       },
 
       "default" : function(e) {}
@@ -699,6 +708,16 @@ qx.Class.define("qx.event.handler.Focus",
         this._fromMouseDown = true;
       },
 
+      "webkit" : function(e)
+      {
+        var target = e.target;
+        if (target.nodeName === "INPUT" && (target.type === "checkbox" || target.type === "radio"))
+        {
+          this.setActive(target);
+          this.setFocus(target);
+        }
+      },
+
       "default" : function(e) {}
     }),
 
@@ -722,9 +741,10 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __findFocusNode : function(node)
     {
+      var Attribute = qx.bom.element.Attribute;
       while (node)
       {
-        if (node.tabIndex >= 0) {
+        if (Attribute.get(node, "tabIndex") >= 0) {
           return node;
         }
 
