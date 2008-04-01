@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
       }
 
       slider.addListener("changeValue", function() {
-        group.value.setContent("Value: " +  + slider.getValue());
+        group.value.setContent("Value: " + slider.getValue());
       });
 
       return group;
