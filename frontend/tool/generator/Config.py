@@ -24,8 +24,13 @@ class Config:
         obj.close()
         self._data  = data
         self._fname = os.path.abspath(fname)
-        
-    
+
+    def getData(self):
+        if self._data:
+            return self._data
+        else:
+            return None
+
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
         """
@@ -72,19 +77,27 @@ class Config:
         else:
             return default
 
-    def resolveIncludes(self):
+    def resolveIncludes(self, includeTrace=[]):
         config  = self._data
         jobsmap = self.getJobsMap()
+        if self._fname:   # we stem from a file
+            includeTrace.append(self._fname)   # expand the include trace
         if config.has_key('include'):
             for cfgfile in config['include']:
-                obj = open(cfgfile[1])
-                econfig = simplejson.loads(obj.read())
-                obj.close()
+                #cycle check
+                fname = cfgfile[1]
+                if os.path.abspath(fname) in includeTrace:
+                    self._console.warn("Include config already seen: %s" % fname)
+                    sys.exit(1)
+                
+                econfig = Config(self._console, fname)  #TODO: calc fpath from curr conf file!
+                econfig.resolveIncludes(includeTrace)   # recursive include
                 #for ejob in econfig['jobs']:
                 #    _resolveEntry(console, econfig['jobs'], ejob)
-                jobsmap[cfgfile[0]] = econfig # external config becomes namespace'd entry in jobsmap
+                jobsmap[cfgfile[0]] = econfig.getData() # external config becomes namespace'd entry in jobsmap
 
     def resolveExtendsAndRuns(self, joblist):
+        #TODO: is this expanding nested jobs in their own context??
         jobsmap = self.getJobsMap()
         # while there are still 'run' jobs or unresolved jobs in the job list...
         while ([x for x in joblist if jobsmap[x].has_key('run')] or 
