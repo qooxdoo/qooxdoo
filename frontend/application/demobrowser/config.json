@@ -137,7 +137,8 @@
         "files" :
         [
           "index.html",
-          "demo"
+          "demo",
+          "resource/demobrowser/demo"
         ],
 
         "target" : "build"
@@ -238,12 +239,12 @@
         }
       ],
 
-			"settings" :
-			{
-				"demobrowser.resourceUri" : "./resource"
-			},
+      "settings" :
+      {
+        "demobrowser.resourceUri" : "./resource"
+      },
 
-			"api_include" : ["qx.*", "demobrowser.*"]
+      "api_include" : ["qx.*", "demobrowser.*"]
     }
   }
 }
