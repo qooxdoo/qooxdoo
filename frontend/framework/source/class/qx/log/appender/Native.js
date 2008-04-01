@@ -21,9 +21,10 @@
  * Processes the incoming log entry and displays it to the native
  * logging capabilities of this client.
  *
- * * In Firefox using an installed FireBug.
- * * In Opera using the <code>postError</code> function.
- * * Internet Explorer and Safari is not yet supported.
+ * * Firefox using an installed FireBug.
+ * * Safari using new features of Web Inspector.
+ * * Opera using the <code>postError</code> (currently disbled through missing funcionality).
+ * * Internet Explorer is not yet supported.
  */
 qx.Bootstrap.define("qx.log.appender.Native",
 {
@@ -52,14 +53,29 @@ qx.Bootstrap.define("qx.log.appender.Native",
         }
       },
 
+      "webkit" : function(entry)
+      {
+        var level = entry.level;
+        if (level == "debug") {
+          level = "log";
+        }
+
+        var args = this.__toArguments(entry).join(" ");
+        if (window.console && console[level]) {
+          console[level](args);
+        }
+      },
+
       "opera" : function(entry)
       {
-        if (window.opera && opera.postError) 
-        {
-          // Opera's debugging as of 9.5 beta is not really useful
-          // Our own console makes a lot more sense
-          // opera.postError.apply(opera, this.__toArguments(entry));
+        // Opera's debugging as of 9.5 beta is not really useful
+        // Our own console makes a lot more sense
+
+        /*
+        if (window.opera && opera.postError) {
+          opera.postError.apply(opera, this.__toArguments(entry));
         }
+        */
       },
 
       "default" : function(entry) {}
@@ -73,51 +89,54 @@ qx.Bootstrap.define("qx.log.appender.Native",
      * @param entry {Map} The entry to process
      * @return {Array} Argument list ready message array.
      */
-    __toArguments : function(entry)
+    __toArguments : qx.core.Variant.select("qx.client",
     {
-      var output = [];
-
-      output.push(entry.offset + "ms");
-
-      if (entry.object)
+      "gecko|webkit" : function(entry)
       {
-        var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
-        if (obj) {
-          output.push(obj.classname + "[" + obj.$$hash + "]:");
-        }
-      }
-      else if (entry.clazz) {
-        output.push(entry.clazz.classname + ":");
-      }
+        var output = [];
 
-      var items = entry.items;
-      var item, msg;
-      for (var i=0, il=items.length; i<il; i++)
-      {
-        item = items[i];
-        msg = item.text;
+        output.push(entry.offset + "ms");
 
-        if (msg instanceof Array)
+        if (entry.object)
         {
-          var list = [];
-          for (var j=0, jl=msg.length; j<jl; j++) {
-            list.push(msg[j].text);
-          }
-
-          if (item.type === "map") {
-            output.push("{", list.join(", "), "}");
-          } else {
-            output.push("[", list.join(", "), "]");
+          var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
+          if (obj) {
+            output.push(obj.classname + "[" + obj.$$hash + "]:");
           }
         }
-        else
-        {
-          output.push(msg);
+        else if (entry.clazz) {
+          output.push(entry.clazz.classname + ":");
         }
-      }
 
-      return output;
-    }
+        var items = entry.items;
+        var item, msg;
+        for (var i=0, il=items.length; i<il; i++)
+        {
+          item = items[i];
+          msg = item.text;
+
+          if (msg instanceof Array)
+          {
+            var list = [];
+            for (var j=0, jl=msg.length; j<jl; j++) {
+              list.push(msg[j].text);
+            }
+
+            if (item.type === "map") {
+              output.push("{", list.join(", "), "}");
+            } else {
+              output.push("[", list.join(", "), "]");
+            }
+          }
+          else
+          {
+            output.push(msg);
+          }
+        }
+
+        return output;
+      }
+    })
   },
 
 
