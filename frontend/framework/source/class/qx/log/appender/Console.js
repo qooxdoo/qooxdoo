@@ -131,7 +131,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
      */
     dispose : function()
     {
-      qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);
+      qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyDown, this);
       qx.log.Logger.unregister(this);
     },
 
@@ -406,13 +406,13 @@ qx.Bootstrap.define("qx.log.appender.Console",
 
 
     /**
-     * Event handler for keypress listener
+     * Event handler for keydown listener
      *
      * @type static
      * @param e {Event} Event object
      * @return {void}
      */
-    __onKeyPress : function(e)
+    __onKeyDown : function(e)
     {
       var iden = e.getKeyIdentifier();
 
@@ -468,6 +468,6 @@ qx.Bootstrap.define("qx.log.appender.Console",
   */
 
   defer : function(statics) {
-    qx.event.Registration.addListener(document.documentElement, "keydown", statics.__onKeyPress, statics);
+    qx.event.Registration.addListener(document.documentElement, "keydown", statics.__onKeyDown, statics);
   }
 });

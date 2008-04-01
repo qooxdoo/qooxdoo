@@ -201,11 +201,13 @@ qx.Class.define("qx.event.handler.Keyboard",
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
       var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
-      var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
 
-      if (target) {
-        this._manager.dispatchEvent(target, event);
+      if (!target) {
+        target = this._manager.getWindow().document.body;
       }
+
+      var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
+      this._manager.dispatchEvent(target, event);
     },
 
 
@@ -337,7 +339,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
         // starting with Safari 3.1 (verion 525.13) Apple switched the key
         // handling to match the IE behaviour.
-        if (qx.bom.client.Engine.VERSION < 525.13 )
+        if (qx.bom.client.Engine.VERSION < 525.13)
         {
           var keyCode = 0;
 
