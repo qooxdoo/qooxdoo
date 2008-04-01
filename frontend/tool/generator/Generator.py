@@ -134,8 +134,8 @@ class Generator:
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
-        smartInclude, explicitInclude = self.getIncludes()
-        smartExclude, explicitExclude = self.getExcludes()
+        smartInclude, explicitInclude = self.getIncludes(self._config.get("include", []))
+        smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
         
         # Processing all combinations of variants
         variantData = self.getVariants()
@@ -209,6 +209,13 @@ class Generator:
 
         if not apiPath:
             return
+
+
+        smartInclude, explicitInclude = self.getIncludes(self._config.get("api_include", []))
+        smartExclude, explicitExclude = self.getExcludes(self._config.get("api_exclude", []))
+
+        classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
+        packages = [classList]
 
         apiContent = []
         for classes in packages:
@@ -693,8 +700,8 @@ class Generator:
     #  DEPENDENCIES
     ######################################################################
 
-    def getIncludes(self):
-        includeCfg = self._config.get("include", [])
+    def getIncludes(self, includeCfg):
+        #includeCfg = self._config.get("include", [])
 
         # Splitting lists
         self._console.debug("Preparing include configuration...")
@@ -734,8 +741,8 @@ class Generator:
 
 
 
-    def getExcludes(self):
-        excludeCfg = self._config.get("exclude", [])
+    def getExcludes(self, excludeCfg):
+        #excludeCfg = self._config.get("exclude", [])
 
         # Splitting lists
         self._console.debug("Preparing exclude configuration...")
