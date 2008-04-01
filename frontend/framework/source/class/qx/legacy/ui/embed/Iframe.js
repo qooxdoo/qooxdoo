@@ -22,7 +22,9 @@
 /* ************************************************************************
 
 #embed(qx.static/image/blank.gif)
+#asset(qx/static/image/blank.gif)
 #embed(qx.static/html/blank.html)
+#asset(qx/static/html/blank.html)
 
 ************************************************************************ */
 
