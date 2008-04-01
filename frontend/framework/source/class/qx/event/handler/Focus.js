@@ -223,9 +223,6 @@ qx.Class.define("qx.event.handler.Focus",
 
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       HELPER
@@ -385,12 +382,28 @@ qx.Class.define("qx.event.handler.Focus",
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
         // The window blur can detected using focusout and look
-        // for the relatedTarget which is empty in this case.
+        // for the toTarget property which is empty in this case.
         this._document.attachEvent("onfocusin", this.__onNativeFocusInWrapper);
         this._document.attachEvent("onfocusout", this.__onNativeFocusOutWrapper);
       },
 
-      "webkit|opera" : function()
+      "webkit" : function()
+      {
+        // Bind methods
+        this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
+        this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
+
+        this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
+        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
+
+        this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
+        this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+
+        this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
+        this._window.addEventListener("DOMDeactivate", this.__onNativeActivateWrapper, true);
+      },
+
+      "opera" : function()
       {
         // Bind methods
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
@@ -463,7 +476,12 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);
       },
 
-      "webkit|opera" : function()
+      "webkit" : function()
+      {
+
+      },
+
+      "opera" : function()
       {
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, false);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, false);
@@ -536,6 +554,11 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
+      "webkit" : function(e)
+      {
+
+      },
+
       "default" : function(e) {}
     }),
 
@@ -568,6 +591,11 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         this.setFocus(target);
+      },
+
+      "webkit" : function(e)
+      {
+        this.debug("FocusIn: " + e.target);
       },
 
       "default" : function(e) {}
