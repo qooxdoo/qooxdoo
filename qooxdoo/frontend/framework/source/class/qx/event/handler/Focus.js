@@ -65,9 +65,7 @@ qx.Class.define("qx.event.handler.Focus",
     this._root = this._document.documentElement;
     this._body = this._document.body;
 
-    // Initialize observers
-    this._initMouseObserver();
-    this._initFocusObserver();
+    this._initObserver();
   },
 
 
@@ -335,37 +333,30 @@ qx.Class.define("qx.event.handler.Focus",
 
     /*
     ---------------------------------------------------------------------------
-      OBSERVER INIT
+      NATIVE OBSERVER
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Initializes the native mouse event listeners.
-     *
-     * @type member
-     * @return {void}
-     */
-    _initMouseObserver : function()
-    {
-      this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
-      qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper);
-    },
-
-
-    /**
-     * Initializes the native focus event listeners.
+     * Initializes event listeners.
      *
      * @type member
      * @signature function()
      * @return {void}
      */
-    _initFocusObserver : qx.core.Variant.select("qx.client",
+    _initObserver : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
       {
         // Bind methods
+        this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
+
+
+        // Register events
+        this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
@@ -376,8 +367,14 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function()
       {
         // Bind methods
+        this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
+
+
+        // Register events
+        this._document.attachEvent("onmousedown", this.__onNativeMouseDownWrapper);
 
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
@@ -390,6 +387,8 @@ qx.Class.define("qx.event.handler.Focus",
       "webkit" : function()
       {
         // Bind methods
+        this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
@@ -398,6 +397,10 @@ qx.Class.define("qx.event.handler.Focus",
 
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
+
+
+        // Register events
+        this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -412,84 +415,75 @@ qx.Class.define("qx.event.handler.Focus",
       "opera" : function()
       {
         // Bind methods
-        this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
-        this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
+        this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
 
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
-        this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
-        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
+        this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
+        this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
-        // Opera 9.5 ignores the event when capturing is enabled
-        // which is somewhat correct as blur/focus are non-bubbling events.
-        this._window.addEventListener("focus", this.__onNativeFocusWrapper, false);
-        this._window.addEventListener("blur", this.__onNativeBlurWrapper, false);
 
-        // Opera as of 9.5 supports DOMFocusOut which is needed to detect the
-        // element focus
-        // Safari as of 3.1 only supports DOMFocusIn and DOMFocusOut on natively
-        // focusable elements e.g. input elements
+        // Register events
+        this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
-        // Additional activate/deactivate support
-        this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-        this._window.addEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
+        this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
+        this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
       }
     }),
 
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      OBSERVER STOP
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Disconnect the native mouse event listeners.
-     *
-     * @type member
-     * @return {void}
-     */
-    _stopMouseObserver : function() {
-      qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper);
-    },
-
-
-    /**
-     * Disconnect the native focus event listeners.
+     * Disconnects event listeners.
      *
      * @type member
      * @signature function()
      * @return {void}
      */
-    _stopFocusObserver : qx.core.Variant.select("qx.client",
+    _stopObserver : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
       {
+        this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, false);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, false);
       },
 
       "mshtml" : function()
       {
+        this._document.detachEvent("onmousedown", this.__onNativeMouseDownWrapper);
+
         this._document.detachEvent("onfocusin", this.__onNativeFocusInWrapper);
         this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);
       },
 
       "webkit" : function()
       {
+        this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
+        this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
+        this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+
+        this._window.removeEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
+        this._window.removeEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
+
+        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
+        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
       },
 
       "opera" : function()
       {
+        this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
+        this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
+        this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+
+        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
+        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
       }
     }),
 
@@ -501,7 +495,7 @@ qx.Class.define("qx.event.handler.Focus",
 
     /*
     ---------------------------------------------------------------------------
-      NATIVE EVENT LISTENERS
+      NATIVE LISTENERS
     ---------------------------------------------------------------------------
     */
 
@@ -536,41 +530,14 @@ qx.Class.define("qx.event.handler.Focus",
      * Native event listener for <code>DOMDeactivate</code> or <code>deactivate</code>
      * depending on the client's engine.
      *
-     * @type member
-     * @signature function(e)
-     * @param e {Event} Native event
-     * @return {void}
-     */
-    __onNativeDeactivate : qx.core.Variant.select("qx.client",
-    {
-      "default" : function(e) {}
-    }),
-
-
-    /**
-     * Native event listener for <code>DOMFocusOut</code> or <code>focusout</code>
-     * depending on the client's engine.
+     * Not used yet. No browser support this correctly.
      *
      * @type member
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
      */
-    __onNativeFocusOut : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(e)
-      {
-        if (!window.event.toElement) {
-          this._doWindowBlur();
-        }
-      },
-
-      "webkit" : function(e) {
-        this.resetFocus();
-      },
-
-      "default" : function(e) {}
-    }),
+    __onNativeDeactivate : null,
 
 
     /**
@@ -613,6 +580,47 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
+      "opera" : function(e)
+      {
+        // Force window focus to be the first
+        this._doWindowFocus();
+
+        // Then reconfigure active and focused data
+        // when the target is not the document (real inner focusing)
+        var target = e.target;
+        if (target !== this._document)
+        {
+          this.setActive(target);
+          this.setFocus(target);
+        }
+      },
+
+      "default" : function(e) {}
+    }),
+
+
+    /**
+     * Native event listener for <code>DOMFocusOut</code> or <code>focusout</code>
+     * depending on the client's engine.
+     *
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native event
+     * @return {void}
+     */
+    __onNativeFocusOut : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(e)
+      {
+        if (!window.event.toElement) {
+          this._doWindowBlur();
+        }
+      },
+
+      "webkit" : function(e) {
+        this.resetFocus();
+      },
+
       "default" : function(e) {}
     }),
 
@@ -627,7 +635,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeBlur : qx.core.Variant.select("qx.client",
     {
-      "gecko|webkit" : function(e)
+      "gecko|webkit|opera" : function(e)
       {
         // Only process window blur here. In every tested case
         // where a blur occours a focus follows, but not when
@@ -685,7 +693,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : function(e)
+      "webkit|opera" : function(e)
       {
         // Only window focus is handled here. All other things are done by
         // focusIn, focusOut etc.
@@ -736,6 +744,20 @@ qx.Class.define("qx.event.handler.Focus",
           this.setActive(target);
           this.setFocus(target);
         }
+      },
+
+      "opera" : function(e)
+      {
+        // Focus event in Opera is fired after the mousedown which
+        // is not typical. Normalize this here.
+        this._doWindowFocus();
+
+        // Do both, activation and focusing of the pressed element.
+        var target = e.target;
+        var focus = this.__findFocusNode(target);
+
+        this.setActive(target);
+        this.setFocus(focus);
       },
 
       "default" : function(e) {}
