@@ -29,8 +29,6 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       this.base(arguments);
 
       var t = new qx.ui.tree.Tree("Root").set({
-        backgroundColor : "white",
-        decorator : "inset",
         width : 200
       });
       this.getRoot().add(t, 20, 48);
