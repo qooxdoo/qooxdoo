@@ -244,7 +244,8 @@
         "demobrowser.resourceUri" : "./resource"
       },
 
-      "api_include" : ["qx.*", "demobrowser.*"]
+      "api_include" : ["qx.*", "demobrowser.*"],
+			"api_exclude" : ["demobrowser.demo.*"]
     }
   }
 }
