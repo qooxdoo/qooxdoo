@@ -135,7 +135,9 @@ qx.Bootstrap.define("qx.log.appender.Native",
         }
 
         return output;
-      }
+      },
+
+      "default" : null
     })
   },
 
