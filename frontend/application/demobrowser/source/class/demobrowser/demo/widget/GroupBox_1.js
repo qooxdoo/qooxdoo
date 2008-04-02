@@ -1,0 +1,90 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
+
+************************************************************************ */
+
+qx.Class.define("demobrowser.demo.widget.GroupBox_1",
+{
+  extend : qx.application.Standalone,
+
+  members :
+  {
+    main: function() {
+      this.base(arguments);
+
+      // create the main layout
+      var mainLayout = new qx.ui.layout.VBox();
+      mainLayout.setSpacing(10);
+      // add the main layout to a container widget and to the document root
+      var container = new qx.ui.core.Widget();
+      container.setPadding(20);
+      container.setLayout(mainLayout);
+      this.getRoot().add(container, 0, 0);
+
+      // create the first group box
+      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");
+      box1.setLegendPosition("top");
+      box1.getPane().setPadding(3, 9);
+      mainLayout.add(box1);
+      // create and add the content of the first group box      
+      var innerLayout1 = new qx.ui.layout.VBox();
+      innerLayout1.add(new qx.ui.form.CheckBox("Show debugging content"));
+      innerLayout1.add(new qx.ui.form.CheckBox("Enable code completion"));
+      innerLayout1.add(new qx.ui.form.CheckBox("Show debugging console"));
+      box1.getPane().setLayout(innerLayout1);
+
+      // create the second group box
+      box2 = new qx.ui.groupbox.CheckGroupBox("Expert Settings");
+      mainLayout.add(box2);
+      // create and add the content of the second group box
+      var innerLayout2 = new qx.ui.layout.HBox();
+      var textField = new qx.ui.form.TextField("");
+      textField.setWidth(200);
+      innerLayout2.add(textField);
+      box2.getPane().setLayout(innerLayout2);    
+      // Add a listener to the checkbox
+      box2.getLegendObject().addListener("changeChecked", function(e) {
+        textField.setEnabled(e.getValue());
+      }, this);        
+
+      // create the third group box
+      var radioButton1 = new qx.ui.form.RadioButton("Normal Settings");
+      radioButton1.setPaddingLeft(13);
+      radioButton1.setPaddingBottom(-10);
+      mainLayout.add(radioButton1);
+      box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
+      mainLayout.add(box3);
+      var manager = new qx.ui.core.RadioManager();
+      manager.add(radioButton1);
+      manager.add(box3.getLegendObject());
+      
+      // create and add the content of the third group box
+      var innerLayout3 = new qx.ui.layout.HBox();
+      var textField2 = new qx.ui.form.TextField("");
+      textField2.setWidth(200);
+      innerLayout3.add(textField2);
+      box3.getPane().setLayout(innerLayout3);    
+      // Add a listener to the radio button
+      box3.getLegendObject().addListener("changeChecked", function(e) {
+        textField2.setEnabled(e.getValue());
+      }, this); 
+      
+    }
+  }
+});
