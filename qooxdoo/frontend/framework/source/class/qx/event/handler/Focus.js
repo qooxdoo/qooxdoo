@@ -283,8 +283,8 @@ qx.Class.define("qx.event.handler.Focus",
     ---------------------------------------------------------------------------
     */
 
-    /** {Boolean} Whether the window is focussed currently */
-    _windowFocussed : true,
+    /** {Boolean} Whether the window is focused currently */
+    _windowFocused : true,
 
 
     /**
@@ -297,9 +297,9 @@ qx.Class.define("qx.event.handler.Focus",
     {
       // Omit doubled blur events
       // which is a common behavior at least for gecko based clients
-      if (this._windowFocussed)
+      if (this._windowFocused)
       {
-        this._windowFocussed = false;
+        this._windowFocused = false;
 
         this.resetActive();
         this.resetFocus();
@@ -319,9 +319,9 @@ qx.Class.define("qx.event.handler.Focus",
     {
       // Omit doubled focus events
       // which is a common behavior at least for gecko based clients
-      if (!this._windowFocussed)
+      if (!this._windowFocused)
       {
-        this._windowFocussed = true;
+        this._windowFocused = true;
         this._fireDirectEvent(this._window, "focus");
       }
     },
@@ -397,7 +397,6 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
         this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
-        this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
 
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
@@ -410,7 +409,6 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-        this._window.addEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
 
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -475,7 +473,6 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.removeEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-        this._window.removeEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
 
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -671,7 +668,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         var target = e.target;
 
-        if (!this._windowFocussed)
+        if (!this._windowFocused)
         {
           // A focus event normally means that at least the window
           // should be focused. The other stuff is not needed because
