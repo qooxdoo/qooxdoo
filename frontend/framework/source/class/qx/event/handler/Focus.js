@@ -350,6 +350,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // Bind methods
         this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+        this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
@@ -357,6 +358,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Register events
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.addEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
 
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
@@ -368,6 +370,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // Bind methods
         this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+        this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
@@ -375,6 +378,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Register events
         this._document.attachEvent("onmousedown", this.__onNativeMouseDownWrapper);
+        this._document.attachEvent("onmouseup", this.__onNativeMouseUpWrapper);
 
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
@@ -448,6 +452,7 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function()
       {
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.removeEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
 
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, false);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, false);
@@ -456,6 +461,7 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function()
       {
         this._document.detachEvent("onmousedown", this.__onNativeMouseDownWrapper);
+        this._document.detachEvent("onmouseup", this.__onNativeMouseUpWrapper);
 
         this._document.detachEvent("onfocusin", this.__onNativeFocusInWrapper);
         this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);
@@ -486,7 +492,6 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
       }
     }),
-
 
 
 
@@ -595,7 +600,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "default" : function(e) {}
+      "default" : null
     }),
 
 
@@ -621,7 +626,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.resetFocus();
       },
 
-      "default" : function(e) {}
+      "default" : null
     }),
 
 
@@ -647,7 +652,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "default" : function(e) {}
+      "default" : null
     }),
 
 
@@ -680,16 +685,15 @@ qx.Class.define("qx.event.handler.Focus",
         }
         else
         {
-          // Update property
-          this.setFocus(target);
-
-          // After a main window blur the active element is not configured anymore.
-          // The second focus event (after the initial window focus) recovers
-          // the focus selection. The active element is than synchronized by the
-          // current focused element.
-          if (!this.getActive()) {
+          if (!this._fromMouseDown || !this.getActive()) {
             this.setActive(target);
           }
+
+          // Cleanup marker
+          delete this._fromMouseDown;
+
+          // Update property
+          this.setFocus(target);
         }
       },
 
@@ -703,7 +707,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "default" : function(e) {}
+      "default" : null
     }),
 
 
@@ -725,7 +729,11 @@ qx.Class.define("qx.event.handler.Focus",
           target = target.parentNode;
         }
 
+        // Activate element
         this.setActive(target);
+
+        // Remember mouse active target
+        this._fromMouseDown = true;
       },
 
       "mshtml" : function(e)
@@ -760,9 +768,25 @@ qx.Class.define("qx.event.handler.Focus",
         this.setFocus(focus);
       },
 
-      "default" : function(e) {}
+      "default" : null
     }),
 
+
+    /**
+     * Native event listener for <code>mouseup</code>.
+     *
+     * @type member
+     * @param e {Event} Native event
+     * @return {void}
+     */
+    __onNativeMouseUp : qx.core.Variant.select("qx.client",
+    {
+      "gecko|mshtml" : function(e) {
+        delete this._fromMouseDown;
+      },
+
+      "default" : null
+    }),
 
 
 
@@ -815,7 +839,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyActive : function(value, old)
     {
-      // this.debug("Active: " + value);
+      this.debug("LL-Active: " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "beforedeactivate");
@@ -838,7 +862,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
-      // this.debug("Focus: " + value);
+      this.debug("LL-Focus: " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "focusout");
