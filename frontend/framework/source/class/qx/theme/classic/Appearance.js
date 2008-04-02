@@ -129,6 +129,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
+        console.debug("STATES: ", states);
         return {
           decorator       : states.focused ? "focused" : "inset",
           backgroundColor : states.focused ? "#F0F4FA" : "white"
@@ -361,6 +362,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "check-box-group-box-legend" :
     {
       include : "check-box",
+
       style : function(states)
       {
         return {
@@ -371,8 +373,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "radio-button-group-box-legend" : {
+    "radio-button-group-box-legend" :
+    {
       include : "radio-button",
+
       style : function(states)
       {
         return {
@@ -602,13 +606,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-/*
----------------------------------------------------------------------------
-  TREE
----------------------------------------------------------------------------
-*/
-
-
     "folder-open-button" :
     {
       style : function(states)
@@ -688,16 +685,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
-    "tree" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "black",
-          backgroundColor : "white"
-        }
-      }
+    "tree" : {
+      include : "list"
     }
-
   }
 });
