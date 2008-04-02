@@ -18,7 +18,7 @@
     var length = splits.length;
     var div = " " + String.fromCharCode(187) + " ";
     var category = splits[length-2];
-    var file = splits[length-1].replace(".html", "");
+    var file = splits[splits.length - 1].split("?")[0].replace(".html", "");
 
     // create a dvi
     var div = document.createElement("div");
@@ -48,7 +48,7 @@
     var length = splits.length;
     var div = " " + String.fromCharCode(187) + " ";
     var category = splits[length-2].toUpperCase();
-    var file = splits[length-1].replace(".html", "").replace("_", " ");
+    var file = splits[length-1].split("?")[0].replace(".html", "").replace("_", " ");
 
     document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
   }
