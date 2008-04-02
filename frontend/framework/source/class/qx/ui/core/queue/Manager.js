@@ -69,6 +69,14 @@ qx.Class.define("qx.ui.core.queue.Manager",
       // No else blocks here because each flush can influence the
       // following flushes!
 
+      if (jobs.widget)
+      {
+        //var start = new Date;
+        qx.ui.core.queue.Widget.flush();
+        jobs.widget = false;
+        //qx.log.Logger.debug(this, "Widget queue runtime: " + (new Date - start) + "ms");
+      }
+
       if (jobs.appearance)
       {
         //var start = new Date;

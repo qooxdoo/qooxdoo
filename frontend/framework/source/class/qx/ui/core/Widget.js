@@ -2084,6 +2084,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET QUEUE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * This method is called during the flush of the
+     * {@link qx.ui.core.queue.Widget widget queue}.
+     */
+    syncWidget : function() {},
+
 
 
     /*
