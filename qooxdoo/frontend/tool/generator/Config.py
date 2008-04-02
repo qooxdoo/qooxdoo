@@ -2,28 +2,34 @@ import os, sys, re, types, string
 import simplejson
 
 class Config:
-    def __init__(self, console, data):
+    def __init__(self, console, data, path=""):
         # init members
         self._console = console
         self._data    = None
         self._fname   = None
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
-            self.__init__data(data)
+            self.__init__data(data, path)
         elif isinstance(data, types.StringTypes):
             self.__init_fname(data)
         else:
             raise TypeError, str(data)
 
-    def __init__data(self, data):
+    def __init__data(self, data, path):
         self._data = data
+        if path:
+            self._dirname = os.path.abspath(path)
+        else:
+            self._dirname = os.getcwd()
 
     def __init_fname(self, fname):
         obj = open(fname)
         data = simplejson.loads(obj.read())
         obj.close()
+
         self._data  = data
         self._fname = os.path.abspath(fname)
+        self._dirname = os.path.dirname(self._fname)
 
     def getData(self):
         if self._data:
@@ -58,7 +64,7 @@ class Config:
         
         
     def extract(self, key):
-        return Config(self._console, self.get(key, {}))
+        return Config(self._console, self.get(key, {}), self._dirname)
         
     
     def _normalizeConfig(self, value):
@@ -87,10 +93,15 @@ class Config:
                 #cycle check
                 fname = cfgfile[1]
                 if os.path.abspath(fname) in includeTrace:
-                    self._console.warn("Include config already seen: %s" % fname)
+                    self._console.warn("Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)]))
                     sys.exit(1)
                 
-                econfig = Config(self._console, fname)  #TODO: calc fpath from curr conf file!
+                # calculate path relative to config file if necessary
+                if not os.path.isabs(fname):
+                    fpath = os.path.normpath(os.path.join(self._dirname, fname))
+                else:
+                    fpath = fname
+                econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
                 #for ejob in econfig['jobs']:
                 #    _resolveEntry(console, econfig['jobs'], ejob)
@@ -190,7 +201,7 @@ class Config:
                 for entry in extends:
                     # cyclic check
                     if entry in entryTrace:
-                        console.warn("Extend entry already seen: %s" % entry)
+                        console.warn("Extend entry already seen: %s" % str(entryTrace+[job,entry]))
                         sys.exit(1)
 
                     pjob = self.get(entry, None, jobcontext )
