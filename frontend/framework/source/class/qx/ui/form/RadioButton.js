@@ -183,8 +183,6 @@ qx.Class.define("qx.ui.form.RadioButton",
         case "Down":
           return this.getManager() ? this.getManager().selectNext(this) : true;
       }
-
-      this.base(arguments, e);
     }
   }
 });
