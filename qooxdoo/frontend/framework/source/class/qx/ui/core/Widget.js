@@ -2199,33 +2199,28 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.debug("Activating...");
       e.stopPropagation();
-
-      //this.debug("Activating: DONE");
     },
 
     _onContainerDeactivate : function(e)
     {
       this.debug("Deactivating...");
       e.stopPropagation();
-
-      //this.debug("Deactivating: DONE");
     },
 
     _onContainerFocusIn : function(e)
     {
-      e.stopPropagation();
-
-      this.debug("Widget focus");
+      this.debug("Focusing...");
       this.addState("focused");
 
+      e.stopPropagation();
     },
 
     _onContainerFocusOut : function(e)
     {
-      e.stopPropagation();
-
-      this.debug("Widget blur");
+      this.debug("Bluring...");
       this.removeState("focused");
+
+      e.stopPropagation();
     },
 
 
