@@ -195,7 +195,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
       {
         var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
         if (obj) {
-          output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "</span>: ");
+          output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "[" , obj.$$hash, "]</span>: ");
         }
       }
       else if (entry.clazz)
