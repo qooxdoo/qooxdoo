@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.handler.Window)
+
+************************************************************************ */
+
 /**
  * This is the root widget for qooxdoo applications with an
  * "application" like behaviour. The widget will span the whole viewport

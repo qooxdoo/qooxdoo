@@ -89,7 +89,7 @@ qx.Class.define("qx.event.handler.Window",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return target === this._window && this._eventTypes[type];
+      return target == this._window && this._eventTypes[type];
     },
 
 
@@ -196,8 +196,9 @@ qx.Class.define("qx.event.handler.Window",
 
       // At least Safari 3.1 and Opera 9.2.x have a bubbling scroll event
       // which needs to be ignored here.
-      var target = e.target;
-      if (target === win || target === doc || target === html) {
+      // Internet Explorer does not have a target in resize events.
+      var target = e.target || e.srcElement;
+      if (target == null || target === win || target === doc || target === html) {
         qx.event.Registration.fireEvent(this._window, e.type);
       }
     }
