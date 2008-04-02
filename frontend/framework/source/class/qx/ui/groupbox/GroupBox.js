@@ -60,17 +60,9 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     if (vIcon != null) {
       this.setIcon(vIcon);
     }
-
-    this._legendObject.addListener("resize", function(e) {
-      // console.log(e.getData().height);
-      if (this.getLegendPosition() == "middle") {
-        var indexOfFrame = this._canvasLayout.indexOf(this._frameObject);
-        
-      } else if (this.getLegendPosition() == "top") {
-        
-      }
-    }, this);
-
+   
+    // Listen to the resize of the legend
+    this._legendObject.addListener("resize", this._repositionFrame, this);
   },
 
 
@@ -90,9 +82,14 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       init   : "group-box"
     },
     
+    
+    /**
+     * 
+     */
     legendPosition : {
-      check     : "top || middle",
+      check     : ["top", "middle"],
       init      : "middle",
+      apply     : "_applyLegendPosition",
       themeable : true
     }
   },
@@ -140,6 +137,30 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       this._frameObject.setAppearance("group-box-frame");
 
       this._canvasLayout.add(this._frameObject, 0, 6, 0, 0);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LEGEND POSITION HANDLING
+    ---------------------------------------------------------------------------
+    */
+   
+    _applyLegendPosition: function(e) {
+      if (this._legendObject.getComputedLayout()) {
+        this._repositionFrame();
+      }
+    },
+    
+    _repositionFrame: function() {
+      // get the current height of the legend
+      var height = this._legendObject.getComputedLayout().height;
+      // check for the property legend position
+      if (this.getLegendPosition() == "middle") {
+        this._canvasLayout.addLayoutProperty(this._frameObject, "top", height / 2);   
+      } else if (this.getLegendPosition() == "top") {
+        this._canvasLayout.addLayoutProperty(this._frameObject, "top", height);
+      }      
     },
 
 
