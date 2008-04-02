@@ -1008,9 +1008,11 @@ class _ShellCmd(object):
     def execute(self,cmd):
         # subprocess-based version
         p = subprocess.Popen(cmd, shell=True,
-                             stdout=sys.stdout,
+                             # problems in python 2.4.4 with passing std streams (?)
+                             #stdout=sys.stdout,
                              #stderr=subprocess.STDOUT
-                             stderr=sys.stderr)
+                             #stderr=sys.stderr
+                             )
         return p.wait()
 
 
