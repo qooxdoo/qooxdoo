@@ -99,11 +99,17 @@ class Config:
     def resolveExtendsAndRuns(self, joblist):
         #TODO: is this expanding nested jobs in their own context??
         jobsmap = self.getJobsMap()
+        console = self._console
+        console.info("Resolving jobs...")
+        console.indent()
+
         # while there are still 'run' jobs or unresolved jobs in the job list...
         while ([x for x in joblist if jobsmap[x].has_key('run')] or 
                [y for y in joblist if not jobsmap[y].has_key('resolved')]):
             self._resolveExtends(self._console, jobsmap, joblist)
             self._resolveRuns(self._console, jobsmap, joblist)
+
+        console.outdent()
         return joblist
 
     def _mapMerge(self, source, target):
@@ -194,13 +200,8 @@ class Config:
 
             data["resolved"] = True
 
-        console.info("Resolving jobs...")
-        console.indent()
-
         for job in jobs:
             _resolveEntry(console, config, job)
-
-        console.outdent()
 
 
     def resolveMacros(self, jobs):
