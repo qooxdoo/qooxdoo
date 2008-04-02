@@ -396,11 +396,17 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
         this.__onNativeDeactivateWrapper = qx.lang.Function.listener(this.__onNativeDeactivate, this);
 
+        this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
+        this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
+
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
         this._window.addEventListener("DOMDeactivate", this.__onNativeDeactivateWrapper, true);
+
+        this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
+        this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
       },
 
       "opera" : function()
@@ -621,7 +627,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeBlur : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(e)
+      "gecko|webkit" : function(e)
       {
         // Only process window blur here. In every tested case
         // where a blur occours a focus follows, but not when
@@ -649,6 +655,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function(e)
       {
+        var target = e.target;
+
         if (!this._windowFocussed)
         {
           // A focus event normally means that at least the window
@@ -657,7 +665,7 @@ qx.Class.define("qx.event.handler.Focus",
           // afterwards as well.
           this._doWindowFocus();
         }
-        else if (e.target === this._window || e.target === this._document)
+        else if (target === this._window || target === this._document)
         {
           // Internally we normalize all these to the body element
           this.setFocus(this._body);
@@ -665,15 +673,25 @@ qx.Class.define("qx.event.handler.Focus",
         else
         {
           // Update property
-          this.setFocus(e.target);
+          this.setFocus(target);
 
           // After a main window blur the active element is not configured anymore.
           // The second focus event (after the initial window focus) recovers
           // the focus selection. The active element is than synchronized by the
           // current focused element.
           if (!this.getActive()) {
-            this.setActive(e.target);
+            this.setActive(target);
           }
+        }
+      },
+
+      "webkit" : function(e)
+      {
+        // Only window focus is handled here. All other things are done by
+        // focusIn, focusOut etc.
+        var target = e.target;
+        if (target === this._window || target === this._document) {
+          this._doWindowFocus();
         }
       },
 
@@ -710,6 +728,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e)
       {
+        // It seems that Webkit (at least Safari 3.1) do not properly fire
+        // activate / focus events when clicking on checkboxes and radiobuttons.
         var target = e.target;
         if (target.nodeName === "INPUT" && (target.type === "checkbox" || target.type === "radio"))
         {
@@ -742,7 +762,9 @@ qx.Class.define("qx.event.handler.Focus",
     __findFocusNode : function(node)
     {
       var Attribute = qx.bom.element.Attribute;
-      while (node)
+      var body = this._body;
+
+      while (node && node !== body)
       {
         if (Attribute.get(node, "tabIndex") >= 0) {
           return node;
@@ -754,7 +776,7 @@ qx.Class.define("qx.event.handler.Focus",
       // This should be identical to the one which is selected when
       // clicking into an empty page area. In mshtml this must be
       // the body of the document.
-      return this._body;
+      return body;
     },
 
 
