@@ -129,7 +129,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        console.debug("STATES: ", states);
         return {
           decorator       : states.focused ? "focused" : "inset",
           backgroundColor : states.focused ? "#F0F4FA" : "white"
