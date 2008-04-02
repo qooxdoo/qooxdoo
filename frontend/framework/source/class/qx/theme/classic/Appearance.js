@@ -380,7 +380,113 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight    : 3,
           paddingLeft     : 3
         };
-      }    },
+      }
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TOOLBAR
+    ---------------------------------------------------------------------------
+    */
+
+    "toolbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "outset-thin",
+          backgroundColor : "background"
+        };
+      }
+    },
+
+    "toolbar-part" : {
+    },
+
+    "toolbar-part-handle" :
+    {
+      style : function(states)
+      {
+        return {
+          width : 10
+        };
+      }
+    },
+
+    "toolbar-part-handle-line" :
+    {
+      style : function(states)
+      {
+        return {
+          // top    : 2,
+          // left   : 3,
+          // bottom : 2,
+          // width  : 4,
+          decorator : "outset-thin"
+        };
+      }
+    },
+
+    "toolbar-separator" :
+    {
+      style : function(states)
+      {
+        return {
+          width : 8
+        };
+      }
+    },
+
+    "toolbar-separator-line" :
+    {
+      style : function(states)
+      {
+        return {
+          // top    : 2,
+          // left   : 3,
+          // width  : "auto",
+          // bottom : 2,
+          decorator : "divider-horizontal"
+        };
+      }
+    },
+
+    "toolbar-button" :
+    {
+      style : function(states)
+      {
+        if (states.pressed || states.checked || states.abandoned)
+        {
+          var border = "inset-thin";
+          var padding = [ 3, 2, 1, 4 ];
+        }
+        else if (states.hovered)
+        {
+          var border = "outset-thin";
+          var padding = [ 2, 3 ];
+        }
+        else
+        {
+          var border = "undefined";
+          var padding = [ 3, 4 ];
+        }
+
+        return {
+          cursor  : "default",
+          // spacing : 4,
+          // width           : "auto",
+          decorator       : border,
+          padding         : padding,
+          // verticalChildrenAlign : "middle",
+          backgroundColor       : states.abandoned ? "button-abandoned" : "button"
+          // backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
+        };
+      }
+    },
 
 
 
