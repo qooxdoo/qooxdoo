@@ -66,14 +66,11 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-
   properties :
   {
     appearance :
@@ -84,7 +81,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     
     
     /**
-     * 
+     * Property for setting the position of the legend.
      */
     legendPosition : {
       check     : ["top", "middle"],
@@ -95,14 +92,11 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-
   members :
   {
     /*
@@ -145,13 +139,21 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       LEGEND POSITION HANDLING
     ---------------------------------------------------------------------------
     */
-   
+    /**
+     * Apply method for applying the legend position. It calls the 
+     * {@link _repositionFrame} method.
+     */
     _applyLegendPosition: function(e) {
       if (this._legendObject.getComputedLayout()) {
         this._repositionFrame();
       }
     },
     
+    
+    /**
+     * Repositions the frame of the group box dependent on the 
+     * {@link legendPosition} property.
+     */
     _repositionFrame: function() {
       // get the current height of the legend
       var height = this._legendObject.getComputedLayout().height;
