@@ -734,6 +734,10 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Remember mouse active target
         this._fromMouseDown = true;
+
+        // Sometimes the focus is not fired correctly in gecko
+        var focusTarget = this.__findFocusNode(target);
+        focusTarget.focus();
       },
 
       "mshtml" : function(e)
