@@ -97,7 +97,6 @@ class Config:
                 jobsmap[cfgfile[0]] = econfig.getData() # external config becomes namespace'd entry in jobsmap
 
     def resolveExtendsAndRuns(self, joblist):
-        #TODO: is this expanding nested jobs in their own context??
         jobsmap = self.getJobsMap()
         console = self._console
         console.info("Resolving jobs...")
@@ -167,8 +166,9 @@ class Config:
                 if not target.has_key(key):
                     target[key] = source[key]
 
-        def _resolveEntry(console, config, job):
-            # TODO: look up job in global list, to prevent circular references
+        def _resolveEntry(console, config, job, entryTrace=[]):
+            # cyclic check for recursive extends?? - done
+            # is this expanding nested jobs in their own context?? - yes! (see jobcontext and parent)
             if not self.get(job,False,config):
                 console.warn("No such job: %s" % job)
                 sys.exit(1)
@@ -188,9 +188,14 @@ class Config:
                     jobcontext = config  # we are top-level
 
                 for entry in extends:
+                    # cyclic check
+                    if entry in entryTrace:
+                        console.warn("Extend entry already seen: %s" % entry)
+                        sys.exit(1)
+
                     pjob = self.get(entry, None, jobcontext )
                     # resolve 'extend'
-                    _resolveEntry(console, jobcontext, entry)
+                    _resolveEntry(console, jobcontext, entry, entryTrace + [job])
                     # prepare for 'run'
                     if pjob.has_key('run') and entry.rfind('/')>-1:
                         # prefix job names
