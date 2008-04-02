@@ -339,7 +339,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          // location        : [ 10, 1 ],
           backgroundColor : "background",
           paddingRight    : 4,
           paddingLeft     : 4
@@ -365,7 +364,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          // location        : [ 10, 1 ],
           backgroundColor : "background",
           paddingRight    : 3,
           paddingLeft     : 3
@@ -378,7 +376,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          // location        : [ 10, 1 ],
           backgroundColor : "background",
           paddingRight    : 3,
           paddingLeft     : 3
