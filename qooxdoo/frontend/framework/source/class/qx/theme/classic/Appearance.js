@@ -602,6 +602,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
+/*
+---------------------------------------------------------------------------
+  TREE
+---------------------------------------------------------------------------
+*/
+
 
     "folder-open-button" :
     {
@@ -687,7 +693,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "black"
+          decorator : "black",
+          backgroundColor : "white"
         }
       }
     }

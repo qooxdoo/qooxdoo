@@ -87,11 +87,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   members :
   {
-    _onChangeValueSlider : function(e)
-    {
-      if (this._ignoreValueChange) {
-        return;
-      }
+    _onChangeValueSlider : function(e) {
       this.setValue(e.getValue());
     },
 
@@ -132,11 +128,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
-    _applyValue : function(value, old)
-    {
-      this._ignoreValueChange = true;
+    _applyValue : function(value, old) {
       this._slider.setValue(value);
-      this._ignoreValueChange = false;
     },
 
     _applyMaximum : function(value, old) {

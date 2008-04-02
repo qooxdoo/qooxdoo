@@ -168,7 +168,23 @@ qx.Class.define("qx.ui.layout.AbstractBox",
       if (child) {
         this.remove(child)
       }
-    }
+    },
 
+
+    /**
+     * Remove all children.
+     *
+     * @type member
+     */
+    removeAll : function()
+    {
+      var children = this._children;
+
+      for (var i = children.length-1; i>=0; i--)
+      {
+        var widget = children[i];
+        this.remove(widget);
+      }
+    }
   }
 });

@@ -18,24 +18,13 @@
 
 ************************************************************************ */
 
-/*
-function draghandler(e)
-{
-  qx.log.Logger.debug("Event: " + e.type);
-}
-
-dragevs = [ "dragstart", "dragdrop", "dragover", "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
-for (var i=0, l=dragevs.length; i<l; i++) {
-  window.addEventListener(dragevs[i], draghandler, false);
-}
-*/
-
 /**
  * @appearance list
  */
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.Widget,
+  implement : qx.ui.core.ISelectionContainer,
 
 
 
@@ -153,7 +142,7 @@ qx.Class.define("qx.ui.form.List",
       return;
     },
 
-    getChildren : function() {
+    getSelectableItems : function() {
       return this.getLayoutChildren();
     },
 
