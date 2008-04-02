@@ -167,7 +167,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator       : states.focused ? "focused" : "inset",
           padding         : [ 2, 3 ],
           textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : states.focused ? "#F0F4FA" : "field"
+          backgroundColor : states.disabled ? "#F4F4F4" : states.focused ? "#F0F4FA" : "field"
         };
       }
     },
@@ -312,6 +312,80 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      GROUP BOX
+    ---------------------------------------------------------------------------
+    */
+
+    "group-box" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background"
+        };
+      }
+    },
+
+    "group-box-legend" :
+    {
+      style : function(states)
+      {
+        return {
+          // location        : [ 10, 1 ],
+          backgroundColor : "background",
+          paddingRight    : 4,
+          paddingLeft     : 4
+          // marginRight     : 10
+        };
+      }
+    },
+
+    "group-box-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 12, 9 ],
+          decorator  : "groove"
+        };
+      }
+    },
+
+    "check-box-group-box-legend" :
+    {
+      include : "check-box",
+      style : function(states)
+      {
+        return {
+          // location        : [ 10, 1 ],
+          backgroundColor : "background",
+          paddingRight    : 3,
+          paddingLeft     : 3
+        };
+      }
+    },
+
+    "radio-button-group-box-legend" : {
+      include : "radio-button",
+      style : function(states)
+      {
+        return {
+          // location        : [ 10, 1 ],
+          backgroundColor : "background",
+          paddingRight    : 3,
+          paddingLeft     : 3
+        };
+      }    },
+
+
 
 
 
