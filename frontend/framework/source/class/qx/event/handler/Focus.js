@@ -572,7 +572,8 @@ qx.Class.define("qx.event.handler.Focus",
           delete this._fromMouseDown;
         }
 
-        this.setFocus(target);
+        var focusTarget = this.__findFocusNode(target);
+        this.setFocus(focusTarget);
       },
 
       "webkit" : function(e)
@@ -814,9 +815,9 @@ qx.Class.define("qx.event.handler.Focus",
       var Attribute = qx.bom.element.Attribute;
       var body = this._body;
 
-      while (node && node !== body)
+      while (node && node !== body && node.nodeType === 1)
       {
-        if (Attribute.get(node, "tabIndex") >= 0) {
+        if (Attribute.get(node, "tabIndex") >= 1) {
           return node;
         }
 
