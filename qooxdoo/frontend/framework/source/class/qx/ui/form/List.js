@@ -146,6 +146,10 @@ qx.Class.define("qx.ui.form.List",
       return this.getLayoutChildren();
     },
 
+    getChildren : function() {
+      return this.getLayoutChildren();
+    },
+
     getInnerHeight : function()
     {
       var computed = this.getComputedInnerSize();
