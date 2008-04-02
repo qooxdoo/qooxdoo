@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /** This contains the currently assigned widget (qx.ui.form.List, ...) */
     boundedWidget :
     {
-      check : "qx.ui.core.Widget",
+      check : "qx.ui.core.ISelectionContainer",
       nullable : true
     },
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      */
     _getFirst : function()
     {
-      var children = this.getBoundedWidget().getChildren();
+      var children = this.getBoundedWidget().getSelectableItems();
       return children[0] || null;
     },
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      */
     _getLast : function()
     {
-      var children = this.getBoundedWidget().getChildren();
+      var children = this.getBoundedWidget().getSelectableItems();
       return children[children.length-1] || null;
     },
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getItems : function() {
-      return this.getBoundedWidget().getLayoutChildren();
+      return this.getBoundedWidget().getSelectableItems();
     },
 
 
@@ -776,6 +776,9 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
       var vItem;
       var vItems = this.getItems();
+
+      console.log(vItems);
+
       var vItemsLength = vItems.length;
 
       // Reset current selection hash

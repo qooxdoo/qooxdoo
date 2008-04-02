@@ -150,7 +150,7 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
         value: new qx.ui.basic.Label("Value: " + slider.getValue()).set({allowStretchX: false, allowStretchY: false})
       }
 
-      slider.addListener("changeValue", function() {
+      slider.addListener("changeValue", function(e) {
         group.value.setContent("Value: " + slider.getValue());
       });
 
