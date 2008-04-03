@@ -84,10 +84,7 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
 
-    // Add listeners (for state changes)
-    // this.addListener("focus", this._onfocus, this);
-    // this.addListener("blur", this._onblur, this);
-
+    // Add container listeners
     this._containerElement.addListener("activate", this._onContainerActivate, this);
     this._containerElement.addListener("deactivate", this._onContainerDeactivate, this);
     this._containerElement.addListener("focusin", this._onContainerFocusIn, this);
@@ -2209,30 +2206,64 @@ qx.Class.define("qx.ui.core.Widget",
 
     _onContainerActivate : function(e)
     {
-      this.debug("Activating...");
+      if (this.getAnonymous() && this.getEnabled()) {
+        return;
+      }
+
       e.stopPropagation();
+
+      if (!this.getEnabled()) {
+        return;
+      }
+
+      this.debug("Activating...");
     },
 
     _onContainerDeactivate : function(e)
     {
-      this.debug("Deactivating...");
+      if (this.getAnonymous() && this.getEnabled()) {
+        return;
+      }
+
       e.stopPropagation();
+
+      if (!this.getEnabled()) {
+        return;
+      }
+
+      this.debug("Deactivating...");
     },
 
     _onContainerFocusIn : function(e)
     {
-      this.debug("Focusing...");
-      this.addState("focused");
+      if (this.getAnonymous() && this.getEnabled()) {
+        return;
+      }
 
       e.stopPropagation();
+
+      if (!this.getEnabled()) {
+        return;
+      }
+
+      this.debug("Focusing...");
+      this.addState("focused");
     },
 
     _onContainerFocusOut : function(e)
     {
-      this.debug("Bluring...");
-      this.removeState("focused");
+      if (this.getAnonymous() && this.getEnabled()) {
+        return;
+      }
 
       e.stopPropagation();
+
+      if (!this.getEnabled()) {
+        return;
+      }
+
+      this.debug("Bluring...");
+      this.removeState("focused");
     },
 
 
