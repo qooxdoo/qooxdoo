@@ -59,7 +59,7 @@
         "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
       },
 
-      "source" :
+      "script" :
       {
         "file" : "./source/script/${APPLICATION}.js"
       }
