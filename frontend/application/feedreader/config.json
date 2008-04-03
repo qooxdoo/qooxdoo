@@ -54,7 +54,7 @@
     {
       "extend" : ["common"],
 
-      "source" :
+      "script" :
       {
         "file" : "./source/script/feedreader.js"
       }

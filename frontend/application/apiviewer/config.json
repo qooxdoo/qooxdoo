@@ -52,7 +52,7 @@
         "${APPLICATION}.resourceUri" : "./resource"
       },
 
-      "source" :
+      "script" :
       {
         "file" : "./source/script/${APPLICATION}.js"
       }
