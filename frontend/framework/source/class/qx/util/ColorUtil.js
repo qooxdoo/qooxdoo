@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#optional(qx.theme.manager.Color)
+
+************************************************************************ */
+
 /**
  * Methods to convert colors between different color spaces.
  */
@@ -127,12 +133,28 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
+     * Whether the color theme manager is loaded. Generally
+     * part of the GUI of qooxdoo.
+     *
+     * @return {Boolean} <code>true</code> when color theme support is ready.
+     **/
+    supportsThemes : function() {
+      return qx.Class.isDefined("qx.theme.manager.Color");
+    },
+
+
+    /**
      * Whether the incoming value is a themed color.
      *
      * @param value {String} the color value to test
      * @return {Boolean} true if the color is a themed color
      */
-    isThemedColor : function(value) {
+    isThemedColor : function(value)
+    {
+      if (!this.supportsThemes()) {
+        return false;
+      }
+
       return qx.theme.manager.Color.getInstance().isDynamic(value);
     },
 
@@ -149,7 +171,7 @@ qx.Class.define("qx.util.ColorUtil",
      */
     stringToRgb : function(str)
     {
-      if (this.isThemedColor(str)) {
+      if (this.supportsThemes() && this.isThemedColor(str)) {
         var str = qx.theme.manager.Color.getInstance().resolveDynamic(str);
       }
 
