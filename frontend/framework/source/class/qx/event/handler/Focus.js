@@ -841,7 +841,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyActive : function(value, old)
     {
-      this.debug("LL-Active: " + value);
+      // this.debug("LL-Active: " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "beforedeactivate");
@@ -864,7 +864,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
-      this.debug("LL-Focus: " + value);
+      // this.debug("LL-Focus: " + value);
 
       if (old) {
         this._fireBubblingEvent(old, "focusout");
