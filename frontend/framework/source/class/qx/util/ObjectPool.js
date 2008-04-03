@@ -118,6 +118,10 @@ qx.Class.define("qx.util.ObjectPool",
         return;
       }
 
+      if (!clazz) {
+        throw new Error("Class needs to be defined!");
+      }
+
       var obj = null;
       var pool = this.__pool[clazz.classname];
 
