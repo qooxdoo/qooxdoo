@@ -1,74 +1,74 @@
-  "common-XXX" :
-  {
-    "library" :
-    [
+    "common-XXX" :
+    {
+      "library" :
+      [
+        {
+          "encoding" : "utf-8",
+          "path" : "../../framework/source",
+          "uri" : "../../../../../framework/source"
+        },
+
+        {
+          "encoding" : "utf-8",
+          "path" : "source",
+          "uri" : "../.."
+        }
+      ],
+
+      "include" : [
+        "XXX",
+        "qx.theme.Classic"
+      ],
+
+      "cache" :
       {
-        "encoding" : "utf-8",
-        "path" : "../../framework/source",
-        "uri" : "../../../../../framework/source"
+        "path" : "../../cache"
       },
 
+      "localize" :
       {
-        "encoding" : "utf-8",
-        "path" : "source",
-        "uri" : "../.."
+        "locales" : ["en", "en_US", "de", "de_DE"]
       }
-    ],
-
-    "include" : [
-    	"XXX",
-    	"qx.theme.Classic"
-    ],
-
-    "cache" :
-    {
-      "path" : "../../cache"
     },
 
-    "localize" :
+    "source-XXX" :
     {
-      "locales" : ["en", "en_US", "de", "de_DE"]
+      "extend" : ["common-XXX"],
+
+      "settings" :
+      {
+        "qx.application" : "XXX",
+        "qx.resourceUri" : "../../../../../framework/source/resource",
+        "demobrowser.resourceUri" : "../../resource"
+      },
+
+      "script" :
+      {
+        "file" : "source/script/XXX.js"
+      }
+    },
+
+    "build-XXX" :
+    {
+      "extend" : ["common-XXX"],
+
+      "settings" :
+      {
+        "qx.application" : "XXX",
+        "qx.resourceUri" : "../../resource",
+        "demobrowser.resourceUri" : "../../resource"
+      },
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+        "qx.aspects" : ["off"]
+      },
+
+      "compile" :
+      {
+        "file" : "build/script/XXX.js",
+        "uri"  : "../../script/XXX.js",
+        "optimize" : [ "variables", "basecalls", "privates" ]
+      }
     }
-  },
-
-  "source-XXX" :
-  {
-    "extend" : ["common-XXX"],
-
-    "settings" :
-    {
-      "qx.application" : "XXX",
-      "qx.resourceUri" : "../../../../../framework/source/resource",
-      "demobrowser.resourceUri" : "../../resource"
-    },
-
-    "source" :
-    {
-      "file" : "source/script/XXX.js"
-    }
-  },
-
-  "build-XXX" :
-  {
-    "extend" : ["common-XXX"],
-
-    "settings" :
-    {
-      "qx.application" : "XXX",
-      "qx.resourceUri" : "../../resource",
-      "demobrowser.resourceUri" : "../../resource"
-    },
-
-    "variants" :
-    {
-      "qx.debug" : ["off"],
-      "qx.aspects" : ["off"]
-    },
-
-    "compile" :
-    {
-      "file" : "build/script/XXX.js",
-      "uri"  : "../../script/XXX.js",
-      "optimize" : [ "variables", "basecalls", "privates" ]
-    }
-  }

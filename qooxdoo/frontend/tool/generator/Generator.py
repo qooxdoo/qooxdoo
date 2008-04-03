@@ -452,14 +452,14 @@ class Generator:
         
 
     def runSource(self, parts, packages, boot, variants):
-        if not self._config.get("source/file"):
+        if not self._config.get("script/file"):
             return
 
         self._console.info("Generate source version...")
         self._console.indent()
 
         # Read in base file name
-        filePath = self._config.get("source/file")
+        filePath = self._config.get("script/file")
 
         # Whether the code should be formatted
         format = self._config.get("source/format", False)
