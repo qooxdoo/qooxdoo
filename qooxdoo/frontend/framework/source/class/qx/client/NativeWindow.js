@@ -528,7 +528,7 @@ qx.Class.define("qx.client.NativeWindow",
       ------------------------------------------------------------------------------
       */
 
-      if (this.getName() != null) {
+      if (this.getName() == "") {
         this.setName("qx_NativeWindow" + this.toHashCode());
       }
 
