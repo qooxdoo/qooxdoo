@@ -1,8 +1,8 @@
 {
   "include" : 
-  [
-    ["apiconf", "../apiviewer/config.json"]
-  ],
+  {
+    "apiconf": "../apiviewer/config.json"
+  },
 
   "jobs" :
   {

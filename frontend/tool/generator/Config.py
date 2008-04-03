@@ -89,9 +89,8 @@ class Config:
         if self._fname:   # we stem from a file
             includeTrace.append(self._fname)   # expand the include trace
         if config.has_key('include'):
-            for cfgfile in config['include']:
+            for namespace, fname in config['include'].iteritems():
                 #cycle check
-                fname = cfgfile[1]
                 if os.path.abspath(fname) in includeTrace:
                     self._console.warn("Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)]))
                     sys.exit(1)
@@ -105,7 +104,7 @@ class Config:
                 econfig.resolveIncludes(includeTrace)   # recursive include
                 #for ejob in econfig['jobs']:
                 #    _resolveEntry(console, econfig['jobs'], ejob)
-                jobsmap[cfgfile[0]] = econfig.getData() # external config becomes namespace'd entry in jobsmap
+                jobsmap[namespace] = econfig.getData() # external config becomes namespace'd entry in jobsmap
 
     def resolveExtendsAndRuns(self, joblist):
         jobsmap = self.getJobsMap()
