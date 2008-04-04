@@ -244,8 +244,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @internal: Should only be used by the layout managers
      * @param parent {qx.ui.core.Widget|null} The widget's new parent.
      */
-    setLayoutParent : function(parent) {
+    setLayoutParent : function(parent)
+    {
       this._parent = parent;
+      this._toggleDisplay();
     },
 
 
@@ -295,9 +297,58 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY SUPPORT: IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    // {Boolean} Whether the layout defined that the widget is visible or not.
+    __layoutVisible : true,
+
+
     // property apply
-    _applyVisibility : function(value, old) {
-      // nothing to be done here
+    _applyVisibility : function(value, old)
+    {
+      this._toggleDisplay();
+
+      // only force a layout update if visibility change from/to "exclude"
+      var parent = this._parent;
+      if (parent && (old === "excluded" || value === "excluded"))
+      {
+        var parentLayout = parent.getLayout();
+        if (parentLayout) {
+          parentLayout.childExcludeModified(this);
+        }
+
+        qx.ui.core.queue.Layout.add(parent);
+      }
+    },
+
+
+    layoutVisibilityModified : function(value)
+    {
+      if (value !== this.__layoutVisible)
+      {
+        if (value) {
+          delete this.__layoutVisible;
+        } else {
+          this.__layoutVisible = false;
+        }
+
+        this._toggleDisplay();
+      }
+    },
+
+
+    /**
+     * Helper method to handle visibility changes.
+     *
+     * @type member
+     * @return {void}
+     */
+    _toggleDisplay : function() {
+      throw new Error("Abstract method call");
     }
   }
 });
