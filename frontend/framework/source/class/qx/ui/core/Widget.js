@@ -84,11 +84,37 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
 
-    // Add container listeners
-    this._containerElement.addListener("activate", this._onContainerActivate, this);
-    this._containerElement.addListener("deactivate", this._onContainerDeactivate, this);
-    this._containerElement.addListener("focusin", this._onContainerFocusIn, this);
-    this._containerElement.addListener("focusout", this._onContainerFocusOut, this);
+    // Add focus listeners
+    this.addListener("focus", function(e) {
+      this.debug("Focus...");
+      this.addState("focused");
+    }, this);
+
+    this.addListener("blur", function(e) {
+      this.debug("Blur...");
+      this.removeState("focused");
+    }, this);
+
+    this.addListener("focusin", function(e) {
+      this.debug("Focusin..." + e.getTarget());
+    }, this);
+
+    this.addListener("focusout", function(e) {
+      this.debug("Focusout..." + e.getTarget());
+    }, this);
+
+    this.addListener("activate", function(e) {
+      this.debug("Activate..." + e.getTarget() + " :: " + e.getOriginalTarget());
+    }, this);
+
+    this.addListener("deactivate", function(e) {
+      this.debug("Deactivate..." + e.getTarget() + " :: " + e.getOriginalTarget());
+    }, this);
+
+    this.addListener("mousedown", function(e) {
+      this.debug("Mousedown..." + e.getTarget());
+    }, this);
+
   },
 
 
