@@ -134,8 +134,11 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       });
 
       c2.addListener("changeChecked", function(e) {
-        console.log(e.getValue(), e)
-        tree.getManager().setDragSelection(e.getValue());
+        var enable = e.getValue();
+        tree.getManager().setDragSelection(enable);
+        if (enable) {
+          c1.setChecked(true);
+        }
       });
 
       c3.addListener("changeChecked", function(e) {

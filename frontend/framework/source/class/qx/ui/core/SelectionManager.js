@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getNextSibling : function(vItem) {
-      return this.getBoundedWidget().getNextSiblingOf(vItem);
+      return this.getBoundedWidget().getNextSelectableItem(vItem);
     },
 
 
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @return {var} TODOC
      */
     getPreviousSibling : function(vItem) {
-      return this.getBoundedWidget().getPreviousSiblingOf(vItem);
+      return this.getBoundedWidget().getPreviousSelectableItem(vItem);
     },
 
 

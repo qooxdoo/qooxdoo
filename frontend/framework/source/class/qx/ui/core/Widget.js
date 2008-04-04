@@ -1875,9 +1875,15 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyEnabled : function(value, old)
     {
-      if (value===false) {
+      if (value===false)
+      {
         this.addState("disabled");
-      } else {
+        if (this.isFocusable()) {
+          this.blur();
+        }
+      }
+      else
+      {
         this.removeState("disabled");
       }
     },

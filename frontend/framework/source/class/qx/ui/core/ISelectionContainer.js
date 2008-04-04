@@ -2,11 +2,11 @@ qx.Interface.define("qx.ui.core.ISelectionContainer",
 {
   members :
   {
-    getNextSiblingOf : function(listItem) {
+    getNextSelectableItem : function(selectedItem) {
       return true;
     },
 
-    getPreviousSiblingOf : function(listItem) {
+    getPreviousSelectableItem : function(selectedItem) {
       return true;
     },
 
