@@ -215,23 +215,13 @@
       "let" :
       {
         "ROOT" : "../apiviewer",
-        "BUILD_PATH" : "./api"
+        "BUILD_PATH" : "./api",
+        "API_INCLUDE" : ["qx.*", "demobrowser.*"],
+        "API_EXCLUDE" : ["demobrowser.demo.*"]
       },
 
       "library" :
       [
-        {
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/framework/source",
-          "uri"      : "${QOOXDOO_URI}/framework/source"
-        },
-
-        {
-          "encoding" : "utf-8",
-          "path"     : "${ROOT}/source",
-          "uri"      : "../source"
-        },
-
         {
           "encoding" : "utf-8",
           "path"     : "./source",
@@ -242,10 +232,7 @@
       "settings" :
       {
         "demobrowser.resourceUri" : "./resource"
-      },
-
-      "api_include" : ["qx.*", "demobrowser.*"],
-			"api_exclude" : ["demobrowser.demo.*"]
+      }
     }
   }
 }

@@ -211,8 +211,8 @@ class Generator:
             return
 
 
-        smartInclude, explicitInclude = self.getIncludes(self._config.get("api_include", []))
-        smartExclude, explicitExclude = self.getExcludes(self._config.get("api_exclude", []))
+        smartInclude, explicitInclude = self.getIncludes(self._config.get("include", []))
+        smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
 
         classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
         packages = [classList]

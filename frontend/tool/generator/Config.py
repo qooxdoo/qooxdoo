@@ -192,12 +192,12 @@ class Config:
 
         def _mergeEntry(target, source):
             for key in source:
-                # merge 'let' key rather than shadowing
-                #if key == 'let'and target.has_key(key):
-                #    target[key] = _listPrepend(source[key],target[key])
+                # merge 'library' key rather than shadowing
+                if key == 'library'and target.has_key(key):
+                    target[key] = _listPrepend(source[key],target[key])
                 
                 # merge 'settings' and 'let' key rather than shadowing
-                if (key in ['settings','let']) and target.has_key(key):
+                if (key in ['variants','settings','let']) and target.has_key(key):
                     target[key] = self._mapMerge(source[key],target[key])
                 if not target.has_key(key):
                     target[key] = source[key]
@@ -259,12 +259,21 @@ class Config:
         console = self._console
         config  = self.getJobsMap()
 
-        def _expandString(s, map):
-            templ = string.Template(s)
-            sub = templ.safe_substitute(map)
-            return sub
+        def _expandString(s, mapstr, mapbin):
+            assert isinstance(s, types.StringTypes)
+            isBin = re.match(r'^\$\${(.*)}$', s)   # look for '$${...}' as a bin replacement
+            if isBin:
+                sub = s
+                macro = isBin.group(1)
+                if macro and (macro in mapbin.keys()):
+                    sub = mapbin[macro]
+                return sub
+            else:
+                templ = string.Template(s)
+                sub = templ.safe_substitute(mapstr)
+                return sub
 
-        def _expandMacrosInValues(configElem, macroMap):
+        def _expandMacrosInValues(configElem, maps):
             """ apply macro expansion in strings recursively """
             # arrays
             if isinstance(configElem, types.ListType):
@@ -272,25 +281,25 @@ class Config:
                     if ((isinstance(configElem[e], types.StringTypes) and
                             configElem[e].find(r'${')>-1)):
                         old = configElem[e]
-                        configElem[e] = _expandString(configElem[e], macroMap)
-                        console.debug("expanding: %s ==> %s" % (old, configElem[e]))
+                        configElem[e] = _expandString(configElem[e], maps['str'], maps['bin'])
+                        console.debug("expanding: %s ==> %s" % (old, str(configElem[e])))
                     elif isinstance(configElem[e], (types.DictType, types.ListType)):
-                        _expandMacrosInValues(configElem[e], macroMap)
+                        _expandMacrosInValues(configElem[e], maps)
             # dicts
             elif isinstance(configElem, types.DictType):
                 for e in configElem:
                     # expand in values
                     if ((isinstance(configElem[e], types.StringTypes) and
                             configElem[e].find(r'${')>-1)):
-                        configElem[e] = _expandString(configElem[e], macroMap)
-                        console.debug("expanding: %s ==> %s" % (str(e), configElem[e]))
+                        configElem[e] = _expandString(configElem[e], maps['str'], maps['bin'])
+                        console.debug("expanding: %s ==> %s" % (str(e), str(configElem[e])))
                     elif isinstance(configElem[e], (types.DictType, types.ListType)):
-                        _expandMacrosInValues(configElem[e], macroMap)
+                        _expandMacrosInValues(configElem[e], maps)
 
                     # expand in keys
                     if ((isinstance(e, types.StringTypes) and
                             e.find(r'${')>-1)):
-                        enew = _expandString(e, macroMap)
+                        enew = _expandString(e, maps['str'], {}) # no bin expand here!
                         configElem[enew] = configElem[e]
                         del configElem[e]
                         console.debug("expanding key: %s ==> %s" % (e, enew))
@@ -307,8 +316,12 @@ class Config:
             for k in keys:
                 kval = letDict[k]
                 for k1 in keys:
-                    if k != k1 and letDict[k1].find(r'${')>-1:
-                        letDict[k1] = _expandString(letDict[k1], {k:kval})
+                    if (k != k1 and isinstance(letDict[k1], types.StringTypes) 
+                                and letDict[k1].find(r'${')>-1):
+                        if isinstance(kval, types.StringTypes):
+                            letDict[k1] = _expandString(letDict[k1], {k:kval}, {})
+                        else:
+                            letDict[k1] = _expandString(letDict[k1], {}, {k:kval})
                         console.debug("expanding: %s ==> %s" % (k1, letDict[k1]))
             return letDict
 
@@ -324,8 +337,18 @@ class Config:
                 if config[job].has_key('let'):
                     # exand macros in the let
                     config[job]['let'] = _expandMacrosInLet(config[job]['let'])
+                    cfglet = config[job]['let']
+                    # separate strings from other values
+                    letmaps = {}
+                    letmaps['str'] = {}
+                    letmaps['bin'] = {}
+                    for k in cfglet:
+                        if isinstance(cfglet[k], types.StringTypes):
+                            letmaps['str'][k] = cfglet[k]
+                        else:
+                            letmaps['bin'][k] = cfglet[k]
                     # apply dict to other values
-                    _expandMacrosInValues(config[job], config[job]['let'])
+                    _expandMacrosInValues(config[job], letmaps)
 
         console.outdent()
 
