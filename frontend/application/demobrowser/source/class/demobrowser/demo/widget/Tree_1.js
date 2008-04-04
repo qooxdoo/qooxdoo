@@ -28,15 +28,14 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
     {
       this.base(arguments);
 
-      var t = new qx.ui.tree.Tree("Root").set({
+      var tree = new qx.ui.tree.Tree("Root").set({
         width : 200
       });
-      this.getRoot().add(t, 20, 48);
-
+      this.getRoot().add(tree, 20, 48);
 
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
       te1.setOpen(true)
-      t.add(te1);
+      tree.add(te1);
       desktop = te1;
 
       var te1_1 = new qx.ui.tree.TreeFolder("Files");
@@ -64,64 +63,88 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
 
-      t.add(te2);
+      tree.add(te2);
 
 
 
-      /*
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
-      with(commandFrame)
-      {
-        setTop(48);
-        setLeft(250);
 
-        setWidth("auto");
-        setHeight("auto");
-      };
-
-      qx.ui.core.ClientDocument.getInstance().add(commandFrame);
-      */
       var grid = new qx.ui.layout.Grid();
-      var commandFrame = new qx.ui.core.Widget().set({
-        layout: grid,
-        decorator : "ridge"
-      });
+      grid.setHorizontalSpacing(3);
+      grid.setVerticalSpacing(5);
+      commandFrame.getPane().setLayout(grid);
+
       this.getRoot().add(commandFrame, 250, 48);
 
+      var row = 0;
+      grid.add(new qx.ui.basic.Label("Current Folder: "), row, 0);
 
-      grid.add(new qx.ui.basic.Label("Current Folder: "), 0, 0);
-      /*
-      var tCurrentInput = new qx.ui.form.TextField;
+      var tCurrentInput = new qx.ui.form.TextField().set({
+        readOnly : true
+      });
 
-      with(tCurrentInput)
-      {
-        setLeft(0);
-        setRight(0);
-        setTop(20);
+      grid.add(tCurrentInput, row++, 1);
 
-        setReadOnly(true);
+      tree.getManager().addListener("changeSelection", function(e) {
+        tCurrentInput.setValue(e.getData()[0].getLabelObject().getContent());
+      });
+
+
+      grid.add(new qx.ui.basic.Label("Open mode:"), row, 0, {rowSpan:3});
+      var modes = {
+        "click" : "click",
+        "dblclick": "double click",
+        "none": "none"
       };
 
-      commandFrame.add(tCurrentInput);
+      var modeMgr = new qx.ui.core.RadioManager();
+      for (var mode in modes)
+      {
+        var radioButton = new qx.ui.form.RadioButton(modes[mode]).set({
+          value: mode,
+          checked: mode == "none"
+        });
+        modeMgr.add(radioButton);
+        grid.add(radioButton, row++, 1)
+      }
 
-      t.getManager().addEventListener("changeSelection", function(e) {
-        tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
+      modeMgr.addListener("changeSelected", function(e) {
+        tree.setOpenMode(e.getValue().getValue());
+      });
+
+
+      grid.add(new qx.ui.basic.Label("Selection:"), row, 0, {rowSpan: 3});
+
+      var c1 = new qx.ui.form.CheckBox("Enable Multi-Selection");
+      c1.setChecked(tree.getManager().getMultiSelection());
+      grid.add(c1, row++, 1);
+
+      console.log("multi", tree.getManager().getMultiSelection())
+
+      var c2 = new qx.ui.form.CheckBox("Enable Drag-Selection");
+      c2.setChecked(tree.getManager().getDragSelection());
+      grid.add(c2, row++, 1);
+
+      var c3 = new qx.ui.form.CheckBox("Allow Deselection");
+      c3.setChecked(tree.getManager().getCanDeselect());
+      grid.add(c3, row++, 1);
+
+      c1.addListener("changeChecked", function(e) {
+        tree.getManager().setMultiSelection(e.getValue());
+      });
+
+      c2.addListener("changeChecked", function(e) {
+        console.log(e.getValue(), e)
+        tree.getManager().setDragSelection(e.getValue());
+      });
+
+      c3.addListener("changeChecked", function(e) {
+        tree.getManager().setCanDeselect(e.getValue());
       });
 
 
 
-      var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
-
-      with(tDoubleClick) {
-        setTop(60);
-        setLeft(0);
-      };
-
-      commandFrame.add(tDoubleClick);
-
-      tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
-
-
+/*
 
       var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
 
@@ -133,24 +156,16 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       commandFrame.add(tTreeLines);
 
-      tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
-
-
+      tTreeLines.addEventListener("changeChecked", function(e) { tree.setUseTreeLines(e.getData()); });
+*/
 
 
       var vShowItems = new qx.ui.form.Button("Show Items");
+      grid.add(vShowItems, row++, 1);
 
-      with(vShowItems) {
-        setTop(100);
-        setLeft(0);
-      };
-
-      commandFrame.add(vShowItems);
-
-      vShowItems.addEventListener("execute", function(e) {
-        alert(t.getItems());
+      vShowItems.addListener("execute", function(e) {
+        console.log(tree.getItems());
       });
-//*/
     }
   }
 });
