@@ -85,14 +85,13 @@ qx.Class.define("qx.ui.core.Widget",
     this.initSelectable();
 
     // Add focus listeners
+    /*
     this.addListener("focus", function(e) {
       this.debug("Focus...");
-      this.addState("focused");
     }, this);
 
     this.addListener("blur", function(e) {
       this.debug("Blur...");
-      this.removeState("focused");
     }, this);
 
     this.addListener("focusin", function(e) {
@@ -114,7 +113,7 @@ qx.Class.define("qx.ui.core.Widget",
     this.addListener("mousedown", function(e) {
       this.debug("Mousedown..." + e.getTarget());
     }, this);
-
+    */
   },
 
 
@@ -681,6 +680,8 @@ qx.Class.define("qx.ui.core.Widget",
      * Defines the tab index of an widget. If widgets with tab indexes are part
      * of the current focus root these elements are sorted in first priority. Afterwards
      * the sorting continues by rendered position, zIndex and other criteria.
+     *
+     * Please note: The value must be between 1 and 32000.
      */
     tabIndex :
     {
@@ -2069,6 +2070,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET QUEUE
@@ -2080,6 +2083,9 @@ qx.Class.define("qx.ui.core.Widget",
      * {@link qx.ui.core.queue.Widget widget queue}.
      */
     syncWidget : function() {},
+
+
+
 
 
 
@@ -2141,6 +2147,21 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /** {Boolean} Whether the default tabIndex allows focusing the element */
+    _supportsNativeFocus : false,
+
+
+    /**
+     * Returns the element which should be focused.
+     *
+     * @type member
+     * @return {qx.html.Element} The html element to focus.
+     */
+    _getFocusElement : function() {
+      return this._supportsNativeFocus ? this._contentElement : this._containerElement;
+    },
+
+
     /**
      * Whether the widget is reachable by pressing the TAB key.
      *
@@ -2148,36 +2169,63 @@ qx.Class.define("qx.ui.core.Widget",
      * undefined tabIndex property.
      *
      * @type member
-     * @return {Boolean}
+     * @return {Boolean} Whether the element is tabable.
      */
     isTabable : function() {
-      return this.isFocusable() && this.getTabIndex() !== -1;
+      return this.isFocusable();
     },
 
 
-
-
-    // whether the default tabIndex allows focusing the element
-    _supportsNativeFocus : false,
-
+    // property apply
     _applyFocusable : function(value)
     {
-      var tabIndex = value ? this.getTabIndex() || 1 : null;
+      var target = this._getFocusElement();
+      var tabIndex = this.getTabIndex();
 
-      if (tabIndex === -1 && !this._supportsNativeFocus) {
-        this._containerElement.removeAttribute("tabIndex", tabIndex);
-      } else {
-        this._containerElement.setAttribute("tabIndex", tabIndex);
+      if (value)
+      {
+        if (tabIndex == null) {
+          tabIndex = 1;
+        }
+
+        target.setAttribute("tabIndex", tabIndex);
+      }
+      else
+      {
+        target.removeAttribute("tabIndex");
+      }
+
+      if (value)
+      {
+        this.addListener("focus", this._onfocus, this);
+        this.addListener("blur", this._onblur, this);
+      }
+      else
+      {
+        this.removeListener("focus", this._onfocus, this);
+        this.removeListener("blur", this._onblur, this);
       }
     },
 
+
+    // property apply
     _applyTabIndex : function(value)
     {
-      return;
+      if (value == null) {
+        value = 1;
+      } else if (value < 1 || value > 32000) {
+        throw new Error("TabIndex property must be between 1 and 32000");
+      }
 
-
+      if (this.isFocusable()) {
+        target.removeAttribute("tabIndex", value);
+      } else {
+        target.setAttribute("tabIndex", value);
+      }
     },
 
+
+    // property apply
     _applySelectable : function(value)
     {
       return;
@@ -2185,72 +2233,23 @@ qx.Class.define("qx.ui.core.Widget",
       if (qx.core.Variant.isSet("qx.client", "gecko|webkit")) {
         this._contentElement.setStyle("userSelect", value ? null : "none");
       }
-
     },
 
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BUILT-IN EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
 
-    _onContainerActivate : function(e)
-    {
-      if (this.getAnonymous() && this.getEnabled()) {
-        return;
-      }
-
-      e.stopPropagation();
-
-      if (!this.getEnabled()) {
-        return;
-      }
-
-      this.debug("Activating...");
-    },
-
-    _onContainerDeactivate : function(e)
-    {
-      if (this.getAnonymous() && this.getEnabled()) {
-        return;
-      }
-
-      e.stopPropagation();
-
-      if (!this.getEnabled()) {
-        return;
-      }
-
-      this.debug("Deactivating...");
-    },
-
-    _onContainerFocusIn : function(e)
-    {
-      if (this.getAnonymous() && this.getEnabled()) {
-        return;
-      }
-
-      e.stopPropagation();
-
-      if (!this.getEnabled()) {
-        return;
-      }
-
-      this.debug("Focusing...");
+    _onfocus : function(e) {
       this.addState("focused");
     },
 
-    _onContainerFocusOut : function(e)
-    {
-      if (this.getAnonymous() && this.getEnabled()) {
-        return;
-      }
 
-      e.stopPropagation();
-
-      if (!this.getEnabled()) {
-        return;
-      }
-
-      this.debug("Bluring...");
+    _onblur : function(e) {
       this.removeState("focused");
     },
 
@@ -2258,6 +2257,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      FOCUS SYSTEM USER ACCESS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Focus this widget.
@@ -2265,7 +2269,7 @@ qx.Class.define("qx.ui.core.Widget",
     focus : function()
     {
       if (this.isFocusable()) {
-        this._contentElement.focus();
+        this._getFocusElement().focus();
       } else {
         throw new Error("Widget is not focusable!");
       }
@@ -2278,7 +2282,7 @@ qx.Class.define("qx.ui.core.Widget",
     blur : function()
     {
       if (this.isFocusable()) {
-        this._contentElement.blur();
+        this._getFocusElement().blur();
       } else {
         throw new Error("Widget is not focusable!");
       }
@@ -2286,7 +2290,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Activate this widget.
+     * Activate this widget e.g. for keyboard events.
      */
     activate : function() {
       this._containerElement.activate();
@@ -2294,13 +2298,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Deactivate this widget.
+     * Deactivate this widget e.g. for keyboard events.
      */
     deactivate : function() {
       this._containerElement.deactivate();
     },
-
-
 
 
 
@@ -2333,10 +2335,21 @@ qx.Class.define("qx.ui.core.Widget",
   },
 
 
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
   settings :
   {
     "qx.layoutDebug" : "off"
   },
+
+
 
 
 
