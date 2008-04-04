@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
     open :
     {
       check : "Boolean",
-      init : "false",
+      init : false,
       event : "changeOpen",
       apply : "_applyOpen"
     },

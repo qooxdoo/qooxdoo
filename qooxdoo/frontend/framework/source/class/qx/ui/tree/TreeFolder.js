@@ -1,8 +1,7 @@
 qx.Class.define("qx.ui.tree.TreeFolder",
 {
-  extend : qx.ui.tree.AbstractTreeElement,
-  include : qx.ui.tree.MTreeFolder,
-  implement: qx.ui.tree.ITreeFolder,
+  extend : qx.ui.tree.AbstractTreeItem,
+
 
   construct : function(label)
   {
@@ -28,10 +27,10 @@ qx.Class.define("qx.ui.tree.TreeFolder",
   {
     _addWidgets : function()
     {
-      this._addSpacer();
-      this._addOpenButton();
-      this._addIcon();
-      this._addLabel();
+      this.addSpacer();
+      this.addOpenButton();
+      this.addIcon();
+      this.addLabel();
     }
   }
 })
