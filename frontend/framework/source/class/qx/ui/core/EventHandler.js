@@ -109,6 +109,13 @@ qx.Class.define("qx.ui.core.EventHandler",
     },
 
 
+    __direct :
+    {
+      focus : 1,
+      blur : 1
+    },
+
+
     // interface implementation
     canHandleEvent : function(target, type)
     {
@@ -211,14 +218,18 @@ qx.Class.define("qx.ui.core.EventHandler",
 
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
-      target.getContainerElement().addListener(type, this._dispatchEvent, this, capture);
+    registerEvent : function(target, type, capture)
+    {
+      var elem = this.__direct[type] && target._supportsNativeFocus ? target.getContentElement() : target.getContainerElement();
+      elem.addListener(type, this._dispatchEvent, this, capture);
     },
 
 
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
-      target.getContainerElement().removeListener(type, this._dispatchEvent, this, capture);
+    unregisterEvent : function(target, type, capture)
+    {
+      var elem = this.__direct[type] && target._supportsNativeFocus ? target.getContentElement() : target.getContainerElement();
+      elem.removeListener(type, this._dispatchEvent, this, capture);
     }
   },
 

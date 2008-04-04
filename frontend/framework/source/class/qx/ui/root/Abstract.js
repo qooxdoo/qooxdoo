@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.root.Abstract",
     _onmouseup : function(e)
     {
       if (this._lastMouseDown) {
-        this._lastMouseDown.unselectable = null;
+        //this._lastMouseDown.unselectable = null;
       }
     },
 
