@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, optparse, string, types
+import sys, os, optparse, string, types, pprint
 from optparseext.ExtendAction import ExtendAction
 from generator.Log import Log
 from generator.Config import Config
@@ -41,6 +41,7 @@ def main():
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="Log file")
+    parser.add_option("--dump-job-config", action="store_true", dest="dump_jcfg", default=False, help="Print expanded job config before running")
 
     # runtime addons
     parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
@@ -89,7 +90,10 @@ def main():
     # Processing jobs...
     for job in expandedjobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.extract(job), console, variants, settings, require, use)
+        jobcfg = config.extract(job)
+        if options.dump_jcfg:
+            pprint.pprint(jobcfg)
+        Generator(jobcfg, console, variants, settings, require, use)
 
 
 
