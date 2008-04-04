@@ -126,11 +126,11 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    getNextSiblingOf : function(listItem) {
+    getNextSelectableItem : function(selectedItem) {
       return this.getLayout().getNextSibling(listItem);
     },
 
-    getPreviousSiblingOf : function(listItem) {
+    getPreviousSelectableItem : function(selectedItem) {
       return this.getLayout().getPreviousSibling(listItem);
     },
 

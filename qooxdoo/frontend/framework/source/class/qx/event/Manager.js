@@ -251,7 +251,7 @@ qx.Bootstrap.define("qx.event.Manager",
         }
 
         if (typeof listener !== "function") {
-          throw new Error("Invalid listener for event handling: " + listener);
+          throw new Error("Invalid listener for event '"+type+"': " + listener);
         }
 
         if (capture !== undefined && typeof capture !== "boolean") {

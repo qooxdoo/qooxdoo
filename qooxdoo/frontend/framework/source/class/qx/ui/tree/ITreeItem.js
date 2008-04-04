@@ -4,8 +4,6 @@ qx.Interface.define("qx.ui.tree.ITreeItem",
   {
     open : {},
     selected : {},
-    level : {},
-    tree : {},
     parent : {}
   },
 

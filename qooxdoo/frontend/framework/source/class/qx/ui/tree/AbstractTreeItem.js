@@ -48,31 +48,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    level :
-    {
-      check : "Integer",
-      init : 0,
-      event : "changeLevel",
-      apply : "_applyLevel"
-    },
-
-
     indent :
     {
       check : "Integer",
       init : 19,
       apply : "_applyIndent",
       themeable : true
-    },
-
-
-    tree :
-    {
-      check : "qx.ui.tree.Tree",
-      nullable : true,
-      init : null,
-      event : "changeTree",
-      apply : "_applyTree"
     },
 
 
@@ -107,6 +88,22 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     getIconObject : function() {
       return this._icon;
+    },
+
+
+    getTree : function()
+    {
+      var treeItem = this;
+      while (treeItem.getParent()) {
+        treeItem = treeItem.getParent();
+      }
+
+      var tree = treeItem.getChildrenContainer().getLayoutParent();
+      if (tree && tree instanceof qx.ui.tree.Tree) {
+        return tree;
+      }
+
+      return null;
     },
 
 
@@ -264,10 +261,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    _applyTree : function(level) {
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       INDENT HANDLING
@@ -306,13 +299,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
           this._open.exclude();
         }
       }
-      console.log(this.getLevel(), this.getIndent(), openWidth, this.getLevel() * this.getIndent() - openWidth);
-      this._spacer.setWidth(this.getLevel() * this.getIndent() - openWidth);
-    },
-
-
-    _applyLevel : function(value, old) {
-      this._updateIndent();
+      this._spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
     },
 
 
@@ -321,7 +308,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    _computeLevel : function()
+    getLevel : function()
     {
       var treeItem = this;
       var level = -1;
@@ -330,12 +317,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         treeItem = treeItem.getParent();
         level += 1;
       }
-      return level;
+      // don't count the hidden rot node in the tree widget
+      return level-1;
     },
 
 
     syncWidget : function() {
-      this.setLevel(this._computeLevel());
+      this._updateIndent();
     },
 
 
@@ -454,6 +442,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
         qx.ui.core.queue.Widget.add(treeItem);
       }
+      qx.ui.core.queue.Widget.add(this);
     },
 
 
@@ -468,6 +457,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       treeItem.setParent(null);
       layout.remove(treeItem);
+
+      qx.ui.core.queue.Widget.add(this);
     }
 
   }
