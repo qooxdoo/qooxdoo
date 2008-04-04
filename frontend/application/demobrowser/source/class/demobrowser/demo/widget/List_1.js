@@ -92,6 +92,15 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
 
 
+    qx.event.Registration.addListener(window, "focus", function(e) {
+      qx.log.Logger.debug("Window Focus");
+    });
+
+    qx.event.Registration.addListener(window, "blur", function(e) {
+      qx.log.Logger.debug("Window Blur");
+    });
+
+
 
       var rd1 = new qx.ui.form.RadioButton("Show Label");
       var rd2 = new qx.ui.form.RadioButton("Show Icon");
