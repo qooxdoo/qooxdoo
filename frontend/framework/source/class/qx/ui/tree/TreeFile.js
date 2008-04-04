@@ -1,13 +1,14 @@
 qx.Class.define("qx.ui.tree.TreeFile",
 {
-  extend : qx.ui.tree.AbstractTreeElement,
-  implement: qx.ui.tree.ITreeElement,
+  extend : qx.ui.tree.AbstractTreeItem,
 
 
   construct : function(label)
   {
     this.base(arguments);
-    this._label.setContent(label);
+    if (label) {
+      this._label.setContent(label);
+    }
   },
 
 
@@ -25,9 +26,9 @@ qx.Class.define("qx.ui.tree.TreeFile",
   {
     _addWidgets : function()
     {
-      this._addSpacer();
-      this._addIcon();
-      this._addLabel();
+      this.addSpacer();
+      this.addIcon();
+      this.addLabel();
     },
 
 
