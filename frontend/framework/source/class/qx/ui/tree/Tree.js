@@ -111,8 +111,42 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      MANAGER BINDING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Accessor method for the selection manager
+     *
+     * @type member
+     * @return {qx.ui.selection.SelectionManager} TODOC
+     */
     getManager : function() {
       return this._manager;
+    },
+
+
+    /**
+     * Returns the first selected list item.
+     *
+     * @type member
+     * @return {qx.ui.form.ListItem|null} Selected item or null
+     */
+    getSelectedItem : function() {
+      return this.getSelectedItems()[0] || null;
+    },
+
+
+    /**
+     * Returns all selected list items (uses the selection manager).
+     *
+     * @type member
+     * @return {Array} Returns all selected list items.
+     */
+    getSelectedItems : function() {
+      return this._manager.getSelectedItems();
     },
 
 
@@ -122,9 +156,19 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
-    getNextSiblingOf : function(treeItem)
+    getNextSelectableItem : function(selectedItem) {
+      return this.getNextSiblingOf(selectedItem, false);
+    },
+
+
+    getPreviousSelectableItem : function(selectedItem) {
+      return this.getPreviousSiblingOf(selectedItem, false);
+    },
+
+
+    getNextSiblingOf : function(treeItem, invisible)
     {
-      if (treeItem.getOpen() && treeItem.hasChildren()) {
+      if ((invisible !== false || treeItem.isOpen()) && treeItem.hasChildren()) {
         return treeItem.getChildren()[0];
       }
 
@@ -146,7 +190,7 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    getPreviousSiblingOf : function(treeItem)
+    getPreviousSiblingOf : function(treeItem, invisible)
     {
       var parent = treeItem.getParent();
       if (!parent) {
@@ -164,7 +208,7 @@ qx.Class.define("qx.ui.tree.Tree",
       if (index > 0)
       {
         var folder = parentChildren[index-1];
-        while (folder.isOpen() && folder.hasChildren())
+        while ((invisible !== false || folder.isOpen()) && folder.hasChildren())
         {
           var children = folder.getChildren();
           folder = children[children.length-1];
@@ -182,26 +226,9 @@ qx.Class.define("qx.ui.tree.Tree",
       return 0;
     },
 
+
     setScrollTop : function(scroll) {
       return;
-    },
-
-
-    forEachOpenTreeItem : function(root, callback, context)
-    {
-      if (root !== this) {
-        callback.call(context, root);
-      }
-
-      if (root.hasChildren() && root.isOpen())
-      {
-        var children = root.getChildren();
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          var treeItem = children[i];
-          this.forEachOpenTreeItem(treeItem, callback, context);
-        }
-      }
     },
 
 

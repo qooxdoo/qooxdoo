@@ -307,9 +307,9 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * Returns all children of the folder.
      *
      * @type member
-     * @param recursive {Boolean ? false} whether children of subfolder should be
+     * @param recursive {Boolean ? true} whether children of subfolder should be
      * included
-     * @param invisible {Boolean ? true} whether invisible children should be included
+     * @param invisible {Boolean ? false} whether invisible children should be included
      * @return {AbstractTreeElement[]} list of children
      */
     getItems : function(recursive, invisible)
