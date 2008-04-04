@@ -218,6 +218,26 @@ qx.Class.define("qx.ui.layout.Abstract",
 
 
     /**
+     * Returns whether the layout has children, which are layout relevant. This
+     * excludes all widgets, which have a {@link qx.ui.core.Widget#visibility}
+     * value of <code>exclude</code>.
+     *
+     * @return {Boolean} Whether the layout has layout relevant children
+     */
+    hasLayoutChildren : function()
+    {
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+        if (child.getVisibility() !== "excluded") {
+          return true;
+        }
+      }
+      return false;
+    },
+
+
+    /**
      * Whether the layout contains children.
      *
      * @type member
