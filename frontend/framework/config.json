@@ -1,8 +1,8 @@
 {
   "include" : 
-  [
-    ["appconf", "../tool/data/config/application.json"]
-  ],
+  {
+    "appconf": "../tool/data/config/application.json"
+  },
 
   "jobs" :
   {
@@ -37,13 +37,35 @@
 
     "api" :
     {
-      "extend" : ["appconf/jobs/api"],
+      "extend" : ["common", "appconf/jobs/api"],
       
       "let" :
       {
         "ROOT" : "../application/apiviewer",
         "BUILD_PATH" : "./api"
-      }
+      },
+
+      "library" :
+      [
+        {
+          "encoding" : "utf-8",
+          "path"     : "./source",
+          "uri"      : "../../source"
+        },
+
+        {
+          "encoding" : "utf-8",
+          "path"     : "${ROOT}/source",
+          "uri"      : "../source"
+        }
+      ],
+
+      "settings" :
+      {
+        "qx.resourceUri" : "./resource"
+      },
+
+      "api_include" : ["qx.*"]   
     }
   }
 }
