@@ -785,7 +785,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._parent.getContentElement().add(this._containerElement);
       }
 
-      this.__toggleDisplay();
+      this._toggleDisplay();
 
       qx.core.Property.refresh(this);
     },
@@ -915,7 +915,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.updateDecoration(width, height, sizeChange);
 
         var layout = this.getLayout();
-        if (layout && layout.hasChildren()) {
+        if (layout && layout.hasLayoutChildren()) {
           layout.renderLayout(innerWidth, innerHeight);
         }
 
@@ -1205,7 +1205,7 @@ qx.Class.define("qx.ui.core.Widget",
       var layout = this.getLayout();
       if (layout)
       {
-        if (layout.hasChildren())
+        if (layout.hasLayoutChildren())
         {
           return layout.getSizeHint();
         }
@@ -1393,51 +1393,13 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    // {Boolean} Whether the layout defined that the widget is visible or not.
-    __layoutVisible : true,
-
-
-    // property apply
-    _applyVisibility : function(value, old)
-    {
-      this.__toggleDisplay();
-
-      // only force a layout update if visibility change from/to "exclude"
-      var parent = this._parent;
-      if (parent && (old === "excluded" || value === "excluded"))
-      {
-        var parentLayout = parent.getLayout();
-        if (parentLayout) {
-          parentLayout.childExcludeModified(this);
-        }
-
-        qx.ui.core.queue.Layout.add(parent);
-      }
-    },
-
-
-    layoutVisibilityModified : function(value)
-    {
-      if (value !== this.__layoutVisible)
-      {
-        if (value) {
-          delete this.__layoutVisible;
-        } else {
-          this.__layoutVisible = false;
-        }
-
-        this.__toggleDisplay();
-      }
-    },
-
-
     /**
      * Helper method to handle visibility changes.
      *
      * @type member
      * @return {void}
      */
-    __toggleDisplay : function()
+    _toggleDisplay : function()
     {
       if (this._parent && this.__layoutVisible && this.getVisibility() === "visible")
       {

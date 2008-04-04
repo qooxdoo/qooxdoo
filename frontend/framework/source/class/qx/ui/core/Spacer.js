@@ -190,6 +190,48 @@ qx.Class.define("qx.ui.core.Spacer",
      */
     _applyLayoutChange : function() {
       qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY SUPPORT: IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Helper method to handle visibility changes.
+     *
+     * @type member
+     * @return {void}
+     */
+    _toggleDisplay : function()
+    {
+      if (this._parent && this.__layoutVisible && this.getVisibility() === "visible")
+      {
+        this.$$visible = true;
+
+        // Prepare for "appear" event
+        qx.ui.core.queue.Display.add(this);
+
+        // Fire "show" event
+        if (this.hasListeners("show")) {
+          this.fireEvent("show");
+        }
+      }
+      else if (this.$$visible)
+      {
+        delete this.$$visible;
+
+        // Prepare for "disappear" event
+        qx.ui.core.queue.Display.add(this);
+
+        // Fire "hide" event
+        if (this.hasListeners("hide")) {
+          this.fireEvent("hide");
+        }
+      }
     }
+
   }
 });
