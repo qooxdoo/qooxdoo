@@ -26,8 +26,9 @@
 ************************************************************************ */
 
 /**
- * Wrapper for DOM events.
+ * Basic event object.
  *
+ * Please note:
  * Event objects are only valid during the event dispatch. After the dispatch
  * event objects are pooled or disposed. If you want to safe a reference to an
  * event instance use the {@link #clone} method.
@@ -83,11 +84,12 @@ qx.Class.define("qx.event.type.Event",
       this._type = null;
       this._target = null;
       this._currentTarget = null;
+      this._relatedTarget = null;
+      this._originalTarget = null;
       this._stopPropagation = false;
       this._bubbles = false;
-
-      // TODO: May this date compution too slow? (Opera sometimes had issues with "new Date")
       this._timeStamp = (new Date()).getTime();
+      this._eventPhase = null;
 
       return this;
     },
@@ -115,6 +117,8 @@ qx.Class.define("qx.event.type.Event",
       clone._type = this._type;
       clone._target = this._target;
       clone._currentTarget = this._currentTarget;
+      clone._relatedTarget = this._relatedTarget;
+      clone._originalTarget = this._originalTarget;
       clone._stopPropagation = this._stopPropagation;
       clone._bubbles = this._bubbles;
 
@@ -208,11 +212,11 @@ qx.Class.define("qx.event.type.Event",
 
 
     /**
-     * Returns the DOM event target to which the event was originally
+     * Returns the event target to which the event was originally
      * dispatched.
      *
      * @type member
-     * @return {Element} DOM element to which the event was originally
+     * @return {Element} target to which the event was originally
      *       dispatched.
      */
     getTarget : function() {
@@ -234,12 +238,12 @@ qx.Class.define("qx.event.type.Event",
 
 
     /**
-     * Get the event target DOM node whose event listeners are currently being
+     * Get the event target node whose event listeners are currently being
      * processed. This is particularly useful during event capturing and
      * bubbling.
      *
      * @type member
-     * @return {Element} The DOM element the event listener is currently
+     * @return {Element} The target the event listener is currently
      *       dispatched on.
      */
     getCurrentTarget : function() {
@@ -257,6 +261,59 @@ qx.Class.define("qx.event.type.Event",
      */
     setCurrentTarget : function(currentTarget) {
       this._currentTarget = currentTarget;
+    },
+
+
+    /**
+     * Get the related event target. This is only configured for
+     * events which also had an influences on another element e.g.
+     * mouseover/mouseout, focus/blur, ...
+     *
+     * @type member
+     * @return {Element} The related target
+     */
+    getRelatedTarget : function() {
+      return this._relatedTarget;
+    },
+
+
+    /**
+     * Override related target.
+     *
+     * @internal
+     * @type member
+     * @param relatedTarget {Element} new related target
+     * @return {void}
+     */
+    setRelatedTarget : function(relatedTarget) {
+      this._relatedTarget = relatedTarget;
+    },
+
+
+    /**
+     * Get the original event target. This is only configured
+     * for events which are fired by another event (often when
+     * the target should be reconfigured for another view) e.g.
+     * low-level DOM event to widget event.
+     *
+     * @type member
+     * @return {Element} The original target
+     */
+    getOriginalTarget : function() {
+      return this._originalTarget;
+    },
+
+
+    /**
+     * Override original target.
+     *
+     * @internal
+     * @type member
+     * @param originalTarget {Element} new original target
+     * @return {void}
+     */
+    setOriginalTarget : function(originalTarget) {
+      this._originalTarget = originalTarget;
     },
 
 
@@ -295,6 +352,6 @@ qx.Class.define("qx.event.type.Event",
   */
 
   destruct : function() {
-    this._disposeFields("_target", "_currentTarget");
+    this._disposeFields("_target", "_currentTarget", "_relatedTarget", "_originalTarget");
   }
 });

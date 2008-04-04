@@ -246,28 +246,18 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @type member
      * @param target {Element} DOM element which is the target
+     * @param related {Element} DOM element which is the related target
      * @param type {String} Name of the event to fire
+     * @param bubbles {Boolean} Whether the event should bubble
      * @return {void}
      */
-    _fireDirectEvent : function(target, type) {
-      qx.event.Registration.fireEvent(target, type);
-    },
-
-
-    /**
-     * Shorthand to fire events from within this class.
-     *
-     * @type member
-     * @param target {Element} DOM element which is the target
-     * @param type {String} Name of the event to fire
-     * @return {void}
-     */
-    _fireBubblingEvent : function(target, type)
+    _fireEvent : function(target, related, type, bubbles)
     {
       var Registration = qx.event.Registration;
 
-      var evt = Registration.createEvent(type);
-      evt.setBubbles(true);
+      var evt = Registration.createEvent(type, qx.event.type.Focus);
+      evt.setBubbles(bubbles);
+      evt.setRelatedTarget(related);
 
       Registration.dispatchEvent(target, evt);
     },
@@ -304,7 +294,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.resetActive();
         this.resetFocus();
 
-        this._fireDirectEvent(this._window, "blur");
+        this._fireEvent(this._window, null, "blur", false);
       }
     },
 
@@ -322,7 +312,7 @@ qx.Class.define("qx.event.handler.Focus",
       if (!this._windowFocused)
       {
         this._windowFocused = true;
-        this._fireDirectEvent(this._window, "focus");
+        this._fireEvent(this._window, null, "focus", false);
       }
     },
 
@@ -844,19 +834,19 @@ qx.Class.define("qx.event.handler.Focus",
       // this.debug("LL-Active: " + value);
 
       if (old) {
-        this._fireBubblingEvent(old, "beforedeactivate");
+        this._fireEvent(old, value, "beforedeactivate", true);
       }
 
       if (value) {
-        this._fireBubblingEvent(value, "beforeactivate");
+        this._fireEvent(value, old, "beforeactivate", true);
       }
 
       if (old) {
-        this._fireBubblingEvent(old, "deactivate");
+        this._fireEvent(old, value, "deactivate", true);
       }
 
       if (value) {
-        this._fireBubblingEvent(value, "activate");
+        this._fireEvent(value, old, "activate", true);
       }
     },
 
@@ -867,19 +857,19 @@ qx.Class.define("qx.event.handler.Focus",
       // this.debug("LL-Focus: " + value);
 
       if (old) {
-        this._fireBubblingEvent(old, "focusout");
+        this._fireEvent(old, value, "focusout", true);
       }
 
       if (value) {
-        this._fireBubblingEvent(value, "focusin");
+        this._fireEvent(value, old, "focusin", true);
       }
 
       if (old) {
-        this._fireDirectEvent(old, "blur");
+        this._fireEvent(old, value, "blur", false);
       }
 
       if (value) {
-        this._fireDirectEvent(value, "focus");
+        this._fireEvent(value, old, "focus", false);
       }
     }
   },

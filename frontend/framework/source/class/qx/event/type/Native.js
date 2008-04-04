@@ -36,15 +36,17 @@ qx.Class.define("qx.event.type.Native",
      * @param nativeEvent {Event} The DOM event to use
      * @param bubbles {Boolean} Whether the event should bubble up the element
      *     hierarchy.
-     * @param target {Object} Any possible event target
+     * @param target {Object} The event target
+     * @param relatedTarget {Object} The related event target
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(nativeEvent, bubbles, target)
+    init : function(nativeEvent, bubbles, target, relatedTarget)
     {
       this.base(arguments);
 
       this._bubbles = !!bubbles;
       this._target = target || nativeEvent.target || nativeEvent.srcElement;
+      this._relatedTarget = relatedTarget || nativeEvent.relatedTarget || nativeEvent.fromElement;
 
       if (nativeEvent.timeStamp) {
         this._timeStamp = nativeEvent.timeStamp;
@@ -60,7 +62,9 @@ qx.Class.define("qx.event.type.Native",
     clone : function(embryo)
     {
       var clone = this.base(arguments, embryo);
+
       clone._native = this._native;
+
       return clone;
     },
 
@@ -78,31 +82,6 @@ qx.Class.define("qx.event.type.Native",
       }
 
       this._native.returnValue = false;
-    },
-
-
-    /**
-     * Stops the propagation of the event
-     *
-     * @type member
-     * @return {void}
-     */
-    stopPropagation : function(stopNative)
-    {
-      /*
-      // This native stuff is not needed for qooxdoo,
-      // but breaks the default behavior of e.g. the focus
-      // handling which relies on working mousedown-events
-      // for focus/active events.
-      if (this._native.stopPropagation) {
-        this._native.stopPropagation();
-      }
-
-      // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      this._native.cancelBubble = true;
-      */
-
-      this._stopPropagation = true;
     },
 
 
