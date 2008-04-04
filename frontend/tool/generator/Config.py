@@ -1,4 +1,4 @@
-import os, sys, re, types, string
+import os, sys, re, types, string, copy
 import simplejson
 
 class Config:
@@ -53,6 +53,32 @@ class Config:
                 return self._normalizeConfig(default)
 
         return self._normalizeConfig(data)
+        
+
+    def set(self, key, content, AddKeys=False, confmap=None):
+        """Sets a (possibly nested) data element in dict <conf>
+        """
+        if confmap:
+            container = confmap
+        else:
+            container = self._data
+        splits = key.split("/")
+
+        for item in splits[:-1]:
+            if isinstance(container, types.DictType):
+                if container.has_key(item):
+                    container = container[item]
+                else:
+                    if AddKeys:
+                        container[item] = {}
+                        container       = container[item]
+                    else:
+                        raise KeyError, key
+            else:
+                raise TypeError, "Missing map for descend"
+
+        container[splits[-1]] = content
+        return True
         
 
     def iter(self):
@@ -219,6 +245,16 @@ class Config:
             _resolveEntry(console, config, job)
 
 
+    def _resolveExtends1(self, console, config, jobs):
+        # <jobs> is a list of names
+        for job in jobs:
+            #_resolveEntry(console, config, job)
+            jobdata = self.get(job)
+            jjob = Job(jobdata, self)  # create a job object
+            jjob.resolveExtend(console, config, entryTrace=[]) # manipulate it
+            self.set(job, jjob.getData())  # put the data back into the config
+
+
     def resolveMacros(self, jobs):
         console = self._console
         config  = self.getJobsMap()
@@ -293,4 +329,72 @@ class Config:
 
         console.outdent()
 
+
+class Job(object):
+    def __init__(self, data, config=None):
+        self._data   = data
+        self._config = config
+
+    def getData(self):
+        return self._data
+
+    def _listPrepend(source, target):
+        """returns new list with source prepended to target"""
+        l = target[:]
+        for i in range(len(source)-1,-1,-1):
+            l.insert(0,source[i])
+        return l
+
+    def _mergeEntry(target, source):
+        for key in source:
+            # merge 'let' key rather than shadowing
+            #if key == 'let'and target.has_key(key):
+            #    target[key] = _listPrepend(source[key],target[key])
+            
+            # merge 'settings' and 'let' key rather than shadowing
+            if (key in ['settings','let']) and target.has_key(key):
+                target[key] = self._mapMerge(source[key],target[key])
+            if not target.has_key(key):
+                target[key] = source[key]
+
+
+    def resolveExtend(self, console, config, entryTrace=[]):
+        # cyclic check for recursive extends?? - done
+        # is this expanding nested jobs in their own context?? - yes! (see jobcontext and parent)
+        if not self.get(job,False,config):
+            console.warn("No such job: %s" % job)
+            sys.exit(1)
+
+        data = self.getData()
+
+        if data.has_key("resolved"):
+            return
+
+        if data.has_key("extend"):
+            extends = data["extend"]
+            if job.rfind('/')>-1:
+                parent = job[:job.rfind('/')]
+                jobcontext = self.get(parent,None,config) # job context has the 'parent' key
+            else:
+                parent = None
+                jobcontext = config  # we are top-level
+
+            for entry in extends:
+                # cyclic check
+                if entry in entryTrace:
+                    console.warn("Extend entry already seen: %s" % str(entryTrace+[job,entry]))
+                    sys.exit(1)
+
+                pjob = self.get(entry, None, jobcontext )
+                # resolve 'extend'
+                _resolveEntry(console, jobcontext, entry, entryTrace + [job])
+                # prepare for 'run'
+                if pjob.has_key('run') and entry.rfind('/')>-1:
+                    # prefix job names
+                    eparent = entry[:entry.rfind('/')]
+                    pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']]
+                _mergeEntry(data, pjob)
+
+        data["resolved"] = True
+        return self
 
