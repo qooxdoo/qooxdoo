@@ -25,14 +25,14 @@
  *
  * Example:
  * <code class="javascript">
- *     var female = new qx.ui.form.RadioButton("female");
- *     var male = new qx.ui.form.RadioButton("male");
+ *   var female = new qx.ui.form.RadioButton("female");
+ *   var male = new qx.ui.form.RadioButton("male");
  *
- *     var mgr = new qx.ui.core.RadioManager();
- *     mgr.add(female, male);
+ *   var mgr = new qx.ui.core.RadioManager();
+ *   mgr.add(female, male);
  *
- *     layout.add(male);
- *     layout.add(female);
+ *   layout.add(male);
+ *   layout.add(female);
  * </code>
  *
  * @appearance radio-button
@@ -77,6 +77,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
@@ -112,6 +113,20 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
+    isTabable : function() {
+      return this.isFocusable() && this.isChecked();
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
