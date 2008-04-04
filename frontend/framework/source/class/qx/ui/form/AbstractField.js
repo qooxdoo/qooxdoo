@@ -162,6 +162,10 @@ qx.Class.define("qx.ui.form.AbstractField",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
+    _supportsNativeFocus : true,
+
+
     /**
      * Creates the input element. Derived classes may override this
      * method, to create different input elements.
@@ -196,19 +200,6 @@ qx.Class.define("qx.ui.form.AbstractField",
         "resize": "none",
         "appearance": "none"
       });
-
-      // Emulate IE hard-coded margin
-      // Mozilla by default emulates this IE handling, but in a wrong
-      // way. IE adds the additional margin to the CSS margin where
-      // Mozilla replaces it. But this make it possible for the user
-      // to overwrite the margin, which is not possible in IE.
-      // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=73817
-      // TODO: Check this for FF3.0
-      /*
-      if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit")) {
-        el.setStyle("margin", "1px 0");
-      }
-      */
 
       return el;
     },
