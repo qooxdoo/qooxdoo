@@ -9,6 +9,8 @@
         "APPLICATION"  : "apiviewer",
         "QOOXDOO_PATH" : "../..",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+				"API_INCLUDE"  : ["qx.*"],
+				"API_EXCLUDE"  : [],
         "BUILD_PATH"   : "${ROOT}/build"
       },
 
@@ -132,7 +134,8 @@
     {
       "extend" : ["common"],
 
-      "api_include" : ["qx.*"],
+      "include" : "$${API_INCLUDE}",
+      "exclude" : "$${API_EXCLUDE}",
 
       "api" :
       {
@@ -145,7 +148,8 @@
     {
       "extend" : ["common"],
 
-      "api_include" : ["qx.*"],
+      "include" : "$${API_INCLUDE}",
+      "exclude" : "$${API_EXCLUDE}",
 
       "api" :
       {
