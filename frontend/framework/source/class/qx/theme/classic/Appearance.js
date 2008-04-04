@@ -75,9 +75,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         if (states.pressed || states.abandoned || states.checked) {
-          var decorator = "inset";
+          var decorator = states.focuesd ? "focused-inset" : "inset";
         } else {
-          var decorator = "outset";
+          var decorator = states.focused ? "focused-outset" : "outset";
         }
 
         if (states.pressed || states.abandoned || states.checked) {
@@ -130,7 +130,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "focused" : "inset",
+          decorator       : states.focused ? "focused-inset" : "inset",
           backgroundColor : states.focused ? "#F0F4FA" : "white"
         };
       }
@@ -164,7 +164,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "focused" : "inset",
+          decorator       : states.focused ? "focused-inset" : "inset",
           padding         : [ 2, 3 ],
           textColor       : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : states.disabled ? "#F4F4F4" : states.focused ? "#F0F4FA" : "field"

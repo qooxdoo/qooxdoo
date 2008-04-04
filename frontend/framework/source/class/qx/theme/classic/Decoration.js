@@ -242,7 +242,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
-    "focused" :
+    "focused-inset" :
     {
       decorator : qx.ui.decoration.Double,
 
@@ -253,6 +253,21 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : [ "#7CA0CF", "#BCCEE5", "#BCCEE5", "#7CA0CF" ],
         innerColor : [ "#3E6CA8", "#A5BDDE", "#A5BDDE", "#3E6CA8" ]
       }
+    },
+
+    "focused-outset" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+
+        color : ["#A5BDDE", "#3E6CA8", "#3E6CA8", "#A5BDDE"],
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+      }
     }
+
   }
 });
