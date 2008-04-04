@@ -36,14 +36,21 @@ qx.Class.define("qx.ui.tree.Tree",
     this._layout = new qx.ui.layout.VBox();
     this.setLayout(this._layout);
 
-    this._root = new qx.ui.tree.TreeFolder();
+    this._root = new qx.ui.tree.TreeFolder().set({
+      open: true
+    });
     this._layout.add(this._root.getChildrenContainer());
 
-    this._manager = new qx.ui.core.SelectionManager(this);
+    this._manager = new qx.ui.core.SelectionManager(this).set({
+      dragSelection: false,
+      multiSelection: false
+    });
 
-    this.addListener("mouseover", this._onmouseover);
-    this.addListener("mousedown", this._onmousedown);
-    this.addListener("mouseup", this._onmouseup);
+    this.initOpenMode();
+
+    this.addListener("mouseover", this._onMouseover);
+    this.addListener("mousedown", this._onMousedown);
+    this.addListener("mouseup", this._onMouseup);
 
     this.addListener("keydown", this._onkeydown);
     this.addListener("keypress", this._onkeypress);
@@ -69,6 +76,15 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       refine : true,
       init : true
+    },
+
+
+    openMode :
+    {
+      check : ["click", "dblclick", "none"],
+      init : "none",
+      apply : "_applyOpenMode",
+      event : "changeOpenMode"
     }
   },
 
@@ -95,6 +111,9 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    getManager : function() {
+      return this._manager;
+    },
 
 
     /*
@@ -168,30 +187,43 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    forEachVisibleTreeItem : function(root, callback, context)
+    forEachOpenTreeItem : function(root, callback, context)
     {
-      var children = root.getChildren();
-      for (var i=0, l=children.length; i<l; i++)
+      if (root !== this) {
+        callback.call(context, root);
+      }
+
+      if (root.hasChildren() && root.isOpen())
       {
-        var treeItem = children[i];
-        callback.call(context, treeItem);
-        if (treeItem.hasChildren() && treeItem.isOpen()) {
-          this.forEachVisibleTreeItem(treeItem, callback, context);
+        var children = root.getChildren();
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          var treeItem = children[i];
+          this.forEachOpenTreeItem(treeItem, callback, context);
         }
       }
     },
 
 
-    getSelectableItems : function()
-    {
-      var items = [];
-
-      this.forEachVisibleTreeItem(this._root, function(treeItem) {
-        items.push(treeItem);
-      }, this);
-
-      return items;
+    getSelectableItems : function() {
+      return this._root.getItems(true, false);
     },
+
+
+    /**
+     * Returns all children of the tree.
+     *
+     * @type member
+     * @param recursive {Boolean ? false} whether children of subfolder should be
+     *     included
+     * @param invisible {Boolean ? true} whether invisible children should be
+     *     included
+     * @return {ITreeItem[]} list of children
+     */
+    getItems : function(recursive, invisible) {
+      return this._root.getItems(recursive, invisible);
+    },
+
 
 
     getInnerHeight : function()
@@ -215,7 +247,7 @@ qx.Class.define("qx.ui.tree.Tree",
           return null;
         }
 
-        if (qx.Class.hasInterface(widget.constructor, qx.ui.tree.ITreeElement)) {
+        if (qx.Class.hasInterface(widget.constructor, qx.ui.tree.ITreeItem)) {
           return widget;
         }
         widget = widget.getLayoutParent();
@@ -232,7 +264,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param e {qx.event.type.Mouse} mouseOver event
      * @return {void}
      */
-    _onmouseover : function(e)
+    _onMouseover : function(e)
     {
       var target = this._getTreeItem(e.getTarget());
       if (target) {
@@ -249,7 +281,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param e {qx.event.type.Mouse} mouseDown event
      * @return {void}
      */
-    _onmousedown : function(e)
+    _onMousedown : function(e)
     {
       var target = this._getTreeItem(e.getTarget());
       if (target) {
@@ -266,7 +298,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param e {qx.event.type.Mouse} mouseUp event
      * @return {void}
      */
-    _onmouseup : function(e)
+    _onMouseup : function(e)
     {
       var target = this._getTreeItem(e.getTarget());
       if (target) {
@@ -275,7 +307,32 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    _applyOpenMode : function(value, old)
+    {
+      if (old == "click") {
+        this.removeListener("click", this._onOpen, this);
+      } else if (old == "dblclick") {
+        this.removeListener("dblclick", this._onOpen, this);
+      }
 
+      if (value == "click") {
+        this.addListener("click", this._onOpen, this);
+      } else if (value == "dblclick") {
+        this.addListener("dblclick", this._onOpen, this);
+      }
+    },
+
+
+    _onOpen : function(e)
+    {
+      var treeItem = this._getTreeItem(e.getTarget());
+
+      if (treeItem && !treeItem.isOpen())
+      {
+        treeItem.setOpen(true);
+        e.stopPropagation();
+      }
+    },
 
 
     /*
