@@ -92,7 +92,7 @@ def main():
         console.head("Executing: %s" % job, True)
         jobcfg = config.extract(job)
         if options.dump_jcfg:
-            pprint.pprint(jobcfg)
+            pprint.pprint(jobcfg._data)
         Generator(jobcfg, console, variants, settings, require, use)
 
 
