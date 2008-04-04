@@ -1170,16 +1170,11 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      * @return {Element} the DOM element node
-     * @throws an error if the element was not yet created
      */
-    getDomElement : function()
-    {
-      if (!this._element) {
-        throw new Error("Element is not yet created!");
-      }
-
-      return this._element;
+    getDomElement : function() {
+      return this._element || null;
     },
+
 
 
 
