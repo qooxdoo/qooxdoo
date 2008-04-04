@@ -18,18 +18,8 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.ui.event.type.Mouse)
-#require(qx.ui.event.type.KeySequence)
-#require(qx.ui.event.type.KeyInput)
-#require(qx.ui.event.type.Event)
-#require(qx.ui.event.type.Data)
-
-************************************************************************ */
-
 /**
- * The WidgetEventHandler connects the widgets to the browser DOM events.
+ * Connects the widgets to the browser DOM events.
  */
 qx.Class.define("qx.ui.event.WidgetEventHandler",
 {
@@ -75,8 +65,8 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
   members :
   {
-    /** {Map} Event which are dispatched on the container element */
-    __containerTarget :
+    /** {Map} Events which are supported */
+    __supported :
     {
       // mouse events
       mousemove : 1,
@@ -97,7 +87,25 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
       // mouse capture
       capture : 1,
-      losecapture : 1
+      losecapture : 1,
+
+      // focus events
+      focusin : 1,
+      focusout : 1,
+      focus : 1,
+      blur : 1,
+      beforeactivate : 1,
+      beforedeactivate : 1,
+      activate : 1,
+      deactivate : 1
+    },
+
+
+    /** {Map} Events which are always fired. Even for disabled widgets. */
+    __enabled :
+    {
+      mouseover : 1,
+      mouseout : 1
     },
 
 
@@ -108,29 +116,7 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
         return false;
       }
 
-      var ret = !!this.__containerTarget[type];
-      return ret;
-    },
-
-
-    /**
-     * Clone the given event and return a {@link qx.ui.event.type.Event} instance.
-     *
-     * @param target {Object} the current target
-     * @param event {qx.event.type.Event} The event to clone.
-     * @return {qx.ui.event.type.Event} The cloned event.
-     */
-    _cloneEvent : function(target, event)
-    {
-      // TODO: Optimize this to a name map (dom type => widget type)
-      var widgetEventClass = qx.Class.getByName("qx.ui.event.type." + event.basename);
-      var clone = qx.event.Pool.getInstance().getObject(widgetEventClass);
-
-      event.clone(clone);
-      clone.setBubbles(false);
-      clone.setCurrentTarget(target);
-
-      return clone;
+      return !!this.__supported[type];
     },
 
 
@@ -139,15 +125,14 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
      *
      * @param event {qx.event.type.Event} The event object to dispatch.
      */
-    _dispatchEvent : function(event)
+    _dispatchEvent : function(domEvent)
     {
       // EVENT TARGET
-      var domTarget = event.getTarget();
+      var domTarget = domEvent.getTarget();
       var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget);
       if (!widgetTarget) {
         return;
       }
-
 
       widgetTarget = widgetTarget.getEventTarget();
       if (!widgetTarget) {
@@ -156,9 +141,9 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
 
 
       // EVENT RELATED TARGET
-      if (event.getRelatedTarget)
+      if (domEvent.getRelatedTarget)
       {
-        var domRelatedTarget = event.getRelatedTarget();
+        var domRelatedTarget = domEvent.getRelatedTarget();
         var widgetRelatedTarget = qx.ui.core.Widget.getWidgetByElement(domRelatedTarget);
 
         if (widgetRelatedTarget)
@@ -173,82 +158,67 @@ qx.Class.define("qx.ui.event.WidgetEventHandler",
       }
 
 
-      // PROCESSING EVENT
-      var currentTarget = event.getCurrentTarget();
+      // EVENT CURRENT TARGET
+      var currentTarget = domEvent.getCurrentTarget();
 
       var currentWidget = qx.ui.core.Widget.getWidgetByElement(currentTarget);
-      if (!currentWidget) {
+      if (!currentWidget || currentWidget.getAnonymous()) {
         return;
       }
-
-      currentWidget = currentWidget.getEventTarget();
-      if (!currentWidget) {
-        return;
-      }
-
-      var capture = event.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
-      var type = event.getType();
-
 
       // Ignore all events except "mouseover" and "mouseout" in the disabled state.
-      if (!currentWidget.isEnabled() && type !== "mouseover" && type !== "mouseout") {
+      var type = domEvent.getType();
+      if (!(this.__enabled[type] || currentWidget.isEnabled())) {
         return;
       }
 
+
+
+      // PROCESS LISTENERS
+
       // Load listeners
+      var capture = domEvent.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var listeners = this.__manager.getListeners(currentWidget, type, capture);
       if (!listeners) {
         return;
       }
 
-      // Create cloned event with correct target and dispatch it on all listeners
-      var clone = this._cloneEvent(currentWidget, event);
+      // Create cloned event with correct target
+      var widgetEvent = qx.event.Pool.getInstance().getObject(domEvent.constructor);
+      domEvent.clone(widgetEvent);
+
+      widgetEvent.setBubbles(false);
+      widgetEvent.setTarget(widgetTarget);
+      widgetEvent.setRelatedTarget(widgetRelatedTarget||null);
+      widgetEvent.setCurrentTarget(widgetTarget);
+      widgetEvent.setOriginalTarget(domTarget);
+
+      // Dispatch it on all listeners
       for (var i=0, l=listeners.length; i<l; i++)
       {
         var context = listeners[i].context || currentWidget;
-        listeners[i].handler.call(context, clone);
+        listeners[i].handler.call(context, widgetEvent);
       }
 
-      // synchronize propagation property
-      if (clone.getPropagationStopped()) {
-        event.stopPropagation();
+      // Synchronize propagation property
+      if (widgetEvent.getPropagationStopped()) {
+        domEvent.stopPropagation();
       }
 
       // Release the event instance to the event pool
-      qx.event.Pool.getInstance().poolObject(clone);
+      qx.event.Pool.getInstance().poolObject(widgetEvent);
     },
 
 
     // interface implementation
-    // target = widget ;)
-    registerEvent : function(target, type, capture)
-    {
-      // find responsible html element
-      var eventTarget = this.__getEventTarget(target, type);
-      eventTarget.addListener(type, this._dispatchEvent, this, capture);
+    registerEvent : function(target, type, capture) {
+      target.getContainerElement().addListener(type, this._dispatchEvent, this, capture);
     },
 
 
     // interface implementation
-    // target = widget ;)
-    unregisterEvent : function(target, type, capture)
-    {
-      // find responsible html element
-      var eventTarget = this.__getEventTarget(target, type);
-      eventTarget.removeListener(type, this._dispatchEvent, this, capture);
-    },
-
-
-    /**
-     * Get the {@link qx.html.Element} target, to which the event handler must
-     * be connected.
-     *
-     * @param widgetTarget {qx.ui.core.Widget} The widget event target
-     * @param type {String} The event type
-     * @return {qx.html.Element} The html element the event must be attached to.
-     */
-    __getEventTarget : function(widgetTarget, type) {
-      return widgetTarget.getContainerElement();
+    unregisterEvent : function(target, type, capture) {
+      target.getContainerElement().removeListener(type, this._dispatchEvent, this, capture);
     }
   },
 

@@ -14,33 +14,35 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
 /**
- * Collection of common widget event methods.
+ * Common base class for all focus events.
  */
-qx.Mixin.define("qx.ui.event.type.MWidgetEvent",
+qx.Class.define("qx.event.type.Focus",
 {
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
+  extend : qx.event.type.Event,
 
   members :
   {
     /**
-     * Returns the DOM event target to which the event was originally
-     * dispatched.
+     * Initialize the fields of the event. The event must be initialized before
+     * it can be dispatched.
      *
      * @type member
-     * @return {Element} DOM element to which the event was originally
-     *       dispatched.
+     * @param target {Object} Any possible event target
+     * @param relatedTarget {Object} Any possible event target
+     * @return {qx.event.type.Event} The initialized event instance
      */
-    getDomTarget : function() {
-      return this._target;
+    init : function(target, relatedTarget)
+    {
+      this.base(arguments);
+
+      this._target = target;
+      this._relatedTarget = relatedTarget;
+
+      return this;
     }
   }
 });
