@@ -83,37 +83,6 @@ qx.Class.define("qx.ui.core.Widget",
     // Initialize properties
     this.initFocusable();
     this.initSelectable();
-
-    // Add focus listeners
-    /*
-    this.addListener("focus", function(e) {
-      this.debug("Focus...");
-    }, this);
-
-    this.addListener("blur", function(e) {
-      this.debug("Blur...");
-    }, this);
-
-    this.addListener("focusin", function(e) {
-      this.debug("Focusin..." + e.getTarget());
-    }, this);
-
-    this.addListener("focusout", function(e) {
-      this.debug("Focusout..." + e.getTarget());
-    }, this);
-
-    this.addListener("activate", function(e) {
-      this.debug("Activate..." + e.getTarget() + " :: " + e.getOriginalTarget());
-    }, this);
-
-    this.addListener("deactivate", function(e) {
-      this.debug("Deactivate..." + e.getTarget() + " :: " + e.getOriginalTarget());
-    }, this);
-
-    this.addListener("mousedown", function(e) {
-      this.debug("Mousedown..." + e.getTarget());
-    }, this);
-    */
   },
 
 
@@ -2235,9 +2204,8 @@ qx.Class.define("qx.ui.core.Widget",
     _applySelectable : function(value)
     {
       return;
-
       if (qx.core.Variant.isSet("qx.client", "gecko|webkit")) {
-        this._contentElement.setStyle("userSelect", value ? null : "none");
+        this._containerElement.setStyle("userSelect", value ? "" : "none");
       }
     },
 
@@ -2250,15 +2218,28 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Event handler which is executed when the widget receives the focus.
+     *
+     * @type member
+     * @param e {qx.event.type.Focus} Focus event
+     * @return {void}
+     */
     _onfocus : function(e) {
       this.addState("focused");
     },
 
 
+    /**
+     * Event handler which is executed when the widget lost the focus.
+     *
+     * @type member
+     * @param e {qx.event.type.Focus} Focus event
+     * @return {void}
+     */
     _onblur : function(e) {
       this.removeState("focused");
     },
-
 
 
 
