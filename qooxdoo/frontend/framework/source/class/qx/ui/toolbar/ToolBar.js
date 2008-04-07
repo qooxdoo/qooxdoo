@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_toolbar)
-
-************************************************************************ */
-
 /**
  * @appearance toolbar
  */
@@ -50,9 +44,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     this.setLayout(this._layout);
 
     // this.addEventListener("keypress", this._onkeypress);
-
-    // Initialize properties
-    this.initHeight();
   },
 
 
@@ -145,6 +136,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     add: function(item) {
       this._layout.add(item);
     },
+    
+    
 
 
     /*
