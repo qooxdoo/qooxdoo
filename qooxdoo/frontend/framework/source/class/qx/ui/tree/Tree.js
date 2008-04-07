@@ -23,6 +23,7 @@ qx.Class.define("qx.ui.tree.Tree",
   implement : qx.ui.core.ISelectionContainer,
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -57,6 +58,8 @@ qx.Class.define("qx.ui.tree.Tree",
   },
 
 
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -88,6 +91,14 @@ qx.Class.define("qx.ui.tree.Tree",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -184,6 +195,7 @@ qx.Class.define("qx.ui.tree.Tree",
         if (index > -1 && index < parentChildren.length-1) {
           return parentChildren[index+1];
         }
+
         treeItem = parent;
       }
       return null;
@@ -197,7 +209,8 @@ qx.Class.define("qx.ui.tree.Tree",
         return null;
       }
 
-      if (parent == this._root) {
+      if (parent == this._root)
+      {
         if (parent.getChildren()[0] == treeItem) {
           return null;
         }
@@ -277,8 +290,10 @@ qx.Class.define("qx.ui.tree.Tree",
         if (qx.Class.hasInterface(widget.constructor, qx.ui.tree.ITreeItem)) {
           return widget;
         }
+
         widget = widget.getLayoutParent();
       }
+
       return null;
     },
 
@@ -411,17 +426,21 @@ qx.Class.define("qx.ui.tree.Tree",
           {
             if (key == "Left")
             {
-              if (treeItem.isOpen()) {
+              if (treeItem.isOpen())
+              {
                 treeItem.setOpen(false);
                 e.stopPropagation();
               }
             }
-            else {
-              if (!treeItem.isOpen()) {
+            else
+            {
+              if (!treeItem.isOpen())
+              {
                 treeItem.setOpen(true);
                 e.stopPropagation();
               }
             }
+
             return;
           }
         }
@@ -430,6 +449,5 @@ qx.Class.define("qx.ui.tree.Tree",
       // Give control to selectionManager
       this._manager.handleKeyPress(e);
     }
-
   }
 });
