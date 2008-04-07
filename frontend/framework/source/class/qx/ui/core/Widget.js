@@ -2128,18 +2128,15 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** {Boolean} Whether the default tabIndex allows focusing the element */
-    _supportsNativeFocus : false,
-
-
     /**
      * Returns the element which should be focused.
      *
+     * @internal
      * @type member
      * @return {qx.html.Element} The html element to focus.
      */
-    _getFocusElement : function() {
-      return this._supportsNativeFocus ? this._contentElement : this._containerElement;
+    getFocusElement : function() {
+      return this._containerElement;
     },
 
 
@@ -2160,9 +2157,10 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyFocusable : function(value)
     {
-      var target = this._getFocusElement();
+      var target = this.getFocusElement();
       var tabIndex = this.getTabIndex();
 
+      // Apply native tabIndex attribute
       if (value)
       {
         if (tabIndex == null) {
@@ -2176,6 +2174,7 @@ qx.Class.define("qx.ui.core.Widget",
         target.removeAttribute("tabIndex");
       }
 
+      // Dynamically register/deregister events
       if (value)
       {
         this.addListener("focus", this._onfocus, this);
@@ -2198,7 +2197,7 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("TabIndex property must be between 1 and 32000");
       }
 
-      var target = this._getFocusElement();
+      var target = this.getFocusElement();
 
       if (this.isFocusable()) {
         target.removeAttribute("tabIndex", value);
@@ -2276,7 +2275,7 @@ qx.Class.define("qx.ui.core.Widget",
     focus : function()
     {
       if (this.isFocusable()) {
-        this._getFocusElement().focus();
+        this.getFocusElement().focus();
       } else {
         throw new Error("Widget is not focusable!");
       }
@@ -2292,7 +2291,7 @@ qx.Class.define("qx.ui.core.Widget",
     blur : function()
     {
       if (this.isFocusable()) {
-        this._getFocusElement().blur();
+        this.getFocusElement().blur();
       } else {
         throw new Error("Widget is not focusable!");
       }
