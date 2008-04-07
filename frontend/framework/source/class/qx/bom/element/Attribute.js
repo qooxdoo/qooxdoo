@@ -241,12 +241,19 @@ qx.Class.define("qx.bom.element.Attribute",
         // normalize name
         name = hints.names[name] || name;
 
-        // try attribute access first
-        value = element.getAttribute(name);
-
         // respect properties
-        if (value == null && hints.property[name]) {
+        if (hints.property[name])
+        {
           value = element[name];
+
+          if (value == null) {
+            value = element.getAttribute(name);
+          }
+        }
+
+        // fallback to attribute
+        else {
+          value = element.getAttribute(name);
         }
 
         if (hints.bools[name]) {
