@@ -4,6 +4,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
   implement : qx.ui.tree.ITreeItem,
 
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -18,6 +25,14 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     this.initOpen();
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -74,6 +89,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     }
   },
 
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     _addWidgets : function() {
@@ -105,6 +130,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       return null;
     },
+
 
 
     /*
@@ -142,6 +168,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       {
         this._layout.remove(this._open);
       }
+
       this._layout.add(this._open, {align: "middle"});
     },
 
@@ -227,6 +254,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     handleStateChange : function()
     {
+      // TODO: This could directly be done by the selection manager
       if (this.hasState("selected")) {
         this.activate();
       }
@@ -253,6 +281,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (this._open) {
         this._open.setOpen(value);
       }
+
       value ? this.addState("opened") : this.removeState("opened");
     },
 
@@ -287,6 +316,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     _updateIndent : function()
     {
       var openWidth = 0;
+
       if (this._open)
       {
         if (this._shouldShowOpenSymbol())
@@ -299,6 +329,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
           this._open.exclude();
         }
       }
+
       this._spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
     },
 
@@ -312,11 +343,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       var treeItem = this;
       var level = -1;
+
       while (treeItem)
       {
         treeItem = treeItem.getParent();
         level += 1;
       }
+
       // don't count the hidden rot node in the tree widget
       return level-1;
     },
@@ -342,6 +375,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
           visibility : this.isOpen() ? "visible" : "excluded"
         });
       }
+
       return this._childrenContainer;
     },
 
@@ -359,6 +393,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     getVBoxLayout : function() {
       return this.getChildrenContainer().getLayout();
     },
+
+
 
 
     /*
@@ -460,6 +496,5 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       qx.ui.core.queue.Widget.add(this);
     }
-
   }
 });

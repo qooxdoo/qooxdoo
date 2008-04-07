@@ -22,6 +22,9 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
   extend : qx.ui.basic.Image,
   include : qx.ui.core.MExecutable,
 
+
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -39,6 +42,9 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
   },
+
+
+
 
 
   /*
@@ -65,6 +71,14 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     _applyOpen : function(value, old)
@@ -75,7 +89,8 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
 
 
     /**
-     * Listener method for "keydown" event.<br/>
+     * Listener method for "keydown" event.
+     *
      * Removes "abandoned" and adds "pressed" state
      * for the keys "Enter" or "Space"
      *
@@ -94,6 +109,9 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
     },
 
 
+    // TODO: Could this be done somewhere else. The whole event
+    // connection stuff on this widget (used by AbstractTreeItem)
+    // needs optimization.
     _stopPropagation : function(e) {
       e.stopPropagation();
     },
