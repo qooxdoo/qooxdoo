@@ -163,7 +163,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     */
 
     // overridden
-    _supportsNativeFocus : true,
+    getFocusElement : function() {
+      return this._contentElement;
+    },
 
 
     /**
@@ -209,6 +211,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
+
       this._contentElement.setAttribute("disabled", value===false);
     },
 
@@ -290,7 +293,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     // property apply
     _applyReadOnly : function(value, old)
     {
-      this._contentElement.setAttribute("readOnly", value.toString());
+      this._contentElement.setAttribute("readOnly", value);
 
       if (value) {
         this.addState("readonly");

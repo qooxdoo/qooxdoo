@@ -101,21 +101,6 @@ qx.Class.define("qx.ui.core.EventHandler",
     },
 
 
-    /** {Map} Events which are always fired. Even for disabled widgets. */
-    __enabled :
-    {
-      mouseover : 1,
-      mouseout : 1
-    },
-
-
-    __direct :
-    {
-      focus : 1,
-      blur : 1
-    },
-
-
     // interface implementation
     canHandleEvent : function(target, type)
     {
@@ -175,7 +160,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // Ignore all events except "mouseover" and "mouseout" in the disabled state.
       var type = domEvent.getType();
-      if (!(this.__enabled[type] || currentWidget.isEnabled())) {
+      if (!(currentWidget.isEnabled() || type === "mouseover" || type === "mouseout")) {
         return;
       }
 
@@ -220,7 +205,12 @@ qx.Class.define("qx.ui.core.EventHandler",
     // interface implementation
     registerEvent : function(target, type, capture)
     {
-      var elem = this.__direct[type] && target._supportsNativeFocus ? target.getContentElement() : target.getContainerElement();
+      var elem = target.getContainerElement();
+
+      if (type === "focus" || type === "blur") {
+        elem = target.getFocusElement();
+      }
+
       elem.addListener(type, this._dispatchEvent, this, capture);
     },
 
@@ -228,7 +218,12 @@ qx.Class.define("qx.ui.core.EventHandler",
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
-      var elem = this.__direct[type] && target._supportsNativeFocus ? target.getContentElement() : target.getContainerElement();
+      var elem = target.getContainerElement();
+
+      if (type === "focus" || type === "blur") {
+        elem = target.getFocusElement();
+      }
+
       elem.removeListener(type, this._dispatchEvent, this, capture);
     }
   },
