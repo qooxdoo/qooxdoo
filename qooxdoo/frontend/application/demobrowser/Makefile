@@ -20,9 +20,11 @@
 .PHONY: source build api
 
 source:
+	@./tool/genjson.py source/script
 	@../../tool/generator.py -c config.json -j source
 
 build:
+	@./tool/genjson.py build/script
 	@../../tool/generator.py -c config.json -j build
 
 api:
