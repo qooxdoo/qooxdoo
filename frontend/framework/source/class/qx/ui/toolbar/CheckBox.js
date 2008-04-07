@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_toolbar)
-
-************************************************************************ */
-
 qx.Class.define("qx.ui.toolbar.CheckBox",
 {
   extend : qx.ui.form.ToggleButton,
@@ -54,29 +48,16 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
   */
   properties :
   {
-/*    // Omit focus
-    tabIndex :
-    {
-      refine : true,
-      init : -1
-    },
-*/
-
     appearance :
     {
       refine : true,
       init : "toolbar-button"
     },
+
     show :
     {
       refine : true,
       init : "inherit"
-    },
-
-    height :
-    {
-      refine : true,
-      init : null
     }
   },  
 
