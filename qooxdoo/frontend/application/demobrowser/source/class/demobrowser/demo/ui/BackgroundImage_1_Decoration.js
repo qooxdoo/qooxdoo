@@ -1,3 +1,9 @@
+/* ************************************************************************
+
+#asset(demobrowser/demo/background/*)
+
+************************************************************************ */
+
 qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
 {
   title: "Shaded Buttons - Decorations",
