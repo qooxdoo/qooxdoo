@@ -43,7 +43,7 @@
 
 import sys, os, re, types, shutil
 
-fJSON = "demo.json"
+fJSON = "./tool/demo_dyn.json"
 
 
 def htmlfiles(rootpath):
