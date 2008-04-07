@@ -2214,6 +2214,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Apply qooxdoo attribute
       this._containerElement.setAttribute("qxselectable", value ? "on" : "off");
+
+      if (qx.core.Variant.isSet("qx.client", "webkit")) {
+        this._containerElement.setStyle("userSelect", value ? "normal" : "none");
+      }
     },
 
 

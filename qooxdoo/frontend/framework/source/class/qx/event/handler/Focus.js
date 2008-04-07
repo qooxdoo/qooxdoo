@@ -748,11 +748,20 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // It seems that Webkit (at least Safari 3.1) do not properly fire
         // activate / focus events when clicking on checkboxes and radiobuttons.
+        // But it also seems that the focus happens onmouseup and not when the mouse
+        // is pressed down. We correct both behaviors here through forcing the focus.
         var target = e.target;
-        if (target.nodeName === "INPUT" && (target.type === "checkbox" || target.type === "radio"))
+        this.setActive(target);
+
+        // We must be sure to remove the old focus. Safari as of version 3.1
+        // does not support tabIndex and focusing on every element so the
+        // focus call does not mean to remove the old focus in all tested cases.
+        var nextFocus = this.__findFocusNode(target);
+        var currentFocus = this.getFocus();
+        if (currentFocus != nextFocus)
         {
-          this.setActive(target);
-          this.setFocus(target);
+          currentFocus.blur();
+          nextFocus.focus();
         }
       },
 
@@ -764,10 +773,10 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Do both, activation and focusing of the pressed element.
         var target = e.target;
-        var focus = this.__findFocusNode(target);
-
         this.setActive(target);
-        this.setFocus(focus);
+
+        var focusTarget = this.__findFocusNode(target);
+        this.setFocus(focusTarget);
       },
 
       "default" : null
