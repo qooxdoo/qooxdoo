@@ -2215,6 +2215,8 @@ qx.Class.define("qx.ui.core.Widget",
       // Apply qooxdoo attribute
       this._containerElement.setAttribute("qxselectable", value ? "on" : "off");
 
+      // Apply CSS style for webkit
+      // The "normal" value does not seem to work in gecko.
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
         this._containerElement.setStyle("userSelect", value ? "normal" : "none");
       }
