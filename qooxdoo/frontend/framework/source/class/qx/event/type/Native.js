@@ -75,13 +75,8 @@ qx.Class.define("qx.event.type.Native",
      * @type member
      * @return {void}
      */
-    preventDefault : function()
-    {
-      if (this._native.preventDefault) {
-        this._native.preventDefault();
-      }
-
-      this._native.returnValue = false;
+    preventDefault : function() {
+      qx.bom.Event.preventDefault(this._native);
     },
 
 
