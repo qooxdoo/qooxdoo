@@ -18,39 +18,12 @@
 
 ************************************************************************ */
 
-// IE
-//document.ondragstart = document.onselectstart = function() {
-//  return false;
-//}
-//
-// "ondragenter = return false" stops Drag&Drop in IE
-// "-webkit-user-drag = none stops Drag&Drop in Webkit
-// "ondragstart should work in gecko as well" / "dragdrop is also there, try capturing mode"
-// IE: hideFocus still missing to omit dotted border around focused elements.
-// IE: onresizestart/onresizeend??
-
 /**
  * Shared implementation for all root widgets.
  */
 qx.Class.define("qx.ui.root.Abstract",
 {
   extend : qx.ui.core.Widget,
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this.addListener("mousedown", this._onmousedown, this, true);
-    this.addListener("mouseup", this._onmouseup, this, true);
-  },
-
 
 
 
@@ -106,32 +79,6 @@ qx.Class.define("qx.ui.root.Abstract",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Event handler to support generic focus and selection managment
-     * for all widgets.
-     *
-     */
-    _onmousedown : function(e)
-    {
-      var target = e.getTarget();
-
-
-
-
-    },
-
-
-    _onmouseup : function(e)
-    {
-    },
-
-
     // overridden
     isRootWidget : function() {
       return true;
@@ -153,18 +100,5 @@ qx.Class.define("qx.ui.root.Abstract",
 
       this.base(arguments, value, old);
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-
   }
 });
