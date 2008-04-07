@@ -94,6 +94,18 @@ qx.Class.define("qx.ui.root.Abstract",
 
   members :
   {
+    /**
+     * Remove child widget
+     *
+     * @type member
+     * @param child {qx.ui.core.Widget} the widget to remove
+     * @return {qx.ui.layout.Abstract} This object (for chaining support)
+     */
+    remove : function(child) {
+      this.getLayout().remove(child);
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER

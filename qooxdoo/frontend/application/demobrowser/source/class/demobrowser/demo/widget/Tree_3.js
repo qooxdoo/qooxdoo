@@ -28,10 +28,19 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
     {
       this.base(arguments);
 
+      var tree = this.getTree();
+      this.getRoot().add(tree, 20, 48);
+      this._tree = tree;
+
+      this.getRoot().add(this.getCommandFrame(), 250, 48);
+    },
+
+
+    getTree : function()
+    {
       var tree = new qx.ui.tree.Tree("Root").set({
         width : 200
       });
-      this.getRoot().add(tree, 20, 48);
 
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
       te1.setOpen(true)
@@ -64,10 +73,8 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
 
       tree.add(te2);
-      this._tree = tree;
 
-
-      this.getRoot().add(this.getCommandFrame(), 250, 48);
+      return tree;
     },
 
 
@@ -104,11 +111,27 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
       this.btnAddFile.addListener("execute", this._addFile, this);
       grid.add(this.btnAddFile, row++, 0, {colSpan: 2});
 
+      this.btnAddAfter = new qx.ui.form.Button("Add after");
+      this.btnAddAfter.addListener("execute", this._addAfter, this);
+      grid.add(this.btnAddAfter, row++, 0, {colSpan: 2});
+
+      this.btnAddBefore = new qx.ui.form.Button("Add before");
+      this.btnAddBefore.addListener("execute", this._addBefore, this);
+      grid.add(this.btnAddBefore, row++, 0, {colSpan: 2});
+
+      this.btnAddBegin = new qx.ui.form.Button("Add at begin");
+      this.btnAddBegin.addListener("execute", this._addBegin, this);
+      grid.add(this.btnAddBegin, row++, 0, {colSpan: 2});
+
       grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
 
       this.btnRemove = new qx.ui.form.Button("Remove tree item");
       this.btnRemove.addListener("execute", this._removeTreeItem, this);
       grid.add(this.btnRemove, row++, 0, {colSpan: 2});
+
+      this.btnRemoveAll = new qx.ui.form.Button("Remove all children");
+      this.btnRemoveAll.addListener("execute", this._removeAll, this);
+      grid.add(this.btnRemoveAll, row++, 0, {colSpan: 2});
 
       grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
 
@@ -121,6 +144,13 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
 
       this.btnMoveDown = new qx.ui.form.Button("Move down");
       grid.add(this.btnMoveDown, row++, 0, {colSpan: 2});
+
+      grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
+
+      this.btnReset = new qx.ui.form.Button("Reset tree");
+      this.btnReset.addListener("execute", this._resetTree, this);
+      grid.add(this.btnReset, row++, 0, {colSpan: 2});
+
 
       this._tree.getManager().addListener("changeSelection", this._updateControls, this);
       this._updateControls();
@@ -147,25 +177,46 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
     },
 
 
+    _addBefore : function()
+    {
+      var current = this._tree.getSelectedItem();
+      var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
+
+      current.getParent().addBefore(file, current);
+    },
+
+
+    _addAfter : function()
+    {
+      var current = this._tree.getSelectedItem();
+      var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
+
+      current.getParent().addAfter(file, current);
+    },
+
+
+    _addBegin : function()
+    {
+      var current = this._tree.getSelectedItem();
+      var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
+
+      current.getParent().addAtBegin(file);
+    },
+
+
     _removeTreeItem : function()
     {
       var current = this._tree.getSelectedItem();
       var parent = current.getParent();
 
-      var selected = parent;
-      if (current.getLevel() == 0)
-      {
-        var selected =
-          this._tree.getPreviousSiblingOf(current) ||
-          this._tree.getNextSiblingOf(current) ||
-          null;
-      }
-
-      if (selected) {
-        parent.getTree().getManager().setItemSelected(selected, true);
-      }
-
       parent.remove(current);
+    },
+
+
+    _removeAll : function()
+    {
+      var current = this._tree.getSelectedItem();
+      current.removeAll();
     },
 
 
@@ -180,6 +231,18 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
     },
 
 
+    _resetTree : function()
+    {
+      var root = this.getRoot();
+      root.remove(this._tree);
+      this._tree = this.getTree();
+      root.add(this._tree);
+
+      this._tree.getManager().addListener("changeSelection", this._updateControls, this);
+      this._updateControls();
+    },
+
+
     _updateControls : function()
     {
       var current = this._tree.getSelectedItem();
@@ -188,7 +251,11 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
       {
         this.btnAddFolder.setEnabled(false);
         this.btnAddFile.setEnabled(false);
+        this.btnAddBefore.setEnabled(false);
+        this.btnAddAfter.setEnabled(false);
+        this.btnAddBegin.setEnabled(false);
         this.btnRemove.setEnabled(false);
+        this.btnRemoveAll.setEnabled(false);
         this.btnMoveToParent.setEnabled(false);
         this.btnMoveUp.setEnabled(false);
         this.btnMoveDown.setEnabled(false);
@@ -202,7 +269,11 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
 
       this.btnAddFolder.setEnabled(isFolder);
       this.btnAddFile.setEnabled(isFolder);
+      this.btnAddBefore.setEnabled(true);
+      this.btnAddAfter.setEnabled(true);
+      this.btnAddBegin.setEnabled(true);
       this.btnRemove.setEnabled(true);
+      this.btnRemoveAll.setEnabled(true);
       this.btnMoveToParent.setEnabled(!isTopLevel);
       this.btnMoveUp.setEnabled(!isFirstItem);
       this.btnMoveDown.setEnabled(!isLastItem);
