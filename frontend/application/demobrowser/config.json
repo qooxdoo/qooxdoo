@@ -1,5 +1,5 @@
 {
-  "include" : 
+  "include" :
   {
     "apiconf": "../apiviewer/config.json"
   },
@@ -68,7 +68,7 @@
 
     "source" :
     {
-      "run" : 
+      "run" :
       [
         "source-script",
         "source-data",
@@ -82,7 +82,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
       }
@@ -93,7 +93,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/genjson.py source/script"
       }
@@ -104,7 +104,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j source"
       }
@@ -137,8 +137,7 @@
         "files" :
         [
           "index.html",
-          "demo",
-          "resource/demobrowser/demo"
+          "demo"
         ],
 
         "target" : "build"
@@ -168,7 +167,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
       }
@@ -179,7 +178,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/genjson.py build/script"
       }
@@ -191,7 +190,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j build"
       }
@@ -201,15 +200,15 @@
     // putting it all together ...
     "build" :
     {
-      "run" : 
-      [ 
+      "run" :
+      [
         /* this all has to be done for the build */
         "build-data",
         "build-demo-jobs",
         "build-demos",
-        "build-resources", 
-        "build-script", 
-        "build-files" 
+        "build-resources",
+        "build-script",
+        "build-files"
       ]
     },
 
@@ -218,7 +217,7 @@
     "api" :
     {
       "extend" : ["apiconf/jobs/build"],
-      
+
       "let" :
       {
         "ROOT" : "../apiviewer",

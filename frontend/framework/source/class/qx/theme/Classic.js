@@ -31,6 +31,6 @@ qx.Theme.define("qx.theme.Classic",
     decoration : qx.theme.classic.Decoration,
     font : qx.theme.classic.Font,
     appearance : qx.theme.classic.Appearance,
-    icon : qx.theme.icon.Tango
+    icon : qx.theme.icon.Oxygen
   }
 });
