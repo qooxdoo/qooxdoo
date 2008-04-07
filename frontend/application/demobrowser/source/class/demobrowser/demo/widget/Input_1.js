@@ -118,14 +118,24 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
 
       var controls = new qx.ui.core.Widget();
       controls.setLayout(new qx.ui.layout.VBox());
+      controls.getLayout().setSpacing(8);
 
-      var btn = new qx.ui.form.Button("toggle enabled");
+      var btnEnabled = new qx.ui.form.Button("Toggle enabled");
       var enable = false;
-      btn.addListener("execute", function() {
+      btnEnabled.addListener("execute", function() {
         container.setEnabled(enable);
         enable = !enable;
       });
-      controls.getLayout().add(btn);
+      controls.getLayout().add(btnEnabled);
+
+
+      var btnSend = new qx.ui.form.Button("Send content");
+      btnSend.addListener("execute", function() {
+        this.debug("Sending content: " + input4.getValue());
+      });
+      controls.getLayout().add(btnSend);
+
+
       this.getRoot().add(controls, 300, 10);
     }
   }
