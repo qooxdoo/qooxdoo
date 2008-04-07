@@ -768,6 +768,11 @@ qx.Class.define("qx.event.handler.Focus",
         {
           currentFocus.blur();
           nextFocus.focus();
+
+          // Focus event happens to late in Webkit.
+          // Synchronizes with property directly without waiting for event.
+          // Looks nicer when combining with widgets.
+          this.setFocus(nextFocus);
         }
       },
 
