@@ -109,77 +109,14 @@ qx.Class.define("qx.ui.root.Abstract",
     {
       var target = e.getTarget();
 
-      return;
 
-      // Stop native event
-      // This is need to block low-level event handler from interfering with widget
-      // focus system
-      /*
-      var nativeEvent = e.getNativeEvent();
-      if (nativeEvent.stopPropagation) {
-        nativeEvent.stopPropagation();
-      }
-      nativeEvent.cancelBubble = true;
-      */
 
-      // Only process targets which are not selectable
-      if (target.isEnabled())
-      {
-        if (!target.isSelectable() && !target.isFocusable())
-        {
-          // According to MSDN:
-          // An element with the UNSELECTABLE attribute set to on can be included
-          // in a selection that starts somewhere outside the element.
-          //
-          // This means we must stop the selection on the element which received
-          // the last mouse down. We handle this automatically and dynamically
-          // here following the user configured rule (property: selectable)
-          if (qx.core.Variant.isSet("qx.client", "mshtml"))
-          {
-            var domTarget = e.getDomTarget();
 
-            if (this._lastMouseDown) {
-              this._lastMouseDown.unselectable = null;
-            }
-
-            this._lastMouseDown = domTarget;
-            domTarget.unselectable = "on";
-          }
-
-          // Stop the native event as this may intialize native
-          // drag and drop which not the behavior we want to see here.
-          else
-          {
-            e.preventDefault();
-          }
-        }
-
-        /*
-        // The prevent of native events afterwards breaks the focus detection
-        // of qx.event.handler.Focus which relies on native events. To fix
-        // this we call the focus manually.
-        var focusTarget = target.getFocusTarget();
-        if (focusTarget) {
-          focusTarget.focus();
-        }
-
-        // Finally activate real target
-        // Must be done afterwards as focus also leads to activation of the given element.
-        target.activate();
-        */
-      }
-      else
-      {
-        e.preventDefault();
-      }
     },
 
 
     _onmouseup : function(e)
     {
-      if (this._lastMouseDown) {
-        //this._lastMouseDown.unselectable = null;
-      }
     },
 
 

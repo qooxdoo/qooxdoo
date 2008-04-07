@@ -365,6 +365,8 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
+        this.__onNativeSelectStartWrapper = qx.lang.Function.listener(this.__onNativeSelectStart, this);
+
 
         // Register events
         this._document.attachEvent("onmousedown", this.__onNativeMouseDownWrapper);
@@ -376,6 +378,9 @@ qx.Class.define("qx.event.handler.Focus",
         // for the toTarget property which is empty in this case.
         this._document.attachEvent("onfocusin", this.__onNativeFocusInWrapper);
         this._document.attachEvent("onfocusout", this.__onNativeFocusOutWrapper);
+
+        // Add selectstart to prevent selection
+        this._document.attachEvent("onselectstart", this.__onNativeSelectStartWrapper);
       },
 
       "webkit" : function()
@@ -726,6 +731,11 @@ qx.Class.define("qx.event.handler.Focus",
         // Sometimes the focus is not fired correctly in gecko
         var focusTarget = this.__findFocusNode(target);
         focusTarget.focus();
+
+        // Blocks selection & dragdrop
+        if (!this.__isSelectable(target)) {
+          qx.bom.Event.preventDefault(e);
+        }
       },
 
       "mshtml" : function(e)
@@ -781,6 +791,28 @@ qx.Class.define("qx.event.handler.Focus",
     }),
 
 
+    /**
+     * Native event listener for <code>selectstart</code>.
+     *
+     * @type member
+     * @param e {Event} Native event
+     * @return {void}
+     */
+    __onNativeSelectStart : qx.core.Variant.select("qx.client",
+    {
+      "webkit|mshtml" : function(e)
+      {
+        var target = e.target || e.srcElement;
+
+        if (!this.__isSelectable(target)) {
+          qx.bom.Event.preventDefault(e);
+        }
+      },
+
+      "default" : null
+    }),
+
+
 
 
 
@@ -794,7 +826,7 @@ qx.Class.define("qx.event.handler.Focus",
      * Returns the next focusable parent node of a activated DOM element.
      *
      * @type member
-     * @param node {Event} Native event
+     * @param node {Node} Node to start lookup with
      * @return {void}
      */
     __findFocusNode : function(node)
@@ -815,6 +847,32 @@ qx.Class.define("qx.event.handler.Focus",
       // clicking into an empty page area. In mshtml this must be
       // the body of the document.
       return body;
+    },
+
+
+    /**
+     * Whether the given node (or its content) should be selectable
+     * by the user.
+     *
+     * @type member
+     * @param node {Node} Node to start lookup with
+     * @return {Boolean} Whether the content is selectable.
+     */
+    __isSelectable : function(node)
+    {
+      var Attribute = qx.bom.element.Attribute;
+
+      while(node)
+      {
+        attr = Attribute.get(node, "qxselectable");
+        if (attr != null) {
+          return attr === "on";
+        }
+
+        node = node.parentNode;
+      }
+
+      return false;
     },
 
 
