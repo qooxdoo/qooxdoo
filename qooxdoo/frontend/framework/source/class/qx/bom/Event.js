@@ -66,6 +66,56 @@ qx.Bootstrap.define("qx.bom.Event",
       "default" : function(target, type, listener) {
         target.removeEventListener(type, listener, false);
       }
-    })
+    }),
+
+
+    /**
+     * Returns the target of the event.
+     *
+     * @type static
+     * @return {Object} Any valid native event target
+     */
+    getTarget : function(e) {
+      return e.target || e.srcElement;
+    },
+
+
+    /**
+     * Prevent the native default of the event to be processed.
+     *
+     * This is useful to stop native keybindings, native selection
+     * and other native funtionality behind events.
+     *
+     * @type static
+     * @param e {Event} Native event object
+     * @return {void}
+     */
+    preventDefault : function(e)
+    {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+
+      e.returnValue = false;
+    },
+
+
+    /**
+     * Stops the propagation of the given event to the parent element.
+     *
+     * Only useful for events which bubble e.g. mousedown.
+     *
+     * @type static
+     * @param e {Event} Native event object
+     * @return {void}
+     */
+    stopPropagation : function(e)
+    {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      e.cancelBubble = true;
+    }
   }
 });
