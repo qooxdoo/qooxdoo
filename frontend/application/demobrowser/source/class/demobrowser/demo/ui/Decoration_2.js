@@ -18,6 +18,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/decoration/Modern/form/button.png)
+#asset(qx/decoration/Modern/form/button-c.png)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.ui.Decoration_2",
 {
   extend : qx.application.Standalone,

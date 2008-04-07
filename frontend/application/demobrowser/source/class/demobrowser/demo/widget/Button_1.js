@@ -18,6 +18,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/Oxygen/48/apps/video-player.png)
+#asset(qx/icon/Oxygen/48/apps/internet-mail.png)
+#asset(qx/icon/Oxygen/48/apps/internet-web-browser.png)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.widget.Button_1",
 {
   extend : qx.application.Standalone,

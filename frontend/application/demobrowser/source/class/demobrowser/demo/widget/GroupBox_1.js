@@ -19,6 +19,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/Oxygen/16/apps/accessories-text-editor.png)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.widget.GroupBox_1",
 {
   extend : qx.application.Standalone,
@@ -42,7 +48,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
       box1.setLegendPosition("top");
       box1.getPane().setPadding(3, 9);
       mainLayout.add(box1);
-      // create and add the content of the first group box      
+      // create and add the content of the first group box
       var innerLayout1 = new qx.ui.layout.VBox();
       innerLayout1.add(new qx.ui.form.CheckBox("Show debugging content"));
       innerLayout1.add(new qx.ui.form.CheckBox("Enable code completion"));
@@ -57,11 +63,11 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
       var textField = new qx.ui.form.TextField("");
       textField.setWidth(200);
       innerLayout2.add(textField);
-      box2.getPane().setLayout(innerLayout2);    
+      box2.getPane().setLayout(innerLayout2);
       // Add a listener to the checkbox
       box2.getLegendObject().addListener("changeChecked", function(e) {
         textField.setEnabled(e.getValue());
-      }, this);        
+      }, this);
 
       // create the third group box
       var radioButton1 = new qx.ui.form.RadioButton("Normal Settings");
@@ -73,18 +79,18 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
       var manager = new qx.ui.core.RadioManager();
       manager.add(radioButton1);
       manager.add(box3.getLegendObject());
-      
+
       // create and add the content of the third group box
       var innerLayout3 = new qx.ui.layout.HBox();
       var textField2 = new qx.ui.form.TextField("");
       textField2.setWidth(200);
       innerLayout3.add(textField2);
-      box3.getPane().setLayout(innerLayout3);    
+      box3.getPane().setLayout(innerLayout3);
       // Add a listener to the radio button
       box3.getLegendObject().addListener("changeChecked", function(e) {
         textField2.setEnabled(e.getValue());
-      }, this); 
-      
+      }, this);
+
     }
   }
 });
