@@ -130,8 +130,14 @@ qx.Class.define("qx.event.type.Mouse",
      */
     getRelatedTarget : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function() {
-        return this._native.fromElement;
+      "mshtml" : function()
+      {
+        var ev = this._native;
+        if (ev.type === "mouseover") {
+          return ev.fromEvent;
+        } else {
+          return ev.toElement;
+        }
       },
 
       "default" : function() {
