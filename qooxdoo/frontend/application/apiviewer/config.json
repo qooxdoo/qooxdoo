@@ -134,8 +134,8 @@
     {
       "extend" : ["common"],
 
-      "include" : "$${API_INCLUDE}",
-      "exclude" : "$${API_EXCLUDE}",
+      "include" : "${API_INCLUDE}",
+      "exclude" : "${API_EXCLUDE}",
 
       "api" :
       {
@@ -148,8 +148,8 @@
     {
       "extend" : ["common"],
 
-      "include" : "$${API_INCLUDE}",
-      "exclude" : "$${API_EXCLUDE}",
+      "include" : "${API_INCLUDE}",
+      "exclude" : "${API_EXCLUDE}",
 
       "api" :
       {

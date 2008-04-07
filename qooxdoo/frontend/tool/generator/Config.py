@@ -261,12 +261,12 @@ class Config:
 
         def _expandString(s, mapstr, mapbin):
             assert isinstance(s, types.StringTypes)
-            isBin = re.match(r'^\$\${(.*)}$', s)   # look for '$${...}' as a bin replacement
-            if isBin:
-                sub = s
-                macro = isBin.group(1)
-                if macro and (macro in mapbin.keys()):
-                    sub = mapbin[macro]
+            macro = ""
+            possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
+            if possiblyBin:
+                macro = possiblyBin.group(1)
+            if macro and (macro in mapbin.keys()):
+                sub = mapbin[macro]
                 return sub
             else:
                 templ = string.Template(s)
