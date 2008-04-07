@@ -1,7 +1,8 @@
 {
   "include" : 
   {
-    "apiconf": "../apiviewer/config.json"
+    "apiconf": "../apiviewer/config.json",
+    "demodyn": "./tool/demo_dyn.json"
   },
 
   "jobs" :
@@ -73,7 +74,8 @@
         "source-script",
         "source-data",
         "source-demo-jobs",
-        "source-demos"
+        //"source-demos"
+        "demos-source"
       ]
     },
 
@@ -150,6 +152,14 @@
     {
       "extend" : ["common"],
 
+      "include" :
+      [
+        "qx.legacy.theme.ClassicRoyale",
+        "demobrowser.demo.*",
+        "qx.theme.Classic",
+        "qx.theme.Modern"
+      ],
+
       "copy-resources" :
       {
         "target" : "build",
@@ -200,7 +210,8 @@
         /* this all has to be done for the build */
         "build-data",
         "build-demo-jobs",
-        "build-demos",    // create the demo apps
+        //"build-demos",
+        "demos-build",
         "build-resources", 
         "build-script", 
         "build-files" 
@@ -208,6 +219,7 @@
     },
 
 
+    /* API Viewer for Demobrowser */
     "api" :
     {
       "extend" : ["apiconf/jobs/build"],
@@ -233,6 +245,17 @@
       {
         "demobrowser.resourceUri" : "./resource"
       }
+    },
+
+    /* - Demos Jobs ---------------------------------------- */
+    "demos-source" :
+    {
+      "extend" : ["demodyn/jobs/source"]
+    },
+
+    "demos-build" :
+    {
+      "extend" : ["demodyn/jobs/build"]
     }
   }
 }
