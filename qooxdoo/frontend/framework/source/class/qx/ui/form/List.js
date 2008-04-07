@@ -127,11 +127,11 @@ qx.Class.define("qx.ui.form.List",
     */
 
     getNextSelectableItem : function(selectedItem) {
-      return this.getLayout().getNextSibling(listItem);
+      return this.getLayout().getNextSibling(selectedItem);
     },
 
     getPreviousSelectableItem : function(selectedItem) {
-      return this.getLayout().getPreviousSibling(listItem);
+      return this.getLayout().getPreviousSibling(selectedItem);
     },
 
     getScrollTop : function() {
