@@ -205,10 +205,10 @@
         /* this all has to be done for the build */
         "build-data",
         "build-demo-jobs",
-        "build-demos",
         "build-resources",
+        "build-files",
         "build-script",
-        "build-files"
+        "build-demos"
       ]
     },
 
