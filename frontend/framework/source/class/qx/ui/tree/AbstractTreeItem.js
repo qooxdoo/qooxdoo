@@ -1,7 +1,6 @@
 qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {
   extend : qx.ui.core.Widget,
-  implement : qx.ui.tree.ITreeItem,
 
 
 
@@ -49,7 +48,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       check : ["always", "never", "auto"],
       init : "auto",
-      event : "changeOpenSysmbolMode",
+      event : "changeOpenSymbolMode",
       apply : "_applyOpenSymbolMode"
     },
 
@@ -72,15 +71,31 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * The parent tree folder.
+     */
     parent :
     {
-      check : "qx.ui.tree.ITreeItem",
+      check : "qx.ui.tree.AbstractTreeItem",
       nullable : true
     },
 
 
     /** Any URI String supported by qx.ui.basic.Image to display a icon */
     icon :
+    {
+      check : "String",
+      apply : "_applyIcon",
+      nullable : true,
+      themeable : true
+    },
+
+
+    /**
+     * The icon to show if the tree item is opened.
+     * Any URI String supported by qx.ui.basic.Image.
+     **/
+    iconOpened :
     {
       check : "String",
       apply : "_applyIcon",
@@ -282,6 +297,14 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this._open.setOpen(value);
       }
 
+      if (this._icon)
+      {
+        if (value && this.getIconOpened()) {
+          this._icon.setSource(this.getIconOpened())
+        } else {
+          this._icon.setSource(this.getIcon())
+        }
+      }
       value ? this.addState("opened") : this.removeState("opened");
     },
 
@@ -390,13 +413,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    getVBoxLayout : function() {
-      return this.getChildrenContainer().getLayout();
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       CHILDREN HANDLING
@@ -421,13 +437,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      *     included
      * @param invisible {Boolean ? true} whether invisible children should be
      *     included
-     * @param __ignoreThis {Boolean ? true} Internal parameter, which conrols,
-     *     whether the current treeItem should be excluded from the list.
-     * @return {ITreeItem[]} list of children
+     * @param ignoreFirst {Boolean ? true} Whether the current treeItem should
+     *     be excluded from the list.
+     * @return {AbstractTreeItem[]} list of children
      */
-    getItems : function(recursive, invisible, __ignoreThis)
+    getItems : function(recursive, invisible, ignoreFirst)
     {
-      if (__ignoreThis !== false) {
+      if (ignoreFirst !== false) {
         var items = [];
       } else {
         var items = [this];
@@ -455,13 +471,33 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    __recursiveAddToWidgetQueue : function(treeItem)
+    {
+      var children = treeItem.getItems(true, true, false);
+      for (var i=0, l=children.length; i<l; i++) {
+        qx.ui.core.queue.Widget.add(children[i]);
+      }
+    },
+
+
+    __addChildrenToParent : function()
+    {
+      if (this.getParentChildrenContainer()) {
+        this.getParentChildrenContainer().getLayout().addAfter(this.getChildrenContainer(), this);
+      }
+    },
+
+
     add : function(varargs)
     {
-      var layout = this.getVBoxLayout();
+      var layout = this.getChildrenContainer().getLayout();
+      var tree = this.getTree();
+
 
       for (var i=0, l=arguments.length; i<l; i++)
       {
         var treeItem = arguments[i];
+
         treeItem.setParent(this);
         var hasChildren = this.hasChildren();
 
@@ -472,19 +508,111 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         }
         this._children.push(treeItem);
 
-        if (!hasChildren && this.getParentChildrenContainer()) {
-          this.getParentChildrenContainer().getLayout().addAfter(this.getChildrenContainer(), this);
+        if (!hasChildren) {
+          this.__addChildrenToParent();
         }
 
-        qx.ui.core.queue.Widget.add(treeItem);
+       if (tree) {
+          this.__recursiveAddToWidgetQueue(treeItem);
+        }
       }
-      qx.ui.core.queue.Widget.add(this);
+      if (tree) {
+        qx.ui.core.queue.Widget.add(this);
+      }
+    },
+
+
+    addAt : function(treeItem, index)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assert(
+          index <= this._children.length && index >= 0,
+          "Invalid child index: " + index
+        );
+      }
+
+      if (index == this._children.length)
+      {
+        this.add(treeItem);
+        return;
+      }
+
+      var layout = this.getChildrenContainer().getLayout();
+
+      treeItem.setParent(this);
+      var hasChildren = this.hasChildren();
+
+      var nextItem = this._children[index];
+      layout.addBefore(treeItem, nextItem);
+
+      if (treeItem.hasChildren()) {
+        layout.addAfter(treeItem.getChildrenContainer(), treeItem);
+      }
+      qx.lang.Array.insertAt(this._children, treeItem, index);
+
+      if (!hasChildren) {
+        this.__addChildrenToParent();
+      }
+
+      if (this.getTree())
+      {
+        this.__recursiveAddToWidgetQueue(treeItem);
+        qx.ui.core.queue.Widget.add(this);
+      }
+    },
+
+
+    addBefore : function(treeItem, before)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assert(this._children.indexOf(before) >= 0)
+      }
+
+      this.addAt(treeItem, this._children.indexOf(before))
+    },
+
+
+    addAfter : function(treeItem, after)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assert(this._children.indexOf(after) >= 0)
+      }
+
+      this.addAt(treeItem, this._children.indexOf(after)+1)
+    },
+
+
+    addAtBegin : function(treeItem) {
+      this.addAt(treeItem, 0);
+    },
+
+
+    __updateSelection : function()
+    {
+      var tree = this.getTree();
+      if (!tree) {
+        return;
+      }
+
+      var selectedItems = tree.getSelectedItems();
+      var mgr = tree.getManager();
+      for (var i=0,l=selectedItems.length; i<l; i++)
+      {
+        var treeItem = selectedItems[i];
+        if (treeItem.getTree() !== tree) {
+          mgr.setItemSelected(treeItem, false);
+        }
+      }
+
+      if (tree.getSelectedItems().length == 0) {
+        mgr.setItemSelected(mgr.getFirst(), true);
+      }
     },
 
 
     remove : function(treeItem)
     {
-      var layout = this.getVBoxLayout();
+      var layout = this.getChildrenContainer().getLayout();
 
       if (treeItem.hasChildren()) {
         layout.remove(treeItem.getChildrenContainer());
@@ -493,8 +621,26 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       treeItem.setParent(null);
       layout.remove(treeItem);
+      this.__updateSelection();
 
       qx.ui.core.queue.Widget.add(this);
+    },
+
+
+    removeAt : function(index)
+    {
+      var item = this._children[index];
+      if (item) {
+        this.remove(item);
+      }
+    },
+
+
+    removeAll : function()
+    {
+      for (var i=this._children.length-1; i>=0; i--) {
+        this.remove(this._children[i]);
+      }
     }
   }
 });

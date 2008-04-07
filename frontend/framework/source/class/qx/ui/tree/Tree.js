@@ -37,6 +37,7 @@ qx.Class.define("qx.ui.tree.Tree",
     this._layout = new qx.ui.layout.VBox();
     this.setLayout(this._layout);
 
+
     this._root = new qx.ui.tree.TreeFolder().set({
       open: true
     });
@@ -258,7 +259,7 @@ qx.Class.define("qx.ui.tree.Tree",
      *     included
      * @param invisible {Boolean ? true} whether invisible children should be
      *     included
-     * @return {ITreeItem[]} list of children
+     * @return {AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible) {
       return this._root.getItems(recursive, invisible);
@@ -287,7 +288,7 @@ qx.Class.define("qx.ui.tree.Tree",
           return null;
         }
 
-        if (qx.Class.hasInterface(widget.constructor, qx.ui.tree.ITreeItem)) {
+        if (widget instanceof qx.ui.tree.AbstractTreeItem) {
           return widget;
         }
 
