@@ -36,24 +36,6 @@ qx.Class.define("qx.bom.Vml",
   statics :
   {
     /**
-     * Initialize VML support
-     */
-    __init : function()
-    {
-      if (this.__initialized) {
-        return;
-      }
-      this.__initialized = true;
-
-      qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
-
-      if (!document.namespaces["v"]) {
-        document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
-      }
-    },
-
-
-    /**
      * Create VML element
      *
      * @param type {String} The VML element type
@@ -65,12 +47,14 @@ qx.Class.define("qx.bom.Vml",
     {
       var win = win || window;
       var el = win.document.createElement("v:" + (type || "shape"));
+
       if (attributes)
       {
         for (var key in attributes) {
           el.setAttribute(key, attributes[key]);
         }
       }
+
       return el;
     },
 
@@ -100,11 +84,13 @@ qx.Class.define("qx.bom.Vml",
       var fill = qx.bom.Vml.create("fill", {
         "type": "tile"
       });
+
       shape.appendChild(fill);
 
       if (source || width || height) {
         this.updateImage(shape, source, width, height, xOffset, yOffset, imageWidth, imageHeight)
       }
+
       return shape;
     },
 
@@ -140,14 +126,29 @@ qx.Class.define("qx.bom.Vml",
 
       var xOrigin = xOffset ? (-xOffset) / (imageWidth) : 0;
       var yOrigin = yOffset ? (-yOffset) / (imageHeight) : 0;
+
       Attribute.set(fill, "origin", xOrigin.toFixed(2) + "," + yOrigin ,false);
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
   defer : function(statics)
   {
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      statics.__init();
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
+
+      if (!document.namespaces["v"]) {
+        document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
+      }
     }
   }
 });
