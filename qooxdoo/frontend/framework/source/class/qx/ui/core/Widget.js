@@ -83,6 +83,7 @@ qx.Class.define("qx.ui.core.Widget",
     // Initialize properties
     this.initFocusable();
     this.initSelectable();
+    this.initCursor();
   },
 
 
@@ -1836,7 +1837,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyCursor : function(value, old) {
+    _applyCursor : function(value, old)
+    {
+      if (value == null && !this.isSelectable()) {
+        value = "default";
+      }
+
       this._containerElement.setStyle("cursor", value);
     },
 
@@ -2203,10 +2209,11 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applySelectable : function(value)
     {
-      return;
-      if (qx.core.Variant.isSet("qx.client", "gecko|webkit")) {
-        this._containerElement.setStyle("userSelect", value ? "" : "none");
-      }
+      // Re-apply cursor
+      this._applyCursor();
+
+      // Apply qooxdoo attribute
+      this._containerElement.setAttribute("qxselectable", value ? "on" : "off");
     },
 
 
