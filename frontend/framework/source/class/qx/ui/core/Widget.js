@@ -2198,6 +2198,8 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("TabIndex property must be between 1 and 32000");
       }
 
+      var target = this._getFocusElement();
+
       if (this.isFocusable()) {
         target.removeAttribute("tabIndex", value);
       } else {
@@ -2265,6 +2267,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Focus this widget.
+     *
+     * @type member
+     * @return {void}
      */
     focus : function()
     {
@@ -2278,6 +2283,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Remove focus from this widget.
+     *
+     * @type member
+     * @return {void}
      */
     blur : function()
     {
@@ -2291,6 +2299,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Activate this widget e.g. for keyboard events.
+     *
+     * @type member
+     * @return {void}
      */
     activate : function() {
       this._containerElement.activate();
@@ -2299,6 +2310,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Deactivate this widget e.g. for keyboard events.
+     *
+     * @type member
+     * @return {void}
      */
     deactivate : function() {
       this._containerElement.deactivate();
