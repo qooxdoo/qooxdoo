@@ -601,19 +601,14 @@ qx.Class.define("qx.ui.core.SelectionManager",
           }
           else
           {
-            // Pre-check if item is currently selected
-            // Do not allow deselection in single selection mode
-            if (!this.isEqual(item0, vItem))
-            {
-              // Reset rendering as selected item
-              this.renderItemSelectionState(vItem, false);
+            // Reset rendering as selected item
+            this.renderItemSelectionState(vItem, false);
 
-              // Reset current selection hash
-              this._selectedItems.removeAll();
+            // Reset current selection hash
+            this._selectedItems.removeAll();
 
-              // Dispatch change Event
-              this._dispatchChange();
-            }
+            // Dispatch change Event
+            this._dispatchChange();
           }
 
           break;
