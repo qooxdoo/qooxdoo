@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_toolbar)
-
-************************************************************************ */
-
 /**
  * @appearance toolbar-button
  */
@@ -43,29 +37,16 @@ qx.Class.define("qx.ui.toolbar.Button",
 
   properties :
   {
-/*    // Omit focus
-    tabIndex :
-    {
-      refine : true,
-      init : -1
-    },
-*/
-
     appearance :
     {
       refine : true,
       init : "toolbar-button"
     },
+    
     show :
     {
       refine : true,
       init : "inherit"
-    },
-
-    height :
-    {
-      refine : true,
-      init : null
     }
   },
 
