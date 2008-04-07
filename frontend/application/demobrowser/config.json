@@ -1,5 +1,5 @@
 {
-  "include" : 
+  "include" :
   {
     "apiconf": "../apiviewer/config.json",
     "demodyn": "./tool/demo_dyn.json"
@@ -69,7 +69,7 @@
 
     "source" :
     {
-      "run" : 
+      "run" :
       [
         "source-script",
         "source-data",
@@ -84,7 +84,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
       }
@@ -95,7 +95,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/genjson.py source/script"
       }
@@ -106,7 +106,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "../../../frontend/tool/generator.py -c demo.json -j source"
       }
@@ -155,9 +155,7 @@
       "include" :
       [
         "qx.legacy.theme.ClassicRoyale",
-        "demobrowser.demo.*",
-        "qx.theme.Classic",
-        "qx.theme.Modern"
+        "demobrowser.*"
       ],
 
       "copy-resources" :
@@ -172,7 +170,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
       }
@@ -183,7 +181,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "tool/genjson.py build/script"
       }
@@ -195,7 +193,7 @@
     {
       "extend" : ["common"],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "../../../frontend/tool/generator.py -c demo.json -j build"
       }
@@ -205,16 +203,16 @@
     // putting it all together ...
     "build" :
     {
-      "run" : 
-      [ 
+      "run" :
+      [
         /* this all has to be done for the build */
         "build-data",
         "build-demo-jobs",
         //"build-demos",
         "demos-build",
-        "build-resources", 
-        "build-script", 
-        "build-files" 
+        "build-resources",
+        "build-script",
+        "build-files"
       ]
     },
 
@@ -223,7 +221,7 @@
     "api" :
     {
       "extend" : ["apiconf/jobs/build"],
-      
+
       "let" :
       {
         "ROOT" : "../apiviewer",
