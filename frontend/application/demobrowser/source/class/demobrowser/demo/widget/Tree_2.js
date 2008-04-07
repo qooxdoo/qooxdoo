@@ -18,6 +18,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/Oxygen/16/devices/drive-harddisk.png)
+#asset(qx/icon/Oxygen/16/places/user-trash.png)
+#asset(qx/icon/Oxygen/16/places/user-desktop.png)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.widget.Tree_2",
 {
   extend : qx.application.Standalone,

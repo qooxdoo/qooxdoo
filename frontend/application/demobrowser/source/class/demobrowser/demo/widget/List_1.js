@@ -18,6 +18,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/Oxygen/16/places/folder.png)
+#asset(qx/icon/Oxygen/48/places/folder.png)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.widget.List_1",
 {
   extend : qx.application.Standalone,
