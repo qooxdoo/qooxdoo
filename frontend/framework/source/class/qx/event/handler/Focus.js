@@ -396,9 +396,12 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
+        this.__onNativeSelectStartWrapper = qx.lang.Function.listener(this.__onNativeSelectStart, this);
+
 
         // Register events
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.addEventListener("selectstart", this.__onNativeSelectStartWrapper, false);
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -458,11 +461,14 @@ qx.Class.define("qx.event.handler.Focus",
 
         this._document.detachEvent("onfocusin", this.__onNativeFocusInWrapper);
         this._document.detachEvent("onfocusout", this.__onNativeFocusOutWrapper);
+
+        this._document.detachEvent("onselectstart", this.__onNativeSelectStartWrapper);
       },
 
       "webkit" : function()
       {
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.removeEventListener("selectstart", this.__onNativeSelectStartWrapper, false);
 
         this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -777,6 +783,11 @@ qx.Class.define("qx.event.handler.Focus",
 
         var focusTarget = this.__findFocusNode(target);
         this.setFocus(focusTarget);
+
+        // Blocks selection & dragdrop
+        if (!this.__isSelectable(target)) {
+          qx.bom.Event.preventDefault(e);
+        }
       },
 
       "default" : null
