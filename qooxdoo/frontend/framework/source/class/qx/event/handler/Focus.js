@@ -854,7 +854,7 @@ qx.Class.define("qx.event.handler.Focus",
       var Attribute = qx.bom.element.Attribute;
       var body = this._body;
 
-      while (node && node !== body && node.nodeType === 1)
+      while (node && node.nodeType === 1)
       {
         if (Attribute.get(node, "tabIndex") >= 1) {
           return node;
@@ -882,7 +882,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       var Attribute = qx.bom.element.Attribute;
 
-      while(node)
+      while(node && node.nodeType === 1)
       {
         attr = Attribute.get(node, "qxselectable");
         if (attr != null) {
