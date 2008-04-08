@@ -37,7 +37,7 @@ qx.Class.define("qx.util.ImageRegistry",
   members :
   {
     /** {Map} the shared image registry */
-    __registry : {},
+    __registry : window.qximageinfo || {},
 
 
     /**
