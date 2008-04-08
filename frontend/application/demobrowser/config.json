@@ -157,8 +157,7 @@
 
       "copy-resources" :
       {
-        "target" : "build",
-        "resource-filter" : true
+        "target" : "build"
       }
     },
 

@@ -864,18 +864,17 @@ class Generator:
         copier.do_work()
 
 
-    def _getDefaultResourceFilter(self):
+    def _getDefaultResourceFilter(self, useAssets=True):
         '''Just a utility function to easily switch between resource filters in
            all invocations to findAllResources(); also shows how a filter argument
            might look like'''
         #return None
-        #return self._resourceHandler.filterResourcesByClasslist(self._classList)
-        #return self._resourceHandler.filterResourcesByFilepath()
-        if self._config.get("copy-resources/resource-filter", False):
+        if useAssets: # this was the old 'resource-filter : true' config setting
+            # select a resource whether it is used by a class
             return self._resourceHandler.filterResourcesByClasslist(self._classList)
         else:
-            return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), 
-                                                                   lambda x: not x)
+            #return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x) # only res paths that do *not* match '/qx/icon/'
+            return self._resourceHandler.filterResourcesByFilepath() 
 
 
 

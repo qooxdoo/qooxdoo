@@ -112,8 +112,7 @@
 
       "copy-resources" :
       {
-        "target" : "${BUILD_PATH}",
-        "resource-filter" : true
+        "target" : "${BUILD_PATH}"
       }
     },
 
