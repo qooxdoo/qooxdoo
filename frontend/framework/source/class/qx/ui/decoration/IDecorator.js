@@ -45,9 +45,7 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param updateStyles {Boolean} Whether one of the decorator properties have
      *     changed and the styling of the decoration needs to be updated.
      */
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles) {
-      return true;
-    },
+    render : function(element, width, height, backgroundColor, updateSize, updateStyles) {},
 
 
     /**
@@ -56,9 +54,7 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      *
      * @param element {qx.html.Element} The widget's decoration element.
      */
-    reset : function(element) {
-      return true;
-    },
+    reset : function(element) {},
 
 
     /**
@@ -68,8 +64,6 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @return {Map} the desired insed a map with the keys <code>top</code>,
      *     <code>right</code>, <code>bottom</code>, <code>left</code>.
      */
-    getInsets : function() {
-      return true;
-    }
+    getInsets : function() {}
   }
 });
