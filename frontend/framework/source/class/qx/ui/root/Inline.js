@@ -98,8 +98,6 @@ qx.Class.define("qx.ui.root.Inline",
     _createContainerElement : function()
     {
       var el = this._elem;
-      delete this._elem;
-
       var root = new qx.html.Root(el);
 
       // Make relative
