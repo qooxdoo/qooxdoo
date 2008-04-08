@@ -43,9 +43,7 @@ qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
      *      create.
      * @return {qx.legacy.ui.core.Widget} the widget that should be used as cell editor.
      */
-    createCellEditor : function(cellInfo) {
-      return true;
-    },
+    createCellEditor : function(cellInfo) {},
 
 
     /**
@@ -57,8 +55,6 @@ qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
      *      {@link #createCellEditor}.
      * @return {var} the current value from the editor.
      */
-    getCellEditorValue : function(cellEditor) {
-      return true;
-    }
+    getCellEditorValue : function(cellEditor) {}
   }
 });

@@ -44,9 +44,7 @@ qx.Interface.define("qx.legacy.ui.table.IRowRenderer",
      *      update.
      * @param rowElement {element} the DOM element that renders the data row.
      */
-    updateDataRowElement : function(rowInfo, rowElement) {
-      return true;
-    },
+    updateDataRowElement : function(rowInfo, rowElement) {},
 
 
     /**
@@ -55,9 +53,7 @@ qx.Interface.define("qx.legacy.ui.table.IRowRenderer",
      * @param rowInfo {Map} A map containing the information about the row to
      *      update. See {@link #updateDataRowElement} for more information.
      */
-    createRowStyle : function(rowInfo) {
-      return true;
-    },
+    createRowStyle : function(rowInfo) {},
 
 
     /**
@@ -66,9 +62,7 @@ qx.Interface.define("qx.legacy.ui.table.IRowRenderer",
      * @param rowInfo {Map} A map containing the information about the row to
      *      update. See {@link #updateDataRowElement} for more information.
      */
-    getRowClass : function(rowInfo) {
-      return true;
-    }
+    getRowClass : function(rowInfo) {}
 
   }
 });

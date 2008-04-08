@@ -44,9 +44,7 @@ qx.Interface.define("qx.legacy.ui.table.IHeaderRenderer",
      *      create.
      * @return {qx.legacy.ui.core.Widget} the widget that renders the header cell.
      */
-    createHeaderCell : function(cellInfo) {
-      return true;
-    },
+    createHeaderCell : function(cellInfo) {},
 
 
     /**
@@ -60,8 +58,6 @@ qx.Interface.define("qx.legacy.ui.table.IHeaderRenderer",
      *      the same widget formally created by {@link #createHeaderCell}.
      * @return {void}
      */
-    updateHeaderCell : function(cellInfo, cellWidget) {
-      return true;
-    }
+    updateHeaderCell : function(cellInfo, cellWidget) {}
   }
 });
