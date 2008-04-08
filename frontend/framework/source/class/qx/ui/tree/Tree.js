@@ -14,9 +14,32 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
+/**
+ * The Tree class implements a tree widget, with collapsable and expandable
+ * container nodes and terminal leaf nodes. You instantiate a Tree object and
+ * then assign the tree a root folder using the {@link #root} property.
+ *
+ * If you don't want to show the root item, you can hide it with the
+ * {@link #hideRoot} property.
+ *
+ * The handling of <b>selections</b> within a tree is somewhat distributed
+ * between the root tree object and the attached {@link
+ * qx.ui.tree.SelectionManager TreeSelectionManager}. To get the
+ * currently selected element of a tree use the tree {@link #getSelectedItem
+ * getSelectedItem} method and tree {@link #setSelectedItem
+ * setSelectedItem} to set it. The TreeSelectionManager handles more
+ * coars-grained issues like providing selectAll()/deselectAll() methods.
+ *
+ * @appearance tree {qx.legacy.ui.layout.HorizontalBoxLayout}
+ * @appearance tree-icon {qx.legacy.ui.basic.Image}
+ * @appearance tree-label {qx.legacy.ui.basic.Label}
+ */
 qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.core.Widget,
@@ -37,18 +60,13 @@ qx.Class.define("qx.ui.tree.Tree",
     this._layout = new qx.ui.layout.VBox();
     this.setLayout(this._layout);
 
-
-    this._root = new qx.ui.tree.TreeFolder().set({
-      open: true
-    });
-    this._layout.add(this._root.getChildrenContainer());
-
     this._manager = new qx.ui.core.SelectionManager(this).set({
       dragSelection: false,
       multiSelection: false
     });
 
     this.initOpenMode();
+    this.initRootOpenClose();
 
     this.addListener("mouseover", this._onMouseover);
     this.addListener("mousedown", this._onMousedown);
@@ -69,26 +87,66 @@ qx.Class.define("qx.ui.tree.Tree",
 
   properties :
   {
+    /**
+     * Control whether clicks or double clicks should open or close the clicked
+     * folder.
+     */
+    openMode :
+    {
+      check : ["clickOpen", "clickOpenClose", "dblclickOpen", "dblclickOpenClose", "none"],
+      init : "dblclickOpenClose",
+      apply : "_applyOpenMode",
+      event : "changeOpenMode"
+    },
+
+
+    root :
+    {
+      check : "qx.ui.tree.AbstractTreeItem",
+      init : null,
+      nullable : true,
+      event : "changeRoot",
+      apply : "_applyRoot"
+    },
+
+
+    /**
+     * Hide the root (Tree) node.  This differs from the visibility property in
+     * that this property hides *only* the root node, not the node's children.
+     */
+    hideRoot :
+    {
+      check : "Boolean",
+      init : false,
+      apply :"_applyHideRoot"
+    },
+
+
+    /**
+     * Whether the Root should have an open/close button.  This may also be
+     *  used in conjunction with the hideNode property to provide for virtual root
+     *  nodes.  In the latter case, be very sure that the virtual root nodes are
+     *  expanded programatically, since there will be no open/close button for the
+     *  user to open them.
+     */
+    rootOpenClose :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyRootOpenClose"
+    },
+
+
     appearance :
     {
       refine: true,
       init: "tree"
     },
 
-
     focusable :
     {
       refine : true,
       init : true
-    },
-
-
-    openMode :
-    {
-      check : ["click", "dblclick", "none"],
-      init : "none",
-      apply : "_applyOpenMode",
-      event : "changeOpenMode"
     }
   },
 
@@ -103,23 +161,57 @@ qx.Class.define("qx.ui.tree.Tree",
 
   members :
   {
+    _applyRoot : function(value, old)
+    {
+      var layout = this.getLayout();
+
+      if (old)
+      {
+        layut.remove(old);
+        if (old.hasChildren()) {
+          layout.remove(old.getChildrenContainer());
+        }
+      }
+
+      if (value)
+      {
+        layout.add(value);
+        if (value.hasChildren()) {
+          layout.add(value.getChildrenContainer());
+        }
+        if (this.getRoot())
+        {
+          this.getRoot().setVisibility(this.getHideRoot() ? "excluded" : "visible");
+          this.getRoot().recursiveAddToWidgetQueue();
+        }
+      }
+    },
+
+
+    _applyHideRoot : function(value, old)
+    {
+      var root = this.getRoot();
+      if (!root) {
+        return;
+      }
+
+      root.setVisibility(value ? "excluded" : "visible");
+      root.recursiveAddToWidgetQueue();
+    },
+
+
+    _applyRootOpenClose : function(value, old)
+    {
+      var root = this.getRoot();
+      if (!root) {
+        return;
+      }
+      root.recursiveAddToWidgetQueue();
+    },
+
+
     getLevel : function() {
       return -1;
-    },
-
-
-    hasChildren : function() {
-      return this._root.hasChildren();
-    },
-
-
-    add : function(varargs) {
-      this._root.add.apply(this._root, arguments);
-    },
-
-
-    remove : function(treeItem) {
-      this._root.remove(treeItem);
     },
 
 
@@ -137,6 +229,21 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     getManager : function() {
       return this._manager;
+    },
+
+
+    /**
+     * Sets the selected tree item.
+     *
+     * @type member
+     * @param treeItem {AbstractTreeItem} the tree item to select
+     */
+    setSelectedElement : function(treeItem)
+    {
+      var manager = this.getManager();
+
+      manager.setSelectedItem(treeItem);
+      manager.setLeadItem(treeItem);
     },
 
 
@@ -210,9 +317,18 @@ qx.Class.define("qx.ui.tree.Tree",
         return null;
       }
 
-      if (parent == this._root)
+      if (this.getHideRoot())
       {
-        if (parent.getChildren()[0] == treeItem) {
+        if (parent == this.getRoot())
+        {
+          if (parent.getChildren()[0] == treeItem) {
+            return null;
+          }
+        }
+      }
+      else
+      {
+        if (treeItem == this.getRoot()) {
           return null;
         }
       }
@@ -247,7 +363,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     getSelectableItems : function() {
-      return this._root.getItems(true, false);
+      return this.getRoot().getItems(true, false, this.getHideRoot());
     },
 
 
@@ -262,7 +378,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible) {
-      return this._root.getItems(recursive, invisible);
+      return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
     },
 
 
@@ -352,15 +468,15 @@ qx.Class.define("qx.ui.tree.Tree",
 
     _applyOpenMode : function(value, old)
     {
-      if (old == "click") {
+      if (old == "clickOpen" || old == "clickOpenClose") {
         this.removeListener("click", this._onOpen, this);
-      } else if (old == "dblclick") {
+      } else if (old == "dblclickOpen" || old == "dblclickOpenClose") {
         this.removeListener("dblclick", this._onOpen, this);
       }
 
-      if (value == "click") {
+      if (value == "clickOpen" || value == "clickOpenClose") {
         this.addListener("click", this._onOpen, this);
-      } else if (value == "dblclick") {
+      } else if (value == "dblclickOpen" || value == "dblclickOpenClose") {
         this.addListener("dblclick", this._onOpen, this);
       }
     },
@@ -369,10 +485,20 @@ qx.Class.define("qx.ui.tree.Tree",
     _onOpen : function(e)
     {
       var treeItem = this._getTreeItem(e.getTarget());
+      if (!treeItem) {
+        return;
+      }
 
-      if (treeItem && !treeItem.isOpen())
+      openMode = this.getOpenMode();
+
+      if (!treeItem.isOpen())
       {
         treeItem.setOpen(true);
+        e.stopPropagation();
+      }
+      else if (openMode == "clickOpenClose" || openMode == "dblclickOpenClose")
+      {
+        treeItem.setOpen(false);
         e.stopPropagation();
       }
     },
