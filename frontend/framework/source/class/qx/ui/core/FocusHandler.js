@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     // Register events
     widget.addListener("keypress", this._onkeyevent, this);
     widget.addListener("focusin", this._onfocusin, this, true);
-    widget.addListener("focusout", this._onfocusin, this, true);
+    widget.addListener("focusout", this._onfocusout, this, true);
   },
 
 
@@ -74,11 +74,15 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for focusin event.
      *
      * @type member
-     * @param ev {qx.event.type.Focus}
+     * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onfocusin : function(e) {
-      this._focusedChild = e.getTarget();
+    _onfocusin : function(e)
+    {
+      var target = e.getTarget();
+      if (target.getFocusRoot() === this._attachedWidget) {
+        this._focusedChild = target;
+      }
     },
 
 
@@ -86,7 +90,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for focusout event.
      *
      * @type member
-     * @param ev {qx.event.type.Focus}
+     * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
     _onfocusout : function(e) {
@@ -98,28 +102,25 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Internal event handler for TAB key.
      *
      * @type member
-     * @param ev {qx.event.type.KeySequence}
+     * @param e {qx.event.type.KeySequence} Key event
      * @return {void}
      */
-    _onkeyevent : function(ev)
+    _onkeyevent : function(e)
     {
-      if (ev.getKeyIdentifier() != "Tab") {
+      if (e.getKeyIdentifier() != "Tab") {
         return;
       }
 
       // Stop all key-events with a TAB keycode
-      ev.stopPropagation();
-      ev.preventDefault();
-
-      // Working variables
-      var container = this._attachedWidget;
-      var current = this._focusedChild;
+      e.stopPropagation();
+      e.preventDefault();
 
       // Support shift key to reverse widget detection order
-      if (!ev.isShiftPressed()) {
-        var next = current ? this.__getWidgetAfter(container, current) : this.__getFirstWidget(container);
+      var current = this._focusedChild;
+      if (!e.isShiftPressed()) {
+        var next = current ? this.__getWidgetAfter(current) : this.__getFirstWidget();
       } else {
-        var next = current ? this.__getWidgetBefore(container, current) : this.__getLastWidget(container);
+        var next = current ? this.__getWidgetBefore(current) : this.__getLastWidget();
       }
 
       // If there was a widget found, focus it
@@ -130,31 +131,31 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
 
     /**
-     * TODOC
+     * Compares the order of two widgets
      *
      * @type member
-     * @param c1 {var} TODOC
-     * @param c2 {var} TODOC
-     * @return {int | var} TODOC
+     * @param widget1 {qx.ui.core.Widget} Widget A
+     * @param widget2 {qx.ui.core.Widget} Widget B
+     * @return {Integer} A sort() compatible integer with values
+     *   small than 0, exactly 0 or bigger than 0.
      */
-    __compareTabOrder : function(c1, c2)
+    __compareTabOrder : function(widget1, widget2)
     {
-      // Sort-Check #1: Tab-Index
-      if (c1 == c2) {
+      if (widget1 === widget2) {
         return 0;
       }
 
-      var tab1 = c1.getTabIndex() || 0;
-      var tab2 = c2.getTabIndex() || 0;
+      // Sort-Check #1: Tab-Index
+      var tab1 = widget1.getTabIndex() || 0;
+      var tab2 = widget2.getTabIndex() || 0;
 
-      // The following are some ideas to handle focus after tabindex.
       if (tab1 != tab2) {
         return tab1 - tab2;
       }
 
       // Computing location
-      var el1 = c1.getContainerElement().getDomElement();
-      var el2 = c2.getContainerElement().getDomElement();
+      var el1 = widget1.getContainerElement().getDomElement();
+      var el2 = widget2.getContainerElement().getDomElement();
 
       var Location = qx.bom.element.Location;
 
@@ -172,8 +173,8 @@ qx.Class.define("qx.ui.core.FocusHandler",
       }
 
       // Sort-Check #4: zIndex
-      var z1 = c1.getZIndex();
-      var z2 = c2.getZIndex();
+      var z1 = widget1.getZIndex();
+      var z2 = widget2.getZIndex();
 
       if (z1 != z2) {
         return z1 - z2;
@@ -187,46 +188,44 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
     /*
     ---------------------------------------------------------------------------
-      INTERNAL APIS
+      API USED BY KEY EVENT
     ---------------------------------------------------------------------------
     */
 
     /**
-     * TODOC
+     * Returns the first widget of the given
      *
      * @type member
-     * @param parentContainer {var} TODOC
      * @return {var} TODOC
      */
-    __getFirstWidget : function(parentContainer) {
-      return this.__getFirst(parentContainer, null);
+    __getFirstWidget : function() {
+      return this.__getFirst(this._attachedWidget, null);
     },
 
 
     /**
-     * TODOC
+     * Returns the first widget
      *
      * @type member
-     * @param parentContainer {var} TODOC
      * @return {var} TODOC
      */
-    __getLastWidget : function(parentContainer) {
-      return this.__getLast(parentContainer, null);
+    __getLastWidget : function() {
+      return this.__getLast(this._attachedWidget, null);
     },
 
 
     /**
-     * TODOC
+     * Returns the widget after the given one.
      *
      * @type member
-     * @param parentContainer {var} TODOC
-     * @param widget {var} TODOC
-     * @return {var | Array} TODOC
+     * @param widget {qx.ui.core.Widget} Widget to start with
+     * @return {qx.ui.core.Widget} The found widget.
      */
-    __getWidgetAfter : function(parentContainer, widget)
+    __getWidgetAfter : function(widget)
     {
-      if (parentContainer == widget) {
-        return this.__getFirstWidget(parentContainer);
+      var root = this._attachedWidget;
+      if (root == widget) {
+        return this.__getFirstWidget(root);
       }
 
       while (widget && widget.getAnonymous()) {
@@ -237,27 +236,27 @@ qx.Class.define("qx.ui.core.FocusHandler",
         return [];
       }
 
-      var vAll = [];
-      this.__collectAllAfter(parentContainer, widget, vAll);
-      vAll.sort(this.__compareTabOrder);
+      var result = [];
+      this.__collectAllAfter(root, widget, result);
+      result.sort(this.__compareTabOrder);
 
-      var len = vAll.length;
-      return len > 0 ? vAll[0] : this.__getFirstWidget(parentContainer);
+      var len = result.length;
+      return len > 0 ? result[0] : this.__getFirstWidget();
     },
 
 
     /**
-     * TODOC
+     * Returns the widget before the given one.
      *
      * @type member
-     * @param parentContainer {var} TODOC
-     * @param widget {var} TODOC
-     * @return {var | Array} TODOC
+     * @param widget {qx.ui.core.Widget} Widget to start with
+     * @return {qx.ui.core.Widget} The found widget.
      */
-    __getWidgetBefore : function(parentContainer, widget)
+    __getWidgetBefore : function(widget)
     {
-      if (parentContainer == widget) {
-        return this.__getLastWidget(parentContainer);
+      var root = this._attachedWidget;
+      if (root == widget) {
+        return this.__getLastWidget(root);
       }
 
       while (widget && widget.getAnonymous()) {
@@ -268,31 +267,42 @@ qx.Class.define("qx.ui.core.FocusHandler",
         return [];
       }
 
-      var vAll = [];
-      this.__collectAllBefore(parentContainer, widget, vAll);
-      vAll.sort(this.__compareTabOrder);
+      var result = [];
+      this.__collectAllBefore(root, widget, result);
+      result.sort(this.__compareTabOrder);
 
-      var len = vAll.length;
-      return len > 0 ? vAll[len - 1] : this.__getLastWidget(parentContainer);
+      var len = result.length;
+      return len > 0 ? result[len - 1] : this.__getLastWidget();
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL API USED BY METHODS ABOVE
+    ---------------------------------------------------------------------------
+    */
+
     /**
-     * TODOC
+     * Collects all widgets which are after the given widget in
+     * the given parent widget. Append all found children to the
+     * <code>list</code>.
      *
      * @type member
-     * @param parent {var} TODOC
-     * @param widget {var} TODOC
-     * @param result {var} TODOC
+     * @param parent {qx.ui.core.Widget} Parent widget
+     * @param widget {qx.ui.core.Widget} Child widget to start with
+     * @param result {Array} Result list
      * @return {void}
      */
     __collectAllAfter : function(parent, widget, result)
     {
       var children = parent.getLayoutChildren();
       var child;
-      var len = children.length;
 
-      for (var i=0; i<len; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
@@ -308,21 +318,22 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
 
     /**
-     * TODOC
+     * Collects all widgets which are before the given widget in
+     * the given parent widget. Append all found children to the
+     * <code>list</code>.
      *
      * @type member
-     * @param parent {var} TODOC
-     * @param widget {var} TODOC
-     * @param result {var} TODOC
+     * @param parent {qx.ui.core.Widget} Parent widget
+     * @param widget {qx.ui.core.Widget} Child widget to start with
+     * @param result {Array} Result list
      * @return {void}
      */
     __collectAllBefore : function(parent, widget, result)
     {
       var children = parent.getLayoutChildren();
       var child;
-      var len = children.length;
 
-      for (var i=0; i<len; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
@@ -339,31 +350,33 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
 
     /**
-     * TODOC
+     * Find first (positioned) widget. (Sorted by coordinates, zIndex, etc.)
      *
      * @type member
-     * @param parent {var} TODOC
-     * @param firstWidget {var} TODOC
-     * @return {var} TODOC
+     * @param parent {qx.ui.core.Widget} Parent widget
+     * @param firstWidget {qx.ui.core.Widget?null} Current first widget
+     * @return {qx.ui.core.Widget} The first (positioned) widget
      */
     __getFirst : function(parent, firstWidget)
     {
       var children = parent.getLayoutChildren();
       var child;
-      var len = children.length;
 
-      for (var i=0; i<len; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
-        if (child.isFocusable())
+        // Ignore focus roots completely
+        if (!child.isFocusRoot())
         {
-          if (firstWidget == null || this.__compareTabOrder(child, firstWidget) < 0) {
-            firstWidget = child;
+          if (child.isFocusable())
+          {
+            if (firstWidget == null || this.__compareTabOrder(child, firstWidget) < 0) {
+              firstWidget = child;
+            }
           }
-        }
 
-        if (!child.isFocusRoot()) {
+          // Deep iteration into children hierarchy
           firstWidget = this.__getFirst(child, firstWidget);
         }
       }
@@ -373,31 +386,33 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
 
     /**
-     * TODOC
+     * Find last (positioned) widget. (Sorted by coordinates, zIndex, etc.)
      *
      * @type member
-     * @param parent {var} TODOC
-     * @param lastWidget {var} TODOC
-     * @return {var} TODOC
+     * @param parent {qx.ui.core.Widget} Parent widget
+     * @param lastWidget {qx.ui.core.Widget?null} Current last widget
+     * @return {qx.ui.core.Widget} The last (positioned) widget
      */
     __getLast : function(parent, lastWidget)
     {
       var children = parent.getLayoutChildren();
       var child;
-      var len = children.length;
 
-      for (var i=0; i<len; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
 
-        if (child.isFocusable())
+        // Ignore focus roots completely
+        if (!child.isFocusRoot())
         {
-          if (lastWidget == null || this.__compareTabOrder(child, lastWidget) > 0) {
-            lastWidget = child;
+          if (child.isFocusable())
+          {
+            if (lastWidget == null || this.__compareTabOrder(child, lastWidget) > 0) {
+              lastWidget = child;
+            }
           }
-        }
 
-        if (!child.isFocusRoot()) {
+          // Deep iteration into children hierarchy
           lastWidget = this.__getLast(child, lastWidget);
         }
       }
