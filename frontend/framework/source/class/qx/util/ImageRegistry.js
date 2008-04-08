@@ -28,6 +28,11 @@ qx.Class.define("qx.util.ImageRegistry",
   type : "singleton",
 
 
+  construct : function () 
+  {
+    this.__registry = this._padQxImageInfo(window.qximageinfo);
+  },
+
   /*
   *****************************************************************************
      MEMBERS
@@ -37,7 +42,25 @@ qx.Class.define("qx.util.ImageRegistry",
   members :
   {
     /** {Map} the shared image registry */
-    __registry : window.qximageinfo || {},
+    __registry : {},
+
+
+    _padQxImageInfo : function(qximageinfo) 
+    {
+      if (!qximageinfo)
+      {
+        return {};
+      }
+
+      for (key in qximageinfo)
+      {
+        var val  = qximageinfo[key];  // val = [width, height, type]
+        var nval = [key, 0, 0, val[0], val[1], val[3]];
+        qximageinfo[key] = nval;
+      }
+
+      return qximageinfo;
+    },
 
 
     /**
@@ -108,4 +131,5 @@ qx.Class.define("qx.util.ImageRegistry",
   destruct : function() {
     this._disposeObjects("__registry");
   }
+
 });
