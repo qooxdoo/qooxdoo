@@ -1,6 +1,15 @@
+/**
+ * The AbstractTreeItem serves as a common superclass for the {@link
+ * TreeFile} and {@link TreeFolder} classes.
+ *
+ * @appearance tree-element
+ * @appearance tree-element-icon {qx.legacy.ui.basic.Image}
+ * @appearance tree-element-label {qx.legacy.ui.basic.Label}
+ */
 qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {
   extend : qx.ui.core.Widget,
+  type : "abstract",
 
 
 
@@ -35,6 +44,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
   properties :
   {
+    /**
+     * Whether the tree item is opened.
+     */
     open :
     {
       check : "Boolean",
@@ -44,6 +56,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Controls, when to show the open symbol. If the mode is "auto" , the open
+     * symbol is shown only if the item has child items.
+     */
     openSymbolMode :
     {
       check : ["always", "never", "auto"],
@@ -53,15 +69,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    selected :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applySelected",
-      event : "changeSelected"
-    },
-
-
+    /**
+     * The number of piel to indent the tree item for each level.
+     */
     indent :
     {
       check : "Integer",
@@ -81,7 +91,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    /** Any URI String supported by qx.ui.basic.Image to display a icon */
+    /**
+     * Any URI String supported by qx.ui.basic.Image to display a icon
+     **/
     icon :
     {
       check : "String",
@@ -116,21 +128,43 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
   members :
   {
+    /**
+     * This method configures the tree item by adding its sub widgets like
+     * label, icon, open symbol, ...
+     *
+     * This method must be overridden by sub classes.
+     */
     _addWidgets : function() {
       throw new Error("Abstract method call.");
     },
 
 
+    /**
+     * Returns the tree items's label widget.
+     *
+     * @return {qx.ui.basic.Label} The label widget
+     */
     getLabelObject : function() {
       return this._label;
     },
 
 
+    /**
+     * Returns the tree item's icon widget
+     *
+     * @return {qx.ui.basic.Icon} The tree item's icon widget.
+     */
     getIconObject : function() {
       return this._icon;
     },
 
 
+    /**
+     * Returns the tree the tree item is connected to. If the item is not part of
+     * a tree <code>null</code> will be returned.
+     *
+     * @return {qx.ui.tree.Tree|null} The item's tree or <code>null</code>.
+     */
     getTree : function()
     {
       var treeItem = this;
@@ -138,7 +172,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         treeItem = treeItem.getParent();
       }
 
-      var tree = treeItem.getChildrenContainer().getLayoutParent();
+      //var tree = treeItem.getChildrenContainer().getLayoutParent();
+      var tree = treeItem.getLayoutParent();
       if (tree && tree instanceof qx.ui.tree.Tree) {
         return tree;
       }
@@ -154,11 +189,23 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Adds a sub widget to the tree item's horizontal box layout.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to add
+     * @param options {Map?null} The (optional) layout options to use for the widget
+     */
     addWidget : function(widget, options) {
       this._layout.add(widget, options);
     },
 
 
+    /**
+     * Adds the spacer used to render the indentation to the item's horizontal
+     * box layout. If the spacer has been added before, it is removed from its
+     * old position and added to the end of the layout.
+     */
     addSpacer : function()
     {
       if (!this._spacer) {
@@ -171,6 +218,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Adds the open button to the item's horizontal box layout. If the open
+     * button has been added before, it is removed from its old position and
+     * added to the end of the layout.
+     */
     addOpenButton : function()
     {
       if (!this._open)
@@ -188,11 +240,21 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Event handler, which listentes to open state changes of the open button
+     *
+     * @param e {qx.event.type.Change} The event object
+     */
     _onChangeOpen : function(e) {
       this.setOpen(e.getValue());
     },
 
 
+    /**
+     * Adds the icon widget to the item's horizontal box layout. If the icon
+     * widget has been added before, it is removed from its old position and
+     * added to the end of the layout.
+     */
     addIcon : function()
     {
       if (!this._icon)
@@ -209,6 +271,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Adds the label to the item's horizontal box layout. If the label
+     * has been added before, it is removed from its old position and
+     * added to the end of the layout.
+     *
+     * @param label {String?0} The label's contents
+     */
     addLabel : function(text)
     {
       if (!this._label)
@@ -236,6 +305,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     addState : function(state)
     {
       this.base(arguments, state);
@@ -250,6 +320,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    // overridden
     removeState : function(state)
     {
       this.base(arguments, state);
@@ -282,11 +353,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applyIcon : function(value, old) {
       this._icon.setSource(value)
     },
 
 
+    // property apply
     _applyOpen : function(value, old)
     {
       if (this.hasChildren()) {
@@ -309,16 +382,22 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    _applySelected : function(value, old) {
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       INDENT HANDLING
     ---------------------------------------------------------------------------
     */
 
+    _applyOpenSymbolMode : function(value, old) {
+      this._updateIndent();
+    },
+
+
+    /**
+     * Whether the open symbol should be shown
+     *
+     * @return {Boolean} Whether the open symbol should be shown.
+     */
     _shouldShowOpenSymbol : function()
     {
       if (!this._open) {
@@ -357,13 +436,25 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    // property apply
     _applyIndent : function(value, old) {
       this._updateIndent();
     },
 
 
+    /**
+     * Computes the item's nesting level. If the item is not part of a tree
+     * this function will return <code>null</code>.
+     *
+     * @return {Integer|null} The item's nesting level or <code>null</code>.
+     */
     getLevel : function()
     {
+      var tree = this.getTree();
+      if (!tree) {
+        return;
+      }
+
       var treeItem = this;
       var level = -1;
 
@@ -374,10 +465,19 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
 
       // don't count the hidden rot node in the tree widget
-      return level-1;
+      if (tree.getHideRoot()) {
+        level -= 1;
+      }
+
+      if (!tree.getRootOpenClose()) {
+        level -= 1;
+      }
+
+      return level;
     },
 
 
+    // overridden
     syncWidget : function() {
       this._updateIndent();
     },
@@ -389,6 +489,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Returns the widget, which atcs as container for the child items.
+     * This widget must have a vertical box layout.
+     *
+     * @return {qx.ui.core.Widget} The children container
+     */
     getChildrenContainer : function()
     {
       if (!this._childrenContainer)
@@ -403,10 +509,19 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Get the children container of the item's parent. This function will return
+     * <code>null</code>, if the item does not have a parent or is not the root
+     * item.
+     *
+     * @return {qx.ui.core.Widget} The parent's children container.
+     */
     getParentChildrenContainer : function()
     {
       if (this.getParent()) {
         return this.getParent().getChildrenContainer();
+      } else if (this.getLayoutParent() instanceof qx.ui.tree.Tree) {
+        return this.getLayoutParent();
       } else {
         return null;
       }
@@ -419,11 +534,24 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Get all child items.
+     *
+     * Note: Don't modifiy the returned array, since this function does not
+     * return a copy!
+     *
+     * @return {AbstractTreeItem[]} An array of all child items.
+     */
     getChildren : function() {
       return this._children;
     },
 
 
+    /**
+     * Whether the item has any children
+     *
+     * @return {Boolean} Whether the item has any children.
+     */
     hasChildren : function() {
       return this._children ? this._children.length > 0 : false;
     },
@@ -471,15 +599,24 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    __recursiveAddToWidgetQueue : function(treeItem)
+    /**
+     * Adds this item and recursively all sub items to the widget queue to
+     * update the indentation.
+     *
+     * @internal
+     */
+    recursiveAddToWidgetQueue : function()
     {
-      var children = treeItem.getItems(true, true, false);
+      var children = this.getItems(true, true, false);
       for (var i=0, l=children.length; i<l; i++) {
         qx.ui.core.queue.Widget.add(children[i]);
       }
     },
 
 
+    /**
+     * Adds the item's children container the the parent's children container.
+     */
     __addChildrenToParent : function()
     {
       if (this.getParentChildrenContainer()) {
@@ -488,6 +625,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Adds the passed tree items to the end of this item's children list.
+     *
+     * @param varargs {AbstractTreeItem} variable number of tree items to add
+     */
     add : function(varargs)
     {
       var layout = this.getChildrenContainer().getLayout();
@@ -497,6 +639,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       for (var i=0, l=arguments.length; i<l; i++)
       {
         var treeItem = arguments[i];
+
+        var oldParent = treeItem.getParent();
+        if (oldParent) {
+          oldPrarent.remove(treeItem);
+        }
 
         treeItem.setParent(this);
         var hasChildren = this.hasChildren();
@@ -513,7 +660,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         }
 
        if (tree) {
-          this.__recursiveAddToWidgetQueue(treeItem);
+          treeItem.recursiveAddToWidgetQueue();
         }
       }
       if (tree) {
@@ -522,6 +669,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Adds the tree item to the current item, at the given index.
+     *
+     * @type member
+     * @param treeItem {AbstractTreeItem} new tree item to insert
+     * @param index {Integer} position to insert into
+     */
     addAt : function(treeItem, index)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -535,6 +689,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       {
         this.add(treeItem);
         return;
+      }
+
+      var oldParent = treeItem.getParent();
+      if (oldParent) {
+        oldPrarent.remove(treeItem);
       }
 
       var layout = this.getChildrenContainer().getLayout();
@@ -556,12 +715,18 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       if (this.getTree())
       {
-        this.__recursiveAddToWidgetQueue(treeItem);
+        treeItem.recursiveAddToWidgetQueue();
         qx.ui.core.queue.Widget.add(this);
       }
     },
 
 
+    /**
+     * Add a tree item to this item before the existing child <code>before</code>.
+     *
+     * @param treeItem {AbstractTreeItem} tree item to add
+     * @param before {AbstractTreeItem} existing child to add the item before
+     */
     addBefore : function(treeItem, before)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -572,6 +737,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Add a tree item to this item after the existing child <code>before</code>.
+     *
+     * @param treeItem {AbstractTreeItem} tree item to add
+     * @param after {AbstractTreeItem} existing child to add the item after
+     */
     addAfter : function(treeItem, after)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -582,11 +753,21 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Add a tree item as the first child of this item.
+     *
+     * @param treeItem {AbstractTreeItem} tree item to add
+     */
     addAtBegin : function(treeItem) {
       this.addAt(treeItem, 0);
     },
 
 
+    /**
+     * This function should be called after items are removed from the tree.
+     * It removes all items from the current selection, which are no longer
+     * part of the tree.
+     */
     __updateSelection : function()
     {
       var tree = this.getTree();
@@ -610,23 +791,38 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    remove : function(treeItem)
+    /**
+     * Removes the passed tree items from this item.
+     *
+     * @param varargs {AbstractTreeItem} variable number of tree items to remove
+     */
+    remove : function(varargs)
     {
-      var layout = this.getChildrenContainer().getLayout();
+      for (var i=0, l=arguments.length; i<l; i++)
+      {
+        var treeItem = arguments[i];
 
-      if (treeItem.hasChildren()) {
-        layout.remove(treeItem.getChildrenContainer());
+        var layout = this.getChildrenContainer().getLayout();
+
+        if (treeItem.hasChildren()) {
+          layout.remove(treeItem.getChildrenContainer());
+        }
+        qx.lang.Array.remove(this._children, treeItem);
+
+        treeItem.setParent(null);
+        layout.remove(treeItem);
       }
-      qx.lang.Array.remove(this._children, treeItem);
 
-      treeItem.setParent(null);
-      layout.remove(treeItem);
       this.__updateSelection();
-
       qx.ui.core.queue.Widget.add(this);
     },
 
 
+    /**
+     * Remove the child with the given child index.
+     *
+     * @param index {Integer} Index of the child to remove
+     */
     removeAt : function(index)
     {
       var item = this._children[index];
@@ -636,6 +832,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
+    /**
+     * Remove all child items from this item.
+     */
     removeAll : function()
     {
       for (var i=this._children.length-1; i>=0; i--) {
