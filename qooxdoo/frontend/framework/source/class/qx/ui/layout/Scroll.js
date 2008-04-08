@@ -39,28 +39,6 @@ qx.Class.define("qx.ui.layout.Scroll",
       check : "qx.ui.core.Widget",
       apply : "_applyContent",
       nullable : true
-    },
-
-    /**
-     * Whether the content should shrink up to its min width if the available
-     * horizontal space is too small for the preferred width
-     */
-    shrinkX :
-    {
-      check : "Boolean",
-      apply : "_applyLayoutChange",
-      init : false
-    },
-
-    /**
-     * Whether the content should shrink up to its min height if the available
-     * vertical space is too small for the preferred height
-     */
-    shrinkY :
-    {
-      check : "Boolean",
-      apply : "_applyLayoutChange",
-      init : false
     }
   },
 
@@ -99,17 +77,8 @@ qx.Class.define("qx.ui.layout.Scroll",
       var content = this.getContent();
       var hint = content.getSizeHint();
 
-      if (this.getShrinkX()) {
-        var width = Math.min(hint.width, Math.max(availWidth, hint.minWidth));
-      } else {
-        width = hint.width;
-      }
-
-      if (this.getShrinkY()) {
-        var height = Math.min(hint.height, Math.max(availHeight, hint.minWidth));
-      } else {
-        height = hint.height;
-      }
+      var width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
+      var height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minWidth));
 
       content.renderLayout(0, 0, width, height);
     }
