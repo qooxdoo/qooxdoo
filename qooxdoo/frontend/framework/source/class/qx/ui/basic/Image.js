@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.basic.Image",
           qx.ui.core.queue.Layout.add(this);
         }
       }
-      else
+      else if (this.__preLoading !== source)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -259,6 +259,7 @@ qx.Class.define("qx.ui.basic.Image",
           }
         }
 
+        this.__preLoading = source;
         qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
       }
     },
@@ -274,8 +275,20 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __loaderCallback : function(source, size)
     {
+      // Ignore when the source has already been modified
+      if (source !== this.__preLoading) {
+        return;
+      }
+
+      // Remove flag
+      delete this.__preLoading;
+
       // Dynamically register image
-      qx.util.ImageRegistry.getInstance().register(source, source, 0, 0, size.width, size.height);
+      if (size) {
+        qx.util.ImageRegistry.getInstance().register(source, source, 0, 0, size.width, size.height);
+      } else {
+        this.warn("Image could not be loaded: " + source);
+      }
 
       // Update image (again)
       this._syncSource(source);

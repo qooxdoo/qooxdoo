@@ -64,12 +64,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       init : "toolbar"
     },
 
-    height :
-    {
-      refine : true,
-      init : "auto"
-    },
-
 /*
     openMenu :
     {
@@ -80,7 +74,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 */
 
 
-    /** Whether icons, labels, both or none should be shown. */ 
+    /** Whether icons, labels, both or none should be shown. */
     show :
     {
       init : "both",
@@ -117,19 +111,19 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     add: function(item) {
       this._layout.add(item);
     },
-    
-    
+
+
     /**
      * Add a spacer at the current position to the toolbar. The spacer has a flex
      * value of one and will stretch to the available space.
      *
      * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
      *   to the spacer is needed to remove ths spacer from the layout.
-     */    
+     */
     addSpacer: function() {
       return this._layout.addSpacer();
     },
-    
+
 
 
     /*
@@ -283,8 +277,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       }
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -293,5 +287,5 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
   destruct : function() {
     this._disposeObjects("_layout");
-  }  
+  }
 });

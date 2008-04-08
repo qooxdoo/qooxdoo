@@ -139,12 +139,21 @@ qx.Class.define("qx.ui.layout.Atom",
       var align = this.getAlign();
       var children;
 
-      if (align == "top" || align == "left") {
-        children = [this._icon, this._text];
-      }
+      if (this._text && this._icon)
+      {
+        if (align == "top" || align == "left") {
+          children = [this._icon, this._text];
+        }
 
-      if (align == "bottom" || align == "right") {
-        children = [this._text, this._icon];
+        if (align == "bottom" || align == "right") {
+          children = [this._text, this._icon];
+        }
+      }
+      else if (this._text) {
+        children = [ this._text ];
+      }
+      else if (this._icon) {
+        children = [ this._icon ];
       }
 
       var left, top, width, height;
@@ -184,6 +193,8 @@ qx.Class.define("qx.ui.layout.Atom",
           if (!child) {
             continue;
           }
+
+
 
           hint = child.getSizeHint();
           if (child == this._text) {
