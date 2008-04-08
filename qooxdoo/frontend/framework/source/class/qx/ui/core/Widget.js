@@ -427,6 +427,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       PADDING
@@ -498,6 +499,21 @@ qx.Class.define("qx.ui.core.Widget",
       STYLING PROPERTIES
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * The z-index property sets the stack order of an element. An element with
+     * greater stack order is always in front of another element with lower stack order.
+     */
+    zIndex :
+    {
+      nullable : true,
+      init : null,
+      apply : "_applyZIndex",
+      event : "changeZIndex",
+      check : "Integer",
+      themeable : true
+    },
+
 
     /**
      * The decorator property points to an object, which is responsible
@@ -2163,6 +2179,11 @@ qx.Class.define("qx.ui.core.Widget",
      */
     isTabable : function() {
       return this.isFocusable();
+    },
+
+
+    isFocusRoot : function() {
+      return false;
     },
 
 
