@@ -39,8 +39,6 @@ qx.Class.define("qx.ui.form.List",
   {
     this.base(arguments);
 
-    this._manager = new qx.ui.core.SelectionManager(this);
-
     var content = new qx.ui.core.Widget;
     var layout = new qx.ui.layout.VBox;
     content.setLayout(layout);
@@ -53,6 +51,8 @@ qx.Class.define("qx.ui.form.List",
     });
 
     this.setContent(content);
+
+    this._manager = new qx.ui.core.SelectionManager(this);
 
     content.addListener("mouseover", this._onmouseover, this);
     content.addListener("mousedown", this._onmousedown, this);
