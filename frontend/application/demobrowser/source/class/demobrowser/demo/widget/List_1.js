@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var l1 = new qx.ui.form.List;
 
-      l1.set({ height: 200, width: 150 });
+      l1.set({ height: 300, width: 150 });
 
       var item;
       for( var i=1; i<=25; i++ )
