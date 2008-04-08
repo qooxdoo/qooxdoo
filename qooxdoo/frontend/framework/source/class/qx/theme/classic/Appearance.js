@@ -668,7 +668,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
-    "tree-file-icon" : {
+    "tree-file-icon" :
+    {
       style : function(states)
       {
         return {
@@ -678,13 +679,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
-    "tree-file-label" : {
+    "tree-file-label" :
+    {
       include : "tree-folder-label"
     },
 
 
-    "tree" : {
-      include : "list"
+    "tree" :
+    {
+      include : "list",
+
+      style : function(states)
+      {
+        return {
+          contentPadding : [4, 4, 4, 4]
+        }
+      }
     }
   }
 });
