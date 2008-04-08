@@ -856,7 +856,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
     __encodeObject : function(object)
     {
-      return "apiviewer.ObjectRegistry.getObjectFromHashCode("+object.toHashCode()+")";
+      return "apiviewer.ObjectRegistry.getObjectFromHashCode('"+object.toHashCode()+"')";
     },
 
 
