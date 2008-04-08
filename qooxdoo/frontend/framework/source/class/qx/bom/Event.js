@@ -73,6 +73,7 @@ qx.Bootstrap.define("qx.bom.Event",
      * Returns the target of the event.
      *
      * @type static
+     * @param e {Event} Native event object
      * @return {Object} Any valid native event target
      */
     getTarget : function(e) {
