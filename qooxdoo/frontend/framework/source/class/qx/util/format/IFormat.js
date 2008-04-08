@@ -34,9 +34,7 @@ qx.Interface.define("qx.util.format.IFormat",
      * @return {String} the formatted object.
      * @throws the abstract function warning.
      */
-    format : function(obj) {
-      return true;
-    },
+    format : function(obj) {},
 
 
     /**
@@ -48,8 +46,6 @@ qx.Interface.define("qx.util.format.IFormat",
      * @return {var} the parsed object.
      * @throws the abstract function warning.
      */
-    parse : function(str) {
-      return true;
-    }
+    parse : function(str) {}
   }
 });

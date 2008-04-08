@@ -36,33 +36,25 @@ qx.Interface.define("qx.legacy.ui.resizer.IResizable",
      * @param newWidth  {Number}
      * @return {void}
      */
-    _changeWidth: function(newWidth) {
-      return true;
-    },
+    _changeWidth: function(newWidth) {},
 
     /**
      * After resizing completes, it updates the height.
      * @param newHeight  {Number}
      * @return {void}
      */
-    _changeHeight: function(newHeight) {
-      return true;
-    },
+    _changeHeight: function(newHeight) {},
 
     /**
      * Respect which widget the resizing occurs?
      * @return {qx.legacy.ui.core.Widget}
      */
-    _getResizeParent: function() {
-      return true;
-    },
+    _getResizeParent: function() {},
 
     /**
      * Which widget determines the minimum size?
      * @return {qx.legacy.ui.core.Widget}
      */
-    _getMinSizeReference: function() {
-      return true;
-    }
+    _getMinSizeReference: function() {}
   }
 });

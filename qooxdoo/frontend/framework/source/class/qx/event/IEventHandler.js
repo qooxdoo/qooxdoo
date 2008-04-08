@@ -36,9 +36,7 @@ qx.Interface.define("qx.event.IEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(target, type) {
-      return true;
-    },
+    canHandleEvent : function(target, type) {},
 
 
     /**
@@ -51,9 +49,7 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event.
      */
-    registerEvent : function(target, type, capture) {
-      return true;
-    },
+    registerEvent : function(target, type, capture) {},
 
 
     /**
@@ -67,8 +63,6 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event.
      */
-    unregisterEvent : function(target, type, capture) {
-      return true;
-    }
+    unregisterEvent : function(target, type, capture) {}
   }
 });

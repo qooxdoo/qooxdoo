@@ -51,9 +51,7 @@ qx.Interface.define("qx.legacy.ui.table.ICellRenderer",
      * @param htmlArr {String[]} Target string container. The HTML of the data
      *     cell should be appended to this array.
      */
-    createDataCellHtml : function(cellInfo, htmlArr) {
-      return true;
-    }
+    createDataCellHtml : function(cellInfo, htmlArr) {}
 
   }
 });

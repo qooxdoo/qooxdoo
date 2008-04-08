@@ -27,9 +27,7 @@ qx.Interface.define("qx.application.IApplication",
      * @type member
      * @return {void}
      */
-    main : function() {
-      return true;
-    },
+    main : function() {},
 
 
     /**
@@ -38,8 +36,6 @@ qx.Interface.define("qx.application.IApplication",
      * @type member
      * @return {void}
      */
-    terminate : function() {
-      return true;
-    }
+    terminate : function() {}
   }
 });

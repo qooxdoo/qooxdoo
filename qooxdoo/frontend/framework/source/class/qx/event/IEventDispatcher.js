@@ -35,7 +35,7 @@ qx.Interface.define("qx.event.IEventDispatcher",
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
      */
     canDispatchEvent : function(target, event, type) {
-      return event instanceof qx.event.type.Event && typeof type === "string";
+      this.assert(event instanceof qx.event.type.Event && typeof type === "string");
     },
 
 
@@ -47,7 +47,7 @@ qx.Interface.define("qx.event.IEventDispatcher",
      * @param type {String} the event type
      */
     dispatchEvent : function(target, event, type) {
-      return event instanceof qx.event.type.Event && typeof type === "string";
+      this.assert(event instanceof qx.event.type.Event && typeof type === "string");
     }
   }
 });

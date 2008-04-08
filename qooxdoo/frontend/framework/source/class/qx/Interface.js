@@ -35,10 +35,15 @@ qx.Class.define("qx.Interface",
     */
 
     /**
-     * Define a new interface. Interface definitions look much like class definitions. The
-     * main difference is that the bodies of functions defined in <code>members</code>
-     * and <code>statics</code> are treated as preconditions for the methods
-     * implementing the interface. These are typically used for parameter checks.
+     * Define a new interface. Interface definitions look much like class definitions.
+     *
+     * The main difference is that the bodies of functions defined in <code>members</code>
+     * and <code>statics</code> are called before the original function with the
+     * same arguments. This can be used to check the passed arguments. If the
+     * checks fail, an exception should be thrown. It is convenient to use the
+     * method defined in {@link qx.dev.unit.Massert} to check the arguments.
+     *
+     * In the <code>build</code> version the checks are omitted.
      *
      * For properties only the names are required so the value of the properties
      * can be empty maps.
@@ -58,9 +63,9 @@ qx.Class.define("qx.Interface",
      *
      *   members:
      *   {
-     *     meth1: function() { return true; },
-     *     meth2: function(a, b) { return arguments.length == 2; },
-     *     meth3: function(c) { return qx.Class.hasInterface(c.constructor, qx.some.IInterface); }
+     *     meth1: function() {},
+     *     meth2: function(a, b) { this.assertArgumentsCount(arguments, 2, 2); },
+     *     meth3: function(c) { this.assertInterface(c.constructor, qx.some.IInterface); }
      *   },
      *
      *   events :
@@ -328,10 +333,10 @@ qx.Class.define("qx.Interface",
       {
         function wrappedFunction()
         {
-          if (!preCondition.apply(this, arguments)) {
-            throw new Error('Pre condition of method "' + functionName + '" defined by "' + iface.name + '" failed.');
-          }
+          // call precondition
+          preCondition.apply(this, arguments);
 
+          // call original function
           return origFunction.apply(this, arguments);
         }
 
