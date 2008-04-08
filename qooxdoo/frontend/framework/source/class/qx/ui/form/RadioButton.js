@@ -41,7 +41,7 @@
 qx.Class.define("qx.ui.form.RadioButton",
 {
   extend : qx.ui.form.Button,
-
+  implement : qx.ui.core.IRadioItem,
 
 
 
@@ -77,13 +77,6 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   properties :
   {
-    // overridden
-    appearance :
-    {
-      refine : true,
-      init : "radio-button"
-    },
-
     /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
@@ -99,6 +92,13 @@ qx.Class.define("qx.ui.form.RadioButton",
       init: false,
       apply: "_applyChecked",
       event: "changeChecked"
+    },
+
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "radio-button"
     }
   },
 
@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.form.RadioButton",
       var vManager = this.getManager();
 
       if (vManager) {
-        vManager.handleItemChecked(this, value);
+        vManager.setItemChecked(this, value);
       }
 
       value ? this.addState("checked") : this.removeState("checked");

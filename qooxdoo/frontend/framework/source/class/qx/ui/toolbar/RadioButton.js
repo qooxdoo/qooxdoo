@@ -22,6 +22,7 @@
 qx.Class.define("qx.ui.toolbar.RadioButton",
 {
   extend : qx.ui.toolbar.CheckBox,
+  implement : qx.ui.core.IRadioItem,
 
 
 
