@@ -47,7 +47,6 @@ qx.Class.define("qx.event.handler.Focus",
   *****************************************************************************
   */
 
-
   /**
    * Create a new instance
    *
@@ -67,7 +66,6 @@ qx.Class.define("qx.event.handler.Focus",
 
     this._initObserver();
   },
-
 
 
 
@@ -986,6 +984,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       // this.debug("LL-Active: " + value);
 
+      // Fire before events
       if (old) {
         this._fireEvent(old, value, "beforedeactivate", true);
       }
@@ -994,6 +993,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._fireEvent(value, old, "beforeactivate", true);
       }
 
+      // Fire after events
       if (old) {
         this._fireEvent(old, value, "deactivate", true);
       }
@@ -1009,6 +1009,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       // this.debug("LL-Focus: " + value);
 
+      // Fire before events
       if (old) {
         this._fireEvent(old, value, "focusout", true);
       }
@@ -1017,6 +1018,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._fireEvent(value, old, "focusin", true);
       }
 
+      // Fire after events
       if (old) {
         this._fireEvent(old, value, "blur", false);
       }

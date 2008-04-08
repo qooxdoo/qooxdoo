@@ -29,6 +29,22 @@ qx.Class.define("qx.ui.root.Abstract",
 
   /*
   *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    this._focusRoot = new qx.ui.core.FocusHandler(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -56,6 +72,7 @@ qx.Class.define("qx.ui.root.Abstract",
       init : true
     }
   },
+
 
 
 
@@ -92,6 +109,12 @@ qx.Class.define("qx.ui.root.Abstract",
 
 
     // overridden
+    isFocusRoot : function() {
+      return true;
+    },
+
+
+    // overridden
     _applyLayout : function(value, old)
     {
       if (old) {
@@ -100,5 +123,20 @@ qx.Class.define("qx.ui.root.Abstract",
 
       this.base(arguments, value, old);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_focusRoot");
+
   }
 });
