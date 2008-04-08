@@ -77,8 +77,8 @@ qx.Class.define("qx.ui.layout.Scroll",
       var content = this.getContent();
       var hint = content.getSizeHint();
 
-      var width = Math.min(hint.width, Math.max(availWidth, hint.minWidth));
-      var height = Math.min(hint.height, Math.max(availHeight, hint.minHeight));
+      var width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
+      var height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minHeight));
 
       content.renderLayout(0, 0, width, height);
     }

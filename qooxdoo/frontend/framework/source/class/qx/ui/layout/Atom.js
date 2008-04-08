@@ -78,12 +78,16 @@ qx.Class.define("qx.ui.layout.Atom",
         return;
       }
 
-      if (this._icon) {
+      if (this._icon)
+      {
+        qx.lang.Array.remove(this._children, this._icon);
         this._removeHelper(this._icon);
       }
 
-      if (icon) {
-        this.add(icon);
+      if (icon)
+      {
+        this._children.push(icon);
+        this._addHelper(icon);
       }
 
       this._icon = icon;
@@ -102,12 +106,16 @@ qx.Class.define("qx.ui.layout.Atom",
         return;
       }
 
-      if (this._text) {
+      if (this._text)
+      {
+        qx.lang.Array.remove(this._children, this._text);
         this._removeHelper(this._text);
       }
 
-      if (text) {
-        this.add(text);
+      if (text)
+      {
+        this._children.push(text);
+        this._addHelper(text);
       }
 
       this._text = text;
