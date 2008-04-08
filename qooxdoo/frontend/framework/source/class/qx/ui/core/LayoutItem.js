@@ -297,12 +297,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    /*
-    ---------------------------------------------------------------------------
-      VISIBILITY SUPPORT: IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
     // {Boolean} Whether the layout defined that the widget is visible or not.
     __layoutVisible : true,
 
@@ -326,6 +320,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
+    /**
+     * Called when the layout changes the final visibility of this
+     * widget. Could happen when the layout wants to "remove" items
+     * which are invisible in the current dimension setup (rendered result).
+     *
+     * @param value {Boolean} Whether the item is visible.
+     */
     layoutVisibilityModified : function(value)
     {
       if (value !== this.__layoutVisible)
