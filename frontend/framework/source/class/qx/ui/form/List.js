@@ -135,30 +135,43 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
+    // interface implementation
     getNextSelectableItem : function(selectedItem) {
       return this.getContent().getLayout().getNextSibling(selectedItem);
     },
 
+
+    // interface implementation
     getPreviousSelectableItem : function(selectedItem) {
       return this.getContent().getLayout().getPreviousSibling(selectedItem);
     },
 
+
+    // interface implementation
     getScrollTop : function() {
       return 0;
     },
 
+
+    // interface implementation
     setScrollTop : function(scroll) {
       return;
     },
 
+
+    // interface implementation
     getSelectableItems : function() {
       return this.getContent().getLayoutChildren();
     },
 
+
+    // interface implementation
     getChildren : function() {
       return this.getContent().getLayoutChildren();
     },
 
+
+    // interface implementation
     getInnerHeight : function()
     {
       var computed = this.getContent().getComputedInnerSize();

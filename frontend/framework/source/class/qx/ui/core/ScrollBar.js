@@ -33,13 +33,15 @@ qx.Class.define("qx.ui.core.ScrollBar",
     this._slider.addListener("changeValue", this._onChangeValueSlider, this);
 
     this._btnBegin = new qx.ui.form.RepeatButton().set({
-      appearance : "scrollbar-button-start"
+      appearance : "scrollbar-button-start",
+      focusable: false
     });
     this._btnBegin.addListener("execute", this._slider.scrollStepBack, this._slider);
 
 
     this._btnEnd = new qx.ui.form.RepeatButton().set({
-      appearance : "scrollbar-button-end"
+      appearance : "scrollbar-button-end",
+      focusable: false
     });
     this._btnEnd.addListener("execute", this._slider.scrollStepForward, this._slider);
 

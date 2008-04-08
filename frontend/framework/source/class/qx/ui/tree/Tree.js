@@ -58,7 +58,10 @@ qx.Class.define("qx.ui.tree.Tree",
     this.base(arguments);
 
     var content = new qx.ui.core.Widget().set({
-      layout : new qx.ui.layout.VBox()
+      layout : new qx.ui.layout.VBox(),
+      allowShrinkY: false,
+      allowGrowY: false,
+      allowShrinkY: false
     });
 
     this.setContent(content);
@@ -103,6 +106,9 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    /**
+     * The root tree item of the tree to display
+     */
     root :
     {
       check : "qx.ui.tree.AbstractTreeItem",
@@ -140,12 +146,28 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    /**
+     * The padding of the tree content pane. Don't use the
+     * {@link qx.ui.core.Widget#padding} property because this would move the
+     * scrollbars as well.
+     */
+    contentPadding :
+    {
+      check : "Array",
+      nullable : true,
+      init : null,
+      apply : "_applyContentPadding",
+      themeable : true
+    },
+
+    // overridden
     appearance :
     {
       refine: true,
       init: "tree"
     },
 
+    // overridden
     focusable :
     {
       refine : true,
@@ -164,11 +186,18 @@ qx.Class.define("qx.ui.tree.Tree",
 
   members :
   {
+    /**
+     * Get the widget, which containes the root tree item. This widget must
+     * have a vertical box layout.
+     *
+     * @return {qx.ui.core.Widget} the children container
+     */
     getChildrenContainer : function() {
       return this.getContent();
     },
 
 
+    // property apply
     _applyRoot : function(value, old)
     {
       var layout = this.getChildrenContainer().getLayout();
@@ -196,6 +225,7 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    // property apply
     _applyHideRoot : function(value, old)
     {
       var root = this.getRoot();
@@ -208,6 +238,7 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    // property apply
     _applyRootOpenClose : function(value, old)
     {
       var root = this.getRoot();
@@ -218,8 +249,12 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    getLevel : function() {
-      return -1;
+    // property apply
+    _applyContentPadding : function(value, old)
+    {
+      if (value) {
+        this.getContent().setPadding(value);
+      }
     },
 
 
@@ -283,11 +318,13 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
+    // interface implementation
     getNextSelectableItem : function(selectedItem) {
       return this.getNextSiblingOf(selectedItem, false);
     },
 
 
+    // interface implementation
     getPreviousSelectableItem : function(selectedItem) {
       return this.getPreviousSiblingOf(selectedItem, false);
     },
@@ -360,16 +397,19 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    // interface implementation
     getScrollTop : function() {
       return 0;
     },
 
 
+    // interface implementation
     setScrollTop : function(scroll) {
       return;
     },
 
 
+    // interface implementation
     getSelectableItems : function() {
       return this.getRoot().getItems(true, false, this.getHideRoot());
     },
