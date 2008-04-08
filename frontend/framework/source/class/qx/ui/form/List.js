@@ -44,8 +44,7 @@ qx.Class.define("qx.ui.form.List",
     content.setLayout(layout);
 
     content.set({
-      allowGrowX : true,
-      allowGrowY : true,
+      allowGrowY : false,
       allowShrinkX : false,
       allowShrinkY : false
     });
