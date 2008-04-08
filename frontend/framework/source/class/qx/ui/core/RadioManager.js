@@ -19,7 +19,12 @@
 ************************************************************************ */
 
 /**
- * Each instance manages vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.RadioButton, ...
+ * The radio manager handles a collection of items from which only one item
+ * can be selected. Selection another item will deselect the previously selected
+ * item.
+ *
+ * This class is e.g. used to create radio groups or {@link qx.ui.form.RadioButton}
+ * or {@link qx.ui.toolbar.RadioButton} instances.
  */
 qx.Class.define("qx.ui.core.RadioManager",
 {
@@ -34,7 +39,11 @@ qx.Class.define("qx.ui.core.RadioManager",
   *****************************************************************************
   */
 
-  construct : function(vMembers)
+  /**
+   * @param varargs {qx.core.Object} A variable number of items, which are
+   *     intially added to the radio manager.
+   */
+  construct : function(varargs)
   {
     // we don't need the manager data structures
     this.base(arguments);
@@ -42,10 +51,10 @@ qx.Class.define("qx.ui.core.RadioManager",
     // create item array
     this._items = [];
 
-    if (vMembers != null)
+    if (varargs != null)
     {
       // add() iterates over arguments, but vMembers is an array
-      this.add.apply(this, vMembers);
+      this.add.apply(this, varargs);
     }
   },
 
@@ -60,12 +69,28 @@ qx.Class.define("qx.ui.core.RadioManager",
 
   properties :
   {
+    /**
+     * The currently selected item of the radio group
+     */
     selected :
     {
       nullable : true,
       apply : "_applySelected",
       event : "changeSelected",
-      check : "qx.core.Object"
+      check : "qx.ui.core.IRadioItem"
+    },
+
+    /**
+     * Whether the items of the radio group are enabled. Setting this property
+     * to <code>false</code> will set the enabled property of each radio item
+     * to <code>false</code>.
+     */
+    enabled :
+    {
+      check: "Boolean",
+      init : true,
+      event : "changeEnabled",
+      apply : "_applyEnabled"
     }
   },
 
@@ -87,10 +112,9 @@ qx.Class.define("qx.ui.core.RadioManager",
     */
 
     /**
-     * TODOC
+     * Get all managed items
      *
-     * @type member
-     * @return {var} TODOC
+     * @return {IRadioItem[]} All managed items
      */
     getItems : function() {
       return this._items;
@@ -98,10 +122,9 @@ qx.Class.define("qx.ui.core.RadioManager",
 
 
     /**
-     * TODOC
+     * Get all enabled managed items
      *
-     * @type member
-     * @return {var} TODOC
+     * @return {IRadioItem[]} All enabled managed items
      */
     getEnabledItems : function()
     {
@@ -119,14 +142,12 @@ qx.Class.define("qx.ui.core.RadioManager",
 
 
     /**
-     * TODOC
+     * Set the checked state of a given item
      *
-     * @type member
-     * @param vItem {var} TODOC
-     * @param vChecked {var} TODOC
-     * @return {void}
+     * @param vItem {IRadioItem} The item to set the checked state of
+     * @param vChecked {Boolean} Whether the item should be checked
      */
-    handleItemChecked : function(vItem, vChecked)
+    setItemChecked : function(vItem, vChecked)
     {
       if (vChecked) {
         this.setSelected(vItem);
@@ -145,10 +166,10 @@ qx.Class.define("qx.ui.core.RadioManager",
     */
 
     /**
-     * TODOC
+     * Add the passed items to the radio manager.
      *
      * @type member
-     * @param varargs {var} TODOC
+     * @param varargs {IRadioItem} A variable number of items to add
      * @return {void}
      */
     add : function(varargs)
@@ -209,13 +230,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applySelected : function(value, old)
     {
       if (old) {
@@ -224,6 +239,21 @@ qx.Class.define("qx.ui.core.RadioManager",
 
       if (value) {
         value.setChecked(true);
+      }
+    },
+
+
+    // property apply
+    _applyEnabled : function(value, old)
+    {
+      for (var i=0, l=this._items.length; i<l; i++)
+      {
+        var item = this._items[i];
+        if (value) {
+          item.resetEnabled();
+        } else {
+          item.setEnabled(false);
+        }
       }
     },
 
