@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.ui.form.List",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.core.ScrollArea,
   implement : qx.ui.core.ISelectionContainer,
 
 
@@ -41,12 +41,22 @@ qx.Class.define("qx.ui.form.List",
 
     this._manager = new qx.ui.core.SelectionManager(this);
 
+    var content = new qx.ui.core.Widget;
     var layout = new qx.ui.layout.VBox;
-    this.setLayout(layout);
+    content.setLayout(layout);
 
-    this.addListener("mouseover", this._onmouseover);
-    this.addListener("mousedown", this._onmousedown);
-    this.addListener("mouseup", this._onmouseup);
+    content.set({
+      allowGrowX : true,
+      allowGrowY : true,
+      allowShrinkX : false,
+      allowShrinkY : false
+    });
+
+    this.setContent(content);
+
+    content.addListener("mouseover", this._onmouseover, this);
+    content.addListener("mousedown", this._onmousedown, this);
+    content.addListener("mouseup", this._onmouseup, this);
 
     this.addListener("keydown", this._onkeydown);
     this.addListener("keypress", this._onkeypress);
@@ -110,11 +120,11 @@ qx.Class.define("qx.ui.form.List",
     */
 
     add : function(listItem) {
-      this.getLayout().add(listItem);
+      this.getContent().getLayout().add(listItem);
     },
 
     remove : function(listItem) {
-      this.getLayout().remove(listItem);
+      this.getContent().getLayout().remove(listItem);
     },
 
 
@@ -127,11 +137,11 @@ qx.Class.define("qx.ui.form.List",
     */
 
     getNextSelectableItem : function(selectedItem) {
-      return this.getLayout().getNextSibling(selectedItem);
+      return this.getContent().getLayout().getNextSibling(selectedItem);
     },
 
     getPreviousSelectableItem : function(selectedItem) {
-      return this.getLayout().getPreviousSibling(selectedItem);
+      return this.getContent().getLayout().getPreviousSibling(selectedItem);
     },
 
     getScrollTop : function() {
@@ -143,16 +153,16 @@ qx.Class.define("qx.ui.form.List",
     },
 
     getSelectableItems : function() {
-      return this.getLayoutChildren();
+      return this.getContent().getLayoutChildren();
     },
 
     getChildren : function() {
-      return this.getLayoutChildren();
+      return this.getContent().getLayoutChildren();
     },
 
     getInnerHeight : function()
     {
-      var computed = this.getComputedInnerSize();
+      var computed = this.getContent().getComputedInnerSize();
       return computed ? computed.height : 0;
     },
 
