@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_2",
       this.getRoot().add(tree, 20, 48);
       var root = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Root");
       root.setOpen(true);
-      tree.add(root);
+      tree.setRoot(root);
 
       // One icon for selected and one for unselected states
       var te1 = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Desktop");
@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_2",
       var te2_9 = new this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Spam");
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
-      tree.add(te2);
+      root.add(te2);
 
     },
 
