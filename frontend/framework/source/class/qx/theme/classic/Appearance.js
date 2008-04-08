@@ -507,8 +507,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator: "dark"
-        }
+
+        };
       }
     },
 
