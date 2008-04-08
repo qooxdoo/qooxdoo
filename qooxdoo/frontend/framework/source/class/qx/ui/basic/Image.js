@@ -244,6 +244,21 @@ qx.Class.define("qx.ui.basic.Image",
       }
       else
       {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          var self = this.self(arguments);
+
+          if (!self._warned) {
+            self._warned = {};
+          }
+
+          if (!self._warned[source])
+          {
+            this.warn("Unknown image: " + source);
+            self._warned[source] = true;
+          }
+        }
+
         qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
       }
     },
