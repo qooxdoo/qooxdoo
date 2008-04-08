@@ -309,7 +309,12 @@ qx.Class.define("qx.ui.core.FocusHandler",
       {
         child = children[i];
 
-        if (child.isFocusable() && this.__compareTabOrder(widget, child) < 0) {
+        // Filter spacers etc.
+        if (!(child instanceof qx.ui.core.Widget)) {
+          return;
+        }
+
+        if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
           result.push(child);
         }
 
@@ -340,9 +345,14 @@ qx.Class.define("qx.ui.core.FocusHandler",
       {
         child = children[i];
 
+        // Filter spacers etc.
+        if (!(child instanceof qx.ui.core.Widget)) {
+          return;
+        }
+
         if (!child.isFocusRoot())
         {
-          if (child.isFocusable() && this.__compareTabOrder(widget, child) > 0) {
+          if (child.isTabable() && this.__compareTabOrder(widget, child) > 0) {
             result.push(child);
           }
 
@@ -369,10 +379,15 @@ qx.Class.define("qx.ui.core.FocusHandler",
       {
         child = children[i];
 
+        // Filter spacers etc.
+        if (!(child instanceof qx.ui.core.Widget)) {
+          return;
+        }
+
         // Ignore focus roots completely
         if (!child.isFocusRoot())
         {
-          if (child.isFocusable())
+          if (child.isTabable())
           {
             if (firstWidget == null || this.__compareTabOrder(child, firstWidget) < 0) {
               firstWidget = child;
@@ -405,10 +420,15 @@ qx.Class.define("qx.ui.core.FocusHandler",
       {
         child = children[i];
 
+        // Filter spacers etc.
+        if (!(child instanceof qx.ui.core.Widget)) {
+          return;
+        }
+
         // Ignore focus roots completely
         if (!child.isFocusRoot())
         {
-          if (child.isFocusable())
+          if (child.isTabable())
           {
             if (lastWidget == null || this.__compareTabOrder(child, lastWidget) > 0) {
               lastWidget = child;
