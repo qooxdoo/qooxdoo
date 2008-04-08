@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.layout.Abstract",
      * Remove this from the layout
      *
      * @type member
-     * @param child {qx.ui.core.Widget} the widget to add
+     * @param child {qx.ui.core.Widget} the widget to remove
      * @return {qx.ui.layout.Abstract} This object (for chaining support)
      */
     remove : function(child)
