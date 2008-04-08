@@ -58,16 +58,20 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       // create and add Part 1 to the toolbar
       var part1 = new qx.ui.toolbar.Part();
       var newButton = new qx.ui.toolbar.Button("New", "icon/22/actions/document-new.png");
+      var copyButton = new qx.ui.toolbar.Button("Copy", "icon/22/actions/edit-copy.png");
+      var cutButton = new qx.ui.toolbar.Button("Cut", "icon/22/actions/edit-cut.png");
+      var pasteButton = new qx.ui.toolbar.Button("Paste", "icon/22/actions/edit-paste.png");
       part1.add(newButton);
       part1.add(new qx.ui.toolbar.Separator());
-      part1.add(new qx.ui.toolbar.Button("Copy", "icon/22/actions/edit-copy.png"));
-      part1.add(new qx.ui.toolbar.Button("Cut", "icon/22/actions/edit-cut.png"));
-      part1.add(new qx.ui.toolbar.Button("Paste", "icon/22/actions/edit-paste.png"));
+      part1.add(copyButton);
+      part1.add(cutButton);
+      part1.add(pasteButton);
       toolbar.add(part1);
 
       // create and add Part 2 to the toolbar
       var part2 = new qx.ui.toolbar.Part();
-      part2.add(new qx.ui.toolbar.CheckBox("Toggle", "icon/22/actions/format-text-underline.png"));
+      var checkBtn = new qx.ui.toolbar.CheckBox("Toggle", "icon/22/actions/format-text-underline.png");
+      part2.add(checkBtn);
       toolbar.add(part2);
 
       // create and add Part 3 to the toolbar
@@ -84,14 +88,18 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       radioButton1.setManager(manager);
       radioButton2.setManager(manager);
       radioButton3.setManager(manager);
-      
+
       // create Help Button and add it to the toolbar
       toolbar.addSpacer();
-      toolbar.add(new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png"));
-      
-      
-      
-      
+      var helpButton = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png");
+      toolbar.add(helpButton);
+
+
+      var buttons = [ newButton, copyButton, cutButton, pasteButton, checkBtn, radioButton1, radioButton2, radioButton3, helpButton ];
+
+
+
+
       ///////////////////////////////////////////////////////////////
       // Controll stuff
       ///////////////////////////////////////////////////////////////
@@ -102,7 +110,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       controlContainer.setLayout(controlGrid);
       controlContainer.setPadding(20);
       this.getRoot().add(controlContainer, 0, 100);
-      
+
       //////////////////////// icon size stuff
       // create the buttons
       var size22Button = new qx.ui.form.RadioButton("22px");
@@ -118,16 +126,28 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       controlGrid.add(size32Button,0 ,2);
       controlGrid.add(size48Button,0 ,3);
       // register the handler
-      sizeManager.addListener("changeSelected", function(e) {
-        if (e.getValue() == size22Button) {
-          newButton.setIcon("icon/22/actions/document-new.png");
-        } else if (e.getValue() == size32Button) {
-          newButton.setIcon("icon/32/actions/document-new.png");
-        } else if (e.getValue() == size48Button) {
-          newButton.setIcon("icon/48/actions/document-new.png");
+      sizeManager.addListener("changeSelected", function(e)
+      {
+        var value = e.getValue();
+        var button, size, url;
+        for (var i=0; i<buttons.length; i++)
+        {
+          button = buttons[i];
+          url = button.getIcon();
+
+          if (value == size22Button) {
+            size = 22;
+          } else if (value == size32Button) {
+            size = 32;
+          } else if (value == size48Button) {
+            size = 48;
+          }
+
+          url = url.replace(/22|32|48/g, size);
+          button.setIcon(url);
         }
-      }, this); 
-      
+      }, this);
+
       //////////////////////// Show stuff
       // create the buttons
       var showBothButton = new qx.ui.form.RadioButton("Label and Icon");
@@ -141,8 +161,8 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       controlGrid.add(new qx.ui.basic.Label("Show:"),1 ,0);
       controlGrid.add(showBothButton,1 ,1);
       controlGrid.add(showIconButton,1 ,2);
-      controlGrid.add(showLabelButton,1 ,3);  
-      // register the handler   
+      controlGrid.add(showLabelButton,1 ,3);
+      // register the handler
       showManager.addListener("changeSelected", function(e) {
         if (e.getValue() == showBothButton) {
           toolbar.setShow("both");
@@ -152,7 +172,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
           toolbar.setShow("label");
         }
       }, this);
-    
+
     }
   }
 });

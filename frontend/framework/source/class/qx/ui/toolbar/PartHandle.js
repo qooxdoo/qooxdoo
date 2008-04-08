@@ -36,13 +36,14 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
   construct : function()
   {
     this.base(arguments);
-    
+
     var layout = new qx.ui.layout.Canvas();
     var line = new qx.ui.core.Widget();
     line.setAppearance("toolbar-part-handle-line");
     layout.add(line, 3, 2, 3, 2);
     this.setLayout(layout);
     this.setWidth(10);
+    this.setHeight(0);
   },
 
 
