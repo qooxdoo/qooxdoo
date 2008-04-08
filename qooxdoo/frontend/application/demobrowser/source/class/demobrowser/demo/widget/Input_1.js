@@ -120,6 +120,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       controls.setLayout(new qx.ui.layout.VBox());
       controls.getLayout().setSpacing(8);
 
+
       var btnEnabled = new qx.ui.form.Button("Toggle enabled");
       var enable = false;
       btnEnabled.addListener("execute", function() {
@@ -129,11 +130,20 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       controls.getLayout().add(btnEnabled);
 
 
-      var btnSend = new qx.ui.form.Button("Send content");
-      btnSend.addListener("execute", function() {
+      var btnSend1 = new qx.ui.form.Button("Send content");
+      btnSend1.addListener("execute", function() {
         this.debug("Sending content: " + input4.getValue());
       });
-      controls.getLayout().add(btnSend);
+      controls.getLayout().add(btnSend1);
+
+
+      var btnSend2 = new qx.ui.form.Button("Send selection");
+      btnSend2.setFocusable(false);
+      btnSend2.setKeepFocus(true);
+      btnSend2.addListener("execute", function() {
+        this.debug("Sending selection: " + input4.getValue());
+      });
+      controls.getLayout().add(btnSend2);
 
 
       this.getRoot().add(controls, 300, 10);

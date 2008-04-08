@@ -701,7 +701,7 @@ qx.Class.define("qx.html.Element",
     __generateListenerId : function(type, listener, self, capture)
     {
       var reg = qx.core.ObjectRegistry;
-      var id = "evt" + reg.toHashCode(type) + "-" + reg.toHashCode(listener);
+      var id = "evt-" + type + "-" + reg.toHashCode(listener);
 
       if (self) {
         id += "-" + reg.toHashCode(self);
@@ -1794,7 +1794,6 @@ qx.Class.define("qx.html.Element",
         }
 
         var key = this.__generateListenerId(type, listener, self, capture);
-
         if (this.__eventValues[key]) {
           throw new Error("A listener of this configuration does already exist!");
         }
@@ -1831,7 +1830,6 @@ qx.Class.define("qx.html.Element",
       else
       {
         var key = this.__generateListenerId(type, listener, self, capture);
-
         if (!this.__eventValues || !this.__eventValues[key]) {
           throw new Error("A listener of this configuration does not exist!");
         }
