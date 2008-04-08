@@ -193,6 +193,9 @@ qx.Class.define("qx.ui.core.Spacer",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       VISIBILITY SUPPORT: IMPLEMENTATION
@@ -207,31 +210,11 @@ qx.Class.define("qx.ui.core.Spacer",
      */
     _toggleDisplay : function()
     {
-      if (this._parent && this.__layoutVisible && this.getVisibility() === "visible")
-      {
+      if (this._parent && this.__layoutVisible && this.getVisibility() === "visible") {
         this.$$visible = true;
-
-        // Prepare for "appear" event
-        qx.ui.core.queue.Display.add(this);
-
-        // Fire "show" event
-        if (this.hasListeners("show")) {
-          this.fireEvent("show");
-        }
-      }
-      else if (this.$$visible)
-      {
+      } else if (this.$$visible) {
         delete this.$$visible;
-
-        // Prepare for "disappear" event
-        qx.ui.core.queue.Display.add(this);
-
-        // Fire "hide" event
-        if (this.hasListeners("hide")) {
-          this.fireEvent("hide");
-        }
       }
     }
-
   }
 });

@@ -34,6 +34,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
   *****************************************************************************
   */
 
+  /**
+   * @param widget {qx.ui.core.Widget} The widget to connect the focus handler to.
+   */
   construct : function(widget)
   {
     if (!widget) {
