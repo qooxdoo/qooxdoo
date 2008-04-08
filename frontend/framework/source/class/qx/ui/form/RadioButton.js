@@ -45,6 +45,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -77,7 +78,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   properties :
   {
-    /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.ui.core.RadioManager which handles the switching between registered buttons */
     manager :
     {
       check  : "qx.ui.core.RadioManager",
