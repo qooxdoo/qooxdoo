@@ -42,7 +42,7 @@
  */
 qx.Class.define("qx.ui.tree.Tree",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.core.ScrollArea,
   implement : qx.ui.core.ISelectionContainer,
 
 
@@ -57,8 +57,11 @@ qx.Class.define("qx.ui.tree.Tree",
   {
     this.base(arguments);
 
-    this._layout = new qx.ui.layout.VBox();
-    this.setLayout(this._layout);
+    var content = new qx.ui.core.Widget().set({
+      layout : new qx.ui.layout.VBox()
+    });
+
+    this.setContent(content);
 
     this._manager = new qx.ui.core.SelectionManager(this).set({
       dragSelection: false,
@@ -161,9 +164,14 @@ qx.Class.define("qx.ui.tree.Tree",
 
   members :
   {
+    getChildrenContainer : function() {
+      return this.getContent();
+    },
+
+
     _applyRoot : function(value, old)
     {
-      var layout = this.getLayout();
+      var layout = this.getChildrenContainer().getLayout();
 
       if (old)
       {
