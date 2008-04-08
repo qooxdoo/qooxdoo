@@ -2182,9 +2182,11 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
     isFocusRoot : function() {
       return false;
     },
+
 
 
     getFocusRoot : function()
