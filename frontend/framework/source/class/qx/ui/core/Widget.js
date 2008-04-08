@@ -306,7 +306,6 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyLayoutChange",
       init : null,
       themeable : true
-
     },
 
 
@@ -673,6 +672,19 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Boolean",
       init : false,
       apply : "_applyFocusable"
+    },
+
+
+    /**
+     * When this property is enabled the widget force a focus blocking e.g.
+     * also prevents underlying widgets from getting focused. This only
+     * work for widgets which are not {@link focusable}.
+     */
+    keepFocus :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyKeepFocus"
     },
 
 
@@ -2155,14 +2167,14 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyFocusable : function(value)
+    _applyFocusable : function(value, old)
     {
       var target = this.getFocusElement();
-      var tabIndex = this.getTabIndex();
 
       // Apply native tabIndex attribute
       if (value)
       {
+        var tabIndex = this.getTabIndex();
         if (tabIndex == null) {
           tabIndex = 1;
         }
@@ -2174,17 +2186,28 @@ qx.Class.define("qx.ui.core.Widget",
         target.removeAttribute("tabIndex");
       }
 
+      // Sync with focus protection
+      this._applyKeepFocus(this.getKeepFocus());
+
       // Dynamically register/deregister events
       if (value)
       {
         this.addListener("focus", this._onfocus, this);
         this.addListener("blur", this._onblur, this);
       }
-      else
+      else if (old)
       {
         this.removeListener("focus", this._onfocus, this);
         this.removeListener("blur", this._onblur, this);
       }
+    },
+
+
+    // property apply
+    _applyKeepFocus : function(value)
+    {
+      var target = this.getFocusElement();
+      target.setAttribute("qxKeepFocus", value ? "on" : null);
     },
 
 
@@ -2214,7 +2237,7 @@ qx.Class.define("qx.ui.core.Widget",
       this._applyCursor();
 
       // Apply qooxdoo attribute
-      this._containerElement.setAttribute("qxselectable", value ? "on" : "off");
+      this._containerElement.setAttribute("qxSelectable", value ? "on" : "off");
 
       // Apply CSS style for Webkit (makes protection for text selection is bit
       // more stable e.g. when doubleclicking on text etc.)
