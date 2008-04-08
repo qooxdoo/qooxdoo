@@ -39,8 +39,6 @@ qx.Class.define("qx.ui.toolbar.Part",
     this._handle = new qx.ui.toolbar.PartHandle();
     this._layout.add(this._handle);
     this.setLayout(this._layout);
-
-    // this.initWidth();
   },
 
 
@@ -59,6 +57,7 @@ qx.Class.define("qx.ui.toolbar.Part",
       init : "toolbar-part"
     },
 
+    /** Whether icons, labels, both or none should be shown. */ 
     show :
     {
       init : "inherit",
@@ -81,6 +80,12 @@ qx.Class.define("qx.ui.toolbar.Part",
 
   members :
   {
+    /**
+     * Add a item at the end of the toolbar
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} widget to add
+     */    
     add: function(item) {
       this._layout.add(item);
     }
