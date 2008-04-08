@@ -393,7 +393,8 @@ class Generator:
         settings = self.getSettings()
 
         # Get resource list
-        libs = [{'path':'build', 'uri':'../build', 'encoding':'utf-8'}]  # use what's in the 'build' tree -- this depends on resource copying!!
+        buildUri = self._config.get('compile/uri-root', ".")
+        libs = [{'path':'build', 'uri':buildUri, 'encoding':'utf-8'}]  # use what's in the 'build' tree -- this depends on resource copying!!
         resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
 
         # Generating boot script
