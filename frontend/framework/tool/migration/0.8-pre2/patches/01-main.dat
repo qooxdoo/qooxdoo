@@ -2,3 +2,5 @@
 \bqx\.util\.manager\.Object\b=qx.legacy.util.ObjectManager
 
 \bqx\.io\.image\b=qx.io.image
+
+\.handleItemChecked\b=setItemChecked
