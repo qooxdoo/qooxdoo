@@ -517,12 +517,14 @@ qx.Class.define("qx.event.handler.Focus",
       {
         this.setActive(e.target);
 
-        this._fromActivate = true;
-
-        var focus = this.__findFocusNode(e.target);
-        this.setFocus(focus);
-
-        delete this._fromActivate;
+        // Support for focus blocks
+        var focus = this.__findFocusNode(e.target, true);
+        if (focus)
+        {
+          this._fromActivate = true;
+          this.setFocus(focus);
+          delete this._fromActivate;
+        }
       },
 
       "default" : function(e) {}
@@ -556,18 +558,18 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(e)
       {
-        if (!window.event.toElement) {
-          this._doWindowFocus();
-        }
+        // Force window focus to be the first
+        this._doWindowFocus();
 
+        // Read target
         var target = window.event.srcElement;
 
         // In mousedown sequences the target is already set correctly. In all
         // other cases the active element is identical to the focus element.
-        if (!this._fromMouseDown) {
-          this.setActive(target);
-        } else {
+        if (this._fromMouseDown) {
           delete this._fromMouseDown;
+        } else {
+          this.setActive(target);
         }
 
         var focusTarget = this.__findFocusNode(target);
@@ -734,20 +736,44 @@ qx.Class.define("qx.event.handler.Focus",
         // Remember mouse active target
         this._fromMouseDown = true;
 
-        // Sometimes the focus is not fired correctly in gecko
-        var focusTarget = this.__findFocusNode(target);
-        focusTarget.focus();
-
         // Blocks selection & dragdrop
         if (!this.__isSelectable(target)) {
+          qx.bom.Event.preventDefault(e);
+        }
+
+        // Focus target may be null (e.g. respect focus blocks)
+        var focusTarget = this.__findFocusNode(target, true);
+        if (focusTarget) {
+          focusTarget.focus();
+        } else {
           qx.bom.Event.preventDefault(e);
         }
       },
 
       "mshtml" : function(e)
       {
-        this.setActive(window.event.srcElement);
+        if (!e) {
+          e = window.event;
+        }
+
+        var target = e.srcElement;
+        this.setActive(target);
         this._fromMouseDown = true;
+
+        // Support for focus blocks
+        var focusTarget = this.__findFocusNode(target, true);
+        if (!focusTarget)
+        {
+          if (this._unselectableTarget) {
+            this._unselectableTarget.unselectable = "";
+          }
+
+          // The properitary unselectable property also helps
+          // to prevent the focusIn event. The normal "preventDefault"
+          // mechanism used in other clients does not work in IE.
+          this._unselectableTarget = target;
+          target.unselectable = "on";
+        }
       },
 
       "webkit" : function(e)
@@ -759,15 +785,23 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.target;
         this.setActive(target);
 
+        // Support for focus blocks
+        var nextFocus = this.__findFocusNode(target, true);
+        if (!nextFocus)
+        {
+          qx.bom.Event.preventDefault(e);
+          return;
+        }
+
         // We must be sure to remove the old focus. Safari as of version 3.1
         // does not support tabIndex and focusing on every element so the
         // focus call does not mean to remove the old focus in all tested cases.
-        var nextFocus = this.__findFocusNode(target);
         var currentFocus = this.getFocus();
         if (currentFocus != nextFocus)
         {
-          currentFocus.blur();
-          nextFocus.focus();
+          if (currentFocus) {
+            currentFocus.blur();
+          }
 
           // Focus event happens to late in Webkit.
           // Synchronizes with property directly without waiting for event.
@@ -786,8 +820,30 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.target;
         this.setActive(target);
 
-        var focusTarget = this.__findFocusNode(target);
-        this.setFocus(focusTarget);
+        // Focus target may be null (e.g. respect focus blocks)
+        var nextFocus = this.__findFocusNode(target, true);
+        if (nextFocus)
+        {
+          // We must be sure to remove the old focus. Opera as of version 9.5
+          // does not support tabIndex and focusing on every element so the
+          // focus call does not mean to remove the old focus in all tested cases.
+          var currentFocus = this.getFocus();
+          if (currentFocus != nextFocus)
+          {
+            if (currentFocus) {
+              currentFocus.blur();
+            }
+
+            // Focus event happens to late in Webkit.
+            // Synchronizes with property directly without waiting for event.
+            // Looks nicer when combining with widgets.
+            this.setFocus(nextFocus);
+          }
+        }
+        else
+        {
+          qx.bom.Event.preventDefault(e);
+        }
 
         // Blocks selection & dragdrop
         if (!this.__isSelectable(target)) {
@@ -808,7 +864,18 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeMouseUp : qx.core.Variant.select("qx.client",
     {
-      "gecko|mshtml" : function(e) {
+      "mshtml" : function(e)
+      {
+        if (this._unselectableTarget)
+        {
+          this._unselectableTarget.unselectable = "";
+          delete this._unselectableTarget;
+        }
+
+        delete this._fromMouseDown;
+      },
+
+      "gecko" : function(e) {
         delete this._fromMouseDown;
       },
 
@@ -852,16 +919,19 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @type member
      * @param node {Node} Node to start lookup with
+     * @param mousedown {Boolean?false} Do we need to respect mousedown blocks?
      * @return {void}
      */
-    __findFocusNode : function(node)
+    __findFocusNode : function(node, mousedown)
     {
       var Attribute = qx.bom.element.Attribute;
       var body = this._body;
 
       while (node && node.nodeType === 1)
       {
-        if (Attribute.get(node, "tabIndex") >= 1) {
+        if (Attribute.get(node, "qxKeepFocus") == "on") {
+          return null;
+        } else if (Attribute.get(node, "tabIndex") >= 1) {
           return node;
         }
 
@@ -889,7 +959,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       while(node && node.nodeType === 1)
       {
-        attr = Attribute.get(node, "qxselectable");
+        attr = Attribute.get(node, "qxSelectable");
         if (attr != null) {
           return attr === "on";
         }
@@ -897,7 +967,7 @@ qx.Class.define("qx.event.handler.Focus",
         node = node.parentNode;
       }
 
-      return false;
+      return true;
     },
 
 
@@ -972,7 +1042,7 @@ qx.Class.define("qx.event.handler.Focus",
     this._stopMouseObserver();
     this._stopFocusObserver();
 
-    this._disposeFields("_manager", "_window", "_document", "_root", "_body");
+    this._disposeFields("_manager", "_window", "_document", "_root", "_body", "_unselectableTarget");
   },
 
 
