@@ -89,16 +89,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
 
       // Create image element
       var el = new Image();
+      var boundCallback = qx.lang.Function.listener(this.__onload, this, el, source, callback, context);
 
-      el.onload = qx.lang.Function.bind(this.__onload, this, el, callback, context);
-      el.onerror = qx.lang.Function.bind(this.__onerror, this, el);
+      el.onload = boundCallback;
+      el.onerror = boundCallback;
 
       el.src = source;
     },
 
 
     /**
-     * Internal event listener for all load events.
+     * Internal event listener for all load/error events.
      *
      * @type static
      * @param element {Element} DOM element which represents the image
@@ -106,17 +107,25 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param context {Object} Context in which the given callback should be executed
      * @return {void}
      */
-    __onload : function(element, callback, context)
+    __onload : function(event, element, source, callback, context)
     {
       // Shorthand
       var data = this.__data;
-      var source = element.src;
+      var result;
 
       // Store dimensions
-      data[source] =
+      if (event.type === "load")
       {
-        width : this.__getWidth(element),
-        height : this.__getHeight(element)
+        result = data[source] =
+        {
+          width : this.__getWidth(element),
+          height : this.__getHeight(element)
+        }
+      }
+      else
+      {
+        delete data[source];
+        result = null;
       }
 
       // Cleanup listeners
@@ -124,25 +133,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
 
       // Execute callback
       if (callback) {
-        callback.call(context, source, data[source]);
+        callback.call(context, source, result);
       }
-    },
-
-
-    /**
-     * Internal event listener for all error events.
-     *
-     * @type static
-     * @param element {Element} DOM element which represents the image
-     * @return {void}
-     */
-    __onerror : function(element)
-    {
-      // Cleanup listeners
-      element.onload = element.onerror = null;
-
-      // Throw error
-      throw new Error("Could not load image: " + element.src);
     },
 
 

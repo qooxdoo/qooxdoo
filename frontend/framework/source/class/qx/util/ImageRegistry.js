@@ -79,6 +79,10 @@ qx.Class.define("qx.util.ImageRegistry",
     {
       var isPng = qx.lang.String.endsWith(iconUri, ".png");
 
+      if (this.__registry[iconUri]) {
+        this.warn("Overwriting entry: " + iconUri);
+      }
+
       // use clipped images unless the image is PNG and the browser IE6
       var Engine = qx.bom.client.Engine;
       if (isPng && Engine.MSHTML && Engine.VERSION < 7) {

@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       var vManager = this.getManager();
 
       if (vManager) {
-        vManager.handleItemChecked(this, value);
+        vManager.setItemChecked(this, value);
       }
     },
 

@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.toolbar.Part",
       init : "toolbar-part"
     },
 
-    /** Whether icons, labels, both or none should be shown. */ 
+    /** Whether icons, labels, both or none should be shown. */
     show :
     {
       init : "inherit",
@@ -85,13 +85,13 @@ qx.Class.define("qx.ui.toolbar.Part",
      *
      * @type member
      * @param item {qx.ui.core.Widget} widget to add
-     */    
+     */
     add: function(item) {
       this._layout.add(item);
     }
   },
 
-  
+
 
   /*
   *****************************************************************************
