@@ -172,12 +172,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         treeItem = treeItem.getParent();
       }
 
-      //var tree = treeItem.getChildrenContainer().getLayoutParent();
-      var tree = treeItem.getLayoutParent();
-      if (tree && tree instanceof qx.ui.tree.Tree) {
-        return tree;
+      var tree = treeItem.getLayoutParent() ? treeItem.getLayoutParent().getLayoutParent() : 0;
+      if (tree && tree instanceof qx.ui.core.ScrollPane) {
+        return tree.getLayoutParent();
       }
-
       return null;
     },
 
@@ -520,7 +518,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       if (this.getParent()) {
         return this.getParent().getChildrenContainer();
-      } else if (this.getLayoutParent() instanceof qx.ui.tree.Tree) {
+      } else if (this.getLayoutParent()) {
         return this.getLayoutParent();
       } else {
         return null;
