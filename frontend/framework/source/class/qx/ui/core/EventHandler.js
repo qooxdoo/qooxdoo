@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.core.EventHandler",
     /**
      * Dispatches a DOM event on a widget.
      *
-     * @param event {qx.event.type.Event} The event object to dispatch.
+     * @param domEvent {qx.event.type.Event} The event object to dispatch.
      */
     _dispatchEvent : function(domEvent)
     {
