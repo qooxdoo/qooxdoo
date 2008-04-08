@@ -79,6 +79,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 */
 
+
+    /** Whether icons, labels, both or none should be shown. */ 
     show :
     {
       init : "both",
@@ -107,36 +109,26 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     */
 
     /**
-     * TODOC
+     * Add a item at the end of the toolbar
      *
      * @type member
-     * @return {var} TODOC
+     * @param item {qx.ui.core.Widget} widget to add
      */
-    getAllButtons : function()
-    {
-      var vChildren = this.getChildren();
-      var vLength = vChildren.length;
-      var vDeepChildren = [];
-      var vCurrent;
-
-      for (var i=0; i<vLength; i++)
-      {
-        vCurrent = vChildren[i];
-
-        if (vCurrent instanceof qx.ui.toolbar.MenuButton) {
-          vDeepChildren.push(vCurrent);
-        } else if (vCurrent instanceof qx.ui.toolbar.Part) {
-          vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
-        }
-      }
-
-      return vDeepChildren;
-    },
-
     add: function(item) {
       this._layout.add(item);
     },
     
+    
+    /**
+     * Add a spacer at the current position to the toolbar. The spacer has a flex
+     * value of one and will stretch to the available space.
+     *
+     * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
+     *   to the spacer is needed to remove ths spacer from the layout.
+     */    
+    addSpacer: function() {
+      return this._layout.addSpacer();
+    },
     
 
 
