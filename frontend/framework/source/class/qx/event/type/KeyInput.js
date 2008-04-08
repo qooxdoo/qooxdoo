@@ -45,6 +45,7 @@ qx.Class.define("qx.event.type.KeyInput",
      *
      * @type member
      * @param domEvent {Event} DOM event
+     * @param target {Object} The event target
      * @param charCode {Integer} the character code
      * @return {qx.event.type.KeyEvent} The initialized key event instance
      */
