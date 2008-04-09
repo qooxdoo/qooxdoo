@@ -53,9 +53,9 @@ qx.Class.define("qx.ui.form.List",
 
     this._manager = new qx.ui.core.SelectionManager(this);
 
-    content.addListener("mouseover", this._onmouseover, this);
-    content.addListener("mousedown", this._onmousedown, this);
-    content.addListener("mouseup", this._onmouseup, this);
+    this.addListener("mouseover", this._onmouseover, this);
+    this.addListener("mousedown", this._onmousedown, this);
+    this.addListener("mouseup", this._onmouseup, this);
 
     this.addListener("keydown", this._onkeydown);
     this.addListener("keypress", this._onkeypress);
@@ -215,6 +215,25 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
+    _getListItem : function(widget)
+    {
+      while (widget)
+      {
+        if (widget == this) {
+          return null;
+        }
+
+        if (widget instanceof qx.ui.form.ListItem) {
+          return widget;
+        }
+
+        widget = widget.getLayoutParent();
+      }
+
+      return null;
+    },
+
+
     /**
      * Delegates the event to the selection manager if a list item could be
      * resolved out of the event target.
@@ -225,15 +244,10 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmouseover : function(e)
     {
-      var target = e.getTarget();
-
-      // Only react on mouseover of the list-items:
-      // The list itself is not interesting for selection handling
-      if (target === this) {
-        return;
+      var target = this._getListItem(e.getTarget());
+      if (target) {
+        this._manager.handleMouseOver(target, e);
       }
-
-      this._manager.handleMouseOver(target, e);
     },
 
 
@@ -245,8 +259,12 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Mouse} mouseDown event
      * @return {void}
      */
-    _onmousedown : function(e) {
-      this._manager.handleMouseDown(e.getTarget(), e);
+    _onmousedown : function(e)
+    {
+      var target = this._getListItem(e.getTarget());
+      if (target) {
+        this._manager.handleMouseDown(target, e);
+      }
     },
 
 
