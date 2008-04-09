@@ -168,6 +168,59 @@ qx.Class.define("qx.ui.core.ScrollArea",
     },
 
 
+    /**
+     * Compute the size of the scroll content.
+     *
+     * @return {Map} A map with <code>height</code> and <code>width</code> keys
+     *     containing the size of the scroll content
+     */
+    getContentSize : function()
+    {
+      var content = this.getContent();
+
+      if (content)
+      {
+        var layout = content.getComputedLayout();
+        if (layout)
+        {
+          return {
+            height: layout.height,
+            width: layout.width
+          };
+        }
+      }
+      return {
+        height: 0,
+        width: 0
+      }
+    },
+
+
+    /**
+     * Compute the size of the scroll content's visible area.
+     *
+     * @return {Map} A map with <code>height</code> and <code>width</code> keys
+     *     containing the visible size of the scroll area
+     */
+    getVisibleContentSize : function()
+    {
+      var layout = this._scrollPane.getComputedInnerSize();
+      if (layout)
+      {
+        return {
+          height: layout.height,
+          width: layout.width
+        };
+      }
+      else
+      {
+        return {
+          height: 0,
+          width: 0
+        }
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -225,7 +278,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
     },
 
 
-    // interface implementation
+    /**
+     * Scroll a widget, which is nested somewhere inside of this scroll area,
+     * into the visible part of the scroll area.
+     *
+     * @param item {qx.ui.core.Widget} widget to scroll into view
+     */
     scrollItemIntoView : function(item)
     {
       // This method can only work after the item has been rendered
@@ -367,11 +425,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var contentSize = content.getComputedLayout();
 
       if (this._hScrollBar.isVisible()) {
-        this._hScrollBar.setMaximum(Math.max(0, contentSize.width - paneSize.width));
+        this._hScrollBar.setContentSize(contentSize.width);
+        this._hScrollBar.setContainerSize(paneSize.width);
       }
 
-      if (this._vScrollBar.isVisible()) {
-        this._vScrollBar.setMaximum(Math.max(0, contentSize.height - paneSize.height));
+      if (this._vScrollBar.isVisible())
+      {
+        this._vScrollBar.setContentSize(contentSize.height);
+        this._vScrollBar.setContainerSize(paneSize.height);
       }
     },
 

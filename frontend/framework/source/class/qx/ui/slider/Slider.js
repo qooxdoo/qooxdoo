@@ -52,6 +52,7 @@ qx.Class.define("qx.ui.slider.Slider",
     this._slider.getContainerElement().addListener("dragmove", this._onDragmoveSlider, this);
     this._slider.getContainerElement().addListener("dragstop", this._onDragstopSlider, this);
     this._slider.addListener("keypress", this._onKeypressSlider, this);
+    this._slider.addListener("resize", this._onResize, this);
 
     if (orientation != null) {
       this.setOrientation(orientation);
@@ -134,7 +135,7 @@ qx.Class.define("qx.ui.slider.Slider",
 
   members :
   {
-    __valueToPixel : function(value)
+    _valueToPixel : function(value)
     {
       var sliderRange = this._scrollSize - this._sliderSize;
       var valueRange = (this.getMaximum() - this.getMinimum()) / this.getSingleStep();
@@ -143,7 +144,7 @@ qx.Class.define("qx.ui.slider.Slider",
     },
 
 
-    __pixelToValue : function(pixelValue)
+    _pixelToValue : function(pixelValue)
     {
       var sliderRange = this._scrollSize - this._sliderSize;
       var valueRange = (this.getMaximum() - this.getMinimum()) / this.getSingleStep();
@@ -225,7 +226,7 @@ qx.Class.define("qx.ui.slider.Slider",
 
       var halfSliderSize = Math.round(this._sliderSize / 2);
       var difference = relativeClickPosition - this._sliderPos;
-      var pixelPageStep = this.__valueToPixel(this.getPageStep());
+      var pixelPageStep = this._valueToPixel(this.getPageStep());
 
       if (
         Math.abs(difference) <= pixelPageStep ||
@@ -259,7 +260,7 @@ qx.Class.define("qx.ui.slider.Slider",
     {
       var isHorizontal = this.getOrientation() === "horizontal";
 
-      var size = this.getComputedLayout();
+      var size = this.getComputedInnerSize();
       this._scrollSize = isHorizontal ? size.width : size.height;
 
       var sliderSize = this._slider.getComputedLayout();
@@ -358,13 +359,13 @@ qx.Class.define("qx.ui.slider.Slider",
       }
 
       if (updateValue) {
-        this.scrollTo(this.__pixelToValue(sliderPosition));
+        this.scrollTo(this._pixelToValue(sliderPosition));
       }
     },
 
 
     _updateSliderPosition : function() {
-      this._setSliderPosition(this.__valueToPixel(this.getValue()), false);
+      this._setSliderPosition(this._valueToPixel(this.getValue()), false);
     },
 
 

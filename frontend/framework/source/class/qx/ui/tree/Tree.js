@@ -330,6 +330,15 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    /**
+     * Get the tree item after the given item
+     *
+     * @param treeItem {AbstractTreeItem} The tree item to get the item after
+     * @param invisible {Boolean?true} Whether invisible/closed tree items
+     *     should be returned as well.
+     * @return {AbstractTreeItem?null} The item after the given item. May be
+     *     <code>null</code> if the item is the last item.
+     */
     getNextSiblingOf : function(treeItem, invisible)
     {
       if ((invisible !== false || treeItem.isOpen()) && treeItem.hasChildren()) {
@@ -355,6 +364,15 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    /**
+     * Get the tree item before the given item
+     *
+     * @param treeItem {AbstractTreeItem} The tree item to get the item before
+     * @param invisible {Boolean?true} Whether invisible/closed tree items
+     *     should be returned as well.
+     * @return {AbstractTreeItem?null} The item before the given item. May be
+     *     <code>null</code> if the item is the first item.
+     */
     getPreviousSiblingOf : function(treeItem, invisible)
     {
       var parent = treeItem.getParent();
@@ -418,6 +436,7 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    // overridden
     scrollItemIntoView : function(item, position)
     {
       // if the last item is selected the content should be scrolled down to
@@ -430,10 +449,9 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    getInnerHeight : function()
-    {
-      var computed = this.getComputedInnerSize();
-      return computed ? computed.height : 0;
+    // interface implementation
+    getInnerHeight : function() {
+      return this.getVisibleContentSize().height;
     },
 
 
@@ -443,6 +461,15 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Returns the tree item, which contains the given widget.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to get the containing tree
+     *   item for.
+     * @return {AbstractTreeItem|null} The tree item containing the widget. If the
+     *     widget is not inside of any tree item <code>null</code> is returned.
+     */
     _getTreeItem : function(widget)
     {
       while (widget)
@@ -529,6 +556,12 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    /**
+     * Event hander for click events, which could change a tree item's open
+     * state.
+     *
+     * @param e {qx.event.type.Mouse} The mouse click event object
+     */
     _onOpen : function(e)
     {
       var treeItem = this._getTreeItem(e.getTarget());

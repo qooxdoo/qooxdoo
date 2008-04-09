@@ -47,7 +47,8 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
     getTree : function()
     {
       var tree = new qx.ui.tree.Tree().set({
-        width : 200
+        width : 200,
+        height : 400
       });
 
       var root = new qx.ui.tree.TreeFolder("root");
@@ -79,6 +80,11 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       var te2_1 = new qx.ui.tree.TreeFolder("Presets");
       var te2_2 = new qx.ui.tree.TreeFolder("Sent");
       var te2_3 = new qx.ui.tree.TreeFolder("Trash");
+
+      for (var i=0; i<100; i++) {
+        te2_3.add(new qx.ui.tree.TreeFile("Junk #" + i));
+      }
+
       var te2_4 = new qx.ui.tree.TreeFolder("Data");
       var te2_5 = new qx.ui.tree.TreeFolder("Edit");
 
@@ -224,6 +230,20 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       vShowItems.addListener("execute", function(e) {
         alert(("" + tree.getItems()).replace(",", "\n", "g"));
+      });
+
+      var vShowOpenItems = new qx.ui.form.Button("Show Open Items");
+      grid.add(vShowOpenItems, row++, 1);
+
+      vShowOpenItems.addListener("execute", function(e) {
+        alert(("" + tree.getSelectableItems()).replace(",", "\n", "g"));
+      });
+
+      var vShowSelectedItems = new qx.ui.form.Button("Show Selected Items");
+      grid.add(vShowSelectedItems, row++, 1);
+
+      vShowSelectedItems.addListener("execute", function(e) {
+        alert(("" + tree.getSelectedItems()).replace(",", "\n", "g"));
       });
 
       return commandFrame;
