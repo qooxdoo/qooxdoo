@@ -47,7 +47,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     // this.setBackgroundColor("red");
 
     this._canvasLayout = new qx.ui.layout.Canvas();
-    // this._canvasLayout.setAppearance("group-box-legend");
     this.setLayout(this._canvasLayout);
 
     // Sub widgets
@@ -60,7 +59,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     if (vIcon != null) {
       this.setIcon(vIcon);
     }
-   
+
     // Listen to the resize of the legend
     this._legendObject.addListener("resize", this._repositionFrame, this);
   },
@@ -78,8 +77,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       refine : true,
       init   : "group-box"
     },
-    
-    
+
+
     /**
      * Property for setting the position of the legend.
      */
@@ -115,7 +114,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     {
       this._legendObject = new qx.ui.basic.Atom();
       this._legendObject.setAppearance("group-box-legend");
-      
+
       this._canvasLayout.add(this._legendObject, 10, 0);
     },
 
@@ -140,7 +139,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     ---------------------------------------------------------------------------
     */
     /**
-     * Apply method for applying the legend position. It calls the 
+     * Apply method for applying the legend position. It calls the
      * {@link _repositionFrame} method.
      */
     _applyLegendPosition: function(e) {
@@ -148,10 +147,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
         this._repositionFrame();
       }
     },
-    
-    
+
+
     /**
-     * Repositions the frame of the group box dependent on the 
+     * Repositions the frame of the group box dependent on the
      * {@link legendPosition} property.
      */
     _repositionFrame: function() {
@@ -159,10 +158,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       var height = this._legendObject.getComputedLayout().height;
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
-        this._canvasLayout.addLayoutProperty(this._frameObject, "top", height / 2);   
+        this._canvasLayout.addLayoutProperty(this._frameObject, "top", Math.round(height / 2));
       } else if (this.getLegendPosition() == "top") {
         this._canvasLayout.addLayoutProperty(this._frameObject, "top", height);
-      }      
+      }
     },
 
 
@@ -175,14 +174,14 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
     /**
      * Accessor method for the pane sub widget.
-     * 
+     *
      * @type member
      * @return {qx.ui.core.Widget} pane widget
      */
     getPane: function() {
       return this._frameObject;
     },
-    
+
 
     /**
      * Accessor method for the legend sub widget.
