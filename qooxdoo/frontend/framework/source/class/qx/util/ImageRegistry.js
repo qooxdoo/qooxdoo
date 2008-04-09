@@ -28,7 +28,7 @@ qx.Class.define("qx.util.ImageRegistry",
   type : "singleton",
 
 
-  construct : function () 
+  construct : function ()
   {
     this.__registry = this._padQxImageInfo(window.qximageinfo);
   },
@@ -45,7 +45,7 @@ qx.Class.define("qx.util.ImageRegistry",
     __registry : {},
 
 
-    _padQxImageInfo : function(qximageinfo) 
+    _padQxImageInfo : function(qximageinfo)
     {
       if (!qximageinfo)
       {
@@ -116,7 +116,7 @@ qx.Class.define("qx.util.ImageRegistry",
      */
     resolve : function(iconUri)
     {
-      var value = this.__registry[iconUri];
+      var value = this.__registry[qx.io.Alias.getInstance().resolve(iconUri)];
       if (value == null) {
         throw new Error("Could not resolve icon uri: " + iconUri);
       }
