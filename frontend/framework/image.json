@@ -1,45 +1,59 @@
 {
   // FRAMEWORK IMAGE CLIPPING AND COMBINING JOBS
-  "common" :
+  "jobs" :
   {
-    "let" :
+    "common" :
     {
-      "RESURI" : "${PWD}/resource",
-      "MODERN" : "qx/decoration/Modern"
-    }
-
-  },
-
-  "image-clipping" :
-  {
-    "extend" : ["common"],
-
-    "slice-images" :
-    {
-      "images" :
+      "let" :
       {
-        "${RESURI}/${MODERN}/form/button-pressed.png" :
+        "RESURI" : "./source/resource",
+        "MODERN" : "qx/decoration/Modern"
+      },
+      
+      "cache" :
+      {
+        "path" : "../cache"
+      }
+ 
+
+    },
+
+
+    "image-clipping" :
+    {
+      "extend" : ["common"],
+
+      "slice-images" :
+      {
+        "images" :
         {
-          "prefix" : "button-pressed",
-          "border-width" : 5
+         // this is the input file
+          "${RESURI}/${MODERN}/form/button-pressed.png" :
+          {
+            "prefix" : "button-pressed",
+            "border-width" : 5
+          }
         }
       }
-    }
-  },
+    },
 
-  "image-combine" :
-  {
-    "extend" : ["common"],
 
-    "combine-images" :
+    "image-combine" :
     {
-      "images" :
-      [
-       "${RESURI}/${MODERN}/form/button-tb-combined.png": {
-          "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png"],
-          "layout" : "horizontal"
-       }
-      ]
+      "extend" : ["common"],
+
+      "combine-images" :
+      {
+        "images" :
+        {
+         // this is the output file
+         "${RESURI}/${MODERN}/form/button-tb-combined.png": 
+         {
+            "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png"],
+            "layout" : "horizontal"
+         }
+        }
+      }
     }
   }
 }
