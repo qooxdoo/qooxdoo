@@ -437,7 +437,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Padding of the widget (top) */
     paddingTop :
     {
-      check : "Number",
+      check : "Integer",
       init : 0,
       apply : "_applyLayoutChange",
       themeable : true
@@ -447,7 +447,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Padding of the widget (right) */
     paddingRight :
     {
-      check : "Number",
+      check : "Integer",
       init : 0,
       apply : "_applyLayoutChange",
       themeable : true
@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Padding of the widget (bottom) */
     paddingBottom :
     {
-      check : "Number",
+      check : "Integer",
       init : 0,
       apply : "_applyLayoutChange",
       themeable : true
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Padding of the widget (left) */
     paddingLeft :
     {
-      check : "Number",
+      check : "Integer",
       init : 0,
       apply : "_applyLayoutChange",
       themeable : true
@@ -852,11 +852,11 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (left == null || top == null || width == null || height == null)
-        {
-          this.debug("left: " + left + ", top: " + top + ", width: " + width + ", height: " + height);
-          throw new Error("Something went wrong with the layout of " + this.toString() + "!");
-        }
+        var msg = "Something went wrong with the layout of " + this.toString() + "!";
+        this.assertInteger(left, "Wrong 'left' argument. " + msg);
+        this.assertInteger(top, "Wrong 'top' argument. " + msg);
+        this.assertInteger(width, "Wrong 'width' argument. " + msg);
+        this.assertInteger(height, "Wrong 'height' argument. " + msg);
       }
 
       // Cache some often used stuff in local variables
@@ -1232,7 +1232,16 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (layout.hasLayoutChildren())
         {
-          return layout.getSizeHint();
+          var hint = layout.getSizeHint();
+
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            var msg = "The layout of the widget" + this.toString() + " returned an invalid size hint!";
+            this.assertInteger(hint.width, "Wrong 'left' argument. " + msg);
+            this.assertInteger(hint.height, "Wrong 'top' argument. " + msg);
+          }
+
+          return hint;
         }
         else
         {
