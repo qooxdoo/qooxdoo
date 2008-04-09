@@ -33,36 +33,15 @@
 #</pre>
 ##
 
-
-
-import sys
-import os
-import os.path
-import glob
-import subprocess
+import sys, os, glob
+from generator.ImageInfo import ImageInfo
 
 
 class ImageClipping(object):
-    def __init__(self):
-        pass
-
-    def get_file_info(self, filename):
-        print filename
-        if not os.path.exists(filename):
-            print "Error: Unable to find file '%'" % filename
-            sys.exit(1)
-
-        cmd = "identify %s" % filename
-        pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout
-        lines = pipe.readlines()
-        try:
-            info = lines[0].split()
-        except IndexError:
-            print "Error running 'identify %s', read attributes are: " % filename, lines
-            sys.exit(1)
-
-        width, height = [int(x) for x in info[2].split("x")]
-        return (width, height)
+    def __init__(self, console, cache):
+        self._console = console
+        self._cache   = cache
+        self._imageInfo = ImageInfo(self._console, self._cache)
 
 
     def split_grid(self, file, source, dest, border):
@@ -70,7 +49,7 @@ class ImageClipping(object):
         source_file = os.path.join(source, file) + ".png"
         dest_file = os.path.join(dest, file)
 
-        width, height = get_file_info(source_file)
+        width, height, type = self._imageInfo.getImageInfo(source_file)
 
         crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
 
@@ -88,10 +67,8 @@ class ImageClipping(object):
         os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
 
 
-    def combine_images(self, files, combined, horizontal, config):
-
+    def combine(self, combined, files, horizontal, config=[]):
         montage_cmd = "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s"
-
         if horizontal:
             orientation = "x1"
         else:
@@ -101,25 +78,26 @@ class ImageClipping(object):
         clips = []
         top = 0
         left = 0
+        allfiles = []
         for file in files:
+            allfiles.extend(glob.glob(file))
+        for file in allfiles:
             clips.append(file)
-            width, height = get_file_info(file)
-
-            config.append('"%s": ["%s", %s, %s, %s, %s]' % (file, combined, -left, -top, width, height))
-
+            imginfo = self._imageInfo.getImageInfo(file)
+            width, height = imginfo['width'], imginfo['height']
+            config.append({'file':file, 'combined':combined, 'left': -left,
+                           'top': -top, 'width':width, 'height':height})
             if horizontal:
                 left += width
             else:
                 top += height
-
         os.system(montage_cmd % (orientation, " ".join(clips), combined))
 
-        width, height = get_file_info(combined)
-        config.append('"%s": ["%s", 0, 0, %s, %s]' % (combined, combined, width, height))
+        return config
 
 
     def add_file(self, file, config):
-        width, height = get_file_info(file)
+        width, height, type = self._imageInfo.getImageInfo(file)
         config.append('"%s": ["%s", 0, 0, %s, %s]' % (file, file, width, height))
 
 

@@ -33,6 +33,7 @@ from generator.TreeLoader import TreeLoader
 from generator.TreeCompiler import TreeCompiler
 from generator.LibraryPath import LibraryPath
 from generator.ImageInfo import ImageInfo
+from generator.ImageClipping import ImageClipping
 import simplejson
 from robocopy import robocopy
 
@@ -65,6 +66,7 @@ class Generator:
         self._imageInfo      = ImageInfo(self._console, self._cache)
         self._resourceHandler= _ResourceHandler(self)
         self._shellCmd       = _ShellCmd(self)
+        self._imageClipper   = ImageClipping(self._console, self._cache)
 
         # Start job
         self.run()
@@ -201,6 +203,8 @@ class Generator:
             self.runCopyFiles()
             self.runDependencyDebug(parts, packages, variants)
             self.runShellCommands()
+            #self.runImageSlicing()
+            self.runImageCombining()
 
 
 
@@ -504,6 +508,43 @@ class Generator:
         self._console.outdent()
 
 
+    def runImageSlicing(self):
+        """Go through a list of images and slice each one into subimages"""
+        if not self._config.get("slice-images", False):
+            return
+
+        images = self._config.get("slice-images/images", {})
+        for image in images:
+            prefix = image['prefix']
+            border_width = image['border-width']
+            self._imageClipper.slice(image, prefix, border_width)
+        
+    
+    def runImageCombining(self):
+        """Go through a list of images and create them as combination of other images"""
+        if not self._config.get("combine-images", False):
+            return
+
+        config = []
+        images = self._config.get("combine-images/images", {})
+        for image, imgspec in images.iteritems():
+            input  = imgspec['input']
+            layout = imgspec['layout'] == "horizontal"
+            # create the combined image
+            subconfigs = self._imageClipper.combine(image, input, layout)
+            for sub in subconfigs:
+                config.append('"%s": ["%s", %s, %s, %s, %s]' % (sub['file'], 
+                    sub['combined'], sub['left'], sub['top'], sub['width'], sub['height']))
+            # store meta data for this combined image
+            bname = os.path.basename(image)
+            ri = bname.rfind('.')
+            if ri > -1:
+                bname = bname[:ri]
+            bname += '.meta'
+            meta_fname = os.path.join(os.path.dirname(image), bname)
+            filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
+            # cache meta data
+        return
 
 
 
