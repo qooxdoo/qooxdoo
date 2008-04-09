@@ -157,7 +157,7 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
-     * @param align? {String} Alignment of the element. Allowed values:
+     * @param align {String} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be undefined.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
@@ -272,11 +272,11 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
-     * @param alignX? {String} Alignment of the element. Allowed values:
+     * @param alignX {String} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be undefined.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
-     * @param alignY? {String} Alignment of the element. Allowed values:
+     * @param alignY {String} Alignment of the element. Allowed values:
      *   <code>top</code> or <code>bottom</code>. Could also be undefined.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
