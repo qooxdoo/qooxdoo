@@ -9,12 +9,12 @@
         "RESURI" : "./source/resource",
         "MODERN" : "qx/decoration/Modern"
       },
-      
+
       "cache" :
       {
         "path" : "../cache"
       }
- 
+
 
     },
 
@@ -46,12 +46,18 @@
       {
         "images" :
         {
-         // this is the output file
-         "${RESURI}/${MODERN}/form/button-tb-combined.png": 
-         {
-            "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png"],
-            "layout" : "horizontal"
-         }
+          // this is the output file
+          "${RESURI}/${MODERN}/form/button-tb-combined.png":
+          {
+             "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png"],
+             "layout" : "horizontal"
+          },
+
+          "${RESURI}/${MODERN}/checkradio-combined.png":
+          {
+             "input"  : ["${RESURI}/${MODERN}/form/checkbox-*.png", "${RESURI}/${MODERN}/form/radiobutton-*.png"],
+             "layout" : "horizontal"
+          }
         }
       }
     }
