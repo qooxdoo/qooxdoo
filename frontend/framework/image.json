@@ -1,0 +1,46 @@
+{
+  // FRAMEWORK IMAGE CLIPPING AND COMBINING JOBS
+  "common" : 
+  {
+    "let" :
+    {
+      "RESURI" : "./resource",
+      "MODERN" : "qx/decoration/Modern"
+    }
+    
+  },
+
+  "image-clipping" :
+  {
+    "extend" : ["common"],
+
+    "clip-images" :
+    {
+      "images" :
+      {
+        "${RESURI}/${MODERN}/form/button-pressed.png" :
+        {
+          "prefix" : "button-pressed",
+          "border-width" : 5
+        }
+      }
+    }
+  },
+
+  "image-combine" :
+  {
+    "extend" : ["common"],
+
+    "combine-images" :
+    {
+      "images" : 
+      [
+       {
+          "output" : "${RESURI}/${MODERN}/form/button-tb-combined",
+          "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png" ],
+          "layout" : "horizontal"
+       }
+      ]
+    }
+  }
+}
