@@ -15,7 +15,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     this.base(arguments);
 
     if (label) {
-      this._label.setContent(label);
+      this.setLabel(label);
     }
   },
 

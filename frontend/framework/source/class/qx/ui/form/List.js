@@ -148,18 +148,6 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getScrollTop : function() {
-      return 0;
-    },
-
-
-    // interface implementation
-    setScrollTop : function(scroll) {
-      return;
-    },
-
-
-    // interface implementation
     getSelectableItems : function() {
       return this.getContent().getLayoutChildren();
     },
@@ -177,9 +165,6 @@ qx.Class.define("qx.ui.form.List",
       var computed = this.getContent().getComputedInnerSize();
       return computed ? computed.height : 0;
     },
-
-
-
 
 
 

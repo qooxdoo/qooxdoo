@@ -16,7 +16,7 @@ qx.Class.define("qx.ui.tree.TreeFile",
     this.base(arguments);
 
     if (label) {
-      this._label.setContent(label);
+      this.setLabel(label);
     }
   },
 

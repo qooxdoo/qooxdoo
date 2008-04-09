@@ -6,6 +6,10 @@
  * @appearance tree-element-icon {qx.legacy.ui.basic.Image}
  * @appearance tree-element-label {qx.legacy.ui.basic.Label}
  */
+
+/*
+#use(qx.locale.Manager)
+*/
 qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {
   extend : qx.ui.core.Widget,
@@ -113,6 +117,18 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       apply : "_applyIcon",
       nullable : true,
       themeable : true
+    },
+
+
+    /**
+     * The label/caption/text of the qx.legacy.ui.basic.Atom instance
+     */
+    label :
+    {
+      check : "Label",
+      apply : "_applyLabel",
+      init : "",
+      dispose : true
     }
   },
 
@@ -144,7 +160,15 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      *
      * @return {qx.ui.basic.Label} The label widget
      */
-    getLabelObject : function() {
+    getLabelObject : function()
+    {
+      if (!this._label)
+      {
+        this._label = new qx.ui.basic.Label().set({
+          appearance: this.getAppearance() + "-label"
+        });
+      }
+
       return this._label;
     },
 
@@ -154,7 +178,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      *
      * @return {qx.ui.basic.Icon} The tree item's icon widget.
      */
-    getIconObject : function() {
+    getIconObject : function()
+    {
+      if (!this._icon)
+      {
+        this._icon = new qx.ui.basic.Image().set({
+          appearance: this.getAppearance() + "-icon"
+        });
+        this.__updateIcon();
+      }
+
       return this._icon;
     },
 
@@ -255,17 +288,14 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addIcon : function()
     {
-      if (!this._icon)
-      {
-        this._icon = new qx.ui.basic.Image().set({
-          appearance: this.getAppearance() + "-icon"
-        });
+      var icon = this.getIconObject();
+
+      if (this._iconAdded) {
+        this._layout.remove(icon);
       }
-      else
-      {
-        this._layout.remove(this._icon);
-      }
-      this._layout.add(this._icon, {align: "middle"});
+
+      this._layout.add(icon, {align: "middle"});
+      this._iconAdded = true;
     },
 
 
@@ -278,22 +308,20 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addLabel : function(text)
     {
-      if (!this._label)
-      {
-        this._label = new qx.ui.basic.Label().set({
-          appearance: this.getAppearance() + "-label"
-        });
-      }
-      else
-      {
-        this._layout.remove(this._label);
+      var label = this.getLabelObject();
+
+      if (this._labelAdded) {
+        this._layout.remove(label);
       }
 
       if (text) {
-        this._label.setContent(text);
+        this.setLabel(text);
+      } else {
+        label.setContent(this.getLabel());
       }
 
-      this._layout.add(this._label, {align: "middle"});
+      this._layout.add(label, {align: "middle"});
+      this._labelAdded = true;
     },
 
 
@@ -308,12 +336,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       this.base(arguments, state);
 
-      if (this._icon) {
-        this._icon.addState(state);
-      }
-
-      if (this._label) {
-        this._label.addState(state);
+      var children = this.getLayout().getChildren();
+      for (var i=0,l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        if (child.addState) {
+          children[i].addState(state);
+        }
       }
     },
 
@@ -323,12 +352,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       this.base(arguments, state);
 
-      if (this._icon) {
-        this._icon.removeState(state);
-      }
-
-      if (this._label) {
-        this._label.removeState(state);
+      var children = this.getLayout().getChildren();
+      for (var i=0,l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        if (child.addState) {
+          children[i].removeState(state);
+        }
       }
     },
 
@@ -351,9 +381,27 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+    __updateIcon : function()
+    {
+      var icon = this.getIconObject();
+
+      if (this.isOpen() && this.getIconOpened()) {
+        icon.setSource(this.getIconOpened())
+      } else {
+        icon.setSource(this.getIcon())
+      }
+    },
+
+
     // property apply
     _applyIcon : function(value, old) {
-      this._icon.setSource(value)
+      this.__updateIcon();
+    },
+
+
+    // property apply
+    _applyLabel : function(value, old) {
+      this.getLabelObject().setContent(value);
     },
 
 
@@ -368,14 +416,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this._open.setOpen(value);
       }
 
-      if (this._icon)
-      {
-        if (value && this.getIconOpened()) {
-          this._icon.setSource(this.getIconOpened())
-        } else {
-          this._icon.setSource(this.getIcon())
-        }
-      }
+      this.__updateIcon();
       value ? this.addState("opened") : this.removeState("opened");
     },
 
