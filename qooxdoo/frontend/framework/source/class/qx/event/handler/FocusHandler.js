@@ -291,7 +291,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
     {
       var children = parent.getChildren();
       var child;
-      var len = children.length;
+      var len = (children) ? children.length : 0;
 
       for (var i=0; i<len; i++)
       {
