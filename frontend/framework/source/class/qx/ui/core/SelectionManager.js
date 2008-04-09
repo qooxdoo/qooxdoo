@@ -1525,7 +1525,10 @@ qx.Class.define("qx.ui.core.SelectionManager",
         return this.getFirst();
       }
 
-      return this.getMultiColumnSupport() ? (this.getUnder(vItem) || this.getLast()) : this.getNext(vItem);
+      return (this.getMultiColumnSupport()
+        ? (this.getUnder(vItem) || this.getLast())
+        : this.getNext(vItem)
+      );
     },
 
 

@@ -200,12 +200,11 @@ qx.Class.define("qx.ui.core.RadioManager",
     },
 
 
+
     /**
-     * TODOC
+     * Remove an item from the radio manager
      *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {void}
+     * @param vItem {IRadioItem} The item to remove
      */
     remove : function(vItem)
     {
@@ -264,12 +263,11 @@ qx.Class.define("qx.ui.core.RadioManager",
     ---------------------------------------------------------------------------
     */
 
+
     /**
-     * TODOC
+     * Select the item following the given item
      *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {void}
+     * @param vItem {IRadioItem} The item to select the next item of
      */
     selectNext : function(vItem)
     {
@@ -296,12 +294,11 @@ qx.Class.define("qx.ui.core.RadioManager",
 
 
     /**
-     * TODOC
+     * Select the item previous the given item
      *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {void}
+     * @param vItem {IRadioItem} The item to select the previous item of
      */
+
     selectPrevious : function(vItem)
     {
       var vIndex = this._items.indexOf(vItem);
@@ -326,12 +323,11 @@ qx.Class.define("qx.ui.core.RadioManager",
     },
 
 
+
     /**
-     * TODOC
+     * Select an item by its internal index
      *
-     * @type member
-     * @param vIndex {var} TODOC
-     * @return {void}
+     * @param vIndex {Integer} The index if the item to select.
      */
     _selectByIndex : function(vIndex)
     {

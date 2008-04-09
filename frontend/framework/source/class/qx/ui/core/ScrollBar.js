@@ -25,6 +25,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
 {
   extend : qx.ui.core.Widget,
 
+  /**
+   * @param orientation {String?"horizontal"} The initial scroll bar orientation
+   */
   construct : function(orientation)
   {
     this.base(arguments);
@@ -56,6 +59,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   properties :
   {
+    /**
+     * The scroll bar orientation
+     */
     orientation :
     {
       check : [ "horizontal", "vertical" ],
@@ -63,6 +69,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
       apply : "_applyOrientation"
     },
 
+
+    /**
+     * The current scroll position
+     */
     value :
     {
       check : "Integer",
@@ -71,13 +81,29 @@ qx.Class.define("qx.ui.core.ScrollBar",
       event : "changeValue"
     },
 
-    maximum :
+
+    /**
+     * The size of the scroll content
+     */
+    contentSize :
     {
       check : "Integer",
       init : 100,
-      apply : "_applyMaximum"
+      apply : "_applyContentSize"
     },
 
+
+    /**
+     * The size of the scroll container
+     */
+    containerSize :
+    {
+      check : "Integer",
+      init: 50,
+      apply : "_applyContainerSize"
+    },
+
+    // overridden
     appearance :
     {
       refine : true,
@@ -89,11 +115,17 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   members :
   {
+    /**
+     * Change listener for sider value changes.
+     *
+     * @param e {qx.event.type.Change} The change event object
+     */
     _onChangeValueSlider : function(e) {
       this.setValue(e.getValue());
     },
 
 
+    // property apply
     _applyOrientation : function(value, old)
     {
       var isHorizontal = value === "horizontal";
@@ -130,12 +162,55 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
+    // property apply
     _applyValue : function(value, old) {
       this._slider.setValue(value);
     },
 
-    _applyMaximum : function(value, old) {
-      this._slider.setMaximum(value);
+
+    /**
+     * Updates the slider size and computes the new slider maximum.
+     */
+    __updateSliderSize : function()
+    {
+      var size = this._slider.getComputedInnerSize();
+      // if the slider has not yet been layouted, listen for the resize event
+      if (!size)
+      {
+        this._slider.addListener("resize", function(e)
+        {
+          this._slider.removeListener("resize", arguments.callee, this);
+          this.__syncPaneSizes();
+        }, this);
+        return;
+      }
+
+      var isHorizontal = this.getOrientation() === "horizontal";
+      var scrollSize = isHorizontal ? size.width : size.height;
+
+      // update maximum
+      this._slider.setMaximum(Math.max(0, this.getContentSize() - this.getContainerSize()));
+
+      // compute and set new slider size
+      var sliderSize = Math.min(scrollSize, Math.round(scrollSize * this.getContainerSize() / this.getContentSize()));
+
+      if (isHorizontal) {
+        this._slider._slider.setWidth(sliderSize);
+      } else {
+        this._slider._slider.setHeight(sliderSize);
+      }
+    },
+
+
+    // property apply
+    _applyContentSize : function(value, old) {
+      this.__updateSliderSize();
+    },
+
+
+    // property apply
+    _applyContainerSize : function(value, old) {
+      this.__updateSliderSize();
     }
 
   }

@@ -66,13 +66,18 @@ qx.Interface.define("qx.ui.core.ISelectionContainer",
     /**
      * Set the scoll top position of the selection container
      *
-     * @return {Integer} The current scroll top position inside of the selection container
+     * @param scroll {Integer} The current scroll top position inside of the selection container
      */
     setScrollTop : function(scroll) {
       this.assertNumber(scroll)
     },
 
 
+    /**
+     * Scroll the given item into the container's visible area.
+     *
+     * @param item {qx.ui.core.Widget} The item to scroll into view
+     */
     scrollItemIntoView : function(item) {
       this.assertInstance(item, qx.ui.core.Widget);
     },
