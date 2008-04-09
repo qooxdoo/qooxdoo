@@ -1,20 +1,20 @@
 {
   // FRAMEWORK IMAGE CLIPPING AND COMBINING JOBS
-  "common" : 
+  "common" :
   {
     "let" :
     {
-      "RESURI" : "./resource",
+      "RESURI" : "${PWD}/resource",
       "MODERN" : "qx/decoration/Modern"
     }
-    
+
   },
 
   "image-clipping" :
   {
     "extend" : ["common"],
 
-    "clip-images" :
+    "slice-images" :
     {
       "images" :
       {
@@ -33,11 +33,10 @@
 
     "combine-images" :
     {
-      "images" : 
+      "images" :
       [
-       {
-          "output" : "${RESURI}/${MODERN}/form/button-tb-combined",
-          "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png" ],
+       "${RESURI}/${MODERN}/form/button-tb-combined.png": {
+          "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png"],
           "layout" : "horizontal"
        }
       ]
