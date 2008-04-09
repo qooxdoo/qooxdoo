@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This class represents a selection and manage incoming events for widgets
+ * This class represents a selection and manages incoming events for widgets
  * which need selection support.
  */
 qx.Class.define("qx.ui.core.SelectionManager",
@@ -394,10 +394,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
      * @param vTopLeft {var} TODOC
      * @return {void}
      */
-    scrollItemIntoView : function(vItem, vTopLeft)
-    {
-      // TODO08: ScrollIntoView support still missing
-      // vItem.scrollIntoView(vTopLeft);
+    scrollItemIntoView : function(item) {
+      this.getBoundedWidget().scrollItemIntoView(item);
     },
 
 
@@ -1661,7 +1659,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
         if (nextItem != this.getLeadItem())
         {
           // be sure that the top is reached
-          this.scrollItemIntoView(nextItem, true);
+          this.scrollItemIntoView(nextItem);
           break;
         }
 

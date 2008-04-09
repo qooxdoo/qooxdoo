@@ -28,11 +28,20 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
     {
       this.base(arguments);
 
+      this._container = new qx.ui.core.Widget().set({
+        layout: new qx.ui.layout.HBox().set({
+          spacing: 20
+        }),
+        padding: 30
+      });
+      this.getRoot().add(this._container);
+
+
       var tree = this.getTree();
-      this.getRoot().add(tree, 20, 48);
+      this._container.getLayout().add(tree);
       this._tree = tree;
 
-      this.getRoot().add(this.getCommandFrame(), 250, 48);
+      this._container.getLayout().add(this.getCommandFrame());
     },
 
 
@@ -260,10 +269,9 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
 
     _resetTree : function()
     {
-      var root = this.getRoot();
-      root.remove(this._tree);
+      this._container.getLayout().remove(this._tree);
       this._tree = this.getTree();
-      root.add(this._tree);
+      this._container.getLayout().addAt(this._tree, 0);
 
       this._tree.getManager().addListener("changeSelection", this._updateControls, this);
       this._updateControls();

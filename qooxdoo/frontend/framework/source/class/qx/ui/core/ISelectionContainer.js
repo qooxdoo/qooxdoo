@@ -27,26 +27,62 @@ qx.Interface.define("qx.ui.core.ISelectionContainer",
   members :
   {
     /**
+     * Get all selectable items
      *
+     * @return {qx.ui.core.Widget[]} An array of all selectable items
+     */
+    getSelectableItems : function() {},
+
+
+    /**
+     * Given the selected item, return the next selectable item.
+     *
+     * @param selectedItem {qx.ui.core.Widget} The currently selected item
+     * @return {qx.ui.core.Widget|null} The next selectable item after the selected
+     *     item. May be <code>null</code> if the item is the last item.
      */
     getNextSelectableItem : function(selectedItem) {
       this.assertInstance(selectedItem, qx.ui.core.Widget);
     },
 
-    getPreviousSelectableItem : function(selectedItem) {
-      return true;
-    },
+    /**
+     * Given the selected item, return the previous selectable item.
+     *
+     * @param selectedItem {qx.ui.core.Widget} The currently selected item
+     * @return {qx.ui.core.Widget|null} The previous selectable item after the selected
+     *     item. May be <code>null</code> if the item is the first item.
+     */
+    getPreviousSelectableItem : function(selectedItem) {},
 
-    getScrollTop : function() {
-      this.assertInstance(selectedItem, qx.ui.core.Widget);
-    },
 
+    /**
+     * Get the current scoll top position
+     *
+     * @return {Integer} The current scroll top position inside of the container
+     */
+    getScrollTop : function() {},
+
+
+    /**
+     * Set the scoll top position of the selection container
+     *
+     * @return {Integer} The current scroll top position inside of the selection container
+     */
     setScrollTop : function(scroll) {
       this.assertNumber(scroll)
     },
 
-    getSelectableItems : function() {},
 
+    scrollItemIntoView : function(item) {
+      this.assertInstance(item, qx.ui.core.Widget);
+    },
+
+
+    /**
+     * Get the inner height of the container.
+     *
+     * @return {Integer} The inner height of the selection container
+     */
     getInnerHeight : function() {}
   }
 });

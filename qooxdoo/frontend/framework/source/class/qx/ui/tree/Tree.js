@@ -398,18 +398,6 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     // interface implementation
-    getScrollTop : function() {
-      return 0;
-    },
-
-
-    // interface implementation
-    setScrollTop : function(scroll) {
-      return;
-    },
-
-
-    // interface implementation
     getSelectableItems : function() {
       return this.getRoot().getItems(true, false, this.getHideRoot());
     },
@@ -429,6 +417,17 @@ qx.Class.define("qx.ui.tree.Tree",
       return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
     },
 
+
+    scrollItemIntoView : function(item, position)
+    {
+      // if the last item is selected the content should be scrolled down to
+      // the end including the content paddings
+      if (!this.getNextSelectableItem(item)) {
+        this.setScrollTop(1000000);
+      } else {
+        this.base(arguments, item, position);
+      }
+    },
 
 
     getInnerHeight : function()
