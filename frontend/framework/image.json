@@ -6,7 +6,7 @@
     {
       "let" :
       {
-        "RESURI" : "./source/resource",
+        "RESPATH" : "./source/resource",
         "MODERN" : "qx/decoration/Modern"
       },
 
@@ -28,7 +28,7 @@
         "images" :
         {
          // this is the input file
-          "${RESURI}/${MODERN}/form/button-pressed.png" :
+          "${RESPATH}/${MODERN}/form/button-pressed.png" :
           {
             "prefix" : "button-pressed",
             "border-width" : 5
@@ -47,15 +47,19 @@
         "images" :
         {
           // this is the output file
-          "${RESURI}/${MODERN}/form/button-tb-combined.png":
+          "${RESPATH}/${MODERN}/form/button-tb-combined.png":
           {
-             "input"  : [ "${RESURI}/${MODERN}/form/button-pressed-*.png"],
-             "layout" : "horizontal"
+            "input"  : [ "${RESPATH}/${MODERN}/form/button-pressed-*.png"],
+            "layout" : "horizontal"
           },
 
-          "${RESURI}/${MODERN}/checkradio-combined.png":
+          "${RESPATH}/${MODERN}/checkradio-combined.png":
           {
-             "input"  : ["${RESURI}/${MODERN}/form/checkbox-*.png", "${RESURI}/${MODERN}/form/radiobutton-*.png"],
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/form/checkbox-*.png", 
+                "${RESPATH}/${MODERN}/form/radiobutton-*.png"
+              ],
              "layout" : "horizontal"
           }
         }
