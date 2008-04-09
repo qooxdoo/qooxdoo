@@ -169,6 +169,100 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Scrolls the element's content to the given left coordinate
+     *
+     * @type member
+     * @param value {Integer} The vertical position to scroll to.
+     * @param direct {Boolean?false} Whether the value should be applied
+     *   directly (without queueing).
+     * @return {void}
+     */
+    setScrollLeft : function(value, direct) {
+      this._hScrollBar.setValue(value);
+    },
+
+
+    /**
+     * Returns the scroll left position of the content
+     *
+     * @type member
+     * @return {Integer} Horizontal scroll position
+     */
+    getScrollLeft : function() {
+      return this._scrollPane.getScrollLeft();
+    },
+
+
+    /**
+     * Scrolls the element's content to the given top coordinate
+     *
+     * @type member
+     * @param value {Integer} The horizontal position to scroll to.
+     * @param direct {Boolean?false} Whether the value should be applied
+     *   directly (without queueing).
+     * @return {void}
+     */
+    setScrollTop : function(value, direct) {
+      this._vScrollBar.setValue(value);
+    },
+
+
+    /**
+     * Returns the scroll top position of the content
+     *
+     * @type member
+     * @return {Integer} Vertical scroll position
+     */
+    getScrollTop : function() {
+      return this._scrollPane.getScrollTop();
+    },
+
+
+    // interface implementation
+    scrollItemIntoView : function(item)
+    {
+      // This method can only work after the item has been rendered
+      // If this is not the case wiat for the item's resize event and
+      // try again.
+      if (!item.getComputedLayout()) {
+        item.addListener("resize", function(e)
+        {
+          item.removeListener("resize", arguments.callee, this);
+          this.scrollItemIntoView(item);
+        }, this);
+        return;
+      }
+
+      var height = item.getComputedLayout().height;
+      var content = this.getContent();
+      var left = 0;
+      var top = 0;
+      do {
+        var pos = item.getComputedLayout();
+        left += pos.left;
+        top += pos.top;
+        item = item.getLayoutParent();
+      } while (item && item !== content);
+
+      var scrollTop = this.getScrollTop();
+      var containerHeight = this._scrollPane.getComputedLayout().height;
+
+      if (scrollTop + containerHeight < top + height) {
+        this.setScrollTop(top + height - containerHeight);
+      }
+
+      if (scrollTop > top) {
+        this.setScrollTop(top);
+      }
+    },
+
 
 
     /*
