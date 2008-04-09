@@ -110,6 +110,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
     __assert : function(condition, comment, failMsg)
     {
       if (!condition) {
+        debugger;
         throw new qx.dev.unit.AssertionError(comment, failMsg);
       }
     },
@@ -246,6 +247,17 @@ qx.Mixin.define("qx.dev.unit.MAssert",
     },
 
 
+    assertInArray : function(value, array, msg)
+    {
+      this.__assert(
+        array.indexOf(value) > -1,
+        msg || "",
+        "The value '" + value + "' must have any of the values defined in the array '"
+        + qx.io.Json.stringify(array) + "'"
+      );
+    },
+
+
     /**
      * TODOC
      *
@@ -282,6 +294,15 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      */
     assertNumber : function(value, msg) {
       this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found " + value + "!");
+    },
+
+
+    assertInteger : function(value, msg) {
+      this.__assert(
+        typeof value === "number" && isFinite(value) && value % 1 === 0,
+        msg || "",
+        "Expected value to an integer number but found " + value + "!"
+      );
     },
 
 
