@@ -320,11 +320,12 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
-          result.push(child);
-        }
+        if (!child.isFocusRoot() && child.isEnabled())
+        {
+          if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
+            result.push(child);
+          }
 
-        if (!child.isFocusRoot()) {
           this.__collectAllAfter(child, widget, result);
         }
       }
@@ -356,7 +357,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!child.isFocusRoot())
+        if (!child.isFocusRoot() && child.isEnabled())
         {
           if (child.isTabable() && this.__compareTabOrder(widget, child) > 0) {
             result.push(child);
@@ -391,7 +392,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
 
         // Ignore focus roots completely
-        if (!child.isFocusRoot())
+        if (!child.isFocusRoot() && child.isEnabled())
         {
           if (child.isTabable())
           {
@@ -432,7 +433,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
 
         // Ignore focus roots completely
-        if (!child.isFocusRoot())
+        if (!child.isFocusRoot() && child.isEnabled())
         {
           if (child.isTabable())
           {
