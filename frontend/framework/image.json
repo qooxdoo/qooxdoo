@@ -47,10 +47,43 @@
         "images" :
         {
           // this is the output file
-          "${RESPATH}/${MODERN}/form/button-tb-combined.png":
+          "${RESPATH}/${MODERN}/button-tb-combined.png":
           {
-            "input"  : [ "${RESPATH}/${MODERN}/form/button-pressed-*.png"],
+            "input"  : 
+            [ 
+              "${RESPATH}/${MODERN}/form/button-*-[tb]*.png",
+              "${RESPATH}/${MODERN}/form/button-[tb]*.png",
+            ],
+            "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/button-lr-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${MODERN}/form/button-*-[lr].png",
+              "${RESPATH}/${MODERN}/form/button-[lr].png",
+            ],
             "layout" : "horizontal"
+          },
+
+          "${RESPATH}/${MODERN}/pane-tb-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/pane/pane-t*.png",
+                "${RESPATH}/${MODERN}/pane/pane-b*.png"
+              ],
+             "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/pane-lr-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/pane/pane-[lr].png"
+              ],
+             "layout" : "horizontal"
           },
 
           "${RESPATH}/${MODERN}/checkradio-combined.png":
