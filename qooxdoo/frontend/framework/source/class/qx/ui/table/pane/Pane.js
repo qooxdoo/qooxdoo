@@ -664,16 +664,29 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
 
       var rowWidth = paneModel.getTotalWidth();
+      var htmlArr;
 
-      var htmlArr = [
-        "<div style='",
-        "width: ", rowWidth, "px;",
-        "line-height: ", rowHeight, "px;",
-        "overflow: hidden;",
-        "'>",
-        this._getRowsHtml(firstRow, rowCount),
-        "</div>"
-      ];
+      // If there are any rows...
+      if (rowCount > 0)
+      {
+        // ... then create a div for them and add the rows to it.
+        htmlArr =
+          [
+            "<div style='",
+            "width: ", rowWidth, "px;",
+            "line-height: ", rowHeight, "px;",
+            "overflow: hidden;",
+            "'>",
+            this._getRowsHtml(firstRow, rowCount),
+            "</div>"
+          ];
+      }
+      else
+      {
+        // Otherwise, don't create the div, as even an empty div creates a
+        // white row in IE.
+        htmlArr = [ ];
+      }
 
       var elem = this.getElement();
       var data = htmlArr.join("");
@@ -687,8 +700,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
         // force immediate layouting
         // this prevents Firefox from flickering
+        //
+        // Does this really do anything?  It's referencing an object member
+        // but not doing anything with it...???  djl
         if (qx.core.Variant.isSet("qx.client", "gecko")) {
-          elem.childNodes[0].offsetHeight;
+          if (elem.childNodes.length > 0) {
+            elem.childNodes[0].offsetHeight;
+          }
         }
         self._layoutPending = null;
       }, 10);
