@@ -44,12 +44,13 @@ class ImageClipping(object):
         self._imageInfo = ImageInfo(self._console, self._cache)
 
 
-    def split_grid(self, file, source, dest, border):
+    def slice(self, source, dest_prefix, border):
 
-        source_file = os.path.join(source, file) + ".png"
-        dest_file = os.path.join(dest, file)
+        source_file = source
+        dest_file   = os.path.join(os.path.dirname(source), dest_prefix)
 
-        width, height, type = self._imageInfo.getImageInfo(source_file)
+        imginf        = self._imageInfo.getImageInfo(source_file)
+        width, height = imginf['width'], imginf['height']
 
         crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
 
@@ -95,76 +96,4 @@ class ImageClipping(object):
 
         return config
 
-
-    def add_file(self, file, config):
-        width, height, type = self._imageInfo.getImageInfo(file)
-        config.append('"%s": ["%s", 0, 0, %s, %s]' % (file, file, width, height))
-
-
-    def process_buttons(self, config):
-        files = [
-            "button-checked-focused",
-            "button-checked",
-            "button-preselected-focused",
-            "button-preselected",
-            "button-pressed",
-            "button-hovered",
-            "button-focused",
-            "button"
-        ]
-
-        for file in files:
-            split_grid(file, "source", "form", 4)
-
-
-        clips = []
-        for file in files:
-            for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
-                clips.append("form/%s-%s.png" % (file, suffix))
-        combine_images(clips, "button-tb-combined.png", False, config)
-
-        clips = []
-        for file in files:
-            for suffix in ["l", "r"]:
-                clips.append("form/%s-%s.png" % (file, suffix))
-        combine_images(clips, "button-lr-combined.png", True, config)
-
-        for file in files:
-            add_file("form/%s-c.png" % file, config)
-
-
-    def process_panes(self, config):
-        split_grid("pane", "source", "pane", 6)
-        clips = []
-        for suffix in ["tl", "t" , "tr", "bl", "b", "br"]:
-            clips.append("pane/%s-%s.png" % ("pane", suffix))
-        combine_images(clips, "pane-tb-combined.png", False, config)
-
-        clips = []
-        for suffix in ["l", "r"]:
-            clips.append("pane/%s-%s.png" % ("pane", suffix))
-        combine_images(clips, "pane-lr-combined.png", True, config)
-
-        add_file("pane/pane-c.png", config)
-
-
-    def process_checkradio(self, config):
-        files = glob.glob("form/checkbox-*.png") + glob.glob("form/radiobutton-*.png")
-        combine_images(files, "checkradio-combined.png", True, config)
-
-
-
-    def main(self):
-
-        config = []
-
-        process_buttons(config)
-        process_panes(config)
-        process_checkradio(config)
-
-        print "        " + ",\n        ".join(config)
-
-
-if __name__ == '__main__':
-	ImageClipping().main()
 
