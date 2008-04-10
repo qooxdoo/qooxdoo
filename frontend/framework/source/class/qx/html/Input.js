@@ -111,8 +111,13 @@ qx.Class.define("qx.html.Input",
      * @type member
      * @return {String} The element's current value.
      */
-    getValue : function() {
-      return qx.bom.element.Attribute.get(this._element, "value");
+    getValue : function()
+    {
+      if (this._element) {
+        return qx.bom.element.Attribute.get(this._element, "value");
+      }
+
+      return this._getProperty("value");
     },
 
 
