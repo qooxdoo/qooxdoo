@@ -214,7 +214,7 @@ qx.Class.define("qx.event.handler.Mouse",
       this._onWheelEventWrapper = qx.lang.Function.listener(this._onWheelEvent, this);
 
       var Event = qx.bom.Event;
-      var type = qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll";
+      var type = qx.core.Variant.isSet("qx.client", "mshtml|webkit|opera") ? "mousewheel" : "DOMMouseScroll";
 
       Event.addNativeListener(this._root, type, this._onWheelEventWrapper);
     },
@@ -276,7 +276,7 @@ qx.Class.define("qx.event.handler.Mouse",
     _stopWheelObserver : function()
     {
       var Event = qx.bom.Event;
-      var type = qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll";
+      var type = qx.core.Variant.isSet("qx.client", "mshtml|webkit|opera") ? "mousewheel" : "DOMMouseScroll";
 
       Event.removeNativeListener(this._root, type, this._onWheelEventWrapper);
     },
