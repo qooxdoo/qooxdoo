@@ -246,6 +246,16 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
         alert(("" + tree.getSelectedItems()).replace(",", "\n", "g"));
       });
 
+
+      var vShowSelectedItems = new qx.ui.form.Button("Toggle Height");
+      grid.add(vShowSelectedItems, row++, 1);
+
+      var grow = true;
+      vShowSelectedItems.addListener("execute", function(e) {
+        tree.setHeight(grow ? 600: 400);
+        grow = !grow;
+      });
+
       return commandFrame;
     }
   }
