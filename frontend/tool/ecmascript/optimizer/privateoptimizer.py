@@ -31,7 +31,7 @@ def load(data):
         (id, iden) = name.split(":")
         if not used.has_key(iden):
             used[iden] = [id]
-        else:
+        elif not id in used[iden]:
             used[iden].append(id)
 
 
@@ -102,11 +102,10 @@ def lookup(id, node, privates):
     if name and name.startswith("__") and not privates.has_key(name):
         privates[name] = crypt(id, name)
         
-        if used.has_key(name):
-            if not id in used[name]:
-                used[name].append(id)
-        else:
+        if not used.has_key(name):
             used[name] = [id]
+        elif not id in used[name]:
+            used[name].append(id)
 
     if node.hasChildren():
         for child in node.children:

@@ -202,15 +202,23 @@ class Generator:
             self.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(parts, packages, boot, variants)
             self.runCopyFiles()
-            self.runDependencyDebug(parts, packages, variants)
             self.runShellCommands()
             #self.runImageSlicing()
             self.runImageCombining()
             
             
             # Debug tasks
-            privateoptimizer.debug()
+            self.runDependencyDebug(parts, packages, variants)
+            self.runPrivateDebug()            
 
+
+    def runPrivateDebug(self):
+        if not self._config.get("debug/privates", False):
+            return
+
+        self._console.info("Privates debugging...")
+        privateoptimizer.debug()
+        
 
 
     def runApiData(self, packages):
