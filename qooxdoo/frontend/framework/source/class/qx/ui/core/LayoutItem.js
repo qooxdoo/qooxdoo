@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     // {Boolean} Whether the layout defined that the widget is visible or not.
-    __layoutVisible : true,
+    _layoutVisible : true,
 
 
     // property apply
@@ -329,12 +329,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     layoutVisibilityModified : function(value)
     {
-      if (value !== this.__layoutVisible)
+      if (value !== this._layoutVisible)
       {
         if (value) {
-          delete this.__layoutVisible;
+          delete this._layoutVisible;
         } else {
-          this.__layoutVisible = false;
+          this._layoutVisible = false;
         }
 
         this._toggleDisplay();
