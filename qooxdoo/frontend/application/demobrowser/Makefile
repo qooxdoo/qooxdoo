@@ -30,6 +30,9 @@ build:
 api:
 	@../../tool/generator.py -c config.json -j api
 
+debug:
+	@../../tool/generator.py -c config.json -j debug-privates
+
 # use old Makefile for other targets
 %: force
 	@$(MAKE) -s -f Makefile.gen1 $@
