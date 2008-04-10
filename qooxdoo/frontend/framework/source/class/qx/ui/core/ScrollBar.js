@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     this._slider = new qx.ui.slider.Slider(orientation);
     this._slider.addListener("changeValue", this._onChangeValueSlider, this);
+    this._slider.addListener("resize", this._onResizeSlider, this);
 
     this._btnBegin = new qx.ui.form.RepeatButton().set({
       appearance : "scrollbar-button",
@@ -55,7 +56,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       this.initOrientation();
     }
 
-    this.initLineHeight();
+    this.initButtonStep();
   },
 
 
@@ -107,14 +108,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
 
     /**
-     * Set the scroll content's lione height in pixel. If the user click on the
-     * arrow buttons the {@link #value} will change by the amount of this value.
+     * The amount to scroll if the user clicks on one of the arrow buttons.
+     * The {@link #value} will change by the amount of this value.
      */
-    lineHeight :
+    buttonStep :
     {
       check : "Integer",
       init : 16,
-      apply : "_applyLineHeight"
+      apply : "_applyButtonStep"
     },
 
 
@@ -195,8 +196,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     __updateSliderSteps : function()
     {
-      this._slider.setPageStep(Math.max(1, this.getContainerSize() - this.getLineHeight()));
-      this._slider.setSingleStep(this.getLineHeight());
+      this._slider.setPageStep(Math.max(1, this.getContainerSize() - this.getButtonStep()));
+      this._slider.setSingleStep(this.getButtonStep());
+      this._slider.setWheelStep(this.getButtonStep());
+    },
+
+
+    _onResizeSlider : function(e) {
+      this.__updateSliderSize();
     },
 
 
@@ -206,14 +213,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     __updateSliderSize : function()
     {
       var size = this._slider.getComputedInnerSize();
-      // if the slider has not yet been layouted, listen for the resize event
-      if (!size)
-      {
-        this._slider.addListener("resize", function(e)
-        {
-          this._slider.removeListener("resize", arguments.callee, this);
-          this.__updateSliderSize();
-        }, this);
+      if (!size) {
         return;
       }
 
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
 
     // property apply
-    _applyLineHeight : function(value, old)
+    _applyButtonStep : function(value, old)
     {
       this.__updateSliderSteps();
     }

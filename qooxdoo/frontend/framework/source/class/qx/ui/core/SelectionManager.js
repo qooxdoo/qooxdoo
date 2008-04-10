@@ -130,14 +130,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
       nullable : true,
       apply : "_applyLeadItem",
       event : "changeLeadItem"
-    },
-
-
-    /** Grid selection */
-    multiColumnSupport :
-    {
-      check : "Boolean",
-      init : false
     }
   },
 
@@ -385,54 +377,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
       MAPPING TO ITEM DIMENSIONS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @param vTopLeft {var} TODOC
-     * @return {void}
-     */
-    scrollItemIntoView : function(item) {
-      this.getBoundedWidget().scrollItemIntoView(item);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
-     */
-    getItemOffset : function(vItem)
-    {
-      var computed = vItem.getComputedLayout();
-      if (computed) {
-        return computed.top;
-      }
-
-      return 0;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
-     */
-    getItemSize : function(vItem)
-    {
-      var computed = vItem.getComputedLayout();
-      if (computed) {
-        return computed.height;
-      }
-
-      return 0;
-    },
 
 
     /**
@@ -1120,6 +1064,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
       // Update lead item
       this.setLeadItem(oItem);
+      this.getBoundedWidget().scrollItemIntoView(oItem);
 
       // Cache current anchor item
       var currentAnchorItem = this.getAnchorItem();
@@ -1153,7 +1098,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
         // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
         if (this._activeDragSession) {
-          this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
+          this.getBoundedWidget().scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getBoundedWidget().getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
         }
 
         if (!this.getItemSelected(oItem)) {
@@ -1197,7 +1142,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
         }
 
         // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
-        this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
+        this.getBoundedWidget().scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getBoundedWidget().getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
       }
 
       // ********************************************************************
@@ -1310,7 +1255,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
           this.setLeadItem(itemToSelect);
 
           // Scroll new item into view
-          this.scrollItemIntoView(itemToSelect);
+          this.getBoundedWidget().scrollItemIntoView(itemToSelect);
 
           // Select a range
           if (ev.isShiftPressed() && this.getMultiSelection())
@@ -1525,10 +1470,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
         return this.getFirst();
       }
 
-      return (this.getMultiColumnSupport()
-        ? (this.getUnder(vItem) || this.getLast())
-        : this.getNext(vItem)
-      );
+      return this.getNext(vItem);
     },
 
 
@@ -1545,72 +1487,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
         return this.getLast();
       }
 
-      return this.getMultiColumnSupport() ? (this.getAbove(vItem) || this.getFirst()) : this.getPrevious(vItem);
+      return this.getPrevious(vItem);
     },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {null | var} TODOC
-     */
-    getLeft : function(vItem)
-    {
-      if (!this.getMultiColumnSupport()) {
-        return null;
-      }
-
-      return !vItem ? this.getLast() : this.getPrevious(vItem);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {null | var} TODOC
-     */
-    getRight : function(vItem)
-    {
-      if (!this.getMultiColumnSupport()) {
-        return null;
-      }
-
-      return !vItem ? this.getFirst() : this.getNext(vItem);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @abstract
-     * @param vItem {var} TODOC
-     * @return {var}
-     * @throws the abstract function warning.
-     */
-    getAbove : function(vItem) {
-      throw new Error("getAbove(): Not implemented yet");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @abstract
-     * @param vItem {var} TODOC
-     * @return {var}
-     * @throws the abstract function warning.
-     */
-    getUnder : function(vItem) {
-      throw new Error("getUnder(): Not implemented yet");
-    },
-
-
 
 
     /*
@@ -1647,7 +1525,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
       while (tryLoops < 2)
       {
-        while (nextItem && (this.getItemOffset(nextItem) - this.getItemSize(nextItem) >= vParentScrollTop)) {
+        while (nextItem && (this.getBoundedWidget().getItemOffset(nextItem) - this.getBoundedWidget().getItemHeight(nextItem) >= vParentScrollTop)) {
           nextItem = this.getUp(nextItem);
         }
 
@@ -1662,13 +1540,12 @@ qx.Class.define("qx.ui.core.SelectionManager",
         if (nextItem != this.getLeadItem())
         {
           // be sure that the top is reached
-          this.scrollItemIntoView(nextItem);
+          vBoundedWidget.scrollItemIntoView(nextItem);
           break;
         }
 
         // Update scrolling (this is normally the first step)
-        // this.debug("Scroll-Up: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemSize(nextItem)));
-        vBoundedWidget.setScrollTop(vParentScrollTop - vParentClientHeight - this.getItemSize(nextItem));
+        vBoundedWidget.setScrollTop(vParentScrollTop - vParentClientHeight - vBoundedWidget.getItemHeight(nextItem));
 
         // Use the real applied value instead of the calulated above
         vParentScrollTop = vBoundedWidget.getScrollTop();
@@ -1696,9 +1573,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
       var vParentScrollTop = vBoundedWidget.getScrollTop();
       var vParentClientHeight = vBoundedWidget.getInnerHeight();
 
-      // this.debug("Bound: " + (vBoundedWidget._getTargetNode() != vBoundedWidget.getElement()));
-      // this.debug("ClientHeight-1: " + vBoundedWidget._getTargetNode().clientHeight);
-      // this.debug("ClientHeight-2: " + vBoundedWidget.getElement().clientHeight);
       // Find next item
       var nextItem = this.getLeadItem();
 
@@ -1712,11 +1586,8 @@ qx.Class.define("qx.ui.core.SelectionManager",
 
       while (tryLoops < 2)
       {
-        // this.debug("Loop: " + tryLoops);
-        // this.debug("Info: " + nextItem + " :: " + (this.getItemOffset(nextItem) + (2 * this.getItemSize(nextItem))) + " <> " + (vParentScrollTop + vParentClientHeight));
-        // this.debug("Detail: " + vParentScrollTop + ", " + vParentClientHeight);
         // Find next
-        while (nextItem && ((this.getItemOffset(nextItem) + (2 * this.getItemSize(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
+        while (nextItem && ((vBoundedWidget.getItemOffset(nextItem) + (2 * vBoundedWidget.getItemHeight(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
           nextItem = this.getDown(nextItem);
         }
 
@@ -1733,8 +1604,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
         }
 
         // Update scrolling (this is normally the first step)
-        // this.debug("Scroll-Down: " + (vParentScrollTop + vParentClientHeight - 2 * this.getItemSize(nextItem)));
-        vBoundedWidget.setScrollTop(vParentScrollTop + vParentClientHeight - 2 * this.getItemSize(nextItem));
+        vBoundedWidget.setScrollTop(vParentScrollTop + vParentClientHeight - 2 * vBoundedWidget.getItemHeight(nextItem));
 
         // Use the real applied value instead of the calulated above
         vParentScrollTop = vBoundedWidget.getScrollTop();
@@ -1743,7 +1613,6 @@ qx.Class.define("qx.ui.core.SelectionManager",
         tryLoops++;
       }
 
-      // this.debug("Select: " + nextItem._labelObject.getText());
       return nextItem;
     }
   },

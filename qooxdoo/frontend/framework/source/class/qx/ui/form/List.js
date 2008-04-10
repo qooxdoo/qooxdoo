@@ -167,6 +167,29 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
+    // interface implementation
+    getItemOffset : function(item)
+    {
+      var computed = item.getComputedLayout();
+      if (computed) {
+        return computed.top;
+      }
+
+      return 0;
+    },
+
+
+    // interface implementation
+    getItemHeight : function(item)
+    {
+      var computed = item.getComputedLayout();
+      if (computed) {
+        return computed.height;
+      }
+
+      return 0;
+    },
+
 
     /*
     ---------------------------------------------------------------------------
