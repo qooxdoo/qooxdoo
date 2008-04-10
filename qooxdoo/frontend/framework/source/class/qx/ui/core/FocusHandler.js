@@ -48,7 +48,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
     // Store relations
     this._attachedWidget = widget;
-    this._domFocusHandler = qx.event.Registration.getManager(widget.getDom).getHandler(qx.event.handler.Focus);
 
     // Register events
     widget.addListener("keypress", this._onkeyevent, this);
@@ -111,6 +110,13 @@ qx.Class.define("qx.ui.core.FocusHandler",
     _onkeyevent : function(e)
     {
       if (e.getKeyIdentifier() != "Tab") {
+        return;
+      }
+
+      // Opera, as of version 9.5, does not allow to stop
+      // tab keys and does this way not work well with our
+      // custom implementation.
+      if (qx.core.Variant.isSet("qx.client", "opera")) {
         return;
       }
 
@@ -228,7 +234,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     {
       var root = this._attachedWidget;
       if (root == widget) {
-        return this.__getFirstWidget(root);
+        return this.__getFirstWidget();
       }
 
       while (widget && widget.getAnonymous()) {
@@ -259,7 +265,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     {
       var root = this._attachedWidget;
       if (root == widget) {
-        return this.__getLastWidget(root);
+        return this.__getLastWidget();
       }
 
       while (widget && widget.getAnonymous()) {
@@ -311,7 +317,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
         // Filter spacers etc.
         if (!(child instanceof qx.ui.core.Widget)) {
-          return;
+          continue;
         }
 
         if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
@@ -347,7 +353,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
         // Filter spacers etc.
         if (!(child instanceof qx.ui.core.Widget)) {
-          return;
+          continue;
         }
 
         if (!child.isFocusRoot())
@@ -381,7 +387,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
         // Filter spacers etc.
         if (!(child instanceof qx.ui.core.Widget)) {
-          return;
+          continue;
         }
 
         // Ignore focus roots completely
@@ -422,7 +428,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
         // Filter spacers etc.
         if (!(child instanceof qx.ui.core.Widget)) {
-          return;
+          continue;
         }
 
         // Ignore focus roots completely
