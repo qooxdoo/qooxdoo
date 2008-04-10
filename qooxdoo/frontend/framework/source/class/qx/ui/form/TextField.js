@@ -95,8 +95,6 @@ qx.Class.define("qx.ui.form.TextField",
     _createInputElement : function()
     {
       var input =  new qx.html.Input("text");
-      input.setStyle("overflow", "hidden");
-
       return input;
     },
 

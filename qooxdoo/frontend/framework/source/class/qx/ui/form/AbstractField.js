@@ -279,8 +279,13 @@ qx.Class.define("qx.ui.form.AbstractField",
     */
 
     // property apply
-    _applyValue : function(value, old) {
-      this._contentElement.setValue(value);
+    _applyValue : function(value, old)
+    {
+      // Do not overwrite when already correct (on input events)
+      // This is needed to keep caret position while typing.
+      if (this._contentElement.getValue() != value) {
+        this._contentElement.setValue(value);
+      }
     },
 
 
