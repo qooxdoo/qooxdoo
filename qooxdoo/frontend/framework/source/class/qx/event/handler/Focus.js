@@ -669,20 +669,13 @@ qx.Class.define("qx.event.handler.Focus",
       {
         var target = e.target;
 
-        if (!this._windowFocused)
-        {
-          // A focus event normally means that at least the window
-          // should be focused. The other stuff is not needed because
-          // there follow special focus events for the real targets
-          // afterwards as well.
-          this._doWindowFocus();
-        }
-        else if (target === this._window || target === this._document)
-        {
-          // Internally we normalize all these to the body element
-          this.setFocus(this._body);
-        }
-        else
+        // A focus event normally means that at least the window
+        // should be focused. The other stuff is not needed because
+        // there follow special focus events for the real targets
+        // afterwards as well.
+        this._doWindowFocus();
+
+        if (target !== this._window && target !== this._document)
         {
           if (!this._fromMouseDown || !this.getActive()) {
             this.setActive(target);
@@ -741,6 +734,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Focus target may be null (e.g. respect focus blocks)
         var focusTarget = this.__findFocusNode(target, true);
+
         if (focusTarget) {
           focusTarget.focus();
         } else {
