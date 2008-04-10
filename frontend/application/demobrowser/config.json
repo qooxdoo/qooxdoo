@@ -249,6 +249,16 @@
     "demos-build" :
     {
       "extend" : ["demodyn/jobs/build"]
+    },
+    
+    
+    "debug-privates" :
+    {
+      "extend" : ["common"],
+      "debug" : 
+      {
+        "privates" : "on"
+      }
     }
   }
 }
