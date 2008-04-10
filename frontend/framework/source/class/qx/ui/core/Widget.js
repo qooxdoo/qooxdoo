@@ -1435,7 +1435,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _toggleDisplay : function()
     {
-      if (this._parent && this.__layoutVisible && this.getVisibility() === "visible")
+      if (this._parent && this._layoutVisible && this.getVisibility() === "visible")
       {
         this.$$visible = true;
 
