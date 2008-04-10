@@ -19,15 +19,34 @@
 ################################################################################
 
 names = {}
+used = {}
 
 
 def load(data):
     global names
     names = data
+    
+    # Dynamically fill used data
+    for name in names:
+        (id, iden) = name.split(":")
+        if not used.has_key(iden):
+            used[iden] = [id]
+        else:
+            used[iden].append(id)
 
 
 def get():
     return names
+
+
+def debug():
+    for name in used:
+        ids = used[name]
+        if len(ids) > 1:
+            print "Name %s used by" % name
+            for id in ids:
+                print "  - %s" % id
+            print
 
 
 def patch(tree, id):
@@ -82,6 +101,12 @@ def lookup(id, node, privates):
         
     if name and name.startswith("__") and not privates.has_key(name):
         privates[name] = crypt(id, name)
+        
+        if used.has_key(name):
+            if not id in used[name]:
+                used[name].append(id)
+        else:
+            used[name] = [id]
 
     if node.hasChildren():
         for child in node.children:
@@ -111,8 +136,11 @@ def update(node, privates):
     
     else:
         return
-    
-    if not name or not privates.has_key(name):
+        
+    if not name or not name.startswith("__"):
+        return
+        
+    if not privates.has_key(name):
         return
         
     repl = privates[name]
