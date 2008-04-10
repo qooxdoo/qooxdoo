@@ -165,8 +165,25 @@ qx.Class.define("qx.event.handler.Focus",
      * @param element {Element} DOM element to focus
      * @return {void}
      */
-    focus : function(element) {
-      element.focus();
+    focus : function(element)
+    {
+      // Special support for elements which are not focusable.
+      // Is at least an issue in current Safaris (3.1) and Operas (9.5)
+      // where tabIndex is not natively supported on non-form elements.
+      if (element.getAttribute("tabIndex") == null)
+      {
+        var current = this.getFocus();
+        if (current && current.getAttribute("tabIndex") != null) {
+          current.blur();
+        }
+
+        this.setFocus(element);
+        this.setActive(element);
+      }
+      else
+      {
+        element.focus();
+      }
     },
 
 
