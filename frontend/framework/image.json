@@ -28,10 +28,51 @@
         "images" :
         {
          // this is the input file
-          "${RESPATH}/${MODERN}/form/button-pressed.png" :
+          "${RESPATH}/${MODERN}/source/button-checked-focused.png" :
           {
-            "prefix" : "button-pressed",
-            "border-width" : 5
+            "prefix" : "../form/button-checked-focused",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button-checked.png" :
+          {
+            "prefix" : "../form/button-checked",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button-preselected-focused.png" :
+          {
+            "prefix" : "../form/button-preselected-focused",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button-preselected.png" :
+          {
+            "prefix" : "../form/button-preselected",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button-pressed.png" :
+          {
+            "prefix" : "../form/button-pressed",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button-hovered.png" :
+          {
+            "prefix" : "../form/button-hovered",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button-focused.png" :
+          {
+            "prefix" : "../form/button-focused",
+            "border-width" : 4
+          },
+          "${RESPATH}/${MODERN}/source/button.png" :
+          {
+            "prefix" : "../form/button",
+            "border-width" : 4
+          },
+          // pane split
+          "${RESPATH}/${MODERN}/source/pane.png" :
+          {
+            "prefix" : "../pane/pane",
+            "border-width" : 6
           }
         }
       }
