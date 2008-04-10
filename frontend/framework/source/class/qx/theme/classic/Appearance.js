@@ -541,7 +541,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        if (states.pressed || states.abandoned || states.checked) {
+          var padding = [ 6, 3, 4, 5 ];
+        } else {
+          var padding = [ 5, 4 ];
+        }
+
         return {
+          padding : padding,
           icon : states.horizontal
             ? "decoration/arrows/left-small.gif"
             : "decoration/arrows/up-small.gif",
@@ -556,7 +563,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        if (states.pressed || states.abandoned || states.checked) {
+          var padding = [ 6, 3, 4, 5 ];
+        } else {
+          var padding = [ 5, 4 ];
+        }
+
         return {
+          padding : padding,
           icon : states.horizontal
             ? "decoration/arrows/right-small.gif"
             : "decoration/arrows/down-small.gif"
@@ -648,6 +662,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          padding : [ 1, 2 ],
           backgroundColor : states.selected ? "selected" : "undefined",
           textColor : states.selected ? "text-selected" : "undefined"
         }
