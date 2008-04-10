@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
         }), i, 0);
       }
 
-      inputs = ["Helmut", "Schmidt", "Karlsruhe", "Germany"];
+      inputs = ["John", "Smith", "New York", "USA"];
       for (var i=0; i<inputs.length; i++) {
         layout.add(new qx.ui.form.TextField(inputs[i]).set({
         }), i, 1);
