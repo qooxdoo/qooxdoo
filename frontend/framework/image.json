@@ -52,7 +52,7 @@
             "input"  : 
             [ 
               "${RESPATH}/${MODERN}/form/button-*-[tb]*.png",
-              "${RESPATH}/${MODERN}/form/button-[tb]*.png",
+              "${RESPATH}/${MODERN}/form/button-[tb]*.png"
             ],
             "layout" : "vertical"
           },
@@ -62,7 +62,7 @@
             "input"  : 
             [ 
               "${RESPATH}/${MODERN}/form/button-*-[lr].png",
-              "${RESPATH}/${MODERN}/form/button-[lr].png",
+              "${RESPATH}/${MODERN}/form/button-[lr].png"
             ],
             "layout" : "horizontal"
           },
