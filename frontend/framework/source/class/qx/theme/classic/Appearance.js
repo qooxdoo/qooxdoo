@@ -20,6 +20,15 @@
 
 ************************************************************************* */
 
+/* ************************************************************************
+
+#asset(qx/icon/Oxygen/16/places/folder-open.png)
+#asset(qx/icon/Oxygen/16/places/folder.png)
+#asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
+#asset(qx/decoration/Classic/*)
+
+************************************************************************* */
+
 /**
  * The classic qooxdoo appearance theme.
  */
@@ -535,45 +544,44 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "scrollbar-button-start" :
+    "scrollbar-button" :
     {
       include : "button",
 
       style : function(states)
       {
-        if (states.pressed || states.abandoned || states.checked) {
-          var padding = [ 6, 3, 4, 5 ];
+        var padding;
+        if (states.up || states.down)
+        {
+          if (states.pressed || states.abandoned || states.checked) {
+            padding = [ 5, 2, 3, 4 ];
+          } else {
+            padding = [ 4, 3 ];
+          }
+        }
+        else
+        {
+          if (states.pressed || states.abandoned || states.checked) {
+            padding = [ 4, 3, 2, 5 ];
+          } else {
+            padding = [ 3, 4 ];
+          }
+        }
+
+        var icon = "decoration/arrows/";
+        if (states.left) {
+          icon += "left.gif";
+        } else if (states.right) {
+          icon += "right.gif";
+        } else if (states.up) {
+          icon += "up.gif";
         } else {
-          var padding = [ 5, 4 ];
+          icon += "down.gif";
         }
 
         return {
           padding : padding,
-          icon : states.horizontal
-            ? "decoration/arrows/left-small.gif"
-            : "decoration/arrows/up-small.gif",
-          align : states.horizontal ? "left" : "top"
-        }
-      }
-    },
-
-    "scrollbar-button-end" :
-    {
-      include : "scrollbar-button-start",
-
-      style : function(states)
-      {
-        if (states.pressed || states.abandoned || states.checked) {
-          var padding = [ 6, 3, 4, 5 ];
-        } else {
-          var padding = [ 5, 4 ];
-        }
-
-        return {
-          padding : padding,
-          icon : states.horizontal
-            ? "decoration/arrows/right-small.gif"
-            : "decoration/arrows/down-small.gif"
+          icon : icon
         }
       }
     },
