@@ -36,14 +36,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
     this._slider.addListener("changeValue", this._onChangeValueSlider, this);
 
     this._btnBegin = new qx.ui.form.RepeatButton().set({
-      appearance : "scrollbar-button-start",
+      appearance : "scrollbar-button",
       focusable: false
     });
     this._btnBegin.addListener("execute", this._slider.scrollStepBack, this._slider);
 
 
     this._btnEnd = new qx.ui.form.RepeatButton().set({
-      appearance : "scrollbar-button-end",
+      appearance : "scrollbar-button",
       focusable: false
     });
     this._btnEnd.addListener("execute", this._slider.scrollStepForward, this._slider);
@@ -159,14 +159,24 @@ qx.Class.define("qx.ui.core.ScrollBar",
       if (isHorizontal)
       {
         this.addState("horizontal");
-        this._btnBegin.addState("horizontal");
-        this._btnEnd.addState("horizontal");
+        this.removeState("vertical");
+
+        this._btnBegin.addState("left");
+        this._btnBegin.removeState("up");
+
+        this._btnEnd.addState("right");
+        this._btnEnd.removeState("down");
       }
       else
       {
+        this.addState("vertical");
         this.removeState("horizontal");
-        this._btnBegin.removeState("horizontal");
-        this._btnEnd.removeState("horizontal");
+
+        this._btnBegin.addState("up");
+        this._btnBegin.removeState("left");
+
+        this._btnEnd.addState("down");
+        this._btnEnd.removeState("right");
       }
 
       this._slider.setOrientation(value);
