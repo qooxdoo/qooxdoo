@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.root.Abstract",
   {
     this.base(arguments);
 
-    this._focusRoot = new qx.ui.core.FocusHandler(this);
+    this._focusHandler = new qx.ui.core.FocusHandler(this);
   },
 
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.root.Abstract",
 
   destruct : function()
   {
-    this._disposeObjects("_focusRoot");
+    this._disposeObjects("_focusHandler");
 
   }
 });
