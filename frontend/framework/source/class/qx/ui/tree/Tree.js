@@ -36,9 +36,9 @@
  * setSelectedItem} to set it. The TreeSelectionManager handles more
  * coars-grained issues like providing selectAll()/deselectAll() methods.
  *
- * @appearance tree {qx.legacy.ui.layout.HorizontalBoxLayout}
- * @appearance tree-icon {qx.legacy.ui.basic.Image}
- * @appearance tree-label {qx.legacy.ui.basic.Label}
+ * @appearance tree
+ * @appearance tree-icon {qx.ui.basic.Image}
+ * @appearance tree-label {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.tree.Tree",
 {

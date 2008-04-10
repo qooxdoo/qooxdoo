@@ -3,8 +3,8 @@
  * TreeFile} and {@link TreeFolder} classes.
  *
  * @appearance tree-element
- * @appearance tree-element-icon {qx.legacy.ui.basic.Image}
- * @appearance tree-element-label {qx.legacy.ui.basic.Label}
+ * @appearance tree-element-icon {qx.ui.basic.Image}
+ * @appearance tree-element-label {qx.ui.basic.Label}
  */
 
 /*
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * The label/caption/text of the qx.legacy.ui.basic.Atom instance
+     * The label/caption/text
      */
     label :
     {
