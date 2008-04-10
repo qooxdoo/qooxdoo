@@ -54,6 +54,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
     } else {
       this.initOrientation();
     }
+
+    this.initLineHeight();
   },
 
 
@@ -102,6 +104,19 @@ qx.Class.define("qx.ui.core.ScrollBar",
       init: 50,
       apply : "_applyContainerSize"
     },
+
+
+    /**
+     * Set the scroll content's lione height in pixel. If the user click on the
+     * arrow buttons the {@link #value} will change by the amount of this value.
+     */
+    lineHeight :
+    {
+      check : "Integer",
+      init : 16,
+      apply : "_applyLineHeight"
+    },
+
 
     // overridden
     appearance :
@@ -168,6 +183,13 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
+    __updateSliderSteps : function()
+    {
+      this._slider.setPageStep(Math.max(1, this.getContainerSize() - this.getLineHeight()));
+      this._slider.setSingleStep(this.getLineHeight());
+    },
+
+
     /**
      * Updates the slider size and computes the new slider maximum.
      */
@@ -180,7 +202,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
         this._slider.addListener("resize", function(e)
         {
           this._slider.removeListener("resize", arguments.callee, this);
-          this.__syncPaneSizes();
+          this.__updateSliderSize();
         }, this);
         return;
       }
@@ -188,8 +210,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
       var isHorizontal = this.getOrientation() === "horizontal";
       var scrollSize = isHorizontal ? size.width : size.height;
 
-      // update maximum
       this._slider.setMaximum(Math.max(0, this.getContentSize() - this.getContainerSize()));
+      this.__updateSliderSteps();
 
       // compute and set new slider size
       var sliderSize = Math.min(scrollSize, Math.round(scrollSize * this.getContainerSize() / this.getContentSize()));
@@ -211,6 +233,13 @@ qx.Class.define("qx.ui.core.ScrollBar",
     // property apply
     _applyContainerSize : function(value, old) {
       this.__updateSliderSize();
+    },
+
+
+    // property apply
+    _applyLineHeight : function(value, old)
+    {
+      this.__updateSliderSteps();
     }
 
   }
