@@ -24,6 +24,7 @@ import re, os, sys, zlib, optparse, types, subprocess
 from misc import filetool, textutil, idlist
 from ecmascript import treegenerator, tokenizer, compiler
 from ecmascript.optimizer import variableoptimizer
+from ecmascript.optimizer import privateoptimizer
 from generator.ApiLoader import ApiLoader
 from generator.Cache import Cache
 from generator.DependencyLoader import DependencyLoader
@@ -205,6 +206,10 @@ class Generator:
             self.runShellCommands()
             #self.runImageSlicing()
             self.runImageCombining()
+            
+            
+            # Debug tasks
+            privateoptimizer.debug()
 
 
 
