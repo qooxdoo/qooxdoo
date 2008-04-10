@@ -45,6 +45,7 @@ qx.Interface.define("qx.ui.core.ISelectionContainer",
       this.assertInstance(selectedItem, qx.ui.core.Widget);
     },
 
+
     /**
      * Given the selected item, return the previous selectable item.
      *
@@ -53,6 +54,29 @@ qx.Interface.define("qx.ui.core.ISelectionContainer",
      *     item. May be <code>null</code> if the item is the first item.
      */
     getPreviousSelectableItem : function(selectedItem) {},
+
+
+    /**
+     * Get the top position of the selected item relative to the selection
+     * container.
+     *
+     * @param item {qx.ui.core.Widget} The item to get the offset of
+     * @return {Integer} The item's top position relative to the selection container
+     */
+    getItemOffset : function(item) {
+      this.assertInstance(item, qx.ui.core.Widget);
+    },
+
+
+    /**
+     * Get the item's height
+     *
+     * @param item {qx.ui.core.Widget} The item to get the height of
+     * @return {Integer} The item's height
+     */
+    getItemHeight : function(item) {
+      this.assertInstance(item, qx.ui.core.Widget);
+    },
 
 
     /**

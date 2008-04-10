@@ -216,11 +216,13 @@ qx.Class.define("qx.ui.tree.Tree",
         if (value.hasChildren()) {
           layout.add(value.getChildrenContainer());
         }
-        if (this.getRoot())
-        {
-          this.getRoot().setVisibility(this.getHideRoot() ? "excluded" : "visible");
-          this.getRoot().recursiveAddToWidgetQueue();
-        }
+
+        value.setVisibility(this.getHideRoot() ? "excluded" : "visible");
+        value.recursiveAddToWidgetQueue();
+
+        // as a heuristic use the height of the root item as line height
+        var rootHeight = value.getSizeHint().height;
+        this.setLineHeight(rootHeight);
       }
     },
 
@@ -309,6 +311,40 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     getSelectedItems : function() {
       return this._manager.getSelectedItems();
+    },
+
+
+    // interface implementation
+    getItemOffset : function(item)
+    {
+      var pos = item.getComputedLayout();
+      if (!pos) {
+        return 0;
+      }
+
+      var top = 0;
+      while (item)
+      {
+        top += item.getComputedLayout().top;
+        var item = item.getLayoutParent();
+        if (item == this.getContent()) {
+          return top;
+        }
+      }
+
+      return 0;
+    },
+
+
+    // interface implementation
+    getItemHeight : function(item)
+    {
+      var computed = item.getComputedLayout();
+      if (computed) {
+        return computed.height;
+      }
+
+      return 0;
     },
 
 

@@ -70,6 +70,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
     grid.add(corner, 1, 1);
 
     this.setLayout(grid);
+
+    this.addListener("mousewheel", this._onMousewheel, this);
   },
 
 
@@ -123,6 +125,19 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     overflow : {
       group : [ "overflowX", "overflowY" ]
+    },
+
+
+    /**
+     * The scroll content's line height. This infromation will be used to compute
+     * the scroll steps.
+     */
+    lineHeight :
+    {
+      check : "Integer",
+      init : 16,
+      event : "changeLineHeight",
+      apply : "_applyLineHeight"
     }
   },
 
@@ -227,6 +242,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
+
+
+    _applyLineHeight : function(value, old) {
+      this._vScrollBar.setButtonStep(value);
+    },
+
 
     /**
      * Scrolls the element's content to the given left coordinate
@@ -348,6 +369,23 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onVerticalScroll : function(e) {
       this._scrollPane.setScrollTop(e.getValue(), true);
+    },
+
+
+    /**
+     * Event handler for the mouse wheel
+     *
+     * @param e {qx.event.type.Mouse} The mouse wheel event
+     */
+    _onMousewheel : function(e)
+    {
+      var wheelIncrement = Math.round(-e.getWheelDelta());
+      if (wheelIncrement == 0) {
+        wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
+      }
+      this._scrollPane.scrollTopBy(wheelIncrement * this.getLineHeight(), true);
+      this._vScrollBar.setValue(this._scrollPane.getScrollTop());
+      e.stopPropagation();
     },
 
 

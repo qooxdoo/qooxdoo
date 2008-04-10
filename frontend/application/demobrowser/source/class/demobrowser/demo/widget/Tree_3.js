@@ -33,6 +33,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       this._container = new qx.ui.core.Widget().set({
         layout: new qx.ui.layout.HBox().set({
@@ -109,7 +110,9 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
 
 
       var row = 0;
-      grid.add(new qx.ui.basic.Label("New tree item name: "), row, 0);
+      grid.add(new qx.ui.basic.Label("New tree item name: ").set({
+        paddingTop: 4
+      }), row, 0);
       this.inputItemName = new qx.ui.form.TextField("Hello");
       grid.add(this.inputItemName, row++, 1);
 

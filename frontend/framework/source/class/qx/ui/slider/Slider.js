@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.slider.Slider",
       init : 10
     },
 
-    /** The amount to increment on a mouse wheel event*/
+    /** The amount to increment on a mouse wheel event */
     wheelStep: {
       check : "Number",
       init : 1
@@ -253,6 +253,7 @@ qx.Class.define("qx.ui.slider.Slider",
         wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
       this.scrollBy(wheelIncrement * this.getWheelStep());
+      e.stopPropagation();
     },
 
 
