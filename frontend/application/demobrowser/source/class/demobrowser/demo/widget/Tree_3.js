@@ -88,7 +88,12 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
       var te2_1 = new qx.ui.tree.TreeFolder("Presets");
       var te2_2 = new qx.ui.tree.TreeFolder("Sent");
       var te2_3 = new qx.ui.tree.TreeFolder("Trash");
-      var te2_4 = new qx.ui.tree.TreeFolder("Data");
+
+      for (var i=0; i<100; i++) {
+        te2_3.add(new qx.ui.tree.TreeFile("Junk #" + i));
+      }
+
+      var te2_4 = new qx.ui.tree.TreeFolder("Data 123213234325345234523453453245");
       var te2_5 = new qx.ui.tree.TreeFolder("Edit");
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
