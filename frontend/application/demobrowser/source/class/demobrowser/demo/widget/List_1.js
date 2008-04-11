@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
     {
       this.base(arguments);
 
-      var l1 = new qx.ui.form.List(true);
+      var l1 = new qx.ui.form.List("multi");
 
       l1.set({ height: 300, width: 150 });
 
@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
 
 
-      var l2 = new qx.ui.form.List(false);
+      var l2 = new qx.ui.form.List("single");
 
       l2.set({ height: 200, width: 150 });
 
@@ -63,45 +63,23 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l2.add(new qx.ui.form.ListItem(l2l[i]));
       };
 
-      this.getRoot().add(l2, 400, 48);
+      this.getRoot().add(l2, 400, 20);
 
 
 
 
-      var c1 = new qx.ui.form.CheckBox("Enable Multi-Selection");
-      var c2 = new qx.ui.form.CheckBox("Enable Drag-Selection");
-      var c3 = new qx.ui.form.CheckBox("Allow Deselection");
-      var c4 = new qx.ui.form.CheckBox("Enable Inline Find");
 
-      this.getRoot().add(c1, 180, 48);
-      this.getRoot().add(c2, 180, 68);
-      this.getRoot().add(c3, 180, 88);
-      this.getRoot().add(c4, 180, 108);
+      var l3 = new qx.ui.form.List("additive");
 
-      c1.setChecked(true);
-      c2.setChecked(true);
-      c3.setChecked(true);
-      c4.setChecked(true);
+      l3.set({ height: 200, width: 150 });
 
-      c1.addListener("changeChecked", function(e) {
-        this.debug("Not yet implemented!");
-        //l1.getManager().setMultiSelection(e.getValue());
-      });
+      var l3l = [ "red", "violett", "rose", "blue", "green", "cyan", "magenta", "yellow", "brown", "orange", "black", "white", "grey", "gray", "brown" ];
 
-      c2.addListener("changeChecked", function(e) {
-        this.debug("Not yet implemented!");
-        //l1.getManager().setDragSelection(e.getValue());
-      });
+      for (var i=0; i<l3l.length; i++) {
+        l3.add(new qx.ui.form.ListItem(l2l[i]));
+      };
 
-      c3.addListener("changeChecked", function(e) {
-        this.debug("Not yet implemented!");
-        //l1.getManager().setCanDeselect(e.getValue());
-      });
-
-      c4.addListener("changeChecked", function(e) {
-        this.debug("Not yet implemented!");
-        //l1.setEnableInlineFind(e.getValue());
-      });
+      this.getRoot().add(l3, 600, 20);
 
 
 
@@ -116,9 +94,9 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       rd3.setChecked(true);
 
-      this.getRoot().add(rd1, 180, 128);
-      this.getRoot().add(rd2, 180, 148);
-      this.getRoot().add(rd3, 180, 168);
+      this.getRoot().add(rd1, 180, 20);
+      this.getRoot().add(rd2, 180, 40);
+      this.getRoot().add(rd3, 180, 60);
 
       var rbm = new qx.ui.core.RadioManager([rd1, rd2, rd3]);
 
