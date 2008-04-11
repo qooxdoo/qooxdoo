@@ -203,7 +203,7 @@ class Generator:
             self.runCompiled(parts, packages, boot, variants)
             self.runCopyFiles()
             self.runShellCommands()
-            #self.runImageSlicing()
+            self.runImageSlicing()
             self.runImageCombining()
             
             
@@ -527,9 +527,9 @@ class Generator:
             return
 
         images = self._config.get("slice-images/images", {})
-        for image in images:
-            prefix = image['prefix']
-            border_width = image['border-width']
+        for image, imgspec in images.iteritems():
+            prefix       = imgspec['prefix']
+            border_width = imgspec['border-width']
             self._imageClipper.slice(image, prefix, border_width)
         
     
