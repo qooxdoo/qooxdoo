@@ -47,10 +47,10 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
   properties :
   {
-    multiSelection :
+    mode :
     {
-      check : "Boolean",
-      init : false
+      check : [ "single", "multi", "additive" ],
+      init : "single"
     },
 
     leadItem :
@@ -212,47 +212,51 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     handleMouseDown : function(item, event)
     {
-      if (this.getMultiSelection())
+      switch(this.getMode())
       {
-        // Update lead item
-        this.setLeadItem(item);
-
-        // Read in keyboard modifiers
-        var ctrlPressed = event.isCtrlPressed();
-        var shiftPressed = event.isShiftPressed();
-
-        if (ctrlPressed && shiftPressed)
-        {
-
-        }
-
-        // Add to selection / Toggle in selection
-        else if (ctrlPressed)
-        {
-          this._toggleInSelection(item);
-        }
-
-        // Create/Update range selection
-        else if (shiftPressed && this.getAnchorItem())
-        {
-          this._selectItemRange(this.getAnchorItem(), item);
-        }
-
-        // Replace current selection
-        else
-        {
-          this.setAnchorItem(item);
+        case "single":
           this._setSelectedItem(item);
-        }
+          break;
 
-        // Fill empty anchor item
-        if (!this.getAnchorItem()) {
-          this.setAnchorItem(item);
-        }
-      }
-      else
-      {
-        this._setSelectedItem(item);
+
+        case "additive":
+          this._toggleInSelection(item);
+          break;
+
+
+        case "multi":
+          // Update lead item
+          this.setLeadItem(item);
+
+          // Read in keyboard modifiers
+          var ctrlPressed = event.isCtrlPressed();
+          var shiftPressed = event.isShiftPressed();
+
+          // Create/Update range selection
+          if (shiftPressed)
+          {
+            if (!this.getAnchorItem()) {
+              this.setAnchorItem(this.getFirstItem());
+            }
+
+            this._selectItemRange(this.getAnchorItem(), item, ctrlPressed);
+          }
+
+          // Add to selection / Toggle in selection
+          else if (ctrlPressed && !shiftPressed)
+          {
+            this.setAnchorItem(item);
+            this._toggleInSelection(item);
+          }
+
+          // Replace current selection
+          else
+          {
+            this.setAnchorItem(item);
+            this._setSelectedItem(item);
+          }
+
+          break;
       }
     },
 
@@ -260,8 +264,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     {
       var next;
       var current;
+      var multi = this.getMode() !== "single";
 
-      if (this.getMultiSelection()) {
+      if (multi) {
         current = this.getLeadItem();
       } else {
         current = this._getSelectedItem();
@@ -308,7 +313,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       // Process result
       if (next)
       {
-        if (this.getMultiSelection())
+        var multi = this.getMode() !== "single";
+        if (multi)
         {
 
         }
@@ -325,18 +331,22 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
-    _selectItemRange : function(item1, item2)
+    _selectItemRange : function(item1, item2, extend)
     {
       var range = this._getItemRange(item1, item2);
-      var mapped = this._mapRange(range);
       var selected = this._selection;
       var current;
       var hash;
 
-      for (hash in selected)
+      // Remove items which are not in the detected range
+      if (!extend)
       {
-        if (!mapped[hash]) {
-          this._removeFromSelection(selected[hash]);
+        var mapped = this.__rangeToMap(range);
+        for (hash in selected)
+        {
+          if (!mapped[hash]) {
+            this._removeFromSelection(selected[hash]);
+          }
         }
       }
 
@@ -352,7 +362,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
-    _mapRange : function(range)
+    __rangeToMap : function(range)
     {
       var mapped = {};
       var item;
