@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // Ignore all events except "mouseover" and "mouseout" in the disabled state.
       var type = domEvent.getType();
-      if (!(currentWidget.isEnabled() || type === "mouseover" || type === "mouseout")) {
+      if (!(widgetTarget.isEnabled() || type === "mouseover" || type === "mouseout")) {
         return;
       }
 
