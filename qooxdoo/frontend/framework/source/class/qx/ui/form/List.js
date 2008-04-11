@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.form.List",
   *****************************************************************************
   */
 
-  construct : function(multi)
+  construct : function(mode)
   {
     this.base(arguments);
 
@@ -53,8 +53,8 @@ qx.Class.define("qx.ui.form.List",
 
     this._manager = new qx.ui.core.selection2.Widget(this);
 
-    if (multi != null) {
-      this.setMultiSelection(multi);
+    if (mode != null) {
+      this.setSelectionMode(mode);
     }
 
     this.addListener("mousedown", this._onmousedown, this);
@@ -86,11 +86,11 @@ qx.Class.define("qx.ui.form.List",
       init : true
     },
 
-    multiSelection :
+    selectionMode :
     {
-      check : "Boolean",
-      init : false,
-      apply : "_applyMultiSelection"
+      check : [ "single", "multi", "additive" ],
+      init : "single",
+      apply : "_applySelectionMode"
     }
   },
 
@@ -112,8 +112,8 @@ qx.Class.define("qx.ui.form.List",
     */
 
     // property apply
-    _applyMultiSelection : function(value, old) {
-      this._manager.setMultiSelection(value);
+    _applySelectionMode : function(value, old) {
+      this._manager.setMode(value);
     },
 
 
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.form.List",
           }
         }
 
-        if (active) {
+        if (active && child.isEnabled()) {
           result.push(child);
         }
       }
