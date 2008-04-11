@@ -113,14 +113,14 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
     // overridden
-    _styleSelected : function(item) {
-      throw new Error("Abstract method call: _styleSelected()");
+    _styleItemSelected : function(item) {
+      throw new Error("Abstract method call: _styleItemSelected()");
     },
 
 
     // overridden
-    _styleNormal : function(item) {
-      throw new Error("Abstract method call: _styleNormal()");
+    _styleItemUnselected : function(item) {
+      throw new Error("Abstract method call: _styleItemUnselected()");
     },
 
 
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (!this._selection[hash])
       {
         this._selection[hash] = item;
-        this._styleSelected(item);
+        this._styleItemSelected(item);
 
       }
     },
@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (this._selection[hash])
       {
         delete this._selection[hash];
-        this._styleNormal(item);
+        this._styleItemUnselected(item);
       }
     },
 
