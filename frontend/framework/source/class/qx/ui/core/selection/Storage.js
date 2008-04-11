@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * Helper for qx.ui.core.selection.Widget, contains data for selections
+ * Stores selection information.
  */
 qx.Class.define("qx.ui.core.selection.Storage",
 {
@@ -34,15 +34,11 @@ qx.Class.define("qx.ui.core.selection.Storage",
   *****************************************************************************
   */
 
-  /**
-   * @param mgr {Object} a class which implements a method
-   */
-  construct : function(mgr)
+  construct : function()
   {
     this.base(arguments);
 
-    this.__manager = mgr;
-    this.removeAll();
+    this.__storage = {};
   },
 
 
@@ -56,12 +52,6 @@ qx.Class.define("qx.ui.core.selection.Storage",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      USER METHODS
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Add an item to the selection
      *
@@ -118,47 +108,13 @@ qx.Class.define("qx.ui.core.selection.Storage",
     toArray : function()
     {
       var res = [];
+      var storage = this.__storage;
 
-      for (var hc in this.__storage) {
-        res.push(this.__storage[hc]);
+      for (var hash in storage) {
+        res.push(storage[hash]);
       }
 
       return res;
-    },
-
-
-    /**
-     * Return first element of the Selection
-     *
-     * @type member
-     * @return {var} first item of the selection
-     */
-    getFirst : function()
-    {
-      for (var hc in this.__storage) {
-        return this.__storage[hc];
-      }
-
-      return null;
-    },
-
-
-    /**
-     * Get a string representation of the Selection. The return value can be used to compare selections.
-     *
-     * @type member
-     * @return {String} string representation of the Selection
-     */
-    getChangeValue : function()
-    {
-      var sb = [];
-
-      for (var key in this.__storage) {
-        sb.push(key);
-      }
-
-      sb.sort();
-      return sb.join(";");
     },
 
 
@@ -183,6 +139,6 @@ qx.Class.define("qx.ui.core.selection.Storage",
   */
 
   destruct : function() {
-    this._disposeFields("__storage", "__manager");
+    this._disposeFields("__storage");
   }
 });
