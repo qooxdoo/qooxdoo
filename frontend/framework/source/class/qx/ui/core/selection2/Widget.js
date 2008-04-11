@@ -52,6 +52,50 @@ qx.Class.define("qx.ui.core.selection2.Widget",
     },
 
 
+    // property apply
+    _applyLeadItem : function(value, old)
+    {
+      if (old) {
+        old.removeState("lead");
+      }
+
+      if (value) {
+        value.addState("lead");
+      }
+    },
+
+
+    // property apply
+    _applyAnchorItem : function(item)
+    {
+      if (old) {
+        old.removeState("anchor");
+      }
+
+      if (value) {
+        value.addState("anchor");
+      }
+    },
+
+
+    // overridden
+    _scrollItemIntoView : function(item) {
+      this._widget.scrollItemIntoView(item);
+    },
+
+
+    // overridden
+    _styleSelected : function(item) {
+      item.addState("selected");
+    },
+
+
+    // overridden
+    _styleNormal : function(item) {
+      item.removeState("selected");
+    },
+
+
     // overridden
     _getFirstItem : function() {
       return this._widget.getFirstItem();
