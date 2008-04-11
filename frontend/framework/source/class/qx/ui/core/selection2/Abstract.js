@@ -264,64 +264,111 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     {
       var next;
       var current;
-      var multi = this.getMode() !== "single";
+      var key = event.getKeyIdentifier();
 
-      if (multi) {
-        current = this.getLeadItem();
-      } else {
-        current = this._getSelectedItem();
+      if (key === "Space")
+      {
+        var lead = this.getLeadItem();
+        if (lead) {
+          this._toggleInSelection(lead);
+        }
+
+        // Stop processed events
+        event.stopPropagation();
+        event.preventDefault();
+
+        return;
       }
 
-      switch(event.getKeyIdentifier())
+      if (this.getMode() === "single") {
+        current = this._getSelectedItem();
+      } else {
+        current = this.getLeadItem();
+      }
+
+      var first = this._getFirstItem();
+      var last = this._getLastItem();
+
+      if (current)
       {
-        case "Home":
-          next = this._getFirstItem();
-          break;
+        switch(key)
+        {
+          case "Home":
+            next = first;
+            break;
 
-        case "End":
-          next = this._getLastItem();
-          break;
+          case "End":
+            next = last;
+            break;
 
-        case "Up":
-          next = this._getItemAbove(current);
-          break;
+          case "Up":
+            next = this._getItemAbove(current);
+            break;
 
-        case "Down":
-          next = this._getItemUnder(current);
-          break;
+          case "Down":
+            next = this._getItemUnder(current);
+            break;
 
-        case "Left":
-          next = this._getItemLeft(current);
-          break;
+          case "Left":
+            next = this._getItemLeft(current);
+            break;
 
-        case "Right":
-          next = this._getItemRight(current);
-          break;
+          case "Right":
+            next = this._getItemRight(current);
+            break;
 
-        case "PageUp":
-          next = this._getItemPageUp(current);
-          break;
+          case "PageUp":
+            next = this._getItemPageUp(current);
+            break;
 
-        case "PageDown":
-          next = this._getItemPageDown(current);
-          break;
+          case "PageDown":
+            next = this._getItemPageDown(current);
+            break;
 
-        default:
-          return;
+          default:
+            return;
+        }
+      }
+      else
+      {
+        switch(key)
+        {
+          case "Home":
+          case "Down":
+          case "Right":
+          case "PageDown":
+            next = first;
+            break;
+
+          case "End":
+          case "Up":
+          case "Left":
+          case "PageUp":
+            next = last;
+            break;
+
+          default:
+            return;
+        }
       }
 
       // Process result
       if (next)
       {
-        var multi = this.getMode() !== "single";
-        if (multi)
+        switch(this.getMode())
         {
+          case "single":
+            this._setSelectedItem(next);
+            this._scrollItemIntoView(next);
+            break;
 
-        }
-        else
-        {
-          this._setSelectedItem(next);
-          this._scrollItemIntoView(next);
+          case "additive":
+            this.setLeadItem(next);
+            break;
+
+          case "multi":
+            // TODO
+            break;
         }
       }
 
