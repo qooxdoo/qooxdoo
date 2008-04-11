@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.core.selection2.Widget",
   {
     /*
     ---------------------------------------------------------------------------
-      NORMAL WIDGET API
+      WIDGET API
     ---------------------------------------------------------------------------
     */
 
@@ -85,24 +85,6 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
 
     // overridden
-    _getItems : function(item) {
-      return this._widget.getItems();
-    },
-
-
-    // overridden
-    _getItemRange : function(item1, item2) {
-      return this._widget.getItemRange(item1, item2);
-    },
-
-
-    // overridden
-    _scrollItemIntoView : function(item) {
-      this._widget.scrollItemIntoView(item);
-    },
-
-
-    // overridden
     _styleItemSelected : function(item) {
       item.addState("selected");
     },
@@ -117,6 +99,19 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLAREA API
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _scrollItemIntoView : function(item) {
+      this._widget.scrollItemIntoView(item);
+    },
+
+
+
 
 
     /*
@@ -124,6 +119,18 @@ qx.Class.define("qx.ui.core.selection2.Widget",
       SELECTABLE INTERFACE API
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    _getItems : function(item) {
+      return this._widget.getItems();
+    },
+
+
+    // overridden
+    _getItemRange : function(item1, item2) {
+      return this._widget.getItemRange(item1, item2);
+    },
+
 
     // overridden
     _getFirstItem : function() {
