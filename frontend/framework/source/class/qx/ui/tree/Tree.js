@@ -535,6 +535,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     _onMouseover : function(e)
     {
+      return;
       var target = this._getTreeItem(e.getTarget());
       if (target) {
         this._manager.handleMouseOver(target, e);
