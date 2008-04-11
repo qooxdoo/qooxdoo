@@ -691,19 +691,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
-    "tree-file-icon" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : [0, 4, 0, 4]
-        }
-      }
+    "tree-file-icon" : {
+      include : "tree-folder-icon"
     },
 
 
-    "tree-file-label" :
-    {
+    "tree-file-label" : {
       include : "tree-folder-label"
     },
 
