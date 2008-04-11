@@ -68,7 +68,7 @@ class ImageClipping(object):
         os.system(crop_cmd % (source_file, border, border, width-border, height-border, dest_file + "-br.png"))
 
 
-    def combine(self, combined, files, horizontal, config=[]):
+    def combine(self, combined, files, horizontal):
         montage_cmd = "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s"
         if horizontal:
             orientation = "x1"
@@ -76,6 +76,7 @@ class ImageClipping(object):
             orientation = "1x"
 
         # combine
+        config = []
         clips = []
         top = 0
         left = 0
