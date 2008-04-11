@@ -84,21 +84,45 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
 
 
-      var rd1 = new qx.ui.form.RadioButton("Show Label");
-      var rd2 = new qx.ui.form.RadioButton("Show Icon");
-      var rd3 = new qx.ui.form.RadioButton("Show Both");
+      var mode1 = new qx.ui.form.RadioButton("Single Selection");
+      var mode2 = new qx.ui.form.RadioButton("Multi Selection");
+      var mode3 = new qx.ui.form.RadioButton("Additive Selection");
 
-      rd1.setValue("label");
-      rd2.setValue("icon");
-      rd3.setValue("both");
+      mode1.setValue("single");
+      mode2.setValue("multi");
+      mode3.setValue("additive");
 
-      rd3.setChecked(true);
+      mode2.setChecked(true);
 
-      this.getRoot().add(rd1, 180, 20);
-      this.getRoot().add(rd2, 180, 40);
-      this.getRoot().add(rd3, 180, 60);
+      this.getRoot().add(mode1, 180, 20);
+      this.getRoot().add(mode2, 180, 40);
+      this.getRoot().add(mode3, 180, 60);
 
-      var rbm = new qx.ui.core.RadioManager([rd1, rd2, rd3]);
+      var rbm = new qx.ui.core.RadioManager([mode1, mode2, mode3]);
+
+      rbm.addListener("changeSelected", function(e) {
+        l1.setSelectionMode(e.getValue().getValue());
+      });
+
+
+
+
+
+      var show1 = new qx.ui.form.RadioButton("Show Label");
+      var show2 = new qx.ui.form.RadioButton("Show Icon");
+      var show3 = new qx.ui.form.RadioButton("Show Both");
+
+      show1.setValue("label");
+      show2.setValue("icon");
+      show3.setValue("both");
+
+      show3.setChecked(true);
+
+      this.getRoot().add(show1, 180, 100);
+      this.getRoot().add(show2, 180, 120);
+      this.getRoot().add(show3, 180, 140);
+
+      var rbm = new qx.ui.core.RadioManager([show1, show2, show3]);
 
       rbm.addListener("changeSelected", function(e)
       {
