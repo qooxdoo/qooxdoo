@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.basic.Image",
 
           if (!self._warned[source])
           {
-            this.warn("Unknown image: " + source);
+            // this.warn("Unknown image: " + source);
             self._warned[source] = true;
           }
         }
