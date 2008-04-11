@@ -521,6 +521,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "scroll-pane-corner" :
+    {
+
+    },
+
     "scrollbar-slider" :
     {
       include : "button",
