@@ -87,7 +87,7 @@ class ImageClipping(object):
             imginfo = self._imageInfo.getImageInfo(file)
             width, height = imginfo['width'], imginfo['height']
             config.append({'file':file, 'combined':combined, 'left': -left,
-                           'top': -top, 'width':width, 'height':height})
+                           'top': -top, 'width':width, 'height':height, 'type':imginfo['type']})
             if horizontal:
                 left += width
             else:

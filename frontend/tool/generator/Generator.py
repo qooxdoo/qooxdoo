@@ -538,7 +538,7 @@ class Generator:
         if not self._config.get("combine-images", False):
             return
 
-        config = []
+        config = {}
         images = self._config.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
             input  = imgspec['input']
@@ -546,8 +546,8 @@ class Generator:
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout)
             for sub in subconfigs:
-                config.append('"%s": ["%s", %s, %s, %s, %s]' % (sub['file'], 
-                    sub['combined'], sub['left'], sub['top'], sub['width'], sub['height']))
+                config[sub['file']] = [sub['combined'], sub['left'], sub['top'], sub['width'], 
+                                       sub['height'], sub['type']]
             # store meta data for this combined image
             bname = os.path.basename(image)
             ri = bname.rfind('.')
@@ -639,17 +639,28 @@ class Generator:
         # resourceList = [[file1,uri1],[file2,uri2],...]
         for resource in [x for x in resourceList if imgpatt.search(x[0])]:
             # resource = [path, uri]
-            imageInfo         = self._imageInfo.getImageInfo(resource[0])
+            imgpath= resource[0]
+            imguri = resource[1]
+            imageInfo         = self._imageInfo.getImageInfo(imgpath)
             # imageInfo = {width, height, filetype}
-            if not 'width' in imageInfo or not 'height' in imageInfo or not 'filetype' in imageInfo:
+            if not 'width' in imageInfo or not 'height' in imageInfo or not 'type' in imageInfo:
                 self._console.error("Unable to get image info from file: %s" % resource[0])
                 sys.exit(1)
-            #imageInfo['path'] = resource[0]
-            #imageInfo["uri"]  = resource[1]
-            #iInfo   = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
-            #value   = simplejson.dumps(iInfo)
-            #result += 'qximageinfo["%s"]=%s;' % (resource[1], value)
-            data[resource[1]] = [imageInfo['width'], imageInfo['height'], imageInfo['filetype']]
+            # check if img is in a combined image
+            if imguri in data:
+                if imguri != data[imguri][0]:
+                    continue  # don't overwrite the combined entry
+            data[imguri] = [imguri, 0, 0, imageInfo['width'], imageInfo['height'], imageInfo['type']]
+            # check combined images
+            meta_fname = os.path.splitext(imgpath)[0]+'.meta'
+            if os.path.exists(meta_fname):
+                # add included imgs
+                mfile = open(meta_fname)
+                imgDict = simplejson.loads(mfile.read())
+                mfile.close()
+                for img in imgDict:
+                    # img : [combinedUri, off-x, off-y, width, height]
+                    data[img] = imgDict[img]  # this information takes precedence over existing
             
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
