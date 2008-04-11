@@ -23,9 +23,9 @@
  * This class represents a selection and manages incoming events for widgets
  * which need selection support.
  */
-qx.Class.define("qx.ui.core.SelectionManager",
+qx.Class.define("qx.ui.core.selection.Widget",
 {
-  extend : qx.ui.core.AbstractSelectionManager,
+  extend : qx.ui.core.selection.Abstract,
 
 
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.core.SelectionManager",
     /** This contains the currently assigned widget (qx.ui.form.List, ...) */
     widget :
     {
-      check : "qx.ui.core.ISelectionContainer",
+      check : "qx.ui.core.selection.IContainer",
       nullable : true
     }
   },

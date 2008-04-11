@@ -43,7 +43,7 @@
 qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.core.ScrollArea,
-  implement : qx.ui.core.ISelectionContainer,
+  implement : qx.ui.core.selection.IContainer,
 
 
 
@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     this.setContent(content);
 
-    this._manager = new qx.ui.core.SelectionManager(this).set({
+    this._manager = new qx.ui.core.selection.Widget(this).set({
       dragSelection: false,
       multiSelection: false
     });

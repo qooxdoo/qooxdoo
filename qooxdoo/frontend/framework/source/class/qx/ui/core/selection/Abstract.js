@@ -23,7 +23,7 @@
  * This class represents a selection and manages incoming events for widgets
  * which need selection support.
  */
-qx.Class.define("qx.ui.core.AbstractSelectionManager",
+qx.Class.define("qx.ui.core.selection.Abstract",
 {
   extend : qx.core.Object,
 
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.core.AbstractSelectionManager",
   {
     this.base(arguments);
 
-    this._selectedItems = new qx.ui.core.SelectionStorage(this);
+    this._selectedItems = new qx.ui.core.selection.Storage(this);
   },
 
 
