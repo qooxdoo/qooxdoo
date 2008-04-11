@@ -85,6 +85,18 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
 
     // overridden
+    _getItems : function(item) {
+      return this._widget.getItems();
+    },
+
+
+    // overridden
+    _getItemRange : function(item1, item2) {
+      return this._widget.getItemRange(item1, item2);
+    },
+
+
+    // overridden
     _scrollItemIntoView : function(item) {
       this._widget.scrollItemIntoView(item);
     },

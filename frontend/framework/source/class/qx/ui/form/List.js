@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.form.List",
     */
 
     // interface implementation
-    getSelectableItems : function()
+    getItems : function()
     {
       var children = this.getContent().getLayoutChildren();
       var result = [];
@@ -160,6 +160,47 @@ qx.Class.define("qx.ui.form.List",
         child = children[i];
 
         if (child.isEnabled()) {
+          result.push(child);
+        }
+      }
+
+      return result;
+    },
+
+
+    // interface implementation
+    getItemRange : function(item1, item2)
+    {
+      // Fast path for identical items
+      if (item1 === item2) {
+        return [item1];
+      }
+
+      // Iterate over children and collect all items
+      // between the given two (including them)
+      var children = this.getContent().getLayoutChildren();
+      var result = [];
+      var active = false;
+      var child;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child === item1 || child === item2)
+        {
+          if (active)
+          {
+            result.push(child);
+            break;
+          }
+          else
+          {
+            active = true;
+          }
+        }
+
+        if (active) {
           result.push(child);
         }
       }
