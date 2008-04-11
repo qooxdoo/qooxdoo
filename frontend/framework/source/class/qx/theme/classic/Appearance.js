@@ -534,7 +534,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "scrollbar-slider-pane" :
+    "scrollbar-slider" :
     {
       style : function(states)
       {

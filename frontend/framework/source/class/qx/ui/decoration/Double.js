@@ -140,6 +140,31 @@ qx.Class.define("qx.ui.decoration.Double",
 
   members :
   {
+    _updateScaledImage : function(el, width, height)
+    {
+      var el = el.getChild(0);
+
+      var bgImage = qx.io.Alias.getInstance().resolve(this.getBackgroundImage());
+      if (!bgImage || this.getBackgroundRepeat() !== "scale")
+      {
+        el.removeAll();
+        return;
+      }
+
+      var img = el.getChild(0);
+      if (!img)
+      {
+        img = new qx.html.Image();
+        el.add(img);
+      }
+
+      img.setSource(bgImage);
+      img.setStyle("height", "100%");
+      img.setStyle("width", "100%");
+    },
+
+
+
     /**
      * Get the CSS style map for the decoration
      *
