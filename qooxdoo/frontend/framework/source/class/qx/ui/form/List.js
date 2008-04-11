@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Give control to selectionManager
-      else if (target instanceof qx.ui.form.ListItem) {
+      else {
         this._manager.handleKeyPress(target, e);
       }
     }
