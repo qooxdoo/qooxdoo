@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.selection2.AbstractMulti",
+qx.Class.define("qx.ui.core.selection2.Abstract",
 {
   extend : qx.core.Object,
 
@@ -58,7 +58,6 @@ qx.Class.define("qx.ui.core.selection2.AbstractMulti",
       nullable : true,
       apply : "_applyLeadItem"
     },
-
 
     anchorItem :
     {
@@ -117,6 +116,10 @@ qx.Class.define("qx.ui.core.selection2.AbstractMulti",
     {
       if (this.getMultiSelection())
       {
+        this.setLeadItem(item);
+
+
+
         // TODO
       }
       else
