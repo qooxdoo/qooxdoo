@@ -369,9 +369,9 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
-      if (updateStyles) {
+      if (updateStyles)
+      {
         element.setStyles(this._getStyles());
-
         this._updateScaledImage(element, width, height);
       }
 
