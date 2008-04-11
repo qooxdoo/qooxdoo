@@ -41,7 +41,7 @@ qx.Interface.define("qx.ui.core.selection.IContainer",
      * @return {qx.ui.core.Widget|null} The next selectable item after the selected
      *     item. May be <code>null</code> if the item is the last item.
      */
-    getNextSelectableItem : function(selectedItem) {
+    getItemUnder : function(selectedItem) {
       this.assertInstance(selectedItem, qx.ui.core.Widget);
     },
 
@@ -53,65 +53,6 @@ qx.Interface.define("qx.ui.core.selection.IContainer",
      * @return {qx.ui.core.Widget|null} The previous selectable item after the selected
      *     item. May be <code>null</code> if the item is the first item.
      */
-    getPreviousSelectableItem : function(selectedItem) {},
-
-
-    /**
-     * Get the top position of the selected item relative to the selection
-     * container.
-     *
-     * @param item {qx.ui.core.Widget} The item to get the offset of
-     * @return {Integer} The item's top position relative to the selection container
-     */
-    getItemOffset : function(item) {
-      this.assertInstance(item, qx.ui.core.Widget);
-    },
-
-
-    /**
-     * Get the item's height
-     *
-     * @param item {qx.ui.core.Widget} The item to get the height of
-     * @return {Integer} The item's height
-     */
-    getItemHeight : function(item) {
-      this.assertInstance(item, qx.ui.core.Widget);
-    },
-
-
-    /**
-     * Get the current scoll top position
-     *
-     * @return {Integer} The current scroll top position inside of the container
-     */
-    getScrollTop : function() {},
-
-
-    /**
-     * Set the scoll top position of the selection container
-     *
-     * @param scroll {Integer} The current scroll top position inside of the selection container
-     */
-    setScrollTop : function(scroll) {
-      this.assertNumber(scroll)
-    },
-
-
-    /**
-     * Scroll the given item into the container's visible area.
-     *
-     * @param item {qx.ui.core.Widget} The item to scroll into view
-     */
-    scrollItemIntoView : function(item) {
-      this.assertInstance(item, qx.ui.core.Widget);
-    },
-
-
-    /**
-     * Get the inner height of the container.
-     *
-     * @return {Integer} The inner height of the selection container
-     */
-    getInnerHeight : function() {}
+    getItemAbove : function(selectedItem) {}
   }
 });
