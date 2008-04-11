@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
     {
       this.base(arguments);
 
-      var l1 = new qx.ui.form.List;
+      var l1 = new qx.ui.form.List(true);
 
       l1.set({ height: 300, width: 150 });
 
@@ -50,10 +50,12 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       this.getRoot().add(l1, 20, 20);
 
-      var l2 = new qx.ui.form.List;
+
+
+
+      var l2 = new qx.ui.form.List(false);
 
       l2.set({ height: 200, width: 150 });
-      l2.getManager().setMultiSelection(false);
 
       var l2l = [ "red", "violett", "rose", "blue", "green", "cyan", "magenta", "yellow", "brown", "orange", "black", "white", "grey", "gray", "brown" ];
 

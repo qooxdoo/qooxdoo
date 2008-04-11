@@ -76,28 +76,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     multiSelection :
     {
       check: "Boolean",
-      init : true
-    },
-
-
-    /** Enable drag selection? */
-    dragSelection :
-    {
-      check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyMultiSelection"
     },
 
 
     /** Should the user be able to select */
     canDeselect :
-    {
-      check : "Boolean",
-      init : true
-    },
-
-
-    /** Should a change event be fired? */
-    fireChange :
     {
       check : "Boolean",
       init : true
@@ -250,6 +235,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    // property apply
+    _applyMultiSelection : function(value, old)
+    {
+      this.deselectAll();
+      this.resetLeadItem();
+      this.resetAnchorItem();
+    },
+
+
 
 
 
@@ -296,59 +290,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * TODOC
      *
      * @type member
-     * @param item {var} TODOC
-     * @return {var} TODOC
-     */
-    getNext : function(item)
-    {
-      var items = this.getItems();
-      var pos = items.indexOf(item) + 1;
-
-      return items[pos] || null;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param item {var} TODOC
-     * @return {var} TODOC
-     */
-    getPrevious : function(item)
-    {
-      var items = this.getItems();
-      var pos = items.indexOf(item) - 1;
-
-      return pos >= 0 ? items[pos] : null;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @return {boolean} TODOC
      */
-    isBefore : function(vItem1, vItem2)
+    isItemBefore : function(vItem1, vItem2)
     {
       var items = this.getItems();
       return items.indexOf(vItem1) < items.indexOf(vItem2);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem1 {var} TODOC
-     * @param vItem2 {var} TODOC
-     * @return {var} TODOC
-     */
-    isEqual : function(vItem1, vItem2) {
-      return vItem1 === vItem2;
     },
 
 
@@ -375,87 +324,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     /**
-     * Make a single item selected / not selected
-     *
-     * #param item[qx.ui.core.Widget]: Item which should be selected / not selected
-     * #param vSelected[Boolean]: Should this item be selected?
-     *
-     * @type member
-     * @param item {var} TODOC
-     * @param vSelected {var} TODOC
-     * @return {void}
-     */
-    setItemSelected : function(item, vSelected)
-    {
-      switch(this.getMultiSelection())
-      {
-          // Multiple item selection is allowed
-        case true:
-          // If selection state is not to be changed => return
-          if (this.isItemSelected(item) == vSelected) {
-            return;
-          }
-
-          // Otherwise render new state
-          this.renderItemSelectionState(item, vSelected);
-
-          // Add item to selection hash / delete it from there
-          vSelected ? this._selectedItems.add(item) : this._selectedItems.remove(item);
-
-          // Dispatch change Event
-          this._dispatchChange();
-
-          break;
-
-          // Multiple item selection is NOT allowed
-
-        case false:
-          var item0 = this.getSelectedItems()[0];
-
-          if (vSelected)
-          {
-            // Precheck for any changes
-            var old = item0;
-
-            if (this.isEqual(item, old)) {
-              return;
-            }
-
-            // Reset rendering of previous selected item
-            if (old != null) {
-              this.renderItemSelectionState(old, false);
-            }
-
-            // Render new item as selected
-            this.renderItemSelectionState(item, true);
-
-            // Reset current selection hash
-            this._selectedItems.removeAll();
-
-            // Add new one
-            this._selectedItems.add(item);
-
-            // Dispatch change Event
-            this._dispatchChange();
-          }
-          else
-          {
-            // Reset rendering as selected item
-            this.renderItemSelectionState(item, false);
-
-            // Reset current selection hash
-            this._selectedItems.removeAll();
-
-            // Dispatch change Event
-            this._dispatchChange();
-          }
-
-          break;
-      }
-    },
-
-
-    /**
      * Get the selected items (objects)
      *
      * @type member
@@ -473,7 +341,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {var} TODOC
      */
     getSelectedItem : function() {
-      return this._selectedItems.getFirst();
+      return this._selectedItems.toArray()[0] || null;
     },
 
 
@@ -488,14 +356,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     setSelectedItems : function(vItems)
     {
-      var oldVal = this._getChangeValue();
-
       // Temporary disabling of event fire
       var oldFireChange = this.getFireChange();
       this.setFireChange(false);
 
       // Deselect all currently selected items
-      this._deselectAll();
+      this.deselectAll();
 
       // Apply new selection
       var item;
@@ -514,11 +380,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Recover change event status
       this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) {
-        this._dispatchChange();
-      }
     },
 
 
@@ -535,28 +396,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
-      var oldVal = this._getChangeValue();
-
-      // Temporary disabling of event fire
-      var oldFireChange = this.getFireChange();
-      this.setFireChange(false);
-
       // Deselect all currently selected items
-      this._deselectAll();
+      this.deselectAll();
 
       // Add item to selection
       this._selectedItems.add(item);
 
       // Render new state for item
       this.renderItemSelectionState(item, true);
-
-      // Recover change event status
-      this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) {
-        this._dispatchChange();
-      }
     },
 
 
@@ -568,42 +415,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     selectAll : function()
     {
-      var oldVal = this._getChangeValue();
-
-      // Temporary disabling of event fire
-      var oldFireChange = this.getFireChange();
-      this.setFireChange(false);
-
-      // Call sub method to select all items
-      this._selectAll();
-
-      // Recover change event status
-      this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) {
-        this._dispatchChange();
-      }
-    },
-
-
-    /**
-     * Sub method for selectAll. Handles the real work
-     *  to select all items.
-     *
-     * @type member
-     * @return {void | Boolean} TODOC
-     */
-    _selectAll : function()
-    {
-      if (!this.getMultiSelection()) {
-        return;
-      }
-
       var item;
       var vItems = this.getItems();
-
-      console.log(vItems);
 
       var vItemsLength = vItems.length;
 
@@ -633,31 +446,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     deselectAll : function()
     {
-      var oldVal = this._getChangeValue();
-
-      // Temporary disabling of event fire
-      var oldFireChange = this.getFireChange();
-      this.setFireChange(false);
-
-      // Call sub method to deselect all items
-      this._deselectAll();
-
-      // Recover change event status
-      this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) this._dispatchChange();
-    },
-
-
-    /**
-     * Sub method for deselectAll. Handles the real work
-     *  to deselect all items.
-     *
-     * @type member
-     */
-    _deselectAll : function()
-    {
       // Render new state for items
       var items = this._selectedItems.toArray();
 
@@ -685,22 +473,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     selectItemRange : function(vItem1, vItem2)
     {
-      var oldVal = this._getChangeValue();
-
-      // Temporary disabling of event fire
-      var oldFireChange = this.getFireChange();
-      this.setFireChange(false);
-
       // Call sub method to select the range of items
       this._selectItemRange(vItem1, vItem2, true);
-
-      // Recover change event status
-      this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) {
-        this._dispatchChange();
-      }
     },
 
 
@@ -723,13 +497,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // this.debug("SELECT_RANGE: " + vItem1.toText() + "<->" + vItem2.toText());
       // this.debug("SELECT_RANGE: " + vItem1.pos + "<->" + vItem2.pos);
       // Pre-Check a revert call if vItem2 is before vItem1
-      if (this.isBefore(vItem2, vItem1)) {
+      if (this.isItemBefore(vItem2, vItem1)) {
         return this._selectItemRange(vItem2, vItem1, vDeselect);
       }
 
       // Deselect all
       if (vDeselect) {
-        this._deselectAll();
+        this.deselectAll();
       }
 
       var vCurrentItem = vItem1;
@@ -743,12 +517,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this.renderItemSelectionState(vCurrentItem, true);
 
         // Stop here if we reached target item
-        if (this.isEqual(vCurrentItem, vItem2)) {
+        if (vCurrentItem === vItem2) {
           break;
         }
 
         // Get next item
-        vCurrentItem = this.getNext(vCurrentItem);
+        vCurrentItem = this.getNextItem(vCurrentItem);
       }
 
       return true;
@@ -769,7 +543,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     _deselectItemRange : function(vItem1, vItem2)
     {
       // Pre-Check a revert call if vItem2 is before vItem1
-      if (this.isBefore(vItem2, vItem1)) {
+      if (this.isItemBefore(vItem2, vItem1)) {
         return this._deselectItemRange(vItem2, vItem1);
       }
 
@@ -784,12 +558,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this.renderItemSelectionState(vCurrentItem, false);
 
         // Stop here if we reached target item
-        if (this.isEqual(vCurrentItem, vItem2)) {
+        if (vCurrentItem === vItem2) {
           break;
         }
 
         // Get next item
-        vCurrentItem = this.getNext(vCurrentItem);
+        vCurrentItem = this.getNextItem(vCurrentItem);
       }
     },
 
@@ -804,9 +578,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       MOUSE EVENT HANDLING
     ---------------------------------------------------------------------------
     */
-
-    _activeDragSession : false,
-
 
     /**
      * TODOC
@@ -831,45 +602,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Shift Key
       //   or
       // Click on an unseleted item (without Ctrl)
-      if (
-        e.isShiftPressed() ||
-        this.getDragSelection() ||
-        (!this.isItemSelected(item) && !e.isCtrlPressed())
-      )
+      if (e.isShiftPressed() || (!this.isItemSelected(item) && !e.isCtrlPressed()))
       {
-        // Handle event
         this._onmouseevent(item, e);
       }
       else
       {
-        // Update lead item
         this.setLeadItem(item);
       }
-
-      // Handle dragging
-      this._activeDragSession = this.getDragSelection();
-
-      if (this._activeDragSession)
-      {
-        // Add mouseup listener and register as capture widget
-        this.getWidget().addListener("mouseup", this._ondragup, this);
-        this.getWidget().capture();
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _ondragup : function(e)
-    {
-      this.getWidget().removeListener("mouseup", this._ondragup, this);
-      this.getWidget().releaseCapture();
-      this._activeDragSession = false;
     },
 
 
@@ -883,37 +623,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleMouseUp : function(item, e)
     {
+      // Only process left clicks
       if (!e.isLeftPressed()) {
         return;
       }
 
-      if (e.isCtrlPressed() || this.isItemSelected(item) && !this._activeDragSession) {
+      if (e.isCtrlPressed() || this.isItemSelected(item)) {
         this._onmouseevent(item, e);
       }
-
-      if (this._activeDragSession)
-      {
-        this._activeDragSession = false;
-        this.getWidget().releaseCapture();
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param oItem {Object} TODOC
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    handleMouseOver : function(oItem, e)
-    {
-      if (!this.getDragSelection() || !this._activeDragSession) {
-        return;
-      }
-
-      this._onmouseevent(oItem, e, true);
     },
 
 
@@ -921,164 +638,133 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Internal handler for all mouse events bound to this manager.
      *
      * @type member
-     * @param oItem {Object} TODOC
+     * @param item {Object} TODOC
      * @param e {Event} TODOC
-     * @param bOver {Boolean} TODOC
      * @return {void}
      */
-    _onmouseevent : function(oItem, e, bOver)
+    _onmouseevent : function(item, e)
     {
+      if (!this.getMultiSelection())
+      {
+        var old = this.getSelectedItem();
+        if (old)
+        {
+          this._selectedItems.remove(old);
+          this.renderItemSelectionState(old, false);
+        }
+
+        this._selectedItems.add(item);
+        this.renderItemSelectionState(item, true);
+      }
+      else if (!e.isCtrlPressed())
+      {
+        this.setAnchorItem(item);
+        this.setLeadItem(item);
+
+        this._selectedItems.add(item);
+        this.renderItemSelectionState(item, true);
+      }
+      else
+      {
+        return;
+
+      }
+
+
+
+
+
+
       // ********************************************************************
       //   Init
       // ********************************************************************
       // Cache current (old) values
-      var oldVal = this._getChangeValue();
       var oldLead = this.getLeadItem();
-
-      // Temporary disabling of event fire
-      var oldFireChange = this.getFireChange();
-      this.setFireChange(false);
 
       // Cache selection and count
       var selectedItems = this.getSelectedItems();
-      var selectedCount = selectedItems.length;
 
       // Update lead item
-      this.setLeadItem(oItem);
-      this.getWidget().scrollItemIntoView(oItem);
+      this.setLeadItem(item);
 
       // Cache current anchor item
       var currentAnchorItem = this.getAnchorItem();
 
       // Cache keys pressed
-      var vCtrlKey = e.isCtrlPressed();
-      var vShiftKey = e.isShiftPressed();
+      var ctrlPressed = e.isCtrlPressed();
+      var shiftPressed = e.isShiftPressed();
+
+
 
       // ********************************************************************
       //   Do we need to update the anchor?
       // ********************************************************************
       if (
         !currentAnchorItem ||
-        selectedCount == 0 ||
-        (vCtrlKey && !vShiftKey && this.getMultiSelection() && !this.getDragSelection()))
+        selectedItems.length == 0 ||
+        (ctrlPressed && !shiftPressed && this.getMultiSelection()))
       {
-        this.setAnchorItem(oItem);
-        currentAnchorItem = oItem;
+        this.setAnchorItem(item);
+        currentAnchorItem = item;
       }
 
-      // ********************************************************************
-      //   Mode #1: Replace current selection with new one
-      // ********************************************************************
-      if ((!vCtrlKey && !vShiftKey && !this._activeDragSession || !this.getMultiSelection()))
+
+
+      if (!ctrlPressed)
       {
         // Remove current selection
-        this._deselectAll();
+        this.deselectAll();
 
         // Update anchor item
-        this.setAnchorItem(oItem);
+        this.setAnchorItem(item);
 
-        // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
-        if (this._activeDragSession) {
-          this.getWidget().scrollItemIntoView((this.getWidget().getScrollTop() > (this.getWidget().getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
-        }
-
-        if (!this.isItemSelected(oItem)) {
-          this.renderItemSelectionState(oItem, true);
+        if (!this.isItemSelected(item)) {
+          this.renderItemSelectionState(item, true);
         }
 
         // Clear up and add new one
         // this._selectedItems.removeAll();
-        this._selectedItems.add(oItem);
+        this._selectedItems.add(item);
 
         this._addToCurrentSelection = true;
       }
 
-      // ********************************************************************
-      //   Mode #2: (De-)Select item range in mouse drag session
-      // ********************************************************************
-      else if (this._activeDragSession && bOver)
-      {
-        if (oldLead) {
-          this._deselectItemRange(currentAnchorItem, oldLead);
-        }
 
-        // Drag down
-        if (this.isBefore(currentAnchorItem, oItem))
+
+
+      else
+      {
+        if (ctrlPressed)
         {
-          if (this._addToCurrentSelection) {
-            this._selectItemRange(currentAnchorItem, oItem, false);
-          } else {
-            this._deselectItemRange(currentAnchorItem, oItem);
+          if (shiftPressed)
+          {
+            if (this._addToCurrentSelection) {
+              this._selectItemRange(currentAnchorItem, item, false);
+            } else {
+              this._deselectItemRange(currentAnchorItem, item);
+            }
+          }
+          else
+          {
+            //TODO
+            //this.setItemSelected(item, this._addToCurrentSelection);
+            this.setAnchorItem(item);
           }
         }
-
-        // Drag up
-        else
+        else if (shiftPressed)
         {
-          if (this._addToCurrentSelection) {
-            this._selectItemRange(oItem, currentAnchorItem, false);
-          } else {
-            this._deselectItemRange(oItem, currentAnchorItem);
+          if (this.getCanDeselect()) {
+            this._selectItemRange(currentAnchorItem, item, true);
+          }
+          else
+          {
+            if (oldLead) {
+              this._deselectItemRange(currentAnchorItem, oldLead);
+            }
+
+            this._selectItemRange(currentAnchorItem, item, false);
           }
         }
-
-        // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
-        this.getWidget().scrollItemIntoView((this.getWidget().getScrollTop() > (this.getWidget().getItemOffset(oItem) - 1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
-      }
-
-      // ********************************************************************
-      //   Mode #3: Add new item to current selection (ctrl pressed)
-      // ********************************************************************
-      else if (this.getMultiSelection() && vCtrlKey && !vShiftKey)
-      {
-        if (!this._activeDragSession) {
-          this._addToCurrentSelection = !(this.getCanDeselect() && this.isItemSelected(oItem));
-        }
-
-        this.setItemSelected(oItem, this._addToCurrentSelection);
-        this.setAnchorItem(oItem);
-      }
-
-      // ********************************************************************
-      //   Mode #4: Add new (or continued) range to selection
-      // ********************************************************************
-      else if (this.getMultiSelection() && vCtrlKey && vShiftKey)
-      {
-        if (!this._activeDragSession) {
-          this._addToCurrentSelection = !(this.getCanDeselect() && this.isItemSelected(oItem));
-        }
-
-        if (this._addToCurrentSelection) {
-          this._selectItemRange(currentAnchorItem, oItem, false);
-        } else {
-          this._deselectItemRange(currentAnchorItem, oItem);
-        }
-      }
-
-      // ********************************************************************
-      //   Mode #5: Replace selection with new range selection
-      // ********************************************************************
-      else if (this.getMultiSelection() && !vCtrlKey && vShiftKey)
-      {
-        if (this.getCanDeselect()) {
-          this._selectItemRange(currentAnchorItem, oItem, true);
-        }
-        else
-        {
-          if (oldLead) {
-            this._deselectItemRange(currentAnchorItem, oldLead);
-          }
-
-          this._selectItemRange(currentAnchorItem, oItem, false);
-        }
-      }
-
-      // Recover change event status
-      this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) {
-        this._dispatchChange();
       }
     },
 
@@ -1101,24 +787,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleKeyPress : function(ev)
     {
-      var oldVal = this._getChangeValue();
-
       // this.debug("KeyPress: " + ev.getKeyIdentifier());
-
-      // Temporary disabling of event fire
-      var oldFireChange = this.getFireChange();
-      this.setFireChange(false);
 
       // Ctrl+A: Select all
       if (ev.getKeyIdentifier() == "A" && ev.isCtrlPressed())
       {
         if (this.getMultiSelection())
         {
-          this._selectAll();
-
-          // Update lead item to this new last
-          // (or better here: first) selected item
-          this.setLeadItem(this.getFirst());
+          this.selectAll();
         }
       }
 
@@ -1126,7 +802,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       else
       {
         var aIndex = this.getAnchorItem();
-        var itemToSelect = this.getItemToSelect(ev);
+        var itemToSelect = this.__getItemFromEvent(ev);
 
         // this.debug("Anchor: " + (aIndex ? aIndex.getLabel() : "null"));
         // this.debug("ToSelect: " + (itemToSelect ? itemToSelect.getLabel() : "null"));
@@ -1154,7 +830,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           else if (!ev.isCtrlPressed())
           {
             // Clear current selection
-            this._deselectAll();
+            this.deselectAll();
 
             // Update new item to be selected
             this.renderItemSelectionState(itemToSelect, true);
@@ -1183,7 +859,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             {
               // Clear current selection
               if (!ev.isCtrlPressed() || !this.getMultiSelection()) {
-                this._deselectAll();
+                this.deselectAll();
               }
 
               // Update new item to be selected
@@ -1199,14 +875,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           }
         }
       }
-
-      // Recover change event status
-      this.setFireChange(oldFireChange);
-
-      // Dispatch change Event
-      if (oldFireChange && this._hasChanged(oldVal)) {
-        this._dispatchChange();
-      }
     },
 
 
@@ -1217,7 +885,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param vKeyboardEvent {var} TODOC
      * @return {null | var} TODOC
      */
-    getItemToSelect : function(vKeyboardEvent)
+    __getItemFromEvent : function(vKeyboardEvent)
     {
       // Don't handle ALT here
       if (vKeyboardEvent.isAltPressed()) {
@@ -1234,10 +902,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           return this.getLast();
 
         case "Down":
-          return this.getNext(this.getLeadItem());
+          return this.getNextItem(this.getLeadItem());
 
         case "Up":
-          return this.getPrevious(this.getLeadItem());
+          return this.getPreviousItem(this.getLeadItem());
 
         case "PageUp":
           return this.getPageUp(this.getLeadItem()) || this.getFirst();
@@ -1252,53 +920,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       return null;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CHANGE HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _dispatchChange : function()
-    {
-      if (!this.getFireChange()) {
-        return;
-      }
-
-      this.fireDataEvent("changeSelection", this.getSelectedItems(), true);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param sOldValue {String} TODOC
-     * @return {var} TODOC
-     */
-    _hasChanged : function(sOldValue) {
-      return sOldValue != this._getChangeValue();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _getChangeValue : function() {
-      return this._selectedItems.getChangeValue();
     },
 
 
@@ -1341,7 +962,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       while (tryLoops < 2)
       {
         while (nextItem && (this.getWidget().getItemOffset(nextItem) - this.getWidget().getItemHeight(nextItem) >= vParentScrollTop)) {
-          nextItem = this.getPrevious(nextItem);
+          nextItem = this.getPreviousItem(nextItem);
         }
 
         // This should never occour after the fix above
@@ -1403,7 +1024,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       {
         // Find next
         while (nextItem && ((vBoundedWidget.getItemOffset(nextItem) + (2 * vBoundedWidget.getItemHeight(nextItem))) <= (vParentScrollTop + vParentClientHeight))) {
-          nextItem = this.getNext(nextItem);
+          nextItem = this.getNextItem(nextItem);
         }
 
         // This should never occour after the fix above
