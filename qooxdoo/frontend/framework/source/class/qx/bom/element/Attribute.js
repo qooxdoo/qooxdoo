@@ -225,6 +225,7 @@ qx.Class.define("qx.bom.element.Attribute",
           value = element.getAttribute(name);
         }
 
+        // TODO: Is this enough, what's about string false values?
         if (hints.bools[name]) {
           return !!value;
         }
@@ -256,6 +257,7 @@ qx.Class.define("qx.bom.element.Attribute",
           value = element.getAttribute(name);
         }
 
+        // TODO: Is this enough, what's about string false values?
         if (hints.bools[name]) {
           return !!value;
         }
