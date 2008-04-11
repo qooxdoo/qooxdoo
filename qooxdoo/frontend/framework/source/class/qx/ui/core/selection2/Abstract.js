@@ -84,11 +84,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    _itemToHashCode : function(item) {
-      throw new Error("Abstract method call: itemToHashcode()");
-    },
-
-
     // property apply
     _applyLeadItem : function(value, old) {
       throw new Error("Abstract method call: _applyLeadItem()");
@@ -102,9 +97,22 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
     // overridden
-    _scrollIntoView : function(item) {
-      throw new Error("Abstract method call: _applyAnchorItem()");
+    _itemToHashCode : function(item) {
+      throw new Error("Abstract method call: itemToHashcode()");
     },
+
+
+    // overridden
+    _getSelectableItems : function(item) {
+      throw new Error("Abstract method call: _getItems()");
+    },
+
+
+    // overridden
+    _getItemRange : function(item1, item2) {
+      throw new Error("Abstract method call: _getItemRange()");
+    },
+
 
     // overridden
     _scrollItemIntoView : function(item) {
@@ -217,14 +225,20 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         {
 
         }
+
+        // Add to selection / Toggle in selection
         else if (ctrlPressed)
         {
-
+          this._toggleInSelection(item);
         }
-        else if (shiftPressed)
+
+        // Create/Update range selection
+        else if (shiftPressed && this.getAnchorItem())
         {
-
+          this._selectItemRange(this.getAnchorItem(), item);
         }
+
+        // Replace current selection
         else
         {
           this.setAnchorItem(item);
@@ -311,6 +325,48 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
+    _selectItemRange : function(item1, item2)
+    {
+      var range = this._getItemRange(item1, item2);
+      var mapped = this._mapRange(range);
+      var selected = this._selection;
+      var current;
+      var hash;
+
+      for (hash in selected)
+      {
+        if (!mapped[hash]) {
+          this._removeFromSelection(selected[hash]);
+        }
+      }
+
+      for (var i=0, l=range.length; i<l; i++)
+      {
+        current = range[i];
+        hash = this._itemToHashCode(current);
+
+        if (!selected[hash]) {
+          this._addToSelection(current);
+        }
+      }
+    },
+
+
+    _mapRange : function(range)
+    {
+      var mapped = {};
+      var item;
+
+      for (var i=0, l=range.length; i<l; i++)
+      {
+        item = range[i];
+        mapped[this._itemToHashCode(item)] = item;
+      }
+
+      return mapped;
+    },
+
+
     _isSelected : function(item)
     {
       var hash = this._itemToHashCode(item);
@@ -341,7 +397,23 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       {
         this._selection[hash] = item;
         this._styleItemSelected(item);
+      }
+    },
 
+
+    _toggleInSelection : function(item)
+    {
+      var hash = this._itemToHashCode(item);
+
+      if (!this._selection[hash])
+      {
+        this._selection[hash] = item;
+        this._styleItemSelected(item);
+      }
+      else
+      {
+        delete this._selection[hash];
+        this._styleItemUnselected(item);
       }
     },
 
