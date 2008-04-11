@@ -39,9 +39,9 @@ class ImageInfo(object):
         for img in filetool.find(rootDir, imgpatt):
             self._console.debug("Analysing image: %s" % img)
             #mo = self.imgpatt.search(img)
-            imgInfo = ImgInfo(img).getInfo()
+            imgInfo = ImgInfo(img).getImageInfo()
             if imgInfo:
-                result[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'filetype': imgInfo[2]}
+                result[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
 
         return result
 
@@ -55,7 +55,7 @@ class ImageInfo(object):
         #mo = self.imgpatt.search(img)
         imgInfo = ImgInfo(img).getInfo()
         if imgInfo:
-            result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'filetype': imgInfo[2]}
+            result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
         else:
             result = {}
 
