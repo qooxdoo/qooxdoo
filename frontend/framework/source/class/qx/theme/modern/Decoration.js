@@ -37,12 +37,82 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
   decorations :
   {
+    "black" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "black"
+      }
+    },
+
+    "focus-line" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "focus"
+      }
+    },
+
     "pane" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
         baseImage : "decoration/pane/pane.png"
+      }
+    },
+
+    "slider-knob-vertical" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/slider-knob-bg-vertical.png",
+        backgroundRepeat : "repeat-y",
+        outerColor : "#4d4d4d",
+        innerColor : "#e1e1e1"
+      }
+    },
+
+    "slider-knob-horizontal" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/slider-knob-bg-horizontal.png",
+        backgroundRepeat : "repeat-x",
+        outerColor : "#4d4d4d",
+        innerColor : "#e1e1e1"
+      }
+    },
+
+    "slider-knob-pressed-vertical" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/scrollbar-bg-pressed-vertical.png",
+        backgroundRepeat : "repeat-y",
+        outerColor : "#192433",
+        innerColor : "#e9f5ff"
+      }
+    },
+
+    "slider-knob-pressed-horizontal" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/scrollbar-bg-pressed-horizontal.png",
+        backgroundRepeat : "repeat-x",
+        outerColor : "#192433",
+        innerColor : "#e9f5ff"
       }
     },
 

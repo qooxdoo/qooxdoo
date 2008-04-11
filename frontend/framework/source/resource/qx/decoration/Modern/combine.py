@@ -15,7 +15,6 @@ import subprocess
 
 
 def get_file_info(filename):
-    print filename
     if not os.path.exists(filename):
         print "Error: Unable to find file '%'" % filename
         sys.exit(1)

@@ -37,6 +37,10 @@ qx.Theme.define("qx.theme.modern.Color",
     "border" : "#2D405A",
     "focus" : "#92B1DC",
 
-    "pane" : "#ededed"
+    "pane" : "#ededed",
+
+    "selected" : "#00439d",
+    "selected-inactive" : "#7a9bc8",
+    "text-selected" : "#fffefe"
   }
 });
