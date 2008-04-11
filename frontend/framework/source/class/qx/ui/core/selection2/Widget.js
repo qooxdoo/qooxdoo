@@ -46,11 +46,11 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
   members :
   {
-    // overridden
-    _itemToHashCode : function(item) {
-      return item.$$hash;
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      NORMAL WIDGET API
+    ---------------------------------------------------------------------------
+    */
 
     // property apply
     _applyLeadItem : function(value, old)
@@ -79,22 +79,39 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
 
     // overridden
+    _itemToHashCode : function(item) {
+      return item.$$hash;
+    },
+
+
+    // overridden
     _scrollItemIntoView : function(item) {
       this._widget.scrollItemIntoView(item);
     },
 
 
     // overridden
-    _styleSelected : function(item) {
+    _styleItemSelected : function(item) {
       item.addState("selected");
     },
 
 
     // overridden
-    _styleNormal : function(item) {
+    _styleItemUnselected : function(item) {
       item.removeState("selected");
     },
 
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SELECTABLE INTERFACE API
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     _getFirstItem : function() {
