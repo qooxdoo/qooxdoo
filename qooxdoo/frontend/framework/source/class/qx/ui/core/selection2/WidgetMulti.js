@@ -17,10 +17,17 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.selection2.WidgetMulti",
+qx.Class.define("qx.ui.core.selection2.Widget",
 {
-  extend : qx.ui.core.selection2.AbstractMulti,
+  extend : qx.ui.core.selection2.Abstract,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
   construct : function(widget)
   {
@@ -29,23 +36,80 @@ qx.Class.define("qx.ui.core.selection2.WidgetMulti",
     this._widget = widget;
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     // overridden
     _itemToHashCode : function(item) {
       return item.$$hash;
+    },
+
+
+    // overridden
+    _getFirstItem : function() {
+      return this._widget.getFirstItem();
+    },
+
+
+    // overridden
+    _getLastItem : function() {
+      return this._widget.getLastItem();
+    },
+
+
+    // overridden
+    _getItemAbove : function(rel) {
+      return this._widget.getItemAbove(rel);
+    },
+
+
+    // overridden
+    _getItemUnder : function(rel) {
+      return this._widget.getItemUnder(rel);
+    },
+
+
+    // overridden
+    _getItemLeft : function(rel) {
+      return this._widget.getItemLeft(rel);
+    },
+
+
+    // overridden
+    _getItemRight : function(rel) {
+      return this._widget.getItemRight(rel);
+    },
+
+
+    // overridden
+    _getItemPageUp : function(rel) {
+      return this._widget.getItemPageUp(rel);
+    },
+
+
+    // overridden
+    _getItemPageDown : function(rel) {
+      return this._widget.getItemPageDown(rel);
     }
-
-
-
-
-
-
-
   },
 
-  destruct : function()
-  {
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
     this.disposeFields("_widget");
   }
 });

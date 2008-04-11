@@ -51,8 +51,7 @@ qx.Class.define("qx.ui.form.List",
 
     this.setContent(content);
 
-    var clazz = multi ? qx.ui.core.selection2.WidgetMulti : qx.ui.core.selection2.WidgetSingle;
-    this._manager = new clazz(this);
+    this._manager = new qx.ui.core.selection2.Widget(this);
 
     this.addListener("mousedown", this._onmousedown, this);
     this.addListener("keypress", this._onkeypress);
