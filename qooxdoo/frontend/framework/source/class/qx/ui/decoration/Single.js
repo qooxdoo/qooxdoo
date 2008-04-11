@@ -226,12 +226,18 @@ qx.Class.define("qx.ui.decoration.Single",
     /** How the background should be repeated */
     backgroundRepeat :
     {
-      check : ["repeat", "repeat-x", "repeat-y", "no-repeat"],
+      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
       init : "repeat",
       apply : "_applyBorderChange"
     },
 
 
+    stretchedImage :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBorderChange"
+    },
 
 
     /*
@@ -310,7 +316,11 @@ qx.Class.define("qx.ui.decoration.Single",
      */
     _getStyles : function(width, height)
     {
-      var bgImage = this.getBackgroundImage();
+      if (this.getBackgroundRepeat() !== "scale") {
+        var bgImage = qx.io.Alias.getInstance().resolve(this.getBackgroundImage());
+      } else {
+        bgImage = "";
+      }
 
       var styles =
       {
@@ -334,11 +344,35 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
+    _updateScaledImage : function(el, width, height)
+    {
+      var bgImage = qx.io.Alias.getInstance().resolve(this.getBackgroundImage());
+      if (!bgImage || this.getBackgroundRepeat() !== "scale")
+      {
+        el.removeAll();
+        return;
+      }
+
+      var img = el.getChild(0);
+      if (!img)
+      {
+        img = new qx.html.Image();
+        el.add(img);
+      }
+
+      img.setSource(bgImage);
+      img.setStyle("height", "100%");
+      img.setStyle("width", "100%");
+    },
+
+
     // interface implementation
     render : function(element, width, height, backgroundColor, updateSize, updateStyles)
     {
       if (updateStyles) {
         element.setStyles(this._getStyles());
+
+        this._updateScaledImage(element, width, height);
       }
 
       element.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
@@ -377,6 +411,7 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     reset : function(element) {
       element.setStyles(this._emptyStyles);
+      el.removeAll();
     },
 
 
