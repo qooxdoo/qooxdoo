@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     scrollPane.addListener("resizeContent", this._onResize, this);
 
     var corner = this._corner = new qx.ui.core.Widget().set({
-      //backgroundColor: "green",
+      appearance : "scroll-pane-corner",
       width : 0,
       height : 0
     });
