@@ -22,7 +22,7 @@
  * Widgets, which implement a selection behaviour of sub items using the
  * {@link SelectionManager} must implement this interface.
  */
-qx.Interface.define("qx.ui.core.ISelectionContainer",
+qx.Interface.define("qx.ui.core.selection.IContainer",
 {
   members :
   {

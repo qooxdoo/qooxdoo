@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
-  implement : qx.ui.core.ISelectionContainer,
+  implement : qx.ui.core.selection.IContainer,
 
 
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.form.List",
 
     this.setContent(content);
 
-    this._manager = new qx.ui.core.SelectionManager(this);
+    this._manager = new qx.ui.core.selection.Widget(this);
 
     this.addListener("mouseover", this._onmouseover, this);
     this.addListener("mousedown", this._onmousedown, this);
