@@ -84,19 +84,23 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       c4.setChecked(true);
 
       c1.addListener("changeChecked", function(e) {
-        l1.getManager().setMultiSelection(e.getValue());
+        this.debug("Not yet implemented!");
+        //l1.getManager().setMultiSelection(e.getValue());
       });
 
       c2.addListener("changeChecked", function(e) {
-        l1.getManager().setDragSelection(e.getValue());
+        this.debug("Not yet implemented!");
+        //l1.getManager().setDragSelection(e.getValue());
       });
 
       c3.addListener("changeChecked", function(e) {
-        l1.getManager().setCanDeselect(e.getValue());
+        this.debug("Not yet implemented!");
+        //l1.getManager().setCanDeselect(e.getValue());
       });
 
       c4.addListener("changeChecked", function(e) {
-        l1.setEnableInlineFind(e.getValue());
+        this.debug("Not yet implemented!");
+        //l1.setEnableInlineFind(e.getValue());
       });
 
 

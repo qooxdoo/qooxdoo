@@ -90,14 +90,104 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
     // property apply
-    _applyLeadItem : function(value) {
+    _applyLeadItem : function(value, old) {
       throw new Error("Abstract method call: _applyLeadItem()");
     },
 
 
     // property apply
-    _applyAnchorItem : function(value) {
+    _applyAnchorItem : function(value, old) {
       throw new Error("Abstract method call: _applyAnchorItem()");
+    },
+
+
+    // overridden
+    _scrollIntoView : function(item) {
+      throw new Error("Abstract method call: _applyAnchorItem()");
+    },
+
+    // overridden
+    _scrollItemIntoView : function(item) {
+      throw new Error("Abstract method call: _scrollItemIntoView()");
+    },
+
+
+    // overridden
+    _styleSelected : function(item) {
+      throw new Error("Abstract method call: _styleSelected()");
+    },
+
+
+    // overridden
+    _styleNormal : function(item) {
+      throw new Error("Abstract method call: _styleNormal()");
+    },
+
+
+    // overridden
+    _getFirstItem : function() {
+      throw new Error("Abstract method call: _getFirstItem()");
+    },
+
+
+    // overridden
+    _getLastItem : function() {
+      throw new Error("Abstract method call: _getLastItem()");
+    },
+
+
+    // overridden
+    _getItemAbove : function(rel) {
+      throw new Error("Abstract method call: _getItemAbove()");
+    },
+
+
+    // overridden
+    _getItemUnder : function(rel) {
+      throw new Error("Abstract method call: _getItemUnder()");
+    },
+
+
+    // overridden
+    _getItemLeft : function(rel) {
+      throw new Error("Abstract method call: _getItemLeft()");
+    },
+
+
+    // overridden
+    _getItemRight : function(rel) {
+      throw new Error("Abstract method call: _getItemRight()");
+    },
+
+
+    // overridden
+    _getItemPageUp : function(rel) {
+      throw new Error("Abstract method call: _getItemPageUp()");
+    },
+
+
+    // overridden
+    _getItemPageDown : function(rel) {
+      throw new Error("Abstract method call: _getItemPageDown()");
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyMultiSelection : function(value, old)
+    {
+      this.resetLeadItem();
+      this.resetAnchorItem();
+
+      this._clearSelection();
     },
 
 
@@ -124,14 +214,20 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       }
       else
       {
-        this.setSelected(item);
+        this._setSelectedItem(item);
       }
     },
 
     handleKeyPress : function(item, event)
     {
       var next;
-      var current = this.getSelected();
+      var current;
+
+      if (this.getMultiSelection()) {
+        current = this.getLeadItem();
+      } else {
+        current = this._getSelectedItem();
+      }
 
       switch(event.getKeyIdentifier())
       {
@@ -172,8 +268,17 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       }
 
       // Process result
-      if (next) {
-        this.setSelected(next);
+      if (next)
+      {
+        if (this.getMultiSelection())
+        {
+
+        }
+        else
+        {
+          this._setSelectedItem(next);
+          this._scrollItemIntoView(next);
+        }
       }
 
       // Stop processed events
@@ -182,36 +287,67 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
-    isSelected : function(item)
+    _isSelected : function(item)
     {
       var hash = this._itemToHashCode(item);
       return !!this._selection[hash];
     },
 
 
-    add : function(item)
+    _getSelectedItem : function()
     {
-      var hash = this._itemToHashCode(item);
-      this._selection[hash] = item;
-    },
-
-
-    remove : function(item)
-    {
-      var hash = this._itemToHashCode(item);
-      delete this._selection[hash];
-    },
-
-
-    clear : function()
-    {
-      var current = this._selection;
-
-      for (var hash in current) {
-
+      if (this.getMultiSelection()) {
+        throw new Error("_getSelectedItem() is not supported when multi selection is enabled!");
       }
 
-      this._selection = {};
+      for (var hash in this._selection) {
+        return this._selection[hash];
+      }
+    },
+
+
+    _setSelectedItem : function(item)
+    {
+      if (this.getMultiSelection()) {
+        throw new Error("_getSelectedItem() is not supported when multi selection is enabled!");
+      }
+
+      this._clearSelection();
+      this._addToSelection(item);
+    },
+
+
+    _addToSelection : function(item)
+    {
+      var hash = this._itemToHashCode(item);
+
+      if (!this._selection[hash])
+      {
+        this._selection[hash] = item;
+        this._styleSelected(item);
+
+      }
+    },
+
+
+    _removeFromSelection : function(item)
+    {
+      var hash = this._itemToHashCode(item);
+
+      if (this._selection[hash])
+      {
+        delete this._selection[hash];
+        this._styleNormal(item);
+      }
+    },
+
+
+    _clearSelection : function()
+    {
+      var selection = this._selection;
+      for (var hash in selection) {
+        this._removeFromSelection(selection[hash]);
+      }
     }
   },
 
