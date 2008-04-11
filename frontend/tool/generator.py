@@ -60,6 +60,16 @@ def main():
     else:
         console = Log(options.logfile, "info")
 
+    # Load configuration
+    config = Config(console, options.config)
+
+    # List jobs?
+    if "?" in options.jobs:
+        console.info("Listing jobs in config '%s':" % options.config)
+        console.indent()
+        console.info(str(config.getJobsMap().keys()))
+        sys.exit(0)
+
     # Initial user feedback
     console.head("Initialization", True)
     console.info("Processing...")
@@ -67,9 +77,6 @@ def main():
     console.debug("Configuration: %s" % options.config)
     console.debug("Jobs: %s" % ", ".join(options.jobs))
     console.outdent()
-
-    # Load configuration
-    config = Config(console, options.config)
 
     # Resolve "include"-Keys
     config.resolveIncludes()
