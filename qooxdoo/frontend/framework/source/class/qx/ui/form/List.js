@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
-  //implement : qx.ui.core.selection.IContainer,
+  implement : qx.ui.core.selection2.IContainer,
 
 
 
