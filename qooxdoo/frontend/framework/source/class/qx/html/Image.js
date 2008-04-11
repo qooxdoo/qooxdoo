@@ -49,7 +49,7 @@ qx.Class.define("qx.html.Image",
     {
       this.base(arguments);
 
-      if (name == "content") {
+      if (name == "source") {
         qx.bom.Image.setSource(this._element, value);
       }
     },
