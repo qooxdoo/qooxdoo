@@ -538,9 +538,9 @@ class Generator:
         if not self._config.get("combine-images", False):
             return
 
-        config = {}
         images = self._config.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
+            config = {}
             input  = imgspec['input']
             layout = imgspec['layout'] == "horizontal"
             # create the combined image
@@ -641,7 +641,7 @@ class Generator:
             # resource = [path, uri]
             imgpath= resource[0]
             imguri = resource[1]
-            imageInfo         = self._imageInfo.getImageInfo(imgpath)
+            imageInfo = self._imageInfo.getImageInfo(imgpath)
             # imageInfo = {width, height, filetype}
             if not 'width' in imageInfo or not 'height' in imageInfo or not 'type' in imageInfo:
                 self._console.error("Unable to get image info from file: %s" % resource[0])
@@ -658,9 +658,17 @@ class Generator:
                 mfile = open(meta_fname)
                 imgDict = simplejson.loads(mfile.read())
                 mfile.close()
-                for img in imgDict:
-                    # img : [combinedUri, off-x, off-y, width, height]
-                    data[img] = imgDict[img]  # this information takes precedence over existing
+                for mimg, mimgs in imgDict.iteritems():
+                    # have to normalize the uri's in the meta file
+                    # imguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
+                    # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
+                    mimgspec = _ImgInfoFmt(mimgs)
+                    pre1,pre2,sfx = self._getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
+                    pre,sfx1,sfx2 = self._getCommenPrefix(pre2, mimg)  # get a suitable suffix from mimg
+                    img = pre1 + sfx2 # correct the uri prefix for key
+                    mimgspec.mappeduri = imguri  # correct the mapped uri
+                    # img : [combinedUri, off-x, off-y, width, height, type]
+                    data[img] = mimgspec.flatten()  # this information takes precedence over existing
             
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
@@ -943,6 +951,40 @@ class Generator:
             return self._resourceHandler.filterResourcesByFilepath() 
 
 
+    def _getCommonSuffix(self, p1, p2):
+        '''computes the common suffix of path1, path2, and returns the two different prefixes
+           and the common suffix'''
+        pre1 = pre2 = suffx = ""
+        for i in range(1,len(p1)):
+            if i > len(p2):
+                break
+            elif p1[-i] == p2[-i]:
+                suffx = p1[-i] + suffx
+            else:
+                break
+        pre1 = p1[:-i+1]
+        pre2 = p2[:-i+1]
+
+        return pre1, pre2, suffx
+
+
+    def _getCommenPrefix(self, p1, p2):
+        '''computes the common prefix of p1, p2, and returns the common prefix and the two
+           different suffixes'''
+        pre = sfx1 = sfx2 = ""
+        for i in range(len(p1)):
+            if i > len(p2):
+                break
+            elif p1[i] == p2[i]:
+                pre += p1[i]
+            else:
+                i -= 1  # correct i, since the loop ends differently with range() or !=
+                break
+        sfx1 = p1[i+1:]
+        sfx2 = p2[i+1:]
+
+        return pre,sfx1,sfx2
+
 
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
@@ -1108,3 +1150,15 @@ class _ShellCmd(object):
 
         return rc
 
+class _ImgInfoFmt(object):
+    "Class to hide image info encoding"
+    def __init__(self, imgspec):
+        self.mappeduri = imgspec[0]
+        self.left      = imgspec[1]
+        self.top       = imgspec[2]
+        self.width     = imgspec[3]
+        self.height    = imgspec[4]
+        self.type      = imgspec[5]
+
+    def flatten(self):
+        return [self.mappeduri, self.left, self.top, self.width, self.height, self.type]
