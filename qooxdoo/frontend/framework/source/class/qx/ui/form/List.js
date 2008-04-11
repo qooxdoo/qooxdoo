@@ -53,6 +53,10 @@ qx.Class.define("qx.ui.form.List",
 
     this._manager = new qx.ui.core.selection2.Widget(this);
 
+    if (multi != null) {
+      this.setMultiSelection(multi);
+    }
+
     this.addListener("mousedown", this._onmousedown, this);
     this.addListener("keypress", this._onkeypress);
   },
@@ -80,6 +84,13 @@ qx.Class.define("qx.ui.form.List",
     {
       refine : true,
       init : true
+    },
+
+    multiSelection :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyMultiSelection"
     }
   },
 
@@ -94,6 +105,21 @@ qx.Class.define("qx.ui.form.List",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyMultiSelection : function(value, old) {
+      this._manager.setMultiSelection(value);
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
