@@ -50,7 +50,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     mode :
     {
       check : [ "single", "multi", "additive" ],
-      init : "single"
+      init : "single",
+      apply : "_applySelectionMode"
     },
 
     leadItem :
@@ -190,7 +191,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     */
 
     // property apply
-    _applyMultiSelection : function(value, old)
+    _applySelectionMode : function(value, old)
     {
       this.resetLeadItem();
       this.resetAnchorItem();
@@ -220,6 +221,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
         case "additive":
+          this.setLeadItem(item);
           this._toggleInSelection(item);
           break;
 
@@ -235,15 +237,16 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           // Create/Update range selection
           if (shiftPressed)
           {
-            if (!this.getAnchorItem()) {
-              this.setAnchorItem(this.getFirstItem());
+            var anchor = this.getAnchorItem();
+            if (!anchor) {
+              this.setAnchorItem(anchor = this.getFirstItem());
             }
 
-            this._selectItemRange(this.getAnchorItem(), item, ctrlPressed);
+            this._selectItemRange(anchor, item, ctrlPressed);
           }
 
-          // Add to selection / Toggle in selection
-          else if (ctrlPressed && !shiftPressed)
+          // Toggle in selection
+          else if (ctrlPressed)
           {
             this.setAnchorItem(item);
             this._toggleInSelection(item);
@@ -359,7 +362,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         {
           case "single":
             this._setSelectedItem(next);
-            this._scrollItemIntoView(next);
             break;
 
           case "additive":
@@ -367,9 +369,30 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
             break;
 
           case "multi":
-            // TODO
+            if (event.isShiftPressed())
+            {
+              var anchor = this.getAnchorItem();
+              if (!anchor) {
+                this.setAnchorItem(anchor = this._getFirstItem());
+              }
+
+              this.setLeadItem(next);
+              this._selectItemRange(anchor, next, event.isCtrlPressed());
+            }
+            else
+            {
+              this.setAnchorItem(next);
+              this.setLeadItem(next);
+
+              if (!event.isCtrlPressed()) {
+                this._setSelectedItem(next);
+              }
+            }
+
             break;
         }
+
+        this._scrollItemIntoView(next);
       }
 
       // Stop processed events
@@ -424,6 +447,12 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
+
+
+
+
+
+
     _isSelected : function(item)
     {
       var hash = this._itemToHashCode(item);
@@ -444,6 +473,10 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       this._clearSelection();
       this._addToSelection(item);
     },
+
+
+
+
 
 
     _addToSelection : function(item)
