@@ -206,11 +206,35 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     {
       if (this.getMultiSelection())
       {
+        // Update lead item
         this.setLeadItem(item);
 
+        // Read in keyboard modifiers
+        var ctrlPressed = event.isCtrlPressed();
+        var shiftPressed = event.isShiftPressed();
 
+        if (ctrlPressed && shiftPressed)
+        {
 
-        // TODO
+        }
+        else if (ctrlPressed)
+        {
+
+        }
+        else if (shiftPressed)
+        {
+
+        }
+        else
+        {
+          this.setAnchorItem(item);
+          this._setSelectedItem(item);
+        }
+
+        // Fill empty anchor item
+        if (!this.getAnchorItem()) {
+          this.setAnchorItem(item);
+        }
       }
       else
       {
@@ -296,10 +320,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _getSelectedItem : function()
     {
-      if (this.getMultiSelection()) {
-        throw new Error("_getSelectedItem() is not supported when multi selection is enabled!");
-      }
-
       for (var hash in this._selection) {
         return this._selection[hash];
       }
@@ -308,10 +328,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _setSelectedItem : function(item)
     {
-      if (this.getMultiSelection()) {
-        throw new Error("_getSelectedItem() is not supported when multi selection is enabled!");
-      }
-
       this._clearSelection();
       this._addToSelection(item);
     },

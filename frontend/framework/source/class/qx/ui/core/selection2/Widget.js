@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
 
     // property apply
-    _applyAnchorItem : function(item)
+    _applyAnchorItem : function(value, old)
     {
       if (old) {
         old.removeState("anchor");
