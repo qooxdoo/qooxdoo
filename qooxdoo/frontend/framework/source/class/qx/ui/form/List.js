@@ -91,6 +91,13 @@ qx.Class.define("qx.ui.form.List",
       check : [ "single", "multi", "additive" ],
       init : "single",
       apply : "_applySelectionMode"
+    },
+    
+    orientation :
+    {
+      check : ["horizontal", "vertical"],
+      init : "vertical",
+      apply : "_applyOrientation"
     }
   },
 
@@ -114,6 +121,12 @@ qx.Class.define("qx.ui.form.List",
     // property apply
     _applySelectionMode : function(value, old) {
       this._manager.setMode(value);
+    },
+    
+    
+    // property apply
+    _applyOrientation : function(value, old) {
+      // TODO
     },
 
 
@@ -240,57 +253,96 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemAbove : function(item)
+    getItemAbove : function(rel)
+    {
+      if (this.getOrientation() === "vertical") {
+        return this._getPreviousItem(rel);
+      }
+      
+      return null;
+    },
+
+
+    // interface implementation
+    getItemUnder : function(rel)
+    {
+      if (this.getOrientation() === "vertical") {
+        return this._getNextItem(rel);
+      }
+
+      return null;
+    },
+
+
+    // interface implementation
+    getItemLeft : function(rel) 
+    {
+      if (this.getOrientation() === "horizontal") {
+        return this._getPreviousItem(rel);
+      }
+      
+      return null;
+    },
+
+
+    // interface implementation
+    getItemRight : function(rel) 
+    {
+      if (this.getOrientation() === "horizontal") {
+        return this._getNextItem(rel);
+      }
+      
+      return null;
+    },
+
+
+    getItemPageUp : function(rel) 
+    {
+      if (this.getOrientation() === "vertical") {
+        this.warn("Missing implementation: PageUp Key");
+      }
+      
+      return null;      
+    },
+
+
+    getItemPageDown : function(rel) 
+    {
+      if (this.getOrientation() === "vertical") {
+        this.warn("Missing implementation: PageDown Key");
+      }
+
+      return null;      
+    },
+
+
+
+
+
+    _getPreviousItem : function(rel)
     {
       var layout = this.getContent().getLayout();
-      var prev = item;
+      var prev = rel;
 
       do {
         prev = layout.getPreviousSibling(prev);
       } while (prev && !prev.isEnabled());
 
-      return prev || null;
+      return prev || null;      
     },
-
-
-    // interface implementation
-    getItemUnder : function(item)
+    
+    _getNextItem : function(rel)
     {
       var layout = this.getContent().getLayout();
-      var next = item;
+      var next = rel;
 
       do {
         next = layout.getNextSibling(next);
       } while (next && !next.isEnabled());
 
-      return next || null;
+      return next || null;      
     },
-
-
-    // interface implementation
-    getItemLeft : function(rel) {
-      return this.getItemAbove(rel);
-    },
-
-
-    // interface implementation
-    getItemRight : function(rel) {
-      return this.getItemUnder(rel);
-    },
-
-
-    getItemPageUp : function(rel) {
-      this.warn("Missing implementation: PageUp Key");
-    },
-
-
-    getItemPageDown : function(rel) {
-      this.warn("Missing implementation: PageDown Key");
-    },
-
-
-
-
+    
 
 
 
