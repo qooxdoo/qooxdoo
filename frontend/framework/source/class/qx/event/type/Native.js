@@ -78,8 +78,23 @@ qx.Class.define("qx.event.type.Native",
     preventDefault : function() {
       qx.bom.Event.preventDefault(this._native);
     },
-
-
+    
+    
+    /**
+     * Stops event from all further processing. Execute this when the 
+     * current handler should have "exclusive rights" to the event
+     * and no further reaction by anyone else should happen.
+     * 
+     * @type member
+     * @return {void}
+     */
+    stop : function()
+    {
+      this.stopPropagation();
+      this.preventDefault();
+    },
+    
+    
     /**
      * Get the native browser event object of this event.
      *
