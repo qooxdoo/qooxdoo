@@ -437,7 +437,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       {
         // starting with Safari 3.1 (verion 525.13) Apple switched the key
         // handling to match the IE behaviour.
-        if (qx.bom.client.Engine.VERSION < 525.13 )
+        if (qx.bom.client.Engine.VERSION < 525.13)
         {
           var keyCode = 0;
           var charCode = 0;
