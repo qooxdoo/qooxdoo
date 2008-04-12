@@ -170,7 +170,8 @@ qx.Class.define("qx.ui.form.Button",
         return;
       }
 
-      e.preventDefault();
+      // Stop from further processing
+      e.stopPropagation();
 
       // Activate capturing if the button get a mouseout while
       // the button is pressed.
