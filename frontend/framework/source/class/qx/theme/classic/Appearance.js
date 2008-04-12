@@ -152,9 +152,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           align           : "left",
           gap             : 4,
-          padding         : [ 3, 5 ],
+          padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
           backgroundColor : states.selected ? "selected" : "undefined",
-          textColor       : states.lead ? "red" : states.anchor ? "yellow" : states.selected ? "text-selected" : "undefined"
+          textColor       : states.selected ? "text-selected" : "undefined",
+          decorator       : states.lead ? "lead-item" : "undefined"
         };
       }
     },
