@@ -52,32 +52,6 @@ qx.Class.define("qx.ui.core.selection2.Widget",
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applyLeadItem : function(value, old)
-    {
-      if (old) {
-        old.removeState("lead");
-      }
-
-      if (value) {
-        value.addState("lead");
-      }
-    },
-
-
-    // property apply
-    _applyAnchorItem : function(value, old)
-    {
-      if (old) {
-        old.removeState("anchor");
-      }
-
-      if (value) {
-        value.addState("anchor");
-      }
-    },
-
-
     // overridden
     _itemToHashCode : function(item) {
       return item.$$hash;
@@ -85,14 +59,8 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
 
     // overridden
-    _styleItemSelected : function(item) {
-      item.addState("selected");
-    },
-
-
-    // overridden
-    _styleItemUnselected : function(item) {
-      item.removeState("selected");
+    _styleItem : function(item, type, enabled) {
+      enabled ? item.addState(type) : item.removeState(type);
     },
 
 
@@ -130,8 +98,8 @@ qx.Class.define("qx.ui.core.selection2.Widget",
     _getItemRange : function(item1, item2) {
       return this._widget.getItemRange(item1, item2);
     },
-
-
+    
+    
     // overridden
     _getFirstItem : function() {
       return this._widget.getFirstItem();
