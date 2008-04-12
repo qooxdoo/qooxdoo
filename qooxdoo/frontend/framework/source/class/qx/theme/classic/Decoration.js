@@ -268,6 +268,18 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : [ "#A5BDDE", "#3E6CA8", "#3E6CA8", "#A5BDDE" ],
         innerColor : [ "#BCCEE5", "#7CA0CF", "#7CA0CF", "#BCCEE5" ]
       }
-    }
+    },
+    
+    "lead-item" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        style : "dotted",
+        color : "#888"        
+      }
+    }      
   }
 });
