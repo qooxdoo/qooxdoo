@@ -17,6 +17,25 @@
 
 ************************************************************************ */
 
+/**
+ * General selection manager to bring rich desktop like selection behavior
+ * to widgets and low-level interactive controls.
+ *
+ * The selection handling supports both Shift and Ctrl/Meta modifies like 
+ * known from native applications.
+ *
+ * It also respects platform differences between Windows and Mac e.g. uses
+ * the Ctrl key under Windows to add items to a selection while using
+ * the Command/Meta key under Mac.
+ *
+ * The Mac platform has some differences in behavior between different
+ * applications. Under Apple Mail and most other applications
+ * the selection created via the Shift behaves identical to Windows. One
+ * Exception is the Finder, where the Shift selections always behave like
+ * Shift+Meta/Ctrl and always add keep the items of the selection and
+ * just add new ones. The selection manager only support Windows style
+ * selections for Shift key combinations.
+ */
 qx.Class.define("qx.ui.core.selection2.Abstract",
 {
   extend : qx.core.Object,
@@ -33,6 +52,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
   {
     this.base(arguments);
 
+    // {Map} Interal selection storage
     this._selection = {};
   },
 
@@ -47,6 +67,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
   properties :
   {
+    /**
+     *
+     */
     mode :
     {
       check : [ "single", "multi", "additive" ],
@@ -54,12 +77,20 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       apply : "_applySelectionMode"
     },
 
+
+    /**
+     *
+     */
     leadItem :
     {
       nullable : true,
       apply : "_applyLeadItem"
     },
 
+
+    /**
+     *
+     */
     anchorItem :
     {
       nullable : true,
@@ -203,8 +234,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       CALLED BY THE CONNECTED OBJECT
@@ -219,34 +248,31 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           this._setSelectedItem(item);
           break;
 
-
         case "additive":
           this.setLeadItem(item);
           this._toggleInSelection(item);
           break;
-
 
         case "multi":
           // Update lead item
           this.setLeadItem(item);
 
           // Read in keyboard modifiers
-          var ctrlPressed = event.isCtrlPressed();
-          var shiftPressed = event.isShiftPressed();
+          var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
 
           // Create/Update range selection
-          if (shiftPressed)
+          if (event.isShiftPressed())
           {
             var anchor = this.getAnchorItem();
             if (!anchor) {
               this.setAnchorItem(anchor = this.getFirstItem());
             }
 
-            this._selectItemRange(anchor, item, ctrlPressed);
+            this._selectItemRange(anchor, item, isCtrlPressed);
           }
 
           // Toggle in selection
-          else if (ctrlPressed)
+          else if (isCtrlPressed)
           {
             this.setAnchorItem(item);
             this._toggleInSelection(item);
@@ -262,142 +288,160 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           break;
       }
     },
+    
+    
+    /** {Map} All supported navigation keys */
+    __navigationKeys : 
+    {
+      Home : 1,
+      Down : 1 ,
+      Right : 1,
+      PageDown : 1,
+      End : 1,
+      Up : 1,
+      Left : 1,
+      PageUp : 1
+    },
+    
 
     handleKeyPress : function(item, event)
     {
-      var next;
-      var current;
+      var current, next;
       var key = event.getKeyIdentifier();
-
+      var mode = this.getMode();
+      
+      // Support both control keys on Mac
+      var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
+      var isShiftPressed = event.isShiftPressed();
+      
       if (key === "Space")
       {
         var lead = this.getLeadItem();
-        if (lead) {
-          this._toggleInSelection(lead);
+        if (lead && !isShiftPressed) 
+        {
+          if (isCtrlPressed || mode === "additive") {
+            this._toggleInSelection(lead);
+          } else {
+            this._setSelectedItem(lead);
+          }
+        }
+      }
+      else if (this.__navigationKeys[key])
+      {
+        if (mode === "single") {
+          current = this._getSelectedItem();
+        } else {
+          current = this.getLeadItem();
         }
 
-        // Stop processed events
-        event.stopPropagation();
-        event.preventDefault();
-
-        return;
-      }
-
-      if (this.getMode() === "single") {
-        current = this._getSelectedItem();
-      } else {
-        current = this.getLeadItem();
-      }
-
-      var first = this._getFirstItem();
-      var last = this._getLastItem();
-
-      if (current)
-      {
-        switch(key)
+        var first = this._getFirstItem();
+        var last = this._getLastItem();
+      
+        if (current)
         {
-          case "Home":
-            next = first;
-            break;
+          switch(key)
+          {
+            case "Home":
+              next = first;
+              break;
 
-          case "End":
-            next = last;
-            break;
+            case "End":
+              next = last;
+              break;
 
-          case "Up":
-            next = this._getItemAbove(current);
-            break;
+            case "Up":
+              next = this._getItemAbove(current);
+              break;
 
-          case "Down":
-            next = this._getItemUnder(current);
-            break;
+            case "Down":
+              next = this._getItemUnder(current);
+              break;
 
-          case "Left":
-            next = this._getItemLeft(current);
-            break;
+            case "Left":
+              next = this._getItemLeft(current);
+              break;
 
-          case "Right":
-            next = this._getItemRight(current);
-            break;
+            case "Right":
+              next = this._getItemRight(current);
+              break;
 
-          case "PageUp":
-            next = this._getItemPageUp(current);
-            break;
+            case "PageUp":
+              next = this._getItemPageUp(current);
+              break;
 
-          case "PageDown":
-            next = this._getItemPageDown(current);
-            break;
+            case "PageDown":
+              next = this._getItemPageDown(current);
+              break;
+          }
+        }
+        else
+        {
+          switch(key)
+          {
+            case "Home":
+            case "Down":
+            case "Right":
+            case "PageDown":
+              next = first;
+              break;
 
-          default:
-            return;
+            case "End":
+            case "Up":
+            case "Left":
+            case "PageUp":
+              next = last;
+              break;
+          }
+        }
+
+        // Process result
+        if (next)
+        {
+          switch(mode)
+          {
+            case "single":
+              this._setSelectedItem(next);
+              break;
+
+            case "additive":
+              this.setLeadItem(next);
+              break;
+
+            case "multi":
+              if (isShiftPressed)
+              {
+                var anchor = this.getAnchorItem();
+                if (!anchor) {
+                  this.setAnchorItem(anchor = this._getFirstItem());
+                }
+
+                this.setLeadItem(next);
+                this._selectItemRange(anchor, next, isCtrlPressed);
+              }
+              else
+              {
+                this.setAnchorItem(next);
+                this.setLeadItem(next);
+
+                if (!isCtrlPressed) {
+                  this._setSelectedItem(next);
+                }
+              }
+
+              break;
+          }
+
+          this._scrollItemIntoView(next);
         }
       }
       else
       {
-        switch(key)
-        {
-          case "Home":
-          case "Down":
-          case "Right":
-          case "PageDown":
-            next = first;
-            break;
-
-          case "End":
-          case "Up":
-          case "Left":
-          case "PageUp":
-            next = last;
-            break;
-
-          default:
-            return;
-        }
+        // Do not stop this event
+        return;
       }
-
-      // Process result
-      if (next)
-      {
-        switch(this.getMode())
-        {
-          case "single":
-            this._setSelectedItem(next);
-            break;
-
-          case "additive":
-            this.setLeadItem(next);
-            break;
-
-          case "multi":
-            if (event.isShiftPressed())
-            {
-              var anchor = this.getAnchorItem();
-              if (!anchor) {
-                this.setAnchorItem(anchor = this._getFirstItem());
-              }
-
-              this.setLeadItem(next);
-              this._selectItemRange(anchor, next, event.isCtrlPressed());
-            }
-            else
-            {
-              this.setAnchorItem(next);
-              this.setLeadItem(next);
-
-              if (!event.isCtrlPressed()) {
-                this._setSelectedItem(next);
-              }
-            }
-
-            break;
-        }
-
-        this._scrollItemIntoView(next);
-      }
-
+      
       // Stop processed events
-      event.stopPropagation();
-      event.preventDefault();
+      event.stop(); 
     },
 
 
