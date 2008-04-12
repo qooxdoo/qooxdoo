@@ -116,97 +116,66 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applyLeadItem : function(value, old) {
-      throw new Error("Abstract method call: _applyLeadItem()");
-    },
-
-
-    // property apply
-    _applyAnchorItem : function(value, old) {
-      throw new Error("Abstract method call: _applyAnchorItem()");
-    },
-
-
-    // overridden
     _itemToHashCode : function(item) {
       throw new Error("Abstract method call: itemToHashcode()");
     },
 
 
-    // overridden
-    _getSelectableItems : function(item) {
+    _getItems : function(item) {
       throw new Error("Abstract method call: _getItems()");
     },
 
 
-    // overridden
     _getItemRange : function(item1, item2) {
       throw new Error("Abstract method call: _getItemRange()");
     },
 
 
-    // overridden
     _scrollItemIntoView : function(item) {
       throw new Error("Abstract method call: _scrollItemIntoView()");
     },
 
 
-    // overridden
-    _styleItemSelected : function(item) {
-      throw new Error("Abstract method call: _styleItemSelected()");
+    _styleItem : function(item, type, enabled) {
+      throw new Error("Abstract method call: _styleItem()");
     },
 
 
-    // overridden
-    _styleItemUnselected : function(item) {
-      throw new Error("Abstract method call: _styleItemUnselected()");
-    },
-
-
-    // overridden
     _getFirstItem : function() {
       throw new Error("Abstract method call: _getFirstItem()");
     },
 
 
-    // overridden
     _getLastItem : function() {
       throw new Error("Abstract method call: _getLastItem()");
     },
 
 
-    // overridden
     _getItemAbove : function(rel) {
       throw new Error("Abstract method call: _getItemAbove()");
     },
 
 
-    // overridden
     _getItemUnder : function(rel) {
       throw new Error("Abstract method call: _getItemUnder()");
     },
 
 
-    // overridden
     _getItemLeft : function(rel) {
       throw new Error("Abstract method call: _getItemLeft()");
     },
 
 
-    // overridden
     _getItemRight : function(rel) {
       throw new Error("Abstract method call: _getItemRight()");
     },
 
 
-    // overridden
     _getItemPageUp : function(rel) {
       throw new Error("Abstract method call: _getItemPageUp()");
     },
 
 
-    // overridden
     _getItemPageDown : function(rel) {
       throw new Error("Abstract method call: _getItemPageDown()");
     },
@@ -228,6 +197,32 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       this.resetAnchorItem();
 
       this._clearSelection();
+    },
+    
+    
+    // property apply
+    _applyLeadItem : function(value, old)
+    {
+      if (old) {
+        this._styleItem(old, "lead", false);
+      }
+
+      if (value) {
+        this._styleItem(value, "lead", true);
+      }
+    },
+
+
+    // property apply
+    _applyAnchorItem : function(value, old)
+    {
+      if (old) {
+        this._styleItem(old, "anchor", false);
+      }
+
+      if (value) {
+        this._styleItem(value, "anchor", true);
+      }
     },
 
 
@@ -314,7 +309,11 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
       
-      if (key === "Space")
+      if (key === "A" && isCtrlPressed)
+      {
+        this._selectAllItems();
+      }
+      else if (key === "Space")
       {
         var lead = this.getLeadItem();
         if (lead && !isShiftPressed) 
@@ -445,6 +444,35 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SUPPORT FOR ITEM RANGES
+    ---------------------------------------------------------------------------
+    */
+    
+    _selectAllItems : function()
+    {
+      var range = this._getItems();
+      var selected = this._selection;
+      var current;
+      var hash;
+      
+      for (var i=0, l=range.length; i<l; i++)
+      {
+        current = range[i];
+        hash = this._itemToHashCode(current);
+
+        if (!selected[hash]) {
+          this._addToSelection(current);
+        }
+      }      
+    },
+    
+    
     _selectItemRange : function(item1, item2, extend)
     {
       var range = this._getItemRange(item1, item2);
@@ -464,6 +492,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         }
       }
 
+      // Add new items to the selection
       for (var i=0, l=range.length; i<l; i++)
       {
         current = range[i];
@@ -495,23 +524,50 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
 
-
-
+    /*
+    ---------------------------------------------------------------------------
+      SINGLE ITEM QUERY AND MODIFICATION
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Detects whether the given item is currently selected.
+     *
+     * @type member
+     * @param item {var} Any valid selectable item
+     * @return {Boolean} Whether the item is selected
+     */
     _isSelected : function(item)
     {
       var hash = this._itemToHashCode(item);
       return !!this._selection[hash];
     },
 
-
+    
+    /** 
+     * Returns the first selected item. Only makes sense
+     * when using manager in single selection mode.
+     *
+     * @type member
+     * @return {var} The selected item (or <code>null</code>)
+     */
     _getSelectedItem : function()
     {
       for (var hash in this._selection) {
         return this._selection[hash];
       }
+      
+      return null;
     },
 
 
+    /**
+     * Replace current selection with given item.
+     *
+     * @type member
+     * @param item {var} Any valid selectable item
+     * @return {void}
+     */
     _setSelectedItem : function(item)
     {
       this._clearSelection();
@@ -523,6 +579,12 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      MODIFY ITEM SELECTION
+    ---------------------------------------------------------------------------
+    */
+    
     _addToSelection : function(item)
     {
       var hash = this._itemToHashCode(item);
@@ -530,7 +592,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (!this._selection[hash])
       {
         this._selection[hash] = item;
-        this._styleItemSelected(item);
+        this._styleItem(item, "selected", true);
       }
     },
 
@@ -542,12 +604,12 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (!this._selection[hash])
       {
         this._selection[hash] = item;
-        this._styleItemSelected(item);
+        this._styleItem(item, "selected", true);
       }
       else
       {
         delete this._selection[hash];
-        this._styleItemUnselected(item);
+        this._styleItem(item, "selected", false);
       }
     },
 
@@ -559,7 +621,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (this._selection[hash])
       {
         delete this._selection[hash];
-        this._styleItemUnselected(item);
+        this._styleItem(item, "selected", false);
       }
     },
 
