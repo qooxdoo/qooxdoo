@@ -40,6 +40,7 @@ qx.Class.define("qx.event.type.Mouse",
 
   members :
   {
+    /** {Map} Contains the button ID to identifier data. */
     __buttons : qx.core.Variant.select("qx.client",
     {
       "mshtml" :
@@ -56,6 +57,20 @@ qx.Class.define("qx.event.type.Mouse",
         1 : "middle"
       }
     }),
+    
+    
+    // overridden
+    preventDefault : function() 
+    {
+      this.warn("Calling preventDefault() on mouse events is not supported anymore. There should normally do need to do this!");
+      this.trace();    
+    },    
+    
+    
+    // overridden
+    stop : function() {
+      this.stopPropagation();
+    },
 
 
     /**
