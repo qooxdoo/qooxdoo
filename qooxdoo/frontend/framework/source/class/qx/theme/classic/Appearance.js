@@ -154,7 +154,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           gap             : 4,
           padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
           backgroundColor : states.selected ? "selected" : "undefined",
-          textColor       : states.selected ? "text-selected" : "undefined",
+          textColor       : states.anchor ? "red" : states.selected ? "text-selected" : "undefined",
           decorator       : states.lead ? "lead-item" : "undefined"
         };
       }
