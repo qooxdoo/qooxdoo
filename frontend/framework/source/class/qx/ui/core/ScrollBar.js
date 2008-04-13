@@ -127,7 +127,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       refine : true,
       init : "scrollbar"
     }
-
   },
 
 
@@ -249,10 +248,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
 
     // property apply
-    _applyButtonStep : function(value, old)
-    {
+    _applyButtonStep : function(value, old) {
       this.__updateSliderSteps();
     }
-
   }
 });
