@@ -114,7 +114,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       // capturing. The event is "eaten" by the capturing handler.
       if (type == "click")
       {
-        event.preventDefault();
         event.stopPropagation();
 
         this.releaseCapture();
