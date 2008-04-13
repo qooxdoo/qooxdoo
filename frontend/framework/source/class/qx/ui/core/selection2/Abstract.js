@@ -54,6 +54,10 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     // {Map} Interal selection storage
     this._selection = {};
+    
+    // Timer
+    this._scrollTimer = new qx.event.Timer(50);
+    this._scrollTimer.addListener("interval", this._onInterval, this);
   },
 
 
@@ -75,6 +79,16 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       check : [ "single", "multi", "additive" ],
       init : "single",
       apply : "_applySelectionMode"
+    },
+    
+    
+    /**
+     *
+     */
+    dragSelection :
+    {
+      check : "Boolean",
+      init : false
     },
 
 
@@ -115,9 +129,14 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       ABSTRACT METHODS
     ---------------------------------------------------------------------------
     */
+    
+    _isItem : function(item) {
+      throw new Error("Abstract method call: _isItem()");
+    },
+    
 
     _itemToHashCode : function(item) {
-      throw new Error("Abstract method call: itemToHashcode()");
+      throw new Error("Abstract method call: _itemToHashCode()");
     },
 
 
@@ -179,14 +198,36 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _getItemPageDown : function(rel) {
       throw new Error("Abstract method call: _getItemPageDown()");
     },
+    
+    
+    _captureObject : function() {
+      throw new Error("Abstract method call: _captureObject()");
+    },
+    
+    
+    _releaseObject : function() {
+      throw new Error("Abstract method call: _releaseObject()");
+    },
 
 
+    _getLocation : function() {
+      throw new Error("Abstract method call: _getLocation()");
+    },
+    
+    
+    _scrollBy : function(xoff, yoff) {
+      throw new Error("Abstract method call: _scrollBy()");
+    },
+    
+    
+    
+    
 
 
 
     /*
     ---------------------------------------------------------------------------
-      PROPERTIES
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
@@ -235,8 +276,15 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    handleMouseDown : function(item, event)
+    handleMouseDown : function(event)
     {
+      var item = event.getTarget();
+      if (!this._isItem(item)) {
+        return;
+      }
+      
+      this._scrollItemIntoView(item);
+      
       switch(this.getMode())
       {
         case "single":
@@ -245,6 +293,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
         case "additive":
           this.setLeadItem(item);
+          this.setAnchorItem(item);
           this._toggleInSelection(item);
           break;
 
@@ -282,7 +331,160 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
           break;
       }
+      
+      if (this.getDragSelection())
+      {
+        this._location = this._getLocation();
+
+        this._startMouseX = event.getDocumentLeft() + this._widget.getScrollLeft();
+        this._startMouseY = event.getDocumentTop() + this._widget.getScrollTop();
+        
+        this._captureObject();
+        this._capture = true;
+      }
     },
+    
+    
+    handleMouseUp : function(event)
+    {
+      if (!this.getDragSelection()) {
+        return;
+      }
+      
+      delete this._capture;
+      
+      this._releaseObject();
+      this._scrollTimer.stop();
+    },
+    
+    
+    handleMouseMove : function(event)
+    {
+      if (!this._capture) {
+        return;
+      }
+      
+    
+      
+
+      
+      this._currentMouseY = event.getDocumentTop();
+      
+      var mouseY = event.getDocumentTop() + this._widget.getScrollTop();
+          
+      if (mouseY > this._startMouseY) {
+        this._moveY = 1;
+      } else if (mouseY < this._startMouseY) {
+        this._moveY = -1;
+      } else {
+        this._moveY = 0;
+      }
+      
+      //this.debug("MOVE: " + this._moveY)
+      
+      var loc = this._location;
+      var top = event.getDocumentTop();
+
+      if (top < loc.top) {
+        this._scrollByY = top - loc.top;
+      } else if (top > loc.bottom) {
+        this._scrollByY = top - loc.bottom;
+      } else {
+        this._scrollByY = 0;
+      }
+      
+      
+      // TODO: x-axis
+      this._scrollByX = 0;
+      
+      // Start interval
+      this._scrollTimer.start();
+      
+      // Auto select based on cursor position
+      this._autoSelect();
+    },
+    
+    
+    _onInterval : function(e) 
+    {
+      // Scroll by defined block size
+      this._scrollBy(this._scrollByX, this._scrollByY);
+      
+      // Auto select based on new scroll position and cursor
+      this._autoSelect();
+    },
+    
+    
+    _autoSelect : function()
+    {
+      var mode = this.getMode();
+      var relY = this._currentMouseY + this._widget.getScrollTop() - this._location.top;
+      
+      if (this._lastProcessedY === relY) {
+        return;
+      }
+      
+      this._lastProcessedY = relY;
+      
+      
+      var anchor = this.getAnchorItem() || this._getSelectedItem();
+      var lead = anchor;
+      var next;
+      
+      while (1)
+      {
+        if (this._moveY > 0) {
+          next = this._getItemUnder(lead);
+        } else if (this._moveY < 0) {
+          next = this._getItemAbove(lead);
+        } else {
+          break;
+        }
+        
+        if (!next) {
+          break;
+        }
+        
+        var nextPosY = this._widget.getItemOffsetTop(next);
+        var nextHeight = this._widget.getItemHeight(next);
+        
+        //this.debug("Test: " + next.getLabel() + " : " + nextPosY + " <-> " + relY)
+        
+        if (this._moveY > 0 && nextPosY <= relY)
+        {
+          lead = next;
+        }
+        else if (this._moveY < 0 && (nextPosY + nextHeight) >= relY)
+        {
+          lead = next;
+        }
+        else
+        {
+          break;
+        }
+      }
+      
+      
+      
+      //this.debug("From: " + anchor.getLabel() + " to " + lead.getLabel());
+      
+      if (mode === "single") 
+      {
+        this._setSelectedItem(lead);
+      }
+      else if (mode === "additive")
+      {
+        if (this._isItemSelected(anchor)) {
+          this._selectItemRange(anchor, lead);
+        } else {
+          this._deselectItemRange(anchor, lead);
+        }
+      }
+      else 
+      {
+        // TODO
+      }
+    },    
     
     
     /** {Map} All supported navigation keys */
@@ -299,7 +501,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
     
 
-    handleKeyPress : function(item, event)
+    handleKeyPress : function(event)
     {
       var current, next;
       var key = event.getKeyIdentifier();
@@ -312,6 +514,10 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (key === "A" && isCtrlPressed)
       {
         this._selectAllItems();
+      }
+      else if (key === "Escape")
+      {
+        this._clearSelection();
       }
       else if (key === "Space")
       {
@@ -457,34 +663,32 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _selectAllItems : function()
     {
       var range = this._getItems();
-      var selected = this._selection;
-      var current;
-      var hash;
-      
-      for (var i=0, l=range.length; i<l; i++)
-      {
-        current = range[i];
-        hash = this._itemToHashCode(current);
-
-        if (!selected[hash]) {
-          this._addToSelection(current);
-        }
+      for (var i=0, l=range.length; i<l; i++) {
+        this._addToSelection(range[i]);
       }      
     },
+    
+    
+    _clearSelection : function()
+    {
+      var selection = this._selection;
+      for (var hash in selection) {
+        this._removeFromSelection(selection[hash]);
+      }
+    },    
     
     
     _selectItemRange : function(item1, item2, extend)
     {
       var range = this._getItemRange(item1, item2);
-      var selected = this._selection;
-      var current;
-      var hash;
 
       // Remove items which are not in the detected range
       if (!extend)
       {
+        var selected = this._selection;
         var mapped = this.__rangeToMap(range);
-        for (hash in selected)
+
+        for (var hash in selected)
         {
           if (!mapped[hash]) {
             this._removeFromSelection(selected[hash]);
@@ -493,15 +697,18 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       }
 
       // Add new items to the selection
-      for (var i=0, l=range.length; i<l; i++)
-      {
-        current = range[i];
-        hash = this._itemToHashCode(current);
-
-        if (!selected[hash]) {
-          this._addToSelection(current);
-        }
+      for (var i=0, l=range.length; i<l; i++) {
+        this._addToSelection(range[i]);
       }
+    },
+    
+    
+    _deselectItemRange : function(item1, item2)
+    {
+      var range = this._getItemRange(item1, item2);
+      for (var i=0, l=range.length; i<l; i++) {
+        this._removeFromSelection(range[i]);
+      }      
     },
 
 
@@ -537,7 +744,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
      * @param item {var} Any valid selectable item
      * @return {Boolean} Whether the item is selected
      */
-    _isSelected : function(item)
+    _isItemSelected : function(item)
     {
       var hash = this._itemToHashCode(item);
       return !!this._selection[hash];
@@ -623,15 +830,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         delete this._selection[hash];
         this._styleItem(item, "selected", false);
       }
-    },
-
-
-    _clearSelection : function()
-    {
-      var selection = this._selection;
-      for (var hash in selection) {
-        this._removeFromSelection(selection[hash]);
-      }
     }
   },
 
@@ -644,7 +842,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function() 
+  {
+    this._disposeObjects("_scrollTimer");
     this._disposeFields("_selection");
   }
 });
