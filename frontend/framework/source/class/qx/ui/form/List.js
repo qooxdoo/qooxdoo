@@ -57,7 +57,9 @@ qx.Class.define("qx.ui.form.List",
       this.setSelectionMode(mode);
     }
 
-    this.addListener("mousedown", this._onmousedown, this);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mousemove", this._onmousemove);
     this.addListener("keypress", this._onkeypress);
   },
 
@@ -160,6 +162,12 @@ qx.Class.define("qx.ui.form.List",
       SELECTION MANAGER INTERFACE
     ---------------------------------------------------------------------------
     */
+    
+    // interface implementation
+    isItem : function(item) {
+      return (item instanceof qx.ui.form.ListItem) && item.getLayoutParent() === this.getContent();
+    },
+    
 
     // interface implementation
     getItems : function()
@@ -319,50 +327,35 @@ qx.Class.define("qx.ui.form.List",
 
 
 
-    _getPreviousItem : function(rel)
-    {
-      var layout = this.getContent().getLayout();
-      var prev = rel;
 
-      do {
-        prev = layout.getPreviousSibling(prev);
-      } while (prev && !prev.isEnabled());
-
-      return prev || null;      
-    },
-    
-    _getNextItem : function(rel)
-    {
-      var layout = this.getContent().getLayout();
-      var next = rel;
-
-      do {
-        next = layout.getNextSibling(next);
-      } while (next && !next.isEnabled());
-
-      return next || null;      
-    },
     
 
 
 
     // interface implementation
     getInnerWidth : function() {
-      // unused
+      var computed = this._scrollPane.getComputedInnerSize();
+      return computed ? computed.width : 0;
     },
 
 
     // interface implementation
     getInnerHeight : function()
     {
-      var computed = this.getContent().getComputedInnerSize();
+      var computed = this._scrollPane.getComputedInnerSize();
       return computed ? computed.height : 0;
     },
 
 
     // interface implementation
-    getItemOffsetLeft : function(item) {
-      // unused
+    getItemOffsetLeft : function(item) 
+    {
+      var computed = item.getComputedLayout();
+      if (computed) {
+        return computed.left;
+      }
+
+      return 0;
     },
 
 
@@ -379,8 +372,14 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemWidth : function(item) {
-      // unused
+    getItemWidth : function(item) 
+    {
+      var computed = item.getComputedLayout();
+      if (computed) {
+        return computed.width;
+      }
+
+      return 0;
     },
 
 
@@ -399,6 +398,54 @@ qx.Class.define("qx.ui.form.List",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Returns the previous selectable item from the children list.
+     *
+     * @type member
+     * @param rel {qx.ui.form.ListItem} Widget from where the lookup should start (relative item)
+     * @return {qx.ui.form.ListItem} The previous selectable list item
+     */
+    _getPreviousItem : function(rel)
+    {
+      var layout = this.getContent().getLayout();
+      var prev = rel;
+
+      do {
+        prev = layout.getPreviousSibling(prev);
+      } while (prev && !prev.isEnabled());
+
+      return prev || null;      
+    },
+    
+
+    /**
+     * Returns the next selectable item from the children list.
+     *
+     * @type member
+     * @param rel {qx.ui.form.ListItem} Widget from where the lookup should start (relative item)
+     * @return {qx.ui.form.ListItem} The next selectable list item
+     */
+    _getNextItem : function(rel)
+    {
+      var layout = this.getContent().getLayout();
+      var next = rel;
+
+      do {
+        next = layout.getNextSibling(next);
+      } while (next && !next.isEnabled());
+
+      return next || null;      
+    },
+    
+    
+    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -407,24 +454,43 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * Delegates the event to the selection manager if a list item could be
-     * resolved out of the event target.
+     * Event listener for <code>mousedown</code> events.
      *
      * @type member
      * @param e {qx.event.type.Mouse} Mousedown event
      * @return {void}
      */
-    _onmousedown : function(e)
-    {
-      var target = e.getTarget();
-      if (target instanceof qx.ui.form.ListItem) {
-        this._manager.handleMouseDown(target, e);
-      }
+    _onmousedown : function(e) {
+      this._manager.handleMouseDown(e);
     },
+    
+    
+    /**
+     * Event listener for <code>mouseup</code> events.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Mousedown event
+     * @return {void}
+     */
+    _onmouseup : function(e) {
+      this._manager.handleMouseUp(e);
+    },    
+    
+    
+    /**
+     * Event listener for <code>mousemove</code> events.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Mousedown event
+     * @return {void}
+     */
+    _onmousemove : function(e) {
+      this._manager.handleMouseMove(e);
+    },        
 
 
     /**
-     * Delegates the control of the event to selection manager
+     * Event listener for <code>keypress</code> events.
      *
      * @type member
      * @param e {qx.event.type.KeyEvent} keyPress event
@@ -432,8 +498,6 @@ qx.Class.define("qx.ui.form.List",
      */
     _onkeypress : function(e)
     {
-      var target = e.getTarget();
-
       // Execute action on press <ENTER>
       if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
       {
@@ -444,8 +508,9 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Give control to selectionManager
-      else {
-        this._manager.handleKeyPress(target, e);
+      else 
+      {
+        this._manager.handleKeyPress(e);
       }
     }
   },

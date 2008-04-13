@@ -51,6 +51,12 @@ qx.Class.define("qx.ui.core.selection2.Widget",
       WIDGET API
     ---------------------------------------------------------------------------
     */
+    
+    // overridden
+    _isItem : function(item) {
+      return this._widget.isItem(item);
+    },
+    
 
     // overridden
     _itemToHashCode : function(item) {
@@ -63,6 +69,43 @@ qx.Class.define("qx.ui.core.selection2.Widget",
       enabled ? item.addState(type) : item.removeState(type);
     },
 
+
+    // overridden
+    _captureObject : function() {
+      this._widget.capture();
+    },
+    
+    
+    // overridden
+    _releaseObject : function() {
+      this._widget.releaseCapture();
+    },
+    
+    
+    // overridden
+    _getLocation : function() 
+    {
+      var elem = this._widget.getContainerElement().getDomElement();
+      return elem ? qx.bom.element.Location.get(elem) : null;
+    },
+    
+    
+    // overridden
+    _scrollBy : function(xoff, yoff)
+    {
+      var widget = this._widget;
+      
+      // TODO: Implement scrollBy in ScrollArea
+      
+      if (xoff != 0) {
+        widget.setScrollLeft(widget.getScrollLeft() + xoff);
+      }
+      
+      if (yoff != 0) {
+        widget.setScrollTop(widget.getScrollTop() + yoff);
+      }
+    },
+    
 
 
 
@@ -84,7 +127,7 @@ qx.Class.define("qx.ui.core.selection2.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      SELECTABLE INTERFACE API
+      REMAINING ITEM SUPPORT API
     ---------------------------------------------------------------------------
     */
 
