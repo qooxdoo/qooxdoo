@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.selection2.Widget",
+qx.Class.define("qx.ui.core.selection.Widget",
 {
-  extend : qx.ui.core.selection2.Abstract,
+  extend : qx.ui.core.selection.Abstract,
 
 
 
