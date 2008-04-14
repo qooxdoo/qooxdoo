@@ -135,8 +135,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-    _release : function() {
-      throw new Error("Abstract method call: _release()");
+    _releaseCapture : function() {
+      throw new Error("Abstract method call: _releaseCapture()");
     },
 
 
@@ -150,14 +150,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-    _getScrollLeft : function() {
-      throw new Error("Abstract method call: _getScrollLeft()");
-    },
-
-
-    _getScrollTop : function() {
-      throw new Error("Abstract method call: _getScrollTop()");
-    },
 
 
 
@@ -329,12 +321,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Drag selection
       if (this.getDragSelection() && this.getMode() !== "single")
       {
-        // Cache location data
-        this._location = this._getLocation();
+        // Cache location/scroll data
+        this._frameLocation = this._getLocation();
+        this._frameScroll = this._getScroll();
 
         // Store position at start
-        this._dragStartX = event.getDocumentLeft() + this._getScrollLeft();
-        this._dragStartY = event.getDocumentTop() + this._getScrollTop();
+        this._dragStartX = event.getDocumentLeft() + this._frameScroll.left;
+        this._dragStartY = event.getDocumentTop() + this._frameScroll.top;
 
         // Switch to capture mode
         this._inCapture = true;
@@ -344,43 +337,30 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     handleMouseUp : function(event) {
-      this.cleanup();
+      this._cleanup();
     },
 
 
     handleLoseCapture : function(event) {
-      this.cleanup();
-    },
-
-
-
-    cleanup : function()
-    {
-      if (!this.getDragSelection() && this._inCapture) {
-        return;
-      }
-
-      delete this._inCapture;
-
-      this._release();
-      this._scrollTimer.stop();
+      this._cleanup();
     },
 
 
     handleMouseMove : function(event)
     {
+      // Only relevant when capturing is enabled
       if (!this._inCapture) {
         return;
       }
 
 
-      // Store mouse position
+      // Update mouse position cache
       this._mouseX = event.getDocumentLeft();
       this._mouseY = event.getDocumentTop();
 
 
       // Detect move directions
-      var dragX = this._mouseX + this._getScrollLeft();
+      var dragX = this._mouseX + this._frameScroll.left;
       if (dragX > this._dragStartX) {
         this._moveDirectionX = 1;
       } else if (dragX < this._dragStartX) {
@@ -389,7 +369,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this._moveDirectionX = 0;
       }
 
-      var dragY = this._mouseY + this._getScrollTop();
+      var dragY = this._mouseY + this._frameScroll.top;
       if (dragY > this._dragStartY) {
         this._moveDirectionY = 1;
       } else if (dragY < this._dragStartY) {
@@ -400,7 +380,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Update scroll steps
-      var location = this._location;
+      var location = this._frameLocation;
 
       if (this._mouseX < location.left) {
         this._scrollStepX = this._mouseX - location.left;
@@ -428,12 +408,38 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MOUSE SUPPORT INTERNALS
+    ---------------------------------------------------------------------------
+    */
+
+    _cleanup : function()
+    {
+      if (!this.getDragSelection() && this._inCapture) {
+        return;
+      }
+
+      delete this._inCapture;
+
+      this._releaseCapture();
+      this._scrollTimer.stop();
+    },
+
+
     _onInterval : function(e)
     {
       // Scroll by defined block size
       this._scrollBy(this._scrollStepX, this._scrollStepY);
 
       // TODO: Optimization: Detect real scroll changes first
+
+      // Update scroll cache
+      this._frameScroll = this._getScroll();
 
       // Auto select based on new scroll position and cursor
       this._autoSelect();
@@ -442,9 +448,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     _autoSelect : function()
     {
+      var inner = this._getDimension();
+
       // Get current relative Y position and compare it with previous one
-      var relX = Math.max(0, Math.min(this._mouseX - this._location.left, this._getInnerWidth())) + this._getScrollLeft();
-      var relY = Math.max(0, Math.min(this._mouseY - this._location.top, this._getInnerHeight())) + this._getScrollTop();
+      var relX = Math.max(0, Math.min(this._mouseX - this._frameLocation.left, inner.width)) + this._frameScroll.left;
+      var relY = Math.max(0, Math.min(this._mouseY - this._frameLocation.top, inner.height)) + this._frameScroll.top;
 
 
       // Compare old and new relative coordinates (for performance reasons)
@@ -457,11 +465,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
 
+
       // Process Y-coordinate
-      var next, pos, size;
+      var next, location;
       var anchor = this.getAnchorItem();
-      var lead = anchor;
       var move = this._moveDirectionY;
+      var lead = anchor;
 
       while (move !== 0)
       {
@@ -475,15 +484,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
 
         // Continue when the item is in the visible area
-        pos = this._widget.getItemOffsetTop(next);
-        size = this._widget.getItemHeight(next);
-
-        if ((move > 0 && pos <= relY) || (move < 0 && (pos + size) >= relY)) {
+        location = this._getSelectableLocationY(next);
+        if ((move > 0 && location.top <= relY) || (move < 0 && location.bottom >= relY)) {
           lead = next;
         } else {
           break;
         }
       }
+
+
 
 
 
@@ -549,11 +558,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       if (key === "A" && isCtrlPressed)
       {
-        this._selectAllItems();
+        if (mode !== "single") {
+          this._selectAllItems();
+        }
       }
       else if (key === "Escape")
       {
-        this._clearSelection();
+        if (mode !== "single") {
+          this._clearSelection();
+        }
       }
       else if (key === "Space")
       {
