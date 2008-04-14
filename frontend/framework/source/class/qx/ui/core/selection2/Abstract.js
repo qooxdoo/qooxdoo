@@ -358,6 +358,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     handleLoseCapture : function(event)
     {
+      // Same procedure as in mouseup event
       this.handleMouseUp(event);
     },
 
@@ -441,7 +442,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       var relY = this._mouseY + this._getScrollTop() - this._location.top;
       var relX = this._mouseX + this._getScrollLeft() - this._location.left;
 
-      //
+      // Compare old and new relative coordinates (for performance reasons)
       if (this._lastRelX === relX && this._lastRelY === relY) {
         return;
       }
@@ -450,6 +451,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       this._lastRelY = relY;
 
 
+
+      // Process Y-coordinate
       var next, pos, size;
       var anchor = this.getAnchorItem();
       var lead = anchor;
@@ -476,6 +479,10 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           break;
         }
       }
+
+
+
+
 
       // Differenciate between the two supported modes
       var mode = this.getMode();
