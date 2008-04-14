@@ -139,10 +139,12 @@ qx.Class.define("qx.theme.modern.Sprites",
     var base = qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Modern/";
     var mgr = qx.util.ImageRegistry.getInstance();
 
+    /*
     for (var image in statics.__data)
     {
       var data = statics.__data[image]
       mgr.register(base + image, base + data[0], data[1], data[2], data[3], data[4]);
     }
+    */
   }
 });
