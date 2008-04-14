@@ -68,6 +68,7 @@ qx.Class.define("qx.ui.form.List",
     this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
     this.addListener("mousemove", this._onmousemove);
+    this.addListener("losecapture", this._onlosecapture);
     this.addListener("keypress", this._onkeypress);
   },
 
@@ -443,6 +444,18 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmousemove : function(e) {
       this._manager.handleMouseMove(e);
+    },
+
+
+    /**
+     * Event listener for <code>losecapture</code> events.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Losecapture event
+     * @return {void}
+     */
+    _onlosecapture : function(e) {
+      this._manager.handleLoseCapture(e);
     },
 
 
