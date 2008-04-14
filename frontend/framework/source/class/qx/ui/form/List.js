@@ -35,19 +35,27 @@ qx.Class.define("qx.ui.form.List",
   *****************************************************************************
   */
 
-  construct : function(mode)
+  construct : function(mode, horizontal)
   {
     this.base(arguments);
 
+    // force boolean
+    horizontal = !!horizontal;
+
     var content = new qx.ui.core.Widget;
-    var layout = new qx.ui.layout.VBox;
+    var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
 
     content.set({
       layout : layout,
-      allowGrowY : false,
+      allowGrowX : !horizontal,
+      allowGrowY : horizontal,
       allowShrinkX : false,
       allowShrinkY : false
     });
+
+    if (horizontal) {
+      this.setOrientation("horizontal");
+    }
 
     this.setContent(content);
 
@@ -94,7 +102,7 @@ qx.Class.define("qx.ui.form.List",
       init : "single",
       apply : "_applySelectionMode"
     },
-    
+
     orientation :
     {
       check : ["horizontal", "vertical"],
@@ -124,8 +132,8 @@ qx.Class.define("qx.ui.form.List",
     _applySelectionMode : function(value, old) {
       this._manager.setMode(value);
     },
-    
-    
+
+
     // property apply
     _applyOrientation : function(value, old) {
       // TODO
@@ -162,12 +170,12 @@ qx.Class.define("qx.ui.form.List",
       SELECTION MANAGER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
     isItem : function(item) {
       return (item instanceof qx.ui.form.ListItem) && item.getLayoutParent() === this.getContent();
     },
-    
+
 
     // interface implementation
     getItems : function()
@@ -266,7 +274,7 @@ qx.Class.define("qx.ui.form.List",
       if (this.getOrientation() === "vertical") {
         return this._getPreviousItem(rel);
       }
-      
+
       return null;
     },
 
@@ -283,44 +291,44 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemLeft : function(rel) 
+    getItemLeft : function(rel)
     {
       if (this.getOrientation() === "horizontal") {
         return this._getPreviousItem(rel);
       }
-      
+
       return null;
     },
 
 
     // interface implementation
-    getItemRight : function(rel) 
+    getItemRight : function(rel)
     {
       if (this.getOrientation() === "horizontal") {
         return this._getNextItem(rel);
       }
-      
+
       return null;
     },
 
 
-    getItemPageUp : function(rel) 
+    getItemPageUp : function(rel)
     {
       if (this.getOrientation() === "vertical") {
         this.warn("Missing implementation: PageUp Key");
       }
-      
-      return null;      
+
+      return null;
     },
 
 
-    getItemPageDown : function(rel) 
+    getItemPageDown : function(rel)
     {
       if (this.getOrientation() === "vertical") {
         this.warn("Missing implementation: PageDown Key");
       }
 
-      return null;      
+      return null;
     },
 
 
@@ -328,7 +336,7 @@ qx.Class.define("qx.ui.form.List",
 
 
 
-    
+
 
 
 
@@ -348,7 +356,7 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemOffsetLeft : function(item) 
+    getItemOffsetLeft : function(item)
     {
       var computed = item.getComputedLayout();
       if (computed) {
@@ -372,7 +380,7 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemWidth : function(item) 
+    getItemWidth : function(item)
     {
       var computed = item.getComputedLayout();
       if (computed) {
@@ -403,7 +411,7 @@ qx.Class.define("qx.ui.form.List",
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Returns the previous selectable item from the children list.
      *
@@ -420,9 +428,9 @@ qx.Class.define("qx.ui.form.List",
         prev = layout.getPreviousSibling(prev);
       } while (prev && !prev.isEnabled());
 
-      return prev || null;      
+      return prev || null;
     },
-    
+
 
     /**
      * Returns the next selectable item from the children list.
@@ -440,11 +448,11 @@ qx.Class.define("qx.ui.form.List",
         next = layout.getNextSibling(next);
       } while (next && !next.isEnabled());
 
-      return next || null;      
+      return next || null;
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -463,8 +471,8 @@ qx.Class.define("qx.ui.form.List",
     _onmousedown : function(e) {
       this._manager.handleMouseDown(e);
     },
-    
-    
+
+
     /**
      * Event listener for <code>mouseup</code> events.
      *
@@ -474,9 +482,9 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmouseup : function(e) {
       this._manager.handleMouseUp(e);
-    },    
-    
-    
+    },
+
+
     /**
      * Event listener for <code>mousemove</code> events.
      *
@@ -486,7 +494,7 @@ qx.Class.define("qx.ui.form.List",
      */
     _onmousemove : function(e) {
       this._manager.handleMouseMove(e);
-    },        
+    },
 
 
     /**
@@ -508,7 +516,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Give control to selectionManager
-      else 
+      else
       {
         this._manager.handleKeyPress(e);
       }
