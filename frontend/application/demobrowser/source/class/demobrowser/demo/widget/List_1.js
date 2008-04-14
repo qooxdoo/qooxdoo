@@ -73,10 +73,10 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       l3.set({ height: 200, width: 150 });
 
-      var l3l = [ "red", "violett", "rose", "blue", "green", "cyan", "magenta", "yellow", "brown", "orange", "black", "white", "grey", "gray", "brown" ];
+      var l3l = [ "Leon","Lukas","Luca","Finn","Tim","Felix","Jonas","Luis","Maximilian","Julian","Max","Paul","Niclas","Jan","Ben","Elias","Jannick","Philipp","Noah","Tom","Moritz","Nico","David","Nils","Simon","Fabian","Erik","Justin","Alexander","Jakob","Florian","Nick","Linus","Mika","Jason","Daniel","Lennard","Marvin","Jannis","Tobias","Dominic","Marlon","Marc","Johannes","Jonathan","Julius","Colin","Joel","Kevin","Vincent","Robin","Til","Adrian","Benjamin","Henri","Anton","Aaron","Hannes","Matthis","Timo","Sebastian","Samuel","Rafael","Joshua","Maurice","Ole","Jona","Lars","Maxim","Emil","Lasse","Pascal","Kilian","Justus","Carl","Constantin","Leonard","Malte","Oskar","Dennis","Christian","Marcel","Oliver","Mohammed","Bastian","Johann","Leo","Noel","Silas","Nicolas","Michael","Lennox","Phil","Jamie","Manuel","Jeremy","Bennet","Fabio","Maik","Marius" ];
 
       for (var i=0; i<l3l.length; i++) {
-        l3.add(new qx.ui.form.ListItem(l2l[i]));
+        l3.add(new qx.ui.form.ListItem(l3l[i]));
       };
 
       this.getRoot().add(l3, 600, 20);
