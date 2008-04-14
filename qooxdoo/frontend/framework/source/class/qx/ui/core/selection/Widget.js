@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
 
     // overridden
-    _release : function() {
+    _releaseCapture : function() {
       this._widget.releaseCapture();
     },
 
@@ -69,6 +69,22 @@ qx.Class.define("qx.ui.core.selection.Widget",
     {
       var elem = this._widget.getContainerElement().getDomElement();
       return elem ? qx.bom.element.Location.get(elem) : null;
+    },
+
+
+    // overridden
+    _getDimension : function() {
+      return this._widget._scrollPane.getComputedInnerSize();
+    },
+
+
+    // overridden
+    _getScroll : function()
+    {
+      return {
+        left : this._widget.getScrollLeft(),
+        top : this._widget.getScrollTop()
+      };
     },
 
 
@@ -89,28 +105,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
     },
 
 
-    // overridden
-    _getScrollLeft : function() {
-      return this._widget.getScrollLeft();
-    },
 
 
-    // overridden
-    _getScrollTop : function() {
-      return this._widget.getScrollTop();
-    },
-
-
-    // overridden
-    _getInnerWidth : function() {
-      return this._widget.getInnerWidth();
-    },
-
-
-    // overridden
-    _getInnerHeight : function() {
-      return this._widget.getInnerHeight();
-    },
 
 
 
@@ -118,7 +114,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      ABSTRACT METHODS FOR SELECTABLES
+      METHODS FOR SELECTABLES
     ---------------------------------------------------------------------------
     */
 
@@ -143,6 +139,34 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _scrollSelectableIntoView : function(item) {
       this._widget.scrollItemIntoView(item);
+    },
+
+
+    // overridden
+    _getSelectableLocationX : function(item)
+    {
+      var computed = item.getComputedLayout();
+      if (computed)
+      {
+        return {
+          left : computed.left,
+          right : computed.left + computed.width
+        };
+      }
+    },
+
+
+    // overridden
+    _getSelectableLocationY : function(item)
+    {
+      var computed = item.getComputedLayout();
+      if (computed)
+      {
+        return {
+          top : computed.top,
+          bottom : computed.top + computed.height
+        };
+      }
     },
 
 
