@@ -304,9 +304,20 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * into the visible part of the scroll area.
      *
      * @param item {qx.ui.core.Widget} widget to scroll into view
+     * @param hAlign {String?"top"} Valid values: <code>top</code> and
+     *     <code>bottom</code>.If the item's height is larger than the
+     *     scroll area's height, this value sets, whether the top or the or the
+     *     bottom of the item becomes visible.
+     * @param vAlign {String?"left"} Valid values: <code>left</code> and
+     *     <code>right</code>.If the item's width is larger than the
+     *     scroll area's width, this value sets, whether the left or the or the
+     *     right part of the item becomes visible.
      */
-    scrollItemIntoView : function(item)
+    scrollItemIntoView : function(item, hAlign, vAlign)
     {
+      hAlign = hAlign || "top";
+      vAlign = vAlign || "left";
+
       // This method can only work after the item has been rendered
       // If this is not the case wiat for the item's resize event and
       // try again.
@@ -319,7 +330,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         return;
       }
 
-      var height = item.getComputedLayout().height;
+      var itemSize = item.getComputedLayout();
       var content = this.getContent();
       var left = 0;
       var top = 0;
@@ -331,15 +342,26 @@ qx.Class.define("qx.ui.core.ScrollArea",
       } while (item && item !== content);
 
       var scrollTop = this.getScrollTop();
-      var containerHeight = this._scrollPane.getComputedLayout().height;
+      var containerSize = this._scrollPane.getComputedLayout();
 
-      if (scrollTop + containerHeight < top + height) {
-        this.setScrollTop(top + height - containerHeight);
+      if (scrollTop + containerSize.height < top + itemSize.height) {
+        this.setScrollTop(top + itemSize.height - containerSize.height);
       }
 
-      if (scrollTop > top) {
+      if (vAlign == "top" && scrollTop > top) {
         this.setScrollTop(top);
       }
+
+      var scrollLeft = this.getScrollLeft();
+
+      if (scrollLeft + containerSize.width < left + itemSize.width) {
+        this.setScrollLeft(left + itemSize.width - containerSize.width);
+      }
+
+      if (hAlign == "left" && scrollLeft > left) {
+        this.setScrollLeft(left);
+      }
+
     },
 
 
