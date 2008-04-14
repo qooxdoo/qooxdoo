@@ -315,8 +315,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     scrollItemIntoView : function(item, hAlign, vAlign)
     {
-      hAlign = hAlign || "top";
-      vAlign = vAlign || "left";
+      hAlign = hAlign || "left";
+      vAlign = vAlign || "top";
 
       // This method can only work after the item has been rendered
       // If this is not the case wiat for the item's resize event and
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         this.setScrollTop(top + itemSize.height - containerSize.height);
       }
 
-      if (vAlign == "top" && scrollTop > top) {
+      if (vAlign == "top" && this.getScrollTop() > top) {
         this.setScrollTop(top);
       }
 
