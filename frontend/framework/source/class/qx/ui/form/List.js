@@ -172,13 +172,13 @@ qx.Class.define("qx.ui.form.List",
     */
 
     // interface implementation
-    isItem : function(item) {
+    isSelectable : function(item) {
       return (item instanceof qx.ui.form.ListItem) && item.getLayoutParent() === this.getContent();
     },
 
 
     // interface implementation
-    getItems : function()
+    getSelectables : function()
     {
       var children = this.getContent().getLayoutChildren();
       var result = [];
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemRange : function(item1, item2)
+    getSelectableRange : function(item1, item2)
     {
       // Fast path for identical items
       if (item1 === item2) {
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getFirstItem : function()
+    getFirstSelectable : function()
     {
       var children = this.getContent().getLayoutChildren();
       for (var i=0, l=children.length; i<l; i++)
@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getLastItem : function()
+    getLastSelectable : function()
     {
       var children = this.getContent().getLayoutChildren();
       for (var i=children.length-1; i>0; i--)
@@ -269,70 +269,18 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getItemAbove : function(rel)
+    getRelatedSelectable : function(item, relation)
     {
-      if (this.getOrientation() === "vertical") {
-        return this._getPreviousItem(rel);
+      var vertical = this.getOrientation() === "vertical";
+
+      if ((vertical && relation === "above") || (!vertical && relation === "left")) {
+        return this._getPreviousItem(item);
+      } else if ((vertical && relation === "under") || (!vertical && relation === "right")) {
+        return this._getNextItem(item);
       }
 
       return null;
     },
-
-
-    // interface implementation
-    getItemUnder : function(rel)
-    {
-      if (this.getOrientation() === "vertical") {
-        return this._getNextItem(rel);
-      }
-
-      return null;
-    },
-
-
-    // interface implementation
-    getItemLeft : function(rel)
-    {
-      if (this.getOrientation() === "horizontal") {
-        return this._getPreviousItem(rel);
-      }
-
-      return null;
-    },
-
-
-    // interface implementation
-    getItemRight : function(rel)
-    {
-      if (this.getOrientation() === "horizontal") {
-        return this._getNextItem(rel);
-      }
-
-      return null;
-    },
-
-
-    getItemPageUp : function(rel)
-    {
-      if (this.getOrientation() === "vertical") {
-        this.warn("Missing implementation: PageUp Key");
-      }
-
-      return null;
-    },
-
-
-    getItemPageDown : function(rel)
-    {
-      if (this.getOrientation() === "vertical") {
-        this.warn("Missing implementation: PageDown Key");
-      }
-
-      return null;
-    },
-
-
-
 
 
 
@@ -341,7 +289,8 @@ qx.Class.define("qx.ui.form.List",
 
 
     // interface implementation
-    getInnerWidth : function() {
+    getInnerWidth : function()
+    {
       var computed = this._scrollPane.getComputedInnerSize();
       return computed ? computed.width : 0;
     },
