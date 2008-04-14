@@ -74,7 +74,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         backgroundImage : "decoration/scrollbar/slider-knob-bg-vertical.png",
-        backgroundRepeat : "repeat-y",
+        //backgroundRepeat : "repeat-y",
         outerColor : "#4d4d4d",
         innerColor : "#e1e1e1"
       }
@@ -86,7 +86,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         backgroundImage : "decoration/scrollbar/slider-knob-bg-horizontal.png",
-        backgroundRepeat : "repeat-x",
+        //backgroundRepeat : "repeat-x",
         outerColor : "#4d4d4d",
         innerColor : "#e1e1e1"
       }
@@ -98,7 +98,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-bg-pressed-vertical.png",
-        backgroundRepeat : "repeat-y",
+        //backgroundRepeat : "repeat-y",
         outerColor : "#192433",
         innerColor : "#e9f5ff"
       }
@@ -110,7 +110,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-bg-pressed-horizontal.png",
-        backgroundRepeat : "repeat-x",
+        //backgroundRepeat : "repeat-x",
         outerColor : "#192433",
         innerColor : "#e9f5ff"
       }
