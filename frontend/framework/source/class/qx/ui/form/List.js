@@ -274,13 +274,27 @@ qx.Class.define("qx.ui.form.List",
     {
       var vertical = this.getOrientation() === "vertical";
 
-      if ((vertical && relation === "above") || (!vertical && relation === "left")) {
-        return this._getPreviousItem(item);
-      } else if ((vertical && relation === "under") || (!vertical && relation === "right")) {
-        return this._getNextItem(item);
+      var layout = this.getContent().getLayout();
+      var sibling = item;
+
+      if ((vertical && relation === "above") || (!vertical && relation === "left"))
+      {
+        do {
+          sibling = layout.getPreviousSibling(sibling);
+        } while (sibling && !sibling.isEnabled());
+      }
+      else if ((vertical && relation === "under") || (!vertical && relation === "right"))
+      {
+        do {
+          sibling = layout.getNextSibling(sibling);
+        } while (sibling && !sibling.isEnabled());
+      }
+      else
+      {
+        return null;
       }
 
-      return null;
+      return sibling;
     },
 
 
@@ -305,101 +319,7 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-    // interface implementation
-    getItemOffsetLeft : function(item)
-    {
-      var computed = item.getComputedLayout();
-      if (computed) {
-        return computed.left;
-      }
 
-      return 0;
-    },
-
-
-    // interface implementation
-    getItemOffsetTop : function(item)
-    {
-      var computed = item.getComputedLayout();
-      if (computed) {
-        return computed.top;
-      }
-
-      return 0;
-    },
-
-
-    // interface implementation
-    getItemWidth : function(item)
-    {
-      var computed = item.getComputedLayout();
-      if (computed) {
-        return computed.width;
-      }
-
-      return 0;
-    },
-
-
-    // interface implementation
-    getItemHeight : function(item)
-    {
-      var computed = item.getComputedLayout();
-      if (computed) {
-        return computed.height;
-      }
-
-      return 0;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the previous selectable item from the children list.
-     *
-     * @type member
-     * @param rel {qx.ui.form.ListItem} Widget from where the lookup should start (relative item)
-     * @return {qx.ui.form.ListItem} The previous selectable list item
-     */
-    _getPreviousItem : function(rel)
-    {
-      var layout = this.getContent().getLayout();
-      var prev = rel;
-
-      do {
-        prev = layout.getPreviousSibling(prev);
-      } while (prev && !prev.isEnabled());
-
-      return prev || null;
-    },
-
-
-    /**
-     * Returns the next selectable item from the children list.
-     *
-     * @type member
-     * @param rel {qx.ui.form.ListItem} Widget from where the lookup should start (relative item)
-     * @return {qx.ui.form.ListItem} The next selectable list item
-     */
-    _getNextItem : function(rel)
-    {
-      var layout = this.getContent().getLayout();
-      var next = rel;
-
-      do {
-        next = layout.getNextSibling(next);
-      } while (next && !next.isEnabled());
-
-      return next || null;
-    },
 
 
 
@@ -475,13 +395,12 @@ qx.Class.define("qx.ui.form.List",
         for (var i=0; i<items.length; i++) {
           items[i].fireEvent("action");
         }
+
+        return;
       }
 
       // Give control to selectionManager
-      else
-      {
-        this._manager.handleKeyPress(e);
-      }
+      this._manager.handleKeyPress(e);
     }
   },
 
