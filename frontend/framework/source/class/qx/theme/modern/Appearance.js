@@ -51,11 +51,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           backgroundColor : "background",
-          textColor : "text",
+          textColor : "label",
           font : "default"
         };
       }
     },
+
 
 
     "label" :
@@ -63,7 +64,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          textColor : "label"
+          // textColor : "label"
         };
       }
     },
@@ -232,13 +233,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          paddingRight : 4,
-          paddingLeft : 4,
-          paddingBottom : 3,
+          padding : [1, 0, 1, 0],
           textColor : "#314a6e",
           font : new qx.bom.Font().set({
             family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
-            size : 11,
+            size : 12,
             bold : true
           })
         };

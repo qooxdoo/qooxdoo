@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * The small folder open/close button
+ */
 qx.Class.define("qx.ui.tree.FolderOpenButton",
 {
   extend : qx.ui.basic.Image,
@@ -55,6 +58,9 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
 
   properties :
   {
+    /**
+     * Whether the button state is "open"
+     */
     open :
     {
       check : "Boolean",
@@ -81,6 +87,7 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
 
   members :
   {
+    // property apply
     _applyOpen : function(value, old)
     {
       value ? this.addState("opened") : this.removeState("opened");
@@ -109,6 +116,11 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
     },
 
 
+    /**
+     * Stop click event propagation
+     *
+     * @param e {qx.event.type.Event} The event object
+     */
     // TODO: Could this be done somewhere else. The whole event
     // connection stuff on this widget (used by AbstractTreeItem)
     // needs optimization.

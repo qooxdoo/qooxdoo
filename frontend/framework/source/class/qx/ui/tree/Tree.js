@@ -75,8 +75,8 @@ qx.Class.define("qx.ui.tree.Tree",
     this.addListener("mousedown", this._onMousedown);
     this.addListener("mouseup", this._onMouseup);
 
-    this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keydown", this._onKeydown);
+    this.addListener("keypress", this._onKeypress);
   },
 
 
@@ -311,57 +311,11 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    // interface implementation
-    getItemOffset : function(item)
-    {
-      var pos = item.getComputedLayout();
-      if (!pos) {
-        return 0;
-      }
-
-      var top = 0;
-      while (item)
-      {
-        top += item.getComputedLayout().top;
-        var item = item.getLayoutParent();
-        if (item == this.getContent()) {
-          return top;
-        }
-      }
-
-      return 0;
-    },
-
-
-    // interface implementation
-    getItemHeight : function(item)
-    {
-      var computed = item.getComputedLayout();
-      if (computed) {
-        return computed.height;
-      }
-
-      return 0;
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       SELECTION MANAGER API
     ---------------------------------------------------------------------------
     */
-
-    // interface implementation
-    getNextSelectableItem : function(selectedItem) {
-      return this.getNextSiblingOf(selectedItem, false);
-    },
-
-
-    // interface implementation
-    getPreviousSelectableItem : function(selectedItem) {
-      return this.getPreviousSiblingOf(selectedItem, false);
-    },
-
 
     /**
      * Get the tree item after the given item
@@ -449,7 +403,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     // interface implementation
-    getSelectableItems : function() {
+    getSelectables : function() {
       return this.getRoot().getItems(true, false, this.getHideRoot());
     },
 
@@ -470,14 +424,14 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     // overridden
-    scrollItemIntoView : function(item, position)
+    scrollItemIntoView : function(item, hAlign, vAlign)
     {
       // if the last item is selected the content should be scrolled down to
       // the end including the content paddings
       if (!this.getNextSelectableItem(item)) {
         this.setScrollTop(1000000);
       } else {
-        this.base(arguments, item, position);
+        this.base(arguments, item, hAlign, vAlign);
       }
     },
 
@@ -485,6 +439,40 @@ qx.Class.define("qx.ui.tree.Tree",
     // interface implementation
     getInnerHeight : function() {
       return this.getVisibleContentSize().height;
+    },
+
+
+    // interface implementation
+    getItemOffset : function(item)
+    {
+      var pos = item.getComputedLayout();
+      if (!pos) {
+        return 0;
+      }
+
+      var top = 0;
+      while (item)
+      {
+        top += item.getComputedLayout().top;
+        var item = item.getLayoutParent();
+        if (item == this.getContent()) {
+          return top;
+        }
+      }
+
+      return 0;
+    },
+
+
+    // interface implementation
+    getItemHeight : function(item)
+    {
+      var computed = item.getComputedLayout();
+      if (computed) {
+        return computed.height;
+      }
+
+      return 0;
     },
 
 
@@ -574,6 +562,7 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+    // property apply
     _applyOpenMode : function(value, old)
     {
       if (old == "clickOpen" || old == "clickOpenClose") {
@@ -599,7 +588,7 @@ qx.Class.define("qx.ui.tree.Tree",
     _onOpen : function(e)
     {
       var treeItem = this._getTreeItem(e.getTarget());
-      if (!treeItem) {
+      if (!treeItem ||!treeItem.isOpenable()) {
         return;
       }
 
@@ -632,7 +621,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param e {qx.event.type.KeyEvent} keyDown event
      * @return {void}
      */
-    _onkeydown : function(e)
+    _onKeydown : function(e)
     {
       // Execute action on press <ENTER>
       if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
@@ -652,7 +641,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param e {qx.event.type.KeyEvent} keyPress event
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeypress : function(e)
     {
       var key = e.getKeyIdentifier();
 
@@ -663,26 +652,29 @@ qx.Class.define("qx.ui.tree.Tree",
         {
           var treeItem = this._getTreeItem(target);
 
-          if (treeItem)
+          if (treeItem.isOpenable())
           {
-            if (key == "Left")
+            if (treeItem)
             {
-              if (treeItem.isOpen())
+              if (key == "Left")
               {
-                treeItem.setOpen(false);
-                e.stopPropagation();
+                if (treeItem.isOpen())
+                {
+                  treeItem.setOpen(false);
+                  e.stopPropagation();
+                }
               }
-            }
-            else
-            {
-              if (!treeItem.isOpen())
+              else
               {
-                treeItem.setOpen(true);
-                e.stopPropagation();
+                if (!treeItem.isOpen())
+                {
+                  treeItem.setOpen(true);
+                  e.stopPropagation();
+                }
               }
-            }
 
-            return;
+              return;
+            }
           }
         }
       }
