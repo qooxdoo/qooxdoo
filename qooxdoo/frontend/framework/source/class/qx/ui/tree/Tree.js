@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.tree.Tree",
     this.initOpenMode();
     this.initRootOpenClose();
 
-    this.addListener("mouseover", this._onMouseover);
+    this.addListener("mousemove", this._onMousemove);
     this.addListener("mousedown", this._onMousedown);
     this.addListener("mouseup", this._onMouseup);
 
@@ -518,12 +518,11 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param e {qx.event.type.Mouse} mouseOver event
      * @return {void}
      */
-    _onMouseover : function(e)
+    _onMousemove : function(e)
     {
-      return;
       var target = this._getTreeItem(e.getTarget());
       if (target) {
-        this._manager.handleMouseOver(target, e);
+        this._manager.handleMouseMove(e);
       }
     },
 
@@ -540,7 +539,7 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       var target = this._getTreeItem(e.getTarget());
       if (target) {
-        this._manager.handleMouseDown(target, e);
+        this._manager.handleMouseDown(e);
       }
     },
 
@@ -557,7 +556,7 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       var target = this._getTreeItem(e.getTarget());
       if (target) {
-        this._manager.handleMouseUp(target, e);
+        this._manager.handleMouseUp(e);
       }
     },
 
