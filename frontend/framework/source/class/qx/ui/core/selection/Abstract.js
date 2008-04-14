@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     this._selection = {};
 
     // Timer
-    this._scrollTimer = new qx.event.Timer(200);
+    this._scrollTimer = new qx.event.Timer(100);
     this._scrollTimer.addListener("interval", this._onInterval, this);
   },
 
@@ -418,8 +418,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
+      // Be sure that item is in view
       this._scrollSelectableIntoView(item);
 
+      // Read in keyboard modifiers
+      var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
+      var isShiftPressed = event.isShiftPressed();
+
+      // Action depends on selected mode
       switch(this.getMode())
       {
         case "single":
@@ -436,11 +442,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           // Update lead item
           this.setLeadItem(item);
 
-          // Read in keyboard modifiers
-          var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
-
           // Create/Update range selection
-          if (event.isShiftPressed())
+          if (isShiftPressed)
           {
             var anchor = this.getAnchorItem();
             if (!anchor) {
@@ -468,7 +471,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Drag selection
-      if (this.getDragSelection() && this.getMode() !== "single")
+      if (this.getDragSelection() && this.getMode() !== "single" && !isShiftPressed && !isCtrlPressed)
       {
         // Cache location/scroll data
         this._frameLocation = this._getLocation();
@@ -573,9 +576,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
+      // Remove flags
       delete this._inCapture;
+      delete this._lastRelX;
+      delete this._lastRelY;
 
+      // Stop capturing
       this._releaseCapture();
+
+      // Stop timer
       this._scrollTimer.stop();
     },
 
@@ -613,37 +622,70 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._lastRelY = relY;
 
 
-
-
-      // Process Y-coordinate
-      var next, location;
+      // Cache anchor
       var anchor = this.getAnchorItem();
-      var move = this._moveDirectionY;
-      var lead = anchor;
 
-      while (move !== 0)
+
+      // Process X-coordinate
+      var moveX=this._moveDirectionX, leadX=anchor;
+      var nextX, locationX, countX=0;
+
+      while (moveX !== 0)
       {
         // Find next item to process depending on current scroll direction
-        next = move > 0 ? this._getRelatedSelectable(lead, "under") : this._getRelatedSelectable(lead, "above");
+        nextX = moveX > 0 ? this._getRelatedSelectable(leadX, "right") : this._getRelatedSelectable(leadX, "left");
 
-        // When the current lead is the first or last item, the result
-        // here may be null
-        if (!next) {
-          break;
+        // May be null (e.g. first/last item)
+        if (nextX)
+        {
+          locationX = this._getSelectableLocationX(nextX);
+
+          // Continue when the item is in the visible area
+          if ((moveX > 0 && locationX.left <= relX) || (moveX < 0 && locationX.right >= relX))
+          {
+            leadX = nextX;
+            countX++;
+
+            continue;
+          }
         }
 
-        // Continue when the item is in the visible area
-        location = this._getSelectableLocationY(next);
-        if ((move > 0 && location.top <= relY) || (move < 0 && location.bottom >= relY)) {
-          lead = next;
-        } else {
-          break;
-        }
+        // Otherwise break
+        break;
       }
 
 
+      // Process Y-coordinate
+      var moveY=this._moveDirectionY, leadY=anchor;
+      var nextY, locationY, countY=0;
+
+      while (moveY !== 0)
+      {
+        // Find next item to process depending on current scroll direction
+        nextY = moveY > 0 ? this._getRelatedSelectable(leadY, "under") : this._getRelatedSelectable(leadY, "above");
+
+        // May be null (e.g. first/last item)
+        if (nextY)
+        {
+          locationY = this._getSelectableLocationY(nextY);
+
+          // Continue when the item is in the visible area
+          if ((moveY > 0 && locationY.top <= relY) || (moveY < 0 && locationY.bottom >= relY))
+          {
+            leadY = nextY;
+            countY++;
+
+            continue;
+          }
+        }
+
+        // Otherwise break
+        break;
+      }
 
 
+      // Select highest lead
+      var lead = countX > countY ? leadX : leadY;
 
 
       // Differenciate between the two supported modes

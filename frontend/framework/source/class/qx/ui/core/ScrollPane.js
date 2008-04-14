@@ -162,8 +162,13 @@ qx.Class.define("qx.ui.core.ScrollPane",
      *   directly (without queueing).
      * @return {void}
      */
-    setScrollLeft : function(value, direct) {
-      this._contentElement.setAttribute("scrollLeft", value, direct);
+    setScrollLeft : function(value, direct)
+    {
+      // TODO: Implement API in qx.html.Element
+      var el = this._contentElement.getDomElement();
+      if (el) {
+        el.scrollLeft = value;
+      }
     },
 
 
@@ -173,8 +178,11 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {Integer} Horizontal scroll position
      */
-    getScrollLeft : function() {
-      return this._contentElement.getAttribute("scrollLeft") || 0;
+    getScrollLeft : function()
+    {
+      // TODO: Implement API in qx.html.Element
+      var el = this._contentElement.getDomElement();
+      return el ? el.scrollLeft : 0;
     },
 
 
@@ -187,8 +195,12 @@ qx.Class.define("qx.ui.core.ScrollPane",
      *   directly (without queueing).
      * @return {void}
      */
-    setScrollTop : function(value, direct) {
-      this._contentElement.setAttribute("scrollTop", value, direct);
+    setScrollTop : function(value, direct)
+    {
+      var el = this._contentElement.getDomElement();
+      if (el) {
+        el.scrollTop = value;
+      }
     },
 
 
@@ -198,8 +210,11 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {Integer} Vertical scroll position
      */
-    getScrollTop : function() {
-      return this._contentElement.getAttribute("scrollTop") || 0;
+    getScrollTop : function()
+    {
+      // TODO: Implement API in qx.html.Element
+      var el = this._contentElement.getDomElement();
+      return el ? el.scrollTop : 0;
     },
 
 

@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
 
     // overridden
-    _getSelectables : function(item) {
+    _getSelectables : function() {
       return this._widget.getSelectables();
     },
 
