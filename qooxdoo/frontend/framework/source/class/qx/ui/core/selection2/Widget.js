@@ -89,6 +89,19 @@ qx.Class.define("qx.ui.core.selection2.Widget",
     },
 
 
+    // overridden
+    _getScrollLeft : function() {
+      return this._widget.getScrollLeft();
+    },
+
+
+    // overridden
+    _getScrollTop : function() {
+      return this._widget.getScrollTop();
+    },
+
+
+
 
 
     /*
