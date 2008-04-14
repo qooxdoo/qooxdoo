@@ -1,3 +1,25 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Derrell Lipman (derrell)
+
+************************************************************************ */
+
 /**
  * The AbstractTreeItem serves as a common superclass for the {@link
  * TreeFile} and {@link TreeFolder} classes.
@@ -276,8 +298,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      *
      * @param e {qx.event.type.Change} The event object
      */
-    _onChangeOpen : function(e) {
-      this.setOpen(e.getValue());
+    _onChangeOpen : function(e)
+    {
+      if (this.isOpenable()) {
+        this.setOpen(e.getValue());
+      }
     },
 
 
@@ -304,7 +329,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      * has been added before, it is removed from its old position and
      * added to the end of the layout.
      *
-     * @param label {String?0} The label's contents
+     * @param text {String?0} The label's contents
      */
     addLabel : function(text)
     {
@@ -381,6 +406,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Updates the tree item's icon source
+     */
     __updateIcon : function()
     {
       var icon = this.getIconObject();
@@ -427,8 +455,18 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
-    _applyOpenSymbolMode : function(value, old) {
-      this._updateIndent();
+    /**
+     * Whether the tree item can be opened.
+     *
+     * @return {Boolean} Whether the tree item can be opened.
+     */
+    isOpenable : function()
+    {
+      var openMode = this.getOpenSymbolMode();
+      return (
+        openMode === "always" ||
+        openMode === "never" && this.hasChildren()
+      );
     },
 
 
@@ -443,17 +481,19 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         return false;
       }
 
-      var openMode = this.getOpenSymbolMode();
-      var hasChildren = this.hasChildren();
-
-      var showOpenSymbol =
-        openMode == "always" ||
-        hasChildren && openMode == "auto";
-
-      return showOpenSymbol;
+      return this.isOpenable();
     },
 
 
+    // property apply
+    _applyOpenSymbolMode : function(value, old) {
+      this._updateIndent();
+    },
+
+
+    /**
+     * Update the indentation of the tree item.
+     */
     _updateIndent : function()
     {
       var openWidth = 0;
