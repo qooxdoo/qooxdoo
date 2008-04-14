@@ -23,18 +23,6 @@
  *
  * The selection handling supports both Shift and Ctrl/Meta modifies like
  * known from native applications.
- *
- * It also respects platform differences between Windows and Mac e.g. uses
- * the Ctrl key under Windows to add items to a selection while using
- * the Command/Meta key under Mac.
- *
- * The Mac platform has some differences in behavior between different
- * applications. Under Apple Mail and most other applications
- * the selection created via the Shift behaves identical to Windows. One
- * Exception is the Finder, where the Shift selections always behave like
- * Shift+Meta/Ctrl and always add keep the items of the selection and
- * just add new ones. The selection manager only support Windows style
- * selections for Shift key combinations.
  */
 qx.Class.define("qx.ui.core.selection.Abstract",
 {
@@ -65,6 +53,22 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
   /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fires after the selection was modified */
+    change : "qx.event.type.Event"
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -72,7 +76,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   properties :
   {
     /**
+     * Selects the selection mode to use.
      *
+     * * single: One element is selected
+     * * multi: Multi items could be selected. Also allows empty selections.
+     * * additive: Easy Web-2.0 selection mode. Allows multiple selections without modifiers.
      */
     mode :
     {
@@ -83,7 +91,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     *
+     * Enable drag selection (multi selection of items through
+     * dragging the mouse in pressed states)
      */
     dragSelection :
     {
@@ -93,7 +102,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     *
+     * The currently selected lead item. Mostly used internally
      */
     leadItem :
     {
@@ -103,7 +112,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     *
+     * The currently selected anchor item. Mostly used internally
      */
     anchorItem :
     {
@@ -130,26 +139,73 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Enables capturing of the container.
+     *
+     * @type member
+     * @return {void}
+     */
     _capture : function() {
       throw new Error("Abstract method call: _capture()");
     },
 
 
+    /**
+     * Releases capturing of the container
+     *
+     * @type member
+     * @return {void}
+     */
     _releaseCapture : function() {
       throw new Error("Abstract method call: _releaseCapture()");
     },
 
 
+    /**
+     * Returns the location of the container
+     *
+     * @type member
+     * @return {Map} Map with the keys <code>top</code>, <code>right</code>,
+     *    <code>bottom</code> and <code>left</code>.
+     */
     _getLocation : function() {
       throw new Error("Abstract method call: _getLocation()");
     },
 
 
-    _scrollBy : function(xoff, yoff) {
-      throw new Error("Abstract method call: _scrollBy()");
+    /**
+     * Returns the dimension of the container (available scrolling space).
+     *
+     * @type member
+     * @return {Map} Map with the keys <code>width</code> and <code>height</code>.
+     */
+    _getDimension : function() {
+      throw new Error("Abstract method call: _getDimension()");
     },
 
 
+    /**
+     * Returns the scroll position of the container.
+     *
+     * @type member
+     * @return {Map} Map with the keys <code>left</code> and <code>top</code>.
+     */
+    _getScroll : function() {
+      throw new Error("Abstract method call: _getScroll()");
+    },
+
+
+    /**
+     * Scrolls by the given offset
+     *
+     * @type member
+     * @param xoff {Integer} Horizontal offset to scroll by
+     * @param yoff {Integer} Vertical offset to scroll by
+     * @return {void}
+     */
+    _scrollBy : function(xoff, yoff) {
+      throw new Error("Abstract method call: _scrollBy()");
+    },
 
 
 
@@ -162,49 +218,142 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Whether the given item is selectable.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {Boolean} <code>true</code> when the item is selectable
+     */
     _isSelectable : function(item) {
       throw new Error("Abstract method call: _isSelectable()");
     },
 
 
+    /**
+     * Returns a unique hashcode for the given item.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {String} A valid hashcode
+     */
     _selectableToHashCode : function(item) {
       throw new Error("Abstract method call: _selectableToHashCode()");
     },
 
 
-    _getSelectables : function(item) {
+    /**
+     * Returns all selectable items of the container.
+     *
+     * @type member
+     * @return {Array} A list of items
+     */
+    _getSelectables : function() {
       throw new Error("Abstract method call: _getSelectables()");
     },
 
 
+    /**
+     * Returns all selectable items between the two given items.
+     *
+     * The items could be given in any order.
+     *
+     * @type member
+     * @param item1 {var} First item
+     * @param item2 {var} Second item
+     * @return {Boolean} <code>true</code> when the item is selectable
+     */
     _getSelectableRange : function(item1, item2) {
       throw new Error("Abstract method call: _getSelectableRange()");
     },
 
 
-    _scrollSelectableIntoView : function(item) {
-      throw new Error("Abstract method call: _scrollSelectableIntoView()");
-    },
-
-
-    _styleSelectable : function(item, type, enabled) {
-      throw new Error("Abstract method call: _styleSelectable()");
-    },
-
-
+    /**
+     * Returns the first selectable item.
+     *
+     * @type member
+     * @return {var} The first selectable item
+     */
     _getFirstSelectable : function() {
       throw new Error("Abstract method call: _getFirstSelectable()");
     },
 
 
+    /**
+     * Returns the last selectable item.
+     *
+     * @type member
+     * @return {var} The last selectable item
+     */
     _getLastSelectable : function() {
       throw new Error("Abstract method call: _getLastSelectable()");
     },
 
 
+    /**
+     * Returns a selectable item which is related to the given
+     * <code>item</code> through the value of <code>relation</code>.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @param relation {String} A valid relation: <code>above</code>,
+     *    <code>right</code>, <code>under</code> or <code>left</code>
+     * @return {Boolean} The related item
+     */
     _getRelatedSelectable : function(item, relation) {
       throw new Error("Abstract method call: _getRelatedSelectable()");
     },
+
+
+    /**
+     * Scrolls the given item into the view (make it visible)
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {void}
+     */
+    _scrollSelectableIntoView : function(item) {
+      throw new Error("Abstract method call: _scrollSelectableIntoView()");
+    },
+
+
+    /**
+     * Updates the style (appearance) of the given item.
+     *
+     * @type member
+     * @param item {var} Item to modify
+     * @param type {String} Any of <code>selected</code>, <code>anchor</code> or <code>lead</code>
+     * @param enabled {Boolean} Whether the given style should be added or removed.
+     * @return {void}
+     */
+    _styleSelectable : function(item, type, enabled) {
+      throw new Error("Abstract method call: _styleSelectable()");
+    },
+
+
+    /**
+     * Returns the relative (to the container) horizontal location of the given item.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {Map} A map with the keys <code>left</code> and <code>right</code>.
+     */
+    _getSelectableLocationX : function(item) {
+      throw new Error("Abstract method call: _getSelectableLocationX()");
+    },
+
+
+    /**
+     * Returns the relative (to the container) horizontal location of the given item.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {Map} A map with the keys <code>top</code> and <code>bottom</code>.
+     */
+    _getSelectableLocationY : function(item) {
+      throw new Error("Abstract method call: _getSelectableLocationY()");
+    },
+
 
 
 
