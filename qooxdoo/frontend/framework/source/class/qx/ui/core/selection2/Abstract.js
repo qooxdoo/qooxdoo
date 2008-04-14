@@ -21,7 +21,7 @@
  * General selection manager to bring rich desktop like selection behavior
  * to widgets and low-level interactive controls.
  *
- * The selection handling supports both Shift and Ctrl/Meta modifies like 
+ * The selection handling supports both Shift and Ctrl/Meta modifies like
  * known from native applications.
  *
  * It also respects platform differences between Windows and Mac e.g. uses
@@ -54,9 +54,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     // {Map} Interal selection storage
     this._selection = {};
-    
+
     // Timer
-    this._scrollTimer = new qx.event.Timer(50);
+    this._scrollTimer = new qx.event.Timer(200);
     this._scrollTimer.addListener("interval", this._onInterval, this);
   },
 
@@ -80,15 +80,15 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       init : "single",
       apply : "_applySelectionMode"
     },
-    
-    
+
+
     /**
      *
      */
     dragSelection :
     {
       check : "Boolean",
-      init : false
+      init : true
     },
 
 
@@ -129,11 +129,11 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       ABSTRACT METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     _isItem : function(item) {
       throw new Error("Abstract method call: _isItem()");
     },
-    
+
 
     _itemToHashCode : function(item) {
       throw new Error("Abstract method call: _itemToHashCode()");
@@ -198,13 +198,13 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _getItemPageDown : function(rel) {
       throw new Error("Abstract method call: _getItemPageDown()");
     },
-    
-    
+
+
     _captureObject : function() {
       throw new Error("Abstract method call: _captureObject()");
     },
-    
-    
+
+
     _releaseObject : function() {
       throw new Error("Abstract method call: _releaseObject()");
     },
@@ -213,15 +213,15 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _getLocation : function() {
       throw new Error("Abstract method call: _getLocation()");
     },
-    
-    
+
+
     _scrollBy : function(xoff, yoff) {
       throw new Error("Abstract method call: _scrollBy()");
     },
-    
-    
-    
-    
+
+
+
+
 
 
 
@@ -239,8 +239,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
       this._clearSelection();
     },
-    
-    
+
+
     // property apply
     _applyLeadItem : function(value, old)
     {
@@ -282,9 +282,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       if (!this._isItem(item)) {
         return;
       }
-      
+
       this._scrollItemIntoView(item);
-      
+
       switch(this.getMode())
       {
         case "single":
@@ -331,47 +331,47 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
           break;
       }
-      
-      if (this.getDragSelection())
+
+      if (this.getDragSelection() && this.getMode() !== "single")
       {
         this._location = this._getLocation();
 
         this._startMouseX = event.getDocumentLeft() + this._widget.getScrollLeft();
         this._startMouseY = event.getDocumentTop() + this._widget.getScrollTop();
-        
+
         this._captureObject();
         this._capture = true;
       }
     },
-    
-    
+
+
     handleMouseUp : function(event)
     {
       if (!this.getDragSelection()) {
         return;
       }
-      
+
       delete this._capture;
-      
+
       this._releaseObject();
       this._scrollTimer.stop();
     },
-    
-    
+
+
     handleMouseMove : function(event)
     {
       if (!this._capture) {
         return;
       }
-      
-    
-      
 
-      
+
+
+
+
       this._currentMouseY = event.getDocumentTop();
-      
+
       var mouseY = event.getDocumentTop() + this._widget.getScrollTop();
-          
+
       if (mouseY > this._startMouseY) {
         this._moveY = 1;
       } else if (mouseY < this._startMouseY) {
@@ -379,9 +379,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       } else {
         this._moveY = 0;
       }
-      
+
       //this.debug("MOVE: " + this._moveY)
-      
+
       var loc = this._location;
       var top = event.getDocumentTop();
 
@@ -392,45 +392,45 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       } else {
         this._scrollByY = 0;
       }
-      
-      
+
+
       // TODO: x-axis
       this._scrollByX = 0;
-      
+
       // Start interval
       this._scrollTimer.start();
-      
+
       // Auto select based on cursor position
       this._autoSelect();
     },
-    
-    
-    _onInterval : function(e) 
+
+
+    _onInterval : function(e)
     {
       // Scroll by defined block size
       this._scrollBy(this._scrollByX, this._scrollByY);
-      
+
       // Auto select based on new scroll position and cursor
       this._autoSelect();
     },
-    
-    
+
+
     _autoSelect : function()
     {
       var mode = this.getMode();
       var relY = this._currentMouseY + this._widget.getScrollTop() - this._location.top;
-      
+
       if (this._lastProcessedY === relY) {
         return;
       }
-      
+
       this._lastProcessedY = relY;
-      
-      
+
+
       var anchor = this.getAnchorItem() || this._getSelectedItem();
       var lead = anchor;
       var next;
-      
+
       while (1)
       {
         if (this._moveY > 0) {
@@ -440,16 +440,16 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         } else {
           break;
         }
-        
+
         if (!next) {
           break;
         }
-        
+
         var nextPosY = this._widget.getItemOffsetTop(next);
         var nextHeight = this._widget.getItemHeight(next);
-        
+
         //this.debug("Test: " + next.getLabel() + " : " + nextPosY + " <-> " + relY)
-        
+
         if (this._moveY > 0 && nextPosY <= relY)
         {
           lead = next;
@@ -463,32 +463,28 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           break;
         }
       }
-      
-      
-      
+
+
+
       //this.debug("From: " + anchor.getLabel() + " to " + lead.getLabel());
-      
-      if (mode === "single") 
-      {
-        this._setSelectedItem(lead);
-      }
-      else if (mode === "additive")
+
+      if (mode === "additive")
       {
         if (this._isItemSelected(anchor)) {
-          this._selectItemRange(anchor, lead);
+          this._selectItemRange(anchor, lead, true);
         } else {
           this._deselectItemRange(anchor, lead);
         }
       }
-      else 
+      else
       {
-        // TODO
+        this._selectItemRange(anchor, lead);
       }
-    },    
-    
-    
+    },
+
+
     /** {Map} All supported navigation keys */
-    __navigationKeys : 
+    __navigationKeys :
     {
       Home : 1,
       Down : 1 ,
@@ -499,18 +495,18 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       Left : 1,
       PageUp : 1
     },
-    
+
 
     handleKeyPress : function(event)
     {
       var current, next;
       var key = event.getKeyIdentifier();
       var mode = this.getMode();
-      
+
       // Support both control keys on Mac
       var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
-      
+
       if (key === "A" && isCtrlPressed)
       {
         this._selectAllItems();
@@ -522,7 +518,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       else if (key === "Space")
       {
         var lead = this.getLeadItem();
-        if (lead && !isShiftPressed) 
+        if (lead && !isShiftPressed)
         {
           if (isCtrlPressed || mode === "additive") {
             this._toggleInSelection(lead);
@@ -541,7 +537,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
         var first = this._getFirstItem();
         var last = this._getLastItem();
-      
+
         if (current)
         {
           switch(key)
@@ -644,9 +640,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         // Do not stop this event
         return;
       }
-      
+
       // Stop processed events
-      event.stop(); 
+      event.stop();
     },
 
 
@@ -659,25 +655,25 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       SUPPORT FOR ITEM RANGES
     ---------------------------------------------------------------------------
     */
-    
+
     _selectAllItems : function()
     {
       var range = this._getItems();
       for (var i=0, l=range.length; i<l; i++) {
         this._addToSelection(range[i]);
-      }      
+      }
     },
-    
-    
+
+
     _clearSelection : function()
     {
       var selection = this._selection;
       for (var hash in selection) {
         this._removeFromSelection(selection[hash]);
       }
-    },    
-    
-    
+    },
+
+
     _selectItemRange : function(item1, item2, extend)
     {
       var range = this._getItemRange(item1, item2);
@@ -701,14 +697,14 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         this._addToSelection(range[i]);
       }
     },
-    
-    
+
+
     _deselectItemRange : function(item1, item2)
     {
       var range = this._getItemRange(item1, item2);
       for (var i=0, l=range.length; i<l; i++) {
         this._removeFromSelection(range[i]);
-      }      
+      }
     },
 
 
@@ -736,7 +732,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       SINGLE ITEM QUERY AND MODIFICATION
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Detects whether the given item is currently selected.
      *
@@ -750,8 +746,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       return !!this._selection[hash];
     },
 
-    
-    /** 
+
+    /**
      * Returns the first selected item. Only makes sense
      * when using manager in single selection mode.
      *
@@ -763,7 +759,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       for (var hash in this._selection) {
         return this._selection[hash];
       }
-      
+
       return null;
     },
 
@@ -791,7 +787,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       MODIFY ITEM SELECTION
     ---------------------------------------------------------------------------
     */
-    
+
     _addToSelection : function(item)
     {
       var hash = this._itemToHashCode(item);
@@ -842,7 +838,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
   *****************************************************************************
   */
 
-  destruct : function() 
+  destruct : function()
   {
     this._disposeObjects("_scrollTimer");
     this._disposeFields("_selection");
