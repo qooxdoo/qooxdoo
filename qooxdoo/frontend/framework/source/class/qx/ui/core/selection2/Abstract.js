@@ -126,87 +126,17 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
   {
     /*
     ---------------------------------------------------------------------------
-      ABSTRACT METHODS
+      ABSTRACT METHODS FOR CONTAINER
     ---------------------------------------------------------------------------
     */
 
-    _isItem : function(item) {
-      throw new Error("Abstract method call: _isItem()");
+    _capture : function() {
+      throw new Error("Abstract method call: _capture()");
     },
 
 
-    _itemToHashCode : function(item) {
-      throw new Error("Abstract method call: _itemToHashCode()");
-    },
-
-
-    _getItems : function(item) {
-      throw new Error("Abstract method call: _getItems()");
-    },
-
-
-    _getItemRange : function(item1, item2) {
-      throw new Error("Abstract method call: _getItemRange()");
-    },
-
-
-    _scrollItemIntoView : function(item) {
-      throw new Error("Abstract method call: _scrollItemIntoView()");
-    },
-
-
-    _styleItem : function(item, type, enabled) {
-      throw new Error("Abstract method call: _styleItem()");
-    },
-
-
-    _getFirstItem : function() {
-      throw new Error("Abstract method call: _getFirstItem()");
-    },
-
-
-    _getLastItem : function() {
-      throw new Error("Abstract method call: _getLastItem()");
-    },
-
-
-    _getItemAbove : function(rel) {
-      throw new Error("Abstract method call: _getItemAbove()");
-    },
-
-
-    _getItemUnder : function(rel) {
-      throw new Error("Abstract method call: _getItemUnder()");
-    },
-
-
-    _getItemLeft : function(rel) {
-      throw new Error("Abstract method call: _getItemLeft()");
-    },
-
-
-    _getItemRight : function(rel) {
-      throw new Error("Abstract method call: _getItemRight()");
-    },
-
-
-    _getItemPageUp : function(rel) {
-      throw new Error("Abstract method call: _getItemPageUp()");
-    },
-
-
-    _getItemPageDown : function(rel) {
-      throw new Error("Abstract method call: _getItemPageDown()");
-    },
-
-
-    _captureObject : function() {
-      throw new Error("Abstract method call: _captureObject()");
-    },
-
-
-    _releaseObject : function() {
-      throw new Error("Abstract method call: _releaseObject()");
+    _release : function() {
+      throw new Error("Abstract method call: _release()");
     },
 
 
@@ -219,6 +149,60 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       throw new Error("Abstract method call: _scrollBy()");
     },
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ABSTRACT METHODS FOR SELECTABLES
+    ---------------------------------------------------------------------------
+    */
+
+    _isSelectable : function(item) {
+      throw new Error("Abstract method call: _isSelectable()");
+    },
+
+
+    _selectableToHashCode : function(item) {
+      throw new Error("Abstract method call: _selectableToHashCode()");
+    },
+
+
+    _getSelectables : function(item) {
+      throw new Error("Abstract method call: _getSelectables()");
+    },
+
+
+    _getSelectableRange : function(item1, item2) {
+      throw new Error("Abstract method call: _getSelectableRange()");
+    },
+
+
+    _scrollSelectableIntoView : function(item) {
+      throw new Error("Abstract method call: _scrollSelectableIntoView()");
+    },
+
+
+    _styleSelectable : function(item, type, enabled) {
+      throw new Error("Abstract method call: _styleSelectable()");
+    },
+
+
+    _getFirstSelectable : function() {
+      throw new Error("Abstract method call: _getFirstSelectable()");
+    },
+
+
+    _getLastSelectable : function() {
+      throw new Error("Abstract method call: _getLastSelectable()");
+    },
+
+
+    _getRelatedSelectable : function(item, relation) {
+      throw new Error("Abstract method call: _getRelatedSelectable()");
+    },
 
 
 
@@ -245,11 +229,11 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _applyLeadItem : function(value, old)
     {
       if (old) {
-        this._styleItem(old, "lead", false);
+        this._styleSelectable(old, "lead", false);
       }
 
       if (value) {
-        this._styleItem(value, "lead", true);
+        this._styleSelectable(value, "lead", true);
       }
     },
 
@@ -258,11 +242,11 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _applyAnchorItem : function(value, old)
     {
       if (old) {
-        this._styleItem(old, "anchor", false);
+        this._styleSelectable(old, "anchor", false);
       }
 
       if (value) {
-        this._styleItem(value, "anchor", true);
+        this._styleSelectable(value, "anchor", true);
       }
     },
 
@@ -279,11 +263,11 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     handleMouseDown : function(event)
     {
       var item = event.getTarget();
-      if (!this._isItem(item)) {
+      if (!this._isSelectable(item)) {
         return;
       }
 
-      this._scrollItemIntoView(item);
+      this._scrollSelectableIntoView(item);
 
       switch(this.getMode())
       {
@@ -339,8 +323,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         this._startMouseX = event.getDocumentLeft() + this._widget.getScrollLeft();
         this._startMouseY = event.getDocumentTop() + this._widget.getScrollTop();
 
-        this._captureObject();
-        this._capture = true;
+        this._capture();
+        this._inCapture = true;
       }
     },
 
@@ -351,16 +335,16 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         return;
       }
 
-      delete this._capture;
+      delete this._inCapture;
 
-      this._releaseObject();
+      this._release();
       this._scrollTimer.stop();
     },
 
 
     handleMouseMove : function(event)
     {
-      if (!this._capture) {
+      if (!this._inCapture) {
         return;
       }
 
@@ -430,7 +414,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       while (move !== 0)
       {
         // Find next item to process depending on current scroll direction
-        next = move > 0 ? this._getItemUnder(lead) : this._getItemAbove(lead);
+        next = move > 0 ? this._getRelatedSelectable(lead, "under") : this._getRelatedSelectable(lead, "above");
 
         // When the current lead is the first or last item, the result
         // here may be null
@@ -536,8 +520,8 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           current = this.getLeadItem();
         }
 
-        var first = this._getFirstItem();
-        var last = this._getLastItem();
+        var first = this._getFirstSelectable();
+        var last = this._getLastSelectable();
 
         if (current)
         {
@@ -552,27 +536,28 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
               break;
 
             case "Up":
-              next = this._getItemAbove(current);
+              next = this._getRelatedSelectable(current, "above");
               break;
 
             case "Down":
-              next = this._getItemUnder(current);
+              next = this._getRelatedSelectable(current, "under");
               break;
 
             case "Left":
-              next = this._getItemLeft(current);
+              next = this._getRelatedSelectable(current, "left");
               break;
 
             case "Right":
-              next = this._getItemRight(current);
+              next = this._getRelatedSelectable(current, "right");
               break;
 
             case "PageUp":
-              next = this._getItemPageUp(current);
+
+              //next =
               break;
 
             case "PageDown":
-              next = this._getItemPageDown(current);
+              //next =
               break;
           }
         }
@@ -614,7 +599,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
               {
                 var anchor = this.getAnchorItem();
                 if (!anchor) {
-                  this.setAnchorItem(anchor = this._getFirstItem());
+                  this.setAnchorItem(anchor = this._getFirstSelectable());
                 }
 
                 this.setLeadItem(next);
@@ -633,7 +618,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
               break;
           }
 
-          this._scrollItemIntoView(next);
+          this._scrollSelectableIntoView(next);
         }
       }
       else
@@ -659,7 +644,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _selectAllItems : function()
     {
-      var range = this._getItems();
+      var range = this._getSelectables();
       for (var i=0, l=range.length; i<l; i++) {
         this._addToSelection(range[i]);
       }
@@ -677,7 +662,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _selectItemRange : function(item1, item2, extend)
     {
-      var range = this._getItemRange(item1, item2);
+      var range = this._getSelectableRange(item1, item2);
 
       // Remove items which are not in the detected range
       if (!extend)
@@ -702,7 +687,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _deselectItemRange : function(item1, item2)
     {
-      var range = this._getItemRange(item1, item2);
+      var range = this._getSelectableRange(item1, item2);
       for (var i=0, l=range.length; i<l; i++) {
         this._removeFromSelection(range[i]);
       }
@@ -717,7 +702,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       for (var i=0, l=range.length; i<l; i++)
       {
         item = range[i];
-        mapped[this._itemToHashCode(item)] = item;
+        mapped[this._selectableToHashCode(item)] = item;
       }
 
       return mapped;
@@ -743,7 +728,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
      */
     _isItemSelected : function(item)
     {
-      var hash = this._itemToHashCode(item);
+      var hash = this._selectableToHashCode(item);
       return !!this._selection[hash];
     },
 
@@ -791,41 +776,41 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _addToSelection : function(item)
     {
-      var hash = this._itemToHashCode(item);
+      var hash = this._selectableToHashCode(item);
 
       if (!this._selection[hash])
       {
         this._selection[hash] = item;
-        this._styleItem(item, "selected", true);
+        this._styleSelectable(item, "selected", true);
       }
     },
 
 
     _toggleInSelection : function(item)
     {
-      var hash = this._itemToHashCode(item);
+      var hash = this._selectableToHashCode(item);
 
       if (!this._selection[hash])
       {
         this._selection[hash] = item;
-        this._styleItem(item, "selected", true);
+        this._styleSelectable(item, "selected", true);
       }
       else
       {
         delete this._selection[hash];
-        this._styleItem(item, "selected", false);
+        this._styleSelectable(item, "selected", false);
       }
     },
 
 
     _removeFromSelection : function(item)
     {
-      var hash = this._itemToHashCode(item);
+      var hash = this._selectableToHashCode(item);
 
       if (this._selection[hash])
       {
         delete this._selection[hash];
-        this._styleItem(item, "selected", false);
+        this._styleSelectable(item, "selected", false);
       }
     }
   },

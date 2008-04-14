@@ -92,7 +92,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var l4 = new qx.ui.form.List("multi", true);
 
-      l4.set({ width: 400 });
+      l4.set({ width: 600 });
 
       var l4l = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l4.add(new qx.ui.form.ListItem(null, l4pre + l4l[i]));
       };
 
-      this.getRoot().add(l4, 400, 300);
+      this.getRoot().add(l4, 20, 400);
 
 
 

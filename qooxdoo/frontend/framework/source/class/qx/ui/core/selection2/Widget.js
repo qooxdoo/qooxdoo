@@ -48,146 +48,106 @@ qx.Class.define("qx.ui.core.selection2.Widget",
   {
     /*
     ---------------------------------------------------------------------------
-      WIDGET API
+      METHODS FOR CONTAINER
     ---------------------------------------------------------------------------
     */
-    
-    // overridden
-    _isItem : function(item) {
-      return this._widget.isItem(item);
-    },
-    
 
     // overridden
-    _itemToHashCode : function(item) {
+    _capture : function() {
+      this._widget.capture();
+    },
+
+
+    // overridden
+    _release : function() {
+      this._widget.releaseCapture();
+    },
+
+
+    // overridden
+    _getLocation : function()
+    {
+      var elem = this._widget.getContainerElement().getDomElement();
+      return elem ? qx.bom.element.Location.get(elem) : null;
+    },
+
+
+    // overridden
+    _scrollBy : function(xoff, yoff)
+    {
+      var widget = this._widget;
+
+      // TODO: Implement scrollBy in ScrollArea
+
+      if (xoff != 0) {
+        widget.setScrollLeft(widget.getScrollLeft() + xoff);
+      }
+
+      if (yoff != 0) {
+        widget.setScrollTop(widget.getScrollTop() + yoff);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ABSTRACT METHODS FOR SELECTABLES
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _isSelectable : function(item) {
+      return this._widget.isSelectable(item);
+    },
+
+
+    // overridden
+    _selectableToHashCode : function(item) {
       return item.$$hash;
     },
 
 
     // overridden
-    _styleItem : function(item, type, enabled) {
+    _styleSelectable : function(item, type, enabled) {
       enabled ? item.addState(type) : item.removeState(type);
     },
 
 
     // overridden
-    _captureObject : function() {
-      this._widget.capture();
-    },
-    
-    
-    // overridden
-    _releaseObject : function() {
-      this._widget.releaseCapture();
-    },
-    
-    
-    // overridden
-    _getLocation : function() 
-    {
-      var elem = this._widget.getContainerElement().getDomElement();
-      return elem ? qx.bom.element.Location.get(elem) : null;
-    },
-    
-    
-    // overridden
-    _scrollBy : function(xoff, yoff)
-    {
-      var widget = this._widget;
-      
-      // TODO: Implement scrollBy in ScrollArea
-      
-      if (xoff != 0) {
-        widget.setScrollLeft(widget.getScrollLeft() + xoff);
-      }
-      
-      if (yoff != 0) {
-        widget.setScrollTop(widget.getScrollTop() + yoff);
-      }
-    },
-    
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLAREA API
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    _scrollItemIntoView : function(item) {
+    _scrollSelectableIntoView : function(item) {
       this._widget.scrollItemIntoView(item);
     },
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      REMAINING ITEM SUPPORT API
-    ---------------------------------------------------------------------------
-    */
-
     // overridden
-    _getItems : function(item) {
-      return this._widget.getItems();
+    _getSelectables : function(item) {
+      return this._widget.getSelectables();
     },
 
 
     // overridden
-    _getItemRange : function(item1, item2) {
-      return this._widget.getItemRange(item1, item2);
-    },
-    
-    
-    // overridden
-    _getFirstItem : function() {
-      return this._widget.getFirstItem();
+    _getSelectableRange : function(item1, item2) {
+      return this._widget.getSelectableRange(item1, item2);
     },
 
 
     // overridden
-    _getLastItem : function() {
-      return this._widget.getLastItem();
+    _getFirstSelectable : function() {
+      return this._widget.getFirstSelectable();
     },
 
 
     // overridden
-    _getItemAbove : function(rel) {
-      return this._widget.getItemAbove(rel);
+    _getLastSelectable : function() {
+      return this._widget.getLastSelectable();
     },
 
 
     // overridden
-    _getItemUnder : function(rel) {
-      return this._widget.getItemUnder(rel);
-    },
-
-
-    // overridden
-    _getItemLeft : function(rel) {
-      return this._widget.getItemLeft(rel);
-    },
-
-
-    // overridden
-    _getItemRight : function(rel) {
-      return this._widget.getItemRight(rel);
-    },
-
-
-    // overridden
-    _getItemPageUp : function(rel) {
-      return this._widget.getItemPageUp(rel);
-    },
-
-
-    // overridden
-    _getItemPageDown : function(rel) {
-      return this._widget.getItemPageDown(rel);
+    _getRelatedSelectable : function(item, relation) {
+      return this._widget.getRelatedSelectable(item, relation);
     }
   },
 
