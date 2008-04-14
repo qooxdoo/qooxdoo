@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l2.add(new qx.ui.form.ListItem(l2l[i]));
       };
 
-      this.getRoot().add(l2, 400, 20);
+      this.getRoot().add(l2, 400, 120);
 
 
 
@@ -85,14 +85,14 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l3.add(new qx.ui.form.ListItem(l3l[i]));
       };
 
-      this.getRoot().add(l3, 600, 20);
+      this.getRoot().add(l3, 600, 120);
 
 
 
 
       var l4 = new qx.ui.form.List("multi", true);
 
-      l4.set({ width: 600 });
+      l4.set({ width: 550 });
 
       var l4l = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l4.add(new qx.ui.form.ListItem(null, l4pre + l4l[i]));
       };
 
-      this.getRoot().add(l4, 20, 400);
+      this.getRoot().add(l4, 20, 370);
 
 
 
