@@ -150,6 +150,16 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
+    _getScrollLeft : function() {
+      throw new Error("Abstract method call: _getScrollLeft()");
+    },
+
+
+    _getScrollTop : function() {
+      throw new Error("Abstract method call: _getScrollTop()");
+    },
+
+
 
 
 
@@ -316,22 +326,26 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
           break;
       }
 
+      // Drag selection
       if (this.getDragSelection() && this.getMode() !== "single")
       {
+        // Cache location data
         this._location = this._getLocation();
 
-        this._startMouseX = event.getDocumentLeft() + this._widget.getScrollLeft();
-        this._startMouseY = event.getDocumentTop() + this._widget.getScrollTop();
+        // Store position at start
+        this._dragStartX = event.getDocumentLeft() + this._getScrollLeft();
+        this._dragStartY = event.getDocumentTop() + this._getScrollTop();
 
-        this._capture();
+        // Switch to capture mode
         this._inCapture = true;
+        this._capture();
       }
     },
 
 
     handleMouseUp : function(event)
     {
-      if (!this.getDragSelection()) {
+      if (!this.getDragSelection() && this._inCapture) {
         return;
       }
 
@@ -342,43 +356,67 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     },
 
 
+    handleLoseCapture : function(event)
+    {
+      this.handleMouseUp(event);
+    },
+
+
     handleMouseMove : function(event)
     {
       if (!this._inCapture) {
         return;
       }
 
-      this._currentMouseY = event.getDocumentTop();
 
-      var mouseY = event.getDocumentTop() + this._widget.getScrollTop();
+      // Store mouse position
+      this._mouseX = event.getDocumentLeft();
+      this._mouseY = event.getDocumentTop();
 
-      if (mouseY > this._startMouseY) {
-        this._moveY = 1;
-      } else if (mouseY < this._startMouseY) {
-        this._moveY = -1;
+
+      // Detect move directions
+      var dragX = this._mouseX + this._getScrollLeft();
+      if (dragX > this._dragStartX) {
+        this._moveDirectionX = 1;
+      } else if (dragX < this._dragStartX) {
+        this._moveDirectionX = -1;
       } else {
-        this._moveY = 0;
+        this._moveDirectionX = 0;
       }
 
-      //this.debug("MOVE: " + this._moveY)
-
-      var loc = this._location;
-      var top = event.getDocumentTop();
-
-      if (top < loc.top) {
-        this._scrollByY = top - loc.top;
-      } else if (top > loc.bottom) {
-        this._scrollByY = top - loc.bottom;
+      var dragY = this._mouseY + this._getScrollTop();
+      if (dragY > this._dragStartY) {
+        this._moveDirectionY = 1;
+      } else if (dragY < this._dragStartY) {
+        this._moveDirectionY = -1;
       } else {
-        this._scrollByY = 0;
+        this._moveDirectionY = 0;
       }
 
 
-      // TODO: x-axis
-      this._scrollByX = 0;
+      // Update scroll steps
+      var location = this._location;
+
+      if (this._mouseX < location.left) {
+        this._scrollStepX = this._mouseX - location.left;
+      } else if (this._mouseX > location.right) {
+        this._scrollStepX = this._mouseX - location.right;
+      } else {
+        this._scrollStepX = 0;
+      }
+
+      if (this._mouseY < location.top) {
+        this._scrollStepY = this._mouseY - location.top;
+      } else if (this._mouseY > location.bottom) {
+        this._scrollStepY = this._mouseY - location.bottom;
+      } else {
+        this._scrollStepY = 0;
+      }
+
 
       // Start interval
       this._scrollTimer.start();
+
 
       // Auto select based on new cursor position
       this._autoSelect();
@@ -388,7 +426,9 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _onInterval : function(e)
     {
       // Scroll by defined block size
-      this._scrollBy(this._scrollByX, this._scrollByY);
+      this._scrollBy(this._scrollStepX, this._scrollStepY);
+
+      // TODO: Optimization: Detect real scroll changes first
 
       // Auto select based on new scroll position and cursor
       this._autoSelect();
@@ -398,18 +438,22 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
     _autoSelect : function()
     {
       // Get current relative Y position and compare it with previous one
-      var relY = this._currentMouseY + this._widget.getScrollTop() - this._location.top;
-      if (this._lastRelY === relY) {
+      var relY = this._mouseY + this._getScrollTop() - this._location.top;
+      var relX = this._mouseX + this._getScrollLeft() - this._location.left;
+
+      //
+      if (this._lastRelX === relX && this._lastRelY === relY) {
         return;
       }
 
+      this._lastRelX = relX;
       this._lastRelY = relY;
 
 
       var next, pos, size;
       var anchor = this.getAnchorItem();
       var lead = anchor;
-      var move = this._moveY;
+      var move = this._moveDirectionY;
 
       while (move !== 0)
       {
