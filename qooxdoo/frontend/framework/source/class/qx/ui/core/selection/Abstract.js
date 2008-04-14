@@ -343,7 +343,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-    handleMouseUp : function(event)
+    handleMouseUp : function(event) {
+      this.cleanup();
+    },
+
+
+    handleLoseCapture : function(event) {
+      this.cleanup();
+    },
+
+
+
+    cleanup : function()
     {
       if (!this.getDragSelection() && this._inCapture) {
         return;
@@ -353,13 +364,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       this._release();
       this._scrollTimer.stop();
-    },
-
-
-    handleLoseCapture : function(event)
-    {
-      // Same procedure as in mouseup event
-      this.handleMouseUp(event);
     },
 
 
@@ -439,8 +443,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     _autoSelect : function()
     {
       // Get current relative Y position and compare it with previous one
-      var relY = this._mouseY + this._getScrollTop() - this._location.top;
-      var relX = this._mouseX + this._getScrollLeft() - this._location.left;
+      var relX = Math.max(0, Math.min(this._mouseX - this._location.left, this._getInnerWidth())) + this._getScrollLeft();
+      var relY = Math.max(0, Math.min(this._mouseY - this._location.top, this._getInnerHeight())) + this._getScrollTop();
+
 
       // Compare old and new relative coordinates (for performance reasons)
       if (this._lastRelX === relX && this._lastRelY === relY) {
@@ -479,7 +484,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           break;
         }
       }
-
 
 
 

@@ -101,6 +101,18 @@ qx.Class.define("qx.ui.core.selection.Widget",
     },
 
 
+    // overridden
+    _getInnerWidth : function() {
+      return this._widget.getInnerWidth();
+    },
+
+
+    // overridden
+    _getInnerHeight : function() {
+      return this._widget.getInnerHeight();
+    },
+
+
 
 
 
