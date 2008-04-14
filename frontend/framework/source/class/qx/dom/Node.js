@@ -105,13 +105,7 @@ qx.Class.define("qx.dom.Node",
     getWindow : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(node) {
-        try{
         return this.getDocument(node).parentWindow;
-      }catch(ex) {
-        qx.log.Logger.trace();
-        return null;
-
-      }
       },
 
       "default" : function(node) {
