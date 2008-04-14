@@ -634,7 +634,13 @@ ifndef APPLICATION_ADDITIONAL_BUILD_OPTIONS
   APPLICATION_ADDITIONAL_BUILD_OPTIONS =
 endif
 
-
+#
+# Additional params to pass to the xgettext call in exec-*-translation.
+# e.g. "--sort-by-file" or "--no-location --sort-output"
+#
+ifndef APPLICATION_ADDITIONAL_XGETTEXT_PARAMS
+  APPLICATION_ADDITIONAL_XGETTEXT_PARAMS = --sort-by-file
+endif
 
 
 

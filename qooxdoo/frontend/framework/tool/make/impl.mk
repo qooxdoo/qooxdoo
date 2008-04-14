@@ -303,7 +303,7 @@ exec-framework-translation:
 	  --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	  --sort-by-file --add-comments=TRANSLATION -o translation/messages.pot \
+	  $(APPLICATION_ADDITIONAL_XGETTEXT_PARAMS) --add-comments=TRANSLATION -o translation/messages.pot \
 	  `find class -name "*.js"` 2> /dev/null
 
 	@if [ `diff -q -I^\"POT-Creation-Date: -I^\"Content-T -I^\"Language-Team: -d $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak | wc -l` = 0 ]; then \
@@ -352,7 +352,7 @@ exec-application-translation:
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kself.trc -kself.tr -kself.marktr -kself.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	  --sort-by-file --add-comments=TRANSLATION \
+	  $(APPLICATION_ADDITIONAL_XGETTEXT_PARAMS) --add-comments=TRANSLATION \
 	  -o `printf "%s" $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)`/messages.pot \
 	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js" -exec bash -c "printf '%s ' \"{}\"" \;` 2>&1 | grep -v warning; \
 	  break; done
