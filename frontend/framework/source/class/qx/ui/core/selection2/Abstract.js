@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     /*
     ---------------------------------------------------------------------------
-      CALLED BY THE CONNECTED OBJECT
+      MOUSE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -364,10 +364,6 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
         return;
       }
 
-
-
-
-
       this._currentMouseY = event.getDocumentTop();
 
       var mouseY = event.getDocumentTop() + this._widget.getScrollTop();
@@ -400,7 +396,7 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
       // Start interval
       this._scrollTimer.start();
 
-      // Auto select based on cursor position
+      // Auto select based on new cursor position
       this._autoSelect();
     },
 
@@ -417,71 +413,76 @@ qx.Class.define("qx.ui.core.selection2.Abstract",
 
     _autoSelect : function()
     {
-      var mode = this.getMode();
+      // Get current relative Y position and compare it with previous one
       var relY = this._currentMouseY + this._widget.getScrollTop() - this._location.top;
-
-      if (this._lastProcessedY === relY) {
+      if (this._lastRelY === relY) {
         return;
       }
 
-      this._lastProcessedY = relY;
+      this._lastRelY = relY;
 
 
-      var anchor = this.getAnchorItem() || this._getSelectedItem();
+      var next, pos, size;
+      var anchor = this.getAnchorItem();
       var lead = anchor;
-      var next;
+      var move = this._moveY;
 
-      while (1)
+      while (move !== 0)
       {
-        if (this._moveY > 0) {
-          next = this._getItemUnder(lead);
-        } else if (this._moveY < 0) {
-          next = this._getItemAbove(lead);
-        } else {
-          break;
-        }
+        // Find next item to process depending on current scroll direction
+        next = move > 0 ? this._getItemUnder(lead) : this._getItemAbove(lead);
 
+        // When the current lead is the first or last item, the result
+        // here may be null
         if (!next) {
           break;
         }
 
-        var nextPosY = this._widget.getItemOffsetTop(next);
-        var nextHeight = this._widget.getItemHeight(next);
+        // Continue when the item is in the visible area
+        pos = this._widget.getItemOffsetTop(next);
+        size = this._widget.getItemHeight(next);
 
-        //this.debug("Test: " + next.getLabel() + " : " + nextPosY + " <-> " + relY)
-
-        if (this._moveY > 0 && nextPosY <= relY)
-        {
+        if ((move > 0 && pos <= relY) || (move < 0 && (pos + size) >= relY)) {
           lead = next;
-        }
-        else if (this._moveY < 0 && (nextPosY + nextHeight) >= relY)
-        {
-          lead = next;
-        }
-        else
-        {
+        } else {
           break;
         }
       }
 
-
-
-      //this.debug("From: " + anchor.getLabel() + " to " + lead.getLabel());
-
-      if (mode === "additive")
+      // Differenciate between the two supported modes
+      var mode = this.getMode();
+      if (mode === "multi")
       {
+        // Replace current selection with new range
+        this._selectItemRange(anchor, lead);
+      }
+      else if (mode === "additive")
+      {
+        // Behavior depends on the fact whether the
+        // anchor item is selected or not
         if (this._isItemSelected(anchor)) {
           this._selectItemRange(anchor, lead, true);
         } else {
           this._deselectItemRange(anchor, lead);
         }
-      }
-      else
-      {
-        this._selectItemRange(anchor, lead);
+
+        // Improve performance. This mode does not rely
+        // on full ranges as it always extend the old
+        // selection/deselection.
+        this.setAnchorItem(lead);
       }
     },
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      KEYBOARD SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
     /** {Map} All supported navigation keys */
     __navigationKeys :
