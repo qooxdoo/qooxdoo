@@ -38,7 +38,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8",
+        "qx.version" : "0.8-pre2",
         "qx.application" : "${APPLICATION}.Application",
         "${APPLICATION}.resourceUri" : "resource"
       },
