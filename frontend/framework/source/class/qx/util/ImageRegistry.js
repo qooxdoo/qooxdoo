@@ -31,7 +31,7 @@ qx.Class.define("qx.util.ImageRegistry",
   construct : function ()
   {
     //this.__registry = this._padQxImageInfo(window.qximageinfo);
-    this._registry = window.qximageinfo || {};
+    this.__registry = window.qximageinfo || {};
   },
 
   /*
