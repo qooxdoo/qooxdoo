@@ -31,28 +31,6 @@ qx.Interface.define("qx.ui.core.selection2.IContainer",
      *
      * @return {qx.ui.core.Widget[]} An array of all selectable items
      */
-    getItems : function() {},
-
-
-    /**
-     * Given the selected item, return the next selectable item.
-     *
-     * @param item {qx.ui.core.Widget} The currently selected item
-     * @return {qx.ui.core.Widget|null} The next selectable item after the selected
-     *     item. May be <code>null</code> if the item is the last item.
-     */
-    getItemUnder : function(item) {
-      this.assertInstance(item, qx.ui.core.Widget);
-    },
-
-
-    /**
-     * Given the selected item, return the previous selectable item.
-     *
-     * @param item {qx.ui.core.Widget} The currently selected item
-     * @return {qx.ui.core.Widget|null} The previous selectable item after the selected
-     *     item. May be <code>null</code> if the item is the first item.
-     */
-    getItemAbove : function(item) {}
+    getSelectables : function() {}
   }
 });
