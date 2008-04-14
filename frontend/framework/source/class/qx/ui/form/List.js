@@ -302,29 +302,6 @@ qx.Class.define("qx.ui.form.List",
 
 
 
-
-    // interface implementation
-    getInnerWidth : function()
-    {
-      var computed = this._scrollPane.getComputedInnerSize();
-      return computed ? computed.width : 0;
-    },
-
-
-    // interface implementation
-    getInnerHeight : function()
-    {
-      var computed = this._scrollPane.getComputedInnerSize();
-      return computed ? computed.height : 0;
-    },
-
-
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
