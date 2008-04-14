@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
-  implement : qx.ui.core.selection2.IContainer,
+  implement : qx.ui.core.selection.IContainer,
 
 
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.form.List",
 
     this.setContent(content);
 
-    this._manager = new qx.ui.core.selection2.Widget(this);
+    this._manager = new qx.ui.core.selection.Widget(this);
 
     if (mode != null) {
       this.setSelectionMode(mode);

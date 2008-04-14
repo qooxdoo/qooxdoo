@@ -36,7 +36,7 @@
  * just add new ones. The selection manager only support Windows style
  * selections for Shift key combinations.
  */
-qx.Class.define("qx.ui.core.selection2.Abstract",
+qx.Class.define("qx.ui.core.selection.Abstract",
 {
   extend : qx.core.Object,
 
