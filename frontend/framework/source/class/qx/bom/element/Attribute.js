@@ -129,8 +129,6 @@ qx.Class.define("qx.bom.element.Attribute",
         innerText   : 1,
         textContent : 1,
         htmlFor     : 1,
-        scrollLeft  : 1,
-        scrollTop   : 1,
         tabIndex    : 1
       },
 
@@ -142,17 +140,6 @@ qx.Class.define("qx.bom.element.Attribute",
         src      : 1,
         type     : 1,
         tabIndex : 1
-      },
-
-      // Block these properties when trying to apply new value to them
-      readonly :
-      {
-        offsetWidth  : 1,
-        offsetHeight : 1,
-        scrollWidth  : 1,
-        scrollHeight : 1,
-        clientWidth  : 1,
-        clientHeight : 1
       }
     },
 
@@ -280,11 +267,6 @@ qx.Class.define("qx.bom.element.Attribute",
     {
       var hints = this.__hints;
 
-      // block read only ones
-      if (hints.readonly[name]) {
-        throw new Error("Attribute " + name + " is read only!");
-      }
-
       // normalize name
       name = hints.names[name] || name;
 
@@ -295,7 +277,9 @@ qx.Class.define("qx.bom.element.Attribute",
 
       // apply attribute
       if (hints.property[name]) {
-        element[name] = value;
+        try{
+          element[name] = value;
+        } catch(ex) {alert("Upps: " + name);}
       } else if (value === true) {
         element.setAttribute(name, name);
       } else if (value === false || value === null) {
