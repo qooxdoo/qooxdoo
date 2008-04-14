@@ -57,16 +57,16 @@ qx.Class.define("qx.event.type.Mouse",
         1 : "middle"
       }
     }),
-    
-    
+
+
     // overridden
-    preventDefault : function() 
+    preventDefault : function()
     {
       this.warn("Calling preventDefault() on mouse events is not supported anymore. There should normally do need to do this!");
-      this.trace();    
-    },    
-    
-    
+      this.trace();
+    },
+
+
     // overridden
     stop : function() {
       this.stopPropagation();
@@ -197,7 +197,7 @@ qx.Class.define("qx.event.type.Mouse",
     {
       "mshtml" : function()
       {
-        var win = qx.dom.Node.getWindow(this.getTarget());
+        var win = qx.dom.Node.getWindow(this._native.srcElement);
         return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
       },
 
@@ -221,7 +221,7 @@ qx.Class.define("qx.event.type.Mouse",
     {
       "mshtml" : function()
       {
-        var win = qx.dom.Node.getWindow(this.getTarget());
+        var win = qx.dom.Node.getWindow(this._native.srcElement);
         return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
       },
 
