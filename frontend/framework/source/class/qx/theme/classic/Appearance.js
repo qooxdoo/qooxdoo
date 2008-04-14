@@ -529,23 +529,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "scrollbar-slider" :
     {
-      include : "button",
-
       style : function(states)
       {
         return {
-          width: 10,
-          height: 10
-        }
-      }
-    },
-
-    "scrollbar-slider" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "background"
+          backgroundColor : "#F3F0F5"
         }
       }
     },
