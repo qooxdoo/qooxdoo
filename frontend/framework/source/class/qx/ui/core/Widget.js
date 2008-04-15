@@ -116,58 +116,58 @@ qx.Class.define("qx.ui.core.Widget",
     move : "qx.event.type.Data",
 
     /** Fired if the mouse curser moves over the widget. */
-    mousemove : "qx.ui.event.type.Mouse",
+    mousemove : "qx.event.type.Mouse",
 
     /**
      * Fired if the mouse curser enters the widget.
      *
      * Note: This event is also dispatched if the widget is disabled!
      */
-    mouseover : "qx.ui.event.type.Mouse",
+    mouseover : "qx.event.type.Mouse",
 
     /**
      * Fired if the mouse curser leaves widget.
      *
      * Note: This event is also dispatched if the widget is disabled!
      */
-    mouseout : "qx.ui.event.type.Mouse",
+    mouseout : "qx.event.type.Mouse",
 
-    /** Fired if a mouse button is pressed on the widget. */
-    mousedown : "qx.ui.event.type.Mouse",
+    /** Mouse button is pressed on the widget. */
+    mousedown : "qx.event.type.Mouse",
 
-    /** Fired if a mouse button is released on the widget. */
-    mouseup : "qx.ui.event.type.Mouse",
+    /** Mouse button is released on the widget. */
+    mouseup : "qx.event.type.Mouse",
 
-    /** Fired if the widget is clicked using the left mouse button. */
-    click : "qx.ui.event.type.Mouse",
+    /** Widget is clicked using the left mouse button. */
+    click : "qx.event.type.Mouse",
 
-    /** Fired if the widget is double clicked using the left mouse button. */
-    dblclick : "qx.ui.event.type.Mouse",
+    /** Widget is double clicked using the left mouse button. */
+    dblclick : "qx.event.type.Mouse",
 
-    /** Fired if the widget is clicked using the right mouse button. */
-    contextmenu : "qx.ui.event.type.Mouse",
+    /** Widget is clicked using the right mouse button. */
+    contextmenu : "qx.event.type.Mouse",
 
     /** Fired if the mouse wheel is used over the widget. */
-    mousewheel : "qx.ui.event.type.Mouse",
+    mousewheel : "qx.event.type.Mouse",
 
     /**
      * This event if fired if a keyboard button is released. This event is
      * only fired once if the user keeps the key pressed for a while.
      **/
-    keyup : "qx.ui.event.type.KeySequence",
+    keyup : "qx.event.type.KeySequence",
 
     /**
      * This event if fired if a keyboard button is pushed down. This event is
      * only fired once if the user keeps the key pressed for a while.
      */
-    keydown : "qx.ui.event.type.KeySequence",
+    keydown : "qx.event.type.KeySequence",
 
     /**
      * This event is fired anytime a key is pressed. It will be repeated if
      * the user keeps the key pressed. The pressed key can be determined using
-     * {@link qx.ui.event.type.KeySequence#getKeyIdentifier}.
+     * {@link qx.event.type.KeySequence#getKeyIdentifier}.
      */
-    keypress : "qx.ui.event.type.KeySequence",
+    keypress : "qx.event.type.KeySequence",
 
     /**
      * This event is fired if the pressed key or keys result in a printable
@@ -176,47 +176,62 @@ qx.Class.define("qx.ui.core.Widget",
      * getter. This event gets repeated if the user keeps pressing the key(s).
      *
      * The unicode code of the pressed key can be read using
-     * {@link qx.ui.event.type.KeyInput#getKeyCode}.
+     * {@link qx.event.type.KeyInput#getKeyCode}.
      */
-    keyinput : "qx.ui.event.type.KeyInput",
+    keyinput : "qx.event.type.KeyInput",
 
     /**
      * The event is fired when the widget gets focused. Only widgets which are
      * {@link #focusable} receive this event.
      */
-    focus : "qx.ui.event.type.Event",
+    focus : "qx.event.type.Focus",
 
     /**
      * The event is fired when the widget gets blured. Only widgets which are
      * {@link #focusable} receive this event.
      */
-    blur : "qx.ui.event.type.Event",
+    blur : "qx.event.type.Focus",
 
     /**
-     * Fired when the widget itself or any child of the widget receive the focus.
+     * When the widget itself or any child of the widget receive the focus.
      */
-    focusin : "qx.ui.event.type.Event",
+    focusin : "qx.event.type.Focus",
 
     /**
-     * Fired when the widget itself or any child of the widget lost the focus.
+     * When the widget itself or any child of the widget lost the focus.
      */
-    focusout : "qx.ui.event.type.Event",
+    focusout : "qx.event.type.Focus",
 
-    beforedeactivate : "qx.ui.event.type.Event",
-    beforeactivate : "qx.ui.event.type.Event",
-    activate : "qx.ui.event.type.Event",
-    deactivate : "qx.ui.event.type.Event",
+    /**
+     * Directly before the widget gets active
+     */
+    beforeactivate : "qx.event.type.Focus",
+
+    /**
+     * Directly before the widget gets inactive
+     */
+    beforedeactivate : "qx.event.type.Focus",
+
+    /**
+     * When the widget gets active (receives keyboard events etc.)
+     */
+    activate : "qx.event.type.Focus",
+
+    /**
+     * When the widget gets deactive
+     */
+    deactivate : "qx.event.type.Focus",
 
     /**
      * Fired is the widget becomes the capturing widget by a call to {@link #capture}.
      */
-    capture : "qx.ui.event.type.Event",
+    capture : "qx.event.type.Event",
 
     /**
      * Fired is the widget looses the capturing mode by a call to
      * {@link #releaseCapture} or a mouse click.
      */
-    losecapture : "qx.ui.event.type.Event"
+    losecapture : "qx.event.type.Event"
   },
 
 
