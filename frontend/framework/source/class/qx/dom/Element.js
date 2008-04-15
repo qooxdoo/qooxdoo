@@ -219,7 +219,7 @@ qx.Class.define("qx.dom.Element",
         return false;
       }
 
-      parent.removeChild(child);
+      parent.removeChild(node);
       return true;
     },
 
