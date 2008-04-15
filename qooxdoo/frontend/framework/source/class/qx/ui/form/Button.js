@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.form.Button",
       refine : true,
       init : "button"
     },
-    
+
     // overridden
     focusable :
     {
