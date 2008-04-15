@@ -496,6 +496,71 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
+      MARGIN
+    ---------------------------------------------------------------------------
+    */
+
+    /** Margin of the widget (top) */
+    marginTop :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /** Margin of the widget (right) */
+    marginRight :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /** Margin of the widget (bottom) */
+    marginBottom :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /** Margin of the widget (left) */
+    marginLeft :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /**
+     * The 'margin' property is a shorthand property for setting 'marginTop',
+     * 'marginRight', 'marginBottom' and 'marginLeft' at the same time.
+     *
+     * If four values are specified they apply to top, right, bottom and left respectively.
+     * If there is only one value, it applies to all sides, if there are two or three,
+     * the missing values are taken from the opposite side.
+     */
+    margin :
+    {
+      group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
+      mode  : "shorthand",
+      themeable : true
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       STYLING PROPERTIES
     ---------------------------------------------------------------------------
     */
