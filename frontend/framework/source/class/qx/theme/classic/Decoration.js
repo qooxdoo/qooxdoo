@@ -269,7 +269,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         innerColor : [ "#BCCEE5", "#7CA0CF", "#7CA0CF", "#BCCEE5" ]
       }
     },
-    
+
     "lead-item" :
     {
       decorator : qx.ui.decoration.Double,
@@ -278,8 +278,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
       {
         width : 1,
         style : "dotted",
-        color : "#888"        
+        color : "#888"
       }
-    }      
+    }
   }
 });
