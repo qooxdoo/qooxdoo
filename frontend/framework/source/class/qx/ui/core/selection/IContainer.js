@@ -26,11 +26,6 @@ qx.Interface.define("qx.ui.core.selection.IContainer",
 {
   members :
   {
-    /**
-     * Get all selectable items
-     *
-     * @return {qx.ui.core.Widget[]} An array of all selectable items
-     */
-    getSelectables : function() {}
+
   }
 });

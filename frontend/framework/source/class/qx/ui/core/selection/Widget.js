@@ -118,43 +118,133 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _isSelectable : function(item) {
-      return this._widget.isSelectable(item);
+      return (item instanceof qx.ui.form.ListItem) && item.getLayoutParent() === this._widget.getContent();
+    },
+
+
+    // overridden
+    _getSelectables : function()
+    {
+      var children = this._widget.getChildren();
+      var result = [];
+      var child;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child.isEnabled()) {
+          result.push(child);
+        }
+      }
+
+      return result;
+    },
+
+
+    // overridden
+    _getSelectableRange : function(item1, item2)
+    {
+      // Fast path for identical items
+      if (item1 === item2) {
+        return [item1];
+      }
+
+      // Iterate over children and collect all items
+      // between the given two (including them)
+      var children = this._widget.getChildren();
+      var result = [];
+      var active = false;
+      var child;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child === item1 || child === item2)
+        {
+          if (active)
+          {
+            result.push(child);
+            break;
+          }
+          else
+          {
+            active = true;
+          }
+        }
+
+        if (active && child.isEnabled()) {
+          result.push(child);
+        }
+      }
+
+      return result;
+    },
+
+
+    // overridden
+    _getFirstSelectable : function()
+    {
+      var children = this._widget.getChildren();
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        if (children[i].isEnabled()) {
+          return children[i];
+        }
+      }
+
+      return null;
+    },
+
+
+    // overridden
+    _getLastSelectable : function()
+    {
+      var children = this._widget.getChildren();
+      for (var i=children.length-1; i>0; i--)
+      {
+        if (children[i].isEnabled()) {
+          return children[i];
+        }
+      }
+
+      return null;
+    },
+
+
+    // overridden
+    _getRelatedSelectable : function(item, relation)
+    {
+      var vertical = this._widget.getOrientation() === "vertical";
+
+      var layout = this._widget.getContent().getLayout();
+      var sibling = item;
+
+      if ((vertical && relation === "above") || (!vertical && relation === "left"))
+      {
+        do {
+          sibling = layout.getPreviousSibling(sibling);
+        } while (sibling && !sibling.isEnabled());
+      }
+      else if ((vertical && relation === "under") || (!vertical && relation === "right"))
+      {
+        do {
+          sibling = layout.getNextSibling(sibling);
+        } while (sibling && !sibling.isEnabled());
+      }
+      else
+      {
+        return null;
+      }
+
+      return sibling;
     },
 
 
     // overridden
     _selectableToHashCode : function(item) {
       return item.$$hash;
-    },
-
-
-    // overridden
-    _getSelectables : function() {
-      return this._widget.getSelectables();
-    },
-
-
-    // overridden
-    _getSelectableRange : function(item1, item2) {
-      return this._widget.getSelectableRange(item1, item2);
-    },
-
-
-    // overridden
-    _getFirstSelectable : function() {
-      return this._widget.getFirstSelectable();
-    },
-
-
-    // overridden
-    _getLastSelectable : function() {
-      return this._widget.getLastSelectable();
-    },
-
-
-    // overridden
-    _getRelatedSelectable : function(item, relation) {
-      return this._widget.getRelatedSelectable(item, relation);
     },
 
 
