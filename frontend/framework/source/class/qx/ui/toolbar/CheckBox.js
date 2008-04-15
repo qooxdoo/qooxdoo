@@ -39,8 +39,8 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
       this.setChecked(vChecked);
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
       refine : true,
       init : "inherit"
     }
-  },  
+  },
 
 
   /*

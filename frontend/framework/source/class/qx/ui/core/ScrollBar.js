@@ -50,11 +50,11 @@ qx.Class.define("qx.ui.core.ScrollBar",
       focusable: false
     });
     this._btnEnd.addListener("execute", this._slider.scrollStepForward, this._slider);
-    
-    
+
+
     // TODO: Make this clean. We should stop events here as they are processed already.
     this.addListener("mousedown", function(e) {e.stop()});
-    this.addListener("mouseup", function(e) {e.stop()});    
+    this.addListener("mouseup", function(e) {e.stop()});
 
 
     if (orientation != null) {
