@@ -992,7 +992,8 @@ class Generator:
 
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
-        self._genobj = generatorobj
+        self._genobj  = generatorobj
+        self._resList = None
 
 
     def findAllResources(self, libraries, filter=None):
@@ -1049,20 +1050,18 @@ class _ResourceHandler(object):
         # returns a function that takes a resource path and return true if one
         # of the <classes> needs it
 
-        def filter(respath):
-            return True
-
-        resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
+        if not self._resList:
+            self._resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
         respatt = re.compile(r'[^/]+?/')  # everything before the first slash
-        def filter1(respath):
-            for res in resList:
+        def filter(respath):
+            for res in self._resList:
                 #res1 = respatt.sub('',res,1)  # strip off e.g 'qx.icontheme/'...
                 res1 = res
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
             return False
         
-        return filter1
+        return filter
     
     
     def filterResourcesByFilepath(self, filepatt=None, inversep=lambda x: x):
@@ -1090,15 +1089,54 @@ class _ResourceHandler(object):
         self._genobj._console.info("Compiling resource list...")
         self._genobj._console.indent()
         for clazz in classList:
-            classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps']
-            self._genobj._console.debug("%s: %s" % (clazz, repr(classRes)))
+            classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
+            iresult = []
             for res in classRes:
                 # here it might need some massaging of 'res' before lookup and append
-                res = re.sub(r'\*', ".*", res)  # expand file glob into regexp
-                if res not in result:
-                    result.append(res)
+                # expand file glob into regexp
+                res = re.sub(r'\*', ".*", res)
+                # expand macros
+                if res.find('${')>-1:
+                    expres = self._expandMacrosInMeta(res)
+                else:
+                    expres = [res]
+                for r in expres:
+                    if r not in result + iresult:
+                        iresult.append(r)
+            self._genobj._console.debug("%s: %s" % (clazz, repr(iresult)))
+            result.extend(iresult)
 
         self._genobj._console.outdent()
+        return result
+
+
+    def _expandMacrosInMeta(self, res):
+        themeinfo = self._genobj._config.get('copy-resources/themes')
+
+        def expMacRec(rsc):
+            if rsc.find('${')==-1:
+                return [rsc]
+            result = []
+            nres = rsc[:]
+            mo = re.search(r'\$\{(.*?)\}',rsc)
+            if mo:
+                themekey = mo.group(1)
+                if themekey in themeinfo:
+                    # create an array with all possibly variants for this replacement
+                    iresult = []
+                    for val in themeinfo[themekey]:
+                        iresult.append(nres.replace('${'+themekey+'}', val))
+                    # for each variant replace the remaining macros
+                    for ientry in iresult:
+                        result.extend(expMacRec(ientry))
+                else:
+                    nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
+                    result.append(os.path.normpath(nres))     # get rid of '...//...'
+            else:
+                raise SyntaxError, "Non-terminated macro in string: %s" % rsc
+            return result
+
+        result = expMacRec(res)
         return result
 
 

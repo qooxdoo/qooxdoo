@@ -373,7 +373,7 @@ class DependencyLoader:
         "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
         "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
         "embed" : re.compile("^#embed\(\s*([\.\*a-zA-Z0-9/_-]+?)\s*\)", re.M),
-        "asset" : re.compile("^#asset\(\s*([\.\*a-zA-Z0-9/_-]+?)\s*\)", re.M)
+        "asset" : re.compile("^#asset\(\s*([^)]+?)\s*\)", re.M)
     }
 
 
@@ -428,8 +428,11 @@ class DependencyLoader:
 
     def _extractAssetDeps(self, data):
         deps = []
+        asset_reg = re.compile("^[\$\.\*a-zA-Z0-9/{}_-]+$")
         
         for item in self.HEAD["asset"].findall(data):
+            if not asset_reg.match(item):
+                raise ValueError, "Illegal asset declaration: %" % item
             if not item in deps:
                 deps.append(item)
         

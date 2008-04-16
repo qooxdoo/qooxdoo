@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Modern/form/button.png)
-#asset(qx/decoration/Modern/form/button-c.png)
+#asset(qx/decoration/${qx.theme}/form/button.png)
+#asset(qx/decoration/${qx.theme}/form/button-c.png)
 
 ************************************************************************ */
 
