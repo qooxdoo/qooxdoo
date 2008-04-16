@@ -31,10 +31,21 @@ qx.Class.define("demobrowser.demo.event.DragDrop_1",
       this._el = document.getElementById("drag");
 
       qx.bom.Element.addListener(this._el, "dragstart", this._onDragstart, this);
-      qx.bom.Element.addListener(this._el, "dragmove", this._onDragmove, this);
-      qx.bom.Element.addListener(this._el, "dragstop", this._onDragstop, this);
+      qx.bom.Element.addListener(this._el, "drag", this._onDragmove, this);
+      qx.bom.Element.addListener(this._el, "dragend", this._onDragstop, this);
 
       this.setLocation(20, 20);
+
+      var dropElements = ["drop1", "drop2"];
+
+      for (var i=0; i<dropElements.length; i++)
+      {
+        var el = document.getElementById(dropElements[i]);
+
+        qx.bom.Element.addListener(el, "dragenter", this._onDragenter, this);
+        qx.bom.Element.addListener(el, "dragleave", this._onDragleave, this);
+        qx.bom.Element.addListener(el, "drop", this._onDrop, this);
+      }
     },
 
     setLocation : function(left, top)
@@ -54,8 +65,20 @@ qx.Class.define("demobrowser.demo.event.DragDrop_1",
       qx.bom.element.Style.set(this._el, "opacity", 0.7);
     },
 
-    _onDragstop : function(e) {
+    _onDragstop : function(e)
+    {
       qx.bom.element.Style.set(this._el, "opacity", 1);
+
+      var animMove = new qx.fx.effect.core.Move(this._el).set({
+        x : 20,
+        y : 20,
+        mode : "absolute",
+        transition : "easeOutQuad"
+      });
+      this._left = 20;
+      this._top = 20;
+
+      animMove.start();
     },
 
     _onDragmove : function(e)
@@ -64,6 +87,36 @@ qx.Class.define("demobrowser.demo.event.DragDrop_1",
         this._startLeft + e.getDragOffsetLeft(),
         this._startTop + e.getDragOffsetTop()
       )
+    },
+
+    _onDragenter : function(e)
+    {
+      console.log("enter", e.getCurrentTarget());
+      qx.bom.element.Style.set(e.getCurrentTarget(), "border", "1px dotted black");
+      e.stop();
+    },
+
+    _onDragleave : function(e) {
+      console.log("leave", e.getCurrentTarget());
+      qx.bom.element.Style.reset(e.getCurrentTarget(), "border");
+      e.stop();
+    },
+
+    _onDrop : function(e)
+    {
+      var el = e.getCurrentTarget();
+
+      console.log("drop", el);
+      qx.bom.element.Style.reset(el, "border");
+
+      var effect = new qx.fx.effect.core.Highlight(el).set({
+          startColor        : qx.bom.element.Style.get(el, "backgroundColor"),
+          endColor          : "#A0FF24",
+          restoreBackground : true
+      });
+      effect.start();
+      e.stop();
     }
+
   }
 });

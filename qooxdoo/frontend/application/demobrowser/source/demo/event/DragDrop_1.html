@@ -14,6 +14,17 @@
     height: 100px;
     background-color: orange;
     padding: 5px;
+    z-index: 10;
+  }
+
+  .drop {
+    position: absolute;
+    left: 100px;
+    top: 300px;
+    width: 200px;
+    height: 150px;
+    padding: 10px;
+    background-color: yellow;
   }
   </style>
 
@@ -23,6 +34,11 @@
 <body>
 
 <div id="drag">drag me</div>
+
+
+<div class="drop" id="drop1">drop here ...
+  <span style="background-color:white" id="drop2">... or here</span>
+</div>
 
 </body>
 </html>
