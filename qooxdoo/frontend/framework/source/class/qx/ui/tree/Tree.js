@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.tree.Tree",
     var content = new qx.ui.core.Widget().set({
       layout : new qx.ui.layout.VBox(),
       allowShrinkY: false,
-      allowGrowY: false,
+      allowGrowX: true,
       allowShrinkY: false
     });
 
