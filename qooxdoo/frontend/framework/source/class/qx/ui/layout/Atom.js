@@ -79,17 +79,31 @@ qx.Class.define("qx.ui.layout.Atom",
 
       var align = this.getAlign();
       var children = this._getLayoutChildren();
-
-
+      var length = children.length;
 
       var left, top, width, height;
       var child, hint;
+      var gap = this.getGap();
 
+      // reverse ordering
+      if (align === "bottom" || align === "right")
+      {
+        var start = length-1;
+        var end = -1;
+        var increment = -1;
+      }
+      else
+      {
+        var start = 0;
+        var end = length;
+        var increment = 1;
+      }
+
+      // vertical
       if (align == "top" || align == "bottom")
       {
-        // vertical
         top = 0;
-        for (var i=0,l=children.length; i<l; i++)
+        for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
 
@@ -99,24 +113,25 @@ qx.Class.define("qx.ui.layout.Atom",
           left = Util.computeHorizontalAlignOffset("center", width, availWidth);
           child.renderLayout(left, top, width, hint.height);
 
-          top += this.getGap() + hint.height;
+          top += hint.height + gap;
         }
       }
+
+      // horizontal
       else
       {
-        // horizontal
         left = 0;
-        for (var i=0,l=children.length; i<l; i++)
+        for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
 
           hint = child.getSizeHint();
-          width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
+          height = Math.min(hint.maxWidth, Math.max(availHeight, hint.minHeight));
 
           top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
-          child.renderLayout(left, top, width, hint.height);
+          child.renderLayout(left, top, hint.width, height);
 
-          left += this.getGap() + width;
+          left += hint.width + gap;
         }
       }
     },
@@ -125,69 +140,82 @@ qx.Class.define("qx.ui.layout.Atom",
     // overridden
     _computeSizeHint : function()
     {
-      var hint;
+      var children = this._getLayoutChildren();
+      var length = children.length;
+      var hint, result;
 
-      if (this._icon && this._text)
+      // Fast path for only one child
+      if (length === 1)
+      {
+        var hint = children[0].getSizeHint();
+
+        // Work on a copy, but do not respect max
+        // values as a Atom can be rendered bigger
+        // than its content.
+        result = {
+          width : hint.width,
+          height : hint.height,
+          minWidth : hint.minWidth,
+          minHeight : hint.minHeight
+        };
+      }
+      else
       {
         var minWidth=0, width=0;
         var minHeight=0, height=0;
 
-        var iconHint = this._icon.getSizeHint();
-        var textHint = this._text.getSizeHint();
-
         var align = this.getAlign();
-        var gap = this.getGap();
+        var gaps = this.getGap() * (length-1);
 
         if (align === "top" || align === "bottom")
         {
-          // Max of text and icon
-          width = Math.max(iconHint.width, textHint.width);
-          minWidth = Math.max(iconHint.minWidth, textHint.minWidth);
+          for (var i=0; i<length; i++)
+          {
+            hint = children[i].getSizeHint();
 
-          // Sum of text, icon and gap
-          height = iconHint.height + textHint.height + gap;
-          minHeight = iconHint.minHeight + textHint.minHeight + gap;
+            // Max of widths
+            width = Math.max(width, hint.width);
+            minWidth = Math.max(minWidth, hint.minWidth);
+
+            // Sum of heights
+            height += hint.height;
+            minHeight += hint.minHeight;
+          }
+
+          // Add gap sum to height
+          height += gaps;
+          minHeight += gaps;
         }
         else
         {
-          // Max of text and icon
-          height = Math.max(iconHint.height, textHint.height);
-          minHeight = Math.max(iconHint.minHeight, textHint.minHeight);
+          for (var i=0; i<length; i++)
+          {
+            hint = children[i].getSizeHint();
 
-          // Sum of text, icon and gap
-          width = iconHint.width + textHint.width + gap;
-          minWidth = iconHint.minWidth + textHint.minWidth + gap;
+            // Max of heights
+            height = Math.max(height, hint.height);
+            minHeight = Math.max(minHeight, hint.minHeight);
+
+            // Sum of widths
+            width += hint.width;
+            minWidth += hint.minWidth;
+          }
+
+          // Add gap sum to width
+          width += gaps;
+          minWidth += gaps;
         }
 
         // Build hint
-        hint = {
+        result = {
           minWidth : minWidth,
           width : width,
           minHeight : minHeight,
           height : height
         };
       }
-      else if (this._icon)
-      {
-        hint = this._icon.getSizeHint();
-        delete hint.maxWidth;
-        delete hint.maxHeight;
-      }
-      else if (this._text)
-      {
-        hint = this._text.getSizeHint();
-        delete hint.maxWidth;
-        delete hint.maxHeight;
-      }
-      else
-      {
-        hint = {
-          width : 0,
-          height : 0
-        };
-      }
 
-      return hint;
+      return result;
     }
   }
 });
