@@ -30,8 +30,8 @@ qx.Class.define("qx.util.ImageRegistry",
 
   construct : function ()
   {
-    //this.__registry = this._padQxImageInfo(window.qximageinfo);
-    this.__registry = window.qximageinfo || {};
+    this.__registry = this._padQxImageInfo(window.qximageinfo);
+    //this.__registry = window.qximageinfo || {};
   },
 
   /*
@@ -55,8 +55,12 @@ qx.Class.define("qx.util.ImageRegistry",
 
       for (key in qximageinfo)
       {
-        var val  = qximageinfo[key];  // val = [width, height, type]
-        var nval = [key, 0, 0, val[0], val[1], val[3]];
+        var val  = qximageinfo[key];  // val = [width, height, type [, mappeduri, left, top]]
+        if (val.length == 3) {
+          var nval = [key, 0, 0, val[0], val[1], val[3]];
+        } else {
+          var nval = [val[3], val[4], val[5], val[0], val[1], val[3]];
+        }
         qximageinfo[key] = nval;
       }
 

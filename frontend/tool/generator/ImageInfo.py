@@ -60,3 +60,48 @@ class ImageInfo(object):
             result = {}
 
         return result
+
+
+class ImgInfoFmt(object):
+    "Class to hide image meta info encoding"
+    def __init__(self, *arrspec, **kwspec):
+        self.width = self.height = self.type = self.mappeduri = self.left = self.top = None
+        if arrspec:
+            serialspec = arrspec[0]
+            self.width     = serialspec[0]
+            self.height    = serialspec[1]
+            self.type      = serialspec[2]
+            if len(serialspec)>3:
+                self.mappeduri = serialspec[3]
+                self.left      = serialspec[4]
+                self.top       = serialspec[5]
+            else:
+                self.mappeduri = None
+                self.left      = None
+                self.top       = None
+        if kwspec:
+            self.__init_kw(self, **kwspec)
+
+    def __init_kw(self,**kwspec):
+        for kw in kwspec:
+            if kw == 'width':
+                self.width = kwspec[kw]
+            elif kw == 'height':
+                self.width = kwspec[kw]
+            elif kw == 'type':
+                self.width = kwspec[kw]
+            elif kw == 'mappeduri':
+                self.width = kwspec[kw]
+            elif kw == 'left':
+                self.width = kwspec[kw]
+            elif kw == 'top':
+                self.width = kwspec[kw]
+            else:
+                raise NameError, "No such object member: %s" % kw
+
+    def flatten(self):
+        #return [self.mappeduri, self.left, self.top, self.width, self.height, self.type]
+        a = [self.width, self.height, self.type]
+        if self.mappeduri:
+            a.extend([self.mappeduri, self.left, self.top])
+        return a
