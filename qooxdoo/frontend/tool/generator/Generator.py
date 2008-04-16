@@ -33,7 +33,7 @@ from generator.PartBuilder import PartBuilder
 from generator.TreeLoader import TreeLoader
 from generator.TreeCompiler import TreeCompiler
 from generator.LibraryPath import LibraryPath
-from generator.ImageInfo import ImageInfo
+from generator.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.ImageClipping import ImageClipping
 import simplejson
 from robocopy import robocopy
@@ -546,8 +546,10 @@ class Generator:
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout)
             for sub in subconfigs:
-                config[sub['file']] = [sub['combined'], sub['left'], sub['top'], sub['width'], 
-                                       sub['height'], sub['type']]
+                x = ImgInfoFmt()
+                x.mappeduri, x.left, x.top, x.width, x.height, x.type = (
+                   sub['combined'], sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
+                config[sub['file']] = x.flatten()
             # store meta data for this combined image
             bname = os.path.basename(image)
             ri = bname.rfind('.')
@@ -650,7 +652,9 @@ class Generator:
             if imguri in data:
                 if imguri != data[imguri][0]:
                     continue  # don't overwrite the combined entry
-            data[imguri] = [imguri, 0, 0, imageInfo['width'], imageInfo['height'], imageInfo['type']]
+            x = ImgInfoFmt()
+            x.width, x.height, x.type = (imageInfo['width'], imageInfo['height'], imageInfo['type'])
+            data[imguri] = x.flatten()
             # check combined images
             meta_fname = os.path.splitext(imgpath)[0]+'.meta'
             if os.path.exists(meta_fname):
@@ -662,9 +666,9 @@ class Generator:
                     # have to normalize the uri's in the meta file
                     # imguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
                     # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
-                    mimgspec = _ImgInfoFmt(mimgs)
+                    mimgspec = ImgInfoFmt(mimgs)
                     pre1,pre2,sfx = self._getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
-                    pre,sfx1,sfx2 = self._getCommenPrefix(pre2, mimg)  # get a suitable suffix from mimg
+                    pre,sfx1,sfx2 = self._getCommonPrefix(pre2, mimg)  # get a suitable suffix from mimg
                     img = pre1 + sfx2 # correct the uri prefix for key
                     mimgspec.mappeduri = imguri  # correct the mapped uri
                     # img : [combinedUri, off-x, off-y, width, height, type]
@@ -968,7 +972,7 @@ class Generator:
         return pre1, pre2, suffx
 
 
-    def _getCommenPrefix(self, p1, p2):
+    def _getCommonPrefix(self, p1, p2):
         '''computes the common prefix of p1, p2, and returns the common prefix and the two
            different suffixes'''
         pre = sfx1 = sfx2 = ""
@@ -1150,15 +1154,3 @@ class _ShellCmd(object):
 
         return rc
 
-class _ImgInfoFmt(object):
-    "Class to hide image info encoding"
-    def __init__(self, imgspec):
-        self.mappeduri = imgspec[0]
-        self.left      = imgspec[1]
-        self.top       = imgspec[2]
-        self.width     = imgspec[3]
-        self.height    = imgspec[4]
-        self.type      = imgspec[5]
-
-    def flatten(self):
-        return [self.mappeduri, self.left, self.top, self.width, self.height, self.type]
