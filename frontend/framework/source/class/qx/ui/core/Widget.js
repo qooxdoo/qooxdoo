@@ -1527,6 +1527,88 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Empty storage pool */
+    __emptyProperties : {},
+
+
+    /**
+     * Stores the given layout properties
+     *
+     * @type member
+     * @param props {Map} Incoming layout property data
+     * @return {void}
+     */
+    setLayoutProperties : function(props)
+    {
+      var storage = this.__layoutProperties;
+      if (!storage) {
+        storage = this.__layoutProperties = {};
+      }
+
+      // Copy over values
+      for (var key in props)
+      {
+        if (props[key] == null) {
+          delete storage[key];
+        } else {
+          storage[key] = props[key];
+        }
+      }
+
+      var parent = this.getLayoutParent();
+      var layout = parent ? parent.getLayout() : null;
+
+      if (layout)
+      {
+        // Verify values through underlying layout
+        if (qx.core.Variant.isSet("qx.debug"))
+        {
+          for (var key in props) {
+            layout.verifyLayoutProperty(this, key, props[key]);
+          }
+        }
+
+        // Precomputed and cached children data need to be
+        // rebuild on upcoming (re-)layout.
+        layout.invalidateChildrenCache();
+      }
+    },
+
+
+    /**
+     * Returns currently stored layout properties
+     *
+     * @type member
+     * @return {Map} Returns a map of layout properties
+     */
+    getLayoutProperties : function() {
+      return this.__layoutProperties || this.__emptyProperties;
+    },
+
+
+    /**
+     * Removes all stored layout properties.
+     *
+     * @type member
+     * @return {void}
+     */
+    clearLayoutProperties : function() {
+      delete this.__layoutProperties;
+    },
+
+
+
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
