@@ -157,7 +157,12 @@
 
       "copy-resources" :
       {
-        "target" : "build"
+        "target" : "build",
+        "themes" :
+        {
+          "qx.icontheme" : ["Oxygen"],
+          "qx.theme"     : ["Modern"]
+        }
       }
     },
 
