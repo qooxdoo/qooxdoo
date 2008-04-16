@@ -199,6 +199,20 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      * TODOC
      *
      * @type member
+     * @param expected {var} TODOC
+     * @param found {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
+     * @return {void}
+     */
+    assertNotIdentical : function(expected, found, msg) {
+      this.__assert(expected !== found, msg || "", "Expected '" + expected + "' to be not identical with '" + found + "'!");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
      * @param value {var} TODOC
      * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
