@@ -51,10 +51,8 @@ qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
         decorator: "black"
       });
 
-      var layout = new qx.ui.layout.HBox();
-
       var container = new qx.ui.core.Composite();
-      container.setLayout(layout);
+      container.setLayout(new qx.ui.layout.HBox());
 
       container.add(w1);
       container.add(w2);

@@ -28,9 +28,11 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
     {
       this.base(arguments);
 
+      var border = new qx.ui.decoration.Single(3, "solid", "black");
+
       w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: "black",
+        decorator: border,
         paddingLeft: 10,
         paddingRight: 10,
         minHeight: 200
@@ -38,34 +40,32 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
 
       w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: "black",
+        decorator: border,
         height: 300
       });
 
       w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: "black",
+        decorator: border,
         padding: 3
       });
 
       w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: "black",
+        decorator: border,
         padding: 10,
         width: 1000
       });
 
-      layout = new qx.ui.layout.Basic();
+      var container = new qx.ui.core.Composite();
+      container.setLayout(new qx.ui.layout.Basic());
 
-      layout.add(w1, 10, 10);
-      layout.add(w2, 200, 20);
-      layout.add(w3, 350, 50);
-      layout.add(w4, 50, 200);
+      container.add(w1, {left:10, top:10});
+      container.add(w2, {left:200, top:20});
+      container.add(w3, {left:350, top:50});
+      container.add(w4, {left:50, top:200});
 
-      var container = new qx.ui.core.Widget();
-      container.setLayout(layout);
-
-      this.getRoot().add(container, 0, 0, 0, 0);
+      this.getRoot().addMain(container);
     }
   }
 });
