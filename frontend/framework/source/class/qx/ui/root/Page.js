@@ -71,29 +71,10 @@ qx.Class.define("qx.ui.root.Page",
 
   members :
   {
-    /**
-     * Adds a widget to the page using the page's basic layout.
-     *
-     * Please have a look at the {@link qx.ui.layout.Basic#add} for further
-     * argument details.
-     *
-     * @type member
-     * @param widget {qx.ui.core.Widget} the widget to add
-     * @param left {Integer} left position on the page
-     * @param top {Integer} top position on the page
-     * @return {qx.ui.root.Page} This object (for chaining support)
-     */
-    add : function(widget, left, top)
-    {
-      this._add(widget, {
-        left: left,
-        top: top
-      });
-
-      // Chaining support
-      return this;
+    // adds major widget (left top edge)
+    addMain : function(child) {
+      this._add(child, {left:0, top: 0});
     },
-
 
     // overridden
     _createContainerElement : function()
