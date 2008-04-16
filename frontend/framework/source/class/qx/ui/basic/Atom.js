@@ -213,8 +213,13 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyShow : function(value, old)
     {
-      this._handleLabel();
-      this._handleIcon();
+      if (this._label) {
+        this._handleLabel();
+      }
+
+      if (this._icon) {
+        this._handleIcon();
+      }
     },
 
 
