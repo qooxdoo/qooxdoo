@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       apply : "_applyLayoutChange",
-      init : true,
+      init : false,
       themeable : true
     },
 
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       apply : "_applyLayoutChange",
-      init : true,
+      init : false,
       themeable : true
     },
 
@@ -408,7 +408,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** Allow growing and shringking in the horizontal direction */
+    /** Allow growing and shrinking in the horizontal direction */
     allowStretchX :
     {
       group : [ "allowGrowX", "allowShrinkX" ],
@@ -1918,41 +1918,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Adds a new child widget.
-     *
-     * @type member
-     * @param child {LayoutItem} the widget to add.
-     * @param options {Map?null} Optional layout data for widget.
-     * @return {Widget} This object (for chaining support)
-     */
-    _add : function(child, options)
-    {
-      this._children.push(child);
-      this._addHelper(child, options);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Remove the given child widget.
-     *
-     * @type member
-     * @param child {LayoutItem} the widget to remove
-     * @return {Widget} This object (for chaining support)
-     */
-    _remove : function(child)
-    {
-      qx.lang.Array.remove(this._children, child);
-      this._removeHelper(child);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
@@ -1978,6 +1943,21 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Adds a new child widget.
+     *
+     * @type member
+     * @param child {LayoutItem} the widget to add.
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {void}
+     */
+    _add : function(child, options)
+    {
+      this._addHelper(child, options);
+      this._children.push(child);
+    },
+
+
+    /**
      * Add a child widget at the specified index
      *
      * @type member
@@ -1986,16 +1966,19 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addAt : function(child, index, options)
     {
-      var children = this._children;
+      var ref = this._children[index];
 
-      if (index == null || index < 0 || index > children.length) {
-        throw new Error("Not a valid index for addAt(): " + vIndex);
+      if (ref === child) {
+        return child.setLayoutProperties(options);
       }
 
-      qx.lang.Array.insertAt(children, child, index);
       this._addHelper(child, options);
 
-      return index;
+      if (ref) {
+        qx.lang.Array.insertBefore(this._children, child, ref);
+      } else {
+        this._children.push(child);
+      }
     },
 
 
@@ -2009,19 +1992,12 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addBefore : function(child, before, options)
     {
-      var targetIndex = this.indexOf(before);
-
-      if (targetIndex == -1) {
-        throw new Error("Child to add before: " + before + " is not inside this layout.");
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
       }
 
-      var sourceIndex = this.indexOf(child);
-
-      if (sourceIndex == -1 || sourceIndex > targetIndex) {
-        targetIndex++;
-      }
-
-      return this._addAt(child, Math.max(0, targetIndex - 1), options);
+      this._addHelper(child, options);
+      qx.lang.Array.insertBefore(this._children, child, before);
     },
 
 
@@ -2035,19 +2011,26 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addAfter : function(child, after, options)
     {
-      var targetIndex = this.indexOf(after);
-
-      if (targetIndex == -1) {
-        throw new Error("Child to add after: " + after + " is not inside this parent.");
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
       }
 
-      var sourceIndex = this.indexOf(child);
+      this._addHelper(child, options);
+      qx.lang.Array.insertAfter(this._children, child, after);
+    },
 
-      if (sourceIndex != -1 && sourceIndex < targetIndex) {
-        targetIndex--;
-      }
 
-      return this._addAt(child, Math.min(this._children.length, targetIndex + 1), options);
+    /**
+     * Remove the given child widget.
+     *
+     * @type member
+     * @param child {LayoutItem} the widget to remove
+     * @return {void}
+     */
+    _remove : function(child)
+    {
+      this._removeHelper(child);
+      qx.lang.Array.remove(this._children, child);
     },
 
 
@@ -2059,10 +2042,12 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAt : function(index)
     {
+      this._removeHelper(child);
+
       var child = this._children[index];
 
       if (child) {
-        this._remove(child)
+        qx.lang.Array.removeAt(this._children, index);
       }
     },
 
@@ -2076,12 +2061,14 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var children = this._children;
 
-      for (var i = children.length-1; i>=0; i--)
-      {
-        var widget = children[i];
-        this._remove(widget);
+      for (var i = children.length-1; i>=0; i--) {
+        children[i].setLayoutParent(null);
       }
+
+      children.length = 0;
+      qx.ui.core.queue.Layout.add(this);
     },
+
 
 
 
@@ -2108,7 +2095,16 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+      // Remove from old parent
+      var parent = child.getLayoutParent();
+      if (parent) {
+        parent._remove(child);
+      }
+
+      // Remember parent
       child.setLayoutParent(this);
+
+      // Import options
       child.setLayoutProperties(options);
 
       // Add to layout queue
@@ -2126,11 +2122,12 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!child || !(child instanceof qx.ui.core.LayoutItem)) {
-          throw new Error("Invalid widget to remove: " + child);
+        if (!child || child.getLayoutParent() !== this) {
+          throw new Error("Remove Error: " + child + " is not a child of this widget!");
         }
       }
 
+      // Clear paren connection
       child.setLayoutParent(null);
 
       // Add to layout queue
