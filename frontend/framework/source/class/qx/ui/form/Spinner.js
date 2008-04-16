@@ -211,13 +211,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    allowGrowY :
-    {
-      refine : true,
-      init : false
-    },
-
-
+    // overridden
     allowShrinkY :
     {
       refine : true,
