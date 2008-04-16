@@ -28,32 +28,31 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.VBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.VBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
       var input1 = new qx.ui.form.TextField("max5").set({
         maxLength: 5
       });
-      docLayout.add(input1);
+      container.add(input1);
 
       var input2 = new qx.ui.form.TextField("centered").set({
         padding: 10,
         allowGrowX: false,
         textAlign: "center"
       });
-      docLayout.add(input2);
+      container.add(input2);
 
       var input3 = new qx.ui.form.TextField("another").set({
         padding: 5,
         width: 200
       });
-      docLayout.add(input3);
+      container.add(input3);
 
       var input4 = new qx.ui.form.TextField("Web 2.0").set({
         decorator: "light-shadow",
@@ -62,7 +61,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
         padding: 7,
         width: 200
       });
-      docLayout.add(input4);
+      container.add(input4);
 
       input4.addListener("change", function(e) {
         this.debug("change event: " + e.getData());
@@ -75,12 +74,12 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
         readOnly: true,
         padding: 5
       });
-      docLayout.add(input6);
+      container.add(input6);
 
       var input7 = new qx.ui.form.PasswordField("geheim").set({
         padding: 5
       });
-      docLayout.add(input7);
+      container.add(input7);
 
       var input8 = new qx.ui.form.TextField("A").set({
         padding: [0, 10],
@@ -91,7 +90,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
           color : "#ABABAB"
         })
       });
-      docLayout.add(input8);
+      container.add(input8);
 
       var input9 = new qx.ui.form.TextArea("text\narea").set({
         padding: 3,
@@ -102,22 +101,21 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
           color : "#ABABAB"
         })
       });
-      docLayout.add(input9);
+      container.add(input9);
 
       var input10 = new qx.ui.form.TextArea("text\narea\nnowrap").set({
         padding: 3,
         wrap : false
       });
-      docLayout.add(input10);
+      container.add(input10);
 
       var input11 = new qx.ui.form.TextField("large font").set({
         padding: 3,
         font : qx.bom.Font.fromString("24px sans-serif")
       });
-      docLayout.add(input11);
+      container.add(input11);
 
-      var controls = new qx.ui.core.Widget();
-      controls.setLayout(new qx.ui.layout.VBox());
+      var controls = new qx.ui.core.Composite(new qx.ui.layout.VBox());
       controls.getLayout().setSpacing(8);
 
 
@@ -127,14 +125,14 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
         container.setEnabled(enable);
         enable = !enable;
       });
-      controls.getLayout().add(btnEnabled);
+      controls.add(btnEnabled);
 
 
       var btnSend1 = new qx.ui.form.Button("Send content");
       btnSend1.addListener("execute", function() {
         this.debug("Sending content: " + input4.getValue());
       });
-      controls.getLayout().add(btnSend1);
+      controls.add(btnSend1);
 
 
       var btnSend2 = new qx.ui.form.Button("Send selection");
@@ -143,10 +141,10 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       btnSend2.addListener("execute", function() {
         this.debug("Sending selection: " + input4.getValue());
       });
-      controls.getLayout().add(btnSend2);
+      controls.add(btnSend2);
 
 
-      this.getRoot().add(controls, 300, 10);
+      this.getRoot().add(controls, {left:300, top:10});
     }
   }
 });
