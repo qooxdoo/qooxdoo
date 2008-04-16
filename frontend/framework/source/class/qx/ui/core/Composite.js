@@ -1,6 +1,51 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
 qx.Class.define("qx.ui.core.Composite",
 {
   extend : qx.ui.core.Widget,
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(layout)
+  {
+    this.base(arguments);
+
+    if (layout) {
+      this._setLayout(layout);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -80,32 +125,6 @@ qx.Class.define("qx.ui.core.Composite",
      */
     _addAt : function(child, index, options) {
       return this._addAt(child, index, options);
-    },
-
-
-    /**
-     * Add a widget before another already inserted widget
-     *
-     * @type member
-     * @param child {LayoutItem} widget to add
-     * @param before {LayoutItem} widget before the new widget will be inserted.
-     * @param index {Integer} Index, at which the widget will be inserted
-     */
-    _addBefore : function(child, before, options) {
-      return this._addBefore(child, before, options);
-    },
-
-
-    /**
-     * Add a widget after another already inserted widget
-     *
-     * @type member
-     * @param vChild {LayoutItem} widget to add
-     * @param after {LayoutItem} widgert, after which the new widget will be inserted
-     * @param index {Integer} Index, at which the widget will be inserted
-     */
-    _addAfter : function(child, after, options) {
-      return this._addAfter(child, after, options);
     },
 
 
