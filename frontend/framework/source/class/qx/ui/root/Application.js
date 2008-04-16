@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.root.Application",
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
     // Use static layout
-    this.setLayout(new qx.ui.layout.Canvas());
+    this._setLayout(new qx.ui.layout.Canvas());
 
     // Directly schedule layout for root element
     qx.ui.core.queue.Layout.add(this);
@@ -93,12 +93,16 @@ qx.Class.define("qx.ui.root.Application",
      * @param top {Integer?null} Top position of the child.
      * @param right {Integer?null} Right position of the child.
      * @param bottom {Integer?null} Bottom position of the child.
-     * @param options {Map?null} Optional layout data for widget.
      * @return {qx.ui.root.Application} This object (for chaining support)
      */
-    add : function(widget, left, top, right, bottom, options)
+    add : function(widget, left, top, right, bottom)
     {
-      this.getLayout().add(widget, left, top, right, bottom, options);
+      this._add(widget, {
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom
+      });
 
       // Chaining support
       return this;

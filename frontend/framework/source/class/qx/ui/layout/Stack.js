@@ -55,20 +55,6 @@ qx.Class.define("qx.ui.layout.Stack",
 
   members :
   {
-    // overridden
-    add : function(child, options)
-    {
-      this.base(arguments, child, options);
-
-      // Select first incoming child
-      if (!this.getSelected()) {
-        this.setSelected(child);
-      } else {
-        child.layoutVisibilityModified(false);
-      }
-    },
-
-
     // property apply
     _applySelected : function(value, old)
     {
