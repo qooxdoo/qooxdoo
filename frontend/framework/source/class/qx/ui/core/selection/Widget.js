@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getSelectableLocationX : function(item)
     {
-      var computed = item.getComputedLayout();
+      var computed = item.getBounds();
       if (computed)
       {
         return {
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getSelectableLocationY : function(item)
     {
-      var computed = item.getComputedLayout();
+      var computed = item.getBounds();
       if (computed)
       {
         return {

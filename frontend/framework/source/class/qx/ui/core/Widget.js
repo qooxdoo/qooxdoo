@@ -915,7 +915,7 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     updateLayout : function()
     {
-      var computed = this.__computedLayout;
+      var computed = this.__userBounds || this.__computedLayout;
       if (computed.height == null || computed.width == null) {
         var hint = this.getSizeHint();
       }
@@ -1453,6 +1453,33 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
+     * @internal
+     */
+    hasUserBounds : function() {
+      return !!this.__userBounds;
+    },
+
+
+    setBounds : function(left, top, width, height)
+    {
+      this.__userBounds = {
+        left: left,
+        top: top,
+        width: width,
+        height: height
+      };
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    resetBounds : function()
+    {
+      delete this.__userBounds;
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    /**
      * Get the widget's computed location and dimension as computed by
      * the layout manager.
      *
@@ -1465,8 +1492,8 @@ qx.Class.define("qx.ui.core.Widget",
      *    <code>width</code>, <code>height</code>, <code>left</code> and
      *    <code>top</code>.
      */
-    getComputedLayout : function() {
-      return this.__computedLayout || null;
+    getBounds : function() {
+      return this.__userBounds || this.__computedLayout || null;
     },
 
 
