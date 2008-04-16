@@ -64,20 +64,16 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_3",
         minWidth: 400
       });
 
+      var container = new qx.ui.core.Composite(new qx.ui.layout.Canvas());
 
-      layout = new qx.ui.layout.Canvas();
+      container.add(w1, {left:"3%", top:"3%", right:"3%", bottom:"3%", width:"20%", height:"20%" });
+      container.add(w2, {left:"6%", top:"6%", right:"6%", width:"20%", height:"20%" });
+      container.add(w3, {left:"9%", top:"9%", bottom:"9%", width:"20%", height:"20%" });
+      container.add(w4, {left:"12%", top:"12%", width:"20%", height:"20%" });
+      container.add(w5, {top:"9%", right:"9%", width:"20%", height:"20%" });
+      container.add(w6, {right:"9%", bottom:"9%", width:"20%", height:"20%" });
 
-      layout.add(w1, "3%", "3%", "3%", "3%", { width : "20%", height : "20%" });
-      layout.add(w2, "6%", "6%", "6%", null, { width : "20%", height : "20%" });
-      layout.add(w3, "9%", "9%", null, "9%", { width : "20%", height : "20%" });
-      layout.add(w4, "12%", "12%", null, null, { width : "20%", height : "20%" });
-      layout.add(w5, null, "9%", "9%", null, { width : "20%", height : "20%" });
-      layout.add(w6, null, null, "9%", "9%", { width : "20%", height : "20%" });
-
-      var container = new qx.ui.core.Widget();
-      container.setLayout(layout);
-
-      this.getRoot().add(container, 0, 0, 0, 0);
+      this.getRoot().addMain(container);
     }
   }
 });

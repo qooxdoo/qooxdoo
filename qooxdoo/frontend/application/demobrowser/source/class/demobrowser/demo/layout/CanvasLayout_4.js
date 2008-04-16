@@ -55,19 +55,16 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_4",
       });
 
 
-      layout = new qx.ui.layout.Canvas();
-
-      layout.add(w1, 10, 10);
-      layout.add(w2, 10, 80);
-      layout.add(w3, null, 150, 10);
-      layout.add(w4, null, 220, 10);
-
-      var container = new qx.ui.core.Widget().set({
-        layout: layout,
+      var container = new qx.ui.core.Composite(new qx.ui.layout.Canvas()).set({
         decorator: border
       });
 
-      this.getRoot().add(container, 20, 20);
+      container.add(w1, {left:10, top:10});
+      container.add(w2, {left:10, top:80});
+      container.add(w3, {top:150, right:10});
+      container.add(w4, {top:220, right:10});
+
+      this.getRoot().add(container, {left:20, top:20});
     }
   }
 });
