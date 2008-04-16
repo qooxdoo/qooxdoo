@@ -39,25 +39,24 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
       var img1 = "icon/48/apps/video-player.png";
       var img2 = "icon/48/apps/internet-mail.png";
       var img3 = "icon/48/apps/internet-web-browser.png";
 
       var btn1 = new qx.ui.form.Button("Oxygen Icons", img1, 48, 48);
-      docLayout.add(btn1);
+      container.add(btn1);
       var btn2 = new qx.ui.form.Button("Tango Icons", img2, 48, 48);
-      docLayout.add(btn2);
+      container.add(btn2);
       var btn3 = new qx.ui.form.ToggleButton("Toggle", img3, 48, 48);
-      docLayout.add(btn3);
+      container.add(btn3);
 
       btn1.addListener("execute", function() {
         qx.theme.manager.Icon.getInstance().setTheme(qx.theme.icon.Oxygen);

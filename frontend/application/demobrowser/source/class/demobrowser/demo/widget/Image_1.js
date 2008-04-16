@@ -35,9 +35,11 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       this.base(arguments);
 
       layout = new qx.ui.layout.HBox();
-      var container = new qx.ui.core.Widget();
-      container.setLayout(layout);
-      this.getRoot().add(container, 0, 0, 0, 0);
+      layout.setSpacing(10);
+
+      var container = new qx.ui.core.Composite(layout);
+      container.setPadding(20);
+      this.getRoot().addMain(container);
 
       var mgr = qx.util.ImageRegistry.getInstance();
       var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/icons/"
@@ -49,14 +51,12 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       mgr.register(base + "multimedia-player.png", base + "multimedia-player.png", 0, 0, 128, 128);
       mgr.register(base + "multimedia-player-disabled.png", base + "multimedia-player-disabled.png", 0, 0, 128, 128);
 
-
-      layout.setSpacing(10);
-      layout.add(new qx.ui.basic.Image(base + "feed-reader.png"));
-      layout.add(new qx.ui.basic.Image(base + "graphics-viewer-document.png"));
-      layout.add(new qx.ui.basic.Image(base + "format-justify-fill.png"));
-      layout.add(new qx.ui.basic.Image(base + "format-justify-left.png"));
-      layout.add(new qx.ui.basic.Image(base + "format-justify-right.png"));
-      layout.add(new qx.ui.basic.Image(base + "multimedia-player.png"));
+      container.add(new qx.ui.basic.Image(base + "feed-reader.png"));
+      container.add(new qx.ui.basic.Image(base + "graphics-viewer-document.png"));
+      container.add(new qx.ui.basic.Image(base + "format-justify-fill.png"));
+      container.add(new qx.ui.basic.Image(base + "format-justify-left.png"));
+      container.add(new qx.ui.basic.Image(base + "format-justify-right.png"));
+      container.add(new qx.ui.basic.Image(base + "multimedia-player.png"));
 
       // toggle button
       var enable = false;
@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
         enable = !enable;
       });
 
-      this.getRoot().add(btn, 10, 140);
+      this.getRoot().add(btn, {left:10, top:140});
     }
   }
 });
