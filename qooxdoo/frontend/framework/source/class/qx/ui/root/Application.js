@@ -81,31 +81,10 @@ qx.Class.define("qx.ui.root.Application",
 
   members :
   {
-    /**
-     * Adds a widget to the application using the application's canvas layout.
-     *
-     * Please have a look at the {@link qx.ui.layout.Canvas#add} for further
-     * argument details.
-     *
-     * @type member
-     * @param widget {qx.ui.core.Widget} the widget to add
-     * @param left {Integer?null} Left position of the child.
-     * @param top {Integer?null} Top position of the child.
-     * @param right {Integer?null} Right position of the child.
-     * @param bottom {Integer?null} Bottom position of the child.
-     * @return {qx.ui.root.Application} This object (for chaining support)
-     */
-    add : function(widget, left, top, right, bottom)
+    // adds major widget (full size)
+    addMain : function(child)
     {
-      this._add(widget, {
-        left: left,
-        top: top,
-        right: right,
-        bottom: bottom
-      });
-
-      // Chaining support
-      return this;
+      this._add(child, {left:0, top:0, right:0, bottom:0});
     },
 
 
