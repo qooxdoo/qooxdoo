@@ -1,1 +1,1 @@
-{"./source/resource/qx/decoration/Modern/pane/pane-r.png": ["./source/resource/qx/decoration/Modern/pane-lr-combined.png", 0, 0, 6, 238, "png"], "./source/resource/qx/decoration/Modern/pane/pane-l.png": ["./source/resource/qx/decoration/Modern/pane-lr-combined.png", -6, 0, 6, 238, "png"]}
+{"./source/resource/qx/decoration/Modern/pane/pane-r.png": [6, 238, "png", "./source/resource/qx/decoration/Modern/pane-lr-combined.png", 0, 0], "./source/resource/qx/decoration/Modern/pane/pane-l.png": [6, 238, "png", "./source/resource/qx/decoration/Modern/pane-lr-combined.png", -6, 0]}
