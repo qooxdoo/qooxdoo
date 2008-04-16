@@ -504,6 +504,147 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      TABVIEW
+    ---------------------------------------------------------------------------
+    */
+
+    "tab-view" :
+    {
+      style : function(states)
+      {
+        return {
+          // spacing : -1
+        };
+      }
+    },
+
+    "tab-view-bar" : {
+    },
+
+    "tab-view-pane" :
+    {
+      style : function(states)
+      {
+        return {          
+          
+          backgroundColor : "tab-view-pane",
+          decorator : new qx.ui.decoration.Single(1, "solid", "tab-view-border"),
+          padding : 10
+        };
+      }
+    },
+
+    "tab-view-page" : {
+    },
+
+    "tab-view-button" :
+    {
+      style : function(states)
+      {
+        var paddingTop, paddingBottom, paddingLeft, paddingRight;
+        var marginTop, marginBottom, marginRight, marginLeft;
+        var backgroundColor, decorator;
+
+        marginTop = 0;
+        marginBottom = 0;
+        decorator = new qx.ui.decoration.Single(1, "solid", "tab-view-border");
+
+        if (states.checked)
+        {
+          paddingTop = 2;
+          paddingBottom = 4;
+          paddingLeft = 7;
+          paddingRight = 8;
+          // marginRight = -1;
+          // marginLeft = -2;
+          backgroundColor = "tab-view-button-checked";
+
+          if (states.barTop)
+          {
+            decorator.setWidthBottom(0);
+            decorator.setTop(3, "solid", "effect");
+          }
+          else
+          {
+            decorator.setWidthTop(0);
+            decorator.setBottom(3, "solid", "effect");
+          }
+
+          if (states.alignLeft)
+          {
+            if (states.firstChild)
+            {
+              paddingLeft = 6;
+              paddingRight = 7;
+              // marginLeft = 0;
+            }
+          }
+          else
+          {
+            if (states.lastChild)
+            {
+              paddingLeft = 8;
+              paddingRight = 5;
+              // marginRight = 0;
+            }
+          }
+        }
+        else
+        {
+          paddingTop = 2;
+          paddingBottom = 2;
+          paddingLeft = 5;
+          paddingRight = 6;
+          // marginRight = 1;
+          // marginLeft = 0;
+          backgroundColor = states.over ? "tab-view-button-hover" : "tab-view-button";
+
+          if (states.barTop)
+          {
+            decorator.setWidthBottom(0);
+            // marginTop = 3;
+            // marginBottom = 1;
+          }
+          else
+          {
+            decorator.setWidthTop(0);
+            // marginTop = 1;
+            // marginBottom = 3;
+          }
+
+          if (states.alignLeft)
+          {
+            if (states.firstChild)
+            {
+              paddingLeft = 6;
+              paddingRight = 5;
+            }
+          }
+          else
+          {
+            if (states.lastChild)
+            {
+              paddingLeft = 6;
+              paddingRight = 5;
+              // marginRight = 0;
+            }
+          }
+        }
+
+        return {
+          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
+          // margin : [ marginTop, marginRight, marginBottom, marginLeft ],
+          decorator : decorator,
+          backgroundColor : backgroundColor
+        }
+      }
+    },
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
