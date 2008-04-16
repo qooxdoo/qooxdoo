@@ -1090,7 +1090,7 @@ class _ResourceHandler(object):
         self._genobj._console.indent()
         for clazz in classList:
             classRes = (self._genobj._depLoader.getMeta(clazz))['assetDeps'][:]
-            iresult = []
+            iresult  = []
             for res in classRes:
                 # here it might need some massaging of 'res' before lookup and append
                 # expand file glob into regexp
@@ -1111,7 +1111,7 @@ class _ResourceHandler(object):
 
 
     def _expandMacrosInMeta(self, res):
-        themeinfo = self._genobj._config.get('copy-resources/themes')
+        themeinfo = self._genobj._config.get('themes',{})
 
         def expMacRec(rsc):
             if rsc.find('${')==-1:
@@ -1132,6 +1132,7 @@ class _ResourceHandler(object):
                 else:
                     nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
                     result.append(os.path.normpath(nres))     # get rid of '...//...'
+                    self._genobj._console.warn("Empty replacement of macro '%s' in asset spec." % themekey)
             else:
                 raise SyntaxError, "Non-terminated macro in string: %s" % rsc
             return result
