@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.layout.Stack",
       }
 
       value.layoutVisibilityModified(true);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
     },
 
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.layout.Stack",
       }
       else
       {
-        var children = this.getLayoutChildren();
+        var children = this._getLayoutChildren();
         var hint;
         var minWidth=0, width=0, minHeight=0, height=0;
 

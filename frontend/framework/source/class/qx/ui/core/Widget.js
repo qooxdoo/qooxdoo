@@ -84,6 +84,9 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initCursor();
+
+    // children array
+    this._children = [];
   },
 
 
@@ -257,7 +260,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "qx.ui.layout.Abstract",
       nullable : true,
-      init : null,
+      event : "changeLayout",
       apply : "_applyLayout"
     },
 
@@ -1020,7 +1023,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.updateDecoration(width, height, sizeChange);
 
         var layout = this.getLayout();
-        if (layout && layout.hasLayoutChildren()) {
+        if (layout && this.hasLayoutChildren()) {
           layout.renderLayout(innerWidth, innerHeight);
         }
 
@@ -1310,7 +1313,7 @@ qx.Class.define("qx.ui.core.Widget",
       var layout = this.getLayout();
       if (layout)
       {
-        if (layout.hasLayoutChildren())
+        if (this.hasLayoutChildren())
         {
           var hint = layout.getSizeHint();
 
@@ -1851,6 +1854,286 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns all children, which are layout relevant. This excludes all widgets,
+     * which have a {@link qx.ui.core.Widget#visibility} value of <code>exclude</code>.
+     *
+     * @internal
+     * @return {qx.ui.core.Widget[]} All layout relevant children.
+     */
+    getLayoutChildren : function()
+    {
+      /*
+      if (this.__layoutChildren) {
+        return this.__layoutChildren;
+      }
+      */
+
+      var layoutChildren = [];
+
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+        if (child.getVisibility() !== "excluded" && !child.hasUserBounds()) {
+          layoutChildren.push(child);
+        }
+      }
+
+      this.__layoutChildren = layoutChildren;
+
+      return layoutChildren;
+    },
+
+
+    /**
+     * Returns whether the layout has children, which are layout relevant. This
+     * excludes all widgets, which have a {@link qx.ui.core.Widget#visibility}
+     * value of <code>exclude</code>.
+     *
+     * @return {Boolean} Whether the layout has layout relevant children
+     */
+    hasLayoutChildren : function() {
+      return this.getLayoutChildren().length > 0;
+    },
+
+
+    /**
+     * Returns the children list
+     *
+     * @type member
+     * @return {LayoutItem[]} The children array (Arrays are
+     *   reference types, please to not modify them in-place)
+     */
+    getChildren : function() {
+      return this._children;
+    },
+
+
+    /**
+     * Adds a new child widget.
+     *
+     * @type member
+     * @param child {LayoutItem} the widget to add.
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {Widget} This object (for chaining support)
+     */
+    _add : function(child, options)
+    {
+      this._children.push(child);
+      this._addHelper(child, options);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Remove the given child widget.
+     *
+     * @type member
+     * @param child {LayoutItem} the widget to remove
+     * @return {Widget} This object (for chaining support)
+     */
+    _remove : function(child)
+    {
+      qx.lang.Array.remove(this._children, child);
+      this._removeHelper(child);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Returns the index position of the given widget if it is
+     * a child widget. Otherwise it returns <code>-1</code>.
+     *
+     * @type member
+     * @param child {Widget} the widget to query for
+     * @return {Integer} The index position or <code>-1</code> when
+     *   the given widget is no child of this layout.
+     */
+    _indexOf : function(child) {
+      return this._children.indexOf(child);
+    },
+
+
+    /**
+     * Whether the widget contains children.
+     *
+     * @type member
+     * @return {Boolean} Returns <code>true</code> when the widget has children.
+     */
+    _hasChildren : function() {
+      return !!this._children[0];
+    },
+
+
+    /**
+     * Add a child widget at the specified index
+     *
+     * @type member
+     * @param child {LayoutItem} widget to add
+     * @param index {Integer} Index, at which the widget will be inserted
+     */
+    _addAt : function(child, index, options)
+    {
+      var children = this._children;
+
+      if (index == null || index < 0 || index > children.length) {
+        throw new Error("Not a valid index for addAt(): " + vIndex);
+      }
+
+      qx.lang.Array.insertAt(children, child, index);
+      this._addHelper(child, options);
+
+      return index;
+    },
+
+
+    /**
+     * Add a widget before another already inserted widget
+     *
+     * @type member
+     * @param child {LayoutItem} widget to add
+     * @param before {LayoutItem} widget before the new widget will be inserted.
+     * @param index {Integer} Index, at which the widget will be inserted
+     */
+    _addBefore : function(child, before, options)
+    {
+      var targetIndex = this.indexOf(before);
+
+      if (targetIndex == -1) {
+        throw new Error("Child to add before: " + before + " is not inside this layout.");
+      }
+
+      var sourceIndex = this.indexOf(child);
+
+      if (sourceIndex == -1 || sourceIndex > targetIndex) {
+        targetIndex++;
+      }
+
+      return this._addAt(child, Math.max(0, targetIndex - 1), options);
+    },
+
+
+    /**
+     * Add a widget after another already inserted widget
+     *
+     * @type member
+     * @param vChild {LayoutItem} widget to add
+     * @param after {LayoutItem} widgert, after which the new widget will be inserted
+     * @param index {Integer} Index, at which the widget will be inserted
+     */
+    _addAfter : function(child, after, options)
+    {
+      var targetIndex = this.indexOf(after);
+
+      if (targetIndex == -1) {
+        throw new Error("Child to add after: " + after + " is not inside this parent.");
+      }
+
+      var sourceIndex = this.indexOf(child);
+
+      if (sourceIndex != -1 && sourceIndex < targetIndex) {
+        targetIndex--;
+      }
+
+      return this._addAt(child, Math.min(this._children.length, targetIndex + 1), options);
+    },
+
+
+    /**
+     * Remove the widget at the specified index.
+     *
+     * @type member
+     * @param index {Integer} Index of the widget to remove.
+     */
+    _removeAt : function(index)
+    {
+      var child = this._children[index];
+
+      if (child) {
+        this._remove(child)
+      }
+    },
+
+
+    /**
+     * Remove all children.
+     *
+     * @type member
+     */
+    _removeAll : function()
+    {
+      var children = this._children;
+
+      for (var i = children.length-1; i>=0; i--)
+      {
+        var widget = children[i];
+        this._remove(widget);
+      }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN HANDLING - IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Convenience function to add a child widget. It will insert the child to
+     * the parent widget and schedule a layout update.
+     *
+     * @param child {LayoutItem} The child to add.
+     * @param options {Map|null} Optional layout data for the widget.
+     */
+    _addHelper : function(child, options)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
+        if (options) {
+          this.assertType(options, "object", "Invalid layout data: " + options);
+        }
+      }
+
+      child.setLayoutParent(this);
+      child.setLayoutProperties(options);
+
+      // Add to layout queue
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    /**
+     * Convenience function to remove a child widget. It will remove it
+     * from the parent widget and schedule a layout update.
+     *
+     * @param child {LayoutItem} The child to remove.
+     */
+    _removeHelper : function(child)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!child || !(child instanceof qx.ui.core.LayoutItem)) {
+          throw new Error("Invalid widget to remove: " + child);
+        }
+      }
+
+      child.setLayoutParent(null);
+
+      // Add to layout queue
+      qx.ui.core.queue.Layout.add(this);
+    },
 
 
 
@@ -2050,9 +2333,15 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyLayout : function(value, old)
     {
-      if (value) {
-        value.setWidget(this);
+      if (old) {
+        old.connectToWidget(null);
       }
+
+      if (value) {
+        value.connectToWidget(this);
+      }
+
+      qx.ui.core.queue.Layout.add(this);
     },
 
 

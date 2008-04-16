@@ -312,7 +312,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       {
         var parentLayout = parent.getLayout();
         if (parentLayout) {
-          parentLayout.childExcludeModified(this);
+          parentLayout.invalidateChildrenCache();
         }
 
         qx.ui.core.queue.Layout.add(parent);
