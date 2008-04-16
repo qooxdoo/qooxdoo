@@ -25,8 +25,6 @@
  * combination in different ways.
  *
  * This is useful for all types of buttons, tooltips, ...
- *
- * @appearance atom
  */
 qx.Class.define("qx.ui.basic.Atom",
 {
@@ -151,11 +149,10 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     _handleLabel : function()
     {
-      var show = this.getShow();
-      if (show == "both" || show == "label") {
-        this._add(this._label);
-      } else {
+      if (this.getLabel() == null || this.getShow() === "icon") {
         this._remove(this._label);
+      } else {
+        this._add(this._label);
       }
     },
 
@@ -165,11 +162,10 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     _handleIcon : function()
     {
-      var show = this.getShow();
-      if (show == "both" || show == "icon") {
-        this._addAt(this._icon, 0);
-      } else {
+      if (this.getIcon() == null || this.getShow() === "label") {
         this._remove(this._icon);
+      } else {
+        this._addAt(this._icon, 0);
       }
     },
 

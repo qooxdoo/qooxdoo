@@ -24,6 +24,7 @@
 #asset(qx/icon/Oxygen/48/apps/internet-mail.png)
 #asset(qx/icon/Oxygen/48/apps/internet-web-browser.png)
 #asset(qx/icon/Oxygen/48/apps/photo-album.png)
+#asset(qx/icon/Oxygen/48/apps/office-writer.png)
 
 ************************************************************************ */
 
@@ -44,51 +45,49 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       container.setPadding(20);
       container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().add(container);
 
       var img1 = "icon/48/apps/video-player.png";
       var img2 = "icon/48/apps/internet-mail.png";
       var img3 = "icon/48/apps/internet-web-browser.png";
       var img4 = "icon/48/apps/photo-album.png";
+      var img5 = "icon/48/apps/office-writer.png";
 
-      var border = new qx.ui.decoration.Single(1, "solid", "black");
-      var atom1, atom2;
-
-      container.add(atom1=new qx.ui.basic.Atom("Juhu", img1).set({
+      container.add(new qx.ui.basic.Atom("Juhu1", img1).set({
         backgroundColor : "#dedede",
-        decorator : border,
+        decorator : "black",
         padding : 5,
         allowGrowY: false
       }));
 
-      container.add(atom2=new qx.ui.basic.Atom("Juhu", img2).set({
+      container.add(new qx.ui.basic.Atom("Juhu2", img2).set({
         backgroundColor : "#dedede",
-        decorator : border,
+        decorator : "black",
         align : "top",
         padding : 5,
         allowGrowY: false,
         enabled : false
       }));
 
-      container.add(new qx.ui.basic.Atom("Juhu", img3).set({
+      container.add(new qx.ui.basic.Atom("Juhu3", img3).set({
         backgroundColor : "#dedede",
-        decorator : border,
+        decorator : "black",
         align : "right",
         padding : 5,
         allowGrowY: false
       }));
 
-      container.add(new qx.ui.basic.Atom("Juhu", img4, 48, 48).set({
+      container.add(new qx.ui.basic.Atom("Juhu4", img4).set({
         backgroundColor : "#dedede",
-        decorator : border,
+        decorator : "black",
         align : "bottom",
         padding : 5,
         allowGrowY: false
       }));
 
-      container.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
+      container.add(new qx.ui.basic.Atom("Juhu5", img5).set({
         backgroundColor : "#dedede",
-        decorator : border,
+        decorator : "black",
         show : "icon",
         padding : 5,
         allowGrowY: false
