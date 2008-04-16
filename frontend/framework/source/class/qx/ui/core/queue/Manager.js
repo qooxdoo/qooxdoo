@@ -64,65 +64,66 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     flush : function()
     {
-      var jobs = qx.ui.core.queue.Manager.__jobs;
+      var self = qx.ui.core.queue.Manager;
+      var jobs = self.__jobs;
 
       // No else blocks here because each flush can influence the
       // following flushes!
 
       if (jobs.widget)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.ui.core.queue.Widget.flush();
         jobs.widget = false;
-        //qx.log.Logger.debug(this, "Widget queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Widget runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.appearance)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.ui.core.queue.Appearance.flush();
         jobs.appearance = false;
-        //qx.log.Logger.debug(this, "Layout queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Appearance runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.decorator)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.ui.core.queue.Decorator.flush();
         jobs.decorator = false;
-        //qx.log.Logger.debug(this, "Decorator queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Decorator runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.layout)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.ui.core.queue.Layout.flush();
         jobs.layout = false;
-        //qx.log.Logger.debug(this, "Layout queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Layout runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.element)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.html.Element.flush();
         jobs.element = false;
-        //qx.log.Logger.debug(this, "Element queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Element runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.display)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.ui.core.queue.Display.flush();
         jobs.display = false;
-        //qx.log.Logger.debug(this, "Display queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Display runtime: " + (new Date - start) + "ms");
       }
 
       if (jobs.dispose)
       {
-        //var start = new Date;
+        var start = new Date;
         qx.ui.core.queue.Dispose.flush();
         jobs.dispose = false;
-        //qx.log.Logger.debug(this, "Dispose queue runtime: " + (new Date - start) + "ms");
+        qx.log.Logger.debug(self, "Dispose runtime: " + (new Date - start) + "ms");
       }
 
       qx.ui.core.queue.Manager.__scheduled = false;
