@@ -149,9 +149,9 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       var show = this.getShow();
       if (show == "both" || show == "label") {
-        this.getLayout().setText(this._label);
+        this._add(this._label);
       } else {
-        this.getLayout().setText(null);
+        this._remove(this._label);
       }
     },
 
@@ -163,9 +163,9 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       var show = this.getShow();
       if (show == "both" || show == "icon") {
-        this.getLayout().setIcon(this._icon);
+        this._addAt(this._icon, 0);
       } else {
-        this.getLayout().setIcon(null);
+        this._remove(this._icon);
       }
     },
 

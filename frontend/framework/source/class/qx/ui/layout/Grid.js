@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    childExcludeModified : function(child) {
+    invalidateChildrenCache : function() {
       this._resetMaxIndices();
     },
 
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       this._maxRowIndex = 0;
 
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       this._maxColIndex = 0;
 
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.layout.Grid",
       this._setColumnData(column, "hAlign", hAlign);
       this._setColumnData(column, "vAlign", vAlign);
 
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
 
       return this;
     },
@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.layout.Grid",
       this._setRowData(row, "hAlign", hAlign);
       this._setRowData(row, "vAlign", vAlign);
 
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
 
       return this;
     },
@@ -552,7 +552,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setColumnFlex : function(column, flex)
     {
       this._setColumnData(column, "flex", flex);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -581,7 +581,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setRowFlex : function(row, flex)
     {
       this._setRowData(row, "flex", flex);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -611,7 +611,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setColumnMaxWidth : function(column, maxWidth)
     {
       this._setColumnData(column, "maxWidth", maxWidth);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -640,7 +640,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setColumnWidth : function(column, width)
     {
       this._setColumnData(column, "width", width);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -669,7 +669,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setColumnMinWidth : function(column, minWidth)
     {
       this._setColumnData(column, "minWidth", minWidth);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -698,7 +698,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setRowMaxHeight : function(row, maxHeight)
     {
       this._setRowData(row, "maxHeight", maxHeight);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -727,7 +727,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setRowHeight : function(row, height)
     {
       this._setRowData(row, "height", height);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 
@@ -756,7 +756,7 @@ qx.Class.define("qx.ui.layout.Grid",
     setRowMinHeight : function(row, minHeight)
     {
       this._setRowData(row, "minHeight", minHeight);
-      this.scheduleWidgetLayoutUpdate();
+      this._applyLayoutChange();
       return this;
     },
 

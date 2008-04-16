@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.layout.Basic",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       var child, size, layout;
 
       for (var i=0, l=children.length; i<l; i++)
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.layout.Basic",
     // overridden
     _computeSizeHint : function()
     {
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       var child, size, layout;
       var neededWidth=0, neededHeight=0;
 

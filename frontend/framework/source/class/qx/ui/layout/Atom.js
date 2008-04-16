@@ -66,65 +66,6 @@ qx.Class.define("qx.ui.layout.Atom",
 
   members :
   {
-    /**
-     * Sets the icon widget of the atom layout. If the icon is <code>null</code>,
-     * the icon is removed from the layout.
-     *
-     * @param icon {qx.ui.core.Widget|null} The icon widget.
-     */
-    setIcon : function(icon)
-    {
-      if (this._icon === icon) {
-        return;
-      }
-
-      if (this._icon)
-      {
-        qx.lang.Array.remove(this._children, this._icon);
-        this._removeHelper(this._icon);
-      }
-
-      if (icon)
-      {
-        this._children.push(icon);
-        this._addHelper(icon);
-      }
-
-      this._icon = icon;
-    },
-
-
-    /**
-     * Sets the text widget of the atom layout. If the text is <code>null</code>,
-     * the text is removed from the layout.
-     *
-     * @param text {qx.ui.core.Widget|null} The text widget.
-     */
-    setText : function(text)
-    {
-      if (this._text === text) {
-        return;
-      }
-
-      if (this._text)
-      {
-        qx.lang.Array.remove(this._children, this._text);
-        this._removeHelper(this._text);
-      }
-
-      if (text)
-      {
-        this._children.push(text);
-        this._addHelper(text);
-      }
-
-      this._text = text;
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -137,24 +78,9 @@ qx.Class.define("qx.ui.layout.Atom",
       var Util = qx.ui.layout.Util;
 
       var align = this.getAlign();
-      var children;
+      var children = this._getLayoutChildren();
 
-      if (this._text && this._icon)
-      {
-        if (align == "top" || align == "left") {
-          children = [this._icon, this._text];
-        }
 
-        if (align == "bottom" || align == "right") {
-          children = [this._text, this._icon];
-        }
-      }
-      else if (this._text) {
-        children = [ this._text ];
-      }
-      else if (this._icon) {
-        children = [ this._icon ];
-      }
 
       var left, top, width, height;
       var child, hint;
@@ -166,16 +92,9 @@ qx.Class.define("qx.ui.layout.Atom",
         for (var i=0,l=children.length; i<l; i++)
         {
           child = children[i];
-          if (!child) {
-            continue;
-          }
 
           hint = child.getSizeHint();
-          if (child == this._text) {
-            width = Math.max(hint.minWidth, Math.min(hint.width, availWidth));
-          } else {
-            width = hint.width;
-          }
+          width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
 
           left = Util.computeHorizontalAlignOffset("center", width, availWidth);
           child.renderLayout(left, top, width, hint.height);
@@ -189,19 +108,10 @@ qx.Class.define("qx.ui.layout.Atom",
         left = 0;
         for (var i=0,l=children.length; i<l; i++)
         {
-          var child = children[i];
-          if (!child) {
-            continue;
-          }
-
-
+          child = children[i];
 
           hint = child.getSizeHint();
-          if (child == this._text) {
-            width = Math.max(hint.minWidth, Math.min(hint.width, availWidth));
-          } else {
-            width = hint.width;
-          }
+          width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
 
           top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
           child.renderLayout(left, top, width, hint.height);

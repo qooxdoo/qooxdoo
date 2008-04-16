@@ -470,7 +470,7 @@ qx.Class.define("qx.ui.layout.Dock",
      */
     _getSortedChildren : function()
     {
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       var child, edge, center;
       var length = children.length;
 

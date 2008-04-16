@@ -28,54 +28,6 @@ qx.Class.define("qx.ui.layout.Abstract",
   extend : qx.core.Object,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // This array contains the children (instances of Widget)
-    this._children = [];
-
-    // Contains layout options of widgets (the key is the hashcode of the widget)
-    this._options = {};
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * Stores the connected widget instance. Each layout instance can only
-     * be used by one widget and this is the place this relation is stored.
-     */
-    widget :
-    {
-      check : "qx.ui.core.LayoutItem",
-      init : null,
-      nullable : true,
-      apply : "_applyWidget"
-    }
-  },
-
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -84,347 +36,6 @@ qx.Class.define("qx.ui.layout.Abstract",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      CHILDREN HANDLING - PUBLIC API
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Adds a new widget to this layout.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to add.
-     * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui.layout.Abstract} This object (for chaining support)
-     */
-    add : function(child, options)
-    {
-      this._children.push(child);
-      this._addHelper(child, options);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Remove this from the layout
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to remove
-     * @return {qx.ui.layout.Abstract} This object (for chaining support)
-     */
-    remove : function(child)
-    {
-      qx.lang.Array.remove(this._children, child);
-      this._removeHelper(child);
-
-      // Chaining support
-      return this;
-    },
-
-
-    getNextSibling : function(child)
-    {
-      var children = this.getLayoutChildren();
-      var length = children.length;
-
-      for (var i=0; i<length; i++)
-      {
-        if (children[i] === child) {
-          return children[i+1] || null;
-        }
-      }
-
-      return null;
-    },
-
-    getPreviousSibling : function(child)
-    {
-      var children = this.getLayoutChildren();
-      var length = children.length;
-
-      for (var i=0; i<length; i++)
-      {
-        if (children[i] === child) {
-          return i > 0 ? children[i-1] : null;
-        }
-      }
-
-      return null;
-    },
-
-
-    /**
-     * Returns the index position of the given widget if it is
-     * a member of this layout. Otherwise it returns <code>-1</code>.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to query for
-     * @return {Integer} The index position or <code>-1</code> when
-     *   the given widget is no child of this layout.
-     */
-    indexOf : function(child) {
-      return this._children.indexOf(child);
-    },
-
-
-    /**
-     * Whether the widget is a child of this layout
-     *
-     * @type member
-     * @param widget {qx.ui.core.Widget} child widget to check
-     * @return {Boolean} <code>true</code> when the given widget is a child
-     *    of this layout.
-     */
-    contains : function(widget) {
-      return this._children.indexOf(widget) !== -1;
-    },
-
-
-    /**
-     * Returns the children list
-     *
-     * @type member
-     * @return {qx.ui.core.Widget[]} The children array (Arrays are
-     *   reference types, please to not modify them in-place)
-     */
-    getChildren : function() {
-      return this._children;
-    },
-
-
-    /**
-     * Returns all children, which are layout relevant. This excludes all widgets,
-     * which have a {@link qx.ui.core.Widget#visibility} value of <code>exclude</code>.
-     *
-     * @return {qx.ui.core.Widget[]} All layout relevant children.
-     */
-    getLayoutChildren : function()
-    {
-      var layoutChildren = [];
-
-      for (var i=0, l=this._children.length; i<l; i++)
-      {
-        var child = this._children[i];
-        if (child.getVisibility() !== "excluded" && !child.hasUserBounds()) {
-          layoutChildren.push(child);
-        }
-      }
-
-      return layoutChildren;
-    },
-
-
-    /**
-     * Returns whether the layout has children, which are layout relevant. This
-     * excludes all widgets, which have a {@link qx.ui.core.Widget#visibility}
-     * value of <code>exclude</code>.
-     *
-     * @return {Boolean} Whether the layout has layout relevant children
-     */
-    hasLayoutChildren : function()
-    {
-      for (var i=0, l=this._children.length; i<l; i++)
-      {
-        var child = this._children[i];
-        if (child.getVisibility() !== "excluded") {
-          return true;
-        }
-      }
-      return false;
-    },
-
-
-    /**
-     * Whether the layout contains children.
-     *
-     * @type member
-     * @return {Boolean} Returns <code>true</code> when the layout has children.
-     */
-    hasChildren : function() {
-      return !!this._children[0];
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CHILDREN HANDLING - IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Convenience function to add a widget to a layout. It will initialize the
-     * layout options for the widget, insert it to the parent widget and schedules
-     * a layout update.
-     *
-     * @param child {qx.ui.core.LayoutItem} The child to add.
-     * @param options {Map|null} Optional layout data for the widget.
-     */
-    _addHelper : function(child, options)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
-        if (options) {
-          this.assertType(options, "object", "Invalid layout data: " + options);
-        }
-      }
-
-      this._options[child.$$hash] = options || {};
-      child.setLayoutParent(this.getWidget());
-
-      // Invalidate layout cache
-      this.scheduleWidgetLayoutUpdate();
-    },
-
-
-    /**
-     * Convenience function to remove a widget from a layout. It will clear the
-     * widget's layout data, remove it from the parent widget and schedule a
-     * layout update.
-     *
-     * @param child {qx.ui.core.LayoutItem} The child to remove.
-     */
-    _removeHelper : function(child)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!child || !(child instanceof qx.ui.core.LayoutItem)) {
-          throw new Error("Invalid widget to remove: " + child);
-        }
-      }
-
-      delete this._options[child.$$hash];
-      child.setLayoutParent(null);
-
-      // Invalidate layout cache
-      this.scheduleWidgetLayoutUpdate();
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES
-    ---------------------------------------------------------------------------
-      These are used to manage the additonal layout data of a child used by
-      the parent layout manager.
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Adds a layout property to the given widget.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} Widget to configure
-     * @param name {String} Name of the property (width, top, minHeight, ...)
-     * @param value {var} Any acceptable value (depends on the selected parent layout manager)
-     * @return {qx.ui.core.Widget} This widget (for chaining support)
-     */
-    addLayoutProperty : function(child, name, value)
-    {
-      var childKey = child.$$hash;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        switch(typeof value)
-        {
-          case "string":
-          case "number":
-          case "boolean":
-            break;
-
-          default:
-            throw new Error("Invalid value for layout property " + name + ": " + value);
-        }
-
-        if (!this._options[childKey]) {
-          throw new Error("It is not possible to set a layout property for a widget, which has not been added to the layout!");
-        }
-      }
-
-      this._options[childKey][name] = value;
-      this.scheduleWidgetLayoutUpdate();
-    },
-
-
-    /**
-     * Removes a layout property from the given widget.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} Widget to configure
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @return {qx.ui.core.Widget} This widget (for chaining support)
-     */
-    removeLayoutProperty : function(child, name)
-    {
-      delete this._options[child.$$hash][name];
-      this.scheduleWidgetLayoutUpdate();
-    },
-
-
-    /**
-     * Returns the value of a specific property of the given widget.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} Widget to query
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @param def {var?} Any value which should be returned as a default
-     * @return {var|null} Configured value
-     */
-    getLayoutProperty : function(child, name, def)
-    {
-      var value = this._options[child.$$hash][name];
-
-      if (value == null)
-      {
-        if (def != null) {
-          return def;
-        }
-
-        return null;
-      }
-
-      return value;
-    },
-
-
-    /**
-     * Returns all layout properties of a child widget as a map.
-     *
-     * @param child {qx.ui.core.Widget} Widget to query
-     * @return {Map} a map of all layout properties.
-     */
-    getLayoutProperties : function(child) {
-      return this._options[child.$$hash] || {};
-    },
-
-
-    /**
-     * Whether the given widget has a specific property.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} Widget to query
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
-     * @return {Boolean} <code>true</code> when this hint is defined
-     */
-    hasLayoutProperty : function(child, name) {
-      return this._options[child.$$hash][name] != null;
-    },
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -441,22 +52,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      */
     invalidateLayoutCache : function() {
       this._sizeHint = null;
-    },
-
-
-    /**
-     * Indicate that the layout has layout changes and propagate this information
-     * up the widget hierarchy.
-     *
-     * @type member
-     * @return {void}
-     */
-    scheduleWidgetLayoutUpdate : function()
-    {
-      var widget = this.getWidget();
-      if (widget) {
-        qx.ui.core.queue.Layout.add(widget);
-      }
     },
 
 
@@ -500,20 +95,6 @@ qx.Class.define("qx.ui.layout.Abstract",
 
 
     /**
-     * If one of the layout'S children changes its visibility from or to the
-     * value <code>exclude</code> the layout is infomed about this event using
-     * this function.
-     *
-     * Concrete layout implementations may override this function to get notified.
-     *
-     * @param child {qx.ui.core.Widget} The changed widget
-     */
-    childExcludeModified : function(child) {
-      // empty implementation
-    },
-
-
-    /**
      * This computes the size hint of the layout and returns it.
      *
      * @abstract
@@ -525,6 +106,14 @@ qx.Class.define("qx.ui.layout.Abstract",
     },
 
 
+    /**
+     * This method is called, on each child "add" and "remove" action and
+     * whenever the layout data of a child is changed. The method should be used
+     * to clear any children relavent chached data.
+     */
+    invalidateChildrenCache : function() {
+      // empty implementation
+    },
 
 
 
@@ -534,42 +123,40 @@ qx.Class.define("qx.ui.layout.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    _applyWidget : function(value, old)
+
+    /**
+     * This method is called by the widget to connect the widget with the layout.
+     *
+     * @internal
+     * @param widget {qx.ui.core.Widget} The widget to connect to.
+     */
+    connectToWidget : function(widget)
     {
-      var children = this._children;
-      var length = children.length;
-      var child;
-
-      if (old)
-      {
-        for (var i=0; i<length; i++)
-        {
-          child = children[i];
-          child.setLayoutParent(null);
-        }
-
-        qx.ui.core.queue.Layout.add(old);
+      if (widget && this.__widget) {
+        throw new Error("It is not possible to manually set the connected widget.");
       }
-
-      if (value)
-      {
-        for (var i=0; i<length; i++)
-        {
-          child = children[i];
-          child.setLayoutParent(value);
-        }
-
-        qx.ui.core.queue.Layout.add(value);
-      }
+      this.__widget = widget;
     },
 
 
     /**
-     * Generic property apply method for all layout relevant properties.
+     * Indicate that the layout has layout changed and propagate this information
+     * up the widget hierarchy.
+     *
+     * Also a generic property apply method for all layout relevant properties.
      */
-    _applyLayoutChange : function() {
-      this.scheduleWidgetLayoutUpdate();
+    _applyLayoutChange : function()
+    {
+      if (this.__widget) {
+        qx.ui.core.queue.Layout.add(this.__widget);
+      }
+    },
+
+
+    _getLayoutChildren : function() {
+      return this.__widget.getLayoutChildren();
     }
+
   },
 
 
@@ -582,9 +169,7 @@ qx.Class.define("qx.ui.layout.Abstract",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeArray("_children");
-    this._disposeFields("_options");
+  destruct : function() {
+    this._disposeFields("__widget");
   }
 });

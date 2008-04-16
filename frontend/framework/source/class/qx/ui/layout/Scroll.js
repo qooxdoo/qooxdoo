@@ -29,37 +29,8 @@ qx.Class.define("qx.ui.layout.Scroll",
 {
   extend : qx.ui.layout.Abstract,
 
-  properties :
-  {
-    /**
-     * The content widget of the scroll layout.
-     */
-    content :
-    {
-      check : "qx.ui.core.Widget",
-      apply : "_applyContent",
-      nullable : true
-    }
-  },
-
   members :
   {
-    // property apply
-    _applyContent : function(value, old)
-    {
-      if (old)
-      {
-        qx.lang.Array.remove(this._children, old);
-        this._removeHelper(old);
-      }
-
-      if (value)
-      {
-        this._children.push(value);
-        this._addHelper(value);
-      }
-    },
-
     // overridden
     _computeSizeHint : function()
     {
@@ -74,7 +45,7 @@ qx.Class.define("qx.ui.layout.Scroll",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var content = this.getContent();
+      var content = this._getLayoutChildren()[0];
       var hint = content.getSizeHint();
 
       var width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
