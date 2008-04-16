@@ -85,6 +85,25 @@ qx.Class.define("qx.ui.root.Abstract",
   members :
   {
     /**
+     * Adds a widget to the root.
+     *
+     * Please have a look at the constructor of the root for further
+     * details about supported layout options.
+     *
+     * @type member
+     * @param child {qx.ui.core.Widget} the widget to add
+     * @return {qx.ui.root.Application} This object (for chaining support)
+     */
+    add : function(child, options)
+    {
+      this._add(child, options);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
      * Remove child widget
      *
      * @type member
@@ -92,7 +111,7 @@ qx.Class.define("qx.ui.root.Abstract",
      * @return {qx.ui.layout.Abstract} This object (for chaining support)
      */
     remove : function(child) {
-      this.getLayout().remove(child);
+      this._remove(child);
     },
 
 
@@ -123,9 +142,7 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     this._disposeObjects("_focusHandler");
-
   }
 });
