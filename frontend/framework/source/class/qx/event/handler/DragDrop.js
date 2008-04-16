@@ -47,6 +47,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     this._window = manager.getWindow();
 
     this.__draggableElements = {};
+    this.__droppableElements = {};
   },
 
 
@@ -73,15 +74,39 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   members :
   {
-    /** {Map} all supported events */
-    __eventTypes : {
+    /** {Map} Events dispatched on the dragged element */
+    __sourceEventTypes : {
       "dragstart": true,
-      "dragmove": true,
-      "dragstop": true
+      "drag": true,
+      "dragend": true
     },
+
+
+    /** {Map} events dispatched on the drag target */
+    __targetEventTypes : {
+      "dragenter": true,
+      "dragleave": true,
+      "drop" : true
+    },
+
+
+    __eventTypes :
+    {
+      "dragstart": true,
+      "drag": true,
+      "dragenter": true,
+      "dragleave": true,
+      "drop" : true,
+      "dragend": true
+    },
+
 
     /** {Map} information about all dragable DOM elements */
     __draggableElements : null,
+
+
+    /** {Map} information about all droppable elements */
+   __droppableElements : null,
 
 
     /**
@@ -95,7 +120,8 @@ qx.Class.define("qx.event.handler.DragDrop",
     {
       var dragData = {
         element: element,
-        minDragOffset: minDragOffset == null ? 1 : minDragOffset
+        minDragOffset: minDragOffset == null ? 1 : minDragOffset,
+        target: null
       }
 
       dragData.mousedownHandler = qx.lang.Function.bind(this._onMousedown, this, dragData);
@@ -136,7 +162,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return this.__eventTypes[type];
+      return this.__sourceEventTypes[type] || this.__targetEventTypes[type];
     },
 
 
@@ -144,10 +170,18 @@ qx.Class.define("qx.event.handler.DragDrop",
     registerEvent : function(target, type, capture)
     {
       var elementKey = qx.core.ObjectRegistry.toHashCode(target);
-      var dragData = this.__draggableElements[elementKey];
 
-      if (!dragData) {
-        this.__enableDragEvents(target, 1);
+      if (this.__sourceEventTypes[type])
+      {
+        var dragData = this.__draggableElements[elementKey];
+
+        if (!dragData) {
+          this.__enableDragEvents(target, 1);
+        }
+      }
+      else
+      {
+        this.__droppableElements[elementKey] = target;
       }
     },
 
@@ -163,7 +197,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         var removeDragEvents = true;
         for (var dragtype in this.__eventTypes)
         {
-          if (dragtype == "type") {
+          if (dragtype == type) {
             continue;
           }
           if (this._manager.hasListeners(target, dragtype, capture)) {
@@ -171,8 +205,14 @@ qx.Class.define("qx.event.handler.DragDrop",
             break;
           }
         }
-        if (removeDragEvents) {
-          this.__disableDragEvents(target);
+        if (removeDragEvents)
+        {
+          if (this.__sourceEventTypes[type]) {
+            this.__disableDragEvents(target);
+          } else {
+            delete this.__droppableElements[elementKey]
+          }
+
         }
       }
     },
@@ -195,10 +235,81 @@ qx.Class.define("qx.event.handler.DragDrop",
       var dragEvent = qx.event.Pool.getInstance().getObject(qx.event.type.Drag);
       mouseEvent.clone(dragEvent);
       dragEvent.setType(type);
-      dragEvent.setBubbles(false);
+      dragEvent.setBubbles(true);
       dragEvent.setDragOffsetLeft(dragOffsetLeft);
       dragEvent.setDragOffsetTop(dragOffsetTop);
       return dragEvent;
+    },
+
+
+    __getDroppableFromPoint : function(dropLocations, x, y)
+    {
+      for (var i=0; i<dropLocations.length; i++)
+      {
+        var location = dropLocations[i].location;
+        if (location.left <= x && location.right >= x && location.top <= y && location.bottom >= y) {
+          return dropLocations[i].element;
+        }
+      }
+      return null;
+    },
+
+
+    __getDropLocations : function()
+    {
+      var locations = [];
+      for (var key in this.__droppableElements)
+      {
+        var el = this.__droppableElements[key];
+        var location = qx.bom.element.Location.get(el);
+
+        insertIndex = locations.length;
+        for (var i=0; i<locations.length; i++)
+        {
+          var other = locations[i];
+          var otherLocation = other.location;
+
+          if (qx.dom.Hierarchy.contains(other.element, el))
+          {
+            insertIndex = i;
+
+            if (otherLocation.top > location.top) {
+              location.top = otherLocation.top;
+            }
+
+            if (otherLocation.right < location.right) {
+              location.right = otherLocation.right;
+            }
+
+            if (otherLocation.bottom < location.bottom) {
+              location.bottom = otherLocation.bottom;
+            }
+
+            if (otherLocation.left > location.left) {
+              location.left = otherLocation.left;
+            }
+
+            if (location.left >= location.right || location.top >= location.bottom)
+            {
+              insertIndex = -1;
+              break;
+            }
+          }
+        }
+
+        if (insertIndex >= 0) {
+          qx.lang.Array.insertAt(locations, {
+            location: location,
+            element: el
+          }, insertIndex);
+        }
+
+      }
+
+
+
+
+      return locations;
     },
 
 
@@ -217,6 +328,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       dragData.dragStartTop = e.getDocumentTop();
       dragData.dragStartEvent = this.__createDragEvent("dragstart", e, 0, 0);
       dragData.dragStarted = false;
+      dragData.dropLocations = this.__getDropLocations();
     },
 
 
@@ -237,7 +349,16 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dragData.lastMoveEvent)
       {
-        dragData.lastMoveEvent.setType("dragstop");
+        if (dragData.target)
+        {
+          var dragOffsetLeft = dragData.lastMoveEvent.getDocumentLeft() - dragData.dragStartLeft;
+          var dragOffsetTop = dragData.lastMoveEvent.getDocumentTop() - dragData.dragStartTop;
+
+          var dropEvent = this.__createDragEvent("drop", dragData.lastMoveEvent, dragOffsetLeft, dragOffsetTop);
+          this._manager.dispatchEvent(dragData.target, dropEvent);
+        }
+
+        dragData.lastMoveEvent.setType("dragend");
         this._manager.dispatchEvent(dragData.element, dragData.lastMoveEvent);
         dragData.lastMoveEvent = null;
       }
@@ -263,7 +384,10 @@ qx.Class.define("qx.event.handler.DragDrop",
       var dragOffsetLeft = e.getDocumentLeft() - dragData.dragStartLeft;
       var dragOffsetTop = e.getDocumentTop() - dragData.dragStartTop;
 
-      var stopEvent = this.__createDragEvent("dragstop", e, dragOffsetLeft, dragOffsetTop);
+      var dropEvent = this.__createDragEvent("drop", e, dragOffsetLeft, dragOffsetTop);
+      this._manager.dispatchEvent(e.getTarget(), dropEvent);
+
+      var stopEvent = this.__createDragEvent("dragend", e, dragOffsetLeft, dragOffsetTop);
       this._manager.dispatchEvent(dragData.element, stopEvent);
     },
 
@@ -297,13 +421,34 @@ qx.Class.define("qx.event.handler.DragDrop",
         return;
       }
 
-      var moveEvent = this.__createDragEvent("dragmove", e, dragOffsetLeft, dragOffsetTop);
+      var moveEvent = this.__createDragEvent("drag", e, dragOffsetLeft, dragOffsetTop);
       this._manager.dispatchEvent(dragData.element, moveEvent);
 
       if (dragData.lastMoveEvent) {
         qx.event.Pool.getInstance().poolObject(dragData.lastMoveEvent);
       }
       dragData.lastMoveEvent = moveEvent.clone();
+
+
+      var target = this.__getDroppableFromPoint(dragData.dropLocations, e.getDocumentLeft(), e.getDocumentTop());
+
+      // dispatch drag leave and drag enter events
+      if (dragData.target !== target)
+      {
+        if (dragData.target)
+        {
+          var leaveEvent = this.__createDragEvent("dragleave", e, dragOffsetLeft, dragOffsetTop);
+          this._manager.dispatchEvent(dragData.target, leaveEvent);
+        }
+
+        if (target)
+        {
+          var enterEvent = this.__createDragEvent("dragenter", e, dragOffsetLeft, dragOffsetTop);
+          this._manager.dispatchEvent(target, enterEvent);
+        }
+
+        dragData.target = target;
+      }
     }
 
   },
