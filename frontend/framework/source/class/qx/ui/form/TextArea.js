@@ -65,6 +65,20 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       refine : true,
       init : "text-area"
+    },
+
+    // overridden
+    allowGrowX :
+    {
+      refine : true,
+      init : true
+    },
+
+    // overridden
+    allowGrowY :
+    {
+      refine : true,
+      init : true
     }
   },
 
