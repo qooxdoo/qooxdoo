@@ -118,10 +118,10 @@ qx.Class.define("qx.ui.view.HSlideBar",
 
       // Compute the rendered inner width of this widget.
       var areaInsets = this.getInsets();
-      var areaSize = this.getComputedLayout().width - areaInsets.left - areaInsets.right;
+      var areaSize = this.getBounds().width - areaInsets.left - areaInsets.right;
 
       // The final rendered width of the content
-      var contentSize = content.getComputedLayout().width;
+      var contentSize = content.getBounds().width;
 
       if (contentSize > areaSize) {
         this._showArrows();

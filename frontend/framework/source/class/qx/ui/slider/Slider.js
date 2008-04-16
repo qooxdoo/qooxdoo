@@ -49,8 +49,8 @@ qx.Class.define("qx.ui.slider.Slider",
     this.getLayout().add(this._slider);
 
     this._slider.getContainerElement().addListener("dragstart", this._onDragstartSlider, this);
-    this._slider.getContainerElement().addListener("dragmove", this._onDragmoveSlider, this);
-    this._slider.getContainerElement().addListener("dragstop", this._onDragstopSlider, this);
+    this._slider.getContainerElement().addListener("drag", this._onDragmoveSlider, this);
+    this._slider.getContainerElement().addListener("dragend", this._onDragstopSlider, this);
     this._slider.addListener("keypress", this._onKeypressSlider, this);
     this._slider.addListener("resize", this._onResize, this);
 
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.slider.Slider",
       var size = this.getComputedInnerSize();
       this._scrollSize = isHorizontal ? size.width : size.height;
 
-      var sliderSize = this._slider.getComputedLayout();
+      var sliderSize = this._slider.getBounds();
       this._sliderSize = isHorizontal ? sliderSize.width : sliderSize.height;
 
       this._updateSliderPosition();

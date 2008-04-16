@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       if (content)
       {
-        var layout = content.getComputedLayout();
+        var layout = content.getBounds();
         if (layout)
         {
           return {
@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       // This method can only work after the item has been rendered
       // If this is not the case wiat for the item's resize event and
       // try again.
-      if (!item.getComputedLayout()) {
+      if (!item.getBounds()) {
         item.addListener("resize", function(e)
         {
           item.removeListener("resize", arguments.callee, this);
@@ -330,19 +330,19 @@ qx.Class.define("qx.ui.core.ScrollArea",
         return;
       }
 
-      var itemSize = item.getComputedLayout();
+      var itemSize = item.getBounds();
       var content = this.getContent();
       var left = 0;
       var top = 0;
       do {
-        var pos = item.getComputedLayout();
+        var pos = item.getBounds();
         left += pos.left;
         top += pos.top;
         item = item.getLayoutParent();
       } while (item && item !== content);
 
       var scrollTop = this.getScrollTop();
-      var containerSize = this._scrollPane.getComputedLayout();
+      var containerSize = this._scrollPane.getBounds();
 
       if (scrollTop + containerSize.height < top + itemSize.height) {
         this.setScrollTop(top + itemSize.height - containerSize.height);
@@ -481,8 +481,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
         return;
       }
 
-      var paneSize = this._scrollPane.getComputedLayout();
-      var contentSize = content.getComputedLayout();
+      var paneSize = this._scrollPane.getBounds();
+      var contentSize = content.getBounds();
 
       if (this._hScrollBar.isVisible()) {
         this._hScrollBar.setContentSize(contentSize.width);
@@ -517,7 +517,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       // Read dimension data
       var innerSize = this.getComputedInnerSize();
-      var contentSize = content.getComputedLayout();
+      var contentSize = content.getBounds();
 
       // Read auto values
       var autoX = this.getOverflowX() === "auto";

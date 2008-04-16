@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * {@link _repositionFrame} method.
      */
     _applyLegendPosition: function(e) {
-      if (this._legendObject.getComputedLayout()) {
+      if (this._legendObject.getBounds()) {
         this._repositionFrame();
       }
     },
@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _repositionFrame: function() {
       // get the current height of the legend
-      var height = this._legendObject.getComputedLayout().height;
+      var height = this._legendObject.getBounds().height;
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
         this._canvasLayout.addLayoutProperty(this._frameObject, "top", Math.round(height / 2));

@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.layout.Abstract",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        if (child.getVisibility() !== "excluded") {
+        if (child.getVisibility() !== "excluded" && !child.hasUserBounds()) {
           layoutChildren.push(child);
         }
       }

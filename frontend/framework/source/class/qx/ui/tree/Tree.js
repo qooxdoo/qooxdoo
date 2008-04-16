@@ -445,7 +445,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // interface implementation
     getItemOffset : function(item)
     {
-      var pos = item.getComputedLayout();
+      var pos = item.getBounds();
       if (!pos) {
         return 0;
       }
@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.tree.Tree",
       var top = 0;
       while (item)
       {
-        top += item.getComputedLayout().top;
+        top += item.getBounds().top;
         var item = item.getLayoutParent();
         if (item == this.getContent()) {
           return top;
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // interface implementation
     getItemHeight : function(item)
     {
-      var computed = item.getComputedLayout();
+      var computed = item.getBounds();
       if (computed) {
         return computed.height;
       }
