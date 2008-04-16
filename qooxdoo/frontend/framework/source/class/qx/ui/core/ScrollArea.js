@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       refine : true,
       init : true
-    },
+    }
   },
 
 
