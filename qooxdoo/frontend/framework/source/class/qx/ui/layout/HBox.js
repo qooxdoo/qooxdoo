@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.layout.HBox",
     renderLayout : function(availWidth, availHeight)
     {
       // Cache children
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       var length = children.length;
       var util = qx.ui.layout.Util;
 
@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var util = qx.ui.layout.Util;
 
       // Read children
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       var length = children.length;
 
       if (this.getReversed())
@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var util = qx.ui.layout.Util;
 
       // Cache children data
-      var children = this.getLayoutChildren();
+      var children = this._getLayoutChildren();
       var child;
       var length = children.length;
 
