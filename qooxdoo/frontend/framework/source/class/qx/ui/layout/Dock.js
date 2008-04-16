@@ -84,36 +84,6 @@ qx.Class.define("qx.ui.layout.Dock",
   {
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Adds a new widget to this layout.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} Widget to add
-     * @param edge {String} Edge to attach. Could be anyone of
-     *   <code>north</code>, <code>west</code>, <code>south</code>,
-     *   <code>east</code> or <code>center</code>.
-     * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui.layout.HBox} This object (for chaining support)
-     */
-    add : function(child, edge, options)
-    {
-      this.base(arguments, child, options);
-      this.addLayoutProperty(child, "edge", edge);
-
-      // Chaining support
-      return this;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
@@ -142,7 +112,7 @@ qx.Class.define("qx.ui.layout.Dock",
       for (var i=0; i<length; i++)
       {
         child = children[i];
-        props = this.getLayoutProperties(child);
+        props = child.getLayoutProperties();
         hint = child.getSizeHint();
 
         width = props.width ? Math.floor(availWidth * parseFloat(props.width) / 100) : hint.width;
@@ -187,7 +157,7 @@ qx.Class.define("qx.ui.layout.Dock",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          props = this.getLayoutProperties(child);
+          props = child.getLayoutProperties();
 
           if (props.edge === "west" || props.edge === "east" || props.edge === "center")
           {
@@ -243,7 +213,7 @@ qx.Class.define("qx.ui.layout.Dock",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          props = this.getLayoutProperties(child);
+          props = child.getLayoutProperties();
 
           if (props.edge === "north" || props.edge === "south" || props.edge === "center")
           {
@@ -299,7 +269,7 @@ qx.Class.define("qx.ui.layout.Dock",
       for (var i=0; i<length; i++)
       {
         // Calculate child layout
-        switch(this.getLayoutProperty(children[i], "edge"))
+        switch(children[i].getLayoutProperties().edge)
         {
           case "west":
             // Simple top/left coordinates
@@ -400,7 +370,7 @@ qx.Class.define("qx.ui.layout.Dock",
         hint = child.getSizeHint();
 
         // Ok, this part is a bit complicated :)
-        switch(this.getLayoutProperty(child, "edge"))
+        switch(child.getLayoutProperties().edge)
         {
           case "north":
           case "south":
@@ -483,7 +453,7 @@ qx.Class.define("qx.ui.layout.Dock",
       for (var i=0; i<length; i++)
       {
         child = children[i];
-        edge = this.getLayoutProperty(child, "edge");
+        edge = child.getLayoutProperties().edge;
 
         if (edge === "center")
         {

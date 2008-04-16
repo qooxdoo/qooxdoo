@@ -56,26 +56,6 @@ qx.Class.define("qx.ui.layout.Basic",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Adds a new widget to this layout.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to add.
-     * @param left {Integer} Left position of the child.
-     * @param top {Integer} Top position of the child.
-     * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui.layout.Abstract} This object (for chaining support)
-     */
-    add : function(child, left, top, options)
-    {
-      this.base(arguments, child, options);
-      this.addLayoutProperty(child, "left", left);
-      this.addLayoutProperty(child, "top", top);
-
-      // Chaining support
-      return this;
-    },
-
 
     // overridden
     renderLayout : function(availWidth, availHeight)
@@ -87,7 +67,7 @@ qx.Class.define("qx.ui.layout.Basic",
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = this.getLayoutProperties(child);
+        layout = child.getLayoutProperties();
 
         child.renderLayout(layout.left || 0, layout.top || 0, size.width, size.height);
       }
@@ -107,7 +87,7 @@ qx.Class.define("qx.ui.layout.Basic",
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = this.getLayoutProperties(child);
+        layout = child.getLayoutProperties();
 
         neededWidth = Math.max(neededWidth, (layout.left || 0) + size.width);
         neededHeight = Math.max(neededHeight, (layout.top || 0) + size.height);

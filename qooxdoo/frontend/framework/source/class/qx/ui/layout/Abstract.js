@@ -116,6 +116,10 @@ qx.Class.define("qx.ui.layout.Abstract",
     },
 
 
+    verifyLayoutProperty : function(widget, name, value) {
+      // empty implementation
+    },
+
 
     /*
     ---------------------------------------------------------------------------

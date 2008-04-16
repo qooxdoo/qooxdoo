@@ -74,6 +74,9 @@ qx.Class.define("qx.ui.core.Widget",
     // store "weak" reference to the widget in the DOM element.
     this._containerElement.setAttribute("$$widget", this.toHashCode());
 
+    // children array
+    this._children = [];
+
     // Initialize states map
     this.__states = {};
 
@@ -84,9 +87,6 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initCursor();
-
-    // children array
-    this._children = [];
   },
 
 
@@ -249,25 +249,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT
-    ---------------------------------------------------------------------------
-    */
-
-    /** Selected layout of instance {@link qx.ui.layout.Abstract} */
-    layout :
-    {
-      check : "qx.ui.layout.Abstract",
-      nullable : true,
-      event : "changeLayout",
-      apply : "_applyLayout"
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       DIMENSION
@@ -876,6 +857,45 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Get the widget's layout manager.
+     *
+     * @return {qx.ui.layout.Abstract|null} The widget's layout manager
+     */
+    getLayout : function() {
+      return this.__layout;
+    },
+
+
+    /**
+     * Set a layout manager for the widget. A a layout manager can only be added
+     * to one widget at a time.
+     *
+     *  @param layout {qx.ui.layout.Abstract|null} The new layout or
+     *      <code>null</code> to reset the layout.
+     */
+    _setLayout : function(layout)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if (layout) {
+          this.assertInstance(layout, qx.ui.layout.Abstract);
+        }
+      }
+
+      if (this.__layout) {
+        this.__layout.connectToWidget(null);
+      }
+
+      if (layout) {
+        layout.connectToWidget(this);
+      }
+
+      this.__layout = layout;
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+
     // overridden
     setLayoutParent : function(parent)
     {
@@ -896,22 +916,6 @@ qx.Class.define("qx.ui.core.Widget",
       this._toggleDisplay();
 
       qx.core.Property.refresh(this);
-    },
-
-
-    /**
-     * Returns all child widgets of the widget's layout.
-     *
-     * @return {Widget[]} The child widgets of the widget's layout.
-     */
-    getLayoutChildren : function()
-    {
-      var layout = this.getLayout();
-      if (layout) {
-        return layout.getChildren();
-      } else {
-        return [];
-      }
     },
 
 
@@ -1022,9 +1026,8 @@ qx.Class.define("qx.ui.core.Widget",
         content.setStyle("top", insets.top + pixel);
         this.updateDecoration(width, height, sizeChange);
 
-        var layout = this.getLayout();
-        if (layout && this.hasLayoutChildren()) {
-          layout.renderLayout(innerWidth, innerHeight);
+        if (this.__layout && this.hasLayoutChildren()) {
+          this.__layout.renderLayout(innerWidth, innerHeight);
         }
 
         this._hasValidLayout = true;
@@ -1057,9 +1060,8 @@ qx.Class.define("qx.ui.core.Widget",
       this._sizeHint = null;
 
       // invalidateLayoutCache layout manager
-      var layout = this.getLayout();
-      if (layout) {
-        layout.invalidateLayoutCache();
+      if (this.__layout) {
+        this.__layout.invalidateLayoutCache();
       }
     },
 
@@ -1310,7 +1312,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _getContentHint : function()
     {
-      var layout = this.getLayout();
+      var layout = this.__layout;
       if (layout)
       {
         if (this.hasLayoutChildren())
@@ -1570,7 +1572,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (layout)
       {
         // Verify values through underlying layout
-        if (qx.core.Variant.isSet("qx.debug"))
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           for (var key in props) {
             layout.verifyLayoutProperty(this, key, props[key]);
@@ -1910,7 +1912,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {LayoutItem[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
-    getChildren : function() {
+    _getChildren : function() {
       return this._children;
     },
 
@@ -2326,21 +2328,6 @@ qx.Class.define("qx.ui.core.Widget",
      * generic property apply method for layout relevant properties
      */
     _applyLayoutChange : function() {
-      qx.ui.core.queue.Layout.add(this);
-    },
-
-
-    // property apply
-    _applyLayout : function(value, old)
-    {
-      if (old) {
-        old.connectToWidget(null);
-      }
-
-      if (value) {
-        value.connectToWidget(this);
-      }
-
       qx.ui.core.queue.Layout.add(this);
     },
 
