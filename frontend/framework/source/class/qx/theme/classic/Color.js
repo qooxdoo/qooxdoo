@@ -43,6 +43,14 @@ qx.Theme.define("qx.theme.classic.Color",
 
     "button" : [ 235, 233, 237 ],
     "button-hovered" : [ 246, 245, 247 ],
-    "button-abandoned" : [ 249, 248, 233 ]
+    "button-abandoned" : [ 249, 248, 233 ],
+    
+    "effect" : [ 128, 128, 128 ],
+    
+    "tab-view-pane" : [ 250, 249, 248 ],
+    "tab-view-border" : [ 128, 128, 128 ],
+    "tab-view-button" : [ 224, 221, 216 ],
+    "tab-view-button-hover" : [ 250, 249, 248 ],
+    "tab-view-button-checked" : [ 250, 249, 248 ]    
   }
 });
