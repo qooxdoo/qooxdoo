@@ -71,26 +71,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
   {
     /*
     ---------------------------------------------------------------------------
-      LAYOUT INTERFACE
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    _applyLayout : function(value, old)
-    {
-      if (old) {
-        throw new Error("You cannot change the layout of qx.ui.core.ScrollPane!");
-      }
-
-      this.base(arguments, value, old);
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       CONTENT MANAGMENT
     ---------------------------------------------------------------------------
     */

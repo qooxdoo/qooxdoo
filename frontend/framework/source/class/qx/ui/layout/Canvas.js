@@ -67,48 +67,6 @@ qx.Class.define("qx.ui.layout.Canvas",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Adds a new widget to this layout. This layout supports both, stretching
-     * between <code>left</code> and <code>right</code> as well as streching between
-     * <code>top</code> and <code>bottom</code>.
-     *
-     * Please note: <code>left</code> is optional when <code>right</code> is given.
-     * <code>top</code> is optional when <code>bottom</code> is given. This is also
-     * true for the opposite cases.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to add.
-     * @param left {Integer?null} Left position of the child.
-     * @param top {Integer?null} Top position of the child.
-     * @param right {Integer?null} Right position of the child.
-     * @param bottom {Integer?null} Bottom position of the child.
-     * @param options {Map?null} Optional layout data for widget.
-     * @return {qx.ui.layout.Abstract} This object (for chaining support)
-     */
-    add : function(child, left, top, right, bottom, options)
-    {
-      this.base(arguments, child, options);
-
-      if (left != null) {
-        this.addLayoutProperty(child, "left", left);
-      }
-
-      if (top != null) {
-        this.addLayoutProperty(child, "top", top);
-      }
-
-      if (right != null) {
-        this.addLayoutProperty(child, "right", right);
-      }
-
-      if (bottom != null) {
-        this.addLayoutProperty(child, "bottom", bottom);
-      }
-
-      // Chaining support
-      return this;
-    },
-
 
     // overridden
     renderLayout : function(availWidth, availHeight)
@@ -123,7 +81,7 @@ qx.Class.define("qx.ui.layout.Canvas",
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = this.getLayoutProperties(child);
+        layout = child.getLayoutProperties();
 
 
 
@@ -281,7 +239,7 @@ qx.Class.define("qx.ui.layout.Canvas",
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
-        var layout = this.getLayoutProperties(child);
+        var layout = child.getLayoutProperties();
         var childHint = child.getSizeHint();
 
 

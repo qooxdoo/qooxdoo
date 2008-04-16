@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       var docLayout = new qx.ui.layout.HBox();
       docLayout.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite();
       container.setPadding(20);
       container.setLayout(docLayout);
 
@@ -54,14 +54,14 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
       var border = new qx.ui.decoration.Single(1, "solid", "black");
       var atom1, atom2;
 
-      docLayout.add(atom1=new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
+      container.add(atom1=new qx.ui.basic.Atom("Juhu", img1).set({
         backgroundColor : "#dedede",
         decorator : border,
         padding : 5,
         allowGrowY: false
       }));
 
-      docLayout.add(atom2=new qx.ui.basic.Atom("Juhu", img2, 48, 48).set({
+      container.add(atom2=new qx.ui.basic.Atom("Juhu", img2).set({
         backgroundColor : "#dedede",
         decorator : border,
         align : "top",
@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
         enabled : false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img3, 48, 48).set({
+      container.add(new qx.ui.basic.Atom("Juhu", img3).set({
         backgroundColor : "#dedede",
         decorator : border,
         align : "right",
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
         allowGrowY: false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img4, 48, 48).set({
+      container.add(new qx.ui.basic.Atom("Juhu", img4, 48, 48).set({
         backgroundColor : "#dedede",
         decorator : border,
         align : "bottom",
@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
         allowGrowY: false
       }));
 
-      docLayout.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
+      container.add(new qx.ui.basic.Atom("Juhu", img1, 48, 48).set({
         backgroundColor : "#dedede",
         decorator : border,
         show : "icon",

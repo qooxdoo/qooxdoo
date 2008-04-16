@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.root.Inline",
     this.base(arguments);
 
     // Use static layout
-    this.setLayout(new qx.ui.layout.Basic());
+    this._setLayout(new qx.ui.layout.Basic());
 
     // Directly schedule layout for root element
     qx.ui.core.queue.Layout.add(this);
@@ -82,12 +82,14 @@ qx.Class.define("qx.ui.root.Inline",
      * @param widget {qx.ui.core.Widget} the widget to add
      * @param left {Integer} left position on the page
      * @param top {Integer} top position on the page
-     * @param options {Map?null} Optional layout data for widget.
      * @return {qx.ui.root.Inline} This object (for chaining support)
      */
-    add : function(widget, left, top, options)
+    add : function(widget, left, top)
     {
-      this.getLayout().add(widget, left, top, options);
+      this._add(widget, {
+        left: left,
+        top: top
+      });
 
       // Chaining support
       return this;

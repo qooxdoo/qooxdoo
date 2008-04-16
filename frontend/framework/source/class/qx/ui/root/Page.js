@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.root.Page",
 
     this.base(arguments);
 
-    this.setLayout(new qx.ui.layout.Basic());
+    this._setLayout(new qx.ui.layout.Basic());
     qx.ui.core.queue.Layout.add(this);
   },
 
@@ -81,12 +81,14 @@ qx.Class.define("qx.ui.root.Page",
      * @param widget {qx.ui.core.Widget} the widget to add
      * @param left {Integer} left position on the page
      * @param top {Integer} top position on the page
-     * @param options {Map?null} Optional layout data for widget.
      * @return {qx.ui.root.Page} This object (for chaining support)
      */
-    add : function(widget, left, top, options)
+    add : function(widget, left, top)
     {
-      this.getLayout().add(widget, left, top, options);
+      this._add(widget, {
+        left: left,
+        top: top
+      });
 
       // Chaining support
       return this;

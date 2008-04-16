@@ -111,17 +111,6 @@ qx.Class.define("qx.ui.root.Abstract",
     // overridden
     isFocusRoot : function() {
       return true;
-    },
-
-
-    // overridden
-    _applyLayout : function(value, old)
-    {
-      if (old) {
-        throw new Error("You cannot change the layout of qx.ui.root.Page!");
-      }
-
-      this.base(arguments, value, old);
     }
   },
 

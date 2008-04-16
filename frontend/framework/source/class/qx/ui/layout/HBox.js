@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.layout.HBox",
       {
         child = children[i];
 
-        layoutWidth = this.getLayoutProperty(child, "width");
+        layoutWidth = child.getLayoutProperties().width;
         if (layoutWidth)
         {
           if (util.PERCENT_VALUE.test(layoutWidth))
@@ -164,11 +164,11 @@ qx.Class.define("qx.ui.layout.HBox",
         {
           child = children[i];
 
-          layoutWidth = this.getLayoutProperty(child, "width");
+          layoutWidth = child.getLayoutProperties().width;
           if (layoutWidth && util.FLEX_VALUE.test(layoutWidth)) {
             flex = parseInt(layoutWidth, 10);
           } else {
-            flex = this.getLayoutProperty(child, "flex", 0);
+            flex = child.getLayoutProperties().flex || 0;
           }
 
           if (flex > 0)
@@ -232,19 +232,20 @@ qx.Class.define("qx.ui.layout.HBox",
       for (var i=start; i!=end; i+=increment)
       {
         child = children[i];
+        var props = child.getLayoutProperties()
 
         // Compute left position of this child
         if (left < availWidth)
         {
           if (i === start)
           {
-            left += this.getLayoutProperty(child, "marginLeft", 0);
+            left += props.marginLeft || 0;
           }
           else
           {
             // "prev" is the previous child from the previous interation
-            marginEnd = this.getLayoutProperty(prev, "marginRight", 0);
-            marginStart = this.getLayoutProperty(child, "marginLeft", 0);
+            marginEnd = props.marginRight ||  0;
+            marginStart = props.marginLeft || 0;
 
             // "width" is still the width of the previous child
             left += width + spacing + util.collapseMargins(marginEnd, marginStart);
@@ -258,7 +259,7 @@ qx.Class.define("qx.ui.layout.HBox",
           height = Math.max(hint.minHeight, Math.min(availHeight, hint.maxHeight));
 
           // Respect vertical alignment
-          top = util.computeVerticalAlignOffset(this.getLayoutProperty(child, "align", "top"), height, availHeight);
+          top = util.computeVerticalAlignOffset(props.align || "top", height, availHeight);
 
           // Load width
           width = widths[i];
@@ -318,11 +319,11 @@ qx.Class.define("qx.ui.layout.HBox",
         width += hint.width;
 
         // Detect if child is shrinkable and update minWidth
-        layoutWidth = this.getLayoutProperty(child, "width");
+        layoutWidth = child.getLayoutProperties().width;
         if (layoutWidth && util.FLEX_VALUE.test(layoutWidth)) {
           flex = parseInt(layoutWidth, 10);
         } else {
-          flex = this.getLayoutProperty(child, "flex", 0);
+          flex = child.getLayoutProperties().flex || 0;
         }
 
         minWidth += flex > 0 ? hint.minWidth : hint.width;
@@ -397,22 +398,24 @@ qx.Class.define("qx.ui.layout.HBox",
 
       // Add margin left of first child (no collapsing here)
       child = children[start];
-      gaps += this.getLayoutProperty(child, "marginLeft", 0);
+      var props = child.getLayoutProperties();
+
+      gaps += props.marginLeft || 0;
 
       // Ignore last child here (will be added later)
       for (var i=start+increment; i!=end; i+=increment)
       {
-        marginEnd = this.getLayoutProperty(child, "marginRight", 0);
+        marginEnd = props.marginRight || 0;
 
         child = children[i];
 
-        marginStart = this.getLayoutProperty(child, "marginLeft", 0);
+        marginStart = props.marginLeft || 0;
 
         gaps += util.collapseMargins(marginEnd, marginStart);
       }
 
       // Add margin right of last child (no collapsing here)
-      gaps += this.getLayoutProperty(child, "marginRight", 0);
+      gaps += props.marginRight || 0;
 
       return gaps;
     }
