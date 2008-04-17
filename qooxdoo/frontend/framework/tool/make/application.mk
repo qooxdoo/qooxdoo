@@ -639,7 +639,7 @@ endif
 # e.g. "--sort-by-file" or "--no-location --sort-output"
 #
 ifndef APPLICATION_ADDITIONAL_XGETTEXT_PARAMS
-  APPLICATION_ADDITIONAL_XGETTEXT_PARAMS = --sort-by-file
+  APPLICATION_ADDITIONAL_XGETTEXT_PARAMS = --sort-by-file --add-comments=TRANSLATION
 endif
 
 
