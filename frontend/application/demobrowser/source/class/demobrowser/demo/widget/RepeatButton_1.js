@@ -35,16 +35,16 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container, false);
 
-      // ----- RepeatButton 1 -----
+
+
       var img1 = "icon/48/actions/list-add.png";
       var btn1 = new qx.ui.form.RepeatButton(null, img1, 48, 48);
       docLayout.add(btn1);
@@ -63,7 +63,6 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       btn1.addListener("release", function() {
         l1.setBackgroundColor("#FFFFFF");
       }, this);
-      // --------------------------
     }
   }
 });

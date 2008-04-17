@@ -59,12 +59,14 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_4",
         decorator: border
       });
 
+      this.getRoot().setPadding(20);
+
       container.add(w1, {left:10, top:10});
       container.add(w2, {left:10, top:80});
       container.add(w3, {top:150, right:10});
       container.add(w4, {top:220, right:10});
 
-      this.getRoot().add(container, {left:20, top:20});
+      this.getRoot().add(container, false);
     }
   }
 });

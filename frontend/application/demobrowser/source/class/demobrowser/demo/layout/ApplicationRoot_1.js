@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
     {
       this.base(arguments);
 
-      this.getRoot().setDecorator("black");
-
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
         decorator: "black",
@@ -51,15 +49,15 @@ qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
         decorator: "black"
       });
 
-      var container = new qx.ui.core.Composite();
-      container.setLayout(new qx.ui.layout.HBox());
+      var container = new qx.ui.core.Composite(new qx.ui.layout.HBox());
+      container.setDecorator("black");
 
       container.add(w1);
       container.add(w2);
       container.add(w3);
       container.add(w4);
 
-      this.getRoot().add(container, 0, 0, 0, 0);
+      this.getRoot().addMain(container, true);
     }
   }
 });
