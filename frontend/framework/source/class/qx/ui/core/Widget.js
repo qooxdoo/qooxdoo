@@ -1826,7 +1826,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _add : function(child, options)
     {
-      this._addHelper(child, options);
+      this.__addHelper(child, options);
       this._children.push(child);
     },
 
@@ -1846,7 +1846,7 @@ qx.Class.define("qx.ui.core.Widget",
         return child.setLayoutProperties(options);
       }
 
-      this._addHelper(child, options);
+      this.__addHelper(child, options);
 
       if (ref) {
         qx.lang.Array.insertBefore(this._children, child, ref);
@@ -1870,7 +1870,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
       }
 
-      this._addHelper(child, options);
+      this.__addHelper(child, options);
       qx.lang.Array.insertBefore(this._children, child, before);
     },
 
@@ -1889,7 +1889,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
       }
 
-      this._addHelper(child, options);
+      this.__addHelper(child, options);
       qx.lang.Array.insertAfter(this._children, child, after);
     },
 
@@ -1903,7 +1903,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _remove : function(child)
     {
-      this._removeHelper(child);
+      this.__removeHelper(child);
       qx.lang.Array.remove(this._children, child);
     },
 
@@ -1918,7 +1918,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var child = this._children[index];
 
-      this._removeHelper(child);
+      this.__removeHelper(child);
       qx.lang.Array.removeAt(this._children, index);
     },
 
@@ -1956,14 +1956,14 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {LayoutItem} The child to add.
      * @param options {Map|null} Optional layout data for the widget.
      */
-    _addHelper : function(child, options)
+    __addHelper : function(child, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
         this.assertNotIdentical(child, this, "Could not add widget to itself: " + child);
 
-        if (options) {
+        if (options != null) {
           this.assertType(options, "object", "Invalid layout data: " + options);
         }
       }
@@ -1991,7 +1991,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param child {LayoutItem} The child to remove.
      */
-    _removeHelper : function(child)
+    __removeHelper : function(child)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
