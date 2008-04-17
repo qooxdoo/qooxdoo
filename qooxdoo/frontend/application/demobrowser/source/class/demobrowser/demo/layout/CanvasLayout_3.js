@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_3",
       container.add(w5, {top:"9%", right:"9%", width:"20%", height:"20%" });
       container.add(w6, {right:"9%", bottom:"9%", width:"20%", height:"20%" });
 
-      this.getRoot().addMain(container);
+      this.getRoot().addMain(container, true);
     }
   }
 });

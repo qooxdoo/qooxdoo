@@ -67,7 +67,6 @@ qx.Class.define("qx.ui.layout.Canvas",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
@@ -232,78 +231,71 @@ qx.Class.define("qx.ui.layout.Canvas",
       var neededWidth=0, neededMinWidth=0;
       var neededHeight=0, neededMinHeight=0;
 
-      var childWidth, childMinWidth;
-      var childHeight, childMinHeight;
+      var width, minWidth;
+      var height, minHeight;
 
       var children = this._getLayoutChildren();
+      var child, props, hint;
+
       for (var i=0,l=children.length; i<l; i++)
       {
-        var child = children[i];
-        var layout = child.getLayoutProperties();
-        var childHint = child.getSizeHint();
+        child = children[i];
+        props = child.getLayoutProperties();
+        hint = child.getSizeHint();
 
 
         // **************************************
         //   compute width
         // **************************************
 
-        childWidth = 0;
-        childMinWidth = 0;
+        width = hint.width;
+        minWidth = hint.minWidth;
 
-        if (typeof layout.left == "number")
+        if (props.left && typeof props.left === "number")
         {
-          childWidth += layout.left;
-          childMinWidth += layout.left;
+          width += props.left;
+          minWidth += props.left;
         }
 
-        if (typeof layout.right == "number")
+        if (props.right && typeof props.right === "number")
         {
-          childWidth += layout.right;
-          childMinWidth += layout.right;
+          width += props.right;
+          minWidth += props.right;
         }
 
-        childWidth += childHint.width;
-        childMinWidth += childHint.minWidth;
-
-        neededWidth = Math.max(neededWidth, childWidth);
-        neededMinWidth = Math.max(neededMinWidth, childMinWidth);
+        neededWidth = Math.max(neededWidth, width);
+        neededMinWidth = Math.max(neededMinWidth, minWidth);
 
 
         // **************************************
         //   compute height
         // **************************************
 
-        childHeight = 0;
-        childMinHeight = 0;
+        height = hint.height;
+        minHeight = hint.minHeight;
 
-        if (typeof layout.top == "number")
+        if (props.top && typeof props.top === "number")
         {
-          childHeight += layout.top;
-          childMinHeight += layout.top;
+          height += props.top;
+          minHeight += props.top;
         }
 
-        if (typeof layout.bottom == "number")
+        if (props.bottom && typeof props.bottom === "number")
         {
-          childHeight += layout.bottom;
-          childMinHeight += layout.bottom;
+          height += props.bottom;
+          minHeight += props.bottom;
         }
 
-        childHeight += childHint.height;
-        childMinHeight += childHint.minHeight;
-
-        neededHeight = Math.max(neededHeight, childHeight);
-        neededMinHeight = Math.max(neededMinHeight, childMinHeight);
+        neededHeight = Math.max(neededHeight, height);
+        neededMinHeight = Math.max(neededMinHeight, minHeight);
       }
 
-      var hint =
-      {
+      return {
         width : neededWidth,
         minWidth : neededMinWidth,
         height : neededHeight,
         minHeight : neededMinHeight
       };
-
-      return hint;
     }
   }
 });
