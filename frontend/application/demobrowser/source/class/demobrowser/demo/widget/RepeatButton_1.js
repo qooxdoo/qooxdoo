@@ -44,18 +44,19 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       this.getRoot().addMain(container, false);
 
 
-
+      // Button
       var img1 = "icon/48/actions/list-add.png";
-      var btn1 = new qx.ui.form.RepeatButton(null, img1, 48, 48);
-      docLayout.add(btn1);
+      var btn1 = new qx.ui.form.RepeatButton(null, img1);
+      container.add(btn1);
 
-      // Label for the repeat button 1
+      // Label
       var l1 = new qx.ui.basic.Label("0");
-      this.getRoot().add(l1, 20, 80);
-      // listener for the repeatbutton 1
+      this.getRoot().add(l1, {left:20, top:80});
+
+      // Listener
       btn1.addListener("execute", function() {
-        var tempValue = parseInt(l1.getContent());
-        l1.setContent((tempValue + 1) + "");
+        var tempValue = parseInt(l1.getContent()) + 1;
+        l1.setContent(tempValue.toString());
       });
       btn1.addListener("press", function() {
         l1.setBackgroundColor("#AAAAAA");

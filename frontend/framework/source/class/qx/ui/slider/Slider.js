@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.slider.Slider",
   {
     this.base(arguments);
 
-    this.setLayout(new qx.ui.layout.Canvas());
+    this._setLayout(new qx.ui.layout.Basic());
 
     this.addListener("mousedown", this._onMousedown, this);
     this.addListener("mouseup", this._onMouseup, this);
@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.slider.Slider",
     this._slider = new qx.ui.core.Widget().set({
       appearance : "slider-knob"
     });
-    this.getLayout().add(this._slider);
+    this._add(this._slider);
 
     this._slider.getContainerElement().addListener("dragstart", this._onDragstartSlider, this);
     this._slider.getContainerElement().addListener("drag", this._onDragmoveSlider, this);
@@ -354,10 +354,12 @@ qx.Class.define("qx.ui.slider.Slider",
       var layout = this.getLayout();
 
       if (isHorizontal) {
-        layout.addLayoutProperty(this._slider, "left", this._sliderPos);
+        var props = {left:this._sliderPos};
       } else {
-        layout.addLayoutProperty(this._slider, "top", this._sliderPos);
+        var props = {top:this._sliderPos};
       }
+
+      this._slider.setLayoutProperties(props);
 
       if (updateValue) {
         this.scrollTo(this._pixelToValue(sliderPosition));
@@ -388,17 +390,11 @@ qx.Class.define("qx.ui.slider.Slider",
       var layout = this.getLayout();
       if (isHorizontal)
       {
-        layout.addLayoutProperty(slider, "top", 0);
-        layout.addLayoutProperty(slider, "bottom", 0);
-        layout.removeLayoutProperty(slider, "left");
-        layout.removeLayoutProperty(slider, "right");
+        slider.setLayoutProperties({top:0,left:null});
       }
       else
       {
-        layout.addLayoutProperty(slider, "left", 0);
-        layout.addLayoutProperty(slider, "right", 0);
-        layout.removeLayoutProperty(slider, "top");
-        layout.removeLayoutProperty(slider, "bottom");
+        slider.setLayoutProperties({left:0,top:null});
       }
     },
 
