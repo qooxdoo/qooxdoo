@@ -53,14 +53,8 @@ qx.Class.define("qx.ui.layout.Grid",
   {
     this.base(arguments);
 
-    this._grid = [];
     this._rowData = [];
     this._colData = [];
-
-    this._colSpans = [];
-    this._rowSpans = [];
-
-    this._resetMaxIndices();
   },
 
 
@@ -107,212 +101,85 @@ qx.Class.define("qx.ui.layout.Grid",
 
   members :
   {
-    /**
-     * Adds a new widget to this layout.
-     *
-     * @type member
-     * @param widget {qx.ui.core.LayoutItem} The widget or spacer to add
-     * @param row {Integer} The cell's row index
-     * @param column {Integer} The cell's column index
-     * @param options {Map?null} Optional layout data for the widget.
-     * @return {qx.ui.layout.Grid} This object (for chaining support)
-     */
-    /*
-    add : function(widget, row, column, options)
+    __buildGrid : function()
     {
-      // validate arguments
-      if (row == null || column == null) {
-        throw new Error("The arguments 'row' and 'column' must be defined!");
-      }
+      var grid = [];
+      var colSpans = [];
+      var rowSpans = [];
 
-      var cell = this.getCellWidget(row, column);
+      var maxRowIndex = 0;
+      var maxColIndex = 0;
 
-      if (cell != null) {
-        throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
-      }
+      var children = this._getLayoutChildren();
 
-      options = options || {};
-      options.row = row;
-      options.column = column;
-      options.rowSpan = options.rowSpan || 1;
-      options.colSpan = options.colSpan || 1;
-
-      for (var x=0; x<options.colSpan; x++)
+      for (var i=0,l=children.length; i<l; i++)
       {
-        for (var y=0; y<options.rowSpan; y++) {
-          this._setCellWidget(row + y, column + x, widget);
+        var child = children[i];
+        var props = child.getLayoutProperties();
+
+        var row = props.row;
+        var column = props.column;
+
+        props.colSpan = props.colSpan || 1;
+        props.rowSpan = props.rowSpan || 1;
+
+        // validate arguments
+        if (row == null || column == null) {
+          throw new Error("The layout properties 'row' and 'column' must be defined!");
+        }
+
+        if (grid[row] && grid[row][column]) {
+          throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
+        }
+
+        for (var x=column; x<column+props.colSpan; x++)
+        {
+          for (var y=row; y<row+props.rowSpan; y++)
+          {
+            if (grid[y] == undefined) {
+               grid[y] = [];
+            }
+
+            grid[y][x] = child;
+
+            maxColIndex = Math.max(maxColIndex, x);
+            maxRowIndex = Math.max(maxRowIndex, y);
+          }
+        }
+
+        // make sure all columns are defined so that acessing the grid using
+        // this._grid[column][row] will never raise an exception
+        for (var y=0; y<=maxColIndex; y++) {
+          if (grid[y] == undefined) {
+             grid[y] = [];
+          }
+        }
+
+        if (props.rowSpan > 1) {
+          rowSpans.push(child);
+        }
+
+        if (props.colSpan > 1) {
+          colSpans.push(child);
         }
       }
 
-      if (options.rowSpan > 1) {
-        this._rowSpans.push(widget);
-      }
+      this._grid = grid;
 
-      if (options.colSpan > 1) {
-        this._colSpans.push(widget);
-      }
+      this._colSpans = colSpans;
+      this._rowSpans = rowSpans;
 
-      this._resetMaxIndices();
-
-      return this.base(arguments, widget, options);
+      this._maxRowIndex = maxRowIndex;
+      this._maxColIndex = maxColIndex;
     },
 
 
     // overridden
-    remove : function(child)
+    invalidateChildrenCache : function()
     {
-      var childProps = child.getLayoutProperties();
-
-      for (var x=0; x<childProps.colSpan; x++)
-      {
-        for (var y=0; y<childProps.rowSpan; y++) {
-          this._clearCellWidget(childProps.row + y, childProps.column + x);
-        }
-      }
-
-      if (childProps.rowSpan > 1) {
-        qx.lang.Array.remove(this._rowSpans, child);
-      }
-
-      if (childProps.colSpan > 1) {
-        qx.lang.Array.remove(this._colSpans, child);
-      }
-
-      this._resetMaxIndices();
-
-      return this.base(arguments, child);
-    },
-    //*/
-
-
-    // overridden
-    invalidateChildrenCache : function() {
-      this._resetMaxIndices();
-    },
-
-
-    /**
-     * Resets the cached values for the max row and column indices used by
-     * {@link #getMaxRowIndex} and {@link getMaxColIndex}.
-     */
-    _resetMaxIndices : function()
-    {
-      this._maxRowIndex = null;
-      this._maxColIndex = null;
-    },
-
-
-    /**
-     * Computes and returns the maximum row index.
-     *
-     * @return {Integer} the maximum row index
-     */
-    getMaxRowIndex : function()
-    {
-      if (this._maxRowIndex !== null) {
-        return this._maxRowIndex;
-      }
-
-      this._maxRowIndex = 0;
-
-      var children = this._getLayoutChildren();
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        var child = children[i];
-        var childProps = child.getLayoutProperties();
-
-        this._maxRowIndex = Math.max(this._maxRowIndex, childProps.row + childProps.rowSpan - 1);
-      }
-
-      return this._maxRowIndex;
-    },
-
-
-    /**
-     * Computes and returns the maximum column index.
-     *
-     * @return {Integer} the maximum column index
-     */
-    getMaxColIndex : function()
-    {
-      if (this._maxColIndex !== null) {
-        return this._maxColIndex;
-      }
-
-      this._maxColIndex = 0;
-
-      var children = this._getLayoutChildren();
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        var child = children[i];
-        var childProps = child.getLayoutProperties();
-
-        this._maxColIndex = Math.max(this._maxColIndex, childProps.column + childProps.colSpan - 1);
-      }
-
-      return this._maxColIndex;
-    },
-
-
-    /**
-     * Checks whether a string arguments matches one of the provided strings.
-     * Throws an exception if the argument is invalid.
-     *
-     * @param arg {String} string argument to check
-     * @param validValues {String[]} Array of valid argument values
-     */
-    _validateArgument : function(arg, validValues)
-    {
-      if (validValues.indexOf(arg) == -1)
-      {
-        throw new Error(
-          "Invalid argument '" + arg +"'! Valid arguments are: '" +
-          validValues.join(", ") + "'"
-        );
-      }
-    },
-
-
-    /**
-     * Stores widget at the givencoordinate in the grid cell
-     *
-     * @param row {Integer} The cell's row index
-     * @param column {Integer} The cell's column index
-     * @param widget {qx.ui.core.LayoutItem} The widget to add.
-     */
-    _setCellWidget : function(row, column, widget)
-    {
-      var grid = this._grid;
-
-      if (grid[row] == undefined) {
-         grid[row] = [];
-      }
-
-      grid[row][column] = widget;
-    },
-
-
-    /**
-     * Clears all data stored for a grid cell
-     *
-     * @param row {Integer} The cell's row index
-     * @param column {Integer} The cell's column index
-     */
-    _clearCellWidget : function(row, column)
-    {
-      var grid = this._grid;
-
-      if (grid[row] == undefined) {
-         return;
-      }
-
-      var widget = grid[row][column];
-
-      if (!widget) {
-        return;
-      } else {
-        delete grid[row][column];
-      }
+      this._grid = null;
+      this._colSpans = null;
+      this._rowSpans = null;
     },
 
 
@@ -394,8 +261,11 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     setColumnAlign : function(column, hAlign, vAlign)
     {
-      this._validateArgument(hAlign, ["left", "center", "right"]);
-      this._validateArgument(vAlign, ["top", "middle", "bottom"]);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.assertInArray(hAlign, ["left", "center", "right"]);
+        this.assertInArray(vAlign, ["top", "middle", "bottom"]);
+      }
 
       this._setColumnData(column, "hAlign", hAlign);
       this._setColumnData(column, "vAlign", vAlign);
@@ -442,8 +312,11 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     setRowAlign : function(row, hAlign, vAlign)
     {
-      this._validateArgument(hAlign, ["left", "center", "right"]);
-      this._validateArgument(vAlign, ["top", "middle", "bottom"]);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.assertInArray(hAlign, ["left", "center", "right"]);
+        this.assertInArray(vAlign, ["top", "middle", "bottom"]);
+      }
 
       this._setRowData(row, "hAlign", hAlign);
       this._setRowData(row, "vAlign", vAlign);
@@ -481,15 +354,8 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The cell's column index
      * @return {qx.ui.core.Widget|null}The cell's widget. The value may be null.
      */
-    getCellWidget : function(row, column)
-    {
-      var widget = this._grid[row] ? this._grid[row][column]: null;
-
-      if (widget && widget.getVisibility() !== "excluded") {
-        return widget;
-      } else {
-        return null;
-      }
+    getCellWidget : function(row, column) {
+      return this._grid[row][column] ||  null;
     },
 
 
@@ -797,11 +663,6 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this._rowSpans[i];
 
-        // ignore excluded widgets
-        if (widget.getVisibility() == "excluded") {
-          continue;
-        }
-
         var hint = widget.getSizeHint();
 
         var widgetProps = widget.getLayoutProperties();
@@ -890,11 +751,6 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this._colSpans[i];
 
-        // ignore excluded widgets
-        if (widget.getVisibility() == "excluded") {
-          continue;
-        }
-
         var hint = widget.getSizeHint();
 
         var widgetProps = widget.getLayoutProperties();
@@ -977,8 +833,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var rowHeights = [];
 
-      var maxRowIndex=this.getMaxRowIndex();
-      var maxColIndex=this.getMaxColIndex();
+      var maxRowIndex = this._maxRowIndex;
+      var maxColIndex = this._maxColIndex;
 
       for (var row=0; row<=maxRowIndex; row++)
       {
@@ -1040,14 +896,16 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _getColWidths : function()
     {
+            //debugger;
+
       if (this._colWidths != null) {
         return this._colWidths;
       }
 
       var colWidths = [];
 
-      var maxColIndex=this.getMaxColIndex();
-      var maxRowIndex=this.getMaxRowIndex();
+      var maxColIndex = this._maxColIndex;
+      var maxRowIndex = this._maxRowIndex;
 
       for (var col=0; col<=maxColIndex; col++)
       {
@@ -1193,6 +1051,10 @@ qx.Class.define("qx.ui.layout.Grid",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
+      if (!this._grid) {
+        this.__buildGrid();
+      }
+
       var Util = qx.ui.layout.Util;
       var hSpacing = this.getHorizontalSpacing();
       var vSpacing = this.getVerticalSpacing();
@@ -1202,8 +1064,8 @@ qx.Class.define("qx.ui.layout.Grid",
       var colStretchOffsets = this._getColumnFlexOffsets(availWidth);
       var colWidths = [];
 
-      var maxColIndex=this.getMaxColIndex();
-      var maxRowIndex=this.getMaxRowIndex();
+      var maxColIndex = this._maxColIndex;
+      var maxRowIndex = this._maxRowIndex;
 
       for (var col=0; col<=maxColIndex; col++) {
         colWidths[col] = prefWidths[col].width + (colStretchOffsets[col] || 0);
@@ -1293,6 +1155,10 @@ qx.Class.define("qx.ui.layout.Grid",
     // overridden
     _computeSizeHint : function()
     {
+      if (!this._grid) {
+        this.__buildGrid();
+      }
+
       // calculate col widths
       var colWidths = this._getColWidths();
 
