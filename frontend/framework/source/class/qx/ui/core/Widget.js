@@ -2002,6 +2002,11 @@ qx.Class.define("qx.ui.core.Widget",
       // Clear paren connection
       child.setLayoutParent(null);
 
+      // clear layout children cache
+      if (this.__layout) {
+        this.__layout.invalidateChildrenCache();
+      }
+
       // Add to layout queue
       qx.ui.core.queue.Layout.add(this);
     },
