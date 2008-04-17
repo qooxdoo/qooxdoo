@@ -83,7 +83,10 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
       this.CANVAS = !!window.CanvasRenderingContext2D;
       this.VML = qx.bom.client.Engine.MSHTML;
-
+      
+      this.AIR = navigator.userAgent.indexOf("adobeair") !== -1;
+      this.GEARS = !!(window.google && google.gears);
+      
       this.XPATH = !!document.evaluate;
     }
   },
