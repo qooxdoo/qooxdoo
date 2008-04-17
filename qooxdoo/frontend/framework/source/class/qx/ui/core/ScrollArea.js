@@ -138,20 +138,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
       init : 16,
       event : "changeLineHeight",
       apply : "_applyLineHeight"
-    },
-
-    // overridden
-    allowGrowX :
-    {
-      refine : true,
-      init : true
-    },
-
-    // overridden
-    allowGrowY :
-    {
-      refine : true,
-      init : true
     }
   },
 

@@ -55,10 +55,10 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
     // overridden
-    allowGrowX :
+    allowGrowY :
     {
       refine : true,
-      init : true
+      init : false
     },
 
     // overridden
