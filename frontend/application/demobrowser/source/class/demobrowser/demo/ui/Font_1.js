@@ -31,29 +31,25 @@ qx.Class.define("demobrowser.demo.ui.Font_1",
       var label = new qx.ui.basic.Label("Hello World").set({
         decorator: new qx.ui.decoration.Single(1, "solid", "red")
       });
-      this.getRoot().add(label, 20, 48);
+      this.getRoot().add(label, {left:20, top:20});
 
-      var controls = new qx.ui.core.Widget().set({
-        layout: new qx.ui.layout.VBox().set({
-          spacing: 10
-        })
-      });
-      this.getRoot().add(controls, 200, 48);
+      var controls = new qx.ui.core.Composite(new qx.ui.layout.VBox().set({spacing: 10}));
+      this.getRoot().add(controls, {left:200, top:20});
 
       var b1 = new qx.ui.form.Button("Serif, 16px");
-      controls.getLayout().add(b1);
+      controls.add(b1);
 
       var b2 = new qx.ui.form.Button("Serif, 24px");
-      controls.getLayout().add(b2);
+      controls.add(b2);
 
       var b3 = new qx.ui.form.Button("Sans Serif, 16px");
-      controls.getLayout().add(b3);
+      controls.add(b3);
 
       var b4 = new qx.ui.form.Button("Sans Serif, 24px");
-      controls.getLayout().add(b4);
+      controls.add(b4);
 
       var b5 = new qx.ui.form.Button("Sans Serif, 24px bold");
-      controls.getLayout().add(b5);
+      controls.add(b5);
 
       b1.addListener("execute", function() {
         label.setFont(qx.bom.Font.fromString("16px serif"));
