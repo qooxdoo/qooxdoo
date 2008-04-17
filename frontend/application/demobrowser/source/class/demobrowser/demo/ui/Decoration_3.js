@@ -27,6 +27,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
     main: function()
     {
       this.base(arguments);
+
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       var layout = new qx.ui.layout.Grid();
@@ -39,43 +40,39 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       layout.setColumnWidth(3, 108);
 
 
-      var container = new qx.ui.core.Widget().set({
-        layout: layout,
+      var container = new qx.ui.core.Composite(layout).set({
         decorator: "pane",
         padding: 16,
         backgroundColor: "pane"
       });
 
-      this.getRoot().add(container, 40, 40);
+      this.getRoot().add(container, {left:40, top:40});
 
       labels = ["First Name", "Last Name", "City", "Country", "Notes"];
       for (var i=0; i<labels.length; i++) {
-        layout.add(new qx.ui.basic.Label(labels[i]).set({
-          allowGrowX: false,
+        container.add(new qx.ui.basic.Label(labels[i]).set({
           allowShrinkX: false,
           paddingTop: 3
-        }), i, 0);
+        }), {row: i, column : 0});
       }
 
       inputs = ["John", "Smith", "New York", "USA"];
       for (var i=0; i<inputs.length; i++) {
-        layout.add(new qx.ui.form.TextField(inputs[i]).set({
-        }), i, 1);
+        container.add(new qx.ui.form.TextField(inputs[i]), {row:i, column:1});
       }
 
 
       // text area
-      layout.add(new qx.ui.form.TextArea().set({
+      container.add(new qx.ui.form.TextArea().set({
         height: 250
-      }), 4, 1, {colSpan: 3});
+      }), {row:4, column:1, colSpan: 3});
 
 
       // radio buttons
-      layout.add(new qx.ui.basic.Label("Sex").set({
-        allowGrowX: false,
+      container.add(new qx.ui.basic.Label("Sex").set({
         allowShrinkX: false,
         paddingTop: 3
-      }), 0, 2);
+      }), {row:0, column:2});
 
       var female = new qx.ui.form.RadioButton("female");
       var male = new qx.ui.form.RadioButton("male");
@@ -83,44 +80,42 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       var mgr = new qx.ui.core.RadioManager();
       mgr.add(female, male);
 
-      layout.add(female, 0, 3);
-      layout.add(male, 1, 3);
+      container.add(female, {row:0, column:3});
+      container.add(male, {row:1, column:3});
       male.setChecked(true);
 
 
       // check boxes
-      layout.add(new qx.ui.basic.Label("Hobbies").set({
-        allowGrowX: false,
+      container.add(new qx.ui.basic.Label("Hobbies").set({
         allowShrinkX: false,
         paddingTop: 3
-      }), 2, 2);
-      layout.add(new qx.ui.form.CheckBox("Reading"), 2, 3);
-      layout.add(new qx.ui.form.CheckBox("Swimming").set({
+      }), {row:2, column:2});
+      container.add(new qx.ui.form.CheckBox("Reading"), {row:2, column:3});
+      container.add(new qx.ui.form.CheckBox("Swimming").set({
         enabled: false
-      }), 3, 3);
+      }), {row:3, column:3});
 
 
       // buttons
-      var buttonPane = new qx.ui.core.Widget().set({
-        layout: new qx.ui.layout.HBox().set({
-          spacing: 4
-        }),
+      var paneLayout = new qx.ui.layout.HBox().set({
+        spacing: 4,
+        align : "right"
+      });
+      var buttonPane = new qx.ui.core.Composite(paneLayout).set({
         paddingTop: 11
       });
-      layout.add(buttonPane, 5, 0, {colSpan: 4});
-      buttonPane.getLayout().addSpacer();
+      container.add(buttonPane, {row:5, column: 0, colSpan: 4});
 
       okButton = new qx.ui.form.Button("OK").set({
         minWidth: 80
       });
       okButton.addState("default");
-      buttonPane.getLayout().add(okButton);
+      buttonPane.add(okButton);
 
       cancelButton = new qx.ui.form.Button("Cancel").set({
         minWidth: 80
       });
-      buttonPane.getLayout().add(cancelButton);
-
+      buttonPane.add(cancelButton);
     }
   }
 });
