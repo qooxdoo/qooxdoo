@@ -249,8 +249,6 @@ qx.Class.define("qx.event.handler.Focus",
       blur : 1,
       focusin : 1,
       focusout : 1,
-      beforedeactivate : 1,
-      beforeactivate : 1,
       activate : 1,
       deactivate : 1
     },
@@ -995,16 +993,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       // this.debug("LL-Active: " + value);
 
-      // Fire before events
-      if (old) {
-        this._fireEvent(old, value, "beforedeactivate", true);
-      }
-
-      if (value) {
-        this._fireEvent(value, old, "beforeactivate", true);
-      }
-
-      // Fire after events
+      // Fire events
       if (old) {
         this._fireEvent(old, value, "deactivate", true);
       }
@@ -1020,7 +1009,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       // this.debug("LL-Focus: " + value);
 
-      // Fire before events
+      // Fire bubbling events
       if (old) {
         this._fireEvent(old, value, "focusout", true);
       }

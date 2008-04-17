@@ -94,8 +94,6 @@ qx.Class.define("qx.ui.core.EventHandler",
       focusout : 1,
       focus : 1,
       blur : 1,
-      beforeactivate : 1,
-      beforedeactivate : 1,
       activate : 1,
       deactivate : 1
     },
