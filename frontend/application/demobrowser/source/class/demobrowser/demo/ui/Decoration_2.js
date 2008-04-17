@@ -39,11 +39,10 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       var containerLayout = new qx.ui.layout.HBox();
       containerLayout.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite(containerLayout);
       container.setPadding(20);
-      container.setLayout(containerLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
 
       // Grid 1
@@ -53,13 +52,13 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       widget1.setWidth(200);
       widget1.setHeight(50);
       widget1.setDecorator(deco1);
-      containerLayout.add(widget1);
+      container.add(widget1);
 
       var button1 = new qx.ui.form.Button("Juhu");
       button1.setDecorator(deco1);
       button1.setTextColor("white");
       button1.setAllowGrowY(false);
-      containerLayout.add(button1);
+      container.add(button1);
 
 
       // Beveled 1
@@ -71,7 +70,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       widget2.setWidth(200);
       widget2.setHeight(50);
       widget2.setDecorator(deco2);
-      containerLayout.add(widget2);
+      container.add(widget2);
 
 
       // Beveled 2
@@ -82,23 +81,18 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       deco3Focus.setInnerOpacity(1);
 
       var widget3 = new qx.ui.form.TextField;
-      widget3.setAllowGrowY(false);
       widget3.setBackgroundColor("white");
       widget3.setDecorator(deco3Normal);
       widget3.setWidth(140);
-      containerLayout.add(widget3);
+      container.add(widget3);
 
-      var widget4 = new qx.ui.form.TextField;
-      widget4.setAllowGrowY(false);
-      widget4.setBackgroundColor("white");
-      widget4.setDecorator(deco3Normal);
-      widget4.setWidth(140);
-      containerLayout.add(widget4);
-
-      widget3.addListener("click", function() {
-        this.setDecorator(this.getDecorator() == deco3Normal ? deco3Focus : deco3Normal);
+      widget3.addListener("focus", function() {
+        this.setDecorator(deco3Focus);
       });
 
+      widget3.addListener("blur", function() {
+        this.setDecorator(deco3Normal);
+      });
     }
   }
 });
