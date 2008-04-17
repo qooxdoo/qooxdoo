@@ -28,16 +28,15 @@ qx.Class.define("demobrowser.demo.ui.Stress_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
-      docLayout.add(this.getGrid1());
+      container.add(this.getGrid1());
     },
 
 
@@ -48,9 +47,8 @@ qx.Class.define("demobrowser.demo.ui.Stress_1",
       boxSize = 10;
 
       // auto size
-      var box = new qx.ui.core.Widget();
+      var box = new qx.ui.core.Composite(new qx.ui.layout.Basic());
 
-      var layout = new qx.ui.layout.Basic();
       var widget, left, top;
       var spacing = 2;
 
@@ -68,11 +66,10 @@ qx.Class.define("demobrowser.demo.ui.Stress_1",
             width : boxSize
           });
 
-          layout.add(widget, left, top);
+          box.add(widget, {left:left, top:top});
         }
       }
 
-      box.setLayout(layout);
       return box;
     }
   }
