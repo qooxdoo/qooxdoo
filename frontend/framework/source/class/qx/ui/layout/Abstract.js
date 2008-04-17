@@ -121,12 +121,13 @@ qx.Class.define("qx.ui.layout.Abstract",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * This method is called by the widget to connect the widget with the layout.
@@ -139,6 +140,7 @@ qx.Class.define("qx.ui.layout.Abstract",
       if (widget && this.__widget) {
         throw new Error("It is not possible to manually set the connected widget.");
       }
+
       this.__widget = widget;
     },
 
@@ -159,8 +161,12 @@ qx.Class.define("qx.ui.layout.Abstract",
 
     _getLayoutChildren : function() {
       return this.__widget.getLayoutChildren();
-    }
+    },
 
+
+    _isLayoutChild : function(widget) {
+      return widget.getLayoutParent() === this.__widget;
+    }
   },
 
 
