@@ -37,23 +37,20 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
     {
       this.base(arguments);
 
-      // create the main layout
-      var toolbarContentLayout = new qx.ui.layout.HBox();
-      toolbarContentLayout.setSpacing(10);
-
       // create a container for the main layout and set the main layout
-      var mainContainer = new qx.ui.core.Widget();
+      var mainContainer = new qx.ui.core.Composite(new qx.ui.layout.HBox());
       mainContainer.setPadding(20);
-      mainContainer.setLayout(toolbarContentLayout);
+
       // add the main container to the root
-      this.getRoot().add(mainContainer, 0, 30, 0);
+      this.getRoot().add(mainContainer, {left:0, top:30, right:0});
 
       ///////////////////////////////////////////////////////////////
       // Toolbar stuff
       ///////////////////////////////////////////////////////////////
+
       // create the toolbar
       toolbar = new qx.ui.toolbar.ToolBar();
-      toolbarContentLayout.add(toolbar, {flex: 1});
+      mainContainer.add(toolbar, {flex: 1});
 
       // create and add Part 1 to the toolbar
       var part1 = new qx.ui.toolbar.Part();
@@ -61,6 +58,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       var copyButton = new qx.ui.toolbar.Button("Copy", "icon/22/actions/edit-copy.png");
       var cutButton = new qx.ui.toolbar.Button("Cut", "icon/22/actions/edit-cut.png");
       var pasteButton = new qx.ui.toolbar.Button("Paste", "icon/22/actions/edit-paste.png");
+
       part1.add(newButton);
       part1.add(new qx.ui.toolbar.Separator());
       part1.add(copyButton);
@@ -83,6 +81,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       part3.add(radioButton2);
       part3.add(radioButton3);
       toolbar.add(part3);
+
       // Manager for part 3 (Radio example)
       var manager = new qx.ui.core.RadioManager();
       radioButton1.setManager(manager);
@@ -94,22 +93,20 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       var helpButton = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png");
       toolbar.add(helpButton);
 
-
       var buttons = [ newButton, copyButton, cutButton, pasteButton, checkBtn, radioButton1, radioButton2, radioButton3, helpButton ];
 
 
 
-
       ///////////////////////////////////////////////////////////////
-      // Controll stuff
+      // Control stuff
       ///////////////////////////////////////////////////////////////
       // Create and add the grid
       var controlGrid = new qx.ui.layout.Grid();
       controlGrid.setSpacing(10);
-      var controlContainer = new qx.ui.core.Widget();
-      controlContainer.setLayout(controlGrid);
+      var controlContainer = new qx.ui.core.Composite(controlGrid);
       controlContainer.setPadding(20);
       this.getRoot().add(controlContainer, 0, 100);
+
 
       //////////////////////// icon size stuff
       // create the buttons
@@ -117,14 +114,17 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       size22Button.setChecked(true);
       var size32Button = new qx.ui.form.RadioButton("32px");
       var size48Button = new qx.ui.form.RadioButton("48px");
+
       // create the radio manager and add the buttons
       var sizeManager = new qx.ui.core.RadioManager();
       sizeManager.add(size22Button, size32Button, size48Button);
+
       // add the buttons to the grid
-      controlGrid.add(new qx.ui.basic.Label("Icon Size:"), 0, 0);
-      controlGrid.add(size22Button,0 ,1);
-      controlGrid.add(size32Button,0 ,2);
-      controlGrid.add(size48Button,0 ,3);
+      controlContainer.add(new qx.ui.basic.Label("Icon Size:"), {row:0, column:0});
+      controlContainer.add(size22Button, {row:0, column:1});
+      controlContainer.add(size32Button, {row:0, column:2});
+      controlContainer.add(size48Button, {row:0, column:3});
+
       // register the handler
       sizeManager.addListener("changeSelected", function(e)
       {
@@ -148,20 +148,24 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
         }
       }, this);
 
+
       //////////////////////// Show stuff
       // create the buttons
       var showBothButton = new qx.ui.form.RadioButton("Label and Icon");
       showBothButton.setChecked(true);
       var showIconButton = new qx.ui.form.RadioButton("Icon only");
       var showLabelButton = new qx.ui.form.RadioButton("Label only");
+
       // create the radio manager and add the buttons
       var showManager = new qx.ui.core.RadioManager();
       showManager.add(showBothButton, showIconButton, showLabelButton);
+
       // add the buttons to the grid
-      controlGrid.add(new qx.ui.basic.Label("Show:"),1 ,0);
-      controlGrid.add(showBothButton,1 ,1);
-      controlGrid.add(showIconButton,1 ,2);
-      controlGrid.add(showLabelButton,1 ,3);
+      controlContainer.add(new qx.ui.basic.Label("Show:"), {row:1, column:0});
+      controlContainer.add(showBothButton, {row:1, column:1});
+      controlContainer.add(showIconButton, {row:1, column:2});
+      controlContainer.add(showLabelButton, {row:1, column:3});
+
       // register the handler
       showManager.addListener("changeSelected", function(e) {
         if (e.getValue() == showBothButton) {
@@ -172,7 +176,6 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
           toolbar.setShow("label");
         }
       }, this);
-
     }
   }
 });
