@@ -48,14 +48,13 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         decorator : "black"
       })));
 
-      var container = new qx.ui.core.Widget();
-      container.setLayout(this._createVerticalLayout(sliders));
-      this.getRoot().add(container, 20, 60);
+      var container = this._createVerticalLayout(sliders);
+      this.getRoot().add(container, {left:20, top:60});
 
 
       var isHorizontal = false;
       var btn = new qx.ui.form.Button("Toggle orientation");
-      this.getRoot().add(btn, 20, 10)
+      this.getRoot().add(btn, {left:20, top:10});
 
       btn.addListener("execute", function()
       {
@@ -72,6 +71,7 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
     _createVerticalLayout : function(sliders)
     {
       var grid = new qx.ui.layout.Grid();
+      var container = new qx.ui.core.Composite(grid);
 
       grid.setSpacing(5);
       grid.setRowFlex(0, 1);
@@ -89,11 +89,11 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         var group = sliders[i];
         group.slider.setOrientation("vertical");
 
-        grid.add(group.slider, 0, col, {rowSpan: 3});
+        container.add(group.slider, {row:0,col:col,rowSpan: 3});
 
-        grid.add(group.min, 0, col+1);
-        grid.add(group.value, 1, col+1);
-        grid.add(group.max, 2, col+1);
+        container.add(group.min, {row:0, col:col+1});
+        container.add(group.value, {row:1, col:col+1});
+        container.add(group.max, {row:2, col:col+1});
 
         grid.setColumnMinWidth(col+1, 80);
         grid.setColumnWidth(col+2, 20);
@@ -101,13 +101,14 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         col += 3;
       }
 
-      return grid;
+      return container;
     },
 
 
     _createHorizontalLayout : function(sliders)
     {
       var grid = new qx.ui.layout.Grid();
+      var container = new qx.ui.core.Composite(grid);
 
       grid.setSpacing(5);
       grid.setColumnFlex(0, 1);
@@ -125,18 +126,18 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         var group = sliders[i];
         group.slider.setOrientation("horizontal");
 
-        grid.add(group.min, row, 0);
-        grid.add(group.value, row, 1);
-        grid.add(group.max, row, 2);
+        container.add(group.min, {row:row, col:0});
+        container.add(group.value, {row:row, col:1});
+        container.add(group.max, {row:row, col:2});
 
-        grid.add(group.slider, row+1, 0, {colSpan: 3});
+        container.add(group.slider, {row:row+1, col:0, colSpan: 3});
 
         grid.setRowHeight(row+2, 20);
 
         row += 3;
       }
 
-      return grid;
+      return container;
     },
 
 
