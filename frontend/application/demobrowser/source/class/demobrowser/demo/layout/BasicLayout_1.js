@@ -61,8 +61,7 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
       });
 
 
-      var container = new qx.ui.core.Composite();
-      container.setLayout(new qx.ui.layout.Basic());
+      var container = new qx.ui.core.Composite(new qx.ui.layout.Basic());
 
       container.add(w1, {left: 10, top: 10});
       container.add(w2, {left: 200, top: 20});

@@ -60,9 +60,8 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_1",
         decorator: border
       });
 
-      var container = new qx.ui.core.Composite(new qx.ui.layout.Canvas()).set({
-        padding: 10
-      });
+      var container = new qx.ui.core.Composite(new qx.ui.layout.Canvas());
+      container.setPadding(10);
 
       container.add(w1, {left:10, top:10, right:10, bottom:10});
       container.add(w2, {left:30, top:30, right:30});
@@ -71,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_1",
       container.add(w5, {top:50, right:50});
       container.add(w6, {right:50, bottom:50});
 
-      this.getRoot().addMain(container);
+      this.getRoot().addMain(container, true);
     }
   }
 });
