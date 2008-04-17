@@ -64,11 +64,19 @@ def main():
     config = Config(console, options.config)
 
     # List jobs?
-    if "?" in options.jobs:
+    cfgjobs = config.getJobsMap().keys()
+    if "?" in options.jobs or options.jobs==[]:
         console.info("Listing jobs in config '%s':" % options.config)
         console.indent()
-        console.info(str(config.getJobsMap().keys()))
+        #console.info(str(cfgjobs))
+        pprint.pprint(sorted([x.encode('ascii','replace') for x in cfgjobs]))
         sys.exit(0)
+
+    # Check jobs
+    for job in options.jobs:
+        if job not in cfgjobs:
+            console.warn("No such job: %s" % job)
+            sys.exit(1)
 
     # Initial user feedback
     console.head("Initialization", True)
