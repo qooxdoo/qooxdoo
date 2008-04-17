@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     this.base(arguments);
 
     // Automatically configure a "fixed" scroll layout.
-    this.setLayout(new qx.ui.layout.Scroll());
+    this._setLayout(new qx.ui.layout.Scroll());
   },
 
 
@@ -84,16 +84,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     setContent : function(content)
     {
-      var old = this.getLayout().getContent();
+      var old = this.getContent();
       if (old)
       {
-        this.getLayout().resetContent();
+        this._remove(old);
         old.removeListener("resize", this._onContentResize, this);
       }
 
       if (content)
       {
-        this.getLayout().setContent(content);
+        this._add(content);
         content.addListener("resize", this._onContentResize, this);
       }
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @return {qx.ui.core.Widget|null} The current layout content
      */
     getContent : function() {
-      return this.getLayout().getContent();
+      return this._children[0] || null;
     },
 
 

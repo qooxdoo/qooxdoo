@@ -37,8 +37,7 @@ qx.Class.define("qx.ui.view.HSlideBar",
   {
     this.base(arguments);
 
-    var layout = new qx.ui.layout.HBox();
-    this.setLayout(layout);
+    this._setLayout(new qx.ui.layout.HBox());
 
     // TODO: Real buttons are needed here.
     this._leftButton = new qx.ui.basic.Label("<").set({
@@ -60,9 +59,9 @@ qx.Class.define("qx.ui.view.HSlideBar",
     this._scrollPane.addListener("resizeContent", this._onResize, this);
 
     // Add children to layout
-    layout.add(this._leftButton);
-    layout.add(this._scrollPane, {flex: 1});
-    layout.add(this._rightButton);
+    this._add(this._leftButton);
+    this._add(this._scrollPane, {flex: 1});
+    this._add(this._rightButton);
   },
 
 
