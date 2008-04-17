@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.layout.Scroll",
     // overridden
     _computeSizeHint : function()
     {
-      var hint = this.getContent().getSizeHint();
+      var hint = this._getLayoutChildren()[0].getSizeHint();
 
       return {
         width : hint.width,
