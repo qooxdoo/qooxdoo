@@ -1977,7 +1977,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Remember parent
       child.setLayoutParent(this);
 
-      // Import options
+      // Import options - this call will clear the layout's children cache as well
       child.setLayoutProperties(options);
 
       // Add to layout queue
@@ -2002,7 +2002,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Clear paren connection
       child.setLayoutParent(null);
 
-      // clear layout children cache
+      // clear the layout's children cache
       if (this.__layout) {
         this.__layout.invalidateChildrenCache();
       }
