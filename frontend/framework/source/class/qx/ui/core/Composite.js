@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.core.Composite",
      * @return {Widget} This object (for chaining support)
      */
     remove : function(child) {
-      return this._add(child);
+      return this._remove(child);
     },
 
 
