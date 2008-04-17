@@ -49,25 +49,23 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
         grow = !grow;
       });
 
-      this.getRoot().add(toggle, 10, 100);
-      this.getRoot().add(slideBar, 10, 10);
+      this.getRoot().add(toggle, {left:10, top:100});
+      this.getRoot().add(slideBar, {left:10, top:10});
     },
 
     generateBoxes : function()
     {
-      var box = new qx.ui.core.Widget();
-      var layout = new qx.ui.layout.HBox();
+      var box = new qx.ui.core.Composite(new qx.ui.layout.HBox());
 
       for (var i=0; i<10; i++)
       {
-        layout.add((new qx.ui.core.Widget()).set({
+        box.add((new qx.ui.core.Widget()).set({
           backgroundColor : (i % 2 == 0) ? "red" : "blue",
           width : 60,
           minWidth : 40
         }), {flex: 1});
       }
 
-      box.setLayout(layout);
       return box;
     }
   }
