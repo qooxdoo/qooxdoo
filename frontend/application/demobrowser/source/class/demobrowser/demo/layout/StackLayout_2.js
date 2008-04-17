@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_2",
       list1[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth : 50});
       list1[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      for (var i=0; i<widgets1.length; i++) {
+      for (var i=0; i<list1.length; i++) {
         widget1.add(list1[i]);
       }
       stack1.setSelected(list1[0]);
@@ -61,6 +61,10 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_2",
           current = 0;
         }
         stack1.setSelected(widget1.getChildren()[current]);
+      });
+
+      stack1.addListener("change", function(e) {
+        this.debug("Selected on Stack 1: " + e.getValue().getBackgroundColor());
       });
 
 
@@ -93,6 +97,10 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_2",
       });
 
       container.add(widget2);
+
+      stack2.addListener("change", function(e) {
+        this.debug("Selected on Stack 2: " + e.getValue().getBackgroundColor());
+      });
     }
   }
 });

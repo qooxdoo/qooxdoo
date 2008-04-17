@@ -36,7 +36,8 @@ qx.Class.define("qx.ui.layout.Stack",
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_applySelected"
+      apply : "_applySelected",
+      event : "change"
     },
 
 
@@ -55,6 +56,23 @@ qx.Class.define("qx.ui.layout.Stack",
 
   members :
   {
+    // overridden
+    invalidateChildrenCache : function(child)
+    {
+      var children = this._getLayoutChildren();
+      var selected = this.getSelected();
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child !== selected) {
+          child.layoutVisibilityModified(false);
+        }
+      }
+    },
+
+
     // property apply
     _applySelected : function(value, old)
     {
@@ -62,7 +80,11 @@ qx.Class.define("qx.ui.layout.Stack",
         old.layoutVisibilityModified(false);
       }
 
-      value.layoutVisibilityModified(true);
+      if (value) {
+        value.layoutVisibilityModified(true);
+      }
+
+      // Update layout
       this._applyLayoutChange();
     },
 
@@ -78,32 +100,45 @@ qx.Class.define("qx.ui.layout.Stack",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var selectedChild = this.getSelected();
-      if (!selectedChild) {
-        return;
+      var selected = this.getSelected();
+
+      if (!selected) {
+        throw new Error("Please select the widget to show!");
       }
 
-      var hint = selectedChild.getSizeHint();
+      var hint = selected.getSizeHint();
       var width = Math.min(hint.maxWidth, Math.max(hint.minWidth, availWidth));
       var height = Math.min(hint.maxHeight, Math.max(hint.minHeight, availHeight));
 
-      selectedChild.renderLayout(0, 0, width, height);
+      selected.renderLayout(0, 0, width, height);
     },
 
 
     // overridden
     _computeSizeHint : function()
     {
+      var selected = this.getSelected();
+      if (!selected) {
+        throw new Error("Please select the widget to show!");
+      }
+
       if (this.getResizeToSelected())
       {
+        var orig = selected.getSizeHint();
+
         // return the size hint of the selected widget
-        return this.getSelected().getSizeHint();
+        return {
+          minWidth : orig.minWidth,
+          width : orig.width,
+          minHeight : orig.minHeight,
+          height : orig.height
+        };
       }
       else
       {
         var children = this._getLayoutChildren();
-        var hint;
         var minWidth=0, width=0, minHeight=0, height=0;
+        var hint;
 
         for (var i=0, l=children.length; i<l; i++)
         {
