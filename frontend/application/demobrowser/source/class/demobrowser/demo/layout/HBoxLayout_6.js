@@ -29,10 +29,15 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_6",
       this.base(arguments);
 
       // auto size with limited height
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", maxHeight : 100});
-      var layout1 = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set(
+      {
+        decorator: "black",
+        backgroundColor: "yellow",
+        maxHeight : 100
+      });
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
@@ -42,12 +47,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_6",
       w2.setHeight(300);
       w3.setHeight(400);
 
-      layout1.add(w1);
-      layout1.add(w2);
-      layout1.add(w3);
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 10);
+      this.getRoot().add(container, {left:10, top:10});
     }
   }
 });
