@@ -28,16 +28,24 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_3",
     {
       this.base(arguments);
 
-      var container = new qx.ui.core.Widget();
       var containerLayout = new qx.ui.layout.VBox();
       containerLayout.setSpacing(20);
-      container.setLayout(containerLayout);
-      this.getRoot().add(container, 20, 20);
+
+      var container = new qx.ui.core.Composite(containerLayout);
+      this.getRoot().add(container, {left:20, top:20});
+
+
 
 
       // default layout, flex growing
-      var widget1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", width:450, height:250});
-      var layout1 = new qx.ui.layout.Dock();
+      var dock = new qx.ui.layout.Dock();
+      var widget = (new qx.ui.core.Composite(dock)).set(
+      {
+        decorator: "black",
+        backgroundColor: "yellow",
+        width:450,
+        height:250
+      });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue"});
@@ -45,22 +53,28 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_3",
       var w4 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w5 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north", {flex:1});
-      layout1.add(w2, "west", {flex:1});
-      layout1.add(w3, "south", {flex:1});
-      layout1.add(w4, "east", {flex:1});
-      layout1.add(w5, "center");
+      widget.add(w1, {edge:"north", flex:1});
+      widget.add(w2, {edge:"west", flex:1});
+      widget.add(w3, {edge:"south", flex:1});
+      widget.add(w4, {edge:"east", flex:1});
+      widget.add(w5, {edge:"center"});
 
-      widget1.setLayout(layout1);
-      containerLayout.add(widget1);
+      container.add(widget);
 
 
 
 
       // y-axis first, flex growing
-      var widget1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", width:450, height:250});
-      var layout1 = new qx.ui.layout.Dock();
-      layout1.setSort("y");
+      var dock = new qx.ui.layout.Dock();
+      dock.setSort("y");
+
+      var widget = (new qx.ui.core.Composite(dock)).set(
+      {
+        decorator: "black",
+        backgroundColor: "yellow",
+        width:450,
+        height:250
+      });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue"});
@@ -68,23 +82,29 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_3",
       var w4 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w5 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north", {flex:1});
-      layout1.add(w2, "west", {flex:1});
-      layout1.add(w3, "south", {flex:1});
-      layout1.add(w4, "east", {flex:1});
-      layout1.add(w5, "center");
+      widget.add(w1, {edge:"north", flex:1});
+      widget.add(w2, {edge:"west", flex:1});
+      widget.add(w3, {edge:"south", flex:1});
+      widget.add(w4, {edge:"east", flex:1});
+      widget.add(w5, {edge:"center"});
 
-      widget1.setLayout(layout1);
-      containerLayout.add(widget1);
+      container.add(widget);
 
 
 
 
 
       // x-axis first, flex growing
-      var widget1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", width:450, height:250});
-      var layout1 = new qx.ui.layout.Dock();
-      layout1.setSort("x");
+      var dock = new qx.ui.layout.Dock();
+      dock.setSort("x");
+
+      var widget = (new qx.ui.core.Composite(dock)).set(
+      {
+        decorator: "black",
+        backgroundColor: "yellow",
+        width:450,
+        height:250
+      });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue"});
@@ -92,14 +112,13 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_3",
       var w4 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w5 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      layout1.add(w1, "north", {flex:1});
-      layout1.add(w2, "west", {flex:1});
-      layout1.add(w3, "south", {flex:1});
-      layout1.add(w4, "east", {flex:1});
-      layout1.add(w5, "center");
+      widget.add(w1, {edge:"north", flex:1});
+      widget.add(w2, {edge:"west", flex:1});
+      widget.add(w3, {edge:"south", flex:1});
+      widget.add(w4, {edge:"east", flex:1});
+      widget.add(w5, {edge:"center"});
 
-      widget1.setLayout(layout1);
-      containerLayout.add(widget1);
+      container.add(widget);
     }
   }
 });
