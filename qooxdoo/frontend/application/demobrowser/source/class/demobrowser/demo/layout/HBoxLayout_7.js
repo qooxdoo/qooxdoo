@@ -28,86 +28,83 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     {
       this.base(arguments);
 
-      this.test1(doc);
-      this.test2(doc);
-      this.test3(doc);
+      this.test1();
+      this.test2();
+      this.test3();
     },
 
-    test1 : function(doc)
+    test1 : function()
     {
       // interactive reversed
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height : 80 });
-      var layout = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout.add(w1, { align : "top" });
-      layout.add(w2, { align : "middle" });
-      layout.add(w3, { align : "bottom" });
+      container.add(w1, { align : "top" });
+      container.add(w2, { align : "middle" });
+      container.add(w3, { align : "bottom" });
 
-      box.setLayout(layout);
-      this.getRoot().add(box, 10, 10);
+      this.getRoot().add(container, {left:10, top:10});
 
       reversed = true;
-      box.addListener("mousedown", function(e)
+      container.addListener("mousedown", function(e)
       {
-        layout.setReversed(reversed);
+        box.setReversed(reversed);
         reversed = !reversed;
       });
     },
 
-    test2 : function(doc)
+    test2 : function()
     {
       // interactive margin 1
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height : 80 });
-      var layout = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout.add(w1, { align : "top", marginLeft : 10 });
-      layout.add(w2, { align : "middle", marginLeft : 10 });
-      layout.add(w3, { align : "bottom", marginLeft : 10 });
+      container.add(w1, { align : "top", marginLeft : 10 });
+      container.add(w2, { align : "middle", marginLeft : 10 });
+      container.add(w3, { align : "bottom", marginLeft : 10 });
 
-      box.setLayout(layout);
-      this.getRoot().add(box, 10, 100);
+      this.getRoot().add(container, {left:10, top:100});
 
       before = true;
-      box.addListener("mousedown", function(e)
+      container.addListener("mousedown", function(e)
       {
-        layout.addLayoutProperty(w1, "marginLeft", before ? 20 : 10);
-        layout.addLayoutProperty(w2, "marginLeft", before ? 0 : 10);
+        box.addLayoutProperty(w1, "marginLeft", before ? 20 : 10);
+        box.addLayoutProperty(w2, "marginLeft", before ? 0 : 10);
 
         before = !before;
       });
     },
 
-    test3 : function(doc)
+    test3 : function()
     {
       // interactive margin 2
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height : 80 });
-      var layout = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout.add(w1, { align : "top", marginLeft : 10 });
-      layout.add(w2, { align : "middle", marginLeft : 10 });
-      layout.add(w3, { align : "bottom", marginLeft : 10 });
+      container.add(w1, { align : "top", marginLeft : 10 });
+      container.add(w2, { align : "middle", marginLeft : 10 });
+      container.add(w3, { align : "bottom", marginLeft : 10 });
 
-      box.setLayout(layout);
-      this.getRoot().add(box, 10, 190);
+      this.getRoot().add(container, {left:10, top:190});
 
       large = true;
-      box.addListener("mousedown", function(e)
+      container.addListener("mousedown", function(e)
       {
-        layout.addLayoutProperty(w1, "marginLeft", large ? 30 : 10);
-        layout.addLayoutProperty(w2, "marginLeft", large ? 30 : 10);
-        layout.addLayoutProperty(w3, "marginLeft", large ? 30 : 10);
+        box.addLayoutProperty(w1, "marginLeft", large ? 30 : 10);
+        box.addLayoutProperty(w2, "marginLeft", large ? 30 : 10);
+        box.addLayoutProperty(w3, "marginLeft", large ? 30 : 10);
 
         large = !large;
       });
