@@ -28,59 +28,71 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_2",
     {
       this.base(arguments);
 
-      var container = new qx.ui.core.Widget();
       var containerLayout = new qx.ui.layout.HBox();
       containerLayout.setSpacing(20);
-      container.setLayout(containerLayout);
-      this.getRoot().add(container, 0, 0);
+
+      var container = new qx.ui.core.Composite(containerLayout);
+      this.getRoot().addMain(container);
+
+
 
       // "normal" size, auto-sized, one limited child
-      var widget1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.Stack();
+      var stack1 = new qx.ui.layout.Stack();
+      var widget1 = (new qx.ui.core.Composite(stack1)).set({decorator: "black", backgroundColor: "yellow"});
 
-      var widgets1 = [];
-      widgets1[0] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red", height: 300});
-      widgets1[1] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", minWidth: 150});
-      widgets1[2] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "orange", width: 200});
-      widgets1[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth : 50});
-      widgets1[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
+      var list1 = [];
+      list1[0] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red", height: 300});
+      list1[1] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", minWidth: 150});
+      list1[2] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "orange", width: 200});
+      list1[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth : 50});
+      list1[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      for (var i=0; i<widgets1.length; i++)
-      {
-        var widget = widgets1[i];
-        layout1.add(widget);
-        widget.addListener("click", qx.lang.Function.bind(function(index) {
-          layout1.setSelected(widgets1[(index+1) % widgets1.length]);
-        }, this, false, [i]));
+      for (var i=0; i<widgets1.length; i++) {
+        widget1.add(list1[i]);
       }
-      widget1.setLayout(layout1);
+      stack1.setSelected(list1[0]);
 
-      containerLayout.add(widget1);
+      container.add(widget1);
+
+      widget1.addListener("click", function(e)
+      {
+        var current = list1.indexOf(e.getTarget())+1;
+        if (current === list1.length || current === -1) {
+          current = 0;
+        }
+        stack1.setSelected(widget1.getChildren()[current]);
+      });
+
 
 
       // resize to selected, auto-sized, one limited child
-      var widget2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
-      layout2 = new qx.ui.layout.Stack();
-      layout2.setResizeToSelected(true);
+      var stack2 = new qx.ui.layout.Stack();
+      stack2.setResizeToSelected(true);
+      var widget2 = (new qx.ui.core.Composite(stack2)).set({decorator: "black", backgroundColor: "yellow"});
 
-      var widgets2 = [];
-      widgets2[0] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red", height: 300});
-      widgets2[1] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight : 20});
-      widgets2[2] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "orange", width: 200});
-      widgets2[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      widgets2[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
+      var list2 = [];
+      list2[0] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "red", height: 300});
+      list2[1] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight : 20});
+      list2[2] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "orange", width: 200});
+      list2[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      list2[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      for (var i=0; i<widgets2.length; i++)
-      {
-        var widget = widgets2[i];
-        layout2.add(widget);
-        widget.addListener("click", qx.lang.Function.bind(function(index) {
-          layout2.setSelected(widgets2[(index+1) % widgets2.length]);
-        }, this, false, [i]));
+      for (var i=0; i<list2.length; i++) {
+        widget2.add(list2[i]);
       }
-      widget2.setLayout(layout2);
 
-      containerLayout.add(widget2);
+      stack2.setSelected(list1[2]);
+
+      widget2.addListener("click", function(e)
+      {
+        var current = list2.indexOf(e.getTarget())+1;
+        if (current === list2.length || current === -1) {
+          current = 0;
+        }
+        stack2.setSelected(widget2.getChildren()[current]);
+      });
+
+      container.add(widget2);
     }
   }
 });
