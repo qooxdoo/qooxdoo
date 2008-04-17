@@ -495,7 +495,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator       : border,
           padding         : padding,
           // verticalChildrenAlign : "middle",
-          backgroundColor       : states.abandoned ? "button-abandoned" : "button"
+          backgroundColor       : states.abandoned ? "button-abandoned" : states.checked ? "#F3F0F5" : "button"
           //backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
         };
       }
