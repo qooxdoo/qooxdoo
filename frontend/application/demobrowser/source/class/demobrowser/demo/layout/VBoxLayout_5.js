@@ -29,81 +29,77 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
       this.base(arguments);
 
       // one percent child which is not flexible
-      var box1 = new qx.ui.core.Widget().set({height: 300, decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "50%" });
-      layout1.add(w2, { flex : 1 });
-      layout1.add(w3, { flex : 1 });
+      container.add(w1, { height : "50%" });
+      container.add(w2, { flex : 1 });
+      container.add(w3, { flex : 1 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 10);
+      this.getRoot().add(container, {left:10, top:10});
 
 
 
 
       // all percent child, using 90% in sum, rest filled via flex
-      var box1 = (new qx.ui.core.Widget).set({height: 300, decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "30%", flex : 1 });
-      layout1.add(w2, { height : "30%", flex : 1 });
-      layout1.add(w3, { height : "30%", flex : 1 });
+      container.add(w1, { height : "30%", flex : 1 });
+      container.add(w2, { height : "30%", flex : 1 });
+      container.add(w3, { height : "30%", flex : 1 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 130, 10);
+      this.getRoot().add(container, {left:130, top:10});
 
 
 
 
       // all percent child, using 99.9% in sum, flex disabled (=> to small result)
-      var box1 = (new qx.ui.core.Widget).set({height: 300, decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "33.3%" });
-      layout1.add(w2, { height : "33.3%" });
-      layout1.add(w3, { height : "33.3%" });
+      container.add(w1, { height : "33.3%" });
+      container.add(w2, { height : "33.3%" });
+      container.add(w3, { height : "33.3%" });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 250, 10);
+      this.getRoot().add(container, {left:250, top:10});
 
 
 
 
       // all percent child, using 99.9% in sum, flex enabled for last child (=> perfect result, last one a bit bigger)
-      var box1 = (new qx.ui.core.Widget).set({height: 300, decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "33.3%", flex : 0 });
-      layout1.add(w2, { height : "33.3%", flex : 0 });
-      layout1.add(w3, { height : "33.3%" });
+      container.add(w1, { height : "33.3%", flex : 0 });
+      container.add(w2, { height : "33.3%", flex : 0 });
+      container.add(w3, { height : "33.3%" });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 370, 10);
+      this.getRoot().add(container, {left:370, top:10});
 
 
 
@@ -111,99 +107,95 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_5",
 
 
       // one percent child which is not flexible + auto sizing
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "50%" });
-      layout1.add(w2, { flex : 1 });
-      layout1.add(w3, { flex : 1 });
+      container.add(w1, { height : "50%" });
+      container.add(w2, { flex : 1 });
+      container.add(w3, { flex : 1 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 490, 10);
+      this.getRoot().add(container, {left:490, top:10});
 
 
 
       // all child in percents + auto sizing + no flex
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "33%" });
-      layout1.add(w2, { height : "33%" });
-      layout1.add(w3, { height : "33%" });
+      container.add(w1, { height : "33%" });
+      container.add(w2, { height : "33%" });
+      container.add(w3, { height : "33%" });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 610, 10);
+      this.getRoot().add(container, {left:610, top:10});
+
 
 
       // all child in percents + auto sizing + flex enabled
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "33%", flex : 1 });
-      layout1.add(w2, { height : "33%", flex : 1 });
-      layout1.add(w3, { height : "33%", flex : 1 });
+      container.add(w1, { height : "33%", flex : 1 });
+      container.add(w2, { height : "33%", flex : 1 });
+      container.add(w3, { height : "33%", flex : 1 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 730, 10);
+      this.getRoot().add(container, {left:730, top:10});
 
 
 
 
       // all child in percents + flex enabled (shrinking)
-      var box1 = (new qx.ui.core.Widget).set({height : 100, decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({height : 100, decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "33%", flex : 1 });
-      layout1.add(w2, { height : "33%", flex : 1 });
-      layout1.add(w3, { height : "33%", flex : 1 });
+      container.add(w1, { height : "33%", flex : 1 });
+      container.add(w2, { height : "33%", flex : 1 });
+      container.add(w3, { height : "33%", flex : 1 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 850, 10);
+      this.getRoot().add(container, {left:850, top:10});
 
 
 
 
 
       // all child in percents + flex enabled (growing)
-      var box1 = (new qx.ui.core.Widget).set({height : 300, decorator: "black", backgroundColor: "yellow"});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.core.Composite(box)).set({height : 300, decorator: "black", backgroundColor: "yellow"});
 
-      layout1.setSpacing(5);
+      box.setSpacing(5);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      layout1.add(w1, { height : "33%", flex : 1 });
-      layout1.add(w2, { height : "33%", flex : 1 });
-      layout1.add(w3, { height : "33%", flex : 1 });
+      container.add(w1, { height : "33%", flex : 1 });
+      container.add(w2, { height : "33%", flex : 1 });
+      container.add(w3, { height : "33%", flex : 1 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 970, 10);
+      this.getRoot().add(container, {left:970, top:10});
     }
   }
 });

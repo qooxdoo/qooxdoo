@@ -29,22 +29,21 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_3",
       this.base(arguments);
 
       // auto height + reversed
-      var box1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "yellow", width: 120});
-      var layout1 = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox();
+      var container = new qx.ui.core.Composite(box).set({decorator: "black", backgroundColor: "yellow", width: 120});
 
-      layout1.setSpacing(5);
-      layout1.setReversed(true);
+      box.setSpacing(5);
+      box.setReversed(true);
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxWidth:100});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:100});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxWidth:100});
 
-      layout1.add(w1, { align : "left" });
-      layout1.add(w2, { align : "center" });
-      layout1.add(w3, { align : "right" });
+      container.add(w1, { align : "left" });
+      container.add(w2, { align : "center" });
+      container.add(w3, { align : "right" });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 10);
+      this.getRoot().add(container, {left:10, top:10});
     }
   }
 });
