@@ -47,12 +47,6 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_1",
       list1[3] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       list1[4] = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "fuchsia"});
 
-      function report(e)
-      {
-        var target = e.getTarget();
-        this.debug(target.getBackgroundColor() + " widget fired event " + e.getType());
-      }
-
       for (var i=0; i<list1.length; i++)
       {
         var child = list1[i];
@@ -71,8 +65,8 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_1",
         stack1.setSelected(widget1.getChildren()[current]);
       });
 
-      stack1.addListener("changeSelected", function(e) {
-        this.debug("Selected: " + e.getValue().getBackgroundColor());
+      stack1.addListener("change", function(e) {
+        this.debug("Selected on Stack 1: " + e.getValue().getBackgroundColor());
       });
 
 
@@ -103,6 +97,10 @@ qx.Class.define("demobrowser.demo.layout.StackLayout_1",
       });
 
       container.add(widget2);
+
+      stack2.addListener("change", function(e) {
+        this.debug("Selected on Stack 2: " + e.getValue().getBackgroundColor());
+      });
     }
   }
 });
