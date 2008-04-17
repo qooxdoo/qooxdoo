@@ -28,16 +28,15 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.core.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
-      docLayout.add(this.getGrid1());
+      container.add(this.getGrid1());
     },
 
 
@@ -46,15 +45,17 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var theme = qx.theme.manager.Decoration.getInstance().getTheme();
 
       // auto size
-      var box = new qx.ui.core.Widget().set({
-        padding: 5,
-        backgroundColor: "background"
-      });
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
 
-      var decorations = theme.decorations;
+      var box = new qx.ui.core.Composite().set({
+        padding: 5,
+        backgroundColor: "background"
+      });
 
+      box.setLayout(layout);
+
+      var decorations = theme.decorations;
       var columns = 5;
 
       var i=0;
