@@ -75,7 +75,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.ui.core.queue.Widget.flush();
         jobs.widget = false;
-        qx.log.Logger.debug(self, "Widget runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Widget runtime: " + (time) + "ms");
+        }
       }
 
       if (jobs.appearance)
@@ -83,7 +87,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.ui.core.queue.Appearance.flush();
         jobs.appearance = false;
-        qx.log.Logger.debug(self, "Appearance runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Appearance runtime: " + (time) + "ms");
+        }
       }
 
       if (jobs.decorator)
@@ -91,7 +99,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.ui.core.queue.Decorator.flush();
         jobs.decorator = false;
-        qx.log.Logger.debug(self, "Decorator runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Decorator runtime: " + (time) + "ms");
+        }
       }
 
       if (jobs.layout)
@@ -99,7 +111,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.ui.core.queue.Layout.flush();
         jobs.layout = false;
-        qx.log.Logger.debug(self, "Layout runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Layout runtime: " + (time) + "ms");
+        }
       }
 
       if (jobs.element)
@@ -107,7 +123,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.html.Element.flush();
         jobs.element = false;
-        qx.log.Logger.debug(self, "Element runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
+        }
       }
 
       if (jobs.display)
@@ -115,7 +135,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.ui.core.queue.Display.flush();
         jobs.display = false;
-        qx.log.Logger.debug(self, "Display runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Display runtime: " + (time) + "ms");
+        }
       }
 
       if (jobs.dispose)
@@ -123,7 +147,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
         var start = new Date;
         qx.ui.core.queue.Dispose.flush();
         jobs.dispose = false;
-        qx.log.Logger.debug(self, "Dispose runtime: " + (new Date - start) + "ms");
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
+        }
       }
 
       qx.ui.core.queue.Manager.__scheduled = false;

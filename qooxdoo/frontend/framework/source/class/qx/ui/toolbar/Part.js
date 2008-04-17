@@ -35,10 +35,8 @@ qx.Class.define("qx.ui.toolbar.Part",
   construct : function() {
     this.base(arguments);
 
-    this._layout = new qx.ui.layout.HBox();
-    this._handle = new qx.ui.toolbar.PartHandle();
-    this._layout.add(this._handle);
-    this.setLayout(this._layout);
+    this._setLayout(new qx.ui.layout.HBox());
+    this._add(new qx.ui.toolbar.PartHandle());
   },
 
 
@@ -87,19 +85,7 @@ qx.Class.define("qx.ui.toolbar.Part",
      * @param item {qx.ui.core.Widget} widget to add
      */
     add: function(item) {
-      this._layout.add(item);
+      this._add(item);
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_handle");
   }
 });

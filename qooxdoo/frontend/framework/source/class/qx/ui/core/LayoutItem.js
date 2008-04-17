@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
   {
     /*
     ---------------------------------------------------------------------------
-      LAYOUT INTERFACE
+      LAYOUT PROCESS
     ---------------------------------------------------------------------------
     */
 
@@ -216,6 +216,141 @@ qx.Class.define("qx.ui.core.LayoutItem",
     layoutVisibilityModified : function(value) {
       // nothing to do here
     },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MANUAL BOUNDARIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * @internal
+     */
+    hasUserBounds : function() {
+      return !!this.__userBounds;
+    },
+
+
+    setBounds : function(left, top, width, height)
+    {
+      this.__userBounds = {
+        left: left,
+        top: top,
+        width: width,
+        height: height
+      };
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    resetBounds : function()
+    {
+      delete this.__userBounds;
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    /**
+     * Get the widget's computed location and dimension as computed by
+     * the layout manager.
+     *
+     * This function is guaranteed to return a correct value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     * @type member
+     * @return {Map} The widget location and dimensions in pixel
+     *    (if the layout is valid). Contains the keys
+     *    <code>width</code>, <code>height</code>, <code>left</code> and
+     *    <code>top</code>.
+     */
+    getBounds : function() {
+      return this.__userBounds || this.__computedLayout || null;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Empty storage pool */
+    __emptyProperties : {},
+
+
+    /**
+     * Stores the given layout properties
+     *
+     * @type member
+     * @param props {Map} Incoming layout property data
+     * @return {void}
+     */
+    setLayoutProperties : function(props)
+    {
+      var storage = this.__layoutProperties;
+      if (!storage) {
+        storage = this.__layoutProperties = {};
+      }
+
+      // Copy over values
+      for (var key in props)
+      {
+        if (props[key] == null) {
+          delete storage[key];
+        } else {
+          storage[key] = props[key];
+        }
+      }
+
+      var parent = this.getLayoutParent();
+      var layout = parent ? parent.getLayout() : null;
+
+      if (layout)
+      {
+        // Verify values through underlying layout
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          for (var key in props) {
+            layout.verifyLayoutProperty(this, key, props[key]);
+          }
+        }
+
+        // Precomputed and cached children data need to be
+        // rebuild on upcoming (re-)layout.
+        layout.invalidateChildrenCache();
+      }
+    },
+
+
+    /**
+     * Returns currently stored layout properties
+     *
+     * @type member
+     * @return {Map} Returns a map of layout properties
+     */
+    getLayoutProperties : function() {
+      return this.__layoutProperties || this.__emptyProperties;
+    },
+
+
+    /**
+     * Removes all stored layout properties.
+     *
+     * @type member
+     * @return {void}
+     */
+    clearLayoutProperties : function() {
+      delete this.__layoutProperties;
+    },
+
+
 
 
 

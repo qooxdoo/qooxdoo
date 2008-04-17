@@ -496,7 +496,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding         : padding,
           // verticalChildrenAlign : "middle",
           backgroundColor       : states.abandoned ? "button-abandoned" : "button"
-          // backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
+          //backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
         };
       }
     },
@@ -527,8 +527,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        return {          
-          
+        return {
+
           backgroundColor : "tab-view-pane",
           decorator : new qx.ui.decoration.Single(1, "solid", "tab-view-border"),
           padding : 10
