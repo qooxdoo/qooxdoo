@@ -81,10 +81,21 @@ qx.Class.define("qx.ui.root.Application",
 
   members :
   {
-    // adds major widget (full size)
-    addMain : function(child)
-    {
-      this._add(child, {left:0, top:0, right:0, bottom:0});
+    __stretchConfig : {left:0, top:0, right:0, bottom:0},
+    __normalConfig : {left:0, top:0},
+
+    /**
+     * Adds a main widget to the root. The given child is auto-positioned
+     * dependend on the given <code>stretch</code>.
+     *
+     * @type member
+     * @param child {qx.ui.core.Widget} Widget to add
+     * @param stretch {Boolean?false} Whether the child should be stretched
+     *    between all four edges
+     * @return {void}
+     */
+    addMain : function(child, stretch) {
+      this._add(child, stretch ? this.__stretchConfig : this.__normalConfig);
     },
 
 
