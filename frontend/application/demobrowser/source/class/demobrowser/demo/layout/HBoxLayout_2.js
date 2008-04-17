@@ -29,92 +29,87 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       this.base(arguments);
 
       // auto size + negative margins
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height:80});
-      var layout1 = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:80});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, { align : "top" });
-      layout1.add(w2, { align : "middle", marginLeft : -10 });
-      layout1.add(w3, { align : "bottom", marginLeft : -10 });
+      container.add(w1, { align : "top" });
+      container.add(w2, { align : "middle", marginLeft : -10 });
+      container.add(w3, { align : "bottom", marginLeft : -10 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 10);
+      this.getRoot().add(container, {left:10, top:10});
 
 
 
 
       // auto size + negative margins + collapsing
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height:80});
-      var layout1 = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:80});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, { align : "top" });
-      layout1.add(w2, { align : "middle", marginLeft : -10, marginRight : 20 });
-      layout1.add(w3, { align : "bottom", marginLeft : -10 });
+      container.add(w1, { align : "top" });
+      container.add(w2, { align : "middle", marginLeft : -10, marginRight : 20 });
+      container.add(w3, { align : "bottom", marginLeft : -10 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 100);
+      this.getRoot().add(container, {left:10, top:100});
 
 
 
 
       // auto size + negative margins + flex
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height:80, width: 500});
-      var layout1 = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:80, width: 500});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, { flex : 1, align : "top" });
-      layout1.add(w2, { flex : 1, align : "middle", marginLeft : -10 });
-      layout1.add(w3, { flex : 1, align : "bottom", marginLeft : -10 });
+      container.add(w1, { flex : 1, align : "top" });
+      container.add(w2, { flex : 1, align : "middle", marginLeft : -10 });
+      container.add(w3, { flex : 1, align : "bottom", marginLeft : -10 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 190);
+      this.getRoot().add(container, {left:10, top:190});
 
 
 
 
 
       // auto size + negative margins + different flex
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height:80, width: 500});
-      var layout1 = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:80, width: 500});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, { flex : 1, align : "top" });
-      layout1.add(w2, { flex : 2, align : "middle", marginLeft : -10 });
-      layout1.add(w3, { flex : 3, align : "bottom", marginLeft : -10 });
+      container.add(w1, { flex : 1, align : "top" });
+      container.add(w2, { flex : 2, align : "middle", marginLeft : -10 });
+      container.add(w3, { flex : 3, align : "bottom", marginLeft : -10 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 280);
+      this.getRoot().add(container, {left:10, top:280});
 
 
 
 
       // auto size + negative margins + different flex (using width)
-      var box1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", height:80, width: 500});
-      var layout1 = new qx.ui.layout.HBox();
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:80, width: 500});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      layout1.add(w1, { width : "1*", align : "top" });
-      layout1.add(w2, { width : "2*", align : "middle", marginLeft : -10 });
-      layout1.add(w3, { width : "3*", align : "bottom", marginLeft : -10 });
+      container.add(w1, { width : "1*", align : "top" });
+      container.add(w2, { width : "2*", align : "middle", marginLeft : -10 });
+      container.add(w3, { width : "3*", align : "bottom", marginLeft : -10 });
 
-      box1.setLayout(layout1);
-      this.getRoot().add(box1, 10, 370);
+      this.getRoot().add(container, {left:10, top:370});
     }
   }
 });
