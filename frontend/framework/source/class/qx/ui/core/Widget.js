@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       apply : "_applyLayoutChange",
-      init : false,
+      init : true,
       themeable : true
     },
 
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       apply : "_applyLayoutChange",
-      init : false,
+      init : true,
       themeable : true
     },
 
