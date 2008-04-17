@@ -39,9 +39,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   {
     this.base(arguments);
 
-    // create needed layout
-    this._layout = new qx.ui.layout.HBox();
-    this.setLayout(this._layout);
+    // add needed layout
+    this._setLayout(new qx.ui.layout.HBox());
 
     // this.addEventListener("keypress", this._onkeypress);
   },
@@ -109,7 +108,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @param item {qx.ui.core.Widget} widget to add
      */
     add: function(item) {
-      this._layout.add(item);
+      this._add(item);
     },
 
 
@@ -120,8 +119,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
      *   to the spacer is needed to remove ths spacer from the layout.
      */
-    addSpacer: function() {
-      return this._layout.addSpacer();
+    addSpacer: function()
+    {
+      var spacer = new qx.ui.core.Spacer;
+      this._add(spacer, {flex:1});
+      return spacer;
     },
 
 

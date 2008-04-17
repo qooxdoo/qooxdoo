@@ -40,13 +40,13 @@ qx.Class.define("qx.ui.toolbar.Separator",
     this.base(arguments);
 
     // TODO: Should be solved in a decorator
-    var layout = new qx.ui.layout.Canvas();
+    this._setLayout(new qx.ui.layout.Canvas());
+
     var line = new qx.ui.core.Widget();
     line.setAppearance("toolbar-separator-line");
-    layout.add(line, 3, 2, 5, 2);
-    this.setLayout(layout);
-    this.setWidth(8);
+    this._add(line, {left:3, top:2, right:5, bottom:2});
 
+    this.setWidth(8);
     // Important: Reset default height
     this.setHeight(0);
   },

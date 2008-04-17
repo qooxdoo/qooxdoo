@@ -37,13 +37,13 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
   {
     this.base(arguments);
 
-    var layout = new qx.ui.layout.Canvas();
-    var line = new qx.ui.core.Widget();
-    line.setAppearance("toolbar-part-handle-line");
-    layout.add(line, 3, 2, 3, 2);
-    this.setLayout(layout);
+    this._setLayout(new qx.ui.layout.Canvas())
     this.setWidth(10);
     this.setHeight(0);
+
+    var line = new qx.ui.core.Widget();
+    line.setAppearance("toolbar-part-handle-line");
+    this._add(line, {left:3, top:2, right:3, bottom:2});
   },
 
 
