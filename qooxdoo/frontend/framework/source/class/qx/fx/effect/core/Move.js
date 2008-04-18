@@ -122,15 +122,15 @@ qx.Class.define("qx.fx.effect.core.Move",
     {
       this.base(arguments);
 
-      qx.bom.element.Style.set(this._element, "left", Math.round(this._x  * position + this._originalLeft) + "px");
-      qx.bom.element.Style.set(this._element, "top", Math.round(this._y  * position + this._originalTop) + "px");
+      var top = Math.round(this._originalTop - ((this._originalTop - this._y) * position));
+      var left = Math.round(this._originalLeft - ((this._originalLeft - this._x) * position));
+
+      qx.bom.element.Style.set(this._element, "left", left + "px");
+      qx.bom.element.Style.set(this._element, "top", top + "px");
     },
 
-    afterFinishInternal : function()
-    {
+    afterFinishInternal : function() {
       qx.bom.element.Style.set(this._element, "position", this._originalPosition);
     }
-
   }
-
 });
