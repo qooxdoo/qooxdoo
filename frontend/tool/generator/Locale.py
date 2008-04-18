@@ -237,7 +237,7 @@ class Locale:
 
         cacheId = "locale-%s-%s" % (fileId, variantsId)
 
-        strings = self._cache.read(cacheId, filePath)
+        strings = self._cache.readmulti(cacheId, filePath)
         if strings != None:
             return strings
 
@@ -257,7 +257,7 @@ class Locale:
             self._console.debug("Found %s localizable strings" % len(strings))
 
         self._console.outdent()
-        self._cache.write(cacheId, strings)
+        self._cache.writemulti(cacheId, strings)
 
         return strings
 
