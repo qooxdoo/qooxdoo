@@ -164,12 +164,15 @@ qx.Class.define("qx.ui.core.ScrollArea",
       if (isVisible)
       {
         if (!scrollbar) {
-          scrollbar = this.__getScrollBar(orientation);
+          scrollbar = this._getScrollBar(orientation);
         }
         scrollbar.show();
       }
-      else {
-        scrollbar && scrollbar.exclude();
+      else
+      {
+        if (scrollbar) {
+          scrollbar.exclude();
+        }
       }
     },
 
@@ -512,7 +515,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       var computedTop = this._scrollPane.getScrollTop();
       if (this._scrollbars.vertical || computedTop !== 0) {
-        this.__getScrollBar("vertical").setValue(computedTop);
+        this._getScrollBar("vertical").setValue(computedTop);
       }
       e.stopPropagation();
     },
