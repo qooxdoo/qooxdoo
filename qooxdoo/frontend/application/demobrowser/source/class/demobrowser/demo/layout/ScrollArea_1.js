@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
       });
 
       scrollArea.setContent(this.generateBoxes());
-      this.getRoot().add(scrollArea, 10, 10);
+      this.getRoot().add(scrollArea, {left: 10, top: 10});
 
       var toggle = new qx.ui.form.Button("Toggle size").set({
         padding : 5
@@ -49,29 +49,27 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
         grow = !grow;
       });
 
-      this.getRoot().add(toggle, 10, 400);
+      this.getRoot().add(toggle, {left: 10, top: 400});
     },
 
     generateBoxes : function()
     {
-      var box = new qx.ui.core.Widget();
-      var layout = new qx.ui.layout.Grid();
+      var box = new qx.ui.core.Composite(new qx.ui.layout.Grid());
 
       for (var y=0; y<10; y++)
       {
         for (var x=0; x<10; x++)
         {
-          layout.add((new qx.ui.core.Widget()).set({
+          box.add((new qx.ui.core.Widget()).set({
             backgroundColor : ((x+y) % 2 == 0) ? "red" : "blue",
             width : 60,
             allowShrinkY : false,
             allowShrinkX : false,
             height : 60
-          }), x, y);
+          }), {column: x, row: y});
         }
       }
 
-      box.setLayout(layout);
       return box;
     }
   }

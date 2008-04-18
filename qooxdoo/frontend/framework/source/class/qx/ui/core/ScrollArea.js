@@ -63,13 +63,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
     var grid = new qx.ui.layout.Grid();
     grid.setColumnFlex(0, 1);
     grid.setRowFlex(0, 1);
+    this._setLayout(grid);
 
-    grid.add(scrollPane, 0, 0);
-    grid.add(vScrollBar, 0, 1);
-    grid.add(hScrollBar, 1, 0);
-    grid.add(corner, 1, 1);
-
-    this.setLayout(grid);
+    this._add(scrollPane, {row: 0, column: 0});
+    this._add(vScrollBar, {row: 0, column: 1});
+    this._add(hScrollBar, {row: 1, column: 0});
+    this._add(corner, {row: 1, column: 1});
 
     this.addListener("mousewheel", this._onMousewheel, this);
   },
