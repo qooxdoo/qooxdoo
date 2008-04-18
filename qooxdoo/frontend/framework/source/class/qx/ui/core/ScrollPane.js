@@ -138,11 +138,9 @@ qx.Class.define("qx.ui.core.ScrollPane",
      *
      * @type member
      * @param value {Integer} The vertical position to scroll to.
-     * @param direct {Boolean?false} Whether the value should be applied
-     *   directly (without queueing).
      * @return {void}
      */
-    setScrollLeft : function(value, direct)
+    setScrollLeft : function(value)
     {
       // TODO: Implement API in qx.html.Element
       var el = this._contentElement.getDomElement();
@@ -171,11 +169,9 @@ qx.Class.define("qx.ui.core.ScrollPane",
      *
      * @type member
      * @param value {Integer} The horizontal position to scroll to.
-     * @param direct {Boolean?false} Whether the value should be applied
-     *   directly (without queueing).
      * @return {void}
      */
-    setScrollTop : function(value, direct)
+    setScrollTop : function(value)
     {
       var el = this._contentElement.getDomElement();
       if (el) {
@@ -203,18 +199,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
      *
      * @type member
      * @param left {Integer?0} Amount to scroll
-     * @param direct {Boolean?false} Whether the value should be applied
-     *   directly (without queueing).
      * @return {void}
      */
-    scrollLeftBy : function(left, direct)
+    scrollLeftBy : function(left)
     {
       if (!left) {
         return;
       }
 
       var oldLeft = this.getScrollLeft();
-      this.setScrollLeft(oldLeft + left, direct);
+      this.setScrollLeft(oldLeft + left);
     },
 
 
@@ -223,18 +217,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
      *
      * @type member
      * @param top {Integer?0} Amount to scroll
-     * @param direct {Boolean?false} Whether the value should be applied
-     *   directly (without queueing).
      * @return {void}
      */
-    scrollTopBy : function(top, direct)
+    scrollTopBy : function(top)
     {
       if (!top) {
         return;
       }
 
       var oldTop = this.getScrollTop();
-      this.setScrollTop(oldTop + top, direct);
+      this.setScrollTop(oldTop + top);
     }
   }
 });
