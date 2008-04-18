@@ -37,12 +37,14 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
 
       this.addSimpleStack();
       this.addDynamicStack();
+      this.addAnimatedStack();
     },
 
 
     addSimpleStack : function()
     {
       var container = new qx.ui.container.Stack();
+      container.setBackgroundColor("white");
       container.setDecorator("black");
       container.setWidth(200);
       container.setHeight(120);
@@ -79,6 +81,7 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
     addDynamicStack : function()
     {
       var container = new qx.ui.container.Stack();
+      container.setBackgroundColor("white");
       container.setDecorator("black");
       container.setDynamic(true);
       this.getRoot().add(container, {left:250, top:20});
@@ -120,5 +123,59 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
         this.debug("Resize to: " + bounds.width + "x" + bounds.height);
       });
     },
+
+    addAnimatedStack : function()
+    {
+      var container = new qx.ui.container.Stack();
+      container.setBackgroundColor("white");
+      container.setDecorator("black");
+      container.setWidth(200);
+      container.setHeight(120);
+      this.getRoot().add(container, {left:480, top:20});
+
+      var box = new qx.ui.container.Composite((new qx.ui.layout.HBox).set({spacing:4}));
+      var prev = new qx.ui.form.Button("Previous", "icon/22/actions/go-previous.png");
+      var next = new qx.ui.form.Button("Next", "icon/22/actions/go-next.png");
+      box.add(prev);
+      box.add(next);
+      this.getRoot().add(box, {left:480, top: 150});
+
+      prev.addListener("execute", container.previous, container);
+      next.addListener("execute", container.next, container);
+
+
+
+      var colors = [ "red", "gray", "blue", "orange", "teal", "yellow", "green" ];
+      var widget;
+
+      function report(e)
+      {
+        var dom = e.getOriginalTarget();
+
+        dom.style.top = (-dom.offsetHeight) + "px";
+
+        var fade = new qx.fx.effect.core.Fade(dom);
+        var move = new qx.fx.effect.core.Move(dom);
+
+        move.setY(0);
+        move.setTransition("sinoidal");
+
+        fade.setFrom(0);
+        fade.setTo(1);
+
+        fade.start();
+        move.start();
+      }
+
+      for (var i=0; i<colors.length; i++)
+      {
+        widget = new qx.ui.core.Widget;
+        widget.setBackgroundColor(colors[i]);
+
+        widget.addListener("appear", report, widget);
+
+        container.add(widget);
+      }
+    }
   }
 });
