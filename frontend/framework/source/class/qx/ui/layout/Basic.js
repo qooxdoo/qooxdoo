@@ -56,13 +56,13 @@ qx.Class.define("qx.ui.layout.Basic",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
       var children = this._getLayoutChildren();
       var child, size, layout;
 
+      // Render children
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
