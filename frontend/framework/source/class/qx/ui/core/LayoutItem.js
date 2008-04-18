@@ -427,7 +427,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     // property apply
     _applyVisibility : function(value, old)
     {
-      if (value) {
+      if (value === "visible") {
         this._containerElement.show();
       } else {
         this._containerElement.hide();
