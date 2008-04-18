@@ -71,11 +71,9 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-    __childData : { left : 0, top: 0 },
-
     add : function(widget)
     {
-      this._add(widget, this.__childData);
+      this._add(widget);
 
       var selected = this.getSelected();
 
