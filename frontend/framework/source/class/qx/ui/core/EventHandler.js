@@ -95,7 +95,24 @@ qx.Class.define("qx.ui.core.EventHandler",
       focus : 1,
       blur : 1,
       activate : 1,
-      deactivate : 1
+      deactivate : 1,
+
+      // appear events
+      appear : 1,
+      disappear : 1
+    },
+
+
+    /** {Map} Map of events which should be fired independently from being disabled */
+    __ignoreDisabled :
+    {
+      // mouse events
+      mouseover : 1,
+      mouseout : 1,
+
+      // appear events
+      appear : 1,
+      disappear : 1
     },
 
 
@@ -158,7 +175,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // Ignore all events except "mouseover" and "mouseout" in the disabled state.
       var type = domEvent.getType();
-      if (!(widgetTarget.isEnabled() || type === "mouseover" || type === "mouseout")) {
+      if (!(widgetTarget.isEnabled() || this.__ignoreDisabled[type])) {
         return;
       }
 

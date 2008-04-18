@@ -71,10 +71,10 @@ qx.Class.define("qx.ui.core.Widget",
     this._contentElement = this.__createContentElement();
     this._containerElement.add(this._contentElement);
 
-    // store "weak" reference to the widget in the DOM element.
+    // Store "weak" reference to the widget in the DOM element.
     this._containerElement.setAttribute("$$widget", this.toHashCode());
 
-    // children array
+    // Children array
     this._children = [];
 
     // Initialize states map
@@ -100,23 +100,25 @@ qx.Class.define("qx.ui.core.Widget",
 
   events :
   {
-    /** Fired when the combination of parent, visibility and layout visibility results into a switch to <code>true</code>. */
-    show : "qx.event.type.Event",
-
-    /** Fired when the combination of parent, visibility and layout visibility results into a switch to <code>false</code>. */
-    hide : "qx.event.type.Event",
-
-    /** Fired after a visibility/parent change when the widget finally appears on the screen. */
+    /**
+     * Fired after the widget appears on the screen.
+     */
     appear : "qx.event.type.Event",
 
-    /** Fired after a visibility/parent change when the widget finally disappears on the screen. */
+    /**
+     * Fired after the widget disappears from the screen.
+     */
     disappear : "qx.event.type.Event",
+
+
 
     /** Fired on resize (after layouting) of the widget. */
     resize : "qx.event.type.Data",
 
     /** Fired on move (after layouting) of the widget. */
     move : "qx.event.type.Data",
+
+
 
     /** Fired if the mouse curser moves over the widget. */
     mousemove : "qx.event.type.Mouse",
@@ -153,6 +155,8 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired if the mouse wheel is used over the widget. */
     mousewheel : "qx.event.type.Mouse",
 
+
+
     /**
      * This event if fired if a keyboard button is released. This event is
      * only fired once if the user keeps the key pressed for a while.
@@ -183,6 +187,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     keyinput : "qx.event.type.KeyInput",
 
+
+
     /**
      * The event is fired when the widget gets focused. Only widgets which are
      * {@link #focusable} receive this event.
@@ -206,16 +212,6 @@ qx.Class.define("qx.ui.core.Widget",
     focusout : "qx.event.type.Focus",
 
     /**
-     * Directly before the widget gets active
-     */
-    beforeactivate : "qx.event.type.Focus",
-
-    /**
-     * Directly before the widget gets inactive
-     */
-    beforedeactivate : "qx.event.type.Focus",
-
-    /**
      * When the widget gets active (receives keyboard events etc.)
      */
     activate : "qx.event.type.Focus",
@@ -224,6 +220,8 @@ qx.Class.define("qx.ui.core.Widget",
      * When the widget gets deactive
      */
     deactivate : "qx.event.type.Focus",
+
+
 
     /**
      * Fired is the widget becomes the capturing widget by a call to {@link #capture}.
@@ -913,7 +911,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._parent.getContentElement().add(this._containerElement);
       }
 
-      this._toggleDisplay();
+
 
       // Update inheritable properties
       qx.core.Property.refresh(this);
@@ -1492,61 +1490,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      VISIBILITY SUPPORT: IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Helper method to handle visibility changes.
-     *
-     * @type member
-     * @return {void}
-     */
-    _toggleDisplay : function()
-    {
-      if (this._parent && this.getVisibility() === "visible")
-      {
-        this.$$visible = true;
-
-        // Make the element visible (again)
-        this._containerElement.show();
-
-        // Prepare for "appear" event
-        qx.ui.core.queue.Display.add(this);
-
-        // Fire "show" event
-        if (this.hasListeners("show")) {
-          this.fireEvent("show");
-        }
-      }
-      else if (this.$$visible)
-      {
-        delete this.$$visible;
-
-        // On parent removal it gets completely removed from DOM
-        // which means we do not need to apply any display styles
-        // on it.
-        if (this._parent) {
-          this._containerElement.hide();
-        }
-
-        // Prepare for "disappear" event
-        qx.ui.core.queue.Display.add(this);
-
-        // Fire "hide" event
-        if (this.hasListeners("hide")) {
-          this.fireEvent("hide");
-        }
-      }
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       VISIBILITY SUPPORT: USER API
     ---------------------------------------------------------------------------
     */
@@ -1593,7 +1536,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} Returns <code>true</code> when the widget is visible
      */
     isVisible : function() {
-      return !!this.$$visible;
+      return this.getVisibility() === "visible";
     },
 
 
@@ -1606,7 +1549,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} Returns <code>true</code> when the widget is hidden
      */
     isHidden : function() {
-      return !this.$$visible;
+      return this.getVisibility() !== "visible";
     },
 
 

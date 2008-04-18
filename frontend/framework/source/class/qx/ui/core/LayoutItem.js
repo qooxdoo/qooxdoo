@@ -369,10 +369,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @internal: Should only be used by the layout managers
      * @param parent {qx.ui.core.Widget|null} The widget's new parent.
      */
-    setLayoutParent : function(parent)
-    {
+    setLayoutParent : function(parent) {
       this._parent = parent;
-      this._toggleDisplay();
     },
 
 
@@ -429,7 +427,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
     // property apply
     _applyVisibility : function(value, old)
     {
-      this._toggleDisplay();
+      if (value) {
+        this._containerElement.show();
+      } else {
+        this._containerElement.hide();
+      }
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this._parent;
@@ -442,17 +444,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
         qx.ui.core.queue.Layout.add(parent);
       }
-    },
-
-
-    /**
-     * Helper method to handle visibility changes.
-     *
-     * @type member
-     * @return {void}
-     */
-    _toggleDisplay : function() {
-      throw new Error("Abstract method call");
     }
   }
 });

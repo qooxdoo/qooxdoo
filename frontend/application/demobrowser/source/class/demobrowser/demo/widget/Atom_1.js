@@ -38,12 +38,11 @@ qx.Class.define("demobrowser.demo.widget.Atom_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.container.Composite();
+      var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
       this.getRoot().add(container);
 
