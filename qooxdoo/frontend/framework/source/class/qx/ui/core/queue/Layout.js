@@ -39,12 +39,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
     add : function(widget)
     {
       this.__queue[widget.$$hash] = widget;
-
-      if (this.__inFlush) {
-        this.__modifiedDuringFlush = true;
-      } else {
-        qx.ui.core.queue.Manager.scheduleFlush("layout");
-      }
+      qx.ui.core.queue.Manager.scheduleFlush("layout");
     },
 
 
@@ -58,50 +53,35 @@ qx.Class.define("qx.ui.core.queue.Layout",
      */
     flush : function()
     {
-      if (this.__inFlush) {
-        return;
-      }
+      // get sorted widgets to (re-)layout
+      var queue = this.__getSortedQueue();
 
-      this.__inFlush = true;
-
-      // do flush while the layouts change during flush
-      do
+      // iterate in reversed order to process widgets with the smalles nesting
+      // level first because these may affect the inner lying children
+      for (var i=queue.length-1; i>=0; i--)
       {
-        // qx.log.Logger.debug(this, "Flush layout queue");
-        delete this.__modifiedDuringFlush;
+        var widget = queue[i];
 
-        // get sorted widgets to (re-)layout
-        var queue = this.__getSortedQueue();
-
-        // iterate in reversed order to process widgets with the smalles nesting
-        // level first because these may affect the inner lying children
-        for (var i=queue.length-1; i>=0; i--)
-        {
-          var widget = queue[i];
-
-          // continue if a relayout of one of the root's parents has made the
-          // layout valid
-          if (widget.hasValidLayout()) {
-            continue;
-          }
-
-          // overflow areas or qx.ui.root.*
-          if (widget.isLayoutRoot() && !widget.hasUserBounds())
-          {
-            // This is a real root widget. Set its size to its preferred size.
-            var hint = widget.getSizeHint();
-            widget.renderLayout(0, 0, hint.width, hint.height);
-          }
-          else
-          {
-            // This is an inner item of layout changes. Do a relayout of its
-            // children without changing its position and size.
-            widget.updateLayout();
-          }
+        // continue if a relayout of one of the root's parents has made the
+        // layout valid
+        if (widget.hasValidLayout()) {
+          continue;
         }
-      } while (this.__modifiedDuringFlush);
 
-      delete this.__inFlush;
+        // overflow areas or qx.ui.root.*
+        if (widget.isLayoutRoot() && !widget.hasUserBounds())
+        {
+          // This is a real root widget. Set its size to its preferred size.
+          var hint = widget.getSizeHint();
+          widget.renderLayout(0, 0, hint.width, hint.height);
+        }
+        else
+        {
+          // This is an inner item of layout changes. Do a relayout of its
+          // children without changing its position and size.
+          widget.updateLayout();
+        }
+      }
     },
 
 

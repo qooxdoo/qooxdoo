@@ -67,78 +67,83 @@ qx.Class.define("qx.ui.core.queue.Manager",
       var self = qx.ui.core.queue.Manager;
       var jobs = self.__jobs;
 
-      // No else blocks here because each flush can influence the
-      // following flushes!
+      // we loop over until all jobs are finished. The loop is needed because it
+      // new jobs can be added to the queues during a flush
 
-      if (jobs.widget)
+      while (!qx.lang.Object.isEmpty(jobs))
       {
-        var start = new Date;
-        qx.ui.core.queue.Widget.flush();
-        jobs.widget = false;
+        // No else blocks here because each flush can influence the
+        // following flushes!
+        while (jobs.widget)
+        {
+          var start = new Date;
+          delete jobs.widget;
+          qx.ui.core.queue.Widget.flush();
 
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Widget runtime: " + (time) + "ms");
+          var time = new Date - start;
+          if (time > 3) {
+            qx.log.Logger.debug(self, "Widget runtime: " + (time) + "ms");
+          }
         }
-      }
 
-      if (jobs.appearance)
-      {
-        var start = new Date;
-        qx.ui.core.queue.Appearance.flush();
-        jobs.appearance = false;
+        while (jobs.appearance)
+        {
+          var start = new Date;
+          delete jobs.appearance;
+          qx.ui.core.queue.Appearance.flush();
 
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Appearance runtime: " + (time) + "ms");
+          var time = new Date - start;
+          if (time > 3) {
+            qx.log.Logger.debug(self, "Appearance runtime: " + (time) + "ms");
+          }
         }
-      }
 
-      if (jobs.decorator)
-      {
-        var start = new Date;
-        qx.ui.core.queue.Decorator.flush();
-        jobs.decorator = false;
+        while (jobs.decorator)
+        {
+          var start = new Date;
+          delete jobs.decorator;
+          qx.ui.core.queue.Decorator.flush();
 
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Decorator runtime: " + (time) + "ms");
+          var time = new Date - start;
+          if (time > 3) {
+            qx.log.Logger.debug(self, "Decorator runtime: " + (time) + "ms");
+          }
         }
-      }
 
-      if (jobs.layout)
-      {
-        var start = new Date;
-        qx.ui.core.queue.Layout.flush();
-        jobs.layout = false;
+        while (jobs.layout)
+        {
+          var start = new Date;
+          delete jobs.layout;
+          qx.ui.core.queue.Layout.flush();
 
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Layout runtime: " + (time) + "ms");
+          var time = new Date - start;
+          if (time > 3) {
+            qx.log.Logger.debug(self, "Layout runtime: " + (time) + "ms");
+          }
         }
-      }
 
-      if (jobs.element)
-      {
-        var start = new Date;
-        qx.html.Element.flush();
-        jobs.element = false;
+        while (jobs.element)
+        {
+          var start = new Date;
+          delete jobs.element;
+          qx.html.Element.flush();
 
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
+          var time = new Date - start;
+          if (time > 3) {
+            qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
+          }
         }
-      }
 
-      if (jobs.dispose)
-      {
-        var start = new Date;
-        qx.ui.core.queue.Dispose.flush();
-        jobs.dispose = false;
+        while (jobs.dispose)
+        {
+          var start = new Date;
+          delete jobs.dispose;
+          qx.ui.core.queue.Dispose.flush();
 
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
+          var time = new Date - start;
+          if (time > 3) {
+            qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
+          }
         }
       }
 
