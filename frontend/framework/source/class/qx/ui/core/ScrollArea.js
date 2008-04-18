@@ -37,38 +37,17 @@ qx.Class.define("qx.ui.core.ScrollArea",
   {
     this.base(arguments);
 
-    var scrollPane = this._scrollPane = new qx.ui.core.ScrollPane();
-    scrollPane.addListener("resize", this._onResize, this);
-    scrollPane.addListener("resizeContent", this._onResize, this);
-
-    var corner = this._corner = new qx.ui.core.Widget().set({
-      appearance : "scroll-pane-corner",
-      width : 0,
-      height : 0
-    });
-
-    corner.exclude();
-
-    var hScrollBar = this._hScrollBar = new qx.ui.core.ScrollBar("horizontal");
-    var vScrollBar = this._vScrollBar = new qx.ui.core.ScrollBar("vertical");
-
-    hScrollBar.exclude();
-    hScrollBar.addListener("changeValue", this._onHorizontalScroll, this);
-    hScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
-
-    vScrollBar.exclude();
-    vScrollBar.addListener("changeValue", this._onVerticalScroll, this);
-    vScrollBar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
-
     var grid = new qx.ui.layout.Grid();
     grid.setColumnFlex(0, 1);
     grid.setRowFlex(0, 1);
     this._setLayout(grid);
 
+    var scrollPane = this._scrollPane = new qx.ui.core.ScrollPane();
+    scrollPane.addListener("resize", this._onResize, this);
+    scrollPane.addListener("resizeContent", this._onResize, this);
     this._add(scrollPane, {row: 0, column: 0});
-    this._add(vScrollBar, {row: 0, column: 1});
-    this._add(hScrollBar, {row: 1, column: 0});
-    this._add(corner, {row: 1, column: 1});
+
+    this._scrollbars = {};
 
     this.addListener("mousewheel", this._onMousewheel, this);
   },
@@ -153,6 +132,127 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
   members :
   {
+    /**
+     * Returns whether the scrollbar is visible
+     *
+     * @param orientation {String} selects the scrollbar to check. Either
+     *     <code>"horizontal"</code> or <code>"vertical"</code>.
+     * @return {Boolean} Whether the selected scrollbar is visible
+     */
+    _isScrollBarVisible : function(orientation)
+    {
+      var scrollbar = this._scrollbars[orientation];
+      if (!scrollbar) {
+        return false;
+      }
+
+      return scrollbar.getVisibility() === "visible";
+    },
+
+
+    /**
+     * Sets the scrollbar's visibility
+     *
+     * @param orientation {String} selects the scrollbar to update. Either
+     *     <code>"horizontal"</code> or <code>"vertical"</code>.
+     * @param isVisible {Boolean} Whether the scrollbar should be visible
+     */
+    _setScrollBarVisibility : function(orientation, isVisible)
+    {
+      var scrollbar = this._scrollbars[orientation];
+
+      if (isVisible)
+      {
+        if (!scrollbar) {
+          scrollbar = this.__getScrollBar(orientation);
+        }
+        scrollbar.show();
+      }
+      else {
+        scrollbar && scrollbar.exclude();
+      }
+    },
+
+
+    /**
+     * Get a scrollbar instance. Create the instance if neccesary.
+     *
+     * @param orientation {String} selects the scrollbar to get. Either
+     *     <code>"horizontal"</code> or <code>"vertical"</code>.
+     * @return {qx.ui.core.ScrollBar} The scrollbar
+     */
+    __getScrollBar : function(orientation)
+    {
+      if (this._scrollbars[orientation]) {
+        return this._scrollbars[orientation];
+      }
+
+      var scrollbar = new qx.ui.core.ScrollBar(orientation);
+
+      scrollbar.exclude();
+      scrollbar.addListener(
+        "changeValue",
+        orientation == "horizontal" ? this._onHorizontalScroll :this._onVerticalScroll,
+        this
+      );
+      scrollbar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
+
+      if (orientation == "horizontal")
+      {
+        this._add(scrollbar, {row: 1, column: 0});
+      }
+      else
+      {
+        scrollbar.setButtonStep(this.getLineHeight());
+        this._add(scrollbar, {row: 0, column: 1});
+      }
+      this._scrollbars[orientation] = scrollbar;
+      return scrollbar;
+    },
+
+
+    /**
+     * Sets the corner widget's visibility
+     *
+     * @param isVisible {Boolean} Whether the corner widget should be visible
+     */
+    _setCornerVisibility : function(isVisible)
+    {
+      var corner = this._corner;
+      if (isVisible)
+      {
+        if (!corner) {
+          corner = this._getCornerWidget();
+        }
+        corner.show();
+      }
+      else {
+        corner && corner.exclude();
+      }
+    },
+
+
+    /**
+     * Get the corner widget instance. Create the instance if neccesary.
+     *
+     * @return {qx.ui.core.Widget} The corner widget
+     */
+    _getCornerWidget : function()
+    {
+      var corner = this._corner = new qx.ui.core.Widget().set({
+        appearance : "scroll-pane-corner",
+        width : 0,
+        height : 0
+      });
+
+      corner.exclude();
+      this._add(corner, {row: 1, column: 1});
+
+      this._corner = corner;
+      return corner;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -243,8 +343,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
 
-    _applyLineHeight : function(value, old) {
-      this._vScrollBar.setButtonStep(value);
+    // property apply
+    _applyLineHeight : function(value, old)
+    {
+      if (this._scrollbars.vertical) {
+        this._scrollbars.vertical.setButtonStep(value);
+      }
     },
 
 
@@ -258,7 +362,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     setScrollLeft : function(value, direct) {
-      this._hScrollBar.setValue(value);
+      this._getScrollBar("horizontal").setValue(value);
     },
 
 
@@ -283,7 +387,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     setScrollTop : function(value, direct) {
-      this._vScrollBar.setValue(value);
+      this._getScrollBar("vertical").setValue(value);
     },
 
 
@@ -405,7 +509,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
         wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
       this._scrollPane.scrollTopBy(wheelIncrement * this.getLineHeight(), true);
-      this._vScrollBar.setValue(this._scrollPane.getScrollTop());
+
+      var computedTop = this._scrollPane.getScrollTop();
+      if (this._scrollbars.vertical || computedTop !== 0) {
+        this.__getScrollBar("vertical").setValue(computedTop);
+      }
       e.stopPropagation();
     },
 
@@ -439,20 +547,16 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       var target = e.getTarget();
 
-      var hVisible = this._hScrollBar.isVisible();
-      var vVisible = this._vScrollBar.isVisible();
+      var hVisible = this._isScrollBarVisible("horizontal");
+      var vVisible = this._isScrollBarVisible("vertical");
 
-      if (target == this._hScrollBar && !hVisible) {
+      if (target == this._scrollbars.horizontal && !hVisible) {
         this._scrollPane.setScrollLeft(0);
-      } else if (target == this._vScrollBar && !vVisible) {
+      } else if (target == this._scrollbars.vertical && !vVisible) {
         this._scrollPane.setScrollTop(0);
       }
 
-      if (hVisible && vVisible) {
-        this._corner.show();
-      } else {
-        this._corner.exclude();
-      }
+      this._setCornerVisibility(hVisible && vVisible);
     },
 
 
@@ -483,15 +587,15 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var paneSize = this._scrollPane.getBounds();
       var contentSize = content.getBounds();
 
-      if (this._hScrollBar.isVisible()) {
-        this._hScrollBar.setContentSize(contentSize.width);
-        this._hScrollBar.setContainerSize(paneSize.width);
+      if (this._isScrollBarVisible("horizontal")) {
+        this._scrollbars.horizontal.setContentSize(contentSize.width);
+        this._scrollbars.horizontal.setContainerSize(paneSize.width);
       }
 
-      if (this._vScrollBar.isVisible())
+      if (this._isScrollBarVisible("vertical"))
       {
-        this._vScrollBar.setContentSize(contentSize.height);
-        this._vScrollBar.setContainerSize(paneSize.height);
+        this._scrollbars.vertical.setContentSize(contentSize.height);
+        this._scrollbars.vertical.setContainerSize(paneSize.height);
       }
     },
 
@@ -503,14 +607,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _computeOverflow : function()
     {
-      var hScrollBar = this._hScrollBar;
-      var vScrollBar = this._vScrollBar;
-
       var content = this._scrollPane.getContent();
       if (!content)
       {
-        hScrollBar.exclude();
-        vScrollBar.exclude();
+        this._setScrollBarVisibility("horizontal", false);
+        this._setScrollBarVisibility("vertical", false);
         return;
       }
 
@@ -539,33 +640,33 @@ qx.Class.define("qx.ui.core.ScrollArea",
         // More content on x-axis than available width
         // Note: scrollX is already true
         else if (moreWidth) {
-          scrollY = contentSize.height > (innerSize.height - hScrollBar.getSizeHint().height);
+          scrollY = contentSize.height > (innerSize.height - this._getScrollBar("horizontal").getSizeHint().height);
         }
 
         // More content on y-axis than available height
         // Note: scrollY is already true
         else {
-          scrollX = contentSize.width > (innerSize.width - vScrollBar.getSizeHint().width);
+          scrollX = contentSize.width > (innerSize.width - this._getScrollBar("vertical").getSizeHint().width);
         }
 
-        hScrollBar.setVisibility(scrollX ? "visible" : "excluded");
-        vScrollBar.setVisibility(scrollY ? "visible" : "excluded");
+        this._setScrollBarVisibility("horizontal", scrollX);
+        this._setScrollBarVisibility("vertical", scrollY);
       }
       else if (autoX)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarWidth = vScrollBar.isVisible() ? vScrollBar.getSizeHint().width : 0;
+        var scrollBarWidth = vScrollBar.isVisible() ? this._getScrollBar("vertical").getSizeHint().width : 0;
         var scrollX = contentSize.width > (innerSize.width - scrollBarWidth);
 
-        hScrollBar.setVisibility(scrollX ? "visible" : "excluded");
+        this._setScrollBarVisibility("horizontal", scrollX);
       }
       else if (autoY)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarHeight = hScrollBar.isVisible() ? hScrollBar.getSizeHint().height : 0;
+        var scrollBarHeight = hScrollBar.isVisible() ? this._getScrollBar("horizontal").getSizeHint().height : 0;
         var scrollY = contentSize.height > (innerSize.height - scrollBarHeight);
 
-        vScrollBar.setVisibility(scrollY ? "visible" : "excluded");
+        this._setScrollBarVisibility("vertical", scrollY);
       }
     },
 
@@ -585,7 +686,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       if (value === "auto") {
         this._computeOverflow();
       } else {
-        this._hScrollBar.setVisibility(value === "on" ? "visible" : "excluded");
+        this._setScrollBarVisibility("horizontal", value === "on");
       }
     },
 
@@ -596,7 +697,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       if (value === "auto") {
         this._computeOverflow();
       } else {
-        this._vScrollBar.setVisibility(value === "on" ? "visible" : "excluded");
+        this._setScrollBarVisibility("vertical", value === "on");
       }
     }
   }
