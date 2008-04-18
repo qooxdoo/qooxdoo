@@ -130,18 +130,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
       }
 
-      if (jobs.display)
-      {
-        var start = new Date;
-        qx.ui.core.queue.Display.flush();
-        jobs.display = false;
-
-        var time = new Date - start;
-        if (time > 3) {
-          qx.log.Logger.debug(self, "Display runtime: " + (time) + "ms");
-        }
-      }
-
       if (jobs.dispose)
       {
         var start = new Date;
