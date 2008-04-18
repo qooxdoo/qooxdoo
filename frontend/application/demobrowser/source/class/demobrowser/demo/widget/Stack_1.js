@@ -172,10 +172,24 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
         widget = new qx.ui.core.Widget;
         widget.setBackgroundColor(colors[i]);
 
-        widget.addListener("appear", report, widget);
-
         container.add(widget);
       }
+
+      // This handler dynamically registers/deregisters the
+      // appear event as this improves the performance of the
+      // appear event handler.
+      container.addListener("change", function(e)
+      {
+        var old = e.getOldValue();
+        if (old) {
+          old.removeListener("appear", report, old);
+        }
+
+        var value = e.getValue();
+        if (value) {
+          value.addListener("appear", report, value);
+        }
+      });
     }
   }
 });
