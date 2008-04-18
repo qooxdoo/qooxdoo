@@ -205,18 +205,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /**
-     * This method is called from the layout when the layout excludes or
-     * includes this layout item.
-     *
-     * @type member
-     * @param value {Boolean} <code>true</code> when the element gets included.
-     *    Otherwise <code>false</code>.
-     */
-    layoutVisibilityModified : function(value) {
-      // nothing to do here
-    },
-
 
 
 
@@ -453,28 +441,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
         }
 
         qx.ui.core.queue.Layout.add(parent);
-      }
-    },
-
-
-    /**
-     * Called when the layout changes the final visibility of this
-     * widget. Could happen when the layout wants to "remove" items
-     * which are invisible in the current dimension setup (rendered result).
-     *
-     * @param value {Boolean} Whether the item is visible.
-     */
-    layoutVisibilityModified : function(value)
-    {
-      if (value !== this._layoutVisible)
-      {
-        if (value) {
-          delete this._layoutVisible;
-        } else {
-          this._layoutVisible = false;
-        }
-
-        this._toggleDisplay();
       }
     },
 

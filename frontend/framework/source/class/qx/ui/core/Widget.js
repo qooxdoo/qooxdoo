@@ -915,6 +915,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       this._toggleDisplay();
 
+      // Update inheritable properties
       qx.core.Property.refresh(this);
     },
 
@@ -1503,7 +1504,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _toggleDisplay : function()
     {
-      if (this._parent && this._layoutVisible && this.getVisibility() === "visible")
+      if (this._parent && this.getVisibility() === "visible")
       {
         this.$$visible = true;
 

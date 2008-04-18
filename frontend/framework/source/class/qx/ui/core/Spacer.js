@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.core.Spacer",
      */
     _toggleDisplay : function()
     {
-      if (this._parent && this._layoutVisible && this.getVisibility() === "visible") {
+      if (this._parent && this.getVisibility() === "visible") {
         this.$$visible = true;
       } else if (this.$$visible) {
         delete this.$$visible;
