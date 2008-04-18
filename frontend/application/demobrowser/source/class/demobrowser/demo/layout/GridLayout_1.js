@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
       var box = new qx.ui.layout.HBox();
       box.setSpacing(10);
 
-      var container = new qx.ui.core.Composite(box);
+      var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
 
       this.getRoot().addMain(container);
@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
       layout.setRowMaxHeight(0, 60);
       layout.setRowMaxHeight(1, 60);
 
-      var container = new qx.ui.core.Composite(layout).set({
+      var container = new qx.ui.container.Composite(layout).set({
         decorator: "black",
         backgroundColor: "yellow",
         minHeight:300
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
       layout.setColumnAlign(0, "right", "middle");
       layout.setSpacing(5);
 
-      var container = new qx.ui.core.Composite(layout).set({
+      var container = new qx.ui.container.Composite(layout).set({
         decorator: "black",
         backgroundColor: "yellow",
         allowGrowX: false
@@ -146,7 +146,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
     getGrid3 : function()
     {
       // flex columns
-      var container = new qx.ui.core.Composite().set({
+      var container = new qx.ui.container.Composite().set({
         decorator: "black",
         backgroundColor: "yellow",
         width:400,
@@ -188,7 +188,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
     getGrid4 : function()
     {
       // flex columns
-      var container = new qx.ui.core.Composite().set({
+      var container = new qx.ui.container.Composite().set({
         decorator: "black",
         backgroundColor: "yellow",
         allowShrinkX: false,

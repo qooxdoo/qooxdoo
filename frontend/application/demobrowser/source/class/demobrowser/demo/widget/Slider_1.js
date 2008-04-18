@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
     _createVerticalLayout : function(sliders)
     {
       var grid = new qx.ui.layout.Grid();
-      var container = new qx.ui.core.Composite(grid);
+      var container = new qx.ui.container.Composite(grid);
 
       grid.setSpacing(5);
       grid.setRowFlex(0, 1);
@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
     _createHorizontalLayout : function(sliders)
     {
       var grid = new qx.ui.layout.Grid();
-      var container = new qx.ui.core.Composite(grid);
+      var container = new qx.ui.container.Composite(grid);
 
       grid.setSpacing(5);
       grid.setColumnFlex(0, 1);

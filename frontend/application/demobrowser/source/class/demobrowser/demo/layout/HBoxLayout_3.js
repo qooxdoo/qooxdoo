@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_3",
 
       // auto width + reversed
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 80});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 80});
 
       box.setReversed(true);
       box.setSpacing(5);

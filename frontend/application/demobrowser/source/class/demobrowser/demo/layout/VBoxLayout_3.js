@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_3",
 
       // auto height + reversed
       var box = new qx.ui.layout.VBox();
-      var container = new qx.ui.core.Composite(box).set({decorator: "black", backgroundColor: "yellow", width: 120});
+      var container = new qx.ui.container.Composite(box).set({decorator: "black", backgroundColor: "yellow", width: 120});
 
       box.setSpacing(5);
       box.setReversed(true);

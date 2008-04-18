@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       layout = new qx.ui.layout.HBox();
       layout.setSpacing(10);
 
-      var container = new qx.ui.core.Composite(layout);
+      var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
       this.getRoot().addMain(container);
 

@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
 
       // different flex dimensions
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
 
       // different flex dimensions + limits
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
 
       // different flex dimensions + rounding issues
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({height: 300, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
 
       // container height > layout max height
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({height: 300, minHeight: 300, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({height: 300, minHeight: 300, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
 
       // container height < layout min height
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({height: 150, minHeight : 0, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({height: 150, minHeight : 0, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_4",
 
       // container height < layout min height, but minHeight = auto
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({height: 150, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({height: 150, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 

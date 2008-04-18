@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       var containerLayout = new qx.ui.layout.HBox();
       containerLayout.setSpacing(10);
 
-      var container = new qx.ui.core.Composite(containerLayout);
+      var container = new qx.ui.container.Composite(containerLayout);
       container.setPadding(20);
 
       this.getRoot().addMain(container);

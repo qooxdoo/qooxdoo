@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       this.base(arguments);
 
       // create a container for the main layout and set the main layout
-      var mainContainer = new qx.ui.core.Composite(new qx.ui.layout.HBox());
+      var mainContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
       mainContainer.setPadding(20);
 
       // add the main container to the root
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       // Create and add the grid
       var controlGrid = new qx.ui.layout.Grid();
       controlGrid.setSpacing(10);
-      var controlContainer = new qx.ui.core.Composite(controlGrid);
+      var controlContainer = new qx.ui.container.Composite(controlGrid);
       controlContainer.setPadding(20);
       this.getRoot().add(controlContainer, 0, 100);
 

@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // one percent child which is not flexible
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all percent child, using 90% in sum, rest filled via flex
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all percent child, using 99.9% in sum, flex disabled (=> to small result)
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all percent child, using 99.9% in sum, flex enabled for last child (=> perfect result, last one a bit bigger)
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // one percent child which is not flexible + auto sizing
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -126,7 +126,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all child in percents + auto sizing + no flex
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -143,7 +143,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all child in percents + auto sizing + flex enabled
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -162,7 +162,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all child in percents + flex enabled (shrinking)
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width : 200, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width : 200, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -182,7 +182,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
       // all child in percents + flex enabled (growing)
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width : 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width : 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 

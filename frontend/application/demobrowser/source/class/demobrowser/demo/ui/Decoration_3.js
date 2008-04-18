@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       layout.setColumnWidth(3, 108);
 
 
-      var container = new qx.ui.core.Composite(layout).set({
+      var container = new qx.ui.container.Composite(layout).set({
         decorator: "pane",
         padding: 16,
         backgroundColor: "pane"
@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
         spacing: 4,
         align : "right"
       });
-      var buttonPane = new qx.ui.core.Composite(paneLayout).set({
+      var buttonPane = new qx.ui.container.Composite(paneLayout).set({
         paddingTop: 11
       });
       container.add(buttonPane, {row:5, column: 0, colSpan: 4});
