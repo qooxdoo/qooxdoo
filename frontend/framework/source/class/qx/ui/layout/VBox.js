@@ -252,32 +252,21 @@ qx.Class.define("qx.ui.layout.VBox",
           }
         }
 
-        // Detect if the child is still (partly) visible
-        if (top < availHeight)
-        {
-          hint = child.getSizeHint();
-          width = Math.max(hint.minWidth, Math.min(availWidth, hint.maxWidth));
+        // Do the real rendering
+        hint = child.getSizeHint();
+        width = Math.max(hint.minWidth, Math.min(availWidth, hint.maxWidth));
 
-          // Respect horizontal alignment
-          left = util.computeHorizontalAlignOffset(props.align || "left", width, availWidth);
+        // Respect horizontal alignment
+        left = util.computeHorizontalAlignOffset(props.align || "left", width, availWidth);
 
-          // Load height
-          height = heights[i];
+        // Load height
+        height = heights[i];
 
-          // Layout child
-          child.renderLayout(left, top, width, height);
+        // Layout child
+        child.renderLayout(left, top, width, height);
 
-          // Include again (if excluded before)
-          child.layoutVisibilityModified(true);
-
-          // Remember previous child
-          prev = child;
-        }
-        else
-        {
-          // Exclude (completely) hidden children
-          child.layoutVisibilityModified(false);
-        }
+        // Remember previous child
+        prev = child;
       }
     },
 
