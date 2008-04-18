@@ -26,7 +26,7 @@ qx.Class.define("qx.ui.container.Stack",
   {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.Basic);
+    this._setLayout(new qx.ui.layout.Grow);
   },
 
   properties :
