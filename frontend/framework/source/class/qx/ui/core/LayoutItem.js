@@ -325,6 +325,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
         // Precomputed and cached children data need to be
         // rebuild on upcoming (re-)layout.
         layout.invalidateChildrenCache();
+
+        qx.ui.core.queue.Layout.add(parent);
       }
     },
 
