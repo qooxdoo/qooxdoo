@@ -53,8 +53,8 @@ qx.Class.define("qx.ui.layout.Grid",
   {
     this.base(arguments);
 
-    this._rowData = [];
-    this._colData = [];
+    this.__rowData = [];
+    this.__colData = [];
   },
 
 
@@ -147,14 +147,6 @@ qx.Class.define("qx.ui.layout.Grid",
           }
         }
 
-        // make sure all columns are defined so that acessing the grid using
-        // this._grid[column][row] will never raise an exception
-        for (var y=0; y<=maxColIndex; y++) {
-          if (grid[y] == undefined) {
-             grid[y] = [];
-          }
-        }
-
         if (props.rowSpan > 1) {
           rowSpans.push(child);
         }
@@ -164,22 +156,23 @@ qx.Class.define("qx.ui.layout.Grid",
         }
       }
 
-      this._grid = grid;
+      // make sure all columns are defined so that acessing the grid using
+      // this.__grid[column][row] will never raise an exception
+      for (var y=0; y<=maxColIndex; y++) {
+        if (grid[y] == undefined) {
+           grid[y] = [];
+        }
+      }
 
-      this._colSpans = colSpans;
-      this._rowSpans = rowSpans;
+      this.__grid = grid;
+
+      this.__colSpans = colSpans;
+      this.__rowSpans = rowSpans;
 
       this._maxRowIndex = maxRowIndex;
       this._maxColIndex = maxColIndex;
-    },
 
-
-    // overridden
-    invalidateChildrenCache : function()
-    {
-      this._grid = null;
-      this._colSpans = null;
-      this._rowSpans = null;
+      this.__childrenCacheValid = true;
     },
 
 
@@ -192,12 +185,12 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _setRowData : function(row, key, value)
     {
-      var rowData = this._rowData[row];
+      var rowData = this.__rowData[row];
 
       if (!rowData)
       {
-        this._rowData[row] = {};
-        this._rowData[row][key] = value;
+        this.__rowData[row] = {};
+        this.__rowData[row][key] = value;
       }
       else
       {
@@ -215,12 +208,12 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _setColumnData : function(column, key, value)
     {
-      var colData = this._colData[column];
+      var colData = this.__colData[column];
 
       if (!colData)
       {
-        this._colData[column] = {};
-        this._colData[column][key] = value;
+        this.__colData[column] = {};
+        this.__colData[column][key] = value;
       }
       else
       {
@@ -285,7 +278,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getColumnAlign : function(column)
     {
-      var colData = this._colData[column] || {};
+      var colData = this.__colData[column] || {};
 
       return {
         vAlign : colData.vAlign || "top",
@@ -336,7 +329,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getRowAlign : function(row)
     {
-      var rowData = this._rowData[row] || {};
+      var rowData = this.__rowData[row] || {};
 
       return {
         vAlign : rowData.vAlign || "top",
@@ -355,7 +348,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {qx.ui.core.Widget|null}The cell's widget. The value may be null.
      */
     getCellWidget : function(row, column) {
-      return this._grid[row][column] ||  null;
+      return this.__grid[row][column] ||  null;
     },
 
 
@@ -376,8 +369,8 @@ qx.Class.define("qx.ui.layout.Grid",
       var vAlign = "top";
       var hAlign = "left";
 
-      var rowData = this._rowData[row];
-      var colData = this._colData[column];
+      var rowData = this.__rowData[row];
+      var colData = this.__colData[column];
 
       var widget = this.getCellWidget(row, column);
       var widgetProps = widget ? widget.getLayoutProperties() : {};
@@ -433,7 +426,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getColumnFlex : function(column)
     {
-      var colData = this._colData[column] || {};
+      var colData = this.__colData[column] || {};
       return colData.flex !== undefined ? colData.flex : 0;
     },
 
@@ -462,7 +455,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getRowFlex : function(row)
     {
-      var rowData = this._rowData[row] || {};
+      var rowData = this.__rowData[row] || {};
       var rowFlex = rowData.flex !== undefined ? rowData.flex : 0
       return rowFlex;
     },
@@ -492,7 +485,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getColumnMaxWidth : function(column)
     {
-      var colData = this._colData[column] || {};
+      var colData = this.__colData[column] || {};
       return colData.maxWidth !== undefined ? colData.maxWidth : Infinity;
     },
 
@@ -521,7 +514,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getColumnWidth : function(column)
     {
-      var colData = this._colData[column] || {};
+      var colData = this.__colData[column] || {};
       return colData.width !== undefined ? colData.width : null;
     },
 
@@ -550,7 +543,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getColumnMinWidth : function(column)
     {
-      var colData = this._colData[column] || {};
+      var colData = this.__colData[column] || {};
       return colData.minWidth || 0;
     },
 
@@ -579,7 +572,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getRowMaxHeight : function(row)
     {
-      var rowData = this._rowData[row] || {};
+      var rowData = this.__rowData[row] || {};
       return rowData.maxHeight || Infinity;
     },
 
@@ -608,7 +601,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getRowHeight : function(row)
     {
-      var rowData = this._rowData[row] || {};
+      var rowData = this.__rowData[row] || {};
       return rowData.height !== undefined ? rowData.height : null;
     },
 
@@ -637,7 +630,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getRowMinHeight : function(row)
     {
-      var rowData = this._rowData[row] || {};
+      var rowData = this.__rowData[row] || {};
       return rowData.minHeight || 0;
     },
 
@@ -659,9 +652,9 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       var vSpacing = this.getVerticalSpacing();
 
-      for (var i=0, l=this._rowSpans.length; i<l; i++)
+      for (var i=0, l=this.__rowSpans.length; i<l; i++)
       {
-        var widget = this._rowSpans[i];
+        var widget = this.__rowSpans[i];
 
         var hint = widget.getSizeHint();
 
@@ -747,9 +740,9 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       var hSpacing = this.getHorizontalSpacing();
 
-      for (var i=0, l=this._colSpans.length; i<l; i++)
+      for (var i=0, l=this.__colSpans.length; i<l; i++)
       {
-        var widget = this._colSpans[i];
+        var widget = this.__colSpans[i];
 
         var hint = widget.getSizeHint();
 
@@ -827,8 +820,8 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _getRowHeights : function()
     {
-      if (this._rowHeights != null) {
-        return this._rowHeights;
+      if (this.__rowHeights != null) {
+        return this.__rowHeights;
       }
 
       var rowHeights = [];
@@ -878,11 +871,11 @@ qx.Class.define("qx.ui.layout.Grid",
         };
       }
 
-      if (this._rowSpans.length > 0) {
+      if (this.__rowSpans.length > 0) {
         this._fixHeightsRowSpan(rowHeights);
       }
 
-      this._rowHeights = rowHeights;
+      this.__rowHeights = rowHeights;
       return rowHeights;
     },
 
@@ -896,10 +889,8 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _getColWidths : function()
     {
-            //debugger;
-
-      if (this._colWidths != null) {
-        return this._colWidths;
+      if (this.__colWidths != null) {
+        return this.__colWidths;
       }
 
       var colWidths = [];
@@ -949,11 +940,11 @@ qx.Class.define("qx.ui.layout.Grid",
         };
       }
 
-      if (this._colSpans.length > 0) {
+      if (this.__colSpans.length > 0) {
         this._fixWidthsColSpan(colWidths);
       }
 
-      this._colWidths = colWidths;
+      this.__colWidths = colWidths;
       return colWidths;
     },
 
@@ -1051,7 +1042,7 @@ qx.Class.define("qx.ui.layout.Grid",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      if (!this._grid) {
+      if (!this.__childrenCacheValid) {
         this.__buildGrid();
       }
 
@@ -1144,18 +1135,24 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    invalidateLayoutCache : function()
-    {
+    invalidateLayoutCache : function() {
       this._sizeHint = null;
-      this._rowHeights = null;
-      this._colWidths = null;
+      this.__colWidths = null;
+      this.__rowHeights = null;
+
+    },
+
+
+    // overridden
+    invalidateChildrenCache : function() {
+      this.__childrenCacheValid = false;
     },
 
 
     // overridden
     _computeSizeHint : function()
     {
-      if (!this._grid) {
+      if (!this.__childrenCacheValid) {
         this.__buildGrid();
       }
 
@@ -1209,7 +1206,7 @@ qx.Class.define("qx.ui.layout.Grid",
   destruct : function()
   {
     this._disposeFields(
-      "_grid", "_rowData", "_colData", "_colSpans", "_rowSpans"
+      "__grid", "__rowData", "__colData", "__colSpans", "__rowSpans"
     );
   }
 });

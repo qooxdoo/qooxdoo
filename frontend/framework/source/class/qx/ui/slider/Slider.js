@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.slider.Slider",
   {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.Basic());
+    this._setLayout(new qx.ui.layout.Canvas());
 
     this.addListener("mousedown", this._onMousedown, this);
     this.addListener("mouseup", this._onMouseup, this);
@@ -354,9 +354,9 @@ qx.Class.define("qx.ui.slider.Slider",
       var layout = this.getLayout();
 
       if (isHorizontal) {
-        var props = {left:this._sliderPos};
+        var props = {top: 0, right: null, bottom: 0, left: this._sliderPos};
       } else {
-        var props = {top:this._sliderPos};
+        var props = {top:this._sliderPos, right: 0, bottom: null, left: 0};
       }
 
       this._slider.setLayoutProperties(props);
