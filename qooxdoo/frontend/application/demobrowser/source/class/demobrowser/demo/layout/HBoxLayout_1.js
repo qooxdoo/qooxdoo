@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // auto size
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // container higher, vertical alignment
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", minHeight: 60});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", minHeight: 60});
 
       box.setSpacing(5);
 
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // container wider, horizontal alignment = right
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
 
       box.setSpacing(5);
       box.setAlign("right");
@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // container wider, horizontal alignment = center
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
 
       box.setSpacing(5);
       box.setAlign("center");
@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // auto size + horizontal margins
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // manual width + horizontal margins + alignment=right
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
 
       box.setSpacing(5);
       box.setAlign("right");
@@ -122,7 +122,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       // manual width + horizontal margins + alignment=center
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width: 500});
 
       box.setSpacing(5);
       box.setAlign("center");

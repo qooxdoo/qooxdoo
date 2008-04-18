@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_4",
       });
 
 
-      var container = new qx.ui.core.Composite(new qx.ui.layout.Canvas()).set({
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
         decorator: border
       });
 

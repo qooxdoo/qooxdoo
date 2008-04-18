@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // auto size
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // container wider, horizontal alignment
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", minWidth: 60});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", minWidth: 60});
 
       box.setSpacing(5);
 
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // container higher, vertical alignment = bottom
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
 
       box.setSpacing(5);
       box.setAlign("bottom");
@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // container higher, vertical alignment = middle
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
 
       box.setSpacing(5);
       box.setAlign("middle");
@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // auto size + vertical margins
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // manual height + vertical margins + alignment=bottom
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
 
       box.setSpacing(5);
       box.setAlign("bottom");
@@ -122,7 +122,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       // manual height + vertical margins + alignment=middle
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height: 300});
 
       box.setSpacing(5);
       box.setAlign("middle");

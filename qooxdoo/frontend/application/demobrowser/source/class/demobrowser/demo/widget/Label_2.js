@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.widget.Label_2",
       var vbox = new qx.ui.layout.VBox;
       vbox.setSpacing(20);
 
-      var container = new qx.ui.core.Composite(vbox).set({
+      var container = new qx.ui.container.Composite(vbox).set({
         decorator: "black",
         width: 300
       });

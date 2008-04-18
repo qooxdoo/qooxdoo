@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
       var box = new qx.ui.layout.HBox();
       box.setSpacing(10);
 
-      var container = new qx.ui.core.Composite(box);
+      var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
 
       this.getRoot().addMain(container, false);

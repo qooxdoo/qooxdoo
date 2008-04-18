@@ -28,12 +28,12 @@ qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
     {
       this.base(arguments);
 
-      var container = new qx.ui.core.Composite();
+      var container = new qx.ui.container.Composite();
       var layout = new qx.ui.layout.VBox();
       layout.setSpacing(10);
       container.setLayout(layout);
 
-      this._hbox = new qx.ui.core.Composite(new qx.ui.layout.HBox()).set({
+      this._hbox = new qx.ui.container.Composite(new qx.ui.layout.HBox()).set({
         height : 100
       });
 
@@ -48,7 +48,7 @@ qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
       }
       container.add(this._hbox);
 
-      this._grid  = new qx.ui.core.Composite(new qx.ui.layout.Grid()).set({
+      this._grid  = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
         height : 100
       });
 
@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
       }
       container.add(this._grid);
 
-      var buttons = new qx.ui.core.Composite(new qx.ui.layout.HBox());
+      var buttons = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
       for (var i=0; i<this._widgets.length; i++) {
         buttons.add(this.createRemoveButton(this._widgets[i], i));

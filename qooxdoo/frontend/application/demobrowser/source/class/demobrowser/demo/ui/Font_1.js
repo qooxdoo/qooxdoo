@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.ui.Font_1",
       });
       this.getRoot().add(label, {left:20, top:20});
 
-      var controls = new qx.ui.core.Composite(new qx.ui.layout.VBox().set({spacing: 10}));
+      var controls = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({spacing: 10}));
       this.getRoot().add(controls, {left:200, top:20});
 
       var b1 = new qx.ui.form.Button("Serif, 16px");

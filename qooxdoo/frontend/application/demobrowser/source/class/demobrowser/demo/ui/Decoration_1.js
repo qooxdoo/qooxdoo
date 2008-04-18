@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var box = new qx.ui.layout.HBox();
       box.setSpacing(10);
 
-      var container = new qx.ui.core.Composite(box);
+      var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
 
       this.getRoot().addMain(container);
@@ -48,7 +48,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
 
-      var box = new qx.ui.core.Composite().set({
+      var box = new qx.ui.container.Composite().set({
         padding: 5,
         backgroundColor: "background"
       });

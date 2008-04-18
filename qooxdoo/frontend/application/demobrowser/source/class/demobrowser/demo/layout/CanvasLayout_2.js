@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_2",
         decorator: border
       });
 
-      var container = new qx.ui.core.Composite(new qx.ui.layout.Canvas());
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
 
       container.add(w1, {left:"3%", top:"3%", right:"3%", bottom:"3%", width:"20%", height:"20%" });
       container.add(w2, {left:"6%", top:"6%", right:"6%", width:"20%", height:"20%" });

@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_6",
 
       // auto size with limited height
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", maxWidth : 100});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", maxWidth : 100});
 
       box.setSpacing(5);
 

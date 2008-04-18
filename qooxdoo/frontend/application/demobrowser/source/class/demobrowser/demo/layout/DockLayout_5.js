@@ -31,14 +31,14 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_5",
       var containerLayout = new qx.ui.layout.VBox();
       containerLayout.setSpacing(20);
 
-      var container = new qx.ui.core.Composite(containerLayout);
+      var container = new qx.ui.container.Composite(containerLayout);
       this.getRoot().add(container, {left:20, top:20});
 
 
 
       // default layout, flex growing
       var dock = new qx.ui.layout.Dock();
-      var widget = (new qx.ui.core.Composite(dock)).set(
+      var widget = (new qx.ui.container.Composite(dock)).set(
       {
         decorator: "black",
         backgroundColor: "yellow",
@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_5",
       var dock = new qx.ui.layout.Dock();
       dock.setSort("y");
 
-      var widget = (new qx.ui.core.Composite(dock)).set(
+      var widget = (new qx.ui.container.Composite(dock)).set(
       {
         decorator: "black",
         backgroundColor: "yellow",
@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_5",
       var dock = new qx.ui.layout.Dock();
       dock.setSort("x");
 
-      var widget = (new qx.ui.core.Composite(dock)).set(
+      var widget = (new qx.ui.container.Composite(dock)).set(
       {
         decorator: "black",
         backgroundColor: "yellow",
