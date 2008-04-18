@@ -58,12 +58,6 @@ qx.Class.define("qx.core.Init",
     __ready : function()
     {
       qx.log.Logger.debug(this, "Loaded in: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
-      
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        var features = qx.bom.client.Feature;
-        qx.log.Logger.debug("Addons: FLASH=" + qx.bom.client.Flash.VERSION + ", AIR=" + features.AIR + ", GEARS=" + features.GEARS);      
-      }
 
       var app = qx.core.Setting.get("qx.application");
       var clazz = qx.Class.getByName(app);

@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
         }
 
         // Detection using local value
-        if (!parent.$$visible) {
+        if (!parent.isVisible()) {
           break;
         }
 

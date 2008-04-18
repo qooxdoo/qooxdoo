@@ -18,10 +18,10 @@
 ************************************************************************ */
 
 /**
- * This class supports typical DOM element inline events like scroll,
- * change, select, ...
+ * This class supports <code>appear</code> and <code>disappear</code> events
+ * on DOM level.
  */
-qx.Class.define("qx.event.handler.Element",
+qx.Class.define("qx.event.handler.Appear",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
@@ -45,8 +45,11 @@ qx.Class.define("qx.event.handler.Element",
   {
     this.base(arguments);
 
-    this._manager = manager;
-    this._registeredEvents = {};
+    this.__manager = manager;
+    this.__targets = {};
+
+    // Register
+    qx.event.handler.Appear.__instances[this.$$hash] = this;
   },
 
 
@@ -61,7 +64,27 @@ qx.Class.define("qx.event.handler.Element",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+
+    /** {Map} Stores all appear manager instances */
+    __instances : {},
+
+
+    /**
+     * Refreshes all appear handlers. Useful after massive DOM manipulations e.g.
+     * through qx.html.Element.
+     *
+     * @type static
+     * @return {void}
+     */
+     refresh : function()
+     {
+       var all = this.__instances;
+       for (var hash in all) {
+         all[hash].refresh();
+       }
+     }
   },
 
 
@@ -84,41 +107,63 @@ qx.Class.define("qx.event.handler.Element",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return this._eventTypes[type] && target.nodeType !== undefined;
+      return this._eventTypes[type] && target.nodeType === 1;
     },
 
 
     // interface implementation
     registerEvent : function(target, type, capture)
     {
-      var elementId = qx.core.ObjectRegistry.toHashCode(target);
-      var listener = qx.lang.Function.listener(this._onNative, this, elementId);
+      var hash = qx.core.ObjectRegistry.toHashCode(target);
 
-      qx.bom.Event.addNativeListener(target, type, listener);
-
-      var id = elementId + type;
-
-      this._registeredEvents[id] =
+      if (!this.__targets[hash])
       {
-        element : target,
-        type : type,
-        listener : listener
-      };
+        this.__targets[hash] = target;
+        target.$$displayed = target.offsetWidth > 0;
+      }
     },
 
 
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
-      var id = qx.core.ObjectRegistry.toHashCode(target) + type;
+      var hash = qx.core.ObjectRegistry.toHashCode(target);
 
-      var eventData = this._registeredEvents[id];
-      qx.bom.Event.removeNativeListener(target, type, eventData.listener);
-
-      delete this._registeredEvents[id];
+      if (this.__targets[hash])
+      {
+        delete this.__targets[hash];
+        target.$$displayed = null;
+      }
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      USER ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    refresh : function()
+    {
+      var targets = this.__targets;
+      var elem;
+
+      for (var hash in targets)
+      {
+        elem = targets[hash];
+
+        displayed = elem.offsetWidth > 0;
+        if ((!!elem.$$displayed) !== displayed)
+        {
+          elem.$$displayed = displayed;
+
+          var evt = qx.event.Registration.createEvent(displayed ? "appear" : "disappear");
+          this.__manager.dispatchEvent(elem, evt);
+        }
+      }
+    },
 
 
 
@@ -133,42 +178,8 @@ qx.Class.define("qx.event.handler.Element",
     /** {Map} Internal data structure with all supported BOM element events */
     _eventTypes :
     {
-      abort : true,    // Image elements
-      scroll : true,
-      select : true,
-      reset : true,    // Form Elements
-      submit : true   // Form Elements
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT-HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Default event handler.
-     *
-     * @type member
-     * @param domEvent {Event} DOM event
-     * @param elementId {Integer} element id of the current target
-     * @return {void}
-     */
-    _onNative : function(domEvent, elementId)
-    {
-      var evt = qx.event.Registration.createEvent(null, qx.event.type.Dom, [domEvent]);
-
-      var eventData = this._registeredEvents[elementId + evt.getType()];
-      var element = eventData ? eventData.element : evt.getTarget();
-
-      evt.setCurrentTarget(element);
-
-      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, evt);
+      appear : true,
+      disappear : true
     }
   },
 
@@ -184,16 +195,10 @@ qx.Class.define("qx.event.handler.Element",
 
   destruct : function()
   {
-    var entry;
-    var events = this._registeredEvents;
+    this._disposeFields("__manager", "__targets");
 
-    for (var id in events)
-    {
-      entry = events[id];
-      qx.bom.Event.removeNativeListener(entry.element, entry.type, entry.listener);
-    }
-
-    this._disposeFields("_manager", "_registeredEvents");
+    // Deregister
+    delete qx.event.handler.Appear.__instances[this.$$hash];
   },
 
 
