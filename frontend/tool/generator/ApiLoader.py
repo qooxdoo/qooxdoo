@@ -39,7 +39,7 @@ class ApiLoader:
 
     def getPackageApi(self, packageId):
         if not self._docs.has_key(packageId):
-            self._console.warn("Missing package docs: %s" % packageId)
+            self._console.debug("Missing package docs: %s" % packageId)
             return None
             
         packageEntry = self._docs[packageId]
