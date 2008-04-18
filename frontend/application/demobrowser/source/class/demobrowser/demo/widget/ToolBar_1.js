@@ -105,7 +105,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       controlGrid.setSpacing(10);
       var controlContainer = new qx.ui.container.Composite(controlGrid);
       controlContainer.setPadding(20);
-      this.getRoot().add(controlContainer, 0, 100);
+      this.getRoot().add(controlContainer, {left: 0, top: 100});
 
 
       //////////////////////// icon size stuff
