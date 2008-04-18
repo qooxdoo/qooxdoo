@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *     <code>"horizontal"</code> or <code>"vertical"</code>.
      * @return {qx.ui.core.ScrollBar} The scrollbar
      */
-    __getScrollBar : function(orientation)
+    _getScrollBar : function(orientation)
     {
       if (this._scrollbars[orientation]) {
         return this._scrollbars[orientation];
