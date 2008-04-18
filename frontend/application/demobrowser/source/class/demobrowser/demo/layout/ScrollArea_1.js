@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
 
     generateBoxes : function()
     {
-      var box = new qx.ui.core.Composite(new qx.ui.layout.Grid());
+      var box = new qx.ui.container.Composite(new qx.ui.layout.Grid());
 
       for (var y=0; y<10; y++)
       {

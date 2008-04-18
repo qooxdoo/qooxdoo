@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
 
     generateBoxes : function()
     {
-      var box = new qx.ui.core.Composite(new qx.ui.layout.HBox());
+      var box = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
       for (var i=0; i<10; i++)
       {

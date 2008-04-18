@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 
       // different flex dimensions
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 
       // different flex dimensions + limits
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 
       // different flex dimensions + rounding issues
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 
       // container width > layout max width
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 600, minWidth: 600, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 600, minWidth: 600, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 
       // container width < layout min width
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 300, minWidth : 0, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 300, minWidth : 0, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 
       // container width < layout min width, but minWidth = auto
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({width: 300, decorator: "black", backgroundColor: "yellow"});
+      var container = (new qx.ui.container.Composite(box)).set({width: 300, decorator: "black", backgroundColor: "yellow"});
 
       box.setSpacing(5);
 

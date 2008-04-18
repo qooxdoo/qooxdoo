@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
 
       // auto size + negative margins
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxWidth:100});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:100});
@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
 
       // auto size + negative margins + collapsing
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxWidth:100});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:100});
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
 
       // auto size + negative margins + flex
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180, height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180, height: 300});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxWidth:100});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:100});
@@ -82,7 +82,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
 
       // auto size + negative margins + different flex
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180, height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180, height: 300});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxWidth:100});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:100});
@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_2",
 
       // auto size + negative margins + different flex (using height)
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180, height: 300});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:180, height: 300});
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxWidth:100});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxWidth:100});

@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_2",
     getGrid1 : function()
     {
       // auto size
-      var box = new qx.ui.core.Composite().set({
+      var box = new qx.ui.container.Composite().set({
         decorator: "black",
         backgroundColor: "yellow"
       });
@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_2",
     getGrid2 : function()
     {
       // flex columns
-      var box = new qx.ui.core.Composite().set({
+      var box = new qx.ui.container.Composite().set({
         decorator: "black",
         backgroundColor: "yellow",
         width:500,
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_2",
         backgroundColor: "green"
       }), {row: 1, column: 0});
 
-      var innerBox = new qx.ui.core.Composite().set({
+      var innerBox = new qx.ui.container.Composite().set({
         decorator: "black",
         backgroundColor: "orange",
         width:400,

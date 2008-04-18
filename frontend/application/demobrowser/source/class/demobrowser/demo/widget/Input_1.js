@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       var box = new qx.ui.layout.VBox();
       box.setSpacing(10);
 
-      var container = new qx.ui.core.Composite(box);
+      var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
 
       this.getRoot().addMain(container);
@@ -115,7 +115,7 @@ qx.Class.define("demobrowser.demo.widget.Input_1",
       });
       container.add(input11);
 
-      var controls = new qx.ui.core.Composite(new qx.ui.layout.VBox());
+      var controls = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       controls.getLayout().setSpacing(8);
 
 

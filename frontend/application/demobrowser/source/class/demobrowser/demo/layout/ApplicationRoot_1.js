@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
         decorator: "black"
       });
 
-      var container = new qx.ui.core.Composite(new qx.ui.layout.HBox());
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox());
       container.setDecorator("black");
 
       container.add(w1);

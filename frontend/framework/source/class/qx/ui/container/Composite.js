@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.Composite",
+qx.Class.define("qx.ui.container.Composite",
 {
   extend : qx.ui.core.Widget,
 

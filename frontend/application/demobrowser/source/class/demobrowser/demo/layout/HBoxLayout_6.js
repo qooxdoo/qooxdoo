@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_6",
 
       // auto size with limited height
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set(
+      var container = (new qx.ui.container.Composite(box)).set(
       {
         decorator: "black",
         backgroundColor: "yellow",

@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     {
       // interactive reversed
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     {
       // interactive margin 1
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
     {
       // interactive margin 2
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.core.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height : 80 });
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
