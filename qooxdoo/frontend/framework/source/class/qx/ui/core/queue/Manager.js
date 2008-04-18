@@ -67,11 +67,21 @@ qx.Class.define("qx.ui.core.queue.Manager",
       var self = qx.ui.core.queue.Manager;
       var jobs = self.__jobs;
 
+      hasElement = false;
+      hasDispose = false;
+
       // we loop over until all jobs are finished. The loop is needed because it
       // new jobs can be added to the queues during a flush
 
       while (!qx.lang.Object.isEmpty(jobs))
       {
+        hasElement = hasElement || jobs.element;
+        delete jobs.element;
+
+        hasDispose = hasDispose || jobs.dispose;
+        delete jobs.dispose;
+
+
         // No else blocks here because each flush can influence the
         // following flushes!
         while (jobs.widget)
@@ -121,31 +131,32 @@ qx.Class.define("qx.ui.core.queue.Manager",
             qx.log.Logger.debug(self, "Layout runtime: " + (time) + "ms");
           }
         }
+      }
 
-        while (jobs.element)
-        {
-          var start = new Date;
-          delete jobs.element;
-          qx.html.Element.flush();
+      if (hasElement || jobs.element)
+      {
+        var start = new Date;
+        delete jobs.element;
+        qx.html.Element.flush();
 
-          var time = new Date - start;
-          if (time > 3) {
-            qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
-          }
-        }
-
-        while (jobs.dispose)
-        {
-          var start = new Date;
-          delete jobs.dispose;
-          qx.ui.core.queue.Dispose.flush();
-
-          var time = new Date - start;
-          if (time > 3) {
-            qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
-          }
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
         }
       }
+
+      if (hasDispose || jobs.dispose)
+      {
+        var start = new Date;
+        delete jobs.dispose;
+        qx.ui.core.queue.Dispose.flush();
+
+        var time = new Date - start;
+        if (time > 3) {
+          qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
+        }
+      }
+
 
       qx.ui.core.queue.Manager.__scheduled = false;
     }
