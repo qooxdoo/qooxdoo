@@ -140,8 +140,8 @@ class DependencyLoader:
         cacheId = "deps-%s-%s" % (fileId, idlist.toString(variants))
 
         # print "Read from cache: %s" % fileId
-
-        deps = self._cache.read(cacheId, filePath, True)
+        
+        deps = self._cache.readmulti(cacheId, filePath)
         if deps != None:
             return deps
 
@@ -198,8 +198,7 @@ class DependencyLoader:
             "run" : run
         }
 
-        self._cache.write(cacheId, deps, True)
-
+        self._cache.writemulti(cacheId, deps)
         return deps
 
 
@@ -328,7 +327,7 @@ class DependencyLoader:
         filePath = fileEntry["path"]
         cacheId = "meta-%s" % fileId
 
-        meta = self._cache.read(cacheId, filePath, True)
+        meta = self._cache.readmulti(cacheId, filePath)
         if meta != None:
             return meta
 
@@ -346,8 +345,7 @@ class DependencyLoader:
 
         self._console.outdent()
 
-        self._cache.write(cacheId, meta, True)
-
+        self._cache.writemulti(cacheId, meta)
         return meta
 
 
