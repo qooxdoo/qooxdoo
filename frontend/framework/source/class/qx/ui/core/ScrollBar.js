@@ -156,12 +156,12 @@ qx.Class.define("qx.ui.core.ScrollBar",
       this.setAllowStretchY(!isHorizontal);
 
       var layout = isHorizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
-      this.setLayout(layout);
+      this._setLayout(layout);
 
       // Add children to layout
-      layout.add(this._btnBegin);
-      layout.add(this._slider, {flex: 1});
-      layout.add(this._btnEnd);
+      this._add(this._btnBegin);
+      this._add(this._slider, {flex: 1});
+      this._add(this._btnEnd);
 
       if (isHorizontal)
       {
