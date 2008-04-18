@@ -1,4 +1,4 @@
-import os, sys, sha, cPickle
+import os, sys, sha, time, cPickle
 from misc import filetool
 
 memcache = {}
@@ -11,10 +11,46 @@ class Cache:
 
     def filename(self, cacheId):
         splittedId = cacheId.split("-")
+        
+        if len(splittedId) == 1:
+            return cacheId
+                
         baseId = splittedId.pop(0)
         digestId = sha.new("-".join(splittedId)).hexdigest()
 
         return "%s-%s" % (baseId, digestId)
+        
+        
+    def readmulti(self, cacheId, dependsOn=None):
+        splittedId = cacheId.split("-")
+        baseId = splittedId.pop(0)
+        contentId = "-".join(splittedId)
+        multiId = "multi" + baseId
+        
+        saved = self.read(multiId, None, True)
+        if saved and saved.has_key(contentId):
+            temp = saved[contentId]
+            
+            if os.stat(dependsOn).st_mtime > temp["time"]:
+                return None
+            
+            return temp["content"]
+            
+        return None
+        
+        
+    def writemulti(self, cacheId, content):
+        splittedId = cacheId.split("-")
+        baseId = splittedId.pop(0)
+        contentId = "-".join(splittedId)
+        multiId = "multi" + baseId
+
+        saved = self.read(multiId, None, True)
+        if not saved:
+            saved = {}
+        
+        saved[contentId] = {"time":time.time(), "content":content}
+        self.write(multiId, saved, True)
 
 
     def read(self, cacheId, dependsOn=None, memory=False):
@@ -36,6 +72,7 @@ class Cache:
                 return None
 
         try:
+            # print "IO-Read: %s" % cacheFile
             content = cPickle.load(open(cacheFile, 'rb'))
 
             if memory:
@@ -54,6 +91,7 @@ class Cache:
 
         if writeToFile:
             try:
+                # print "IO-Write: %s" % cacheFile
                 cPickle.dump(content, open(cacheFile, 'wb'), 2)
     
             except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
