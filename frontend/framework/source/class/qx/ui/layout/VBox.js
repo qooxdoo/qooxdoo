@@ -235,21 +235,18 @@ qx.Class.define("qx.ui.layout.VBox",
         var props = child.getLayoutProperties()
 
         // Compute top position of this child
-        if (top < availHeight)
+        if (i === start)
         {
-          if (i === start)
-          {
-            top += props.marginTop || 0;
-          }
-          else
-          {
-            // "prev" is the previous child from the previous interation
-            marginEnd = props.marginBottom ||  0;
-            marginStart = props.marginTop || 0;
+          top += props.marginTop || 0;
+        }
+        else
+        {
+          // "prev" is the previous child from the previous interation
+          marginEnd = props.marginBottom || 0;
+          marginStart = props.marginTop || 0;
 
-            // "height" is still the height of the previous child
-            top += height + spacing + util.collapseMargins(marginEnd, marginStart);
-          }
+          // "height" is still the height of the previous child
+          top += height + spacing + util.collapseMargins(marginEnd, marginStart);
         }
 
         // Do the real rendering
