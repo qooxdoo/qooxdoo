@@ -235,21 +235,18 @@ qx.Class.define("qx.ui.layout.HBox",
         var props = child.getLayoutProperties()
 
         // Compute left position of this child
-        if (left < availWidth)
+        if (i === start)
         {
-          if (i === start)
-          {
-            left += props.marginLeft || 0;
-          }
-          else
-          {
-            // "prev" is the previous child from the previous interation
-            marginEnd = props.marginRight ||  0;
-            marginStart = props.marginLeft || 0;
+          left += props.marginLeft || 0;
+        }
+        else
+        {
+          // "prev" is the previous child from the previous interation
+          marginEnd = props.marginRight || 0;
+          marginStart = props.marginLeft || 0;
 
-            // "width" is still the width of the previous child
-            left += width + spacing + util.collapseMargins(marginEnd, marginStart);
-          }
+          // "width" is still the width of the previous child
+          left += width + spacing + util.collapseMargins(marginEnd, marginStart);
         }
 
         // Do the real rendering
