@@ -35,8 +35,6 @@
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.js",
           "uri"      : "${QOOXDOO_URI}/framework"
-          /* mind that the final uri will be computed from this 'uri' +
-             the 'class' information from the manifest */
         },
 
         {
@@ -271,12 +269,12 @@
     {
       "extend" : ["demodyn/jobs/build"]
     },
-    
-    
+
+
     "debug-privates" :
     {
       "extend" : ["common"],
-      "debug" : 
+      "debug" :
       {
         "privates" : "on"
       }
