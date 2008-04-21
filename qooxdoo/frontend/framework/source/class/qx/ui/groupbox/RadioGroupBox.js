@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       this._legendObject.setAppearance("radio-button-group-box-legend");
       this._legendObject.setChecked(true);
 
-      this._canvasLayout.add(this._legendObject, 10, 0);
+      this._add(this._legendObject, {left: 10, top: 0});
     },
 
     setIcon : null,

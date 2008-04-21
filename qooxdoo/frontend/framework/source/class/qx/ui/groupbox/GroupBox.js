@@ -44,10 +44,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   construct : function(vLegend, vIcon) {
     this.base(arguments);
 
-    // this.setBackgroundColor("red");
-
-    this._canvasLayout = new qx.ui.layout.Canvas();
-    this.setLayout(this._canvasLayout);
+    this._setLayout(new qx.ui.layout.Canvas());
 
     // Sub widgets
     this._createFrameObject();
@@ -115,7 +112,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       this._legendObject = new qx.ui.basic.Atom();
       this._legendObject.setAppearance("group-box-legend");
 
-      this._canvasLayout.add(this._legendObject, 10, 0);
+      this._add(this._legendObject, {left: 10, top: 0});
     },
 
 
@@ -126,10 +123,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {void}
      */
     _createFrameObject : function() {
-      this._frameObject = new qx.ui.core.Widget();
+      this._frameObject = new qx.ui.container.Composite();
       this._frameObject.setAppearance("group-box-frame");
 
-      this._canvasLayout.add(this._frameObject, 0, 6, 0, 0);
+      this._add(this._frameObject, {left: 0, top: 6, right: 0, bottom: 0});
     },
 
 
@@ -158,9 +155,9 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       var height = this._legendObject.getBounds().height;
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
-        this._canvasLayout.addLayoutProperty(this._frameObject, "top", Math.round(height / 2));
+        this.setLayoutProperties({"top": Math.round(height / 2)});
       } else if (this.getLegendPosition() == "top") {
-        this._canvasLayout.addLayoutProperty(this._frameObject, "top", height);
+        this.setLayoutProperties({"top": height});
       }
     },
 
