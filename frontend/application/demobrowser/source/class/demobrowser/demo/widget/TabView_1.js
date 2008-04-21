@@ -40,49 +40,51 @@ qx.Class.define("demobrowser.demo.widget.TabView_1",
       var boxLayout = new qx.ui.layout.HBox();
       boxLayout.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(boxLayout);
       container.setPadding(20);
       container.setLayout(boxLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
       tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
-      boxLayout.add(tabView);
-    
+      container.add(tabView);
+
       ////////////////// TEST PAGE 1 ////////////////////
       var page1 = new qx.ui.tabview.Page("Layout", "icon/16/apps/utilities-terminal.png");
       page1.setLayout(new qx.ui.layout.VBox());
-      page1.getLayout().add(new qx.ui.basic.Label("Layout-Settings"));
+      page1.add(new qx.ui.basic.Label("Layout-Settings"));
       tabView.add(page1);
+
       // bar top stuff
       var barTopButton = new qx.ui.form.CheckBox("Bar on top");
       barTopButton.setChecked(true);
       barTopButton.addListener("changeChecked", function(event) {
         this.setPlaceBarOnTop(event.getValue());
       }, tabView);
-      page1.getLayout().add(barTopButton);
+      page1.add(barTopButton);
+
       // bar left stuff
       var barLeftButton = new qx.ui.form.CheckBox("Bar left");
       barLeftButton.setChecked(true);
       barLeftButton.addListener("changeChecked", function(event) {
         this.setAlignTabsToLeft(event.getValue());
       }, tabView);
-      page1.getLayout().add(barLeftButton);
-            
-      
-      
+      page1.add(barLeftButton);
+
+
+
       ////////////////// TEST PAGE 2 ////////////////////
       var page2 = new qx.ui.tabview.Page("Notes", "icon/16/apps/accessories-notes.png");
       page2.setLayout(new qx.ui.layout.VBox());
-      page2.getLayout().add(new qx.ui.basic.Label("Notes..."));
+      page2.add(new qx.ui.basic.Label("Notes..."));
       tabView.add(page2);
 
 
       ////////////////// TEST PAGE 3 ////////////////////
       var page3 = new qx.ui.tabview.Page("Calculator", "icon/16/apps/accessories-calculator.png");
       page3.setLayout(new qx.ui.layout.VBox());
-      page3.getLayout().add(new qx.ui.basic.Label("Calculator..."));
+      page3.add(new qx.ui.basic.Label("Calculator..."));
       tabView.add(page3);
       page3.setEnabled(false);
 
@@ -90,12 +92,11 @@ qx.Class.define("demobrowser.demo.widget.TabView_1",
       ////////////////// TEST PAGE 4 ////////////////////
       var page4 = new qx.ui.tabview.Page("Help", "icon/16/apps/help-browser.png");
       page4.setLayout(new qx.ui.layout.VBox());
-      page4.getLayout().add(new qx.ui.basic.Label("Help..."));
+      page4.add(new qx.ui.basic.Label("Help..."));
       tabView.add(page4);
-   
+
       // show the first page
       tabView.showPage(page1);
-
     }
   }
 });
