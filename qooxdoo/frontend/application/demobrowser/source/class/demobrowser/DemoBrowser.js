@@ -834,7 +834,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         height   : "100%",
         border   : "dark-shadow",
         font     : "monospace",
-        selectable: "true"
+        selectable: true
       });
       f4.setHtmlProperty("id", "qx_srcview");
 
