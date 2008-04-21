@@ -79,7 +79,8 @@ qx.Class.define("qx.ui.core.queue.Layout",
         {
           // This is an inner item of layout changes. Do a relayout of its
           // children without changing its position and size.
-          widget.updateLayout();
+          var bounds = widget.getBounds();
+          widget.renderLayout(bounds.left, bounds.top, bounds.width, bounds.height);
         }
       }
     },
@@ -159,7 +160,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
         }
 
         // Detection using local value
-        if (!parent.isVisible()) {
+        if (!parent.shouldBeLayouted()) {
           break;
         }
 
@@ -254,7 +255,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
           }
 
           // compare old size hint to new size hint
-          var oldSizeHint = widget.getCachedSizeHint();
+          var oldSizeHint = widget.getSizeHint(true);
 
           if (oldSizeHint)
           {
@@ -276,7 +277,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
 
           if (hintChanged)
           {
-            // invalidateLayoutCache parent. Since the level is > 0, the widget must
+            // Since the level is > 0, the widget must
             // have a parent != null.
             var parent = widget.getLayoutParent();
             if (!levels[level-1]) {

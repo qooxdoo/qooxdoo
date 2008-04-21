@@ -135,16 +135,12 @@ qx.Class.define("qx.ui.root.Application",
 
 
     // overridden
-    getSizeHint : function()
+    _computeSizeHint : function()
     {
-      if (this._sizeHint) {
-        return this._sizeHint;
-      }
-
       var width = qx.bom.Viewport.getWidth(this._window);
       var height = qx.bom.Viewport.getHeight(this._window);
 
-      var hint = {
+      return {
         minWidth : width,
         width : width,
         maxWidth : width,
@@ -152,9 +148,6 @@ qx.Class.define("qx.ui.root.Application",
         height : height,
         maxHeight : height
       };
-
-      this._sizeHint = hint;
-      return hint;
     }
   },
 

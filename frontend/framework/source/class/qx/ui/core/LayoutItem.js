@@ -31,39 +31,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
   /*
   *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * Controls the visibility. Valid values are:
-     *
-     * <ul>
-     *   <li><b>visible</b>: Render the widget</li>
-     *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
-     *   <li><b>excluded</b>: Hide the widget and relayout the parent as if the
-     *     widget was not a child of its parent.</li>
-     * </ul>
-     */
-    visibility :
-    {
-      check : ["visible", "hidden", "excluded"],
-      init : "visible",
-      apply : "_applyVisibility",
-      event : "changeVisibility",
-      nullable : false
-    }
-  },
-
-
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -77,22 +44,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * Used by the layouters to re-apply coordinates and dimensions.
-     *
-     * @type member
-     * @internal Only for layout system
-     * @return {void}
-     */
-    updateLayout : function() {
-      throw new Error("Abstract method call");
-    },
-
-
-    /**
      * Used by the layouters to apply coordinates and dimensions.
      *
      * @type member
-     * @internal Only for layout system and managers
      * @param left {Integer} Any integer value for the left position,
      *   always in pixels
      * @param top {Integer} Any integer value for the top position,
@@ -104,7 +58,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @return {void}
      */
     renderLayout : function(left, top, width, height) {
-      throw new Error("Abstract method call");
+      this._hasValidLayout = true;
     },
 
 
@@ -113,7 +67,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * layout changes inside the widget will not be propagated up to the
      * layout root's parent.
      *
-     * @internal
      * @return {Boolean} Whether the widget is a layout root.
      */
     isLayoutRoot : function() {
@@ -122,15 +75,24 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
+     * Whether the element should be rendered.
+     *
+     * @return {Boolean} Whether the widget should be rendered.
+     */
+    shouldBeLayouted : function() {
+      return true;
+    },
+
+
+    /**
      * Whether the layout of this widget (to layout the children)
      * is valid.
      *
-     * @internal
      * @type member
      * @return {Boolean} Returns <code>true</code>
      */
     hasValidLayout : function() {
-      throw new Error("Abstract method call");
+      return !!this._hasValidLayout;
     },
 
 
@@ -149,8 +111,18 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Called by the layout manager to mark this widget's layout as invalid.
      * This function should clear all layout relevant caches.
      */
-    invalidateLayoutCache : function() {
-      throw new Error("Abstract method call");
+    invalidateLayoutCache : function()
+    {
+      // this.debug("Mark widget layout invalid: " + this);
+      this._hasValidLayout = false;
+
+      // invalidateLayoutCache cached size hint
+      this._sizeHint = null;
+
+      // invalidateLayoutCache layout manager
+      if (this.__layout) {
+        this.__layout.invalidateLayoutCache();
+      }
     },
 
 
@@ -161,23 +133,29 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * develop a custom widget please customize {@link #_getContentHint} instead.
      *
      * @type member
+     * @param compute {Boolean?true} Automatically compute size hint if currently not
+     *   cached?
      * @return {Map} The map with the preferred width/height and the allowed
      *   minimum and maximum values in cases where shrinking or growing
      *   is required.
      */
-    getSizeHint : function() {
-      throw new Error("Abstract method call");
+    getSizeHint : function(compute)
+    {
+      var hint = this._sizeHint;
+      if (hint) {
+        return hint;
+      }
+
+      if (compute === false) {
+        return null;
+      }
+
+      return this._sizeHint = this._computeSizeHint();
     },
 
 
-    /**
-     * Returns the lasted computed size hint. If no size hint has been computed
-     * yet, null is returned.
-     *
-     * @return {Map|null} The last computed size hint or null.
-     */
-    getCachedSizeHint : function() {
-      throw new Error("Abstract method call");
+    _computeSizeHint : function() {
+      throw new Error("Abstract method call: _computeSizeHint()");
     },
 
 
@@ -205,6 +183,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
+    /**
+     * generic property apply method for layout relevant properties
+     */
+    _applyLayoutChange : function() {
+      qx.ui.core.queue.Layout.add(this);
+    },
 
 
 
@@ -215,9 +199,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * @internal
-     */
     hasUserBounds : function() {
       return !!this.__userBounds;
     },
@@ -231,6 +212,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         width: width,
         height: height
       };
+
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -366,7 +348,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Set the widget's parent
      *
-     * @internal: Should only be used by the layout managers
      * @param parent {qx.ui.core.Widget|null} The widget's new parent.
      */
     setLayoutParent : function(parent) {
@@ -390,7 +371,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * is directly inserted into an existing DOM node at HTML level.
      * This is often the BODY element of a typical web page.
      *
-     * @internal
      * @type member
      * @return {qx.ui.core.Widget|null} The root widget (if available)
      */
@@ -408,38 +388,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       return null;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      VISIBILITY SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyVisibility : function(value, old)
-    {
-      if (value === "visible") {
-        this._containerElement.show();
-      } else {
-        this._containerElement.hide();
-      }
-
-      // only force a layout update if visibility change from/to "exclude"
-      var parent = this._parent;
-      if (parent && (old === "excluded" || value === "excluded"))
-      {
-        var parentLayout = parent.getLayout();
-        if (parentLayout) {
-          parentLayout.invalidateChildrenCache();
-        }
-
-        qx.ui.core.queue.Layout.add(parent);
-      }
     }
   }
 });

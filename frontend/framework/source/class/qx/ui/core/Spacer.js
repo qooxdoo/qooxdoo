@@ -38,8 +38,8 @@ qx.Class.define("qx.ui.core.Spacer",
   */
 
  /**
-  * @param width {Integer?0} the spacer's initial width
-  * @param height {Integer?0} the spacer's initial height
+  * @param width {Integer?null} the initial width
+  * @param height {Integer?null} the initial height
   */
   construct : function(width, height)
   {
@@ -70,9 +70,8 @@ qx.Class.define("qx.ui.core.Spacer",
     minHeight :
     {
       check : "Number",
-      init : 0,
       apply : "_applyLayoutChange",
-      nullable : false
+      nullable : true
     },
 
 
@@ -80,9 +79,8 @@ qx.Class.define("qx.ui.core.Spacer",
     height :
     {
       check : "Number",
-      init : 0,
       apply : "_applyLayoutChange",
-      nullable : false
+      nullable : true
     },
 
 
@@ -90,9 +88,8 @@ qx.Class.define("qx.ui.core.Spacer",
     maxHeight :
     {
       check : "Number",
-      init : Infinity,
       apply : "_applyLayoutChange",
-      nullable : false
+      nullable : true
     },
 
 
@@ -100,9 +97,8 @@ qx.Class.define("qx.ui.core.Spacer",
     minWidth :
     {
       check : "Number",
-      init : 0,
       apply : "_applyLayoutChange",
-      nullable : false
+      nullable : true
     },
 
 
@@ -110,9 +106,8 @@ qx.Class.define("qx.ui.core.Spacer",
     width :
     {
       check : "Number",
-      init : 0,
       apply : "_applyLayoutChange",
-      nullable : false
+      nullable : true
     },
 
 
@@ -120,9 +115,8 @@ qx.Class.define("qx.ui.core.Spacer",
     maxWidth :
     {
       check : "Number",
-      init : Infinity,
       apply : "_applyLayoutChange",
-      nullable : false
+      nullable : true
     }
   },
 
@@ -138,58 +132,29 @@ qx.Class.define("qx.ui.core.Spacer",
 
   members :
   {
-    // overrridden
-    renderLayout : function(left, top, width, height) {
-      // nothing to do
-    },
-
-
-    // overrridden
-    hasValidLayout : function() {
-      return true;
-    },
-
-
-    // overrridden
-    invalidateLayoutCache : function() {
-      this._sizeHint = null;
-    },
-
-
     // overridden
-    getSizeHint : function()
+    _computeSizeHint : function()
     {
-      if (this._sizeHint) {
-        return this._sizeHint;
-      }
+      var width = this.getWidth() || 0;
+      var height = this.getHeight() || 0;
 
-      this._sizeHint = {
-        minWidth : this.getMinWidth(),
-        width : this.getWidth(),
-        maxWidth : this.getMaxWidth(),
-        minHeight : this.getMinHeight(),
-        height : this.getHeight(),
-        maxHeight : this.getMaxHeight()
+      var minWidth = this.getMinWidth() || 0;
+      var minHeight = this.getMinHeight() || 0;
+
+      var maxWidth = this.getMaxWidth() || Infinity;
+      var maxHeight = this.getMaxHeight() || Infinity;
+
+      width = Math.min(Math.max(minWidth, width), maxWidth);
+      height = Math.min(Math.max(minHeight, height), maxHeight);
+
+      return {
+        minWidth : minWidth,
+        width : width,
+        maxWidth : maxWidth,
+        minHeight : minHeight,
+        height : height,
+        maxHeight : maxHeight
       };
-
-      return this._sizeHint;
-    },
-
-
-    // overridden
-    getCachedSizeHint : function() {
-      return this._sizeHint;
-    },
-
-
-    /**
-     * generic property apply method for layout relevant properties
-     *
-     * @type member
-     * @return {void}
-     */
-    _applyLayoutChange : function() {
-      qx.ui.core.queue.Layout.add(this);
     }
   }
 });
