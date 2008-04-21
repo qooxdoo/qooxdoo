@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_4",
       container.add(w3, {top:150, right:10});
       container.add(w4, {top:220, right:10});
 
-      this.getRoot().add(container, false);
+      this.getRoot().add(container);
     }
   }
 });
