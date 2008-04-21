@@ -42,11 +42,12 @@ qx.Class.define("qx.ui.form.List",
     // force boolean
     horizontal = !!horizontal;
 
-    var content = new qx.ui.core.Widget;
+    var content = new qx.ui.container.Composite();
+
     var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
+    content.setLayout(layout);
 
     content.set({
-      layout : layout,
       allowGrowX : !horizontal,
       allowGrowY : horizontal,
       allowShrinkX : false,
@@ -151,15 +152,15 @@ qx.Class.define("qx.ui.form.List",
     */
 
     getChildren : function() {
-      return this.getContent().getLayoutChildren();
+      return this.getContent().getChildren();
     },
 
     add : function(listItem) {
-      this.getContent().getLayout().add(listItem);
+      this.getContent().add(listItem);
     },
 
     remove : function(listItem) {
-      this.getContent().getLayout().remove(listItem);
+      this.getContent().remove(listItem);
     },
 
 
