@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l1.add(item);
       };
 
-      this.getRoot().add(l1, 20, 20);
+      this.getRoot().add(l1, {left: 20, top: 20});
 
 
 
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l2.add(new qx.ui.form.ListItem(l2l[i]));
       };
 
-      this.getRoot().add(l2, 400, 120);
+      this.getRoot().add(l2, {left: 400, top: 120});
 
 
 
@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l3.add(new qx.ui.form.ListItem(l3l[i]));
       };
 
-      this.getRoot().add(l3, 600, 120);
+      this.getRoot().add(l3, {left: 600, top: 120});
 
 
 
@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
         l4.add(new qx.ui.form.ListItem(null, l4pre + l4l[i]));
       };
 
-      this.getRoot().add(l4, 20, 370);
+      this.getRoot().add(l4, {left: 20, top: 370});
 
 
 
@@ -121,9 +121,9 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       mode2.setChecked(true);
 
-      this.getRoot().add(mode1, 180, 20);
-      this.getRoot().add(mode2, 180, 40);
-      this.getRoot().add(mode3, 180, 60);
+      this.getRoot().add(mode1, {left: 180, top: 20});
+      this.getRoot().add(mode2, {left: 180, top: 40});
+      this.getRoot().add(mode3, {left: 180, top: 60});
 
       var rbm = new qx.ui.core.RadioManager([mode1, mode2, mode3]);
 
@@ -145,9 +145,9 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       show3.setChecked(true);
 
-      this.getRoot().add(show1, 180, 100);
-      this.getRoot().add(show2, 180, 120);
-      this.getRoot().add(show3, 180, 140);
+      this.getRoot().add(show1, {left: 180, top: 100});
+      this.getRoot().add(show2, {left: 180, top: 120});
+      this.getRoot().add(show3, {left: 180, top: 140});
 
       var rbm = new qx.ui.core.RadioManager([show1, show2, show3]);
 
