@@ -41,7 +41,10 @@ qx.Bootstrap.define("qx.bom.client.Platform",
     /** {Boolean} Flag to detect if the client system is running Windows */
     WIN : false,
 
-    /** {Boolean} Flag to detect if the client system is running Mac OS */
+    /**
+     * {Boolean} Flag to detect if the client system is running Mac OS. This
+     * includes the iPhone and iPod touch.
+     */
     MAC : false,
 
     /** {Boolean} Flag to detect if the client system is running Unix/Linux/BSD */
@@ -64,7 +67,7 @@ qx.Bootstrap.define("qx.bom.client.Platform",
         this.WIN = true;
         this.NAME = "win";
       }
-      else if (input.indexOf("Macintosh") != -1 || input.indexOf("MacPPC") != -1 || input.indexOf("MacIntel") != -1)
+      else if (input.indexOf("Macintosh") != -1 || input.indexOf("MacPPC") != -1 || input.indexOf("MacIntel") != -1 || input.indexOf("iPod") != -1)
       {
         this.MAC = true;
         this.NAME = "mac";
