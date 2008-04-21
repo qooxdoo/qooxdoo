@@ -935,8 +935,6 @@ qx.Class.define("qx.ui.core.Widget",
         this._parent.getContentElement().add(this._containerElement);
       }
 
-
-
       // Update inheritable properties
       qx.core.Property.refresh(this);
     },
@@ -945,115 +943,50 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     renderLayout : function(left, top, width, height)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        var msg = "Something went wrong with the layout of " + this.toString() + "!";
-        this.assertInteger(left, "Wrong 'left' argument. " + msg);
-        this.assertInteger(top, "Wrong 'top' argument. " + msg);
-        this.assertInteger(width, "Wrong 'width' argument. " + msg);
-        this.assertInteger(height, "Wrong 'height' argument. " + msg);
-      }
+      var changes = this.base(arguments, left, top, width, height);
 
-      // Cache some often used stuff in local variables
-      var computed = this.__computedLayout;
       var container = this._containerElement;
       var content = this._contentElement;
       var pixel = "px";
 
-      // Create data structure for computed layout
-      if (!computed) {
-        computed = this.__computedLayout = {};
-      }
-
-      // Detect location changes
-      var locationChange = (left !== computed.left || top !== computed.top);
-      if (locationChange)
+      if (changes&1)
       {
-        computed.left = left;
-        computed.top = top;
-
         container.setStyle("left", left + pixel);
         container.setStyle("top", top + pixel);
       }
 
-      if (!this.__hasGivenHeight && this.hasHeightForWidth())
+      if (changes&2)
       {
-        // Note: What when other stuff reproduces a reflow here.
-        // Is this really correct to just check for null here?
-        // Wouldn't it be more stable to re-calculate the
-        // heightForWidth and compare it e.g. ignore it when
-        // it has the same value than before?
-
-        // Only try once for each layout iteration
-        if (this.__computedHeightForWidth != null)
-        {
-          delete this.__computedHeightForWidth;
-        }
-        else
-        {
-          var flowHeight = this.getHeightForWidth(width);
-          // this.debug("Height for width " + width + "px: " + height + "px => " + flowHeight + "px");
-
-          if (height !== flowHeight)
-          {
-            this.__computedHeightForWidth = flowHeight;
-            qx.ui.core.queue.Layout.add(this);
-
-            // Fabian thinks this works flawlessly
-            return;
-          }
-        }
-      }
-
-      var sizeChange = (width !== computed.width || height !== computed.height);
-
-      // If the current layout is invalid force a relayout even if
-      // the size has not changed
-      if (sizeChange || !this._hasValidLayout)
-      {
-        // Compute inner width
         var insets = this.getInsets();
-
         var innerWidth = width - insets.left - insets.right;
         var innerHeight = height - insets.top - insets.bottom;
 
-        // React on size change
-        if (sizeChange)
-        {
-          computed.width = width;
-          computed.height = height;
+        container.setStyle("width", width + pixel);
+        container.setStyle("height", height + pixel);
 
-          container.setStyle("width", width + pixel);
-          container.setStyle("height", height + pixel);
-
-          content.setStyle("width", innerWidth + pixel);
-          content.setStyle("height", innerHeight + pixel);
-        }
+        content.setStyle("width", innerWidth + pixel);
+        content.setStyle("height", innerHeight + pixel);
 
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
-        this.updateDecoration(width, height, sizeChange);
 
         if (this.__layout && this.hasLayoutChildren()) {
           this.__layout.renderLayout(innerWidth, innerHeight);
         }
-
-        this._hasValidLayout = true;
       }
 
-      // After doing the layout fire change events
-      if (sizeChange && this.hasListeners("resize")) {
-        this.fireDataEvent("resize", computed);
-      }
+      // Sync decoration
+      this.updateDecoration(width, height, changes&2);
 
-      if (locationChange && this.hasListeners("move")) {
+      // Fire change events
+      if (changes&1 && this.hasListeners("move")) {
         this.fireDataEvent("move", computed);
       }
+
+      if (changes&2 && this.hasListeners("resize")) {
+        this.fireDataEvent("resize", computed);
+      }
     },
-
-
-
-
 
 
 
