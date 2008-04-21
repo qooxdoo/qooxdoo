@@ -28,20 +28,18 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var layout = new qx.ui.layout.HBox();
+      layout.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.RoundedBorder_1_Theme);
 
-      docLayout.add(this.getGrid1());
-
+      container.add(this.getGrid1());
     },
 
 
@@ -53,12 +51,14 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
       qx.theme.manager.Decoration.getInstance().setTheme(theme);
 
       // auto size
-      var box = (new qx.ui.core.Widget).set({
+      var box = new qx.ui.container.Composite().set({
         padding: 5,
         backgroundColor: "#CCC"
       });
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
+      box.setLayout(layout);
 
       var decorations = theme.decorations;
 
@@ -67,17 +67,15 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
       var i=0;
       for (var key in decorations)
       {
-        layout.add(new qx.ui.basic.Label(key).set({
+        box.add(new qx.ui.basic.Label(key).set({
           decorator: key,
           backgroundColor: "gray",
           padding: 20,
           height: 100,
           width: 100
-        }), Math.floor(i/columns), i%columns);
+        }), {row: Math.floor(i/columns), column: i%columns});
         i += 1;
       }
-
-      box.setLayout(layout);
 
       return box;
     }

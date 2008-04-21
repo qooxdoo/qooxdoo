@@ -39,23 +39,22 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
-      container.setLayout(layout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().add(container, {left: 0, top: 0});
 
-      layout.add(new qx.ui.form.Button("Juhu Kinners").set({
+      container.add(new qx.ui.form.Button("Juhu Kinners").set({
         appearance: "shaded-button"
-      }), 0, 0);
+      }), {row:0, column: 0});
 
-      layout.add(new qx.ui.form.Button("Juhu Kinners").set({
+      container.add(new qx.ui.form.Button("Juhu Kinners").set({
         appearance: "shaded-round-button"
-      }), 0, 1);
+      }), {row:0, column: 1});
 
-      layout.add(new qx.ui.form.Button("Juhu Kinners").set({
+      container.add(new qx.ui.form.Button("Juhu Kinners").set({
         appearance: "shaded-outset-button"
-      }), 0, 2);
+      }), {row:0, column: 2});
     }
   }
 });
