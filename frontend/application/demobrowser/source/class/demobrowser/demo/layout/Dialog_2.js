@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       this.base(arguments);
       this.getRoot().setPadding(20);
 
-      var dialog = new qx.ui.core.Widget().set({
+      var dialog = new qx.ui.container.Composite().set({
          backgroundColor: "#EEE",
          decorator: "black",
          padding: 10
@@ -45,28 +45,20 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       layout.setSpacing(10);
       dialog.setLayout(layout);
 
-      var pane = new qx.ui.core.Widget().set({
-        backgroundColor : "#FFF",
-        width: 600,
-        decorator: "black",
-        padding: 10
-      });
-
-      pane.setLayout(this.getPaneLayout());
-
-      layout.add(pane, 0, 0, { colSpan: 3});
+      var pane = this.getPane();
+      dialog.add(pane, {row: 0, column: 0, colSpan: 3});
 
       var btn_toggle = new qx.ui.basic.Label("Toggle first paragraph").set({
         backgroundColor : "#CCC",
         decorator: "black",
         padding: [4, 8]
       });
-      layout.add(btn_toggle, 1, 1);
+      dialog.add(btn_toggle, {row: 1, column: 1});
 
       var growText = false;
       btn_toggle.addListener("click", function()
       {
-        var label = pane.getLayout().getChildren()[0];
+        var label = pane.getChildren()[0];
         label.setContent(
           growText ?
             "qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed."
@@ -81,7 +73,7 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
         decorator: "black",
         padding: [4, 8]
       });
-      layout.add(btn_resize, 1, 2);
+      dialog.add(btn_resize, {row: 1, column: 2});
 
       var growPane = false;
       btn_resize.addListener("click", function(e)
@@ -95,30 +87,38 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       });
     },
 
-    getPaneLayout : function()
+    getPane : function()
     {
+      var pane = new qx.ui.container.Composite().set({
+        backgroundColor : "#FFF",
+        width: 600,
+        decorator: "black",
+        padding: 10
+      });
+
       var vbox = new qx.ui.layout.VBox;
       vbox.setSpacing(14);
+      pane.setLayout(vbox);
 
       var label1 = new qx.ui.basic.Label().set({
         rich: true,
         content: "qooxdoo is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed."
       });
-      vbox.add(label1);
+      pane.add(label1);
 
       var label2 = new qx.ui.basic.Label().set({
         rich: true,
         content: "It includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license."
       });
-      vbox.add(label2);
+      pane.add(label2);
 
       var label3 = new qx.ui.basic.Label().set({
         rich: true,
         content: "qooxdoo (pronounced [’ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No HTML, CSS nor DOM knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license."
       });
-      vbox.add(label3);
+      pane.add(label3);
 
-      return vbox;
+      return pane;
     }
   }
 });
