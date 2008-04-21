@@ -62,17 +62,6 @@ qx.Class.define("qx.ui.container.Composite",
     */
 
     /**
-     * Get the widget's layout manager.
-     *
-     * @type member
-     * @return {qx.ui.layout.Abstract} The widget's layout manager
-     */
-    getLayout : function() {
-      return this._getLayout();
-    },
-
-
-    /**
      * Set a layout manager for the widget. A a layout manager can only be connected
      * with one widget. Reset the connection with a previous widget first, if you
      * like to use it in another widget instead.
@@ -249,7 +238,6 @@ qx.Class.define("qx.ui.container.Composite",
     // Mapping of protected methods to public.
     // This omits an additional function call when using these methods.
 
-    members.getLayout = members._getLayout;
     members.setLayout = members._setLayout;
 
     members.getChildren = members._getChildren;
