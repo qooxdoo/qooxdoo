@@ -60,13 +60,13 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
       
       var label5 = new qx.ui.basic.Label("Big Long Label").set({
         decorator: decor,
-        font : new qx.bom.Font(28, ["Verdana", "sans-serif"]),
+        font : new qx.bom.Font(28, ["Verdana", "sans-serif"])
       });
       this.getRoot().add(label5, {left:20, top:220});  
 
       var label6 = new qx.ui.basic.Label("Big Long Label Cutted").set({
         decorator: decor,
-        font : new qx.bom.Font(28, ["Verdana", "sans-serif"]),
+        font : new qx.bom.Font(28, ["Verdana", "sans-serif"])
         width : 150
       });
       this.getRoot().add(label6, {left:20, top:280});          
