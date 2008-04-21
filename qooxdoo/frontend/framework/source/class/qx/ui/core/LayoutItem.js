@@ -44,6 +44,24 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
+     * Get the widget's computed location and dimension as computed by
+     * the layout manager.
+     *
+     * This function is guaranteed to return a correct value
+     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
+     *
+     * @type member
+     * @return {Map} The widget location and dimensions in pixel
+     *    (if the layout is valid). Contains the keys
+     *    <code>width</code>, <code>height</code>, <code>left</code> and
+     *    <code>top</code>.
+     */
+    getBounds : function() {
+      return this.__userBounds || this.__computedLayout || null;
+    },
+
+
+    /**
      * Used by the layouters to apply coordinates and dimensions.
      *
      * @type member
@@ -154,6 +172,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
+    /**
+     * Computes the size hint of the layout item.
+     *
+     * @type member
+     * @return The map with the preferred width/height and the allowed
+     *   minimum and maximum values.
+     */
     _computeSizeHint : function() {
       throw new Error("Abstract method call: _computeSizeHint()");
     },
@@ -184,7 +209,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * generic property apply method for layout relevant properties
+     * Generic property apply method for layout relevant properties
      */
     _applyLayoutChange : function() {
       qx.ui.core.queue.Layout.add(this);
@@ -195,7 +220,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
     /*
     ---------------------------------------------------------------------------
-      MANUAL BOUNDARIES
+      SUPPORT FOR USER BOUNDARIES
     ---------------------------------------------------------------------------
     */
 
@@ -204,7 +229,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    setBounds : function(left, top, width, height)
+    setUserBounds : function(left, top, width, height)
     {
       this.__userBounds = {
         left: left,
@@ -217,28 +242,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    resetBounds : function()
+    resetUserBounds : function()
     {
       delete this.__userBounds;
       qx.ui.core.queue.Layout.add(this);
-    },
-
-
-    /**
-     * Get the widget's computed location and dimension as computed by
-     * the layout manager.
-     *
-     * This function is guaranteed to return a correct value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
-     * @type member
-     * @return {Map} The widget location and dimensions in pixel
-     *    (if the layout is valid). Contains the keys
-     *    <code>width</code>, <code>height</code>, <code>left</code> and
-     *    <code>top</code>.
-     */
-    getBounds : function() {
-      return this.__userBounds || this.__computedLayout || null;
     },
 
 
@@ -372,9 +379,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * This is often the BODY element of a typical web page.
      *
      * @type member
-     * @return {qx.ui.core.Widget|null} The root widget (if available)
+     * @return {qx.ui.core.Widget} The root widget (if available)
      */
-    getRoot : function()
+    _getRoot : function()
     {
       var parent = this;
 
