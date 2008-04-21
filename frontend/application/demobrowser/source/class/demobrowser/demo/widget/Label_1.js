@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
 
       var label6 = new qx.ui.basic.Label("Big Long Label Cutted").set({
         decorator: decor,
-        font : new qx.bom.Font(28, ["Verdana", "sans-serif"])
+        font : new qx.bom.Font(28, ["Verdana", "sans-serif"]),
         width : 150
       });
       this.getRoot().add(label6, {left:20, top:280});          
