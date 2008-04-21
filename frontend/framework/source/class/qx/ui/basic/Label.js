@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     // overridden
-    hasHeightForWidth : function() {
+    _hasHeightForWidth : function() {
       return this.getRich();
     },
 

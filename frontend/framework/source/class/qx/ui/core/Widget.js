@@ -1049,11 +1049,6 @@ qx.Class.define("qx.ui.core.Widget",
       var minHeight = this.getMinHeight();
       var maxHeight = this.getMaxHeight();
 
-
-      // Remember that the height value is determined not by the content hint.
-      // If this is the case we can ignore "height for width".
-      this.__hasGivenHeight = height != null;
-
       // Respect height for width
       if (this.__computedHeightForWidth && height == null) {
         height = this.__computedHeightForWidth;
@@ -1225,6 +1220,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
+
     /**
      * Returns the recommended/natural dimensions of the widget's content.
      *
@@ -1274,9 +1270,8 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
     // overridden
-    getHeightForWidth : function(width)
+    _getHeightForWidth : function(width)
     {
       // Prepare insets
       var insets = this.getInsets();
@@ -1300,12 +1295,13 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the computed height for the given width.
      *
+     * @abstract
      * @type member
      * @param width {Integer} Incoming width (as limitation)
      * @return {Integer} Computed height while respecting the given width.
      */
     _getContentHeightForWidth : function(width) {
-      // empty
+      throw new Error("Abstract method call: _getContentHeightForWidth()!");
     },
 
 

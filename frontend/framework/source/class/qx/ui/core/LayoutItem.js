@@ -86,7 +86,31 @@ qx.Class.define("qx.ui.core.LayoutItem",
         this.assertInteger(height, "Wrong 'height' argument. " + msg);
       }
 
-      if (!this.__hasGivenHeight && this.hasHeightForWidth())
+      // Dynamically create data structure for computed layout
+      var computed = this.__computedLayout;
+      if (!computed) {
+        computed = this.__computedLayout = {};
+      }
+
+      // Detect changes
+      var changes = 0;
+
+      if (left !== computed.left || top !== computed.top) {
+        changes += 1;
+      }
+
+      if (!this._hasValidLayout || width !== computed.width || height !== computed.height) {
+        changes += 2;
+      }
+
+      // Store computed values
+      computed.left = left;
+      computed.top = top;
+      computed.width = width;
+      computed.height = height;
+
+      // Height for width support
+      if (this.getHeight() == null && this._hasHeightForWidth())
       {
         // Note: What when other stuff reproduces a reflow here.
         // Is this really correct to just check for null here?
@@ -101,8 +125,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         }
         else
         {
-          var flowHeight = this.getHeightForWidth(width);
-          // this.debug("Height for width " + width + "px: " + height + "px => " + flowHeight + "px");
+          var flowHeight = this._getHeightForWidth(width);
 
           if (height !== flowHeight)
           {
@@ -110,35 +133,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
             qx.ui.core.queue.Layout.add(this);
 
             // Fabian thinks this works flawlessly
-            return;
+            // Only render location on first step of layout process.
+            return changes&1;
           }
         }
       }
 
-      // Dynamically create data structure for computed layout
-      var computed = this.__computedLayout;
-      if (!computed) {
-        computed = this.__computedLayout = {};
-      }
-
-      // Detect changes
-      var todo = 0;
-
-      if (left !== computed.left || top !== computed.top) {
-        todo += 1;
-      }
-
-      if (!this._hasValidLayout || width !== computed.width || height !== computed.height) {
-        todo += 2;
-      }
-
-      computed.left = left;
-      computed.top = top;
-      computed.width = width;
-      computed.height = height;
-
       this._hasValidLayout = true;
-      return todo;
+      return changes;
     },
 
 
@@ -246,7 +248,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {Boolean} Whether the widget supports height for width
      */
-    hasHeightForWidth : function() {
+    _hasHeightForWidth : function() {
       return false;
     },
 
@@ -260,7 +262,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param width {Integer} The widgets new width
      * @return {Integer} The desired widget height
      */
-    getHeightForWidth : function(width) {
+    _getHeightForWidth : function(width) {
       return null;
     },
 
