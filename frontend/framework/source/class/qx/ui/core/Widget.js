@@ -862,7 +862,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
     getLayout : function() {
-      return this.__layout;
+      return this.__layout || null;
     },
 
 
@@ -878,21 +878,28 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _setLayout : function(layout)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        if (layout) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (layout != null) {
           this.assertInstance(layout, qx.ui.layout.Abstract);
         }
       }
 
-      if (this.__layout) {
-        this.__layout.connectToWidget(null);
+      var old = this.__layout;
+      if (old) {
+        old.connectToWidget(null);
       }
 
-      if (layout) {
+      if (layout)
+      {
         layout.connectToWidget(this);
+        this.__layout = layout;
+      }
+      else
+      {
+        delete this.__layout;
       }
 
-      this.__layout = layout;
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -905,19 +912,23 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      if (this._parent) {
+      if (this._parent)
+      {
         this._parent.getContentElement().remove(this._containerElement);
+        this._parent = parent;
+      }
+      else
+      {
+        delete this._parent;
       }
 
-      this._parent = parent || null;
-
-      if (this._parent) {
-        this._parent.getContentElement().add(this._containerElement);
+      if (parent) {
+        parent.getContentElement().add(this._containerElement);
       }
-
-
 
       // Update inheritable properties
+      // TODO: Can we queue this call as well. Looks like this
+      // could be a performance win - at least at initial GUI creation.
       qx.core.Property.refresh(this);
     },
 
