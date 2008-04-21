@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyHideRoot : function(value, old)
     {
-      var root = this.getRoot();
+      var root = this._getRoot();
       if (!root) {
         return;
       }
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyRootOpenClose : function(value, old)
     {
-      var root = this.getRoot();
+      var root = this._getRoot();
       if (!root) {
         return;
       }
@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
       if (this.getHideRoot())
       {
-        if (parent == this.getRoot())
+        if (parent == this._getRoot())
         {
           if (parent.getChildren()[0] == treeItem) {
             return null;
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
       else
       {
-        if (treeItem == this.getRoot()) {
+        if (treeItem == this._getRoot()) {
           return null;
         }
       }
@@ -404,7 +404,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     // interface implementation
     getSelectables : function() {
-      return this.getRoot().getItems(true, false, this.getHideRoot());
+      return this._getRoot().getItems(true, false, this.getHideRoot());
     },
 
 
@@ -419,7 +419,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible) {
-      return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
+      return this._getRoot().getItems(recursive, invisible, this.getHideRoot());
     },
 
 

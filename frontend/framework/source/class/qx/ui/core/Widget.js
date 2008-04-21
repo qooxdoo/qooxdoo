@@ -1277,6 +1277,21 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    // overridden
+    invalidateLayoutCache : function()
+    {
+      // this.debug("Mark widget layout invalid: " + this);
+      this._hasValidLayout = false;
+
+      // invalidateLayoutCache cached size hint
+      this._sizeHint = null;
+
+      // invalidateLayoutCache layout manager
+      if (this.__layout) {
+        this.__layout.invalidateLayoutCache();
+      }
+    },
+
     /**
      * Returns the recommended/natural dimensions of the widget's content.
      *
