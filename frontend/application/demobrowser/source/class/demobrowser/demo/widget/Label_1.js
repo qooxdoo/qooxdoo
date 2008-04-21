@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
       });
       this.getRoot().add(label2, {left:20, top:60});
 
-      var label3 = new qx.ui.basic.Label("My First Long Label").set({
+      var label3 = new qx.ui.basic.Label("My First Long Label Cutted").set({
         decorator: decor,
         width: 80
       });
@@ -53,10 +53,23 @@ qx.Class.define("demobrowser.demo.widget.Label_1",
         width: 120
       });
       this.getRoot().add(label4, {left:20, top:140});
-
+      
       this.debug("Height for Width (50): " + label4.getHeightForWidth(50));
       this.debug("Height for Width (100): " + label4.getHeightForWidth(100));
       this.debug("Height for Width (200): " + label4.getHeightForWidth(200));
+      
+      var label5 = new qx.ui.basic.Label("Big Long Label").set({
+        decorator: decor,
+        font : new qx.bom.Font(28, ["Verdana", "sans-serif"]),
+      });
+      this.getRoot().add(label5, {left:20, top:220});  
+
+      var label6 = new qx.ui.basic.Label("Big Long Label Cutted").set({
+        decorator: decor,
+        font : new qx.bom.Font(28, ["Verdana", "sans-serif"]),
+        width : 150
+      });
+      this.getRoot().add(label6, {left:20, top:280});          
     }
   }
 });
