@@ -94,6 +94,22 @@ qx.Class.define("qx.ui.basic.Image",
     {
       refine : true,
       init : false
+    },
+
+
+    // overridden
+    allowGrowX :
+    {
+      refine : true,
+      init : false
+    },
+
+
+    // overridden
+    allowGrowY :
+    {
+      refine : true,
+      init : false
     }
   },
 
