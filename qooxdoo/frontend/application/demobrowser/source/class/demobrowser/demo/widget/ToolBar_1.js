@@ -89,7 +89,8 @@ qx.Class.define("demobrowser.demo.widget.ToolBar_1",
       radioButton3.setManager(manager);
 
       // create Help Button and add it to the toolbar
-      toolbar.addSpacer();
+      var spacer = toolbar.addSpacer();
+      // spacer.setMaxWidth(100);
       var helpButton = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png");
       toolbar.add(helpButton);
 

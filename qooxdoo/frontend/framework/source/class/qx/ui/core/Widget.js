@@ -692,6 +692,26 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
+     * Controls the visibility. Valid values are:
+     *
+     * <ul>
+     *   <li><b>visible</b>: Render the widget</li>
+     *   <li><b>hidden</b>: Hide the widget but don't relayout the widget's parent.</li>
+     *   <li><b>excluded</b>: Hide the widget and relayout the parent as if the
+     *     widget was not a child of its parent.</li>
+     * </ul>
+     */
+    visibility :
+    {
+      check : ["visible", "hidden", "excluded"],
+      init : "visible",
+      apply : "_applyVisibility",
+      event : "changeVisibility",
+      nullable : false
+    },
+
+
+    /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
      * and do not process user created events. While in the disabled state most
      * user input events are blocked. Only the {@link #mouseover} and
@@ -923,21 +943,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // overridden
-    updateLayout : function()
-    {
-      var computed = this.__userBounds || this.__computedLayout;
-      if (computed.height == null || computed.width == null) {
-        var hint = this.getSizeHint();
-      }
-
-      var height = computed.height != null ? computed.height : hint.height;
-      var width = computed.width != null ? computed.width : hint.width;
-
-      this.renderLayout(computed.left || 0, computed.top || 0, width, height);
-    },
-
-
-    // overridden
     renderLayout : function(left, top, width, height)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -1047,26 +1052,8 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    // overridden
-    hasValidLayout : function() {
-      return !!this._hasValidLayout;
-    },
 
 
-    // overridden
-    invalidateLayoutCache : function()
-    {
-      // this.debug("Mark widget layout invalid: " + this);
-      this._hasValidLayout = false;
-
-      // invalidateLayoutCache cached size hint
-      this._sizeHint = null;
-
-      // invalidateLayoutCache layout manager
-      if (this.__layout) {
-        this.__layout.invalidateLayoutCache();
-      }
-    },
 
 
 
@@ -1111,10 +1098,6 @@ qx.Class.define("qx.ui.core.Widget",
      *   minimum and maximum values in cases where shrinking or growing
      *   is required.
      */
-    getSizeHint : function() {
-      return this._sizeHint || this._computeSizeHint();
-    },
-
 
     /**
      * Internal computition method for size hint.
@@ -1291,12 +1274,6 @@ qx.Class.define("qx.ui.core.Widget",
       };
 
       return this._sizeHint;
-    },
-
-
-    // overridden
-    getCachedSizeHint : function() {
-      return this._sizeHint || null;
     },
 
 
@@ -1704,7 +1681,7 @@ qx.Class.define("qx.ui.core.Widget",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        if (child.getVisibility() !== "excluded" && !child.hasUserBounds()) {
+        if (!child.hasUserBounds() && child.shouldBeLayouted()) {
           layoutChildren.push(child);
         }
       }
@@ -1712,6 +1689,11 @@ qx.Class.define("qx.ui.core.Widget",
       this.__layoutChildren = layoutChildren;
 
       return layoutChildren;
+    },
+
+
+    shouldBeLayouted : function() {
+      return this.getVisibility() !== "excluded";
     },
 
 
@@ -2145,11 +2127,26 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * generic property apply method for layout relevant properties
-     */
-    _applyLayoutChange : function() {
-      qx.ui.core.queue.Layout.add(this);
+    // property apply
+    _applyVisibility : function(value, old)
+    {
+      if (value === "visible") {
+        this._containerElement.show();
+      } else {
+        this._containerElement.hide();
+      }
+
+      // only force a layout update if visibility change from/to "exclude"
+      var parent = this._parent;
+      if (parent && (old === "excluded" || value === "excluded"))
+      {
+        var parentLayout = parent.getLayout();
+        if (parentLayout) {
+          parentLayout.invalidateChildrenCache();
+        }
+
+        qx.ui.core.queue.Layout.add(parent);
+      }
     },
 
 
