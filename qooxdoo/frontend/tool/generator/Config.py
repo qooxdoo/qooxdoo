@@ -26,9 +26,6 @@ class Config:
         obj = open(fname)
         jsonstr = obj.read()
         jsonstr = self._stripComments(jsonstr)
-        import pprint
-        pprint.pprint(jsonstr)
-        sys.exit(0)
         data = simplejson.loads(jsonstr)
         obj.close()
 
