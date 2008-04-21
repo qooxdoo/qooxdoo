@@ -37,11 +37,10 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       layout.setHorizontalSpacing(15);
       layout.setVerticalSpacing(3);
 
-      var container = new qx.ui.core.Widget().set({
-        layout: layout,
+      var container = new qx.ui.container.Composite(layout).set({
         padding: 10
       });
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
       var row = 0;
 
@@ -50,20 +49,20 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       s1.set({
         editable: false
       });
-      layout.add(new qx.ui.basic.Label("Not Editable"), 0, row);
-      layout.add(new qx.ui.basic.Label("100"), 1, row);
-      layout.add(s1, 2, row);
-      layout.add(new qx.ui.basic.Label("0"), 3, row++);
+      container.add(new qx.ui.basic.Label("Not Editable"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("100"), {column: 1, row: row});
+      container.add(s1, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("0"), {column: 3, row: row++});
 
 
       // ----- Spinner 2 -----
       var s2 = new qx.ui.form.Spinner(-30, 30, 30).set({
         wrap: true
       });
-      layout.add(new qx.ui.basic.Label("Wrap"), 0, row);
-      layout.add(new qx.ui.basic.Label("30"), 1, row);
-      layout.add(s2, 2, row);
-      layout.add(new qx.ui.basic.Label("-30"), 3, row++);
+      container.add(new qx.ui.basic.Label("Wrap"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("30"), {column: 1, row: row});
+      container.add(s2, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("-30"), {column: 3, row: row++});
 
 
       // ----- Spinner 3 -----
@@ -72,36 +71,36 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
         width: 200,
         font: qx.bom.Font.fromString("30px sans-serif")
       });
-      layout.add(new qx.ui.basic.Label("Big font + singleStep=5"), 0, row);
-      layout.add(new qx.ui.basic.Label("3000"), 1, row);
-      layout.add(s3, 2, row);
-      layout.add(new qx.ui.basic.Label("-3000"), 3, row++);
+      container.add(new qx.ui.basic.Label("Big font + singleStep=5"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("3000"), {column: 1, row: row});
+      container.add(s3, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("-3000"), {column: 3, row: row++});
 
 
       // ----- Spinner 4 -----
       var s4 = new qx.ui.form.Spinner(100, 0, 200);
-      layout.add(new qx.ui.basic.Label("Out of range value"), 0, row);
-      layout.add(new qx.ui.basic.Label("200"), 1, row);
-      layout.add(s4, 2, row);
-      layout.add(new qx.ui.basic.Label("100"), 3, row++);
+      container.add(new qx.ui.basic.Label("Out of range value"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("200"), {column: 1, row: row});
+      container.add(s4, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row++});
 
 
       // ----- Spinner 5 -----
       s5 = new qx.ui.form.Spinner( -200, null, -100);
-      layout.add(new qx.ui.basic.Label("Null as value"), 0, row);
-      layout.add(new qx.ui.basic.Label("-100"), 1, row);
-      layout.add(s5, 2, row);
-      layout.add(new qx.ui.basic.Label("-200"), 3, row++);
+      container.add(new qx.ui.basic.Label("Null as value"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("-100"), {column: 1, row: row});
+      container.add(s5, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("-200"), {column: 3, row: row++});
 
 
       // ----- Spinner 6 -----
       var s6 = new qx.ui.form.Spinner(-200, null, -100).set({
         enabled: false
       });
-      layout.add(new qx.ui.basic.Label("Disabled"), 0, row);
-      layout.add(new qx.ui.basic.Label("-100"), 1, row);
-      layout.add(s6, 2, row);
-      layout.add(new qx.ui.basic.Label("-200"), 3, row++);
+      container.add(new qx.ui.basic.Label("Disabled"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("-100"), {column: 1, row: row});
+      container.add(s6, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("-200"), {column: 3, row: row++});
 
 
       // ----- Spinner 7 -----
@@ -112,10 +111,10 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       nf.setMaximumFractionDigits(2);
       s7.setNumberFormat(nf);
 
-      layout.add(new qx.ui.basic.Label("With number format"), 0, row);
-      layout.add(new qx.ui.basic.Label("3000"), 1, row);
-      layout.add(s7, 2, row);
-      layout.add(new qx.ui.basic.Label("0"), 3, row++);
+      container.add(new qx.ui.basic.Label("With number format"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("3000"), {column: 1, row: row});
+      container.add(s7, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("0"), {column: 3, row: row++});
     }
   }
 });

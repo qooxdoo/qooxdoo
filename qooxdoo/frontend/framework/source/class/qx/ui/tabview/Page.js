@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.tabview.Page",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.container.Composite,
 
   /*
   *****************************************************************************
@@ -36,35 +36,35 @@ qx.Class.define("qx.ui.tabview.Page",
   *****************************************************************************
   */
   construct : function(label, icon) {
-    this.base(arguments);    
+    this.base(arguments);
     this._button = this._createButton(label, icon);
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  members : {   
-    
+  members : {
+
     /**
-     * Returns the button used within this page. This method is used by 
+     * Returns the button used within this page. This method is used by
      * the TabView to access the button.
-     * 
+     *
      * @internal
      * @return {qx.ui.form.RadioButton} The button associated with this page.
      */
     getButton: function() {
       return this._button;
     },
-    
+
     /**
      * Constructor helper.
-     * Creates a new RadioButton and adjusts the button for the 
+     * Creates a new RadioButton and adjusts the button for the
      * needs of the tabview.
-     * 
+     *
      * @param label {String} The label of the button.
      * @param icon {String} Path to the icon.
      * @return {qx.ui.form.RadioButton} The created button.
@@ -73,38 +73,38 @@ qx.Class.define("qx.ui.tabview.Page",
       var button = new qx.ui.form.RadioButton(label);
       // set the icon if a icon path is available
       if (icon) {
-        button.setIcon(icon);      
+        button.setIcon(icon);
       }
       // add a listener for hiding and showing the sites
       button.addListener("changeChecked", function(e) {
         if (e.getValue()) {
           this.show();
         } else {
-          // Use exclude() and not hide() because of 
+          // Use exclude() and not hide() because of
           // "getCurrentPage" in the TabView class
           this.exclude();
         }
       }, this);
-      
+
       button.setAppearance("tab-view-button");
       return button;
     },
-    
-    
+
+
     /**
      * Overridden apply method.
-     * Enables the page and the assicoated button. 
-     * 
+     * Enables the page and the assicoated button.
+     *
      * @param value {boolean} The new value.
      * @param old {boolean} The old value.
      */
     _applyEnabled: function(value, old) {
-      this.base(arguments, value, old);   
+      this.base(arguments, value, old);
       this._button.setEnabled(value);
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -112,6 +112,6 @@ qx.Class.define("qx.ui.tabview.Page",
   */
   destruct : function() {
     this._disposeObjects("_button");
-  }  
+  }
 
 });
