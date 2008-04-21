@@ -833,7 +833,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         width    : "100%",
         height   : "100%",
         border   : "dark-shadow",
-        font     : "monospace"
+        font     : "monospace",
+        selectable: "true"
       });
       f4.setHtmlProperty("id", "qx_srcview");
 
