@@ -858,7 +858,8 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Get the widget's layout manager.
      *
-     * @return {qx.ui.layout.Abstract|null} The widget's layout manager
+     * @type member
+     * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
     getLayout : function() {
       return this.__layout;
@@ -866,11 +867,14 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Set a layout manager for the widget. A a layout manager can only be added
-     * to one widget at a time.
+     * Set a layout manager for the widget. A a layout manager can only be connected
+     * with one widget. Reset the connection with a previous widget first, if you
+     * like to use it in another widget instead.
      *
-     *  @param layout {qx.ui.layout.Abstract|null} The new layout or
-     *      <code>null</code> to reset the layout.
+     * @type member
+     * @param layout {qx.ui.layout.Abstract} The new layout or
+     *     <code>null</code> to reset the layout.
+     * @return {void}
      */
     _setLayout : function(layout)
     {
