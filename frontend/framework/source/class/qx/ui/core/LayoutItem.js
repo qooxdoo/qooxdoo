@@ -75,8 +75,70 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *   always in pixels
      * @return {void}
      */
-    renderLayout : function(left, top, width, height) {
+    renderLayout : function(left, top, width, height)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var msg = "Something went wrong with the layout of " + this.toString() + "!";
+        this.assertInteger(left, "Wrong 'left' argument. " + msg);
+        this.assertInteger(top, "Wrong 'top' argument. " + msg);
+        this.assertInteger(width, "Wrong 'width' argument. " + msg);
+        this.assertInteger(height, "Wrong 'height' argument. " + msg);
+      }
+
+      if (!this.__hasGivenHeight && this.hasHeightForWidth())
+      {
+        // Note: What when other stuff reproduces a reflow here.
+        // Is this really correct to just check for null here?
+        // Wouldn't it be more stable to re-calculate the
+        // heightForWidth and compare it e.g. ignore it when
+        // it has the same value than before?
+
+        // Only try once for each layout iteration
+        if (this.__computedHeightForWidth != null)
+        {
+          delete this.__computedHeightForWidth;
+        }
+        else
+        {
+          var flowHeight = this.getHeightForWidth(width);
+          // this.debug("Height for width " + width + "px: " + height + "px => " + flowHeight + "px");
+
+          if (height !== flowHeight)
+          {
+            this.__computedHeightForWidth = flowHeight;
+            qx.ui.core.queue.Layout.add(this);
+
+            // Fabian thinks this works flawlessly
+            return;
+          }
+        }
+      }
+
+      // Dynamically create data structure for computed layout
+      var computed = this.__computedLayout;
+      if (!computed) {
+        computed = this.__computedLayout = {};
+      }
+
+      // Detect changes
+      var todo = 0;
+
+      if (left !== computed.left || top !== computed.top) {
+        todo += 1;
+      }
+
+      if (!this._hasValidLayout || width !== computed.width || height !== computed.height) {
+        todo += 2;
+      }
+
+      computed.left = left;
+      computed.top = top;
+      computed.width = width;
+      computed.height = height;
+
       this._hasValidLayout = true;
+      return todo;
     },
 
 
@@ -136,11 +198,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
       // invalidateLayoutCache cached size hint
       this._sizeHint = null;
-
-      // invalidateLayoutCache layout manager
-      if (this.__layout) {
-        this.__layout.invalidateLayoutCache();
-      }
     },
 
 
