@@ -24,7 +24,12 @@ class Config:
 
     def __init_fname(self, fname):
         obj = open(fname)
-        data = simplejson.loads(obj.read())
+        jsonstr = obj.read()
+        jsonstr = self._stripComments(jsonstr)
+        import pprint
+        pprint.pprint(jsonstr)
+        sys.exit(0)
+        data = simplejson.loads(jsonstr)
         obj.close()
 
         self._data  = data
@@ -351,6 +356,14 @@ class Config:
                     _expandMacrosInValues(config[job], letmaps)
 
         console.outdent()
+
+
+    def _stripComments(self,jsonstr):
+        eolComment = re.compile(r'//.*$', re.M)
+        mulComment = re.compile(r'/\*.*?\*/', re.S)
+        result = eolComment.sub('',jsonstr)
+        result = mulComment.sub('',result)
+        return result
 
 
 class Job(object):
