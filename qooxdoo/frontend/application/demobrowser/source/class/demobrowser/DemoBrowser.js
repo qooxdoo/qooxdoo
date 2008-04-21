@@ -800,7 +800,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         width    : "100%",
         height   : "100%",
         border   : "dark-shadow",
-        font     : "monospace"
+        font     : "monospace",
+        selectable : true
       });
       f3.setHtmlProperty("id", "qx_srcview");
 
@@ -997,7 +998,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // set a section to open initially
       var state   = this._history.getState();
       var section =  state.match(/([^~]+)~/);
-      if (section) 
+      if (section)
       {
         _initialSection = section[1];
       }
@@ -1249,9 +1250,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var furl = this.f1.getSource();
       //if (this._currentSampleUrl != this.defaultUrl)
-      if (furl != null && 
-          furl != this.defaultUrl && 
-          fwindow.qx && 
+      if (furl != null &&
+          furl != this.defaultUrl &&
+          fwindow.qx &&
           fwindow.qx.log)
       {
         // set logger
