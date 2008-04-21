@@ -420,10 +420,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    // {Boolean} Whether the layout defined that the widget is visible or not.
-    _layoutVisible : true,
-
-
     // property apply
     _applyVisibility : function(value, old)
     {
