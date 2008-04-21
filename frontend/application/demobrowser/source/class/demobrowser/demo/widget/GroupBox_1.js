@@ -37,33 +37,38 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
       // create the main layout
       var mainLayout = new qx.ui.layout.VBox();
       mainLayout.setSpacing(10);
+
       // add the main layout to a container widget and to the document root
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(mainLayout);
       container.setPadding(20);
-      container.setLayout(mainLayout);
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
       // create the first group box
       var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");
       box1.setLegendPosition("top");
-      box1.getPane().setPadding(3, 9);
-      mainLayout.add(box1);
+      container.add(box1);
+
       // create and add the content of the first group box
-      var innerLayout1 = new qx.ui.layout.VBox();
-      innerLayout1.add(new qx.ui.form.CheckBox("Show debugging content"));
-      innerLayout1.add(new qx.ui.form.CheckBox("Enable code completion"));
-      innerLayout1.add(new qx.ui.form.CheckBox("Show debugging console"));
-      box1.getPane().setLayout(innerLayout1);
+      var pane = box1.getPane()
+      pane.setLayout(new qx.ui.layout.VBox());
+      pane.setPadding(13);
+      pane.add(new qx.ui.form.CheckBox("Show debugging content"));
+      pane.add(new qx.ui.form.CheckBox("Enable code completion"));
+      pane.add(new qx.ui.form.CheckBox("Show debugging console"));
+
 
       // create the second group box
       box2 = new qx.ui.groupbox.CheckGroupBox("Expert Settings");
-      mainLayout.add(box2);
+      container.add(box2);
+
       // create and add the content of the second group box
-      var innerLayout2 = new qx.ui.layout.HBox();
+      var pane2 = box2.getPane()
+      pane2.setLayout(new qx.ui.layout.HBox());
       var textField = new qx.ui.form.TextField("");
       textField.setWidth(200);
-      innerLayout2.add(textField);
-      box2.getPane().setLayout(innerLayout2);
+      pane2.add(textField);
+
+
       // Add a listener to the checkbox
       box2.getLegendObject().addListener("changeChecked", function(e) {
         textField.setEnabled(e.getValue());
@@ -73,19 +78,22 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
       var radioButton1 = new qx.ui.form.RadioButton("Normal Settings");
       radioButton1.setPaddingLeft(13);
       radioButton1.setPaddingBottom(-10);
-      mainLayout.add(radioButton1);
+      container.add(radioButton1);
+
       box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
-      mainLayout.add(box3);
+      container.add(box3);
+
       var manager = new qx.ui.core.RadioManager();
       manager.add(radioButton1);
       manager.add(box3.getLegendObject());
 
       // create and add the content of the third group box
-      var innerLayout3 = new qx.ui.layout.HBox();
+      var pane3 = box3.getPane()
+      pane3.setLayout(new qx.ui.layout.HBox());
       var textField2 = new qx.ui.form.TextField("");
       textField2.setWidth(200);
-      innerLayout3.add(textField2);
-      box3.getPane().setLayout(innerLayout3);
+      pane3.add(textField2);
+
       // Add a listener to the radio button
       box3.getLegendObject().addListener("changeChecked", function(e) {
         textField2.setEnabled(e.getValue());
