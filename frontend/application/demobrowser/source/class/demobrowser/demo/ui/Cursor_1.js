@@ -28,25 +28,25 @@ qx.Class.define("demobrowser.demo.ui.Cursor_1",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
-      docLayout.add(this.getGrid1());
+      container.add(this.getGrid1());
     },
 
 
     getGrid1 : function()
     {
-      // auto size
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow"});
+      var container = new qx.ui.container.Composite().set({decorator: "black", backgroundColor: "yellow"});
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(20);
+      container.setLayout(layout);
 
       var cursors = [
         "default",
@@ -69,19 +69,17 @@ qx.Class.define("demobrowser.demo.ui.Cursor_1",
       var i=0;
       for (var i=0; i<15; i++)
       {
-        layout.add(new qx.ui.basic.Label(cursors[i]).set({
+        container.add(new qx.ui.basic.Label(cursors[i]).set({
           decorator: "black",
           backgroundColor: "green",
           cursor: cursors[i],
           padding: 5,
           height: 100,
           width: 100
-        }), Math.floor(i/5), i%5);
+        }), {row: Math.floor(i/5), column: i%5});
       }
 
-      box.setLayout(layout);
-
-      return box;
+      return container;
     }
   }
 });
