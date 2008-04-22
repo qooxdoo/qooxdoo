@@ -70,27 +70,27 @@ qx.Class.define("qx.ui.form.Spinner",
     this.base(arguments);
 
     // MAIN LAYOUT
-    this._mainLayout = new qx.ui.layout.Grid();
-    this._mainLayout.setColumnFlex(0, 1);
-    this._mainLayout.setRowFlex(0,1);
-    this._mainLayout.setRowFlex(1,1);
-    this.setLayout(this._mainLayout);
+    var layout = new qx.ui.layout.Grid();
+    layout.setColumnFlex(0, 1);
+    layout.setRowFlex(0,1);
+    layout.setRowFlex(1,1);
+    this._setLayout(layout);
 
     // TEXTFIELD
     this._textField = new qx.ui.form.TextField();
     this._textField.setAppearance("spinner-text-field");
     this._textField.setWidth(40);
-    this._mainLayout.add(this._textField, 0, 0, {rowSpan: 2});
+    this._add(this._textField, {column: 0, row: 0, rowSpan: 2});
 
     // UP-BUTTON
     this._upbutton = new qx.ui.form.RepeatButton();
     this._upbutton.setAppearance("spinner-button-up");
-    this._mainLayout.add(this._upbutton, 0, 1);
+    this._add(this._upbutton, {column: 1, row: 0});
 
     // DOWN-BUTTON
     this._downbutton = new qx.ui.form.RepeatButton();
     this._downbutton.setAppearance("spinner-button-down");
-    this._mainLayout.add(this._downbutton, 1, 1);
+    this._add(this._downbutton, {column:1, row: 1});
 
     // EVENTS
     this.addListener("keydown", this._onKeyDown, this);

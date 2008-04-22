@@ -31,23 +31,23 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.Grid();
-      docLayout.setSpacing(20);
+      var layout = new qx.ui.layout.Grid();
+      layout.setSpacing(20);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
-      docLayout.add(this.getCellAlignGrid(), 0, 0);
-      docLayout.add(this.getRowColumnAlignGrid(), 0, 1);
-      docLayout.add(this.getColumnAlignGrid(), 0, 2);
-      docLayout.add(this.getRowAlignGrid(), 1, 0);
+      container.add(this.getCellAlignGrid(), {row: 0, column: 0});
+      container.add(this.getRowColumnAlignGrid(), {row: 0, column: 1});
+      container.add(this.getColumnAlignGrid(), {row: 0, column: 2});
+      container.add(this.getRowAlignGrid(), {row: 1, column: 0});
     },
 
 
-    getNewWidget : function() {
+    getNewWidget : function()
+    {
       var widget = new qx.ui.core.Widget().set({
         decorator: "black",
         backgroundColor: "green",
@@ -62,21 +62,25 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getColumnAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = new qx.ui.container.Composite().set({
+        decorator: "black",
+        backgroundColor: "yellow",
+        allowGrowX: false,
+        allowGrowY: false
+      });
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
-
       layout.setColumnAlign(0, "left", "top");
       layout.setColumnAlign(1, "center", "middle");
       layout.setColumnAlign(2, "right", "bottom");
+      box.setLayout(layout);
 
       for (var x=0; x<3; x++) {
         for (var y=0; y<6; y++) {
-          layout.add(this.getNewWidget(), y, x);
+          box.add(this.getNewWidget(), {row: y, column: x});
         }
       }
-
-      box.setLayout(layout);
 
       return box;
     },
@@ -84,21 +88,25 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getRowAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = new qx.ui.container.Composite().set({
+        decorator: "black",
+        backgroundColor: "yellow",
+        allowGrowX: false,
+        allowGrowY: false
+      });
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
-
       layout.setRowAlign(0, "left", "top");
       layout.setRowAlign(1, "center", "middle");
       layout.setRowAlign(2, "right", "bottom");
+      box.setLayout(layout);
 
       for (var x=0; x<6; x++) {
         for (var y=0; y<3; y++) {
-          layout.add(this.getNewWidget(), y, x);
+          box.add(this.getNewWidget(), {row: y, column: x});
         }
       }
-
-      box.setLayout(layout);
 
       return box;
     },
@@ -106,20 +114,27 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 
     getCellAlignGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = new qx.ui.container.Composite().set({
+        decorator: "black",
+        backgroundColor: "yellow",
+        allowGrowX: false,
+        allowGrowY: false
+      });
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
+      box.setLayout(layout);
 
       for (var x=0; x<5; x++) {
         layout.setColumnAlign(x, "center", "middle")
         for (var y=0; y<5; y++) {
-          layout.add(this.getNewWidget(), y, x);
+          box.add(this.getNewWidget(), {row: y, column: x});
         }
       }
 
       var widget = layout.getCellWidget(0, 0);
-      layout.addLayoutProperty(widget, "hAlign", "left");
-      layout.addLayoutProperty(widget, "vAlign", "top");
+      widget.setLayoutProperties({"hAlign": "left"});
+      widget.setLayoutProperties({"vAlign": "top"});
       widget.set({
         backgroundColor : "orange",
         width: 20,
@@ -127,15 +142,13 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
       });
 
       var widget = layout.getCellWidget(4, 4);
-      layout.addLayoutProperty(widget, "hAlign", "right");
-      layout.addLayoutProperty(widget, "vAlign", "bottom");
+      widget.setLayoutProperties({"hAlign": "right"});
+      widget.setLayoutProperties({"vAlign": "bottom"});
       widget.set({
         backgroundColor : "orange",
         width: 20,
         height: 20
       });
-
-      box.setLayout(layout);
 
       return box;
     },
@@ -147,13 +160,20 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
       // hAlign is taken from the row
       // vAlign is taken from the column
 
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", allowGrowX: false, allowGrowY: false});
+      var box = new qx.ui.container.Composite().set({
+        decorator: "black",
+        backgroundColor: "yellow",
+        allowGrowX: false,
+        allowGrowY: false
+      });
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
+      box.setLayout(layout);
 
       for (var x=0; x<5; x++) {
         for (var y=0; y<5; y++) {
-          layout.add(this.getNewWidget(), y, x);
+          box.add(this.getNewWidget(), {row: y, column: x});
         }
       }
 
@@ -171,8 +191,6 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
         width: 20,
         height: 20
       });
-
-      box.setLayout(layout);
 
       return box;
     }

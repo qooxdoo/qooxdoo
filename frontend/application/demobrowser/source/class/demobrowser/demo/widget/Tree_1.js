@@ -28,16 +28,15 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
     {
       this.base(arguments);
 
-      var container = new qx.ui.core.Widget().set({
-        layout: new qx.ui.layout.HBox().set({
-          spacing: 20
-        }),
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
+        spacing: 20
+      })).set({
         padding: 30
       });
       this.getRoot().add(container);
 
       var tree = this.getTree();
-      container.getLayout().add(tree);
+      container.add(tree);
 
       var commandFrame = this.getCommandFrame(tree);
       container.getLayout().add(commandFrame);
@@ -104,28 +103,28 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       var grid = new qx.ui.layout.Grid();
       grid.setHorizontalSpacing(3);
       grid.setVerticalSpacing(5);
-      commandFrame.getPane().setLayout(grid);
 
-
+      var pane = commandFrame.getPane().
+      pane.setLayout(grid);
 
       var row = 0;
-      grid.add(new qx.ui.basic.Label("Current Folder: ").set({
+      pane.add(new qx.ui.basic.Label("Current Folder: ").set({
         paddingTop: 4
-      }), row, 0);
+      }), {row: row, column: 0});
 
       var tCurrentInput = new qx.ui.form.TextField().set({
         readOnly : true
       });
 
-      grid.add(tCurrentInput, row++, 1);
+      pane.add(tCurrentInput, {row: row++, column: 1});
 
       tree.getManager().addListener("changeSelection", function(e) {
         tCurrentInput.setValue(e.getData()[0].getLabelObject().getContent());
       });
 
 
-      grid.add(new qx.ui.core.Spacer(spacerSize, spacerSize), row++, 0);
-      grid.add(new qx.ui.basic.Label("Open mode:"), row, 0);
+      pane.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      pane.add(new qx.ui.basic.Label("Open mode:"), {row: row, column: 0});
       var modes = {
         "clickOpen": "click (open)",
         "clickOpenClose": "click (open/close)",
@@ -142,7 +141,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
           checked: mode == tree.getOpenMode()
         });
         modeMgr.add(radioButton);
-        grid.add(radioButton, row++, 1)
+        pane.add(radioButton, {row: row++, column: 1})
       }
 
       modeMgr.addListener("changeSelected", function(e) {
@@ -150,12 +149,12 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       });
 
 
-      grid.add(new qx.ui.core.Spacer(spacerSize, spacerSize), row++, 0);
-      grid.add(new qx.ui.basic.Label("Selection:"), row, 0);
+      pane.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      pane.add(new qx.ui.basic.Label("Selection:"), {row: row, column: 0});
 
       var btnMultiSelect = new qx.ui.form.CheckBox("Enable Multi-Selection");
       //btnMultiSelect.setChecked(tree.getManager().getMultiSelection());
-      grid.add(btnMultiSelect, row++, 1);
+      pane.add(btnMultiSelect, {row: row++, column: 1});
 
       btnMultiSelect.addListener("changeChecked", function(e) {
         return;
@@ -170,7 +169,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       var btnDragSelect = new qx.ui.form.CheckBox("Enable Drag-Selection");
       //btnDragSelect.setChecked(tree.getManager().getDragSelection());
-      grid.add(btnDragSelect, row++, 1);
+      pane.add(btnDragSelect, {row: row++, column: 1});
 
       btnDragSelect.addListener("changeChecked", function(e) {
         return;
@@ -185,7 +184,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       var btnDeselect = new qx.ui.form.CheckBox("Allow Deselection");
       //btnDeselect.setChecked(tree.getManager().getCanDeselect());
-      grid.add(btnDeselect, row++, 1);
+      pane.add(btnDeselect, {row: row++, column: 1});
 
       btnDeselect.addListener("changeChecked", function(e) {
         return;
@@ -194,12 +193,12 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
 
 
-      grid.add(new qx.ui.core.Spacer(spacerSize, spacerSize), row++, 0);
-      grid.add(new qx.ui.basic.Label("Root node:"), row, 0);
+      pane.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
+      pane.add(new qx.ui.basic.Label("Root node:"), {row: row, column: 0});
 
       var btnHideRoot = new qx.ui.form.CheckBox("Hide Root Node");
       btnHideRoot.setChecked(tree.getHideRoot());
-      grid.add(btnHideRoot, row++, 1);
+      pane.add(btnHideRoot, {row: row++, column: 1});
 
       btnHideRoot.addListener("changeChecked", function(e) {
         tree.setHideRoot(e.getValue());
@@ -208,7 +207,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       var btnShowRootOpen = new qx.ui.form.CheckBox("Show root open button");
       btnShowRootOpen.setChecked(tree.getRootOpenClose());
-      grid.add(btnShowRootOpen, row++, 1);
+      pane.add(btnShowRootOpen, {row: row++, column: 1});
 
       btnShowRootOpen.addListener("changeChecked", function(e) {
         tree.setRootOpenClose(e.getValue());
@@ -229,23 +228,23 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       tTreeLines.addEventListener("changeChecked", function(e) { tree.setUseTreeLines(e.getData()); });
 */
 
-      grid.add(new qx.ui.core.Spacer(spacerSize, spacerSize), row++, 0);
+      pane.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       var vShowItems = new qx.ui.form.Button("Show Items");
-      grid.add(vShowItems, row++, 1);
+      pane.add(vShowItems, {row: row++, column: 1});
 
       vShowItems.addListener("execute", function(e) {
         alert(("" + tree.getItems()).replace(",", "\n", "g"));
       });
 
       var vShowOpenItems = new qx.ui.form.Button("Show Open Items");
-      grid.add(vShowOpenItems, row++, 1);
+      pane.add(vShowOpenItems, {row: row++, column: 1});
 
       vShowOpenItems.addListener("execute", function(e) {
         alert(("" + tree.getSelectableItems()).replace(",", "\n", "g"));
       });
 
       var vShowSelectedItems = new qx.ui.form.Button("Show Selected Items");
-      grid.add(vShowSelectedItems, row++, 1);
+      pane.add(vShowSelectedItems, {row: row++, column: 1});
 
       vShowSelectedItems.addListener("execute", function(e) {
         alert(("" + tree.getSelectedItems()).replace(",", "\n", "g"));
@@ -253,7 +252,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
 
       var vShowSelectedItems = new qx.ui.form.Button("Toggle Height");
-      grid.add(vShowSelectedItems, row++, 1);
+      pane.add(vShowSelectedItems, {row: row++, column: 1});
 
       var grow = true;
       vShowSelectedItems.addListener("execute", function(e) {

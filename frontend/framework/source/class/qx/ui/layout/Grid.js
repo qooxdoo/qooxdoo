@@ -347,7 +347,12 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The cell's column index
      * @return {qx.ui.core.Widget|null}The cell's widget. The value may be null.
      */
-    getCellWidget : function(row, column) {
+    getCellWidget : function(row, column)
+    {
+      if (!this.__childrenCacheValid) {
+        this.__buildGrid();
+      }
+
       return this.__grid[row][column] ||  null;
     },
 
