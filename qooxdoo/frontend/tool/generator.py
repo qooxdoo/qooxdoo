@@ -96,6 +96,9 @@ def main():
     # Resolve "let"-Keys
     config.resolveMacros(expandedjobs)
 
+    # Resolve libs/Manifests
+    config.resolveLibs(expandedjobs)
+
     # Convert to jobsmap
     config = Config(console, config.getJobsMap())
 
