@@ -809,11 +809,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Fire change events
       if (changes&1 && this.hasListeners("move")) {
-        this.fireDataEvent("move", computed);
+        this.fireDataEvent("move", this.getBounds());
       }
 
       if (changes&2 && this.hasListeners("resize")) {
-        this.fireDataEvent("resize", computed);
+        this.fireDataEvent("resize", this.getBounds());
       }
     },
 
