@@ -28,16 +28,15 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.Grid();
-      docLayout.setSpacing(20);
+      var layout = new qx.ui.layout.Grid();
+      layout.setSpacing(20);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container);
 
-      docLayout.add(this.getAnimGrid(), 0, 0);
+      container.add(this.getAnimGrid(), {row: 0, column: 0});
     },
 
 
@@ -95,9 +94,16 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
 
     getAnimGrid : function()
     {
-      var box = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "yellow", width: 500, height: 500});
+      var box = new qx.ui.container.Composite().set({
+        decorator: "black",
+        backgroundColor: "yellow",
+        width: 500,
+        height: 500
+      });
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(3);
+      box.setLayout(layout);
 
       this._active = null;
 
@@ -107,12 +113,9 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
         layout.setRowFlex(x, 1);
 
         for (var y=0; y<7; y++) {
-          layout.add(this.getNewWidget(), y, x);
+          box.add(this.getNewWidget(), {row: y, column: x});
         }
       }
-
-      box.setLayout(layout);
-
       return box;
     }
   }

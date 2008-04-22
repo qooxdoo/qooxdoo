@@ -82,11 +82,11 @@ qx.Class.define("qx.legacy.ui.embed.Future",
       if (this._root)
       {
         if (old) {
-          this._root.getLayout().remove(old);
+          this._root.remove(old);
         }
 
         if (value) {
-          this._root.getLayout().add(value, 0, 0, 0, 0);
+          this._root.addMain(value);
         }
       }
     },
@@ -160,11 +160,10 @@ qx.Class.define("qx.legacy.ui.embed.Future",
 
       el.appendChild(rootEl);
       this._root = new qx.ui.root.Inline(rootEl);
-      this._root.setLayout(new qx.ui.layout.Canvas());
 
       var content = this.getContent();
       if (content) {
-        this._root.getLayout().add(content, 0, 0, 0, 0);
+        this._root.addMain(content);
       }
 
       this._setPaneWidth(this.getBoxWidth());

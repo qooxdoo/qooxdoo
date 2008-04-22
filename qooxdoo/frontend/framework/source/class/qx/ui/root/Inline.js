@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.root.Inline",
     this.base(arguments);
 
     // Use static layout
-    this._setLayout(new qx.ui.layout.Basic());
+    this._setLayout(new qx.ui.layout.Canvas());
 
     // Directly schedule layout for root element
     qx.ui.core.queue.Layout.add(this);
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.root.Inline",
   {
     // adds major widget (left top edge)
     addMain : function(child) {
-      this._add(child, {left:0, top: 0});
+      this._add(child, {left:0, top: 0, right: 0, bottom: 0});
     },
 
     // overridden
