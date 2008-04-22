@@ -31,6 +31,194 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      DIMENSION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the user provided minimal width of the widget. If the value is set
+     * to <code>null</code> the preferred minimum width of the widget's content
+     * is used.
+     *
+     * Also take a look at the related properties {@link #width} and {@link #maxWidth}.
+     */
+    minWidth :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLayoutChange",
+      init : null,
+      themeable : true
+    },
+
+
+    /**
+     * Sets the preferred width of the widget. If the value is set
+     * to <code>null</code> the preferred width of the widget's content
+     * is used.
+     *
+     * The widget's computed width may differ from the given width due to
+     * widget stretching. Also take a look at the related properties
+     * {@link #minWidth} and {@link #maxWidth}.
+     */
+    width :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLayoutChange",
+      init : null,
+      themeable : true
+    },
+
+
+    /**
+     * Sets the user provided maximal width of the widget. If the value is set
+     * to <code>null</code> the preferred maximal width of the widget's content
+     * is used.
+     *
+     * Also take a look at the related properties {@link #width} and {@link #minWidth}.
+     */
+    maxWidth :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLayoutChange",
+      init : null,
+      themeable : true
+    },
+
+
+    /**
+     * Sets the user provided minimal height of the widget. If the value is set
+     * to <code>null</code> the preferred minimal height of the widget's content
+     * is used.
+     *
+     * Also take a look at the related properties {@link #height} and {@link #maxHeight}.
+     */
+    minHeight :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLayoutChange",
+      init : null,
+      themeable : true
+    },
+
+
+    /**
+     * Sets the preferred height of the widget. If the value is set
+     * to <code>null</code> the preferred height of the widget's content
+     * is used.
+     *
+     * The widget's computed height may differ from the given height due to
+     * widget stretching. Also take a look at the related properties
+     * {@link #minHeight} and {@link #maxHeight}.
+     */
+    height :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLayoutChange",
+      init : null,
+      themeable : true
+    },
+
+
+    /**
+     * Sets the user provided maximal height of the widget. If the value is set
+     * to <code>null</code> the preferred maximal height of the widget's content
+     * is used.
+     *
+     * Also take a look at the related properties {@link #height} and {@link #minHeight}.
+     */
+    maxHeight :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLayoutChange",
+      init : null,
+      themeable : true
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      STRETCHING
+    ---------------------------------------------------------------------------
+    */
+
+    /** Whether the widget can grow horitontally. */
+    allowGrowX :
+    {
+      check : "Boolean",
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Whether the widget can shrink horitontally. */
+    allowShrinkX :
+    {
+      check : "Boolean",
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Whether the widget can grow vertically. */
+    allowGrowY :
+    {
+      check : "Boolean",
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Whether the widget can shrink vertically. */
+    allowShrinkY :
+    {
+      check : "Boolean",
+      apply : "_applyLayoutChange",
+      init : true,
+      themeable : true
+    },
+
+
+    /** Allow growing and shrinking in the horizontal direction */
+    allowStretchX :
+    {
+      group : [ "allowGrowX", "allowShrinkX" ],
+      mode : "shorthand",
+      themeable: true
+    },
+
+
+    /** Allow growing and shringking in the vertical direction */
+    allowStretchY :
+    {
+      group : [ "allowGrowY", "allowShrinkY" ],
+      mode : "shorthand",
+      themeable: true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -99,8 +287,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
         changes += 1;
       }
 
-      if (!this._hasValidLayout || width !== computed.width || height !== computed.height) {
+      if (width !== computed.width || height !== computed.height) {
         changes += 2;
+      }
+
+      if (!this._hasValidLayout) {
+        changes += 4;
       }
 
       // Store computed values
@@ -112,30 +304,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Height for width support
       if (this.getHeight() == null && this._hasHeightForWidth())
       {
-        // Note: What when other stuff reproduces a reflow here.
-        // Is this really correct to just check for null here?
-        // Wouldn't it be more stable to re-calculate the
-        // heightForWidth and compare it e.g. ignore it when
-        // it has the same value than before?
+        var flowHeight = this._getHeightForWidth(width);
 
-        // Only try once for each layout iteration
-        if (this.__computedHeightForWidth != null)
+        if (flowHeight !== this.__computedHeightForWidth)
         {
-          delete this.__computedHeightForWidth;
-        }
-        else
-        {
-          var flowHeight = this._getHeightForWidth(width);
+          this.__computedHeightForWidth = flowHeight;
+          qx.ui.core.queue.Layout.add(this);
 
-          if (height !== flowHeight)
-          {
-            this.__computedHeightForWidth = flowHeight;
-            qx.ui.core.queue.Layout.add(this);
-
-            // Fabian thinks this works flawlessly
-            // Only render location on first step of layout process.
-            return changes&1;
-          }
+          return changes&1;
         }
       }
 
@@ -195,7 +371,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     invalidateLayoutCache : function()
     {
-      // this.debug("Mark widget layout invalid: " + this);
+      // this.debug("Mark layout invalid!");
       this._hasValidLayout = false;
 
       // invalidateLayoutCache cached size hint
@@ -227,7 +403,42 @@ qx.Class.define("qx.ui.core.LayoutItem",
         return null;
       }
 
-      return this._sizeHint = this._computeSizeHint();
+      // Compute as defined
+      var hint = this._sizeHint = this._computeSizeHint();
+
+      // Respect height for width
+      if (this.__computedHeightForWidth && this.getHeight() == null) {
+        hint.height = this.__computedHeightForWidth;
+      }
+
+      // Support shrink
+      if (!this.getAllowShrinkX()) {
+        hint.minWidth = hint.width;
+      } else if (hint.minWidth > hint.width) {
+        hint.width = hint.minWidth;
+      }
+
+      if (!this.getAllowShrinkY()) {
+        hint.minHeight = hint.height;
+      } else if (hint.minHeight > hint.height) {
+        hint.height = hint.minHeight;
+      }
+
+      // Support grow
+      if (!this.getAllowGrowX()) {
+        hint.maxWidth = hint.width;
+      } else if (hint.width > hint.maxWidth) {
+        hint.width = hint.maxWidth;
+      }
+
+      if (!this.getAllowGrowY()) {
+        hint.maxHeight = hint.height;
+      } else if (hint.height > hint.maxHeight) {
+        hint.height = hint.maxHeight;
+      }
+
+      // Finally return
+      return hint;
     },
 
 
@@ -238,8 +449,25 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @return The map with the preferred width/height and the allowed
      *   minimum and maximum values.
      */
-    _computeSizeHint : function() {
-      throw new Error("Abstract method call: _computeSizeHint()");
+    _computeSizeHint : function()
+    {
+      var minWidth = this.getMinWidth() || 0;
+      var minHeight = this.getMinHeight() || 0;
+
+      var width = this.getWidth() || minWidth;
+      var height = this.getHeight() || minHeight;
+
+      var maxWidth = this.getMaxWidth() || Infinity;
+      var maxHeight = this.getMaxHeight() || Infinity;
+
+      return {
+        minWidth : minWidth,
+        width : width,
+        maxWidth : maxWidth,
+        minHeight : minHeight,
+        height : height,
+        maxHeight : maxHeight
+      };
     },
 
 
