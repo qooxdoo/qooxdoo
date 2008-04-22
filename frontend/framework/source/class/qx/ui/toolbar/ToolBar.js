@@ -20,6 +20,16 @@
 ************************************************************************ */
 
 /**
+ * The Toolbar class is the main part of the toolbar widget.
+ * 
+ * It can handle added {@link Button}s, {@link CheckBox}es, {@link RadioButton}s 
+ * and {@link Separator}s in its {@link #add} method. The {@link #addSpacer} method 
+ * adds a spacer at the current toolbar position. This means that the widgets
+ * added after the method call of {@link #addSpacer} are aligned to the right of
+ * the toolbar.
+ *  
+ * For more details on the documentation of the toolbar widget, take a look at the
+ * documentation of the {@link qx.ui.toolbar}-Package.
  * @appearance toolbar
  */
 qx.Class.define("qx.ui.toolbar.ToolBar",
