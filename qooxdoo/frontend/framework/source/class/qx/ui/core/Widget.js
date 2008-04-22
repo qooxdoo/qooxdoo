@@ -943,13 +943,8 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     invalidateLayoutCache : function()
     {
-      // this.debug("Mark layout invalid!");
-      this._hasValidLayout = false;
-
-      // invalidateLayoutCache cached size hint
-      this._sizeHint = null;
-
-      // invalidateLayoutCache layout manager
+      this.base(arguments);
+      
       if (this.__layout) {
         this.__layout.invalidateLayoutCache();
       }
