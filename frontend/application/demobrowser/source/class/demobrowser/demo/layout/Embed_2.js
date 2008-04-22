@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.layout.Embed_2",
       button.addToDocument();
 
       var dlg = this.getDialog();
-      this.getRoot().add(dlg, 100, 100);
+      this.getRoot().add(dlg, {left: 100, top: 100});
       dlg.hide();
 
       // Add an event listener
@@ -62,11 +62,9 @@ qx.Class.define("demobrowser.demo.layout.Embed_2",
 
     getDialog : function()
     {
-      var border = new qx.ui.decoration.Single(1, "solid", "black");
-
-      var dialog = new qx.ui.core.Widget().set({
+      var dialog = new qx.ui.container.Composite().set({
          backgroundColor: "yellow",
-         decorator: border,
+         decorator: "black",
          padding: 10
       });
 
@@ -80,27 +78,27 @@ qx.Class.define("demobrowser.demo.layout.Embed_2",
         backgroundColor : "green",
         width: 600,
         height: 300,
-        decorator: border,
+        decorator: "black",
         padding: 10
       });
 
-      layout.add(pane, 0, 0, { colSpan: 3});
+      dialog.add(pane, {row: 0, column: 0, colSpan: 3});
 
       var ok = new qx.ui.basic.Label("OK").set({
         backgroundColor : "green",
-        decorator: border,
+        decorator: "black",
         padding: [2, 5]
       });
-      layout.add(ok, 1, 1);
+      dialog.add(ok, {row: 1, column: 1});
 
       ok.addListener("click", dialog.hide, dialog);
 
       var cancel = new qx.ui.basic.Label("Cancel").set({
         backgroundColor : "green",
-        decorator: border,
+        decorator: "black",
         padding: [2, 5]
       });
-      layout.add(cancel, 1, 2);
+      dialog.add(cancel, {row: 1, column: 2});
 
       cancel.addListener("click", dialog.hide, dialog);
 

@@ -51,9 +51,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     this._children = [];
 
-    this._layout = new qx.ui.layout.HBox();
-    this.setLayout(this._layout);
-
+    this._setLayout(new qx.ui.layout.HBox());
     this._addWidgets();
 
     this.initOpen();
@@ -250,7 +248,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      * @param options {Map?null} The (optional) layout options to use for the widget
      */
     addWidget : function(widget, options) {
-      this._layout.add(widget, options);
+      this._add(widget, options);
     },
 
 
@@ -264,9 +262,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (!this._spacer) {
         this._spacer = new qx.ui.core.Spacer();
       } else {
-        this._layout.remove(this._spacer);
+        this._remove(this._spacer);
       }
-      this._layout.add(this._spacer);
+      this._add(this._spacer);
 
     },
 
@@ -286,10 +284,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
       else
       {
-        this._layout.remove(this._open);
+        this._remove(this._open);
       }
 
-      this._layout.add(this._open, {align: "middle"});
+      this._add(this._open, {align: "middle"});
     },
 
 
@@ -316,10 +314,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       var icon = this.getIconObject();
 
       if (this._iconAdded) {
-        this._layout.remove(icon);
+        this._remove(icon);
       }
 
-      this._layout.add(icon, {align: "middle"});
+      this._add(icon, {align: "middle"});
       this._iconAdded = true;
     },
 
@@ -336,7 +334,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       var label = this.getLabelObject();
 
       if (this._labelAdded) {
-        this._layout.remove(label);
+        this._remove(label);
       }
 
       if (text) {
@@ -345,7 +343,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         label.setContent(this.getLabel());
       }
 
-      this._layout.add(label, {align: "middle"});
+      this._add(label, {align: "middle"});
       this._labelAdded = true;
     },
 
@@ -361,7 +359,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       this.base(arguments, state);
 
-      var children = this.getLayout().getChildren();
+      var children = this.getChildren();
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -377,7 +375,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       this.base(arguments, state);
 
-      var children = this.getLayout().getChildren();
+      var children = this.getChildren();
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -578,8 +576,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       if (!this._childrenContainer)
       {
-        this._childrenContainer = new qx.ui.core.Widget().set({
-          layout : new qx.ui.layout.VBox(),
+        this._childrenContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
           visibility : this.isOpen() ? "visible" : "excluded"
         });
       }
@@ -699,7 +696,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     __addChildrenToParent : function()
     {
       if (this.getParentChildrenContainer()) {
-        this.getParentChildrenContainer().getLayout().addAfter(this.getChildrenContainer(), this);
+        this.getParentChildrenContainer()._addAfter(this.getChildrenContainer(), this);
       }
     },
 
@@ -711,7 +708,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     add : function(varargs)
     {
-      var layout = this.getChildrenContainer().getLayout();
+      var container = this.getChildrenContainer();
       var tree = this.getTree();
 
 
@@ -727,10 +724,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         treeItem.setParent(this);
         var hasChildren = this.hasChildren();
 
-        layout.add(treeItem);
+        container.add(treeItem);
 
         if (treeItem.hasChildren()) {
-          layout.add(treeItem.getChildrenContainer());
+          container.add(treeItem.getChildrenContainer());
         }
         this._children.push(treeItem);
 
@@ -775,16 +772,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         oldPrarent.remove(treeItem);
       }
 
-      var layout = this.getChildrenContainer().getLayout();
+      var container = this.getChildrenContainer();
 
       treeItem.setParent(this);
       var hasChildren = this.hasChildren();
 
       var nextItem = this._children[index];
-      layout.addBefore(treeItem, nextItem);
+      container.addBefore(treeItem, nextItem);
 
       if (treeItem.hasChildren()) {
-        layout.addAfter(treeItem.getChildrenContainer(), treeItem);
+        container.addAfter(treeItem.getChildrenContainer(), treeItem);
       }
       qx.lang.Array.insertAt(this._children, treeItem, index);
 
@@ -881,15 +878,15 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       {
         var treeItem = arguments[i];
 
-        var layout = this.getChildrenContainer().getLayout();
+        var container = this.getChildrenContainer();
 
         if (treeItem.hasChildren()) {
-          layout.remove(treeItem.getChildrenContainer());
+          container.remove(treeItem.getChildrenContainer());
         }
         qx.lang.Array.remove(this._children, treeItem);
 
         treeItem.setParent(null);
-        layout.remove(treeItem);
+        container.remove(treeItem);
       }
 
       this.__updateSelection();

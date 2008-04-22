@@ -57,8 +57,7 @@ qx.Class.define("qx.ui.tree.Tree",
   {
     this.base(arguments);
 
-    var content = new qx.ui.core.Widget().set({
-      layout : new qx.ui.layout.VBox(),
+    var content = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
       allowShrinkY: false,
       allowGrowX: true,
       allowShrinkY: false
@@ -197,21 +196,21 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyRoot : function(value, old)
     {
-      var layout = this.getChildrenContainer().getLayout();
+      var container = this.getChildrenContainer();
 
       if (old)
       {
         layut.remove(old);
         if (old.hasChildren()) {
-          layout.remove(old.getChildrenContainer());
+          container.remove(old.getChildrenContainer());
         }
       }
 
       if (value)
       {
-        layout.add(value);
+        container.add(value);
         if (value.hasChildren()) {
-          layout.add(value.getChildrenContainer());
+          container.add(value.getChildrenContainer());
         }
 
         value.setVisibility(this.getHideRoot() ? "excluded" : "visible");
