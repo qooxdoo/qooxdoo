@@ -23,16 +23,14 @@
  * web pages. You can use the isles to place any qooxdoo powered widgets
  * inside a layout made using traditional HTML markup and CSS.
  *
- * This class uses a {@link qx.ui.layout.Basic} as fixed layout. The layout
- * cannot be changed.
+ * This class uses {@link qx.ui.layout.Basic} as default layout. The layout
+ * can be changed using the {@link #setLayout} method.
  *
  * To position popups and tooltips please have a look at {@link qx.ui.layout.Page}.
  */
 qx.Class.define("qx.ui.root.Inline",
 {
   extend : qx.ui.root.Abstract,
-
-
 
 
   /*
@@ -54,7 +52,7 @@ qx.Class.define("qx.ui.root.Inline",
     this.base(arguments);
 
     // Use static layout
-    this._setLayout(new qx.ui.layout.Canvas());
+    this._setLayout(new qx.ui.layout.Basic());
 
     // Directly schedule layout for root element
     qx.ui.core.queue.Layout.add(this);
@@ -72,11 +70,6 @@ qx.Class.define("qx.ui.root.Inline",
 
   members :
   {
-    // adds major widget (left top edge)
-    addMain : function(child) {
-      this._add(child, {left:0, top: 0, right: 0, bottom: 0});
-    },
-
     // overridden
     _createContainerElement : function()
     {
@@ -87,10 +80,35 @@ qx.Class.define("qx.ui.root.Inline",
       el.style.position = "relative";
 
       return root;
-    }
+    },
+
+
+    /**
+     * Set a layout manager for the widget. A a layout manager can only be connected
+     * with one widget. Reset the connection with a previous widget first, if you
+     * like to use it in another widget instead.
+     *
+     * @type member
+     * @param layout {qx.ui.layout.Abstract} The new layout or
+     *     <code>null</code> to reset the layout.
+     * @return {void}
+     */
+    setLayout : function(layout) {}
   },
 
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members) {
+    members.setLayout = members._setLayout;
+  },
 
 
   /*
