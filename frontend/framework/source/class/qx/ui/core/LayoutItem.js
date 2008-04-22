@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         changes += 2;
       }
 
-      if (!this._hasValidLayout) {
+      if (!this.__hasValidLayout) {
         changes += 4;
       }
 
@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         }
       }
 
-      this._hasValidLayout = true;
+      this.__hasValidLayout = true;
       return changes;
     },
 
@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @return {Boolean} Returns <code>true</code>
      */
     hasValidLayout : function() {
-      return !!this._hasValidLayout;
+      return !!this.__hasValidLayout;
     },
 
 
@@ -360,10 +360,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
     invalidateLayoutCache : function()
     {
       // this.debug("Mark layout invalid!");
-      this._hasValidLayout = false;
+      this.__hasValidLayout = false;
 
       // invalidateLayoutCache cached size hint
-      this._sizeHint = null;
+      this.__sizeHint = null;
     },
 
 
@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     getSizeHint : function(compute)
     {
-      var hint = this._sizeHint;
+      var hint = this.__sizeHint;
       if (hint) {
         return hint;
       }
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       // Compute as defined
-      var hint = this._sizeHint = this._computeSizeHint();
+      var hint = this.__sizeHint = this._computeSizeHint();
 
       // Respect height for width
       if (this.__computedHeightForWidth && this.getHeight() == null) {
