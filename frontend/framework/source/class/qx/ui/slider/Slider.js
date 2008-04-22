@@ -193,6 +193,9 @@ qx.Class.define("qx.ui.slider.Slider",
       this.__lastMouseY = e.getDocumentTop();
 
       this.__timer.start();
+
+      // do the first action immediately!
+      this._onInterval();
     },
 
     _onMouseup : function(e)
