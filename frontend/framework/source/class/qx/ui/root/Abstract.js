@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.root.Abstract",
 {
   extend : qx.ui.core.Widget,
-
+  include : qx.ui.core.MChildrenHandling,
 
 
   /*
@@ -84,37 +84,6 @@ qx.Class.define("qx.ui.root.Abstract",
 
   members :
   {
-    /**
-     * Adds a widget to the root.
-     *
-     * Please have a look at the constructor of the root for further
-     * details about supported layout options.
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to add
-     * @return {qx.ui.root.Application} This object (for chaining support)
-     */
-    add : function(child, options)
-    {
-      this._add(child, options);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Remove child widget
-     *
-     * @type member
-     * @param child {qx.ui.core.Widget} the widget to remove
-     * @return {qx.ui.layout.Abstract} This object (for chaining support)
-     */
-    remove : function(child) {
-      this._remove(child);
-    },
-
-
     // overridden
     isRootWidget : function() {
       return true;
@@ -133,6 +102,18 @@ qx.Class.define("qx.ui.root.Abstract",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members) {
+    qx.ui.core.MChildrenHandling.remapMethods(members);
+  },
 
 
 
