@@ -59,7 +59,7 @@ class ApiLoader:
         docTree = tree.Node("doctree")
         length = len(include)
 
-        self._console.info("Loading class data...", False)
+        self._console.info("Loading class docs...", False)
         self._console.indent()
 
         packages = []
@@ -92,23 +92,33 @@ class ApiLoader:
 
         self._console.outdent()
 
-        self._console.info("Connecting class data...")
-        api.postWorkPackage(docTree, docTree)
+        self._console.info("Connecting classes...")
+        api.connectPackage(docTree, docTree)
 
         self._console.info("Generating search index...")
         indexContent = tree.nodeToIndexString(docTree, "", "", "")
         
-        self._console.info("Saving basic data...")
-        packages = api.packagesToJsonString(docTree, "", "  ", "\n")
-        filetool.save(os.path.join(apiPath, "apidata.js"), packages)
+        self._console.info("Saving data...", False)
+        self._console.indent()
 
-        self._console.info("Saving class data...")
+        packages = api.packagesToJsonString(docTree, "", "", "")
+        filetool.save(os.path.join(apiPath, "apidata.js"), packages)
+        
+        length = 0
         for classData in api.classNodeIterator(docTree):
-            classContent = tree.nodeToJsonString(classData, "", "  ", "\n")
+            length += 1
+            
+        pos = 0
+        for classData in api.classNodeIterator(docTree):
+            pos += 1
+            self._console.progress(pos, length)
+            classContent = tree.nodeToJsonString(classData, "", "", "")
             fileName = os.path.join(apiPath, classData.get("fullName") + ".js")
             filetool.save(fileName, classContent)
             
-        self._console.info("Saving search index...")
+        self._console.outdent()
+            
+        self._console.info("Saving index...")
         filetool.save(os.path.join(apiPath, "apiindex.js"), indexContent)            
 
         self._console.outdent()

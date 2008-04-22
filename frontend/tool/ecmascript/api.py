@@ -1083,14 +1083,14 @@ def getClassNode(docTree, fullClassName, commentAttributes = None):
 
 
 
-def postWorkPackage(docTree, packageNode):
+def connectPackage(docTree, packageNode):
     childHasError = False
 
     packages = packageNode.getChild("packages", False)
     if packages:
         packages.children.sort(nameComparator)
         for node in packages.children:
-            hasError = postWorkPackage(docTree, node)
+            hasError = connectPackage(docTree, node)
             if hasError:
                 childHasError = True
 
@@ -1098,7 +1098,7 @@ def postWorkPackage(docTree, packageNode):
     if classes:
         classes.children.sort(nameComparator)
         for node in classes.children:
-            hasError = postWorkClass(docTree, node)
+            hasError = connectClass(docTree, node)
             if hasError:
                 childHasError = True
 
@@ -1109,7 +1109,7 @@ def postWorkPackage(docTree, packageNode):
 
 
 
-def postWorkClass(docTree, classNode):
+def connectClass(docTree, classNode):
 
     # mark property apply methods
     markPropertyApply(docTree, classNode)
@@ -1497,5 +1497,4 @@ def classNodeIterator(docTree):
         for child in docTree.children:
             for cls in classNodeIterator(child):
                 yield cls
-
-
+    
