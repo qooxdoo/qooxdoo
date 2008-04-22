@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.ui.Opacity_1",
         decorator: border,
         backgroundColor: "yellow"
       });
-      bg.setBounds(0, 0, boxSize*columns + 100, boxSize*rows);
+      bg.setUserBounds(0, 0, boxSize*columns + 100, boxSize*rows);
       box.add(bg);
 
       var scale = Math.sqrt((columns-1)*(columns-1) + (rows-1)*(rows-1));
