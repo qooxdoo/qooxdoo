@@ -67,27 +67,15 @@ qx.Class.define("qx.ui.core.queue.Manager",
       var self = qx.ui.core.queue.Manager;
       var jobs = self.__jobs;
 
-      hasElement = false;
-      hasDispose = false;
-
-      // we loop over until all jobs are finished. The loop is needed because it
-      // new jobs can be added to the queues during a flush
-
-      while (!qx.lang.Object.isEmpty(jobs))
+      while (jobs.widget || jobs.appearance || jobs.decorator || jobs.layout)
       {
-        hasElement = hasElement || jobs.element;
-        delete jobs.element;
-
-        hasDispose = hasDispose || jobs.dispose;
-        delete jobs.dispose;
-
-
         // No else blocks here because each flush can influence the
         // following flushes!
-        while (jobs.widget)
+        if (jobs.widget)
         {
-          var start = new Date;
           delete jobs.widget;
+
+          var start = new Date;
           qx.ui.core.queue.Widget.flush();
 
           var time = new Date - start;
@@ -96,10 +84,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
           }
         }
 
-        while (jobs.appearance)
+        if (jobs.appearance)
         {
-          var start = new Date;
           delete jobs.appearance;
+
+          var start = new Date;
           qx.ui.core.queue.Appearance.flush();
 
           var time = new Date - start;
@@ -108,10 +97,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
           }
         }
 
-        while (jobs.decorator)
+        if (jobs.decorator)
         {
-          var start = new Date;
           delete jobs.decorator;
+
+          var start = new Date;
           qx.ui.core.queue.Decorator.flush();
 
           var time = new Date - start;
@@ -120,10 +110,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
           }
         }
 
-        while (jobs.layout)
+        if (jobs.layout)
         {
-          var start = new Date;
           delete jobs.layout;
+
+          var start = new Date;
           qx.ui.core.queue.Layout.flush();
 
           var time = new Date - start;
@@ -133,7 +124,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
       }
 
-      if (hasElement || jobs.element)
+      if (jobs.element)
       {
         var start = new Date;
         delete jobs.element;
@@ -145,7 +136,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
       }
 
-      if (hasDispose || jobs.dispose)
+      if (jobs.dispose)
       {
         var start = new Date;
         delete jobs.dispose;
@@ -156,7 +147,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
           qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
         }
       }
-
 
       qx.ui.core.queue.Manager.__scheduled = false;
     }
