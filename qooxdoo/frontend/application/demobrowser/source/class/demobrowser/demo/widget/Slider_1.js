@@ -58,10 +58,12 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
 
       btn.addListener("execute", function()
       {
-        if (isHorizontal) {
-          container.setLayout(this._createVerticalLayout(sliders));
+        this.getRoot().removeAt(0);
+        if (isHorizontal)
+        {
+          this.getRoot().addAt(this._createVerticalLayout(sliders), 0, {left:20, top:60});
         } else {
-          container.setLayout(this._createHorizontalLayout(sliders));
+          this.getRoot().addAt(this._createHorizontalLayout(sliders), 0, {left:20, top:60});
         }
         isHorizontal = !isHorizontal;
       }, this);
@@ -89,11 +91,11 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         var group = sliders[i];
         group.slider.setOrientation("vertical");
 
-        container.add(group.slider, {row:0,col:col,rowSpan: 3});
+        container.add(group.slider, {row: 0, column: col, rowSpan: 3, colSpan: 1});
 
-        container.add(group.min, {row:0, col:col+1});
-        container.add(group.value, {row:1, col:col+1});
-        container.add(group.max, {row:2, col:col+1});
+        container.add(group.min, {row: 0, column: col+1});
+        container.add(group.value, {row: 1, column: col+1});
+        container.add(group.max, {row: 2, column: col+1});
 
         grid.setColumnMinWidth(col+1, 80);
         grid.setColumnWidth(col+2, 20);
@@ -120,17 +122,16 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
       grid.setColumnAlign(2, "right", "bottom");
 
       var row = 0;
-
       for (var i=0; i<sliders.length; i++)
       {
         var group = sliders[i];
         group.slider.setOrientation("horizontal");
 
-        container.add(group.min, {row:row, col:0});
-        container.add(group.value, {row:row, col:1});
-        container.add(group.max, {row:row, col:2});
+        container.add(group.min, {row: row, column: 0});
+        container.add(group.value, {row: row, column: 1});
+        container.add(group.max, {row: row, column: 2});
 
-        container.add(group.slider, {row:row+1, col:0, colSpan: 3});
+        container.add(group.slider, {row: row+1, column: 0, colSpan: 3, rowSpan: 1});
 
         grid.setRowHeight(row+2, 20);
 

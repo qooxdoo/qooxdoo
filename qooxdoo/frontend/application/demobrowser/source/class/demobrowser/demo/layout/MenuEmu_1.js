@@ -36,9 +36,11 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
 
       this.getRoot().setPadding(20);
 
-      var docLayout = new qx.ui.layout.Grid();
-      docLayout.setColumnFlex(0, 0);
-      docLayout.setSpacing(20);
+      var layout = new qx.ui.layout.Grid();
+      layout.setColumnFlex(0, 0);
+      layout.setSpacing(20);
+
+      var container = new qx.ui.container.Composite(layout);
 
       var menu = new Menu();
       menu.add(new MenuItem("New", "Ctrl-N"));
@@ -46,7 +48,7 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
       menu.add(new MenuItem("Save", "Ctrl-S"));
       menu.add(new MenuItem("Save as"));
       menu.add(new MenuItem("Abracadabra"));
-      docLayout.add(menu, 0, 0);
+      container.add(menu, {row: 0, column: 0});
 
       var menu = new Menu();
       menu.add(new MenuItem("New", "Ctrl-N"));
@@ -54,19 +56,16 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
       menu.add(new MenuItem("Close", "Ctrl-W"));
       menu.add(new MenuItem("Save", "Ctrl-S"));
       menu.add(new MenuItem("Save as"));
-      docLayout.add(menu, 0, 1);
+      container.add(menu, {row: 0, column: 1});
 
       var menu = new Menu();
       menu.add(new MenuItem("New", "Ctrl-N"));
       menu.add(new MenuItem("Save", "Ctrl-S"));
       menu.add(new MenuItem("Save as"));
       menu.add(new MenuItem("Close ...", "Ctrl-W"));
-      docLayout.add(menu, 1, 0);
+      container.add(menu, {row: 1, column: 0});
 
-      var container = new qx.ui.core.Widget();
-      container.setLayout(docLayout);
-
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container, true);
     }
   }
 });

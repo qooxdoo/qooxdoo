@@ -35,23 +35,20 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
         backgroundColor : "yellow"
       });
 
-      this.getRoot().add(scrollArea, 10, 10);
+      this.getRoot().add(scrollArea, {left: 10, top: 10});
       scrollArea.setContent(this.generateBox());
 
-      var toggle = new qx.ui.basic.Label("Toggle size").set({
-        padding : 5,
-        backgroundColor: "orange"
-      });
+      var toggle = new qx.ui.form.Button("Toggle size");
 
       var grow = true;
-      toggle.addListener("click", function()
+      toggle.addListener("execute", function()
       {
         scrollArea.setWidth(grow ? 300 : 200);
         scrollArea.setHeight(grow ? 300 : 200);
         grow = !grow;
       });
 
-      this.getRoot().add(toggle, 10, 400);
+      this.getRoot().add(toggle, {left: 10, top: 400});
     },
 
     generateBox : function()

@@ -37,27 +37,27 @@ qx.Class.define("demobrowser.demo.layout.ManualLayout_1",
         paddingLeft: 10,
         paddingRight: 10
       });
-      w1.setBounds(10, 10, 100, 30);
+      w1.setUserBounds(10, 10, 100, 30);
 
       w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
         decorator: border
       });
-      w2.setBounds(200, 20, 150, 100);
+      w2.setUserBounds(200, 20, 150, 100);
 
       w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
         decorator: border,
         padding: 3
       });
-      w3.setBounds(380, 50, 150, 100);
+      w3.setUserBounds(380, 50, 150, 100);
 
       w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
         decorator: border,
         padding: 10
       });
-      w4.setBounds(50, 200, 150, 100);
+      w4.setUserBounds(50, 200, 150, 100);
 
       w1.addListener("click", function(e) {
         borderColor = borderColor == "black" ? "orange" : "black";
@@ -72,7 +72,7 @@ qx.Class.define("demobrowser.demo.layout.ManualLayout_1",
       container.add(w3);
       container.add(w4);
 
-      this.getRoot().add(container, 0, 0, 0, 0);
+      this.getRoot().addMain(container, true);
     }
   }
 });
