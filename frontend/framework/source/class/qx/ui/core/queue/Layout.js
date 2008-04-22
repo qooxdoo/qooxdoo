@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
           }
 
           // compare old size hint to new size hint
-          var oldSizeHint = widget.getSizeHint(true);
+          var oldSizeHint = widget.getSizeHint(false);
 
           if (oldSizeHint)
           {
