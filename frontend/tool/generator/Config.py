@@ -363,6 +363,29 @@ class Config:
         return result
 
 
+    def resolveLibs(self, jobs):
+        config  = self.getJobsMap()
+        console = self._console
+
+        console.info("Resolving libs/manifests...")
+        console.indent()
+
+        for job in jobs:
+            if not config.has_key(job):
+                console.warn("No such job: %s" % job)
+                sys.exit(1)
+            else:
+                if config[job].has_key('library1'):
+                    newlib = config[job]['library1']
+                    for lib in newlib:
+                        manifest = Manifest(lib['manifest'])
+                        lib = manifest.patchLibEntry(lib)
+
+        console.outdent()
+                    
+
+
+
 class Job(object):
     def __init__(self, data, config=None):
         self._data   = data
@@ -430,4 +453,27 @@ class Job(object):
 
         data["resolved"] = True
         return self
+
+
+
+class Manifest(object):
+    def __init__(self, path):
+        mf = open(path)
+        manifest = simplejson.loads(mf.read())
+        mf.close()
+        self._manifest = manifest
+
+    def patchLibEntry(self, libentry):
+        '''Patches a "library" entry with the information from Manifest'''
+        libinfo   = self._manifest['provides']
+        uriprefix = libentry['uri']
+        libentry['classUri']         = os.path.join(uriprefix,libinfo['classUri'])
+        libentry['resourceUri']      = os.path.join(uriprefix,libinfo['resourceUri'])
+        libentry['translationUri']   = os.path.join(uriprefix,libinfo['translationUri'])
+        libentry['encoding']    = libinfo['encoding']
+        libentry['namespace']   = libinfo['namespace']
+        libentry['type']        = libinfo['type']
+
+        return libentry
+
 

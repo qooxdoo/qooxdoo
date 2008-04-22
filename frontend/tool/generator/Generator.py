@@ -990,17 +990,6 @@ class Generator:
         return pre,sfx1,sfx2
 
 
-    # test code for Manifest.js
-    def _getManifest(self):
-        if not self._config.get('library1',False):
-            return
-
-        newlib = self._config.get('library1')
-        for lib in newlib:
-            manifest = Manifest(lib['manifest'])
-            lib = manifest.patchLibEntry(lib)
-
-
 
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
@@ -1204,26 +1193,5 @@ class _ShellCmd(object):
         rc = self.eval_wait(rcode)
 
         return rc
-
-
-class Manifest(object):
-    def __init__(self, path):
-        mf = open(path)
-        manifest = simplejson.loads(mf.read())
-        mf.close()
-        self._manifest = manifest
-
-    def patchLibEntry(self, libentry):
-        '''Patches a "library" entry with the information from Manifest'''
-        libinfo   = self._manifest['provides']
-        uriprefix = libentry['uri']
-        libentry['classUri']         = os.path.join(uriprefix,libinfo['classUri'])
-        libentry['resourceUri']      = os.path.join(uriprefix,libinfo['resourceUri'])
-        libentry['translationUri']   = os.path.join(uriprefix,libinfo['translationUri'])
-        libentry['encoding']    = libinfo['encoding']
-        libentry['namespace']   = libinfo['namespace']
-        libentry['type']        = libinfo['type']
-
-        return libentry
 
 
