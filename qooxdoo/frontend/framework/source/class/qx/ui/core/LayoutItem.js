@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         }
       }
 
-      delete this.__hasValidLayout;
+      delete this.__hasInvalidLayout;
       return changes;
     },
 
