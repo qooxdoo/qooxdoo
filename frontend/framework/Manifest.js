@@ -34,9 +34,9 @@
   {
     "namespace"   : "qx",
     "encoding"    : "utf-8",
-    "class"       : "source/class",
-    "resource"    : "source/resource",
-    "translation" : "source/translation",
+    "classUri"       : "source/class",
+    "resourceUri"    : "source/resource",
+    "translationUri" : "source/translation",
     "type"        : "library"
   }
 }
