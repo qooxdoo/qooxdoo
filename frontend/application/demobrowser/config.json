@@ -35,6 +35,8 @@
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.js",
           "uri"      : "${QOOXDOO_URI}/framework"
+          /* mind that the final uri will be computed from this 'uri' + the 
+             'class info from the manifest */
         },
 
         {
