@@ -32,46 +32,41 @@ qx.Class.define("demobrowser.demo.layout.Spacer_2",
     {
       this.base(arguments);
 
-      var docLayout = new qx.ui.layout.HBox();
-      docLayout.setSpacing(10);
+      var layout = new qx.ui.layout.HBox();
+      layout.setSpacing(10);
 
-      var container = new qx.ui.core.Widget();
+      var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
-      container.setLayout(docLayout);
 
-      this.getRoot().add(container, 0, 0);
+      this.getRoot().addMain(container, true);
 
-      docLayout.add(this.getGrid1());
-      docLayout.add(this.getGrid2());
+      container.add(this.getGrid1());
+      container.add(this.getGrid2());
     },
 
 
     getGrid1 : function()
     {
       // auto size
-      var box = (new qx.ui.core.Widget).set({
+      var box = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
         decorator: "black",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
       });
 
-      var layout = new qx.ui.layout.Grid();
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 0});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 1});
 
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 0, 0);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 0, 1);
+      box.add(new qx.ui.core.Spacer(0, 10), {row: 1, column: 0});
 
-      layout.add(new qx.ui.core.Spacer(0, 10), 1, 0);
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 0});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 1});
 
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 2, 0);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 2, 1);
+      box.add(new qx.ui.core.Spacer(0, 20), {row: 3, column: 0});
 
-      layout.add(new qx.ui.core.Spacer(0, 20), 3, 0);
-
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 4, 0);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 4, 1);
-
-      box.setLayout(layout);
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 4, column: 0});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 4, column: 1});
 
       return box;
     },
@@ -79,27 +74,24 @@ qx.Class.define("demobrowser.demo.layout.Spacer_2",
     getGrid2 : function()
     {
       // auto size
-      var box = (new qx.ui.core.Widget).set({
+      var box = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
         decorator: "black",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
       });
-      var layout = new qx.ui.layout.Grid();
 
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 0, 0);
-      layout.add(new qx.ui.core.Spacer(10, 0), 0, 2);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 0, 3);
-      layout.add(new qx.ui.core.Spacer(30, 0), 1, 4);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 0, 5);
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 0});
+      box.add(new qx.ui.core.Spacer(10, 0), {row: 0, column: 2});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 3});
+      box.add(new qx.ui.core.Spacer(30, 0), {row: 1, column: 4});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 5});
 
-      layout.add(new qx.ui.core.Spacer(0, 5), 1, 0);
+      box.add(new qx.ui.core.Spacer(0, 5), {row: 1, column: 0});
 
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 2, 0);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 2, 3);
-      layout.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), 2, 5);
-
-      box.setLayout(layout);
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 0});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 3});
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 5});
 
       return box;
     }

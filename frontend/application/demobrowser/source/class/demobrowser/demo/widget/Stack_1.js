@@ -126,6 +126,125 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
 
     addAnimatedStack : function()
     {
+      var stack = new qx.ui.container.Stack();
+      stack.setBackgroundColor("white");
+      stack.setDecorator("black");
+      stack.setWidth(200);
+      stack.setHeight(120);
+      this.getRoot().add(stack, {left:480, top:20});
+
+      var box = new qx.ui.container.Composite((new qx.ui.layout.HBox).set({spacing:4}));
+      var prev = new qx.ui.form.Button("Previous", "icon/22/actions/go-previous.png");
+      var next = new qx.ui.form.Button("Next", "icon/22/actions/go-next.png");
+      box.add(prev);
+      box.add(next);
+      this.getRoot().add(box, {left:480, top: 150});
+
+      prev.addListener("execute", stack.previous, stack);
+      next.addListener("execute", stack.next, stack);
+
+
+
+      var colors = [ "red", "gray", "blue", "orange", "teal", "yellow", "green" ];
+      var widget;
+
+      this._old = null;
+
+      var self = this;
+      function report(e)
+      {
+        if (!self._old) {
+          return;
+        }
+
+        if (self.move) {
+          self.move.cancel();
+        }
+
+        if (self.move2) {
+          self.move2.cancel();
+        }
+
+
+        var children = stack.getChildren();
+        var goRight = children.indexOf(e.getTarget()) < children.indexOf(self._old);
+
+        var dom = e.getOriginalTarget();
+        dom.style.left = goRight ? (-dom.offsetWidth) + "px" : dom.offsetWidth + "px";
+
+        self.move = new qx.fx.effect.core.Move(dom);
+
+        self.move.setX(0);
+        self.move.setTransition("sinoidal");
+
+
+        var dom = self._old.getContainerElement().getDomElement();
+        //dom.style.left = (-dom.offsetWidth) + "px";
+
+        self.move2 = new qx.fx.effect.core.Move(dom);
+
+        self.move2.setX(goRight ? dom.offsetWidth : -dom.offsetWidth);
+        self.move2.setTransition("sinoidal");
+
+        self.move.start();
+        self.move2.start();
+
+        self.move.addListener("finish", function()
+        {
+          if (stack.getSelected() !== e.getTarget()) {
+            e.getTarget().hide();
+          } else {
+            e.getTarget().show();
+          }
+          e.getTarget().getContainerElement().setStyle("left", "0px");
+        });
+
+
+        self.move2.addListener("finish", function()
+        {
+          if (stack.getSelected() !== self._old) {
+            self._old.hide();
+          } else {
+            self._old.show();
+          }
+          self._old.getContainerElement().setStyle("left", "0px");
+        });
+      }
+
+      for (var i=0; i<colors.length; i++)
+      {
+        widget = new qx.ui.basic.Label("Juhu Kinners").set({
+          allowGrowX: true,
+          allowGrowY: true
+        });
+        widget.setBackgroundColor(colors[i]);
+
+        stack.add(widget);
+      }
+
+      // This handler dynamically registers/deregisters the
+      // appear event as this improves the performance of the
+      // appear event handler.
+      stack.addListener("change", function(e)
+      {
+        var old = e.getOldValue();
+        if (old) {
+          old.removeListener("appear", report, old);
+        }
+
+        var value = e.getValue();
+        if (value) {
+          value.addListener("appear", report, value);
+        }
+        if (old) {
+          this._old = old;
+          old.show();
+        }
+      }, this);
+    },
+
+    addAnimatedStack2 : function()
+    {
       var container = new qx.ui.container.Stack();
       container.setBackgroundColor("white");
       container.setDecorator("black");
@@ -191,5 +310,6 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
         }
       });
     }
+
   }
 });

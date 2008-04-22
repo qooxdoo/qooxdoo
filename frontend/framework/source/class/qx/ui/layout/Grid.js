@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.layout.Grid",
       var rowData = this.__rowData[row];
       var colData = this.__colData[column];
 
-      var widget = this.getCellWidget(row, column);
+      var widget = this.__grid[row][column];
       var widgetProps = widget ? widget.getLayoutProperties() : {};
 
       // compute vAlign
@@ -842,7 +842,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
         for (var col=0; col<=maxColIndex; col++)
         {
-          var widget = this.getCellWidget(row, col);
+          var widget = this.__grid[row][col];
           if (!widget) {
             continue;
           }
@@ -911,7 +911,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
         for (var row=0; row<=maxRowIndex; row++)
         {
-          var widget = this.getCellWidget(row, col);
+          var widget = this.__grid[row][col];
           if (!widget) {
             continue;
           }
@@ -1085,7 +1085,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
         for (var row=0; row<=maxRowIndex; row++)
         {
-          var widget = this.getCellWidget(row, col);
+          var widget = this.__grid[row][col];
 
           // ignore empty cells
           if (!widget)

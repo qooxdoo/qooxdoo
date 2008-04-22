@@ -56,14 +56,12 @@ qx.Class.define("demobrowser.demo.layout.InlineRoot_1",
         decorator: "black"
       });
 
-      var layout = new qx.ui.layout.HBox();
+      isle.add(w1);
+      isle.add(w2);
+      isle.add(w3);
+      isle.add(w4);
 
-      layout.add(w1);
-      layout.add(w2);
-      layout.add(w3);
-      layout.add(w4);
-
-      isle.setLayout(layout);
+      isle.setLayout(new qx.ui.layout.HBox());
     }
   }
 });

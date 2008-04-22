@@ -160,10 +160,11 @@ qx.Class.define("qx.legacy.ui.embed.Future",
 
       el.appendChild(rootEl);
       this._root = new qx.ui.root.Inline(rootEl);
+      this._root.setLayout(new qx.ui.layout.Canvas());
 
       var content = this.getContent();
       if (content) {
-        this._root.addMain(content);
+        this._root.add(content, {top: 0, right: 0, bottom: 0, left: 0});
       }
 
       this._setPaneWidth(this.getBoxWidth());

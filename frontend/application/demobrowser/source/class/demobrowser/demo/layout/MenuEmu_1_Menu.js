@@ -6,14 +6,13 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1_Menu",
   {
     this.base(arguments);
 
-    this._layout = new qx.ui.layout.Grid();
-    this._layout.setColumnFlex(0, 1);
-    this._layout.setVerticalSpacing(2);
-    this._layout.setHorizontalSpacing(0);
-    this.setLayout(this._layout);
+    var layout = new qx.ui.layout.Grid();
+    layout.setColumnFlex(0, 1);
+    layout.setVerticalSpacing(2);
+    layout.setHorizontalSpacing(0);
+    this._setLayout(layout);
 
-    var border = new qx.ui.decoration.Single(1, "solid", "black");
-    this.setDecorator(border);
+    this.setDecorator("black");
 
     this._menuItems = [];
   },
@@ -40,12 +39,12 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1_Menu",
 
       if (shortcut)
       {
-        this._layout.add(text, row, 0);
-        this._layout.add(shortcut, row, 1);
+        this._add(text, {row: row, column: 0});
+        this._add(shortcut, {row: row, column: 1});
       }
       else
       {
-        this._layout.add(text, row, 0, {colSpan: 2});
+        this._add(text, {row: row, column: 0, colSpan: 2});
       }
     }
   }

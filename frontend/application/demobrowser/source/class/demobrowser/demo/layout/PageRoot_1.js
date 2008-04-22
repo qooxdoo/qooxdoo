@@ -29,40 +29,35 @@ qx.Class.define("demobrowser.demo.layout.PageRoot_1",
       this.base(arguments);
 
       var doc = new qx.ui.root.Page(document);
-
-      var border = new qx.ui.decoration.Single(1, "solid", "black");
-
-      var box = new qx.ui.core.Widget();
-      var layout = new qx.ui.layout.HBox();
-      box.setLayout(layout);
+      var box = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: border,
+        decorator: "black",
         padding: 10
       });
 
       var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: border
+        decorator: "black"
       });
 
       var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: border
+        decorator: "black"
       });
 
       var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: border
+        decorator: "black"
       });
 
-      layout.add(w1);
-      layout.add(w2);
-      layout.add(w3);
-      layout.add(w4);
+      box.add(w1);
+      box.add(w2);
+      box.add(w3);
+      box.add(w4);
 
-      this.getRoot().add(box, 30, 120);
+      this.getRoot().add(box, {left: 30, top: 120});
     }
   }
 });
