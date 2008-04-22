@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         changes += 2;
       }
 
-      if (!this.__hasValidLayout) {
+      if (this.__hasInvalidLayout) {
         changes += 4;
       }
 
@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         }
       }
 
-      this.__hasValidLayout = true;
+      delete this.__hasValidLayout;
       return changes;
     },
 
@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @return {Boolean} Returns <code>true</code>
      */
     hasValidLayout : function() {
-      return !!this.__hasValidLayout;
+      return !this.__hasInvalidLayout;
     },
 
 
@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     invalidateLayoutCache : function()
     {
       // this.debug("Mark layout invalid!");
-      this.__hasValidLayout = false;
+      this.__hasInvalidLayout = true;
 
       // invalidateLayoutCache cached size hint
       this.__sizeHint = null;
