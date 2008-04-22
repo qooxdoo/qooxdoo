@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyPaddingChange",
       themeable : true
     },
 
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyPaddingChange",
       themeable : true
     },
 
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyPaddingChange",
       themeable : true
     },
 
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyPaddingChange",
       themeable : true
     },
 
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyMarginChange",
       themeable : true
     },
 
@@ -334,7 +334,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyMarginChange",
       themeable : true
     },
 
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyMarginChange",
       themeable : true
     },
 
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLayoutChange",
+      apply : "_applyMarginChange",
       themeable : true
     },
 
@@ -691,6 +691,19 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
+    _applyPaddingChange : function(value)
+    {
+      this.__updatePadding = true;
+      qx.ui.core.queue.Layout.add(this);
+    },
+    
+    _applyMarginChange : function(value)
+    {
+      this.__updateMargin = true;
+      qx.ui.core.queue.Layout.add(this);
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -760,8 +773,8 @@ qx.Class.define("qx.ui.core.Widget",
       // Update inheritable properties
       qx.core.Property.refresh(this);
     },
-
-
+    
+    
     // overridden
     renderLayout : function(left, top, width, height)
     {
@@ -771,50 +784,53 @@ qx.Class.define("qx.ui.core.Widget",
       var content = this._contentElement;
       var pixel = "px";
 
-      // this.debug("Rendering: " + changes);
-
-      if (changes&1)
+      if (changes.position)
       {
         container.setStyle("left", left + pixel);
         container.setStyle("top", top + pixel);
       }
 
-      if (changes&2 || changes&4)
+      if (changes.size)
       {
-        var insets = this.getInsets();
-        var innerWidth = width - insets.left - insets.right;
-        var innerHeight = height - insets.top - insets.bottom;
+        container.setStyle("width", width + pixel);
+        container.setStyle("height", height + pixel);
+      }
+      
+      // Any chance to cache this and to detect changes?
+      var insets = this.getInsets();
+      var innerWidth = width - insets.left - insets.right;
+      var innerHeight = height - insets.top - insets.bottom;
 
-        if (changes&2)
-        {
-          container.setStyle("width", width + pixel);
-          container.setStyle("height", height + pixel);
-        }
+      // TODO: Children modified flag to omit reflow on every layout?
+      if (this.__layout && this.hasLayoutChildren()) {
+        this.__layout.renderLayout(innerWidth, innerHeight);
+      }
 
-        content.setStyle("width", innerWidth + pixel);
-        content.setStyle("height", innerHeight + pixel);
+      var commonInnerChange = changes.size || this.__updateDecorator || this.__initDecorator;
 
+      if (commonInnerChange || this.__updatePadding)
+      {
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
 
-        if (this.__layout && this.hasLayoutChildren()) {
-          this.__layout.renderLayout(innerWidth, innerHeight);
-        }
+        content.setStyle("width", innerWidth + pixel);
+        content.setStyle("height", innerHeight + pixel);
       }
 
-      // Sync decoration
-      if (changes&2 || changes&4) {
-        this.updateDecoration(width, height, changes&2);
+      if (this.__decorator && (commonInnerChange || this.__updateBackgroundColor))
+      {
+        this.__decorator.render(this._decorationElement,  width, height, 
+          this.__backgroundColor,
+          this.__initDecorator || changes.size,
+          this.__initDecorator || this.__updateDecorator
+        );
       }
 
-      // Fire change events
-      if (changes&1 && this.hasListeners("move")) {
-        this.fireDataEvent("move", this.getBounds());
-      }
-
-      if (changes&2 && this.hasListeners("resize")) {
-        this.fireDataEvent("resize", this.getBounds());
-      }
+      delete this.__updateMargin;
+      delete this.__updatePadding;
+      delete this.__updateDecorator;
+      delete this.__initDecorator;
+      delete this.__updateBackgroundColor;
     },
 
 
@@ -1630,38 +1646,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Update the decoration (background, border, ...)
-     *
-     * @internal Mainly for decoration queue
-     * @param width {Integer} The widget's current width
-     * @param height {Integer} The widget's current height
-     * @param updateSize {Boolean} Whether the decorator size needs to be updatet.
-     */
-    updateDecoration : function(width, height, updateSize)
-    {
-      var updateDecorator = this.__updateDecorator;
-      var initDecorator = this.__initDecorator;
-
-      if (this.__decorator)
-      {
-        this.__decorator.render(
-          this._decorationElement,  width, height, this.__backgroundColor,
-          initDecorator || updateSize,
-          initDecorator || updateDecorator
-        );
-      }
-
-      if (updateDecorator) {
-        delete this.__updateDecorator;
-      }
-
-      if (initDecorator) {
-        delete this.__initDecorator;
-      }
-    },
-
-
     // property apply
     _applyDecorator : function(value, old) {
       qx.theme.manager.Decoration.getInstance().connect(this._styleDecorator, this, value);
@@ -1854,10 +1838,14 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.__backgroundColor = color;
 
-      if (!this.__decorator) {
-        this._containerElement.setStyle("backgroundColor", color || null);
-      } else {
+      if (this.__decorator) 
+      {
         qx.ui.core.queue.Layout.add(this);
+        this.__updateBackgroundColor = true;
+      }
+      else
+      {
+        this._containerElement.setStyle("backgroundColor", color || null);
       }
     },
 

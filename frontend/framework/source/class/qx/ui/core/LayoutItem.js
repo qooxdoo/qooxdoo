@@ -268,42 +268,48 @@ qx.Class.define("qx.ui.core.LayoutItem",
         computed = this.__computedLayout = {};
       }
 
-      // Detect changes
-      var changes = 0;
-
-      if (left !== computed.left || top !== computed.top) {
-        changes += 1;
-      }
-
-      if (width !== computed.width || height !== computed.height) {
-        changes += 2;
-      }
-
-      if (this.__hasInvalidLayout) {
-        changes += 4;
-      }
-
-      // Store computed values
-      computed.left = left;
-      computed.top = top;
-      computed.width = width;
-      computed.height = height;
-
-      // Height for width support
-      if (this.getHeight() == null && this._hasHeightForWidth())
+      // Detect position changes
+      var changes = {};
+      
+      if (left !== computed.left || top !== computed.top) 
       {
-        var flowHeight = this._getHeightForWidth(width);
+        changes.position = true;
+        
+        computed.left = left;
+        computed.top = top;
+      }
+      
+      // Height for width support
+      // Results into a relayout which means that width/height is applied in the next iteration.
+      var flowHeight = this.getHeight() == null && this._hasHeightForWidth() ? this._getHeightForWidth(width) : null;
+      if (flowHeight != null && flowHeight !== this.__computedHeightForWidth) 
+      {
+        this.__computedHeightForWidth = flowHeight;
+        qx.ui.core.queue.Layout.add(this);
+      }      
+      
+      // Detect size changes
+      else if (width !== computed.width || height !== computed.height) 
+      {
+        changes.size = true;
 
-        if (flowHeight !== this.__computedHeightForWidth)
-        {
-          this.__computedHeightForWidth = flowHeight;
-          qx.ui.core.queue.Layout.add(this);
-
-          return changes&1;
-        }
+        computed.width = width;
+        computed.height = height;
+      }
+      
+      // Fire events
+      if (changes.position && this.hasListeners("move")) {
+        this.fireDataEvent("move", this.getBounds());
       }
 
+      if (changes.size && this.hasListeners("resize")) {
+        this.fireDataEvent("resize", this.getBounds());
+      }      
+      
+      // Clear invalidation marker
       delete this.__hasInvalidLayout;
+      
+      // Returns changes, especially for deriving classes
       return changes;
     },
 
@@ -360,9 +366,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
     invalidateLayoutCache : function()
     {
       // this.debug("Mark layout invalid!");
+      
       this.__hasInvalidLayout = true;
-
-      // invalidateLayoutCache cached size hint
       this.__sizeHint = null;
     },
 

@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
       for (var i=queue.length-1; i>=0; i--)
       {
         var widget = queue[i];
-
+        
         // continue if a relayout of one of the root's parents has made the
         // layout valid
         if (widget.hasValidLayout()) {
