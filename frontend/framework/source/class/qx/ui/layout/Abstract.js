@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @return {void}
      */
     invalidateLayoutCache : function() {
-      this._sizeHint = null;
+      this.__sizeHint = null;
     },
 
 
@@ -81,16 +81,16 @@ qx.Class.define("qx.ui.layout.Abstract",
      */
     getSizeHint : function()
     {
-      if (this._sizeHint)
+      if (this.__sizeHint)
       {
-        // this.debug("Cached size hint: ", this._sizeHint);
-        return this._sizeHint;
+        // this.debug("Cached size hint: ", this.__sizeHint);
+        return this.__sizeHint;
       }
 
-      this._sizeHint = this._computeSizeHint();
-      // console.log("Computed size hint: ", this._sizeHint);
+      this.__sizeHint = this._computeSizeHint();
+      // console.log("Computed size hint: ", this.__sizeHint);
 
-      return this._sizeHint;
+      return this.__sizeHint;
     },
 
 

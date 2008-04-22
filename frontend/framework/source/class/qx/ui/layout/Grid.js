@@ -1140,11 +1140,12 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    invalidateLayoutCache : function() {
-      this._sizeHint = null;
+    invalidateLayoutCache : function() 
+    {
+      this.base(arguments);
+
       this.__colWidths = null;
       this.__rowHeights = null;
-
     },
 
 
