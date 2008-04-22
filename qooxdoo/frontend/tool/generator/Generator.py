@@ -1217,9 +1217,9 @@ class Manifest(object):
         '''Patches a "library" entry with the information from Manifest'''
         libinfo   = self._manifest['provides']
         uriprefix = libentry['uri']
-        libentry['uri']         = os.path.join(uriprefix,libinfo['class'])
-        libentry['resource']    = os.path.join(uriprefix,libinfo['resource'])
-        libentry['translation'] = os.path.join(uriprefix,libinfo['translation'])
+        libentry['classUri']         = os.path.join(uriprefix,libinfo['classUri'])
+        libentry['resourceUri']      = os.path.join(uriprefix,libinfo['resourceUri'])
+        libentry['translationUri']   = os.path.join(uriprefix,libinfo['translationUri'])
         libentry['encoding']    = libinfo['encoding']
         libentry['namespace']   = libinfo['namespace']
         libentry['type']        = libinfo['type']
