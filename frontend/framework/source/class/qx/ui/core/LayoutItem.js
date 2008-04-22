@@ -44,9 +44,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * Sets the user provided minimal width of the widget. If the value is set
-     * to <code>null</code> the preferred minimum width of the widget's content
-     * is used.
+     * Sets the user provided minimal width.
      *
      * Also take a look at the related properties {@link #width} and {@link #maxWidth}.
      */
@@ -61,12 +59,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the preferred width of the widget. If the value is set
-     * to <code>null</code> the preferred width of the widget's content
-     * is used.
+     * Sets the preferred width.
      *
-     * The widget's computed width may differ from the given width due to
-     * widget stretching. Also take a look at the related properties
+     * The computed width may differ from the given width due to
+     * stretching. Also take a look at the related properties
      * {@link #minWidth} and {@link #maxWidth}.
      */
     width :
@@ -80,9 +76,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the user provided maximal width of the widget. If the value is set
-     * to <code>null</code> the preferred maximal width of the widget's content
-     * is used.
+     * Sets the user provided maximal width.
      *
      * Also take a look at the related properties {@link #width} and {@link #minWidth}.
      */
@@ -97,9 +91,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the user provided minimal height of the widget. If the value is set
-     * to <code>null</code> the preferred minimal height of the widget's content
-     * is used.
+     * Sets the user provided minimal height..
      *
      * Also take a look at the related properties {@link #height} and {@link #maxHeight}.
      */
@@ -114,12 +106,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the preferred height of the widget. If the value is set
-     * to <code>null</code> the preferred height of the widget's content
-     * is used.
+     * Sets the preferred height.
      *
-     * The widget's computed height may differ from the given height due to
-     * widget stretching. Also take a look at the related properties
+     * The computed height may differ from the given height due to
+     * stretching. Also take a look at the related properties
      * {@link #minHeight} and {@link #maxHeight}.
      */
     height :
@@ -133,9 +123,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the user provided maximal height of the widget. If the value is set
-     * to <code>null</code> the preferred maximal height of the widget's content
-     * is used.
+     * Sets the user provided maximal height.
      *
      * Also take a look at the related properties {@link #height} and {@link #minHeight}.
      */
@@ -156,7 +144,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    /** Whether the widget can grow horitontally. */
+    /** Whether the item can grow horitontally. */
     allowGrowX :
     {
       check : "Boolean",
@@ -166,7 +154,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Whether the widget can shrink horitontally. */
+    /** Whether the item can shrink horitontally. */
     allowShrinkX :
     {
       check : "Boolean",
@@ -176,7 +164,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Whether the widget can grow vertically. */
+    /** Whether the item can grow vertically. */
     allowGrowY :
     {
       check : "Boolean",
@@ -186,7 +174,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Whether the widget can shrink vertically. */
+    /** Whether the item can shrink vertically. */
     allowShrinkY :
     {
       check : "Boolean",
@@ -196,7 +184,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Allow growing and shrinking in the horizontal direction */
+    /** Growing and shrinking in the horizontal direction */
     allowStretchX :
     {
       group : [ "allowGrowX", "allowShrinkX" ],
@@ -205,7 +193,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Allow growing and shringking in the vertical direction */
+    /** Growing and shringking in the vertical direction */
     allowStretchY :
     {
       group : [ "allowGrowY", "allowShrinkY" ],
@@ -232,14 +220,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * Get the widget's computed location and dimension as computed by
+     * Get the computed location and dimension as computed by
      * the layout manager.
      *
      * This function is guaranteed to return a correct value
      * during a {@link #changeSize} or {@link #changePosition} event dispatch.
      *
      * @type member
-     * @return {Map} The widget location and dimensions in pixel
+     * @return {Map} The location and dimensions in pixel
      *    (if the layout is valid). Contains the keys
      *    <code>width</code>, <code>height</code>, <code>left</code> and
      *    <code>top</code>.
@@ -321,11 +309,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Whether the widget is a layout root. If the widget is a layout root,
-     * layout changes inside the widget will not be propagated up to the
+     * Whether the item is a layout root. If the item is a layout root,
+     * layout changes inside the item will not be propagated up to the
      * layout root's parent.
      *
-     * @return {Boolean} Whether the widget is a layout root.
+     * @return {Boolean} Whether the item is a layout root.
      */
     isLayoutRoot : function() {
       return false;
@@ -335,7 +323,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Whether the element should be rendered.
      *
-     * @return {Boolean} Whether the widget should be rendered.
+     * @return {Boolean} Whether the item should be rendered.
      */
     shouldBeLayouted : function() {
       return true;
@@ -343,7 +331,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Whether the layout of this widget (to layout the children)
+     * Whether the layout of this item (to layout the children)
      * is valid.
      *
      * @type member
@@ -355,8 +343,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Indicate that the widget has layout changes and propagate this information
-     * up the widget hierarchy.
+     * Indicate that the item has layout changes and propagate this information
+     * up the item hierarchy.
      *
      * @type member
      */
@@ -366,7 +354,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Called by the layout manager to mark this widget's layout as invalid.
+     * Called by the layout manager to mark this item's layout as invalid.
      * This function should clear all layout relevant caches.
      */
     invalidateLayoutCache : function()
@@ -380,10 +368,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Returns the recommended dimensions of the widget.
-     *
-     * Developer note: This method normally does not need to be refined. If you
-     * develop a custom widget please customize {@link #_getContentHint} instead.
+     * Returns the recommended dimensions of the item.
      *
      * @type member
      * @param compute {Boolean?true} Automatically compute size hint if currently not
@@ -472,9 +457,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Whether the widget supports height for width.
+     * Whether the item supports height for width.
      *
-     * @return {Boolean} Whether the widget supports height for width
+     * @return {Boolean} Whether the item supports height for width
      */
     _hasHeightForWidth : function() {
       return false;
@@ -482,13 +467,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * If a widget want's to trade height for width it has to implenet this
-     * method and return the preferred height of the widget if it is resized to
-     * the given width. This function returns <code>null</code> if the widget
-     * doe not support height for width.
+     * If a item wants to trade height for width it has to implenet this
+     * method and return the preferred height of the item if it is resized to
+     * the given width. This function returns <code>null</code> if the item
+     * do not support height for width.
      *
-     * @param width {Integer} The widgets new width
-     * @return {Integer} The desired widget height
+     * @param width {Integer} The computed width
+     * @return {Integer} The desired height
      */
     _getHeightForWidth : function(width) {
       return null;
@@ -628,11 +613,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * Get the widget's parent widget. Even if the widget has been added to a
-     * layout, the parent is always a child of the containing widget. The parent
-     * widget may be <code>null</code>.
+     * Get the items parent. Even if the item has been added to a
+     * layout, the parent is always a child of the containing item. The parent
+     * item may be <code>null</code>.
      *
-     * @return {qx.ui.core.Widget|null} The widget's parent.
+     * @return {qx.ui.core.Widget|null} The parent.
      */
     getLayoutParent : function() {
       return this._parent || null;
@@ -640,9 +625,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Set the widget's parent
+     * Set the parent
      *
-     * @param parent {qx.ui.core.Widget|null} The widget's new parent.
+     * @param parent {qx.ui.core.Widget|null} The new parent.
      */
     setLayoutParent : function(parent) {
       this._parent = parent;
@@ -650,10 +635,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Whether the widget is a root widget and directly connected to
+     * Whether the item is a root item and directly connected to
      * the DOM.
      *
-     * @return {Boolean} whether the widget is a root widget
+     * @return {Boolean} Whether the item a root item
      */
     isRootWidget : function() {
       return false;
@@ -661,12 +646,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Returns the root widget. The root widget is the widget which
+     * Returns the root item. The root item is the item which
      * is directly inserted into an existing DOM node at HTML level.
      * This is often the BODY element of a typical web page.
      *
      * @type member
-     * @return {qx.ui.core.Widget} The root widget (if available)
+     * @return {qx.ui.core.Widget} The root item (if available)
      */
     _getRoot : function()
     {
