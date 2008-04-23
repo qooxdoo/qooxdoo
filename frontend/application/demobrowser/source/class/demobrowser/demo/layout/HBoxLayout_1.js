@@ -93,9 +93,14 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
 
-      container.add(w1, { marginRight : 10 });
-      container.add(w2, { marginLeft : 20, marginRight : 10 });
-      container.add(w3, { marginRight : 10 });
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
+
+      w1.setMarginRight(10);
+      w2.setMarginLeft(20);
+      w2.setMarginRight(10);
+      w3.setMarginRight(10);
 
       this.getRoot().add(container, {left:10, top:260});
 
@@ -112,9 +117,14 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
 
-      container.add(w1, { marginRight : 10 });
-      container.add(w2, { marginLeft : 20, marginRight : 10 });
-      container.add(w3, { marginRight : 10 });
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
+
+      w1.setMarginRight(10);
+      w2.setMarginLeft(20);
+      w2.setMarginRight(10);
+      w3.setMarginRight(10);
 
       this.getRoot().add(container, {left:10, top:320});
 
@@ -131,9 +141,14 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
 
-      container.add(w1, { marginRight : 10 });
-      container.add(w2, { marginLeft : 20, marginRight : 10 });
-      container.add(w3, { marginRight : 10 });
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
+
+      w1.setMarginRight(10);
+      w2.setMarginLeft(20);
+      w2.setMarginRight(10);
+      w3.setMarginRight(10);
 
       this.getRoot().add(container, {left:10, top:380});
     }
