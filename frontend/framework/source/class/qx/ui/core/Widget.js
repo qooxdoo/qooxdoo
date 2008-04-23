@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.core.Widget",
     this._containerElement.setAttribute("$$widget", this.toHashCode());
 
     // Children array
-    this._children = [];
+    this.__children = [];
 
     // Initialize states map
     this.__states = {};
@@ -1364,9 +1364,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       var layoutChildren = [];
 
-      for (var i=0, l=this._children.length; i<l; i++)
+      for (var i=0, l=this.__children.length; i<l; i++)
       {
-        var child = this._children[i];
+        var child = this.__children[i];
         if (!child.hasUserBounds() && child.shouldBeLayouted()) {
           layoutChildren.push(child);
         }
@@ -1403,7 +1403,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   reference types, please to not modify them in-place)
      */
     _getChildren : function() {
-      return this._children;
+      return this.__children;
     },
 
 
@@ -1417,7 +1417,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   the given widget is no child of this layout.
      */
     _indexOf : function(child) {
-      return this._children.indexOf(child);
+      return this.__children.indexOf(child);
     },
 
 
@@ -1428,7 +1428,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
     _hasChildren : function() {
-      return !!this._children[0];
+      return !!this.__children[0];
     },
 
 
@@ -1443,7 +1443,7 @@ qx.Class.define("qx.ui.core.Widget",
     _add : function(child, options)
     {
       this.__addHelper(child, options);
-      this._children.push(child);
+      this.__children.push(child);
     },
 
 
@@ -1456,7 +1456,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addAt : function(child, index, options)
     {
-      var ref = this._children[index];
+      var ref = this.__children[index];
 
       if (ref === child) {
         return child.setLayoutProperties(options);
@@ -1465,9 +1465,9 @@ qx.Class.define("qx.ui.core.Widget",
       this.__addHelper(child, options);
 
       if (ref) {
-        qx.lang.Array.insertBefore(this._children, child, ref);
+        qx.lang.Array.insertBefore(this.__children, child, ref);
       } else {
-        this._children.push(child);
+        this.__children.push(child);
       }
     },
 
@@ -1487,7 +1487,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__addHelper(child, options);
-      qx.lang.Array.insertBefore(this._children, child, before);
+      qx.lang.Array.insertBefore(this.__children, child, before);
     },
 
 
@@ -1506,7 +1506,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__addHelper(child, options);
-      qx.lang.Array.insertAfter(this._children, child, after);
+      qx.lang.Array.insertAfter(this.__children, child, after);
     },
 
 
@@ -1520,7 +1520,7 @@ qx.Class.define("qx.ui.core.Widget",
     _remove : function(child)
     {
       this.__removeHelper(child);
-      qx.lang.Array.remove(this._children, child);
+      qx.lang.Array.remove(this.__children, child);
     },
 
 
@@ -1532,10 +1532,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAt : function(index)
     {
-      var child = this._children[index];
+      var child = this.__children[index];
 
       this.__removeHelper(child);
-      qx.lang.Array.removeAt(this._children, index);
+      qx.lang.Array.removeAt(this.__children, index);
     },
 
 
@@ -1546,7 +1546,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAll : function()
     {
-      var children = this._children;
+      var children = this.__children;
 
       for (var i = children.length-1; i>=0; i--) {
         children[i].setLayoutParent(null);
