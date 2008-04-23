@@ -375,8 +375,8 @@ class Config:
                 console.warn("No such job: %s" % job)
                 sys.exit(1)
             else:
-                if config[job].has_key('library1'):
-                    newlib = config[job]['library1']
+                if config[job].has_key('library'):
+                    newlib = config[job]['library']
                     for lib in newlib:
                         manifest = Manifest(lib['manifest'])
                         lib = manifest.patchLibEntry(lib)
@@ -466,13 +466,15 @@ class Manifest(object):
     def patchLibEntry(self, libentry):
         '''Patches a "library" entry with the information from Manifest'''
         libinfo   = self._manifest['provides']
-        uriprefix = libentry['uri']
+        #uriprefix = libentry['uri']
+        uriprefix = ""
         libentry['class']         = os.path.join(uriprefix,libinfo['class'])
         libentry['resource']      = os.path.join(uriprefix,libinfo['resource'])
         libentry['translation']   = os.path.join(uriprefix,libinfo['translation'])
         libentry['encoding']    = libinfo['encoding']
         libentry['namespace']   = libinfo['namespace']
         libentry['type']        = libinfo['type']
+        libentry['path']        = os.path.dirname(libentry['manifest']) or '.'
 
         return libentry
 
