@@ -1358,11 +1358,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getLayoutChildren : function()
     {
-      /*
       if (this.__layoutChildren) {
         return this.__layoutChildren;
       }
-      */
 
       var layoutChildren = [];
 
@@ -1599,6 +1597,9 @@ qx.Class.define("qx.ui.core.Widget",
       //  - clear the layout's children cache as well and
       //  - add its parent (this widget) to the layout queue
       child.setLayoutProperties(options);
+
+      // invalidate cached layout children
+      this.__layoutChildren = null;
     },
 
 
@@ -1623,6 +1624,9 @@ qx.Class.define("qx.ui.core.Widget",
       if (this.__layout) {
         this.__layout.invalidateChildrenCache();
       }
+
+      // invalidate cached layout children
+      this.__layoutChildren = null;
 
       // Add to layout queue
       qx.ui.core.queue.Layout.add(this);
@@ -1823,6 +1827,9 @@ qx.Class.define("qx.ui.core.Widget",
         if (parentLayout) {
           parentLayout.invalidateChildrenCache();
         }
+
+        // invalidate cached layout children
+        this.__layoutChildren = null;
 
         qx.ui.core.queue.Layout.add(parent);
       }
