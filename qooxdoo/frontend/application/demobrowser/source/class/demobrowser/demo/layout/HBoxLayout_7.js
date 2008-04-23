@@ -67,17 +67,21 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      container.add(w1, { align : "top", marginLeft : 10 });
-      container.add(w2, { align : "middle", marginLeft : 10 });
-      container.add(w3, { align : "bottom", marginLeft : 10 });
+      container.add(w1, { align : "top" });
+      container.add(w2, { align : "middle" });
+      container.add(w3, { align : "bottom" });
+
+      w1.setMarginLeft(10);
+      w2.setMarginLeft(10);
+      w3.setMarginLeft(10);
 
       this.getRoot().add(container, {left:10, top:100});
 
       before = true;
       container.addListener("mousedown", function(e)
       {
-        box.addLayoutProperty(w1, "marginLeft", before ? 20 : 10);
-        box.addLayoutProperty(w2, "marginLeft", before ? 0 : 10);
+        w1.setMarginLeft(before ? 20 : 10);
+        w2.setMarginLeft(before ? 0 : 10);
 
         before = !before;
       });
@@ -93,18 +97,22 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
-      container.add(w1, { align : "top", marginLeft : 10 });
-      container.add(w2, { align : "middle", marginLeft : 10 });
-      container.add(w3, { align : "bottom", marginLeft : 10 });
+      container.add(w1, { align : "top" });
+      container.add(w2, { align : "middle" });
+      container.add(w3, { align : "bottom" });
+
+      w1.setMarginLeft(10);
+      w2.setMarginLeft(10);
+      w3.setMarginLeft(10);
 
       this.getRoot().add(container, {left:10, top:190});
 
       large = true;
       container.addListener("mousedown", function(e)
       {
-        box.addLayoutProperty(w1, "marginLeft", large ? 30 : 10);
-        box.addLayoutProperty(w2, "marginLeft", large ? 30 : 10);
-        box.addLayoutProperty(w3, "marginLeft", large ? 30 : 10);
+        w1.setMarginLeft(large ? 30 : 10);
+        w2.setMarginLeft(large ? 30 : 10);
+        w3.setMarginLeft(large ? 30 : 10);
 
         large = !large;
       });
