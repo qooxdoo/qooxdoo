@@ -110,19 +110,6 @@ qx.Class.define("qx.ui.layout.HBox",
       var length = children.length;
       var util = qx.ui.layout.Util;
 
-      if (this.getReversed())
-      {
-        var start = length-1;
-        var end = -1;
-        var increment = -1;
-      }
-      else
-      {
-        var start = 0;
-        var end = length;
-        var increment = 1;
-      }
-
 
 
       // **************************************
@@ -132,9 +119,9 @@ qx.Class.define("qx.ui.layout.HBox",
       // First run to cache children data and compute allocated width
       var child, layoutWidth;
       var widths = [];
-      var gaps = this._getGaps();
+      var gaps = util.computeHorizontalGaps(children, this.getSpacing());
 
-      for (var i=start; i!=end; i+=increment)
+      for (var i=0; i<length; i+=1)
       {
         child = children[i];
 
@@ -178,7 +165,7 @@ qx.Class.define("qx.ui.layout.HBox",
         var grow = allocatedWidth < availWidth;
         var flex;
 
-        for (var i=start; i!=end; i+=increment)
+        for (var i=0; i<length; i+=1)
         {
           child = children[i];
 
@@ -244,27 +231,23 @@ qx.Class.define("qx.ui.layout.HBox",
       //   Layouting children
       // **************************************
 
-      var prev, hint, top, height, width, marginEnd, marginStart;
+      var hint, top, height, width, marginEnd, marginStart;
       var spacing = this.getSpacing();
+      var align;
 
-      for (var i=start; i!=end; i+=increment)
+      for (var i=0; i<length; i+=1)
       {
         child = children[i];
-        var props = child.getLayoutProperties()
 
         // Compute left position of this child
-        if (i === start)
+        if (i === 0)
         {
-          left += props.marginLeft || 0;
+          left += child.getMarginLeft();
         }
         else
         {
-          // "prev" is the previous child from the previous interation
-          marginEnd = props.marginRight || 0;
-          marginStart = props.marginLeft || 0;
-
           // "width" is still the width of the previous child
-          left += width + spacing + util.collapseMargins(marginEnd, marginStart);
+          left += width + util.collapseMargins(spacing, children[i-1].getMarginRight(), child.getMarginLeft());
         }
 
         // Do the real rendering
@@ -272,16 +255,14 @@ qx.Class.define("qx.ui.layout.HBox",
         height = Math.max(hint.minHeight, Math.min(availHeight, hint.maxHeight));
 
         // Respect vertical alignment
-        top = util.computeVerticalAlignOffset(props.align || "top", height, availHeight);
+        align = child.getLayoutProperties().align || "top";
+        top = util.computeVerticalAlignOffset(align, height, availHeight);
 
         // Load width
         width = widths[i];
 
         // Layout child
         child.renderLayout(left, top, width, height);
-
-        // Remember previous child
-        prev = child;
       }
     },
 
@@ -295,26 +276,13 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this._getLayoutChildren();
       var length = children.length;
 
-      if (this.getReversed())
-      {
-        var start = length-1;
-        var end = -1;
-        var increment = -1;
-      }
-      else
-      {
-        var start = 0;
-        var end = length;
-        var increment = 1;
-      }
-
       // Initialize
       var minWidth=0, width=0;
       var minHeight=0, height=0;
       var hint, flex, child;
 
       // Iterate over children
-      for (var i=start; i!=end; i+=increment)
+      for (var i=0; i<length; i+=1)
       {
         child = children[i];
         hint = child.getSizeHint();
@@ -343,7 +311,7 @@ qx.Class.define("qx.ui.layout.HBox",
       }
 
       // Respect gaps
-      var gaps = this._getGaps();
+      var gaps = util.computeHorizontalGaps(children, this.getSpacing());
 
       // Return hint
       return {
@@ -352,76 +320,6 @@ qx.Class.define("qx.ui.layout.HBox",
         minHeight : minHeight,
         height : height
       };
-    },
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Computes the area occopied by spacing and margin.
-     *
-     * @type member
-     * @return {Integer} The computed sum
-     */
-    _getGaps : function()
-    {
-      var util = qx.ui.layout.Util;
-
-      // Cache children data
-      var children = this._getLayoutChildren();
-      var child;
-      var length = children.length;
-
-      if (this.getReversed())
-      {
-        var start = length-1;
-        var end = -1;
-        var increment = -1;
-      }
-      else
-      {
-        var start = 0;
-        var end = length;
-        var increment = 1;
-      }
-
-      // Initialize gaps
-      var gaps = this.getSpacing() * (length - 1);
-
-      // Add inner margins (with collapsing support)
-      var marginEnd, marginStart;
-
-      // Add margin left of first child (no collapsing here)
-      child = children[start];
-      var props = child.getLayoutProperties();
-
-      gaps += props.marginLeft || 0;
-
-      // Ignore last child here (will be added later)
-      for (var i=start+increment; i!=end; i+=increment)
-      {
-        marginEnd = props.marginRight || 0;
-
-        child = children[i];
-
-        marginStart = props.marginLeft || 0;
-
-        gaps += util.collapseMargins(marginEnd, marginStart);
-      }
-
-      // Add margin right of last child (no collapsing here)
-      gaps += props.marginRight || 0;
-
-      return gaps;
     }
   }
 });
