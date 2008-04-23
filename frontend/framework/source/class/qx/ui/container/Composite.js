@@ -21,7 +21,7 @@
 qx.Class.define("qx.ui.container.Composite",
 {
   extend : qx.ui.core.Widget,
-  include : [ qx.ui.core.MChildren, qx.ui.core.MLayoutHandling ],
+  include : [ qx.ui.core.MChildrenHandling, qx.ui.core.MLayoutHandling ],
 
 
 
