@@ -101,9 +101,9 @@ qx.Class.define("qx.ui.decoration.Uniform",
   members :
   {
     // interface implementation
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, changes)
     {
-      if (updateStyles)
+      if (changes.style || changes.init)
       {
         var bgImage = qx.io.Alias.getInstance().resolve(this.getBackgroundImage());
         element.setStyles({
@@ -113,9 +113,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
         });
       }
 
-      element.setStyle("backgroundColor", backgroundColor || this.__background || null);
+      if (changes.bgcolor || changes.init) {
+        element.setStyle("backgroundColor", backgroundColor || this.__background || null);
+      }
 
-      if (updateSize)
+      if (changes.size || changes.init)
       {
         var inset = 2 * this.getWidth();
         qx.ui.decoration.Util.updateSize(

@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
     // interface implementation
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, changes)
     {
       if (!element.getChild(0))
       {
