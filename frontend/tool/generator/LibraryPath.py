@@ -3,8 +3,9 @@ import os, re, sys
 from misc import filetool
 
 class LibraryPath:
-    def __init__(self, config, console):
-        self._config = config
+    # is called with a "library" entry from the json config
+    def __init__(self, libconfig, console):
+        self._config = libconfig
         self._console = console
 
         self._classes = {}
@@ -54,10 +55,13 @@ class LibraryPath:
         uri = self._config.get("uri", path)
         encoding = self._config.get("encoding", "utf-8")
 
-        classPath = os.path.join(path, self._classFolder)
-        classUri = uri + "/" + self._classFolder
+        #classPath = os.path.join(path, self._classFolder)
+        classPath = os.path.join(path, self._config.get("class",""))
+        #classUri = uri + "/" + self._classFolder
+        classUri  = os.path.join(uri, self._config.get("class",""))
 
-        translationPath = os.path.join(path, self._translationFolder)
+        #translationPath = os.path.join(path, self._translationFolder)
+        translationPath = os.path.join(path, self._config.get("translation",""))
 
         self._detectNamespace(classPath)
         self._scanClassPath(classPath, classUri, encoding)

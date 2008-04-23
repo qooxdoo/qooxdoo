@@ -14,7 +14,7 @@
         "BUILD_PATH"   : "${ROOT}/build"
       },
 
-      "library" :
+      "library1" :
       [
         {
           "encoding" : "utf-8",
@@ -26,6 +26,19 @@
           "encoding" : "utf-8",
           "path"     : "${ROOT}/source",
           "uri"      : "../source"
+        }
+      ],
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.js",
+          "uri"      : "${QOOXDOO_URI}/framework"
+        },
+
+        {
+          "manifest" : "Manifest.js",
+          "uri"      : ".."
         }
       ],
 
