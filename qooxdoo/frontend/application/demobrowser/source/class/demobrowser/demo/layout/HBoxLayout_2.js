@@ -37,8 +37,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       container.add(w1, { align : "top" });
-      container.add(w2, { align : "middle", marginLeft : -10 });
-      container.add(w3, { align : "bottom", marginLeft : -10 });
+      container.add(w2, { align : "middle" });
+      container.add(w3, { align : "bottom" });
+
+      w2.setMarginLeft(-10);
+      w3.setMarginLeft(-10);
 
       this.getRoot().add(container, {left:10, top:10});
 
@@ -54,8 +57,12 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       container.add(w1, { align : "top" });
-      container.add(w2, { align : "middle", marginLeft : -10, marginRight : 20 });
-      container.add(w3, { align : "bottom", marginLeft : -10 });
+      container.add(w2, { align : "middle" });
+      container.add(w3, { align : "bottom" });
+
+      w2.setMarginLeft(-10);
+      w2.setMarginRight(20);
+      w3.setMarginLeft(-10);
 
       this.getRoot().add(container, {left:10, top:100});
 
@@ -71,8 +78,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       container.add(w1, { flex : 1, align : "top" });
-      container.add(w2, { flex : 1, align : "middle", marginLeft : -10 });
-      container.add(w3, { flex : 1, align : "bottom", marginLeft : -10 });
+      container.add(w2, { flex : 1, align : "middle" });
+      container.add(w3, { flex : 1, align : "bottom" });
+
+      w2.setMarginLeft(-10);
+      w3.setMarginLeft(-10);
 
       this.getRoot().add(container, {left:10, top:190});
 
@@ -89,8 +99,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       container.add(w1, { flex : 1, align : "top" });
-      container.add(w2, { flex : 2, align : "middle", marginLeft : -10 });
-      container.add(w3, { flex : 3, align : "bottom", marginLeft : -10 });
+      container.add(w2, { flex : 2, align : "middle" });
+      container.add(w3, { flex : 3, align : "bottom" });
+
+      w2.setMarginLeft(-10);
+      w3.setMarginLeft(-10);
 
       this.getRoot().add(container, {left:10, top:280});
 
@@ -106,8 +119,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight: 50});
 
       container.add(w1, { width : "1*", align : "top" });
-      container.add(w2, { width : "2*", align : "middle", marginLeft : -10 });
-      container.add(w3, { width : "3*", align : "bottom", marginLeft : -10 });
+      container.add(w2, { width : "2*", align : "middle" });
+      container.add(w3, { width : "3*", align : "bottom" });
+
+      w2.setMarginLeft(-10);
+      w3.setMarginLeft(-10);
 
       this.getRoot().add(container, {left:10, top:370});
     }

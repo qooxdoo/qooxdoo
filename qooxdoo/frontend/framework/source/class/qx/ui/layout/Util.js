@@ -195,23 +195,67 @@ qx.Class.define("qx.ui.layout.Util",
      * Collapses two margins.
      *
      * @type member
-     * @param end {Integer} End margin (right or bottom)
-     * @param start {Integer} Start margin (left or top)
      * @return {Integer} The collapsed margin
      */
-    collapseMargins : function(end, start)
+    collapseMargins : function(varargs)
     {
-      // Math.max detects 'null' as more ('0') than '-1'
-      // we need to work around this
-      if (end && start) {
-        return Math.max(end, start);
-      } else if (start) {
-        return start;
-      } else if (end) {
-        return end;
+      var max=0, min=0;
+      for (var i=0, l=arguments.length; i<l; i++)
+      {
+        value = arguments[i];
+
+        if (value < 0) {
+          min = Math.min(min, value);
+        } else if (value > 0) {
+          max = Math.max(max, value);
+        }
       }
 
-      return 0;
+      return max + min;
+    },
+
+
+    computeHorizontalGaps : function(children, spacing)
+    {
+      if (spacing == null) {
+        spacing = 0;
+      }
+
+      var gaps = 0;
+
+      // Add first child
+      gaps += children[0].getMarginLeft();
+
+      for (var i=1, l=children.length; i<l; i+=1) {
+        gaps += this.collapseMargins(spacing, children[i-1].getMarginRight(), children[i].getMarginLeft());
+      }
+
+      // Add last child
+      gaps += children[l-1].getMarginRight();
+
+      return gaps;
+    },
+
+
+    computeVerticalGaps : function(children, spacing)
+    {
+      if (spacing == null) {
+        spacing = 0;
+      }
+
+      var gaps = 0;
+
+      // Add first child
+      gaps += children[0].getMarginTop();
+
+      for (var i=1, l=children.length; i<l; i+=1) {
+        gaps += this.collapseMargins(spacing, children[i-1].getMarginBottom(), children[i].getMarginTop());
+      }
+
+      // Add last child
+      gaps += children[l-1].getMarginBottom();
+
+      return gaps;
     }
   }
 });
