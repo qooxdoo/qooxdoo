@@ -1897,7 +1897,7 @@ qx.Class.define("qx.ui.core.Widget",
           var bounds = this.getBounds();
 
           this.__decorator.render(this._decorationElement, bounds.width, bounds.height,
-            this.__backgroundColor, {style:true});
+            this.__backgroundColor, {bgcolor:true});
         }
       }
       else

@@ -43,7 +43,7 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      *     the decoration size needs to be updated. Is also <code>true</code> when
      *     this decoration should be applied initially.
      * @param changes {Map} Flags for all changes: <code>init</code>, <code>size</code>,
-     *   and <code>style</code>.
+     *   <code>style</code> and <code>bgcolor</code>.
      */
     render : function(element, width, height, backgroundColor, changes) {},
 
