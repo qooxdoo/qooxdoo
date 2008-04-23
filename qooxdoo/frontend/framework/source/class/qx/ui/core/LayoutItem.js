@@ -268,9 +268,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
         computed = this.__computedLayout = {};
       }
 
-
-
-
       // Height for width support
       // Results into a relayout which means that width/height is applied in the next iteration.
       var flowHeight = this.getHeight() == null && this._hasHeightForWidth() ? this._getHeightForWidth(width) : null;
