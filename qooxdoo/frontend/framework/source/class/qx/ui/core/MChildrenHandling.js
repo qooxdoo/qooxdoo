@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This mixin exposes all methods to manage widget children as public methods.
+ * This mixin exposes all basic methods to manage widget children as public methods.
  * It can only be included into instances of {@link Widget}.
  *
  * To optimize the method calls the including widget should call the method
@@ -36,12 +36,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      CHILDREN LIST MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Returns the children list
      *
@@ -65,14 +59,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ADD CHILDREN
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Adds a new child widget.
      *
@@ -85,15 +71,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
       return this._add(child, options);
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      REMOVE CHILDREN
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Remove the given child widget.
