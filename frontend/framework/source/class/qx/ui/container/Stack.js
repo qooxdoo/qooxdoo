@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.container.Stack",
 
       if (this.getSelected() === widget)
       {
-        var first = this._children[0];
+        var first = this._getChildren()[0];
         if (first) {
           this.setSelected(first);
         } else {
@@ -106,19 +106,20 @@ qx.Class.define("qx.ui.container.Stack",
     },
 
     getChildren : function() {
-      return this._children;
+      return this._getChildren();
     },
 
     previous : function()
     {
       var selected = this.getSelected();
       var go = this._indexOf(selected)-1;
+      var children = this._getChildren();
 
       if (go < 0) {
-        go = this._children.length - 1;
+        go = children.length - 1;
       }
 
-      var prev = this._children[go];
+      var prev = children[go];
       this.setSelected(prev);
     },
 
@@ -126,7 +127,9 @@ qx.Class.define("qx.ui.container.Stack",
     {
       var selected = this.getSelected();
       var go = this._indexOf(selected)+1;
-      var next = this._children[go] || this._children[0];
+      var children = this._getChildren();
+
+      var next = children[go] || children[0];
 
       this.setSelected(next);
     }
