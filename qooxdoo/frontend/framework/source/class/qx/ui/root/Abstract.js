@@ -24,7 +24,8 @@
 qx.Class.define("qx.ui.root.Abstract",
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.MChildrenHandling,
+  include : [ qx.ui.core.MChildren, qx.ui.core.MLayoutHandling ],
+
 
 
   /*
@@ -111,8 +112,10 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  defer : function(statics, members) {
-    qx.ui.core.MChildrenHandling.remapMethods(members);
+  defer : function(statics, members)
+  {
+    qx.ui.core.MChildrenHandling.remap(members);
+    qx.ui.core.MLayoutHandling.remap(members);
   },
 
 

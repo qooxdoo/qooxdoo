@@ -23,10 +23,10 @@
  * It can only be included into instances of {@link Widget}.
  *
  * To optimize the method calls the including widget should call the method
- * {@link #remapMethods} in its defer function. This will map the protected
+ * {@link #remap} in its defer function. This will map the protected
  * methods to the public ones and save one method call for each function.
  */
-qx.Mixin.define("qx.ui.core.MChildrenHandling",
+qx.Mixin.define("qx.ui.core.MAdvancedChildrenHandling",
 {
   /*
   *****************************************************************************
@@ -43,18 +43,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     */
 
     /**
-     * Returns the children list
-     *
-     * @type member
-     * @return {LayoutItem[]} The children array (Arrays are
-     *   reference types, please to not modify them in-place)
-     */
-    getChildren : function() {
-      return this._getChildren();
-    },
-
-
-    /**
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
@@ -68,16 +56,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     },
 
 
-    /**
-     * Whether the widget contains children.
-     *
-     * @type member
-     * @return {Boolean} Returns <code>true</code> when the widget has children.
-     */
-    hasChildren : function() {
-      return this._hasChildren();
-    },
-
 
 
 
@@ -86,19 +64,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
       ADD CHILDREN
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Adds a new child widget.
-     *
-     * @type member
-     * @param child {LayoutItem} the widget to add.
-     * @param options {Map?null} Optional layout data for widget.
-     * @return {Widget} This object (for chaining support)
-     */
-    add : function(child, options) {
-      return this._add(child, options);
-    },
-
 
     /**
      * Add a child widget at the specified index
@@ -148,18 +113,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     */
 
     /**
-     * Remove the given child widget.
-     *
-     * @type member
-     * @param child {LayoutItem} the widget to remove
-     * @return {Widget} This object (for chaining support)
-     */
-    remove : function(child) {
-      return this._remove(child);
-    },
-
-
-    /**
      * Remove the widget at the specified index.
      *
      * @type member
@@ -167,16 +120,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      */
     removeAt : function(index) {
       return this._removeAt(index);
-    },
-
-
-    /**
-     * Remove all children.
-     *
-     * @type member
-     */
-    removeAll : function() {
-      return this._removeAll();
     }
   },
 
@@ -197,22 +140,13 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      *
      * @param members {Map} The including classes members map
      */
-    remapMethods : function(members)
+    remap : function(members)
     {
-      members.setLayout = members._setLayout;
-
-      members.getChildren = members._getChildren;
       members.indexOf = members._indexOf;
-      members.hasChildren = members._hasChildren;
-
-      members.add = members._add;
       members.addAt = members._addAt;
       members.addBefore = members._addBefore;
       members.addAfter = members._addAfter;
-
-      members.remove = members._remove;
       members.removeAt = members._removeAt;
-      members.removeAll = members._removeAll;
     }
   }
 })
