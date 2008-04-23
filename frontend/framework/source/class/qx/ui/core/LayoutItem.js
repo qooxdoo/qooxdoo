@@ -268,16 +268,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
         computed = this.__computedLayout = {};
       }
 
-      // Detect position changes
-      var changes = {};
 
-      if (left !== computed.left || top !== computed.top)
-      {
-        changes.position = true;
 
-        computed.left = left;
-        computed.top = top;
-      }
 
       // Height for width support
       // Results into a relayout which means that width/height is applied in the next iteration.
@@ -285,29 +277,51 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
       {
         this.__computedHeightForWidth = flowHeight;
+
+        // Re-add to layout queue
         qx.ui.core.queue.Layout.add(this);
+
+        return null;
       }
 
       // Detect size changes
-      else if (width !== computed.width || height !== computed.height)
+      else
       {
-        changes.size = true;
+        // Detect changes
+        var changes = {};
 
-        computed.width = width;
-        computed.height = height;
+        if (left !== computed.left || top !== computed.top)
+        {
+          changes.position = true;
+
+          computed.left = left;
+          computed.top = top;
+        }
+
+        if (width !== computed.width || height !== computed.height)
+        {
+          changes.size = true;
+
+          computed.width = width;
+          computed.height = height;
+        }
+
+        // Clear invalidation marker
+        if (this.__hasInvalidLayout)
+        {
+          changes.local = true;
+          delete this.__hasInvalidLayout;
+        }
+
+        // Fire events
+        if (changes.position && this.hasListeners("move")) {
+          this.fireDataEvent("move", this.getBounds());
+        }
+
+        if (changes.size && this.hasListeners("resize")) {
+          this.fireDataEvent("resize", this.getBounds());
+        }
       }
-
-      // Fire events
-      if (changes.position && this.hasListeners("move")) {
-        this.fireDataEvent("move", this.getBounds());
-      }
-
-      if (changes.size && this.hasListeners("resize")) {
-        this.fireDataEvent("resize", this.getBounds());
-      }
-
-      // Clear invalidation marker
-      delete this.__hasInvalidLayout;
 
       // Returns changes, especially for deriving classes
       return changes;

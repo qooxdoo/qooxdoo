@@ -367,9 +367,9 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
     // interface implementation
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, changes)
     {
-      if (updateStyles)
+      if (changes.style || changes.init)
       {
         element.setStyles(this._getStyles());
         this._updateScaledImage(element, width, height);
@@ -377,7 +377,8 @@ qx.Class.define("qx.ui.decoration.Single",
 
       element.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
 
-      if (updateSize) {
+      if (changes.size || changes.init)
+      {
         qx.ui.decoration.Util.updateSize(
           element,
           width, height,

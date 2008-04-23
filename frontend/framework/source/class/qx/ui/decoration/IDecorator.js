@@ -42,10 +42,10 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param updateSize {Boolean} Whether the size of the widget has changed and
      *     the decoration size needs to be updated. Is also <code>true</code> when
      *     this decoration should be applied initially.
-     * @param updateStyles {Boolean} Whether one of the decorator properties have
-     *     changed and the styling of the decoration needs to be updated.
+     * @param changes {Map} Flags for all changes: <code>init</code>, <code>size</code>,
+     *   and <code>style</code>.
      */
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles) {},
+    render : function(element, width, height, backgroundColor, changes) {},
 
 
     /**
