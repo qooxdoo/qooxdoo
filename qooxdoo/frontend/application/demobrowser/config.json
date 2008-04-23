@@ -15,7 +15,7 @@
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
       },
 
-      "library" :
+      "library1" :
       [
         {
           "encoding" : "utf-8",
@@ -30,7 +30,7 @@
         }
       ],
 
-      "library1" :
+      "library" :
       [
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.js",
