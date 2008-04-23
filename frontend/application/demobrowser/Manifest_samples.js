@@ -13,7 +13,7 @@
     "authors" : 
     [
       {
-        "name" : "Sebastian Werner (wbasti)",
+        "name" : "Sebastian Werner (wpbasti)",
         "email" : "info@sebastian-werner.net"
       },
       {
