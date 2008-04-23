@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _applyPlaceBarOnTop : function(value, old) {
       // reverse the layout
-      this.getLayout().setReversed(!value);
+      this._getLayout().setReversed(!value);
       // set or remove the state on the buttons
       var buttons = this._bar.getChildren();
       for (var i = 0; i < buttons.length; i++) {

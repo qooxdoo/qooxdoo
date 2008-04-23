@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
     // property apply
     _applyGap : function(value, old) {
-      this.getLayout().setGap(value);
+      this._getLayout().setGap(value);
     },
 
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
     // property apply
     _applyAlign : function(value, old) {
-      this.getLayout().setAlign(value);
+      this._getLayout().setAlign(value);
     }
   }
 });
