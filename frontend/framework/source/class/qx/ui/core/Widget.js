@@ -696,14 +696,14 @@ qx.Class.define("qx.ui.core.Widget",
       this.__updatePadding = true;
       qx.ui.core.queue.Layout.add(this);
     },
-    
+
     _applyMarginChange : function(value)
     {
       this.__updateMargin = true;
       qx.ui.core.queue.Layout.add(this);
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -716,7 +716,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
-    getLayout : function() {
+    _getLayout : function() {
       return this.__layout;
     },
 
@@ -773,8 +773,8 @@ qx.Class.define("qx.ui.core.Widget",
       // Update inheritable properties
       qx.core.Property.refresh(this);
     },
-    
-    
+
+
     // overridden
     renderLayout : function(left, top, width, height)
     {
@@ -795,7 +795,7 @@ qx.Class.define("qx.ui.core.Widget",
         container.setStyle("width", width + pixel);
         container.setStyle("height", height + pixel);
       }
-      
+
       // Any chance to cache this and to detect changes?
       var insets = this.getInsets();
       var innerWidth = width - insets.left - insets.right;
@@ -819,7 +819,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (this.__decorator && (commonInnerChange || this.__updateBackgroundColor))
       {
-        this.__decorator.render(this._decorationElement,  width, height, 
+        this.__decorator.render(this._decorationElement,  width, height,
           this.__backgroundColor,
           this.__initDecorator || changes.size,
           this.__initDecorator || this.__updateDecorator
@@ -960,7 +960,7 @@ qx.Class.define("qx.ui.core.Widget",
     invalidateLayoutCache : function()
     {
       this.base(arguments);
-      
+
       if (this.__layout) {
         this.__layout.invalidateLayoutCache();
       }
@@ -1774,7 +1774,8 @@ qx.Class.define("qx.ui.core.Widget",
       var parent = this._parent;
       if (parent && (old === "excluded" || value === "excluded"))
       {
-        var parentLayout = parent.getLayout();
+        // TODO: Omit protected access
+        var parentLayout = parent._getLayout();
         if (parentLayout) {
           parentLayout.invalidateChildrenCache();
         }
@@ -1838,7 +1839,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.__backgroundColor = color;
 
-      if (this.__decorator) 
+      if (this.__decorator)
       {
         qx.ui.core.queue.Layout.add(this);
         this.__updateBackgroundColor = true;

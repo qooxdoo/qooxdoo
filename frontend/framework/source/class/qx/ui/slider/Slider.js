@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.slider.Slider",
       this._sliderPos = Math.min(range, Math.max(0, sliderPosition));
 
       var isHorizontal = this.getOrientation() === "horizontal";
-      var layout = this.getLayout();
+      var layout = this._getLayout();
 
       if (isHorizontal) {
         var props = {top: 0, right: null, bottom: 0, left: this._sliderPos};
@@ -390,7 +390,6 @@ qx.Class.define("qx.ui.slider.Slider",
         slider.removeState("horizontal");
       }
 
-      var layout = this.getLayout();
       if (isHorizontal)
       {
         slider.setLayoutProperties({top:0,left:null});

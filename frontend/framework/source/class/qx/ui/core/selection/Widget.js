@@ -218,7 +218,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
     {
       var vertical = this._widget.getOrientation() === "vertical";
 
-      var layout = this._widget.getContent().getLayout();
+      // TODO: Omit protected access
+      var layout = this._widget.getContent()._getLayout();
       var sibling = item;
 
       if ((vertical && relation === "above") || (!vertical && relation === "left"))
