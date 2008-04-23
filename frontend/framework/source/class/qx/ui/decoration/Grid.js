@@ -281,9 +281,9 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
     // interface implementation
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, changes)
     {
-      if (updateStyles)
+      if (changes.style || changes.init)
       {
         if (element._element)
         {

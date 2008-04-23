@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
     // interface implementation
-    render : function(element, width, height, backgroundColor, updateSize, updateStyles)
+    render : function(element, width, height, backgroundColor, changes)
     {
       var innerElement = element.getChild(0);
 
@@ -209,12 +209,12 @@ qx.Class.define("qx.ui.decoration.Double",
         element.add(innerElement);
       }
 
-      if (updateStyles)
+      if (changes.style || changes.bgcolor || changes.init)
       {
         innerElement.setStyles(this._getInnerStyles());
       }
 
-      if (updateSize)
+      if (changes.size || changes.init)
       {
         var innerWidth = width - (this.getWidthLeft() + this.getWidthRight());
         var hInsets = this.getInnerWidthLeft() + this.getInnerWidthRight();
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.decoration.Double",
         qx.ui.decoration.Util.updateSize(innerElement, innerWidth, innerHeight, hInsets, vInsets);
       }
 
-      this.base(arguments, element, width, height, backgroundColor, updateSize, updateStyles);
+      this.base(arguments, element, width, height, backgroundColor, changes);
     },
 
 

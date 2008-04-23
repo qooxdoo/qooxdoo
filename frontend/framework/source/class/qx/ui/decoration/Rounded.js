@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
     // overridden
     render : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, width, height, backgroundColor, updateSize, updateStyles)
+      "mshtml" : function(element, width, height, backgroundColor, changes)
       {
         // Establish VML dependency
         var Vml = qx.bom.Vml;
@@ -480,8 +480,8 @@ qx.Class.define("qx.ui.decoration.Rounded",
         element.setAttribute("html", template.join(''));
       },
 
-      "default" : function(element, width, height, backgroundColor, updateSize, updateStyles) {
-        this.base(arguments, element, width, height, backgroundColor, updateSize, updateStyles);
+      "default" : function(element, width, height, backgroundColor, changes) {
+        this.base(arguments, element, width, height, backgroundColor, changes);
       }
     })
   }

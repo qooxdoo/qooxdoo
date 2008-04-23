@@ -375,7 +375,9 @@ qx.Class.define("qx.ui.decoration.Single",
         this._updateScaledImage(element, width, height);
       }
 
-      element.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
+      if (changes.bgcolor || changes.init) {
+        element.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
+      }
 
       if (changes.size || changes.init)
       {
