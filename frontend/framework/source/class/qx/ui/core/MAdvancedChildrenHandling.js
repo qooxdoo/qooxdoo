@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This mixin exposes all methods to manage widget children as public methods.
+ * This mixin exposes advanced methods to manage widget children as public methods.
  * It can only be included into instances of {@link Widget}.
  *
  * To optimize the method calls the including widget should call the method
@@ -36,12 +36,6 @@ qx.Mixin.define("qx.ui.core.MAdvancedChildrenHandling",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      CHILDREN LIST MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
@@ -55,15 +49,6 @@ qx.Mixin.define("qx.ui.core.MAdvancedChildrenHandling",
       return this._indexOf(child);
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ADD CHILDREN
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Add a child widget at the specified index
@@ -102,15 +87,6 @@ qx.Mixin.define("qx.ui.core.MAdvancedChildrenHandling",
       return this._addAfter(child, after, options);
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      REMOVE CHILDREN
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Remove the widget at the specified index.

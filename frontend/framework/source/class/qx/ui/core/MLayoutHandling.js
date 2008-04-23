@@ -36,15 +36,32 @@ qx.Mixin.define("qx.ui.core.MLayoutHandling",
 
   members :
   {
+    /**
+     * Set a layout manager for the widget. A a layout manager can only be connected
+     * with one widget. Reset the connection with a previous widget first, if you
+     * like to use it in another widget instead.
+     *
+     * @type member
+     * @param layout {qx.ui.layout.Abstract} The new layout or
+     *     <code>null</code> to reset the layout.
+     * @return {void}
+     */
     setLayout : function() {
       return this._setLayout(layout);
     },
 
 
+    /**
+     * Get the widget's layout manager.
+     *
+     * @type member
+     * @return {qx.ui.layout.Abstract} The widget's layout manager
+     */
     getLayout : function() {
       return this._getLayout();
     }
   },
+
 
 
 
