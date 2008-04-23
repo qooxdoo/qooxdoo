@@ -693,7 +693,7 @@ qx.Class.define("qx.ui.core.Widget",
   {
     _applyPaddingChange : function(value)
     {
-      this.__updatePadding = true;
+      this.__updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -780,57 +780,79 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var changes = this.base(arguments, left, top, width, height);
 
+      //
+      if (!changes) {
+        return;
+      }
+
       var container = this._containerElement;
       var content = this._contentElement;
+      var inner = changes.size || this.__updateInsets;
       var pixel = "px";
 
+      // Move container to new position
       if (changes.position)
       {
         container.setStyle("left", left + pixel);
         container.setStyle("top", top + pixel);
       }
 
+      // Update container size
       if (changes.size)
       {
         container.setStyle("width", width + pixel);
         container.setStyle("height", height + pixel);
       }
 
-      // Any chance to cache this and to detect changes?
-      var insets = this.getInsets();
-      var innerWidth = width - insets.left - insets.right;
-      var innerHeight = height - insets.top - insets.bottom;
 
-      // TODO: Children modified flag to omit reflow on every layout?
-      if (this.__layout && this.hasLayoutChildren()) {
-        this.__layout.renderLayout(innerWidth, innerHeight);
+      if (inner || changes.local)
+      {
+        var insets = this.getInsets();
+        var innerWidth = width - insets.left - insets.right;
+        var innerHeight = height - insets.top - insets.bottom;
       }
 
-      var commonInnerChange = changes.size || this.__updateDecorator || this.__initDecorator;
-
-      if (commonInnerChange || this.__updatePadding)
+      if (this.__updateInsets)
       {
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
+      }
 
+      if (inner)
+      {
         content.setStyle("width", innerWidth + pixel);
         content.setStyle("height", innerHeight + pixel);
       }
 
-      if (this.__decorator && (commonInnerChange || this.__updateBackgroundColor))
+      if (changes.size || this.__styleDecorator || this.__initDecorator)
       {
-        this.__decorator.render(this._decorationElement,  width, height,
-          this.__backgroundColor,
-          this.__initDecorator || changes.size,
-          this.__initDecorator || this.__updateDecorator
-        );
+        if (this.__decorator)
+        {
+          var decoBack = this.__backgroundColor;
+          var decoElement = this._decorationElement;
+          var decoChanges =
+          {
+            size : changes.size,
+            style : this.__styleDecorator,
+            init : this.__initDecorator
+          };
+
+          this.__decorator.render(decoElement, width, height, decoBack, decoChanges);
+        }
+
+        delete this.__styleDecorator;
+        delete this.__initDecorator;
       }
 
+      if (inner || changes.local)
+      {
+        if (this.__layout && this.hasLayoutChildren()) {
+          this.__layout.renderLayout(innerWidth, innerHeight);
+        }
+      }
+
+      delete this.__updateInsets;
       delete this.__updateMargin;
-      delete this.__updatePadding;
-      delete this.__updateDecorator;
-      delete this.__initDecorator;
-      delete this.__updateBackgroundColor;
     },
 
 
@@ -1666,57 +1688,79 @@ qx.Class.define("qx.ui.core.Widget",
       this.__decorator = value;
 
       // Shorthands
-      var container = this._containerElement;
-      var decoration = this._decorationElement;
+      var containerElement = this._containerElement;
+      var decorationElement = this._decorationElement;
 
-      // Create decoration element on demand
-      if (value && !decoration)
+      // When both values are set (transition)
+      if (old && value)
       {
-        decoration = this._decorationElement = this.__createDecorationElement();
-        container.add(decoration);
-      }
+        var oldInsets = old.getInsets();
+        var newInsets = value.getInsets();
+        var classChanged = old.classname !== value.classname;
+        var insetsChanged = oldInsets.top !== newInsets.top ||
+                            oldInsets.right !== newInsets.right ||
+                            oldInsets.bottom !== newInsets.bottom ||
+                            oldInsets.left !== newInsets.left;
 
-      // If the new decorator is null, reset the old decorator and apply the
-      // background color to the content element
-      if (!value)
-      {
-        if (old) {
-          old.reset(decoration);
-        }
-
-        if (this.__backgroundColor) {
-          container.setStyle("backgroundColor", this.__backgroundColor);
+        if (classChanged) {
+          old.reset(decorationElement);
         }
       }
 
-      // If there was no old decorator, remove the background color from the
-      // container element and initialize the decorator
-      else if (!old)
-      {
-        this.__initDecorator = true;
-
-        if (this.__backgroundColor) {
-          container.removeStyle("backgroundColor");
-        }
-      }
-
-      // If both have different types reset the old one and initialize the
-      // new dcorator
-      else if (old.classname !== value.classname)
-      {
-        this.__initDecorator = true;
-        old.reset(decoration);
-      }
-
-      // If the class is identical, but the styles where changed.
+      // When only one is configured
       else
       {
-        this.__updateDecorator = true;
+        var classChanged = true;
+        var insetsChanged = true;
+
+        if (value)
+        {
+          // Create decoration element on demand
+          if (!decorationElement)
+          {
+            decorationElement = this._decorationElement = this.__createDecorationElement();
+            containerElement.add(decorationElement);
+          }
+
+          // Background color will be applied on decorator in layout process
+          if (this.__backgroundColor) {
+            containerElement.removeStyle("backgroundColor");
+          }
+        }
+        else if (this.__backgroundColor)
+        {
+          // Background color will be removed through reset
+          containerElement.setStyle("backgroundColor", this.__backgroundColor);
+        }
       }
 
-      // Add to layout queue
-      qx.ui.core.queue.Layout.add(this);
+      // Reset old decoration
+      if (old && classChanged) {
+        old.reset(decorationElement);
+      }
+
+      if (value)
+      {
+        if (insetsChanged)
+        {
+          if (classChanged && !this.__initDecorator) {
+            this.__initDecorator = classChanged;
+          }
+
+          this.__updateInsets = true;
+          this.__styleDecorator = true;
+
+          qx.ui.core.queue.Layout.add(this);
+        }
+        else if (!this.__styleDecorator)
+        {
+          var bounds = this.getBounds();
+          value.render(decorationElement, bounds.width, bounds.height,
+            this.__backgroundColor, {init:classChanged, style:true});
+        }
+      }
     },
+
 
 
 
@@ -1841,8 +1885,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (this.__decorator)
       {
-        qx.ui.core.queue.Layout.add(this);
-        this.__updateBackgroundColor = true;
+        if (!this.__styleDecorator)
+        {
+          var bounds = this.getBounds();
+
+          this.__decorator.render(this._decorationElement, bounds.width, bounds.height,
+            this.__backgroundColor, {style:true});
+        }
       }
       else
       {
