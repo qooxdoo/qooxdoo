@@ -249,8 +249,27 @@ qx.Class.define("qx.ui.layout.VBox",
         width = Math.max(hint.minWidth, Math.min(availWidth-marginY, hint.maxWidth));
 
         // Respect horizontal alignment
-        align = child.getLayoutProperties().align || "left";
-        left = util.computeHorizontalAlignOffset(align, width+marginY, availWidth) + child.getMarginLeft();
+        switch(child.getLayoutProperties().align)
+        {
+          case "right":
+            left = availWidth - width - child.getMarginRight();
+            break;
+
+          case "center":
+            remaining = Math.round((availWidth - width) / 2);
+            if (remaining < child.getMarginLeft()) {
+              left = child.getMarginLeft();
+            } else if (remaining < child.getMarginRight()) {
+              left = Math.max(child.getMarginLeft(), availWidth-width-child.getMarginRight());
+            } else {
+              left = remaining;
+            }
+
+            break;
+
+          default:
+            left = child.getMarginLeft();
+        }
 
         // Add collapsed margin
         if (i > 0) {
