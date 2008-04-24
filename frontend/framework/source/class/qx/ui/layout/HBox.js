@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.layout.HBox",
       // First run to cache children data and compute allocated width
       var child, layoutWidth;
       var widths = [];
-      var gaps = util.computeHorizontalGaps(children, this.getSpacing());
+      var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
 
       for (var i=0; i<length; i+=1)
       {
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.layout.HBox",
       }
 
       // Respect gaps
-      var gaps = util.computeHorizontalGaps(children, this.getSpacing());
+      var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
 
       // Return hint
       return {

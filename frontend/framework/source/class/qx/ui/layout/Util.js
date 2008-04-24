@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.layout.Util",
     },
 
 
-    computeHorizontalGaps : function(children, spacing)
+    computeHorizontalGaps : function(children, spacing, collapse)
     {
       if (spacing == null) {
         spacing = 0;
@@ -223,21 +223,34 @@ qx.Class.define("qx.ui.layout.Util",
 
       var gaps = 0;
 
-      // Add first child
-      gaps += children[0].getMarginLeft();
+      if (collapse)
+      {
+        // Add first child
+        gaps += children[0].getMarginLeft();
 
-      for (var i=1, l=children.length; i<l; i+=1) {
-        gaps += this.collapseMargins(spacing, children[i-1].getMarginRight(), children[i].getMarginLeft());
+        for (var i=1, l=children.length; i<l; i+=1) {
+          gaps += this.collapseMargins(spacing, children[i-1].getMarginRight(), children[i].getMarginLeft());
+        }
+
+        // Add last child
+        gaps += children[l-1].getMarginRight();
       }
+      else
+      {
+        // Simple adding of all margins
+        for (var i=1, l=children.length; i<l; i+=1) {
+          gaps += children[i].getMarginLeft() + children[i].getMarginRight();
+        }
 
-      // Add last child
-      gaps += children[l-1].getMarginRight();
+        // Add spacing
+        gaps += (spacing * (l-1))
+      }
 
       return gaps;
     },
 
 
-    computeVerticalGaps : function(children, spacing)
+    computeVerticalGaps : function(children, spacing, collapse)
     {
       if (spacing == null) {
         spacing = 0;
@@ -245,15 +258,28 @@ qx.Class.define("qx.ui.layout.Util",
 
       var gaps = 0;
 
-      // Add first child
-      gaps += children[0].getMarginTop();
+      if (collapse)
+      {
+        // Add first child
+        gaps += children[0].getMarginTop();
 
-      for (var i=1, l=children.length; i<l; i+=1) {
-        gaps += this.collapseMargins(spacing, children[i-1].getMarginBottom(), children[i].getMarginTop());
+        for (var i=1, l=children.length; i<l; i+=1) {
+          gaps += this.collapseMargins(spacing, children[i-1].getMarginBottom(), children[i].getMarginTop());
+        }
+
+        // Add last child
+        gaps += children[l-1].getMarginBottom();
       }
+      else
+      {
+        // Simple adding of all margins
+        for (var i=1, l=children.length; i<l; i+=1) {
+          gaps += children[i].getMarginTop() + children[i].getMarginBottom();
+        }
 
-      // Add last child
-      gaps += children[l-1].getMarginBottom();
+        // Add spacing
+        gaps += (spacing * (l-1))
+      }
 
       return gaps;
     }
