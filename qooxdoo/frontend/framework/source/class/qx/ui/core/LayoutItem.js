@@ -564,6 +564,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
         storage = this.__layoutProperties = {};
       }
 
+      // Check values through parent
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.updateLayoutProperties(props);
+      }
+
       // Copy over values
       for (var key in props)
       {
@@ -572,27 +578,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
         } else {
           storage[key] = props[key];
         }
-      }
-
-      // TODO: Omit protected access
-      var parent = this.getLayoutParent();
-      var layout = parent ? parent._getLayout() : null;
-
-      if (layout)
-      {
-        // Verify values through underlying layout
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          for (var key in props) {
-            layout.verifyLayoutProperty(this, key, props[key]);
-          }
-        }
-
-        // Precomputed and cached children data need to be
-        // rebuild on upcoming (re-)layout.
-        layout.invalidateChildrenCache();
-
-        qx.ui.core.queue.Layout.add(parent);
       }
     },
 
@@ -618,6 +603,43 @@ qx.Class.define("qx.ui.core.LayoutItem",
       delete this.__layoutProperties;
     },
 
+
+    /**
+     * Should be executed on every change of layout properties.
+     *
+     * This also includes "virtual" layout properties like margin or align
+     * when they have an effect on the parent and not on the widget itself.
+     *
+     * This method is always executed on the parent not on the
+     * modified widget itself.
+     *
+     * @type member
+     * @param props {Map?null} Optional map of known layout properties
+     * @return {void}
+     */
+    updateLayoutProperties : function(props)
+    {
+      var layout = this._getLayout();
+      if (layout)
+      {
+        // Verify values through underlying layout
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (props)
+          {
+            for (var key in props) {
+              layout.verifyLayoutProperty(this, key, props[key]);
+            }
+          }
+        }
+
+        // Precomputed and cached children data need to be
+        // rebuild on upcoming (re-)layout.
+        layout.invalidateChildrenCache();
+      }
+
+      qx.ui.core.queue.Layout.add(this);
+    },
 
 
 
