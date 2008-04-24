@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_7",
 
       // auto size + static height + middle aligned + disabled x grow
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:150});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:240});
 
       box.setSpacing(5);
 
@@ -105,7 +105,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_7",
       // auto size + static height + middle aligned + enabled x grow
       // should be identical to #2
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:150});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:240});
 
       box.setSpacing(5);
 
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_7",
       w1.setMarginLeft(20);
       w3.setMarginRight(30);
 
-      this.getRoot().add(container, {left:490, top:10});
+      this.getRoot().add(container, {left:600, top:10});
     }
   }
 });
