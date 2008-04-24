@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_5",
     main: function()
     {
       this.base(arguments);
-      this.getRoot().addMain(this.getGrid());
+      this.getRoot().addMain(this.getGrid(), true);
     },
 
 
