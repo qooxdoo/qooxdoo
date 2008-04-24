@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
 
 
 
-      // all percent child, using 90% in sum, rest filled via flex
+      // all percent child, using 99% in sum, flex enabled for last child (=> perfect result, last one a bit bigger)
       var box = new qx.ui.layout.HBox();
       var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
 
@@ -57,51 +57,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
       var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
 
-      container.add(w1, {width: "30%", flex: 1});
-      container.add(w2, {width: "30%", flex: 1});
-      container.add(w3, {width: "30%", flex: 1});
+      container.add(w1, {width: "33%"});
+      container.add(w2, {width: "33%"});
+      container.add(w3, {width: "33%", flex : 1});
 
       this.getRoot().add(container, {left:10, top:70});
-
-
-
-
-      // all percent child, using 99.9% in sum, flex disabled (=> to small result)
-      var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
-
-      box.setSpacing(5);
-
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-
-      container.add(w1, {width: "33.3%"});
-      container.add(w2, {width: "33.3%"});
-      container.add(w3, {width: "33.3%"});
-
-      this.getRoot().add(container, {left:10, top:130});
-
-
-
-
-      // all percent child, using 99.9% in sum, flex enabled for last child (=> perfect result, last one a bit bigger)
-      var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.container.Composite(box)).set({width: 500, decorator: "black", backgroundColor: "yellow"});
-
-      box.setSpacing(5);
-
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-
-      container.add(w1, {width: "33.3%"});
-      container.add(w2, {width: "33.3%"});
-      container.add(w3, {width: "33.3%", flex : 1});
-
-      this.getRoot().add(container, {left:10, top:190});
-
-
 
 
 
@@ -120,28 +80,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       container.add(w2, {flex: 1});
       container.add(w3, {flex: 1});
 
-      this.getRoot().add(container, {left:10, top:250});
+      this.getRoot().add(container, {left:10, top:130});
 
 
 
-      // all child in percents + auto sizing + no flex
-      var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
-
-      box.setSpacing(5);
-
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
-
-      container.add(w1, {width: "33.3%"});
-      container.add(w2, {width: "33.3%"});
-      container.add(w3, {width: "33.3%"});
-
-      this.getRoot().add(container, {left:10, top:310});
-
-
-      // all child in percents + auto sizing + flex enabled
+      // all child in percents + auto sizing + flex enabled (remaining space distributed under all childs)
       var box = new qx.ui.layout.HBox();
       var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
 
@@ -155,7 +98,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       container.add(w2, {width: "33%", flex: 1});
       container.add(w3, {width: "33%", flex: 1});
 
-      this.getRoot().add(container, {left:10, top:370});
+      this.getRoot().add(container, {left:10, top:190});
 
 
 
@@ -174,7 +117,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       container.add(w2, {width: "33%", flex: 1});
       container.add(w3, {width: "33%", flex: 1});
 
-      this.getRoot().add(container, {left:10, top:430});
+      this.getRoot().add(container, {left:10, top:250});
 
 
 
@@ -194,7 +137,7 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_5",
       container.add(w2, {width: "33%", flex: 1});
       container.add(w3, {width: "33%", flex: 1});
 
-      this.getRoot().add(container, {left:10, top:490});
+      this.getRoot().add(container, {left:10, top:310});
     }
   }
 });
