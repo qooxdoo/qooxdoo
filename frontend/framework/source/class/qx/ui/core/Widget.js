@@ -700,8 +700,15 @@ qx.Class.define("qx.ui.core.Widget",
     _applyMarginChange : function(value)
     {
       this.__updateMargin = true;
-      qx.ui.core.queue.Layout.add(this);
+
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.updateLayoutProperties();
+      }
     },
+
+
+
 
 
     /*
@@ -780,7 +787,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var changes = this.base(arguments, left, top, width, height);
 
-      //
+      // Directly return if superclass has detected that no
+      // changes needs to be applied
       if (!changes) {
         return;
       }
@@ -844,7 +852,7 @@ qx.Class.define("qx.ui.core.Widget",
         delete this.__initDecorator;
       }
 
-      if (inner || changes.local)
+      if (inner || changes.local || this.__updateMargin)
       {
         if (this.__layout && this.hasLayoutChildren()) {
           this.__layout.renderLayout(innerWidth, innerHeight);
