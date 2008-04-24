@@ -53,3 +53,6 @@ cat framework/source/class/qx/ui/layout/HBox.js | \
   sed s:"hbox":"vbox":g | \
   sed s:"vertical row":"vertical column":g \
 > framework/source/class/qx/ui/layout/VBox.js
+
+
+dos2unix framework/source/class/qx/ui/layout/VBox.js
