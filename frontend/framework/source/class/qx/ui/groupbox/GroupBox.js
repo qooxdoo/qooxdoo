@@ -155,9 +155,9 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       var height = this._legendObject.getBounds().height;
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
-        this.setLayoutProperties({"top": Math.round(height / 2)});
+        this._frameObject.setLayoutProperties({"top": Math.round(height / 2)});
       } else if (this.getLegendPosition() == "top") {
-        this.setLayoutProperties({"top": height});
+        this._frameObject.setLayoutProperties({"top": height});
       }
     },
 
