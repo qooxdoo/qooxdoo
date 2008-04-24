@@ -859,6 +859,15 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+      // Fire events
+      if (changes.position && this.hasListeners("move")) {
+        this.fireDataEvent("move", this.getBounds());
+      }
+
+      if (changes.size && this.hasListeners("resize")) {
+        this.fireDataEvent("resize", this.getBounds());
+      }
+
       delete this.__updateInsets;
       delete this.__updateMargin;
     },
