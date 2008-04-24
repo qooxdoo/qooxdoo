@@ -309,15 +309,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
           changes.local = true;
           delete this.__hasInvalidLayout;
         }
-
-        // Fire events
-        if (changes.position && this.hasListeners("move")) {
-          this.fireDataEvent("move", this.getBounds());
-        }
-
-        if (changes.size && this.hasListeners("resize")) {
-          this.fireDataEvent("resize", this.getBounds());
-        }
       }
 
       // Returns changes, especially for deriving classes
