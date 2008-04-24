@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @return {qx.ui.core.Widget|null} The current layout content
      */
     getContent : function() {
-      return this.getChildren()[0] || null;
+      return this._getChildren()[0] || null;
     },
 
 
