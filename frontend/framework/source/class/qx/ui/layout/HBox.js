@@ -96,6 +96,22 @@ qx.Class.define("qx.ui.layout.HBox",
 
   members :
   {
+    _rebuildCache : function()
+    {
+      var children = this._getLayoutChildren();
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+
+
+      }
+
+
+      // Clear invalidation marker
+      delete this._invalidChildrenCache;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -105,6 +121,10 @@ qx.Class.define("qx.ui.layout.HBox",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
+      if (this._invalidChildrenCache) {
+        this._rebuildCache();
+      }
+
       // Cache children
       var children = this._getLayoutChildren();
       var length = children.length;
@@ -270,6 +290,10 @@ qx.Class.define("qx.ui.layout.HBox",
     // overridden
     _computeSizeHint : function()
     {
+      if (this._invalidChildrenCache) {
+        this._rebuildCache();
+      }
+
       var util = qx.ui.layout.Util;
 
       // Read children
