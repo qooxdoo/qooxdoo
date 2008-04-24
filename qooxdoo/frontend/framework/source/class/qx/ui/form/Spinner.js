@@ -509,7 +509,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onmousewheel: function(e)
     {
-      var wheelIncrement = Math.round(-e.getWheelDelta());
+      var wheelIncrement = Math.round(e.getWheelDelta());
       if (wheelIncrement == 0) {
         wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
