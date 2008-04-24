@@ -76,9 +76,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
 
 
 
-      // auto size + static height + middle aligned + disabled y grow
+      // auto size + static height + middle aligned + disabled y grow (no effect)
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:150});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:100});
 
       box.setSpacing(5);
 
@@ -103,9 +103,8 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
 
 
       // auto size + static height + middle aligned + enabled y grow
-      // should be identical to #2
       var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:150});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:100});
 
       box.setSpacing(5);
 
@@ -117,10 +116,40 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_7",
       container.add(w2, {align:"middle"});
       container.add(w3, {align:"middle"});
 
-      w1.setMarginTop(20);
-      w3.setMarginBottom(30);
 
-      this.getRoot().add(container, {left:10, top:400});
+      w1.setMarginTop(20);
+
+      w3.setMarginTop(5);
+      w3.setMinHeight(50);
+      w3.setMarginBottom(20);
+
+      this.getRoot().add(container, {left:10, top:340});
+
+
+
+
+      // auto size + static height + middle aligned + enabled y grow + huge marginBottom
+      var box = new qx.ui.layout.HBox();
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:100});
+
+      box.setSpacing(5);
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+
+      container.add(w1, {align:"middle"});
+      container.add(w2, {align:"middle"});
+      container.add(w3, {align:"middle"});
+
+
+      w1.setMarginTop(20);
+
+      w3.setMarginTop(5);
+      w3.setMinHeight(50);
+      w3.setMarginBottom(200);
+
+      this.getRoot().add(container, {left:10, top:460});
     }
   }
 });

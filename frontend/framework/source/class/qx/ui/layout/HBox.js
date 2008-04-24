@@ -249,8 +249,27 @@ qx.Class.define("qx.ui.layout.HBox",
         height = Math.max(hint.minHeight, Math.min(availHeight-marginY, hint.maxHeight));
 
         // Respect vertical alignment
-        align = child.getLayoutProperties().align || "top";
-        top = util.computeVerticalAlignOffset(align, height+marginY, availHeight) + child.getMarginTop();
+        switch(child.getLayoutProperties().align)
+        {
+          case "bottom":
+            top = availHeight - height - child.getMarginBottom();
+            break;
+
+          case "middle":
+            remaining = Math.round((availHeight - height) / 2);
+            if (remaining < child.getMarginTop()) {
+              top = child.getMarginTop();
+            } else if (remaining < child.getMarginBottom()) {
+              top = Math.max(child.getMarginTop(), availHeight-height-child.getMarginBottom());
+            } else {
+              top = remaining;
+            }
+
+            break;
+
+          default:
+            top = child.getMarginTop();
+        }
 
         // Add collapsed margin
         if (i > 0) {
