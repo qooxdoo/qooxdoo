@@ -670,8 +670,8 @@ qx.Class.define("qx.ui.layout.Grid",
         var prefSpanHeight = vSpacing * (widgetProps.rowSpan - 1);
         var minSpanHeight = prefSpanHeight;
 
-        var prefRowFlex = [];
-        var minRowFlex = [];
+        var prefRowFlex = {};
+        var minRowFlex = {};
 
         for (var j=0; j<widgetProps.rowSpan; j++)
         {
@@ -682,47 +682,55 @@ qx.Class.define("qx.ui.layout.Grid",
           if (rowFlex > 0)
           {
             // compute flex array for the preferred height
-            prefRowFlex.push({
-              id: row,
-              potential: rowHeight.maxHeight - rowHeight.height,
+            prefRowFlex[row] =
+            {
+              min : rowHeight.minHeight,
+              value : rowHeight.height,
+              max : rowHeight.maxHeight,
               flex: rowFlex
-            });
+            };
 
             // compute flex array for the min height
-            minRowFlex.push({
-              id: row,
-              potential: rowHeight.maxHeight - rowHeight.minHeight,
+            minRowFlex[row] =
+            {
+              min : rowHeight.minHeight,
+              value : rowHeight.height,
+              max : rowHeight.maxHeight,
               flex: rowFlex
-            });
+            };
           }
 
           prefSpanHeight += rowHeight.height;
           minSpanHeight += rowHeight.minHeight;
         }
 
-        // If there is not enought space for the preferred size
+        // If there is not enough space for the preferred size
         // increment the preferred row sizes.
         if (prefSpanHeight < hint.height)
         {
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            prefRowFlex, hint.height - prefSpanHeight
+            prefRowFlex, hint.height, prefSpanHeight
           );
 
-          for (var j=0; j<widgetProps.rowSpan; j++) {
-            rowHeights[widgetRow+j].height += rowIncrements[widgetRow+j] || 0;
+          for (var j=0; j<widgetProps.rowSpan; j++)
+          {
+            offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
+            rowHeights[widgetRow+j].height += offset;
           }
         }
 
-        // If there is not enought space for the min size
+        // If there is not enough space for the min size
         // increment the min row sizes.
         if (minSpanHeight < hint.minHeight)
         {
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            minRowFlex, hint.minHeight - minSpanHeight
+            minRowFlex, hint.minHeight, minSpanHeight
           );
 
-          for (var j=0; j<widgetProps.rowSpan; j++) {
-            rowHeights[widgetRow+j].minHeight += rowIncrements[widgetRow+j] || 0;
+          for (var j=0; j<widgetProps.rowSpan; j++)
+          {
+            offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
+            rowHeights[widgetRow+j].minHeight += offset;
           }
         }
       }
@@ -758,8 +766,10 @@ qx.Class.define("qx.ui.layout.Grid",
         var prefSpanWidth = hSpacing * (widgetProps.colSpan - 1);
         var minSpanWidth = prefSpanWidth;
 
-        var prefColFlex = [];
-        var minColFlex = [];
+        var prefColFlex = {};
+        var minColFlex = {};
+
+        var offset;
 
         for (var j=0; j<widgetProps.colSpan; j++)
         {
@@ -770,18 +780,22 @@ qx.Class.define("qx.ui.layout.Grid",
           // compute flex array for the preferred width
           if (colFlex > 0)
           {
-            prefColFlex.push({
-              id: col,
-              potential: colWidth.maxWidth - colWidth.width,
+            prefColFlex[col] =
+            {
+              min : colWidth.width,
+              value : colWidth.maxWidth,
+              max : colWidth.maxWidth,
               flex: colFlex
-            });
+            };
 
             // compute flex array for the min width
-            minColFlex.push({
-              id: col,
-              potential: colWidth.maxWidth - colWidth.minWidth,
+            minColFlex[col] =
+            {
+              min: colWidth.minWidth,
+              value : colWidth.maxWidth,
+              max : colWidth.maxWidth,
               flex: colFlex
-            });
+            };
           }
 
           prefSpanWidth += colWidth.width;
@@ -793,11 +807,13 @@ qx.Class.define("qx.ui.layout.Grid",
         if (prefSpanWidth < hint.width)
         {
           var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            prefColFlex, hint.width - prefSpanWidth
+            prefColFlex, prefSpanWidth, hint.width
           );
 
-          for (var j=0; j<widgetProps.colSpan; j++) {
-            colWidths[widgetColumn+j].width += colIncrements[widgetColumn+j] || 0;
+          for (var j=0; j<widgetProps.colSpan; j++)
+          {
+            offset = colIncrements[widgetColumn+j] ? colIncrements[widgetColumn+j].offset : 0;
+            colWidths[widgetColumn+j].width += offset;
           }
         }
 
@@ -806,11 +822,13 @@ qx.Class.define("qx.ui.layout.Grid",
         if (minSpanWidth < hint.minWidth)
         {
           var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            minColFlex, hint.minWidth - minSpanWidth
+            minColFlex, minSpanWidth, hint.minWidth
           );
 
-          for (var j=0; j<widgetProps.colSpan; j++) {
-            colWidths[widgetColumn+j].minWidth += colIncrements[widgetColumn+j] || 0;
+          for (var j=0; j<widgetProps.colSpan; j++)
+          {
+            offset = colIncrements[widgetColumn+j] ? colIncrements[widgetColumn+j].offset : 0;
+            colWidths[widgetColumn+j].minWidth += offset;
           }
         }
       }
@@ -974,7 +992,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       // collect all flexible children
       var colWidths = this._getColWidths();
-      var flexibles = [];
+      var flexibles = {};
 
       for (var i=0, l=colWidths.length; i<l; i++)
       {
@@ -989,14 +1007,15 @@ qx.Class.define("qx.ui.layout.Grid",
           continue;
         }
 
-        flexibles.push({
-          id : i,
-          potential : diff > 0 ? col.maxWidth - col.width : col.width - col.minWidth,
-          flex : diff > 0 ? colFlex : (1 / colFlex)
-        });
+        flexibles[i] ={
+          min : col.minWidth,
+          value : col.width,
+          max : col.maxWidth,
+          flex : colFlex
+        };
       }
 
-      return qx.ui.layout.Util.computeFlexOffsets(flexibles, diff);
+      return qx.ui.layout.Util.computeFlexOffsets(flexibles, width, hint.width);
     },
 
 
@@ -1019,7 +1038,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       // collect all flexible children
       var rowHeights = this._getRowHeights();
-      var flexibles = [];
+      var flexibles = {};
 
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
@@ -1034,14 +1053,15 @@ qx.Class.define("qx.ui.layout.Grid",
           continue;
         }
 
-        flexibles.push({
-          id : i,
-          potential : diff > 0 ? row.maxHeight - row.height : row.height - row.minHeight,
-          flex : diff > 0 ? rowFlex : (1 / rowFlex)
-        });
+        flexibles[i] = {
+          min : row.minHeight,
+          value : row.height,
+          max : row.maxHeight,
+          flex : rowFlex
+        };
       }
 
-      return qx.ui.layout.Util.computeFlexOffsets(flexibles, diff);
+      return qx.ui.layout.Util.computeFlexOffsets(flexibles, height, hint.height);
     },
 
 
@@ -1059,13 +1079,18 @@ qx.Class.define("qx.ui.layout.Grid",
       // calculate column widths
       var prefWidths = this._getColWidths();
       var colStretchOffsets = this._getColumnFlexOffsets(availWidth);
+
       var colWidths = [];
 
       var maxColIndex = this._maxColIndex;
       var maxRowIndex = this._maxRowIndex;
 
-      for (var col=0; col<=maxColIndex; col++) {
-        colWidths[col] = prefWidths[col].width + (colStretchOffsets[col] || 0);
+      var offset;
+
+      for (var col=0; col<=maxColIndex; col++)
+      {
+        offset = colStretchOffsets[col] ? colStretchOffsets[col].offset : 0;
+        colWidths[col] = prefWidths[col].width + offset;
       }
 
       // calculate row heights
@@ -1074,8 +1099,10 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var rowHeights = [];
 
-      for (var row=0; row<=maxRowIndex; row++) {
-        rowHeights[row] = prefHeights[row].height + (rowStretchOffsets[row] || 0);
+      for (var row=0; row<=maxRowIndex; row++)
+      {
+        offset = rowStretchOffsets[row] ? rowStretchOffsets[row].offset : 0;
+        rowHeights[row] = prefHeights[row].height + offset;
       }
 
       // do the layout
