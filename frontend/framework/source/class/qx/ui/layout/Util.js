@@ -44,43 +44,40 @@ qx.Class.define("qx.ui.layout.Util",
      *   The potential is an integer value which is the difference of the
      *   currently interesting direction (e.g. shrinking=width-minWidth, growing=
      *   maxWidth-width). The flex key holds the flex value of the item.
-     * @param spaceDifference {Integer} The difference which should be reduced.
      * @return {Map} A map which contains the calculated offsets under the key
      *   which is identical to the ID given in the incoming map.
      */
-    computeFlexOffsets : function(flexibles, spaceDifference)
+    computeFlexOffsets : function(flexibles, avail, used)
     {
-      var child;
-      var flexSum, flexStep;
-      var roundingOffset, childOffset;
-      var flexLength = flexibles.length;
+      var child, key, flexSum, flexStep, flexValue;
+      var grow = avail > used;
+      var remaining = Math.abs(avail - used);
+      var roundingOffset, currentOffset;
 
+      var result = {};
 
-      // Normalize space difference
-      var fillUp = spaceDifference > 0;
-      var remaining = Math.abs(spaceDifference);
-
-
-      // Initialialize return field
-      var offsets = {};
-      for (var i=0, l=flexLength; i<l; i++)
+      // Preprocess data
+      for (key in flexibles)
       {
-        child = flexibles[i];
-        offsets[child.id] = 0;
+        child = flexibles[key];
+        result[key] =
+        {
+          potential : grow ? child.max - child.value : child.value - child.min,
+          flex : grow ? child.flex : 1 / child.flex,
+          offset : 0
+        }
       }
 
 
       // Continue as long as we need to do anything
       while (remaining != 0)
       {
-        // qx.log.Logger.debug(this, "Flex loop, remaining: " + remaining);
-
         // Find minimum potential for next correction
         flexStep = Infinity;
         flexSum = 0;
-        for (var i=0; i<flexLength; i++)
+        for (key in result)
         {
-          child = flexibles[i];
+          child = result[key];
 
           if (child.potential > 0)
           {
@@ -99,41 +96,43 @@ qx.Class.define("qx.ui.layout.Util",
         // Respect maximum potential given through remaining space
         // The parent should always win in such conflicts.
         flexStep = Math.min(remaining, flexStep * flexSum) / flexSum;
-        // qx.log.Logger.debug(this, "Flex Step (corrected): " + flexStep);
 
 
         // Start with correction
         roundingOffset = 0;
-        for (var i=flexLength-1; i>=0; i--)
+        for (key in result)
         {
-          child = flexibles[i];
+          child = result[key];
 
           if (child.potential > 0)
           {
             // Compute offset for this step
-            childOffset = Math.min(remaining, child.potential, Math.ceil(flexStep * child.flex));
+            currentOffset = Math.min(remaining, child.potential, Math.ceil(flexStep * child.flex));
 
             // Fix rounding issues
-            roundingOffset += childOffset - (flexStep * child.flex);
+            roundingOffset += currentOffset - flexStep * child.flex;
             if (roundingOffset >= 1)
             {
               roundingOffset -= 1;
-              childOffset -= 1;
+              currentOffset -= 1;
             }
 
             // Update child status
-            child.potential -= childOffset;
-            offsets[child.id] += (fillUp ? childOffset : -childOffset);
+            child.potential -= currentOffset;
+
+            if (grow) {
+              child.offset += currentOffset;
+            } else {
+              child.offset -= currentOffset;
+            }
 
             // Update parent status
-            remaining -= childOffset;
-
-            // qx.log.Logger.debug(this, "Grow by: " + childOffset + " (potential: " + child.potential + ")");
+            remaining -= currentOffset;
           }
         }
       }
 
-      return offsets;
+      return result;
     },
 
 
