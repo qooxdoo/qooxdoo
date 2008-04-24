@@ -138,7 +138,7 @@ qx.Class.define("qx.bom.Label",
         xulel.style.maxWidth = "100%";
 
         xulel.setAttribute("crop", "end");
-        
+
         el.appendChild(xulel);
       }
       else
@@ -205,6 +205,8 @@ qx.Class.define("qx.bom.Label",
      */
     setContent : function(element, value)
     {
+      value = value || "";
+
       if (element.useHtml)
       {
         element.innerHTML = value;
