@@ -172,7 +172,8 @@ qx.Class.define("qx.ui.layout.Grid",
       this._maxRowIndex = maxRowIndex;
       this._maxColIndex = maxColIndex;
 
-      this.__childrenCacheValid = true;
+      // Clear invalidation marker
+      delete this._invalidChildrenCache;
     },
 
 
@@ -349,7 +350,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     getCellWidget : function(row, column)
     {
-      if (!this.__childrenCacheValid) {
+      if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
 
@@ -1047,7 +1048,7 @@ qx.Class.define("qx.ui.layout.Grid",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      if (!this.__childrenCacheValid) {
+      if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
 
@@ -1140,7 +1141,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    invalidateLayoutCache : function() 
+    invalidateLayoutCache : function()
     {
       this.base(arguments);
 
@@ -1150,15 +1151,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    invalidateChildrenCache : function() {
-      this.__childrenCacheValid = false;
-    },
-
-
-    // overridden
     _computeSizeHint : function()
     {
-      if (!this.__childrenCacheValid) {
+      if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
 
