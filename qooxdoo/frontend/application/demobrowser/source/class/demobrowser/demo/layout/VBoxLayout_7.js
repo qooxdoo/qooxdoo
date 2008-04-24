@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_7",
 
       // auto size + static height + middle aligned + disabled x grow
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:240});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:150});
 
       box.setSpacing(5);
 
@@ -103,9 +103,8 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_7",
 
 
       // auto size + static height + middle aligned + enabled x grow
-      // should be identical to #2
       var box = new qx.ui.layout.VBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:240});
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:150});
 
       box.setSpacing(5);
 
@@ -118,9 +117,37 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_7",
       container.add(w3, {align:"center"});
 
       w1.setMarginLeft(20);
-      w3.setMarginRight(30);
 
-      this.getRoot().add(container, {left:600, top:10});
+      w3.setMarginLeft(5);
+      w3.setMinWidth(50);
+      w3.setMarginRight(20);
+
+      this.getRoot().add(container, {left:510, top:10});
+
+
+
+
+      // auto size + static height + middle aligned + enabled x grow + huge marginRight
+      var box = new qx.ui.layout.VBox();
+      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", width:150});
+
+      box.setSpacing(5);
+
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"});
+
+      container.add(w1, {align:"center"});
+      container.add(w2, {align:"center"});
+      container.add(w3, {align:"center"});
+
+      w1.setMarginLeft(20);
+
+      w3.setMarginLeft(5);
+      w3.setMinWidth(50);
+      w3.setMarginRight(200);
+
+      this.getRoot().add(container, {left:690, top:10});
     }
   }
 });
