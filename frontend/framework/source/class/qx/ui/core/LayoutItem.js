@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : null,
       themeable : true
     },
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : null,
       themeable : true
     },
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : null,
       themeable : true
     },
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : null,
       themeable : true
     },
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : null,
       themeable : true
     },
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : null,
       themeable : true
     },
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowGrowX :
     {
       check : "Boolean",
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : true,
       themeable : true
     },
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowShrinkX :
     {
       check : "Boolean",
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : true,
       themeable : true
     },
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowGrowY :
     {
       check : "Boolean",
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : true,
       themeable : true
     },
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowShrinkY :
     {
       check : "Boolean",
-      apply : "_applyLayoutChange",
+      apply : "scheduleLayoutUpdate",
       init : true,
       themeable : true
     },
@@ -199,6 +199,111 @@ qx.Class.define("qx.ui.core.LayoutItem",
       group : [ "allowGrowY", "allowShrinkY" ],
       mode : "shorthand",
       themeable: true
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MARGIN
+    ---------------------------------------------------------------------------
+    */
+
+    /** Margin of the widget (top) */
+    marginTop :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyMargin",
+      themeable : true
+    },
+
+
+    /** Margin of the widget (right) */
+    marginRight :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyMargin",
+      themeable : true
+    },
+
+
+    /** Margin of the widget (bottom) */
+    marginBottom :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyMargin",
+      themeable : true
+    },
+
+
+    /** Margin of the widget (left) */
+    marginLeft :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyMargin",
+      themeable : true
+    },
+
+
+    /**
+     * The 'margin' property is a shorthand property for setting 'marginTop',
+     * 'marginRight', 'marginBottom' and 'marginLeft' at the same time.
+     *
+     * If four values are specified they apply to top, right, bottom and left respectively.
+     * If there is only one value, it applies to all sides, if there are two or three,
+     * the missing values are taken from the opposite side.
+     */
+    margin :
+    {
+      group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
+      mode  : "shorthand",
+      themeable : true
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ALIGN
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Horizontal alignment of the item in the parent layout.
+     *
+     * Note: Item alignment is only supported by {@link LayoutItem} layouts where
+     * it would have a visual effect. Except for {@link Spacer}, which provides
+     * blank space for layouts, all classes that inherit {@link LayoutItem} support alignment.
+     */
+    alignX :
+    {
+      check : [ "left", "center", "right" ],
+      nullable : false,
+      init : "left",
+      apply : "_applyAlign"
+    },
+
+
+    /**
+     * Vertical alignment of the item in the parent layout.
+     *
+     * Note: Item alignment is only supported by {@link LayoutItem} layouts where
+     * it would have a visual effect. Except for {@link Spacer}, which provides
+     * blank space for layouts, all classes that inherit {@link LayoutItem} support alignment.
+     */
+    alignY :
+    {
+      check : [ "top", "middle", "bottom", "baseline" ],
+      nullable : false,
+      init : "top",
+      apply : "_applyAlign"
     }
   },
 
@@ -487,12 +592,27 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /**
-     * Generic property apply method for layout relevant properties
-     */
-    _applyLayoutChange : function() {
-      qx.ui.core.queue.Layout.add(this);
+    // property apply
+    _applyMargin : function(value)
+    {
+      this.__updateMargin = true;
+
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.updateLayoutProperties();
+      }
     },
+
+
+    // property apply
+    _applyAlign : function(value)
+    {
+      var parent = this.getLayoutParent();
+      if (parent) {
+        parent.updateLayoutProperties();
+      }
+    },
+
 
 
 

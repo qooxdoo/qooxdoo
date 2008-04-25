@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyPaddingChange",
+      apply : "_applyPadding",
       themeable : true
     },
 
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyPaddingChange",
+      apply : "_applyPadding",
       themeable : true
     },
 
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyPaddingChange",
+      apply : "_applyPadding",
       themeable : true
     },
 
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyPaddingChange",
+      apply : "_applyPadding",
       themeable : true
     },
 
@@ -308,71 +308,6 @@ qx.Class.define("qx.ui.core.Widget",
       themeable : true
     },
 
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MARGIN
-    ---------------------------------------------------------------------------
-    */
-
-    /** Margin of the widget (top) */
-    marginTop :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMarginChange",
-      themeable : true
-    },
-
-
-    /** Margin of the widget (right) */
-    marginRight :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMarginChange",
-      themeable : true
-    },
-
-
-    /** Margin of the widget (bottom) */
-    marginBottom :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMarginChange",
-      themeable : true
-    },
-
-
-    /** Margin of the widget (left) */
-    marginLeft :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMarginChange",
-      themeable : true
-    },
-
-
-    /**
-     * The 'margin' property is a shorthand property for setting 'marginTop',
-     * 'marginRight', 'marginBottom' and 'marginLeft' at the same time.
-     *
-     * If four values are specified they apply to top, right, bottom and left respectively.
-     * If there is only one value, it applies to all sides, if there are two or three,
-     * the missing values are taken from the opposite side.
-     */
-    margin :
-    {
-      group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
-      mode  : "shorthand",
-      themeable : true
-    },
 
 
 
@@ -691,26 +626,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
-    _applyPaddingChange : function(value)
-    {
-      this.__updateInsets = true;
-      qx.ui.core.queue.Layout.add(this);
-    },
-
-    _applyMarginChange : function(value)
-    {
-      this.__updateMargin = true;
-
-      var parent = this.getLayoutParent();
-      if (parent) {
-        parent.updateLayoutProperties();
-      }
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -882,36 +797,6 @@ qx.Class.define("qx.ui.core.Widget",
       SIZE HINTS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * A size hint computes the dimensions of a widget. It returns
-     * the the recommended dimensions as well as the min and max dimensions.
-     * Existing technical limits are also respected. The min and max values
-     * already respect the stretching properties.
-     *
-     * <h3>Wording</h3>
-     * <ul>
-     * <li>User value: Value defined by the widget user, using the size properties</li>
-     *
-     * <li>Layout value: The value computed by {@link #_getContentHint}</li>
-     * </ul>
-     *
-     * <h3>Algorithm</h3>
-     * <ul>
-     * <li>minSize: If the user min size or the technical min size is not null, the
-     *     maximum of both is taken. Otherwise the layout value is used.</li>
-     *
-     * <li>(preferred) size: If the user value is not null the user value is used,
-     *     otherwise the layout value is used.</li>
-     *
-     * <li>max size: Same as the preferred size.</li>
-     * </ul>
-     *
-     * @type member
-     * @return {Map} The map with the preferred width/height and the allowed
-     *   minimum and maximum values in cases where shrinking or growing
-     *   is required.
-     */
 
     /**
      * Internal computition method for size hint.
@@ -1677,6 +1562,20 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PADDING SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyPadding : function(value)
+    {
+      this.__updateInsets = true;
+      qx.ui.core.queue.Layout.add(this);
+    },
 
 
 
