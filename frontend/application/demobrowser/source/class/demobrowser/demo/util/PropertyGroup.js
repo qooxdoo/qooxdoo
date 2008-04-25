@@ -138,6 +138,12 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         values: [ "auto", "y", "x" ],
         nullable: false
       }
+    },
+
+    GRID_PROPERTIES :
+    {
+      "horizontalSpacing" : {type: "int", nullable: false},
+      "verticalSpacing" : {type: "int", nullable: false}
     }
   },
 
