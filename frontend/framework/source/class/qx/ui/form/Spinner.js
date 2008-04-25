@@ -80,16 +80,19 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textField = new qx.ui.form.TextField();
     this._textField.setAppearance("spinner-text-field");
     this._textField.setWidth(40);
+    this._textField.setFocusable(false);    
     this._add(this._textField, {column: 0, row: 0, rowSpan: 2});
 
     // UP-BUTTON
     this._upbutton = new qx.ui.form.RepeatButton();
     this._upbutton.setAppearance("spinner-button-up");
+    this._upbutton.setFocusable(false);
     this._add(this._upbutton, {column: 1, row: 0});
 
     // DOWN-BUTTON
     this._downbutton = new qx.ui.form.RepeatButton();
     this._downbutton.setAppearance("spinner-button-down");
+    this._downbutton.setFocusable(false);
     this._add(this._downbutton, {column:1, row: 1});
 
     // EVENTS
@@ -114,6 +117,8 @@ qx.Class.define("qx.ui.form.Spinner",
       this.setValue(vValue);
     }
   },
+  
+  
 
 
   /*
@@ -121,7 +126,9 @@ qx.Class.define("qx.ui.form.Spinner",
      EVENTS
   *****************************************************************************
   */
-  events: {
+  
+  events: 
+  {
     /**
      * Fired each time the value of the spinner changes.
      * The "data" property of the event is set to the new value
@@ -141,31 +148,44 @@ qx.Class.define("qx.ui.form.Spinner",
 
   properties:
   {
-    appearance: {
+    // overridden
+    appearance: 
+    {
       refine : true,
       init : "spinner"
     },
+    
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
+    },
 
     /** The amount to increment on each event (keypress or mousedown) */
-    singleStep: {
+    singleStep: 
+    {
       check : "Number",
       init : 1
     },
 
     /** The amount to increment on a mouse wheel event*/
-    wheelStep: {
+    wheelStep: 
+    {
       check : "Number",
       init : 1
     },
 
     /** The amount to increment on each pageup/pagedown keypress */
-    pageStep: {
+    pageStep: 
+    {
       check : "Number",
       init : 10
     },
 
     /** minimal value of the Range object */
-    min: {
+    min: 
+    {
       check : "Number",
       apply : "_applyMin",
       event : "change",
@@ -173,7 +193,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** current value of the Range object */
-    value: {
+    value: 
+    {
       check : "Number",
       apply : "_applyValue",
       init : 0,
@@ -181,7 +202,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** maximal value of the Range object */
-    max: {
+    max: 
+    {
       check : "Number",
       apply : "_applyMax",
       event : "change",
@@ -189,7 +211,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** whether the value should wrap around */
-    wrap: {
+    wrap: 
+    {
       check : "Boolean",
       init : false,
       apply : "_applyWrap"
@@ -204,7 +227,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** Controls the display of the number in the textfield */
-    numberFormat : {
+    numberFormat : 
+    {
       check : "qx.util.format.NumberFormat",
       apply : "_applyNumberFormat",
       nullable : true
@@ -233,8 +257,10 @@ qx.Class.define("qx.ui.form.Spinner",
       APPLY METHODS
     ---------------------------------------------------------------------------
     */
+    
     /**
-     * Apply routine for the min property.<br/>
+     * Apply routine for the min property.
+     *
      * It sets the value of the spinner to the maximum of the current spinner
      * value and the given min property value.
      *
@@ -248,7 +274,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * Apply routine for the max property.<br/>
+     * Apply routine for the max property.
+     *
      * It sets the value of the spinner to the minnimum of the current spinner
      * value and the given max property value.
      *
@@ -262,7 +289,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * Apply routine for the value property.<br/>
+     * Apply routine for the value property.
+     *
      * It checks the min and max values, disables / enables the
      * buttons and handles the wrap around.
      *
@@ -280,15 +308,17 @@ qx.Class.define("qx.ui.form.Spinner",
         {
           this.setValue(this.getMax());
           return;
-        // if the value is lower than the max value
         }
+
+        // if the value is lower than the max value
         else if(value < this.getMin())
         {
           this.setValue(this.getMin());
           return;
         }
-      // if the spinner should wrapp around
       }
+
+      // if the spinner should wrap around
       else
       {
         // if the valus is over the max value
@@ -298,8 +328,9 @@ qx.Class.define("qx.ui.form.Spinner",
           var tmp = value - this.getMax();
           this.setValue(this.getMin() + tmp - 1);
           return;
-        // if the value is lower than the min value
         }
+
+        // if the value is lower than the min value
         else if(value < this.getMin())
         {
           // set the new value and return
@@ -321,7 +352,6 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
-          // then disable the up button
           this._upbutton.setEnabled(false);
         }
       }
@@ -338,7 +368,6 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
-          // then disable the down button
           this._downbutton.setEnabled(false);
         }
       }
@@ -381,13 +410,16 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyWrap : function(value, old)
     {
-      if (value) {
-        if (this.getEnabled()) {
+      if (value) 
+      {
+        if (this.getEnabled()) 
+        {
           this._upbutton.setEnabled(true);
           this._downbutton.setEnabled(true);
         }
       }
     },
+
 
     /**
      * Apply routine for the numberFormat property.<br/>
@@ -401,6 +433,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyNumberFormat : function(value, old) {
       this._textField.setValue(this.getNumberFormat().format(this._lastValidValue));
     },
+    
 
     // overridden
     _applyEnabled : function(value, old)
@@ -409,7 +442,8 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // disable the spinner
         this.addState("disabled");
-        // diable the buttons separately becaus they will be enabled explicit
+        
+        // diable the buttons separately because they will be enabled explicit
         this._upbutton.setEnabled(false);
         this._downbutton.setEnabled(false);
       }
@@ -417,11 +451,14 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // enable the spinner
         this.removeState("disabled");
-        // enable the buttons separately becaus they will be disabled explicit
+        
+        // enable the buttons separately because they will be disabled explicit
         this._upbutton.setEnabled(true);
         this._downbutton.setEnabled(true);
       }
     },
+    
+    
 
 
     /*
@@ -457,8 +494,14 @@ qx.Class.define("qx.ui.form.Spinner",
         case "Down":
           this._downbutton.press();
           break;
+          
+        default:
+          // Do not stop unused events
+          return;
       }
+      
       e.stopPropagation();
+      e.preventDefault();
     },
 
 
@@ -494,6 +537,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       MOUSE EVENT-HANDLING
@@ -513,8 +558,12 @@ qx.Class.define("qx.ui.form.Spinner",
       if (wheelIncrement == 0) {
         wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
+      
       this.setValue(this.getValue() + wheelIncrement * this.getWheelStep());
     },
+
+
+
 
 
     /*
@@ -545,6 +594,8 @@ qx.Class.define("qx.ui.form.Spinner",
     _onBlur: function(e) {
       this._onTextChange(e);
     },
+
+
 
 
     /*
@@ -585,6 +636,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       UTILITY
@@ -592,7 +644,7 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * Tryes to parse the current text in the textfield and set it as
+     * Trys to parse the current text in the textfield and set it as
      * spinner value. If the value can be not be parsed, the last valid value
      * will be set to the textfield as well as to the spinner value.
      *
@@ -601,14 +653,17 @@ qx.Class.define("qx.ui.form.Spinner",
     __adoptText: function()
     {
       // if a number format is set
-      if (this.getNumberFormat()) {
+      if (this.getNumberFormat()) 
+      {
         // try to parse the current number using the number format
-        try {
+        try 
+        {
           var value = this.getNumberFormat().parse(this._textField.getValue());
           // if the arsing succeeded, set the value and done
           this.setValue(value);
           return;
-        } catch(e) {
+        } 
+        catch(e) {
           // otherwise, process further
         }
       }
@@ -616,16 +671,20 @@ qx.Class.define("qx.ui.form.Spinner",
       // try to parse the number as a float
       var value = parseFloat(this._textField.getValue(), 10);
       // if the result is a number
-      if (!isNaN(value)) {
+      if (!isNaN(value)) 
+      {
         // set the value in the spinner
         this.setValue(value);
-      } else {
+      }
+      else 
+      {
         // otherwise, reset the last valid value
         this._textField.setValue(String(this._lastValidValue));
       }
     }
-
   },
+  
+  
 
 
   /*
