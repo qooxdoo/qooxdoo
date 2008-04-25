@@ -133,6 +133,8 @@ qx.Class.define("qx.ui.layout.HBox",
       this.__widths = widths;
       this.__flexs = flexs;
       this.__enableFlex = enableFlex
+      //this.__children =
+
 
       // Clear invalidation marker
       delete this._invalidChildrenCache;
@@ -308,7 +310,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
         // Find biggest minHeight
         if ((hint.minHeight+margin) > minHeight) {
-          minHeight = hint.minHeight;
+          minHeight = hint.minHeight + margin;
         }
       }
 
