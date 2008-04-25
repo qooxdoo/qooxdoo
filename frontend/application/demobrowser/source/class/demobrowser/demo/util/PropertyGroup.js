@@ -122,9 +122,14 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
 
     HBOX_PROPERTIES :
     {
-      "align": {
+      "alignX": {
         type: "enum",
         values: [ "left", "center", "right" ],
+        nullable: false
+      },
+      "alignY": {
+        type: "enum",
+        values: [ "top", "middle", "bottom", "baseline" ],
         nullable: false
       },
       "spacing": {type: "int", nullable: false},
