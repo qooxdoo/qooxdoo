@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.LayoutPropertyGroup",
+qx.Class.define("demobrowser.demo.util.LayoutPropertyGroup",
 {
-  extend : demobrowser.demo.layout.PropertyGroup,
+  extend : demobrowser.demo.util.PropertyGroup,
 
   statics :
   {

@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.PropertyGroup",
+qx.Class.define("demobrowser.demo.util.PropertyGroup",
 {
   extend : qx.ui.core.Widget,
 

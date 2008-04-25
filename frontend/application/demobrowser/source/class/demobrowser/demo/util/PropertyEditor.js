@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.PropertyEditor",
+qx.Class.define("demobrowser.demo.util.PropertyEditor",
 {
   extend : qx.ui.groupbox.GroupBox,
 
@@ -53,10 +53,10 @@ qx.Class.define("demobrowser.demo.layout.PropertyEditor",
       padding: [1, 0, 5, 0]
     }));
 
-    var props = qx.lang.Object.copy(demobrowser.demo.layout.PropertyGroup.WIDGET_PROPERTIES);
+    var props = qx.lang.Object.copy(demobrowser.demo.util.PropertyGroup.WIDGET_PROPERTIES);
     props.content = {type:"string", nullable: true};
 
-    this._layoutControls = new demobrowser.demo.layout.PropertyGroup(props);
+    this._layoutControls = new demobrowser.demo.util.PropertyGroup(props);
     pane.add(this._layoutControls);
 
     this.setWidget(widget);
@@ -89,9 +89,11 @@ qx.Class.define("demobrowser.demo.layout.PropertyEditor",
 
       container.add(this._createLabel("Selected Widget"));
 
-      this._widgetIndicator = new qx.ui.core.Widget().set({
-        backgroundColor: "red",
-        height: 30
+      this._widgetIndicator = new qx.ui.basic.Label().set({
+        height: 30,
+        allowGrowX: true,
+        allowGrowY: true,
+        padding: 5
       });
       container._add(this._widgetIndicator);
 
@@ -199,32 +201,32 @@ qx.Class.define("demobrowser.demo.layout.PropertyEditor",
       {
         case "wlpe_qx.ui.layout.HBox":
         case "wlpe_qx.ui.layout.VBox":
-          group = new demobrowser.demo.layout.LayoutPropertyGroup(
-            demobrowser.demo.layout.LayoutPropertyGroup.BOX_PROPERTIES
+          group = new demobrowser.demo.util.LayoutPropertyGroup(
+            demobrowser.demo.util.LayoutPropertyGroup.BOX_PROPERTIES
           );
           break;
 
         case "wlpe_qx.ui.layout.Canvas":
-          group = new demobrowser.demo.layout.LayoutPropertyGroup(
-            demobrowser.demo.layout.LayoutPropertyGroup.CANVAS_PROPERTIES
+          group = new demobrowser.demo.util.LayoutPropertyGroup(
+            demobrowser.demo.util.LayoutPropertyGroup.CANVAS_PROPERTIES
           );
           break;
 
         case "wlpe_qx.ui.layout.Basic":
-          group = new demobrowser.demo.layout.LayoutPropertyGroup(
-            demobrowser.demo.layout.LayoutPropertyGroup.BASIC_PROPERTIES
+          group = new demobrowser.demo.util.LayoutPropertyGroup(
+            demobrowser.demo.util.LayoutPropertyGroup.BASIC_PROPERTIES
           );
           break;
 
         case "wlpe_qx.ui.layout.Dock":
-          group = new demobrowser.demo.layout.LayoutPropertyGroup(
-            demobrowser.demo.layout.LayoutPropertyGroup.DOCK_PROPERTIES
+          group = new demobrowser.demo.util.LayoutPropertyGroup(
+            demobrowser.demo.util.LayoutPropertyGroup.DOCK_PROPERTIES
           );
           break;
 
         case "wlpe_qx.ui.layout.Grid":
-          group = new demobrowser.demo.layout.LayoutPropertyGroup(
-            demobrowser.demo.layout.LayoutPropertyGroup.GRID_PROPERTIES
+          group = new demobrowser.demo.util.LayoutPropertyGroup(
+            demobrowser.demo.util.LayoutPropertyGroup.GRID_PROPERTIES
           );
           break;
       }
@@ -256,14 +258,14 @@ qx.Class.define("demobrowser.demo.layout.PropertyEditor",
       switch(name)
       {
         case "lpe_qx.ui.layout.HBox":
-          group = new demobrowser.demo.layout.PropertyGroup(
-            demobrowser.demo.layout.PropertyGroup.HBOX_PROPERTIES
+          group = new demobrowser.demo.util.PropertyGroup(
+            demobrowser.demo.util.PropertyGroup.HBOX_PROPERTIES
           );
           break;
 
         case "lpe_qx.ui.layout.Dock":
-          group = new demobrowser.demo.layout.PropertyGroup(
-            demobrowser.demo.layout.PropertyGroup.DOCK_PROPERTIES
+          group = new demobrowser.demo.util.PropertyGroup(
+            demobrowser.demo.util.PropertyGroup.DOCK_PROPERTIES
           );
           break;
       }
@@ -283,6 +285,7 @@ qx.Class.define("demobrowser.demo.layout.PropertyEditor",
 
       this._widgetIndicator.setBackgroundColor(value.getBackgroundColor());
       this._widgetIndicator.setDecorator(value.getDecorator());
+      this._widgetIndicator.setContent(value.toString());
 
       this.updateLayoutPropertyEditor(value);
       this.updateWidgetLayoutPropertyEditor(value);
