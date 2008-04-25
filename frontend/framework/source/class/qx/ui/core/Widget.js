@@ -1720,6 +1720,11 @@ qx.Class.define("qx.ui.core.Widget",
       OTHER PROPERTIES
     ---------------------------------------------------------------------------
     */
+    
+    // property apply
+    _applyZIndex : function(value, old) {
+      this._containerElement.setStyle("zIndex", value == null ? 0 : value);
+    },
 
     // property apply
     _applyVisibility : function(value, old)
@@ -2121,7 +2126,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        target.removeAttribute("tabIndex");
+        // TODO: Is this really correct?
+        target.setAttribute("tabIndex", -1);
       }
 
       // Sync with focus protection
