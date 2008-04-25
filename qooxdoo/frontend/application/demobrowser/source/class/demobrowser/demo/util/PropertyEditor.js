@@ -268,6 +268,12 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
             demobrowser.demo.util.PropertyGroup.DOCK_PROPERTIES
           );
           break;
+
+        case "lpe_qx.ui.layout.Grid":
+          group = new demobrowser.demo.util.PropertyGroup(
+            demobrowser.demo.util.PropertyGroup.GRID_PROPERTIES
+          );
+          break;
       }
 
       if (!group) {
