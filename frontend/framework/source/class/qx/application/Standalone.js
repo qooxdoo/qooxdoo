@@ -45,8 +45,7 @@ qx.Class.define("qx.application.Standalone",
 
   members :
   {
-    _createRootWidget : function()
-    {
+    _createRootWidget : function() {
       return new qx.ui.root.Application(document);
     }
   }
