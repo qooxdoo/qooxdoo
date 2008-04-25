@@ -91,6 +91,94 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      */
     removeAll : function() {
       return this._removeAll();
+    },
+
+
+    /**
+     * Returns the index position of the given widget if it is
+     * a child widget. Otherwise it returns <code>-1</code>.
+     *
+     * This method works on the widget's children list. Some layout managers
+     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
+     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
+     * ignore the children order for the layout process.
+     *
+     * @type member
+     * @param child {Widget} the widget to query for
+     * @return {Integer} The index position or <code>-1</code> when
+     *   the given widget is no child of this layout.
+     */
+    indexOf : function(child) {
+      return this._indexOf(child);
+    },
+
+
+    /**
+     * Add a child widget at the specified index
+     *
+     * This method works on the widget's children list. Some layout managers
+     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
+     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
+     * ignore the children order for the layout process.
+     *
+     * @type member
+     * @param child {LayoutItem} widget to add
+     * @param index {Integer} Index, at which the widget will be inserted
+     */
+    addAt : function(child, index, options) {
+      return this._addAt(child, index, options);
+    },
+
+
+    /**
+     * Add a widget before another already inserted widget
+     *
+     * This method works on the widget's children list. Some layout managers
+     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
+     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
+     * ignore the children order for the layout process.
+     *
+     * @type member
+     * @param child {LayoutItem} widget to add
+     * @param before {LayoutItem} widget before the new widget will be inserted.
+     * @param index {Integer} Index, at which the widget will be inserted
+     */
+    addBefore : function(child, before, options) {
+      return this._addBefore(child, before, options);
+    },
+
+
+    /**
+     * Add a widget after another already inserted widget
+     *
+     * This method works on the widget's children list. Some layout managers
+     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
+     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
+     * ignore the children order for the layout process.
+     *
+     * @type member
+     * @param vChild {LayoutItem} widget to add
+     * @param after {LayoutItem} widget, after which the new widget will be inserted
+     * @param index {Integer} Index, at which the widget will be inserted
+     */
+    addAfter : function(child, after, options) {
+      return this._addAfter(child, after, options);
+    },
+
+
+    /**
+     * Remove the widget at the specified index.
+     *
+     * This method works on the widget's children list. Some layout managers
+     * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
+     * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
+     * ignore the children order for the layout process.
+     *
+     * @type member
+     * @param index {Integer} Index of the widget to remove.
+     */
+    removeAt : function(index) {
+      return this._removeAt(index);
     }
   },
 
@@ -118,6 +206,12 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
       members.add = members._add;
       members.remove = members._remove;
       members.removeAll = members._removeAll;
+
+      members.indexOf = members._indexOf;
+      members.addAt = members._addAt;
+      members.addBefore = members._addBefore;
+      members.addAfter = members._addAfter;
+      members.removeAt = members._removeAt;
     }
   }
 })

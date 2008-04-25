@@ -480,7 +480,27 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Returns the recommended dimensions of the item.
+     * A size hint computes the dimensions of a widget. It returns
+     * the recommended dimensions as well as the min and max dimensions.
+     * The min and max values already respect the stretching properties.
+     *
+     * <h3>Wording</h3>
+     * <ul>
+     * <li>User value: Value defined by the widget user, using the size properties</li>
+     *
+     * <li>Layout value: The value computed by {@link #_getContentHint}</li>
+     * </ul>
+     *
+     * <h3>Algorithm</h3>
+     * <ul>
+     * <li>minSize: If the user min size is not null, the user value is taken,
+     *     otherwise the layout value is used.</li>
+     *
+     * <li>(preferred) size: If the user value is not null the user value is used,
+     *     otherwise the layout value is used.</li>
+     *
+     * <li>max size: Same as the preferred size.</li>
+     * </ul>
      *
      * @type member
      * @param compute {Boolean?true} Automatically compute size hint if currently not
