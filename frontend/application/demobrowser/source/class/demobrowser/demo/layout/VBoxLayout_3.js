@@ -43,6 +43,10 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_3",
       container.add(w2);
       container.add(w3);
 
+      container.addListener("mousedown", function(e) {
+        box.setReversed(!box.getReversed());
+      });
+
       this.getRoot().add(container, {left:10, top:10});
     }
   }
