@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.layout.Dock",
         width = props.width ? Math.floor(availWidth * parseFloat(props.width) / 100) : hint.width;
         height = props.height ? Math.floor(availHeight * parseFloat(props.height) / 100) : hint.height;
 
-        widths[i] = width
+        widths[i] = width;
         heights[i] = height;
 
         switch(props.edge)
