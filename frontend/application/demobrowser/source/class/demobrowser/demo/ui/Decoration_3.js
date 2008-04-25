@@ -99,7 +99,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       // buttons
       var paneLayout = new qx.ui.layout.HBox().set({
         spacing: 4,
-        align : "right"
+        alignX : "right"
       });
       var buttonPane = new qx.ui.container.Composite(paneLayout).set({
         paddingTop: 11
