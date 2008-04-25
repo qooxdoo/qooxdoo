@@ -35,13 +35,13 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_3",
       box.setReversed(true);
       box.setSpacing(5);
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight:60});
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight:60});
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight:60});
+      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight:60, alignY:"top"});
+      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight:60, alignY:"middle"});
+      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "grey", maxHeight:60, alignY:"bottom"});
 
-      container.add(w1, { align : "top" });
-      container.add(w2, { align : "middle" });
-      container.add(w3, { align : "bottom" });
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
 
       this.getRoot().add(container, {left:10, top:10});
     }

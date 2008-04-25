@@ -57,8 +57,12 @@ qx.Class.define("qx.ui.layout.HBox",
 
   properties :
   {
-    /** Horizontal alignment of the whole children block */
-    align :
+    /**
+     * Horizontal alignment of the whole children block. The horizontal
+     * alignment of the child is completely ignored in HBoxes (
+     * {@link qx.ui.core.LayoutItem#alignX}).
+     */
+    alignX :
     {
       check : [ "left", "center", "right" ],
       init : "left",
@@ -66,7 +70,19 @@ qx.Class.define("qx.ui.layout.HBox",
     },
 
 
-    /** Spacing between two children */
+    /**
+     * Vertical alignment of each child. Can be overridden through
+     * {@link qx.ui.core.LayoutItem#alignY}.
+     */
+    alignY :
+    {
+      check : [ "top", "middle", "bottom", "baseline" ],
+      init : "top",
+      apply : "_applyLayoutChange"
+    },
+
+
+    /** Horizontal spacing between two children */
     spacing :
     {
       check : "Integer",
@@ -75,7 +91,7 @@ qx.Class.define("qx.ui.layout.HBox",
     },
 
 
-    /** Whether the actual children data should be reversed for layout */
+    /** Whether the actual children list should be layouted in reversed order. */
     reversed :
     {
       check : "Boolean",
@@ -224,11 +240,11 @@ qx.Class.define("qx.ui.layout.HBox",
 
 
       // Alignment support
-      if (allocatedWidth < availWidth && this.getAlign() != "left")
+      if (allocatedWidth < availWidth && this.getAlignX() != "left")
       {
         left = availWidth - allocatedWidth;
 
-        if (this.getAlign() === "center") {
+        if (this.getAlignX() === "center") {
           left = Math.round(left / 2);
         }
       }
@@ -241,9 +257,8 @@ qx.Class.define("qx.ui.layout.HBox",
       for (i=0; i<length; i+=1)
       {
         child = children[i];
-
-        hint = child.getSizeHint();
         width = widths[i];
+        hint = child.getSizeHint();
 
         marginTop = child.getMarginTop();
         marginBottom = child.getMarginBottom();
@@ -252,8 +267,7 @@ qx.Class.define("qx.ui.layout.HBox",
         height = Math.max(hint.minHeight, Math.min(availHeight-marginTop-marginBottom, hint.maxHeight));
 
         // Respect vertical alignment
-        align = child.getLayoutProperties().align || "top";
-        top = util.computeVerticalAlignOffset(align, height, availHeight, marginTop, marginBottom);
+        top = util.computeVerticalAlignOffset(child.getAlignY()||this.getAlignY(), height, availHeight, marginTop, marginBottom);
 
         // Add collapsed margin
         if (i > 0) {
