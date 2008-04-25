@@ -137,26 +137,52 @@ qx.Class.define("qx.ui.layout.Util",
 
 
     /**
-     * Computes the offset which needs to be added to the left position
-     * to result in the stated horizontal alignment.
+     * Computes the offset which needs to be added to the top position
+     * to result in the stated vertical alignment.
      *
      * @type static
-     * @param hAlign {String} One of <code>left</code>, <code>center</code> or <code>right</code>.
-     * @param widgetWidth {Integer} The absolute (outer) width of the widget
-     * @param parentWidth {Integer} The absolute (inner) width of the parent
-     * @return {Integer} Computed offset left
+     * @param align {String} One of <code>top</code>, <code>center</code> or <code>bottom</code>.
+     * @param width {Integer} The visible width of the widget
+     * @param availWidth {Integer} The available inner width of the parent
+     * @param marginLeft {Integer?0} Optional left margin of the widget
+     * @param marginRight {Integer?0} Optional right margin of the widget
+     * @return {Integer} Computed top coordinate
      */
-    computeHorizontalAlignOffset : function(hAlign, widgetWidth, parentWidth)
+    computeHorizontalAlignOffset : function(align, width, availWidth, marginLeft, marginRight)
     {
+      if (marginLeft == null) {
+        marginLeft = 0;
+      }
+
+      if (marginRight == null) {
+        marginRight = 0;
+      }
+
       var value = 0;
-
-      if (widgetWidth !== parentWidth && hAlign && hAlign !== "left")
+      switch(align)
       {
-        value = parentWidth - widgetWidth;
+        case "left":
+          value = marginLeft;
+          break;
 
-        if (hAlign === "center") {
-          value = Math.round(value / 2);
-        }
+        case "right":
+          // Align right changes priority to right edge:
+          // To align to the right is more important here than to left.
+          value = availWidth - width - marginRight;
+          break;
+
+        case "center":
+          // Ideal center position
+          value = Math.round((availWidth - width) / 2);
+
+          // Try to make this possible (with left-right priority)
+          if (value < marginLeft) {
+            value = marginLeft;
+          } else if (value < marginRight) {
+            value = Math.max(marginLeft, availWidth-width-marginRight);
+          }
+
+          break;
       }
 
       return value;
@@ -168,22 +194,48 @@ qx.Class.define("qx.ui.layout.Util",
      * to result in the stated vertical alignment.
      *
      * @type static
-     * @param vAlign {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
-     * @param widgetHeight {Integer} The absolute (outer) height of the widget
-     * @param parentHeight {Integer} The absolute (inner) height of the parent
-     * @return {Integer} Computed offset top
+     * @param align {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
+     * @param height {Integer} The visible height of the widget
+     * @param availHeight {Integer} The available inner height of the parent
+     * @param marginTop {Integer?0} Optional top margin of the widget
+     * @param marginBottom {Integer?0} Optional bottom margin of the widget
+     * @return {Integer} Computed top coordinate
      */
-    computeVerticalAlignOffset : function(vAlign, widgetHeight, parentHeight)
+    computeVerticalAlignOffset : function(align, height, availHeight, marginTop, marginBottom)
     {
+      if (marginTop == null) {
+        marginTop = 0;
+      }
+
+      if (marginBottom == null) {
+        marginBottom = 0;
+      }
+
       var value = 0;
-
-      if (widgetHeight !== parentHeight && vAlign && vAlign !== "top")
+      switch(align)
       {
-        value = parentHeight - widgetHeight;
+        case "top":
+          value = marginTop;
+          break;
 
-        if (vAlign === "middle") {
-          value = Math.round(value / 2);
-        }
+        case "bottom":
+          // Align bottom changes priority to bottom edge:
+          // To align to the bottom is more important here than to top.
+          value = availHeight - height - marginBottom;
+          break;
+
+        case "middle":
+          // Ideal middle position
+          value = Math.round((availHeight - height) / 2);
+
+          // Try to make this possible (with top-down priority)
+          if (value < marginTop) {
+            value = marginTop;
+          } else if (value < marginBottom) {
+            value = Math.max(marginTop, availHeight-height-marginBottom);
+          }
+
+          break;
       }
 
       return value;

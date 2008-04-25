@@ -233,9 +233,8 @@ qx.Class.define("qx.ui.layout.VBox",
 
 
       // Layouting children
-      var hint, left, width, height, align, marginBottom;
+      var hint, left, width, height, align, marginBottom, marginLeft, marginRight;
       var spacing = this.getSpacing();
-      var marginY;
 
       for (i=0; i<length; i+=1)
       {
@@ -243,33 +242,16 @@ qx.Class.define("qx.ui.layout.VBox",
 
         hint = child.getSizeHint();
         height = heights[i];
-        marginY = child.getMarginLeft() + child.getMarginRight();
+
+        marginLeft = child.getMarginLeft();
+        marginRight = child.getMarginRight();
 
         // Find usable width
-        width = Math.max(hint.minWidth, Math.min(availWidth-marginY, hint.maxWidth));
+        width = Math.max(hint.minWidth, Math.min(availWidth-marginLeft-marginRight, hint.maxWidth));
 
         // Respect horizontal alignment
-        switch(child.getLayoutProperties().align)
-        {
-          case "right":
-            left = availWidth - width - child.getMarginRight();
-            break;
-
-          case "center":
-            remaining = Math.round((availWidth - width) / 2);
-            if (remaining < child.getMarginLeft()) {
-              left = child.getMarginLeft();
-            } else if (remaining < child.getMarginRight()) {
-              left = Math.max(child.getMarginLeft(), availWidth-width-child.getMarginRight());
-            } else {
-              left = remaining;
-            }
-
-            break;
-
-          default:
-            left = child.getMarginLeft();
-        }
+        align = child.getLayoutProperties().align || "left";
+        left = util.computeHorizontalAlignOffset(align, width, availWidth, marginLeft, marginRight);
 
         // Add collapsed margin
         if (i > 0) {
