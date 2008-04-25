@@ -20,254 +20,272 @@
 
 qx.Class.define("demobrowser.demo.layout.PropertyEditor",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.groupbox.GroupBox,
 
-  construct : function(propertyDescription)
+  construct : function(widget)
   {
     this.base(arguments);
 
-    this._properties = propertyDescription;
+    this._editorGroups = {};
 
-    var layout = new qx.ui.layout.Grid();
-    layout.setVerticalSpacing(5);
-    layout.setHorizontalSpacing(10);
-    layout.setColumnAlign(0, "right", "top");
-    this._setLayout(layout);
+    this.getPane().setPadding(0);
+    this.getPane().setLayout(new qx.ui.layout.Canvas())
+    var scroller = new qx.ui.core.ScrollArea();
+    this.getPane().add(scroller, {top: 0, left: 0, right: 0, bottom: 0});
 
-    var row = 0;
-
-    for (var prop in this._properties)
-    {
-      var type = this._properties[prop].type;
-      var nullable = this._properties[prop].nullable;
-
-      this._add(new qx.ui.basic.Label(prop).set({
-        paddingTop: 4
-      }), {row: row, column: 0});
-
-      if (nullable)
-      {
-        var nullWidget = new qx.ui.form.CheckBox("null");
-        nullWidget.addListener("changeChecked", this._createOnNullPropertyChange(prop), this);
-
-        this._add(nullWidget, {row: row, column: 2});
-        this._properties[prop].nullWidget = nullWidget;
-      }
-
-      if (type == "int")
-      {
-        var widget = new qx.ui.form.Spinner().set({
-          min: 0,
-          max: 1000
-        });
-        widget.addListener("change", this._createOnIntPropertyChange(prop), this);
-        this._add(widget, {row: row++, column: 1});
-      }
-      else if (type == "bool")
-      {
-        var widget = new qx.ui.form.CheckBox();
-        widget.addListener("changeChecked", this._createOnBoolPropertyChange(prop), this);
-        this._add(widget, {row: row++, column: 1});
-      }
-      else if (type == "enum")
-      {
-        var values = this._properties[prop].values;
-        var mgr = new qx.ui.core.RadioManager();
-        for (var i=0; i<values.length; i++)
-        {
-          var widget = new qx.ui.form.RadioButton(values[i]).set({
-            value: values[i]
-          });
-          mgr.add(widget);
-          this._add(widget, {row: row++, column:1});
-        }
-        mgr.addListener("changeSelected", this._createOnEnumPropertyChange(prop, mgr), this);
-      }
-      else if (type == "string")
-      {
-        var widget = new qx.ui.form.TextField();
-        widget.addListener("input", this._createOnIntPropertyChange(prop), this);
-        this._add(widget, {row: row++, column: 1});
-      }
-
-      this._properties[prop].widget = widget;
-    }
-  },
+    var pane = new qx.ui.container.Composite().set({
+      padding: 5
+    });
+    scroller.setContent(pane);
+    this._pane = pane;
 
 
-  statics :
-  {
-    WIDGET_PROPERTIES :
-    {
-      "width" : {type: "int", nullable: true},
-      "height": {type: "int", nullable: true},
-      "minWidth": {type: "int", nullable: true},
-      "minHeight": {type: "int", nullable: true},
-      "maxWidth": {type: "int", nullable: true},
-      "maxHeight": {type: "int", nullable: true},
-      "allowGrowX": {type: "bool", nullable: false},
-      "allowGrowY": {type: "bool", nullable: false},
-      "allowShrinkX": {type: "bool", nullable: false},
-      "allowShrinkY": {type: "bool", nullable: false},
-      "marginTop": {type: "int", nullable: false},
-      "marginRight": {type: "int", nullable: false},
-      "marginBottom": {type: "int", nullable: false},
-      "marginLeft": {type: "int", nullable: false},
-      "paddingTop": {type: "int", nullable: false},
-      "paddingRight": {type: "int", nullable: false},
-      "paddingBottom": {type: "int", nullable: false},
-      "paddingLeft": {type: "int", nullable: false}
-    },
+    var layout = new qx.ui.layout.VBox().set({
+      spacing: 5
+    });
+    pane.setLayout(layout);
 
-    HBOX_PROPERTIES :
-    {
-      "align": {
-        type: "enum",
-        values: [ "left", "center", "right" ],
-        nullable: false
-      },
-      "spacing": {type: "int", nullable: false},
-      "reversed": {type: "bool", nullable: false}
-    }
+
+    pane.add(this._createWidgetIndicator());
+
+    pane.add(new qx.ui.basic.Label("Widget Properties").set({
+      font: "bold",
+      padding: [1, 0, 5, 0]
+    }));
+
+    var props = qx.lang.Object.copy(demobrowser.demo.layout.PropertyGroup.WIDGET_PROPERTIES);
+    props.content = {type:"string", nullable: true};
+
+    this._layoutControls = new demobrowser.demo.layout.PropertyGroup(props);
+    pane.add(this._layoutControls);
+
+    this.setWidget(widget);
   },
 
 
   properties :
   {
-    selected :
+    widget :
     {
-      apply : "_applySelected",
-      nullable : true
+      check: "qx.ui.core.Widget",
+      apply : "_applyWidget"
     }
   },
 
-
   members :
   {
-    _applySelected : function(value, old) {
-      this._updateControls(value);
+    handleWidgetClick : function(e)
+    {
+      var widget = e.getTarget();
+      this.setWidget(widget);
     },
 
 
-    _createOnIntPropertyChange : function(property)
+    _createWidgetIndicator : function()
     {
-      var setter = "set" + qx.lang.String.firstUp(property);
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({
+        spacing: 5
+      }));
 
-      return function(e)
-      {
-        var widget = this.getSelected();
-        widget[setter](e.getTarget().getValue());
+      container.add(this._createLabel("Selected Widget"));
 
-        console.log("change", setter, e.getTarget().getValue())
-      }
+      this._widgetIndicator = new qx.ui.core.Widget().set({
+        backgroundColor: "red",
+        height: 30
+      });
+      container._add(this._widgetIndicator);
+
+      return container;
     },
 
 
-    _createOnBoolPropertyChange : function(property)
+    _createLabel : function(text)
     {
-      var setter = "set" + qx.lang.String.firstUp(property);
-
-      return function(e)
-      {
-        var widget = this.getSelected();
-        widget[setter](e.getTarget().getChecked());
-      }
+      return new qx.ui.basic.Label(text).set({
+        font: "bold",
+        allowGrowX: true,
+        padding: [5, 0, 5, 0]
+      })
     },
 
 
-    _createOnEnumPropertyChange : function(property, mgr)
+    _createContainer : function(label, mainWidget)
     {
-      var setter = "set" + qx.lang.String.firstUp(property);
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox().set({
+        spacing: 5
+      }));
 
-      return function(e)
-      {
-        var widget = this.getSelected();
-        widget[setter](mgr.getSelected().getValue());
-      }
+      container.add(this._createLabel(label));
+      container.add(mainWidget);
+
+      return container;
     },
 
 
-    _createOnNullPropertyChange : function(property)
+    updateWidgetLayoutPropertyEditor : function(widget)
     {
-      var setter = "set" + qx.lang.String.firstUp(property);
+      var layout = widget.getLayoutParent() ? widget.getLayoutParent().getLayout() : null;
+      var wlpe = this.getWidgetLayoutPropertyEditor(layout);
 
-      return function(e)
-      {
-        var widget = this.getSelected();
-        var control = e.getTarget();
-        if (control.getChecked())
-        {
-          widget[setter](null);
-          this._properties[property].widget.setEnabled(false);
-        }
-        else
-        {
-          widget[setter](this._properties[property].widget.getValue());
-          this._properties[property].widget.setEnabled(true);
-        }
+      if (wlpe) {
+        wlpe.getChildren()[1].setSelected(widget);
       }
+
+      if (wlpe === this._wlpe) {
+        return;
+      }
+
+      if (this._wlpe) {
+        this._pane.remove(this._wlpe)
+      }
+
+      if (!wlpe)
+      {
+        this._wlpe = wlpe;
+        return;
+      }
+
+      this._pane.addAfter(wlpe, this._layoutControls);
+
+      this._wlpe = wlpe;
     },
 
 
-    _updateControls : function(widget)
+    updateLayoutPropertyEditor : function(widget)
     {
-      for (var prop in this._properties)
-      {
-        var type = this._properties[prop].type;
-        var control = this._properties[prop].widget;
-        var nullable = this._properties[prop].nullable;
+      var layout = widget.getLayout ? widget.getLayout() : null;
+      var lpe = this.getLayoutPropertyEditor(layout);
 
-        var getter = "get" + qx.lang.String.firstUp(prop);
-
-        if (!widget[getter])
-        {
-          control.setEnabled(false);
-          if (nullable) {
-            this._properties[prop].nullWidget.setEnabled(false);
-          }
-          return;
-        }
-
-       control.setEnabled(true);
-
-
-        var propValue = widget[getter]();
-
-        if (propValue !== null)
-        {
-          if (type == "int" || type == "string")
-          {
-            control.setValue(propValue);
-          }
-          else if (type == "bool")
-          {
-            control.setChecked(!!propValue);
-          }
-          else if (type == "enum")
-          {
-            var mgr = control.getManager();
-            var items = mgr.getItems();
-            for (var i=0; i<items.length; i++)
-            {
-              var item = items[i];
-              if (item.getValue() == propValue)
-              {
-                item.setChecked(true);
-                break;
-              }
-            }
-          }
-        }
-
-        if (nullable)
-        {
-          this._properties[prop].nullWidget.setChecked(propValue == null);
-          this._properties[prop].nullWidget.setEnabled(true);
-          control.setEnabled(propValue !== null);
-        }
-
+      if (lpe) {
+        lpe.getChildren()[1].setSelected(layout);
       }
+
+      if (lpe === this._lpe) {
+        return;
+      }
+
+      if (this._lpe) {
+        this._pane.remove(this._lpe)
+      }
+
+      if (!lpe)
+      {
+        this._lpe = lpe;
+        return;
+      }
+
+      this._pane.add(lpe);
+
+      this._lpe = lpe;
+    },
+
+
+    getWidgetLayoutPropertyEditor : function(layout)
+    {
+      if (!layout) {
+        return null;
+      }
+
+      var name = "wlpe_" + layout.constructor.classname;
+      var group;
+
+      if (this._editorGroups[name]) {
+        return this._editorGroups[name];
+      }
+
+      var widget;
+
+      switch(name)
+      {
+        case "wlpe_qx.ui.layout.HBox":
+        case "wlpe_qx.ui.layout.VBox":
+          group = new demobrowser.demo.layout.LayoutPropertyGroup(
+            demobrowser.demo.layout.LayoutPropertyGroup.BOX_PROPERTIES
+          );
+          break;
+
+        case "wlpe_qx.ui.layout.Canvas":
+          group = new demobrowser.demo.layout.LayoutPropertyGroup(
+            demobrowser.demo.layout.LayoutPropertyGroup.CANVAS_PROPERTIES
+          );
+          break;
+
+        case "wlpe_qx.ui.layout.Basic":
+          group = new demobrowser.demo.layout.LayoutPropertyGroup(
+            demobrowser.demo.layout.LayoutPropertyGroup.BASIC_PROPERTIES
+          );
+          break;
+
+        case "wlpe_qx.ui.layout.Dock":
+          group = new demobrowser.demo.layout.LayoutPropertyGroup(
+            demobrowser.demo.layout.LayoutPropertyGroup.DOCK_PROPERTIES
+          );
+          break;
+
+        case "wlpe_qx.ui.layout.Grid":
+          group = new demobrowser.demo.layout.LayoutPropertyGroup(
+            demobrowser.demo.layout.LayoutPropertyGroup.GRID_PROPERTIES
+          );
+          break;
+      }
+
+      if (!group) {
+        return null;
+      }
+
+      this._editorGroups[name] = this._createContainer(layout.constructor.classname + " layout properties", group);
+      return this._editorGroups[name];
+    },
+
+
+    getLayoutPropertyEditor : function(layout)
+    {
+      if (!layout) {
+        return null;
+      }
+
+      var name = "lpe_" + layout.constructor.classname;
+      var group;
+
+      if (this._editorGroups[name]) {
+        return this._editorGroups[name];
+      }
+
+      var widget;
+
+      switch(name)
+      {
+        case "lpe_qx.ui.layout.HBox":
+          group = new demobrowser.demo.layout.PropertyGroup(
+            demobrowser.demo.layout.PropertyGroup.HBOX_PROPERTIES
+          );
+          break;
+
+        case "lpe_qx.ui.layout.Dock":
+          group = new demobrowser.demo.layout.PropertyGroup(
+            demobrowser.demo.layout.PropertyGroup.DOCK_PROPERTIES
+          );
+          break;
+      }
+
+      if (!group) {
+        return null;
+      }
+
+      this._editorGroups[name] = this._createContainer(layout.constructor.classname + " properties", group);
+      return this._editorGroups[name];
+    },
+
+
+    _applyWidget : function(value, old)
+    {
+      this._layoutControls.setSelected(value);
+
+      this._widgetIndicator.setBackgroundColor(value.getBackgroundColor());
+      this._widgetIndicator.setDecorator(value.getDecorator());
+
+      this.updateLayoutPropertyEditor(value);
+      this.updateWidgetLayoutPropertyEditor(value);
     }
-
   }
 });

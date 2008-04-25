@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.layout.DockLayout_3",
 {
-  extend : qx.application.Standalone,
+  extend : demobrowser.demo.layout.LayoutApplication,
 
   members :
   {
