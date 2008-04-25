@@ -138,7 +138,7 @@ qx.Class.define("demobrowser.demo.util.LayoutPropertyGroup",
         value = convert(value);
       }
 
-      console.log(widget, name, value);
+      //console.log(widget, name, value);
 
       var props = {};
       props[name] = value;

@@ -20,28 +20,30 @@
 
 qx.Class.define("demobrowser.demo.util.PropertyEditor",
 {
-  extend : qx.ui.groupbox.GroupBox,
+  extend : qx.ui.core.ScrollArea,
 
-  construct : function(widget)
+  construct : function()
   {
     this.base(arguments);
 
     this._editorGroups = {};
-
-    this.getPane().setPadding(0);
-    this.getPane().setLayout(new qx.ui.layout.Canvas())
-    var scroller = new qx.ui.core.ScrollArea();
-    this.getPane().add(scroller, {top: 0, left: 0, right: 0, bottom: 0});
-
+    
+    var decor = new qx.ui.decoration.Single();
+    decor.setLeft(1, "solid", "black");
+    
+    this.setDecorator(decor);
+    this.setBackgroundColor("white");
+    
     var pane = new qx.ui.container.Composite().set({
-      padding: 5
+      padding: 10
     });
-    scroller.setContent(pane);
+    this.setContent(pane);
     this._pane = pane;
 
 
     var layout = new qx.ui.layout.VBox().set({
-      spacing: 5
+      spacing: 5,
+      border : "black"
     });
     pane.setLayout(layout);
 
@@ -58,8 +60,6 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
 
     this._layoutControls = new demobrowser.demo.util.PropertyGroup(props);
     pane.add(this._layoutControls);
-
-    this.setWidget(widget);
   },
 
 
