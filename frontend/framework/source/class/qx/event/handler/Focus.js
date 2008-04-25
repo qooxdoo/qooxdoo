@@ -441,7 +441,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
-        this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+        //this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -497,7 +497,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
         this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
-        this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+        // this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -819,6 +819,13 @@ qx.Class.define("qx.event.handler.Focus",
 
       "opera" : function(e)
       {
+        // Opera has some issues to route keyboard events when preventing mousedown
+        // This means that when not already the window has got the focus the
+        // mousedown is essentically to get Opera correctly focus the window to
+        // activate keyboard events to be available on the window object.
+        var wasNull = !this._windowFocused;
+        var wasNull = !this.getFocus();
+        
         // Focus event in Opera is fired after the mousedown which
         // is not typical. Normalize this here.
         this._doWindowFocus();
@@ -841,7 +848,7 @@ qx.Class.define("qx.event.handler.Focus",
               currentFocus.blur();
             }
 
-            // Focus event happens to late in Webkit.
+            // Focus event happens to late in Opera.
             // Synchronizes with property directly without waiting for event.
             // Looks nicer when combining with widgets.
             this.setFocus(nextFocus);
@@ -853,7 +860,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         // Blocks selection & dragdrop
-        if (!this.__isSelectable(target)) {
+        if (!wasNull && !this.__isSelectable(target)) {
           qx.bom.Event.preventDefault(e);
         }
       },
