@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       // make sure all columns are defined so that acessing the grid using
       // this.__grid[column][row] will never raise an exception
-      for (var y=0; y<=maxColIndex; y++) {
+      for (var y=0; y<=maxRowIndex; y++) {
         if (grid[y] == undefined) {
            grid[y] = [];
         }
