@@ -84,7 +84,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         if (states.pressed || states.abandoned || states.checked) {
-          var decorator = states.focuesd ? "focused-inset" : "inset";
+          var decorator = states.focused ? "focused-inset" : "inset";
         } else {
           var decorator = states.focused ? "focused-outset" : "outset";
         }
@@ -270,7 +270,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "inset",
+          decorator       : states.focused ? "focused-inset" : "inset",
           textColor       : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : "field"
         };
