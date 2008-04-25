@@ -1036,7 +1036,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getComputedInnerSize : function()
     {
-      var computed = this.__computedLayout;
+      var computed = this.getBounds();
       if (!computed) {
         return null;
       }
