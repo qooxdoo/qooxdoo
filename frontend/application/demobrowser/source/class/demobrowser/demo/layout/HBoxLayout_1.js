@@ -47,9 +47,9 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_1",
 
       box.setSpacing(5);
 
-      container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "top" });
-      container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "middle" });
-      container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
+      container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY:"top"}));
+      container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY:"middle"}));
+      container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY:"bottom"}));
 
       this.getRoot().add(container, {left:10, top:70});
 
