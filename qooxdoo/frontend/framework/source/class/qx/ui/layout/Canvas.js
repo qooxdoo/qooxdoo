@@ -73,14 +73,14 @@ qx.Class.define("qx.ui.layout.Canvas",
       var children = this._getLayoutChildren();
       var percent = qx.ui.layout.Util.PERCENT_VALUE;
 
-      var child, size, layout;
+      var child, size, props;
       var left, top, right, bottom, width, height;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = child.getLayoutProperties();
+        props = child.getLayoutProperties();
 
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         //   Processing location
         // **************************************
 
-        left = layout.left;
+        left = props.left;
         if (left && typeof left === "string")
         {
           if (!percent.test(left)) {
@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.layout.Canvas",
           left = Math.round(parseFloat(left) * availWidth / 100);
         }
 
-        right = layout.right;
+        right = props.right;
         if (right && typeof right === "string")
         {
           if (!percent.test(right)) {
@@ -108,24 +108,24 @@ qx.Class.define("qx.ui.layout.Canvas",
           right = Math.round(parseFloat(right) * availWidth / 100);
         }
 
-        top = layout.top;
+        top = props.top;
         if (top && typeof top === "string")
         {
           if (!percent.test(top)) {
             throw new Error("Invalid percent value for top position: " + top);
           }
 
-          top = Math.round(parseFloat(top) * availWidth / 100);
+          top = Math.round(parseFloat(top) * availHeight / 100);
         }
 
-        bottom = layout.bottom;
+        bottom = props.bottom;
         if (bottom && typeof bottom === "string")
         {
           if (!percent.test(bottom)) {
             throw new Error("Invalid percent value for bottom position: " + bottom);
           }
 
-          bottom = Math.round(parseFloat(bottom) * availWidth / 100);
+          bottom = Math.round(parseFloat(bottom) * availHeight / 100);
         }
 
 
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         else
         {
           // Layout data has higher priority than data from size hint
-          width = layout.width;
+          width = props.width;
 
           if (width == null)
           {
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         else
         {
           // Layout data has higher priority than data from size hint
-          height = layout.height;
+          height = props.height;
 
           if (height == null)
           {
