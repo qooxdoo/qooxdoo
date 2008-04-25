@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.layout.VBox",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyLayoutChange"
+      apply : "_applyReversed"
     }
   },
 
@@ -118,16 +118,31 @@ qx.Class.define("qx.ui.layout.VBox",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
+    _applyReversed : function()
+    {
+      // easiest way is to invalidate the cache
+      this._invalidChildrenCache = true;
+
+      // call normal layout change
+      this._applyLayoutChange();
+    },
+
+
+    /**
+     * Rebuilds caches for flex and percent layout properties
+     */
     _rebuildCache : function()
     {
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
+      var reuse = this.__heights && this.__heights.length != length;
       var props;
 
-      // Sparse array
-      var heights = new Array(length);
-      var flexs = new Array(length);
+      // Sparse array (keep old one if lengths has not been modified)
+      var heights = reuse ? this._heights : new Array(length);
+      var flexs = reuse ? this._flexs : new Array(length);
 
       // Loop through children to preparse values
       for (var i=0; i<length; i++)
@@ -145,12 +160,20 @@ qx.Class.define("qx.ui.layout.VBox",
         }
       }
 
-      // Store data
-      this.__heights = heights;
-      this.__flexs = flexs;
-      this.__enableFlex = enableFlex
-      //this.__children =
+      // Reverse support
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
 
+      // Store data
+      if (!reuse)
+      {
+        this.__heights = heights;
+        this.__flexs = flexs;
+      }
+
+      this.__enableFlex = enableFlex
+      this.__children = children;
 
       // Clear invalidation marker
       delete this._invalidChildrenCache;
@@ -175,7 +198,7 @@ qx.Class.define("qx.ui.layout.VBox",
       }
 
       // Cache children
-      var children = this._getLayoutChildren();
+      var children = this.__children;
       var length = children.length;
       var util = qx.ui.layout.Util;
       var gaps = util.computeVerticalGaps(children, this.getSpacing(), true);
@@ -295,7 +318,7 @@ qx.Class.define("qx.ui.layout.VBox",
       }
 
       var util = qx.ui.layout.Util;
-      var children = this._getLayoutChildren();
+      var children = this.__children;
 
       // Initialize
       var minHeight=0, height=0;

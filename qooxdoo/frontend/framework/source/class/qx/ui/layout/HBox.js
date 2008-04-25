@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.layout.HBox",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyLayoutChange"
+      apply : "_applyReversed"
     }
   },
 
@@ -118,16 +118,31 @@ qx.Class.define("qx.ui.layout.HBox",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
+    _applyReversed : function()
+    {
+      // easiest way is to invalidate the cache
+      this._invalidChildrenCache = true;
+
+      // call normal layout change
+      this._applyLayoutChange();
+    },
+
+
+    /**
+     * Rebuilds caches for flex and percent layout properties
+     */
     _rebuildCache : function()
     {
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
+      var reuse = this.__widths && this.__widths.length != length;
       var props;
 
-      // Sparse array
-      var widths = new Array(length);
-      var flexs = new Array(length);
+      // Sparse array (keep old one if lengths has not been modified)
+      var widths = reuse ? this._widths : new Array(length);
+      var flexs = reuse ? this._flexs : new Array(length);
 
       // Loop through children to preparse values
       for (var i=0; i<length; i++)
@@ -145,12 +160,20 @@ qx.Class.define("qx.ui.layout.HBox",
         }
       }
 
-      // Store data
-      this.__widths = widths;
-      this.__flexs = flexs;
-      this.__enableFlex = enableFlex
-      //this.__children =
+      // Reverse support
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
 
+      // Store data
+      if (!reuse)
+      {
+        this.__widths = widths;
+        this.__flexs = flexs;
+      }
+
+      this.__enableFlex = enableFlex
+      this.__children = children;
 
       // Clear invalidation marker
       delete this._invalidChildrenCache;
@@ -175,7 +198,7 @@ qx.Class.define("qx.ui.layout.HBox",
       }
 
       // Cache children
-      var children = this._getLayoutChildren();
+      var children = this.__children;
       var length = children.length;
       var util = qx.ui.layout.Util;
       var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
@@ -295,7 +318,7 @@ qx.Class.define("qx.ui.layout.HBox",
       }
 
       var util = qx.ui.layout.Util;
-      var children = this._getLayoutChildren();
+      var children = this.__children;
 
       // Initialize
       var minWidth=0, width=0;
