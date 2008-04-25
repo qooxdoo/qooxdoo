@@ -798,12 +798,8 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Internal computition method for size hint.
-     *
-     * @type member
-     * @return {Map} The size hint map.
-     */
+
+    // overridden
     _computeSizeHint : function()
     {
       // Start with the user defined values
@@ -1404,7 +1400,7 @@ qx.Class.define("qx.ui.core.Widget",
     _addAfter : function(child, after, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
+        this.assertNotIdentical(child, after, "Invalid parameters for _addAfter!");
       }
 
       this.__addHelper(child, options);
