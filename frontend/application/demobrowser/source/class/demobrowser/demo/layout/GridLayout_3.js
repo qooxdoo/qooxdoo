@@ -23,7 +23,7 @@
  */
 qx.Class.define("demobrowser.demo.layout.GridLayout_3",
 {
-  extend : demobrowser.demo.layout.LayoutApplication,
+  extend : demobrowser.demo.util.LayoutApplication,
 
   members :
   {
