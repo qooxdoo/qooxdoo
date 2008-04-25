@@ -133,6 +133,8 @@ qx.Class.define("qx.ui.layout.VBox",
       this.__heights = heights;
       this.__flexs = flexs;
       this.__enableFlex = enableFlex
+      //this.__children =
+
 
       // Clear invalidation marker
       delete this._invalidChildrenCache;
@@ -308,7 +310,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
         // Find biggest minWidth
         if ((hint.minWidth+margin) > minWidth) {
-          minWidth = hint.minWidth;
+          minWidth = hint.minWidth + margin;
         }
       }
 
