@@ -138,6 +138,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       STRETCHING
@@ -148,7 +150,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowGrowX :
     {
       check : "Boolean",
-      apply : "_applyDimension",
+      apply : "_applyStretching",
       init : true,
       themeable : true
     },
@@ -158,7 +160,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowShrinkX :
     {
       check : "Boolean",
-      apply : "_applyDimension",
+      apply : "_applyStretching",
       init : true,
       themeable : true
     },
@@ -168,7 +170,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowGrowY :
     {
       check : "Boolean",
-      apply : "_applyDimension",
+      apply : "_applyStretching",
       init : true,
       themeable : true
     },
@@ -178,7 +180,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowShrinkY :
     {
       check : "Boolean",
-      apply : "_applyDimension",
+      apply : "_applyStretching",
       init : true,
       themeable : true
     },
@@ -285,8 +287,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     alignX :
     {
       check : [ "left", "center", "right" ],
-      nullable : false,
-      init : "left",
+      nullable : true,
       apply : "_applyAlign"
     },
 
@@ -301,8 +302,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     alignY :
     {
       check : [ "top", "middle", "bottom", "baseline" ],
-      nullable : false,
-      init : "top",
+      nullable : true,
       apply : "_applyAlign"
     }
   },
@@ -616,6 +616,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
     // property apply
     _applyDimension : function() {
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    // property apply
+    _applyStretching : function() {
       qx.ui.core.queue.Layout.add(this);
     },
 

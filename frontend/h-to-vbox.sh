@@ -9,8 +9,10 @@ cat framework/source/class/qx/ui/layout/HBox.js | \
   sed s:middle:_xx8_:g | \
   sed s:vertical:_xx9_:g | \
   sed s:horizontal:_xx10_:g | \
-  sed s:canStretchX:_xx11_:g | \
-  sed s:canStretchY:_xx12_:g | \
+  sed s:AlignX:_xx11_:g | \
+  sed s:AlignY:_xx12_:g | \
+  sed s:alignX:_xx13_:g | \
+  sed s:alignY:_xx14_:g | \
 \
   sed s:Width:_yy1_:g | \
   sed s:Height:_yy2_:g | \
@@ -33,8 +35,10 @@ cat framework/source/class/qx/ui/layout/HBox.js | \
   sed s:_xx8_:center:g | \
   sed s:_xx9_:horizontal:g | \
   sed s:_xx10_:vertical:g | \
-  sed s:_xx11_:canStretchY:g | \
-  sed s:_xx12_:canStretchX:g | \
+  sed s:_xx11_:AlignY:g | \
+  sed s:_xx12_:AlignX:g | \
+  sed s:_xx13_:alignY:g | \
+  sed s:_xx14_:alignX:g | \
 \
   sed s:_yy1_:Height:g | \
   sed s:_yy2_:Width:g | \
@@ -53,6 +57,5 @@ cat framework/source/class/qx/ui/layout/HBox.js | \
   sed s:"hbox":"vbox":g | \
   sed s:"vertical row":"vertical column":g \
 > framework/source/class/qx/ui/layout/VBox.js
-
 
 dos2unix framework/source/class/qx/ui/layout/VBox.js
