@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.LayoutApplication",
+qx.Class.define("demobrowser.demo.util.LayoutApplication",
 {
   extend : qx.application.Standalone,
 
@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.layout.LayoutApplication",
         root.add(child, stretch ? {left:0, top:0, right:0, bottom:0} : {left:0, top:0});
       }
 
-      editor = new demobrowser.demo.layout.PropertyEditor(root);
+      editor = new demobrowser.demo.util.PropertyEditor(root);
       root.addListener("click", this._onClickRoot, this);
 
       frame.add(editor, {edge: "east"});

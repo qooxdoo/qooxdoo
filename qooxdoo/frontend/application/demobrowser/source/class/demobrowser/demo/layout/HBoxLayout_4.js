@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.layout.HBoxLayout_4",
 {
-  extend : demobrowser.demo.layout.LayoutApplication,
+  extend : demobrowser.demo.util.LayoutApplication,
 
   members :
   {
