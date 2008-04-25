@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : null,
       themeable : true
     },
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : null,
       themeable : true
     },
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : null,
       themeable : true
     },
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : null,
       themeable : true
     },
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : null,
       themeable : true
     },
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : "Integer",
       nullable : true,
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : null,
       themeable : true
     },
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowGrowX :
     {
       check : "Boolean",
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : true,
       themeable : true
     },
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowShrinkX :
     {
       check : "Boolean",
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : true,
       themeable : true
     },
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowGrowY :
     {
       check : "Boolean",
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : true,
       themeable : true
     },
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     allowShrinkY :
     {
       check : "Boolean",
-      apply : "scheduleLayoutUpdate",
+      apply : "_applyDimension",
       init : true,
       themeable : true
     },
@@ -593,11 +593,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     // property apply
-    _applyMargin : function(value)
+    _applyMargin : function()
     {
       this.__updateMargin = true;
 
-      var parent = this.getLayoutParent();
+      var parent = this._parent;
       if (parent) {
         parent.updateLayoutProperties();
       }
@@ -605,13 +605,20 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     // property apply
-    _applyAlign : function(value)
+    _applyAlign : function()
     {
-      var parent = this.getLayoutParent();
+      var parent = this._parent;
       if (parent) {
         parent.updateLayoutProperties();
       }
     },
+
+
+    // property apply
+    _applyDimension : function() {
+      qx.ui.core.queue.Layout.add(this);
+    },
+
 
 
 
