@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
 {
-  extend : qx.application.Standalone,
+  extend : demobrowser.demo.layout.LayoutApplication,
 
   members :
   {
@@ -31,25 +31,25 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
       var borderColor = "black";
       var border = new qx.ui.decoration.Single(3, "solid", borderColor);
 
-      w1 = new qx.ui.basic.Label("Toggle border color.").set({
+      var w1 = new qx.ui.basic.Label("Toggle border color.").set({
         backgroundColor: "red",
         decorator: border,
         paddingLeft: 10,
         paddingRight: 10
       });
 
-      w2 = new qx.ui.core.Widget().set({
+      var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
         decorator: border
       });
 
-      w3 = new qx.ui.core.Widget().set({
+      var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
         decorator: border,
         padding: 3
       });
 
-      w4 = new qx.ui.core.Widget().set({
+      var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
         decorator: border,
         padding: 10
