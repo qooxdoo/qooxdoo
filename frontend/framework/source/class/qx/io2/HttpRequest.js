@@ -495,21 +495,12 @@ qx.Class.define("qx.io2.HttpRequest",
         // Add headers
         req.setRequestHeader('Authorization', 'Basic ' + qx.util.Base64.encode(username + ':' + password));
 
-        // Reset Http
+        // Reset them afterwards
         username = password = null;
       }
 
       // Read url
       var url = this.getUrl();
-
-      if (this.getCache()) {
-        // TODO: Any header we can set in this case?
-      }
-      else
-      {
-        req.setRequestHeader("Cache-Control", "no-cache");
-        // TODO: Add timestamp to URL
-      }
 
       // Open request
       req.open(this.getMethod(), url, this.getAsync(), username, password);
@@ -517,6 +508,11 @@ qx.Class.define("qx.io2.HttpRequest",
       // Add timeout
       req.timeout = this.getTimeout();
 
+      // Add cache control hint
+      if (!this.getCache()) {
+        req.setRequestHeader("Cache-Control", "no-cache");
+      }
+      
       // Add modified since hint
       if (this.getRefresh()) {
         req.setRequestHeader("If-Modified-Since",  qx.io2.HttpRequest.__modified[url] || "Thu, 01 Jan 1970 00:00:00 GMT" );

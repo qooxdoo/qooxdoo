@@ -253,7 +253,7 @@ qx.Bootstrap.define("qx.log.appender.Console",
     __formatOffset : function(offset, length)
     {
       var str = offset.toString();
-      var diff = (length||8) - str.length;
+      var diff = (length||6) - str.length;
       var pad = "";
 
       for (var i=0; i<diff; i++) {
