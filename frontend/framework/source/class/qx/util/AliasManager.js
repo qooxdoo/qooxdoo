@@ -21,7 +21,7 @@
 /**
  * This singleton manages global resource aliases
  */
-qx.Class.define("qx.io.Alias",
+qx.Class.define("qx.util.AliasManager",
 {
   type : "singleton",
   extend : qx.util.ValueManager,

@@ -56,7 +56,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.base(arguments);
 
     // Base URL used for indent images
-    var Am = qx.io.Alias;
+    var Am = qx.util.AliasManager;
     this.WIDGET_TREE_URI = Am.getInstance().resolve("widget/tree/");
     this.STATIC_IMAGE_URI = Am.getInstance().resolve("static/image/");
 
@@ -184,7 +184,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
     {
       var Stdcr = qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer;
       var html = Stdcr.IMG_START;
-      var Am = qx.io.Alias;
+      var Am = qx.util.AliasManager;
 
       if (qx.legacy.core.Client.getInstance().isMshtml() &&
           /\.png$/i.test(urlAndToolTip.url))

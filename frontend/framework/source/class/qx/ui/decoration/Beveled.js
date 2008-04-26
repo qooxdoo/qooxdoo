@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       vert.setStyle("borderBottom", outerStyle);
 
       inner.setStyle("backgroundColor", backgroundColor || this.__backgroundColor || null);
-      inner.setAttribute("src", qx.io.Alias.getInstance().resolve(this.getBackgroundImage()));
+      inner.setAttribute("src", qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
 
       overlay.setStyle("border", innerStyle);
       overlay.setStyle("opacity", this.getInnerOpacity());
