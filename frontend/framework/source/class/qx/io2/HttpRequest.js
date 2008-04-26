@@ -17,6 +17,17 @@
 
 ************************************************************************ */
 
+/**
+ * A more comfortable HTTP request object than the native one under 
+ * {@link qx.bom.HttpRequest}.
+ *
+ * Converts the whole communication into a qooxdoo style class with 
+ * real properties. The class also fires events to allow easy access 
+ * to status changes.
+ *
+ * Automatically adds a few HTTP headers to requests depdending on 
+ * the configuration.
+ */
 qx.Class.define("qx.io2.HttpRequest",
 {
   extend : qx.core.Object,
