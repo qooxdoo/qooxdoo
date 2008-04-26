@@ -271,7 +271,16 @@
     {
       "extend" : ["demodyn/jobs/build"]
     },
-
+    
+    "debug-dependencies" :
+    {
+      "extend" : ["common"],
+      "include" : ["demobrowser.demo.io.HttpRequest_1"],
+      "debug" :
+      {
+        "dependencies" : "on"
+      }
+    },
 
     "debug-privates" :
     {
