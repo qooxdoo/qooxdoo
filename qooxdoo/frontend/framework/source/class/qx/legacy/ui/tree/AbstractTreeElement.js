@@ -80,7 +80,7 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     this.initSelectable();
 
     // Base URL used for indent images
-    this.BASE_URI = qx.io.Alias.getInstance().resolve("widget/tree/");
+    this.BASE_URI = qx.util.AliasManager.getInstance().resolve("widget/tree/");
 
     /*
      * Add all of the objects which are to be in the horizontal layout.

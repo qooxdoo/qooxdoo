@@ -89,6 +89,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
 
         return;
       }
+      
+      qx.log.Logger.debug("Requesting: " + source);
 
       // Create image element
       var el = new Image();

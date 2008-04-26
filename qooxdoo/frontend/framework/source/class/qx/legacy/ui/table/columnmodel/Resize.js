@@ -195,7 +195,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
       var menu = data.menu;
       var o;
 
-      var Am = qx.io.Alias;
+      var Am = qx.util.AliasManager;
       var icon =
         Am.getInstance().resolve("icon/16/actions/view-refresh.png");
 

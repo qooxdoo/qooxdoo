@@ -121,7 +121,7 @@ qx.Class.define("qx.util.ImageRegistry",
      */
     resolve : function(iconUri)
     {
-      var value = this.__registry[qx.io.Alias.getInstance().resolve(iconUri)];
+      var value = this.__registry[qx.util.AliasManager.getInstance().resolve(iconUri)];
       if (value == null) {
         throw new Error("Could not resolve icon uri: " + iconUri);
       }

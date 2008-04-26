@@ -41,7 +41,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.CheckBoxDataCellRenderer",
   construct : function()
   {
     arguments.callee.base.apply(this, arguments);
-    this.CHECKBOX_URI = 'url('+qx.io.Alias.getInstance().resolve('widget/menu/checkbox.gif')+')';
+    this.CHECKBOX_URI = 'url('+qx.util.AliasManager.getInstance().resolve('widget/menu/checkbox.gif')+')';
   },
 
 

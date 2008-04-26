@@ -745,7 +745,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
           try {
             if (vText && vText.length > 0) {
-              return qx.io.Json.parseQx(vText) || null;
+              return qx.util.Json.parseQx(vText) || null;
             } else {
               return null;
             }

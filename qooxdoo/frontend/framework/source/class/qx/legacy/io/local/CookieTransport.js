@@ -18,7 +18,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.io.local.CookieTransport",
+/**
+ * @deprecated
+ */
+qx.Class.define("qx.legacy.io.local.CookieTransport",
 {
   /*
   *****************************************************************************
@@ -54,10 +57,10 @@ qx.Class.define("qx.io.local.CookieTransport",
     set : function(vName, vValue)
     {
       if (vValue === undefined) {
-        return qx.io.local.CookieTransport.del(vName);
+        return qx.legacy.io.local.CookieTransport.del(vName);
       }
 
-      var vAll = qx.io.local.CookieTransport._getAll();
+      var vAll = qx.legacy.io.local.CookieTransport._getAll();
       vAll[vName] = vValue;
       this._setAll(vAll);
     },
@@ -72,7 +75,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      */
     get : function(vName)
     {
-      var vAll = qx.io.local.CookieTransport._getAll();
+      var vAll = qx.legacy.io.local.CookieTransport._getAll();
 
       return vAll[vName] || "";
     },
@@ -87,7 +90,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      */
     del : function(vName)
     {
-      var vAll = qx.io.local.CookieTransport._getAll();
+      var vAll = qx.legacy.io.local.CookieTransport._getAll();
       delete vAll[vName];
       this._setAll(vAll);
     },
@@ -102,9 +105,9 @@ qx.Class.define("qx.io.local.CookieTransport",
      */
     setAll : function(vHash)
     {
-      var vAll = qx.io.local.CookieTransport._getAll();
+      var vAll = qx.legacy.io.local.CookieTransport._getAll();
       vAll = qx.lang.Object.mergeWith(vAll, vHash);
-      qx.io.local.CookieTransport._setAll(vAll);
+      qx.legacy.io.local.CookieTransport._setAll(vAll);
     },
 
 
@@ -115,7 +118,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      * @return {var} TODOC
      */
     getAll : function() {
-      return qx.io.local.CookieTransport._getAll();
+      return qx.legacy.io.local.CookieTransport._getAll();
     },
 
 
@@ -127,7 +130,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      * @return {void}
      */
     replaceAll : function(vHash) {
-      qx.io.local.CookieTransport._setAll(vHash);
+      qx.legacy.io.local.CookieTransport._setAll(vHash);
     },
 
 
@@ -138,7 +141,7 @@ qx.Class.define("qx.io.local.CookieTransport",
      * @return {void}
      */
     delAll : function() {
-      qx.io.local.CookieTransport.replaceAll({});
+      qx.legacy.io.local.CookieTransport.replaceAll({});
     },
 
 
@@ -161,17 +164,17 @@ qx.Class.define("qx.io.local.CookieTransport",
       var vHash = {};
       var vCookie, vItems, vItem;
 
-      for (var i=0; i<qx.io.local.CookieTransport.MAXCOOKIES; i++)
+      for (var i=0; i<qx.legacy.io.local.CookieTransport.MAXCOOKIES; i++)
       {
-        vCookie = qx.io.local.CookieApi.get(qx.io.local.CookieTransport.BASENAME + i);
+        vCookie = qx.legacy.io.local.CookieApi.get(qx.legacy.io.local.CookieTransport.BASENAME + i);
 
         if (vCookie)
         {
-          vItems = vCookie.split(qx.io.local.CookieTransport.ITEMSEPARATOR);
+          vItems = vCookie.split(qx.legacy.io.local.CookieTransport.ITEMSEPARATOR);
 
           for (var j=0, l=vItems.length; j<l; j++)
           {
-            vItem = vItems[j].split(qx.io.local.CookieTransport.KEYVALUESEPARATOR);
+            vItem = vItems[j].split(qx.legacy.io.local.CookieTransport.KEYVALUESEPARATOR);
             vHash[vItem[0]] = vItem[1];
           }
         }
@@ -195,19 +198,19 @@ qx.Class.define("qx.io.local.CookieTransport",
 
       for (var vName in vHash)
       {
-        vTemp = vName + qx.io.local.CookieTransport.KEYVALUESEPARATOR + vHash[vName];
+        vTemp = vName + qx.legacy.io.local.CookieTransport.KEYVALUESEPARATOR + vHash[vName];
 
-        if (vTemp.length > qx.io.local.CookieTransport.MAXSIZE)
+        if (vTemp.length > qx.legacy.io.local.CookieTransport.MAXSIZE)
         {
-          qx.log.Logger.debug(this, "Could not store value of name '" + vName + "': Maximum size of " + qx.io.local.CookieTransport.MAXSIZE + "reached!");
+          qx.log.Logger.debug(this, "Could not store value of name '" + vName + "': Maximum size of " + qx.legacy.io.local.CookieTransport.MAXSIZE + "reached!");
           continue;
         }
 
-        if ((qx.io.local.CookieTransport.ITEMSEPARATOR.length + vString.length + vTemp.length) > qx.io.local.CookieTransport.MAXSIZE)
+        if ((qx.legacy.io.local.CookieTransport.ITEMSEPARATOR.length + vString.length + vTemp.length) > qx.legacy.io.local.CookieTransport.MAXSIZE)
         {
-          qx.io.local.CookieTransport._setCookie(vIndex++, vString);
+          qx.legacy.io.local.CookieTransport._setCookie(vIndex++, vString);
 
-          if (vIndex == qx.io.local.CookieTransport.MAXCOOKIES)
+          if (vIndex == qx.legacy.io.local.CookieTransport.MAXCOOKIES)
           {
             qx.log.Logger.debug(this, "Failed to store cookie. Max cookie amount reached!", "error");
             return false;
@@ -218,7 +221,7 @@ qx.Class.define("qx.io.local.CookieTransport",
         else
         {
           if (vString != "") {
-            vString += qx.io.local.CookieTransport.ITEMSEPARATOR;
+            vString += qx.legacy.io.local.CookieTransport.ITEMSEPARATOR;
           }
 
           vString += vTemp;
@@ -226,11 +229,11 @@ qx.Class.define("qx.io.local.CookieTransport",
       }
 
       if (vString != "") {
-        qx.io.local.CookieTransport._setCookie(vIndex++, vString);
+        qx.legacy.io.local.CookieTransport._setCookie(vIndex++, vString);
       }
 
-      while (vIndex < qx.io.local.CookieTransport.MAXCOOKIES) {
-        qx.io.local.CookieTransport._delCookie(vIndex++);
+      while (vIndex < qx.legacy.io.local.CookieTransport.MAXCOOKIES) {
+        qx.legacy.io.local.CookieTransport._delCookie(vIndex++);
       }
     },
 
@@ -246,7 +249,7 @@ qx.Class.define("qx.io.local.CookieTransport",
     _setCookie : function(vIndex, vString)
     {
       // qx.log.Logger.debug(this, "Store: " + vIndex + " = " + vString);
-      qx.io.local.CookieApi.set(qx.io.local.CookieTransport.BASENAME + vIndex, vString);
+      qx.legacy.io.local.CookieApi.set(qx.legacy.io.local.CookieTransport.BASENAME + vIndex, vString);
     },
 
 
@@ -260,7 +263,7 @@ qx.Class.define("qx.io.local.CookieTransport",
     _delCookie : function(vIndex)
     {
       // qx.log.Logger.debug(this, "Delete: " + vIndex);
-      qx.io.local.CookieApi.del(qx.io.local.CookieTransport.BASENAME + vIndex);
+      qx.legacy.io.local.CookieApi.del(qx.legacy.io.local.CookieTransport.BASENAME + vIndex);
     }
   }
 });
