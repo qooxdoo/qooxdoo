@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.io.Alias)
+#require(qx.util.AliasManager)
 #resource(qx.widgettheme:qx/decoration/Classic)
 
 ************************************************************************ */

@@ -545,7 +545,7 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished("completed", eventTarget);
       });
 
-      req.setData(qx.io.Json.stringify(requestObject));
+      req.setData(qx.util.Json.stringify(requestObject));
       req.setAsynchronous(callType > 0);
 
       if (req.getCrossDomain())

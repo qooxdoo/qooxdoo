@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.basic.Image",
 
     // property apply
     _applySource : function(value) {
-      qx.io.Alias.getInstance().connect(this._syncSource, this, value);
+      qx.util.AliasManager.getInstance().connect(this._syncSource, this, value);
     },
 
 

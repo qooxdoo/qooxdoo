@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.decoration.Double",
     {
       var el = el.getChild(0);
 
-      var bgImage = qx.io.Alias.getInstance().resolve(this.getBackgroundImage());
+      var bgImage = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
       if (!bgImage || this.getBackgroundRepeat() !== "scale")
       {
         el.removeAll();

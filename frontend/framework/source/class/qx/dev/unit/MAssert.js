@@ -36,9 +36,9 @@ qx.Mixin.define("qx.dev.unit.MAssert",
     assertJsonEquals : function()
     {
       if (arguments.length == 3) {
-        this.assertEquals(arguments[0], qx.io.Json.stringify(arguments[1]), qx.io.Json.stringify(arguments[2]));
+        this.assertEquals(arguments[0], qx.util.Json.stringify(arguments[1]), qx.util.Json.stringify(arguments[2]));
       } else {
-        this.assertEquals(qx.io.Json.stringify(arguments[0]), qx.io.Json.stringify(arguments[1]));
+        this.assertEquals(qx.util.Json.stringify(arguments[0]), qx.util.Json.stringify(arguments[1]));
       }
     },
 
@@ -273,7 +273,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
         array.indexOf(value) > -1,
         msg || "",
         "The value '" + value + "' must have any of the values defined in the array '"
-        + qx.io.Json.stringify(array) + "'"
+        + qx.util.Json.stringify(array) + "'"
       );
     },
 

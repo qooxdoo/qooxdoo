@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       if (changes.style || changes.init)
       {
-        var bgImage = qx.io.Alias.getInstance().resolve(this.getBackgroundImage());
+        var bgImage = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
         element.setStyles({
           border: this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""),
           backgroundImage: bgImage ? "url(" + bgImage + ")" : null,

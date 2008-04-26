@@ -52,7 +52,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
   {
     this.base(arguments);
 
-    this._blank = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
+    this._blank = qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
 
     // Source
     if (vSource != null) {
@@ -343,7 +343,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      */
     _connect : function()
     {
-      var aliasMgr = qx.io.Alias.getInstance();
+      var aliasMgr = qx.util.AliasManager.getInstance();
       aliasMgr.connect(this._syncSource, this, this.getSource());
     },
 

@@ -49,7 +49,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.io.Json",
+qx.Class.define("qx.util.Json",
 {
   statics :
   {
@@ -118,7 +118,7 @@ qx.Class.define("qx.io.Json",
       var result;
 
       if (/["\\\x00-\x1f]/.test(incoming)) {
-        result = incoming.replace(/([\x00-\x1f\\"])/g, qx.io.Json.__convertStringHelper);
+        result = incoming.replace(/([\x00-\x1f\\"])/g, qx.util.Json.__convertStringHelper);
       } else {
         result = incoming;
       }
@@ -148,7 +148,7 @@ qx.Class.define("qx.io.Json",
      */
     __convertStringHelper : function(a, b)
     {
-      var result = qx.io.Json.__convertStringEscape[b];
+      var result = qx.util.Json.__convertStringEscape[b];
 
       if (result) {
         return result;
@@ -170,13 +170,13 @@ qx.Class.define("qx.io.Json",
     {
       var stringBuilder = [], first = true, func, obj;
 
-      var beautify = qx.io.Json.__beautify;
+      var beautify = qx.util.Json.__beautify;
       stringBuilder.push("[");
 
       if (beautify)
       {
-        qx.io.Json.__indent += qx.io.Json.BEAUTIFYING_INDENT;
-        stringBuilder.push(qx.io.Json.__indent);
+        qx.util.Json.__indent += qx.util.Json.BEAUTIFYING_INDENT;
+        stringBuilder.push(qx.util.Json.__indent);
       }
 
       for (var i=0, l=incoming.length; i<l; i++)
@@ -195,7 +195,7 @@ qx.Class.define("qx.io.Json",
               stringBuilder.push(",");
 
               if (beautify) {
-                stringBuilder.push(qx.io.Json.__indent);
+                stringBuilder.push(qx.util.Json.__indent);
               }
             }
 
@@ -207,8 +207,8 @@ qx.Class.define("qx.io.Json",
 
       if (beautify)
       {
-        qx.io.Json.__indent = qx.io.Json.__indent.substring(0, qx.io.Json.__indent.length - qx.io.Json.BEAUTIFYING_INDENT.length);
-        stringBuilder.push(qx.io.Json.__indent);
+        qx.util.Json.__indent = qx.util.Json.__indent.substring(0, qx.util.Json.__indent.length - qx.util.Json.BEAUTIFYING_INDENT.length);
+        stringBuilder.push(qx.util.Json.__indent);
       }
 
       stringBuilder.push("]");
@@ -297,13 +297,13 @@ qx.Class.define("qx.io.Json",
     {
       var stringBuilder = [], first = true, func, obj;
 
-      var beautify = qx.io.Json.__beautify;
+      var beautify = qx.util.Json.__beautify;
       stringBuilder.push("{");
 
       if (beautify)
       {
-        qx.io.Json.__indent += qx.io.Json.BEAUTIFYING_INDENT;
-        stringBuilder.push(qx.io.Json.__indent);
+        qx.util.Json.__indent += qx.util.Json.BEAUTIFYING_INDENT;
+        stringBuilder.push(qx.util.Json.__indent);
       }
 
       for (var key in incoming)
@@ -322,7 +322,7 @@ qx.Class.define("qx.io.Json",
               stringBuilder.push(",");
 
               if (beautify) {
-                stringBuilder.push(qx.io.Json.__indent);
+                stringBuilder.push(qx.util.Json.__indent);
               }
             }
 
@@ -334,8 +334,8 @@ qx.Class.define("qx.io.Json",
 
       if (beautify)
       {
-        qx.io.Json.__indent = qx.io.Json.__indent.substring(0, qx.io.Json.__indent.length - qx.io.Json.BEAUTIFYING_INDENT.length);
-        stringBuilder.push(qx.io.Json.__indent);
+        qx.util.Json.__indent = qx.util.Json.__indent.substring(0, qx.util.Json.__indent.length - qx.util.Json.BEAUTIFYING_INDENT.length);
+        stringBuilder.push(qx.util.Json.__indent);
       }
 
       stringBuilder.push("}");
@@ -464,7 +464,7 @@ qx.Class.define("qx.io.Json",
     //   for (var member in obj) {
     //   thisObj = obj[member];
     //   if (typeof thisObj == 'object' && thisObj !== null) {
-    //     obj[member] = qx.io.Json._fixObj(thisObj);
+    //     obj[member] = qx.util.Json._fixObj(thisObj);
     //   }
     //   }
     //
@@ -496,7 +496,7 @@ qx.Class.define("qx.io.Json",
       // /* If it's an object, not null, and contains a "result" field.. */
       // if (typeof obj == 'object' && obj !== null && obj.result) {
       // /* ... then 'fix' the result by handling any supported class hints */
-      // obj.result = qx.io.Json._fixObj(obj.result);
+      // obj.result = qx.util.Json._fixObj(obj.result);
       // }
 
       return obj;
