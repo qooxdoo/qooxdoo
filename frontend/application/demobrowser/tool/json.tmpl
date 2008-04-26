@@ -31,10 +31,14 @@
       "include" :
       [
         "XXX",
-        "qx.theme.Classic",
         "qx.log.appender.Console",
         "qx.log.appender.Native"
       ],
+
+      "require" :
+      {
+      	"qx.ui.core.Widget" : ["qx.theme.Classic"]
+      },
 
       "themes" :
       {
