@@ -35,15 +35,14 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
     this.setBackgroundColor("white");
     
     var pane = new qx.ui.container.Composite().set({
-      padding: 10
+      padding: [20, 14]
     });
     this.setContent(pane);
     this._pane = pane;
 
 
     var layout = new qx.ui.layout.VBox().set({
-      spacing: 5,
-      border : "black"
+      spacing: 5
     });
     pane.setLayout(layout);
 
