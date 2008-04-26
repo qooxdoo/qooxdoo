@@ -18,8 +18,14 @@
 ************************************************************************ */
 
 /**
- * This class can help to load images dynamically. This is useful for
- * preloading them and cache their dimensions.
+ * The ImageLoader can preload and manage loaded image resources. It easily
+ * handles multiple requests and support callbacks for successful and failed
+ * requests.
+ *
+ * After loading of an image the dimension of the image is stored as long
+ * as the application is running. This is quite useful for in-memory layouting.
+ *
+ * Use {@link #load} to preload your own images.
  */
 qx.Bootstrap.define("qx.io2.ImageLoader",
 {
