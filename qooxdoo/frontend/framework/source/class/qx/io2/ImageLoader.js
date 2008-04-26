@@ -20,6 +20,9 @@
 /**
  * This class can help to load images dynamically. This is useful for
  * preloading them and cache their dimensions.
+ *
+ * TODO: Improve for multi near time requests (only use one image instance,
+ * but still support multiple callbacks)
  */
 qx.Bootstrap.define("qx.io2.ImageLoader",
 {
