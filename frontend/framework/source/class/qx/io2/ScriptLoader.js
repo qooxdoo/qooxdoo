@@ -164,8 +164,6 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
       } else {
         return;
       }
-
-      this.__cleanup();
     }
   }
 });
