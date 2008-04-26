@@ -1,0 +1,1286 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>qooxdoo provides a generic finite state machine facility that is useful
+        for many classes of applications.  This application demonstrates a
+        simple use of the finite state machine by allowing virtual mice to
+        solve a maze.  Each mouse is driven by a finite state machine.  (In
+        fact, in this usage, each mouse *is* a finite state machine, but
+        that is not a mandatory usage of the FSM.)</p>
+  </div>
+
+  <script type="text/javascript">
+  /*
+   * Author:
+   *   Derrell Lipman (derrell)
+   */
+  qx.Class.define("custom.Application",
+  {
+    extend : qx.application.Gui,
+
+    members :
+    {
+      /**
+       * TODOC
+       *
+       * @type member
+       */
+      main : function()
+      {
+        this.base(arguments);
+
+        qx.io.Alias.getInstance().add("demobrowser", "../../resource");
+
+/*
+        var rootLogger = qx.log.Logger.ROOT_LOGGER;
+
+        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        {
+          // We want to use the window appender, not Firebug.
+          rootLogger.removeAllAppenders();
+          var appender = new qx.log.appender.Window();
+          appender.setWindowHeight(900);
+          appender.setWindowWidth(700);
+          rootLogger.addAppender(appender);
+        }
+*/
+
+        var description =
+          "This is a simple example of using a finite state machine, in " +
+          "which virtual mice solve a maze. " +
+          "<p>" +
+          "Each mouse is quite dumb, having in " +
+          "its arsenal of knowledge only these characteristics: it knows " +
+          "only how to travel in a single direction (the direction in " +
+          "which it was instantiated); when it " +
+          "arrives at a new cell, it looks left and right and creates a " +
+          "clone of itself to go each available direction; upon hitting a " +
+          "wall, it dies." +
+          "<p>" +
+          "The initial mouse is a bit special, in that it looks for " +
+          "the possibility to clone a mouse to travel in the direction " +
+          "behind it, as well as to its left and right." +
+          "<p>" +
+          "Each mouse is driven by (and in fact, in this example, is a " +
+          "subclass of) a finite state machine.  The FSM has five states: " +
+          "FadingIn, CellArrival (look for cloning opportunities), Moving, " +
+          "FadingOut, and Zombie (about to dispose).";
+
+        var o = new qx.ui.basic.Label(description);
+        o.set(
+          {
+            left : 50,
+            width : 600,
+            wrap : true
+          });
+        o.addToDocument();
+
+        var maze = new custom.Maze(10, 10, 50, 200);
+        maze.addToDocument();
+
+        // Determine (randomly) the facing direction of the initial mouse
+        var facing;
+        random = Math.floor(Math.random() * 4);
+        switch(random)
+        {
+        case 0:
+          facing = custom.Maze.Direction.NORTH;
+          break;
+
+        case 1:
+          facing = custom.Maze.Direction.EAST;
+          break;
+
+        case 2:
+          facing = custom.Maze.Direction.SOUTH;
+          break;
+
+        case 3:
+          facing = custom.Maze.Direction.WEST;
+          break;
+
+        }
+
+        // Create the initial mouse
+        var mouse = new custom.Mouse(null, maze, facing);
+      },
+
+
+      /**
+       * TODOC
+       *
+       * @type member
+       */
+      close : function()
+      {
+        this.base(arguments);
+      },
+
+
+      /**
+       * TODOC
+       *
+       * @type member
+       */
+      terminate : function() {
+        this.base(arguments);
+      }
+    }
+  });
+  
+  qx.Class.define("custom.Maze",
+  {
+    extend : qx.ui.layout.GridLayout,
+
+    statics :
+    {
+      Direction :
+      {
+        WEST  : 0x8,
+        SOUTH : 0x4,
+        EAST  : 0x2,
+        NORTH : 0x1
+      }
+    },
+
+    construct : function(rows, columns, x, y, cellSize)
+    {
+      this.base(arguments);
+
+      this.numRows  = (rows === undefined     ? 10 : rows);
+      this.numCols  = (columns === undefined  ? 10 : columns);
+      this.x        = (x === undefined        ? 50 : x);
+      this.y        = (y === undefined        ? 50 : y);
+      this.cellSize = (cellSize === undefined ? 50 : cellSize);
+
+      this.totalHeight = this.numRows * this.cellSize;
+      this.totalWidth = this.numCols * this.cellSize;
+
+      this.setLocation(this.x, this.y);
+      this.setDimension(this.totalHeight, this.totalWidth);
+      this.setRowCount(this.numRows);
+      this.setColumnCount(this.numCols);
+
+      for (var row = 0; row < this.numRows; row++)
+      {
+        this.setRowHeight(row, this.cellSize);
+      }
+
+      for (var col = 0; col < this.numCols; col++)
+      {
+        this.setColumnWidth(col, this.cellSize);
+      }
+
+      // Initialize the cells and walls arrays.  Walls are Border objects; Cells
+      // are HorizontalBoxLayout objects.
+      this.cells = [];
+      this.walls = [];
+
+      // Each element of mazeInfo is a bitmap of walls (custom.Maze.Direction.*)
+      this.mazeInfo = [];
+
+      // Build a grid with all walls of all cells intact
+      for (row = 0; row < this.numRows; row++)
+      {
+        this.cells[row] = [];
+        this.walls[row] = [];
+        this.mazeInfo[row] = [];
+
+        for (col = 0; col < this.numCols; col++)
+        {
+          // Instantiate a border for this cell with all sides 1 pixel wide
+          this.walls[row][col] = new qx.ui.core.Border(1, "solid", "black");
+
+          // Instantiate this cell
+          this.cells[row][col] = new qx.ui.layout.HorizontalBoxLayout();
+
+          // Apply the border ot the cell
+          this.cells[row][col].setBorder(this.walls[row][col]);
+          this.add(this.cells[row][col], col, row);
+
+          // We're starting with all walls intact.  Note that.
+          // See // custom.Maze.Direction.* for the bit field values.
+          this.mazeInfo[row][col] = 0xf;
+        }
+      }
+
+      //
+      // Build a "perfect" maze using the depth-first search algorithm described
+      // at http://www.mazeworks.com/mazegen/mazetut/index.htm
+      //
+
+      var             cellStack = [];
+      var             visitedCells = 1;
+      var             totalCells = this.numRows * this.numCols;
+      var             currentCell;
+      var             neighbors;
+      var             neighbor;
+
+      // Start with some random cell
+      currentCell =
+        {
+          row : Math.floor(Math.random() * this.numRows),
+          col : Math.floor(Math.random() * this.numCols)
+        };
+
+      while (visitedCells < totalCells)
+      {
+        // Initialize neighbors of current cell array
+        neighbors = [];
+
+        // See if there's a west neighbor with all walls intact
+        if (currentCell.col > 0 &&
+            (this.mazeInfo[currentCell.row][currentCell.col - 1] == 0xf))
+        {
+          neighbors.push(
+            {
+              row             : currentCell.row,
+              col             : currentCell.col - 1,
+              currentCellWall : custom.Maze.Direction.WEST,
+              neighborWall    : custom.Maze.Direction.EAST
+            });
+        }
+
+        // See if there's a south neighbor with all walls intact
+        if (currentCell.row < this.numRows - 1 &&
+            (this.mazeInfo[currentCell.row + 1][currentCell.col] == 0xf))
+        {
+          neighbors.push(
+            {
+              row             : currentCell.row + 1,
+              col             : currentCell.col,
+              currentCellWall : custom.Maze.Direction.SOUTH,
+              neighborWall    : custom.Maze.Direction.NORTH
+            });
+        }
+
+        // See if there's an east neighbor with all walls intact
+        if (currentCell.col < this.numCols - 1 &&
+            (this.mazeInfo[currentCell.row][currentCell.col + 1] == 0xf))
+        {
+          neighbors.push(
+            {
+              row             : currentCell.row,
+              col             : currentCell.col + 1,
+              currentCellWall : custom.Maze.Direction.EAST,
+              neighborWall    : custom.Maze.Direction.WEST
+            });
+        }
+
+        // See if there's a north neighbor with all walls intact
+        if (currentCell.row > 0 &&
+            (this.mazeInfo[currentCell.row - 1][currentCell.col] == 0xf))
+        {
+          neighbors.push(
+            {
+              row             : currentCell.row - 1,
+              col             : currentCell.col,
+              currentCellWall : custom.Maze.Direction.NORTH,
+              neighborWall    : custom.Maze.Direction.SOUTH
+            });
+        }
+
+        // Did we find any neighbors with all walls intact?
+        if (neighbors.length > 0)
+        {
+          // Yup.  Choose one at random
+          var r = Math.floor(Math.random() * neighbors.length);
+          neighbor = neighbors[r];
+
+          // Knock down the wall between it and currentCell.  This is a
+          // multiple-step process:
+
+          // Step 1: Remove the wall flag on the current cell
+          this.mazeInfo[currentCell.row][currentCell.col] &=
+            ~neighbor.currentCellWall;
+
+          // Step 2; Remove the wall flag on the neighbor cell
+          this.mazeInfo[neighbor.row][neighbor.col] &=
+            ~neighbor.neighborWall;
+
+          // Step 3: Actually remove the wall on the current cell
+          switch(neighbor.currentCellWall)
+          {
+          case custom.Maze.Direction.WEST:
+            this.walls[currentCell.row][currentCell.col].setWidthLeft(0);
+            break;
+
+          case custom.Maze.Direction.SOUTH:
+            this.walls[currentCell.row][currentCell.col].setWidthBottom(0);
+            break;
+
+          case custom.Maze.Direction.EAST:
+            this.walls[currentCell.row][currentCell.col].setWidthRight(0);
+            break;
+
+          case custom.Maze.Direction.NORTH:
+            this.walls[currentCell.row][currentCell.col].setWidthTop(0);
+            break;
+          }
+
+          // Step 4: Actually remove the wall on the neighbor cell
+          switch(neighbor.neighborWall)
+          {
+          case custom.Maze.Direction.WEST:
+            this.walls[neighbor.row][neighbor.col].setWidthLeft(0);
+            break;
+
+          case custom.Maze.Direction.SOUTH:
+            this.walls[neighbor.row][neighbor.col].setWidthBottom(0);
+            break;
+
+          case custom.Maze.Direction.EAST:
+            this.walls[neighbor.row][neighbor.col].setWidthRight(0);
+            break;
+
+          case custom.Maze.Direction.NORTH:
+            this.walls[neighbor.row][neighbor.col].setWidthTop(0);
+            break;
+          }
+
+          // Push currentCell onto the cell stack
+          cellStack.push({ row : currentCell.row, col : currentCell.col });
+
+          // The neighbor becomes our new current cell
+          currentCell = { row : neighbor.row, col : neighbor.col };
+
+          // We've visited one more cell
+          visitedCells++;
+        }
+        else
+        {
+          // Pop the most recent cell from the cell stack
+          var cell = cellStack.pop();
+          currentCell = { row : cell.row, col : cell.col };
+        }
+      }
+
+      // Determine the starting cell
+      this.startCell =
+        {
+          row : Math.floor(Math.random() * this.numRows),
+          col : Math.floor(Math.random() * this.numCols)
+        }
+
+      // Show the starting cell
+      var startCell = this.cells[this.startCell.row][this.startCell.col];
+      startCell.setBackgroundColor("#b0ffb0");
+
+      // Determine the ending cell, not too close to the starting cell
+      do
+      {
+        this.endCell =
+          {
+            row : Math.floor(Math.random() * this.numRows),
+            col : Math.floor(Math.random() * this.numCols)
+          }
+      } while ((Math.abs(this.startCell.row - this.endCell.row) <
+                this.numRows / 2) ||
+               (Math.abs(this.startCell.col - this.endCell.col) <
+                this.numCols / 2));
+
+      // Show the ending cell
+      var endCell = this.cells[this.endCell.row][this.endCell.col];
+      endCell.setBackgroundColor("#ffb0b0");
+    },
+
+    members :
+    {
+      /**
+       * Get the size of each cell.
+       */
+      getCellSize : function()
+      {
+        return this.cellSize;
+      },
+
+      /**
+       * Get the starting cell.
+       *
+       * @return {Object}
+       *   The returned object contains two members: row and col.
+       */
+      getStartCell : function()
+      {
+        return this.startCell;
+      },
+
+      /**
+       * Get the ending cell.
+       *
+       * @return {Object}
+       *   The returned object contains two members: row and col.
+       */
+      getEndCell : function()
+      {
+        return this.endCell;
+      },
+
+      /**
+       * Get the position of the specified cell.
+       *
+       * @param cell {Object}
+       *   The cell for which the position is desired.  This object contains two
+       *   members: row and col.
+       *
+       * @return {Object}
+       *   The returned object contains two members: top and left.
+       */
+      getCellTopLeft : function(cell)
+      {
+        return(
+          {
+            top  : this.y + (this.cellSize * cell.row),
+            left : this.x + (this.cellSize * cell.col)
+          });
+      },
+
+      /**
+       * Get the neighbor cell to the specified cell's west.
+       *
+       * @param cell {Object}
+       *   The cell for which the neighbor is desired.  This object contains two
+       *   members: row and col.
+       *
+       * @return {Object|null}
+       *   The returned object contains two members: row and col.
+       *   If there is no such neighbor, null is returned.
+       */
+      getWestCell : function(cell)
+      {
+        var dir = custom.Maze.Direction.WEST;
+        if (cell.col > 0 &&
+            ((this.mazeInfo[cell.row][cell.col] & dir) == 0))
+        {
+          return(
+            {
+              row : cell.row,
+              col : cell.col - 1
+            });
+        }
+
+        return null;
+      },
+
+      /**
+       * Get the neighbor cell to the specified cell's south.
+       *
+       * @param cell {Object}
+       *   The cell for which the neighbor is desired.  This object contains two
+       *   members: row and col.
+       *
+       * @return {Object|null}
+       *   The returned object contains two members: row and col.
+       *   If there is no such neighbor, null is returned.
+       */
+      getSouthCell : function(cell)
+      {
+        var dir = custom.Maze.Direction.SOUTH;
+        if (cell.row <  this.numRows - 1 &&
+            ((this.mazeInfo[cell.row][cell.col] & dir) == 0))
+        {
+          return(
+            {
+              row : cell.row + 1,
+              col : cell.col
+            });
+        }
+
+        return null;
+      },
+
+      /**
+       * Get the neighbor cell to the specified cell's east.
+       *
+       * @param cell {Object}
+       *   The cell for which the neighbor is desired.  This object contains two
+       *   members: row and col.
+       *
+       * @return {Object|null}
+       *   The returned object contains two members: row and col.
+       *   If there is no such neighbor, null is returned.
+       */
+      getEastCell : function(cell)
+      {
+        var dir = custom.Maze.Direction.EAST;
+        if (cell.col < this.numCols - 1 &&
+            ((this.mazeInfo[cell.row][cell.col] & dir) == 0))
+        {
+          return(
+            {
+              row : cell.row,
+              col : cell.col + 1
+            });
+        }
+
+        return null;
+      },
+
+      /**
+       * Get the neighbor cell to the specified cell's north.
+       *
+       * @param cell {Object}
+       *   The cell for which the neighbor is desired.  This object contains two
+       *   members: row and col.
+       *
+       * @return {Object|null}
+       *   The returned object contains two members: row and col.
+       *   If there is no such neighbor, null is returned.
+       */
+      getNorthCell : function(cell)
+      {
+        var dir = custom.Maze.Direction.NORTH;
+        if (cell.row > 0 &&
+            ((this.mazeInfo[cell.row][cell.col] & dir) == 0))
+        {
+          return(
+            {
+              row : cell.row - 1,
+              col : cell.col
+            });
+        }
+
+        return null;
+      },
+
+      /**
+       * Mark the specified cell as part of the final backtrace.
+       *
+       * @param cell {Object}
+       *   The cell to be marked.  This object contains two members: row and
+       *   col.
+       *
+       * @return {Void}
+       */
+      markCell : function(cell)
+      {
+        var size = Math.ceil(this.cellSize / 5);
+        var o = new qx.ui.basic.Label("X");
+        o.set(
+          {
+            height : size,
+            width : size,
+            top : (this.cellSize - size) / 2,
+            left : (this.cellSize - size) / 2
+          });
+        this.cells[cell.row][cell.col].add(o);
+      }
+    }
+  });
+
+  qx.Class.define("custom.Mouse",
+  {
+    extend : qx.util.fsm.FiniteStateMachine,
+
+    statics :
+    {
+      nextMouse   : 1,
+      ticksPerSec : 10,
+      fadeSeconds : 1,
+      moveSeconds : 0.5
+    },
+
+    construct : function(origin, maze, facing)
+    {
+      // Determine this mouse's name
+      var mouseName = custom.Mouse.nextMouse.toString();
+
+      // Call our superclass constructor and provide FSM (mouse) name
+      this.base(arguments, mouseName);
+
+      // Enable all debugging
+      var FSM = qx.util.fsm.FiniteStateMachine;
+  /*
+      this.setDebugFlags(FSM.DebugFlags.EVENTS |
+                         FSM.DebugFlags.TRANSITIONS |
+                         FSM.DebugFlags.FUNCTION_DETAIL |
+                         FSM.DebugFlags.OBJECT_NOT_FOUND);
+
+  */
+      this.setDebugFlags(0);
+
+      // Update next mouse's name
+      ++custom.Mouse.nextMouse;
+
+      // Save this mouse's facing direction
+      this.facing = facing;
+
+      // Save the starting cell
+      if (origin === null)
+      {
+        // This is the initial mouse. Get the location of the starting cell
+        this.currentCell = maze.getStartCell();
+
+        // Initialize our list of traversed cells
+        this.traversed = [];
+
+        // We've traversed our current cell
+        this.traversed.push(this.currentCell);
+
+        // The initial mouse will look behind it in its very first cell
+        this.bLookBehind = true;
+
+        // The initial mouse will look sideways
+        this.bLookSideways = true;
+      }
+      else
+      {
+        // We're a clone.  Our starting cell is our origin's current cell
+        this.currentCell = origin.currentCell;
+
+        // Copy our origin's list of traversed nodes
+        this.traversed = origin.traversed.concat();
+
+        // Clones never look behind themselves
+        this.bLookBehind = false;
+
+        // Clones don't look sideways initially
+        this.bLookSideways = false;
+      }
+
+      // Get the physical location of our current cell
+      this.currentLocation = maze.getCellTopLeft(this.currentCell);
+
+      // Get the appropriate mouse image
+      switch(facing)
+      {
+      case custom.Maze.Direction.NORTH:
+        this.mouseImage =
+          new qx.ui.basic.Image("demobrowser/image/mouse-north.gif");
+        break;
+
+      case custom.Maze.Direction.EAST:
+        this.mouseImage =
+          new qx.ui.basic.Image("demobrowser/image/mouse-east.gif");
+        break;
+
+      case custom.Maze.Direction.SOUTH:
+        this.mouseImage =
+          new qx.ui.basic.Image("demobrowser/image/mouse-south.gif");
+        break;
+
+      case custom.Maze.Direction.WEST:
+        this.mouseImage =
+          new qx.ui.basic.Image("demobrowser/image/mouse-west.gif");
+        break;
+      }
+
+      // Position the mouse and make it initially transparent
+      this.mouseImage.set(
+        {
+          top     : this.currentLocation.top,
+          left    : this.currentLocation.left,
+          opacity : 0.0,
+          zIndex  : 9999
+        });
+      this.mouseImage.addToDocument();
+
+
+
+      //============================================================
+      // Create the finite state machine's states and transitions
+      //============================================================
+
+      //////////////////////////////////////////////////////////////
+      // State: FadingIn
+      //
+      // Transition on:
+      //  "oneshot"
+      /////////////////////////////////////////////////////////////
+
+      var state = new qx.util.fsm.State("State_FadingIn",
+      {
+        "onentry" : function(_this, entry)
+        {
+          // Start a timer to expire shortly
+          _this.oneshot(1000 / custom.Mouse.ticksPerSec);
+        },
+
+        "events" :
+        {
+          "oneshot"  : qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
+        }
+      });
+
+      this.addState(state);
+
+      // Transition: FadingIn to FadingIn
+      //
+      // Cause: "oneshot"
+      //
+      // Predicate : opacity < 1.0
+      //
+      // Action:
+      //  Increase the opacity
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_FadingIn_to_FadingIn_via_Oneshot",
+      {
+        "predicate" : function(_this, event)
+        {
+          return _this.opacity < 1.0;
+        },
+
+        "nextState" : "State_FadingIn",
+
+        "ontransition" : function(_this, event)
+        {
+          // We want fade in to take N seconds
+          _this.opacity +=
+            1 / (custom.Mouse.fadeSeconds * custom.Mouse.ticksPerSec)
+          _this.mouseImage.setOpacity(_this.opacity);
+        }
+      });
+
+      state.addTransition(trans);
+
+      // Transition: FadingIn to CellArrival
+      //
+      // Cause : "oneshot"
+      //
+      // Predicate : None.  We arrive here if previous transition fails.
+      //
+      // Action:
+      //  None
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_FadingIn_to_CellArrival_via_Oneshot",
+      {
+        "nextState" : "State_CellArrival"
+      });
+
+      state.addTransition(trans);
+
+
+      /////////////////////////////////////////////////////////////
+      // State: CellArrival
+      //
+      // Transition on:
+      //  "oneshot"
+      /////////////////////////////////////////////////////////////
+
+      var state = new qx.util.fsm.State("State_CellArrival",
+      {
+        // Actions on entry:
+
+        //  Determine if there are other possible directions of travel by
+        //  looking left and right.  If either of those directions has no wall,
+        //  then create a new mouse to continue in that direction.
+        "onentry" : function(_this, entry)
+        {
+          // Have we reached our destination?
+          var endCell = maze.getEndCell();
+          if (_this.currentCell.row == endCell.row &&
+              _this.currentCell.col == endCell.col)
+          {
+            // Yup.  Generate the backtrack.  Skip the node where the mouse is.
+            for (var i = _this.traversed.length - 2; i >= 0; i--)
+            {
+              maze.markCell(_this.traversed[i]);
+            }
+
+            // No need to continue.
+            return;
+          }
+
+          // Determine what directions we need to look.  We want to look in the
+          // directions that are to our left and to our right.
+          switch(_this.facing)
+          {
+          case custom.Maze.Direction.WEST:
+            // If we were just cloned, unless we're the initial mouse, we don't
+            // need to look for other directions to travel.
+            if (_this.bLookSideways)
+            {
+              // See if we can go south
+              if (maze.getSouthCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.SOUTH);
+              }
+
+              // See if we can go north
+              if (maze.getNorthCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.NORTH);
+              }
+            }
+
+            // Henceforth, we'll always look sideways
+            _this.bLookSideways = true;
+
+            // If we're the initial mouse, see if we can go east
+            if (_this.bLookBehind &&
+                maze.getEastCell(_this.currentCell) !== null)
+            {
+              // We can.  Create a clone to go that way
+              new custom.Mouse(_this, maze, custom.Maze.Direction.EAST);
+
+              // We only look behind us once.
+              _this.bLookBehind = false;
+            }
+
+            // See if we can continue on our merry way, or if we've hit a wall.
+            _this.destinationCell = maze.getWestCell(_this.currentCell);
+            if (_this.destinationCell !== null)
+            {
+              // We can continue.  Determine our new destination location.
+              _this.destinationLocation =
+                maze.getCellTopLeft(_this.destinationCell);
+
+              // Dispatch an event to cause us to continue.
+              _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            }
+            else
+            {
+              _this.eventListener(new qx.event.type.Event("Die"));
+            }
+            break;
+
+          case custom.Maze.Direction.EAST:
+            // If we were just cloned, unless we're the initial mouse, we don't
+            // need to look for other directions to travel.
+            if (_this.bLookSideways)
+            {
+              // See if we can go south
+              if (maze.getSouthCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.SOUTH);
+              }
+
+              // See if we can go north
+              if (maze.getNorthCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.NORTH);
+              }
+            }
+
+            // Henceforth, we'll always look sideways
+            _this.bLookSideways = true;
+
+            // If we're the initial mouse, see if we can go west
+            if (_this.bLookBehind &&
+                maze.getWestCell(_this.currentCell) !== null)
+            {
+              // We can.  Create a clone to go that way
+              new custom.Mouse(_this, maze, custom.Maze.Direction.WEST);
+
+              // We only look behind us once.
+              _this.bLookBehind = false;
+            }
+
+            // See if we can continue on our merry way, or if we've hit a wall.
+            _this.destinationCell = maze.getEastCell(_this.currentCell);
+            if (_this.destinationCell !== null)
+            {
+              // We can continue.  Determine our new destination location.
+              _this.destinationLocation =
+                maze.getCellTopLeft(_this.destinationCell);
+
+              // Dispatch an event to cause us to continue.
+              _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            }
+            else
+            {
+              _this.eventListener(new qx.event.type.Event("Die"));
+            }
+            break;
+
+          case custom.Maze.Direction.SOUTH:
+            // If we were just cloned, unless we're the initial mouse, we don't
+            // need to look for other directions to travel.
+            if (_this.bLookSideways)
+            {
+              // See if we can go west
+              if (maze.getWestCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.WEST);
+              }
+
+              // See if we can go east
+              if (maze.getEastCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.EAST);
+              }
+            }
+
+            // Henceforth, we'll always look sideways
+            _this.bLookSideways = true;
+
+            // If we're the initial mouse, see if we can go north
+            if (_this.bLookBehind &&
+                maze.getNorthCell(_this.currentCell) !== null)
+            {
+              // We can.  Create a clone to go that way
+              new custom.Mouse(_this, maze, custom.Maze.Direction.NORTH);
+
+              // We only look behind us once.
+              _this.bLookBehind = false;
+            }
+
+            // See if we can continue on our merry way, or if we've hit a wall.
+            _this.destinationCell = maze.getSouthCell(_this.currentCell);
+            if (_this.destinationCell !== null)
+            {
+              // We can continue.  Determine our new destination location.
+              _this.destinationLocation =
+                maze.getCellTopLeft(_this.destinationCell);
+
+              // Dispatch an event to cause us to continue.
+              _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            }
+            else
+            {
+              _this.eventListener(new qx.event.type.Event("Die"));
+            }
+            break;
+
+          case custom.Maze.Direction.NORTH:
+            // If we were just cloned, unless we're the initial mouse, we don't
+            // need to look for other directions to travel.
+            if (_this.bLookSideways)
+            {
+              // See if we can go west
+              if (maze.getWestCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.WEST);
+              }
+
+              // See if we can go east
+              if (maze.getEastCell(_this.currentCell) !== null)
+              {
+                // We can.  Create a clone to go that way
+                new custom.Mouse(_this, maze, custom.Maze.Direction.EAST);
+              }
+            }
+
+            // Henceforth, we'll always look sideways
+            _this.bLookSideways = true;
+
+            // If we're the initial mouse, see if we can go south
+            if (_this.bLookBehind &&
+                maze.getSouthCell(_this.currentCell) !== null)
+            {
+              // We can.  Create a clone to go that way
+              new custom.Mouse(_this, maze, custom.Maze.Direction.SOUTH);
+
+              // We only look behind us once.
+              _this.bLookBehind = false;
+            }
+
+            // See if we can continue on our merry way, or if we've hit a wall.
+            _this.destinationCell = maze.getNorthCell(_this.currentCell);
+            if (_this.destinationCell !== null)
+            {
+              // We can continue.  Determine our new destination location.
+              _this.destinationLocation =
+                maze.getCellTopLeft(_this.destinationCell);
+
+              // Dispatch an event to cause us to continue.
+              _this.eventListener(new qx.event.type.Event("KickInTheAss"));
+            }
+            else
+            {
+              _this.eventListener(new qx.event.type.Event("Die"));
+            }
+            break;
+          }
+
+          _this.bLookBehind = false;
+        },
+
+        "events" :
+        {
+          "Die"          : "Transition_CellArrival_to_FadingOut_via_Die",
+          "KickInTheAss" : "Transition_CellArrival_to_Moving_via_KickInTheAss"
+        }
+      });
+
+      this.addState(state);
+
+      // Transition: CellArrival to FadingOut
+      //
+      // Cause: "Die"
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_CellArrival_to_FadingOut_via_Die",
+      {
+        "nextState" : "State_FadingOut",
+      });
+
+      state.addTransition(trans);
+
+      // Transition: CellArrival to Moving
+      //
+      // Cause: "KickInTheAss"
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_CellArrival_to_Moving_via_KickInTheAss",
+      {
+        "nextState" : "State_Moving",
+      });
+
+      state.addTransition(trans);
+
+
+      /////////////////////////////////////////////////////////////
+      // State: FadingOut
+      //
+      // Transition on:
+      //  "oneshot"
+      /////////////////////////////////////////////////////////////
+
+      var state = new qx.util.fsm.State("State_FadingOut",
+      {
+        "onentry" : function(_this, entry)
+        {
+          // Start a timer to expire shortly
+          _this.oneshot(1000 / custom.Mouse.ticksPerSec);
+        },
+
+        "events" :
+        {
+          "oneshot"  : qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
+        }
+      });
+
+      this.addState(state);
+
+      // Transition: FadingOut to FadingOut
+      //
+      // Cause: "oneshot"
+      //
+      // Predicate : opacity > 0.0
+      //
+      // Action:
+      //  Decrease the opacity
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_FadingOut_to_FadingOut_via_Oneshot",
+      {
+        "predicate" : function(_this, event)
+        {
+          return _this.opacity > 0.0;
+        },
+
+        "nextState" : "State_FadingOut",
+
+        "ontransition" : function(_this, event)
+        {
+          // We want fade in to take N seconds
+          _this.opacity -=
+            1 / (custom.Mouse.fadeSeconds * custom.Mouse.ticksPerSec)
+          _this.mouseImage.setOpacity(_this.opacity);
+        }
+      });
+
+      state.addTransition(trans);
+
+      // Transition: FadingOut to Zombie
+      //
+      // Cause : "oneshot"
+      //
+      // Predicate : None.  We arrive here if previous transition fails.
+      //
+      // Action:
+      //  None
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_FadingOut_to_Zombie_via_Oneshot",
+      {
+        "nextState" : "State_Zombie"
+      });
+
+      state.addTransition(trans);
+
+
+      /////////////////////////////////////////////////////////////
+      // State: Moving
+      //
+      // Transition on:
+      //  "oneshot"
+      /////////////////////////////////////////////////////////////
+
+      var state = new qx.util.fsm.State("State_Moving",
+      {
+        "onentry" : function(_this, entry)
+        {
+          // Start a timer to expire shortly
+          _this.oneshot(1000 / custom.Mouse.ticksPerSec);
+        },
+
+        "events" :
+        {
+          "oneshot"  : qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
+        }
+      });
+
+      this.addState(state);
+
+      // Transition: Moving to Moving
+      //
+      // Cause: "oneshot"
+      //
+      // Predicate : destination cell not yet reached
+      //
+      // Action:
+      //  Move towards the destination cell
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_Moving_to_Moving_via_Oneshot",
+      {
+        "predicate" : function(_this, event)
+        {
+          switch(_this.facing)
+          {
+          case custom.Maze.Direction.WEST:
+            return _this.currentLocation.left > _this.destinationLocation.left;
+
+          case custom.Maze.Direction.SOUTH:
+            return _this.currentLocation.top < _this.destinationLocation.top;
+
+          case custom.Maze.Direction.EAST:
+            return _this.currentLocation.left < _this.destinationLocation.left;
+
+          case custom.Maze.Direction.NORTH:
+            return _this.currentLocation.top > _this.destinationLocation.top;
+
+          }
+        },
+
+        "nextState" : "State_Moving",
+
+        "ontransition" : function(_this, event)
+        {
+          // We want move to take N seconds
+          var moveAmount =
+            Math.ceil(maze.cellSize /
+                      (custom.Mouse.moveSeconds * custom.Mouse.ticksPerSec));
+
+          // Determine which direction we're moving, and move.
+          switch(_this.facing)
+          {
+          case custom.Maze.Direction.WEST:
+            _this.currentLocation.left =
+              Math.round(_this.currentLocation.left - moveAmount);
+            _this.mouseImage.setLeft(_this.currentLocation.left);
+            break;
+
+          case custom.Maze.Direction.SOUTH:
+            _this.currentLocation.top =
+              Math.round(_this.currentLocation.top + moveAmount);
+            _this.mouseImage.setTop(_this.currentLocation.top);
+            break;
+
+          case custom.Maze.Direction.EAST:
+            _this.currentLocation.left =
+              Math.round(_this.currentLocation.left + moveAmount);
+            _this.mouseImage.setLeft(_this.currentLocation.left);
+            break;
+
+          case custom.Maze.Direction.NORTH:
+            _this.currentLocation.top =
+              Math.round(_this.currentLocation.top - moveAmount);
+            _this.mouseImage.setTop(_this.currentLocation.top);
+            break;
+          }
+        }
+      });
+
+      state.addTransition(trans);
+
+      // Transition: Moving to CellArrival
+      //
+      // Cause: "oneshot"
+      //
+      // Predicate : destination cell has been reached
+      //
+      // Action:
+      //  Move towards the destination cell
+
+      var trans = new qx.util.fsm.Transition(
+                    "Transition_Moving_to_CellArrival_via_Oneshot",
+      {
+        "nextState" : "State_CellArrival",
+
+        "ontransition" : function(_this, event)
+        {
+          // We're now at the destination cell.
+          _this.currentCell = _this.destinationCell;
+
+          // Save the path.  Record that we've visited this destination cell.
+          _this.traversed.push(_this.currentCell);
+        }
+      });
+
+      state.addTransition(trans);
+
+
+      /////////////////////////////////////////////////////////////
+      // State: Zombie
+      /////////////////////////////////////////////////////////////
+
+      var state = new qx.util.fsm.State("State_Zombie",
+      {
+        "onentry" : function(_this, entry)
+        {
+          qx.client.Timer.once(function()
+                               {
+                                 this.dispose();
+                               },
+                               _this,
+                               0);
+        },
+
+        "events" :
+        {
+        }
+      });
+
+      this.addState(state);
+
+      // Start the finite state machine running
+      this.start();
+    },
+
+    members :
+    {
+      opacity : 0.0,
+
+      oneshot : function(timeout)
+      {
+        // Create time instance
+        var timer = new qx.client.Timer(timeout);
+
+        // Add event listener to interval
+        timer.addEventListener(
+          "interval",
+          function(e)
+          {
+            timer.dispose();
+            this.eventListener(new qx.event.type.Event("oneshot"));
+          },
+          this);
+
+        // Directly start timer
+        timer.start();
+      }
+    }
+  });
+
+  qx.core.Init.getInstance().setApplication(new custom.Application());
+  </script>
+</body>
+</html>
