@@ -2,6 +2,10 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = new Object();
+    qxsettings["qx.enableApplicationLayout"] = false;
+  </script>
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -1026,7 +1030,7 @@
       var trans = new qx.util.fsm.Transition(
                     "Transition_CellArrival_to_FadingOut_via_Die",
       {
-        "nextState" : "State_FadingOut",
+        "nextState" : "State_FadingOut"
       });
 
       state.addTransition(trans);
@@ -1038,7 +1042,7 @@
       var trans = new qx.util.fsm.Transition(
                     "Transition_CellArrival_to_Moving_via_KickInTheAss",
       {
-        "nextState" : "State_Moving",
+        "nextState" : "State_Moving"
       });
 
       state.addTransition(trans);
@@ -1090,7 +1094,11 @@
         {
           // We want fade in to take N seconds
           _this.opacity -=
-            1 / (custom.Mouse.fadeSeconds * custom.Mouse.ticksPerSec)
+            1 / (custom.Mouse.fadeSeconds * custom.Mouse.ticksPerSec);
+          if (_this.opacity < 0.0)
+          {
+            _this.opacity = 0.0;
+          }
           _this.mouseImage.setOpacity(_this.opacity);
         }
       });
@@ -1245,12 +1253,16 @@
       {
         "onentry" : function(_this, entry)
         {
-          qx.client.Timer.once(function()
-                               {
-                                 this.dispose();
-                               },
-                               _this,
-                               0);
+          qx.client.Timer.once(
+            function()
+            {
+              qx.ui.core.ClientDocument.getInstance().remove(this.mouseImage);
+              this.mouseImage.dispose();
+              this.mouseImage = null;
+              this.dispose();
+            },
+            _this,
+            0);
         },
 
         "events" :
