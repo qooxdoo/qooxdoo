@@ -619,7 +619,9 @@ qx.Class.define("qx.io.remote.Exchange",
           }
           catch(ex)
           {
-            return this.error("Request handler throws error", ex);
+            this.error("Request handler throws error");
+            this.error(ex);
+            return;
           }
         }
       }
