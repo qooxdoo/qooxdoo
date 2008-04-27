@@ -37,7 +37,7 @@
  * * Display of offset (time after loading) of each message
  * * Supports keyboard shortscuts F7 or Ctrl+Q to toggle the visibility
  */
-qx.Bootstrap.define("qx.log.appender.Console",
+qx.Class.define("qx.log.appender.Console",
 {
   statics :
   {
@@ -59,14 +59,17 @@ qx.Bootstrap.define("qx.log.appender.Console",
       // Build style sheet content
       var style =
       [
-        '.qxconsole{z-index:10000;width:500px;height:250px;top:0px;right:0px;position:absolute;border-left:1px solid black;color:black;border-bottom:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
+        '.qxconsole{z-index:10000;width:600px;height:300px;top:0px;right:0px;position:absolute;border-left:1px solid black;color:black;border-bottom:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
+        
         '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
         '.qxconsole .control a{text-decoration:none;color:black;}',
+        
         '.qxconsole .messages{background:white;height:100%;width:100%;overflow-y:scroll;}',
         '.qxconsole .messages div{padding:0px 4px;}',
-        '.qxconsole .messages .usercommand{color:blue}',
-        '.qxconsole .messages .userresult{background:white}',
-        '.qxconsole .messages .usererror{background:#FFE2D5}',
+        
+        '.qxconsole .messages .user-command{color:blue}',
+        '.qxconsole .messages .user-result{background:white}',
+        '.qxconsole .messages .user-error{background:#FFE2D5}',
         '.qxconsole .messages .level-debug{background:white}',
         '.qxconsole .messages .level-info{background:#DEEDFA}',
         '.qxconsole .messages .level-warn{background:#FFF7D5}',
@@ -77,9 +80,11 @@ qx.Bootstrap.define("qx.log.appender.Console",
         '.qxconsole .messages .type-boolean{color:#15BC91;font-weight:normal;}',
         '.qxconsole .messages .type-array{color:#CC3E8A;font-weight:bold;}',
         '.qxconsole .messages .type-map{color:#CC3E8A;font-weight:bold;}',
+        '.qxconsole .messages .type-key{color:#565656;font-style:italic}',
         '.qxconsole .messages .type-class{color:#5F3E8A;font-weight:bold}',
         '.qxconsole .messages .type-instance{color:#565656;font-weight:bold}',
         '.qxconsole .messages .type-stringify{color:#565656;font-weight:bold}',
+        
         '.qxconsole .command{background:white;padding:2px 4px;border-top:1px solid black;}',
         '.qxconsole .command input{width:100%;border:0 none;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
         '.qxconsole .command input:focus{outline:none;}'
@@ -172,6 +177,14 @@ qx.Bootstrap.define("qx.log.appender.Console",
       this.__log.appendChild(this.__toHtml(entry));
 
       // Scroll down
+      this.__scrollDown();
+    },
+    
+    
+    /**
+     * Automatically scroll down to the last line
+     */
+    __scrollDown : function() {
       this.__log.scrollTop = this.__log.scrollHeight;
     },
 
@@ -212,10 +225,17 @@ qx.Bootstrap.define("qx.log.appender.Console",
         if (msg instanceof Array)
         {
           var list = [];
+          
           for (var j=0, jl=msg.length; j<jl; j++)
           {
             sub = msg[j];
-            list.push("<span class='type-" + sub.type + "'>" + this.__escapeHTML(sub.text) + "</span>");
+            if (typeof sub === "string") {
+              list.push("<span>" + this.__escapeHTML(sub) + "</span>");
+            } else if (sub.key) {
+              list.push("<span class='type-key'>" + sub.key + "</span>:<span class='type-" + sub.type + "'>" + this.__escapeHTML(sub.text) + "</span>");
+            } else {
+              list.push("<span class='type-" + sub.type + "'>" + this.__escapeHTML(sub.text) + "</span>");
+            }
           }
 
           output.push("<span class='type-" + item.type + "'>");
@@ -366,11 +386,12 @@ qx.Bootstrap.define("qx.log.appender.Console",
 
       var command = document.createElement("div");
       command.innerHTML = this.__escapeHTML(">>> " + value);
-      command.className = "usercommand";
+      command.className = "user-command";
 
       this.__history.push(value);
       this.__lastCommand = this.__history.length;
       this.__log.appendChild(command);
+      this.__scrollDown();
 
       try {
         var ret = window.eval(value);
@@ -448,11 +469,6 @@ qx.Bootstrap.define("qx.log.appender.Console",
 
         var entry = this.__history[this.__lastCommand];
         this.__cmd.value = entry || "";
-
-        // TODO
-        // Would be great to select all text after popping items from history in.
-        // This seems not to work in Webkit and Gecko
-        // Waiting for low level selection API :)
         this.__cmd.select();
       }
     }
