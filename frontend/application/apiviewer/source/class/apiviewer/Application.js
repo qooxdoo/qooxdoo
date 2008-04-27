@@ -47,10 +47,10 @@ qx.Class.define("apiviewer.Application",
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri") + "/apiviewer");
+      qx.util.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri") + "/apiviewer");
 
       // Include CSS file
-      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("api/css/apiviewer.css"));
+      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("api/css/apiviewer.css"));
 
       // preload images
       var preloader = new qx.legacy.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);

@@ -177,7 +177,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     createImageHtml : function(imgUrl, tooltip, styleAttributes)
     {
       if (typeof imgUrl == "string") {
-        return '<img src="' + qx.io.Alias.getInstance().resolve(imgUrl) + '" class="img"' + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
+        return '<img src="' + qx.util.AliasManager.getInstance().resolve(imgUrl) + '" class="img"' + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
       }
       else
       {
@@ -217,7 +217,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           html += ' title="' + toolTip + '"';
         }
 
-        html += ' style="position:absolute;top:0px;left:0px" src="' + qx.io.Alias.getInstance().resolve(imgUrlArr[i]) + '"/>';
+        html += ' style="position:absolute;top:0px;left:0px" src="' + qx.util.AliasManager.getInstance().resolve(imgUrlArr[i]) + '"/>';
       }
 
       html += '</span>';

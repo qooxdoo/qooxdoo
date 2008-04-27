@@ -62,10 +62,10 @@ qx.Class.define("testrunner.runner.Application",
       this.base(arguments);
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri") + "/testrunner");
+      qx.util.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri") + "/testrunner");
 
       // Include CSS file
-      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("testrunner/css/testrunner.css"));
+      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("testrunner/css/testrunner.css"));
 
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;

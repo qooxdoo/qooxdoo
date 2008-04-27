@@ -106,10 +106,10 @@ qx.Class.define("feedreader.Application",
       this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
+      qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
 
       // Include CSS file
-      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
+      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
 
       // Increase parallel requests
       qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);

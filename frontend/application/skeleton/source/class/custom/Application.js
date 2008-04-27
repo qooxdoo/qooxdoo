@@ -51,7 +51,7 @@ qx.Class.define("custom.Application",
       var doc = new qx.ui.root.Application(document);
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("custom", qx.core.Setting.get("custom.resourceUri"));
+      qx.util.AliasManager.getInstance().add("custom", qx.core.Setting.get("custom.resourceUri"));
 
       // Create button
       var button1 = new qx.ui.form.Button("First Button", "custom/image/test.png");

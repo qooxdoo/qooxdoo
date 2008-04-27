@@ -62,11 +62,11 @@ qx.Class.define("demobrowser.Application",
       this.base(arguments);
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser");
+      qx.util.AliasManager.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser");
 
       // Include CSS files
-      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/style.css"));
-      qx.bom.Stylesheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/sourceview.css"));
+      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("demobrowser/css/style.css"));
+      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("demobrowser/css/sourceview.css"));
 
       // Initialize the viewer
       this.viewer = new demobrowser.DemoBrowser;
