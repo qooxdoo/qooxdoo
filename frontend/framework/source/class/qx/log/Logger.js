@@ -400,6 +400,9 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "string":
+          text = '"' + value + '"';
+          break;
+          
         case "number":
         case "boolean":
           text = value;
@@ -449,7 +452,7 @@ qx.Bootstrap.define("qx.log.Logger",
             {
               if (text.length > 20)
               {
-                text.push(this.__serialize("...", false));
+                text.push("...(+" + (l-i) + ")");
                 break;
               }
 
@@ -458,28 +461,46 @@ qx.Bootstrap.define("qx.log.Logger",
           }
           else
           {
-            text = "[...]";
+            text = "[...(" + value.length + ")]";
           }
           break;
 
         case "map":
           if (deep)
           {
-            text = [];
-            for (var key in value)
+            var temp;
+            
+            // Produce sorted key list
+            var sorted = [];
+            for (var key in value) {
+              sorted.push(key);
+            }            
+            sorted.sort();
+            
+            // Temporary text list
+            text = [];        
+            for (var i=0, l=sorted.length; i<l; i++)
             {
               if (text.length > 20)
               {
-                text.push(this.__serialize("...", false));
+                text.push("...(+" + (l-i) + ")");
                 break;
               }
-
-              text.push(this.__serialize(key, false));
+              
+              // Additional storage of hash-key
+              key = sorted[i];
+              temp = this.__serialize(value[key], false);
+              temp.key = key;
+              text.push(temp);
             }
           }
           else
           {
-            text = "{...}";
+            var number=0;
+            for (var key in value) {
+              number++;
+            }
+            text = "{...(" + number + ")}";
           }
           break;
       }
