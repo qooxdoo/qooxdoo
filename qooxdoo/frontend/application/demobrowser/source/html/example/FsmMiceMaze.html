@@ -35,7 +35,16 @@
       {
         this.base(arguments);
 
-        qx.io.Alias.getInstance().add("demobrowser", "../../resource");
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          qx.io.Alias.getInstance().add("demobrowser",
+                                        "../../resource");
+        }
+        else
+        {
+          qx.io.Alias.getInstance().add("demobrowser",
+                                        "../../resource/demobrowser");
+        }
 
 /*
         var rootLogger = qx.log.Logger.ROOT_LOGGER;
