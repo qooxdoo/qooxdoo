@@ -364,30 +364,10 @@ qx.Class.define("qx.core.Property",
      */
     attachMethods : function(clazz, name, config)
     {
-      // Generate property method prefixes and postfixes
-      var prefix, postfix;
-
-      if (name.charAt(0) === "_")
-      {
-        if (name.charAt(1) === "_")
-        {
-          prefix = "__";
-          postfix = qx.lang.String.firstUp(name.substring(2));
-        }
-        else
-        {
-          prefix = "_";
-          postfix = qx.lang.String.firstUp(name.substring(1));
-        }
-      }
-      else
-      {
-        prefix = "";
-        postfix = qx.lang.String.firstUp(name);
-      }
-
-      // Attach methods
-      config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
+      // Divide groups from "normal" properties
+      config.group ? 
+        this.__attachGroupMethods(clazz, config, name) : 
+        this.__attachPropertyMethods(clazz, config, name);
     },
 
 
@@ -398,14 +378,13 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
-     * @param prefix {String} Prefix of property e.g. "__" or "_" for private or protected properties
-     * @param postfix {String} Camelcase name of property e.g. name=width => postfix=Width
+     * @param upname {String} Camelcase name of property e.g. name=width => upname=Width
      * @return {void}
      */
-    __attachGroupMethods : function(clazz, config, prefix, postfix)
+    __attachGroupMethods : function(clazz, config, name)
     {
+      var upname = qx.lang.String.firstUp(name);
       var members = clazz.prototype;
-      var name = config.name;
       var themeable = config.themeable === true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -468,21 +447,21 @@ qx.Class.define("qx.core.Property",
       }
 
       // Attach setter
-      this.$$method.set[name] = prefix + "set" + postfix;
+      this.$$method.set[name] = "set" + upname;
       members[this.$$method.set[name]] = new Function(setter.join(""));
 
       // Attach resetter
-      this.$$method.reset[name] = prefix + "reset" + postfix;
+      this.$$method.reset[name] = "reset" + upname;
       members[this.$$method.reset[name]] = new Function(resetter.join(""));
 
       if (themeable)
       {
         // Attach styler
-        this.$$method.style[name] = prefix + "style" + postfix;
+        this.$$method.style[name] = "style" + upname;
         members[this.$$method.style[name]] = new Function(styler.join(""));
 
         // Attach unstyler
-        this.$$method.unstyle[name] = prefix + "unstyle" + postfix;
+        this.$$method.unstyle[name] = "unstyle" + upname;
         members[this.$$method.unstyle[name]] = new Function(unstyler.join(""));
       }
     },
@@ -495,14 +474,13 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
-     * @param prefix {String} Prefix of property e.g. "__" or "_" for private or protected properties
-     * @param postfix {String} Camelcase name of property e.g. name=width => postfix=Width
+     * @param upname {String} Camelcase name of property e.g. name=width => upname=Width
      * @return {void}
      */
-    __attachPropertyMethods : function(clazz, config, prefix, postfix)
+    __attachPropertyMethods : function(clazz, config, name)
     {
+      var upname = qx.lang.String.firstUp(name);
       var members = clazz.prototype;
-      var name = config.name;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -525,24 +503,24 @@ qx.Class.define("qx.core.Property",
       store.inherit[name] = "$$inherit_" + name;
       store.useinit[name] = "$$useinit_" + name;
 
-      method.get[name] = prefix + "get" + postfix;
+      method.get[name] = "get" + upname;
       members[method.get[name]] = function() {
         return qx.core.Property.executeOptimizedGetter(this, clazz, name, "get");
       }
 
-      method.set[name] = prefix + "set" + postfix;
+      method.set[name] = "set" + upname;
       members[method.set[name]] = function(value) {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", arguments);
       }
 
-      method.reset[name] = prefix + "reset" + postfix;
+      method.reset[name] = "reset" + upname;
       members[method.reset[name]] = function() {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
       }
 
       if (config.inheritable || config.apply || config.event)
       {
-        method.init[name] = prefix + "init" + postfix;
+        method.init[name] = "init" + upname;
         members[method.init[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", arguments);
         }
@@ -550,7 +528,7 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
-        method.refresh[name] = prefix + "refresh" + postfix;
+        method.refresh[name] = "refresh" + upname;
         members[method.refresh[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", arguments);
         }
@@ -558,12 +536,12 @@ qx.Class.define("qx.core.Property",
 
       if (config.themeable)
       {
-        method.style[name] = prefix + "style" + postfix;
+        method.style[name] = "style" + upname;
         members[method.style[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", arguments);
         }
 
-        method.unstyle[name] = prefix + "unstyle" + postfix;
+        method.unstyle[name] = "unstyle" + upname;
         members[method.unstyle[name]] = function() {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle");
         }
@@ -571,8 +549,8 @@ qx.Class.define("qx.core.Property",
 
       if (config.check === "Boolean")
       {
-        members[prefix + "toggle" + postfix] = new Function("return this." + method.set[name] + "(!this." + method.get[name] + "())");
-        members[prefix + "is" + postfix] = new Function("return this." + method.get[name] + "()");
+        members["toggle" + upname] = new Function("return this." + method.set[name] + "(!this." + method.get[name] + "())");
+        members["is" + upname] = new Function("return this." + method.get[name] + "()");
       }
     },
 
@@ -603,7 +581,8 @@ qx.Class.define("qx.core.Property",
     error : function(obj, id, property, variant, value)
     {
       var classname = obj.constructor.classname;
-      var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
+      var msg = "Error in property " + property + " of class " + classname + 
+        " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
 
       // Additional object error before throwing exception because gecko
       // often has issues to throw the error correctly in the debug console otherwise
@@ -641,7 +620,6 @@ qx.Class.define("qx.core.Property",
         // Overriding temporary wrapper
         try{
           members[store] = new Function("value", code.join(""));
-          // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
         } catch(ex) {
           alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
         }
@@ -649,7 +627,6 @@ qx.Class.define("qx.core.Property",
       else
       {
         members[store] = new Function("value", code.join(""));
-        // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
       }
 
       // profiling
@@ -685,6 +662,7 @@ qx.Class.define("qx.core.Property",
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
+      var store = this.$$store;
 
       if (config.inheritable)
       {
