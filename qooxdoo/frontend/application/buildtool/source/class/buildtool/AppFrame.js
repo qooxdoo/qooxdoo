@@ -210,7 +210,7 @@ qx.Class.define("buildtool.AppFrame",
     {
       var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Build Tool" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
       header.setHtmlProperty("id", "header");
-      header.setStyleProperty("background", "#134275 url(" + qx.io.Alias.getInstance().resolve("buildtool/image/colorstrip.gif") + ") top left repeat-x");
+      header.setStyleProperty("background", "#134275 url(" + qx.util.AliasManager.getInstance().resolve("buildtool/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
       return header;
     },

@@ -185,7 +185,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
       header.setHtmlProperty("id", "header");
-      header.setStyleProperty("background", "#134275 url(" + qx.io.Alias.getInstance().resolve("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
+      header.setStyleProperty("background", "#134275 url(" + qx.util.AliasManager.getInstance().resolve("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
       return header;
     },
