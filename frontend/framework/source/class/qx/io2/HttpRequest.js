@@ -19,7 +19,7 @@
 
 /**
  * A more comfortable HTTP request object than the native one under 
- * {@link qx.bom.HttpRequest}.
+ * {@link qx.bom.Request}.
  *
  * Converts the whole communication into a qooxdoo style class with 
  * real properties. The class also fires events to allow easy access 

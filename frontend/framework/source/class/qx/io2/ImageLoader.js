@@ -160,9 +160,9 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * Internal event listener for all load/error events.
      *
      * @type static
+     * @param event {Event} Native event object
      * @param element {Element} DOM element which represents the image
-     * @param callback {Function} Callback function to execute
-     * @param context {Object} Context in which the given callback should be executed
+     * @param source {String} The image source loaded
      * @return {void}
      */
     __onload : function(event, element, source)
