@@ -1,6 +1,10 @@
 \bqx\.util\.manager\.Value\b=qx.util.ValueManager
 \bqx\.util\.manager\.Object\b=qx.legacy.util.ObjectManager
 
-\bqx\.io\.image\b=qx.io.image
-
 \.handleItemChecked\b=setItemChecked
+
+\bqx\.io\.image\b=qx.legacy.io.image
+\bqx\.io\.local\b=qx.legacy.io.local
+
+\bqx\.io\.Alias\b=qx.util.AliasManager
+\bqx\.io\.Json\b=qx.util.Json
