@@ -63,10 +63,10 @@ qx.Class.define("buildtool.Application",
       this.base(arguments);
 
       // Define alias for custom resource path
-      qx.io.Alias.getInstance().add("buildtool", qx.core.Setting.get("buildtool.resourceUri"));
+      qx.util.AliasManager.getInstance().add("buildtool", qx.core.Setting.get("buildtool.resourceUri"));
 
       // Include CSS files
-      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("buildtool/css/style.css"));
+      qx.html.StyleSheet.includeFile(qx.util.AliasManager.getInstance().resolve("buildtool/css/style.css"));
 
       // Initialize the viewer
       this.viewer = new buildtool.AppFrame;

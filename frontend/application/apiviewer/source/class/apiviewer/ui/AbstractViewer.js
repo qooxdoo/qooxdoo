@@ -234,7 +234,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         panel.setIsOpen(!panel.getIsOpen());
 
         var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];
-        imgElem.src = qx.io.Alias.getInstance().resolve(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
+        imgElem.src = qx.util.AliasManager.getInstance().resolve(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
 
         panel.update(this, this.getDocNode()
         );
