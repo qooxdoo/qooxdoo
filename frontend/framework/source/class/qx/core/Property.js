@@ -666,30 +666,30 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
-        code.push('if(this.', this.$$store.inherit[name], '!==undefined)');
-        code.push('return this.', this.$$store.inherit[name], ';');
+        code.push('if(this.', store.inherit[name], '!==undefined)');
+        code.push('return this.', store.inherit[name], ';');
         code.push('else ');
       }
 
-      code.push('if(this.', this.$$store.user[name], '!==undefined)');
-      code.push('return this.', this.$$store.user[name], ';');
+      code.push('if(this.', store.user[name], '!==undefined)');
+      code.push('return this.', store.user[name], ';');
 
       if (config.themeable)
       {
-        code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
-        code.push('return this.', this.$$store.theme[name], ';');
+        code.push('else if(this.', store.theme[name], '!==undefined)');
+        code.push('return this.', store.theme[name], ';');
       }
 
       if (config.deferredInit && config.init === undefined)
       {
-        code.push('else if(this.', this.$$store.init[name], '!==undefined)');
-        code.push('return this.', this.$$store.init[name], ';');
+        code.push('else if(this.', store.init[name], '!==undefined)');
+        code.push('return this.', store.init[name], ';');
       }
 
       code.push('else ');
 
       if (config.init !== undefined) {
-        code.push('return this.', this.$$store.init[name], ';');
+        code.push('return this.', store.init[name], ';');
       } else if (config.inheritable || config.nullable) {
         code.push('return null;');
       } else {
