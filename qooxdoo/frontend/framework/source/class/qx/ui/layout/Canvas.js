@@ -31,6 +31,7 @@
  * * Min and max dimensions
  * * Children are automatically shrinked to their minimum dimensions if not enough space is available
  * * Auto sizing
+ * * Margins (also negative ones)
  *
  * @param left {Integer|String?null} Left position of the widget (accepts
  *   both, integer(pixel) and string(percent) values.
@@ -131,6 +132,9 @@ qx.Class.define("qx.ui.layout.Canvas",
           } else if (width > size.maxWidth) {
             width = size.maxWidth;
           }
+
+          // Add margin
+          left += marginLeft;
         }
         else
         {
@@ -154,7 +158,7 @@ qx.Class.define("qx.ui.layout.Canvas",
           }
 
           if (right != null) {
-            left = availWidth - width - right - marginRight;
+            left = availWidth - width - right - marginRight - marginLeft;
           } else if (left == null) {
             left = marginLeft;
           } else {
@@ -173,6 +177,9 @@ qx.Class.define("qx.ui.layout.Canvas",
           } else if (width > size.maxHeight) {
             height = size.maxHeight;
           }
+
+          // Add margin
+          top += marginTop;
         }
         else
         {
@@ -196,7 +203,7 @@ qx.Class.define("qx.ui.layout.Canvas",
           }
 
           if (bottom != null) {
-            top = availHeight - height - bottom - marginBottom;
+            top = availHeight - height - bottom - marginBottom - marginTop;
           } else if (top == null) {
             top = marginTop;
           } else {
@@ -205,6 +212,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         }
 
         // Apply layout
+        this.debug("Layout: " + left + " -> " + width);
         child.renderLayout(left, top, width, height);
       }
     },
