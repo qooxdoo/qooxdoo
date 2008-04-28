@@ -49,13 +49,12 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
       var layout = new qx.ui.layout.Grid();
       layout.setVerticalSpacing(20);
       layout.setHorizontalSpacing(10);
-      layout.setRowMaxHeight(0, 60);
-      layout.setRowMaxHeight(1, 60);
 
       var container = new qx.ui.container.Composite(layout).set({
         decorator: "black",
         backgroundColor: "yellow",
-        minHeight:300
+        allowGrowX: false,
+        allowGrowY: false
       });
 
       container.add(new qx.ui.core.Widget().set({
