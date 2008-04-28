@@ -253,7 +253,6 @@ qx.Class.define("qx.ui.layout.Canvas",
         }
 
         // Apply layout
-        this.debug("Layout: " + left + " -> " + width);
         child.renderLayout(left, top, width, height);
       }
     },
