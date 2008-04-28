@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
         backgroundColor: "yellow",
         decorator: border,
         padding: 10,
-        width: 1000
+        width: 600
       });
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
