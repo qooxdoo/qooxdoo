@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.layout.VBox",
     /**
      * Rebuilds caches for flex and percent layout properties
      */
-    _rebuildCache : function()
+    __rebuildCache : function()
     {
       var children = this._getLayoutChildren();
       var length = children.length;
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.layout.VBox",
     {
       // Rebuild flex/height caches
       if (this._invalidChildrenCache) {
-        this._rebuildCache();
+        this.__rebuildCache();
       }
 
       // Cache children
@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.layout.VBox",
     {
       // Rebuild flex/height caches
       if (this._invalidChildrenCache) {
-        this._rebuildCache();
+        this.__rebuildCache();
       }
 
       var util = qx.ui.layout.Util;
