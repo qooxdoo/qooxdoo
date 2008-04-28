@@ -23,11 +23,7 @@ qx.Class.define("qx.ui.layout.Util",
   statics :
   {
     /** {Regexp} Regular expression to match percent values */
-    PERCENT_VALUE : /[0-9.]+%/,
-
-
-    /** {Regexp} Regular expression to match flex values */
-    FLEX_VALUE : /[0-9]+\*/,
+    PERCENT_VALUE : /[0-9]+(\.[0-9]+)?%/,
 
 
     /**

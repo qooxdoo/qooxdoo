@@ -772,7 +772,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
           if (props)
           {
             for (var key in props) {
-              layout.verifyLayoutProperty(this, key, props[key]);
+              if (props[key] !== null) {
+                layout.verifyLayoutProperty(this, key, props[key]);
+              }
             }
           }
         }
