@@ -57,41 +57,41 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
 
       if (type == "int")
       {
-        var widget = new qx.ui.form.Spinner().set({
+        var formItem = new qx.ui.form.Spinner().set({
           min: this._properties[prop].min || 0,
           max: this._properties[prop].max !== undefined ? this._properties[prop].max : 1000
         });
-        widget.addListener("change", this._createOnIntPropertyChange(prop), this);
-        this._add(widget, {row: row++, column: 1});
+        formItem.addListener("change", this._createOnIntPropertyChange(prop), this);
+        this._add(formItem, {row: row++, column: 1});
       }
       else if (type == "bool")
       {
-        var widget = new qx.ui.form.CheckBox();
-        widget.addListener("changeChecked", this._createOnBoolPropertyChange(prop), this);
-        this._add(widget, {row: row++, column: 1});
+        var formItem = new qx.ui.form.CheckBox();
+        formItem.addListener("changeChecked", this._createOnBoolPropertyChange(prop), this);
+        this._add(formItem, {row: row++, column: 1});
       }
       else if (type == "enum")
       {
         var values = this._properties[prop].values;
-        var mgr = new qx.ui.core.RadioManager();
+        var formItem = new qx.ui.core.RadioManager();
         for (var i=0; i<values.length; i++)
         {
           var widget = new qx.ui.form.RadioButton(values[i]).set({
             value: values[i]
           });
-          mgr.add(widget);
+          formItem.add(widget);
           this._add(widget, {row: row++, column:1});
         }
-        mgr.addListener("changeSelected", this._createOnEnumPropertyChange(prop, mgr), this);
+        formItem.addListener("changeSelected", this._createOnEnumPropertyChange(prop, formItem), this);
       }
       else if (type == "string")
       {
-        var widget = new qx.ui.form.TextField();
-        widget.addListener("input", this._createOnIntPropertyChange(prop), this);
-        this._add(widget, {row: row++, column: 1});
+        var formItem = new qx.ui.form.TextField();
+        formItem.addListener("input", this._createOnIntPropertyChange(prop), this);
+        this._add(formItem, {row: row++, column: 1});
       }
 
-      this._properties[prop].widget = widget;
+      this._properties[prop].formItem = formItem;
     }
   },
 
@@ -117,8 +117,19 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       "paddingTop": {type: "int", nullable: false},
       "paddingRight": {type: "int", nullable: false},
       "paddingBottom": {type: "int", nullable: false},
-      "paddingLeft": {type: "int", nullable: false}
+      "paddingLeft": {type: "int", nullable: false},
+      "alignX": {
+        type: "enum",
+        values: [ "left", "center", "right" ],
+        nullable: true
+      },
+      "alignY": {
+        type: "enum",
+        values: [ "top", "middle", "bottom", "baseline" ],
+        nullable: true
+      }
     },
+
 
     HBOX_PROPERTIES :
     {
@@ -236,12 +247,12 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         if (control.getChecked())
         {
           this._setProperty(widget, property, null);
-          this._properties[property].widget.setEnabled(false);
+          this._properties[property].formItem.setEnabled(false);
         }
         else
         {
-          this._setProperty(widget, property, this._properties[property].widget.getValue());
-          this._properties[property].widget.setEnabled(true);
+          this._setProperty(widget, property, this._properties[property].formItem.getValue());
+          this._properties[property].formItem.setEnabled(true);
         }
       }
     },
@@ -252,19 +263,19 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       for (var prop in this._properties)
       {
         var type = this._properties[prop].type;
-        var control = this._properties[prop].widget;
+        var formItem = this._properties[prop].formItem;
         var nullable = this._properties[prop].nullable;
 
         if (!this._hasProperty(widget, prop))
         {
-          control.setEnabled(false);
+          formItem.setEnabled(false);
           if (nullable) {
             this._properties[prop].nullWidget.setEnabled(false);
           }
           return;
         }
 
-       control.setEnabled(true);
+       formItem.setEnabled(true);
 
 
         var propValue = this._getProperty(widget, prop);
@@ -273,19 +284,19 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         {
           if (type == "int")
           {
-            control.setValue(parseInt(propValue));
+            formItem.setValue(parseInt(propValue));
           }
           else if (type == "string")
           {
-            control.setValue(propValue.toString());
+            formItem.setValue(propValue.toString());
           }
           else if (type == "bool")
           {
-            control.setChecked(!!propValue);
+            formItem.setChecked(!!propValue);
           }
           else if (type == "enum")
           {
-            var mgr = control.getManager();
+            var mgr = formItem.getManager();
             var items = mgr.getItems();
             for (var i=0; i<items.length; i++)
             {
@@ -303,7 +314,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         {
           this._properties[prop].nullWidget.setChecked(propValue == null);
           this._properties[prop].nullWidget.setEnabled(true);
-          control.setEnabled(propValue !== null);
+          formItem.setEnabled(propValue !== null);
         }
 
       }
