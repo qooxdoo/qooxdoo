@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     this.base(arguments);
 
     // Automatically configure a "fixed" scroll layout.
-    this._setLayout(new qx.ui.layout.Scroll());
+    this._setLayout(new qx.ui.layout.Grow());
   },
 
 

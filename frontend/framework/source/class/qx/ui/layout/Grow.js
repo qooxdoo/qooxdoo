@@ -21,6 +21,9 @@
  * A grow layout, which stretches all children into the full available size
  * but still respecting limits configured through min/max values.
  *
+ * It will place all children over each other with the top and left coordinates
+ * set to <code>0</code>.
+ *
  * Supports:
  *
  * * Integer dimensions
@@ -58,8 +61,19 @@ qx.Class.define("qx.ui.layout.Grow",
         child = children[i];
         size = child.getSizeHint();
 
-        width = Math.max(size.minWidth, Math.min(availWidth, size.maxWidth));
-        height = Math.max(size.minHeight, Math.min(availHeight, size.maxHeight));
+        var width = availWidth;
+        if (width < size.minWidth) {
+          width = size.minWidth;
+        } else if (width > size.maxWidth) {
+          width = size.maxWidth;
+        }
+
+        var height = availHeight;
+        if (height < size.minHeight) {
+          height = size.minHeight;
+        } else if (height > size.maxHeight) {
+          height = size.maxHeight;
+        }
 
         child.renderLayout(0, 0, width, height);
       }
