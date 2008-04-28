@@ -62,12 +62,6 @@ qx.Class.define("testrunner.test.Interface",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {string} TODOC
-           */
           startEngine : function() {
             return "start";
           }
@@ -75,12 +69,6 @@ qx.Class.define("testrunner.test.Interface",
 
         statics :
         {
-          /**
-           * TODOC
-           *
-           * @type static
-           * @return {string} TODOC
-           */
           honk : function() {
             return "honk";
           }
@@ -114,12 +102,6 @@ qx.Class.define("testrunner.test.Interface",
 
           statics :
           {
-            /**
-             * TODOC
-             *
-             * @type static
-             * @return {string} TODOC
-             */
             honk : function() {
               return "honk";
             }
@@ -141,12 +123,6 @@ qx.Class.define("testrunner.test.Interface",
 
           members :
           {
-            /**
-             * TODOC
-             *
-             * @type member
-             * @return {string} TODOC
-             */
             startEngine : function() {
               return "start";
             }
@@ -154,12 +130,6 @@ qx.Class.define("testrunner.test.Interface",
 
           statics :
           {
-            /**
-             * TODOC
-             *
-             * @type static
-             * @return {string} TODOC
-             */
             honk : function() {
               return "honk";
             }
@@ -182,45 +152,25 @@ qx.Class.define("testrunner.test.Interface",
       {
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @param a {Array} TODOC
-           * @return {var} TODOC
-           */
           add : function(a) {
-            return (arguments.length == 1 && qx.Class.implementsInterface(a.constructor, testrunner.IComplex));
+            this.assertArgumentsCount(arguments, 1, 1);
+            this.assertInterface(a.constructor, testrunner.IComplex);
           },
 
-
-          /**
-           * TODOC
-           *
-           * @type member
-           * @param r {var} TODOC
-           * @return {var} TODOC
-           */
           setReal : function(r) {
-            return arguments.length == 1 && typeof (r) == "number";
+            this.assertArgumentsCount(arguments, 1, 1);
+            this.assertType(r, "number");
           },
 
-
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {var} TODOC
-           */
           abs : function() {
-            return arguments[0] == undefined;
+            this.assert(arguments[0] == undefined);
           }
         }
       });
 
       qx.Class.define("testrunner.Complex",
       {
-        extend : Object,
+        extend : qx.core.Object,
         implement : testrunner.IComplex,
 
         construct : function(real, imag)
@@ -231,13 +181,6 @@ qx.Class.define("testrunner.test.Interface",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @param a {Array} TODOC
-           * @return {void}
-           */
           add : function(a)
           {
             this._real += a._real;
@@ -245,35 +188,16 @@ qx.Class.define("testrunner.test.Interface",
           },
 
 
-          /**
-           * TODOC
-           *
-           * @type member
-           * @param r {var} TODOC
-           * @return {void}
-           */
           setReal : function(r) {
             this._real = r;
           },
 
 
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {var} TODOC
-           */
-          abs : function() {
+           abs : function() {
             return Math.sqrt((this._real * this._real) + (this._imag + this._imag));
           },
 
 
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {var} TODOC
-           */
           toString : function() {
             return this._real + "+" + this._imag + "i";
           }
@@ -291,27 +215,95 @@ qx.Class.define("testrunner.test.Interface",
       // invalid usage
       this.assertExceptionDebugOn(function() {
         a.add(b, b);
-      }, Error, "Pre condition of method", "a");
+      }, qx.dev.unit.AssertionError, null, "a");
 
       this.assertExceptionDebugOn(function() {
         a.setReal();
-      }, Error, "Pre condition of method", "b");
+      }, qx.dev.unit.AssertionError, null, "b");
 
       this.assertExceptionDebugOn(function() {
         a.setReal(1, 2);
-      }, Error, "Pre condition of method", "c");
+      }, qx.dev.unit.AssertionError, null, "c");
 
       this.assertExceptionDebugOn(function() {
         a.setReal("Juhu");
-      }, Error, "Pre condition of method", "d");
+      }, qx.dev.unit.AssertionError, null, "d");
 
       this.assertExceptionDebugOn(function() {
         a.abs({});
-      }, Error, "Pre condition of method", "e");
+      }, qx.dev.unit.AssertionError, null, "e");
 
       this.assertExceptionDebugOn(function() {
         a.add("Juhu");
-      }, Error, "Pre condition of method", "f");
+      }, qx.dev.unit.AssertionError, null, "f");
+    },
+
+
+    testProperties : function()
+    {
+      qx.Interface.define("testrunner.IProperties1", {
+        properties : {
+          value : {}
+        }
+      });
+
+      qx.Class.define("testrunner.Properties1",
+      {
+        extend : qx.core.Object,
+        implement : [testrunner.IProperties1],
+
+        properties :
+        {
+          value : { check : "Integer"}
+        }
+      });
+
+      this.assertException(function() {
+        qx.Class.define("testrunner.Properties2",
+        {
+          extend : qx.core.Object,
+          implement : [testrunner.IProperties1],
+
+          members :
+          {
+            getValue : function() {},
+            setValue : function(value) {}
+          }
+        })
+      });
+
+
+      qx.Interface.define("testrunner.IProperties2",
+      {
+        members :
+        {
+          getValue : function() {},
+          setValue : function(value) {}
+        }
+      });
+
+      qx.Class.define("testrunner.Properties3",
+      {
+        extend : qx.core.Object,
+        implement : [testrunner.IProperties2],
+
+        properties :
+        {
+          value : { check : "Integer"}
+        }
+      });
+
+      qx.Class.define("testrunner.Properties4",
+      {
+        extend : qx.core.Object,
+        implement : [testrunner.IProperties2],
+
+        members :
+        {
+          getValue : function() {},
+          setValue : function(value) {}
+        }
+      })
     },
 
 

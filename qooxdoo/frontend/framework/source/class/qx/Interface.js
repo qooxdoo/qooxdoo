@@ -233,14 +233,22 @@ qx.Class.define("qx.Interface",
         {
           if (typeof members[key] === "function")
           {
-            if (typeof proto[key] !== "function") {
-              throw new Error('Implementation of method "' + key + '" is missing in class "' + clazz.classname + '" required by interface "' + iface.name + '"');
-            }
 
-            // Only wrap members if the interface was not applied yet which could be easily
-            // checked by the recursive hasInterface method.
-            if (wrap === true && !qx.Class.hasInterface(clazz, iface)) {
-              proto[key] = this.__wrapInterfaceMember(iface, proto[key], key, members[key]);
+
+            if (typeof proto[key] === "function")
+            {
+              // Only wrap members if the interface was not applied yet which could be easily
+              // checked by the recursive hasInterface method.
+              if (wrap === true && !qx.Class.hasInterface(clazz, iface)) {
+                proto[key] = this.__wrapInterfaceMember(iface, proto[key], key, members[key]);
+              }
+            }
+            else
+            {
+              var match = key.match(/^(get|set|reset)(.*)$/);
+              if (!match || !qx.Class.hasProperty(clazz, qx.lang.String.firstLow(match[2]))) {
+                throw new Error('Implementation of method "' + key + '" is missing in class "' + clazz.classname + '" required by interface "' + iface.name + '"');
+              }
             }
           }
           else
