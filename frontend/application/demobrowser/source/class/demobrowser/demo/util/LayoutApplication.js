@@ -28,21 +28,40 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
     {
       this.base(arguments);
 
-      var root = this.getRoot();
+      var frame = new qx.ui.container.Composite(new qx.ui.layout.Dock());
 
-      editor = new demobrowser.demo.util.PropertyEditor();
-      root.add(editor, {top:0,right:0,bottom:0});
-
-      editor.addListener("mousedown", function(e) {
-        e.stopPropagation();
+      var root = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
+        minHeight: 10,
+        minWidth: 10
       });
+      root.addMain = function(child, stretch) {
+        root.add(child, stretch ? {left:0, top:0, right:0, bottom:0} : {left:0, top:0});
+      }
 
-      root.addListener("mousedown", function(e)
-      {
-        if (e.getTarget() !== root) {
-          editor.handleWidgetClick(e);
-        }
-      });
+      editor = new demobrowser.demo.util.PropertyEditor(root);
+      root.addListener("click", this._onClickRoot, this);
+
+      frame.add(editor, {edge: "east"});
+      frame.add(root);
+
+      this._root = root;
+      this._editor = editor;
+
+      qx.application.Standalone.prototype.getRoot.call(this).addMain(frame, true);
+    },
+
+
+    getRoot : function() {
+      return this._root;
+    },
+
+
+    _onClickRoot : function(e)
+    {
+      if (e.getTarget() !== this._root) {
+        this._editor.handleWidgetClick(e);
+      }
     }
   }
-})
+
+});
