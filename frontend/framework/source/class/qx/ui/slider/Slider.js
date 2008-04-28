@@ -137,6 +137,11 @@ qx.Class.define("qx.ui.slider.Slider",
   {
     _valueToPixel : function(value)
     {
+      // avoid division by zero
+      if (this.getMinimum() == this.getMaximum()) {
+        return 0;
+      }
+
       var sliderRange = this._scrollSize - this._sliderSize;
       var valueRange = (this.getMaximum() - this.getMinimum()) / this.getSingleStep();
 
@@ -147,6 +152,11 @@ qx.Class.define("qx.ui.slider.Slider",
     _pixelToValue : function(pixelValue)
     {
       var sliderRange = this._scrollSize - this._sliderSize;
+      // avoid division by zero
+      if (sliderRande == 0) {
+        return this.getMinimum();
+      }
+
       var valueRange = (this.getMaximum() - this.getMinimum()) / this.getSingleStep();
 
       return Math.round(valueRange * pixelValue / sliderRange) * this.getSingleStep() + this.getMinimum();
