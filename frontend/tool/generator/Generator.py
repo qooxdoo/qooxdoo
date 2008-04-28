@@ -687,8 +687,8 @@ class Generator:
                     # imguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
                     # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
                     mimgspec = ImgInfoFmt(mimgs)
-                    pre1,pre2,sfx = self._getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
-                    pre,sfx1,sfx2 = self._getCommonPrefix(pre2, mimg)  # get a suitable suffix from mimg
+                    pre1,pre2,sfx = Path.getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
+                    pre,sfx1,sfx2 = Path.getCommonPrefix(pre2, mimg)  # get a suitable suffix from mimg
                     img = pre1 + sfx2 # correct the uri prefix for key
                     mimgspec.mappeduri = imguri  # correct the mapped uri
                     # img : [combinedUri, off-x, off-y, width, height, type]
@@ -973,41 +973,6 @@ class Generator:
         else:
             #return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x) # only res paths that do *not* match '/qx/icon/'
             return self._resourceHandler.filterResourcesByFilepath() 
-
-
-    def _getCommonSuffix(self, p1, p2):
-        '''computes the common suffix of path1, path2, and returns the two different prefixes
-           and the common suffix'''
-        pre1 = pre2 = suffx = ""
-        for i in range(1,len(p1)):
-            if i > len(p2):
-                break
-            elif p1[-i] == p2[-i]:
-                suffx = p1[-i] + suffx
-            else:
-                break
-        pre1 = p1[:-i+1]
-        pre2 = p2[:-i+1]
-
-        return pre1, pre2, suffx
-
-
-    def _getCommonPrefix(self, p1, p2):
-        '''computes the common prefix of p1, p2, and returns the common prefix and the two
-           different suffixes'''
-        pre = sfx1 = sfx2 = ""
-        for i in range(len(p1)):
-            if i > len(p2):
-                break
-            elif p1[i] == p2[i]:
-                pre += p1[i]
-            else:
-                i -= 1  # correct i, since the loop ends differently with range() or !=
-                break
-        sfx1 = p1[i+1:]
-        sfx2 = p2[i+1:]
-
-        return pre,sfx1,sfx2
 
 
 
