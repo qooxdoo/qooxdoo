@@ -385,7 +385,6 @@ qx.Class.define("qx.ui.layout.Grid",
           vAlign : widget.getAlignY(),
           hAlign : widget.getAlignX()
         }
-        console.log(widgetProps)
       }
       else
       {
