@@ -153,6 +153,14 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         type: "enum",
         values: [ "auto", "y", "x" ],
         nullable: false
+      },
+      "spacingX" : {
+        type : "int",
+        nullable : false
+      },
+      "spacingY" : {
+        type : "int",
+        nullable : false
       }
     },
 

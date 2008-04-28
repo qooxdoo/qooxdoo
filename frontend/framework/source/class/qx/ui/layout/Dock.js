@@ -228,8 +228,10 @@ qx.Class.define("qx.ui.layout.Dock",
       var widths = [];
       var heights = [];
 
-      var allocatedWidth = 0;
-      var allocatedHeight = 0;
+      var spacingX = this.getSpacingX();
+      var spacingY = this.getSpacingY();
+
+
 
 
 
@@ -237,6 +239,9 @@ qx.Class.define("qx.ui.layout.Dock",
       // **************************************
       //   Caching children data
       // **************************************
+
+      var allocatedWidth = -spacingX;
+      var allocatedHeight = -spacingY;
 
       for (var i=0; i<length; i++)
       {
@@ -270,21 +275,25 @@ qx.Class.define("qx.ui.layout.Dock",
         widths[i] = width;
         heights[i] = height;
 
+        // Update allocated width
         switch(edges[i])
         {
+          // north+south
           case 1:
           case 2:
-            allocatedHeight += height;
+            allocatedHeight += height + child.getMarginTop() + child.getMarginBottom();
             break;
 
+          // west+east
           case 3:
           case 4:
-            allocatedWidth += width;
+            allocatedWidth += width + child.getMarginLeft() + child.getMarginRight();
             break;
 
+          // center
           default:
-            allocatedWidth += width;
-            allocatedHeight += height;
+            allocatedWidth += width + child.getMarginLeft() + child.getMarginRight();
+            allocatedHeight += height + child.getMarginTop() + child.getMarginBottom();
         }
       }
 
@@ -304,14 +313,13 @@ qx.Class.define("qx.ui.layout.Dock",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          props = child.getLayoutProperties();
 
           switch(edges[i])
           {
             case 3:
             case 4:
             case 5:
-              flex = props.flex;
+              flex = child.getLayoutProperties().flex;
 
               // Default flex for centered children is '1'
               if (flex == null && edges[i] == 5) {
@@ -330,7 +338,6 @@ qx.Class.define("qx.ui.layout.Dock",
                   flex : flex
                 };
               }
-
           }
         }
 
@@ -360,14 +367,13 @@ qx.Class.define("qx.ui.layout.Dock",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          props = child.getLayoutProperties();
 
           switch(edges[i])
           {
             case 1:
             case 2:
             case 5:
-              flex = props.flex;
+              flex = child.getLayoutProperties().flex;
 
               // Default flex for centered children is '1'
               if (flex == null && edges[i] == 5) {
@@ -449,7 +455,7 @@ qx.Class.define("qx.ui.layout.Dock",
             left = nextLeft + util.computeHorizontalAlignOffset(child.getAlignX()||"left", width, availWidth, marginLeft, marginRight);
 
             // Update available height
-            used = height + marginTop + marginBottom;
+            used = height + marginTop + marginBottom + spacingY;
             availHeight -= used;
 
             // Update coordinates, for next child
@@ -483,7 +489,7 @@ qx.Class.define("qx.ui.layout.Dock",
             top = nextTop + util.computeVerticalAlignOffset(child.getAlignY()||"top", height, availHeight, marginTop, marginBottom);
 
             // Update available height
-            used = width + marginLeft + marginRight;
+            used = width + marginLeft + marginRight + spacingX;
             availWidth -= used;
 
             // Update coordinates, for next child
@@ -546,6 +552,9 @@ qx.Class.define("qx.ui.layout.Dock",
       var widthY=0, minWidthY=0;
       var heightY=0, minHeightY=0;
 
+      var spacingX=this.getSpacingX(), spacingY=this.getSpacingY();
+      var spacingSumX=-spacingX, spacingSumY=-spacingY;
+
       // Detect children sizes
       for (var i=0; i<length; i++)
       {
@@ -571,6 +580,9 @@ qx.Class.define("qx.ui.layout.Dock",
             heightY += hint.height + marginY;
             minHeightY += hint.minHeight + marginY;
 
+            // Add spacing
+            spacingSumY += spacingY;
+
             break;
 
           case 3:
@@ -585,6 +597,9 @@ qx.Class.define("qx.ui.layout.Dock",
             widthX += hint.width + marginX;
             minWidthX += hint.minWidth + marginX;
 
+            // Add spacing
+            spacingSumX += spacingX;
+
             break;
 
           default:
@@ -595,15 +610,24 @@ qx.Class.define("qx.ui.layout.Dock",
 
             heightY += hint.height + marginY;
             minHeightY += hint.minHeight + marginY;
+
+            // Add spacing
+            spacingSumX += spacingX;
+            spacingSumY += spacingY;
         }
       }
 
+      var minWidth = Math.max(minWidthX, minWidthY) + spacingSumX;
+      var width = Math.max(widthX, widthY) + spacingSumX;
+      var minHeight = Math.max(minHeightX, minHeightY) + spacingSumY;
+      var height = Math.max(heightX, heightY) + spacingSumY;
+
       // Return hint
       return {
-        minWidth : Math.max(minWidthX, minWidthY),
-        width : Math.max(widthX, widthY),
-        minHeight : Math.max(minHeightX, minHeightY),
-        height : Math.max(heightX, heightY)
+        minWidth : minWidth,
+        width : width,
+        minHeight : minHeight,
+        height : height
       };
     }
   }
