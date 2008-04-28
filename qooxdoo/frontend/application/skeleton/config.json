@@ -1,13 +1,13 @@
 {
   "jobs" :
   {
-    "common" : 
+    "common" :
     {
       "let" :
       {
          "QOOXDOO_PATH" : "../.." ,
          "QOOXDOO_URI"  : "${QOOXDOO_PATH}/.." ,
-         "APPLICATION" : "custom" 
+         "APPLICATION" : "custom"
       },
 
       "library" :
@@ -23,7 +23,7 @@
         }
       ],
 
-      "settings" : 
+      "settings" :
       {
         "qx.application" : "${APPLICATION}.Application",
         "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
@@ -32,7 +32,7 @@
       "include" :
       [
         "${APPLICATION}.Application",
-        "qx.legacy.theme.ClassicRoyale"
+        "qx.theme.Classic"
       ],
 
       "cache" :
@@ -41,7 +41,7 @@
       }
     },
 
-    "source-script" : 
+    "source-script" :
     {
       "extend" : ["common"],
 
@@ -58,11 +58,11 @@
         "source-script"
       ]
     },
-    
+
     "build-script" :
     {
       "extend" : ["common"],
-      
+
       "compile" :
       {
         "file" : "./build/script/${APPLICATION}.js",
