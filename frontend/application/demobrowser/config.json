@@ -11,30 +11,15 @@
       "let" :
       {
         "APPLICATION"  : "demobrowser",
-        "QOOXDOO_PATH" : "../..",
+        "QOOXDOO_PATH" : "../../framework",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
       },
-
-      "library1" :
-      [
-        {
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/framework/source",
-          "uri"      : "${QOOXDOO_URI}/framework/source"
-        },
-
-        {
-          "encoding" : "utf-8",
-          "path"     : "./source",
-          "uri"      : "../source"
-        }
-      ],
 
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.js",
-          "uri"      : "${QOOXDOO_URI}/framework"
+          "manifest" : "${QOOXDOO_PATH}/Manifest.js",
+          "uri"      : "${QOOXDOO_URI}"
           /* mind that the final uri will be computed from this 'uri' + the 
              'class' info from the manifest */
         },
@@ -77,7 +62,7 @@
 
       "settings" :
       {
-        "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
+        "qx.resourceUri" : "${QOOXDOO_URI}/source/resource"
       },
 
       "script" :
@@ -262,16 +247,6 @@
     },
 
     /* - Demos Jobs ---------------------------------------- */
-    "demos-source" :
-    {
-      "extend" : ["demodyn/jobs/source"]
-    },
-
-    "demos-build" :
-    {
-      "extend" : ["demodyn/jobs/build"]
-    },
-    
     "debug-dependencies" :
     {
       "extend" : ["common"],
