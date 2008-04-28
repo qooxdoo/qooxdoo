@@ -27,22 +27,22 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
     main : function()
     {
       this.base(arguments);
-      
+
       var root = this.getRoot();
-      
+
       editor = new demobrowser.demo.util.PropertyEditor();
       root.add(editor, {top:0,right:0,bottom:0});
-      
+
       editor.addListener("mousedown", function(e) {
         e.stopPropagation();
       });
-      
-      root.addListener("mousedown", function(e) 
+
+      root.addListener("mousedown", function(e)
       {
         if (e.getTarget() !== root) {
           editor.handleWidgetClick(e);
-        }          
-      });      
+        }
+      });
     }
   }
 })
