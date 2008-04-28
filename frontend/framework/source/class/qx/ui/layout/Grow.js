@@ -22,7 +22,8 @@
  * but still respecting limits configured through min/max values.
  *
  * It will place all children over each other with the top and left coordinates
- * set to <code>0</code>.
+ * set to <code>0</code>. The {@link qx.ui.container.Stack} and the
+ * {@link qx.ui.core.ScrollPane} are using this layout.
  *
  * Supports:
  *
