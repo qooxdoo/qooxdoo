@@ -29,13 +29,19 @@
         "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
       },
 
+      "include" :
+      [
+        "${APPLICATION}.Application",
+        "qx.legacy.theme.ClassicRoyale"
+      ],
+
       "cache" :
       {
         "path" : "../../cache"
       }
     },
 
-    "source" : 
+    "source-script" : 
     {
       "extend" : ["common"],
 
@@ -44,8 +50,16 @@
         "file" : "./source/script/${APPLICATION}.js"
       }
     },
+
+    "source" :
+    {
+      "run" :
+      [
+        "source-script"
+      ]
+    },
     
-    "build" :
+    "build-script" :
     {
       "extend" : ["common"],
       
@@ -54,6 +68,27 @@
         "file" : "./build/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js"
       }
+    },
+
+    "build-files" :
+    {
+      "extend" : ["common"],
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html"
+        ]
+      }
+    },
+
+    "build" :
+    {
+      "run" :
+      [
+        "build-files",
+        "build-script"
+      ]
     }
   }
 }
