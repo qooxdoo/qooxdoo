@@ -296,17 +296,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
           }
           else if (type == "enum")
           {
-            var mgr = formItem.getManager();
-            var items = mgr.getItems();
-            for (var i=0; i<items.length; i++)
-            {
-              var item = items[i];
-              if (item.getValue() == propValue)
-              {
-                item.setChecked(true);
-                break;
-              }
-            }
+            formItem.setValue(propValue);
           }
         }
 

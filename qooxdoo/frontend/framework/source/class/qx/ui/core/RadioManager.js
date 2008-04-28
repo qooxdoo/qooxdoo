@@ -31,8 +31,6 @@ qx.Class.define("qx.ui.core.RadioManager",
   extend : qx.core.Object,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -153,6 +151,43 @@ qx.Class.define("qx.ui.core.RadioManager",
         this.setSelected(vItem);
       } else if (this.getSelected() == vItem) {
         this.setSelected(null);
+      }
+    },
+
+
+    /**
+     * Select the radio item, with the given value.
+     *
+     * @param value {var} Value of the radio item to select
+     */
+    setValue : function(value)
+    {
+      var items = this._items;
+      for (var i=0; i<items.length; i++)
+      {
+        var item = items[i];
+        if (item.getValue() == value)
+        {
+          this.setSelected(item);;
+          break;
+        }
+      }
+    },
+
+
+    /**
+     * Get the value of the selected radio item
+     *
+     * @return {var|null} The value of the selected radio item. Returns
+     *     <code>null</code> if no item is selected.
+     */
+    getValue : function()
+    {
+      var selected = this.getSelected();
+      if (selected) {
+        return selected.getValue();
+      } else {
+        return null;
       }
     },
 
