@@ -229,7 +229,7 @@ qx.Class.define("testrunner.TestLoader",
         desc.push(clsDesc);
       }
 
-      return qx.io.Json.stringify(desc);
+      return qx.util.Json.stringify(desc);
     },
 
 
