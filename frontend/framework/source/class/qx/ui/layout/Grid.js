@@ -651,6 +651,25 @@ qx.Class.define("qx.ui.layout.Grid",
     },
 
 
+    __getCellSize : function(widget)
+    {
+      var hint = widget.getSizeHint();
+      var hMargins = widget.getMarginLeft() + widget.getMarginRight();
+      var vMargins = widget.getMarginTop() + widget.getMarginBottom();
+
+      var outerSize = {
+        height: hint.height + vMargins,
+        width: hint.width + hMargins,
+        minHeight: hint.minHeight + vMargins,
+        minWidth: hint.minWidth + hMargins,
+        maxHeight: hint.maxHeight + vMargins,
+        maxWidth: hint.maxWidth + hMargins
+      }
+
+      return outerSize;
+    },
+
+
     /**
      * Check whether all row spans fit with their preferred height into the
      * preferred row heights. If there is not enough space, the preferred
@@ -672,7 +691,8 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this.__rowSpans[i];
 
-        var hint = widget.getSizeHint();
+        var hint = this.__getCellSize(widget);
+        //var hint = widget.getSizeHint();
 
         var widgetProps = widget.getLayoutProperties();
         var widgetRow = widgetProps.row;
@@ -768,7 +788,8 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this.__colSpans[i];
 
-        var hint = widget.getSizeHint();
+        var hint = this.__getCellSize(widget);
+        //var hint = widget.getSizeHint();
 
         var widgetProps = widget.getLayoutProperties();
         var widgetColumn = widgetProps.column;
@@ -883,7 +904,8 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
-          var cellSize = widget.getSizeHint();
+          var cellSize = this.__getCellSize(widget);
+          //var cellSize = widget.getSizeHint();
 
           minHeight = Math.max(minHeight, cellSize.minHeight);
           height = Math.max(height, cellSize.height);
@@ -952,7 +974,8 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
-          var cellSize = widget.getSizeHint();
+          var cellSize = this.__getCellSize(widget);
+          //var cellSize = widget.getSizeHint();
 
           minWidth = Math.max(minWidth, cellSize.minWidth);
           width = Math.max(width, cellSize.width);
@@ -1154,13 +1177,20 @@ qx.Class.define("qx.ui.layout.Grid",
           }
 
           var cellHint = widget.getSizeHint();
+          var marginTop = widget.getMarginTop();
+          var marginLeft = widget.getMarginLeft();
+          var marginBottom = widget.getMarginBottom();
+          var marginRight = widget.getMarginRight();
 
-          var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth, cellHint.maxWidth));
-          var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight, cellHint.maxHeight));
+          //var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth, cellHint.maxWidth));
+          //var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight, cellHint.maxHeight));
+
+          var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth-marginLeft-marginRight, cellHint.maxWidth));
+          var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight-marginTop-marginBottom, cellHint.maxHeight));
 
           var cellAlign = this.getCellAlign(row, col);
-          var cellLeft = left + Util.computeHorizontalAlignOffset(cellAlign.hAlign, cellWidth, spanWidth);
-          var cellTop = top + Util.computeVerticalAlignOffset(cellAlign.vAlign, cellHeight, spanHeight);
+          var cellLeft = left + Util.computeHorizontalAlignOffset(cellAlign.hAlign, cellWidth, spanWidth, marginLeft, marginRight);
+          var cellTop = top + Util.computeVerticalAlignOffset(cellAlign.vAlign, cellHeight, spanHeight, marginTop, marginBottom);
 
           widget.renderLayout(
             cellLeft,
