@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.slider.Slider",
     {
       var sliderRange = this._scrollSize - this._sliderSize;
       // avoid division by zero
-      if (sliderRande == 0) {
+      if (sliderRange == 0) {
         return this.getMinimum();
       }
 
