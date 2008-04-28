@@ -7,38 +7,31 @@
       {
          "QOOXDOO_PATH" : "../.." ,
          "QOOXDOO_URI"  : "${QOOXDOO_PATH}/.." ,
-         "APPLICATION_NAMESPACE" : "custom" 
+         "APPLICATION" : "custom" 
       },
 
       "library" :
       [
         {
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/framework/source",
-          "uri"      : "${QOOXDOO_URI}/framework/source"
+          "manifest"     : "${QOOXDOO_PATH}/framework/Manifest.js",
+          "uri"          : "${QOOXDOO_URI}/framework"
         },
 
         {
-          "encoding" : "utf-8",
-          "path"     : "./source",
-          "uri"      : "../source"
+          "manifest"     : "Manifest.js",
+          "uri"          : ".."
         }
       ],
 
-      "require" :
-      {
-        "qx.log.Logger" : ["qx.log.appender.Native"]
-      },
-
       "settings" : 
       {
-        "qx.application" : "${APPLICATION_NAMESPACE}.Application",
+        "qx.application" : "${APPLICATION}.Application",
         "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
       },
 
       "cache" :
       {
-        "path" : "../../cache2"
+        "path" : "../../cache"
       }
     },
 
@@ -48,7 +41,18 @@
 
       "script" :
       {
-        "file" : "./source/script/${APPLICATION_NAMESPACE}.js"
+        "file" : "./source/script/${APPLICATION}.js"
+      }
+    },
+    
+    "build" :
+    {
+      "extend" : ["common"],
+      
+      "compile" :
+      {
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js"
       }
     }
   }
