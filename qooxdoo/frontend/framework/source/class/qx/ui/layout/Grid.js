@@ -379,7 +379,18 @@ qx.Class.define("qx.ui.layout.Grid",
       var colData = this.__colData[column];
 
       var widget = this.__grid[row][column];
-      var widgetProps = widget ? widget.getLayoutProperties() : {};
+      if (widget)
+      {
+        widgetProps = {
+          vAlign : widget.getAlignY(),
+          hAlign : widget.getAlignX()
+        }
+        console.log(widgetProps)
+      }
+      else
+      {
+        widgetProps = {};
+      }
 
       // compute vAlign
       // precedence : widget -> row -> column
