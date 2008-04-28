@@ -31,11 +31,10 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
       var borderColor = "black";
       var border = new qx.ui.decoration.Single(3, "solid", borderColor);
 
-      var w1 = new qx.ui.basic.Label("Toggle border color.").set({
+      var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
         decorator: border,
-        paddingLeft: 10,
-        paddingRight: 10
+        marginLeft : 10
       });
 
       var w2 = new qx.ui.core.Widget().set({
@@ -53,11 +52,6 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_1",
         backgroundColor: "yellow",
         decorator: border,
         padding: 10
-      });
-
-      w1.addListener("click", function(e) {
-        borderColor = borderColor == "black" ? "orange" : "black";
-        border.setColor(borderColor);
       });
 
 
