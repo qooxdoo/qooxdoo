@@ -39,15 +39,16 @@
       {
         this.base(arguments);
 
+        var resourcePath;
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          qx.io.Alias.getInstance().add("demobrowser",
-                                        "../../resource");
+          resourcePath = "../../resource";
+          qx.io.Alias.getInstance().add("demobrowser", resourcePath);
         }
         else
         {
-          qx.io.Alias.getInstance().add("demobrowser",
-                                        "../../resource/demobrowser");
+          resourcePath = "../../resource/demobrowser";
+          qx.io.Alias.getInstance().add("demobrowser", resourcePath);
         }
 
 /*
@@ -83,9 +84,17 @@
           "Each mouse is driven by (and in fact, in this example, is a " +
           "subclass of) a finite state machine.  The FSM has five states: " +
           "FadingIn, CellArrival (look for cloning opportunities), Moving, " +
-          "FadingOut, and Zombie (about to dispose).";
+          "FadingOut, and Zombie (about to dispose)." +
+          "<p>" +
+          "<u>The finite state diagram is below the maze.</u>";
 
-        var o = new qx.ui.basic.Label(description);
+        var o;
+        
+        // Ensure that the FSM diagram gets copied during build (and cached)
+        o = new qx.ui.basic.Image("demobrowser/image/FsmMiceMaze.png");
+        o = null;               // image no longer needed
+
+        o = new qx.ui.basic.Label(description);
         o.set(
           {
             left : 50,
@@ -94,8 +103,16 @@
           });
         o.addToDocument();
 
-        var maze = new custom.Maze(10, 10, 50, 200);
+        var maze = new custom.Maze(10, 10, 50, 240);
         maze.addToDocument();
+
+        o = new qx.ui.basic.Image("demobrowser/image/FsmMiceMaze.png", 800);
+        o.set(
+          {
+            left : 50,
+            top : 800
+          });
+        o.addToDocument();
 
         // Determine (randomly) the facing direction of the initial mouse
         var facing;
