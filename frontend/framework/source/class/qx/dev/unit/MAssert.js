@@ -59,9 +59,9 @@ qx.Mixin.define("qx.dev.unit.MAssert",
 
     assertArgumentsCount : function(args, minCount, maxCount, msg)
     {
-      var argCount = args.count;
+      var argCount = args.length;
       this.__assert(
-        !(argCount >= minCount && argCount <= maxCount),
+        (argCount >= minCount && argCount <= maxCount),
         msg || "",
         "Wrong number of arguments given. Expected '" + minCount + "' to '" + maxCount + "' arguments but found '" + arguments.length + "' arguments."
       )
@@ -73,7 +73,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
      *
      * @type member
      * @param callback {Function} function to check
-     * @param exception {Error?Error} Required constructor of the exception.
+     * @param exception {Error?Error} Expected constructor of the exception.
      *   The assertion fails if the raised exception is not an instance of the
      *   parameter.
      * @param re {String|RegExp} The assertion fails if the error message does
@@ -116,7 +116,6 @@ qx.Mixin.define("qx.dev.unit.MAssert",
     __assert : function(condition, comment, failMsg)
     {
       if (!condition) {
-        debugger;
         throw new qx.dev.unit.AssertionError(comment, failMsg);
       }
     },
