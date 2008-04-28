@@ -560,6 +560,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       
       this.setValue(this.getValue() + wheelIncrement * this.getWheelStep());
+      e.stopPropagation();
     },
 
 
