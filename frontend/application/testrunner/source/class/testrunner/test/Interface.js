@@ -258,7 +258,7 @@ qx.Class.define("testrunner.test.Interface",
         }
       });
 
-      this.assertException(function() {
+      this.assertExceptionDebugOn(function() {
         qx.Class.define("testrunner.Properties2",
         {
           extend : qx.core.Object,
@@ -304,6 +304,37 @@ qx.Class.define("testrunner.test.Interface",
           setValue : function(value) {}
         }
       })
+    },
+
+
+    testEvents : function()
+    {
+      qx.Interface.define("testrunner.IEvents1",
+      {
+        events : {
+          "change" : "qx.event.type.Event"
+        }
+      });
+
+
+      qx.Class.define("testrunner.Event1",
+      {
+        extend : qx.core.Object,
+        implement : [testrunner.IEvents1],
+
+        events : {
+          change : "qx.event.type.Event"
+        }
+      })
+
+
+      this.assertExceptionDebugOn(function() {
+        qx.Class.define("testrunner.Event2",
+        {
+          extend : qx.core.Object,
+          implement : [testrunner.IEvents1]
+        })
+      });
     },
 
 
