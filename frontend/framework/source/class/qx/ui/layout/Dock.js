@@ -82,6 +82,60 @@ qx.Class.define("qx.ui.layout.Dock",
 
   members :
   {
+    /**
+     * Rebuilds caches for flex and percent layout properties
+     */
+    _rebuildCache : function()
+    {
+      var all = this._getLayoutChildren();
+      var child, edge, center;
+      var length = all.length;
+
+      var high = [];
+      var low = [];
+      var orient = [];
+
+      var center;
+      var yfirst = this.getSort() === "y";
+      var xfirst = this.getSort() === "x";
+
+      for (var i=0; i<length; i++)
+      {
+        child = all[i];
+        edge = child.getLayoutProperties().edge;
+
+        if (edge === "center")
+        {
+          if (center) {
+            throw new Error("It is not allowed to have more than one child aligned to 'center'!");
+          }
+
+          center = child;
+        }
+        else if (xfirst || yfirst)
+        {
+          if (edge === "north" || edge === "south") {
+            yfirst ? high.push(child) : low.push(child);
+          } else if (edge === "west" || edge === "east") {
+            yfirst ? low.push(child) : high.push(child);
+          }
+        }
+        else
+        {
+          high.push(child);
+        }
+      }
+
+      this.__children = high.concat(low);
+
+      if (center) {
+        this.__children.push(center);
+      }
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -91,7 +145,12 @@ qx.Class.define("qx.ui.layout.Dock",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var children = this._getSortedChildren();
+      // Rebuild flex/width caches
+      if (this._invalidChildrenCache) {
+        this._rebuildCache();
+      }
+
+      var children = this.__children;
       var length = children.length;
       var flexibles, child, hint, props, flex, grow, width, height;
 
@@ -115,8 +174,13 @@ qx.Class.define("qx.ui.layout.Dock",
         props = child.getLayoutProperties();
         hint = child.getSizeHint();
 
-        width = props.width ? Math.floor(availWidth * parseFloat(props.width) / 100) : hint.width;
-        height = props.height ? Math.floor(availHeight * parseFloat(props.height) / 100) : hint.height;
+        width = props.width != null ?
+          Math.floor(availWidth * parseFloat(props.width) / 100) :
+          hint.width;
+
+        height = props.height != null ?
+          Math.floor(availHeight * parseFloat(props.height) / 100) :
+          hint.height;
 
         widths[i] = width;
         heights[i] = height;
@@ -139,8 +203,6 @@ qx.Class.define("qx.ui.layout.Dock",
         }
       }
 
-      // console.debug("Used width: " + allocatedWidth + "/" + availWidth);
-      // console.debug("Used height: " + allocatedHeight + "/" + availHeight);
 
 
 
@@ -151,7 +213,7 @@ qx.Class.define("qx.ui.layout.Dock",
 
       if (allocatedWidth != availWidth)
       {
-        flexibles = [];
+        flexibles = {};
         grow = allocatedWidth < availWidth;
 
         for (var i=0; i<length; i++)
@@ -171,29 +233,27 @@ qx.Class.define("qx.ui.layout.Dock",
             if (flex > 0)
             {
               hint = child.getSizeHint();
-              var potential = grow ? hint.maxWidth - hint.width : hint.width - hint.minWidth;
 
-              if (potential != 0)
+              flexibles[i] =
               {
-                flexibles.push({
-                  id : i,
-                  potential : potential,
-                  flex : grow ? flex : 1 / flex
-                });
-              }
+                min : hint.minWidth,
+                value : widths[i],
+                max : hint.maxWidth,
+                flex : flex
+              };
             }
           }
         }
 
-        if (flexibles.length > 0)
-        {
-          var offsets = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth - allocatedWidth);
+        var result = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth, allocatedWidth);
+        var offset;
 
-          for (var key in offsets)
-          {
-            widths[key] += offsets[key];
-            allocatedWidth += offsets[key];
-          }
+        for (var i in result)
+        {
+          offset = result[i].offset;
+
+          widths[i] += offset;
+          allocatedWidth += offset;
         }
       }
 
@@ -227,34 +287,30 @@ qx.Class.define("qx.ui.layout.Dock",
             if (flex > 0)
             {
               hint = child.getSizeHint();
-              var potential = grow ? hint.maxHeight - hint.height : hint.height - hint.minHeight;
 
-              if (potential > 0)
+              flexibles[i] =
               {
-                flexibles.push({
-                  id : i,
-                  potential : potential,
-                  flex : grow ? flex : 1 / flex
-                });
-              }
+                min : hint.minHeight,
+                value : heights[i],
+                max : hint.maxHeight,
+                flex : flex
+              };
             }
           }
         }
 
-        if (flexibles.length > 0)
-        {
-          var offsets = qx.ui.layout.Util.computeFlexOffsets(flexibles, availHeight - allocatedHeight);
+        var result = qx.ui.layout.Util.computeFlexOffsets(flexibles, availHeight, allocatedHeight);
+        var offset;
 
-          for (var key in offsets)
-          {
-            heights[key] += offsets[key];
-            allocatedHeight += offsets[key];
-          }
+        for (var i in result)
+        {
+          offset = result[i].offset;
+
+          heights[i] += offset;
+          allocatedHeight += offset;
         }
       }
 
-      // console.debug("Used width: " + allocatedWidth + "/" + availWidth);
-      // console.debug("Used height: " + allocatedHeight + "/" + availHeight);
 
 
 
@@ -354,7 +410,12 @@ qx.Class.define("qx.ui.layout.Dock",
     // overridden
     _computeSizeHint : function()
     {
-      var children = this._getSortedChildren();
+      // Rebuild flex/width caches
+      if (this._invalidChildrenCache) {
+        this._rebuildCache();
+      }
+
+      var children = this.__children;
       var length = children.length;
       var hint, child;
 
@@ -418,72 +479,6 @@ qx.Class.define("qx.ui.layout.Dock",
         minHeight : Math.max(minHeightX, minHeightY),
         height : Math.max(heightX, heightY)
       };
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the list of children, preprocessed by the value of the
-     * {@link #sort} property.
-     *
-     * @type member
-     * @return {qx.ui.core.Widget[]} Presorted array of widgets
-     */
-    _getSortedChildren : function()
-    {
-      var children = this._getLayoutChildren();
-      var child, edge, center;
-      var length = children.length;
-
-      var high = [];
-      var low = [];
-      var center;
-      var yfirst = this.getSort() === "y";
-      var xfirst = this.getSort() === "x";
-
-      for (var i=0; i<length; i++)
-      {
-        child = children[i];
-        edge = child.getLayoutProperties().edge;
-
-        if (edge === "center")
-        {
-          if (center) {
-            throw new Error("It is not allowed to have more than one child aligned to 'center'!");
-          }
-
-          center = child;
-        }
-        else if (xfirst || yfirst)
-        {
-          if (edge === "north" || edge === "south") {
-            yfirst ? high.push(child) : low.push(child);
-          } else if (edge === "west" || edge === "east") {
-            yfirst ? low.push(child) : high.push(child);
-          }
-        }
-        else
-        {
-          high.push(child);
-        }
-      }
-
-      children = high.concat(low);
-
-      if (center) {
-        children.push(center);
-      }
-
-      return children;
     }
   }
 });
