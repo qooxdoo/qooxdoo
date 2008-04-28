@@ -145,6 +145,13 @@ qx.Class.define("qx.event.handler.Appear",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * This method should be called by all DOM tree modifying routines
+     * to check the registered nodes for changes.
+     *
+     * @type member
+     * @return {void}
+     */
     refresh : function()
     {
       var targets = this.__targets;
