@@ -400,9 +400,6 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "string":
-          text = '"' + value + '"';
-          break;
-          
         case "number":
         case "boolean":
           text = value;
@@ -469,16 +466,16 @@ qx.Bootstrap.define("qx.log.Logger",
           if (deep)
           {
             var temp;
-            
+
             // Produce sorted key list
             var sorted = [];
             for (var key in value) {
               sorted.push(key);
-            }            
+            }
             sorted.sort();
-            
+
             // Temporary text list
-            text = [];        
+            text = [];
             for (var i=0, l=sorted.length; i<l; i++)
             {
               if (text.length > 20)
@@ -486,7 +483,7 @@ qx.Bootstrap.define("qx.log.Logger",
                 text.push("...(+" + (l-i) + ")");
                 break;
               }
-              
+
               // Additional storage of hash-key
               key = sorted[i];
               temp = this.__serialize(value[key], false);

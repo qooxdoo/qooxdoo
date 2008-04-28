@@ -44,6 +44,13 @@ qx.Class.define("apiviewer.Application",
     {
       this.base(arguments);
 
+      // Use log appenders in debug mode
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.appender.Native;
+        qx.log.appender.Console;
+      }
+
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path
