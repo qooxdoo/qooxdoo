@@ -24,11 +24,11 @@
  *
  * Supports the following features:
  *
- * * Percent and flex widths
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
- * * Left and right margins
- * * Horizontal align
+ * * Margins (with horizontal collapsing)
+ * * Percent widths
+ * * Alignment
  * * Horizontal spacing
  * * Reversed children layout
  * * Vertical children stretching
