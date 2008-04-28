@@ -28,13 +28,9 @@
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
  * * Auto sizing
+ * * Margins and Spacings
+ * * Alignment in orthogonal axis (e.g. alignX of north attached)
  * * Different sort options for children
- *
- * Notes:
- *
- * * For left/right attached childs the height is ignored.
- * * For top/bottom attached childs the width is ignored.
- * * However: In both cases the min/max dimensions are respected.
  *
  * Names used by other toolkits:
  *
