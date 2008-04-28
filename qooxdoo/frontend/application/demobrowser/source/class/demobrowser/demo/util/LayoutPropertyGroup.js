@@ -114,7 +114,7 @@ qx.Class.define("demobrowser.demo.util.LayoutPropertyGroup",
       },
       "edge": {
         type: "enum",
-        values: [ "north", "east", "south", "west" ],
+        values: [ "north", "east", "south", "west", "center" ],
         nullable: false
       }
     },
