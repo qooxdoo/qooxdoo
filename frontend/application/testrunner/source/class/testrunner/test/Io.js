@@ -41,7 +41,7 @@ qx.Class.define("testrunner.test.Io",
      * @return {void}
      */
     testJson : function() {
-      this.assertEquals('{"test":123}', qx.io.Json.stringify({ test : 123 }, false));
+      this.assertEquals('{"test":123}', qx.util.Json.stringify({ test : 123 }, false));
     }
   }
 });

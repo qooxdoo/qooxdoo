@@ -1236,7 +1236,7 @@ qx.Class.define("buildtool.AppFrame",
       }
       dat += "&makvars=";
 
-      dat += qx.io.Json.stringify(vals);
+      dat += qx.util.Json.stringify(vals);
 
       req.setTimeout(5000);
       req.setProhibitCaching(true);
