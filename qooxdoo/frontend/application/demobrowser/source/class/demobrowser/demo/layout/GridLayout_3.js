@@ -133,8 +133,10 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
       }
 
       var widget = layout.getCellWidget(0, 0);
-      widget.setLayoutProperties({"hAlign": "left"});
-      widget.setLayoutProperties({"vAlign": "top"});
+      widget.set({
+        alignX: "left",
+        alignY: "top"
+      })
       widget.set({
         backgroundColor : "orange",
         width: 20,
@@ -142,8 +144,11 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_3",
       });
 
       var widget = layout.getCellWidget(4, 4);
-      widget.setLayoutProperties({"hAlign": "right"});
-      widget.setLayoutProperties({"vAlign": "bottom"});
+      widget.set({
+        alignX: "right",
+        alignY: "bottom"
+      })
+
       widget.set({
         backgroundColor : "orange",
         width: 20,
