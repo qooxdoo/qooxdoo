@@ -101,6 +101,29 @@ qx.Class.define("qx.ui.layout.Grid",
 
   members :
   {
+    __layoutProperties :
+    {
+      "row" : 1,
+      "column" : 1,
+      "rowSpan" : 1,
+      "colSpan" : 1
+    },
+
+
+    // overridden
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value)
+      {
+        this.assert(this.__layoutProperties[name] == 1, "The property'"+name+"' is not supported by the grid layout!");
+        this.assertInteger(value);
+        this.assert(value >= 0, "Value must be positive");
+      },
+
+      "off" : null
+    }),
+
+
     __buildGrid : function()
     {
       var grid = [];

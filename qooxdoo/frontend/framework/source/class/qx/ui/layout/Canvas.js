@@ -62,6 +62,47 @@ qx.Class.define("qx.ui.layout.Canvas",
 
   members :
   {
+    __layoutProperties :
+    {
+      "top" : 1,
+      "left" : 1,
+      "bottom" : 1,
+      "right" : 1,
+      "width" : 1,
+      "height" : 1
+    },
+
+
+    // overridden
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value)
+      {
+        this.assert(this.__layoutProperties[name] == 1, "The property'"+name+"' is not supported by the canvas layout!");
+
+        if (name =="width" || name == "height")
+        {
+          this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
+        }
+        else
+        {
+          if (typeof value === "number") {
+            this.assertInteger(value);
+          } else if (typeof value == "string") {
+            this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
+          } else {
+            this.fail(
+              "Bad format of layout property '" + name + "': " + value +
+              ". The value must be either an integer or an percent string."
+            );
+          }
+        }
+      },
+
+      "off" : null
+    }),
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE

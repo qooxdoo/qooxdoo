@@ -119,9 +119,26 @@ qx.Class.define("qx.ui.layout.Abstract",
     },
 
 
-    verifyLayoutProperty : function(widget, name, value) {
-      // empty implementation
-    },
+    /**
+     * Verifies the value of a layout property.
+     *
+     * Note: This methos is only available in the debug builds.
+     *
+     * @param {Object} widget
+     * @param {Object} name
+     * @param {Object} value
+     * @signature function(widget, name, value)
+     */
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value) {
+        // empty implementation
+      },
+
+      "off" : null
+    }),
+
+
 
 
 
