@@ -331,7 +331,7 @@ class Generator:
         for lib in libs:
             #libp = LibraryPath(lib,self._console)
             #ns   = libp.getNamespace()
-            libpath = lib['path']
+            libpath = os.path.join(lib['path'],lib['resource'])
             if libpath.startswith('.'+os.sep):
                 libpath = libpath[2:]
 
@@ -346,7 +346,7 @@ class Generator:
                 if relpath[0] == os.sep:
                     relpath = relpath[1:]
                 #resTarget = os.path.join(resTargetRoot, "resource", ns, relpath)
-                resTarget = os.path.join(resTargetRoot, relpath)
+                resTarget = os.path.join(resTargetRoot, 'resource', relpath)
                 generator._copyResources(res[0], os.path.dirname(resTarget))
 
         generator._console.outdent()
