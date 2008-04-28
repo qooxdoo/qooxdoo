@@ -365,8 +365,8 @@ qx.Class.define("qx.core.Property",
     attachMethods : function(clazz, name, config)
     {
       // Divide groups from "normal" properties
-      config.group ? 
-        this.__attachGroupMethods(clazz, config, name) : 
+      config.group ?
+        this.__attachGroupMethods(clazz, config, name) :
         this.__attachPropertyMethods(clazz, config, name);
     },
 
@@ -378,7 +378,7 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
-     * @param upname {String} Camelcase name of property e.g. name=width => upname=Width
+     * @param name {String} Name of the property
      * @return {void}
      */
     __attachGroupMethods : function(clazz, config, name)
@@ -474,7 +474,7 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
-     * @param upname {String} Camelcase name of property e.g. name=width => upname=Width
+     * @param name {String} Name of the property
      * @return {void}
      */
     __attachPropertyMethods : function(clazz, config, name)
@@ -581,7 +581,7 @@ qx.Class.define("qx.core.Property",
     error : function(obj, id, property, variant, value)
     {
       var classname = obj.constructor.classname;
-      var msg = "Error in property " + property + " of class " + classname + 
+      var msg = "Error in property " + property + " of class " + classname +
         " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
 
       // Additional object error before throwing exception because gecko
