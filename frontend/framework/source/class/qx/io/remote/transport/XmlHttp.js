@@ -265,21 +265,30 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // --------------------------------------
       //   Opening connection
       // --------------------------------------
-      if (this.getUsername())
+      try
       {
-        if (this.getUseBasicHttpAuth())
+        if (this.getUsername())
         {
-          vRequest.open(vMethod, vUrl, vAsynchronous);
-          vRequest.setRequestHeader('Authorization', 'Basic ' + encode64(this.getUsername() + ':' + this.getPassword()));
+          if (this.getUseBasicHttpAuth())
+          {
+            vRequest.open(vMethod, vUrl, vAsynchronous);
+            vRequest.setRequestHeader('Authorization', 'Basic ' + encode64(this.getUsername() + ':' + this.getPassword()));
+          }
+          else
+          {
+            vRequest.open(vMethod, vUrl, vAsynchronous, this.getUsername(), this.getPassword());
+          }
         }
         else
         {
-          vRequest.open(vMethod, vUrl, vAsynchronous, this.getUsername(), this.getPassword());
+          vRequest.open(vMethod, vUrl, vAsynchronous);
         }
       }
-      else
+      catch(ex)
       {
-        vRequest.open(vMethod, vUrl, vAsynchronous);
+        this.error("Failed with exception: " + ex);
+        this.failed();
+        return;
       }
 
       // --------------------------------------
