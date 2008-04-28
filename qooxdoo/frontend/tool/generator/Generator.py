@@ -331,22 +331,34 @@ class Generator:
         for lib in libs:
             #libp = LibraryPath(lib,self._console)
             #ns   = libp.getNamespace()
+
+            # construct a path to the source root for the resources
+            #  (to be used later as a stripp-off from the resource source path)
             libpath = os.path.join(lib['path'],lib['resource'])
             if libpath.startswith('.'+os.sep):
                 libpath = libpath[2:]
 
             # get relevant resources for this lib
             resList  = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
+
+            # for each needed resource
             for res in resList:
-                resSource = res[0][:]
-                if resSource.startswith('.'+os.sep):
-                    resSource = resSource[2:]
-                # relpath = respath - libprefix
-                relpath = (resSource.split(libpath,1))[1]
+                # Get source and target paths, and invoke copying
+
+                # Get a source path
+                resSource = os.path.normpath(res[0])
+
+                # Construct a target path
+                # strip off a library prefix...
+                #  relpath = respath - libprefix
+                relpath = (Path.getCommonPrefix(libpath, resSource))[2]
                 if relpath[0] == os.sep:
                     relpath = relpath[1:]
-                #resTarget = os.path.join(resTargetRoot, "resource", ns, relpath)
+                # ...to construct a suitable target path
+                #  target = targetRoot + relpath
                 resTarget = os.path.join(resTargetRoot, 'resource', relpath)
+
+                # Copy
                 generator._copyResources(res[0], os.path.dirname(resTarget))
 
         generator._console.outdent()
@@ -1009,7 +1021,6 @@ class _ResourceHandler(object):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
-        inCache = False
         
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
@@ -1017,42 +1028,35 @@ class _ResourceHandler(object):
         libs.reverse()
 
         for lib in libs:
-            #lib = [path, uri]
             #ns = lib['path']
             ns = lib['namespace']
+            # path to the lib resource root
+            libpath = os.path.join(lib['path'],lib['resource'])
+            libpath = os.path.normpath(libpath)  # normalize "./..."
+            # check and populate cache of files on disk (reduce disk I/O)
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, None, True)
             if liblist == None:
-                liblist = filetool.find(os.path.join(lib['path'],lib['resource']))
-                inCache = False
-                llist   = []
-            else:
-                inCache = True
+                liblist = filetool.find(libpath)
+                self._genobj._cache.write(cacheId, liblist, True, False)
 
-            libpath = os.path.join(lib['path'],lib['resource'])
-            # normalize "./..."
-            if libpath.startswith('.'+os.sep):
-                libpath = libpath[2:]
-
+            # for each resource path in library
             for rsrc in liblist:
-                if not inCache:
-                    llist.append(rsrc)
+                # is this file considered necessary?
                 if (filter and not filter(rsrc)):
                     continue
-                res = []
-                # normalize "./..."
-                if rsrc.startswith('.'+os.sep):
-                    rsrc = rsrc[2:]
-                relpath = (rsrc.split(libpath,1))[1]
-                if relpath[0] == os.sep:
-                    relpath = relpath[1:]
-                res.append(rsrc)
-                res.append(os.path.join(lib['uri'],lib['resource'],relpath))
-                result.append(res)
+                else:
+                    # create a pair res = [path, uri] for this resource...
+                    res = []
+                    rsource = os.path.normpath(rsrc)  # normalize "./..."
+                    relpath = (Path.getCommonPrefix(libpath, rsource))[2]
+                    if relpath[0] == os.sep:  # normalize "/..."
+                        relpath = relpath[1:]
+                    res.append(rsource)
+                    res.append(os.path.join(lib['uri'],lib['resource'],relpath))
+                    # ...and add it to the result list
+                    result.append(res)
 
-            if not inCache:
-                self._genobj._cache.write(cacheId, llist, True, False)
-        
         return result
 
 
@@ -1203,4 +1207,44 @@ class _ShellCmd(object):
 
         return rc
 
+
+class Path (object):
+    '''provide extra path functions beyond os.path'''
+    def _getCommonSuffix(p1, p2):
+        '''computes the common suffix of path1, path2, and returns the two different prefixes
+           and the common suffix'''
+        pre1 = pre2 = suffx = ""
+        for i in range(1,len(p1)):
+            if i > len(p2):
+                break
+            elif p1[-i] == p2[-i]:
+                suffx = p1[-i] + suffx
+            else:
+                break
+        pre1 = p1[:-i+1]
+        pre2 = p2[:-i+1]
+
+        return pre1, pre2, suffx
+
+    getCommonSuffix = staticmethod(_getCommonSuffix)
+
+
+    def _getCommonPrefix(p1, p2):
+        '''computes the common prefix of p1, p2, and returns the common prefix and the two
+           different suffixes'''
+        pre = sfx1 = sfx2 = ""
+        for i in range(len(p1)):
+            if i > len(p2):
+                break
+            elif p1[i] == p2[i]:
+                pre += p1[i]
+            else:
+                i -= 1  # correct i, since the loop ends differently with range() or !=
+                break
+        sfx1 = p1[i+1:]
+        sfx2 = p2[i+1:]
+
+        return pre,sfx1,sfx2
+
+    getCommonPrefix = staticmethod(_getCommonPrefix)
 
