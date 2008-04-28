@@ -320,7 +320,7 @@ qx.Mixin.define("qx.dev.unit.MAssert",
       this.__assert(
         typeof value === "number" && isFinite(value) && value % 1 === 0,
         msg || "",
-        "Expected value to an integer number but found " + value + "!"
+        "Expected value to be an integer but found " + value + "!"
       );
     },
 
