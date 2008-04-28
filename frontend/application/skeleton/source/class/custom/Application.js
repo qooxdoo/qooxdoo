@@ -53,7 +53,7 @@ qx.Class.define("custom.Application",
       // Create button
       var button1 = new qx.ui.form.Button("First Button", "custom/image/test.png");
 
-      doc.add(button1, 50, 50);
+      doc.add(button1, {left:50, top:50});
 
 
       // Add an event listener
