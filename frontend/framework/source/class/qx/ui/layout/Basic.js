@@ -28,13 +28,16 @@
  *
  * Supports:
  *
- * * Integer dimensions
- * * Min and max dimensions
- * * Integer location using <code>top</code> and <code>left</code> properties in this layout
+ * * Basic dimensions
+ * * Basic min/max without skrinking/growing
+ * * Margins for top and left
+ * * Basic margins (only size hint relevant) for right and bottom
+ * * Location using <code>top</code> and <code>left</code> layout properties
  *
  * Does not support:
  *
  * * Shrink or grow of children depending on the available space
+ * * Alignment of a child (alignX/alignY)
  */
 qx.Class.define("qx.ui.layout.Basic",
 {
@@ -60,16 +63,19 @@ qx.Class.define("qx.ui.layout.Basic",
     renderLayout : function(availWidth, availHeight)
     {
       var children = this._getLayoutChildren();
-      var child, size, layout;
+      var child, size, props, left, top;
 
       // Render children
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = child.getLayoutProperties();
+        props = child.getLayoutProperties();
 
-        child.renderLayout(layout.left || 0, layout.top || 0, size.width, size.height);
+        left = (props.left || 0) + child.getMarginLeft();
+        top = (props.top || 0) + child.getMarginTop();
+
+        child.renderLayout(left, top, size.width, size.height);
       }
     },
 
@@ -78,8 +84,9 @@ qx.Class.define("qx.ui.layout.Basic",
     _computeSizeHint : function()
     {
       var children = this._getLayoutChildren();
-      var child, size, layout;
+      var child, size, props;
       var neededWidth=0, neededHeight=0;
+      var localWidth, localHeight;
 
 
       // Iterate over children
@@ -87,10 +94,18 @@ qx.Class.define("qx.ui.layout.Basic",
       {
         child = children[i];
         size = child.getSizeHint();
-        layout = child.getLayoutProperties();
+        props = child.getLayoutProperties();
 
-        neededWidth = Math.max(neededWidth, (layout.left || 0) + size.width);
-        neededHeight = Math.max(neededHeight, (layout.top || 0) + size.height);
+        localWidth = size.width + (props.left || 0) + child.getMarginLeft() + child.getMarginRight();
+        localHeight = size.height + (props.top || 0) + child.getMarginTop() + child.getMarginBottom();
+
+        if (localWidth > neededWidth) {
+          neededWidth = localWidth;
+        }
+
+        if (localHeight > neededHeight) {
+          neededHeight = localHeight;
+        }
       }
 
 
