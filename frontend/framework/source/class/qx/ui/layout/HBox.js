@@ -112,6 +112,36 @@ qx.Class.define("qx.ui.layout.HBox",
 
   members :
   {
+    __layoutProperties :
+    {
+      "flex" : 1,
+      "width" : 1
+    },
+
+
+    // overridden
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value)
+      {
+        this.assert(this.__layoutProperties[name] == 1, "The property'"+name+"' is not supported by the box layout!");
+
+        if (name =="width")
+        {
+          this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
+        }
+        else
+        {
+          // flex
+          this.assertNumber(value);
+          this.assert(value >= 0);
+        }
+      },
+
+      "off" : null
+    }),
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
