@@ -24,11 +24,11 @@
  *
  * Supports:
  *
- * * Integer dimensions (using widget properties)
- * * Integer locations (using layout properties)
- * * Percent dimensions and locations (using layout properties)
+ * * Integer dimensions
+ * * Integer locations
+ * * Percent dimensions and locations
  * * Stretching between left+right and top+bottom
- * * Min and max dimensions (using widget properties)
+ * * Min and max dimensions
  * * Children are automatically shrinked to their minimum dimensions if not enough space is available
  * * Auto sizing
  *
@@ -43,7 +43,7 @@
  *
  * Notes:
  *
- * * Stretching has a higher priority than the preferred dimensions
+ * * Stretching (left->right/top->bottom) has a higher priority than the preferred dimensions
  * * Stretching has a lower priority than the min/max dimensions.
  */
 qx.Class.define("qx.ui.layout.Canvas",
@@ -82,6 +82,12 @@ qx.Class.define("qx.ui.layout.Canvas",
         size = child.getSizeHint();
         props = child.getLayoutProperties();
 
+        // Cache margins
+        marginTop = child.getMarginTop();
+        marginRight = child.getMarginRight();
+        marginBottom = child.getMarginBottom();
+        marginLeft = child.getMarginLeft();
+
 
 
         // **************************************
@@ -89,42 +95,22 @@ qx.Class.define("qx.ui.layout.Canvas",
         // **************************************
 
         left = props.left;
-        if (left && typeof left === "string")
-        {
-          if (!percent.test(left)) {
-            throw new Error("Invalid percent value for left position: " + left);
-          }
-
+        if (left && typeof left === "string") {
           left = Math.round(parseFloat(left) * availWidth / 100);
         }
 
         right = props.right;
-        if (right && typeof right === "string")
-        {
-          if (!percent.test(right)) {
-            throw new Error("Invalid percent value for right position: " + right);
-          }
-
+        if (right && typeof right === "string") {
           right = Math.round(parseFloat(right) * availWidth / 100);
         }
 
         top = props.top;
-        if (top && typeof top === "string")
-        {
-          if (!percent.test(top)) {
-            throw new Error("Invalid percent value for top position: " + top);
-          }
-
+        if (top && typeof top === "string") {
           top = Math.round(parseFloat(top) * availHeight / 100);
         }
 
         bottom = props.bottom;
-        if (bottom && typeof bottom === "string")
-        {
-          if (!percent.test(bottom)) {
-            throw new Error("Invalid percent value for bottom position: " + bottom);
-          }
-
+        if (bottom && typeof bottom === "string") {
           bottom = Math.round(parseFloat(bottom) * availHeight / 100);
         }
 
@@ -137,10 +123,14 @@ qx.Class.define("qx.ui.layout.Canvas",
         // Stretching has higher priority than dimension data
         if (left != null && right != null)
         {
-          width = availWidth - left - right;
+          width = availWidth - left - right - marginLeft - marginRight;
 
           // Limit computed value
-          width = Math.max(Math.min(width, size.maxWidth), size.minWidth);
+          if (width < size.minWidth) {
+            width = size.minWidth;
+          } else if (width > size.maxWidth) {
+            width = size.maxWidth;
+          }
         }
         else
         {
@@ -151,36 +141,38 @@ qx.Class.define("qx.ui.layout.Canvas",
           {
             width = size.width;
           }
-          else if (typeof width === "string")
-          {
-            if (!percent.test(width)) {
-              throw new Error("Invalid percent value for width: " + width);
-            }
-
-            width = Math.round(parseFloat(width) * availWidth / 100);
-
-            // (Re-)Limit resolved percent value
-            width = Math.max(Math.min(width, size.maxWidth), size.minWidth);
-          }
           else
           {
-            throw new Error("Unexpected layout data for width: " + width);
+            width = Math.round(parseFloat(width) * availWidth / 100);
+
+            // Limit computed value
+            if (width < size.minWidth) {
+              width = size.minWidth;
+            } else if (width > size.maxWidth) {
+              width = size.maxWidth;
+            }
           }
 
           if (right != null) {
-            left = availWidth - width - right;
+            left = availWidth - width - right - marginRight;
           } else if (left == null) {
-            left = 0;
+            left = marginLeft;
+          } else {
+            left += marginLeft;
           }
         }
 
         // Stretching has higher priority than dimension data
         if (top != null && bottom != null)
         {
-          height = availHeight - top - bottom;
+          height = availHeight - top - bottom - marginTop - marginBottom;
 
           // Limit computed value
-          height = Math.max(Math.min(height, size.maxHeight), size.minHeight);
+          if (height < size.minHeight) {
+            height = size.minHeight;
+          } else if (width > size.maxHeight) {
+            height = size.maxHeight;
+          }
         }
         else
         {
@@ -191,35 +183,28 @@ qx.Class.define("qx.ui.layout.Canvas",
           {
             height = size.height;
           }
-          else if (typeof height === "string")
-          {
-            if (!percent.test(height)) {
-              throw new Error("Invalid percent value for height: " + height);
-            }
-
-            height = Math.round(parseFloat(height) * availHeight / 100);
-
-            // (Re-)Limit resolved percent value
-            height = Math.max(Math.min(height, size.maxHeight), size.minHeight);
-          }
           else
           {
-            throw new Error("Unexpected layout data for height: " + height);
+            height = Math.round(parseFloat(height) * availHeight / 100);
+
+            // Limit computed value
+            if (height < size.minHeight) {
+              height = size.minHeight;
+            } else if (width > size.maxHeight) {
+              height = size.maxHeight;
+            }
           }
 
           if (bottom != null) {
-            top = availHeight - height - bottom;
+            top = availHeight - height - bottom - marginBottom;
           } else if (top == null) {
-            top = 0;
+            top = marginTop;
+          } else {
+            top += marginTop;
           }
         }
 
-
-
-        // **************************************
-        //   Render child
-        // **************************************
-
+        // Apply layout
         child.renderLayout(left, top, width, height);
       }
     },
@@ -244,12 +229,14 @@ qx.Class.define("qx.ui.layout.Canvas",
         hint = child.getSizeHint();
 
 
-        // **************************************
-        //   compute width
-        // **************************************
+        // Cache margins
+        marginX = child.getMarginLeft() + child.getMarginRight();
+        marginY = child.getMarginTop() + child.getMarginBottom();
 
-        width = hint.width;
-        minWidth = hint.minWidth;
+
+        // Compute width
+        width = hint.width+marginX;
+        minWidth = hint.minWidth+marginX;
 
         if (props.left && typeof props.left === "number")
         {
@@ -267,12 +254,9 @@ qx.Class.define("qx.ui.layout.Canvas",
         neededMinWidth = Math.max(neededMinWidth, minWidth);
 
 
-        // **************************************
-        //   compute height
-        // **************************************
-
-        height = hint.height;
-        minHeight = hint.minHeight;
+        // Compute height
+        height = hint.height+marginY;
+        minHeight = hint.minHeight+marginY;
 
         if (props.top && typeof props.top === "number")
         {
