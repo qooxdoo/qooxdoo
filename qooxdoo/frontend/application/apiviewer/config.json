@@ -97,6 +97,7 @@
       "compile" :
       {
         "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
+        "format" : "on",
         "uri"  : "script/${APPLICATION}.js"
       }
     },

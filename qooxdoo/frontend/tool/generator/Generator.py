@@ -411,7 +411,15 @@ class Generator:
 
         # Get resource list
         buildUri = self._config.get('compile/resourceUri', ".")
-        libs = [{'path':'build', 'uri':buildUri, 'encoding':'utf-8'}]  # use what's in the 'build' tree -- this depends on resource copying!!
+        libs = [{
+                 'path':'.', 
+                 'namespace':'build',
+                 'class' : 'build',
+                 'resource': 'build/resource',
+                 'translation': 'build/translation',
+                 'uri': buildUri, 
+                 'encoding':'utf-8'
+            }]  # use what's in the 'build' tree -- this depends on resource copying!!
         resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
 
         # Generating boot script
@@ -1010,17 +1018,18 @@ class _ResourceHandler(object):
 
         for lib in libs:
             #lib = [path, uri]
-            ns = lib['path']
+            #ns = lib['path']
+            ns = lib['namespace']
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, None, True)
             if liblist == None:
-                liblist = filetool.find(os.path.join(lib['path'],'resource'))
+                liblist = filetool.find(os.path.join(lib['path'],lib['resource']))
                 inCache = False
                 llist   = []
             else:
                 inCache = True
 
-            libpath = lib['path']
+            libpath = os.path.join(lib['path'],lib['resource'])
             # normalize "./..."
             if libpath.startswith('.'+os.sep):
                 libpath = libpath[2:]
@@ -1038,7 +1047,7 @@ class _ResourceHandler(object):
                 if relpath[0] == os.sep:
                     relpath = relpath[1:]
                 res.append(rsrc)
-                res.append(os.path.join(lib['uri'],relpath))
+                res.append(os.path.join(lib['uri'],lib['resource'],relpath))
                 result.append(res)
 
             if not inCache:
