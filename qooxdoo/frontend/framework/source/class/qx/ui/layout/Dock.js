@@ -21,7 +21,7 @@
 /**
  * A feature rich dock layout. Docks children to one of the edges.
  *
- * Supports the following features:
+ * *Features*
  *
  * * Percent width for left/right/center attached children
  * * Percent height for top/bottom/center attached children
@@ -32,7 +32,7 @@
  * * Alignment in orthogonal axis (e.g. alignX of north attached)
  * * Different sort options for children
  *
- * Names used by other toolkits:
+ * *Alternative Names*
  *
  * * BorderLayout (Qt)
  * * DockPanel (XAML)

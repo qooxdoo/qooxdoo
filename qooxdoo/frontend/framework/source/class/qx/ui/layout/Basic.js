@@ -26,7 +26,7 @@
  *
  * The default location of any widget is left=0 and top=0 (top-left corner).
  *
- * Supports:
+ * *Features*
  *
  * * Integer dimensions
  * * Basic location using <code>left</code> and <code>top</code>
