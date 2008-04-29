@@ -28,16 +28,11 @@
  *
  * Supports:
  *
- * * Basic dimensions
+ * * Integer dimensions
+ * * Basic location using <code>left</code> and <code>top</code>
  * * Basic min/max without skrinking/growing
- * * Margins for top and left
+ * * Margins for top and left side (including negative ones)
  * * Basic margins (only size hint relevant) for right and bottom
- * * Location using <code>top</code> and <code>left</code> layout properties
- *
- * Does not support:
- *
- * * Shrink or grow of children depending on the available space
- * * Alignment of a child (alignX/alignY)
  */
 qx.Class.define("qx.ui.layout.Basic",
 {
