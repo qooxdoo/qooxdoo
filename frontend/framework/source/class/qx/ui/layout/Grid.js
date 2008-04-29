@@ -720,7 +720,13 @@ qx.Class.define("qx.ui.layout.Grid",
     },
 
 
-    __getCellSize : function(widget)
+    /**
+     * Computes the widget's size hint including the widget's margins
+     *
+     * @param widget {qx.ui.core.LayoutItem} The widget to get the size for
+     * @return {Map} a size hint map
+     */
+    __getOuterSize : function(widget)
     {
       var hint = widget.getSizeHint();
       var hMargins = widget.getMarginLeft() + widget.getMarginRight();
@@ -760,8 +766,7 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this.__rowSpans[i];
 
-        var hint = this.__getCellSize(widget);
-        //var hint = widget.getSizeHint();
+        var hint = this.__getOuterSize(widget);
 
         var widgetProps = widget.getLayoutProperties();
         var widgetRow = widgetProps.row;
@@ -857,8 +862,7 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this.__colSpans[i];
 
-        var hint = this.__getCellSize(widget);
-        //var hint = widget.getSizeHint();
+        var hint = this.__getOuterSize(widget);
 
         var widgetProps = widget.getLayoutProperties();
         var widgetColumn = widgetProps.column;
@@ -973,8 +977,7 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
-          var cellSize = this.__getCellSize(widget);
-          //var cellSize = widget.getSizeHint();
+          var cellSize = this.__getOuterSize(widget);
 
           minHeight = Math.max(minHeight, cellSize.minHeight);
           height = Math.max(height, cellSize.height);
@@ -1043,8 +1046,7 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
-          var cellSize = this.__getCellSize(widget);
-          //var cellSize = widget.getSizeHint();
+          var cellSize = this.__getOuterSize(widget);
 
           minWidth = Math.max(minWidth, cellSize.minWidth);
           width = Math.max(width, cellSize.width);
