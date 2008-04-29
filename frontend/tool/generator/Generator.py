@@ -1070,7 +1070,8 @@ class _ResourceHandler(object):
     
 
     def _getResourcelistFromClasslist(self, classList):
-        """Return a consolidated list of resource fileId's of all classes in classList"""
+        """Return a consolidated list of resource fileId's of all classes in classList; 
+           handles meta info."""
         result = []
 
         self._genobj._console.info("Compiling resource list...")
