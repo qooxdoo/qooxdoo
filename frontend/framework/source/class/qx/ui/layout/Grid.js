@@ -25,9 +25,43 @@
  *
  * * Flex values for rows and columns
  * * Minimal and maximal column and row sizes
+ * * Manually setting of column and row sizes
  * * Horizontal and vertical alignment
- * * Col/row spans
+ * * Column and row spans
  * * Auto-sizing
+ *
+ * *Layout Item Properties*
+ *
+ * <ul>
+ * <li><strong>row</strong>:
+ * </li>
+ * <li><strong>column</strong>:
+ * </li>
+ * <li><strong>rowSpan</strong>:
+ * </li>
+ * <li><strong>colSpan</strong>:
+ * </li>
+ * </ul>
+ * *Getting started*
+ *
+ * Here is a little example of how to use the grid layout.
+ *
+ * <pre class='javascript'>
+ * var layout = new qx.ui.layout.Grid();
+ * layout.setRowFlex(0, 1); // make row 0 flexible
+ * layout.setColumnWidth(1, 200); // set with of column 1 to 200 pixel
+ *
+ * var container = new qx.ui.container.Composite(layout);
+ *
+ * container.add(new qx.ui.core.Widget() {row: 0, column: 0});
+ * container.add(new qx.ui.core.Widget() {row: 0, column: 1});
+ * container.add(new qx.ui.core.Widget() {row: 1, column: 0, rowSpan: 2});
+ * </pre>
+ *
+ * *Extended Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/grid'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
