@@ -27,12 +27,12 @@
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
  * * Margins (with vertical collapsing)
- * * Percent heights
- * * Alignment
- * * Vertical spacing
- * * Reversed children layout
- * * Horizontal children stretching
- * * Auto sizing
+ * * Auto sizing (ignoring percent values)
+ * * Percent heights (not size hint relevant)
+ * * Alignment (Children property {@link qx.ui.core.LayoutItem#alignY} is ignored)
+ * * Vertical spacing (collapsed with margins)
+ * * Reversed children layout (starting from last to first)
+ * * Horizontal children stretching (respecting size hints)
  *
  * Names used by other toolkits:
  *
@@ -188,6 +188,29 @@ qx.Class.define("qx.ui.layout.VBox",
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value)
+      {
+        this.assert(name === "flex" || name === "height", "The property'"+name+"' is not supported by the box layout!");
+
+        if (name =="height")
+        {
+          this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
+        }
+        else
+        {
+          // flex
+          this.assertNumber(value);
+          this.assert(value >= 0);
+        }
+      },
+
+      "off" : null
+    }),
+
 
     // overridden
     renderLayout : function(availWidth, availHeight)

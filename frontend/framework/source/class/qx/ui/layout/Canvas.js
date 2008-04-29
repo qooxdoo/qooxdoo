@@ -29,7 +29,7 @@
  * * Stretching between left+right and top+bottom
  * * Minimum and maximum dimensions
  * * Children are automatically shrinked to their minimum dimensions if not enough space is available
- * * Auto sizing (ignors percent values)
+ * * Auto sizing (ignoring percent values)
  * * Margins (also negative ones)
  *
  * Notes:
