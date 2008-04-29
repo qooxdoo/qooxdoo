@@ -74,6 +74,14 @@ qx.Class.define("qx.ui.form.ListItem",
       init : "list-item"
     },
 
+    /** The assigned qx.ui.core.RadioManager which handles the switching between registered buttons */
+    manager :
+    {
+      check  : "qx.ui.core.RadioManager",
+      nullable : true,
+      apply : "_applyManager"
+    },
+
     /** Fires a "changeValue" (qx.event.type.Change) event */
     value :
     {
@@ -96,68 +104,22 @@ qx.Class.define("qx.ui.form.ListItem",
   {
     /*
     ---------------------------------------------------------------------------
-      UTILITIES
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
-     * a string search
-     *
-     * @type member
-     * @param vText {String} String which should be matched with the ListItem's label
-     * @return {Boolean} Match found
-     */
-    matchesString : function(vText)
+    // property apply
+    _applyManager : function(value, old)
     {
-      vText = String(vText);
-      return vText != "" && this.getLabel().toString().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+      if (old) {
+        old.remove(this);
+      }
+
+      if (value) {
+        value.add(this);
+      }
     },
 
-
-    /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
-     * an exact string search
-     *
-     * @type member
-     * @param vText {String} String which should be matched exactly with the ListItem's label
-     * @return {Boolean} Match found
-     */
-    matchesStringExact : function(vText)
-    {
-      vText = String(vText);
-      return vText != "" && this.getLabel().toString().toLowerCase() == String(vText).toLowerCase();
-    },
-
-
-    /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
-     * a value search
-     *
-     * @type member
-     * @param vText {String} String which should be matched with the ListItem's value
-     * @return {Boolean} Match found
-     */
-    matchesValue : function(vText)
-    {
-      vText = String(vText);
-      return vText != "" && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
-    },
-
-
-    /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
-     * an exact value search
-     *
-     * @type member
-     * @param vText {String} String which should be matched exactly with the ListItem's value
-     * @return {Boolean} Match found
-     */
-    matchesValueExact : function(vText)
-    {
-      vText = String(vText);
-      return vText != "" && this.getValue().toLowerCase() == String(vText).toLowerCase();
-    },
 
 
 

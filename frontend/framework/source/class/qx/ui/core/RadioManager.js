@@ -76,19 +76,6 @@ qx.Class.define("qx.ui.core.RadioManager",
       apply : "_applySelected",
       event : "changeSelected",
       check : "qx.ui.core.IRadioItem"
-    },
-
-    /**
-     * Whether the items of the radio group are enabled. Setting this property
-     * to <code>false</code> will set the enabled property of each radio item
-     * to <code>false</code>.
-     */
-    enabled :
-    {
-      check: "Boolean",
-      init : true,
-      event : "changeEnabled",
-      apply : "_applyEnabled"
     }
   },
 
@@ -116,26 +103,6 @@ qx.Class.define("qx.ui.core.RadioManager",
      */
     getItems : function() {
       return this._items;
-    },
-
-
-    /**
-     * Get all enabled managed items
-     *
-     * @return {IRadioItem[]} All enabled managed items
-     */
-    getEnabledItems : function()
-    {
-      var b = [];
-
-      for (var i=0, a=this._items, l=a.length; i<l; i++)
-      {
-        if (a[i].getEnabled()) {
-          b.push(a[i]);
-        }
-      }
-
-      return b;
     },
 
 
@@ -271,25 +238,17 @@ qx.Class.define("qx.ui.core.RadioManager",
         old.setChecked(false);
       }
 
-      if (value) {
-        value.setChecked(true);
-      }
-    },
-
-
-    // property apply
-    _applyEnabled : function(value, old)
-    {
-      for (var i=0, l=this._items.length; i<l; i++)
+      if (value)
       {
-        var item = this._items[i];
-        if (value) {
-          item.resetEnabled();
-        } else {
-          item.setEnabled(false);
+        value.setChecked(true);
+
+        if (value.isFocusable()) {
+          value.focus();
         }
       }
     },
+
+
 
 
     /*
@@ -297,7 +256,6 @@ qx.Class.define("qx.ui.core.RadioManager",
       SELECTION
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Select the item following the given item
@@ -333,7 +291,6 @@ qx.Class.define("qx.ui.core.RadioManager",
      *
      * @param vItem {IRadioItem} The item to select the previous item of
      */
-
     selectPrevious : function(vItem)
     {
       var vIndex = this._items.indexOf(vItem);
@@ -364,13 +321,8 @@ qx.Class.define("qx.ui.core.RadioManager",
      *
      * @param vIndex {Integer} The index if the item to select.
      */
-    _selectByIndex : function(vIndex)
-    {
-      if (this._items[vIndex].getEnabled())
-      {
-        this.setSelected(this._items[vIndex]);
-        this._items[vIndex].focus();
-      }
+    _selectByIndex : function(vIndex) {
+      this.setSelected(this._items[vIndex]);
     }
   },
 
