@@ -33,6 +33,13 @@
  * * Only size hint relevant margins for right and bottom
  * * Auto-sizing
  *
+ * *Layout Item Properties*
+ *
+ * <ul>
+ * <li><strong>left</strong> <em>(Integer)</em>: The left coordinate in pixel</li>
+ * <li><strong>top</strong> <em>(Integer)</em>: The top coordinate in pixel</li>
+ * </ul>
+ *
  * *Notes*
  *
  * The default location of any widget is left=0 and top=0 (top-left corner).

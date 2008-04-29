@@ -37,7 +37,7 @@
  * *Layout Item Properties*
  *
  * <ul>
- * <li><strong>flex</strong> (<em>Integer</em>): Indicates the flexibility
+ * <li><strong>flex</strong> <em>(Integer)</em>: Indicates the flexibility
  *   of the item, which indicates
  *   how an item's container distributes remaining empty space among
  *   its children. Flexible elements grow and shrink to fit their given
@@ -50,7 +50,7 @@
  *   to their flex ratios. Specifying a flex value of 0 has the same
  *   effect as leaving the flex attribute out entirely.
  * </li>
- * <li><strong>height</strong> (<em>String</em>): Defines a percent
+ * <li><strong>height</strong> <em>(String)</em>: Defines a percent
  *   height for the item. The percent height,
  *   when specified, is used instead of the height defined by the size hint.
  *   The minimum and maximum height still takes care of the elements limitations.
