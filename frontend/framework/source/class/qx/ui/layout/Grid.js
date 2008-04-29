@@ -147,21 +147,18 @@ qx.Class.define("qx.ui.layout.Grid",
 
   members :
   {
-    __layoutProperties :
-    {
-      "row" : 1,
-      "column" : 1,
-      "rowSpan" : 1,
-      "colSpan" : 1
-    },
-
-
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
       "on" : function(item, name, value)
       {
-        this.assert(this.__layoutProperties[name] == 1, "The property'"+name+"' is not supported by the grid layout!");
+        var layoutProperties = {
+          "row" : 1,
+          "column" : 1,
+          "rowSpan" : 1,
+          "colSpan" : 1
+        }
+        this.assert(layoutProperties[name] == 1, "The property'"+name+"' is not supported by the grid layout!");
         this.assertInteger(value);
         this.assert(value >= 0, "Value must be positive");
       },
@@ -170,6 +167,9 @@ qx.Class.define("qx.ui.layout.Grid",
     }),
 
 
+    /**
+     * Rebuild the internal representation of the grid
+     */
     __buildGrid : function()
     {
       var grid = [];
