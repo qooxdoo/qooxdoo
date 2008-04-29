@@ -30,12 +30,12 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       this.base(arguments);
 
       var layout = new qx.ui.layout.Grid();
-      layout.setRowAlign(0, "left", "bottom");
-      layout.setRowAlign(1, "left", "middle");
-      layout.setRowAlign(2, "left", "middle");
-      layout.setRowAlign(3, "left", "top");
-      layout.setHorizontalSpacing(15);
-      layout.setVerticalSpacing(3);
+      layout.setColumnAlign(0, "left", "middle");
+      layout.setColumnAlign(1, "right", "middle");
+      layout.setColumnAlign(2, "left", "middle");
+      layout.setColumnAlign(3, "left", "middle");
+      layout.setHorizontalSpacing(10);
+      layout.setVerticalSpacing(8);
 
       var container = new qx.ui.container.Composite(layout).set({
         padding: 10
@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       // ----- Spinner 3 -----
       var s3 = new qx.ui.form.Spinner(-3000, 0, 3000).set({
         singleStep: 5,
-        width: 200,
+        width: 100,
         font: qx.bom.Font.fromString("30px sans-serif")
       });
       container.add(new qx.ui.basic.Label("Big font + singleStep=5"), {column: 0, row: row});
