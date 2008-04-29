@@ -24,8 +24,6 @@
  * perform best and is the ideal candidate for all animations and things
  * like this.
  *
- * The default location of any widget is left=0 and top=0 (top-left corner).
- *
  * *Features*
  *
  * * Integer dimensions
@@ -34,6 +32,14 @@
  * * Margins for top and left side (including negative ones)
  * * Only size hint relevant margins for right and bottom
  * * Auto-sizing
+ *
+ * *Notes*
+ *
+ * The default location of any widget is left=0 and top=0 (top-left corner).
+ *
+ * *Alternative Names*
+ *
+ * TODO
  */
 qx.Class.define("qx.ui.layout.Basic",
 {

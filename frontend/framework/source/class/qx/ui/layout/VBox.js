@@ -22,7 +22,7 @@
  * A full featured vertical box layout. It lays out widgets in a
  * vertical column, from top to bottom.
  *
- * Supports the following features:
+ * *Features*
  *
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
@@ -34,7 +34,7 @@
  * * Reversed children layout (starting from last to first)
  * * Horizontal children stretching (respecting size hints)
  *
- * Names used by other toolkits:
+ * *Alternative Names*
  *
  * * QVBoxLayout (Qt)
  * * StackPanel (XAML)
