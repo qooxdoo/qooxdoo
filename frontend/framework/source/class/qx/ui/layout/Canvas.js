@@ -22,7 +22,7 @@
  * Advanced canvas layout. Children will be positioned by coordinates
  * which should be given by the user.
  *
- * Supports:
+ * *Features*
  *
  * * Integer dimensions and locations
  * * Percent dimensions and locations
@@ -32,10 +32,14 @@
  * * Auto sizing (ignoring percent values)
  * * Margins (also negative ones)
  *
- * Notes:
+ * *Notes*
  *
  * * Stretching (left->right/top->bottom) has a higher priority than the preferred dimensions
  * * Stretching has a lower priority than the min/max dimensions.
+ *
+ * *Alternative Names*
+ *
+ * * TODO
  */
 qx.Class.define("qx.ui.layout.Canvas",
 {
