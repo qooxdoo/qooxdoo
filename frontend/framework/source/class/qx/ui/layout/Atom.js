@@ -22,7 +22,7 @@
  * A atom layout. Used to place an image and label in relation
  * to each other. Useful to create buttons, list items, etc.
  *
- * Supports:
+ * *Features*
  *
  * * Gap between icon and text (using {@link #gap})
  * * Vertical and horizontal mode (using {@link #align})
@@ -31,9 +31,13 @@
  * * Auto-sizing
  * * Supports more than two children (will be processed the same way like the previous ones)
  *
- * Notes:
+ * *Notes*
  *
  * * Does not support margins or alignment of {@link qx.ui.core.LayoutItem}.
+ *
+ * *Alternative Names*
+ *
+ * TODO
  */
 qx.Class.define("qx.ui.layout.Atom",
 {
