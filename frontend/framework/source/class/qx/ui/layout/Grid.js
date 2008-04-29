@@ -29,10 +29,11 @@
  * * Col/row spans
  * * Auto-sizing
  *
- * *Comparable classes by other (native) toolkits*
+ * *Alternative Names*
  *
  * * QGridLayout (Qt)
  * * Grid (XAML)
+ * * TableLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Grid",
 {

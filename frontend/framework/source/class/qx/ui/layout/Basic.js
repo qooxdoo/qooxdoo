@@ -39,7 +39,7 @@
  *
  * *Alternative Names*
  *
- * TODO
+ * * AbsoluteLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Basic",
 {
