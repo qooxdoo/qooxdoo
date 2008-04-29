@@ -73,6 +73,17 @@ qx.Class.define("qx.ui.layout.Atom",
     */
 
     // overridden
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value) {
+        this.assert(false, "The property'"+name+"' is not supported by the atom layout!");
+      },
+
+      "off" : null
+    }),
+
+
+    // overridden
     renderLayout : function(availWidth, availHeight)
     {
       var Util = qx.ui.layout.Util;

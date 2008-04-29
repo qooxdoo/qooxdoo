@@ -24,23 +24,13 @@
  *
  * Supports:
  *
- * * Integer dimensions
- * * Integer locations
+ * * Integer dimensions and locations
  * * Percent dimensions and locations
  * * Stretching between left+right and top+bottom
  * * Min and max dimensions
  * * Children are automatically shrinked to their minimum dimensions if not enough space is available
- * * Auto sizing
+ * * Auto sizing (ignoring percents)
  * * Margins (also negative ones)
- *
- * @param left {Integer|String?null} Left position of the widget (accepts
- *   both, integer(pixel) and string(percent) values.
- * @param top {Integer|String?null} Top position of the widget (accepts
- *   both, integer(pixel) and string(percent) values.
- * @param right {Integer|String?null} Right position of the widget (accepts
- *   both, integer(pixel) and string(percent) values.
- * @param bottom {Integer|String?null} Bottom position of the widget (accepts
- *   both, integer(pixel) and string(percent) values.
  *
  * Notes:
  *
@@ -62,23 +52,28 @@ qx.Class.define("qx.ui.layout.Canvas",
 
   members :
   {
-    __layoutProperties :
-    {
-      "top" : 1,
-      "left" : 1,
-      "bottom" : 1,
-      "right" : 1,
-      "width" : 1,
-      "height" : 1
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
       "on" : function(widget, name, value)
       {
-        this.assert(this.__layoutProperties[name] == 1, "The property'"+name+"' is not supported by the canvas layout!");
+        var layoutProperties :
+        {
+          "top" : 1,
+          "left" : 1,
+          "bottom" : 1,
+          "right" : 1,
+          "width" : 1,
+          "height" : 1
+        };
+
+        this.assert(layoutProperties[name] == 1, "The property'"+name+"' is not supported by the canvas layout!");
 
         if (name =="width" || name == "height")
         {
@@ -102,12 +97,6 @@ qx.Class.define("qx.ui.layout.Canvas",
       "off" : null
     }),
 
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT INTERFACE
-    ---------------------------------------------------------------------------
-    */
 
     // overridden
     renderLayout : function(availWidth, availHeight)
