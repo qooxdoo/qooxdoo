@@ -34,7 +34,7 @@
  * * Reversed children layout (starting from last to first)
  * * Vertical children stretching (respecting size hints)
  *
- * *Layout Item Properties*
+ * *Item Properties*
  *
  * <ul>
  * <li><strong>flex</strong> <em>(Integer)</em>: Indicates the flexibility
@@ -77,7 +77,7 @@
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/hbox'>
- * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *

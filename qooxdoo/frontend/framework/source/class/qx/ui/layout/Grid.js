@@ -72,7 +72,7 @@
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/grid'>
- * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
