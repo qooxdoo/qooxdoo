@@ -19,8 +19,21 @@
 ************************************************************************ */
 
 /**
- * A atom layout. Used to place an Image/Flash and label in relation
- * to each other. Useful to create buttons etc.
+ * A atom layout. Used to place an image and label in relation
+ * to each other. Useful to create buttons, list items, etc.
+ *
+ * Supports:
+ *
+ * * Gap between icon and text (using {@link #gap})
+ * * Vertical and horizontal mode (using {@link #align})
+ * * Sorting options to place first child on top/left or bottom/right (using {@link #align})
+ * * Automatically middles/centers content to the available space
+ * * Auto-sizing
+ * * Supports more than two children (will be processed the same way like the previous ones)
+ *
+ * Notes:
+ *
+ * * Does not support margins or alignment of {@link qx.ui.core.LayoutItem}.
  */
 qx.Class.define("qx.ui.layout.Atom",
 {

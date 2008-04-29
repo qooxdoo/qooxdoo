@@ -30,9 +30,10 @@
  *
  * * Integer dimensions
  * * Basic location using <code>left</code> and <code>top</code>
- * * Basic min/max without skrinking/growing
+ * * Minimum and maximum dimensions without skrinking/growing
  * * Margins for top and left side (including negative ones)
- * * Basic margins (only size hint relevant) for right and bottom
+ * * Only size hint relevant margins for right and bottom
+ * * Auto-sizing
  */
 qx.Class.define("qx.ui.layout.Basic",
 {
