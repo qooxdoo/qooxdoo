@@ -32,14 +32,28 @@
  * * Auto sizing (ignoring percent values)
  * * Margins (also negative ones)
  *
+ * *Item Properties*
+ *
+ * <ul>
+ * <li><strong>left</strong> <em>(Integer)</em>: The left coordinate in pixel</li>
+ * <li><strong>top</strong> <em>(Integer)</em>: The top coordinate in pixel</li>
+ * <li><strong>right</strong> <em>(Integer)</em>: The right coordinate in pixel</li>
+ * <li><strong>bottom</strong> <em>(Integer)</em>: The bottom coordinate in pixel</li>
+ * </ul>
+ *
  * *Notes*
  *
  * * Stretching (left->right/top->bottom) has a higher priority than the preferred dimensions
  * * Stretching has a lower priority than the min/max dimensions.
  *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/canvas'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ *
  * *Alternative Names*
  *
- * * TODO
+ * None
  */
 qx.Class.define("qx.ui.layout.Canvas",
 {
