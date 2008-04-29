@@ -28,7 +28,11 @@
  * *Features*
  *
  * * Integer dimensions
- * * Min and max dimensions
+ * * Minimum and maximum dimensions
+ *
+ * *Alternative Names*
+ *
+ * * FitLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Grow",
 {

@@ -37,6 +37,7 @@
  * * BorderLayout (Qt)
  * * DockPanel (XAML)
  * * BorderLayout (Java)
+ * * BorderLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Dock",
 {
