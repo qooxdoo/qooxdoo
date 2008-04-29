@@ -32,6 +32,9 @@
  * * Alignment in orthogonal axis (e.g. alignX of north attached)
  * * Different sort options for children
  *
+ * *Item Properties*
+ *
+ *
  * *Alternative Names*
  *
  * * BorderLayout (Qt)

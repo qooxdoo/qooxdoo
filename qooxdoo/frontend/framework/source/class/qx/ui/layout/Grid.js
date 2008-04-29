@@ -42,6 +42,7 @@
  * <li><strong>colSpan</strong>:
  * </li>
  * </ul>
+ *
  * *Getting started*
  *
  * Here is a little example of how to use the grid layout.
