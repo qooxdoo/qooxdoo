@@ -34,7 +34,7 @@
  * * Reversed children layout (starting from last to first)
  * * Vertical children stretching (respecting size hints)
  *
- * *Layout Item Properties*
+ * *Item Properties*
  *
  * <ul>
  * <li><strong>flex</strong>: Indicates the flexibility of the item, which indicates
