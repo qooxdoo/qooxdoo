@@ -472,7 +472,8 @@ class Manifest(object):
         libentry['resource']      = os.path.join(uriprefix,libinfo['resource'])
         libentry['translation']   = os.path.join(uriprefix,libinfo['translation'])
         libentry['encoding']    = libinfo['encoding']
-        libentry['namespace']   = libinfo['namespace']
+        if 'namespace' not in libentry:
+            libentry['namespace']   = libinfo['namespace']
         libentry['type']        = libinfo['type']
         libentry['path']        = os.path.dirname(libentry['manifest']) or '.'
 

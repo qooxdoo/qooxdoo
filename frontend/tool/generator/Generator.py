@@ -1002,11 +1002,16 @@ class _ResourceHandler(object):
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, None, True)
             if liblist == None:
-                liblist = filetool.find(libpath)
-                self._genobj._cache.write(cacheId, liblist, True, False)
+                liblist = filetool.find(libpath)  # liblist is a generator, therefore we
+                llist   = []                      # cannot write it out just now
+                inCache = False
+            else:
+                inCache = True
 
             # for each resource path in library
             for rsrc in liblist:
+                if not inCache:
+                    llist.append(rsrc)
                 # is this file considered necessary?
                 if (filter and not filter(rsrc)):
                     continue
@@ -1021,6 +1026,9 @@ class _ResourceHandler(object):
                     res.append(os.path.join(lib['uri'],lib['resource'],relpath))
                     # ...and add it to the result list
                     result.append(res)
+
+        if not inCache:
+                self._genobj._cache.write(cacheId, llist, True, False)
 
         return result
 
