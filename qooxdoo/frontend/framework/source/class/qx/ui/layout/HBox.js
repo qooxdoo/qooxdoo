@@ -27,12 +27,12 @@
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
  * * Margins (with horizontal collapsing)
- * * Percent widths
- * * Alignment
- * * Horizontal spacing
- * * Reversed children layout
- * * Vertical children stretching
- * * Auto sizing
+ * * Auto sizing (ignoring percent values)
+ * * Percent widths (not size hint relevant)
+ * * Alignment (Children property {@link qx.ui.core.LayoutItem#alignX} is ignored)
+ * * Horizontal spacing (collapsed with margins)
+ * * Reversed children layout (starting from last to first)
+ * * Vertical children stretching (respecting size hints)
  *
  * Names used by other toolkits:
  *
@@ -112,36 +112,6 @@ qx.Class.define("qx.ui.layout.HBox",
 
   members :
   {
-    __layoutProperties :
-    {
-      "flex" : 1,
-      "width" : 1
-    },
-
-
-    // overridden
-    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(widget, name, value)
-      {
-        this.assert(this.__layoutProperties[name] == 1, "The property'"+name+"' is not supported by the box layout!");
-
-        if (name =="width")
-        {
-          this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
-        }
-        else
-        {
-          // flex
-          this.assertNumber(value);
-          this.assert(value >= 0);
-        }
-      },
-
-      "off" : null
-    }),
-
-
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -218,6 +188,29 @@ qx.Class.define("qx.ui.layout.HBox",
       LAYOUT INTERFACE
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    verifyLayoutProperty : qx.core.Variant.select("qx.debug",
+    {
+      "on" : function(widget, name, value)
+      {
+        this.assert(name === "flex" || name === "width", "The property'"+name+"' is not supported by the box layout!");
+
+        if (name =="width")
+        {
+          this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
+        }
+        else
+        {
+          // flex
+          this.assertNumber(value);
+          this.assert(value >= 0);
+        }
+      },
+
+      "off" : null
+    }),
+
 
     // overridden
     renderLayout : function(availWidth, availHeight)
