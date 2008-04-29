@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.layout.Dock",
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
-      "on" : function(widget, name, value)
+      "on" : function(item, name, value)
       {
         this.assertIdentical("edge", name, "The property'"+name+"' is not supported by the dock layout!");
         this.assertInArray(value, ["north", "south", "west", "east", "center"]);

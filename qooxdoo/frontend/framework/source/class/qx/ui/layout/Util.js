@@ -40,6 +40,8 @@ qx.Class.define("qx.ui.layout.Util",
      *   The potential is an integer value which is the difference of the
      *   currently interesting direction (e.g. shrinking=width-minWidth, growing=
      *   maxWidth-width). The flex key holds the flex value of the item.
+     * @param avail {Integer} Full available space to allocate (ignoring used one)
+     * @param used {Integer} Size of already allocated space
      * @return {Map} A map which contains the calculated offsets under the key
      *   which is identical to the ID given in the incoming map.
      */
@@ -134,7 +136,8 @@ qx.Class.define("qx.ui.layout.Util",
 
     /**
      * Computes the offset which needs to be added to the top position
-     * to result in the stated vertical alignment.
+     * to result in the stated vertical alignment. Also respects
+     * existing margins (without collapsing).
      *
      * @type static
      * @param align {String} One of <code>top</code>, <code>center</code> or <code>bottom</code>.
@@ -187,7 +190,8 @@ qx.Class.define("qx.ui.layout.Util",
 
     /**
      * Computes the offset which needs to be added to the top position
-     * to result in the stated vertical alignment.
+     * to result in the stated vertical alignment. Also respects
+     * existing margins (without collapsing).
      *
      * @type static
      * @param align {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
@@ -241,7 +245,13 @@ qx.Class.define("qx.ui.layout.Util",
     /**
      * Collapses two margins.
      *
+     * Supports positive and negative margins.
+     * Collapsing find the largest positive and the largest
+     * negative value. Afterwards the result is computed through the
+     * substraction of the negative from the positive value.
+     *
      * @type member
+     * @param varargs {arguments} Any number of configured margins
      * @return {Integer} The collapsed margin
      */
     collapseMargins : function(varargs)
@@ -262,6 +272,19 @@ qx.Class.define("qx.ui.layout.Util",
     },
 
 
+    /**
+     * Computes the sum of all horizontal gaps. Normally the
+     * result is used to compute the available width in a widget.
+     *
+     * The method optionally respects margin collapsing as well. In
+     * this mode the spacing is collapsed together with the margins.
+     *
+     * @type member
+     * @param children {Array} List of children
+     * @param spacing {Integer?0} Spacing between every child
+     * @param collapse {Boolean?false} Optional margin collapsing mode
+     * @return {Integer} Sum of all gaps in the final layout.
+     */
     computeHorizontalGaps : function(children, spacing, collapse)
     {
       if (spacing == null) {
@@ -297,6 +320,19 @@ qx.Class.define("qx.ui.layout.Util",
     },
 
 
+    /**
+     * Computes the sum of all vertical gaps. Normally the
+     * result is used to compute the available height in a widget.
+     *
+     * The method optionally respects margin collapsing as well. In
+     * this mode the spacing is collapsed together with the margins.
+     *
+     * @type member
+     * @param children {Array} List of children
+     * @param spacing {Integer?0} Spacing between every child
+     * @param collapse {Boolean?false} Optional margin collapsing mode
+     * @return {Integer} Sum of all gaps in the final layout.
+     */
     computeVerticalGaps : function(children, spacing, collapse)
     {
       if (spacing == null) {
