@@ -36,25 +36,25 @@
  * *Layout Item Properties*
  *
  * <ul>
- * <li><strong>row</strong> (<em>Integer</em>): The row of the cell, where the
+ * <li><strong>row</strong> <em>(Integer)</em>: The row of the cell, where the
  *   widget should occupy. Each cell can only contain one widget. This layout
  *   property is mandatory.
  * </li>
- * <li><strong>column</strong> (<em>Integer</em>): The column of the cell, where the
+ * <li><strong>column</strong> <em>(Integer)</em>: The column of the cell, where the
  *   widget should occupy. Each cell can only contain one widget. This layout
  *   property is mandatory.
  * </li>
- * <li><strong>rowSpan</strong> (</em>Integer</em>): The number of rows, the
+ * <li><strong>rowSpan</strong> </em>(Integer)</em>: The number of rows, the
  *   widget should span, starting from the row specified in the <code>row</code>
  *   property. The cells in the spanned rows must be empty as well.
  * </li>
- * <li><strong>colSpan</strong> (</em>Integer</em>): The number of columns, the
+ * <li><strong>colSpan</strong> </em>(Integer)</em>: The number of columns, the
  *   widget should span, starting from the column specified in the <code>column</code>
  *   property. The cells in the spanned columns must be empty as well.
  * </li>
  * </ul>
  *
- * *Getting started*
+ * *Example*
  *
  * Here is a little example of how to use the grid layout.
  *

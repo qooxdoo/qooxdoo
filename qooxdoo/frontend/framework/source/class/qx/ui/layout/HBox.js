@@ -37,7 +37,7 @@
  * *Layout Item Properties*
  *
  * <ul>
- * <li><strong>flex</strong> (<em>Integer</em>): Indicates the flexibility
+ * <li><strong>flex</strong> <em>(Integer)</em>: Indicates the flexibility
  *   of the item, which indicates
  *   how an item's container distributes remaining empty space among
  *   its children. Flexible elements grow and shrink to fit their given
@@ -50,7 +50,7 @@
  *   to their flex ratios. Specifying a flex value of 0 has the same
  *   effect as leaving the flex attribute out entirely.
  * </li>
- * <li><strong>width</strong> (<em>String</em>): Defines a percent
+ * <li><strong>width</strong> <em>(String)</em>: Defines a percent
  *   width for the item. The percent width,
  *   when specified, is used instead of the width defined by the size hint.
  *   The minimum and maximum width still takes care of the elements limitations.
@@ -59,7 +59,7 @@
  * </li>
  * </ul>
  *
- * *Getting started*
+ * *Example*
  *
  * Here is a little example of how to use the grid layout.
  *
