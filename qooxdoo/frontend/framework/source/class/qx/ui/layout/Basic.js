@@ -33,7 +33,7 @@
  * * Only size hint relevant margins for right and bottom
  * * Auto-sizing
  *
- * *Layout Item Properties*
+ * *Item Properties*
  *
  * <ul>
  * <li><strong>left</strong> <em>(Integer)</em>: The left coordinate in pixel</li>
@@ -43,6 +43,11 @@
  * *Notes*
  *
  * The default location of any widget is left=0 and top=0 (top-left corner).
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/basic'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
