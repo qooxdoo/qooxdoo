@@ -50,7 +50,7 @@
  * Here is a little example of how to use the basic layout.
  *
  * <pre class="javascript">
- * var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+ * var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
  *
  * // simple positioning
  * container.add(new qx.ui.core.Widget(), {left: 10, top: 10});
