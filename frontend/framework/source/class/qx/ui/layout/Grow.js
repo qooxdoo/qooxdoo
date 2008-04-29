@@ -25,7 +25,7 @@
  * set to <code>0</code>. The {@link qx.ui.container.Stack} and the
  * {@link qx.ui.core.ScrollPane} are using this layout.
  *
- * Supports:
+ * *Features*
  *
  * * Integer dimensions
  * * Min and max dimensions
