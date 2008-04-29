@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     if (varargs != null)
     {
       // add() iterates over arguments, but vMembers is an array
-      this.add.apply(this, varargs);
+      this.add.apply(this, arguments);
     }
   },
 
