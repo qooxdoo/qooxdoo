@@ -40,11 +40,10 @@ qx.Class.define("qx.ui.embed.Iframe",
   *****************************************************************************
   */
 
-  construct : function(vSource)
+  construct : function(source)
   {
+    this._source = source;
     this.base(arguments);
-    
-    this._element = new qx.html.Iframe(vSource);
   },
 
 
@@ -85,7 +84,11 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   properties :
   {
-
+    source :
+    {
+      check : "String",
+      apply : "_applySource"
+    }
   },
 
 
@@ -99,7 +102,10 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   members :
   {
-
+    // overridden
+    _createContentElement : function() {
+      return new qx.html.Iframe(this._source);
+    },
     /*
     ---------------------------------------------------------------------------
       METHODS
@@ -116,6 +122,10 @@ qx.Class.define("qx.ui.embed.Iframe",
     ---------------------------------------------------------------------------
     */
 
+    _applySource : function(value, old)
+    {
+      this.getContentElement().setSource(value);
+    }
 
 
 

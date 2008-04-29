@@ -36,12 +36,23 @@ qx.Class.define("qx.html.Iframe",
 
   members :
   {
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
     ---------------------------------------------------------------------------
     */
-    /*
+
+    // overridden
+    _applyProperty : function(name, value)
+    {
+      this.base(arguments);
+
+      if (name == "source") {
+        qx.bom.Iframe.setSource(this._element, value);
+      }
+    },
+
     // overridden
     _createDomElement : function()
     {
@@ -49,7 +60,6 @@ qx.Class.define("qx.html.Iframe",
 
       return el;
     },
-    */
 
     /*
     ---------------------------------------------------------------------------
@@ -59,19 +69,49 @@ qx.Class.define("qx.html.Iframe",
 
     getWindow : function()
     {
-      return qx.bom.Iframe.getWindow(this._element);
+      if (this._element)
+      {
+        return qx.bom.Iframe.getWindow(this._element);
+      } else {
+        return null;
+      }
     },
-    
+
     getDocument : function()
     {
-      return qx.bom.Iframe.getDocument(this._element);
+      if (this._element) {
+        return qx.bom.Iframe.getDocument(this._element);
+      } else {
+        return null;
+      }
     },
-    
+
     getBody : function()
     {
-      return qx.bom.Iframe.getBody(this._element);
+      if (this._element) {
+        return qx.bom.Iframe.getBody(this._element);
+      } else {
+        return null;
+      }
+    },
+
+    setSource : function(source)
+    {
+      this._setProperty("source", source);
+      return this;
+    },
+
+
+    /**
+     * Get the current source.
+     *
+     * @type member
+     * @return {String} The iframe's source
+     */
+    getSource : function() {
+      return this._getProperty("source");
     }
-  
+
 
   }
 });
