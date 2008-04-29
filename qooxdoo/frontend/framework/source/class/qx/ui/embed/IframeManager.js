@@ -97,5 +97,16 @@ qx.Class.define("qx.ui.embed.IframeManager",
         iframeMap[key].release();
       }
     }
+  },
+  
+  
+  /*
+    ---------------------------------------------------------------------------
+      DESTRUCTOR
+    ---------------------------------------------------------------------------
+  */
+  destruct : function()
+  {
+    this._disposeFields("_blocked", "_blockData");
   }
 });
