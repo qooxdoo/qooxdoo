@@ -40,14 +40,15 @@
  * <li><strong>top</strong> <em>(Integer)</em>: The top coordinate in pixel</li>
  * </ul>
  *
- * *Notes*
+ * *Details*
  *
- * The default location of any widget is left=0 and top=0 (top-left corner).
+ * The default location of any widget is zero for both
+ * <code>left</code> and <code>top</code>.
  *
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/basic'>
- * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
