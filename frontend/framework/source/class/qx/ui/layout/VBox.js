@@ -59,7 +59,7 @@
  * </li>
  * </ul>
  *
- * *Getting started*
+ * *Example*
  *
  * Here is a little example of how to use the grid layout.
  *
@@ -74,13 +74,18 @@
  * container.add(new qx.ui.core.Widget());
  * </pre>
  *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/vbox'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ *
  * *Alternative Names*
  *
  * * QVBoxLayout (Qt)
  * * StackPanel (XAML)
  * * RowLayout (SWT)
  *
- * *Notes*
+ * *Copybottom Notes*
  *
  * Description of flex property by "Mozilla":http://developer.mozilla.org/en/docs/XUL:Attribute:flex
  * licensed under the

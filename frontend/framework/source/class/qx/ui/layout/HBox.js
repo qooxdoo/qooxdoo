@@ -74,13 +74,18 @@
  * container.add(new qx.ui.core.Widget());
  * </pre>
  *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/hbox'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ *
  * *Alternative Names*
  *
  * * QHBoxLayout (Qt)
  * * StackPanel (XAML)
  * * RowLayout (SWT)
  *
- * *Notes*
+ * *Copyright Notes*
  *
  * Description of flex property by "Mozilla":http://developer.mozilla.org/en/docs/XUL:Attribute:flex
  * licensed under the

@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A feature rich dock layout. Docks children to one of the edges.
+ * Docks children to one of the edges.
  *
  * *Features*
  *
@@ -34,6 +34,41 @@
  *
  * *Item Properties*
  *
+ * <ul>
+ * <li><strong>edge</strong> <em>(String)</em>: The edge where the layout item
+ *   should be docked. This may be one of <code>north</code>, <code>east</code>,
+ *   <code>south</code> or <code>west</code>.</li>
+ * </ul>
+ *
+ * *Example*
+ *
+ * <pre class="javascript">
+ * var layout = new qx.ui.layout.Dock();
+ *
+ * var w1 = new qx.ui.core.Widget();
+ * var w2 = new qx.ui.core.Widget();
+ * var w3 = new qx.ui.core.Widget();
+ *
+ * w1.setHeight(200);
+ * w2.setWidth(150);
+ *
+ * var container = new qx.ui.container.Composite(layout);
+ * container.add(w1, {edge:"north"});
+ * container.add(w2, {edge:"west"});
+ * container.add(w3, {edge:"center"});
+ * </pre>
+ *
+ * *Detailed Description*
+ *
+ * Using this layout, items may be "docked" to a specific side
+ * of the available space. Each displayed item reduces the available space
+ * for the following children. Priorities depend on the position of
+ * the child in the internal children list.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/dock'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *

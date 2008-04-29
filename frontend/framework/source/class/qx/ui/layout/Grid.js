@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * The grid layout manager arranges the widget's children in a two dimensional
+ * The grid layout manager arranges the items in a two dimensional
  * grid. Widgets can be placed into the grid's cells and may span multiple rows
  * and columns.
  *
@@ -33,7 +33,7 @@
  * * Column and row spans
  * * Auto-sizing
  *
- * *Layout Item Properties*
+ * *Item Properties*
  *
  * <ul>
  * <li><strong>row</strong> <em>(Integer)</em>: The row of the cell, where the
@@ -44,11 +44,11 @@
  *   widget should occupy. Each cell can only contain one widget. This layout
  *   property is mandatory.
  * </li>
- * <li><strong>rowSpan</strong> </em>(Integer)</em>: The number of rows, the
+ * <li><strong>rowSpan</strong> <em>(Integer)</em>: The number of rows, the
  *   widget should span, starting from the row specified in the <code>row</code>
  *   property. The cells in the spanned rows must be empty as well.
  * </li>
- * <li><strong>colSpan</strong> </em>(Integer)</em>: The number of columns, the
+ * <li><strong>colSpan</strong> <em>(Integer)</em>: The number of columns, the
  *   widget should span, starting from the column specified in the <code>column</code>
  *   property. The cells in the spanned columns must be empty as well.
  * </li>
@@ -64,20 +64,19 @@
  * layout.setColumnWidth(1, 200); // set with of column 1 to 200 pixel
  *
  * var container = new qx.ui.container.Composite(layout);
- *
  * container.add(new qx.ui.core.Widget(), {row: 0, column: 0});
  * container.add(new qx.ui.core.Widget(), {row: 0, column: 1});
  * container.add(new qx.ui.core.Widget(), {row: 1, column: 0, rowSpan: 2});
  * </pre>
  *
- * *Extended Documentation*
+ * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/grid'>
  * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
- * * <a href="http://doc.trolltech.com/4.3/qgridlayout.html">QGridLayout</a> (Qt)
+ * * "QGridLayout":http://doc.trolltech.com/4.3/qgridlayout.html (Qt)
  * * Grid (XAML)
  * * TableLayout (ExtJS)
  */

@@ -33,15 +33,20 @@
  *
  * *Item Properties*
  *
- * Not supported
+ * <em>None</em>
  *
  * *Notes*
  *
  * * Does not support margins or alignment of {@link qx.ui.core.LayoutItem}.
  *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/atom'>
+ * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ *
  * *Alternative Names*
  *
- * TODO
+ * <em>None</em>
  */
 qx.Class.define("qx.ui.layout.Atom",
 {
