@@ -27,9 +27,9 @@
  * * Integer dimensions and locations
  * * Percent dimensions and locations
  * * Stretching between left+right and top+bottom
- * * Min and max dimensions
+ * * Minimum and maximum dimensions
  * * Children are automatically shrinked to their minimum dimensions if not enough space is available
- * * Auto sizing (ignoring percents)
+ * * Auto sizing (ignors percent values)
  * * Margins (also negative ones)
  *
  * Notes:
