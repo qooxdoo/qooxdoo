@@ -109,7 +109,7 @@
 #content th{
   font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
   font-size: 11px;
-  line-height: 140%;
+  line-height: 1.4;
 }
 
 #content h1,
@@ -182,6 +182,9 @@
 }
 
 
+
+
+
 /* ==============================================
     SOURCE CODE
 ============================================== */
@@ -211,7 +214,7 @@
 }
 
 .ident {
-	/* font-weight: bold; */
+
 }
 
 .comment {
@@ -255,10 +258,6 @@
 
 
 
-
-
-
-
 /* ==============================================
     CLASS VIEWER: CLASS DESCRIPTION
 ============================================== */
@@ -270,7 +269,7 @@
 
 #ClassViewer div.class-description{
   font-size: 12px;
-  line-height: 160%;
+  line-height: 1.6;
 	overflow: auto;
 	background: #F3FFD1;
 	margin-bottom: 30px;
@@ -279,11 +278,19 @@
   padding: 2px 20px;
 }
 
-#ClassViewer div.class-description p{
+#ClassViewer div.class-description p,
+#ClassViewer div.class-description ul,
+#ClassViewer div.class-description ol{
   margin-top: 14px;
   margin-bottom: 14px;
+  max-width: 600px;
 }
 
+#ClassViewer div.class-description em{
+  color: #83B300;
+  font-style: normal;
+  font-weight: bold;
+}
 
 
 
