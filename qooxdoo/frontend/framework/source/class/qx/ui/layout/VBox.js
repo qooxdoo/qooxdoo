@@ -34,10 +34,11 @@
  * * Reversed children layout (starting from last to first)
  * * Horizontal children stretching (respecting size hints)
  *
- * *Item Properties*
+ * *Layout Item Properties*
  *
  * <ul>
- * <li><strong>flex</strong>: Indicates the flexibility of the item, which indicates
+ * <li><strong>flex</strong> (<em>Integer</em>): Indicates the flexibility
+ *   of the item, which indicates
  *   how an item's container distributes remaining empty space among
  *   its children. Flexible elements grow and shrink to fit their given
  *   space. Elements with larger flex values will be made larger than
@@ -49,13 +50,29 @@
  *   to their flex ratios. Specifying a flex value of 0 has the same
  *   effect as leaving the flex attribute out entirely.
  * </li>
- * <li><strong>height</strong>: Defines a percent height for the item. The percent height,
- *   when specified, is used instead of the height defined by the size hint. The minimum
- *   and maximum height still takes care of the elements limitations.
+ * <li><strong>height</strong> (<em>String</em>): Defines a percent
+ *   height for the item. The percent height,
+ *   when specified, is used instead of the height defined by the size hint.
+ *   The minimum and maximum height still takes care of the elements limitations.
  *   It has no influence on the layout's size hint. Percents are mainly useful for
  *   widgets which are sized by the outer hierarchy.
  * </li>
  * </ul>
+ *
+ * *Getting started*
+ *
+ * Here is a little example of how to use the grid layout.
+ *
+ * <pre class="javascript">
+ * var layout = new qx.ui.layout.VBox();
+ * layout.setSpacing(4); // apply spacing
+ *
+ * var container = new qx.ui.container.Composite(layout);
+ *
+ * container.add(new qx.ui.core.Widget());
+ * container.add(new qx.ui.core.Widget());
+ * container.add(new qx.ui.core.Widget());
+ * </pre>
  *
  * *Alternative Names*
  *
