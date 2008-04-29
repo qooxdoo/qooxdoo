@@ -589,7 +589,7 @@
       markCell : function(cell)
       {
         var size = Math.ceil(this.cellSize / 5);
-        var o = new qx.ui.basic.Label("X");
+        var o = new qx.ui.basic.Label("&bull;", null, "html");
         o.set(
           {
             height : size,
@@ -609,9 +609,9 @@
     statics :
     {
       nextMouse   : 1,
-      ticksPerSec : 20,
-      fadeSeconds : 0.5,
-      moveSeconds : 0.2
+      ticksPerSec : 40,
+      fadeSeconds : 0.1,
+      moveSeconds : 0.05
     },
 
     construct : function(origin, maze, facing)
