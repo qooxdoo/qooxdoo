@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.GridLayout_4",
+qx.Class.define("demobrowser.demo.layout.Grid_Animated",
 {
   extend : qx.application.Standalone,
 
@@ -69,13 +69,13 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_4",
             backgroundColor : "orange"
         });
 
-        effects.push(new demobrowser.demo.layout.GridLayout_4_Property(widget, "width").set({
+        effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "width").set({
           from: 50,
           to: 200,
           duration: duration,
           transition: "spring"
         }));
-        effects.push(new demobrowser.demo.layout.GridLayout_4_Property(widget, "height").set({
+        effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "height").set({
           from: 50,
           to: 200,
           duration: duration,

@@ -21,7 +21,7 @@
 /**
  * This example demonstrates how alignment is supported in the grid.
  */
-qx.Class.define("demobrowser.demo.layout.GridLayout_3",
+qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
 {
   extend : demobrowser.demo.util.LayoutApplication,
 

@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.GridLayout_1",
+qx.Class.define("demobrowser.demo.layout.Grid_Simple",
 {
   extend : demobrowser.demo.util.LayoutApplication,
 
@@ -39,7 +39,6 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
       container.add(this.getGrid1());
       container.add(this.getGrid2());
       container.add(this.getGrid3());
-      container.add(this.getGrid4());
     },
 
 
@@ -181,51 +180,7 @@ qx.Class.define("demobrowser.demo.layout.GridLayout_1",
       }), {row: 1, column: 1});
 
       return container;
-    },
-
-
-    getGrid4 : function()
-    {
-      // flex columns
-      var container = new qx.ui.container.Composite().set({
-        decorator: "black",
-        backgroundColor: "yellow",
-        allowShrinkX: false,
-        allowShrinkY: false,
-        allowGrowX: false,
-        allowGrowY: false
-      });
-
-      var layout = new qx.ui.layout.Grid();
-      layout.setColumnFlex(0, 1);
-      layout.setRowFlex(0, 1);
-      layout.setRowFlex(1, 1);
-      layout.setSpacing(1);
-      container.setLayout(layout);
-
-      container.add((new qx.ui.core.Widget).set({
-        decorator: "black",
-        backgroundColor: "green",
-        height: 20,
-        maxHeight: 20,
-        minHeight: 20
-      }), {row: 0, column: 0, rowSpan: 2});
-
-      container.add((new qx.ui.core.Widget).set({
-        decorator: "black",
-        backgroundColor: "green",
-        maxHeight: 3,
-        width: 10
-      }), {row: 0, column: 1});
-
-      container.add((new qx.ui.core.Widget).set({
-        decorator: "black",
-        backgroundColor: "green",
-        maxHeight: 3,
-        width: 10
-      }), {row: 1, column: 1});
-
-      return container;
     }
+
   }
 });
