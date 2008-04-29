@@ -31,6 +31,10 @@
  * * Auto-sizing
  * * Supports more than two children (will be processed the same way like the previous ones)
  *
+ * *Item Properties*
+ *
+ * Not supported
+ *
  * *Notes*
  *
  * * Does not support margins or alignment of {@link qx.ui.core.LayoutItem}.
