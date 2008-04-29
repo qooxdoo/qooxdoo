@@ -51,19 +51,16 @@
           qx.io.Alias.getInstance().add("demobrowser", resourcePath);
         }
 
-/*
         var rootLogger = qx.log.Logger.ROOT_LOGGER;
 
         if (qx.core.Variant.isSet("qx.client", "gecko"))
         {
-          // We want to use the window appender, not Firebug.
           rootLogger.removeAllAppenders();
-          var appender = new qx.log.appender.Window();
-          appender.setWindowHeight(900);
-          appender.setWindowWidth(700);
+          var appender = new qx.log.appender.FireBug();
+//          appender.setWindowHeight(900);
+//          appender.setWindowWidth(700);
           rootLogger.addAppender(appender);
         }
-*/
 
         var description =
           "This is a simple example of using a finite state machine, in " +
@@ -207,12 +204,13 @@
         this.setColumnWidth(col, this.cellSize);
       }
 
-      // Initialize the cells and walls arrays.  Walls are Border objects; Cells
-      // are HorizontalBoxLayout objects.
+      // Initialize the cells and walls arrays.  Walls are Border objects;
+      // Cells are HorizontalBoxLayout objects.
       this.cells = [];
       this.walls = [];
 
-      // Each element of mazeInfo is a bitmap of walls (custom.Maze.Direction.*)
+      // Each element of mazeInfo is a bitmap of walls
+      // (custom.Maze.Direction.*)
       this.mazeInfo = [];
 
       // Build a grid with all walls of all cells intact
@@ -611,9 +609,9 @@
     statics :
     {
       nextMouse   : 1,
-      ticksPerSec : 10,
-      fadeSeconds : 1,
-      moveSeconds : 0.5
+      ticksPerSec : 20,
+      fadeSeconds : 0.5,
+      moveSeconds : 0.2
     },
 
     construct : function(origin, maze, facing)
