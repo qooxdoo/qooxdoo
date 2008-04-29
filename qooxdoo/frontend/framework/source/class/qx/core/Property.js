@@ -123,8 +123,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Built-in checks
      * The keys could be used in the check of the properties
-     *
-     * @internal
      */
     __checks :
     {
@@ -163,8 +161,6 @@ qx.Class.define("qx.core.Property",
 
     /**
      * Contains types from {@link #__checks} list which need to be disposed
-     *
-     * @internal
      */
     __dispose :
     {
@@ -269,7 +265,6 @@ qx.Class.define("qx.core.Property",
      * Refreshes widget whose parent has changed (including the children)
      *
      * @type static
-     * @internal
      * @param widget {qx.ui.core.Widget} the widget
      * @return {void}
      */
@@ -333,7 +328,6 @@ qx.Class.define("qx.core.Property",
      * Attach properties to class prototype
      *
      * @type static
-     * @internal
      * @param clazz {Class} Class to attach properties to
      * @return {void}
      */
@@ -356,7 +350,6 @@ qx.Class.define("qx.core.Property",
      * Attach one property to class
      *
      * @type static
-     * @internal
      * @param clazz {Class} Class to attach properties to
      * @param name {String} Name of property
      * @param config {Map} Configuration map of property
@@ -375,7 +368,6 @@ qx.Class.define("qx.core.Property",
      * Attach group methods
      *
      * @type static
-     * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
      * @param name {String} Name of the property
@@ -471,7 +463,6 @@ qx.Class.define("qx.core.Property",
      * Attach property methods
      *
      * @type static
-     * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
      * @param name {String} Name of the property
@@ -571,7 +562,6 @@ qx.Class.define("qx.core.Property",
      * Error method used by the property system to report errors.
      *
      * @type static
-     * @internal
      * @param obj {qx.core.Object} Any qooxdoo object
      * @param id {Integer} Numeric error identifier
      * @param property {String} Name of the property
@@ -597,7 +587,6 @@ qx.Class.define("qx.core.Property",
      * returns the return value.
      *
      * @type static
-     * @internal
      * @param instance {Object} Instance which have called the original method
      * @param members {Object} Prototype members map where the new function should be stored
      * @param name {String} Name of the property
@@ -650,7 +639,6 @@ qx.Class.define("qx.core.Property",
      * Supported variants: get
      *
      * @type static
-     * @internal
      * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
@@ -705,7 +693,6 @@ qx.Class.define("qx.core.Property",
      * Supported variants: set, reset, init, refresh, style, unstyle
      *
      * @type static
-     * @internal
      * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property

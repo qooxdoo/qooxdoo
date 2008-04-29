@@ -55,7 +55,6 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
-     * @internal
      * @return {void}
      */
     flush : function()

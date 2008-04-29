@@ -55,7 +55,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * given target.
      *
      * @type static
-     * @internal
      * @param target {Object} Any valid event target
      * @return {qx.event.Manager} The event manger for the target.
      */
@@ -88,7 +87,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * Normally only used when the manager gets disposed through
      * an unload event of the attached window.
      *
-     * @internal
      * @type static
      * @param mgr {qx.event.Manager} The manager to remove
      * @return {void}
@@ -275,7 +273,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Register an event handler.
      *
-     * @internal
      * @type static
      * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
      * @return {void}
@@ -303,7 +300,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Get a list of registered event handlers.
      *
-     * @internal
      * @type static
      * @return {qx.event.handler.AbstractEventHandler[]} registered event handlers
      */
@@ -327,7 +323,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Register an event dispatcher.
      *
-     * @internal
      * @type static
      * @param dispatcher {qx.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
@@ -357,7 +352,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Get a list of registered event dispatchers.
      *
-     * @internal
      * @type static
      * @return {qx.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */

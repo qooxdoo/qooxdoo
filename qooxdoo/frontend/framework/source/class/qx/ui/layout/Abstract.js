@@ -48,7 +48,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * Invalidate all layout relevant caches. Automatically deletes the size hint.
      *
      * @abstract
-     * @internal
      * @type member
      * @return {void}
      */
@@ -60,7 +59,6 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Applies the children layout.
      *
-     * @internal
      * @abstract
      * @type member
      * @param availWidth {Integer} Final width available for the content (in pixel)
@@ -154,7 +152,6 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * This method is called by the widget to connect the widget with the layout.
      *
-     * @internal
      * @param widget {qx.ui.core.Widget} The widget to connect to.
      */
     connectToWidget : function(widget)
