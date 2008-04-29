@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -137,6 +138,41 @@ qx.Class.define("qx.bom.Iframe",
     {
       var doc = this.getDocument(iframe);
       return doc ? doc.getElementsByTagName("body")[0] : null;
+    },
+
+    setSource : function(iframe, source)
+    {
+
+      try
+      {
+        // the guru says ...
+        // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
+        // with the history (which is taken care of by the history manager), but there
+        // has to be a loaded document
+        if (this.getWindow(iframe))
+        {
+          /*
+          Some gecko users might have an exception here:
+            Exception... "Component returned failure code: 0x805e000a
+            [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+          */
+          try
+          {
+            this.getWindow(iframe).location.replace(source);
+          }
+          catch(ex)
+          {
+           iframe.src = source;
+          }
+        }
+        else
+        {
+          iframe.src = source;
+        }
+      }
+      catch(ex) {
+        qx.log.Logger.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
+      }
     }
   }
 });
