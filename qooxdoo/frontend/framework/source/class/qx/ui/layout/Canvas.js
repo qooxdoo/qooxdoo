@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.layout.Canvas",
     {
       "on" : function(widget, name, value)
       {
-        var layoutProperties :
+        var layoutProperties =
         {
           "top" : 1,
           "left" : 1,
