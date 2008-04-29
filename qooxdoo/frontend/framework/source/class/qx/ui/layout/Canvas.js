@@ -35,16 +35,19 @@
  * *Item Properties*
  *
  * <ul>
- * <li><strong>left</strong> <em>(Integer)</em>: The left coordinate in pixel</li>
- * <li><strong>top</strong> <em>(Integer)</em>: The top coordinate in pixel</li>
- * <li><strong>right</strong> <em>(Integer)</em>: The right coordinate in pixel</li>
- * <li><strong>bottom</strong> <em>(Integer)</em>: The bottom coordinate in pixel</li>
+ * <li><strong>left</strong> <em>(Integer)</em>: The left coordinate in pixel or as a percent string.</li>
+ * <li><strong>top</strong> <em>(Integer)</em>: The top coordinate in pixel or as a percent string.</li>
+ * <li><strong>right</strong> <em>(Integer)</em>: The right coordinate in pixel or as a percent string.</li>
+ * <li><strong>bottom</strong> <em>(Integer)</em>: The bottom coordinate in pixel or as a percent string.</li>
  * </ul>
  *
  * *Notes*
  *
- * * Stretching (left->right/top->bottom) has a higher priority than the preferred dimensions
- * * Stretching has a lower priority than the min/max dimensions.
+ * <ul>
+ * <li>Stretching (<code>left</code>-><code>right</code> or <code>top</code>-><code>bottom</code>)
+ *   has a higher priority than the preferred dimensions</li>
+ * <li>Stretching has a lower priority than the min/max dimensions.</li>
+ * </ul>
  *
  * *External Documentation*
  *
