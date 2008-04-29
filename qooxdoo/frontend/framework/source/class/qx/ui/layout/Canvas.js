@@ -52,6 +52,24 @@
  * <li>Percent values have no influence on the size hint of the layout.</li>
  * </ul>
  *
+ * *Example*
+ *
+ * Here is a little example of how to use the canvas layout.
+ *
+ * <pre class="javascript">
+ * var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+ *
+ * // simple positioning
+ * container.add(new qx.ui.core.Widget(), {top: 10, left: 10});
+ *
+ * // strech vertically with 10 pixel distance to the parent's top
+ * // and bottom border
+ * container.add(new qx.ui.core.Widget(), {top: 10, left: 10, bottom: 10});
+ *
+ * // percent positioning and size
+ * container.add(new qx.ui.core.Widget(), {left: "50%", top: "50%", width: "25%", height: "40%"});
+ * </pre>
+ *
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/canvas'>

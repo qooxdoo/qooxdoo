@@ -45,6 +45,18 @@
  * The default location of any widget is zero for both
  * <code>left</code> and <code>top</code>.
  *
+ * *Example*
+ *
+ * Here is a little example of how to use the basic layout.
+ *
+ * <pre class="javascript">
+ * var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+ *
+ * // simple positioning
+ * container.add(new qx.ui.core.Widget(), {left: 10, top: 10});
+ * container.add(new qx.ui.core.Widget(), {left: 100, top: 50});
+ * </pre>
+ *
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/basic'>
