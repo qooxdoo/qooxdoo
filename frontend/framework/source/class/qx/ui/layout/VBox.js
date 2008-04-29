@@ -34,11 +34,40 @@
  * * Reversed children layout (starting from last to first)
  * * Horizontal children stretching (respecting size hints)
  *
+ * *Item Properties*
+ *
+ * <ul>
+ * <li><strong>flex</strong>: Indicates the flexibility of the item, which indicates
+ *   how an item's container distributes remaining empty space among
+ *   its children. Flexible elements grow and shrink to fit their given
+ *   space. Elements with larger flex values will be made larger than
+ *   elements with lower flex values, at the ratio determined by the
+ *   two elements. The actual value is not relevant unless there are
+ *   other flexible elements within the same container. Once the
+ *   default sizes of elements in a box are calculated, the remaining
+ *   space in the box is divided among the flexible elements, according
+ *   to their flex ratios. Specifying a flex value of 0 has the same
+ *   effect as leaving the flex attribute out entirely.
+ * </li>
+ * <li><strong>height</strong>: Defines a percent height for the item. The percent height,
+ *   when specified, is used instead of the height defined by the size hint. The minimum
+ *   and maximum height still takes care of the elements limitations.
+ *   It has no influence on the layout's size hint. Percents are mainly useful for
+ *   widgets which are sized by the outer hierarchy.
+ * </li>
+ * </ul>
+ *
  * *Alternative Names*
  *
  * * QVBoxLayout (Qt)
  * * StackPanel (XAML)
  * * RowLayout (SWT)
+ *
+ * *Notes*
+ *
+ * Description of flex property by "Mozilla":http://developer.mozilla.org/en/docs/XUL:Attribute:flex
+ * licensed under the
+ * "CC Attribution-Sharealike License":http://creativecommons.org/licenses/by-sa/2.5/.
  */
 qx.Class.define("qx.ui.layout.VBox",
 {
