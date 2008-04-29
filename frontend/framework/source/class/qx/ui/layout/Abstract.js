@@ -19,9 +19,11 @@
 ************************************************************************ */
 
 /**
- * Base class for all layout managers. Custom layout manager must derive from
+ * Base class for all layout managers.
+ *
+ * Custom layout manager must derive from
  * this class and implement the methods {@link #invalidateLayoutCache},
- * {@link #renderLayout} and {#getSizeHint}.
+ * {@link #renderLayout} and {@link #getSizeHint}.
  */
 qx.Class.define("qx.ui.layout.Abstract",
 {
@@ -122,16 +124,16 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Verifies the value of a layout property.
      *
-     * Note: This methos is only available in the debug builds.
+     * Note: This method is only available in the debug builds.
      *
-     * @param widget {Object}
-     * @param name {Object} 
-     * @param value {Object} 
-     * @signature function(widget, name, value)
+     * @signature function(item, name, value)
+     * @param item {Object} The affected layout item
+     * @param name {Object} Name of the layout property
+     * @param value {Object} Value of the layout property
      */
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
-      "on" : function(widget, name, value) {
+      "on" : function(item, name, value) {
         // empty implementation
       },
 
@@ -179,13 +181,28 @@ qx.Class.define("qx.ui.layout.Abstract",
     },
 
 
+    /**
+     * Returns the list of all layout relevant children.
+     *
+     * @type member
+     * @return {Array} List of layout relevant children.
+     */
     _getLayoutChildren : function() {
       return this.__widget.getLayoutChildren();
     },
 
 
-    _isLayoutChild : function(widget) {
-      return widget.getLayoutParent() === this.__widget;
+    /**
+     * Whether the given layout item is a layout child
+     * of the connected widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.LayoutItem} The layout item to test
+     * @return {Boolean} <code>true</code> when the given item is a
+     *   child of the connected widget.
+     */
+    _isLayoutChild : function(item) {
+      return item.getLayoutParent() === this.__widget;
     }
   },
 

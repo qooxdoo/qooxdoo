@@ -35,10 +35,12 @@
  * *Item Properties*
  *
  * <ul>
- * <li><strong>left</strong> <em>(Integer)</em>: The left coordinate in pixel or as a percent string.</li>
- * <li><strong>top</strong> <em>(Integer)</em>: The top coordinate in pixel or as a percent string.</li>
- * <li><strong>right</strong> <em>(Integer)</em>: The right coordinate in pixel or as a percent string.</li>
- * <li><strong>bottom</strong> <em>(Integer)</em>: The bottom coordinate in pixel or as a percent string.</li>
+ * <li><strong>left</strong> <em>(Integer|String)</em>: The left coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
+ * <li><strong>top</strong> <em>(Integer|String)</em>: The top coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
+ * <li><strong>right</strong> <em>(Integer|String)</em>: The right coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
+ * <li><strong>bottom</strong> <em>(Integer|String)</em>: The bottom coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
+ * <li><strong>width</strong> <em>(String)</em>: A percent width e.g. <code>40%</code>.</li>
+ * <li><strong>height</strong> <em>(String)</em>: A percent height e.g. <code>60%</code>.</li>
  * </ul>
  *
  * *Notes*
@@ -47,6 +49,7 @@
  * <li>Stretching (<code>left</code>-><code>right</code> or <code>top</code>-><code>bottom</code>)
  *   has a higher priority than the preferred dimensions</li>
  * <li>Stretching has a lower priority than the min/max dimensions.</li>
+ * <li>Percent values have no influence on the size hint of the layout.</li>
  * </ul>
  *
  * *External Documentation*
@@ -82,7 +85,7 @@ qx.Class.define("qx.ui.layout.Canvas",
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
-      "on" : function(widget, name, value)
+      "on" : function(item, name, value)
       {
         var layoutProperties =
         {
