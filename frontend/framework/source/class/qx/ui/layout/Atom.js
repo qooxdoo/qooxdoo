@@ -37,7 +37,7 @@
  *
  * *Notes*
  *
- * * Does not support margins or alignment of {@link qx.ui.core.LayoutItem}.
+ * * Does not support margins and alignment of {@link qx.ui.core.LayoutItem}.
  *
  * *External Documentation*
  *
