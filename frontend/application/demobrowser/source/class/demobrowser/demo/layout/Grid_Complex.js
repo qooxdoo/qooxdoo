@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.GridLayout_2",
+qx.Class.define("demobrowser.demo.layout.Grid_Complex",
 {
   extend : demobrowser.demo.util.LayoutApplication,
 
