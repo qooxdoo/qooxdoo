@@ -1002,7 +1002,6 @@ class _ResourceHandler(object):
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
             if liblist == None:
-                print "XXX: cacheId: %s" % cacheId
                 liblist = filetool.find(libpath)  # liblist is a generator, therefore we
                 llist   = []                      # cannot write it out just now
                 inCache = False
