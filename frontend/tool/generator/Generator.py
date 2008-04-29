@@ -1000,8 +1000,9 @@ class _ResourceHandler(object):
             libpath = os.path.normpath(libpath)  # normalize "./..."
             # check and populate cache of files on disk (reduce disk I/O)
             cacheId = "resinlib-%s" % ns
-            liblist = self._genobj._cache.read(cacheId, None, True)
+            liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
             if liblist == None:
+                print "XXX: cacheId: %s" % cacheId
                 liblist = filetool.find(libpath)  # liblist is a generator, therefore we
                 llist   = []                      # cannot write it out just now
                 inCache = False
@@ -1027,8 +1028,8 @@ class _ResourceHandler(object):
                     # ...and add it to the result list
                     result.append(res)
 
-        if not inCache:
-                self._genobj._cache.write(cacheId, llist, True, False)
+            if not inCache:
+                    self._genobj._cache.write(cacheId, llist, memory=True, writeToFile=False)
 
         return result
 
