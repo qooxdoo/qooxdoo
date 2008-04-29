@@ -124,9 +124,9 @@ qx.Class.define("qx.ui.layout.Abstract",
      *
      * Note: This methos is only available in the debug builds.
      *
-     * @param {Object} widget
-     * @param {Object} name
-     * @param {Object} value
+     * @param widget {Object}
+     * @param name {Object} 
+     * @param value {Object} 
      * @signature function(widget, name, value)
      */
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
