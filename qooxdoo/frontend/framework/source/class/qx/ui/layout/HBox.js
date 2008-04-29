@@ -22,7 +22,7 @@
  * A full featured horizontal box layout. It lays out widgets in a
  * horizontal row, from left to right.
  *
- * Supports the following features:
+ * *Features*
  *
  * * Minimum and maximum dimensions
  * * Priorized growing/shrinking (flex)
@@ -34,7 +34,7 @@
  * * Reversed children layout (starting from last to first)
  * * Vertical children stretching (respecting size hints)
  *
- * Names used by other toolkits:
+ * *Alternative Names*
  *
  * * QHBoxLayout (Qt)
  * * StackPanel (XAML)
