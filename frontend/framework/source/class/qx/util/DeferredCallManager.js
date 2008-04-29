@@ -21,8 +21,6 @@
 /**
  * This class manages the timer used for deferred calls. All
  * {@link qx.util.DeferredCall} instances use the single timer from this class.
- *
- * @internal
  */
 qx.Class.define("qx.util.DeferredCallManager",
 {
