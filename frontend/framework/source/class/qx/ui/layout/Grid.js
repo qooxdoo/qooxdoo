@@ -19,7 +19,9 @@
 ************************************************************************ */
 
 /**
- * This layout manager lays out its children in a two dimensional grid.
+ * The grid layout manager arranges the widget's children in a two dimensional
+ * grid. Widgets can be placed into the grid's cells and may span multiple rows
+ * and columns.
  *
  * *Features*
  *
@@ -27,19 +29,28 @@
  * * Minimal and maximal column and row sizes
  * * Manually setting of column and row sizes
  * * Horizontal and vertical alignment
+ * * Horizontal and vertical spacing
  * * Column and row spans
  * * Auto-sizing
  *
  * *Layout Item Properties*
  *
  * <ul>
- * <li><strong>row</strong>:
+ * <li><strong>row</strong> (<em>Integer</em>): The row of the cell, where the
+ *   widget should occupy. Each cell can only contain one widget. This layout
+ *   property is mandatory.
  * </li>
- * <li><strong>column</strong>:
+ * <li><strong>column</strong> (<em>Integer</em>): The column of the cell, where the
+ *   widget should occupy. Each cell can only contain one widget. This layout
+ *   property is mandatory.
  * </li>
- * <li><strong>rowSpan</strong>:
+ * <li><strong>rowSpan</strong> (</em>Integer</em>): The number of rows, the
+ *   widget should span, starting from the row specified in the <code>row</code>
+ *   property. The cells in the spanned rows must be empty as well.
  * </li>
- * <li><strong>colSpan</strong>:
+ * <li><strong>colSpan</strong> (</em>Integer</em>): The number of columns, the
+ *   widget should span, starting from the column specified in the <code>column</code>
+ *   property. The cells in the spanned columns must be empty as well.
  * </li>
  * </ul>
  *
@@ -61,12 +72,12 @@
  *
  * *Extended Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/grid'>
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/grid'>
  * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
- * * QGridLayout (Qt)
+ * * <a href="http://doc.trolltech.com/4.3/qgridlayout.html">QGridLayout</a> (Qt)
  * * Grid (XAML)
  * * TableLayout (ExtJS)
  */
