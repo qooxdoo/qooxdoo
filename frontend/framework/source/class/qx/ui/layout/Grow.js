@@ -30,6 +30,30 @@
  * * Integer dimensions
  * * Minimum and maximum dimensions
  *
+ * *Item Properties*
+ *
+ * None
+ *
+ * *Example*
+ *
+ * <pre class="javascript">
+ * var layout = new qx.ui.layout.Grow();
+ *
+ * var w1 = new qx.ui.core.Widget();
+ * var w2 = new qx.ui.core.Widget();
+ * var w3 = new qx.ui.core.Widget();
+ *
+ * var container = new qx.ui.container.Composite(layout);
+ * container.add(w1);
+ * container.add(w2);
+ * container.add(w3);
+ * </pre>
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/grow'>
+ * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ *
  * *Alternative Names*
  *
  * * FitLayout (ExtJS)

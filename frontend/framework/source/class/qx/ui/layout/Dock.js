@@ -37,7 +37,7 @@
  * <ul>
  * <li><strong>edge</strong> <em>(String)</em>: The edge where the layout item
  *   should be docked. This may be one of <code>north</code>, <code>east</code>,
- *   <code>south</code> or <code>west</code>.</li>
+ *   <code>south</code>, <code>west</code> or <code>center</code>.</li>
  * </ul>
  *
  * *Example*
@@ -68,7 +68,7 @@
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/dock'>
- * Documentation</a> and links to demos of this layout in the qooxdoo wiki.
+ * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
  *
