@@ -1720,7 +1720,7 @@ qx.Class.define("qx.ui.core.Widget",
       OTHER PROPERTIES
     ---------------------------------------------------------------------------
     */
-    
+
     // property apply
     _applyZIndex : function(value, old) {
       this._containerElement.setStyle("zIndex", value == null ? 0 : value);
@@ -1934,7 +1934,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Used exlusively by {qx.ui.core.queue.Appearance}.
      *
-     * @internal
      * @type member
      */
     syncAppearance : function()
@@ -2063,7 +2062,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the element which should be focused.
      *
-     * @internal
      * @type member
      * @return {qx.html.Element} The html element to focus.
      */

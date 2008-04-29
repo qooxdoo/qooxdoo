@@ -60,6 +60,7 @@ qx.Class.define("qx.ui.tabview.Page",
       return this._button;
     },
 
+
     /**
      * Constructor helper.
      * Creates a new RadioButton and adjusts the button for the

@@ -99,7 +99,6 @@ qx.Class.define("qx.event.type.Native",
      * Get the native browser event object of this event.
      *
      * @return {Event} The native browser event
-     * @internal
      */
     getNativeEvent : function() {
       return this._native;

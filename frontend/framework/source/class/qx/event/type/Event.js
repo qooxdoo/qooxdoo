@@ -165,7 +165,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override the event type
      *
-     * @internal
      * @type member
      * @param type {String} new event type
      * @return {void}
@@ -190,7 +189,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override the event phase
      *
-     * @internal
      * @type member
      * @param eventPhase {Integer} new event phase
      * @return {void}
@@ -227,7 +225,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override event target.
      *
-     * @internal
      * @type member
      * @param target {Element} new event target
      * @return {void}
@@ -254,7 +251,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override current target.
      *
-     * @internal
      * @type member
      * @param currentTarget {Element} new current target
      * @return {void}
@@ -280,7 +276,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override related target.
      *
-     * @internal
      * @type member
      * @param relatedTarget {Element} new related target
      * @return {void}
@@ -307,7 +302,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override original target.
      *
-     * @internal
      * @type member
      * @param originalTarget {Element} new original target
      * @return {void}
@@ -332,7 +326,6 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Set whether the event bubbles.
      *
-     * @internal
      * @type member
      * @param bubbles {Boolean} Whether the event bubbles
      * @return {void}
