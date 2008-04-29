@@ -31,6 +31,7 @@ class ApiLoader:
         self._console.outdent()
         
         if hasError:
+            self._console.error("Error in API data of class: %s" % fileId)
             data = None
         
         self._cache.write(cacheId, data)

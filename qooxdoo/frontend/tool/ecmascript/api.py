@@ -42,13 +42,9 @@ hasDocError = False
 
 def printDocError(node, msg):
     (line, column) = getLineAndColumnFromSyntaxItem(node)
-    file = getFileFromSyntaxItem(node)
-    if line != None or file != None:
-        print "      - Failed: %s\n        %s, Line: %s, Column: %s" % (
-            msg, str(file), str(line), str(column)
-        )
-    else:
-        print "      - Failed: %s" % msg
+    print "      - Failed: %s, Line: %s, Column: %s" % (
+        msg, str(line), str(column)
+    )
 
     global hasDocError
     hasDocError = True
