@@ -52,10 +52,10 @@
         }
 
         var rootLogger = qx.log.Logger.ROOT_LOGGER;
+        rootLogger.removeAllAppenders();
 
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          rootLogger.removeAllAppenders();
           var appender = new qx.log.appender.FireBug();
 //          appender.setWindowHeight(900);
 //          appender.setWindowWidth(700);
@@ -609,9 +609,9 @@
     statics :
     {
       nextMouse   : 1,
-      ticksPerSec : 40,
-      fadeSeconds : 0.1,
-      moveSeconds : 0.05
+      ticksPerSec : 20,
+      fadeSeconds : 0.5,
+      moveSeconds : 0.2
     },
 
     construct : function(origin, maze, facing)
