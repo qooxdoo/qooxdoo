@@ -38,6 +38,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
 
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -48,9 +50,27 @@ qx.Class.define("qx.ui.core.selection.Widget",
   {
     /*
     ---------------------------------------------------------------------------
-      METHODS FOR CONTAINER
+      BASIC SUPPORT
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    _isSelectable : function(item) {
+      return item.getLayoutParent() === this._widget;
+    },
+
+
+    // overridden
+    _selectableToHashCode : function(item) {
+      return item.$$hash;
+    },
+
+
+    // overridden
+    _styleSelectable : function(item, type, enabled) {
+      enabled ? item.addState(type) : item.removeState(type);
+    },
+
 
     // overridden
     _capture : function() {
@@ -64,6 +84,16 @@ qx.Class.define("qx.ui.core.selection.Widget",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DIMENSION AND LOCATION
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     _getLocation : function()
     {
@@ -74,36 +104,36 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _getDimension : function() {
-      return this._widget._scrollPane.getComputedInnerSize();
+      return this._widget.getComputedInnerSize();
     },
 
 
     // overridden
-    _getScroll : function()
+    _getSelectableLocationX : function(item)
     {
-      return {
-        left : this._widget.getScrollLeft(),
-        top : this._widget.getScrollTop()
-      };
+      var computed = item.getBounds();
+      if (computed)
+      {
+        return {
+          left : computed.left,
+          right : computed.left + computed.width
+        };
+      }
     },
 
 
     // overridden
-    _scrollBy : function(xoff, yoff)
+    _getSelectableLocationY : function(item)
     {
-      var widget = this._widget;
-
-      // TODO: Implement scrollBy in ScrollArea
-
-      if (xoff != 0) {
-        widget.setScrollLeft(widget.getScrollLeft() + xoff);
-      }
-
-      if (yoff != 0) {
-        widget.setScrollTop(widget.getScrollTop() + yoff);
+      var computed = item.getBounds();
+      if (computed)
+      {
+        return {
+          top : computed.top,
+          bottom : computed.top + computed.height
+        };
       }
     },
-
 
 
 
@@ -112,15 +142,41 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      METHODS FOR SELECTABLES
+      SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
 
     // overridden
-    _isSelectable : function(item) {
-      return item.getLayoutParent() === this._widget.getChildrenContainer();
+    _getScroll : function()
+    {
+      return {
+        left : 0,
+        top : 0
+      };
     },
 
+
+    // overridden
+    _scrollBy : function(xoff, yoff) {
+      // empty implementation
+    },
+
+
+    // overridden
+    _scrollSelectableIntoView : function(item) {
+      return;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      QUERY SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     _getSelectables : function()
@@ -243,52 +299,6 @@ qx.Class.define("qx.ui.core.selection.Widget",
       }
 
       return null;
-    },
-
-
-    // overridden
-    _selectableToHashCode : function(item) {
-      return item.$$hash;
-    },
-
-
-    // overridden
-    _scrollSelectableIntoView : function(item) {
-      this._widget.scrollItemIntoView(item);
-    },
-
-
-    // overridden
-    _styleSelectable : function(item, type, enabled) {
-      enabled ? item.addState(type) : item.removeState(type);
-    },
-
-
-    // overridden
-    _getSelectableLocationX : function(item)
-    {
-      var computed = item.getBounds();
-      if (computed)
-      {
-        return {
-          left : computed.left,
-          right : computed.left + computed.width
-        };
-      }
-    },
-
-
-    // overridden
-    _getSelectableLocationY : function(item)
-    {
-      var computed = item.getBounds();
-      if (computed)
-      {
-        return {
-          top : computed.top,
-          bottom : computed.top + computed.height
-        };
-      }
     }
   },
 

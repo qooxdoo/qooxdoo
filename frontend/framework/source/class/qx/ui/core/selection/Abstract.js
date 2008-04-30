@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * General selection manager to bring rich desktop like selection behavior
+ * Generic selection manager to bring rich desktop like selection behavior
  * to widgets and low-level interactive controls.
  *
  * The selection handling supports both Shift and Ctrl/Meta modifies like
@@ -135,86 +135,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   {
     /*
     ---------------------------------------------------------------------------
-      ABSTRACT METHODS FOR CONTAINER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Enables capturing of the container.
-     *
-     * @type member
-     * @return {void}
-     */
-    _capture : function() {
-      throw new Error("Abstract method call: _capture()");
-    },
-
-
-    /**
-     * Releases capturing of the container
-     *
-     * @type member
-     * @return {void}
-     */
-    _releaseCapture : function() {
-      throw new Error("Abstract method call: _releaseCapture()");
-    },
-
-
-    /**
-     * Returns the location of the container
-     *
-     * @type member
-     * @return {Map} Map with the keys <code>top</code>, <code>right</code>,
-     *    <code>bottom</code> and <code>left</code>.
-     */
-    _getLocation : function() {
-      throw new Error("Abstract method call: _getLocation()");
-    },
-
-
-    /**
-     * Returns the dimension of the container (available scrolling space).
-     *
-     * @type member
-     * @return {Map} Map with the keys <code>width</code> and <code>height</code>.
-     */
-    _getDimension : function() {
-      throw new Error("Abstract method call: _getDimension()");
-    },
-
-
-    /**
-     * Returns the scroll position of the container.
-     *
-     * @type member
-     * @return {Map} Map with the keys <code>left</code> and <code>top</code>.
-     */
-    _getScroll : function() {
-      throw new Error("Abstract method call: _getScroll()");
-    },
-
-
-    /**
-     * Scrolls by the given offset
-     *
-     * @type member
-     * @param xoff {Integer} Horizontal offset to scroll by
-     * @param yoff {Integer} Vertical offset to scroll by
-     * @return {void}
-     */
-    _scrollBy : function(xoff, yoff) {
-      throw new Error("Abstract method call: _scrollBy()");
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ABSTRACT METHODS FOR SELECTABLES
+      BASIC SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -241,6 +162,155 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       throw new Error("Abstract method call: _selectableToHashCode()");
     },
 
+
+    /**
+     * Updates the style (appearance) of the given item.
+     *
+     * @type member
+     * @param item {var} Item to modify
+     * @param type {String} Any of <code>selected</code>, <code>anchor</code> or <code>lead</code>
+     * @param enabled {Boolean} Whether the given style should be added or removed.
+     * @return {void}
+     */
+    _styleSelectable : function(item, type, enabled) {
+      throw new Error("Abstract method call: _styleSelectable()");
+    },
+
+
+    /**
+     * Enables capturing of the container.
+     *
+     * @type member
+     * @return {void}
+     */
+    _capture : function() {
+      throw new Error("Abstract method call: _capture()");
+    },
+
+
+    /**
+     * Releases capturing of the container
+     *
+     * @type member
+     * @return {void}
+     */
+    _releaseCapture : function() {
+      throw new Error("Abstract method call: _releaseCapture()");
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DIMENSION AND LOCATION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the location of the container
+     *
+     * @type member
+     * @return {Map} Map with the keys <code>top</code>, <code>right</code>,
+     *    <code>bottom</code> and <code>left</code>.
+     */
+    _getLocation : function() {
+      throw new Error("Abstract method call: _getLocation()");
+    },
+
+
+    /**
+     * Returns the dimension of the container (available scrolling space).
+     *
+     * @type member
+     * @return {Map} Map with the keys <code>width</code> and <code>height</code>.
+     */
+    _getDimension : function() {
+      throw new Error("Abstract method call: _getDimension()");
+    },
+
+
+    /**
+     * Returns the relative (to the container) horizontal location of the given item.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {Map} A map with the keys <code>left</code> and <code>right</code>.
+     */
+    _getSelectableLocationX : function(item) {
+      throw new Error("Abstract method call: _getSelectableLocationX()");
+    },
+
+
+    /**
+     * Returns the relative (to the container) horizontal location of the given item.
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {Map} A map with the keys <code>top</code> and <code>bottom</code>.
+     */
+    _getSelectableLocationY : function(item) {
+      throw new Error("Abstract method call: _getSelectableLocationY()");
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the scroll position of the container.
+     *
+     * @type member
+     * @return {Map} Map with the keys <code>left</code> and <code>top</code>.
+     */
+    _getScroll : function() {
+      throw new Error("Abstract method call: _getScroll()");
+    },
+
+
+    /**
+     * Scrolls by the given offset
+     *
+     * @type member
+     * @param xoff {Integer} Horizontal offset to scroll by
+     * @param yoff {Integer} Vertical offset to scroll by
+     * @return {void}
+     */
+    _scrollBy : function(xoff, yoff) {
+      throw new Error("Abstract method call: _scrollBy()");
+    },
+
+
+    /**
+     * Scrolls the given item into the view (make it visible)
+     *
+     * @type member
+     * @param item {var} Any item
+     * @return {void}
+     */
+    _scrollSelectableIntoView : function(item) {
+      throw new Error("Abstract method call: _scrollSelectableIntoView()");
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      QUERY SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Returns all selectable items of the container.
@@ -303,58 +373,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     _getRelatedSelectable : function(item, relation) {
       throw new Error("Abstract method call: _getRelatedSelectable()");
     },
-
-
-    /**
-     * Scrolls the given item into the view (make it visible)
-     *
-     * @type member
-     * @param item {var} Any item
-     * @return {void}
-     */
-    _scrollSelectableIntoView : function(item) {
-      throw new Error("Abstract method call: _scrollSelectableIntoView()");
-    },
-
-
-    /**
-     * Updates the style (appearance) of the given item.
-     *
-     * @type member
-     * @param item {var} Item to modify
-     * @param type {String} Any of <code>selected</code>, <code>anchor</code> or <code>lead</code>
-     * @param enabled {Boolean} Whether the given style should be added or removed.
-     * @return {void}
-     */
-    _styleSelectable : function(item, type, enabled) {
-      throw new Error("Abstract method call: _styleSelectable()");
-    },
-
-
-    /**
-     * Returns the relative (to the container) horizontal location of the given item.
-     *
-     * @type member
-     * @param item {var} Any item
-     * @return {Map} A map with the keys <code>left</code> and <code>right</code>.
-     */
-    _getSelectableLocationX : function(item) {
-      throw new Error("Abstract method call: _getSelectableLocationX()");
-    },
-
-
-    /**
-     * Returns the relative (to the container) horizontal location of the given item.
-     *
-     * @type member
-     * @param item {var} Any item
-     * @return {Map} A map with the keys <code>top</code> and <code>bottom</code>.
-     */
-    _getSelectableLocationY : function(item) {
-      throw new Error("Abstract method call: _getSelectableLocationY()");
-    },
-
-
 
 
 
