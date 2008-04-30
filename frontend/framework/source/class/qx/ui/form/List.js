@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.form.List",
 
     // overridden
     getChildrenContainer : function() {
-      return this.getContent();
+      return this._scrollPane.getContent();
     },
 
 

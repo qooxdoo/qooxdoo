@@ -263,29 +263,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     /**
-     * Sets the content of the scroll area.
-     *
-     * @type member
-     * @param value {qx.ui.core.Widget} Widget to insert
-     * @return {void}
-     */
-    setContent : function(value) {
-      this._scrollPane.setContent(value);
-    },
-
-
-    /**
-     * Returns the content of the scroll area.
-     *
-     * @type member
-     * @return {qx.ui.core.Widget}
-     */
-    getContent : function() {
-      return this._scrollPane.getContent() || null;
-    },
-
-
-    /**
      * Compute the size of the scroll content.
      *
      * @return {Map} A map with <code>height</code> and <code>width</code> keys
