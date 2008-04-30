@@ -84,9 +84,11 @@ qx.Class.define("qx.ui.core.Widget",
     qx.ui.core.queue.Appearance.add(this);
 
     // Initialize properties
+    // TODO: Any possible optimizations here?
     this.initFocusable();
     this.initSelectable();
     this.initCursor();
+    this.initKeepFocus();
   },
 
 
@@ -1276,6 +1278,20 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    invalidateLayoutChildren : function()
+    {
+      var layout = this.__layout;
+      if (layout) {
+        layout.invalidateChildrenCache();
+      }
+
+      // invalidate cached layout children
+      this.__layoutChildren = null;
+
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
     shouldBeLayouted : function() {
       return this.getVisibility() !== "excluded";
     },
@@ -1286,10 +1302,24 @@ qx.Class.define("qx.ui.core.Widget",
      * excludes all widgets, which have a {@link qx.ui.core.Widget#visibility}
      * value of <code>exclude</code>.
      *
+     * @type member
      * @return {Boolean} Whether the layout has layout relevant children
      */
     hasLayoutChildren : function() {
       return this.getLayoutChildren().length > 0;
+    },
+
+
+    /**
+     * Returns the widget which contains the children and
+     * is relevant for layouting them. This is from the user point of
+     * view and may not be identical to the technical structure.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} Widget which contains the children.
+     */
+    getChildrenContainer : function() {
+      return this;
     },
 
 
@@ -1737,18 +1767,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this._parent;
-      if (parent && (old === "excluded" || value === "excluded"))
-      {
-        // TODO: Omit protected access
-        var parentLayout = parent._getLayout();
-        if (parentLayout) {
-          parentLayout.invalidateChildrenCache();
-        }
-
-        // invalidate cached layout children
-        this.__layoutChildren = null;
-
-        qx.ui.core.queue.Layout.add(parent);
+      if (this._parent && (old === "excluded" || value === "excluded")) {
+        this._parent.invalidateLayoutChildren();
       }
     },
 
@@ -2124,23 +2144,19 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        // TODO: Is this really correct?
-        target.setAttribute("tabIndex", -1);
+        target.setAttribute("tabIndex", null);
       }
-
-      // Sync with focus protection
-      this._applyKeepFocus(this.getKeepFocus());
 
       // Dynamically register/deregister events
       if (value)
       {
-        this.addListener("focus", this._onfocus, this);
-        this.addListener("blur", this._onblur, this);
+        this.addListener("focus", this._onFocus, this);
+        this.addListener("blur", this._onBlur, this);
       }
       else if (old)
       {
-        this.removeListener("focus", this._onfocus, this);
-        this.removeListener("blur", this._onblur, this);
+        this.removeListener("focus", this._onFocus, this);
+        this.removeListener("blur", this._onBlur, this);
       }
     },
 
@@ -2206,7 +2222,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onfocus : function(e) {
+    _onFocus : function(e) {
       this.addState("focused");
     },
 
@@ -2218,7 +2234,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onblur : function(e) {
+    _onBlur : function(e) {
       this.removeState("focused");
     },
 
