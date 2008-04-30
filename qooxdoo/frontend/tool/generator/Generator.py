@@ -669,6 +669,8 @@ class Generator:
         self._console.info("Analysing images...")
         self._console.indent()
 
+        # some helper functions
+
         def replaceWithNamespace(imguri, liburi, libns):
             pre,libsfx,imgsfx = Path.getCommonPrefix(liburi, imguri)
             if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
@@ -684,12 +686,32 @@ class Generator:
             normalUri = trueUriPrefix + uriSuffix
             return normalUri
         
+        def processCombinedImg(data, meta_fname, cimguri, cimgshorturi):
+            # read meta file
+            mfile = open(meta_fname)
+            imgDict = simplejson.loads(mfile.read())
+            mfile.close()
+            for mimg, mimgs in imgDict.iteritems():
+                # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
+                mimgspec = ImgInfoFmt(mimgs)
+                # have to normalize the uri's from the meta file
+                # cimguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
+                # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
+                mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappeduri)
+                # replace lib uri with lib namespace in mimguri
+                mimgshorturi = replaceWithNamespace(mimguri, libresuri, lib['namespace'])
+
+                mimgspec.mappeduri = cimgshorturi        # correct the mapped uri of the combined image
+                data[mimgshorturi] = mimgspec.flatten()  # this information takes precedence over existing
+
+
+        # main
+
         for lib in libs:
             libresuri = os.path.join(lib['uri'],lib['resource'])
             resourceList = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in (x for x in resourceList if imgpatt.search(x[0])):
-                # resource = [path, uri]
                 imgpath= resource[0]
                 imguri = resource[1]
                 imageInfo = self._imageInfo.getImageInfo(imgpath)
@@ -702,7 +724,7 @@ class Generator:
                 imgfmt = ImgInfoFmt()
                 imgfmt.width, imgfmt.height, imgfmt.type = (
                     imageInfo['width'], imageInfo['height'], imageInfo['type'])
-                # replace lib uri with lib namespace in imguri
+                # replace lib uri with lib namespace
                 imgshorturi = replaceWithNamespace(imguri, libresuri, lib['namespace'])
                 # check if img is already registered as part of a combined image
                 if imgshorturi in data:
@@ -714,24 +736,7 @@ class Generator:
                 # check for a combined image and process the contained images
                 meta_fname = os.path.splitext(imgpath)[0]+'.meta'
                 if os.path.exists(meta_fname):  # add included imgs
-                    cimguri      = imguri       # we realize this is a combined imgage
-                    cimgshorturi = imgshorturi
-                    # read meta file
-                    mfile = open(meta_fname)
-                    imgDict = simplejson.loads(mfile.read())
-                    mfile.close()
-                    for mimg, mimgs in imgDict.iteritems():
-                        # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
-                        mimgspec = ImgInfoFmt(mimgs)
-                        # have to normalize the uri's from the meta file
-                        # cimguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
-                        # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
-                        mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappeduri)
-                        # replace lib uri with lib namespace in mimguri
-                        mimgshorturi = replaceWithNamespace(mimguri, libresuri, lib['namespace'])
-
-                        mimgspec.mappeduri = cimgshorturi        # correct the mapped uri of the combined image
-                        data[mimgshorturi] = mimgspec.flatten()  # this information takes precedence over existing
+                    processCombinedImg(data, meta_fname, imguri, imgshorturi)
                 
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
