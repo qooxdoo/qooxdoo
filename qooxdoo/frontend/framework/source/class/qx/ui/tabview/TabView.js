@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _applyAlignTabsToLeft : function(value, old)
     {
-      this._bar.getLayout().setAlign(value ? "left" : "right");
+      this._bar.getLayout().setAlignX(value ? "left" : "right");
       // set or remove the state on the buttons
       var buttons = this._bar.getChildren();
       for (var i = 0; i < buttons.length; i++) {

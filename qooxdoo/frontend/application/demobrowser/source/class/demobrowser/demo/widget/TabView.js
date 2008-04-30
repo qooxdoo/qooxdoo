@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.TabView_1",
+qx.Class.define("demobrowser.demo.widget.TabView",
 {
   extend : qx.application.Standalone,
 
