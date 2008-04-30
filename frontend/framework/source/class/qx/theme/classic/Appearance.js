@@ -526,6 +526,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "tab-view-bar" : {
+      style : function(states) 
+      {
+        return {
+          zIndex          : 10,
+          paddingLeft     : 10,
+          paddingRight    : 10
+        }
+      }
     },
 
     "tab-view-pane" :
@@ -533,10 +541,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-
           backgroundColor : "tab-view-pane",
-          decorator : new qx.ui.decoration.Single(1, "solid", "tab-view-border"),
-          padding : 10
+          decorator       : new qx.ui.decoration.Single(1, "solid", "tab-view-border"),
+          padding         : 10,
+          marginTop       : -1
         };
       }
     },
@@ -562,8 +570,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingBottom = 4;
           paddingLeft = 7;
           paddingRight = 8;
-          // marginRight = -1;
-          // marginLeft = -2;
+          marginRight = -1;
+          marginLeft = -2;
           backgroundColor = "tab-view-button-checked";
 
           if (states.barTop)
@@ -583,7 +591,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             {
               paddingLeft = 6;
               paddingRight = 7;
-              // marginLeft = 0;
+              marginLeft = 0;
             }
           }
           else
@@ -592,7 +600,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             {
               paddingLeft = 8;
               paddingRight = 5;
-              // marginRight = 0;
+              marginRight = 0;
             }
           }
         }
@@ -602,21 +610,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingBottom = 2;
           paddingLeft = 5;
           paddingRight = 6;
-          // marginRight = 1;
-          // marginLeft = 0;
+          marginRight = 1;
+          marginLeft = 0;
           backgroundColor = states.over ? "tab-view-button-hover" : "tab-view-button";
 
           if (states.barTop)
           {
             decorator.setWidthBottom(0);
-            // marginTop = 3;
-            // marginBottom = 1;
+            marginTop = 3;
+            marginBottom = 1;
           }
           else
           {
             decorator.setWidthTop(0);
-            // marginTop = 1;
-            // marginBottom = 3;
+            marginTop = 1;
+            marginBottom = 3;
           }
 
           if (states.alignLeft)
@@ -633,14 +641,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
             {
               paddingLeft = 6;
               paddingRight = 5;
-              // marginRight = 0;
+              marginRight = 0;
             }
           }
         }
 
         return {
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          // margin : [ marginTop, marginRight, marginBottom, marginLeft ],
+          margin : [ marginTop, marginRight, marginBottom, marginLeft ],
           decorator : decorator,
           backgroundColor : backgroundColor
         }
