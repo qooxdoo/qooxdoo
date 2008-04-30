@@ -432,7 +432,7 @@ class Generator:
                  'uri': buildUri, 
                  'encoding':'utf-8'
             }]  # use what's in the 'build' tree -- this depends on resource copying!!
-        resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
+        #resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
 
         # Generating boot script
         self._console.info("Generating boot script...")
@@ -440,7 +440,8 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateImageInfoCode(settings, resourceList, format))
+        bootBlocks.append(self.generateResourceUriCode(libs, format))
+        bootBlocks.append(self.generateImageInfoCode(settings, libs, format))
         bootBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
@@ -507,13 +508,14 @@ class Generator:
 
         # Get resource list
         libs = self._config.get("library", [])
-        resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
+        #resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
         
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateImageInfoCode(settings, resourceList, format))
+        sourceBlocks.append(self.generateResourceUriCode(self._config.get("library",[]),format))        
+        sourceBlocks.append(self.generateImageInfoCode(settings, libs, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
@@ -650,7 +652,16 @@ class Generator:
         return result
 
 
-    def generateImageInfoCode(self, settings, resourceList, format=False):
+    def generateResourceUriCode(self, libs, format):
+        result = 'if(!window.qxresourceuris)qxresourceuris={};'
+
+        for lib in libs:
+            result += 'qxresourceuris["%s"]="%s";' % (lib['namespace'], 
+                                                  os.path.join(lib['uri'],lib['resource']))
+        return result
+
+
+    def generateImageInfoCode(self, settings, libs, format=False):
         """Pre-calculate image information (e.g. sizes)"""
         data = {}
         imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
@@ -658,42 +669,55 @@ class Generator:
         self._console.info("Analysing images...")
         self._console.indent()
         
-        # resourceList = [[file1,uri1],[file2,uri2],...]
-        for resource in [x for x in resourceList if imgpatt.search(x[0])]:
-            # resource = [path, uri]
-            imgpath= resource[0]
-            imguri = resource[1]
-            imageInfo = self._imageInfo.getImageInfo(imgpath)
-            # imageInfo = {width, height, filetype}
-            if not 'width' in imageInfo or not 'height' in imageInfo or not 'type' in imageInfo:
-                self._console.error("Unable to get image info from file: %s" % resource[0])
-                sys.exit(1)
-            # check if img is in a combined image
-            if imguri in data:
-                if imguri != data[imguri][0]:
-                    continue  # don't overwrite the combined entry
-            x = ImgInfoFmt()
-            x.width, x.height, x.type = (imageInfo['width'], imageInfo['height'], imageInfo['type'])
-            data[imguri] = x.flatten()
-            # check combined images
-            meta_fname = os.path.splitext(imgpath)[0]+'.meta'
-            if os.path.exists(meta_fname):
-                # add included imgs
-                mfile = open(meta_fname)
-                imgDict = simplejson.loads(mfile.read())
-                mfile.close()
-                for mimg, mimgs in imgDict.iteritems():
-                    # have to normalize the uri's in the meta file
-                    # imguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
-                    # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
-                    mimgspec = ImgInfoFmt(mimgs)
-                    pre1,pre2,sfx = Path.getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
-                    pre,sfx1,sfx2 = Path.getCommonPrefix(pre2, mimg)  # get a suitable suffix from mimg
-                    img = pre1 + sfx2 # correct the uri prefix for key
-                    mimgspec.mappeduri = imguri  # correct the mapped uri
-                    # img : [combinedUri, off-x, off-y, width, height, type]
-                    data[img] = mimgspec.flatten()  # this information takes precedence over existing
-            
+        for lib in libs:
+            libresuri = os.path.join(lib['uri'],lib['resource'])
+            resourceList = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
+            # resourceList = [[file1,uri1],[file2,uri2],...]
+            for resource in (x for x in resourceList if imgpatt.search(x[0])):
+                # resource = [path, uri]
+                imgpath= resource[0]
+                imguri = resource[1]
+                imageInfo = self._imageInfo.getImageInfo(imgpath)
+                # imageInfo = {width, height, filetype}
+                if not 'width' in imageInfo or not 'height' in imageInfo or not 'type' in imageInfo:
+                    self._console.error("Unable to get image info from file: %s" % resource[0])
+                    sys.exit(1)
+                # replace lib uri with lib namespace in imguri
+                pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri)
+                if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
+                imgshorturi = os.path.join("${%s}" % lib['namespace'], imgsfx)
+                # check if img is in a combined image
+                if imgshorturi in data:
+                    x = ImgInfoFmt(data[imgshorturi])
+                    if x.mappeduri:
+                        continue  # don't overwrite the combined entry
+                x = ImgInfoFmt()
+                x.width, x.height, x.type = (imageInfo['width'], imageInfo['height'], imageInfo['type'])
+                data[imgshorturi] = x.flatten()
+                # check combined images
+                meta_fname = os.path.splitext(imgpath)[0]+'.meta'
+                if os.path.exists(meta_fname):
+                    # add included imgs
+                    mfile = open(meta_fname)
+                    imgDict = simplejson.loads(mfile.read())
+                    mfile.close()
+                    for mimg, mimgs in imgDict.iteritems():
+                        # have to normalize the uri's in the meta file
+                        # imguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
+                        # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
+                        mimgspec = ImgInfoFmt(mimgs)
+                        pre1,pre2,sfx = Path.getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
+                        pre,sfx1,sfx2 = Path.getCommonPrefix(pre2, mimg)  # get a suitable suffix from mimg
+                        img = pre1 + sfx2 # correct the uri prefix for the contained img
+                        # replace lib uri with lib namespace in imguri
+                        pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, img)
+                        if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
+                        imgshturi = os.path.join("${%s}" % lib['namespace'], imgsfx)
+                        # correct the mapped uri
+                        mimgspec.mappeduri = imgshorturi
+                        # img : [combinedUri, off-x, off-y, width, height, type]
+                        data[imgshturi] = mimgspec.flatten()  # this information takes precedence over existing
+                
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
         self._console.outdent()

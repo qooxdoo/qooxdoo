@@ -52,19 +52,34 @@ qx.Class.define("qx.util.ImageRegistry",
       {
         return {};
       }
-
-      for (key in qximageinfo)
+      
+      var imageinfo = {};
+      var qxresourceuris = window.qxresourceuris || {};
+      
+      function macroexpand(dict, str)
       {
-        var val  = qximageinfo[key];  // val = [width, height, type [, mappeduri, left, top]]
-        if (val.length == 3) {
-          var nval = [key, 0, 0, val[0], val[1], val[3]];
-        } else {
-          var nval = [val[3], val[4], val[5], val[0], val[1], val[3]];
+        var lstr = str;
+        for (var key in dict)
+        {
+          lstr = lstr.replace('${'+key+'}', dict[key]);
         }
-        qximageinfo[key] = nval;
+        return lstr;
       }
 
-      return qximageinfo;
+      for (var key in qximageinfo)
+      {
+        var val  = qximageinfo[key];  // val = [width, height, type [, mappeduri, left, top]]
+        key = macroexpand(qxresourceuris, key)
+        if (val.length == 3) {
+          var nval = [key, 0, 0, val[0], val[1], val[2]];
+        } else {
+          val[3] = macroexpand(qxresourceuris, val[3]);
+          var nval = [val[3], val[4], val[5], val[0], val[1], val[2]];
+        }
+        imageinfo[key] = nval;
+      }
+
+      return imageinfo;
     },
 
 
