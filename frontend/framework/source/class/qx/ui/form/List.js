@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
-  implement : qx.ui.core.selection.IContainer,
+  include : [ qx.ui.core.MRemoteChildrenHandling ],
 
 
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.form.List",
 
     this.setContent(content);
 
-    this._manager = new qx.ui.core.selection.Widget(this);
+    this.__manager = new qx.ui.core.selection.Widget(this);
 
     if (mode != null) {
       this.setSelectionMode(mode);
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.form.List",
 
     // property apply
     _applySelectionMode : function(value, old) {
-      this._manager.setMode(value);
+      this.__manager.setMode(value);
     },
 
 
@@ -151,18 +151,10 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    getChildren : function() {
-      return this.getContent().getChildren();
+    // overridden
+    getChildrenContainer : function() {
+      return this.getContent();
     },
-
-    add : function(listItem) {
-      this.getContent().add(listItem);
-    },
-
-    remove : function(listItem) {
-      this.getContent().remove(listItem);
-    },
-
 
 
 
@@ -182,7 +174,7 @@ qx.Class.define("qx.ui.form.List",
      * @return {void}
      */
     _onmousedown : function(e) {
-      this._manager.handleMouseDown(e);
+      this.__manager.handleMouseDown(e);
     },
 
 
@@ -194,7 +186,7 @@ qx.Class.define("qx.ui.form.List",
      * @return {void}
      */
     _onmouseup : function(e) {
-      this._manager.handleMouseUp(e);
+      this.__manager.handleMouseUp(e);
     },
 
 
@@ -206,7 +198,7 @@ qx.Class.define("qx.ui.form.List",
      * @return {void}
      */
     _onmousemove : function(e) {
-      this._manager.handleMouseMove(e);
+      this.__manager.handleMouseMove(e);
     },
 
 
@@ -218,7 +210,7 @@ qx.Class.define("qx.ui.form.List",
      * @return {void}
      */
     _onlosecapture : function(e) {
-      this._manager.handleLoseCapture(e);
+      this.__manager.handleLoseCapture(e);
     },
 
 
@@ -234,7 +226,7 @@ qx.Class.define("qx.ui.form.List",
       // Execute action on press <ENTER>
       if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
       {
-        var items = this._manager.getSelectedItems();
+        var items = this.__manager.getSelectedItems();
         for (var i=0; i<items.length; i++) {
           items[i].fireEvent("action");
         }
@@ -243,7 +235,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Give control to selectionManager
-      this._manager.handleKeyPress(e);
+      this.__manager.handleKeyPress(e);
     }
   },
 
@@ -257,6 +249,6 @@ qx.Class.define("qx.ui.form.List",
   */
 
   destruct : function() {
-    this._disposeObjects("_manager");
+    this._disposeObjects("__manager");
   }
 });
