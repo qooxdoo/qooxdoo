@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
     {
       this.base(arguments);
 
-      scrollArea = new qx.ui.core.ScrollArea();
+      scrollArea = new qx.ui.container.ScrollArea();
       scrollArea.set({
         width: 200,
         height: 200,
