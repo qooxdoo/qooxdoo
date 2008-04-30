@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.layout.Atom",
           child = children[i];
 
           hint = child.getSizeHint();
-          height = Math.min(hint.maxWidth, Math.max(availHeight, hint.minHeight));
+          height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minHeight));
 
           top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
           child.renderLayout(left, top, hint.width, height);
