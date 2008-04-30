@@ -668,6 +668,21 @@ class Generator:
 
         self._console.info("Analysing images...")
         self._console.indent()
+
+        def replaceWithNamespace(imguri, liburi, libns):
+            pre,libsfx,imgsfx = Path.getCommonPrefix(liburi, imguri)
+            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
+            imgshorturi = os.path.join("${%s}" % libns, imgsfx)
+            return imgshorturi
+
+        def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
+            # get the "wrong" prefix (in mappedUriPrefix)
+            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
+            # ...and strip it from contained image uri, to get a correct suffix (in uriSuffix)
+            pre, mappedUriSuffix, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
+            # ...then compose the correct prefix with the correct suffix
+            normalUri = trueUriPrefix + uriSuffix
+            return normalUri
         
         for lib in libs:
             libresuri = os.path.join(lib['uri'],lib['resource'])
@@ -678,45 +693,45 @@ class Generator:
                 imgpath= resource[0]
                 imguri = resource[1]
                 imageInfo = self._imageInfo.getImageInfo(imgpath)
+
                 # imageInfo = {width, height, filetype}
                 if not 'width' in imageInfo or not 'height' in imageInfo or not 'type' in imageInfo:
                     self._console.error("Unable to get image info from file: %s" % resource[0])
                     sys.exit(1)
+                # use an ImgInfoFmt object, to abstract from flat format
+                imgfmt = ImgInfoFmt()
+                imgfmt.width, imgfmt.height, imgfmt.type = (
+                    imageInfo['width'], imageInfo['height'], imageInfo['type'])
                 # replace lib uri with lib namespace in imguri
-                pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri)
-                if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
-                imgshorturi = os.path.join("${%s}" % lib['namespace'], imgsfx)
-                # check if img is in a combined image
+                imgshorturi = replaceWithNamespace(imguri, libresuri, lib['namespace'])
+                # check if img is already registered as part of a combined image
                 if imgshorturi in data:
                     x = ImgInfoFmt(data[imgshorturi])
                     if x.mappeduri:
                         continue  # don't overwrite the combined entry
-                x = ImgInfoFmt()
-                x.width, x.height, x.type = (imageInfo['width'], imageInfo['height'], imageInfo['type'])
-                data[imgshorturi] = x.flatten()
-                # check combined images
+                data[imgshorturi] = imgfmt.flatten()
+
+                # check for a combined image and process the contained images
                 meta_fname = os.path.splitext(imgpath)[0]+'.meta'
-                if os.path.exists(meta_fname):
-                    # add included imgs
+                if os.path.exists(meta_fname):  # add included imgs
+                    cimguri      = imguri       # we realize this is a combined imgage
+                    cimgshorturi = imgshorturi
+                    # read meta file
                     mfile = open(meta_fname)
                     imgDict = simplejson.loads(mfile.read())
                     mfile.close()
                     for mimg, mimgs in imgDict.iteritems():
-                        # have to normalize the uri's in the meta file
-                        # imguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
-                        # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
+                        # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
                         mimgspec = ImgInfoFmt(mimgs)
-                        pre1,pre2,sfx = Path.getCommonSuffix(imguri, mimgspec.mappeduri) # imguri is the reference
-                        pre,sfx1,sfx2 = Path.getCommonPrefix(pre2, mimg)  # get a suitable suffix from mimg
-                        img = pre1 + sfx2 # correct the uri prefix for the contained img
-                        # replace lib uri with lib namespace in imguri
-                        pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, img)
-                        if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
-                        imgshturi = os.path.join("${%s}" % lib['namespace'], imgsfx)
-                        # correct the mapped uri
-                        mimgspec.mappeduri = imgshorturi
-                        # img : [combinedUri, off-x, off-y, width, height, type]
-                        data[imgshturi] = mimgspec.flatten()  # this information takes precedence over existing
+                        # have to normalize the uri's from the meta file
+                        # cimguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
+                        # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
+                        mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappeduri)
+                        # replace lib uri with lib namespace in mimguri
+                        mimgshorturi = replaceWithNamespace(mimguri, libresuri, lib['namespace'])
+
+                        mimgspec.mappeduri = cimgshorturi        # correct the mapped uri of the combined image
+                        data[mimgshorturi] = mimgspec.flatten()  # this information takes precedence over existing
                 
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
