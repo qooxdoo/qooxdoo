@@ -80,7 +80,6 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textField = new qx.ui.form.TextField();
     this._textField.setAppearance("spinner-text-field");
     this._textField.setWidth(40);
-    this._textField.setFocusable(false);    
     this._add(this._textField, {column: 0, row: 0, rowSpan: 2});
 
     // UP-BUTTON
@@ -98,9 +97,10 @@ qx.Class.define("qx.ui.form.Spinner",
     // EVENTS
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
-    this.addListener("mousewheel", this._onmousewheel, this);
+    this.addListener("mousewheel", this._onMouseWheel, this);
     this._textField.addListener("change", this._onTextChange, this);
-    this._textField.addListener("blur", this._onBlur, this);
+    this._textField.addListener("blur", this._onTextBlur, this);
+    this._textField.addListener("focus", this._onTextFocus, this);
     this._upbutton.addListener("execute", this._countUp, this);
     this._downbutton.addListener("execute", this._countDown, this);
 
@@ -117,8 +117,8 @@ qx.Class.define("qx.ui.form.Spinner",
       this.setValue(vValue);
     }
   },
-  
-  
+
+
 
 
   /*
@@ -126,8 +126,8 @@ qx.Class.define("qx.ui.form.Spinner",
      EVENTS
   *****************************************************************************
   */
-  
-  events: 
+
+  events:
   {
     /**
      * Fired each time the value of the spinner changes.
@@ -149,12 +149,12 @@ qx.Class.define("qx.ui.form.Spinner",
   properties:
   {
     // overridden
-    appearance: 
+    appearance:
     {
       refine : true,
       init : "spinner"
     },
-    
+
     // overridden
     focusable :
     {
@@ -163,28 +163,21 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** The amount to increment on each event (keypress or mousedown) */
-    singleStep: 
-    {
-      check : "Number",
-      init : 1
-    },
-
-    /** The amount to increment on a mouse wheel event*/
-    wheelStep: 
+    singleStep:
     {
       check : "Number",
       init : 1
     },
 
     /** The amount to increment on each pageup/pagedown keypress */
-    pageStep: 
+    pageStep:
     {
       check : "Number",
       init : 10
     },
 
     /** minimal value of the Range object */
-    min: 
+    min:
     {
       check : "Number",
       apply : "_applyMin",
@@ -193,7 +186,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** current value of the Range object */
-    value: 
+    value:
     {
       check : "Number",
       apply : "_applyValue",
@@ -202,7 +195,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** maximal value of the Range object */
-    max: 
+    max:
     {
       check : "Number",
       apply : "_applyMax",
@@ -211,7 +204,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** whether the value should wrap around */
-    wrap: 
+    wrap:
     {
       check : "Boolean",
       init : false,
@@ -227,7 +220,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** Controls the display of the number in the textfield */
-    numberFormat : 
+    numberFormat :
     {
       check : "qx.util.format.NumberFormat",
       apply : "_applyNumberFormat",
@@ -257,7 +250,7 @@ qx.Class.define("qx.ui.form.Spinner",
       APPLY METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Apply routine for the min property.
      *
@@ -410,9 +403,9 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyWrap : function(value, old)
     {
-      if (value) 
+      if (value)
       {
-        if (this.getEnabled()) 
+        if (this.getEnabled())
         {
           this._upbutton.setEnabled(true);
           this._downbutton.setEnabled(true);
@@ -433,7 +426,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyNumberFormat : function(value, old) {
       this._textField.setValue(this.getNumberFormat().format(this._lastValidValue));
     },
-    
+
 
     // overridden
     _applyEnabled : function(value, old)
@@ -442,7 +435,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // disable the spinner
         this.addState("disabled");
-        
+
         // diable the buttons separately because they will be enabled explicit
         this._upbutton.setEnabled(false);
         this._downbutton.setEnabled(false);
@@ -451,14 +444,14 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // enable the spinner
         this.removeState("disabled");
-        
+
         // enable the buttons separately because they will be disabled explicit
         this._upbutton.setEnabled(true);
         this._downbutton.setEnabled(true);
       }
     },
-    
-    
+
+
 
 
     /*
@@ -494,12 +487,12 @@ qx.Class.define("qx.ui.form.Spinner",
         case "Down":
           this._downbutton.press();
           break;
-          
+
         default:
           // Do not stop unused events
           return;
       }
-      
+
       e.stopPropagation();
       e.preventDefault();
     },
@@ -552,14 +545,14 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseWheel event
      */
-    _onmousewheel: function(e)
+    _onMouseWheel: function(e)
     {
       var wheelIncrement = Math.round(e.getWheelDelta());
       if (wheelIncrement == 0) {
         wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
-      
-      this.setValue(this.getValue() + wheelIncrement * this.getWheelStep());
+
+      this.setValue(this.getValue() + wheelIncrement * this.getSingleStep());
       e.stopPropagation();
     },
 
@@ -574,8 +567,7 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * Callback method for the "change" event of the textfield.<br/>
-     * Just calls the internal {#__adoptText} method.
+     * Callback method for the "change" event of the textfield.
      *
      * @type member
      * @param e {qx.ui.event.type.Event} text change event or blur event
@@ -586,15 +578,41 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * Callback method for the "blur" event of the textfield.<br/>
-     * Just calls the internal {#_onTextChange} method with the event as parameter.
+     * Callback method for the "blur" event of the textfield.
      *
      * @type member
      * @param e {qx.ui.event.type.Event} blur event
      */
-    _onBlur: function(e) {
+    _onTextBlur: function(e)
+    {
+      this.removeState("focused");
       this._onTextChange(e);
     },
+
+
+    /**
+     * Callback method for the "focus" event of the textfield.
+     *
+     * @type member
+     * @param e {qx.ui.event.type.Event} blur event
+     */
+    _onTextFocus : function(e) {
+      this.addState("focused");
+    },
+
+
+    // overridden
+    _onFocus : function(e)
+    {
+      // Redirct focus to text field
+      // State handling is done by _onTextFocus afterwards
+      this._textField.focus();
+    },
+
+
+
+
+
 
 
 
@@ -654,16 +672,16 @@ qx.Class.define("qx.ui.form.Spinner",
     __adoptText: function()
     {
       // if a number format is set
-      if (this.getNumberFormat()) 
+      if (this.getNumberFormat())
       {
         // try to parse the current number using the number format
-        try 
+        try
         {
           var value = this.getNumberFormat().parse(this._textField.getValue());
           // if the arsing succeeded, set the value and done
           this.setValue(value);
           return;
-        } 
+        }
         catch(e) {
           // otherwise, process further
         }
@@ -672,20 +690,20 @@ qx.Class.define("qx.ui.form.Spinner",
       // try to parse the number as a float
       var value = parseFloat(this._textField.getValue(), 10);
       // if the result is a number
-      if (!isNaN(value)) 
+      if (!isNaN(value))
       {
         // set the value in the spinner
         this.setValue(value);
       }
-      else 
+      else
       {
         // otherwise, reset the last valid value
         this._textField.setValue(String(this._lastValidValue));
       }
     }
   },
-  
-  
+
+
 
 
   /*
