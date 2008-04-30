@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-25 08:52+0100\n"
+"POT-Creation-Date: 2008-04-30 14:58+0200\n"
 "PO-Revision-Date: 2006-12-19 16:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,7 +14,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: source/class/feedreader/PreferenceWindow.js:34
-#: source/class/feedreader/view/ToolBar.js:87
 msgid "Preferences"
 msgstr ""
 
@@ -44,58 +43,6 @@ msgstr ""
 
 #: source/class/feedreader/view/Table.js:38
 msgid "ID"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:70
-msgid "Add feed"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:74
-msgid "Remove feed"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:80
-msgid "Reload"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:82
-msgid "(%1) Reload the feeds."
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:89
-msgid "Open preferences window."
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:97
-msgid "English"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:98
-msgid "German"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:99
-msgid "Turkish"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:100
-msgid "Italian"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:101
-msgid "Spanish"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:102
-msgid "Swedish"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:103
-msgid "Russian"
-msgstr ""
-
-#: source/class/feedreader/view/ToolBar.js:132
-msgid "Help"
 msgstr ""
 
 #: source/class/feedreader/view/Tree.js:27

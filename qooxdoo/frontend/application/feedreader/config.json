@@ -28,7 +28,7 @@
       ],
 
 
-      "include" : ["feedreader.*", "qx.legacy.theme.Ext"],
+      "include" : ["feedreader.*", "qx.theme.Classic"],
 
       "settings" :
       {
@@ -104,14 +104,13 @@
         }
       ],
 
-      "include" : ["apiviewer.Application", "qx.legacy.theme.ClassicRoyale"],
+      "include" : ["apiviewer.Application"],
 
       "settings" :
       {
         "qx.application" : "apiviewer.Application",
         "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
         "qx.minLogLevel" : "700",
-        "qx.legacy.theme"       : "qx.legacy.theme.ClassicRoyale",
         "apiviewer.resourceUri" : "./resource/apiviewer",
         "apiviewer.title": "Generator2 API Viewer"
        },

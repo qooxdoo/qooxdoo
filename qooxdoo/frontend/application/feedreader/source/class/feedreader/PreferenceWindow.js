@@ -81,7 +81,7 @@ qx.Class.define("feedreader.PreferenceWindow",
       var vb = new qx.legacy.ui.layout.VerticalBoxLayout();
       gb.add(vb);
 
-      var btn_classic = new qx.legacy.ui.form.RadioButton("Classic");
+      // var btn_classic = new qx.legacy.ui.form.RadioButton("Classic");
       var btn_ext = new qx.legacy.ui.form.RadioButton("Ext");
       btn_ext.setChecked(true);
       var rm = new qx.legacy.ui.selection.RadioManager();
