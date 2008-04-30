@@ -217,29 +217,32 @@ qx.Class.define("qx.ui.core.selection.Widget",
     _getRelatedSelectable : function(item, relation)
     {
       var vertical = this._widget.getOrientation() === "vertical";
-
-      // TODO: Omit protected access
-      var layout = this._widget.getContent()._getLayout();
-      var sibling = item;
+      var children = this._widget.getChildren();
+      var index = children.indexOf(item);
+      var sibling;
 
       if ((vertical && relation === "above") || (!vertical && relation === "left"))
       {
-        do {
-          sibling = layout.getPreviousSibling(sibling);
-        } while (sibling && !sibling.isEnabled());
+        for (var i=index-1; i>=0; i--)
+        {
+          sibling = children[i];
+          if (sibling.isEnabled()) {
+            return sibling;
+          }
+        }
       }
       else if ((vertical && relation === "under") || (!vertical && relation === "right"))
       {
-        do {
-          sibling = layout.getNextSibling(sibling);
-        } while (sibling && !sibling.isEnabled());
-      }
-      else
-      {
-        return null;
+        for (var i=index+1; i<children.length; i++)
+        {
+          sibling = children[i];
+          if (sibling.isEnabled()) {
+            return sibling;
+          }
+        }
       }
 
-      return sibling;
+      return null;
     },
 
 
