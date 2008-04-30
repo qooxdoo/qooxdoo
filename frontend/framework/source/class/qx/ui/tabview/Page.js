@@ -38,6 +38,7 @@ qx.Class.define("qx.ui.tabview.Page",
   construct : function(label, icon) {
     this.base(arguments);
     this._button = this._createButton(label, icon);
+    
   },
 
 
@@ -88,6 +89,16 @@ qx.Class.define("qx.ui.tabview.Page",
       }, this);
 
       button.setAppearance("tab-view-button");
+
+//      button.isFirstVisibleChild() ? button.addState("firstChild") : button.removeState("lastChild");
+//      this.isLastVisibleChild() ? this.addState("lastChild") : this.removeState("lastChild");
+//      this.getView().getAlignTabsToLeft() ? this.addState("alignLeft") : this.removeState("alignLeft");
+//      !this.getView().getAlignTabsToLeft() ? this.addState("alignRight") : this.removeState("alignRight");
+//      this.getView().getPlaceBarOnTop() ? this.addState("barTop") : this.removeState("barTop");
+//      !this.getView().getPlaceBarOnTop() ? this.addState("barBottom") : this.removeState("barBottom");
+      
+      
+      
       return button;
     },
 
