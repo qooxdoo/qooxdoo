@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.GroupBox_1",
+qx.Class.define("demobrowser.demo.widget.GroupBox",
 {
   extend : qx.application.Standalone,
 
@@ -33,7 +33,6 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
   {
     main: function() {
       this.base(arguments);
-
       // create the main layout
       var mainLayout = new qx.ui.layout.VBox();
       mainLayout.setSpacing(10);
@@ -44,7 +43,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox_1",
       this.getRoot().addMain(container);
 
       // create the first group box
-      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");
+      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");      
       box1.setLegendPosition("top");
       container.add(box1);
 
