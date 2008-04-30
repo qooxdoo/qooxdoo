@@ -99,7 +99,10 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // appear events
       appear : 1,
-      disappear : 1
+      disappear : 1,
+      
+      // iframe load
+      load : 1
     },
 
 
@@ -224,6 +227,8 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
+      } else if (type == "load") {
+        elem = target.getContentElement();
       }
 
       elem.addListener(type, this._dispatchEvent, this, capture);
@@ -237,6 +242,8 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
+      } else if (type == "load") {
+        elem = target.getContentElement();
       }
 
       elem.removeListener(type, this._dispatchEvent, this, capture);
