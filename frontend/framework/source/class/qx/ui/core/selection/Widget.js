@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _isSelectable : function(item) {
-      return (item instanceof qx.ui.form.ListItem) && item.getLayoutParent() === this._widget.getContent();
+      return item.getLayoutParent() === this._widget.getChildrenContainer();
     },
 
 

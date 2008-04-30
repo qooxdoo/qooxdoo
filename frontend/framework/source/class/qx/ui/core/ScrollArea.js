@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     getContentSize : function()
     {
-      var content = this.getContent();
+      var content = this._scrollPane.getContent();
 
       if (content)
       {
@@ -414,7 +414,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
 
       var itemSize = item.getBounds();
-      var content = this.getContent();
+      var content = this._scrollPane.getContent();
       var left = 0;
       var top = 0;
       do {
