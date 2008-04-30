@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.basic.Atom",
   construct : function(label, icon)
   {
     if (qx.core.Variant.isSet("qx.debug", "on")) {
-      this.assertArgumentsCount(arguments, 1, 2);
+      this.assertArgumentsCount(arguments, 0, 2);
     }
 
     this.base(arguments);

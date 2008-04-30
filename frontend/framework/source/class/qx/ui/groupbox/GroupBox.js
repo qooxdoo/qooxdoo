@@ -44,6 +44,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   construct : function(vLegend, vIcon) {
     this.base(arguments);
 
+
     this._setLayout(new qx.ui.layout.Canvas());
 
     // Sub widgets
@@ -112,7 +113,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       this._legendObject = new qx.ui.basic.Atom();
       this._legendObject.setAppearance("group-box-legend");
 
-      this._add(this._legendObject, {left: 10, top: 0});
+      this._add(this._legendObject);
     },
 
 
