@@ -81,16 +81,11 @@ qx.Class.define("qx.ui.layout.Abstract",
      */
     getSizeHint : function()
     {
-      if (this.__sizeHint)
-      {
-        // this.debug("Cached size hint: ", this.__sizeHint);
+      if (this.__sizeHint) {
         return this.__sizeHint;
       }
 
-      this.__sizeHint = this._computeSizeHint();
-      // console.log("Computed size hint: ", this.__sizeHint);
-
-      return this.__sizeHint;
+      return this.__sizeHint = this._computeSizeHint();
     },
 
 
