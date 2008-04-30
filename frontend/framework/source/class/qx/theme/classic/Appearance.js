@@ -351,8 +351,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor : "background",
           paddingRight    : 4,
-          paddingLeft     : 4
-          // marginRight     : 10
+          paddingLeft     : 4,
+          marginRight     : 10,
+          marginLeft      : 10
         };
       }
     },
@@ -377,7 +378,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor : "background",
           paddingRight    : 3,
-          paddingLeft     : 3
+          paddingLeft     : 3,
+          marginRight     : 10,
+          marginLeft      : 10
         };
       }
     },
@@ -391,7 +394,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor : "background",
           paddingRight    : 3,
-          paddingLeft     : 3
+          paddingLeft     : 3,
+          marginRight     : 10,
+          marginLeft      : 10
         };
       }
     },
