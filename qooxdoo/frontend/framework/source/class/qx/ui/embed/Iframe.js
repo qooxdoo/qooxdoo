@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   events:
   {
-
+    "load" : "qx.event.type.Event"
   },
 
 
@@ -113,7 +113,20 @@ qx.Class.define("qx.ui.embed.Iframe",
     */
 
 
+    getWindow : function()
+    {
+      return this.getContentElement().getWindow();
+    },
 
+    getDocument : function()
+    {
+      return this.getContentElement().getDocument();
+    },
+
+    getBody : function()
+    {
+      return this.getContentElement().getBody();
+    },
 
 
     /*
