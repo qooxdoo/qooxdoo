@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.form.List",
     // force boolean
     horizontal = !!horizontal;
 
-    var content = new qx.ui.container.Composite();
+    var content = this.__content = new qx.ui.container.Composite();
 
     var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
     content.setLayout(layout);
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.form.List",
       this.setOrientation("horizontal");
     }
 
-    this.setContent(content);
+    this._scrollPane.setContent(content);
 
     this.__manager = new qx.ui.core.selection.Widget(this);
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.form.List",
 
     // overridden
     getChildrenContainer : function() {
-      return this._scrollPane.getContent();
+      return this.__content;
     },
 
 
