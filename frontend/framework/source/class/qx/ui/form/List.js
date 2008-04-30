@@ -35,37 +35,38 @@ qx.Class.define("qx.ui.form.List",
   *****************************************************************************
   */
 
+  /**
+   * @param mode {String?"single"} The selection mode to use ({@link #selectionMode})
+   * @param horizontal {Boolean?false} Whether the list should be horizontal.
+   */
   construct : function(mode, horizontal)
   {
     this.base(arguments);
 
-    // force boolean
-    horizontal = !!horizontal;
+    // Create content
+    this.__content = new qx.ui.container.Composite();
+    this.__content.setAllowShrinkX(false);
+    this.__content.setAllowShrinkY(false);
 
-    var content = this.__content = new qx.ui.container.Composite();
+    // Add to scrollpane
+    this._scrollPane.setContent(this.__content);
 
-    var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
-    content.setLayout(layout);
-
-    content.set({
-      allowGrowX : !horizontal,
-      allowGrowY : horizontal,
-      allowShrinkX : false,
-      allowShrinkY : false
-    });
-
-    if (horizontal) {
+    // Apply orientation
+    if (!!horizontal) {
       this.setOrientation("horizontal");
+    } else {
+      this.initOrientation();
     }
 
-    this._scrollPane.setContent(content);
+    // Create selection manager
+    this.__manager = new qx.ui.core.selection.ScrollArea(this);
 
-    this.__manager = new qx.ui.core.selection.Widget(this);
-
+    // Apply selection mode
     if (mode != null) {
       this.setSelectionMode(mode);
     }
 
+    // Add event listeners
     this.addListener("mousedown", this._onmousedown);
     this.addListener("mouseup", this._onmouseup);
     this.addListener("mousemove", this._onmousemove);
@@ -98,6 +99,13 @@ qx.Class.define("qx.ui.form.List",
       init : true
     },
 
+
+    /**
+     * The selection mode to use.
+     *
+     * For further details please have a look at:
+     * {@link qx.ui.core.selection.Abstract#mode}
+     */
     selectionMode :
     {
       check : [ "single", "multi", "additive" ],
@@ -105,6 +113,10 @@ qx.Class.define("qx.ui.form.List",
       apply : "_applySelectionMode"
     },
 
+
+    /**
+     * Whether the list should be rendered horizontal or vertical.
+     */
     orientation :
     {
       check : ["horizontal", "vertical"],
@@ -137,8 +149,19 @@ qx.Class.define("qx.ui.form.List",
 
 
     // property apply
-    _applyOrientation : function(value, old) {
-      // TODO
+    _applyOrientation : function(value, old)
+    {
+      var horizontal = value === "horizontal";
+
+      // Create new layout
+      var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
+
+      // Replace layout
+      this.__content.setLayout(layout);
+
+      // Reconfigure content
+      this.__content.setAllowGrowX(!horizontal);
+      this.__content.setAllowGrowY(horizontal);
     },
 
 
@@ -249,6 +272,6 @@ qx.Class.define("qx.ui.form.List",
   */
 
   destruct : function() {
-    this._disposeObjects("__manager");
+    this._disposeObjects("__manager", "__content");
   }
 });

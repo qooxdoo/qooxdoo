@@ -119,6 +119,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @type member
      * @param child {LayoutItem} widget to add
      * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
      */
     addAt : function(child, index, options) {
       return this.getChildrenContainer().addAt(child, index, options);
@@ -136,7 +137,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @type member
      * @param child {LayoutItem} widget to add
      * @param before {LayoutItem} widget before the new widget will be inserted.
-     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
      */
     addBefore : function(child, before, options) {
       return this.getChildrenContainer().addBefore(child, before, options);
@@ -152,9 +153,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param vChild {LayoutItem} widget to add
+     * @param child {LayoutItem} widget to add
      * @param after {LayoutItem} widget, after which the new widget will be inserted
-     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
      */
     addAfter : function(child, after, options) {
       return this.getChildrenContainer().addAfter(child, after, options);
