@@ -63,7 +63,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @return {Widget} This object (for chaining support)
      */
     add : function(child, options) {
-      return this._add(child, options);
+      return this.getChildrenContainer().add(child, options);
     },
 
 
