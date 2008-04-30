@@ -20,13 +20,13 @@
 
 qx.Class.define("feedreader.view.Header",
 {
-  extend : qx.legacy.ui.embed.HtmlEmbed,
+  extend : qx.ui.embed.HtmlEmbed,
 
   construct : function()
   {
     this.base(arguments, "<h1><span>qooxdoo</span> reader</h1>");
 
-    this.setHtmlProperty("className", "header");
+    this.setCssClass("header");
     this.setHeight(50);
   }
 });

@@ -15,6 +15,7 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -24,6 +25,8 @@
 #resource(feedreader.images:feedreader/images)
 #embed(feedreader.css/*)
 #embed(feedreader.images/*)
+
+#include(qx.theme.Classic)
 
 #asset(feedreader/css/*)
 #asset(feedreader/images/*)
@@ -35,7 +38,7 @@
  */
 qx.Class.define("feedreader.Application",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Standalone,
 
 
 
@@ -96,7 +99,6 @@ qx.Class.define("feedreader.Application",
 
       // Initialialize date format
       this._dateFormat = new qx.util.format.DateFormat;
-
       // Add some static feeds
       this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
       this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
@@ -117,12 +119,14 @@ qx.Class.define("feedreader.Application",
       // Create Application Layout
       this._createLayout();
 
+/*
       // React on theme selection changes
       qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._applyCssTheme, this);
       this._applyCssTheme();
 
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
+*/      
     },
 
     _load : function()
@@ -280,18 +284,21 @@ qx.Class.define("feedreader.Application",
     _createLayout : function()
     {
       // Create main layout
-      var dockLayout = new qx.legacy.ui.layout.DockLayout();
-      dockLayout.setEdge(0);
-      dockLayout.addToDocument();
-
+      var dockLayout = new qx.ui.layout.Dock();
+      //dockLayout.setEdge(0);
+      var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
+      this.getRoot().addMain(dockLayoutComposite, true);
       // Create header
-      this._headerView = new feedreader.view.Header;
-      dockLayout.addTop(this._headerView);
+      this._headerView = new feedreader.view.Header();
+      dockLayoutComposite.add(this._headerView, {edge:"north"});
+      
+      
 
       // Create toolbar
       this._toolBarView = new feedreader.view.ToolBar(this);
-      dockLayout.addTop(this._toolBarView);
+      dockLayoutComposite.add(this._toolBarView, {edge:"north"});
 
+/*
       // Create horizontal split pane
       var horSplitPane = new qx.legacy.ui.splitpane.HorizontalSplitPane(200, "1*");
       dockLayout.add(horSplitPane);
@@ -313,6 +320,7 @@ qx.Class.define("feedreader.Application",
       // Create article view
       this._articleView = new feedreader.view.Article;
       vertSplitPane.addBottom(this._articleView);
+*/      
     },
 
 
@@ -323,7 +331,7 @@ qx.Class.define("feedreader.Application",
      * @return {void}
      */
     _applyCssTheme : function() {
-      document.body.className = qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext ? "Ext" : "Classic";
+      // document.body.className = qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext ? "Ext" : "Classic";
     },
 
 
