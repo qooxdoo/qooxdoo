@@ -350,7 +350,7 @@ qx.Class.define("qx.fx.Base",
      */
     update : function(position)
     {
-      if (this.hasListeners()) {
+      if (this.hasListener()) {
         this.fireEvent("update");
       }
     },

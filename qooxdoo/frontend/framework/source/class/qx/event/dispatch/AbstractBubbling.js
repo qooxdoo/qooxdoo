@@ -107,7 +107,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       var targetList = [];
 
       captureListeners = manager.getListeners(target, type, true);
-      bubbleListeners = manager.getListeners(target, type, false)
+      bubbleListeners = manager.getListeners(target, type, false);
 
       if (captureListeners) {
         targetList.push(captureListeners);
