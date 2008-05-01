@@ -200,8 +200,8 @@ qx.Class.define("qx.bom.Element",
      *       the bubbling or of the capturing phase.
      * @return {Boolean} Whether the element has event listeners of the given type.
      */
-    hasListeners : function(element, type, capture) {
-      return qx.event.Registration.hasListeners(element, type, capture);
+    hasListener : function(element, type, capture) {
+      return qx.event.Registration.hasListener(element, type, capture);
     },
 
 

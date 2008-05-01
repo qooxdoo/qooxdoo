@@ -530,7 +530,7 @@ qx.Class.define("qx.html.Element",
         Style.setCss(elem, Style.compile(data));
       }
 
-      // Copy misc
+      // Copy properties
       var data = this.__propertyValues;
       if (data)
       {
@@ -543,19 +543,16 @@ qx.Class.define("qx.html.Element",
       var data = this.__eventValues;
       if (data)
       {
-        var Event = qx.event.Registration;
-
+        var manager = qx.event.Registration.getManager(elem);
         var entry;
-        for (var key in data)
-        {
-          entry = data[key];
-          Event.addListener(entry.target._element, entry.type, entry.listener, entry.self, entry.capture);
-        }
+        
+        manager.importListeners(elem, data);
 
-        // Cleanup old event map
-        // Events are directly used through event manager
+        // Cleanup event map
+        // Events are directly attached through event manager
         // after intial creation. This differs from the
-        // handling of styles and attributes.
+        // handling of styles and attributes where queuing happes
+        // through the complete runtime of the application.
         delete this.__eventValues;
       }
     },
@@ -1782,12 +1779,13 @@ qx.Class.define("qx.html.Element",
         }
 
         var key = this.__generateListenerId(type, listener, self, capture);
-        if (this.__eventValues[key]) {
-          throw new Error("A listener of this configuration does already exist!");
+        if (this.__eventValues[key]) 
+        {
+          this.warn("A listener of this configuration does already exist!");
+          return false;
         }
 
         this.__eventValues[key] = {
-          target : this,
           type : type,
           listener : listener,
           self : self,
@@ -1818,8 +1816,10 @@ qx.Class.define("qx.html.Element",
       else
       {
         var key = this.__generateListenerId(type, listener, self, capture);
-        if (!this.__eventValues || !this.__eventValues[key]) {
-          throw new Error("A listener of this configuration does not exist!");
+        if (!this.__eventValues || !this.__eventValues[key]) 
+        {
+          this.warn("A listener of this configuration does not exist!");
+          return false;
         }
 
         delete this.__eventValues[key];

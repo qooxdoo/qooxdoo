@@ -867,7 +867,7 @@ qx.Class.define("qx.io.remote.Exchange",
             break;
           }
 
-          if (this.hasListeners(value))
+          if (this.hasListener(value))
           {
             var vResponse = qx.event.Registration.createEvent(value, qx.io.remote.Response);
 

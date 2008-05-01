@@ -160,8 +160,8 @@ qx.Bootstrap.define("qx.event.Registration",
      *         the bubbling or of the capturing phase.
      * @return {Boolean} Whether the target has event listeners of the given type.
      */
-    hasListeners : function(target, type, capture) {
-      return this.getManager(target).hasListeners(target, type, capture);
+    hasListener : function(target, type, capture) {
+      return this.getManager(target).hasListener(target, type, capture);
     },
 
 

@@ -200,7 +200,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           if (dragtype == type) {
             continue;
           }
-          if (this._manager.hasListeners(target, dragtype, capture)) {
+          if (this._manager.hasListener(target, dragtype, capture)) {
             removeDragEvents = false;
             break;
           }
