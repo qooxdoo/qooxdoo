@@ -605,7 +605,7 @@ qx.Class.define("qx.io2.HttpRequest",
      */
     __ontimeout : function()
     {
-      if (this.hasListeners("timeout")) {
+      if (this.hasListener("timeout")) {
         this.fireEvent("timeout");
       }
     },
@@ -619,7 +619,7 @@ qx.Class.define("qx.io2.HttpRequest",
      */
     __onload : function()
     {
-      if (this.hasListeners("load")) {
+      if (this.hasListener("load")) {
         this.fireEvent("load");
       }
     },
@@ -633,7 +633,7 @@ qx.Class.define("qx.io2.HttpRequest",
      */
     __onerror : function()
     {
-      if (this.hasListeners("error")) {
+      if (this.hasListener("error")) {
         this.fireEvent("error");
       }
     },
@@ -647,7 +647,7 @@ qx.Class.define("qx.io2.HttpRequest",
      */
     __onabort : function()
     {
-      if (this.hasListeners("abort")) {
+      if (this.hasListener("abort")) {
         this.fireEvent("abort");
       }
     }

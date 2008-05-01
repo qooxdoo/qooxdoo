@@ -778,11 +778,11 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Fire events
-      if (changes.position && this.hasListeners("move")) {
+      if (changes.position && this.hasListener("move")) {
         this.fireDataEvent("move", this.getBounds());
       }
 
-      if (changes.size && this.hasListeners("resize")) {
+      if (changes.size && this.hasListener("resize")) {
         this.fireDataEvent("resize", this.getBounds());
       }
 
@@ -2147,7 +2147,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         target.setAttribute("tabIndex", null);
       }
-
+      
       // Dynamically register/deregister events
       if (value)
       {

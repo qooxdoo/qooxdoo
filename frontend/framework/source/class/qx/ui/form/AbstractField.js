@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.setValue(value);
 
       // Fire input event
-      if (this.hasListeners("input")) {
+      if (this.hasListener("input")) {
         this.fireDataEvent("input", value);
       }
     },
@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.setValue(value);
 
       // Fire change event
-      if (this.hasListeners("change")) {
+      if (this.hasListener("change")) {
         this.fireDataEvent("change", value);
       }
     }

@@ -307,8 +307,8 @@ qx.Class.define("qx.core.Object",
      * @param type {String} name of the event type
      * @return {var} TODOC
      */
-    hasListeners : function(type) {
-      return this.__Registration.hasListeners(this, type);
+    hasListener : function(type) {
+      return this.__Registration.hasListener(this, type);
     },
 
 
