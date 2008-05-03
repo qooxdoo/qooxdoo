@@ -543,10 +543,8 @@ qx.Class.define("qx.html.Element",
       var data = this.__eventValues;
       if (data)
       {
-        var manager = qx.event.Registration.getManager(elem);
-        var entry;
-        
-        manager.importListeners(elem, data);
+        // Import listeners
+        qx.event.Registration.getManager(elem).importListeners(elem, data);
 
         // Cleanup event map
         // Events are directly attached through event manager

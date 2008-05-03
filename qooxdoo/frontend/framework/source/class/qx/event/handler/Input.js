@@ -112,10 +112,10 @@ qx.Class.define("qx.event.handler.Input",
     // interface implementation
     canHandleEvent : function(target, type)
     {
-      if (target.nodeType === undefined) {
+      if (!this.__eventTypes[type] || target.nodeType === undefined) {
         return false;
       }
-
+      
       var lower = target.tagName.toLowerCase();
 
       if (type === "input" && (lower === "input" || lower === "textarea")) {
@@ -223,6 +223,22 @@ qx.Class.define("qx.event.handler.Input",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Internal data structure with all supported BOM element events */
+    __eventTypes :
+    {
+      input : 1,
+      change : 1
+    },
+        
+    
+    
 
     /*
     ---------------------------------------------------------------------------
