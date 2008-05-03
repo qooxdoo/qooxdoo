@@ -122,11 +122,11 @@ qx.Class.define("qx.ui.core.EventHandler",
     // interface implementation
     canHandleEvent : function(target, type)
     {
-      if (!(target instanceof qx.ui.core.Widget)) {
+      if (!this.__supported[type]) {
         return false;
       }
 
-      return !!this.__supported[type];
+      return target instanceof qx.ui.core.Widget;
     },
 
 

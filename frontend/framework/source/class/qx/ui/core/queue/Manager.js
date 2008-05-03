@@ -126,10 +126,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       if (jobs.element)
       {
-        var start = new Date;
         delete jobs.element;
-        qx.html.Element.flush();
 
+        var start = new Date;
+        qx.html.Element.flush();    
+            
         var time = new Date - start;
         if (time > 3) {
           qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
@@ -138,8 +139,9 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       if (jobs.dispose)
       {
-        var start = new Date;
         delete jobs.dispose;
+
+        var start = new Date;
         qx.ui.core.queue.Dispose.flush();
 
         var time = new Date - start;

@@ -84,6 +84,7 @@ qx.Bootstrap.define("qx.event.Registration",
 
     /**
      * Removes a manager for a specific window from the list.
+     *
      * Normally only used when the manager gets disposed through
      * an unload event of the attached window.
      *

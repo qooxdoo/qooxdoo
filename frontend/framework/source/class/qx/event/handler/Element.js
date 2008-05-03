@@ -84,7 +84,7 @@ qx.Class.define("qx.event.handler.Element",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return this._eventTypes[type] && target.nodeType !== undefined;
+      return this.__eventTypes[type] && target.nodeType !== undefined;
     },
 
 
@@ -131,7 +131,7 @@ qx.Class.define("qx.event.handler.Element",
     */
 
     /** {Map} Internal data structure with all supported BOM element events */
-    _eventTypes :
+    __eventTypes :
     {
       abort : true,    // Image elements
       scroll : true,
