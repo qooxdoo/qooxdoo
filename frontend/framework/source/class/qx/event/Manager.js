@@ -352,7 +352,7 @@ qx.Bootstrap.define("qx.event.Manager",
       for (var i=0, l=classes.length; i<l; i++)
       {
         instance = this.getHandler(classes[i]);
-
+        
         if (instance.canHandleEvent(target, type))
         {
           instance.registerEvent(target, type, capture);
@@ -361,7 +361,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn(this, "There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
@@ -493,7 +493,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.warn("There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn(this, "There is no event handler for the event '" + type + "' on target '" + target + "'!");
       }
     },
 
