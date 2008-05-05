@@ -126,8 +126,8 @@ qx.Class.define("qx.util.DeferredCallManager",
           var call = this.__currentQueue[key];
           if (call)
           {
-            call.call();
             this.__currentQueue[key] = null;
+            call.call();
           }
         }
       }

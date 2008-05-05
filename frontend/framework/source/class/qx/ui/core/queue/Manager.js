@@ -124,6 +124,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
       }
 
+      qx.ui.core.queue.Manager.__scheduled = false;
+
       if (jobs.element)
       {
         delete jobs.element;
@@ -150,7 +152,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
       }
 
-      qx.ui.core.queue.Manager.__scheduled = false;
     }
   },
 
