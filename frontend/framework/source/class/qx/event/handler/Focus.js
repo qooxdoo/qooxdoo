@@ -825,7 +825,7 @@ qx.Class.define("qx.event.handler.Focus",
         // activate keyboard events to be available on the window object.
         var wasNull = !this._windowFocused;
         var wasNull = !this.getFocus();
-        
+
         // Focus event in Opera is fired after the mousedown which
         // is not typical. Normalize this here.
         this._doWindowFocus();
@@ -1048,9 +1048,7 @@ qx.Class.define("qx.event.handler.Focus",
 
   destruct : function()
   {
-    this._stopMouseObserver();
-    this._stopFocusObserver();
-
+    this._stopObserver();
     this._disposeFields("_manager", "_window", "_document", "_root", "_body", "_unselectableTarget");
   },
 
