@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.widget.Scrollbar_1",
     {
       this.base(arguments);
 
-      // TODO
+
     }
   }
 });

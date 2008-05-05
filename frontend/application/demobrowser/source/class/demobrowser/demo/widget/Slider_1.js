@@ -28,52 +28,43 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
     {
       this.base(arguments);
 
+      this.getRoot().add(this._createVerticalLayout(), {left:20, top:20});
+      this.getRoot().add(this._createHorizontalLayout(), {left:500, top:20});
+    },
+
+    _createVerticalLayout : function()
+    {
       var sliders = []
 
       sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
         maximum: 1000,
-        value: 100,
-        backgroundColor : "white",
-        decorator : "black"
+        value: 100
       })));
 
       sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
         minimum: -100,
         maximum: 100,
         singleStep: 5,
-        wheelStep: 10,
         pageStep: 20,
-        value: 0,
-        backgroundColor: "white",
-        decorator : "black"
+        value: 0
       })));
 
-      var container = this._createVerticalLayout(sliders);
-      this.getRoot().add(container, {left:20, top:60});
+      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+        minimum: -400,
+        maximum: -200,
+        singleStep: 5,
+        pageStep: 20,
+        value: -300
+      })));
 
-
-      var isHorizontal = false;
-      var btn = new qx.ui.form.Button("Toggle orientation");
-      this.getRoot().add(btn, {left:20, top:10});
-
-      btn.addListener("execute", function()
-      {
-        this.getRoot().removeAt(0);
-        if (isHorizontal)
-        {
-          this.getRoot().addAt(this._createVerticalLayout(sliders), 0, {left:20, top:60});
-        } else {
-          this.getRoot().addAt(this._createHorizontalLayout(sliders), 0, {left:20, top:60});
-        }
-        isHorizontal = !isHorizontal;
-      }, this);
-
-    },
-
-    _createVerticalLayout : function(sliders)
-    {
       var grid = new qx.ui.layout.Grid();
       var container = new qx.ui.container.Composite(grid);
+
+      container.setBackgroundColor("white");
+      container.setDecorator("black");
+      container.setPadding(20);
+      container.setWidth(400);
+      container.setHeight(400);
 
       grid.setSpacing(5);
       grid.setRowFlex(0, 1);
@@ -107,10 +98,39 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
     },
 
 
-    _createHorizontalLayout : function(sliders)
+    _createHorizontalLayout : function()
     {
+      var sliders = []
+
+      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+        maximum: 1000,
+        value: 100
+      })));
+
+      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+        minimum: -100,
+        maximum: 100,
+        singleStep: 5,
+        pageStep: 20,
+        value: 0
+      })));
+
+      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+        minimum: -400,
+        maximum: -200,
+        singleStep: 5,
+        pageStep: 20,
+        value: -300
+      })));
+
       var grid = new qx.ui.layout.Grid();
       var container = new qx.ui.container.Composite(grid);
+
+      container.setBackgroundColor("white");
+      container.setDecorator("black");
+      container.setPadding(20);
+      container.setWidth(400);
+      container.setHeight(400);
 
       grid.setSpacing(5);
       grid.setColumnFlex(0, 1);
@@ -144,12 +164,13 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
 
     _createSliderGroup : function(slider)
     {
-      var group = {
+      var group =
+      {
         slider: slider,
-        min: new qx.ui.basic.Label("" + (slider.getMinimum ? slider.getMinimum() : 0)).set({allowStretchX: false, allowStretchY: false}),
-        max: new qx.ui.basic.Label("" + slider.getMaximum()).set({allowStretchX: false, allowStretchY: false}),
-        value: new qx.ui.basic.Label("Value: " + slider.getValue()).set({allowStretchX: false, allowStretchY: false})
-      }
+        min: new qx.ui.basic.Label(slider.getMinimum().toString()),
+        max: new qx.ui.basic.Label(slider.getMaximum().toString()),
+        value: new qx.ui.basic.Label("Value: " + slider.getValue())
+      };
 
       slider.addListener("changeValue", function(e) {
         group.value.setContent("Value: " + slider.getValue());

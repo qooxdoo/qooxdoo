@@ -25,6 +25,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
 {
   extend : qx.ui.core.Widget,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
    * @param orientation {String?"horizontal"} The initial scroll bar orientation
    */
@@ -32,40 +40,58 @@ qx.Class.define("qx.ui.core.ScrollBar",
   {
     this.base(arguments);
 
-    this._slider = new qx.ui.slider.AbstractSlider(orientation).set({
-      appearance : "scrollbar-slider"
-    });
+
+    // Create slider
+    this._slider = new qx.ui.slider.AbstractSlider(orientation);
+    this._slider.setAppearance("scrollbar-slider");
+    this._slider.setAllowStretchX(true);
+    this._slider.setAllowStretchY(true);
     this._slider.addListener("changeValue", this._onChangeValueSlider, this);
     this._slider.addListener("resize", this._onResizeSlider, this);
 
+
+    // Top/Left Button
     this._btnBegin = new qx.ui.form.RepeatButton().set({
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnBegin.addListener("execute", this._slider.scrollStepBack, this._slider);
+    this._btnBegin.addListener("execute", this._slider.scrollBack, this._slider);
 
 
+    // Bottom/Right Button
     this._btnEnd = new qx.ui.form.RepeatButton().set({
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnEnd.addListener("execute", this._slider.scrollStepForward, this._slider);
+    this._btnEnd.addListener("execute", this._slider.scrollForward, this._slider);
 
 
-    // TODO: Make this clean. We should stop events here as they are processed already.
-    this.addListener("mousedown", function(e) {e.stop()});
-    this.addListener("mouseup", function(e) {e.stop()});
+    // Add children
+    this._add(this._btnBegin);
+    this._add(this._slider, {flex: 1});
+    this._add(this._btnEnd);
 
 
+    // Configure orientation
     if (orientation != null) {
       this.setOrientation(orientation);
     } else {
       this.initOrientation();
     }
 
-    this.initButtonStep();
+
+    // Initialize step size
+    this.initLineStep();
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -116,13 +142,12 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     /**
      * The amount to scroll if the user clicks on one of the arrow buttons.
-     * The {@link #value} will change by the amount of this value.
      */
-    buttonStep :
+    lineStep :
     {
       check : "Integer",
-      init : 16,
-      apply : "_applyButtonStep"
+      init : 20,
+      apply : "_applyLineStep"
     },
 
 
@@ -134,6 +159,15 @@ qx.Class.define("qx.ui.core.ScrollBar",
     }
   },
 
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -150,21 +184,20 @@ qx.Class.define("qx.ui.core.ScrollBar",
     // property apply
     _applyOrientation : function(value, old)
     {
-      var isHorizontal = value === "horizontal";
+      // Dispose old layout
+      var oldLayout = this._getLayout();
+      if (oldLayout) {
+        oldLayout.dispose();
+      }
 
-      this.setAllowStretchX(isHorizontal);
-      this.setAllowStretchY(!isHorizontal);
-
-      var layout = isHorizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
-      this._setLayout(layout);
-
-      // Add children to layout
-      this._add(this._btnBegin);
-      this._add(this._slider, {flex: 1});
-      this._add(this._btnEnd);
-
-      if (isHorizontal)
+      // Reconfigure
+      if (value === "horizontal")
       {
+        this._setLayout(new qx.ui.layout.HBox);
+
+        this.setAllowStretchX(true);
+        this.setAllowStretchY(false);
+
         this.addState("horizontal");
         this.removeState("vertical");
 
@@ -176,6 +209,11 @@ qx.Class.define("qx.ui.core.ScrollBar",
       }
       else
       {
+        this._setLayout(new qx.ui.layout.VBox);
+
+        this.setAllowStretchX(false);
+        this.setAllowStretchY(true);
+
         this.addState("vertical");
         this.removeState("horizontal");
 
@@ -186,25 +224,16 @@ qx.Class.define("qx.ui.core.ScrollBar",
         this._btnEnd.removeState("right");
       }
 
+
+      // Sync slider orientation
       this._slider.setOrientation(value);
-      this._slider.set({
-        allowStretchX: true,
-        allowStretchY: true
-      });
-    },
-
-
-    // property apply
-    _applyValue : function(value, old) {
-      this._slider.setValue(value);
     },
 
 
     __updateSliderSteps : function()
     {
-      this._slider.setPageStep(Math.max(1, this.getContainerSize() - this.getButtonStep()));
-      this._slider.setSingleStep(this.getButtonStep());
-      this._slider.setWheelStep(this.getButtonStep());
+      this._slider.setPageStep(Math.max(1, this.getContainerSize() - this.getLineStep()));
+      this._slider.setSingleStep(this.getLineStep());
     },
 
 
@@ -233,10 +262,24 @@ qx.Class.define("qx.ui.core.ScrollBar",
       var sliderSize = Math.min(scrollSize, Math.round(scrollSize * this.getContainerSize() / this.getContentSize()));
 
       if (isHorizontal) {
-        this._slider._slider.setWidth(sliderSize);
+        this._slider._knob.setWidth(sliderSize);
       } else {
-        this._slider._slider.setHeight(sliderSize);
+        this._slider._knob.setHeight(sliderSize);
       }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyValue : function(value, old) {
+      this._slider.setValue(value);
     },
 
 
@@ -253,7 +296,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
 
     // property apply
-    _applyButtonStep : function(value, old) {
+    _applyLineStep : function(value, old) {
       this.__updateSliderSteps();
     }
   }
