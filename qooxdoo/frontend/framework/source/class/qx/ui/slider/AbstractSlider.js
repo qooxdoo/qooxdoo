@@ -161,23 +161,25 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       var isHorizontal = this.getOrientation() === "horizontal";
       var knob = this._knob;
-      var knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement());
 
+      var positionProperty = isHorizontal ? "left" : "top";
+      
+      var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
+      var sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[positionProperty];
+      var knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[positionProperty];
+      
       if (e.getTarget() === knob)
       {
-        var sliderLocation = qx.bom.element.Location.get(this.getContainerElement().getDomElement());
-
-        if (isHorizontal) {
-          this.__dragOffset = sliderLocation.left + (e.getDocumentLeft() - knobLocation.left);
-        } else {
-          this.__dragOffset = sliderLocation.top + (e.getDocumentTop() - knobLocation.top);
-        }
-
         // Switch into drag mode
         this.__dragMode = true;
 
-        // Register move listener and activate capturing
+        // Compute dragOffset (includes both: inner position of the widget and cursor position on knob)
+        this.__dragOffset = cursorLocation + sliderLocation - knobLocation;
+        
+        // Register move listener
         this.addListener("mousemove", this._onKnobMove);
+        
+        // Activate capturing
         this.capture();
       }
       else
@@ -185,13 +187,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         // Switch into tracking mode
         this.__trackingMode = true;
 
-        // Detect tracking direction
-        if (isHorizontal) {
-          this.__trackingDirection = e.getDocumentLeft() <= knobLocation.left ? -1 : 1;
-        } else {
-          this.__trackingDirection = e.getDocumentTop() <= knobLocation.top ? -1 : 1;
-        }
-
+        // Detect tracking direction and coordinate
+        this.__trackingDirection = cursorLocation <= knobLocation ? -1 : 1;
+        this.__trackingValue = this._positionToValue(cursorLocation - sliderLocation);
+        
         // Initialize timer
         if (!this.__timer)
         {
@@ -199,8 +198,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
           this.__timer.addListener("interval", this._onInterval, this);
         }
 
-        // Start timer and activate capturing
+        // Start timer
         this.__timer.start();
+        
+        // Activate capturing
         this.capture();
       }
     },
@@ -210,18 +211,28 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       if (this.__dragMode)
       {
+        // Remove move listener again
         this.removeListener("mousemove", this._onKnobMove);
+        
+        // Release capture mode
         this.releaseCapture();
 
+        // Cleanup status flags
         delete this.__dragMode;
+        delete this.__dragOffset;
       }
       else if (this.__trackingMode)
       {
+        // Stop timer interval
         this.__timer.stop();
+
+        // Release capture mode
         this.releaseCapture();
 
+        // Cleanup status flags
         delete this.__trackingMode;
         delete this.__trackingDirection;
+        delete this.__trackingValue;
       }
     },
 
@@ -230,12 +241,20 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       var value = this.getValue() + (this.__trackingDirection * this.getPageStep())
 
+      // Limit value
       if (value < this.getMinimum()) {
         value = this.getMinimum();
       } else if (value > this.getMaximum()) {
         value = this.getMaximum();
       }
-
+      
+      // Stop at tracking position (where the mouse is pressed down)
+      var toBegin = this.__trackingDirection == -1;
+      if ((toBegin && value <= this.__trackingValue) || (!toBegin && value >= this.__trackingValue)) {
+        value = this.__trackingValue;
+      }
+      
+      // Finally, scroll to the desired position
       this.scrollTo(value);
     },
 
