@@ -28,6 +28,7 @@ qx.Theme.define("qx.theme.classic.Color",
   colors :
   {
     "background" : [ 235, 233, 237 ],
+    "background-light" : "#F3F0F5",
 
     "border-light" : "white",
     "border-light-shadow" : [ 220, 223, 228 ],

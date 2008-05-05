@@ -523,7 +523,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator       : border,
           padding         : padding,
           // verticalChildrenAlign : "middle",
-          backgroundColor       : states.abandoned ? "button-abandoned" : states.checked ? "#F3F0F5" : "button"
+          backgroundColor       : states.abandoned ? "button-abandoned" : states.checked ? "background-light" : "button"
           //backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
         };
       }
@@ -709,7 +709,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#F3F0F5"
+          backgroundColor : "background-light"
         }
       }
     },
@@ -770,7 +770,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background"
+          backgroundColor : "background-light",
+          decorator : "inset"
         }
       }
     },
@@ -782,8 +783,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width: 10,
-          height: 10
+          width: 14,
+          height: 14,
+          decorator : "outset"
         }
       }
     },
