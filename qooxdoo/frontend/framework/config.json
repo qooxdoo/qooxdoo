@@ -14,19 +14,10 @@
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
       },
 
-      "library1" :
-      [
-        {
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/framework/source",
-          "uri"      : "${QOOXDOO_URI}/framework/source"
-        }
-      ],
-
       "library" :
       [
         {
-          "manifest" : "Manifest.js",
+          "manifest" : "Manifest.json",
           "uri"      : "${QOOXDOO_URI}/framework"
         }
       ],
@@ -56,7 +47,7 @@
       "library" :
       [
         {
-          "manifest" : "${ROOT}/Manifest.js",
+          "manifest" : "${ROOT}/Manifest.json",
           "uri"      : "../${ROOT}"
         }
       ],

@@ -13,12 +13,12 @@
       "library" :
       [
         {
-          "manifest"     : "${QOOXDOO_PATH}/Manifest.js",
+          "manifest"     : "${QOOXDOO_PATH}/Manifest.json",
           "uri"          : "${QOOXDOO_URI}"
         },
 
         {
-          "manifest"     : "Manifest.js",
+          "manifest"     : "Manifest.json",
           "uri"          : ".."
         }
       ],
