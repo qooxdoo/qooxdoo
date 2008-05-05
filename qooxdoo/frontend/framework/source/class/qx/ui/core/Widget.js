@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.ui.core.LayoutItem,
   include : qx.locale.MTranslation,
-  
+
 
   /*
   *****************************************************************************
@@ -2147,7 +2147,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         target.setAttribute("tabIndex", null);
       }
-      
+
       // Dynamically register/deregister events
       if (value)
       {
