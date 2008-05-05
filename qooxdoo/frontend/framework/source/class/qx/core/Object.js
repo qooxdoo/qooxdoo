@@ -284,6 +284,29 @@ qx.Class.define("qx.core.Object",
 
 
     /**
+     * Add event listener to this object, which is only called once. After the
+     * listener is called the event listener gets removed.
+     *
+     * @type member
+     * @param type {String} name of the event type
+     * @param func {Function} event callback function
+     * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     * @param capture {Boolean ? false} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event. The default is
+     *         to attach the event handler to the bubbling phase.
+     */
+    addListenerOnce : function(type, func, obj, capture)
+    {
+      var listener = function(e) {
+        func.call(obj, e);
+        this.removeListener(type, listener, this, capture);
+      }
+
+      this.addListener(type, listener, this, capture);
+    },
+
+
+    /**
      * Remove event listener from this object
      *
      * @type member
