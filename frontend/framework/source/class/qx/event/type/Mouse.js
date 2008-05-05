@@ -40,6 +40,17 @@ qx.Class.define("qx.event.type.Mouse",
 
   members :
   {
+
+    // overridden
+    init : function(nativeEvent, bubbles, target, relatedTarget)
+    {
+      this.base(arguments, nativeEvent, bubbles, target, relatedTarget);
+      this.__computeRelatedTarget();
+
+      return this;
+    },
+
+
     /** {Map} Contains the button ID to identifier data. */
     __buttons : qx.core.Variant.select("qx.client",
     {
@@ -143,20 +154,28 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Element} The secondary event target.
      * @signature function()
      */
-    getRelatedTarget : qx.core.Variant.select("qx.client",
+    getRelatedTarget : function() {
+      return this._relatedTarget;
+    },
+
+
+    /**
+     * Computes the related target from the native DOM event
+     */
+    __computeRelatedTarget : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         var ev = this._native;
         if (ev.type === "mouseover") {
-          return ev.fromEvent;
+          this._relatedTarget = ev.fromEvent;
         } else {
-          return ev.toElement;
+          this._relatedTarget = ev.toElement;
         }
       },
 
       "default" : function() {
-        return this._native.relatedTarget;
+        this._relatedTarget = this._native.relatedTarget;
       }
     }),
 
