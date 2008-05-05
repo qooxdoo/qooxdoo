@@ -424,11 +424,11 @@ class Generator:
         # Get resource list
         buildUri = self._config.get('compile/resourceUri', ".")
         libs = [{
-                 'path':'.', 
+                 'path':'./build', 
                  'namespace':'build',
                  'class' : 'build',
-                 'resource': 'build/resource',
-                 'translation': 'build/translation',
+                 'resource': 'resource',
+                 'translation': 'translation',
                  'uri': buildUri, 
                  'encoding':'utf-8'
             }]  # use what's in the 'build' tree -- this depends on resource copying!!
