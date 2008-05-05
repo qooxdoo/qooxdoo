@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
       else
       {
-        scrollbar.setButtonStep(this.getLineHeight());
+        scrollbar.setLineStep(this.getLineHeight());
         this._add(scrollbar, {row: 0, column: 1});
       }
       this._scrollbars[orientation] = scrollbar;
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     _applyLineHeight : function(value, old)
     {
       if (this._scrollbars.vertical) {
-        this._scrollbars.vertical.setButtonStep(value);
+        this._scrollbars.vertical.setLineStep(value);
       }
     },
 
