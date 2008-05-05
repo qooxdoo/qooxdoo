@@ -45,7 +45,10 @@ qx.Class.define("qx.event.type.Mouse",
     init : function(nativeEvent, bubbles, target, relatedTarget)
     {
       this.base(arguments, nativeEvent, bubbles, target, relatedTarget);
-      this.__computeRelatedTarget();
+
+      if (!relatedTarget) {
+        this.__computeRelatedTarget();
+      }
 
       return this;
     },
