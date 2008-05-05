@@ -402,14 +402,16 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _applyOrientation : function(value, old)
     {
       var isHorizontal = value === "horizontal";
+      var knob = this._knob;
 
       this.setAllowStretchX(isHorizontal);
       this.setAllowStretchY(!isHorizontal);
 
-      var knob = this._knob;
-
       if (isHorizontal)
       {
+        this.removeState("vertical");
+        knob.removeState("vertical");
+
         this.addState("horizontal");
         knob.addState("horizontal");
       }
@@ -417,21 +419,17 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       {
         this.removeState("horizontal");
         knob.removeState("horizontal");
+
+        this.addState("vertical");
+        knob.addState("vertical");
       }
 
       if (isHorizontal) {
-        knob.setLayoutProperties({top:0,left:null});
+        knob.setLayoutProperties({top:0, right:null, bottom:0});
       } else {
-        knob.setLayoutProperties({left:0,top:null});
+        knob.setLayoutProperties({right:0, bottom:null, left:0});
       }
 
-      if (isHorizontal) {
-        var props = {top:0, right:null, bottom:0};
-      } else {
-        var props = {right:0, bottom:null, left:0};
-      }
-
-      knob.setLayoutProperties(props);
       this._updateSliderPosition();
     },
 
