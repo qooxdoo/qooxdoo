@@ -159,6 +159,20 @@ qx.Class.define("qx.ui.core.RadioManager",
     },
 
 
+    setEnabled : function(value)
+    {
+      var items = this._items;
+      for (var i=0; i<items.length; i++)
+      {
+        if (value == null) {
+          items[i].resetEnabled();
+        } else {
+          items[i].setEnabled(value);
+        }
+      }
+    },
+
+
 
 
     /*
