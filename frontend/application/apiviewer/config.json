@@ -32,12 +32,12 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.js",
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
           "uri"      : "${QOOXDOO_URI}/framework"
         },
 
         {
-          "manifest" : "Manifest.js",
+          "manifest" : "Manifest.json",
           "uri"      : ".."
         }
       ],

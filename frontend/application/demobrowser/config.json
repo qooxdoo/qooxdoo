@@ -18,14 +18,14 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.js",
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
           "uri"      : "${QOOXDOO_URI}"
           /* mind that the final uri will be computed from this 'uri' + the 
              'class' info from the manifest */
         },
 
         {
-          "manifest" : "Manifest.js",
+          "manifest" : "Manifest.json",
           "uri"      : ".."
         }
       ],
