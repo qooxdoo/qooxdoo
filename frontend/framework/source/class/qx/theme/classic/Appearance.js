@@ -68,8 +68,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "popup" : {
+    },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      BASICS
+    ---------------------------------------------------------------------------
+    */
+
+
+    "tool-tip" :
+    {
+      include : "popup",
+
+      style : function(states)
+      {
+        return {
+          backgroundColor : "tooltip",
+          textColor : "tooltip-text",
+          decorator : "tooltip",
+          padding : [ 1, 3, 2, 3 ]
+        };
+      }
+    },
 
 
 
@@ -526,7 +549,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "tab-view-bar" : {
-      style : function(states) 
+      style : function(states)
       {
         return {
           zIndex          : 10,
