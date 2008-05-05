@@ -162,11 +162,14 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       var isHorizontal = this.getOrientation() === "horizontal";
       var knob = this._knob;
 
-      var positionProperty = isHorizontal ? "left" : "top";
+      var locationProperty = isHorizontal ? "left" : "top";
+      var sizeProperty = isHorizontal ? "width" : "height";
+      
+      var knobSize = knob.getBounds()[sizeProperty];
       
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
-      var sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[positionProperty];
-      var knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[positionProperty];
+      var sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
+      var knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
       
       if (e.getTarget() === knob)
       {
@@ -187,9 +190,15 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         // Switch into tracking mode
         this.__trackingMode = true;
 
+        // Compute relative position
+        var relPosition = cursorLocation - sliderLocation;
+        if (cursorLocation >= knobLocation) {
+          relPosition -= knobSize;
+        }
+        
         // Detect tracking direction and coordinate
         this.__trackingDirection = cursorLocation <= knobLocation ? -1 : 1;
-        this.__trackingValue = this._positionToValue(cursorLocation - sliderLocation);
+        this.__trackingValue = this._positionToValue(relPosition);
         
         // Initialize timer
         if (!this.__timer)
