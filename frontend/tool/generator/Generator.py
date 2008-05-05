@@ -1232,6 +1232,7 @@ class Path (object):
         '''computes the common suffix of path1, path2, and returns the two different prefixes
            and the common suffix'''
         pre1 = pre2 = suffx = ""
+        if (len(p1) == 0 or len(p2) == 0): return p1,p2,""
         for i in range(1,len(p1)):
             if i > len(p2):
                 break
@@ -1251,6 +1252,7 @@ class Path (object):
         '''computes the common prefix of p1, p2, and returns the common prefix and the two
            different suffixes'''
         pre = sfx1 = sfx2 = ""
+        if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
         for i in range(len(p1)):
             if i > len(p2):
                 break
