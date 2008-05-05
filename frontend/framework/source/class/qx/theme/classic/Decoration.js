@@ -280,6 +280,19 @@ qx.Theme.define("qx.theme.classic.Decoration",
         style : "dotted",
         color : "#888"
       }
+    },
+
+
+    "tooltip" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "tooltip-text"
+      }
     }
+
   }
 });
