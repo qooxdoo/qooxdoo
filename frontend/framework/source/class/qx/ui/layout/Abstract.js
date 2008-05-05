@@ -156,6 +156,9 @@ qx.Class.define("qx.ui.layout.Abstract",
       }
 
       this.__widget = widget;
+
+      // Invalidate cache
+      this.invalidateChildrenCache();
     },
 
 
