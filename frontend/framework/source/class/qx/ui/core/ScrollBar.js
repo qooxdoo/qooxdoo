@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
   {
     this.base(arguments);
 
-    this._slider = new qx.ui.slider.Slider(orientation).set({
+    this._slider = new qx.ui.slider.AbstractSlider(orientation).set({
       appearance : "scrollbar-slider"
     });
     this._slider.addListener("changeValue", this._onChangeValueSlider, this);
