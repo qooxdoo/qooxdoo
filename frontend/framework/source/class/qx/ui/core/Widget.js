@@ -443,6 +443,14 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /** Contains the tooltip object connected to the widget. */
+    toolTip :
+    {
+      check : "qx.ui.popup.ToolTip",
+      nullable : true
+    },
+
+
 
 
     /*
@@ -613,6 +621,26 @@ qx.Class.define("qx.ui.core.Widget",
       } catch(ex) {}
 
       return null;
+    },
+
+
+    /**
+     * Whether the "parent" widget contains the the "child" widget.
+     *
+     * @param parent {qx.ui.core.Widget} The parent widget
+     * @param child {qx.ui.core.Widget} The child widget
+     * @return {Boolean} Whether one of the "child"'s parents is "parent"
+     */
+    contains : function(parent, child)
+    {
+      while (child)
+      {
+        if (parent == child) {
+          return true;
+        }
+        child = child.getLayoutParent();
+      }
+      return false;
     }
   },
 
