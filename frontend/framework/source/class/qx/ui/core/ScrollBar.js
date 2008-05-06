@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnBegin.addListener("execute", this._slider.slideBack, this._slider);
+    this._btnBegin.addListener("execute", this._scrollBegin, this);
 
 
     // Bottom/Right Button
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnEnd.addListener("execute", this._slider.slideForward, this._slider);
+    this._btnEnd.addListener("execute", this._scrollEnd, this);
 
 
     // Add children
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     lineStep :
     {
       check : "Integer",
-      init : 20,
+      init : 22,
       apply : "_applyLineStep"
     },
 
@@ -171,6 +171,15 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   members :
   {
+    _scrollBegin : function() {
+      this._slider.slideBy(-this.getLineStep());
+    },
+
+    _scrollEnd : function() {
+      this._slider.slideBy(this.getLineStep());
+    },
+
+
     /**
      * Change listener for sider value changes.
      *
@@ -230,13 +239,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
-    __updateSliderSteps : function()
-    {
-      this._slider.setPageStep(Math.max(1, this.getContainerSize() - this.getLineStep()));
-      this._slider.setSingleStep(this.getLineStep());
-    },
-
-
     _onResizeSlider : function(e) {
       this.__updateSliderSize();
     },
@@ -256,7 +258,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       var scrollSize = isHorizontal ? size.width : size.height;
 
       this._slider.setMaximum(Math.max(0, this.getContentSize() - this.getContainerSize()));
-      this.__updateSliderSteps();
 
       // compute and set new slider size
       var sliderSize = Math.min(scrollSize, Math.round(scrollSize * this.getContainerSize() / this.getContentSize()));
@@ -297,7 +298,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     // property apply
     _applyLineStep : function(value, old) {
-      this.__updateSliderSteps();
+
     }
   }
 });

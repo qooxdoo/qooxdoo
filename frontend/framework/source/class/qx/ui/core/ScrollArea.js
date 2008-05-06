@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     lineHeight :
     {
       check : "Integer",
-      init : 16,
+      init : 22,
       event : "changeLineHeight",
       apply : "_applyLineHeight"
     }
@@ -567,7 +567,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var paneSize = this._scrollPane.getBounds();
       var contentSize = content.getBounds();
 
-      if (this._isScrollBarVisible("horizontal")) {
+      if (this._isScrollBarVisible("horizontal"))
+      {
         this._scrollbars.horizontal.setContentSize(contentSize.width);
         this._scrollbars.horizontal.setContainerSize(paneSize.width);
       }
