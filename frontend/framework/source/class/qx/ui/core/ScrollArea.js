@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       scrollbar.exclude();
       scrollbar.addListener(
-        "changeValue",
+        "change",
         orientation == "horizontal" ? this._onHorizontalScroll :this._onVerticalScroll,
         this
       );
