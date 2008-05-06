@@ -56,8 +56,8 @@ qx.Class.define("feedreader.view.ToolBar",
     var aboutCmd = new qx.event.Command("F1");
     aboutCmd.addListener("execute", this._controller.showAbout, this._controller);
 
-    var prefCmd = new qx.event.Command("Control+P");
-    prefCmd.addListener("execute", this._controller.showPreferences, this._controller);
+//    var prefCmd = new qx.event.Command("Control+P");
+//    prefCmd.addListener("execute", this._controller.showPreferences, this._controller);
 
     var addFeedCmd = new qx.event.Command("Control+A");
     addFeedCmd.addListener("execute", this._controller.showAddFeed, this._controller);
@@ -78,14 +78,14 @@ qx.Class.define("feedreader.view.ToolBar",
 
     var reloadBtn = new qx.ui.toolbar.Button("Reload", "icon/22/actions/view-refresh.png");
     reloadBtn.setCommand(reloadCmd);
-    // reloadBtn.setToolTip(new qx.legacy.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reloadCmd.toString())));
+    reloadBtn.setToolTip(new qx.ui.popup.ToolTip("Reload the feeds. (" + reloadCmd.toString() + ")"));
     this.add(reloadBtn);
 
-    this.add(new qx.ui.toolbar.Separator());
+    
 /*
     var prefBtn = new qx.ui.toolbar.Button("Preferences", "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(prefCmd);
-    // prefBtn.setToolTip(new qx.legacy.ui.popup.ToolTip(this.tr("Open preferences window.")));
+    prefBtn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
     this.add(prefBtn);
 */
     this.addSpacer();
@@ -132,7 +132,7 @@ qx.Class.define("feedreader.view.ToolBar",
 
     var about_btn = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-about.png");
     about_btn.setCommand(aboutCmd);
-    // about_btn.setToolTip(new qx.legacy.ui.popup.ToolTip("(" + aboutCmd.toString() + ")"));
+    about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + aboutCmd.toString() + ")"));
     this.add(about_btn);
   }
   

@@ -117,16 +117,11 @@ qx.Class.define("feedreader.Application",
       qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
 
       // Create Application Layout
-      this._createLayout();
-
-/*
-      // React on theme selection changes
-      qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._applyCssTheme, this);
-      this._applyCssTheme();
+      this._createLayout();  
 
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
-*/      
+      self = this;
     },
 
     _load : function()
@@ -220,8 +215,8 @@ qx.Class.define("feedreader.Application",
         added  : new Date
       };
 
-      if (this._tree) {
-        this._tree.refreshView(url);
+      if (this._treeView) {
+        this._treeView.refreshView();
       }
     },
 
@@ -242,8 +237,8 @@ qx.Class.define("feedreader.Application",
       {
         delete db[url];
 
-        if (this._tree) {
-          this._tree.refreshView(url);
+        if (this._treeView) {
+          this._treeView.refreshView();
         }
 
         return;
@@ -285,69 +280,39 @@ qx.Class.define("feedreader.Application",
     {
       // Create main layout
       var dockLayout = new qx.ui.layout.Dock();
-      //dockLayout.setEdge(0);
       var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
       this.getRoot().addMain(dockLayoutComposite, true);
       // Create header
       this._headerView = new feedreader.view.Header();
-      dockLayoutComposite.add(this._headerView, {edge:"north"});
-      
-      
+      dockLayoutComposite.add(this._headerView, {edge: "north"});
 
       // Create toolbar
       this._toolBarView = new feedreader.view.ToolBar(this);
-      dockLayoutComposite.add(this._toolBarView, {edge:"north"});
+      dockLayoutComposite.add(this._toolBarView, {edge: "north"});
 
-/*
-      // Create horizontal split pane
-      var horSplitPane = new qx.legacy.ui.splitpane.HorizontalSplitPane(200, "1*");
-      dockLayout.add(horSplitPane);
+      // Create horizontal spliter
+      var hBox = new qx.ui.layout.HBox();
+      var hBoxComposite = new qx.ui.container.Composite(hBox);
+      hBoxComposite.setBackgroundColor("blue");
+      dockLayoutComposite.add(hBoxComposite, {edge: "center"});
 
       // Create tree view
       this._treeView = new feedreader.view.Tree(this);
-      horSplitPane.addLeft(this._treeView);
+      hBoxComposite.add(this._treeView);
 
-      // Create vertical split pane
-      var vertSplitPane = new qx.legacy.ui.splitpane.VerticalSplitPane("1*", "2*");
-      vertSplitPane.setEdge(0);
-      vertSplitPane.setBorder("line-left");
-      horSplitPane.addRight(vertSplitPane);
+      // Create vertical spliter
+      var vBox = new qx.ui.layout.VBox();
+      var vBoxComposite = new qx.ui.container.Composite(vBox);
+      vBoxComposite.setBackgroundColor("yellow");
+      hBoxComposite.add(vBoxComposite, {flex: 1});
 
-      // Create table view
-      this._tableView = new feedreader.view.Table(this);
-      vertSplitPane.addTop(this._tableView);
+      // Create the list view
+      this._listView = new feedreader.view.List(this);
+      vBoxComposite.add(this._listView, {flex: 1});            
 
       // Create article view
-      this._articleView = new feedreader.view.Article;
-      vertSplitPane.addBottom(this._articleView);
-*/      
-    },
-
-
-    /**
-     * Syncs CSS theme to selected meta theme
-     *
-     * @type member
-     * @return {void}
-     */
-    _applyCssTheme : function() {
-      // document.body.className = qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext ? "Ext" : "Classic";
-    },
-
-
-    /**
-     * Opens the preferences window
-     *
-     * @type member
-     * @return {void}
-     */
-    showPreferences : function()
-    {
-      if (!this._prefWindow) {
-        this._prefWindow = new feedreader.PreferenceWindow;
-      }
-
-      this._prefWindow.open();
+      this._articleView = new feedreader.view.Article();
+      vBoxComposite.add(this._articleView, {flex: 2});
     },
 
 
@@ -405,30 +370,33 @@ qx.Class.define("feedreader.Application",
       if (old)
       {
         // Store old selection
-        old.selection = this._tableView.getSelectionModel().getAnchorSelectionIndex();
+//        old.selection = this._tableView.getSelectionModel().getAnchorSelectionIndex();
       }
 
       if (value)
       {
         // Update model with new data
-        this._tableView.getTableModel().setDataAsMapArray(value.items);
+//        this._tableView.getTableModel().setDataAsMapArray(value.items);
+        for (var i = 0; i < value.items.length; i++) {
+          var title = value.items[i].title;
+          this._listView.add(new qx.ui.form.ListItem(title));
+        }
+  
 
         if (value.selection != null)
         {
           // If a selection was stored, recover it
-          this._tableView.getSelectionModel().setSelectionInterval(value.selection, value.selection);
+//          this._tableView.getSelectionModel().setSelectionInterval(value.selection, value.selection);
           delete value.selection;
         }
         else
         {
           // Initially select first article
-          this._tableView.getSelectionModel().setSelectionInterval(0, 0);
+//          this._tableView.getSelectionModel().setSelectionInterval(0, 0);
         }
-      }
-      else
-      {
+      } else {
         // Clean up model
-        this._tableView.getTableModel().setDataAsMapArray([]);
+//        this._tableView.getTableModel().setDataAsMapArray([]);
 
         // Clean up article
         this._articleView.resetArticle();
@@ -523,11 +491,11 @@ qx.Class.define("feedreader.Application",
       // Read content
       var json = response.getContent();
 
-      try
-      {
+
+      try {
         // Normalize json feed data to item list
         var items = feedreader.FeedParser.parseFeed(json);
-
+        
         // Post processing items
         for (var i=0, l=items.length; i<l; i++) {
           if (items[i].date) {
@@ -573,6 +541,6 @@ qx.Class.define("feedreader.Application",
   destruct : function()
   {
     this._disposeFields("_feeds");
-    this._disposeObjects("_toolbarView", "_headerView", "_tableView", "_articleView", "_treeView");
+    this._disposeObjects("_toolbarView", "_headerView", "_listView", "_articleView", "_treeView");
   }
 });

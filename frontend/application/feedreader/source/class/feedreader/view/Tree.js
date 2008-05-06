@@ -20,22 +20,25 @@
 
 qx.Class.define("feedreader.view.Tree",
 {
-  extend : qx.legacy.ui.tree.Tree,
+  extend : qx.ui.tree.Tree,
 
   construct : function(controller)
   {
-    this.base(arguments, this.tr("News feeds"));
+    this.base(arguments, "News feeds");
 
     this._controller = controller;
 
     this.set(
     {
-      height   : "100%",
-      width    : "100%",
+      width    : 200,
       padding  : 5,
-      border   : "line-right",
-      overflow : "auto"
+      decorator: "line-right"
     });
+    
+    // add the root folder
+    this._root = new qx.ui.tree.TreeFolder("Feeds");
+    this._root.setOpen(true);
+    this.setRoot(this._root);
 
     this.getManager().addListener("changeSelection", this._onChangeSelection, this);
     this.refresh();
@@ -53,11 +56,13 @@ qx.Class.define("feedreader.view.Tree",
     {
       var db = this._controller.getFeeds();
 
-      for (var url in db)
+      // TODO remove old folders?
+
+      for (var url in db) 
       {
-        var folder = new qx.legacy.ui.tree.TreeFolder(db[url].title);
-        folder.setUserData("url", url);
-        this.add(folder);
+        var folder = new qx.ui.tree.TreeFolder(db[url].title);
+        // folder.setUserData("url", url);
+        this.getRoot().add(folder);
       }
     },
 
