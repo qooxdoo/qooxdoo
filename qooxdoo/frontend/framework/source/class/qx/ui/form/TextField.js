@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.form.TextField",
         // Apply properties
         inp.disabled = this.getEnabled()===false;
         inp.readOnly = this.getReadOnly();
-        inp.value = this.getValue() ? this.getValue() : "";
+        inp.value = this.getValue() != null ? this.getValue().toString() : "";
 
         if (this.getMaxLength() != null) {
           inp.maxLength = this.getMaxLength();
@@ -804,7 +804,7 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function()
       {
         this._inValueProperty = true;
-        this._inputElement.value = this.getValue() === null ? "" : this.getValue();
+        this._inputElement.value = this.getValue() === null ? "" : this.getValue().toString();
         this._firstInputFixApplied = true;
         delete this._inValueProperty;
       },
