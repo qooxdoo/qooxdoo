@@ -35,12 +35,14 @@ qx.Class.define("feedreader.view.List",
     l = this;
     // Add selection listener
     // this.getSelectionModel().addListener("changeSelection", this._onChangeSelection, this);
+    
+    this.addListener("click", this.test, this);
   },
 
   members :
   {
     
-    test : function() {
+    test : function(e) {
       var feed = this._controller.getSelectedFeed();
       // var itemId = feed.items[0];
       // feed.selected = itemId;

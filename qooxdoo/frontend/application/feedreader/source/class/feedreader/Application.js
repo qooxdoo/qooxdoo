@@ -305,7 +305,7 @@ qx.Class.define("feedreader.Application",
       // Create vertical spliter
       var vBox = new qx.ui.layout.VBox();
       var vBoxComposite = new qx.ui.container.Composite(vBox);
-      vBoxComposite.setBackgroundColor("yellow");
+      vBoxComposite.setBackgroundColor("white");
       hBoxComposite.add(vBoxComposite, {flex: 1});
 
       // Create the list view

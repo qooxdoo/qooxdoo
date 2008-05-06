@@ -39,6 +39,7 @@ qx.Class.define("feedreader.view.Article",
     this.setDecorator("line-top");
     
     this.setMinHeight(300);
+    this.setPadding(30);
   },
 
 
@@ -85,7 +86,7 @@ qx.Class.define("feedreader.view.Article",
       var html = this.__getArticleHtml().get();
       this.setHtml(html);
       
-      var element = this.getContentElement();
+      var element = this.getContentElement().getDomElement();
       
       var links = element.getElementsByTagName("a");
       for (var i=0; i<links.length; i++) {
