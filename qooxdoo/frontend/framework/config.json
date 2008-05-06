@@ -40,7 +40,7 @@
       
       "let" :
       {
-        "ROOT" : "../application/apiviewer",
+        "ROOT"       : "../application/apiviewer",
         "BUILD_PATH" : "./api"
       },
 
