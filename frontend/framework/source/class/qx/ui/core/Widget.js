@@ -1935,6 +1935,30 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Replaces the first state with the second one.
+     *
+     * This method is ideal for state transitions e.g. normal => selected.
+     *
+     * @type member
+     * @param old {String} Previous state
+     * @param value {String} New state
+     * @return {void}
+     */
+    replaceState : function(old, value)
+    {
+      if (!this.__states[value]) {
+        this.__states[value] = true;
+      }
+
+      if (this.__states[old]) {
+        delete this.__states[old];
+      }
+
+      qx.ui.core.queue.Appearance.add(this);
+    },
+
+
 
 
 
