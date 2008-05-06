@@ -19,7 +19,10 @@
 ************************************************************************ */
 
 /**
- * This singleton is used to manager multiple instances of popups and their state.
+ * This singleton is used to manager multiple instances of popups and their
+ * state.
+ *
+ * @internal
  */
 qx.Class.define("qx.ui.popup.PopupManager",
 {

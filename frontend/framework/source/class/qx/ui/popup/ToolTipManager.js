@@ -18,11 +18,15 @@
 
 ************************************************************************ */
 
-/** This manages ToolTip instances */
+/**
+ * The tooltip manager globally manages the tooltips of all widgets. It will
+ * display tooltips if the user hovers a widgets with a tooltip and hides all
+ * other tooltips.
+ */
 qx.Class.define("qx.ui.popup.ToolTipManager",
 {
   type : "singleton",
-  extend : qx.util.Set,
+  extend : qx.core.Object,
 
 
   construct : function()
@@ -78,14 +82,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {void | Boolean} TODOC
-     */
+    // property apply
     _applyCurrentToolTip : function(value, old)
     {
       // Return if the new tooltip is a child of the old one
@@ -118,11 +115,22 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     */
 
 
-   getLastMousePosition : function() {
-     return this.__lastMousePos;
-   },
+    /**
+     * The viewport position of the last mouse move event.
+     *
+     * @return {Map} a map with the <code>left</code> and <code>right</code>
+     *     viewport voordinate of the last move event.
+     */
+    getLastMousePosition : function() {
+      return this.__lastMousePos;
+    },
 
 
+    /**
+     * Global mouse move event handler
+     *
+     * @param e {qx.event.type.Mouse} The move mouse event
+     */
     __onMouseMoveRoot : function(e)
     {
       this.__lastMousePos.left = e.getViewportLeft();
@@ -207,7 +215,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * to the target widget and set the {@link #currentToolTip} property.
      *
      * @type member
-     * @param e {qx.event.type.FocusEvent} focus event
+     * @param e {qx.event.type.Focus} focus event
      * @return {void}
      */
     __onFocusinRoot : function(e)
@@ -228,7 +236,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * current tooltip is the tooltip of the target widget.
      *
      * @type member
-     * @param e {qx.event.type.FocusEvent} blur event
+     * @param e {qx.event.type.Focus} blur event
      * @return {void}
      */
     __onFocusoutRoot : function(e)

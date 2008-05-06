@@ -20,6 +20,15 @@
 ************************************************************************ */
 
 /**
+ * Popups are widgets, which can be placed on top of the application.
+ *
+ * Popups are automatically added to the root {@link qx.application.AbstractGui#getRoot}
+ * widget. They can be positioned relative to other widgets using
+ * {@link #positionRelativeTo} and they can be restricted be inside of the
+ * viewport's visible area using {@link #restrictToPageOnOpen}.
+ *
+ * Popups are used to display menus, the lists of combo boxes and tooltips.
+ *
  * @appearance popup
  */
 qx.Class.define("qx.ui.popup.Popup",
@@ -41,7 +50,6 @@ qx.Class.define("qx.ui.popup.Popup",
     var root = qx.core.Init.getApplication().getRoot();
     root.add(this);
 
-    this.addListener("changeVisibility", this._onChangeVisibility, this);
     this.initRestrictToPageOnOpen();
   },
 
@@ -135,14 +143,12 @@ qx.Class.define("qx.ui.popup.Popup",
     __hideTimeStamp : (new Date(0)).valueOf(),
 
 
-    /**
-     * Event handler for the "visibility" property changes
-     *
-     * @param e {qx.event.type.Change} change event
-     */
-    _onChangeVisibility : function(e)
+    // overridden
+    _applyVisibility : function(value, old)
     {
-      var isVisible = e.getValue() == "visible";
+      this.base(arguments, value, old);
+
+      var isVisible = value == "visible";
 
       if (isVisible)
       {
