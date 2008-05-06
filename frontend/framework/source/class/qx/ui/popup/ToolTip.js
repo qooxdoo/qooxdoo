@@ -20,6 +20,22 @@
 ************************************************************************ */
 
 /**
+ * Tooltips provide additional help for widgets if the user hovers a widget.
+ *
+ * *Example*
+ * <pre class="javascript">
+ *
+ * var widget = new qx.ui.form.Button("save");
+ *
+ * var tooltip = new qx.ui.popup.ToolTip("Save the opened file");
+ * widget.setToolTip(tooltip);
+ * </pre>
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/tooltip' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
+ *
  * @appearance tool-tip
  */
 qx.Class.define("qx.ui.popup.ToolTip",
@@ -34,6 +50,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
      CONSTRUCTOR
   *****************************************************************************
   */
+
+  /**
+   * @param label {String} label of the tooltip
+   * @param icon {String?null} Icon URL of the tooltip
+   */
 
   construct : function(label, icon)
   {
@@ -70,6 +91,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
@@ -145,25 +167,14 @@ qx.Class.define("qx.ui.popup.ToolTip",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
+    // property apply
     _applyHideInterval : function(value, old) {
       this._hideTimer.setInterval(value);
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowInterval : function(value, old) {
       this._showTimer.setInterval(value);
     },
@@ -407,7 +418,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
   destruct : function()
   {
     var mgr = qx.ui.popup.ToolTipManager.getInstance();
-    mgr.remove(this);
 
     if (mgr.getCurrentToolTip() == this) {
       mgr.resetCurrentToolTip();
