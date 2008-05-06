@@ -156,7 +156,8 @@
   vertical-align: middle;
 }
 
-#content ul{
+#content ul,
+#content ol{
   margin-left: 20px;
 }
 
