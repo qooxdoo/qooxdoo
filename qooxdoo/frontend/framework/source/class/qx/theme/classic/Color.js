@@ -55,6 +55,11 @@ qx.Theme.define("qx.theme.classic.Color",
     "tab-view-border" : [ 128, 128, 128 ],
     "tab-view-button" : [ 224, 221, 216 ],
     "tab-view-button-hover" : [ 250, 249, 248 ],
-    "tab-view-button-checked" : [ 250, 249, 248 ]
+    "tab-view-button-checked" : [ 250, 249, 248 ],
+
+    "window-active-caption-text" : [ 255, 255, 255 ],
+    "window-inactive-caption-text" : [ 255, 255, 255 ],
+    "window-active-caption" : [ 51, 94, 168 ],
+    "window-inactive-caption" : [ 111, 161, 217 ]
   }
 });
