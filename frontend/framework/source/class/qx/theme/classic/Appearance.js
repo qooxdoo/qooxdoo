@@ -883,6 +883,151 @@ qx.Theme.define("qx.theme.classic.Appearance",
           contentPadding : [4, 4, 4, 4]
         }
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WINDOW
+    ---------------------------------------------------------------------------
+    */
+
+    "window" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          padding : 1,
+          decorator : states.maximized ? "undefined" : "outset"
+        };
+      }
+    },
+
+    "window-captionbar" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 1, 2, 2 ],
+          backgroundColor : states.active ? "window-active-caption" : "window-inactive-caption",
+          textColor : states.active ? "window-active-caption-text" : "window-inactive-caption-text"
+        };
+      }
+    },
+
+    "window-resize-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "dark-shadow"
+        };
+      }
+    },
+
+    "window-captionbar-icon" :
+    {
+      style : function(states)
+      {
+        return {
+          marginRight : 2
+        };
+      }
+    },
+
+    "window-captionbar-title" :
+    {
+      style : function(states)
+      {
+        return {
+          cursor : "default",
+          font : "bold",
+          marginRight : 2,
+          alignY: "bottom"
+        };
+      }
+    },
+
+    "window-captionbar-button" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+        };
+      }
+    },
+
+    "window-captionbar-minimize-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/window/minimize.gif"
+        };
+      }
+    },
+
+    "window-captionbar-restore-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/window/restore.gif"
+        };
+      }
+    },
+
+    "window-captionbar-maximize-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/window/maximize.gif"
+        };
+      }
+    },
+
+    "window-captionbar-close-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          marginLeft : 2,
+          icon : "decoration/window/close.gif"
+        };
+      }
+    },
+
+    "window-statusbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "inset-thin"
+        };
+      }
+    },
+
+    "window-statusbar-text" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 1, 4 ]
+        };
+      }
     }
   }
 });
