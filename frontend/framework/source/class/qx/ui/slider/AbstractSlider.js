@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
     // Resize handling
     this.addListener("resize", this._onResize, this);
-    this._knob.addListener("resize", this._onKnobResize, this);
+    this._knob.addListener("resize", this._onResize, this);
   },
 
 
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _onInterval : function(e)
     {
       // Compute new value
-      var value = this.getValue() + (this.__trackingDirection * this.getPageStep())
+      var value = this.getValue() + (this.__trackingDirection * this.getPageStep());
 
       // Limit value
       if (value < this.getMinimum()) {
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         value = this.__trackingEnd;
       }
 
-      // Finally, slide to the desired position
+      // Finally slide to the desired position
       this.slideTo(value);
     },
 
@@ -368,18 +368,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       this._updateKnobPosition();
     },
 
-
-    /**
-     * Listener of resize event for both the slider itself and the knob.
-     *
-     * @type member
-     * @param e {qx.event.type.Data} Incoming event object
-     * @return {void}
-     */
-    _onKnobResize : function(e)
-    {
-      this._onResize(e);
-    },
 
 
 
@@ -571,13 +559,14 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _setKnobPosition : function(position)
     {
-      if (this.__isHorizontal) {
-        var props = {left:position};
-      } else {
-        var props = {top:position};
-      }
+      var property = this.__isHorizontal ? "left" : "top";
+      var inset = this.getInsets()[property];
 
-      this._knob.setLayoutProperties(props);
+      // Fast path (using qx.html.Element API)
+      // Is this too hacky? (Maybe OK here, but not suggested for wide usage ;)
+      // Still a bad choice for initial rendering. Fabian?
+      this._knob.getContainerElement().setStyle(property, (inset + position) + "px");
+      //qx.ui.core.queue.Manager.flush();
     },
 
 
@@ -741,7 +730,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       var knob = this._knob;
 
+      // Update private flag for faster access
       this.__isHorizontal = value === "horizontal";
+
+      // Toggle states and knob layout
       if (this.__isHorizontal)
       {
         this.removeState("vertical");
@@ -763,10 +755,12 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         knob.setLayoutProperties({right:0, bottom:null, left:0});
       }
 
+      // Sync knob position
       this._updateKnobPosition();
     },
 
 
+    // property apply
     _applyKnobFactor : function(value, old)
     {
       if (value != null)
