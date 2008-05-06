@@ -19,6 +19,28 @@
 ************************************************************************ */
 
 /**
+ * The Slider widget provides a vertical or horizontal slider.
+ *
+ * The Slider is the classic widget for controlling a bounded value.
+ * It lets the user move a slider handle along a horizontal or vertical
+ * groove and translates the handle's position into an integer value
+ * within the defined range.
+ *
+ * The Slider has very few of its own functions; most of the functionality
+ * is in {@link AbstractSlider}. The most useful functions are slideTo()
+ * to set the slider directly to some value; setSingleStep(), setPageStep()
+ * to set the steps; and setMinimum() and setMaximum() to define the
+ * range of the slider.
+ *
+ * A slider accepts focus on Tab and provides both a mouse wheel and
+ * a keyboard interface. The keyboard interface is the following:
+ *
+ * * Left/Right move a horizontal slider by one single step.
+ * * Up/Down move a vertical slider by one single step.
+ * * PageUp moves up one page.
+ * * PageDown moves down one page.
+ * * Home moves to the start (mininum).
+ * * End moves to the end (maximum).
  */
 qx.Class.define("qx.ui.slider.Slider",
 {
@@ -32,6 +54,9 @@ qx.Class.define("qx.ui.slider.Slider",
   *****************************************************************************
   */
 
+  /**
+   * @param orientation {String} Configure the {@link #orientation} property
+   */
   construct : function(orientation)
   {
     this.base(arguments, orientation);
@@ -82,6 +107,9 @@ qx.Class.define("qx.ui.slider.Slider",
      *
      * Adds support for arrow keys, page up, page down, home and end keys.
      *
+     * @type member
+     * @param e {qx.event.type.Keypress} Incoming keypress event
+     * @return {void}
      */
     _onKeypress : function(e)
     {

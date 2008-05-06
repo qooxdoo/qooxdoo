@@ -25,6 +25,21 @@
 ************************************************************************ */
 
 /**
+ * Includes a basic slider without keyboard navigation.
+ *
+ * This class is quite versatile. It is designed as a common super class
+ * for widgets like {@link qx.ui.core.Slider}, {@link qx.ui.core.ScrollBar}, ...
+ *
+ * The {@link Slider} is ready to use widget for applications looking
+ * for the classical slider component.
+ *
+ * Here are the main properties of the class:
+ *
+ * # <code>value</code>: The bounded integer that QAbstractSlider maintains.
+ * # <code>minimum</code>: The lowest possible value.
+ * # <code>maximum</code>: The highest possible value.
+ * # <code>singleStep</code>: The smaller of two natural steps that an abstract sliders provides and typically corresponds to the user pressing an arrow key.
+ * # <code>pageStep</code>: The larger of two natural steps that an abstract slider provides and typically corresponds to the user pressing PageUp or PageDown.
  */
 qx.Class.define("qx.ui.slider.AbstractSlider",
 {
@@ -38,6 +53,9 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
   *****************************************************************************
   */
 
+  /**
+   * @param orientation {String} Configure the {@link #orientation} property
+   */
   construct : function(orientation)
   {
     this.base(arguments);
