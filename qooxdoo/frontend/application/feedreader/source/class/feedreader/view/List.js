@@ -30,13 +30,23 @@ qx.Class.define("feedreader.view.List",
     
     this.setSelectionMode("single");
     this.setDecorator(null);
+    this.setMinHeight(100);
 
+    l = this;
     // Add selection listener
-//    this.getSelectionModel().addListener("changeSelection", this._onChangeSelection, this);
+    // this.getSelectionModel().addListener("changeSelection", this._onChangeSelection, this);
   },
 
   members :
   {
+    
+    test : function() {
+      var feed = this._controller.getSelectedFeed();
+      // var itemId = feed.items[0];
+      // feed.selected = itemId;
+      this._controller.setSelectedArticle(feed.items[1]);
+    },
+    
     /**
      * TODOC
      *
