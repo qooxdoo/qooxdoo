@@ -151,6 +151,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    _getSelectableFromTarget : function(target) {
+      return target;
+    },
+
+
     /**
      * Returns a unique hashcode for the given item.
      *
@@ -431,8 +436,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     handleMouseDown : function(event)
     {
-      var item = event.getTarget();
-      if (!this._isSelectable(item)) {
+      var item = this._getSelectableFromTarget(event.getTarget());
+      if (!item || !this._isSelectable(item)) {
         return;
       }
 

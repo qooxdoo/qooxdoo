@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       container.add(tree);
 
       var commandFrame = this.getCommandFrame(tree);
-      container.getLayout().add(commandFrame);
+      container.add(commandFrame);
     },
 
 
@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       grid.setHorizontalSpacing(3);
       grid.setVerticalSpacing(5);
 
-      var pane = commandFrame.getPane().
+      var pane = commandFrame.getPane();
       pane.setLayout(grid);
 
       var row = 0;
@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       pane.add(tCurrentInput, {row: row++, column: 1});
 
-      tree.getManager().addListener("changeSelection", function(e) {
+      tree.getManager().addListener("change", function(e) {
         tCurrentInput.setValue(e.getData()[0].getLabelObject().getContent());
       });
 
