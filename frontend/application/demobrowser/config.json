@@ -225,8 +225,8 @@
 
       "let" :
       {
-        "ROOT" : "../apiviewer",
-        "BUILD_PATH" : "./api",
+        "ROOT"        : "../apiviewer",
+        "BUILD_PATH"  : "./api",
         "API_INCLUDE" : ["qx.*", "demobrowser.*"],
         "API_EXCLUDE" : ["demobrowser.demo.*"]
       },
@@ -234,9 +234,8 @@
       "library" :
       [
         {
-          "encoding" : "utf-8",
-          "path"     : "./source",
-          "uri"      : "../source"
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
         }
       ],
 
@@ -246,7 +245,7 @@
       }
     },
 
-    /* - Demos Jobs ---------------------------------------- */
+
     "debug-dependencies" :
     {
       "extend" : ["common"],
