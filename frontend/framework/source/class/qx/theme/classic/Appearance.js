@@ -818,8 +818,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding : [2, 3, 2, 0],
-          //backgroundColor : states.selected ? "selected" : "undefined",
-          //textColor : states.selected ? "text-selected" : "undefined",
           icon : "icon/16/places/folder-open.png",
           iconOpened : "icon/16/places/folder.png"
         }
