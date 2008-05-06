@@ -74,9 +74,9 @@ qx.Class.define("qx.ui.tree.SelectionManager",
       }
 
       if (item1Index < item2Index) {
-        return selectables.slice(item1Index, item2Index);
+        return selectables.slice(item1Index, item2Index+1);
       } else {
-        return selectables.slice(item2Index, item1Index);
+        return selectables.slice(item2Index, item1Index+1);
       }
     },
 
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
           }
           break;
       }
-      return item;
+      return null;
     }
   }
 });

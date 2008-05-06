@@ -153,13 +153,12 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       pane.add(new qx.ui.basic.Label("Selection:"), {row: row, column: 0});
 
       var btnMultiSelect = new qx.ui.form.CheckBox("Enable Multi-Selection");
-      //btnMultiSelect.setChecked(tree.getManager().getMultiSelection());
+      btnMultiSelect.setChecked(tree.getManager().getMode() == "multi");
       pane.add(btnMultiSelect, {row: row++, column: 1});
 
       btnMultiSelect.addListener("changeChecked", function(e) {
-        return;
         var enable = e.getValue();
-        tree.getManager().setMultiSelection(enable);
+        tree.getManager().setMode(enable ? "multi": "single");
         if (!enable) {
           btnDragSelect.setChecked(false);
         }
@@ -168,11 +167,10 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
 
       var btnDragSelect = new qx.ui.form.CheckBox("Enable Drag-Selection");
-      //btnDragSelect.setChecked(tree.getManager().getDragSelection());
+      btnDragSelect.setChecked(tree.getManager().getDragSelection());
       pane.add(btnDragSelect, {row: row++, column: 1});
 
       btnDragSelect.addListener("changeChecked", function(e) {
-        return;
         var enable = e.getValue();
         tree.getManager().setDragSelection(enable);
         if (enable) {
