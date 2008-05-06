@@ -44,8 +44,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
     // Create slider
     this._slider = new qx.ui.slider.AbstractSlider(orientation);
     this._slider.setAppearance("scrollbar-slider");
-    this._slider.setAllowStretchX(true);
-    this._slider.setAllowStretchY(true);
     this._slider.addListener("change", this._onChangeSlider, this);
 
 
@@ -247,8 +245,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
       var inner = this.getContentSize();
 
       this._slider.setMaximum(Math.max(0, inner - outer));
-      this._slider.setKnobSize(outer / inner);
+      this._slider.setKnobFactor(outer / inner);
     },
+
 
 
 
