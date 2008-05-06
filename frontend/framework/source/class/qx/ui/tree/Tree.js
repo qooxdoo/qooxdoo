@@ -63,19 +63,20 @@ qx.Class.define("qx.ui.tree.Tree",
       allowShrinkY: false
     });
 
-    this.setContent(content);
+    this._scrollPane.setContent(content);
 
-    this._manager = new qx.ui.core.selection.Widget(this);
+    var manager = this._manager = new qx.ui.tree.SelectionManager(this);
 
     this.initOpenMode();
     this.initRootOpenClose();
 
-    this.addListener("mousemove", this._onMousemove);
-    this.addListener("mousedown", this._onMousedown);
-    this.addListener("mouseup", this._onMouseup);
+    this.addListener("mousemove", manager.handleMouseMove, manager);
+    this.addListener("mousedown", manager.handleMouseDown, manager);
+    this.addListener("mouseup", manager.handleMouseUp, manager);
+    this.addListener("losecapture", manager.handleLoseCapture, manager);
 
     this.addListener("keydown", this._onKeydown);
-    this.addListener("keypress", this._onKeypress);
+    this.addListener("keypress", manager.handleKeyPress, manager);
   },
 
 
@@ -189,7 +190,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {qx.ui.core.Widget} the children container
      */
     getChildrenContainer : function() {
-      return this.getContent();
+      return this._scrollPane.getContent();
     },
 
 
@@ -226,7 +227,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyHideRoot : function(value, old)
     {
-      var root = this._getRoot();
+      var root = this.getRoot();
       if (!root) {
         return;
       }
@@ -239,7 +240,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyRootOpenClose : function(value, old)
     {
-      var root = this._getRoot();
+      var root = this.getRoot();
       if (!root) {
         return;
       }
@@ -251,7 +252,7 @@ qx.Class.define("qx.ui.tree.Tree",
     _applyContentPadding : function(value, old)
     {
       if (value) {
-        this.getContent().setPadding(value);
+        this._scrollPane.getContent().setPadding(value);
       }
     },
 
@@ -368,7 +369,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
       if (this.getHideRoot())
       {
-        if (parent == this._getRoot())
+        if (parent == this.getRoot())
         {
           if (parent.getChildren()[0] == treeItem) {
             return null;
@@ -377,7 +378,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
       else
       {
-        if (treeItem == this._getRoot()) {
+        if (treeItem == this.getRoot()) {
           return null;
         }
       }
@@ -403,7 +404,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     // interface implementation
     getSelectables : function() {
-      return this._getRoot().getItems(true, false, this.getHideRoot());
+      return this.getRoot().getItems(true, false, this.getHideRoot());
     },
 
 
@@ -418,7 +419,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible) {
-      return this._getRoot().getItems(recursive, invisible, this.getHideRoot());
+      return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
     },
 
 
@@ -427,7 +428,7 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       // if the last item is selected the content should be scrolled down to
       // the end including the content paddings
-      if (!this.getNextSelectableItem(item)) {
+      if (!this.getNextSiblingOf(item, false)) {
         this.setScrollTop(1000000);
       } else {
         this.base(arguments, item, hAlign, vAlign);
@@ -454,7 +455,7 @@ qx.Class.define("qx.ui.tree.Tree",
       {
         top += item.getBounds().top;
         var item = item.getLayoutParent();
-        if (item == this.getContent()) {
+        if (item == this._scrollPane.getContent()) {
           return top;
         }
       }
@@ -490,7 +491,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {AbstractTreeItem|null} The tree item containing the widget. If the
      *     widget is not inside of any tree item <code>null</code> is returned.
      */
-    _getTreeItem : function(widget)
+    getTreeItem : function(widget)
     {
       while (widget)
       {
@@ -506,57 +507,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
 
       return null;
-    },
-
-
-    /**
-     * Delegates the event to the selection manager if a list item could be
-     * resolved out of the event target.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} mouseOver event
-     * @return {void}
-     */
-    _onMousemove : function(e)
-    {
-      var target = this._getTreeItem(e.getTarget());
-      if (target) {
-        this._manager.handleMouseMove(e);
-      }
-    },
-
-
-    /**
-     * Delegates the event to the selection manager if a list item could be
-     * resolved out of the event target.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} mouseDown event
-     * @return {void}
-     */
-    _onMousedown : function(e)
-    {
-      var target = this._getTreeItem(e.getTarget());
-      if (target) {
-        this._manager.handleMouseDown(e);
-      }
-    },
-
-
-    /**
-     * Delegates the event to the selection manager if a list item could be
-     * resolved out of the event target.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} mouseUp event
-     * @return {void}
-     */
-    _onMouseup : function(e)
-    {
-      var target = this._getTreeItem(e.getTarget());
-      if (target) {
-        this._manager.handleMouseUp(e);
-      }
     },
 
 
@@ -585,7 +535,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     _onOpen : function(e)
     {
-      var treeItem = this._getTreeItem(e.getTarget());
+      var treeItem = this.getTreeItem(e.getTarget());
       if (!treeItem ||!treeItem.isOpenable()) {
         return;
       }
@@ -629,56 +579,6 @@ qx.Class.define("qx.ui.tree.Tree",
           items[i].fireEvent("action");
         }
       }
-    },
-
-
-    /**
-     * Delegates the control of the event to selection manager
-     *
-     * @type member
-     * @param e {qx.event.type.KeyEvent} keyPress event
-     * @return {void}
-     */
-    _onKeypress : function(e)
-    {
-      var key = e.getKeyIdentifier();
-
-      if (key == "Left" || key == "Right")
-      {
-        var target = e.getTarget();
-        if (target !== this)
-        {
-          var treeItem = this._getTreeItem(target);
-
-          if (treeItem.isOpenable())
-          {
-            if (treeItem)
-            {
-              if (key == "Left")
-              {
-                if (treeItem.isOpen())
-                {
-                  treeItem.setOpen(false);
-                  e.stopPropagation();
-                }
-              }
-              else
-              {
-                if (!treeItem.isOpen())
-                {
-                  treeItem.setOpen(true);
-                  e.stopPropagation();
-                }
-              }
-
-              return;
-            }
-          }
-        }
-      }
-
-      // Give control to selectionManager
-      this._manager.handleKeyPress(e);
     }
   }
 });
