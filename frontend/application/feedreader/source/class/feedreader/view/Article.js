@@ -36,7 +36,9 @@ qx.Class.define("feedreader.view.Article",
     this.base(arguments);
     
     this.setCssClass("blogEntry");
-    this.setDecorator("line-top");    
+    this.setDecorator("line-top");
+    
+    this.setMinHeight(300);
   },
 
 
@@ -80,13 +82,15 @@ qx.Class.define("feedreader.view.Article",
      */
     _applyArticle : function(propValue, propOldValue, propData) {
       
-      this.setHtml(this.__getArticleHtml());
+      var html = this.__getArticleHtml().get();
+      this.setHtml(html);
       
-      //var links = element.getElementsByTagName("a");
-      //for (var i=0; i<links.length; i++) {
-      //  links[i].target = "_blank";
-      //}
+      var element = this.getContentElement();
       
+      var links = element.getElementsByTagName("a");
+      for (var i=0; i<links.length; i++) {
+        links[i].target = "_blank";
+      }
 
       return true;
     },

@@ -38,9 +38,10 @@ qx.Class.define("feedreader.view.Tree",
     // add the root folder
     this._root = new qx.ui.tree.TreeFolder("Feeds");
     this._root.setOpen(true);
+    this.setHideRoot(true);
     this.setRoot(this._root);
 
-    this.getManager().addListener("changeSelection", this._onChangeSelection, this);
+    this.getManager().addListener("change", this._onChangeSelection, this);
     this.refresh();
   },
 
@@ -61,7 +62,7 @@ qx.Class.define("feedreader.view.Tree",
       for (var url in db) 
       {
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
-        // folder.setUserData("url", url);
+        folder.setUserData("url", url);
         this.getRoot().add(folder);
       }
     },
