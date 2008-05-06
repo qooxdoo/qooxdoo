@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     this._slider.setAppearance("scrollbar-slider");
     this._slider.setAllowStretchX(true);
     this._slider.setAllowStretchY(true);
-    this._slider.addListener("changeValue", this._onChangeValueSlider, this);
+    this._slider.addListener("change", this._onChangeSlider, this);
     this._slider.addListener("resize", this._onResizeSlider, this);
 
 
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       check : "Integer",
       init : 0,
       apply : "_applyValue",
-      event : "changeValue"
+      event : "change"
     },
 
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      *
      * @param e {qx.event.type.Change} The change event object
      */
-    _onChangeValueSlider : function(e) {
+    _onChangeSlider : function(e) {
       this.setValue(e.getValue());
     },
 
