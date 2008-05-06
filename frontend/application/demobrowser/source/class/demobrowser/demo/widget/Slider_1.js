@@ -29,7 +29,7 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
       this.base(arguments);
 
       this.getRoot().add(this._createVerticalLayout(), {left:20, top:20});
-      this.getRoot().add(this._createHorizontalLayout(), {left:500, top:20});
+      this.getRoot().add(this._createHorizontalLayout(), {left:20, top:340});
     },
 
     _createVerticalLayout : function()
@@ -50,11 +50,19 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
       })));
 
       sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
-        minimum: -400,
+        minimum: -600,
         maximum: -200,
-        singleStep: 5,
-        pageStep: 20,
+        singleStep: 10,
+        pageStep: 50,
         value: -300
+      })));
+
+      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+        minimum: 25,
+        maximum: 75,
+        singleStep: 5,
+        pageStep: 10,
+        value: 25
       })));
 
       var grid = new qx.ui.layout.Grid();
@@ -63,8 +71,8 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
       container.setBackgroundColor("white");
       container.setDecorator("black");
       container.setPadding(20);
-      container.setWidth(400);
-      container.setHeight(400);
+      container.setWidth(530);
+      container.setHeight(300);
 
       grid.setSpacing(5);
       grid.setRowFlex(0, 1);
@@ -116,11 +124,19 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
       })));
 
       sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
-        minimum: -400,
+        minimum: -600,
         maximum: -200,
-        singleStep: 5,
-        pageStep: 20,
+        singleStep: 10,
+        pageStep: 50,
         value: -300
+      })));
+
+      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+        minimum: 25,
+        maximum: 75,
+        singleStep: 5,
+        pageStep: 10,
+        value: 25
       })));
 
       var grid = new qx.ui.layout.Grid();

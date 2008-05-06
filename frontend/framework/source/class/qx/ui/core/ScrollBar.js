@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnBegin.addListener("execute", this._slider.scrollBack, this._slider);
+    this._btnBegin.addListener("execute", this._slider.slideBack, this._slider);
 
 
     // Bottom/Right Button
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnEnd.addListener("execute", this._slider.scrollForward, this._slider);
+    this._btnEnd.addListener("execute", this._slider.slideForward, this._slider);
 
 
     // Add children

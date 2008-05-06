@@ -169,11 +169,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       var locationProperty = isHorizontal ? "left" : "top";
       var sizeProperty = isHorizontal ? "width" : "height";
 
-      var knobSize = knob.getBounds()[sizeProperty];
-
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
-      var sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
-      var knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
+      var sliderLocation = this._sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
+      var knobLocation = this._knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
+      var knobSize = this._knobSize = knob.getBounds()[sizeProperty];
 
       if (e.getTarget() === knob)
       {
@@ -182,30 +181,19 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
         // Compute dragOffset (includes both: inner position of the widget and cursor position on knob)
         this.__dragOffset = cursorLocation + sliderLocation - knobLocation;
-
-        // Register move listener
-        this.addListener("mousemove", this._onKnobMove);
-
-        // Activate capturing
-        this.capture();
       }
       else
       {
         // Switch into tracking mode
         this.__trackingMode = true;
 
-        // Compute relative position
-        var relPosition = cursorLocation - sliderLocation;
-        if (cursorLocation >= knobLocation) {
-          relPosition -= knobSize;
-        }
-
-        // Detect tracking direction and position
+        // Detect tracking direction
         this.__trackingDirection = cursorLocation <= knobLocation ? -1 : 1;
-        this.__trackingPosition = relPosition;
-        this.__trackingValue = this._positionToValue(relPosition);
 
-        // Initialize timer
+        // Compute end value
+        this._computeTrackingEnd(e);
+
+        // Initialize timer (when needed)
         if (!this.__timer)
         {
           this.__timer = new qx.event.Timer(100);
@@ -214,10 +202,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
         // Start timer
         this.__timer.start();
-
-        // Activate capturing
-        this.capture();
       }
+
+      // Register move listener
+      this.addListener("mousemove", this._onKnobMove);
+
+      // Activate capturing
+      this.capture();
     },
 
 
@@ -283,16 +274,12 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       var toBegin = this.__trackingDirection == -1;
       if ((toBegin && value <= this.__trackingValue) || (!toBegin && value >= this.__trackingValue))
       {
-        this.scrollTo(this.__trackingValue);
-
-        // Slightly correct position to be in sync
-        // with what the user expects.
-        this._setSliderPosition(this.__trackingPosition);
+        this.slideTo(this.__trackingValue);
       }
       else
       {
-        // Finally, scroll to the desired position
-        this.scrollTo(value);
+        // Finally, slide to the desired position
+        this.slideTo(value);
       }
     },
 
@@ -306,11 +293,19 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _onKnobMove : function(e)
     {
-      var isHorizontal = this.getOrientation() === "horizontal";
-      var dragStop = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
-      var position = dragStop - this.__dragOffset;
+      if (this.__dragMode)
+      {
+        var isHorizontal = this.getOrientation() === "horizontal";
+        var dragStop = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
+        var position = dragStop - this.__dragOffset;
 
-      this.scrollTo(this._positionToValue(position));
+        this.slideTo(this._positionToValue(position));
+      }
+      else if (this.__trackingMode)
+      {
+        // Update tracking end on mousemove
+        this._computeTrackingEnd(e);
+      }
     },
 
 
@@ -323,7 +318,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _onMouseWheel : function(e)
     {
-      this.scrollBy(e.getWheelDelta() * this.getSingleStep());
+      this.slideBy(e.getWheelDelta() * this.getSingleStep());
       e.stopPropagation();
     },
 
@@ -339,14 +334,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       var availSize = this.getComputedInnerSize();
       var knobSize = this._knob.getBounds();
+      var sizeProperty = this.getOrientation() === "horizontal" ? "width" : "height";
 
-      if (this.getOrientation() === "horizontal") {
-        this.__availSlidingSpace = availSize.width - knobSize.width;
-      } else {
-        this.__availSlidingSpace = availSize.height - knobSize.height;
-      }
+      // Update sliding space
+      this.__availSlidingSpace = availSize[sizeProperty] - knobSize[sizeProperty];
 
-      this._updateSliderPosition();
+      // Sync knob position
+      this._updateKnobPosition();
     },
 
 
@@ -361,6 +355,53 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
     /** {Integer} Available space for knob to slide on, computed on resize of the widget */
     __availSlidingSpace : 0,
+
+
+
+    _computeTrackingEnd : function(e)
+    {
+      var isHorizontal = this.getOrientation() === "horizontal";
+      var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
+      var sliderLocation = this._sliderLocation;
+      var knobLocation = this._knobLocation;
+      var knobSize = this._knobSize;
+      var slideBack = cursorLocation <= knobLocation;
+
+      // Compute relative position
+      var position = cursorLocation - sliderLocation;
+      if (cursorLocation >= knobLocation) {
+        position -= knobSize;
+      }
+
+      // Compute stop value
+      var value = this._snapValue(this._positionToValue(position), slideBack, true);
+
+      // Follow direction directive
+      if (this.__trackingValue == null || (this.__trackingDirection == -1 && value <= this.__trackingValue) || (this.__trackingDirection == 1 && value >= this.__trackingValue)) {
+        this.__trackingValue = value;
+      }
+    },
+
+
+    _snapValue : function(value, up, page)
+    {
+      var block = page ? this.getPageStep() : this.getSingleStep();
+
+      // Adding minium to value to allow snapping from initial point
+      var min = this.getMinimum();
+      value += min;
+
+      if (up) {
+        value = Math.ceil(value / block) * block;
+      } else {
+        value = Math.floor(value / block) * block;
+      }
+
+      // Substract minimum again
+      value -= min;
+
+      return value;
+    },
 
 
     /**
@@ -386,7 +427,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Compute range
-      var range = Math.abs(this.getMaximum() - this.getMinimum());
+      var range = this.getMaximum() - this.getMinimum();
 
       // Compute value
       return this.getMinimum() + Math.round(range * percent);
@@ -405,16 +446,16 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         return 0;
       }
 
-      // Correcting value
-      value = value + Math.abs(this.getMinimum());
-
       // Computing range
-      var range = Math.abs(this.getMaximum() - this.getMinimum());
+      var range = this.getMaximum() - this.getMinimum();
 
       // Protect division by zero
       if (range == 0) {
         return 0;
       }
+
+      // Translating value to distance from minimum
+      var value = value - this.getMinimum();
 
       // Compute and limit percent
       var percent = value / range;
@@ -433,10 +474,9 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    _updateSliderPosition : function() {
+    _updateKnobPosition : function() {
       this._setSliderPosition(this._valueToPosition(this.getValue()));
     },
-
 
 
     /**
@@ -460,7 +500,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
     /*
     ---------------------------------------------------------------------------
-      SCROLL METHODS
+      SLIDE METHODS
     ---------------------------------------------------------------------------
     */
 
@@ -468,8 +508,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    scrollForward : function() {
-      this.scrollBy(this.getSingleStep());
+    slideForward : function() {
+      this.slideBy(this.getSingleStep());
     },
 
 
@@ -477,8 +517,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    scrollBack : function() {
-      this.scrollBy(-this.getSingleStep());
+    slideBack : function() {
+      this.slideBy(-this.getSingleStep());
     },
 
 
@@ -486,8 +526,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    scrollPageForward : function() {
-      this.scrollBy(this.getPageStep());
+    slidePageForward : function() {
+      this.slideBy(this.getPageStep());
     },
 
 
@@ -495,8 +535,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    scrollPageBack : function() {
-      this.scrollBy(-this.getPageStep());
+    slidePageBack : function() {
+      this.slideBy(-this.getPageStep());
     },
 
 
@@ -504,8 +544,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    scrollBy : function(offset) {
-      this.scrollTo(this.getValue() + offset);
+    slideBy : function(offset) {
+      this.slideTo(this.getValue() + offset);
     },
 
 
@@ -513,7 +553,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      *
      *
      */
-    scrollTo : function(value)
+    slideTo : function(value)
     {
       if (value < this.getMinimum()) {
         value = this.getMinimum();
@@ -521,7 +561,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         value = this.getMaximum();
       }
 
-      this.setValue(value);
+      this.setValue(this._snapValue(value));
     },
 
 
@@ -566,25 +606,25 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         knob.setLayoutProperties({right:0, bottom:null, left:0});
       }
 
-      this._updateSliderPosition();
+      this._updateKnobPosition();
     },
 
 
     // property apply
     _applyValue : function(value, old) {
-      this._updateSliderPosition();
+      this._updateKnobPosition();
     },
 
 
     // property apply
     _applyMinimum : function(value, old) {
-      this._updateSliderPosition();
+      this._updateKnobPosition();
     },
 
 
     // property apply
     _applyMaximum : function(value, old) {
-      this._updateSliderPosition();
+      this._updateKnobPosition();
     }
   }
 });
