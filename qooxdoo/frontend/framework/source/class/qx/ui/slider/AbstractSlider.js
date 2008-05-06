@@ -415,13 +415,28 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _snapValue : function(value, back)
     {
-      var block = this.getSingleStep();
+      var min = this.getMinimum();
+      var max = this.getMaximum();
 
+      // Do not snap at minimum or maximum as these
+      // should be always reachable - even if not
+      // in the snapping grid.
+      if (value == min || value == max) {
+        return value;
+      }
+
+      // Add min to value to be in stepping with minimum value
+      value += min;
+
+      var block = this.getSingleStep();
       if (back) {
         value = Math.ceil(value / block) * block;
       } else {
         value = Math.floor(value / block) * block;
       }
+
+      // Substract minimum afterwards
+      value -= min;
 
       return value;
     },
