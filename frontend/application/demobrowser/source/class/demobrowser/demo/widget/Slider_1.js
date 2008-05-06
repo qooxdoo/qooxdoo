@@ -147,6 +147,9 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         var group = sliders[i];
         group.slider.setOrientation("horizontal");
 
+        group.value.setWidth(100);
+        group.value.setTextAlign("center");
+
         container.add(group.min, {row: row, column: 0});
         container.add(group.value, {row: row, column: 1});
         container.add(group.max, {row: row, column: 2});
@@ -169,11 +172,11 @@ qx.Class.define("demobrowser.demo.widget.Slider_1",
         slider: slider,
         min: new qx.ui.basic.Label(slider.getMinimum().toString()),
         max: new qx.ui.basic.Label(slider.getMaximum().toString()),
-        value: new qx.ui.basic.Label("Value: " + slider.getValue())
+        value: new qx.ui.basic.Label(slider.getValue().toString())
       };
 
-      slider.addListener("changeValue", function(e) {
-        group.value.setContent("Value: " + slider.getValue());
+      slider.addListener("change", function(e) {
+        group.value.setContent(slider.getValue().toString());
       });
 
       return group;

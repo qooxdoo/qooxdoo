@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       check : "Integer",
       init : 0,
       apply : "_applyValue",
-      event : "changeValue"
+      event : "change"
     },
 
 
@@ -148,15 +148,19 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
   members :
   {
-    __availSlidingSpace : 0,
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Listener of mousedown event. Initializes drag or tracking mode.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Incoming event object
+     * @return {void}
+     */
     _onMouseDown : function(e)
     {
       var isHorizontal = this.getOrientation() === "horizontal";
@@ -164,13 +168,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
       var locationProperty = isHorizontal ? "left" : "top";
       var sizeProperty = isHorizontal ? "width" : "height";
-      
+
       var knobSize = knob.getBounds()[sizeProperty];
-      
+
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
       var sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
       var knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
-      
+
       if (e.getTarget() === knob)
       {
         // Switch into drag mode
@@ -178,10 +182,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
         // Compute dragOffset (includes both: inner position of the widget and cursor position on knob)
         this.__dragOffset = cursorLocation + sliderLocation - knobLocation;
-        
+
         // Register move listener
         this.addListener("mousemove", this._onKnobMove);
-        
+
         // Activate capturing
         this.capture();
       }
@@ -195,11 +199,12 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         if (cursorLocation >= knobLocation) {
           relPosition -= knobSize;
         }
-        
-        // Detect tracking direction and coordinate
+
+        // Detect tracking direction and position
         this.__trackingDirection = cursorLocation <= knobLocation ? -1 : 1;
+        this.__trackingPosition = relPosition;
         this.__trackingValue = this._positionToValue(relPosition);
-        
+
         // Initialize timer
         if (!this.__timer)
         {
@@ -209,20 +214,28 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
         // Start timer
         this.__timer.start();
-        
+
         // Activate capturing
         this.capture();
       }
     },
 
 
+    /**
+     * Listener of mouseup event. Used for cleanup of previously
+     * initialized modes.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Incoming event object
+     * @return {void}
+     */
     _onMouseUp : function(e)
     {
       if (this.__dragMode)
       {
         // Remove move listener again
         this.removeListener("mousemove", this._onKnobMove);
-        
+
         // Release capture mode
         this.releaseCapture();
 
@@ -246,8 +259,17 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
+    /**
+     * Listener of interval event by the internal timer. Only used
+     * in tracking sequences.
+     *
+     * @type member
+     * @param e {qx.event.type.Event} Incoming event object
+     * @return {void}
+     */
     _onInterval : function(e)
     {
+      // Compute new value
       var value = this.getValue() + (this.__trackingDirection * this.getPageStep())
 
       // Limit value
@@ -256,18 +278,32 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       } else if (value > this.getMaximum()) {
         value = this.getMaximum();
       }
-      
+
       // Stop at tracking position (where the mouse is pressed down)
       var toBegin = this.__trackingDirection == -1;
-      if ((toBegin && value <= this.__trackingValue) || (!toBegin && value >= this.__trackingValue)) {
-        value = this.__trackingValue;
+      if ((toBegin && value <= this.__trackingValue) || (!toBegin && value >= this.__trackingValue))
+      {
+        this.scrollTo(this.__trackingValue);
+
+        // Slightly correct position to be in sync
+        // with what the user expects.
+        this._setSliderPosition(this.__trackingPosition);
       }
-      
-      // Finally, scroll to the desired position
-      this.scrollTo(value);
+      else
+      {
+        // Finally, scroll to the desired position
+        this.scrollTo(value);
+      }
     },
 
 
+    /**
+     * Listener of mousmove event for the knob. Only used in drag mode.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Incoming event object
+     * @return {void}
+     */
     _onKnobMove : function(e)
     {
       var isHorizontal = this.getOrientation() === "horizontal";
@@ -278,6 +314,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
+    /**
+     * Listener of mousewheel event
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Incoming event object
+     * @return {void}
+     */
     _onMouseWheel : function(e)
     {
       this.scrollBy(e.getWheelDelta() * this.getSingleStep());
@@ -285,6 +328,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
+    /**
+     * Listener of resize event for both the slider itself and the knob.
+     *
+     * @type member
+     * @param e {qx.event.type.Data} Incoming event object
+     * @return {void}
+     */
     _onResize : function(e)
     {
       var availSize = this.getComputedInnerSize();
@@ -309,12 +359,21 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     ---------------------------------------------------------------------------
     */
 
+    /** {Integer} Available space for knob to slide on, computed on resize of the widget */
+    __availSlidingSpace : 0,
+
+
+    /**
+     *
+     *
+     */
     _positionToValue : function(position)
     {
+      // Reading available space
       var avail = this.__availSlidingSpace;
 
-      // Protect division by zero
-      if (avail == 0) {
+      // Protect undefined value (before initial resize) and division by zero
+      if (avail == null || avail == 0) {
         return 0;
       }
 
@@ -326,16 +385,26 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         percent = 1;
       }
 
-      // Compute value from range and percent
+      // Compute range
       var range = Math.abs(this.getMaximum() - this.getMinimum());
-      var value = this.getMinimum() + Math.round(range * percent);
 
-      return value;
+      // Compute value
+      return this.getMinimum() + Math.round(range * percent);
     },
 
 
+    /**
+     *
+     *
+     */
     _valueToPosition : function(value)
     {
+      // Reading available space
+      var avail = this.__availSlidingSpace;
+      if (avail == null) {
+        return 0;
+      }
+
       // Correcting value
       value = value + Math.abs(this.getMinimum());
 
@@ -356,16 +425,26 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Compute position from available space and percent
-      var position = Math.round(this.__availSlidingSpace * percent);
-
-      return position;
+      return Math.round(avail * percent);
     },
 
 
-    _updateSliderPosition : function()
-    {
-      var position = this._valueToPosition(this.getValue());
+    /**
+     *
+     *
+     */
+    _updateSliderPosition : function() {
+      this._setSliderPosition(this._valueToPosition(this.getValue()));
+    },
 
+
+
+    /**
+     *
+     *
+     */
+    _setSliderPosition : function(position)
+    {
       if (this.getOrientation() === "horizontal") {
         var props = {left:position};
       } else {
@@ -385,26 +464,55 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     *
+     *
+     */
     scrollForward : function() {
       this.scrollBy(this.getSingleStep());
     },
 
+
+    /**
+     *
+     *
+     */
     scrollBack : function() {
       this.scrollBy(-this.getSingleStep());
     },
 
+
+    /**
+     *
+     *
+     */
     scrollPageForward : function() {
       this.scrollBy(this.getPageStep());
     },
 
+
+    /**
+     *
+     *
+     */
     scrollPageBack : function() {
       this.scrollBy(-this.getPageStep());
     },
 
+
+    /**
+     *
+     *
+     */
     scrollBy : function(offset) {
       this.scrollTo(this.getValue() + offset);
     },
 
+
+    /**
+     *
+     *
+     */
     scrollTo : function(value)
     {
       if (value < this.getMinimum()) {
